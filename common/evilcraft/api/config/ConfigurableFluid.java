@@ -15,7 +15,7 @@ public abstract class ConfigurableFluid extends Fluid implements Configurable{
     
     protected ExtendedConfig eConfig = null;
     
-    public static ElementType TYPE = ElementType.FLUID;
+    public static ElementType TYPE = ElementType.LIQUID;
     
     protected ConfigurableFluid(ExtendedConfig eConfig) {
         super(eConfig.NAME);

@@ -1,6 +1,11 @@
 package evilcraft.api.config;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedList;
+import java.util.List;
+
+import evilcraft.EvilCraft;
 
 /**
  * Registration configurations
@@ -14,6 +19,9 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
     public String NAMEDID;
     public String COMMENT;
     public Class ELEMENT;
+    
+    // To store additional stuff inside the config
+    public List<ConfigProperty> configProperties = new LinkedList<ConfigProperty>();
     
     /**
      * Create a new config
@@ -29,6 +37,45 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
         this.NAMEDID = namedId;
         this.COMMENT = comment;
         this.ELEMENT = element;
+        try {
+            generateConfigProperties();
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Generate the list of ConfigProperties by checking all the fields with the ConfigurableProperty
+     * annotation.
+     * 
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     */
+    private void generateConfigProperties() throws IllegalArgumentException, IllegalAccessException {
+        for(final Field field : this.getClass().getDeclaredFields()) {
+            if(field.isAnnotationPresent(ConfigurableProperty.class)) {
+                
+                ConfigProperty configProperty = new ConfigProperty(
+                        field.getAnnotation(ConfigurableProperty.class).category(),
+                        field.getName(),
+                        field.getInt(null),
+                        field.getAnnotation(ConfigurableProperty.class).comment(),
+                        new ConfigPropertyCallback() {
+                            @Override
+                            public void run(int newValue) {
+                                try {
+                                    field.set(null, newValue);
+                                } catch (IllegalArgumentException
+                                        | IllegalAccessException e) {
+                                    // Shouldn't be possible
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                configProperties.add(configProperty);
+            }
+        }
     }
     
     /**
@@ -105,5 +152,73 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
     @Override
     public int compareTo(ExtendedConfig o) {
         return NAMEDID.compareTo(o.NAMEDID);
+    }
+    
+    /**
+     * A holder class for properties that go inside the config file.
+     *
+     */
+    public class ConfigProperty {
+        private String category;
+        private String name;
+        private int value;
+        private String comment;
+        private ConfigPropertyCallback callback;
+        
+        public ConfigProperty(String category, String name, int value, String comment, ConfigPropertyCallback callback) {
+            this.category = category;
+            this.name = name;
+            this.value = value;
+            this.comment = comment;
+            this.callback = callback;
+        }
+        
+        public ConfigProperty(String category, String name, int value, ConfigPropertyCallback callback) {
+            this(category, name, value, null, callback);
+        }
+
+        public String getCategory() {
+            return category;
+        }
+
+        public void setCategory(String category) {
+            this.category = category;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public void setValue(int value) {
+            this.value = value;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public void setComment(String comment) {
+            this.comment = comment;
+        }
+
+        public ConfigPropertyCallback getCallback() {
+            return callback;
+        }
+
+        public void setCallback(ConfigPropertyCallback callback) {
+            this.callback = callback;
+        }
+    }
+    
+    public abstract class ConfigPropertyCallback {
+        public abstract void run(int newValue);
     }
 }

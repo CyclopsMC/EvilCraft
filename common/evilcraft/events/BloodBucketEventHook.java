@@ -1,7 +1,7 @@
 package evilcraft.events;
 
 import evilcraft.blocks.LiquidBlockBloodConfig;
-import evilcraft.entities.item.BucketBlood;
+import evilcraft.items.BucketBlood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;

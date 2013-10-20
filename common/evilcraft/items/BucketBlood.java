@@ -1,4 +1,4 @@
-package evilcraft.entities.item;
+package evilcraft.items;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;

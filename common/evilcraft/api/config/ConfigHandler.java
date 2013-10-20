@@ -17,6 +17,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.EvilCraftTab;
 import evilcraft.Reference;
+import evilcraft.api.config.ExtendedConfig.ConfigProperty;
 
 /**
  * Create config file and register items & blocks from the given ExtendedConfigs
@@ -25,13 +26,19 @@ import evilcraft.Reference;
  */
 public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
     
+    public static final String CATEGORY_ITEM = "item";
+    public static final String CATEGORY_BLOCK = "block";
+    public static final String CATEGORY_LIQUID = "liquid";
+    public static final String CATEGORY_ENTITY = "entity";
+    public static final String CATEGORY_GENERAL = "general";
+    
     private static Map<ElementType, String> CATEGORIES = new HashMap<ElementType, String>();
     static {
-        CATEGORIES.put(ElementType.ITEM, Configuration.CATEGORY_ITEM);
-        CATEGORIES.put(ElementType.BLOCK, Configuration.CATEGORY_BLOCK);
-        CATEGORIES.put(ElementType.MOB, Configuration.CATEGORY_GENERAL);
-        CATEGORIES.put(ElementType.ENTITY, Configuration.CATEGORY_GENERAL);
-        CATEGORIES.put(ElementType.FLUID, Configuration.CATEGORY_GENERAL);
+        CATEGORIES.put(ElementType.ITEM, ConfigHandler.CATEGORY_ITEM);
+        CATEGORIES.put(ElementType.BLOCK, ConfigHandler.CATEGORY_BLOCK);
+        CATEGORIES.put(ElementType.MOB, ConfigHandler.CATEGORY_ENTITY);
+        CATEGORIES.put(ElementType.ENTITY, ConfigHandler.CATEGORY_ENTITY);
+        CATEGORIES.put(ElementType.LIQUID, ConfigHandler.CATEGORY_LIQUID);
     }
     
     private static ConfigHandler _instance = null;
@@ -40,7 +47,17 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
     static {
         elementTypeActions.put(ElementType.BLOCK, new ElementTypeAction(){
             @Override
-            public void run(ExtendedConfig eConfig) {
+            public void run(ExtendedConfig eConfig, Configuration config) {
+                // Get property in config file and set comment
+                Property property = config.getBlock(CATEGORIES.get(eConfig.getHolderType()), eConfig.NAME, eConfig.ID);
+                property.comment = eConfig.COMMENT;
+                
+                // Update the ID, it could've changed
+                eConfig.ID = property.getInt();
+                
+                // Save the config inside the correct element
+                eConfig.save();
+                
                 Block block = (Block) eConfig.getSubInstance();
                 
                 // Register
@@ -54,11 +71,21 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                 
                 // Add I18N
                 LanguageRegistry.addName(eConfig.getSubInstance(), eConfig.NAME);
-            }
+                }
         });
         elementTypeActions.put(ElementType.ITEM, new ElementTypeAction(){
             @Override
-            public void run(ExtendedConfig eConfig) {
+            public void run(ExtendedConfig eConfig, Configuration config) {
+                // Get property in config file and set comment
+                Property property = config.getItem(CATEGORIES.get(eConfig.getHolderType()), eConfig.NAME, eConfig.ID);
+                property.comment = eConfig.COMMENT;
+                
+                // Update the ID, it could've changed
+                eConfig.ID = property.getInt();
+                
+                // Save the config inside the correct element
+                eConfig.save();
+                
                 Item item = (Item) eConfig.getSubInstance();
                 
                 // Register
@@ -76,7 +103,10 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         });
         elementTypeActions.put(ElementType.MOB, new ElementTypeAction(){
             @Override
-            public void run(ExtendedConfig eConfig) {
+            public void run(ExtendedConfig eConfig, Configuration config) {
+                // Save the config inside the correct element
+                eConfig.save();
+                
                 // Register
                 EntityRegistry.registerGlobalEntityID(
                         eConfig.ELEMENT,
@@ -88,9 +118,12 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                 LanguageRegistry.instance().addStringLocalization("entity."+eConfig.NAMEDID+".name", eConfig.NAME);
             }
         });
-        elementTypeActions.put(ElementType.FLUID, new ElementTypeAction(){
+        elementTypeActions.put(ElementType.LIQUID, new ElementTypeAction(){
             @Override
-            public void run(ExtendedConfig eConfig) {
+            public void run(ExtendedConfig eConfig, Configuration config) {
+                // Save the config inside the correct element
+                eConfig.save();
+                
                 // Register
                 FluidRegistry.registerFluid((Fluid) eConfig.getSubInstance());
                 
@@ -120,25 +153,27 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         config.load();
         
         for(ExtendedConfig eConfig : this) {
-            // Get property in config file and set comment
-            Property property = config.getBlock(CATEGORIES.get(eConfig.getHolderType()), eConfig.NAME, eConfig.ID);
-            property.comment = eConfig.COMMENT;
             
-            // Update the ID, it could've changed
-            eConfig.ID = property.getInt();
+            // Save additional properties
+            for(ConfigProperty configProperty : eConfig.configProperties) {
+                Property additionalProperty = config.get(
+                            configProperty.getCategory(),
+                            configProperty.getName(),
+                            configProperty.getValue()
+                        );
+                additionalProperty.comment = configProperty.getComment();
+                configProperty.getCallback().run(additionalProperty.getInt());
+            }
             
             if(eConfig.getHolderType().equals(ElementType.MOB)) { // For entity id's we have to do somethin' special!
                 eConfig.ID = EntityRegistry.findGlobalUniqueEntityId();
             }
             
-            // Save the config inside the correct element
-            eConfig.save();
-            
             // Check the type of the element
             ElementType type = eConfig.getHolderType();
             
             // Register the element depending on the type and set the creative tab
-            elementTypeActions.get(type).commonRun(eConfig);
+            elementTypeActions.get(type).commonRun(eConfig, config);
             
             // Call the listener
             eConfig.onRegistered();

@@ -10,7 +10,7 @@ public enum ElementType {
     BLOCK(true),
     MOB(false),
     ENTITY(false),
-    FLUID(true);
+    LIQUID(true);
     
     private boolean uniqueInstance = false;
     

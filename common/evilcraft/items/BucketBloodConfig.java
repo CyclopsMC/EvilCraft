@@ -1,4 +1,4 @@
-package evilcraft.entities.item;
+package evilcraft.items;
 
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.events.BloodBucketEventHook;
@@ -10,7 +10,7 @@ public class BucketBloodConfig extends ExtendedConfig {
 
     public BucketBloodConfig() {
         super(
-            1,
+            4004,
             "Blood Bucket",
             "bucketblood",
             null,

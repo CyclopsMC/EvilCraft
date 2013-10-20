@@ -8,7 +8,7 @@ public class WerewolfBoneConfig extends ExtendedConfig {
 
     public WerewolfBoneConfig() {
         super(
-            1,
+            4002,
             "WerewolfBone",
             "werewolfbone",
             null,

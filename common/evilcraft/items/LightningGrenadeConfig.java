@@ -8,7 +8,7 @@ public class LightningGrenadeConfig extends ExtendedConfig {
 
     public LightningGrenadeConfig() {
         super(
-            1,
+            4001,
             "Lightning Grenade",
             "lightninggrenade",
             null,

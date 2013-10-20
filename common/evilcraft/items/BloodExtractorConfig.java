@@ -10,7 +10,7 @@ public class BloodExtractorConfig extends ExtendedConfig {
 
     public BloodExtractorConfig() {
         super(
-            1,
+            4000,
             "Blood Extractor",
             "bloodextractor",
             null,

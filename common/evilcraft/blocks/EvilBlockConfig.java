@@ -8,7 +8,7 @@ public class EvilBlockConfig extends ExtendedConfig {
 
     public EvilBlockConfig() {
         super(
-            257,
+            3841,
             "EvilBlock",
             "evilblock",
             null,

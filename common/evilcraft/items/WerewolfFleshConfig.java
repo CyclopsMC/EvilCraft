@@ -8,7 +8,7 @@ public class WerewolfFleshConfig extends ExtendedConfig {
 
     public WerewolfFleshConfig() {
         super(
-            2,
+            4003,
             "WerewolfFlesh",
             "werewolfflesh",
             null,

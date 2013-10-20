@@ -8,7 +8,7 @@ public class LiquidBlockBloodConfig extends ExtendedConfig {
 
     public LiquidBlockBloodConfig() {
         super(
-            258,
+            3842,
             "Blood",
             "blockblood",
             null,

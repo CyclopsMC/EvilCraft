@@ -14,12 +14,13 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.blocks.DarkOreConfig;
 import evilcraft.blocks.EvilBlockConfig;
 import evilcraft.blocks.LiquidBlockBloodConfig;
-import evilcraft.entities.item.BucketBloodConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.items.BloodExtractorConfig;
+import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
@@ -43,6 +44,7 @@ public class EvilCraft {
         // Blocks
         configs.add(new EvilBlockConfig());
         configs.add(new LiquidBlockBloodConfig());
+        configs.add(new DarkOreConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
