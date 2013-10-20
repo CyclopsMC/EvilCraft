@@ -25,13 +25,13 @@ public class DarkBlock extends ConfigurableBlock {
 
     private DarkBlock(ExtendedConfig eConfig) {
         super(eConfig, Material.rock);
-        this.setHardness(0.5F);
+        this.setHardness(25.0F);
         this.setStepSound(Block.soundMetalFootstep);
         MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 2); // Iron tier
     }
     
     public int idDropped(int par1, Random random, int zero) {
-        return EvilBlockConfig._instance.ID;
+        return DarkBlockConfig._instance.ID;
     }
 
 }
