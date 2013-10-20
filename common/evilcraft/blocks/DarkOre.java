@@ -36,7 +36,7 @@ public class DarkOre extends ConfigurableBlock {
         super(eConfig, Material.rock);
         
         this.setHardness(10.0F);
-        this.setStepSound(Block.soundMetalFootstep);
+        this.setStepSound(Block.soundStoneFootstep);
         MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 2); // Iron tier
     }
     
