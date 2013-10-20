@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 
 public class Helpers {
     public static final int MINECRAFT_DAY = 24000;
+    // TODO: ID COUNTER?: To not have to define an ID for every item, block, ...
     
     /**
      * Check if it's day in this world

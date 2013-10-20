@@ -12,15 +12,6 @@ import evilcraft.entities.monster.Werewolf;
 public class DarkOreGlowingConfig extends ExtendedConfig {
     
     public static DarkOreGlowingConfig _instance;
-    
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_OREGENERATION, comment = "How much ores per vein.")
-    public static int blocksPerVein = 4;
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_OREGENERATION, comment = "How many veins per chunk.")
-    public static int veinsPerChunk = 10;
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_OREGENERATION, comment = "Generation starts from this level.")
-    public static int startY = 6;
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_OREGENERATION, comment = "Generation ends of this level.")
-    public static int endY = 66;
 
     public DarkOreGlowingConfig() {
         super(

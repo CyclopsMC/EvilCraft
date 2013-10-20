@@ -25,6 +25,7 @@ import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.DarkGemConfig;
+import evilcraft.items.DarkStickConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
@@ -60,6 +61,7 @@ public class EvilCraft {
         configs.add(new BucketBloodConfig());
         configs.add(new BloodExtractorConfig());
         configs.add(new DarkGemConfig());
+        configs.add(new DarkStickConfig());
         
         // Entities
         //Item
