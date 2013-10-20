@@ -58,7 +58,7 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
                 
                 ConfigProperty configProperty = new ConfigProperty(
                         field.getAnnotation(ConfigurableProperty.class).category(),
-                        field.getName(),
+                        this.NAMEDID + "." + field.getName(),
                         field.getInt(null),
                         field.getAnnotation(ConfigurableProperty.class).comment(),
                         new ConfigPropertyCallback() {

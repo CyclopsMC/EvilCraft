@@ -31,6 +31,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
     public static final String CATEGORY_LIQUID = "liquid";
     public static final String CATEGORY_ENTITY = "entity";
     public static final String CATEGORY_GENERAL = "general";
+    public static final String CATEGORY_OREGENERATION = "oregeneration";
     
     private static Map<ElementType, String> CATEGORIES = new HashMap<ElementType, String>();
     static {

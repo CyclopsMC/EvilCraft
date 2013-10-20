@@ -1,13 +1,13 @@
 package evilcraft.blocks;
 import java.util.Random;
 
-import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableBlock;
-import evilcraft.api.config.ExtendedConfig;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.common.MinecraftForge;
+import evilcraft.EvilCraft;
+import evilcraft.api.config.ConfigurableBlock;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.items.DarkGemConfig;
 
 public class DarkOre extends ConfigurableBlock {
     
@@ -31,7 +31,23 @@ public class DarkOre extends ConfigurableBlock {
     }
     
     public int idDropped(int par1, Random random, int zero) {
-        return DarkOreConfig._instance.ID;
+        return DarkGemConfig._instance.ID;
+    }
+    
+    /**
+     * Returns the usual quantity dropped by the block plus a bonus of 1 to 'i' (inclusive).
+     */
+    public int quantityDroppedWithBonus(int par1, Random par2Random)
+    {
+            return this.quantityDropped(par2Random) + par2Random.nextInt(par1 + 1);
+    }
+
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(Random par1Random)
+    {
+            return 1 + par1Random.nextInt(2);
     }
 
 }

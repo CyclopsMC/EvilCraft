@@ -12,6 +12,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.blocks.DarkOreConfig;
@@ -21,11 +22,13 @@ import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BucketBloodConfig;
+import evilcraft.items.DarkGemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
 import evilcraft.liquids.BloodConfig;
 import evilcraft.proxies.CommonProxy;
+import evilcraft.worldgen.EvilWorldGenerator;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION)
 @NetworkMod(clientSideRequired = true, serverSideRequired = true)
@@ -52,6 +55,7 @@ public class EvilCraft {
         configs.add(new LightningGrenadeConfig());
         configs.add(new BucketBloodConfig());
         configs.add(new BloodExtractorConfig());
+        configs.add(new DarkGemConfig());
         
         // Entities
         //Item
@@ -75,6 +79,8 @@ public class EvilCraft {
     @EventHandler
     public void init(FMLPreInitializationEvent event) {
         FMLLog.log(Level.INFO, ""+Reference.MOD_NAME+" init()");
+        
+        GameRegistry.registerWorldGenerator(new EvilWorldGenerator());
     }
     
     @EventHandler
