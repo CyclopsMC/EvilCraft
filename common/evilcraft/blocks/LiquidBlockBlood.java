@@ -26,17 +26,7 @@ public class LiquidBlockBlood extends ConfigurableBlockFluidClassic {
 
     private LiquidBlockBlood(ExtendedConfig eConfig) {
         super(eConfig, Blood.getInstance(), Material.water);
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public Icon getIcon(int side, int meta){
-        return Block.waterMoving.getIcon(side, meta);
-    }
-    
-    @Override
-    public int colorMultiplier(IBlockAccess iBlockAccess, int x, int y, int z){
-        return 0xB30C20;
+        this.setParticleColor(1.0F, 0.0F, 0.0F);
     }
 
 }
