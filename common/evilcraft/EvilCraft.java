@@ -6,6 +6,7 @@ import java.util.logging.Level;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -15,6 +16,8 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.blocks.DarkBlock;
+import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkOreConfig;
 import evilcraft.blocks.EvilBlockConfig;
 import evilcraft.blocks.LiquidBlockBloodConfig;
@@ -22,6 +25,7 @@ import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BucketBloodConfig;
+import evilcraft.items.DarkGem;
 import evilcraft.items.DarkGemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.WerewolfBoneConfig;
@@ -48,6 +52,7 @@ public class EvilCraft {
         configs.add(new EvilBlockConfig());
         configs.add(new LiquidBlockBloodConfig());
         configs.add(new DarkOreConfig());
+        configs.add(new DarkBlockConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -92,6 +97,7 @@ public class EvilCraft {
         log("EvilBlock: "+EvilBlockConfig._instance.ID);*/
         
         proxy.registerRenderers();
+        Recipes.registerRecipes();
         
     }
     
