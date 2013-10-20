@@ -1,0 +1,7 @@
+# We don't want compiled stuff in here!
+/bin
+
+# Ignore eclipse specific files
+.classpath
+.project
+.settings
