@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -54,6 +55,13 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     
     public boolean isEntity() {
         return false;
+    }
+    
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+        if(!world.isRemote)
+            player.sendChatToPlayer(ChatMessageComponent.createFromText(this.eConfig.NAME + ": " + this.getFluid(itemStack).amount + "/" + this.capacity));
+        return super.onItemRightClick(itemStack, world, player);
     }
     
 }
