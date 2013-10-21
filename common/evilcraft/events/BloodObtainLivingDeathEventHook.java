@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -23,7 +24,7 @@ public class BloodObtainLivingDeathEventHook {
         if(e != null && e instanceof EntityPlayerMP && event.entityLiving != null) {
             EntityPlayerMP player = (EntityPlayerMP) e;
            
-            int health = Float.floatToIntBits(event.entityLiving.getMaxHealth());
+            int health = MathHelper.floor_float(event.entityLiving.getMaxHealth());
             int toFill = health * 10 + (new Random()).nextInt(health * 90);
             
             HotbarIterator it = new HotbarIterator(player);
