@@ -1,10 +1,5 @@
 package evilcraft.api.item;
 
-import java.util.List;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -14,11 +9,22 @@ import net.minecraft.item.ItemStack;
  * @author rubensworks
  *
  */
-public class DamageIndicatedItemComponent implements IDamageIndicatedItem{
+public class DamageIndicatedItemComponent{
     
+    /**
+     * The item class on which the behaviour will be added.
+     */
     public Item item;
+    /**
+     * The custom defined capacity this damage indicator must have.
+     */
     public int capacity;
 
+    /**
+     * Create a new DamageIndicatedItemComponent
+     * @param item The item class on which the behaviour will be added.
+     * @param capacity The custom defined capacity this damage indicator must have.
+     */
     public DamageIndicatedItemComponent(Item item, int capacity)
     {
         this.item = item;
@@ -29,27 +35,16 @@ public class DamageIndicatedItemComponent implements IDamageIndicatedItem{
     }
     
     /**
-     * Updates the damage of the given stack with the given amount depending on the predefined item.
+     * Updates the amount of the given stack with the given amount depending on the predefined item.
+     * @param itemStack The itemStack that will get an updated damage bar
+     * @param amount The new amount this damage indicator must hold for the given itemStack.
      */
-    public void updateDamage(ItemStack itemStack, int amount)
+    public void updateAmount(ItemStack itemStack, int amount)
     {
-        item.setDamage(itemStack, 101 - ((amount * 100) / (this.capacity)));
-    }
-    
-    /**
-     * Make sure the full and empty container is available is the CreativeTab
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(int id, CreativeTabs tab, List itemList)
-    {
-        ItemStack itemStackFull = new ItemStack(item, 1);
-        this.updateDamage(itemStackFull, capacity);
-        itemList.add(itemStackFull);
-        ItemStack itemStackEmpty = new ItemStack(item, 1);
-        this.updateDamage(itemStackEmpty, 0);
-        itemList.add(itemStackEmpty);
+        if(itemStack.getItem() == item && this.capacity > 0 && amount <= this.capacity)
+        {
+            item.setDamage(itemStack, 101 - ((amount * 100) / (this.capacity)));
+        }
     }
     
 }
