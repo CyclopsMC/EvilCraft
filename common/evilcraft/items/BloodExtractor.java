@@ -1,9 +1,17 @@
 package evilcraft.items;
-import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableItemFluidContainer;
-import evilcraft.api.config.ExtendedConfig;
+import java.util.List;
 
-public class BloodExtractor extends ConfigurableItemFluidContainer {
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.EvilCraft;
+import evilcraft.api.config.ConfigurableDamageIndicatedItemFluidContainer;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.liquids.Blood;
+
+public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContainer {
     
     private static BloodExtractor _instance = null;
     
@@ -18,12 +26,7 @@ public class BloodExtractor extends ConfigurableItemFluidContainer {
     }
 
     private BloodExtractor(ExtendedConfig eConfig) {
-        super(eConfig);
-        this.setMaxStackSize(1);
-        //this.setMaxDamage(128);
-        //this.setNoRepair();
-        this.setCapacity(128);
-        //this.fil
+        super(eConfig, 5000, Blood.getInstance());
     }
 
 }

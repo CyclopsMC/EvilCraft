@@ -1,7 +1,8 @@
 package evilcraft.events;
 
-import evilcraft.EvilCraft;
-import evilcraft.items.BloodExtractor;
+import java.util.Random;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -9,6 +10,10 @@ import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.ItemFluidContainer;
+import evilcraft.EvilCraft;
+import evilcraft.items.BloodExtractor;
+import evilcraft.liquids.Blood;
 
 public class BloodObtainLivingDeathEventHook {
 
@@ -19,15 +24,16 @@ public class BloodObtainLivingDeathEventHook {
             EntityPlayerMP player = (EntityPlayerMP) e;
             
             ItemStack[] hotbar = player.inventory.mainInventory;
+            int toFill = 100 + (new Random()).nextInt(900);
             int i = 0;
-            boolean filled = false;
-            while(i < hotbar.length && !filled) {
+            while(i < hotbar.length && toFill > 0) {
                 ItemStack itemStack = hotbar[i];
                 if(itemStack != null && itemStack.getItem() == BloodExtractor.getInstance()) {
                     EvilCraft.log("Found BE!");
-                    //FluidStack fluidStack = (FluidStack) itemStack;
                     //itemStack.getItem().setDamage(itemStack, 3);
-                    filled = true;
+                    ItemFluidContainer container = (ItemFluidContainer) itemStack.getItem();
+                    toFill -= container.fill(itemStack, new FluidStack(Blood.getInstance(), toFill), true);
+                    EvilCraft.log("Content: "+container.getFluid(itemStack).amount);
                 }
                 i++;
             }
