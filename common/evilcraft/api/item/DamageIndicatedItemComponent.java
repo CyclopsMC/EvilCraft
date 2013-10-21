@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 
 /**
  * A component that has to be added for classes that want to implement the DamageIndicator behaviour.
+ * See DamageIndicatedItemFluidContainer.java for an example.
  * This could be for example an Item or an ItemFluidContainer.
  * @author rubensworks
  *
