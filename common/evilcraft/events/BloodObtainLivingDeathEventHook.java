@@ -32,12 +32,6 @@ public class BloodObtainLivingDeathEventHook {
                 }
             }
         }
-        
-        /*ItemStack result = attemptFill(event.world, event.target);
-        if (result != null) {
-            event.result = result;
-            event.setResult(Result.ALLOW);
-        }*/
     }
     
 }

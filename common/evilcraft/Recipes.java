@@ -11,9 +11,15 @@ import evilcraft.items.DarkGem;
 public class Recipes {
     public static void registerRecipes() {
         // 9 DarkGems -> 1 DarkBlock
-        GameRegistry.addRecipe(new ItemStack(DarkBlock.getInstance()), "xxx", "xxx", "xxx",
-                'x', new ItemStack(DarkGem.getInstance()));
+        GameRegistry.addRecipe(new ItemStack(DarkBlock.getInstance()),
+                "GGG",
+                "GGG",
+                "GGG",
+                'G', new ItemStack(DarkGem.getInstance())
+        );
         // 1 DarkBlock -> 9 DarkGems
-        GameRegistry.addShapelessRecipe(new ItemStack(DarkGem.getInstance(), 9), new ItemStack(DarkBlock.getInstance()));
+        GameRegistry.addShapelessRecipe(new ItemStack(DarkGem.getInstance(), 9),
+                new ItemStack(DarkBlock.getInstance())
+        );
     }
 }
