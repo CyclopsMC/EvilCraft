@@ -5,3 +5,6 @@
 .classpath
 .project
 .settings
+
+# Ignore mac-specific file(s)
+.DS_Store
