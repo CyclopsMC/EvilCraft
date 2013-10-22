@@ -8,7 +8,7 @@ public class DarkBlockConfig extends ExtendedConfig {
 
     public DarkBlockConfig() {
         super(
-            3841,
+            3845,
             "Dark Block",
             "darkblock",
             null,

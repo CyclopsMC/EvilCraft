@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -18,6 +17,7 @@ import evilcraft.api.BucketHandler;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.blocks.BloodStainedDirtConfig;
 import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkOreConfig;
 import evilcraft.blocks.DarkOreGlowingConfig;
@@ -25,7 +25,7 @@ import evilcraft.blocks.EvilBlockConfig;
 import evilcraft.blocks.LiquidBlockBloodConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.WerewolfConfig;
-import evilcraft.events.BloodObtainLivingDeathEventHook;
+import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BucketBloodConfig;
@@ -58,6 +58,7 @@ public class EvilCraft {
         configs.add(new DarkOreConfig());
         configs.add(new DarkOreGlowingConfig());
         configs.add(new DarkBlockConfig());
+        configs.add(new BloodStainedDirtConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -103,7 +104,7 @@ public class EvilCraft {
         Recipes.registerRecipes();
         
         MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());
-        MinecraftForge.EVENT_BUS.register(new BloodObtainLivingDeathEventHook());
+        MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
         MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
         
     }
