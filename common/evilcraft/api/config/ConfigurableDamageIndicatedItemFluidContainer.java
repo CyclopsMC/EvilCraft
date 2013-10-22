@@ -60,7 +60,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         if(!world.isRemote)
-            player.sendChatToPlayer(ChatMessageComponent.createFromText(this.eConfig.NAME + ": " + this.getFluid(itemStack).amount + "/" + this.capacity));
+            player.sendChatToPlayer(ChatMessageComponent.createFromText(this.eConfig.NAME + ": " + this.getFluid(itemStack).amount + "/" + this.capacity + " mB"));
         return super.onItemRightClick(itemStack, world, player);
     }
     
