@@ -1,11 +1,13 @@
 package evilcraft.items;
 
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.events.BloodBucketEventHook;
-import evilcraft.liquids.Blood;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import evilcraft.api.BucketHandler;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.blocks.LiquidBlockBlood;
+import evilcraft.liquids.Blood;
 
 public class BucketBloodConfig extends ExtendedConfig {
     
@@ -21,11 +23,13 @@ public class BucketBloodConfig extends ExtendedConfig {
         );
     }
     
-    @Override
     public void onRegistered() {
-        MinecraftForge.EVENT_BUS.register(new BloodBucketEventHook());
-        // Necessary?
-        //FluidContainerRegistry.registerFluidContainer(Blood.getInstance(), new ItemStack(BucketBlood.getInstance()), FluidContainerRegistry.EMPTY_BUCKET);
+        FluidContainerRegistry.registerFluidContainer(
+                FluidRegistry.getFluidStack(Blood.getInstance().getName(), FluidContainerRegistry.BUCKET_VOLUME),
+                new ItemStack(BucketBlood.getInstance()),
+                new ItemStack(Item.bucketEmpty)
+        );
+        BucketHandler.getInstance().buckets.put(LiquidBlockBlood.getInstance(), BucketBlood.getInstance());
     }
     
 }

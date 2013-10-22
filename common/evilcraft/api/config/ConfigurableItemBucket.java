@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
@@ -11,10 +12,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.Event;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
-import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
+import evilcraft.blocks.LiquidBlockBlood;
 import evilcraft.blocks.LiquidBlockBloodConfig;
 
 /**
@@ -22,18 +23,19 @@ import evilcraft.blocks.LiquidBlockBloodConfig;
  * @author Ruben Taelman
  *
  */
-public abstract class ConfigurableItemFluidContainer extends ItemFluidContainer implements Configurable{
+public abstract class ConfigurableItemBucket extends ItemBucket implements Configurable{
     
     protected ExtendedConfig eConfig = null;
     protected boolean canPickUp = true;
     
     public static ElementType TYPE = ElementType.ITEM;
     
-    protected ConfigurableItemFluidContainer(ExtendedConfig eConfig) {
-        super(eConfig.ID);
+    protected ConfigurableItemBucket(ExtendedConfig eConfig, int blockID) {
+        super(eConfig.ID, blockID);
         eConfig.ID = this.itemID; // This could've changed.
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
+        setContainerItem(Item.bucketEmpty);
     }
 
     // Set a configuration for this item
@@ -55,7 +57,7 @@ public abstract class ConfigurableItemFluidContainer extends ItemFluidContainer 
         return false;
     }
     
-    @Override
+    /*@Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         if(canPickUp) {
             MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
@@ -128,6 +130,6 @@ public abstract class ConfigurableItemFluidContainer extends ItemFluidContainer 
             }
             return true;
         }
-    }
+    }*/
     
 }

@@ -6,8 +6,7 @@ import java.util.logging.Level;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -15,6 +14,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
+import evilcraft.api.BucketHandler;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.blocks.DarkBlockConfig;
@@ -24,15 +24,15 @@ import evilcraft.blocks.EvilBlockConfig;
 import evilcraft.blocks.LiquidBlockBloodConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.WerewolfConfig;
+import evilcraft.events.BloodObtainLivingDeathEventHook;
+import evilcraft.events.TextureStitchEventHook;
 import evilcraft.items.BloodExtractorConfig;
-import evilcraft.items.BucketBlood;
 import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkStickConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
-import evilcraft.liquids.Blood;
 import evilcraft.liquids.BloodConfig;
 import evilcraft.proxies.CommonProxy;
 import evilcraft.worldgen.EvilWorldGenerator;
@@ -97,12 +97,12 @@ public class EvilCraft {
     public void postInit(FMLPreInitializationEvent event) {
         FMLLog.log(Level.INFO, ""+Reference.MOD_NAME+" postInit()");
         
-        /*log("Bone: "+WerewolfBoneConfig._instance.ID);
-        log("Flesh: "+WerewolfFleshConfig._instance.ID);
-        log("EvilBlock: "+EvilBlockConfig._instance.ID);*/
-        
         proxy.registerRenderers();
         Recipes.registerRecipes();
+        
+        MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());
+        MinecraftForge.EVENT_BUS.register(new BloodObtainLivingDeathEventHook());
+        MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
         
     }
     

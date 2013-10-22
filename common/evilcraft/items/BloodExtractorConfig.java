@@ -18,9 +18,4 @@ public class BloodExtractorConfig extends ExtendedConfig {
         );
     }
     
-    @Override
-    public void onRegistered() {
-        MinecraftForge.EVENT_BUS.register(new BloodObtainLivingDeathEventHook());
-    }
-    
 }

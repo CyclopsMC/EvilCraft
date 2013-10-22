@@ -1,9 +1,10 @@
 package evilcraft.items;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableItemFluidContainer;
+import evilcraft.api.config.ConfigurableItemBucket;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.blocks.LiquidBlockBlood;
 
-public class BucketBlood extends ConfigurableItemFluidContainer {
+public class BucketBlood extends ConfigurableItemBucket {
     
     private static BucketBlood _instance = null;
     
@@ -18,7 +19,7 @@ public class BucketBlood extends ConfigurableItemFluidContainer {
     }
 
     private BucketBlood(ExtendedConfig eConfig) {
-        super(eConfig);
+        super(eConfig, LiquidBlockBlood.getInstance().blockID);
     }
 
 }

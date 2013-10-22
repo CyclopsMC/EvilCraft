@@ -28,6 +28,8 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     @SideOnly(Side.CLIENT)
     protected Icon[] icon;
     
+    private Fluid fluid;
+    
     protected float particleRed;
     protected float particleGreen;
     protected float particleBlue;
@@ -37,6 +39,8 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
         eConfig.ID = this.blockID; // This could've changed.
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
+        fluid.setBlockID(this);
+        this.fluid = fluid;
     }
 
     // Set a configuration for this item
@@ -84,8 +88,14 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
         }
     }
     
+    @Override
     public boolean isEntity() {
         return false;
     }
+    
+    /*@Override
+    public void onRegister() {
+        //BucketHandler.INSTANCE.buckets.put(this, this.fluid);
+    }*/
 
 }
