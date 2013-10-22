@@ -15,6 +15,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.api.BucketHandler;
+import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.blocks.DarkBlockConfig;
@@ -77,7 +78,8 @@ public class EvilCraft {
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        FMLLog.log(Level.INFO, ""+Reference.MOD_NAME+" preInit()");
+        LoggerHelper.init();
+        LoggerHelper.log(Level.INFO, "preInit()");
         
         // Save this instance, so we can use it later
         this._instance = this;
@@ -88,14 +90,14 @@ public class EvilCraft {
     
     @EventHandler
     public void init(FMLPreInitializationEvent event) {
-        FMLLog.log(Level.INFO, ""+Reference.MOD_NAME+" init()");
+        LoggerHelper.log(Level.INFO, "init()");
         
         GameRegistry.registerWorldGenerator(new EvilWorldGenerator());
     }
     
     @EventHandler
     public void postInit(FMLPreInitializationEvent event) {
-        FMLLog.log(Level.INFO, ""+Reference.MOD_NAME+" postInit()");
+        LoggerHelper.log(Level.INFO, "postInit()");
         
         proxy.registerRenderers();
         Recipes.registerRecipes();
@@ -111,6 +113,6 @@ public class EvilCraft {
     }
     
     public static void log(String message, Level level) {
-        FMLLog.log(level, "["+Reference.MOD_NAME+"] " + message);
+        LoggerHelper.log(level, message);
     }
 }
