@@ -51,7 +51,8 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain)
     {
         FluidStack fluidStack = super.drain(container, maxDrain, doDrain);
-        component.updateAmount(container, fluidStack.amount);
+        int newAmount = getFluid(container) == null ? 0 : getFluid(container).amount;
+        component.updateAmount(container, newAmount);
         return fluidStack;
     }
     
