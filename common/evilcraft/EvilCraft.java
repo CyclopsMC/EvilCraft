@@ -22,6 +22,7 @@ import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkOreConfig;
 import evilcraft.blocks.DarkOreGlowingConfig;
 import evilcraft.blocks.EvilBlockConfig;
+import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.LiquidBlockBloodConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.WerewolfConfig;
@@ -59,6 +60,7 @@ public class EvilCraft {
         configs.add(new DarkOreGlowingConfig());
         configs.add(new DarkBlockConfig());
         configs.add(new BloodStainedDirtConfig());
+        configs.add(new LightningBombConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

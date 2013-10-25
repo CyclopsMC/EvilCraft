@@ -37,7 +37,12 @@ public abstract class ConfigurableBlock extends Block implements Configurable{
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.NAMEDID);
+        blockIcon = iconRegister.registerIcon(getTextureName());
+    }
+    
+    @Override
+    public String getTextureName() {
+        return Reference.MOD_ID+":"+eConfig.NAMEDID;
     }
     
     public boolean isEntity() {
