@@ -36,9 +36,7 @@ public class LightningGrenade extends ConfigurableItem {
         }
         par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-        if (!par2World.isRemote) {
-            par2World.spawnEntityInWorld(new EntityLightningGrenade(par2World, par3EntityPlayer));
-        }
+        par2World.spawnEntityInWorld(new EntityLightningGrenade(par2World, par3EntityPlayer));
 
         return par1ItemStack;
     }

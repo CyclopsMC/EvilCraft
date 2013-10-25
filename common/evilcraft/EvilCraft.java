@@ -94,13 +94,13 @@ public class EvilCraft {
         LoggerHelper.log(Level.INFO, "init()");
         
         GameRegistry.registerWorldGenerator(new EvilWorldGenerator());
+        proxy.registerRenderers();
     }
     
     @EventHandler
     public void postInit(FMLPreInitializationEvent event) {
         LoggerHelper.log(Level.INFO, "postInit()");
         
-        proxy.registerRenderers();
         Recipes.registerRecipes();
         
         MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());

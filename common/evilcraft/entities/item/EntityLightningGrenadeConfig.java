@@ -23,7 +23,7 @@ public class EntityLightningGrenadeConfig extends ExtendedConfig {
     
     @Override
     public void onRegistered() {
-        EvilCraft.renderers.put(EntityLightningGrenade.class, new RenderSnowball(/*LightningGrenade.getInstance()*/Item.expBottle));
+        EvilCraft.renderers.put(EntityLightningGrenade.class, new RenderSnowball(LightningGrenade.getInstance()));
     }
     
 }
