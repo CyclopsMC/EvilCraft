@@ -1,5 +1,6 @@
 package evilcraft.blocks;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ConfigurableProperty;
 import evilcraft.api.config.ExtendedConfig;
@@ -19,7 +20,7 @@ public class DarkOreConfig extends ExtendedConfig {
 
     public DarkOreConfig() {
         super(
-            3843,
+            Reference.BLOCK_DARKORE,
             "Dark Ore",
             "darkore",
             null,

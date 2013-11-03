@@ -1,5 +1,6 @@
 package evilcraft.items;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 
 public class LightningGrenadeConfig extends ExtendedConfig {
@@ -8,7 +9,7 @@ public class LightningGrenadeConfig extends ExtendedConfig {
 
     public LightningGrenadeConfig() {
         super(
-            4001,
+            Reference.ITEM_LIGHTNINGGRENADE,
             "Lightning Grenade",
             "lightninggrenade",
             null,

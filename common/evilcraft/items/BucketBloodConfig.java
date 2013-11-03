@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import evilcraft.Reference;
 import evilcraft.api.BucketHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.blocks.LiquidBlockBlood;
@@ -15,7 +16,7 @@ public class BucketBloodConfig extends ExtendedConfig {
 
     public BucketBloodConfig() {
         super(
-            4004,
+            Reference.ITEM_BUCKETBLOOD,
             "Blood Bucket",
             "bucketblood",
             null,

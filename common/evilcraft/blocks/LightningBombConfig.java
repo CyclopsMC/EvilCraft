@@ -1,5 +1,6 @@
 package evilcraft.blocks;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 
 public class LightningBombConfig extends ExtendedConfig {
@@ -8,7 +9,7 @@ public class LightningBombConfig extends ExtendedConfig {
 
     public LightningBombConfig() {
         super(
-            3847,
+            Reference.BLOCK_LIGHTNINGBOMB,
             "Lightning Bomb",
             "lightningbomb",
             null,

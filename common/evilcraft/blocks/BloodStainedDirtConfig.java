@@ -1,5 +1,6 @@
 package evilcraft.blocks;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 
 public class BloodStainedDirtConfig extends ExtendedConfig {
@@ -8,7 +9,7 @@ public class BloodStainedDirtConfig extends ExtendedConfig {
 
     public BloodStainedDirtConfig() {
         super(
-            3846,
+            Reference.BLOCK_BLOODSTAINEDDIRT,
             "Blood Stained Dirt",
             "bloodstaineddirt",
             null,

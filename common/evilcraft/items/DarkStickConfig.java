@@ -1,5 +1,6 @@
 package evilcraft.items;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 
 public class DarkStickConfig extends ExtendedConfig {
@@ -8,7 +9,7 @@ public class DarkStickConfig extends ExtendedConfig {
 
     public DarkStickConfig() {
         super(
-            4006,
+            Reference.ITEM_DARKSTICK,
             "Dark Stick",
             "darkstick",
             null,

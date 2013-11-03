@@ -1,5 +1,6 @@
 package evilcraft.items;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ConfigurableProperty;
 import evilcraft.api.config.ExtendedConfig;
@@ -17,7 +18,7 @@ public class BloodExtractorConfig extends ExtendedConfig {
 
     public BloodExtractorConfig() {
         super(
-            4000,
+            Reference.ITEM_BLOODEXTRACTOR,
             "Blood Extractor",
             "bloodextractor",
             null,

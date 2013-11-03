@@ -1,5 +1,6 @@
 package evilcraft.items;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 
 public class DarkGemConfig extends ExtendedConfig {
@@ -8,7 +9,7 @@ public class DarkGemConfig extends ExtendedConfig {
 
     public DarkGemConfig() {
         super(
-            4005,
+            Reference.ITEM_DARKGEM,
             "Dark Gem",
             "darkgem",
             null,

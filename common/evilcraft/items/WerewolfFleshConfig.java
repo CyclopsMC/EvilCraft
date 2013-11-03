@@ -1,5 +1,6 @@
 package evilcraft.items;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 
 public class WerewolfFleshConfig extends ExtendedConfig {
@@ -8,7 +9,7 @@ public class WerewolfFleshConfig extends ExtendedConfig {
 
     public WerewolfFleshConfig() {
         super(
-            4003,
+            Reference.ITEM_WEREWOLFFLESH,
             "WerewolfFlesh",
             "werewolfflesh",
             null,

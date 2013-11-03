@@ -1,5 +1,6 @@
 package evilcraft.blocks;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 
 public class DarkBlockConfig extends ExtendedConfig {
@@ -8,7 +9,7 @@ public class DarkBlockConfig extends ExtendedConfig {
 
     public DarkBlockConfig() {
         super(
-            3845,
+            Reference.BLOCK_DARKBLOCK,
             "Dark Block",
             "darkblock",
             null,

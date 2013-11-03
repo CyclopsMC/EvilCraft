@@ -1,5 +1,6 @@
 package evilcraft.blocks;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 
 public class LiquidBlockBloodConfig extends ExtendedConfig {
@@ -8,7 +9,7 @@ public class LiquidBlockBloodConfig extends ExtendedConfig {
 
     public LiquidBlockBloodConfig() {
         super(
-            3842,
+            Reference.BLOCK_LIQUIDBLOCKBLOOD,
             "Blood",
             "blockblood",
             null,

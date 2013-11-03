@@ -22,6 +22,7 @@ import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkOreConfig;
 import evilcraft.blocks.DarkOreGlowingConfig;
 import evilcraft.blocks.EvilBlockConfig;
+import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.LiquidBlockBloodConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
@@ -30,8 +31,10 @@ import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BucketBloodConfig;
+import evilcraft.items.ContainedFluxConfig;
 import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkStickConfig;
+import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
@@ -61,6 +64,8 @@ public class EvilCraft {
         configs.add(new DarkBlockConfig());
         configs.add(new BloodStainedDirtConfig());
         configs.add(new LightningBombConfig());
+        configs.add(new LargeDoorConfig());
+        configs.add(new ContainedFluxConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -70,6 +75,7 @@ public class EvilCraft {
         configs.add(new BloodExtractorConfig());
         configs.add(new DarkGemConfig());
         configs.add(new DarkStickConfig());
+        configs.add(new LargeDoorItemConfig());
         
         // Entities
         //Item

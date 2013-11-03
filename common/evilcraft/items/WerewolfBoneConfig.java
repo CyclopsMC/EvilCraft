@@ -1,5 +1,6 @@
 package evilcraft.items;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 
 public class WerewolfBoneConfig extends ExtendedConfig {
@@ -8,7 +9,7 @@ public class WerewolfBoneConfig extends ExtendedConfig {
 
     public WerewolfBoneConfig() {
         super(
-            4002,
+            Reference.ITEM_WEREWOLFBONE,
             "WerewolfBone",
             "werewolfbone",
             null,

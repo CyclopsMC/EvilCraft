@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.entity.RenderZombie;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.src.ModLoader;
 import evilcraft.EvilCraft;
+import evilcraft.Reference;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ConfigurableProperty;
 import evilcraft.api.config.ExtendedConfig;
@@ -15,7 +16,7 @@ public class DarkOreGlowingConfig extends ExtendedConfig {
 
     public DarkOreGlowingConfig() {
         super(
-            3844,
+            Reference.BLOCK_DARKOREGLOWING,
             "Dark Ore",
             "darkoreglowing",
             null,
