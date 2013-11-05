@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.blocks.DarkBlock;
+import evilcraft.items.BloodPearlOfTeleportation;
 import evilcraft.items.ContainedFlux;
 import evilcraft.items.DarkGem;
 import evilcraft.items.WeatherContainer;
@@ -32,6 +33,14 @@ public class Recipes {
                 'G', new ItemStack(ContainedFlux.getInstance()),
                 'P', new ItemStack(Item.glassBottle),
                 'S', new ItemStack(Item.sugar)
+        );
+        // Blood Pearl of Teleportation
+        GameRegistry.addRecipe(new ItemStack(BloodPearlOfTeleportation.getInstance()),
+                "EGE",
+                "GEG",
+                "EGE",
+                'G', new ItemStack(ContainedFlux.getInstance()),
+                'E', new ItemStack(Item.enderPearl)
         );
     }
 }

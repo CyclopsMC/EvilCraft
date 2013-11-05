@@ -30,6 +30,7 @@ import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.items.BloodExtractorConfig;
+import evilcraft.items.BloodPearlOfTeleportationConfig;
 import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.ContainedFluxConfig;
 import evilcraft.items.DarkGemConfig;
@@ -77,7 +78,8 @@ public class EvilCraft {
         configs.add(new DarkGemConfig());
         configs.add(new DarkStickConfig());
         configs.add(new LargeDoorItemConfig());
-        configs.add(new WeatherContainerConfig());
+        configs.add(new WeatherContainerConfig());        
+        configs.add(new BloodPearlOfTeleportationConfig());
         
         // Entities
         //Item

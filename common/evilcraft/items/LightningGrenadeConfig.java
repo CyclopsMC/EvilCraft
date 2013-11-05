@@ -10,7 +10,7 @@ public class LightningGrenadeConfig extends ExtendedConfig {
     public LightningGrenadeConfig() {
         super(
             Reference.ITEM_LIGHTNINGGRENADE,
-            "Lightning Grenade",
+            "Lightning Pearl",
             "lightninggrenade",
             null,
             LightningGrenade.class
