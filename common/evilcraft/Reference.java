@@ -31,5 +31,6 @@ public class Reference {
     public static final int ITEM_LIGHTNINGGRENADE = 4006;
     public static final int ITEM_WEREWOLFBONE = 4007;
     public static final int ITEM_WEREWOLFFLESH = 4008;
+    public static final int ITEM_WEATHERCONTAINER = 4008;
     
 }

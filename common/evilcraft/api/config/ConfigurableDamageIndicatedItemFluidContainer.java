@@ -48,9 +48,14 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     }
     
     @Override
+    public String getIconString() {
+        return Reference.MOD_ID+":"+eConfig.NAMEDID;
+    }
+    
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister) {
-        itemIcon = iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.NAMEDID);
+        itemIcon = iconRegister.registerIcon(getIconString());
     }
     
     public boolean isEntity() {

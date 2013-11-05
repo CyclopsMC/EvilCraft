@@ -27,20 +27,28 @@ public abstract class ConfigurableItem extends Item implements Configurable{
     }
 
     // Set a configuration for this item
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
+    @Override
     public String getUniqueName() {
         return "items."+eConfig.NAMEDID;
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
-        itemIcon = iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.NAMEDID);
+    public String getIconString() {
+        return Reference.MOD_ID+":"+eConfig.NAMEDID;
     }
     
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister iconRegister) {
+        itemIcon = iconRegister.registerIcon(getIconString());
+    }
+    
+    @Override
     public boolean isEntity() {
         return false;
     }

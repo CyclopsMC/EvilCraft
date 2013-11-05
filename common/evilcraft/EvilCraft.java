@@ -36,6 +36,7 @@ import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkStickConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
+import evilcraft.items.WeatherContainerConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
 import evilcraft.liquids.BloodConfig;
@@ -76,6 +77,7 @@ public class EvilCraft {
         configs.add(new DarkGemConfig());
         configs.add(new DarkStickConfig());
         configs.add(new LargeDoorItemConfig());
+        configs.add(new WeatherContainerConfig());
         
         // Entities
         //Item

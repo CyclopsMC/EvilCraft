@@ -25,18 +25,5 @@ public class ContainedFlux extends ConfigurableItem {
         super(eConfig);
         this.maxStackSize = 1;
     }
-    
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
-    /*public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
-    {
-        for(WeatherEffect weather : world.weatherEffects) {
-            
-        }
-        Helpers.isDay(world);
-
-        return itemStack;
-    }*/
 
 }

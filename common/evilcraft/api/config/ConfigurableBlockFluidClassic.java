@@ -53,9 +53,14 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     }
     
     @Override
+    public String getTextureName() {
+        return Reference.MOD_ID+":"+eConfig.NAMEDID;
+    }
+    
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister) {
-        this.icon = new Icon[] { iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.NAMEDID+"_still"), iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.NAMEDID+"_flow") };
+        this.icon = new Icon[] { iconRegister.registerIcon(getTextureName()+"_still"), iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.NAMEDID+"_flow") };
     }
     
     @Override

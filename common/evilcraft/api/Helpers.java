@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 
 public class Helpers {
     public static final int MINECRAFT_DAY = 24000;
-    // TODO: ID COUNTER?: To not have to define an ID for every item, block, ...
     
     /**
      * Check if it's day in this world
@@ -18,7 +17,18 @@ public class Helpers {
      * @return
      */
     public static boolean isDay(World world) {
-        return world.getWorldTime()%MINECRAFT_DAY < MINECRAFT_DAY/2;
+        return world.getWorldTime() % MINECRAFT_DAY < MINECRAFT_DAY/2;
+    }
+    
+    /**
+     * Set the world time to day or night.
+     * @param world the world to manipulate time in.
+     * @param toDay if true, set to day, otherwise to night.
+     */
+    public static void setDay(World world, boolean toDay) {
+        int currentTime = (int) world.getWorldTime();
+        int newTime = currentTime - (currentTime % (MINECRAFT_DAY / 2)) + MINECRAFT_DAY / 2;
+        world.setWorldTime(newTime);
     }
     
     /**
@@ -49,5 +59,16 @@ public class Helpers {
 
             return entity;
         }
+    }
+    
+    /**
+     * Convert r, g and b colors to an integer representation.
+     * @param r red
+     * @param g green
+     * @param b blue
+     * @return integer representation of the color.
+     */
+    public static int RGBToInt(int r, int g, int b) {
+        return (int)r << 16 | (int)g << 8 | (int)b;
     }
 }
