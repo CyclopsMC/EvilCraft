@@ -31,6 +31,7 @@ import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
+import evilcraft.items.BroomConfig;
 import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.ContainedFluxConfig;
 import evilcraft.items.DarkGemConfig;
@@ -80,6 +81,7 @@ public class EvilCraft {
         configs.add(new LargeDoorItemConfig());
         configs.add(new WeatherContainerConfig());        
         configs.add(new BloodPearlOfTeleportationConfig());
+        configs.add(new BroomConfig());
         
         // Entities
         //Item

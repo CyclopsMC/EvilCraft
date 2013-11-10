@@ -33,5 +33,6 @@ public class Reference {
     public static final int ITEM_WEREWOLFFLESH = 4008;
     public static final int ITEM_WEATHERCONTAINER = 4008;
     public static final int ITEM_BLOODPEARLOFTELEPORTATION = 4009;
+    public static final int ITEM_BROOM = 4010;
     
 }
