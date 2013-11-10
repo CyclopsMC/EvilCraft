@@ -11,6 +11,11 @@ public class Reference {
     public static final String MOD_NAME = "EvilCraft";
     public static final String MOD_VERSION = "0.0.0.1a";
     
+    // Paths
+    public static final String TEXTURE_PATH_GUI = "textures/gui/";
+    //public static final String TEXTURE_PATH_BLOCKS = MOD_ID + ":textures/blocks/";
+    //public static final String TEXTURE_PATH_ENTITIES = "textures/entities/";
+    
     // Block ID's
     public static final int BLOCK_BLOODSTAINEDDIRT = 3846;
     public static final int BLOCK_DARKBLOCK = 3847;
@@ -20,6 +25,7 @@ public class Reference {
     public static final int BLOCK_LARGEDOOR = 3851;
     public static final int BLOCK_LIGHTNINGBOMB = 3852;
     public static final int BLOCK_LIQUIDBLOCKBLOOD = 3853;
+    public static final int BLOCK_BLOODINFUSER = 3854;
     
     // Item ID's
     public static final int ITEM_BLOODEXTRACTOR = 4000;

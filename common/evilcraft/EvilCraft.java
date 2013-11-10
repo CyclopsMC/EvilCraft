@@ -12,11 +12,13 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.api.BucketHandler;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedDirtConfig;
 import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkOreConfig;
@@ -69,6 +71,7 @@ public class EvilCraft {
         configs.add(new LightningBombConfig());
         configs.add(new LargeDoorConfig());
         configs.add(new ContainedFluxConfig());
+        configs.add(new BloodInfuserConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -108,6 +111,7 @@ public class EvilCraft {
         LoggerHelper.log(Level.INFO, "init()");
         
         GameRegistry.registerWorldGenerator(new EvilWorldGenerator());
+        NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
         proxy.registerRenderers();
     }
     

@@ -8,6 +8,7 @@ package evilcraft.api.config;
 public enum ElementType {
     ITEM(true),
     BLOCK(true),
+    BLOCKCONTAINER(true),
     MOB(false),
     ENTITY(false),
     LIQUID(true);
