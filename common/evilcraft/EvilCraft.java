@@ -31,6 +31,7 @@ import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.TextureStitchEventHook;
+import evilcraft.fluids.BloodConfig;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
 import evilcraft.items.BroomConfig;
@@ -43,7 +44,6 @@ import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.WeatherContainerConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
-import evilcraft.liquids.BloodConfig;
 import evilcraft.proxies.CommonProxy;
 import evilcraft.worldgen.EvilWorldGenerator;
 

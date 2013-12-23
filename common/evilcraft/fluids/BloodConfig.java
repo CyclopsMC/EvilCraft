@@ -1,4 +1,4 @@
-package evilcraft.liquids;
+package evilcraft.fluids;
 
 import evilcraft.api.config.ExtendedConfig;
 

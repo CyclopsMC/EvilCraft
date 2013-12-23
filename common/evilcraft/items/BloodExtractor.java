@@ -18,7 +18,7 @@ import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.blocks.BloodStainedDirtConfig;
-import evilcraft.liquids.Blood;
+import evilcraft.fluids.Blood;
 import evilcraft.render.EntityBloodSplashFX;
 
 public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContainer {

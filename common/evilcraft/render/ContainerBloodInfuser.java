@@ -7,32 +7,26 @@ import net.minecraft.inventory.Slot;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 
 public class ContainerBloodInfuser extends ExtendedContainer {
+    
+    private static final int INVENTORY_OFFSET_X = 8;
+    private static final int INVENTORY_OFFSET_Y = 84;
 
-    IInventory playerIInventory;
-    TileBloodInfuser tile;
+    private IInventory playerIInventory;
+    private TileBloodInfuser tile;
 
     public ContainerBloodInfuser(InventoryPlayer inventory, TileBloodInfuser tile) {
         super(tile.getInventorySize());
         playerIInventory = inventory;
         this.tile = tile;
+        
+        // Adding tank display
+        // TODO (make it more thaumcrafty than buildcrafty)
 
-        // Adding hopper inventory
-        addSlotToContainer(new Slot(tile, 0, 62, 18));
-        addSlotToContainer(new Slot(tile, 1, 80, 18));
-        addSlotToContainer(new Slot(tile, 2, 98, 18));
-        addSlotToContainer(new Slot(tile, 3, 80, 36));
+        // Adding inventory
+        addSlotToContainer(new Slot(tile, 0, 8, 36)); // Container emptier
+        addSlotToContainer(new Slot(tile, 1, 115, 36)); // Infuse slot
 
-        // Player inventory
-        for (int i1 = 0; i1 < 3; i1++) {
-            for (int l1 = 0; l1 < 9; l1++) {
-                addSlotToContainer(new Slot(inventory, l1 + i1 * 9 + 9, 8 + l1 * 18, 71 + i1 * 18));
-            }
-        }
-
-        // Player hotbar
-        for (int j1 = 0; j1 < 9; j1++) {
-            addSlotToContainer(new Slot(inventory, j1, 8 + j1 * 18, 129));
-        }
+        this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
 
     }
 

@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.liquids.Blood;
+import evilcraft.fluids.Blood;
 
 public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFluidContainer {
     

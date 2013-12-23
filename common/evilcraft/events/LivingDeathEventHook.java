@@ -17,8 +17,8 @@ import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.api.HotbarIterator;
 import evilcraft.blocks.BloodStainedDirtConfig;
+import evilcraft.fluids.Blood;
 import evilcraft.items.BloodExtractor;
-import evilcraft.liquids.Blood;
 import evilcraft.render.EntityBloodSplashFX;
 
 public class LivingDeathEventHook {

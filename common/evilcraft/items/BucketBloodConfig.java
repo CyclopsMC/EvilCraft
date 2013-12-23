@@ -8,7 +8,7 @@ import evilcraft.Reference;
 import evilcraft.api.BucketHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.blocks.LiquidBlockBlood;
-import evilcraft.liquids.Blood;
+import evilcraft.fluids.Blood;
 
 public class BucketBloodConfig extends ExtendedConfig {
     

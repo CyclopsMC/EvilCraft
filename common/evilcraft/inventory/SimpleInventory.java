@@ -91,10 +91,10 @@ public class SimpleInventory implements IInventory {
     public void closeChest() {
     }
 
-    /*@Override
+    //@Override
     public void readFromNBT(NBTTagCompound data) {
         readFromNBT(data, "items");
-    }*/
+    }
 
     public void readFromNBT(NBTTagCompound data, String tag) {
         NBTTagList nbttaglist = data.getTagList(tag);
@@ -113,10 +113,10 @@ public class SimpleInventory implements IInventory {
         }
     }
 
-    /*@Override
+    //@Override
     public void writeToNBT(NBTTagCompound data) {
         writeToNBT(data, "items");
-    }*/
+    }
 
     public void writeToNBT(NBTTagCompound data, String tag) {
         NBTTagList slots = new NBTTagList();

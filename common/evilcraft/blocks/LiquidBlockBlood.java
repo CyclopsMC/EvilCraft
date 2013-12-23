@@ -8,7 +8,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigurableBlockFluidClassic;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.liquids.Blood;
+import evilcraft.fluids.Blood;
 
 public class LiquidBlockBlood extends ConfigurableBlockFluidClassic {
 

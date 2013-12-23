@@ -5,7 +5,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.blocks.LiquidBlockBlood;
-import evilcraft.liquids.Blood;
+import evilcraft.fluids.Blood;
 
 public class TextureStitchEventHook {
     @ForgeSubscribe

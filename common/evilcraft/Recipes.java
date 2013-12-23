@@ -2,8 +2,12 @@ package evilcraft;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.registry.GameRegistry;
+import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.DarkBlock;
+import evilcraft.fluids.Blood;
 import evilcraft.items.BloodPearlOfTeleportation;
 import evilcraft.items.ContainedFlux;
 import evilcraft.items.DarkGem;
@@ -42,5 +46,18 @@ public class Recipes {
                 'G', new ItemStack(ContainedFlux.getInstance()),
                 'E', new ItemStack(Item.enderPearl)
         );
+        
+        registerCustomRecipes();
+    }
+    
+    public static void registerCustomRecipes() {
+        CustomRecipeRegistry.put(new CustomRecipe(
+                        new ItemStack(DarkGem.getInstance()),
+                        new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 4),
+                        BloodInfuser.getInstance(),
+                        20
+                    ),
+                new ItemStack(ContainedFlux.getInstance()
+        ));
     }
 }
