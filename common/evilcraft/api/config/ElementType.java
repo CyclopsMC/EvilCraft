@@ -11,7 +11,8 @@ public enum ElementType {
     BLOCKCONTAINER(true),
     MOB(false),
     ENTITY(false),
-    LIQUID(true);
+    LIQUID(true),
+    ENCHANTMENT(true);
     
     private boolean uniqueInstance = false;
     

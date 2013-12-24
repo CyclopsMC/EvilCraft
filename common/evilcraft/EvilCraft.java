@@ -28,9 +28,11 @@ import evilcraft.blocks.EvilBlockConfig;
 import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.LiquidBlockBloodConfig;
+import evilcraft.enchantment.EnchantmentUnusingConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.events.LivingDeathEventHook;
+import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.fluids.BloodConfig;
 import evilcraft.items.BloodExtractorConfig;
@@ -93,6 +95,9 @@ public class EvilCraft {
         configs.add(new EntityLightningGrenadeConfig());
         // Monster
         configs.add(new WerewolfConfig()); // http://www.minecraftwiki.net/wiki/Resource_pack#pack.mcmeta
+    
+        // Enchantments
+        configs.add(new EnchantmentUnusingConfig());
     }
     public static Map<Class<? extends Entity>, Render> renderers = new HashMap<Class<? extends Entity>, Render>();
     
@@ -126,7 +131,7 @@ public class EvilCraft {
         MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
         MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
-        
+        MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
     }
     
     public static void log(String message) {
