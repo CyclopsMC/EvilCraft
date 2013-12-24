@@ -24,7 +24,7 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
     }
 
     private EnchantmentUnusing(ExtendedConfig eConfig) {
-        super(eConfig, 52, 1, EnumEnchantmentType.all);
+        super(eConfig, 1, EnumEnchantmentType.all);
     }
     
     public int getMinEnchantability(int par1) {

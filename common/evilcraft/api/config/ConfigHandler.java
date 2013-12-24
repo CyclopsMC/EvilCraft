@@ -14,6 +14,7 @@ import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig.ConfigProperty;
 import evilcraft.api.config.elementtypeaction.BlockAction;
 import evilcraft.api.config.elementtypeaction.EnchantmentAction;
+import evilcraft.api.config.elementtypeaction.IElementTypeAction;
 import evilcraft.api.config.elementtypeaction.ItemAction;
 import evilcraft.api.config.elementtypeaction.LiquidAction;
 import evilcraft.api.config.elementtypeaction.MobAction;
@@ -31,6 +32,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
     public static final String CATEGORY_ENTITY = "entity";
     public static final String CATEGORY_GENERAL = "general";
     public static final String CATEGORY_OREGENERATION = "oregeneration";
+    public static final String CATEGORY_ENCHANTMENT = "enchantment";
     
     private static ConfigHandler _instance = null;
     
@@ -83,13 +85,17 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
             // Check the type of the element
             ElementType type = eConfig.getHolderType();
             
-            // Register the element depending on the type and set the creative tab
-            elementTypeActions.get(type).commonRun(eConfig, config);
-            
-            // Call the listener
-            eConfig.onRegistered();
-            
-            EvilCraft.log("Registered "+eConfig.NAME);
+            if(eConfig.ID > 0) {
+                // Register the element depending on the type and set the creative tab
+                elementTypeActions.get(type).commonRun(eConfig, config);
+                
+                // Call the listener
+                eConfig.onRegistered();
+                
+                EvilCraft.log("Registered "+eConfig.NAME);
+            } else {
+                EvilCraft.log("Skipped registering "+eConfig.NAME);
+            }
         }
         
         // Add I18N for the creative tab

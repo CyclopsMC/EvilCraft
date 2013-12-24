@@ -9,7 +9,6 @@ import evilcraft.EvilCraftTab;
 import evilcraft.api.config.ConfigurableBlockContainer;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.IElementTypeAction;
 
 public class BlockAction extends IElementTypeAction {
 

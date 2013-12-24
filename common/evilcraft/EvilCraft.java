@@ -28,6 +28,7 @@ import evilcraft.blocks.EvilBlockConfig;
 import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.LiquidBlockBloodConfig;
+import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.WerewolfConfig;
@@ -98,6 +99,7 @@ public class EvilCraft {
     
         // Enchantments
         configs.add(new EnchantmentUnusingConfig());
+        configs.add(new EnchantmentBreakingConfig());
     }
     public static Map<Class<? extends Entity>, Render> renderers = new HashMap<Class<? extends Entity>, Render>();
     

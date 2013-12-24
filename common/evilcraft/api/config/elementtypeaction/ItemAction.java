@@ -1,6 +1,6 @@
 package evilcraft.api.config.elementtypeaction;
 
-import static evilcraft.api.config.IElementTypeAction.CATEGORIES;
+import static evilcraft.api.config.elementtypeaction.IElementTypeAction.CATEGORIES;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.item.Item;
@@ -8,7 +8,6 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import evilcraft.EvilCraftTab;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.IElementTypeAction;
 
 public class ItemAction extends IElementTypeAction{
 

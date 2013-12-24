@@ -5,17 +5,17 @@ import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 
-public class EnchantmentUnusingConfig extends ExtendedConfig {
+public class EnchantmentBreakingConfig extends ExtendedConfig {
     
-    public static EnchantmentUnusingConfig _instance;
+    public static EnchantmentBreakingConfig _instance;
 
-    public EnchantmentUnusingConfig() {
+    public EnchantmentBreakingConfig() {
         super(
-            102,
-            "Unusing",
-            "unusing",
+            101,
+            "Breaking",
+            "breaking",
             null,
-            EnchantmentUnusing.class
+            EnchantmentBreaking.class
         );
     }
     

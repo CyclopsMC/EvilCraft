@@ -4,7 +4,6 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.IElementTypeAction;
 
 public class LiquidAction extends IElementTypeAction{
 

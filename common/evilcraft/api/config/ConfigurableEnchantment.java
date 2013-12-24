@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.util.StatCollector;
 
@@ -14,10 +15,9 @@ public class ConfigurableEnchantment extends Enchantment implements Configurable
     
     public static ElementType TYPE = ElementType.ENCHANTMENT;
     
-    protected ConfigurableEnchantment(ExtendedConfig eConfig, int par1, int par2,
+    protected ConfigurableEnchantment(ExtendedConfig eConfig, int weight,
             EnumEnchantmentType par3EnumEnchantmentType) {
-        super(par1, par2, par3EnumEnchantmentType);
-        eConfig.ID = this.effectId; // Initialize this ID
+        super(eConfig.ID, weight, par3EnumEnchantmentType);
         this.setConfig(eConfig);
         this.setName(this.getUniqueName());
         

@@ -1,7 +1,11 @@
-package evilcraft.api.config;
+package evilcraft.api.config.elementtypeaction;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import evilcraft.api.config.ConfigHandler;
+import evilcraft.api.config.ElementType;
+import evilcraft.api.config.ExtendedConfig;
 
 import net.minecraftforge.common.Configuration;
 
@@ -20,6 +24,7 @@ public abstract class IElementTypeAction {
         CATEGORIES.put(ElementType.MOB, ConfigHandler.CATEGORY_ENTITY);
         CATEGORIES.put(ElementType.ENTITY, ConfigHandler.CATEGORY_ENTITY);
         CATEGORIES.put(ElementType.LIQUID, ConfigHandler.CATEGORY_LIQUID);
+        CATEGORIES.put(ElementType.ENCHANTMENT, ConfigHandler.CATEGORY_ENCHANTMENT);
     }
     
     public void commonRun(ExtendedConfig eConfig, Configuration config) {

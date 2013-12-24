@@ -4,7 +4,6 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraftforge.common.Configuration;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.IElementTypeAction;
 
 public class MobAction extends IElementTypeAction{
 
