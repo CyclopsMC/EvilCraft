@@ -26,6 +26,7 @@ public class Reference {
     public static final int BLOCK_LIGHTNINGBOMB = 3852;
     public static final int BLOCK_LIQUIDBLOCKBLOOD = 3853;
     public static final int BLOCK_BLOODINFUSER = 3854;
+    public static final int BLOCK_BLOODYCOBBLESTONE = 3855;
     
     // Item ID's
     public static final int ITEM_BLOODEXTRACTOR = 4000;

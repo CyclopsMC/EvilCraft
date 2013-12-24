@@ -1,5 +1,7 @@
 package evilcraft.blocks;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.Reference;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ConfigurableProperty;
@@ -26,6 +28,16 @@ public class DarkOreConfig extends ExtendedConfig {
             null,
             DarkOre.class
         );
+    }
+    
+    @Override
+    public void onRegistered() {
+        OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(DarkOre.getInstance()));
+    }
+    
+    @Override
+    public String getOreDictionaryId() {
+        return "oreDark";
     }
     
 }

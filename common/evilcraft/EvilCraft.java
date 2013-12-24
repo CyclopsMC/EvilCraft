@@ -20,6 +20,7 @@ import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedDirtConfig;
+import evilcraft.blocks.BloodyCobblestoneConfig;
 import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkOreConfig;
 import evilcraft.blocks.DarkOreGlowingConfig;
@@ -72,6 +73,7 @@ public class EvilCraft {
         configs.add(new LargeDoorConfig());
         configs.add(new ContainedFluxConfig());
         configs.add(new BloodInfuserConfig());
+        configs.add(new BloodyCobblestoneConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

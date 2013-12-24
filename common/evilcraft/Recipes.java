@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.DarkBlock;
@@ -11,6 +12,7 @@ import evilcraft.fluids.Blood;
 import evilcraft.items.BloodPearlOfTeleportation;
 import evilcraft.items.ContainedFlux;
 import evilcraft.items.DarkGem;
+import evilcraft.items.DarkGemConfig;
 import evilcraft.items.WeatherContainer;
 
 /**
@@ -19,11 +21,12 @@ import evilcraft.items.WeatherContainer;
 public class Recipes {
     public static void registerRecipes() {
         // 9 DarkGems -> 1 DarkBlock
-        GameRegistry.addRecipe(new ItemStack(DarkBlock.getInstance()),
+        GameRegistry.addRecipe(new ShapedOreRecipe(DarkBlock.getInstance(), true,
+                new Object[]{
                 "GGG",
                 "GGG",
                 "GGG",
-                'G', new ItemStack(DarkGem.getInstance())
+                Character.valueOf('G'), DarkGemConfig._instance.getOreDictionaryId()})
         );
         // 1 DarkBlock -> 9 DarkGems
         GameRegistry.addShapelessRecipe(new ItemStack(DarkGem.getInstance(), 9),

@@ -155,6 +155,14 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
     }
     
     /**
+     * If the Configurable is registered in the OreDictionary, use this name to identify it.
+     * @return the name this Configurable is registered with in the OreDictionary.
+     */
+    public String getOreDictionaryId() {
+        return null;
+    }
+    
+    /**
      * A holder class for properties that go inside the config file.
      *
      */

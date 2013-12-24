@@ -198,7 +198,7 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
                     // TODO: recipe manager for blood infusings
                     CustomRecipe customRecipeKey = new CustomRecipe(infuseStack, tank.getFluid(), BloodInfuser.getInstance());
                     CustomRecipeResult result = CustomRecipeRegistry.get(customRecipeKey);
-                    System.out.println("found:"+result);
+                    //System.out.println("found:"+result);
                     if(result != null) {
                         inventory.setInventorySlotContents(SLOT_INFUSE, result.getResult().copy());
                         if(result.getRecipe().getFluidStack() != null) {
