@@ -21,28 +21,31 @@ public class BlockAction extends IElementTypeAction {
         // Update the ID, it could've changed
         eConfig.ID = property.getInt();
         
-        // Save the config inside the correct element
-        eConfig.save();
-        
-        Block block = (Block) eConfig.getSubInstance();
-        
-        // Register
-        GameRegistry.registerBlock(
-                block,
-                eConfig.getSubUniqueName()
-        );
-        
-        // Set creative tab
-        block.setCreativeTab(EvilCraftTab.getInstance());
-        
-        // Add I18N
-        LanguageRegistry.addName(eConfig.getSubInstance(), eConfig.NAME);
-        
-        // Also register tile entity
-        if(eConfig.getHolderType().equals(ElementType.BLOCKCONTAINER)) {
-            ConfigurableBlockContainer container = (ConfigurableBlockContainer) block;
-            GameRegistry.registerTileEntity(container.getTileEntity(), eConfig.getSubUniqueName());
-        }
+        // TODO
+        //if(eConfig.ID > 0) {
+            // Save the config inside the correct element
+            eConfig.save();
+            
+            Block block = (Block) eConfig.getSubInstance();
+            
+            // Register
+            GameRegistry.registerBlock(
+                    block,
+                    eConfig.getSubUniqueName()
+            );
+            
+            // Set creative tab
+            block.setCreativeTab(EvilCraftTab.getInstance());
+            
+            // Add I18N
+            LanguageRegistry.addName(eConfig.getSubInstance(), eConfig.NAME);
+            
+            // Also register tile entity
+            if(eConfig.getHolderType().equals(ElementType.BLOCKCONTAINER)) {
+                ConfigurableBlockContainer container = (ConfigurableBlockContainer) block;
+                GameRegistry.registerTileEntity(container.getTileEntity(), eConfig.getSubUniqueName());
+            }
+        //} else onSkipRegistration(eConfig);
     }
 
 }

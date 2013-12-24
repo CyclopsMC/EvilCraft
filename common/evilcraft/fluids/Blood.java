@@ -20,8 +20,8 @@ public class Blood extends ConfigurableFluid{
 
     private Blood(ExtendedConfig eConfig) {
         super(eConfig);
-        setDensity(20); // How tick the fluid is, affects movement inside the liquid.
-        setViscosity(5); // How fast the fluid flows.
+        setDensity(1500); // How tick the fluid is, affects movement inside the liquid.
+        setViscosity(3000); // How fast the fluid flows.
     }
 
 }

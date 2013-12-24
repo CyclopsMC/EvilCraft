@@ -3,6 +3,7 @@ package evilcraft.api.config.elementtypeaction;
 import java.util.HashMap;
 import java.util.Map;
 
+import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
@@ -31,6 +32,10 @@ public abstract class IElementTypeAction {
         run(eConfig, config);
         
         // Optional common stuff
+    }
+    
+    protected void onSkipRegistration(ExtendedConfig eConfig) {
+        EvilCraft.log("Skipped registering "+eConfig.NAME);
     }
     
     public abstract void run(ExtendedConfig eConfig, Configuration config);

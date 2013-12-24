@@ -54,9 +54,11 @@ public class PlayerInteractEventHook {
             if(event.entityPlayer instanceof EntityPlayer) {
                 ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
                 NBTTagList enchlist = itemStack.getEnchantmentTagList();
-                for(int i = 0; i < enchlist.tagCount(); i++) {
-                    if (((NBTTagCompound)enchlist.tagAt(i)).getShort("id") == enchantID) {
-                        return i;
+                if(enchlist != null) {
+                    for(int i = 0; i < enchlist.tagCount(); i++) {
+                        if (((NBTTagCompound)enchlist.tagAt(i)).getShort("id") == enchantID) {
+                            return i;
+                        }
                     }
                 }
             }

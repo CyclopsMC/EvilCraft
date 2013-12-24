@@ -85,17 +85,13 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
             // Check the type of the element
             ElementType type = eConfig.getHolderType();
             
-            if(eConfig.ID > 0) {
-                // Register the element depending on the type and set the creative tab
-                elementTypeActions.get(type).commonRun(eConfig, config);
-                
-                // Call the listener
-                eConfig.onRegistered();
-                
-                EvilCraft.log("Registered "+eConfig.NAME);
-            } else {
-                EvilCraft.log("Skipped registering "+eConfig.NAME);
-            }
+            // Register the element depending on the type and set the creative tab
+            elementTypeActions.get(type).commonRun(eConfig, config);
+
+            // Call the listener
+            eConfig.onRegistered();
+
+            EvilCraft.log("Registered "+eConfig.NAME);
         }
         
         // Add I18N for the creative tab
