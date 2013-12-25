@@ -11,7 +11,7 @@ public class EnchantmentBreakingConfig extends ExtendedConfig {
 
     public EnchantmentBreakingConfig() {
         super(
-            101,
+            Reference.ENCHANTMENT_BREAKING,
             "Breaking",
             "breaking",
             null,

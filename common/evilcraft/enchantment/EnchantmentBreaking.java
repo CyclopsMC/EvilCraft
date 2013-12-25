@@ -7,7 +7,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigurableEnchantment;
 import evilcraft.api.config.ExtendedConfig;
@@ -53,9 +56,18 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
      * enchantment level. If the ItemStack is Armor then there is a flat 60% chance for damage to be amplified no
      * matter the enchantment level, otherwise there is a 1-(level/1) chance for damage to be amplified.
      */
-    public static boolean amplifyDamage(ItemStack itemStack, int level, Random random)
+    public static void amplifyDamage(ItemStack itemStack, int enchantmentListID, Random random)
     {
-        return itemStack.getItem() instanceof ItemArmor && random.nextFloat() < 0.6F ? false : random.nextInt(level + 1) > 0;
+        if(enchantmentListID > -1) {
+            NBTTagList enchlist = itemStack.getEnchantmentTagList();
+            int level = ((NBTTagCompound)enchlist.tagAt(enchantmentListID)).getShort("level");
+            int newDamage = itemStack.getItemDamage() + 2;
+            if(itemStack.getItem() instanceof ItemArmor
+                    && random.nextFloat() < 0.6F ? false : random.nextInt(level + 1) > 0
+                    && newDamage <= itemStack.getMaxDamage()) {
+                itemStack.setItemDamage(newDamage);
+            }
+        }
     }
 
 }

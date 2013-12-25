@@ -3,7 +3,9 @@ package evilcraft.enchantment;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigurableEnchantment;
 import evilcraft.api.config.ExtendedConfig;
@@ -39,6 +41,13 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
         return 1;
     }
     
-    
+    public static boolean unuseTool(ItemStack itemStack) {
+        int damageBorder = itemStack.getMaxDamage() - 5;
+        if(itemStack.getItemDamage() >= damageBorder) {
+            itemStack.setItemDamage(damageBorder);
+            return true;
+        }
+        return false;
+    }
 
 }

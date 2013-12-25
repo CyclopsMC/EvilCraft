@@ -29,9 +29,11 @@ import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.LiquidBlockBloodConfig;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
+import evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.WerewolfConfig;
+import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.TextureStitchEventHook;
@@ -100,6 +102,7 @@ public class EvilCraft {
         // Enchantments
         configs.add(new EnchantmentUnusingConfig());
         configs.add(new EnchantmentBreakingConfig());
+        configs.add(new EnchantmentLifeStealingConfig());
     }
     public static Map<Class<? extends Entity>, Render> renderers = new HashMap<Class<? extends Entity>, Render>();
     
@@ -134,6 +137,7 @@ public class EvilCraft {
         MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
         MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
+        MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
     }
     
     public static void log(String message) {

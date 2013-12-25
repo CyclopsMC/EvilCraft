@@ -7,6 +7,8 @@ import net.minecraft.entity.EntityLivingData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -143,5 +145,25 @@ public class Helpers {
         for (int i = 0; i < inventory.getSizeInventory(); i++) {
             inventory.setInventorySlotContents(i, null);
         }
+    }
+    
+    /**
+     * Checks if an itemStack has a certain enchantment.
+     * @param itemStack The itemStack to check.
+     * @param enchantID The Enchantment to compare.
+     * @return The id of the enchantment in the enchantmentlist or -1 if it does not appy.
+     */
+    public static int doesEnchantApply(ItemStack itemStack, int enchantID) {
+        if(itemStack != null) {
+            NBTTagList enchantmentList = itemStack.getEnchantmentTagList();
+            if(enchantmentList != null) {
+                for(int i = 0; i < enchantmentList.tagCount(); i++) {
+                    if (((NBTTagCompound)enchantmentList.tagAt(i)).getShort("id") == enchantID) {
+                        return i;
+                    }
+                }
+            }
+        }
+        return -1;
     }
 }

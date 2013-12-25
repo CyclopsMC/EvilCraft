@@ -42,4 +42,9 @@ public class Reference {
     public static final int ITEM_BLOODPEARLOFTELEPORTATION = 4009;
     public static final int ITEM_BROOM = 4010;
     
+    // Enchantment ID's
+    public static final int ENCHANTMENT_BREAKING = 101;
+    public static final int ENCHANTMENT_LIFESTEALING = 102;
+    public static final int ENCHANTMENT_UNUSING = 103;
+    
 }

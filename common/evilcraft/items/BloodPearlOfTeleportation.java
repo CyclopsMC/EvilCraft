@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.api.config.ExtendedConfig;
@@ -35,7 +36,8 @@ public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFl
      */
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
     {
-        if(this.drain(itemStack, 100, false).amount > 0) {
+        FluidStack fluidStack = this.drain(itemStack, 100, false);
+        if(fluidStack != null && fluidStack.amount > 0) {
             if (player.capabilities.isCreativeMode) {
                 return itemStack;
             } else {
