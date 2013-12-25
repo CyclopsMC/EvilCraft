@@ -8,3 +8,6 @@
 
 # Ignore mac-specific file(s)
 .DS_Store
+
+# Ignore other files that aren't supposed to be here
+.psd
