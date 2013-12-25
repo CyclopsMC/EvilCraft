@@ -10,4 +10,4 @@
 .DS_Store
 
 # Ignore other files that aren't supposed to be here
-.psd
+*.psd
