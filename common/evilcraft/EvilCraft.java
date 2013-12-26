@@ -25,6 +25,7 @@ import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkOreConfig;
 import evilcraft.blocks.DarkOreGlowingConfig;
 import evilcraft.blocks.EvilBlockConfig;
+import evilcraft.blocks.ExcrementPileConfig;
 import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.LiquidBlockBloodConfig;
@@ -82,6 +83,7 @@ public class EvilCraft {
         configs.add(new BloodInfuserConfig());
         configs.add(new BloodyCobblestoneConfig());
         configs.add(new NetherfishSpawnConfig());
+        configs.add(new ExcrementPileConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
