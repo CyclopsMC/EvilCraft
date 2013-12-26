@@ -28,10 +28,12 @@ import evilcraft.blocks.EvilBlockConfig;
 import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.LiquidBlockBloodConfig;
+import evilcraft.blocks.NetherfishSpawnConfig;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
+import evilcraft.entities.monster.NetherfishConfig;
 import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
@@ -79,6 +81,7 @@ public class EvilCraft {
         configs.add(new ContainedFluxConfig());
         configs.add(new BloodInfuserConfig());
         configs.add(new BloodyCobblestoneConfig());
+        configs.add(new NetherfishSpawnConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -98,7 +101,8 @@ public class EvilCraft {
         configs.add(new EntityLightningGrenadeConfig());
         // Monster
         configs.add(new WerewolfConfig()); // http://www.minecraftwiki.net/wiki/Resource_pack#pack.mcmeta
-    
+        configs.add(new NetherfishConfig());
+        
         // Enchantments
         configs.add(new EnchantmentUnusingConfig());
         configs.add(new EnchantmentBreakingConfig());
