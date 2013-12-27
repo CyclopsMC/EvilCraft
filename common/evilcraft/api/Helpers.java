@@ -1,5 +1,9 @@
 package evilcraft.api;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -166,4 +170,27 @@ public class Helpers {
         }
         return -1;
     }
+    
+    /**
+     * Iterate over the coordinates for the sides of the given block coordinates.
+     * @param xc x coordinate of the center block.
+     * @param yc y coordinate of the center block.
+     * @param zc z coordinate of the center block.
+     * @return
+     */
+    public static Iterator<Coordinate> getSideIterator(int xc, int yc, int zc) {
+        List<Coordinate> coordinates = new LinkedList<Coordinate>();
+        for(int x = xc - 1; x <= xc + 1; x++) {
+            for(int y = yc - 1; y <= yc + 1; y++) {
+                for(int z = zc - 1; z <= zc + 1; z++) {
+                    // Only allow side that are directly next to the center block (no diagonal blocks)
+                    if(Math.abs(x - xc) + Math.abs(y - yc) + Math.abs(z - zc) == 1) {
+                        coordinates.add(new Coordinate(x, y, z));
+                    }
+                }
+            }
+        }
+        return coordinates.iterator();
+    }
+    
 }

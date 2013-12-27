@@ -59,11 +59,11 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
                 ConfigProperty configProperty = new ConfigProperty(
                         field.getAnnotation(ConfigurableProperty.class).category(),
                         this.NAMEDID + "." + field.getName(),
-                        field.getInt(null),
+                        field.get(null),
                         field.getAnnotation(ConfigurableProperty.class).comment(),
                         new ConfigPropertyCallback() {
                             @Override
-                            public void run(int newValue) {
+                            public void run(Object newValue) {
                                 try {
                                     field.set(null, newValue);
                                 } catch (IllegalArgumentException
@@ -169,11 +169,11 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
     public class ConfigProperty {
         private String category;
         private String name;
-        private int value;
+        private Object value;
         private String comment;
         private ConfigPropertyCallback callback;
         
-        public ConfigProperty(String category, String name, int value, String comment, ConfigPropertyCallback callback) {
+        public ConfigProperty(String category, String name, Object value, String comment, ConfigPropertyCallback callback) {
             this.category = category;
             this.name = name;
             this.value = value;
@@ -181,7 +181,7 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
             this.callback = callback;
         }
         
-        public ConfigProperty(String category, String name, int value, ConfigPropertyCallback callback) {
+        public ConfigProperty(String category, String name, Object value, ConfigPropertyCallback callback) {
             this(category, name, value, null, callback);
         }
 
@@ -201,11 +201,11 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
             this.name = name;
         }
 
-        public int getValue() {
+        public Object getValue() {
             return value;
         }
 
-        public void setValue(int value) {
+        public void setValue(Object value) {
             this.value = value;
         }
 
@@ -227,6 +227,6 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
     }
     
     public abstract class ConfigPropertyCallback {
-        public abstract void run(int newValue);
+        public abstract void run(Object newValue);
     }
 }

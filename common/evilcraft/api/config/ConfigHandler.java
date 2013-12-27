@@ -69,13 +69,29 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
             
             // Save additional properties
             for(ConfigProperty configProperty : eConfig.configProperties) {
-                Property additionalProperty = config.get(
-                            configProperty.getCategory(),
-                            configProperty.getName(),
-                            configProperty.getValue()
+                // Sorry, no cleaner solution for this...
+                String category = configProperty.getCategory();
+                String name = configProperty.getName();
+                Object value = configProperty.getValue();
+                
+                Property additionalProperty = null;
+                if(value instanceof Integer) {
+                    additionalProperty = config.get(
+                        category,
+                        name,
+                        (int)value
                         );
-                additionalProperty.comment = configProperty.getComment();
-                configProperty.getCallback().run(additionalProperty.getInt());
+                    additionalProperty.comment = configProperty.getComment();
+                    configProperty.getCallback().run(additionalProperty.getInt());
+                } else if(value instanceof Boolean) {
+                    additionalProperty = config.get(
+                        category,
+                        name,
+                        (boolean)value
+                        );
+                    additionalProperty.comment = configProperty.getComment();
+                    configProperty.getCallback().run(additionalProperty.getBoolean((boolean)value));
+                }
             }
             
             if(eConfig.getHolderType().equals(ElementType.MOB)) { // For entity id's we have to do somethin' special!

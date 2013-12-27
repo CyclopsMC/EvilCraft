@@ -1,10 +1,11 @@
 package evilcraft.blocks;
+import java.util.Iterator;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
@@ -17,6 +18,8 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
+import evilcraft.api.Coordinate;
+import evilcraft.api.Helpers;
 import evilcraft.api.config.ConfigurableBlock;
 import evilcraft.api.config.ExtendedConfig;
 
@@ -39,7 +42,7 @@ public class ExcrementPile extends ConfigurableBlock {
     }
 
     private ExcrementPile(ExtendedConfig eConfig) {
-        super(eConfig, Material.snow);
+        super(eConfig, Material.clay);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
         this.setTickRandomly(true);
         this.setBlockBoundsForPileDepth(0);
@@ -47,7 +50,7 @@ public class ExcrementPile extends ConfigurableBlock {
     
     @Override
     public int idDropped(int par1, Random random, int zero) {
-        return BloodyCobblestoneConfig._instance.ID;
+        return ExcrementPileConfig._instance.ID;
     }
     
     @Override
@@ -103,19 +106,72 @@ public class ExcrementPile extends ConfigurableBlock {
     public int quantityDropped(Random par1Random) {
         return 1;
     }
+    
+    @Override
+    public int tickRate(World par1World) {
+        return 100;
+    }
 
     @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
+        this.poisonEffect(world, x, y, z);
         if(random.nextInt(CHANCE_DESPAWN) == 0) {
             if(random.nextInt(CHANCE_BONEMEAL) == 0) {
-                int blockIDBelow = world.getBlockId(x, y - 1, z);
-                if(blockIDBelow == Block.dirt.blockID) {
-                    world.setBlock(x, y - 1, z, Block.grass.blockID);
-                } else if(blockIDBelow == Block.grass.blockID) {
-                    ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, x, y - 1, z, null);
+                for(int xr = x - 1; xr <= x + 1; xr++) {
+                    for(int zr = z - 1; zr <= z + 1; zr++) {
+                        if(random.nextInt(9) == 0) {
+                            int blockIDBelow = world.getBlockId(xr, y - 1, zr);
+                            if(blockIDBelow == Block.dirt.blockID) {
+                                world.setBlock(xr, y - 1, zr, Block.grass.blockID);
+                            } else if(blockIDBelow == Block.grass.blockID) {
+                                ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y - 1, zr, null);
+                            }
+                        }
+                    }
                 }
             }
             world.setBlockToAir(x, y, z);
+        }
+    }
+
+    private void poisonEffect(World world, int x, int y, int z) {
+        // TODO: this is not working for some reason...
+        Random random = world.rand;
+        double d0 = 0.0625D;
+        
+        Iterator<Coordinate> it = Helpers.getSideIterator(x, y, z);
+        while(it.hasNext()) {
+            Coordinate c = it.next();
+            double d1 = (double)((float)x + random.nextFloat());
+            double d2 = (double)((float)y + random.nextFloat());
+            double d3 = (double)((float)z + random.nextFloat());
+            
+            if(c.x > x && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
+                d1 = (double)(x + 1) + d0;
+            }
+            if(c.x < x && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
+                d1 = (double)(x + 0) - d0;
+            }
+            if(c.y > y && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
+                d2 = (double)(y + 1) + d0;
+            }
+            if(c.y < y && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
+                d2 = (double)(y + 0) - d0;
+            }
+            if(c.z > z && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
+                d3 = (double)(z + 1) + d0;
+            }
+            if(c.z < z && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
+                d3 = (double)(z + 0) - d0;
+            }
+            if (d1 < (double)x
+                    || d1 > (double)(x + 1)
+                    || d2 < 0.0D
+                    || d2 > (double)(y + 1)
+                    || d3 < (double)z
+                    || d3 > (double)(z + 1)) {
+                world.spawnParticle("bubble", d1, d2, d3, 0.2D, 1.0D, 0.1D);
+            }
         }
     }
 
@@ -148,11 +204,13 @@ public class ExcrementPile extends ConfigurableBlock {
     
     @Override
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
-        if(entity instanceof EntityPlayer) {
-            // Poison player with a chance depending on the height of the pile.
-            float height = ((float) (world.getBlockMetadata(x, y, z) & 7)) * 0.125F;
-            if(world.rand.nextFloat() < height)
-                ((EntityPlayer)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
+        if(entity instanceof EntityLivingBase) {
+            if(entity instanceof EntityPlayer || ExcrementPileConfig.hurtEntities) {
+                // Poison player or mob with a chance depending on the height of the pile.
+                float height = ((float) (world.getBlockMetadata(x, y, z) & 7) + 1) * 0.125F;
+                if(world.rand.nextFloat() * 10 < height)
+                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
+            }
         }
         super.onEntityCollidedWithBlock(world, x, y, z, entity);
     }
