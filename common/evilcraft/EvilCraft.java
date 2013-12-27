@@ -39,6 +39,7 @@ import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlayerInteractEventHook;
+import evilcraft.events.RenderLivingEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.fluids.BloodConfig;
 import evilcraft.items.BloodExtractorConfig;
@@ -144,6 +145,8 @@ public class EvilCraft {
         MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
+        
+        MinecraftForge.EVENT_BUS.register(new RenderLivingEventHook());
     }
     
     public static void log(String message) {
