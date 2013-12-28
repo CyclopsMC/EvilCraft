@@ -3,6 +3,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public class DarkOre extends ConfigurableBlock {
     private static final int INCREASE_DROPS = 3; // Amount that can be increased at random for drops
     private static final int INCREASE_XP = 5; // Amount of XP that can be gained from mining this block
     
-    private boolean glowing;
+    private static final int GLOWINGMETA = 1;
     
     public static void initInstance(ExtendedConfig eConfig) {
         if(_instance == null)
@@ -34,14 +35,10 @@ public class DarkOre extends ConfigurableBlock {
 
     private DarkOre(ExtendedConfig eConfig) {
         super(eConfig, Material.rock);
-        
+        this.setTickRandomly(true);
         this.setHardness(10.0F);
         this.setStepSound(Block.soundStoneFootstep);
         MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 2); // Iron tier
-    }
-    
-    public void enableGlowing() {
-        this.glowing = glowing;
     }
     
     public int idDropped(int par1, Random random, int zero) {
@@ -121,37 +118,41 @@ public class DarkOre extends ConfigurableBlock {
         this.glow(par1World, par2, par3, par4);
         return super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
     }
+    
+    private boolean isGlowing(World world, int x, int y, int z) {
+        return world.getBlockMetadata(x, y, z) == GLOWINGMETA;
+    }
 
     /**
      * The darkore glows.
      */
-    private void glow(World par1World, int par2, int par3, int par4)
+    private void glow(World world, int x, int y, int z)
     {
-        this.sparkle(par1World, par2, par3, par4);
+        this.sparkle(world, x, y, z);
 
-        if (this.blockID == DarkOreConfig._instance.ID) {
-            par1World.setBlock(par2, par3, par4, DarkOreGlowingConfig._instance.ID);
+        if (!isGlowing(world, x, y, z)) {
+            world.setBlockMetadataWithNotify(x, y, z, GLOWINGMETA, 2);// Flag=2 causes client update
+            world.scheduleBlockUpdate(x,y,z,blockID,tickRate(world));
         }
     }
     
     /**
      * Ticks the block if it's been scheduled
      */
-    public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+    public void updateTick(World world, int x, int y, int z, Random random)
     {
-        if (this.blockID == DarkOreGlowingConfig._instance.ID)
-        {
-            par1World.setBlock(par2, par3, par4, DarkOreConfig._instance.ID);
+        if (isGlowing(world, x, y, z)) {
+            world.setBlockMetadataWithNotify(x, y, z, 0, 2);// Flag=2 causes client update
         }
     }
     
     /**
      * A randomly called display update to be able to add particles or other items for display
      */
-    public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
+    public void randomDisplayTick(World world, int x, int y, int z, Random random)
     {
-        if (this.glowing) {
-            this.sparkle(par1World, par2, par3, par4);
+        if (isGlowing(world, x, y, z)) {
+            this.sparkle(world, x, y, z);
         }
     }
     

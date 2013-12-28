@@ -23,7 +23,6 @@ import evilcraft.blocks.BloodStainedDirtConfig;
 import evilcraft.blocks.BloodyCobblestoneConfig;
 import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkOreConfig;
-import evilcraft.blocks.DarkOreGlowingConfig;
 import evilcraft.blocks.EvilBlockConfig;
 import evilcraft.blocks.ExcrementPileConfig;
 import evilcraft.blocks.LargeDoorConfig;
@@ -74,7 +73,6 @@ public class EvilCraft {
         configs.add(new EvilBlockConfig());
         configs.add(new LiquidBlockBloodConfig());
         configs.add(new DarkOreConfig());
-        configs.add(new DarkOreGlowingConfig());
         configs.add(new DarkBlockConfig());
         configs.add(new BloodStainedDirtConfig());
         configs.add(new LightningBombConfig());
