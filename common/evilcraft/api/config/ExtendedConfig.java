@@ -163,6 +163,22 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
     }
     
     /**
+     * Checks if the eConfig refers to a target that should be enabled.
+     * @return if the target should be enabled.
+     */
+    public boolean isEnabled() {
+        return this.ID > 0;
+    }
+    
+    /**
+     * Override this method to prevent configs to be disabled from the config file. (non-zero id's that is)
+     * @return if the target can be disabled.
+     */
+    public boolean isDisableable() {
+        return true;
+    }
+    
+    /**
      * A holder class for properties that go inside the config file.
      *
      */

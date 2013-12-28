@@ -33,6 +33,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
     public static final String CATEGORY_GENERAL = "general";
     public static final String CATEGORY_OREGENERATION = "oregeneration";
     public static final String CATEGORY_ENCHANTMENT = "enchantment";
+    public static final String CATEGORY_MOB = "mob";
     
     private static ConfigHandler _instance = null;
     
@@ -104,10 +105,12 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
             // Register the element depending on the type and set the creative tab
             elementTypeActions.get(type).commonRun(eConfig, config);
 
-            // Call the listener
-            eConfig.onRegistered();
+            if(eConfig.isEnabled()) {
+                // Call the listener
+                eConfig.onRegistered();
 
-            EvilCraft.log("Registered "+eConfig.NAME);
+                EvilCraft.log("Registered "+eConfig.NAME);
+            }
         }
         
         // Add I18N for the creative tab

@@ -12,14 +12,17 @@ import evilcraft.api.config.ExtendedConfig;
 public class ItemAction extends IElementTypeAction{
 
     @Override
-    public void run(ExtendedConfig eConfig, Configuration config) {
-     // Get property in config file and set comment
+    public void preRun(ExtendedConfig eConfig, Configuration config) {
+        // Get property in config file and set comment
         Property property = config.getItem(CATEGORIES.get(eConfig.getHolderType()), eConfig.NAME, eConfig.ID);
         property.comment = eConfig.COMMENT;
         
         // Update the ID, it could've changed
         eConfig.ID = property.getInt();
-        
+    }
+
+    @Override
+    public void postRun(ExtendedConfig eConfig, Configuration config) {
         // Save the config inside the correct element
         eConfig.save();
         

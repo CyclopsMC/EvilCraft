@@ -31,7 +31,10 @@ public class Werewolf extends EntityZombie implements Configurable{
      * Returns the block ID for the item the mob drops on death.
      */
     protected int getDropItemId() {
-        return WerewolfBoneConfig._instance.ID;
+        if(WerewolfBoneConfig._instance.isEnabled())
+            return WerewolfBoneConfig._instance.ID;
+        else
+            return super.getDropItemId();
     }
     
     /**

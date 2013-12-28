@@ -8,7 +8,12 @@ import evilcraft.api.config.ExtendedConfig;
 public class MobAction extends IElementTypeAction{
 
     @Override
-    public void run(ExtendedConfig eConfig, Configuration config) {
+    public void preRun(ExtendedConfig eConfig, Configuration config) {
+        if(!eConfig.isEnabled()) eConfig.ID = 0;
+    }
+
+    @Override
+    public void postRun(ExtendedConfig eConfig, Configuration config) {
         // Save the config inside the correct element
         eConfig.save();
         

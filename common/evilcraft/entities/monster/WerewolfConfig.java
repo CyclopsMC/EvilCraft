@@ -5,9 +5,14 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.src.ModLoader;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.EvilCraft;
+import evilcraft.api.config.ConfigHandler;
+import evilcraft.api.config.ConfigurableProperty;
 import evilcraft.api.config.ExtendedConfig;
 
 public class WerewolfConfig extends ExtendedConfig {
+    
+    @ConfigurableProperty(category = ConfigHandler.CATEGORY_MOB, comment = "Should the Werewolf be enabled?")
+    public static boolean isEnabled = true;
     
     public static WerewolfConfig _instance;
 
@@ -25,6 +30,11 @@ public class WerewolfConfig extends ExtendedConfig {
     public void onRegistered() {
         EvilCraft.renderers.put(Werewolf.class, new RenderZombie());
         ModLoader.addSpawn(Werewolf.class, 1, 0, 1, EnumCreatureType.monster);
+    }
+    
+    @Override
+    public boolean isEnabled() {
+        return isEnabled;
     }
     
 }

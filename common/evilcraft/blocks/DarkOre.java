@@ -42,7 +42,10 @@ public class DarkOre extends ConfigurableBlock {
     }
     
     public int idDropped(int par1, Random random, int zero) {
-        return DarkGemConfig._instance.ID;
+        if(DarkGemConfig._instance.isEnabled())
+            return DarkGemConfig._instance.ID;
+        else
+            return zero;
     }
     
     /**
@@ -50,7 +53,7 @@ public class DarkOre extends ConfigurableBlock {
      */
     public int quantityDroppedWithBonus(int par1, Random par2Random)
     {
-            return this.quantityDropped(par2Random) + par2Random.nextInt(par1 + 1);
+        return this.quantityDropped(par2Random) + par2Random.nextInt(par1 + 1);
     }
 
     /**
@@ -58,7 +61,7 @@ public class DarkOre extends ConfigurableBlock {
      */
     public int quantityDropped(Random par1Random)
     {
-            return MINIMUM_DROPS + par1Random.nextInt(INCREASE_DROPS);
+        return MINIMUM_DROPS + par1Random.nextInt(INCREASE_DROPS);
     }
     
     /**

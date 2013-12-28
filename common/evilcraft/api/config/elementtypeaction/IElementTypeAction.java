@@ -29,14 +29,30 @@ public abstract class IElementTypeAction {
     }
     
     public void commonRun(ExtendedConfig eConfig, Configuration config) {
-        run(eConfig, config);
-        
-        // Optional common stuff
+        preRun(eConfig, config);
+        if(eConfig.isEnabled()) {
+            postRun(eConfig, config);
+        } else if(!eConfig.isDisableable()) {
+            throw new UndisableableConfigException(eConfig);
+        } else {
+            onSkipRegistration(eConfig);
+        }
     }
     
     protected void onSkipRegistration(ExtendedConfig eConfig) {
         EvilCraft.log("Skipped registering "+eConfig.NAME);
     }
     
-    public abstract void run(ExtendedConfig eConfig, Configuration config);
+    /**
+     * Logic that constructs the eConfig from for example a config file.
+     * @param eConfig configuration holder.
+     * @param config configuration from the config file.
+     */
+    public abstract void preRun(ExtendedConfig eConfig, Configuration config);
+    /**
+     * Logic to register the eConfig target.
+     * @param eConfig configuration holder.
+     * @param config configuration from the config file.
+     */
+    public abstract void postRun(ExtendedConfig eConfig, Configuration config);
 }

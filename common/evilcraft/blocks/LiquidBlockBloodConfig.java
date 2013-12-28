@@ -17,4 +17,9 @@ public class LiquidBlockBloodConfig extends ExtendedConfig {
         );
     }
     
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
+    
 }

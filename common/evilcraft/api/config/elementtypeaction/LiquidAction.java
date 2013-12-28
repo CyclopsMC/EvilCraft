@@ -8,8 +8,13 @@ import evilcraft.api.config.ExtendedConfig;
 public class LiquidAction extends IElementTypeAction{
 
     @Override
-    public void run(ExtendedConfig eConfig, Configuration config) {
-     // Save the config inside the correct element
+    public void preRun(ExtendedConfig eConfig, Configuration config) {
+        eConfig.ID = 1;
+    }
+
+    @Override
+    public void postRun(ExtendedConfig eConfig, Configuration config) {
+        // Save the config inside the correct element
         eConfig.save();
         
         // Register

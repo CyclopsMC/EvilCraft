@@ -16,4 +16,9 @@ public class BloodConfig extends ExtendedConfig {
         );
     }
     
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
+    
 }

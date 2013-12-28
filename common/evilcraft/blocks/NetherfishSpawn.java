@@ -15,6 +15,7 @@ import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigurableBlock;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.entities.monster.Netherfish;
+import evilcraft.entities.monster.NetherfishConfig;
 
 public class NetherfishSpawn extends ConfigurableBlock {
     
@@ -49,7 +50,7 @@ public class NetherfishSpawn extends ConfigurableBlock {
     
     @Override
     public void onBlockDestroyedByPlayer(World par1World, int par2, int par3, int par4, int par5) {
-        if (!par1World.isRemote) {
+        if (!par1World.isRemote && NetherfishConfig._instance.isEnabled()) {
             Netherfish netherfish = new Netherfish(par1World);
             netherfish.setLocationAndAngles((double)par2 + 0.5D, (double)par3, (double)par4 + 0.5D, 0.0F, 0.0F);
             par1World.spawnEntityInWorld(netherfish);
