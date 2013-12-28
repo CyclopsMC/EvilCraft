@@ -19,7 +19,7 @@ import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.blocks.BloodInfuserConfig;
-import evilcraft.blocks.BloodStainedDirtConfig;
+import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.blocks.BloodyCobblestoneConfig;
 import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkOreConfig;
@@ -74,7 +74,7 @@ public class EvilCraft {
         configs.add(new LiquidBlockBloodConfig());
         configs.add(new DarkOreConfig());
         configs.add(new DarkBlockConfig());
-        configs.add(new BloodStainedDirtConfig());
+        configs.add(new BloodStainedBlockConfig());
         configs.add(new LightningBombConfig());
         configs.add(new LargeDoorConfig());
         configs.add(new ContainedFluxConfig());

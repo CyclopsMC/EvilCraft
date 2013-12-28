@@ -1,10 +1,12 @@
 package evilcraft.api.config.elementtypeaction;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraftTab;
 import evilcraft.api.config.ConfigurableBlockContainer;
 import evilcraft.api.config.ElementType;
@@ -30,10 +32,18 @@ public class BlockAction extends IElementTypeAction {
         Block block = (Block) eConfig.getSubInstance();
 
         // Register
-        GameRegistry.registerBlock(
-                block,
-                eConfig.getSubUniqueName()
-                );
+        if(eConfig.hasSubTypes()) {
+            GameRegistry.registerBlock(
+                    block,
+                    eConfig.getItemBlockClass(),
+                    eConfig.getSubUniqueName()
+                    );
+        } else {
+            GameRegistry.registerBlock(
+                    block,
+                    eConfig.getSubUniqueName()
+                    );
+        }
 
         // Set creative tab
         block.setCreativeTab(EvilCraftTab.getInstance());

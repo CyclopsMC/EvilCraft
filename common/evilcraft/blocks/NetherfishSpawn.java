@@ -61,6 +61,11 @@ public class NetherfishSpawn extends ConfigurableBlock {
     }
     
     @Override
+    public int idDropped(int par1, Random random, int zero) {
+        return SPAWN_BLOCKS[par1].blockID;
+    }
+    
+    @Override
     public int quantityDropped(Random par1Random) {
         return 0;
     }

@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.blocks.BloodStainedDirtConfig;
+import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.render.EntityBloodSplashFX;
 
@@ -42,7 +42,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         int blockID = world.getBlockId(x, y, z);
-        if(!world.isRemote && blockID == BloodStainedDirtConfig._instance.ID) {
+        if(!world.isRemote && blockID == BloodStainedBlockConfig._instance.ID) {
             Random random = new Random();
             
             // Fill the extractor a bit

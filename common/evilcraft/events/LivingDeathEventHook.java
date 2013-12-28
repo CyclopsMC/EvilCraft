@@ -16,7 +16,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.api.HotbarIterator;
-import evilcraft.blocks.BloodStainedDirtConfig;
+import evilcraft.blocks.BloodStainedBlock;
+import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.items.BloodExtractor;
 import evilcraft.render.EntityBloodSplashFX;
@@ -26,7 +27,7 @@ public class LivingDeathEventHook {
     @ForgeSubscribe(priority = EventPriority.NORMAL)
     public void LivingDeath(LivingDeathEvent event) {
         bloodObtainEvent(event);
-        bloodStainedDirtEvent(event);
+        bloodStainedBlockEvent(event);
     }
     
     private void bloodObtainEvent(LivingDeathEvent event) {
@@ -48,15 +49,18 @@ public class LivingDeathEventHook {
         }
     }
     
-    private void bloodStainedDirtEvent(LivingDeathEvent event) {
+    private void bloodStainedBlockEvent(LivingDeathEvent event) {
         if(event.source.damageType == DamageSource.fall.damageType) {
             int x = MathHelper.floor_double(event.entity.posX);
             int y = MathHelper.floor_double(event.entity.posY - event.entity.getYOffset() - 1);
             int z = MathHelper.floor_double(event.entity.posZ);
             int blockID = event.entity.worldObj.getBlockId(x, y, z);
-            if(!event.entity.worldObj.isRemote && blockID == Block.dirt.blockID) {
-                // Transform dirt into bloody dirt
-                event.entity.worldObj.setBlock(x, y, z, BloodStainedDirtConfig._instance.ID);
+            int meta = BloodStainedBlock.getStainedBlockMetadata(blockID);
+            System.out.println(meta);
+            if(!event.entity.worldObj.isRemote && meta > -1) {
+                // Transform block into blood stained version
+                event.entity.worldObj.setBlock(x, y, z, BloodStainedBlockConfig._instance.ID);
+                event.entity.worldObj.setBlockMetadataWithNotify(x, y, z, meta, 2);
                 
                 // Init particles
                 Random random = new Random();

@@ -5,6 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBlockWithMetadata;
+
 import evilcraft.EvilCraft;
 
 /**
@@ -176,6 +179,22 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
      */
     public boolean isDisableable() {
         return true;
+    }
+    
+    /**
+     * Override this method if this block has subtypes.
+     * @return if the target block has subtypes.
+     */
+    public boolean hasSubTypes() {
+        return false;
+    }
+    
+    /**
+     * If hasSubTypes() returns true this method can be overwritten to define another ItemBlock class
+     * @return the ItemBlock class to use for the target block.
+     */
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlockWithMetadata.class;
     }
     
     /**

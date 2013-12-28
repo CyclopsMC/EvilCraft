@@ -206,5 +206,10 @@ public class DarkOre extends ConfigurableBlock {
             }
         }
     }
+    
+    @Override
+    public boolean canSilkHarvest() {
+        return true;
+    }
 
 }

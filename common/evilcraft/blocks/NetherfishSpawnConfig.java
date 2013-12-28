@@ -17,4 +17,9 @@ public class NetherfishSpawnConfig extends ExtendedConfig {
         );
     }
     
+    @Override
+    public boolean hasSubTypes() {
+        return true;
+    }
+    
 }
