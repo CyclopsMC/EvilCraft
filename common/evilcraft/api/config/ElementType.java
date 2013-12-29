@@ -12,7 +12,9 @@ public enum ElementType {
     MOB(false),
     ENTITY(false),
     LIQUID(true),
-    ENCHANTMENT(true);
+    ENCHANTMENT(true),
+    
+    DUMMY(false);
     
     private boolean uniqueInstance = false;
     

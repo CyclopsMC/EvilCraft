@@ -26,6 +26,8 @@ public abstract class IElementTypeAction {
         CATEGORIES.put(ElementType.ENTITY, ConfigHandler.CATEGORY_ENTITY);
         CATEGORIES.put(ElementType.LIQUID, ConfigHandler.CATEGORY_LIQUID);
         CATEGORIES.put(ElementType.ENCHANTMENT, ConfigHandler.CATEGORY_ENCHANTMENT);
+        
+        CATEGORIES.put(ElementType.DUMMY, ConfigHandler.CATEGORY_GENERAL);
     }
     
     public void commonRun(ExtendedConfig eConfig, Configuration config) {

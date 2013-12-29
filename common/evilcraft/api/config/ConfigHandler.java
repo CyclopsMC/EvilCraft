@@ -13,6 +13,7 @@ import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig.ConfigProperty;
 import evilcraft.api.config.elementtypeaction.BlockAction;
+import evilcraft.api.config.elementtypeaction.DummyAction;
 import evilcraft.api.config.elementtypeaction.EnchantmentAction;
 import evilcraft.api.config.elementtypeaction.IElementTypeAction;
 import evilcraft.api.config.elementtypeaction.ItemAction;
@@ -45,6 +46,8 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         elementTypeActions.put(ElementType.MOB, new MobAction());
         elementTypeActions.put(ElementType.LIQUID, new LiquidAction());
         elementTypeActions.put(ElementType.ENCHANTMENT, new EnchantmentAction());
+        
+        elementTypeActions.put(ElementType.DUMMY, new DummyAction());
     }
     
     public static ConfigHandler getInstance() {
@@ -92,6 +95,14 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                         );
                     additionalProperty.comment = configProperty.getComment();
                     configProperty.getCallback().run(additionalProperty.getBoolean((boolean)value));
+                } else if(value instanceof String) {
+                    additionalProperty = config.get(
+                        category,
+                        name,
+                        (String)value
+                        );
+                    additionalProperty.comment = configProperty.getComment();
+                    configProperty.getCallback().run(additionalProperty.getString());
                 }
             }
             

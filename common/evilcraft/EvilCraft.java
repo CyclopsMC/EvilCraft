@@ -66,6 +66,9 @@ public class EvilCraft {
     
     private static Set<ExtendedConfig> configs = ConfigHandler.getInstance(); // Order is necessary for some registrations
     static {
+        // General
+        configs.add(new GeneralConfig());
+        
         // Fluids
         configs.add(new BloodConfig());
         
