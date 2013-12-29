@@ -46,5 +46,6 @@ public class Reference {
     public static final int ENCHANTMENT_BREAKING = 101;
     public static final int ENCHANTMENT_LIFESTEALING = 102;
     public static final int ENCHANTMENT_UNUSING = 103;
+    public static final int ENCHANTMENT_POISON_TIP = 104;
     
 }

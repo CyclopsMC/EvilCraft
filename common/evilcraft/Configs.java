@@ -17,6 +17,7 @@ import evilcraft.blocks.LiquidBlockBloodConfig;
 import evilcraft.blocks.NetherfishSpawnConfig;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentLifeStealingConfig;
+import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.NetherfishConfig;
@@ -96,6 +97,7 @@ public class Configs {
         configs.add(new EnchantmentUnusingConfig());
         configs.add(new EnchantmentBreakingConfig());
         configs.add(new EnchantmentLifeStealingConfig());
+        configs.add(new EnchantmentPoisonTipConfig());
     }
     
 }

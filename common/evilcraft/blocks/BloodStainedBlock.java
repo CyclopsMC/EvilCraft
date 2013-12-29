@@ -110,7 +110,7 @@ public class BloodStainedBlock extends ConfigurableBlock {
     @Override
     public void fillWithRain(World world, int x, int y, int z) {
         // Transform to regular block when it rains
-        world.setBlock(x, y, z, INNER_BLOCKS[world.getBlockMetadata(x, y, z)].blockID);
+        world.setBlock(x, y, z, INNER_BLOCKS[Math.min(TEXTURE_SUFFIXES.length - 1, world.getBlockMetadata(x, y, z))].blockID);
     }
     
     @Override
