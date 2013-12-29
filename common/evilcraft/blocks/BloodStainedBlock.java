@@ -22,8 +22,8 @@ public class BloodStainedBlock extends ConfigurableBlock {
     
     private static BloodStainedBlock _instance = null;
     
-    private static final String[] TEXTURE_SUFFIXES = new String[]{"_dirt", "_grass"};
-    private static final Block[] INNER_BLOCKS = new Block[]{Block.dirt, Block.grass};
+    private static final String[] TEXTURE_SUFFIXES = new String[]{"_dirt"}; //, "_grass"
+    private static final Block[] INNER_BLOCKS = new Block[]{Block.dirt}; //, Block.grass
     
     private Icon[] icons = new Icon[TEXTURE_SUFFIXES.length];
     private Icon icon = null;
@@ -68,7 +68,7 @@ public class BloodStainedBlock extends ConfigurableBlock {
     @Override
     @SideOnly(Side.CLIENT)
     public Icon getIcon(int par1, int par2) {
-        return icons[par2];
+        return icons[Math.min(TEXTURE_SUFFIXES.length - 1, par2)];
     }
     
     @Override
