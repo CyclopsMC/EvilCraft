@@ -6,13 +6,14 @@ import evilcraft.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.util.Icon;
 
 /**
  * Block that can hold ExtendedConfigs
  * @author Ruben Taelman
  *
  */
-public abstract class ConfigurableBlock extends Block implements Configurable{
+public abstract class ConfigurableBlock extends Block implements Configurable, MultiRenderPassBlock{
     
     protected ExtendedConfig eConfig = null;
     
@@ -47,6 +48,11 @@ public abstract class ConfigurableBlock extends Block implements Configurable{
     
     public boolean isEntity() {
         return false;
+    }
+    
+    @Override
+    public Icon getIcon(int side, int meta, int renderPass) {
+        return this.getIcon(side, meta);
     }
 
 }

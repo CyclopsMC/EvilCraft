@@ -26,6 +26,7 @@ public class BloodStainedBlock extends ConfigurableBlock {
     private static final Block[] INNER_BLOCKS = new Block[]{Block.dirt, Block.grass};
     
     private Icon[] icons = new Icon[TEXTURE_SUFFIXES.length];
+    private Icon icon = null;
     
     public static void initInstance(ExtendedConfig eConfig) {
         if(_instance == null)
@@ -61,12 +62,21 @@ public class BloodStainedBlock extends ConfigurableBlock {
     public void registerIcons(IconRegister iconRegister) {
         for(int i = 0; i < TEXTURE_SUFFIXES.length; i++)
             icons[i] = iconRegister.registerIcon(getTextureName() + TEXTURE_SUFFIXES[i]);
+        iconRegister.registerIcon(getTextureName());
     }
     
     @Override
     @SideOnly(Side.CLIENT)
     public Icon getIcon(int par1, int par2) {
         return icons[par2];
+    }
+    
+    @Override
+    public Icon getIcon(int side, int meta, int renderPass) {
+        if(renderPass == 1)
+            return icon;
+        else
+            return INNER_BLOCKS[meta].getIcon(side, 0);
     }
     
     @Override
