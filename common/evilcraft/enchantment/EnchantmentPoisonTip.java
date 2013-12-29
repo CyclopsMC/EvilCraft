@@ -41,7 +41,7 @@ public class EnchantmentPoisonTip extends ConfigurableEnchantment {
     }
     
     public static void poison(EntityLivingBase entity, int level) {
-        entity.addPotionEffect(new PotionEffect(Potion.poison.id, POISON_BASE_DURATION * 20 * level, 1));
+        entity.addPotionEffect(new PotionEffect(Potion.poison.id, POISON_BASE_DURATION * 20 * (level + 1), 1));
     }
 
 }
