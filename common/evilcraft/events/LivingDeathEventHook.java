@@ -25,7 +25,7 @@ import evilcraft.render.EntityBloodSplashFX;
 public class LivingDeathEventHook {
 
     @ForgeSubscribe(priority = EventPriority.NORMAL)
-    public void LivingDeath(LivingDeathEvent event) {
+    public void onLivingDeath(LivingDeathEvent event) {
         bloodObtainEvent(event);
         bloodStainedBlockEvent(event);
     }

@@ -17,7 +17,7 @@ public class BlockAction extends IElementTypeAction {
     @Override
     public void preRun(ExtendedConfig eConfig, Configuration config) {
         // Get property in config file and set comment
-        Property property = config.getBlock(CATEGORIES.get(eConfig.getHolderType()), eConfig.NAME, eConfig.ID);
+        Property property = config.getBlock(CATEGORIES.get(eConfig.getHolderType()), eConfig.NAMEDID, eConfig.ID);
         property.comment = eConfig.COMMENT;
         
         // Update the ID, it could've changed

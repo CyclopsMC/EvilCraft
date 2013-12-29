@@ -13,7 +13,7 @@ public class DarkStickConfig extends ExtendedConfig {
         super(
             Reference.ITEM_DARKSTICK,
             "Dark Stick",
-            "darkstick",
+            "darkStick",
             null,
             DarkStick.class
         );

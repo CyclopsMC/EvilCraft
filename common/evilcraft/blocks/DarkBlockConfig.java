@@ -11,7 +11,7 @@ public class DarkBlockConfig extends ExtendedConfig {
         super(
             Reference.BLOCK_DARKBLOCK,
             "Dark Block",
-            "darkblock",
+            "darkBlock",
             null,
             DarkBlock.class
         );

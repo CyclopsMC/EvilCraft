@@ -20,7 +20,7 @@ public class BloodExtractorConfig extends ExtendedConfig {
         super(
             Reference.ITEM_BLOODEXTRACTOR,
             "Blood Extractor",
-            "bloodextractor",
+            "bloodExtractor",
             null,
             BloodExtractor.class
         );

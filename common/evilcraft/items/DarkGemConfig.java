@@ -13,7 +13,7 @@ public class DarkGemConfig extends ExtendedConfig {
         super(
             Reference.ITEM_DARKGEM,
             "Dark Gem",
-            "darkgem",
+            "darkGem",
             null,
             DarkGem.class
         );

@@ -18,7 +18,7 @@ import evilcraft.enchantment.EnchantmentUnusingConfig;
 public class PlayerInteractEventHook {
     
     @ForgeSubscribe(priority = EventPriority.HIGH)
-    public void PlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(PlayerInteractEvent event) {
         unusingEvent(event);
         breakingEvent(event);
     }

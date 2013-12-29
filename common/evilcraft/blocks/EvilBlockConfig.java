@@ -11,7 +11,7 @@ public class EvilBlockConfig extends ExtendedConfig {
         super(
             Reference.BLOCK_EVILBLOCK,
             "EvilBlock",
-            "evilblock",
+            "evilBlock",
             null,
             EvilBlock.class
         );

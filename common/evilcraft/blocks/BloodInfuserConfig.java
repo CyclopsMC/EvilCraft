@@ -13,7 +13,7 @@ public class BloodInfuserConfig extends ExtendedConfig {
         super(
             Reference.BLOCK_BLOODINFUSER,
             "Blood Infuser",
-            "bloodinfuser",
+            "bloodInfuser",
             null,
             BloodInfuser.class
         );

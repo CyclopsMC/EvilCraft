@@ -19,7 +19,7 @@ public class NetherfishConfig extends ExtendedConfig {
         super(
             1,
             "Netherfish",
-            "netherfish",
+            "netherFish",
             null,
             Netherfish.class
         );

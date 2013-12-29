@@ -15,7 +15,7 @@ public class EntityBroomConfig extends ExtendedConfig {
         super(
             1,
             "Broom",
-            "entitybroom",
+            "entityBroom",
             null,
             EntityBroom.class
         );

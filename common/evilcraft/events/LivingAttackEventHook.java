@@ -21,7 +21,7 @@ import evilcraft.enchantment.EnchantmentUnusingConfig;
 public class LivingAttackEventHook {
 
     @ForgeSubscribe(priority = EventPriority.NORMAL)
-    public void LivingAttack(LivingAttackEvent event) {
+    public void onLivingAttack(LivingAttackEvent event) {
         stealLife(event);
         unusingEvent(event);
         breakingEvent(event);

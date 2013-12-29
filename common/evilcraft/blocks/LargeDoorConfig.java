@@ -11,7 +11,7 @@ public class LargeDoorConfig extends ExtendedConfig {
         super(
             Reference.BLOCK_LARGEDOOR,
             "Large Door",
-            "largedoor",
+            "largeDoor",
             null,
             LargeDoor.class
         );

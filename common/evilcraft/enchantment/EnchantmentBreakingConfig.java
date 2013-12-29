@@ -13,7 +13,7 @@ public class EnchantmentBreakingConfig extends ExtendedConfig {
         super(
             Reference.ENCHANTMENT_BREAKING,
             "Breaking",
-            "breaking",
+            "enchantmentBreaking",
             null,
             EnchantmentBreaking.class
         );

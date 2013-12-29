@@ -11,7 +11,7 @@ public class ContainedFluxConfig extends ExtendedConfig {
         super(
             Reference.ITEM_CONTAINEDFLUX,
             "Contained Flux",
-            "containedflux",
+            "containedFlux",
             null,
             ContainedFlux.class
         );

@@ -11,7 +11,7 @@ public class LightningBombConfig extends ExtendedConfig {
         super(
             Reference.BLOCK_LIGHTNINGBOMB,
             "Lightning Bomb",
-            "lightningbomb",
+            "lightningBomb",
             null,
             LightningBomb.class
         );

@@ -24,7 +24,7 @@ public class DarkOreConfig extends ExtendedConfig {
         super(
             Reference.BLOCK_DARKORE,
             "Dark Ore",
-            "darkore",
+            "darkOre",
             null,
             DarkOre.class
         );

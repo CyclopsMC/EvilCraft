@@ -18,7 +18,7 @@ public class ExcrementPileConfig extends ExtendedConfig {
         super(
             Reference.BLOCK_DARKBLOCK,
             "Excrement",
-            "excrementpile",
+            "excrementPile",
             null,
             ExcrementPile.class
         );

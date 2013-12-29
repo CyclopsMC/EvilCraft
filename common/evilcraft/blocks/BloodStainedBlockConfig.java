@@ -11,7 +11,7 @@ public class BloodStainedBlockConfig extends ExtendedConfig {
         super(
             Reference.BLOCK_BLOODSTAINEDDIRT,
             "Blood Stained Block",
-            "bloodstainedblock",
+            "bloodStainedBlock",
             null,
             BloodStainedBlock.class
         );

@@ -11,7 +11,7 @@ public class LiquidBlockBloodConfig extends ExtendedConfig {
         super(
             Reference.BLOCK_LIQUIDBLOCKBLOOD,
             "Blood",
-            "blockblood",
+            "blockBlood",
             null,
             LiquidBlockBlood.class
         );

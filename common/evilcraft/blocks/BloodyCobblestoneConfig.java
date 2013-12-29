@@ -13,7 +13,7 @@ public class BloodyCobblestoneConfig extends ExtendedConfig {
         super(
             Reference.BLOCK_DARKBLOCK,
             "Bloody Cobblestone",
-            "bloodycobblestone",
+            "bloodyCobblestone",
             null,
             BloodyCobblestone.class
         );
@@ -26,7 +26,7 @@ public class BloodyCobblestoneConfig extends ExtendedConfig {
     
     @Override
     public String getOreDictionaryId() {
-        return "cobblestone";
+        return "blockStone";
     }
     
 }

@@ -10,7 +10,7 @@ public class BloodConfig extends ExtendedConfig {
         super(
             1,
             "Blood",
-            "blood",
+            "Blood",
             null,
             Blood.class
         );

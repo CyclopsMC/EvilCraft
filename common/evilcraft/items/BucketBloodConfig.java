@@ -18,7 +18,7 @@ public class BucketBloodConfig extends ExtendedConfig {
         super(
             Reference.ITEM_BUCKETBLOOD,
             "Blood Bucket",
-            "bucketblood",
+            "bucketBlood",
             null,
             BucketBlood.class
         );

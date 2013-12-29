@@ -10,7 +10,7 @@ import evilcraft.fluids.Blood;
 public class TextureStitchEventHook {
     @ForgeSubscribe
     @SideOnly(Side.CLIENT)
-    public void textureHook(TextureStitchEvent.Post event) {
+    public void onTextureHook(TextureStitchEvent.Post event) {
         if (event.map.textureType == 0) {
             Blood.getInstance().setIcons(LiquidBlockBlood.getInstance().getBlockTextureFromSide(1), LiquidBlockBlood.getInstance().getBlockTextureFromSide(2));
         }

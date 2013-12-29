@@ -11,7 +11,7 @@ public class LargeDoorItemConfig extends ExtendedConfig {
         super(
             Reference.ITEM_LARGEDOOR,
             "Large Door",
-            "largedooritem",
+            "largeDoorItem",
             null,
             LargeDoorItem.class
         );

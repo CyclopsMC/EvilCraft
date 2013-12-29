@@ -11,7 +11,7 @@ public class WeatherContainerConfig extends ExtendedConfig {
         super(
             Reference.ITEM_WEATHERCONTAINER,
             "Weather Container",
-            "weathercontainer",
+            "weatherContainer",
             null,
             WeatherContainer.class
         );

@@ -15,7 +15,7 @@ public class EntityLightningGrenadeConfig extends ExtendedConfig {
         super(
             1,
             "Lightning Grenade",
-            "entitylightninggrenade",
+            "entityLightningGrenade",
             null,
             EntityLightningGrenade.class
         );
