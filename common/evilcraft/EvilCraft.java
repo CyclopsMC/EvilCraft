@@ -13,6 +13,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.api.BucketHandler;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
@@ -46,6 +47,9 @@ public class EvilCraft {
         // Register configs and run the ConfigHandler to make/read the config and fill in the game registry
         Configs.getInstance().registerConfigs();
         ConfigHandler.getInstance().handle(event);
+        
+        // Add death messages
+        DeathMessages.register();
     }
     
     @EventHandler

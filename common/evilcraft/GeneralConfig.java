@@ -10,6 +10,9 @@ public class GeneralConfig extends ExtendedConfig {
     @ConfigurableProperty(category = ConfigHandler.CATEGORY_GENERAL, comment = "Config version for " + Reference.MOD_NAME +".\nDO NOT EDIT MANUALLY!")
     public static String version = Reference.MOD_VERSION;
     
+    @ConfigurableProperty(category = ConfigHandler.CATEGORY_GENERAL, comment = "Evil stuff...")
+    public static boolean dieWithoutAnyReason = false;
+    
     public static ElementType TYPE = ElementType.DUMMY;
     
     public GeneralConfig() {

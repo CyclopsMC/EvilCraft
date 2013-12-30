@@ -28,6 +28,7 @@ public class LivingDeathEventHook {
     public void onLivingDeath(LivingDeathEvent event) {
         bloodObtainEvent(event);
         bloodStainedBlockEvent(event);
+        System.out.println("hello?");
     }
     
     private void bloodObtainEvent(LivingDeathEvent event) {
