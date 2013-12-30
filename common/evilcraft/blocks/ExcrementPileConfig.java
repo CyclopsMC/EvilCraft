@@ -1,11 +1,11 @@
 package evilcraft.blocks;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraft.item.ItemBlock;
 import evilcraft.Reference;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ConfigurableProperty;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.items.ExcrementPileItemBlock;
 
 public class ExcrementPileConfig extends ExtendedConfig {
     
@@ -22,6 +22,16 @@ public class ExcrementPileConfig extends ExtendedConfig {
             null,
             ExcrementPile.class
         );
+    }
+    
+    @Override
+    public boolean hasSubTypes() {
+        return true;
+    }
+    
+    @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ExcrementPileItemBlock.class;
     }
     
 }

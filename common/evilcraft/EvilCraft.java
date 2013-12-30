@@ -18,6 +18,7 @@ import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
+import evilcraft.events.PlaySoundAtEntityEventHook;
 import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.proxies.CommonProxy;
@@ -67,6 +68,7 @@ public class EvilCraft {
         MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
+        MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
     }
     
     public static void log(String message) {

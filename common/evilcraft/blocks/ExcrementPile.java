@@ -1,9 +1,11 @@
 package evilcraft.blocks;
-import java.util.Iterator;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityBubbleFX;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,8 +20,6 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.api.Coordinate;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ConfigurableBlock;
 import evilcraft.api.config.ExtendedConfig;
 
@@ -54,10 +54,8 @@ public class ExcrementPile extends ConfigurableBlock {
     }
     
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
-        int l = par1World.getBlockMetadata(par2, par3, par4) & 7;
-        float f = 0.125F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)par2 + this.minX, (double)par3 + this.minY, (double)par4 + this.minZ, (double)par2 + this.maxX, (double)((float)par3 + (float)l * f), (double)par4 + this.maxZ);
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+        return null;
     }
     
     @Override
@@ -114,7 +112,6 @@ public class ExcrementPile extends ConfigurableBlock {
 
     @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
-        this.poisonEffect(world, x, y, z);
         if(random.nextInt(CHANCE_DESPAWN) == 0) {
             if(random.nextInt(CHANCE_BONEMEAL) == 0) {
                 for(int xr = x - 1; xr <= x + 1; xr++) {
@@ -133,45 +130,21 @@ public class ExcrementPile extends ConfigurableBlock {
             world.setBlockToAir(x, y, z);
         }
     }
-
-    private void poisonEffect(World world, int x, int y, int z) {
-        // TODO: this is not working for some reason...
-        Random random = world.rand;
-        double d0 = 0.0625D;
-        
-        Iterator<Coordinate> it = Helpers.getSideIterator(x, y, z);
-        while(it.hasNext()) {
-            Coordinate c = it.next();
-            double d1 = (double)((float)x + random.nextFloat());
-            double d2 = (double)((float)y + random.nextFloat());
-            double d3 = (double)((float)z + random.nextFloat());
+    
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(World world, int x, int y, int z, Random random)
+    {
+        if(random.nextInt(100) == 0) {
+            int meta = world.getBlockMetadata(x, y, z);
+            float height = (float)(meta + 1) / 8.0F;
+            double d0 = (double)x + 0.5D + ((double)random.nextFloat() - 0.5D) * 0.2D;
+            double d1 = (double)((float)y + 0.0625F + height);
+            double d2 = (double)z + 0.5D + ((double)random.nextFloat() - 0.5D) * 0.2D;
             
-            if(c.x > x && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
-                d1 = (double)(x + 1) + d0;
-            }
-            if(c.x < x && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
-                d1 = (double)(x + 0) - d0;
-            }
-            if(c.y > y && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
-                d2 = (double)(y + 1) + d0;
-            }
-            if(c.y < y && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
-                d2 = (double)(y + 0) - d0;
-            }
-            if(c.z > z && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
-                d3 = (double)(z + 1) + d0;
-            }
-            if(c.z < z && !world.isBlockOpaqueCube(c.x, c.y, c.z)) {
-                d3 = (double)(z + 0) - d0;
-            }
-            if (d1 < (double)x
-                    || d1 > (double)(x + 1)
-                    || d2 < 0.0D
-                    || d2 > (double)(y + 1)
-                    || d3 < (double)z
-                    || d3 > (double)(z + 1)) {
-                world.spawnParticle("bubble", d1, d2, d3, 0.2D, 1.0D, 0.1D);
-            }
+            float f1 = 0.1F-random.nextFloat()*0.2F;
+            float f2 = 0.1F-random.nextFloat()*0.2F;
+            float f3 = 0.1F-random.nextFloat()*0.2F;
+            world.spawnParticle("happyVillager", d0, d1, d2, (double)f1, (double)f2, (double)f3);
         }
     }
 
@@ -186,20 +159,17 @@ public class ExcrementPile extends ConfigurableBlock {
         return (meta & 7) + 1;
     }
 
-    /**
-     * Determines if a new block can be replace the space occupied by this one,
-     * Used in the player's placement code to make the block act like water, and lava.
-     *
-     * @param world The current world
-     * @param x X Position
-     * @param y Y position
-     * @param z Z position
-     * @return True if the block is replaceable by another block
-     */
     @Override
     public boolean isBlockReplaceable(World world, int x, int y, int z) {
-        int meta = world.getBlockMetadata(x, y, z);
-        return (meta >= 7 ? false : blockMaterial.isReplaceable());
+        return true;
+    }
+    
+    @Override
+    public void onNeighborBlockChange(World world, int x, int y, int z, int neighbourBlockID)
+    {
+        if (!this.canPlaceBlockAt(world, x, y, z)) {
+            world.setBlockToAir(x, y, z);
+        }
     }
     
     @Override
@@ -213,6 +183,19 @@ public class ExcrementPile extends ConfigurableBlock {
             }
         }
         super.onEntityCollidedWithBlock(world, x, y, z, entity);
+    }
+
+    /**
+     * Set the height of a pile.
+     * @param world the World
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param z Z coordinate
+     */
+    public static void heightenPileAt(World world, int x, int y, int z) {
+        int meta = world.getBlockMetadata(x, y, z);
+        if(meta < 7)
+            world.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
     }
 
 }
