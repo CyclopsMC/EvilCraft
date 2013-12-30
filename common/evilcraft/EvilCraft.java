@@ -13,7 +13,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.api.BucketHandler;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
@@ -23,6 +22,7 @@ import evilcraft.events.PlaySoundAtEntityEventHook;
 import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.proxies.CommonProxy;
+import evilcraft.worldgen.EvilDungeonGenerator;
 import evilcraft.worldgen.EvilWorldGenerator;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION)
@@ -57,6 +57,7 @@ public class EvilCraft {
         LoggerHelper.log(Level.INFO, "init()");
         
         GameRegistry.registerWorldGenerator(new EvilWorldGenerator());
+        GameRegistry.registerWorldGenerator(new EvilDungeonGenerator());
         NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
         proxy.registerRenderers();
     }

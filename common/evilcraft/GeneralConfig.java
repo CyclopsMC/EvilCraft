@@ -1,5 +1,7 @@
 package evilcraft;
 
+import net.minecraftforge.common.DungeonHooks;
+import net.minecraftforge.common.ForgeHooks;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ConfigurableProperty;
 import evilcraft.api.config.ElementType;
