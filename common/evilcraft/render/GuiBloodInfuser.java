@@ -11,7 +11,7 @@ import evilcraft.entities.tileentities.TileBloodInfuser;
 
 public class GuiBloodInfuser extends GuiContainer {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "bloodinfuser_gui.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "bloodInfuser_gui.png");
 
     public GuiBloodInfuser(InventoryPlayer inventory, TileBloodInfuser tile) {
         super(new ContainerBloodInfuser(inventory, tile));

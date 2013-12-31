@@ -19,8 +19,4 @@ public class BloodInfuserConfig extends ExtendedConfig {
         );
     }
     
-    public void onRegistered() {
-        //TileEntity.addMapping(TileBloodInfuser.class, this.NAMEDID);
-    }
-    
 }

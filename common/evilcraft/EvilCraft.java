@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -16,6 +17,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.api.BucketHandler;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
+import evilcraft.api.render.MultiPassBlockRenderer;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlaySoundAtEntityEventHook;
@@ -33,8 +35,6 @@ public class EvilCraft {
     public static CommonProxy proxy;
     
     public static EvilCraft _instance;
-    
-    public static Map<Class<? extends Entity>, Render> renderers = new HashMap<Class<? extends Entity>, Render>();
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

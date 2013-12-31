@@ -17,6 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.render.EntityBloodSplashFX;
@@ -52,7 +53,8 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
             
             // Transform bloody dirt into regular dirt if we used some of the blood
             if(filled > 0) {
-                world.setBlock(x, y, z, Block.dirt.blockID);
+                int metaData = world.getBlockMetadata(x, y, z);
+                world.setBlock(x, y, z, BloodStainedBlock.getInstance().getBlockFromMetadata(metaData).blockID);
                 
                 // Init particles
                 EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + random.nextInt(2));

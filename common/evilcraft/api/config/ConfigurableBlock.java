@@ -1,21 +1,25 @@
 package evilcraft.api.config;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.util.Icon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.ForgeDirection;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Reference;
 
 /**
  * Block that can hold ExtendedConfigs
  * @author Ruben Taelman
  *
  */
-public abstract class ConfigurableBlock extends Block implements Configurable, MultiRenderPassBlock{
+public abstract class ConfigurableBlock extends Block implements Configurable, IMultiRenderPassBlock{
     
     protected ExtendedConfig eConfig = null;
+    
+    protected int pass = 0;
     
     public static ElementType TYPE = ElementType.BLOCK;
     
@@ -51,8 +55,29 @@ public abstract class ConfigurableBlock extends Block implements Configurable, M
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
+    public Icon getIcon(int side, int meta) {
+        return getIcon(side, meta, pass);
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
     public Icon getIcon(int side, int meta, int renderPass) {
-        return this.getIcon(side, meta);
+        if(renderPass < 0) return null;
+        return super.getIcon(side, meta);
+    }
+    
+    @Override
+    public int getRenderPasses() {
+        return 1;
+    }
+    
+    @Override
+    public void setRenderPass(int pass) {
+        if(pass < getRenderPasses())
+            this.pass = pass;
+        else
+            this.pass = getRenderPasses() - 1;
     }
 
 }

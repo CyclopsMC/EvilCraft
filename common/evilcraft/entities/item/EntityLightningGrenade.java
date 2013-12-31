@@ -19,7 +19,7 @@ public class EntityLightningGrenade extends EntityThrowable implements Configura
     
     protected ExtendedConfig eConfig = null;
     
-    public static ElementType TYPE = ElementType.MOB;
+    public static ElementType TYPE = ElementType.ENTITY;
 
     // Set a configuration for this entity
     public void setConfig(ExtendedConfig eConfig) {

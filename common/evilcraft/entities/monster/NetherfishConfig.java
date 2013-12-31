@@ -7,6 +7,7 @@ import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ConfigurableProperty;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.proxies.ClientProxy;
 
 public class NetherfishConfig extends ExtendedConfig {
     
@@ -27,7 +28,7 @@ public class NetherfishConfig extends ExtendedConfig {
     
     @Override
     public void onRegistered() {
-        EvilCraft.renderers.put(Netherfish.class, new RenderSilverfish());
+        ClientProxy.ENTITY_RENDERERS.put(Netherfish.class, new RenderSilverfish());
         ModLoader.addSpawn(Netherfish.class, 1, 0, 1, EnumCreatureType.monster);
     }
     

@@ -15,6 +15,7 @@ import evilcraft.api.config.ExtendedConfig.ConfigProperty;
 import evilcraft.api.config.elementtypeaction.BlockAction;
 import evilcraft.api.config.elementtypeaction.DummyAction;
 import evilcraft.api.config.elementtypeaction.EnchantmentAction;
+import evilcraft.api.config.elementtypeaction.EntityAction;
 import evilcraft.api.config.elementtypeaction.IElementTypeAction;
 import evilcraft.api.config.elementtypeaction.ItemAction;
 import evilcraft.api.config.elementtypeaction.LiquidAction;
@@ -44,6 +45,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         elementTypeActions.put(ElementType.BLOCKCONTAINER, new BlockAction());
         elementTypeActions.put(ElementType.ITEM, new ItemAction());
         elementTypeActions.put(ElementType.MOB, new MobAction());
+        elementTypeActions.put(ElementType.ENTITY, new EntityAction());
         elementTypeActions.put(ElementType.LIQUID, new LiquidAction());
         elementTypeActions.put(ElementType.ENCHANTMENT, new EnchantmentAction());
         

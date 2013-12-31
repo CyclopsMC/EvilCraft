@@ -6,9 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemBlockWithMetadata;
-
-import evilcraft.EvilCraft;
+import evilcraft.api.item.ExtendedItemBlockWithMetadata;
 
 /**
  * Registration configurations
@@ -194,7 +192,7 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
      * @return the ItemBlock class to use for the target block.
      */
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockWithMetadata.class;
+        return ExtendedItemBlockWithMetadata.class;
     }
     
     /**

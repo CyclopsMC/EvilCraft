@@ -1,27 +1,21 @@
 package evilcraft.blocks;
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableBlock;
+import evilcraft.api.config.ConfigurableBlockWithInnerBlocks;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.entities.monster.Netherfish;
 import evilcraft.entities.monster.NetherfishConfig;
 
-public class NetherfishSpawn extends ConfigurableBlock {
+public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     
     private static NetherfishSpawn _instance = null;
-    
-    public static final Block[] SPAWN_BLOCKS = new Block[]{Block.netherrack, Block.netherBrick, Block.slowSand};
     
     public static void initInstance(ExtendedConfig eConfig) {
         if(_instance == null)
@@ -39,9 +33,12 @@ public class NetherfishSpawn extends ConfigurableBlock {
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public Icon getIcon(int par1, int par2) {
-        return SPAWN_BLOCKS[par2].getBlockTextureFromSide(par1);
+    protected Block[] makeInnerBlockList() {
+        return new Block[]{
+                Block.netherrack,
+                Block.netherBrick, 
+                Block.slowSand
+                };
     }
     
     @Override
@@ -61,53 +58,18 @@ public class NetherfishSpawn extends ConfigurableBlock {
     }
     
     @Override
-    public int idDropped(int par1, Random random, int zero) {
-        return SPAWN_BLOCKS[par1].blockID;
-    }
-    
-    @Override
     public int quantityDropped(Random par1Random) {
         return 0;
     }
     
-    @Override
-    protected ItemStack createStackedBlock(int par1) {
-        return new ItemStack(SPAWN_BLOCKS[par1]);
-    }
-    
-    @Override
-    public int getDamageValue(World par1World, int par2, int par3, int par4){
-        return par1World.getBlockMetadata(par2, par3, par4);
-    }
-    
-    @Override
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
-        for (int j = 0; j < SPAWN_BLOCKS.length; ++j) {
-            par3List.add(new ItemStack(par1, 1, j));
-        }
-    }
-    
     /**
-     * Gets the blockID of the block this block is pretending to be according to this block's metadata.
+     * Does the given metadata correspond to an inner block?
+     * @param meta Metadata for the (inner) block
+     * @return if the metadata corresponds to an inner block.
      */
-    public static boolean getPosingIdByMetadata(int par0)
+    public boolean getPosingIdByMetadata(int meta)
     {
-        for (int j = 0; j < SPAWN_BLOCKS.length; ++j) {
-            if(par0 == SPAWN_BLOCKS[j].blockID) return true;
-        }
-        return false;
-    }
-
-    /**
-     * Returns the metadata to use when a Netherfish hides in the block. Sets the block to NetherfishSpawn with this
-     * metadata. It changes the displayed texture client side to look like a normal block.
-     */
-    public static int getMetadataForBlockType(int par0)
-    {
-        for (int j = 0; j < SPAWN_BLOCKS.length; ++j) {
-            if(par0 == SPAWN_BLOCKS[j].blockID) return j;
-        }
-        return 0;
+        return getMetadataFromBlockID(meta) > -1;
     }
 
 }

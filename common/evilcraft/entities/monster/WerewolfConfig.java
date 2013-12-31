@@ -8,6 +8,7 @@ import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ConfigurableProperty;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.proxies.ClientProxy;
 
 public class WerewolfConfig extends ExtendedConfig {
     
@@ -28,7 +29,7 @@ public class WerewolfConfig extends ExtendedConfig {
     
     @Override
     public void onRegistered() {
-        EvilCraft.renderers.put(Werewolf.class, new RenderZombie());
+        ClientProxy.ENTITY_RENDERERS.put(Werewolf.class, new RenderZombie());
         ModLoader.addSpawn(Werewolf.class, 1, 0, 1, EnumCreatureType.monster);
     }
     

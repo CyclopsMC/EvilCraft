@@ -6,6 +6,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.items.LightningGrenade;
+import evilcraft.proxies.ClientProxy;
 
 public class EntityLightningGrenadeConfig extends ExtendedConfig {
     
@@ -23,7 +24,7 @@ public class EntityLightningGrenadeConfig extends ExtendedConfig {
     
     @Override
     public void onRegistered() {
-        EvilCraft.renderers.put(EntityLightningGrenade.class, new RenderSnowball(LightningGrenade.getInstance()));
+        ClientProxy.ENTITY_RENDERERS.put(EntityLightningGrenade.class, new RenderSnowball(LightningGrenade.getInstance()));
     }
     
 }

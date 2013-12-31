@@ -55,8 +55,7 @@ public class LivingDeathEventHook {
             int y = MathHelper.floor_double(event.entity.posY - event.entity.getYOffset() - 1);
             int z = MathHelper.floor_double(event.entity.posZ);
             int blockID = event.entity.worldObj.getBlockId(x, y, z);
-            int meta = BloodStainedBlock.getStainedBlockMetadata(blockID);
-            System.out.println(meta);
+            int meta = BloodStainedBlock.getInstance().getMetadataFromBlockID(blockID);
             if(!event.entity.worldObj.isRemote && meta > -1) {
                 // Transform block into blood stained version
                 event.entity.worldObj.setBlock(x, y, z, BloodStainedBlockConfig._instance.ID);

@@ -113,9 +113,9 @@ public class Netherfish extends EntitySilverfish implements Configurable{
                 int i2 = this.rand.nextInt(6);
                 l = this.worldObj.getBlockId(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2]);
 
-                if (NetherfishSpawn.getPosingIdByMetadata(l))
+                if (NetherfishSpawn.getInstance().getPosingIdByMetadata(l))
                 {
-                    this.worldObj.setBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2], NetherfishSpawnConfig._instance.ID, NetherfishSpawn.getMetadataForBlockType(l), 3);
+                    this.worldObj.setBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2], NetherfishSpawnConfig._instance.ID, NetherfishSpawn.getInstance().getMetadataFromBlockID(l), 3);
                     this.spawnExplosionParticle();
                     this.setDead();
                 }
