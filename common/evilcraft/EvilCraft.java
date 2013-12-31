@@ -15,6 +15,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.api.BucketHandler;
+import evilcraft.api.Debug;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.render.MultiPassBlockRenderer;
@@ -44,9 +45,23 @@ public class EvilCraft {
         // Save this instance, so we can use it later
         this._instance = this;
         
-        // Register configs and run the ConfigHandler to make/read the config and fill in the game registry
-        Configs.getInstance().registerConfigs();
+        // Register configs and start with loading the general configs
+        Configs.getInstance().registerGeneralConfigs();
         ConfigHandler.getInstance().handle(event);
+        Configs.getInstance().registerConfigs();
+        
+        // Run debugging tools
+        if(GeneralConfig.debug) {
+            Debug.checkPreConfigurables(Configs.getInstance().configs);
+        }
+        
+        // Load the rest of the configs and run the ConfigHandler to make/read the config and fill in the game registry
+        ConfigHandler.getInstance().handle(event);   
+        
+        // Run debugging tools (after registering Configurables)
+        if(GeneralConfig.debug) {
+            Debug.checkPostConfigurables();
+        }
         
         // Add death messages
         DeathMessages.register();

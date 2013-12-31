@@ -25,7 +25,8 @@ public class Broom extends ConfigurableItem {
     public static void initInstance(ExtendedConfig eConfig) {
         if(_instance == null)
             _instance = new Broom(eConfig);
-        else EvilCraft.log("If you see this, something went horribly wrong while registring stuff!");
+        else
+            eConfig.showDoubleInitError();
     }
     
     public static Broom getInstance() {

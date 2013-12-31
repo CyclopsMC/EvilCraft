@@ -37,6 +37,8 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
     public static final String CATEGORY_ENCHANTMENT = "enchantment";
     public static final String CATEGORY_MOB = "mob";
     
+    public static final String CATEGORY_CORE = "core";
+    
     private static ConfigHandler _instance = null;
     
     private static Map<ElementType, IElementTypeAction> elementTypeActions = new HashMap<ElementType, IElementTypeAction>();
@@ -125,6 +127,9 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                 EvilCraft.log("Registered "+eConfig.NAME);
             }
         }
+        
+        // Empty the configs so they won't be loaded again later
+        this.removeAll(this);
         
         // Add I18N for the creative tab
         LanguageRegistry.instance().addStringLocalization("itemGroup."+Reference.MOD_NAME, "en_US", Reference.MOD_NAME);

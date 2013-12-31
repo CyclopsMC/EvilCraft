@@ -40,7 +40,7 @@ public class Configs {
     
     private static Configs _instance;
     
-    private Set<ExtendedConfig> configs = ConfigHandler.getInstance(); // Order is necessary for some registrations
+    public Set<ExtendedConfig> configs = ConfigHandler.getInstance(); // Order is necessary for some registrations
     
     public static Configs getInstance() {
         if(_instance == null)
@@ -52,10 +52,12 @@ public class Configs {
         
     }
     
-    public void registerConfigs() {
-        // General
+    public void registerGeneralConfigs() {
+     // General
         configs.add(new GeneralConfig());
-        
+    }
+    
+    public void registerConfigs() {        
         // Fluids
         configs.add(new BloodConfig());
         

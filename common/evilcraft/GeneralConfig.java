@@ -9,8 +9,11 @@ import evilcraft.api.config.ExtendedConfig;
 
 public class GeneralConfig extends ExtendedConfig {
     
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_GENERAL, comment = "Config version for " + Reference.MOD_NAME +".\nDO NOT EDIT MANUALLY!")
+    @ConfigurableProperty(category = ConfigHandler.CATEGORY_CORE, comment = "Config version for " + Reference.MOD_NAME +".\nDO NOT EDIT MANUALLY!")
     public static String version = Reference.MOD_VERSION;
+    
+    @ConfigurableProperty(category = ConfigHandler.CATEGORY_CORE, comment = "Set 'true' to enable debug mode.\nThis will result in a lower performance!")
+    public static boolean debug = false;
     
     @ConfigurableProperty(category = ConfigHandler.CATEGORY_GENERAL, comment = "Evil stuff...")
     public static boolean dieWithoutAnyReason = false;
