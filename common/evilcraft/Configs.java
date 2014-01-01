@@ -22,6 +22,7 @@ import evilcraft.enchantment.EnchantmentUnusingConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.NetherfishConfig;
 import evilcraft.entities.monster.WerewolfConfig;
+import evilcraft.entities.villager.WerewolfVillagerConfig;
 import evilcraft.fluids.BloodConfig;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
@@ -94,6 +95,8 @@ public class Configs {
         // Monster
         configs.add(new WerewolfConfig()); // http://www.minecraftwiki.net/wiki/Resource_pack#pack.mcmeta
         configs.add(new NetherfishConfig());
+        // Villager
+        configs.add(new WerewolfVillagerConfig());
         
         // Enchantments
         configs.add(new EnchantmentUnusingConfig());

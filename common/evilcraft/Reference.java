@@ -7,12 +7,13 @@ package evilcraft;
  */
 public class Reference {
     // Mod info
-    public static final String MOD_ID = "evilCraft";
+    public static final String MOD_ID = "evilcraft";
     public static final String MOD_NAME = "EvilCraft";
     public static final String MOD_VERSION = "0.0.0.1a";
     
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";
+    public static final String TEXTURE_PATH_SKINS = "textures/skins/";
     //public static final String TEXTURE_PATH_BLOCKS = MOD_ID + ":textures/blocks/";
     //public static final String TEXTURE_PATH_ENTITIES = "textures/entities/";
     

@@ -20,6 +20,7 @@ import evilcraft.api.config.elementtypeaction.IElementTypeAction;
 import evilcraft.api.config.elementtypeaction.ItemAction;
 import evilcraft.api.config.elementtypeaction.LiquidAction;
 import evilcraft.api.config.elementtypeaction.MobAction;
+import evilcraft.api.config.elementtypeaction.VillagerAction;
 
 /**
  * Create config file and register items & blocks from the given ExtendedConfigs
@@ -50,6 +51,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         elementTypeActions.put(ElementType.ENTITY, new EntityAction());
         elementTypeActions.put(ElementType.LIQUID, new LiquidAction());
         elementTypeActions.put(ElementType.ENCHANTMENT, new EnchantmentAction());
+        elementTypeActions.put(ElementType.VILLAGER, new VillagerAction());
         
         elementTypeActions.put(ElementType.DUMMY, new DummyAction());
     }

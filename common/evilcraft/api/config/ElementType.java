@@ -13,6 +13,7 @@ public enum ElementType {
     ENTITY(false),
     LIQUID(true),
     ENCHANTMENT(true),
+    VILLAGER(false),
     
     DUMMY(false);
     
