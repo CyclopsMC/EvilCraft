@@ -41,7 +41,7 @@ public class PlaySoundAtEntityEventHook {
     }
     
     private void dieWithoutAnyReason(PlaySoundAtEntityEvent event) {
-        if(event.entity instanceof EntityPlayer) {
+        if(event.entity instanceof EntityPlayer && event.entity.worldObj.rand.nextInt(CHANCE_DIE_WITHOUT_ANY_REASON) == 0) {
             EntityPlayer entity = (EntityPlayer) event.entity;
             entity.attackEntityFrom(ExtendedDamageSource.dieWithoutAnyReason, Float.MAX_VALUE);
         }
