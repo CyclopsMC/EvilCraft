@@ -9,12 +9,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
 import evilcraft.api.config.ConfigurableBlockWithInnerBlocks;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.render.MultiPassBlockRenderer;
+import evilcraft.events.TextureStitchEventHook;
 import evilcraft.render.EntityBloodSplashFX;
 
 public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
@@ -75,12 +76,15 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     @Override
     @SideOnly(Side.CLIENT)
     public Icon getIcon(int side, int meta, int renderPass) {
-        if(renderPass < 0)
-            return null;
-        else if(renderPass == 1)
+        if(renderPass < 0) {
+            return TextureStitchEventHook.emptyIcon;
+        } else if(renderPass == 1) {
+            if(side != ForgeDirection.UP.ordinal())
+                return TextureStitchEventHook.emptyIcon;
             return blockIcon;
-        else
+        } else {
             return getBlockFromMetadata(meta).getIcon(side, 0);
+        }
     }
     
     @Override
