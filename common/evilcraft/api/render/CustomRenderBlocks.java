@@ -13,4 +13,12 @@ public class CustomRenderBlocks extends RenderBlocks{
         this.blockAccess = world;
     }
     
+    /**
+     * Gets the IBlockAccess world.
+     * @return the IBlockAccess world.
+     */
+    public IBlockAccess getWorld() {
+        return this.blockAccess;
+    }
+    
 }

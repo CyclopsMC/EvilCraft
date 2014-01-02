@@ -12,9 +12,8 @@ import org.lwjgl.opengl.GL12;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.api.Helpers;
+import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.IMultiRenderPassBlock;
-import evilcraft.blocks.BloodStainedBlock;
-import evilcraft.blocks.BloodStainedBlockConfig;
 
 
 /**
@@ -42,14 +41,16 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
         if (block instanceof IMultiRenderPassBlock) {
             IMultiRenderPassBlock blockToRender = (IMultiRenderPassBlock)block;
             blockToRender.setRenderPass(-1);
+            blockToRender.updateTileEntity(world, x, y, z);
             if (renderBlocks.renderStandardBlock(block, x, y, z)) {
                 visible = true;
                 for (int pass = 0; pass < blockToRender.getRenderPasses(); pass++) {
+                    blockToRender.setRenderBlocks(renderBlocks);
                     blockToRender.setRenderPass(pass);
                     renderBlocks.renderStandardBlock(block, x, y, z);
+                    resetFacesOnRenderer(renderBlocks);
                 }
             }
-            resetFacesOnRenderer(renderBlocks);
         }
         return visible;
     }
@@ -88,7 +89,7 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
                             renderDirection.offsetY,
                             renderDirection.offsetZ
                             );
-                    Helpers.renderFaceDirection(
+                    RenderHelpers.renderFaceDirection(
                             renderDirection,
                             renderer,
                             block,

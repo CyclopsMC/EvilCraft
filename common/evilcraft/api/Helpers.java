@@ -1,15 +1,10 @@
 package evilcraft.api;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -20,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -28,24 +22,7 @@ import evilcraft.entities.tileentities.ExtendedTileEntity;
 
 public class Helpers {
     public static final int MINECRAFT_DAY = 24000;
-    public static List<ForgeDirection> DIRECTIONS = new LinkedList<ForgeDirection>();
-    static {
-        DIRECTIONS.add(ForgeDirection.DOWN);
-        DIRECTIONS.add(ForgeDirection.UP);
-        DIRECTIONS.add(ForgeDirection.SOUTH);
-        DIRECTIONS.add(ForgeDirection.NORTH);
-        DIRECTIONS.add(ForgeDirection.WEST);
-        DIRECTIONS.add(ForgeDirection.EAST);
-    }
-    private static Map<ForgeDirection, String> METHODS_RENDERFACE = new HashMap<ForgeDirection, String>();
-    static {
-        METHODS_RENDERFACE.put(ForgeDirection.DOWN, "renderFaceYNeg");
-        METHODS_RENDERFACE.put(ForgeDirection.UP, "renderFaceYPos");
-        METHODS_RENDERFACE.put(ForgeDirection.SOUTH, "renderFaceZNeg");
-        METHODS_RENDERFACE.put(ForgeDirection.NORTH, "renderFaceZPos");
-        METHODS_RENDERFACE.put(ForgeDirection.WEST, "renderFaceXNeg");
-        METHODS_RENDERFACE.put(ForgeDirection.EAST, "renderFaceXPos");
-    }
+    public static List<ForgeDirection> DIRECTIONS = Arrays.asList(ForgeDirection.VALID_DIRECTIONS);
     
     /**
      * Check if it's day in this world
@@ -221,28 +198,6 @@ public class Helpers {
     
     public static Iterator<ForgeDirection> getDirectionIterator() {
         return DIRECTIONS.iterator();
-    }
-
-    /**
-     * Call the correct face renderer on the renderer depending on the given renderDirection.
-     * @param renderDirection direction to call the renderer method for.
-     * @param renderer Renderer to call the face renderer on.
-     * @param block To be passed to renderer.
-     * @param x To be passed to renderer.
-     * @param y To be passed to renderer.
-     * @param z To be passed to renderer.
-     * @param blockIconFromSideAndMetadata To be passed to renderer.
-     */
-    public static void renderFaceDirection(ForgeDirection renderDirection,
-            RenderBlocks renderer, Block block, double x, double y, double z,
-            Icon blockIconFromSideAndMetadata) {
-        try {
-            Method method = renderer.getClass().getMethod(METHODS_RENDERFACE.get(renderDirection), Block.class, double.class, double.class, double.class, Icon.class);
-            method.invoke(renderer, block, x, y, z, blockIconFromSideAndMetadata);
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
-            // Impossible to go wrong, unless this code changes or those of Minecraft...
-            e1.printStackTrace();
-        }
     }
     
 }

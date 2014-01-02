@@ -1,15 +1,13 @@
 package evilcraft.blocks;
 import java.util.Random;
 
-import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableBlock;
-import evilcraft.api.config.ExtendedConfig;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.common.MinecraftForge;
+import evilcraft.api.config.ConfigurableBlockConnectedTexture;
+import evilcraft.api.config.ExtendedConfig;
 
-public class EvilBlock extends ConfigurableBlock {
+public class EvilBlock extends ConfigurableBlockConnectedTexture {
     
     private static EvilBlock _instance = null;
     

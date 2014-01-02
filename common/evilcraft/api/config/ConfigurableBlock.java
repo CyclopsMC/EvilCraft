@@ -2,13 +2,15 @@ package evilcraft.api.config;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
+import evilcraft.api.render.CustomRenderBlocks;
+import evilcraft.api.render.MultiPassBlockRenderer;
 
 /**
  * Block that can hold ExtendedConfigs
@@ -20,6 +22,7 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
     protected ExtendedConfig eConfig = null;
     
     protected int pass = 0;
+    protected CustomRenderBlocks renderer;
     
     public static ElementType TYPE = ElementType.BLOCK;
     
@@ -68,6 +71,11 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
     }
     
     @Override
+    public int getRenderType() {
+        return MultiPassBlockRenderer.ID;
+    }
+    
+    @Override
     public int getRenderPasses() {
         return 1;
     }
@@ -78,6 +86,23 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
             this.pass = pass;
         else
             this.pass = getRenderPasses() - 1;
+    }
+    
+    @Override
+    public void setRenderBlocks(CustomRenderBlocks renderer) {
+        this.renderer = renderer;
+    }
+    
+    @Override
+    public CustomRenderBlocks getRenderBlocks() {
+        return this.renderer;
+    }
+    
+    @Override
+    public void updateTileEntity(IBlockAccess world, int x, int y, int z) {
+        // Do nothing, because this block has to tile entity!
+        // What a shame, I love tile entities...
+        // Well, the world goes on, cry just a little and carry on!
     }
 
 }

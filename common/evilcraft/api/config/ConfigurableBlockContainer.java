@@ -28,16 +28,14 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     
     protected Random random;
     private Class<? extends TileEntity> tileEntity;
-    private int guiID;
     
-    public ConfigurableBlockContainer(ExtendedConfig eConfig, Material material, Class<? extends TileEntity> tileEntity, int guiID) {
+    public ConfigurableBlockContainer(ExtendedConfig eConfig, Material material, Class<? extends TileEntity> tileEntity) {
         super(eConfig.ID, material);
         eConfig.ID = this.blockID; // This could've changed.
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
         this.random = new Random();
         this.tileEntity = tileEntity;
-        this.guiID = guiID;
         setHardness(5F);
         setStepSound(Block.soundAnvilFootstep);
     }
@@ -82,36 +80,10 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         }
         return null;
     }
-    
-    @Override
-    public boolean renderAsNormalBlock() {
-        return false;
-    }
 
     @Override
     public boolean isOpaqueCube() {
         return false;
-    }
-    
-    /*@Override
-    public int getRenderType() {
-        return BuildCraftCore.blockByEntityModel;
-    }*/
-    
-    @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
-        super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
-
-        // Drop through if the player is sneaking
-        if (entityplayer.isSneaking()) {
-            return false;
-        }
-
-        if (!world.isRemote) {
-            entityplayer.openGui(EvilCraft._instance, guiID, world, x, y, z);
-        }
-
-        return true;
     }
     
     @Override

@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.ConfigurableBlockWithInnerBlocks;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.render.MultiPassBlockRenderer;
@@ -52,11 +53,6 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     }
     
     @Override
-    public int getRenderType() {
-        return MultiPassBlockRenderer.ID;
-    }
-    
-    @Override
     public int getRenderPasses() {
         return 2;
     }
@@ -77,10 +73,10 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     @SideOnly(Side.CLIENT)
     public Icon getIcon(int side, int meta, int renderPass) {
         if(renderPass < 0) {
-            return TextureStitchEventHook.emptyIcon;
+            return RenderHelpers.EMPTYICON;
         } else if(renderPass == 1) {
             if(side != ForgeDirection.UP.ordinal())
-                return TextureStitchEventHook.emptyIcon;
+                return RenderHelpers.EMPTYICON;
             return blockIcon;
         } else {
             return getBlockFromMetadata(meta).getIcon(side, 0);
