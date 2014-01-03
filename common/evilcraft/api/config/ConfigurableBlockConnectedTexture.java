@@ -9,7 +9,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.DirectionCorner;
 import evilcraft.api.Helpers;
+import evilcraft.api.RenderHelpers;
 import evilcraft.api.entities.tileentitites.TileConnectedTexture;
 import evilcraft.api.render.ConnectableIcon;
 import evilcraft.api.render.CustomRenderBlocks;
@@ -51,7 +53,11 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
         return MultiPassBlockRenderer.ID;
     }
     
-    public boolean shouldConnect(World world, ForgeDirection side, int x, int y, int z) {
+    public boolean shouldConnect(IBlockAccess world, ForgeDirection side, int x, int y, int z) {
+        return world.getBlockId(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this.blockID;
+    }
+    
+    public boolean shouldConnect(IBlockAccess world, DirectionCorner side, int x, int y, int z) {
         return world.getBlockId(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this.blockID;
     }
     
@@ -108,24 +114,35 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     }
     
     @Override
+    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
+        updateConnections(world, x, y, z);// If there are framerate issues, this will propably be the cause.
+        return super.getBlockTexture(world, x, y, z, side);
+    }
+    
+    @Override
     public int getRenderPasses() {
         return connectableIcon.getRequiredPasses();
     }
     
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, int meta){
+        updateConnections(world, x, y, z);
+    }
+    
+    private void updateConnections(IBlockAccess world, int x, int y, int z) {
         TileEntity tile = (TileEntity) world.getBlockTileEntity(x, y, z);
         if (tile != null && tile instanceof TileConnectedTexture){
             TileConnectedTexture tileConnectedTexture = (TileConnectedTexture) tile;
-            int connections = 0;
+            // Regular sides
             for(ForgeDirection direction : Helpers.DIRECTIONS) {
                 boolean connect = shouldConnect(world, direction, x, y, z);
                 tileConnectedTexture.connect(direction, connect);
-                if(connect)
-                    connections++;
             }
-            System.out.println("connections:"+connections);
-            tileConnectedTexture.check();
+            // Corner sides
+            for(DirectionCorner direction : Helpers.DIRECTIONS_CORNERS) {
+                boolean connect = shouldConnect(world, direction, x, y, z);
+                tileConnectedTexture.connectCorner(direction, connect);
+            }
         }
     }
 

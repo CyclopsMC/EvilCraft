@@ -23,6 +23,7 @@ import evilcraft.entities.tileentities.ExtendedTileEntity;
 public class Helpers {
     public static final int MINECRAFT_DAY = 24000;
     public static List<ForgeDirection> DIRECTIONS = Arrays.asList(ForgeDirection.VALID_DIRECTIONS);
+    public static List<DirectionCorner> DIRECTIONS_CORNERS = Arrays.asList(DirectionCorner.VALID_DIRECTIONS);
     
     /**
      * Check if it's day in this world

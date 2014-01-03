@@ -5,6 +5,7 @@ import net.minecraft.util.Icon;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.DirectionCorner;
 import evilcraft.api.Helpers;
 import evilcraft.api.RenderHelpers;
 import evilcraft.api.entities.tileentitites.TileConnectedTexture;
@@ -23,12 +24,22 @@ public class ConnectableIcon implements Icon{
     
     // With what direction should side X with rotation Y connect. rotation: N, E, S, W
     public static final ForgeDirection[][] CONNECT_MATRIX = {
-        {ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST}, // DOWN
-        {ForgeDirection.SOUTH, ForgeDirection.EAST, ForgeDirection.NORTH, ForgeDirection.WEST}, // UP
-        {ForgeDirection.UP, ForgeDirection.EAST, ForgeDirection.DOWN, ForgeDirection.WEST}, // NORTH
-        {ForgeDirection.UP, ForgeDirection.WEST, ForgeDirection.DOWN, ForgeDirection.EAST}, // SOUTH
-        {ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.DOWN, ForgeDirection.SOUTH}, // WEST
-        {ForgeDirection.UP, ForgeDirection.SOUTH, ForgeDirection.DOWN, ForgeDirection.NORTH}, // EAST
+        {ForgeDirection.NORTH, ForgeDirection.WEST, ForgeDirection.SOUTH, ForgeDirection.EAST}, // DOWN
+        {ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST}, // UP
+        {ForgeDirection.UP, ForgeDirection.WEST, ForgeDirection.DOWN, ForgeDirection.EAST}, // NORTH
+        {ForgeDirection.UP, ForgeDirection.EAST, ForgeDirection.DOWN, ForgeDirection.WEST}, // SOUTH
+        {ForgeDirection.UP, ForgeDirection.SOUTH, ForgeDirection.DOWN, ForgeDirection.NORTH}, // WEST
+        {ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.DOWN, ForgeDirection.SOUTH}, // EAST
+    };
+    
+    // With what direction should side X with rotation Y connect. rotation: N, E, S, W
+    public static final DirectionCorner[][] CONNECT_CORNER_MATRIX = {
+        {DirectionCorner.MIDDLE_NORTHWEST, DirectionCorner.MIDDLE_SOUTHWEST, DirectionCorner.MIDDLE_SOUTHEAST, DirectionCorner.MIDDLE_NORTHEAST}, // DOWN
+        {DirectionCorner.MIDDLE_NORTHWEST, DirectionCorner.MIDDLE_NORTHEAST, DirectionCorner.MIDDLE_SOUTHEAST, DirectionCorner.MIDDLE_SOUTHWEST}, // UP
+        {DirectionCorner.UPPER_EAST, DirectionCorner.UPPER_WEST, DirectionCorner.LOWER_WEST, DirectionCorner.LOWER_EAST}, // NORTH
+        {DirectionCorner.UPPER_WEST, DirectionCorner.UPPER_EAST, DirectionCorner.LOWER_EAST, DirectionCorner.LOWER_WEST}, // SOUTH
+        {DirectionCorner.UPPER_NORTH, DirectionCorner.UPPER_SOUTH, DirectionCorner.LOWER_SOUTH, DirectionCorner.LOWER_NORTH}, // WEST
+        {DirectionCorner.UPPER_SOUTH, DirectionCorner.UPPER_NORTH, DirectionCorner.LOWER_NORTH, DirectionCorner.LOWER_SOUTH}, // EAST
     };
     
     public ConnectableIcon(Icon background, Icon borders, Icon corners, Icon innerCorners) {
@@ -57,26 +68,43 @@ public class ConnectableIcon implements Icon{
     }
     
     protected Icon getInnerIcon() {
-        if(shouldRender())
+        if(shouldRender(getCurrentLayer()))
             return this.icons[getCurrentLayer()];
         else
             return RenderHelpers.EMPTYICON;
     }
     
     protected boolean shouldConnect(int side, int rotation) {
-        tileConnectedTexture.check();
+        
         return tileConnectedTexture.getConnectWithSides()[CONNECT_MATRIX[side][rotation].ordinal()];
     }
     
-    protected boolean shouldRender() {
-        if(getCurrentLayer() == Layer.BACKGROUND.ordinal()) {
+    protected boolean shouldConnectCorner(int side, int rotation) {
+        return tileConnectedTexture.getConnectWithSidesCorner()[CONNECT_CORNER_MATRIX[side][rotation].ordinal()];
+    }
+    
+    protected boolean shouldRender(int layer) {
+        //return this.getCurrentRotation() == 0;
+        if(layer == Layer.BACKGROUND.ordinal()) {
             return true;
-        } else if(getCurrentLayer() == Layer.BORDERS.ordinal()) {
+        } else if(layer == Layer.BORDERS.ordinal()) {
             return !shouldConnect(getCurrentSide(), getCurrentRotation());
-        } else if(getCurrentLayer() == Layer.CORNERS.ordinal()) {
-            return !(shouldConnect(getCurrentSide(), getCurrentRotation()) && shouldConnect(getCurrentSide(), (getCurrentRotation() + EDGES - 1) % EDGES));
-        } else { // Inner corner: TODO
-            return false;
+        } else if(layer == Layer.CORNERS.ordinal()) {
+            // Fix for mirrored DOWN rotation
+            int incr = -1;
+            if(this.getCurrentSide() == ForgeDirection.DOWN.ordinal())
+                incr = 1;
+            return !shouldConnect(getCurrentSide(), getCurrentRotation())
+                    && !shouldConnect(getCurrentSide(), (getCurrentRotation() + EDGES + incr) % EDGES);
+        } else {
+            // Fix for mirrored DOWN rotation
+            int incr = -1;
+            if(this.getCurrentSide() == ForgeDirection.DOWN.ordinal())
+                incr = 1;
+            return (shouldConnect(getCurrentSide(), getCurrentRotation())
+                    && shouldConnect(getCurrentSide(), (getCurrentRotation() + EDGES + incr) % EDGES)
+                    )
+                    && !(shouldConnectCorner(getCurrentSide(), getCurrentRotation()));
         }
     }
 

@@ -61,6 +61,14 @@ public class RenderHelpers {
         try {
             Field field = renderer.getClass().getField(FIELDS_UVROTATE.get(side));
             field.set(renderer, ROTATE_UV_ROTATE[rotation]);
+            /*if((side == ForgeDirection.EAST || side == ForgeDirection.NORTH)
+                    && (rotation == 1 || rotation == 2)) {
+                renderer.flipTexture = true;
+            }
+            if(side == ForgeDirection.DOWN) {
+                renderer.flipTexture = true;
+            }
+            renderer.flipTexture = true;*/
         } catch (NoSuchFieldException | SecurityException | IllegalAccessException | IllegalArgumentException e1) {
             // Impossible to go wrong, unless this code changes or those of Minecraft...
             e1.printStackTrace();
