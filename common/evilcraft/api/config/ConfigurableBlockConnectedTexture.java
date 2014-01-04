@@ -58,11 +58,17 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
         return MultiPassBlockRenderer.ID;
     }
     
-    public boolean shouldConnect(IBlockAccess world, ForgeDirection side, int x, int y, int z) {
+    public boolean shouldConnect(IBlockAccess world, int x, int y, int z) {
+        return true;
+    }
+    
+    public boolean shouldConnectDirection(IBlockAccess world, ForgeDirection side, int x, int y, int z) {
+        if(!shouldConnect(world, x, y, z))return false;
         return world.getBlockId(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this.blockID;
     }
     
-    public boolean shouldConnect(IBlockAccess world, DirectionCorner side, int x, int y, int z) {
+    public boolean shouldConnectDirection(IBlockAccess world, DirectionCorner side, int x, int y, int z) {
+        if(!shouldConnect(world, x, y, z))return false;
         return world.getBlockId(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this.blockID;
     }
     
@@ -140,12 +146,12 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
             TileConnectedTexture tileConnectedTexture = (TileConnectedTexture) tile;
             // Regular sides
             for(ForgeDirection direction : Helpers.DIRECTIONS) {
-                boolean connect = shouldConnect(world, direction, x, y, z);
+                boolean connect = shouldConnectDirection(world, direction, x, y, z);
                 tileConnectedTexture.connect(direction, connect);
             }
             // Corner sides
             for(DirectionCorner direction : Helpers.DIRECTIONS_CORNERS) {
-                boolean connect = shouldConnect(world, direction, x, y, z);
+                boolean connect = shouldConnectDirection(world, direction, x, y, z);
                 tileConnectedTexture.connectCorner(direction, connect);
             }
         }
