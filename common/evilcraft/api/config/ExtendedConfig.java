@@ -170,7 +170,15 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
      * @return if the target should be enabled.
      */
     public boolean isEnabled() {
-        return this.ID > 0;
+        return !isForceDisabled() && this.ID > 0;
+    }
+    
+    /**
+     * Checks if the eConfig refers to a target that should be force disabled.
+     * @return if the target should be force disabled.
+     */
+    public boolean isForceDisabled() {
+        return false;
     }
     
     /**

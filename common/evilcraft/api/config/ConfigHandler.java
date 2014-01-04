@@ -76,57 +76,58 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         config.load();
         
         for(ExtendedConfig eConfig : this) {
-            
-            // Save additional properties
-            for(ConfigProperty configProperty : eConfig.configProperties) {
-                // Sorry, no cleaner solution for this...
-                String category = configProperty.getCategory();
-                String name = configProperty.getName();
-                Object value = configProperty.getValue();
-                
-                Property additionalProperty = null;
-                if(value instanceof Integer) {
-                    additionalProperty = config.get(
-                        category,
-                        name,
-                        (int)value
-                        );
-                    additionalProperty.comment = configProperty.getComment();
-                    configProperty.getCallback().run(additionalProperty.getInt());
-                } else if(value instanceof Boolean) {
-                    additionalProperty = config.get(
-                        category,
-                        name,
-                        (boolean)value
-                        );
-                    additionalProperty.comment = configProperty.getComment();
-                    configProperty.getCallback().run(additionalProperty.getBoolean((boolean)value));
-                } else if(value instanceof String) {
-                    additionalProperty = config.get(
-                        category,
-                        name,
-                        (String)value
-                        );
-                    additionalProperty.comment = configProperty.getComment();
-                    configProperty.getCallback().run(additionalProperty.getString());
+            if(!eConfig.isForceDisabled()) {
+                // Save additional properties
+                for(ConfigProperty configProperty : eConfig.configProperties) {
+                    // Sorry, no cleaner solution for this...
+                    String category = configProperty.getCategory();
+                    String name = configProperty.getName();
+                    Object value = configProperty.getValue();
+                    
+                    Property additionalProperty = null;
+                    if(value instanceof Integer) {
+                        additionalProperty = config.get(
+                            category,
+                            name,
+                            (int)value
+                            );
+                        additionalProperty.comment = configProperty.getComment();
+                        configProperty.getCallback().run(additionalProperty.getInt());
+                    } else if(value instanceof Boolean) {
+                        additionalProperty = config.get(
+                            category,
+                            name,
+                            (boolean)value
+                            );
+                        additionalProperty.comment = configProperty.getComment();
+                        configProperty.getCallback().run(additionalProperty.getBoolean((boolean)value));
+                    } else if(value instanceof String) {
+                        additionalProperty = config.get(
+                            category,
+                            name,
+                            (String)value
+                            );
+                        additionalProperty.comment = configProperty.getComment();
+                        configProperty.getCallback().run(additionalProperty.getString());
+                    }
                 }
-            }
-            
-            if(eConfig.getHolderType().equals(ElementType.MOB)) { // For entity id's we have to do somethin' special!
-                eConfig.ID = EntityRegistry.findGlobalUniqueEntityId();
-            }
-            
-            // Check the type of the element
-            ElementType type = eConfig.getHolderType();
-            
-            // Register the element depending on the type and set the creative tab
-            elementTypeActions.get(type).commonRun(eConfig, config);
-
-            if(eConfig.isEnabled()) {
-                // Call the listener
-                eConfig.onRegistered();
-
-                EvilCraft.log("Registered "+eConfig.NAME);
+                
+                if(eConfig.getHolderType().equals(ElementType.MOB)) { // For entity id's we have to do somethin' special!
+                    eConfig.ID = EntityRegistry.findGlobalUniqueEntityId();
+                }
+                
+                // Check the type of the element
+                ElementType type = eConfig.getHolderType();
+                
+                // Register the element depending on the type and set the creative tab
+                elementTypeActions.get(type).commonRun(eConfig, config);
+    
+                if(eConfig.isEnabled()) {
+                    // Call the listener
+                    eConfig.onRegistered();
+    
+                    EvilCraft.log("Registered "+eConfig.NAME);
+                }
             }
         }
         
