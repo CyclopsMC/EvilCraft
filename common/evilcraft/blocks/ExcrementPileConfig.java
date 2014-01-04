@@ -9,7 +9,7 @@ import evilcraft.items.ExcrementPileItemBlock;
 
 public class ExcrementPileConfig extends ExtendedConfig {
     
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_GENERAL, comment = "If Excrement can also hurt any mob next to players.")
+    @ConfigurableProperty(category = ConfigHandler.CATEGORY_GENERAL, comment = "If Excrement can also hurt any mob next to players.", isCommandable = true)
     public static boolean hurtEntities = true;
     
     public static ExcrementPileConfig _instance;

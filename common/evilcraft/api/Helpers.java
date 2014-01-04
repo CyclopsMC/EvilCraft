@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -14,6 +15,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -199,6 +201,24 @@ public class Helpers {
     
     public static Iterator<ForgeDirection> getDirectionIterator() {
         return DIRECTIONS.iterator();
+    }
+    
+    public static boolean isOp(ICommandSender sender) {
+        return MinecraftServer.getServer().getConfigurationManager().getOps().contains(sender.getCommandSenderName());
+    }
+    
+    public static Object tryParse(String newValue, Object oldValue) {
+        Object newValueParsed = null;
+        try {
+            if(oldValue instanceof Integer) {
+                newValueParsed = Integer.parseInt(newValue);
+            } else if(oldValue instanceof Boolean) {
+                newValueParsed = Boolean.parseBoolean(newValue);
+            } else if(oldValue instanceof String) {
+                newValueParsed = newValue;
+            }
+        } catch (Exception e) {}
+        return newValueParsed;
     }
     
 }

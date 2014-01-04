@@ -1,7 +1,5 @@
 package evilcraft;
 
-import net.minecraftforge.common.DungeonHooks;
-import net.minecraftforge.common.ForgeHooks;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ConfigurableProperty;
 import evilcraft.api.config.ElementType;
@@ -15,7 +13,7 @@ public class GeneralConfig extends ExtendedConfig {
     @ConfigurableProperty(category = ConfigHandler.CATEGORY_CORE, comment = "Set 'true' to enable debug mode.\nThis will result in a lower performance!")
     public static boolean debug = false;
     
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_GENERAL, comment = "Evil stuff...")
+    @ConfigurableProperty(category = ConfigHandler.CATEGORY_GENERAL, comment = "Evil stuff...", isCommandable = true)
     public static boolean dieWithoutAnyReason = false;
     
     public static ElementType TYPE = ElementType.DUMMY;

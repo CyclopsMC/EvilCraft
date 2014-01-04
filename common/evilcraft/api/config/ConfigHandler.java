@@ -21,6 +21,8 @@ import evilcraft.api.config.elementtypeaction.ItemAction;
 import evilcraft.api.config.elementtypeaction.LiquidAction;
 import evilcraft.api.config.elementtypeaction.MobAction;
 import evilcraft.api.config.elementtypeaction.VillagerAction;
+import evilcraft.commands.CommandConfig;
+import evilcraft.commands.CommandConfigSet;
 
 /**
  * Create config file and register items & blocks from the given ExtendedConfigs
@@ -71,6 +73,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         // here our Configuration has been instantiated, and saved under the name "config"
         // If the file doesn't already exist, it will be created.
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+        CommandConfigSet.CONFIGURATION = config;
         
         // Loading the configuration from its file
         config.load();
@@ -79,37 +82,9 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
             if(!eConfig.isForceDisabled()) {
                 // Save additional properties
                 for(ConfigProperty configProperty : eConfig.configProperties) {
-                    // Sorry, no cleaner solution for this...
-                    String category = configProperty.getCategory();
-                    String name = configProperty.getName();
-                    Object value = configProperty.getValue();
-                    
-                    Property additionalProperty = null;
-                    if(value instanceof Integer) {
-                        additionalProperty = config.get(
-                            category,
-                            name,
-                            (int)value
-                            );
-                        additionalProperty.comment = configProperty.getComment();
-                        configProperty.getCallback().run(additionalProperty.getInt());
-                    } else if(value instanceof Boolean) {
-                        additionalProperty = config.get(
-                            category,
-                            name,
-                            (boolean)value
-                            );
-                        additionalProperty.comment = configProperty.getComment();
-                        configProperty.getCallback().run(additionalProperty.getBoolean((boolean)value));
-                    } else if(value instanceof String) {
-                        additionalProperty = config.get(
-                            category,
-                            name,
-                            (String)value
-                            );
-                        additionalProperty.comment = configProperty.getComment();
-                        configProperty.getCallback().run(additionalProperty.getString());
-                    }
+                    configProperty.save(config);
+                    if(configProperty.isCommandable())
+                        CommandConfig.PROPERTIES.put(eConfig.NAMEDID, configProperty);
                 }
                 
                 if(eConfig.getHolderType().equals(ElementType.MOB)) { // For entity id's we have to do somethin' special!

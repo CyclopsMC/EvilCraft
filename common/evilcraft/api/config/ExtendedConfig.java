@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.logging.Level;
 
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.Property;
 import evilcraft.EvilCraft;
 import evilcraft.api.item.ExtendedItemBlockWithMetadata;
 
@@ -75,7 +77,9 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
                                     e.printStackTrace();
                                 }
                             }
-                        });
+                        },
+                        field.getAnnotation(ConfigurableProperty.class).isCommandable(),
+                        field);
                 configProperties.add(configProperty);
             }
         }
@@ -217,22 +221,27 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
      *
      */
     public class ConfigProperty {
+        
         private String category;
         private String name;
         private Object value;
         private String comment;
         private ConfigPropertyCallback callback;
+        private boolean isCommandable;
+        private Field field;
         
-        public ConfigProperty(String category, String name, Object value, String comment, ConfigPropertyCallback callback) {
+        public ConfigProperty(String category, String name, Object value, String comment, ConfigPropertyCallback callback, boolean isCommandable, Field field) {
             this.category = category;
             this.name = name;
             this.value = value;
             this.comment = comment;
             this.callback = callback;
+            this.isCommandable = isCommandable;
+            this.field = field;
         }
         
-        public ConfigProperty(String category, String name, Object value, ConfigPropertyCallback callback) {
-            this(category, name, value, null, callback);
+        public ConfigProperty(String category, String name, Object value, ConfigPropertyCallback callback, boolean isCommandable, Field field) {
+            this(category, name, value, null, callback, isCommandable, field);
         }
 
         public String getCategory() {
@@ -257,6 +266,12 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
 
         public void setValue(Object value) {
             this.value = value;
+            try {
+                field.set(null, this.value);
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                // Won't happen, trust me.
+                e.printStackTrace();
+            }
         }
 
         public String getComment() {
@@ -273,6 +288,67 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
 
         public void setCallback(ConfigPropertyCallback callback) {
             this.callback = callback;
+        }
+        
+        public boolean isCommandable() {
+            return isCommandable;
+        }
+
+        public void setCommandable(boolean isCommandable) {
+            this.isCommandable = isCommandable;
+        }
+        
+        public void save(Configuration config) {
+            save(config, false);
+        }
+        
+        public void save(Configuration config, boolean forceUpdate) {
+            // Sorry, no cleaner solution for this...
+            // Reflection could solve it partially, but it'd be still quite ugly...
+            String category = getCategory();
+            String name = getName();
+            Object value = getValue();
+            
+            Property additionalProperty = null;
+            if(value instanceof Integer) {
+                additionalProperty = config.get(
+                    category,
+                    name,
+                    (int)value
+                    );
+                additionalProperty.comment = getComment();
+                if(forceUpdate) {
+                    getCallback().run((int)value);
+                } else {
+                    getCallback().run(additionalProperty.getInt());
+                }
+            } else if(value instanceof Boolean) {
+                additionalProperty = config.get(
+                    category,
+                    name,
+                    (boolean)value
+                    );
+                additionalProperty.comment = getComment();
+                if(forceUpdate) {
+                    getCallback().run((boolean)value);
+                } else {
+                    getCallback().run(additionalProperty.getBoolean((boolean)value));
+                }
+            } else if(value instanceof String) {
+                additionalProperty = config.get(
+                    category,
+                    name,
+                    (String)value
+                    );
+                additionalProperty.comment = getComment();
+                if(forceUpdate) {
+                    getCallback().run((String)value);
+                } else {
+                    getCallback().run(additionalProperty.getString());
+                }
+            } else {
+                EvilCraft.log("Invalid config property class.", Level.SEVERE);
+            }
         }
     }
     

@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface ConfigurableProperty {
     String category();
     String comment();
+    boolean isCommandable() default false;
 }

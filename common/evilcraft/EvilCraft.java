@@ -1,16 +1,12 @@
 package evilcraft;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -18,7 +14,7 @@ import evilcraft.api.BucketHandler;
 import evilcraft.api.Debug;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
-import evilcraft.api.render.MultiPassBlockRenderer;
+import evilcraft.commands.CommandEvilCraft;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlaySoundAtEntityEventHook;
@@ -89,6 +85,11 @@ public class EvilCraft {
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
         MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
+    }
+    
+    @EventHandler
+    public void onLivingAttack(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandEvilCraft());
     }
     
     public static void log(String message) {
