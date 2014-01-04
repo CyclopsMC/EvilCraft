@@ -12,5 +12,6 @@ public interface IMultiRenderPassBlock {
     public void setRenderBlocks(CustomRenderBlocks renderer);
     public CustomRenderBlocks getRenderBlocks();
     public void updateTileEntity(IBlockAccess world, int x, int y, int z);
+    public void setInventoryBlock(boolean isInventoryBlock);
     
 }

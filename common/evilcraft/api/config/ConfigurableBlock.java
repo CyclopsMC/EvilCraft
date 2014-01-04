@@ -23,6 +23,7 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
     
     protected int pass = 0;
     protected CustomRenderBlocks renderer;
+    protected boolean isInventoryBlock = false;
     
     public static ElementType TYPE = ElementType.BLOCK;
     
@@ -103,6 +104,10 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
         // Do nothing, because this block has to tile entity!
         // What a shame, I love tile entities...
         // Well, the world goes on, cry just a little and carry on!
+    }
+    
+    public void setInventoryBlock(boolean isInventoryBlock) {
+        this.isInventoryBlock = isInventoryBlock;
     }
 
 }

@@ -16,9 +16,11 @@ public class ConnectableIcon implements Icon{
     protected static final int EDGES = 4;
     protected static final int SIDES = Helpers.DIRECTIONS.size();
     protected Icon[] icons = new Icon[LAYERS];// background; borders; corners; innerCorners
+    protected Icon inventoryBlockIcon; // Icon for inventoryBlock
     
     protected int renderPass = 0; // Current renderpass of the icon
     protected int side = 0; // Current side to display icon for
+    protected boolean isInventoryBlock = false;
     
     protected TileConnectedTexture tileConnectedTexture = null;
     
@@ -42,11 +44,12 @@ public class ConnectableIcon implements Icon{
         {DirectionCorner.UPPER_SOUTH, DirectionCorner.UPPER_NORTH, DirectionCorner.LOWER_NORTH, DirectionCorner.LOWER_SOUTH}, // EAST
     };
     
-    public ConnectableIcon(Icon background, Icon borders, Icon corners, Icon innerCorners) {
+    public ConnectableIcon(Icon background, Icon borders, Icon corners, Icon innerCorners, Icon inventoryBlockIcon) {
         this.icons[0] = background;
         this.icons[1] = borders;
         this.icons[2] = corners;
         this.icons[3] = innerCorners;
+        this.inventoryBlockIcon = inventoryBlockIcon;
     }
     
     public void setTileConnectedTexture(TileConnectedTexture tileConnectedTexture) {
@@ -68,14 +71,15 @@ public class ConnectableIcon implements Icon{
     }
     
     protected Icon getInnerIcon() {
-        if(shouldRender(getCurrentLayer()))
+        if(isInventoryBlock)
+            return inventoryBlockIcon;
+        else if(shouldRender(getCurrentLayer()))
             return this.icons[getCurrentLayer()];
         else
             return RenderHelpers.EMPTYICON;
     }
     
     protected boolean shouldConnect(int side, int rotation) {
-        
         return tileConnectedTexture.getConnectWithSides()[CONNECT_MATRIX[side][rotation].ordinal()];
     }
     
@@ -84,7 +88,6 @@ public class ConnectableIcon implements Icon{
     }
     
     protected boolean shouldRender(int layer) {
-        //return this.getCurrentRotation() == 0;
         if(layer == Layer.BACKGROUND.ordinal()) {
             return true;
         } else if(layer == Layer.BORDERS.ordinal()) {
@@ -175,6 +178,8 @@ public class ConnectableIcon implements Icon{
     }
     
     public int getRequiredPasses() {
+        if(isInventoryBlock)
+            return 1;
         return LAYERS * EDGES;
     }
 
@@ -184,6 +189,10 @@ public class ConnectableIcon implements Icon{
         int rotation = getCurrentRotation();
         ForgeDirection renderSide = ForgeDirection.getOrientation(side);
         RenderHelpers.setRenderBlocksUVRotation(renderBlocks, renderSide, rotation);
+    }
+    
+    public void setInventoryBlock(boolean isInventoryBlock) {
+        this.isInventoryBlock = isInventoryBlock;
     }
     
     enum Layer {

@@ -40,6 +40,7 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
         boolean visible = false;
         if (block instanceof IMultiRenderPassBlock) {
             IMultiRenderPassBlock blockToRender = (IMultiRenderPassBlock)block;
+            blockToRender.setInventoryBlock(false);
             blockToRender.setRenderPass(-1);
             blockToRender.updateTileEntity(world, x, y, z);
             if (renderBlocks.renderStandardBlock(block, x, y, z)) {
@@ -79,6 +80,7 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
         
         if (block instanceof IMultiRenderPassBlock) {
             IMultiRenderPassBlock blockToRender = (IMultiRenderPassBlock)block;
+            blockToRender.setInventoryBlock(true);
             for (int pass = 0; pass < blockToRender.getRenderPasses(); pass++) {
                 blockToRender.setRenderPass(pass);
                 // Loop over sides and render them relative to the given direction.

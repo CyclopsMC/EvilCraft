@@ -26,6 +26,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     protected Icon blockIconBorder;
     protected Icon blockIconCorner;
     protected Icon blockIconInnerCorner;
+    protected Icon blockIconInventory;
 
     public ConfigurableBlockConnectedTexture(ExtendedConfig eConfig,
             Material material) {
@@ -46,6 +47,10 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
 
     public Icon getIconInnerCorners() {
         return blockIconInnerCorner;
+    }
+    
+    public Icon getIconInventory() {
+        return blockIcon;
     }
     
     @Override
@@ -95,7 +100,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
         blockIconBorder = iconRegister.registerIcon(getTextureName()+"_border");
         blockIconCorner = iconRegister.registerIcon(getTextureName()+"_corner");
         blockIconInnerCorner = iconRegister.registerIcon(getTextureName()+"_innerCorner");
-        connectableIcon = new ConnectableIcon(getIconBackground(), getIconBorders(), getIconCorners(), getIconInnerCorners());
+        connectableIcon = new ConnectableIcon(getIconBackground(), getIconBorders(), getIconCorners(), getIconInnerCorners(), getIconInventory());
     }
     
     @Override
@@ -144,6 +149,10 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
                 tileConnectedTexture.connectCorner(direction, connect);
             }
         }
+    }
+    
+    public void setInventoryBlock(boolean isInventoryBlock) {
+        this.connectableIcon.setInventoryBlock(isInventoryBlock);
     }
 
 }
