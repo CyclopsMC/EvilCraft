@@ -15,13 +15,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.ConfigurableBlockWithInnerBlocks;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.render.MultiPassBlockRenderer;
-import evilcraft.events.TextureStitchEventHook;
+import evilcraft.api.render.AlternatingBlockIconComponent;
 import evilcraft.render.EntityBloodSplashFX;
 
 public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     
     private static BloodStainedBlock _instance = null;
+    private AlternatingBlockIconComponent alternatingBlockIconComponent = new AlternatingBlockIconComponent(getAlternateIconsAmount());
     
     public static void initInstance(ExtendedConfig eConfig) {
         if(_instance == null)
@@ -52,6 +52,10 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
                 };
     }
     
+    public int getAlternateIconsAmount() {
+        return 3;
+    }
+    
     @Override
     public int getRenderPasses() {
         return 2;
@@ -60,24 +64,31 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister) {
-        super.registerIcons(iconRegister);
+        alternatingBlockIconComponent.registerIcons(getTextureName(), iconRegister);
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
+    {
+        return this.getIcon(side, world.getBlockMetadata(x, y, z), pass, alternatingBlockIconComponent.getAlternateIcon(world, x, y, z, side));
     }
     
     @Override
     @SideOnly(Side.CLIENT)
     public Icon getIcon(int side, int meta) {
-        return getIcon(side, meta, pass);
+        // Only for inventory blocks
+        return getIcon(side, meta, pass, alternatingBlockIconComponent.getBaseIcon());
     }
     
-    @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int side, int meta, int renderPass) {
+    public Icon getIcon(int side, int meta, int renderPass, Icon defaultIcon) {
         if(renderPass < 0) {
             return RenderHelpers.EMPTYICON;
         } else if(renderPass == 1) {
             if(side != ForgeDirection.UP.ordinal())
                 return RenderHelpers.EMPTYICON;
-            return blockIcon;
+            return defaultIcon;
         } else {
             return getBlockFromMetadata(meta).getIcon(side, 0);
         }
