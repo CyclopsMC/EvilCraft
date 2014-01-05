@@ -18,6 +18,13 @@ public class GeneralConfig extends ExtendedConfig {
     
     public static ElementType TYPE = ElementType.DUMMY;
     
+    @ConfigurableProperty(category = ConfigHandler.CATEGORY_OREGENERATION, comment = "Spawn extra netherfish blocks in all biomes.")
+    public static boolean extraSilverfish = false;
+    public static int silverfish_BlocksPerVein = 4;
+    public static int silverfish_VeinsPerChunk = 10;
+    public static int silverfish_StartY = 6;
+    public static int silverfish_EndY = 66;
+    
     public GeneralConfig() {
         super(0, "General Info", "info", null, GeneralConfig.class);
     }
