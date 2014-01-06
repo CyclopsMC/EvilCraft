@@ -75,8 +75,10 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     public TileEntity createNewTileEntity(World var1) {
         try {
             return tileEntity.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InstantiationException e1) {
+            e1.printStackTrace();
+        } catch (IllegalAccessException e2) {
+        	e2.printStackTrace();
         }
         return null;
     }
