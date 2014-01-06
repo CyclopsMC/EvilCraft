@@ -51,9 +51,17 @@ public class RenderHelpers {
         try {
             Method method = renderer.getClass().getMethod(METHODS_RENDERFACE.get(renderDirection), Block.class, double.class, double.class, double.class, Icon.class);
             method.invoke(renderer, block, x, y, z, blockIconFromSideAndMetadata);
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+        } catch (NoSuchMethodException e1) {
             // Impossible to go wrong, unless this code changes or those of Minecraft...
             e1.printStackTrace();
+        } catch (SecurityException e2) {
+        	e2.printStackTrace();
+        } catch (IllegalAccessException e3) {
+        	e3.printStackTrace();
+        } catch (IllegalArgumentException e4) {
+        	e4.printStackTrace();
+        } catch (InvocationTargetException e5) {
+        	e5.printStackTrace();
         }
     }
     
@@ -69,9 +77,15 @@ public class RenderHelpers {
                 renderer.flipTexture = true;
             }
             renderer.flipTexture = true;*/
-        } catch (NoSuchFieldException | SecurityException | IllegalAccessException | IllegalArgumentException e1) {
+        } catch (NoSuchFieldException e1) {
             // Impossible to go wrong, unless this code changes or those of Minecraft...
             e1.printStackTrace();
+        } catch (SecurityException e2) {
+        	e2.printStackTrace();
+        } catch (IllegalAccessException e3) {
+        	e3.printStackTrace();
+        } catch (IllegalArgumentException e4) {
+        	e4.printStackTrace();
         }
     }
 }

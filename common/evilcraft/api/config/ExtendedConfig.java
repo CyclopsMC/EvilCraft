@@ -44,9 +44,10 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
         this.ELEMENT = element;
         try {
             generateConfigProperties();
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (IllegalArgumentException e1) {
+            e1.printStackTrace();
+        } catch (IllegalAccessException e2) {
+        	e2.printStackTrace();
         }
     }
     
@@ -71,10 +72,11 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
                             public void run(Object newValue) {
                                 try {
                                     field.set(null, newValue);
-                                } catch (IllegalArgumentException
-                                        | IllegalAccessException e) {
+                                } catch (IllegalArgumentException e1) {
                                     // Shouldn't be possible
-                                    e.printStackTrace();
+                                    e1.printStackTrace();
+                                } catch (IllegalAccessException e2) {
+                                	e2.printStackTrace();
                                 }
                             }
                         },
@@ -99,11 +101,17 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
                 this.ELEMENT.getMethod("initInstance", ExtendedConfig.class).invoke(null, this);
         } catch (InvocationTargetException e) {
             e.getCause().printStackTrace();
-        } catch (IllegalAccessException | IllegalArgumentException
-                | NoSuchMethodException
-                | SecurityException | NoSuchFieldException e) {
+        } catch (IllegalAccessException e1) {
             // Only possible in development mode
-            e.printStackTrace();
+            e1.printStackTrace();
+        } catch (IllegalArgumentException e2) {
+        	e2.printStackTrace();
+        } catch (NoSuchMethodException e3) {
+        	e3.printStackTrace();
+        } catch (SecurityException e4) {
+        	e4.printStackTrace();
+        } catch (NoSuchFieldException e5) {
+        	e5.printStackTrace();
         }
     }
     
@@ -114,10 +122,15 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
     public ElementType getHolderType() {
         try {
             return (ElementType) this.ELEMENT.getField("TYPE").get(null);
-        } catch (IllegalArgumentException | IllegalAccessException
-                | NoSuchFieldException | SecurityException e) {
+        } catch (IllegalArgumentException e1) {
             // Only possible in development mode
-            e.printStackTrace();
+            e1.printStackTrace();
+        } catch (IllegalAccessException e2) {
+        	e2.printStackTrace();
+        } catch (NoSuchFieldException e3) {
+        	e3.printStackTrace();
+        } catch (SecurityException e4) {
+        	e4.printStackTrace();
         }
         return null;
     }
@@ -130,14 +143,19 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
         if(!this.getHolderType().hasUniqueInstance()) return null; // TODO: possibly add a nice exception here
         try {
             return (Configurable) this.ELEMENT.getMethod("getInstance").invoke(null);
-        } catch (NoSuchMethodException
-                | SecurityException
-                | IllegalAccessException
-                | IllegalArgumentException
-                | InvocationTargetException e) {
-            // Only possible in development mode
-            e.printStackTrace();
+        } catch (NoSuchMethodException e1) {
+        	// Only possible in development mode
+        	e1.printStackTrace();
+        } catch (SecurityException e2) {
+        	e2.printStackTrace();
+        } catch (IllegalAccessException e3) {
+        	e3.printStackTrace();
+        } catch (IllegalArgumentException e4) {
+        	e4.printStackTrace();
+        } catch (InvocationTargetException e5) {
+        	e5.printStackTrace();
         }
+            
         return null;
     }
     
@@ -268,9 +286,11 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
             this.value = value;
             try {
                 field.set(null, this.value);
-            } catch (IllegalArgumentException | IllegalAccessException e) {
+            } catch (IllegalArgumentException e1) {
                 // Won't happen, trust me.
-                e.printStackTrace();
+                e1.printStackTrace();
+            } catch (IllegalAccessException e2) {
+            	e2.printStackTrace();
             }
         }
 
@@ -314,11 +334,11 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
                 additionalProperty = config.get(
                     category,
                     name,
-                    (int)value
+                    (Integer)value
                     );
                 additionalProperty.comment = getComment();
                 if(forceUpdate) {
-                    getCallback().run((int)value);
+                    getCallback().run((Integer)value);
                 } else {
                     getCallback().run(additionalProperty.getInt());
                 }
@@ -326,13 +346,13 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
                 additionalProperty = config.get(
                     category,
                     name,
-                    (boolean)value
+                    (Boolean)value
                     );
                 additionalProperty.comment = getComment();
                 if(forceUpdate) {
-                    getCallback().run((boolean)value);
+                    getCallback().run((Boolean)value);
                 } else {
-                    getCallback().run(additionalProperty.getBoolean((boolean)value));
+                    getCallback().run(additionalProperty.getBoolean((Boolean)value));
                 }
             } else if(value instanceof String) {
                 additionalProperty = config.get(
