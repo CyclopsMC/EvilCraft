@@ -14,6 +14,7 @@ public enum ElementType {
     LIQUID(true),
     ENCHANTMENT(true),
     VILLAGER(false),
+    ENTITY_NO_GLOBAL_ID(false),
     
     DUMMY(false);
     

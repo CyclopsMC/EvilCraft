@@ -5,7 +5,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 
 import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -16,6 +15,7 @@ import evilcraft.api.config.elementtypeaction.BlockAction;
 import evilcraft.api.config.elementtypeaction.DummyAction;
 import evilcraft.api.config.elementtypeaction.EnchantmentAction;
 import evilcraft.api.config.elementtypeaction.EntityAction;
+import evilcraft.api.config.elementtypeaction.EntityNoGlobalIdAction;
 import evilcraft.api.config.elementtypeaction.IElementTypeAction;
 import evilcraft.api.config.elementtypeaction.ItemAction;
 import evilcraft.api.config.elementtypeaction.LiquidAction;
@@ -54,6 +54,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         elementTypeActions.put(ElementType.LIQUID, new LiquidAction());
         elementTypeActions.put(ElementType.ENCHANTMENT, new EnchantmentAction());
         elementTypeActions.put(ElementType.VILLAGER, new VillagerAction());
+        elementTypeActions.put(ElementType.ENTITY_NO_GLOBAL_ID, new EntityNoGlobalIdAction());
         
         elementTypeActions.put(ElementType.DUMMY, new DummyAction());
     }
