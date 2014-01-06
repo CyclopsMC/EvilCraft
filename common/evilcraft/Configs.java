@@ -19,6 +19,7 @@ import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
+import evilcraft.entities.item.EntityBroomConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.NetherfishConfig;
 import evilcraft.entities.monster.WerewolfConfig;
@@ -97,6 +98,8 @@ public class Configs {
         configs.add(new NetherfishConfig());
         // Villager
         configs.add(new WerewolfVillagerConfig());
+        // Other
+        configs.add(new EntityBroomConfig());
         
         // Enchantments
         configs.add(new EnchantmentUnusingConfig());
