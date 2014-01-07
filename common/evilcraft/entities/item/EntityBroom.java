@@ -80,21 +80,24 @@ public class EntityBroom extends Entity implements Configurable{
     	} else if (riddenByEntity != null && riddenByEntity instanceof EntityPlayer) {
     		EntityPlayer player = (EntityPlayer)riddenByEntity;
     		
-    		// TODO: handle forward/backward movement
-			
-    		// Handle up or down movement
-    		RemoteKeyHandler handler = RemoteKeyHandler.getInstance();
-			
-			boolean pressedUp = handler.isKeyPressed(player.username, "key.evilcraft.broom.up");
-			boolean pressedDown = handler.isKeyPressed(player.username,  "key.evilcraft.broom.down");
-			
-			if (pressedUp && pressedDown || !(pressedUp || pressedDown)) {
-				motionY = 0;
-			} else if (pressedUp && worldObj.isAirBlock((int)posX, (int)posY + 1, (int)posZ)) {
-				motionY = SPEED_Y;
-			} else if (pressedDown && worldObj.isAirBlock((int)posX, (int)posY - 1, (int)posZ)) { 
-				motionY = -SPEED_Y;
-			}
+    		// Handle player movement
+    		double pitch = ((player.rotationPitch + 90) * Math.PI) / 180;
+    		double yaw = ((player.rotationYaw + 90) * Math.PI) / 180;
+    		
+    		double x = Math.sin(pitch) * Math.cos(yaw);
+    		double z = Math.sin(pitch) * Math.sin(yaw);
+    		double y = Math.cos(pitch);
+    		
+    		if (player.moveForward != 0) {
+    			EvilCraft.log(player.moveForward + " " + x + " " + y + " " + z);
+    			motionX = x * SPEED_Y * player.moveForward;
+    			motionY = y * SPEED_Y * player.moveForward;
+    			motionZ = z * SPEED_Y * player.moveForward;
+    		} else {
+    			motionX = 0;
+    			motionY = 0;
+    			motionZ = 0;
+    		}
         	
         	setPosition(posX + motionX, posY + motionY, posZ + motionZ);
     	}

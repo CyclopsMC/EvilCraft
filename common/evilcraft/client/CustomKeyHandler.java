@@ -2,7 +2,6 @@ package evilcraft.client;
 
 import java.util.EnumSet;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 
 import org.lwjgl.input.Keyboard;
@@ -11,7 +10,6 @@ import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import evilcraft.Reference;
-import evilcraft.entities.item.EntityBroom;
 import evilcraft.network.RemoteKey;
 
 /**
@@ -28,7 +26,7 @@ import evilcraft.network.RemoteKey;
  */
 
 public class CustomKeyHandler extends KeyHandler {
-	
+	// Example keys:
 	public static KeyBinding KEY_UP = new KeyBinding("key.evilcraft.broom.up", Keyboard.KEY_K);
 	public static KeyBinding KEY_DOWN = new KeyBinding("key.evilcraft.broom.down", Keyboard.KEY_L);
 
@@ -58,11 +56,6 @@ public class CustomKeyHandler extends KeyHandler {
 	}
 	
 	private void sendPacket(KeyBinding kb, boolean pressed) {
-		// TODO: this works since we only define hotkeys for a broom only, but in future we might need to define some abstract "condition" to make this as generic as possible
-		// The player should be on a broom before sending packet
-		if (!(Minecraft.getMinecraft().thePlayer.ridingEntity instanceof EntityBroom))
-			return;
-		
 		// don't send packets if the GUI is active
 		//if (Minecraft.getMinecraft().currentScreen != null)
 		//	return;

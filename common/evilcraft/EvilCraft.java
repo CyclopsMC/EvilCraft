@@ -66,9 +66,9 @@ public class EvilCraft {
         // Add death messages
         DeathMessages.register();
         
-        // TODO: put this somewhere nice
-        KeyBindingRegistry.registerKeyBinding(new CustomKeyHandler());
-        NetworkRegistry.instance().registerChannel(RemoteKeyHandler.getInstance(), Reference.MOD_CHANNEL);
+        // If we need to handle custom keys on the server side, uncomment this code and look at CustomKeyHandler
+        //KeyBindingRegistry.registerKeyBinding(new CustomKeyHandler());
+        //NetworkRegistry.instance().registerChannel(RemoteKeyHandler.getInstance(), Reference.MOD_CHANNEL);
     }
     
     @EventHandler
