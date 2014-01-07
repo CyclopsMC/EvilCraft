@@ -11,6 +11,8 @@ public class Reference {
     public static final String MOD_NAME = "EvilCraft";
     public static final String MOD_VERSION = "0.0.0.1a";
     
+    public static final String MOD_CHANNEL = "evilcraft";
+    
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";
     public static final String TEXTURE_PATH_SKINS = "textures/skins/";

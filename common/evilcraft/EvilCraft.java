@@ -2,6 +2,7 @@ package evilcraft;
 import java.util.logging.Level;
 
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -15,12 +16,14 @@ import evilcraft.api.BucketHandler;
 import evilcraft.api.Debug;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
+import evilcraft.client.CustomKeyHandler;
 import evilcraft.commands.CommandEvilCraft;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlaySoundAtEntityEventHook;
 import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.TextureStitchEventHook;
+import evilcraft.network.RemoteKeyHandler;
 import evilcraft.proxies.CommonProxy;
 import evilcraft.worldgen.EvilDungeonGenerator;
 import evilcraft.worldgen.EvilWorldGenerator;
@@ -62,6 +65,10 @@ public class EvilCraft {
         
         // Add death messages
         DeathMessages.register();
+        
+        // TODO: put this somewhere nice
+        KeyBindingRegistry.registerKeyBinding(new CustomKeyHandler());
+        NetworkRegistry.instance().registerChannel(RemoteKeyHandler.getInstance(), Reference.MOD_CHANNEL);
     }
     
     @EventHandler
