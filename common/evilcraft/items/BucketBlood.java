@@ -1,7 +1,7 @@
 package evilcraft.items;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableItemBucket;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableItemBucket;
 import evilcraft.blocks.LiquidBlockBlood;
 
 public class BucketBlood extends ConfigurableItemBucket {

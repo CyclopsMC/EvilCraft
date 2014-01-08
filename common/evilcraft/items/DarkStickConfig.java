@@ -3,9 +3,9 @@ package evilcraft.items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 
-public class DarkStickConfig extends ExtendedConfig {
+public class DarkStickConfig extends ItemConfig {
     
     public static DarkStickConfig _instance;
 

@@ -1,4 +1,7 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
+
+import evilcraft.api.config.ElementType;
+import evilcraft.api.config.ExtendedConfig;
 
 
 public class ConfigurableVillager implements Configurable {

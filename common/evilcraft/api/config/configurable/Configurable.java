@@ -1,4 +1,6 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
+
+import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Interface for all elements that are configurable

@@ -1,9 +1,9 @@
 package evilcraft.enchantment;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.EnchantmentConfig;
 
-public class EnchantmentPoisonTipConfig extends ExtendedConfig {
+public class EnchantmentPoisonTipConfig extends EnchantmentConfig {
     
     public static EnchantmentPoisonTipConfig _instance;
 

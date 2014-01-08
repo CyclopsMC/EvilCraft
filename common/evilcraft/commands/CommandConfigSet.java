@@ -10,7 +10,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.Configuration;
 import evilcraft.api.Helpers;
-import evilcraft.api.config.ExtendedConfig.ConfigProperty;
+import evilcraft.api.config.ConfigProperty;
 
 
 public class CommandConfigSet extends CommandEvilCraft {

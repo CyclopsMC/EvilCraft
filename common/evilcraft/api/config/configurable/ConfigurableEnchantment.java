@@ -1,8 +1,10 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
+import evilcraft.api.config.ElementType;
+import evilcraft.api.config.ExtendedConfig;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;

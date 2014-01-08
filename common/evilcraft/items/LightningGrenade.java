@@ -1,7 +1,7 @@
 package evilcraft.items;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableItem;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableItem;
 import evilcraft.entities.item.EntityLightningGrenade;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

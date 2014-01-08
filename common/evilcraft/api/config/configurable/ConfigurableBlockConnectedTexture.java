@@ -1,4 +1,4 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.DirectionCorner;
 import evilcraft.api.Helpers;
 import evilcraft.api.RenderHelpers;
+import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.TileConnectedTexture;
 import evilcraft.api.render.ConnectableIcon;
 import evilcraft.api.render.CustomRenderBlocks;

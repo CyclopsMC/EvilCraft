@@ -1,34 +1,40 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
 
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.item.ItemFood;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.EvilCraft;
+import evilcraft.EvilCraftTab;
 import evilcraft.Reference;
+import evilcraft.api.config.ElementType;
+import evilcraft.api.config.ExtendedConfig;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.item.Item;
 
 /**
- * Item food that can hold ExtendedConfigs
+ * Item that can hold ExtendedConfigs
  * @author Ruben Taelman
  *
  */
-public abstract class ConfigurableItemFood extends ItemFood implements Configurable{
+public abstract class ConfigurableItem extends Item implements Configurable{
     
     protected ExtendedConfig eConfig = null;
     
     public static ElementType TYPE = ElementType.ITEM;
     
-    protected ConfigurableItemFood(ExtendedConfig eConfig, int healAmount, float saturationModifier, boolean isWolfsFavoriteMeat) {
-        super(eConfig.ID, healAmount, saturationModifier, isWolfsFavoriteMeat);
+    protected ConfigurableItem(ExtendedConfig eConfig) {
+        super(eConfig.ID);
         eConfig.ID = this.itemID; // This could've changed.
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
     }
 
     // Set a configuration for this item
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
+    @Override
     public String getUniqueName() {
         return "items."+eConfig.NAMEDID;
     }
@@ -44,6 +50,7 @@ public abstract class ConfigurableItemFood extends ItemFood implements Configura
         itemIcon = iconRegister.registerIcon(getIconString());
     }
     
+    @Override
     public boolean isEntity() {
         return false;
     }

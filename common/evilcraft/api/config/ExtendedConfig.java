@@ -10,14 +10,17 @@ import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import evilcraft.EvilCraft;
+import evilcraft.api.config.configurable.Configurable;
+import evilcraft.api.config.configurable.ConfigurableProperty;
 import evilcraft.api.item.ExtendedItemBlockWithMetadata;
 
 /**
  * Registration configurations
  * @author Ruben Taelman
+ * @param <C> Class of the extension of ExtendedConfig
  *
  */
-public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
+public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Comparable<ExtendedConfig<C>>{
     
     public int ID;
     public String NAME;
@@ -175,16 +178,8 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
     }
     
     @Override
-    public int compareTo(ExtendedConfig o) {
+    public int compareTo(ExtendedConfig<C> o) {
         return NAMEDID.compareTo(o.NAMEDID);
-    }
-    
-    /**
-     * If the Configurable is registered in the OreDictionary, use this name to identify it.
-     * @return the name this Configurable is registered with in the OreDictionary.
-     */
-    public String getOreDictionaryId() {
-        return null;
     }
     
     /**
@@ -212,164 +207,19 @@ public abstract class ExtendedConfig implements Comparable<ExtendedConfig>{
     }
     
     /**
-     * Override this method if this block has subtypes.
-     * @return if the target block has subtypes.
-     */
-    public boolean hasSubTypes() {
-        return false;
-    }
-    
-    /**
-     * If hasSubTypes() returns true this method can be overwritten to define another ItemBlock class
-     * @return the ItemBlock class to use for the target block.
-     */
-    public Class<? extends ItemBlock> getItemBlockClass() {
-        return ExtendedItemBlockWithMetadata.class;
-    }
-    
-    /**
      * Call this method in the initInstance method of Configurables if the instance was already set.
      */
     public void showDoubleInitError() {
-        EvilCraft.log(this.getClass()+" caused a double registration of "+getItemBlockClass()+". This is an error in the mod code.", Level.SEVERE);
+        EvilCraft.log(this.getClass()+" caused a double registration of "+getSubInstance()+". This is an error in the mod code.", Level.SEVERE);
     }
     
     /**
-     * A holder class for properties that go inside the config file.
-     *
+     * Get the lowest castable config.
+     * @return
      */
-    public class ConfigProperty {
-        
-        private String category;
-        private String name;
-        private Object value;
-        private String comment;
-        private ConfigPropertyCallback callback;
-        private boolean isCommandable;
-        private Field field;
-        
-        public ConfigProperty(String category, String name, Object value, String comment, ConfigPropertyCallback callback, boolean isCommandable, Field field) {
-            this.category = category;
-            this.name = name;
-            this.value = value;
-            this.comment = comment;
-            this.callback = callback;
-            this.isCommandable = isCommandable;
-            this.field = field;
-        }
-        
-        public ConfigProperty(String category, String name, Object value, ConfigPropertyCallback callback, boolean isCommandable, Field field) {
-            this(category, name, value, null, callback, isCommandable, field);
-        }
-
-        public String getCategory() {
-            return category;
-        }
-
-        public void setCategory(String category) {
-            this.category = category;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Object getValue() {
-            return value;
-        }
-
-        public void setValue(Object value) {
-            this.value = value;
-            try {
-                field.set(null, this.value);
-            } catch (IllegalArgumentException e1) {
-                // Won't happen, trust me.
-                e1.printStackTrace();
-            } catch (IllegalAccessException e2) {
-            	e2.printStackTrace();
-            }
-        }
-
-        public String getComment() {
-            return comment;
-        }
-
-        public void setComment(String comment) {
-            this.comment = comment;
-        }
-
-        public ConfigPropertyCallback getCallback() {
-            return callback;
-        }
-
-        public void setCallback(ConfigPropertyCallback callback) {
-            this.callback = callback;
-        }
-        
-        public boolean isCommandable() {
-            return isCommandable;
-        }
-
-        public void setCommandable(boolean isCommandable) {
-            this.isCommandable = isCommandable;
-        }
-        
-        public void save(Configuration config) {
-            save(config, false);
-        }
-        
-        public void save(Configuration config, boolean forceUpdate) {
-            // Sorry, no cleaner solution for this...
-            // Reflection could solve it partially, but it'd be still quite ugly...
-            String category = getCategory();
-            String name = getName();
-            Object value = getValue();
-            
-            Property additionalProperty = null;
-            if(value instanceof Integer) {
-                additionalProperty = config.get(
-                    category,
-                    name,
-                    (Integer)value
-                    );
-                additionalProperty.comment = getComment();
-                if(forceUpdate) {
-                    getCallback().run((Integer)value);
-                } else {
-                    getCallback().run(additionalProperty.getInt());
-                }
-            } else if(value instanceof Boolean) {
-                additionalProperty = config.get(
-                    category,
-                    name,
-                    (Boolean)value
-                    );
-                additionalProperty.comment = getComment();
-                if(forceUpdate) {
-                    getCallback().run((Boolean)value);
-                } else {
-                    getCallback().run(additionalProperty.getBoolean((Boolean)value));
-                }
-            } else if(value instanceof String) {
-                additionalProperty = config.get(
-                    category,
-                    name,
-                    (String)value
-                    );
-                additionalProperty.comment = getComment();
-                if(forceUpdate) {
-                    getCallback().run((String)value);
-                } else {
-                    getCallback().run(additionalProperty.getString());
-                }
-            } else {
-                EvilCraft.log("Invalid config property class.", Level.SEVERE);
-            }
-        }
+    public C downCast() {
+        C c = (C) this;
+        return c;
     }
     
     public abstract class ConfigPropertyCallback {

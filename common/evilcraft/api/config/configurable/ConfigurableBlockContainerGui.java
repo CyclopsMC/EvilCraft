@@ -1,7 +1,8 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
 
 import evilcraft.EvilCraft;
 import evilcraft.api.Helpers;
+import evilcraft.api.config.ExtendedConfig;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

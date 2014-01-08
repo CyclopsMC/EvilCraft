@@ -13,7 +13,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.api.Helpers;
 import evilcraft.api.RenderHelpers;
-import evilcraft.api.config.IMultiRenderPassBlock;
+import evilcraft.api.config.configurable.IMultiRenderPassBlock;
 
 
 /**

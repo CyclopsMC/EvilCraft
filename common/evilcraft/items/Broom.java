@@ -12,8 +12,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableItem;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableItem;
 import evilcraft.entities.item.EntityBroom;
 
 public class Broom extends ConfigurableItem {

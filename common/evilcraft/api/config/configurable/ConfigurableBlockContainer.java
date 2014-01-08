@@ -1,4 +1,4 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
 
 import java.util.Random;
 
@@ -14,6 +14,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
+import evilcraft.api.config.ElementType;
+import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Block that can hold ExtendedConfigs

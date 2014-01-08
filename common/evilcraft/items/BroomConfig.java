@@ -1,9 +1,9 @@
 package evilcraft.items;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 
-public class BroomConfig extends ExtendedConfig {
+public class BroomConfig extends ItemConfig {
     
     public static BroomConfig _instance;
 

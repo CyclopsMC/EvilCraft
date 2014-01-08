@@ -7,8 +7,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.entities.item.EntityBloodPearl;
 import evilcraft.fluids.Blood;
 

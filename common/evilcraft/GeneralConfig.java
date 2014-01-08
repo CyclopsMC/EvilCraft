@@ -1,24 +1,24 @@
 package evilcraft;
 
-import evilcraft.api.config.ConfigHandler;
-import evilcraft.api.config.ConfigurableProperty;
+import evilcraft.api.config.DummyConfig;
 import evilcraft.api.config.ElementType;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ElementTypeCategory;
+import evilcraft.api.config.configurable.ConfigurableProperty;
 
-public class GeneralConfig extends ExtendedConfig {
+public class GeneralConfig extends DummyConfig {
     
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_CORE, comment = "Config version for " + Reference.MOD_NAME +".\nDO NOT EDIT MANUALLY!")
+    @ConfigurableProperty(category = ElementTypeCategory.CORE, comment = "Config version for " + Reference.MOD_NAME +".\nDO NOT EDIT MANUALLY!")
     public static String version = Reference.MOD_VERSION;
     
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_CORE, comment = "Set 'true' to enable debug mode.\nThis will result in a lower performance!")
+    @ConfigurableProperty(category = ElementTypeCategory.CORE, comment = "Set 'true' to enable debug mode.\nThis will result in a lower performance!")
     public static boolean debug = false;
     
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_GENERAL, comment = "Evil stuff...", isCommandable = true)
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "Evil stuff...", isCommandable = true)
     public static boolean dieWithoutAnyReason = false;
     
     public static ElementType TYPE = ElementType.DUMMY;
     
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_OREGENERATION, comment = "Spawn extra netherfish blocks in all biomes.")
+    @ConfigurableProperty(category = ElementTypeCategory.OREGENERATION, comment = "Spawn extra netherfish blocks in all biomes.")
     public static boolean extraSilverfish = false;
     public static int silverfish_BlocksPerVein = 4;
     public static int silverfish_VeinsPerChunk = 10;

@@ -4,17 +4,17 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.registry.VillagerRegistry;
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.DummyConfig;
 
-public class VillagerAction extends IElementTypeAction{
+public class VillagerAction extends IElementTypeAction<DummyConfig>{
 
     @Override
-    public void preRun(ExtendedConfig eConfig, Configuration config) {
+    public void preRun(DummyConfig eConfig, Configuration config) {
         if(!eConfig.isEnabled()) eConfig.ID = 0;
     }
 
     @Override
-    public void postRun(ExtendedConfig eConfig, Configuration config) {
+    public void postRun(DummyConfig eConfig, Configuration config) {
         // Save the config inside the correct element
         eConfig.save();
         

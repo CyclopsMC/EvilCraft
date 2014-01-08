@@ -1,8 +1,8 @@
 package evilcraft.fluids;
 
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.DummyConfig;
 
-public class BloodConfig extends ExtendedConfig {
+public class BloodConfig extends DummyConfig {
     
     public static BloodConfig _instance;
 

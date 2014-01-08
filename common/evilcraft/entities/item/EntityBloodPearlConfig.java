@@ -2,11 +2,11 @@ package evilcraft.entities.item;
 
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.DummyConfig;
 import evilcraft.items.BloodPearlOfTeleportation;
 import evilcraft.proxies.ClientProxy;
 
-public class EntityBloodPearlConfig extends ExtendedConfig {
+public class EntityBloodPearlConfig extends DummyConfig {
     
     public static EntityBloodPearlConfig _instance;
 

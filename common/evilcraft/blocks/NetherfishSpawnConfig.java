@@ -1,9 +1,9 @@
 package evilcraft.blocks;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.BlockConfig;
 
-public class NetherfishSpawnConfig extends ExtendedConfig {
+public class NetherfishSpawnConfig extends BlockConfig {
     
     public static NetherfishSpawnConfig _instance;
 

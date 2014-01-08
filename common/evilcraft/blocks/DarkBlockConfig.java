@@ -1,9 +1,9 @@
 package evilcraft.blocks;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.BlockConfig;
 
-public class DarkBlockConfig extends ExtendedConfig {
+public class DarkBlockConfig extends BlockConfig {
     
     public static DarkBlockConfig _instance;
 

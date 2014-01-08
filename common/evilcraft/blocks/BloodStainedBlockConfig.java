@@ -1,9 +1,9 @@
 package evilcraft.blocks;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.BlockConfig;
 
-public class BloodStainedBlockConfig extends ExtendedConfig {
+public class BloodStainedBlockConfig extends BlockConfig {
     
     public static BloodStainedBlockConfig _instance;
 

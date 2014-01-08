@@ -1,10 +1,12 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraftforge.fluids.Fluid;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
+import evilcraft.api.config.ElementType;
+import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Fluid that can hold ExtendedConfigs

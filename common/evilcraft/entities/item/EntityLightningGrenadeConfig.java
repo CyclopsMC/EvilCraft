@@ -2,11 +2,11 @@ package evilcraft.entities.item;
 
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.DummyConfig;
 import evilcraft.items.LightningGrenade;
 import evilcraft.proxies.ClientProxy;
 
-public class EntityLightningGrenadeConfig extends ExtendedConfig {
+public class EntityLightningGrenadeConfig extends DummyConfig {
     
     public static EntityLightningGrenadeConfig _instance;
 

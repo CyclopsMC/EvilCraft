@@ -1,4 +1,4 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
 
 import java.util.List;
 import java.util.Random;
@@ -12,6 +12,7 @@ import net.minecraft.util.Icon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
+import evilcraft.api.config.ExtendedConfig;
 
 /**
  * A block that is based on inner blocks that are stored in the meta data.

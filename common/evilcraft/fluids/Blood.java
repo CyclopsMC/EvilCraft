@@ -1,8 +1,8 @@
 package evilcraft.fluids;
 
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableFluid;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableFluid;
 
 public class Blood extends ConfigurableFluid{
     

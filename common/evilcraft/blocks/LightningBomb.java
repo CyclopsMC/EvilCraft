@@ -17,8 +17,8 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableBlock;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableBlock;
 import evilcraft.entities.block.EntityLightningBombPrimed;
 
 public class LightningBomb extends ConfigurableBlock {

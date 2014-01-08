@@ -1,9 +1,9 @@
 package evilcraft.blocks;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.BlockConfig;
 
-public class LiquidBlockBloodConfig extends ExtendedConfig {
+public class LiquidBlockBloodConfig extends BlockConfig {
     
     public static LiquidBlockBloodConfig _instance;
 

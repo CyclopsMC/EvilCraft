@@ -6,13 +6,13 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.village.MerchantRecipeList;
 import cpw.mods.fml.common.registry.VillagerRegistry;
 import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
-import evilcraft.api.config.ConfigHandler;
-import evilcraft.api.config.ConfigurableProperty;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.DummyConfig;
+import evilcraft.api.config.ElementTypeCategory;
+import evilcraft.api.config.configurable.ConfigurableProperty;
 
-public class WerewolfVillagerConfig extends ExtendedConfig implements IVillageTradeHandler {
+public class WerewolfVillagerConfig extends DummyConfig implements IVillageTradeHandler {
     
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_MOB, comment = "Should the Netherfish be enabled?")
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Netherfish be enabled?")
     public static boolean isEnabled = true;
     
     public static WerewolfVillagerConfig _instance;

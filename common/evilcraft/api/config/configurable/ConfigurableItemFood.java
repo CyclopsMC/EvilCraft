@@ -1,41 +1,29 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucket;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumMovingObjectType;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.Event;
-import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraft.item.ItemFood;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
-import evilcraft.blocks.LiquidBlockBlood;
-import evilcraft.blocks.LiquidBlockBloodConfig;
+import evilcraft.api.config.ElementType;
+import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Item food that can hold ExtendedConfigs
  * @author Ruben Taelman
  *
  */
-public abstract class ConfigurableItemBucket extends ItemBucket implements Configurable{
+public abstract class ConfigurableItemFood extends ItemFood implements Configurable{
     
     protected ExtendedConfig eConfig = null;
-    protected boolean canPickUp = true;
     
     public static ElementType TYPE = ElementType.ITEM;
     
-    protected ConfigurableItemBucket(ExtendedConfig eConfig, int blockID) {
-        super(eConfig.ID, blockID);
+    protected ConfigurableItemFood(ExtendedConfig eConfig, int healAmount, float saturationModifier, boolean isWolfsFavoriteMeat) {
+        super(eConfig.ID, healAmount, saturationModifier, isWolfsFavoriteMeat);
         eConfig.ID = this.itemID; // This could've changed.
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
-        setContainerItem(Item.bucketEmpty);
     }
 
     // Set a configuration for this item
@@ -61,5 +49,5 @@ public abstract class ConfigurableItemBucket extends ItemBucket implements Confi
     public boolean isEntity() {
         return false;
     }
-    
+
 }

@@ -1,9 +1,9 @@
 package evilcraft.entities.item;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.DummyConfig;
 
-public class EntityBroomConfig extends ExtendedConfig {
+public class EntityBroomConfig extends DummyConfig {
     
     public static EntityBroomConfig _instance;
 

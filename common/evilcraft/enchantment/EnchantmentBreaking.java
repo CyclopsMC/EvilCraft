@@ -12,8 +12,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableEnchantment;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableEnchantment;
 import evilcraft.blocks.BloodyCobblestone;
 
 public class EnchantmentBreaking extends ConfigurableEnchantment {

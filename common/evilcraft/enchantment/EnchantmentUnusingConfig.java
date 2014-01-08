@@ -1,11 +1,9 @@
 package evilcraft.enchantment;
 
-import net.minecraft.tileentity.TileEntity;
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.entities.tileentities.TileBloodInfuser;
+import evilcraft.api.config.EnchantmentConfig;
 
-public class EnchantmentUnusingConfig extends ExtendedConfig {
+public class EnchantmentUnusingConfig extends EnchantmentConfig {
     
     public static EnchantmentUnusingConfig _instance;
 

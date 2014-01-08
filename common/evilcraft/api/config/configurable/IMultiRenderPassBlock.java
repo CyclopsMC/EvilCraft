@@ -1,4 +1,4 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
 
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;

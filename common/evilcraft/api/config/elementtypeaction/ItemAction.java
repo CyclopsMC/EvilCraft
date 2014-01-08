@@ -1,20 +1,20 @@
 package evilcraft.api.config.elementtypeaction;
 
-import static evilcraft.api.config.elementtypeaction.IElementTypeAction.CATEGORIES;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraftTab;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 
-public class ItemAction extends IElementTypeAction{
+public class ItemAction extends IElementTypeAction<ItemConfig>{
 
     @Override
-    public void preRun(ExtendedConfig eConfig, Configuration config) {
+    public void preRun(ItemConfig eConfig, Configuration config) {
         // Get property in config file and set comment
-        Property property = config.getItem(CATEGORIES.get(eConfig.getHolderType()), eConfig.NAMEDID, eConfig.ID);
+        Property property = config.getItem(eConfig.getHolderType().getCategory(), eConfig.NAMEDID, eConfig.ID);
         property.comment = eConfig.COMMENT;
         
         // Update the ID, it could've changed
@@ -22,7 +22,7 @@ public class ItemAction extends IElementTypeAction{
     }
 
     @Override
-    public void postRun(ExtendedConfig eConfig, Configuration config) {
+    public void postRun(ItemConfig eConfig, Configuration config) {
         // Save the config inside the correct element
         eConfig.save();
         

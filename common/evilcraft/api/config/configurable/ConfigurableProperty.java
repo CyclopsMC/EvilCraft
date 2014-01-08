@@ -1,14 +1,16 @@
-package evilcraft.api.config;
+package evilcraft.api.config.configurable;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import evilcraft.api.config.ElementTypeCategory;
+
 @Retention(RetentionPolicy.RUNTIME)  
 @Target(ElementType.FIELD)
 public @interface ConfigurableProperty {
-    String category();
+    ElementTypeCategory category();
     String comment();
     boolean isCommandable() default false;
 }

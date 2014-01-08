@@ -6,11 +6,11 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import evilcraft.Reference;
 import evilcraft.api.BucketHandler;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.blocks.LiquidBlockBlood;
 import evilcraft.fluids.Blood;
 
-public class BucketBloodConfig extends ExtendedConfig {
+public class BucketBloodConfig extends ItemConfig {
     
     public static BucketBloodConfig _instance;
 
