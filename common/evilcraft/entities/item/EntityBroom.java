@@ -18,7 +18,7 @@ public class EntityBroom extends Entity implements Configurable{
     
     protected ExtendedConfig eConfig = null;
     
-    public static ElementType TYPE = ElementType.MOB;
+    public static ElementType TYPE = ElementType.ENTITY;
 
     // Set a configuration for this entity
     public void setConfig(ExtendedConfig eConfig) {

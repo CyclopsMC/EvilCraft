@@ -4,9 +4,9 @@ import evilcraft.api.config.elementtypeaction.BlockAction;
 import evilcraft.api.config.elementtypeaction.DummyAction;
 import evilcraft.api.config.elementtypeaction.EnchantmentAction;
 import evilcraft.api.config.elementtypeaction.EntityAction;
+import evilcraft.api.config.elementtypeaction.FluidAction;
 import evilcraft.api.config.elementtypeaction.IElementTypeAction;
 import evilcraft.api.config.elementtypeaction.ItemAction;
-import evilcraft.api.config.elementtypeaction.LiquidAction;
 import evilcraft.api.config.elementtypeaction.MobAction;
 import evilcraft.api.config.elementtypeaction.VillagerAction;
 
@@ -21,10 +21,10 @@ public enum ElementType {
     BLOCK(true, BlockConfig.class, new BlockAction(), ElementTypeCategory.BLOCK),
     BLOCKCONTAINER(true, BlockConfig.class, new BlockAction(), ElementTypeCategory.BLOCK),
     MOB(false, MobConfig.class, new MobAction(), ElementTypeCategory.MOB),
-    ENTITY(false, DummyConfig.class, new EntityAction(), ElementTypeCategory.ENTITY),
-    LIQUID(true, DummyConfig.class, new LiquidAction(), ElementTypeCategory.LIQUID),
+    ENTITY(false, EntityConfig.class, new EntityAction(), ElementTypeCategory.ENTITY),
+    FLUID(true, FluidConfig.class, new FluidAction(), ElementTypeCategory.LIQUID),
     ENCHANTMENT(true, EnchantmentConfig.class, new EnchantmentAction(), ElementTypeCategory.ENCHANTMENT),
-    VILLAGER(false, DummyConfig.class, new VillagerAction(), ElementTypeCategory.MOB),
+    VILLAGER(false, VillagerConfig.class, new VillagerAction(), ElementTypeCategory.MOB),
     
     DUMMY(false, DummyConfig.class, new DummyAction(), ElementTypeCategory.GENERAL);
     

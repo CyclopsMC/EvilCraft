@@ -1,14 +1,15 @@
 package evilcraft.entities.block;
 
+import net.minecraft.client.renderer.entity.Render;
 import evilcraft.Reference;
-import evilcraft.api.config.DummyConfig;
 import evilcraft.api.config.ElementTypeCategory;
+import evilcraft.api.config.EntityConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
 import evilcraft.blocks.LightningBomb;
 import evilcraft.proxies.ClientProxy;
 import evilcraft.render.RenderBombPrimed;
 
-public class EntityLightningBombPrimedConfig extends DummyConfig {
+public class EntityLightningBombPrimedConfig extends EntityConfig {
     
     @ConfigurableProperty(category = ElementTypeCategory.ENTITY, comment = "The amount of ticks (on average), this bomb should tick before explosion.")
     public static int fuse = 100;
@@ -24,10 +25,10 @@ public class EntityLightningBombPrimedConfig extends DummyConfig {
             EntityLightningBombPrimed.class
         );
     }
-    
+
     @Override
-    public void onRegistered() {
-        ClientProxy.ENTITY_RENDERERS.put(EntityLightningBombPrimed.class, new RenderBombPrimed(LightningBomb.getInstance()));
+    public Render getRender() {
+        return new RenderBombPrimed(LightningBomb.getInstance());
     }
     
 }
