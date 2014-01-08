@@ -25,6 +25,10 @@ public class EntityLightningGrenade extends EntityThrowable implements Configura
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
+    
+    public EntityLightningGrenade(World par1World) {
+        super(par1World);
+    }
 
     public EntityLightningGrenade(World par1World, EntityLivingBase par2EntityLivingBase) {
         super(par1World, par2EntityLivingBase);

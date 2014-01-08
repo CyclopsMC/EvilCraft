@@ -19,6 +19,7 @@ import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
+import evilcraft.entities.block.EntityLightningBombPrimedConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.NetherfishConfig;
 import evilcraft.entities.monster.WerewolfConfig;
@@ -90,8 +91,10 @@ public class Configs {
         configs.add(new BroomConfig());
         
         // Entities
-        //Item
+        // Item
         configs.add(new EntityLightningGrenadeConfig());
+        // Block
+        configs.add(new EntityLightningBombPrimedConfig());
         // Monster
         configs.add(new WerewolfConfig()); // http://www.minecraftwiki.net/wiki/Resource_pack#pack.mcmeta
         configs.add(new NetherfishConfig());

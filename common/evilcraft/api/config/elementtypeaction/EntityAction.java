@@ -3,6 +3,7 @@ package evilcraft.api.config.elementtypeaction;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraftforge.common.Configuration;
+import evilcraft.EvilCraft;
 import evilcraft.api.config.ExtendedConfig;
 
 public class EntityAction extends IElementTypeAction{
@@ -23,6 +24,10 @@ public class EntityAction extends IElementTypeAction{
                 eConfig.getSubUniqueName(),
                 eConfig.ID
         );
+        EntityRegistry.registerModEntity(
+                eConfig.ELEMENT,
+                eConfig.getSubUniqueName(),
+                eConfig.ID, EvilCraft._instance, 160, 10, true);// TODO: make something nicer for these last three args?
         
         // Add I18N
         LanguageRegistry.instance().addStringLocalization("entity."+eConfig.NAMEDID+".name", eConfig.NAME);

@@ -1,11 +1,7 @@
 package evilcraft.entities.item;
 
-import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.item.Item;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import evilcraft.EvilCraft;
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.items.LightningGrenade;
 
 public class EntityBroomConfig extends ExtendedConfig {
     
@@ -13,7 +9,7 @@ public class EntityBroomConfig extends ExtendedConfig {
 
     public EntityBroomConfig() {
         super(
-            1,
+            Reference.ENTITY_BROOM,
             "Broom",
             "entityBroom",
             null,

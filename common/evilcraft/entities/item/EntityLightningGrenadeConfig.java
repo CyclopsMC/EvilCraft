@@ -1,9 +1,7 @@
 package evilcraft.entities.item;
 
 import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.item.Item;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import evilcraft.EvilCraft;
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.items.LightningGrenade;
 import evilcraft.proxies.ClientProxy;
@@ -14,7 +12,7 @@ public class EntityLightningGrenadeConfig extends ExtendedConfig {
 
     public EntityLightningGrenadeConfig() {
         super(
-            1,
+            Reference.ENTITY_LIGHTNINGGRENADE,
             "Lightning Grenade",
             "entityLightningGrenade",
             null,
