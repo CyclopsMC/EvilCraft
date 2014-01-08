@@ -20,6 +20,7 @@ import evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
 import evilcraft.entities.block.EntityLightningBombPrimedConfig;
+import evilcraft.entities.item.EntityBloodPearlConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.NetherfishConfig;
 import evilcraft.entities.monster.WerewolfConfig;
@@ -93,6 +94,7 @@ public class Configs {
         // Entities
         // Item
         configs.add(new EntityLightningGrenadeConfig());
+        configs.add(new EntityBloodPearlConfig());
         // Block
         configs.add(new EntityLightningBombPrimedConfig());
         // Monster

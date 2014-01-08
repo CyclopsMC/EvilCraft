@@ -53,4 +53,5 @@ public class Reference {
     public static final int ENTITY_LIGHTNINGBOMB = 3;
     public static final int ENTITY_LIGHTNINGGRENADE = 4;
     public static final int ENTITY_BROOM = 5;
+    public static final int ENTITY_BLOODPEARL = 5;
 }
