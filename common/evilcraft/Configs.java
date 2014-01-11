@@ -16,6 +16,7 @@ import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.FluidBlockBloodConfig;
 import evilcraft.blocks.NetherfishSpawnConfig;
+import evilcraft.blocks.ObscuredGlassConfig;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import evilcraft.enchantment.EnchantmentPoisonTipConfig;
@@ -94,6 +95,7 @@ public class Configs {
         configs.add(new BloodPearlOfTeleportationConfig());
         configs.add(new BroomConfig());
         configs.add(new HardenedBloodShardConfig());
+        configs.add(new ObscuredGlassConfig());
         
         // Entities
         // Item

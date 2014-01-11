@@ -27,7 +27,6 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     protected Icon blockIconBorder;
     protected Icon blockIconCorner;
     protected Icon blockIconInnerCorner;
-    protected Icon blockIconInventory;
 
     public ConfigurableBlockConnectedTexture(ExtendedConfig eConfig,
             Material material) {
