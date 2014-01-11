@@ -7,7 +7,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import evilcraft.Reference;
 import evilcraft.api.BucketHandler;
 import evilcraft.api.config.ItemConfig;
-import evilcraft.blocks.LiquidBlockBlood;
+import evilcraft.blocks.FluidBlockBlood;
 import evilcraft.fluids.Blood;
 
 public class BucketBloodConfig extends ItemConfig {
@@ -30,7 +30,7 @@ public class BucketBloodConfig extends ItemConfig {
                 new ItemStack(BucketBlood.getInstance()),
                 new ItemStack(Item.bucketEmpty)
         );
-        BucketHandler.getInstance().buckets.put(LiquidBlockBlood.getInstance(), BucketBlood.getInstance());
+        BucketHandler.getInstance().buckets.put(FluidBlockBlood.getInstance(), BucketBlood.getInstance());
     }
     
 }

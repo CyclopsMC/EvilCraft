@@ -28,6 +28,7 @@ public class Reference {
     public static final int BLOCK_LIQUIDBLOCKBLOOD = 3853;
     public static final int BLOCK_BLOODINFUSER = 3854;
     public static final int BLOCK_BLOODYCOBBLESTONE = 3855;
+    public static final int BLOCK_HARDENEDBLOOD = 3856;
     
     // Item ID's
     public static final int ITEM_BLOODEXTRACTOR = 4000;
@@ -42,6 +43,7 @@ public class Reference {
     public static final int ITEM_WEATHERCONTAINER = 4008;
     public static final int ITEM_BLOODPEARLOFTELEPORTATION = 4009;
     public static final int ITEM_BROOM = 4010;
+    public static final int ITEM_HARDENEDBLOODSHARD = 4011;
     
     // Enchantment ID's
     public static final int ENCHANTMENT_BREAKING = 101;

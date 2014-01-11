@@ -19,7 +19,7 @@ import evilcraft.Reference;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.item.DamageIndicatedItemFluidContainer;
-import evilcraft.blocks.LiquidBlockBloodConfig;
+import evilcraft.blocks.FluidBlockBloodConfig;
 
 /**
  * Item food that can hold ExtendedConfigs

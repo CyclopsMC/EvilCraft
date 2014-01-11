@@ -1,6 +1,5 @@
 package evilcraft.fluids;
 
-import evilcraft.EvilCraft;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableFluid;
 

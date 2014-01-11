@@ -3,17 +3,17 @@ package evilcraft.blocks;
 import evilcraft.Reference;
 import evilcraft.api.config.BlockConfig;
 
-public class LiquidBlockBloodConfig extends BlockConfig {
+public class FluidBlockBloodConfig extends BlockConfig {
     
-    public static LiquidBlockBloodConfig _instance;
+    public static FluidBlockBloodConfig _instance;
 
-    public LiquidBlockBloodConfig() {
+    public FluidBlockBloodConfig() {
         super(
             Reference.BLOCK_LIQUIDBLOCKBLOOD,
             "Blood",
             "blockBlood",
             null,
-            LiquidBlockBlood.class
+            FluidBlockBlood.class
         );
     }
     

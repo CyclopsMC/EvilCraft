@@ -17,8 +17,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.blocks.LiquidBlockBlood;
-import evilcraft.blocks.LiquidBlockBloodConfig;
+import evilcraft.blocks.FluidBlockBlood;
+import evilcraft.blocks.FluidBlockBloodConfig;
 
 /**
  * Item food that can hold ExtendedConfigs
