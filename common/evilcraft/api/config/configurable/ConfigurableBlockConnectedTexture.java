@@ -27,6 +27,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     protected Icon blockIconBorder;
     protected Icon blockIconCorner;
     protected Icon blockIconInnerCorner;
+    protected Icon blockIconInventory;
 
     public ConfigurableBlockConnectedTexture(ExtendedConfig eConfig,
             Material material) {
@@ -50,7 +51,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     }
     
     public Icon getIconInventory() {
-        return blockIcon;
+        return hasSeperateInventoryBlockIcon()?blockIconInventory:blockIcon;
     }
     
     @Override
@@ -106,6 +107,8 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
         blockIconBorder = iconRegister.registerIcon(getTextureName()+"_border");
         blockIconCorner = iconRegister.registerIcon(getTextureName()+"_corner");
         blockIconInnerCorner = iconRegister.registerIcon(getTextureName()+"_innerCorner");
+        if(hasSeperateInventoryBlockIcon())
+            blockIconInventory = iconRegister.registerIcon(getTextureName()+"_inventory");
         connectableIcon = new ConnectableIcon(getIconBackground(), getIconBorders(), getIconCorners(), getIconInnerCorners(), getIconInventory());
     }
     
@@ -159,6 +162,16 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     
     public void setInventoryBlock(boolean isInventoryBlock) {
         this.connectableIcon.setInventoryBlock(isInventoryBlock);
+    }
+    
+    /**
+     * If this block has a seperate icon for rendering the inventory block, false by default.
+     * If it is true, the renderer will look for getTextureName()+"_inventory" icon, otherwise
+     * the background of the block will be taken (without corners, edges and innercorners).
+     * @return If this block has a seperate icon for rendering the inventory block.
+     */
+    public boolean hasSeperateInventoryBlockIcon() {
+        return false;
     }
 
 }

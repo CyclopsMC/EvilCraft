@@ -14,8 +14,6 @@ import evilcraft.api.render.ConnectableIcon;
 
 public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     
-    protected Icon blockIconInventory;
-    
     private static ObscuredGlass _instance = null;
     
     public static void initInstance(ExtendedConfig eConfig) {
@@ -37,15 +35,8 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
-        super.registerIcons(iconRegister);
-        blockIconInventory = iconRegister.registerIcon(getTextureName()+"_inventory");
-    }
-    
-    @Override
-    public Icon getIconInventory() {
-        return blockIconInventory;
+    public boolean hasSeperateInventoryBlockIcon() {
+        return true;
     }
     
     @Override
