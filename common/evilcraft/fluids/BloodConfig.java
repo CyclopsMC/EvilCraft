@@ -10,7 +10,7 @@ public class BloodConfig extends FluidConfig {
         super(
             1,
             "Blood",
-            "Blood",
+            "blood",
             null,
             Blood.class
         );

@@ -1,10 +1,12 @@
-package evilcraft.render;
+package evilcraft.gui.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 import evilcraft.entities.tileentities.TileBloodInfuser;
+import evilcraft.gui.slot.SlotFluidContainer;
+import evilcraft.gui.slot.SlotInfuse;
+import evilcraft.gui.slot.SlotRemoveOnly;
 
 public class ContainerBloodInfuser extends ExtendedContainer {
     
@@ -18,13 +20,13 @@ public class ContainerBloodInfuser extends ExtendedContainer {
         super(tile.getInventorySize());
         playerIInventory = inventory;
         this.tile = tile;
-        
-        // Adding tank display
-        // TODO (make it more thaumcrafty than buildcrafty)
+
+        // TODO Nicer GUI (make it more thaumcrafty than buildcrafty)
 
         // Adding inventory
-        addSlotToContainer(new Slot(tile, 0, 8, 36)); // Container emptier
-        addSlotToContainer(new Slot(tile, 1, 115, 36)); // Infuse slot
+        addSlotToContainer(new SlotFluidContainer(tile, TileBloodInfuser.SLOT_CONTAINER, 8, 36)); // Container emptier
+        addSlotToContainer(new SlotInfuse(tile, TileBloodInfuser.SLOT_INFUSE, 115, 36, tile)); // Infuse slot
+        addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, 130, 36)); // Infuse result slot
 
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
 

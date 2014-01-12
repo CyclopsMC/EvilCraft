@@ -5,8 +5,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import evilcraft.entities.tileentities.TileBloodInfuser;
-import evilcraft.render.ContainerBloodInfuser;
-import evilcraft.render.GuiBloodInfuser;
+import evilcraft.gui.client.GuiBloodInfuser;
+import evilcraft.gui.container.ContainerBloodInfuser;
 
 public class GuiHandler implements IGuiHandler {
 

@@ -1,4 +1,4 @@
-package evilcraft.render;
+package evilcraft.gui.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

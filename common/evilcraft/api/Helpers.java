@@ -20,7 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import evilcraft.entities.tileentities.ExtendedTileEntity;
+import evilcraft.api.entities.tileentitites.ExtendedTileEntity;
 
 public class Helpers {
     public static final int MINECRAFT_DAY = 24000;

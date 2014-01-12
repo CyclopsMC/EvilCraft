@@ -3,6 +3,7 @@ package evilcraft.api.config.elementtypeaction;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.api.config.FluidConfig;
 
 public class FluidAction extends IElementTypeAction<FluidConfig>{
