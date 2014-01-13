@@ -33,6 +33,7 @@ import evilcraft.inventory.SimpleInventory;
 
 public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, IFluidHandler, IConsumeProduceWithTankTile {
     
+    public static final int SLOTS = 3;
     public static final int SLOT_CONTAINER = 0;
     public static final int SLOT_INFUSE = 1;
     public static final int SLOT_INFUSE_RESULT = 2;
@@ -47,13 +48,18 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
         INFUSE_TICK_ACTIONS.put(Item.class, new InfuseItemTickAction());
     }
     
-    protected SimpleInventory inventory = new SimpleInventory(3 , "BloodInfuser", 64);
+    protected SimpleInventory inventory = new SimpleInventory(SLOTS , "BloodInfuser", 64);
     public SingleUseTank tank = new SingleUseTank("bloodTank", LIQUID_PER_SLOT, this);
     
-    private int infuseTick = 0;
+    public int infuseTick = 0;
+    public int requiredTicks = 0;
     
     public TileBloodInfuser() {
         tank.setAcceptedFluid(ACCEPTED_FLUID); // Only accept blood!
+    }
+    
+    public int getInventorySize() {
+        return inventory.getSizeInventory();
     }
     
     public static BloodInfuserTickAction getTickAction(Item item) {
@@ -164,7 +170,6 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
         super.updateEntity();
         fillTank();
         infuse();
-        this.sendUpdate();
     }
     
     @Override
@@ -207,16 +212,19 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
         if(infuseStack != null) {
             BloodInfuserTickAction action = getTickAction(infuseStack.getItem());
             if(action.canTick(this, infuseTick)){
+                if(infuseTick == 0)
+                    requiredTicks = action.getRequiredTicks(this);
                 infuseTick++;
                 action.onTick(this, infuseTick);
+            } else {
+                infuseTick = 0;
             }
-        }
+        } else infuseTick = 0;
     }
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
         int filled = tank.fill(resource, doFill);
-        this.sendUpdate();
         return filled;
     }
 
@@ -226,14 +234,12 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
         if (resource == null || !resource.isFluidEqual(tank.getFluid()))
             return null;
         FluidStack drained = drain(from, resource.amount, doDrain);
-        this.sendUpdate();
         return drained;
     }
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
         FluidStack drained = tank.drain(maxDrain, doDrain);
-        this.sendUpdate();
         return drained;
     }
 
@@ -267,6 +273,14 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
     @Override
     public int getProduceSlot() {
         return SLOT_INFUSE_RESULT;
+    }
+    
+    public boolean isInfusing() {
+        return infuseTick > 0;
+    }
+
+    public int getInfuseTickScaled(int scale) {
+        return (int) ((float)infuseTick / (float)requiredTicks * (float)scale);
     }
 
 }

@@ -3,12 +3,14 @@ package evilcraft.api.item;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.IInformationProvider;
 
 /**
  * This extension on {@link ItemFluidContainer} will show a damage indicator depending on how full
@@ -20,7 +22,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author rubensworks
  *
  */
-public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContainer {
+public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContainer implements IInformationProvider {
 
     private DamageIndicatedItemComponent component;
     private Fluid fluid;
@@ -81,6 +83,21 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
         ItemStack itemStackEmpty = new ItemStack(this, 1);
         fill(itemStackEmpty, new FluidStack(fluid, 0), true);
         itemList.add(itemStackEmpty);
+    }
+    
+    @Override
+    public String getInfo(ItemStack itemStack) {
+        int amount = 0;
+        if(getFluid(itemStack) != null)
+            amount = getFluid(itemStack).amount;
+        return "" + amount + " / " + this.capacity + " mB";
+    }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
+    {
+        list.add(IInformationProvider.ITEM_PREFIX+((IInformationProvider) itemStack.getItem()).getInfo(itemStack));
     }
 
 }

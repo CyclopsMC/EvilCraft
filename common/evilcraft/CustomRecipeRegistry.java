@@ -15,6 +15,11 @@ public class CustomRecipeRegistry {
     }
     
     public static CustomRecipeResult get(CustomRecipe recipe) {
-        return recipes.get(recipe);
+        // TODO: when the recipes list gets big, this might need to get more efficient...
+        for(Entry<CustomRecipe, CustomRecipeResult> entry : recipes.entrySet()) {
+            if(entry.getKey().equals(recipe))
+                return entry.getValue();
+        }
+        return null;
     }
 }

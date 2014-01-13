@@ -5,6 +5,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import evilcraft.entities.tileentities.IConsumeProduceWithTankTile;
 import evilcraft.items.BucketBlood;
+import evilcraft.items.BucketBloodConfig;
 
 public class ItemBucketTickAction extends BloodInfuserTickAction{
 
@@ -14,15 +15,22 @@ public class ItemBucketTickAction extends BloodInfuserTickAction{
             ItemStack infuseStack = getInfuseStack(tile);
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(infuseStack);
             if(tile.getTank().getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME && fluidStack == null) {
-                tile.getTank().drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                tile.getInventory().decrStackSize(tile.getConsumeSlot(), 1);
-                tile.getInventory().setInventorySlotContents(tile.getProduceSlot(), new ItemStack(BucketBlood.getInstance()));
+                if(addToProduceSlot(tile, new ItemStack(BucketBlood.getInstance()))) {
+                    tile.getTank().drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+                    tile.getInventory().decrStackSize(tile.getConsumeSlot(), 1);
+                }
             }
         }
     }
     
-    private int getRequiredTicks(IConsumeProduceWithTankTile tile) {
-        return 10;
+    @Override
+    public int getRequiredTicks(IConsumeProduceWithTankTile tile) {
+        return FluidContainerRegistry.BUCKET_VOLUME / MB_PER_TICK;
+    }
+
+    @Override
+    public int willProduceItemID(IConsumeProduceWithTankTile tile) {
+        return BucketBloodConfig._instance.ID;
     }
 
 }

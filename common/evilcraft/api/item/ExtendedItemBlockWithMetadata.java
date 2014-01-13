@@ -28,7 +28,7 @@ public class ExtendedItemBlockWithMetadata extends ItemBlockWithMetadata{
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
     {
         if(hasInfo)
-            list.add(IInformationProvider.BLOCK_PREFIX+((IInformationProvider) block).getInfo(itemStack.getItemDamage()));
+            list.add(IInformationProvider.BLOCK_PREFIX+((IInformationProvider) block).getInfo(itemStack));
     }
 
 }

@@ -43,6 +43,11 @@ public class GuiBloodInfuser extends GuiContainer {
         int j = (width - xSize) / 2;
         int k = (height - ySize) / 2;
         drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
+        
+        if (this.tile.isInfusing()) {
+            int progressScaled = this.tile.getInfuseTickScaled(24);
+            this.drawTexturedModalRect(j + 64, k + 36, 192, 0, progressScaled, 16);
+        }
     }
     
     @Override
@@ -58,8 +63,7 @@ public class GuiBloodInfuser extends GuiContainer {
     }
     
     @Override
-    public void drawScreen(int mouseX, int mouseY, float gameTicks)
-    {
+    public void drawScreen(int mouseX, int mouseY, float gameTicks) {
         super.drawScreen(mouseX, mouseY, gameTicks);
         drawTooltips(mouseX, mouseY);
     }

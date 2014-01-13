@@ -45,7 +45,6 @@ public class CustomRecipe {
         boolean item = this.getItemStack().itemID == o.getItemStack().itemID;
         boolean fluid = true;
         boolean factory = this.getFactory() == o.getFactory();
-        
         if(this.getFluidStack() != null) {
             fluid = false;
             if(o.getFluidStack() != null) {

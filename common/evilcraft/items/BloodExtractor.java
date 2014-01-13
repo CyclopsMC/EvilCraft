@@ -1,20 +1,11 @@
 package evilcraft.items;
-import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.blocks.BloodStainedBlock;

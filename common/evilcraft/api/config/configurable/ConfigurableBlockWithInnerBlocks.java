@@ -56,8 +56,8 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     }
     
     @Override
-    public String getInfo(int meta) {
-        return "Block: "+EnumChatFormatting.ITALIC+getBlockFromMetadata(meta).getLocalizedName();
+    public String getInfo(ItemStack itemStack) {
+        return "Block: "+EnumChatFormatting.ITALIC+getBlockFromMetadata(itemStack.getItemDamage()).getLocalizedName();
     }
     
     /**
