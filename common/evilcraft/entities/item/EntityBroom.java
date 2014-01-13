@@ -3,6 +3,7 @@ package evilcraft.entities.item;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,11 +45,6 @@ public class EntityBroom extends Entity implements Configurable{
     public EntityBroom(World world, double x, double y, double z) {
         super(world);
         setPosition(x, y, z);
-    }
-    
-    @Override
-    public double getYOffset() {
-    	return -10d;
     }
 
     @Override
