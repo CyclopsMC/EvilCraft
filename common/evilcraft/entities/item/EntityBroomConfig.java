@@ -1,7 +1,8 @@
 package evilcraft.entities.item;
 
-import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.proxies.ClientProxy;
+import evilcraft.render.RenderBroom;
 
 public class EntityBroomConfig extends ExtendedConfig {
     
@@ -19,7 +20,7 @@ public class EntityBroomConfig extends ExtendedConfig {
     
     @Override
     public void onRegistered() {
-        //EvilCraft.renderers.put(EntityBroom.class, EntityBoat.));
+        ClientProxy.ENTITY_RENDERERS.put(EntityBroom.class, new RenderBroom());
     }
     
 }
