@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableBlockWithInnerBlocks;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableBlockWithInnerBlocks;
 import evilcraft.entities.monster.Netherfish;
 import evilcraft.entities.monster.NetherfishConfig;
 

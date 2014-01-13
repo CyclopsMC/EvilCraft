@@ -4,12 +4,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import evilcraft.api.DirectionCorner;
 import evilcraft.api.Helpers;
 
-public class TileConnectedTexture extends TileEntity{
+public class TileConnectedTexture extends ExtendedTileEntity{
     
     // Which directions relative to this block should connect (have same ID for example)
     protected boolean[] connectWithSides = new boolean[Helpers.DIRECTIONS.size()];
@@ -57,25 +56,6 @@ public class TileConnectedTexture extends TileEntity{
         this.connectWithSidesCorner[direction.ordinal()] = connect;
         if(old != connect)
             sendUpdate();
-    }
-    
-    private void sendUpdate() {
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-    }
-    
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound tag = new NBTTagCompound();
-        writeToNBT(tag);
-        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 1, tag);
-    }
-    
-    @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
-        super.onDataPacket(net, packet);
-        NBTTagCompound tag = packet.data;
-        readFromNBT(tag);
     }
 
 }

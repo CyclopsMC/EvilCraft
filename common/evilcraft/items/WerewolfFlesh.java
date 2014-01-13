@@ -10,8 +10,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.api.Helpers;
-import evilcraft.api.config.ConfigurableItemFood;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableItemFood;
 
 public class WerewolfFlesh extends ConfigurableItemFood {
     

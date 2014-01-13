@@ -5,8 +5,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableEnchantment;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableEnchantment;
 
 public class EnchantmentPoisonTip extends ConfigurableEnchantment {
     

@@ -4,10 +4,7 @@ import java.util.Random;
 
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
-import evilcraft.blocks.DarkOre;
-import evilcraft.blocks.DarkOreConfig;
 
 public class EvilDungeonGenerator implements IWorldGenerator {
     @Override

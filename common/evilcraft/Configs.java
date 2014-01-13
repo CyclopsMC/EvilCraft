@@ -11,14 +11,18 @@ import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkOreConfig;
 import evilcraft.blocks.EvilBlockConfig;
 import evilcraft.blocks.ExcrementPileConfig;
+import evilcraft.blocks.FluidBlockBloodConfig;
+import evilcraft.blocks.HardenedBloodConfig;
 import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
-import evilcraft.blocks.LiquidBlockBloodConfig;
 import evilcraft.blocks.NetherfishSpawnConfig;
+import evilcraft.blocks.ObscuredGlassConfig;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
+import evilcraft.entities.block.EntityLightningBombPrimedConfig;
+import evilcraft.entities.item.EntityBloodPearlConfig;
 import evilcraft.entities.item.EntityBroomConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.NetherfishConfig;
@@ -32,6 +36,7 @@ import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.ContainedFluxConfig;
 import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkStickConfig;
+import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.WeatherContainerConfig;
@@ -65,7 +70,7 @@ public class Configs {
         
         // Blocks
         configs.add(new EvilBlockConfig());
-        configs.add(new LiquidBlockBloodConfig());
+        configs.add(new FluidBlockBloodConfig());
         configs.add(new DarkOreConfig());
         configs.add(new DarkBlockConfig());
         configs.add(new BloodStainedBlockConfig());
@@ -76,6 +81,7 @@ public class Configs {
         configs.add(new BloodyCobblestoneConfig());
         configs.add(new NetherfishSpawnConfig());
         configs.add(new ExcrementPileConfig());
+        configs.add(new HardenedBloodConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -89,10 +95,15 @@ public class Configs {
         configs.add(new WeatherContainerConfig());        
         configs.add(new BloodPearlOfTeleportationConfig());
         configs.add(new BroomConfig());
+        configs.add(new HardenedBloodShardConfig());
+        configs.add(new ObscuredGlassConfig());
         
         // Entities
-        //Item
+        // Item
         configs.add(new EntityLightningGrenadeConfig());
+        configs.add(new EntityBloodPearlConfig());
+        // Block
+        configs.add(new EntityLightningBombPrimedConfig());
         // Monster
         configs.add(new WerewolfConfig()); // http://www.minecraftwiki.net/wiki/Resource_pack#pack.mcmeta
         configs.add(new NetherfishConfig());

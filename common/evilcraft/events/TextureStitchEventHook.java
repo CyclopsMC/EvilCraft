@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.RenderHelpers;
-import evilcraft.blocks.LiquidBlockBlood;
+import evilcraft.blocks.FluidBlockBlood;
 import evilcraft.fluids.Blood;
 
 public class TextureStitchEventHook {
@@ -18,7 +18,7 @@ public class TextureStitchEventHook {
     @SideOnly(Side.CLIENT)
     public void onTextureHookPost(TextureStitchEvent.Post event) {
         if (event.map.textureType == 0) {
-            Blood.getInstance().setIcons(LiquidBlockBlood.getInstance().getBlockTextureFromSide(1), LiquidBlockBlood.getInstance().getBlockTextureFromSide(2));
+            Blood.getInstance().setIcons(FluidBlockBlood.getInstance().getBlockTextureFromSide(1), FluidBlockBlood.getInstance().getBlockTextureFromSide(2));
         }
     }
     

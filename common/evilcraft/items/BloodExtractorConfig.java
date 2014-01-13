@@ -1,19 +1,17 @@
 package evilcraft.items;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ConfigHandler;
-import evilcraft.api.config.ConfigurableProperty;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.events.LivingDeathEventHook;
-import net.minecraftforge.common.MinecraftForge;
+import evilcraft.api.config.ElementTypeCategory;
+import evilcraft.api.config.ItemConfig;
+import evilcraft.api.config.configurable.ConfigurableProperty;
 
-public class BloodExtractorConfig extends ExtendedConfig {
+public class BloodExtractorConfig extends ItemConfig {
     
     public static BloodExtractorConfig _instance;
     
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_GENERAL, comment = "The minimum amount of blood (mB) that can be extracted from this block.")
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The minimum amount of blood (mB) that can be extracted from this block.")
     public static int minMB = 1000;
-    @ConfigurableProperty(category = ConfigHandler.CATEGORY_GENERAL, comment = "The maximum amount of blood (mB) that can be extracted from this block. IMPORTANT: must be larger than minMB!")
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The maximum amount of blood (mB) that can be extracted from this block. IMPORTANT: must be larger than minMB!")
     public static int maxMB = 2000;
 
     public BloodExtractorConfig() {

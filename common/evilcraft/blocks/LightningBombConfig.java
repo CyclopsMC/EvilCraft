@@ -1,9 +1,9 @@
 package evilcraft.blocks;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.BlockConfig;
 
-public class LightningBombConfig extends ExtendedConfig {
+public class LightningBombConfig extends BlockConfig {
     
     public static LightningBombConfig _instance;
 

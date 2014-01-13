@@ -1,9 +1,9 @@
 package evilcraft.items;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 
-public class LargeDoorItemConfig extends ExtendedConfig {
+public class LargeDoorItemConfig extends ItemConfig {
     
     public static LargeDoorItemConfig _instance;
 

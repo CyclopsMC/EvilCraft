@@ -1,8 +1,8 @@
 package evilcraft.entities.villager;
 
-import evilcraft.api.config.ConfigurableVillager;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableVillager;
 
 public class WerewolfVillager extends ConfigurableVillager{
     

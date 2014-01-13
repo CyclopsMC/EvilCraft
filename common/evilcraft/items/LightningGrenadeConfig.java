@@ -1,9 +1,9 @@
 package evilcraft.items;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 
-public class LightningGrenadeConfig extends ExtendedConfig {
+public class LightningGrenadeConfig extends ItemConfig {
     
     public static LightningGrenadeConfig _instance;
 

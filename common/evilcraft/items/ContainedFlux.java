@@ -4,8 +4,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import evilcraft.EvilCraft;
 import evilcraft.api.Helpers;
-import evilcraft.api.config.ConfigurableItem;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableItem;
 
 public class ContainedFlux extends ConfigurableItem {
     

@@ -2,8 +2,8 @@ package evilcraft.items;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import evilcraft.api.config.ConfigurableItem;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableItem;
 import evilcraft.entities.item.EntityBroom;
 
 public class Broom extends ConfigurableItem {

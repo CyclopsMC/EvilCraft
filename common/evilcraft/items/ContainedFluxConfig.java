@@ -1,9 +1,9 @@
 package evilcraft.items;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 
-public class ContainedFluxConfig extends ExtendedConfig {
+public class ContainedFluxConfig extends ItemConfig {
     
     public static ContainedFluxConfig _instance;
 

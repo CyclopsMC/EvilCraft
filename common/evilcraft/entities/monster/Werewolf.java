@@ -2,9 +2,9 @@ package evilcraft.entities.monster;
 
 import java.util.Random;
 
-import evilcraft.api.config.Configurable;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.Configurable;
 import evilcraft.items.WerewolfBoneConfig;
 
 import net.minecraft.entity.ai.EntityAIWander;

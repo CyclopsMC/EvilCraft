@@ -3,9 +3,9 @@ package evilcraft.blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.BlockConfig;
 
-public class BloodyCobblestoneConfig extends ExtendedConfig {
+public class BloodyCobblestoneConfig extends BlockConfig {
     
     public static BloodyCobblestoneConfig _instance;
 
@@ -24,7 +24,6 @@ public class BloodyCobblestoneConfig extends ExtendedConfig {
         OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(BloodyCobblestone.getInstance()));
     }
     
-    @Override
     public String getOreDictionaryId() {
         return "blockStone";
     }

@@ -13,7 +13,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.api.Helpers;
 import evilcraft.api.RenderHelpers;
-import evilcraft.api.config.IMultiRenderPassBlock;
+import evilcraft.api.config.configurable.IMultiRenderPassBlock;
 
 
 /**
@@ -77,6 +77,11 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
         GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         
+        // The following 3 methods enable transparency of a certain flavor
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDepthMask(false);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        
         
         if (block instanceof IMultiRenderPassBlock) {
             IMultiRenderPassBlock blockToRender = (IMultiRenderPassBlock)block;
@@ -106,6 +111,10 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
                 }
             }
         }
+        
+        // Turn off unneeded transparency flags
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
         
         GL11.glPopMatrix();
     }

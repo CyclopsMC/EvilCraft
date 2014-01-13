@@ -18,8 +18,8 @@ import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableBlockDoor;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableBlockDoor;
 import evilcraft.items.LargeDoorItemConfig;
 
 public class LargeDoor extends ConfigurableBlockDoor {

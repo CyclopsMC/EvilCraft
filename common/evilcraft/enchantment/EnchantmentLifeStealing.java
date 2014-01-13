@@ -4,8 +4,8 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableEnchantment;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableEnchantment;
 
 public class EnchantmentLifeStealing extends ConfigurableEnchantment {
     

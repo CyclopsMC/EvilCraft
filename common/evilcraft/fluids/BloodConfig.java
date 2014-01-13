@@ -1,8 +1,8 @@
 package evilcraft.fluids;
 
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.FluidConfig;
 
-public class BloodConfig extends ExtendedConfig {
+public class BloodConfig extends FluidConfig {
     
     public static BloodConfig _instance;
 
@@ -10,15 +10,10 @@ public class BloodConfig extends ExtendedConfig {
         super(
             1,
             "Blood",
-            "Blood",
+            "blood",
             null,
             Blood.class
         );
-    }
-    
-    @Override
-    public boolean isDisableable() {
-        return false;
     }
     
 }

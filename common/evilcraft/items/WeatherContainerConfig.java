@@ -1,9 +1,9 @@
 package evilcraft.items;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 
-public class WeatherContainerConfig extends ExtendedConfig {
+public class WeatherContainerConfig extends ItemConfig {
     
     public static WeatherContainerConfig _instance;
 

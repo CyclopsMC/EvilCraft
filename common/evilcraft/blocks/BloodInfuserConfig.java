@@ -1,11 +1,9 @@
 package evilcraft.blocks;
 
-import net.minecraft.tileentity.TileEntity;
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.entities.tileentities.TileBloodInfuser;
+import evilcraft.api.config.BlockConfig;
 
-public class BloodInfuserConfig extends ExtendedConfig {
+public class BloodInfuserConfig extends BlockConfig {
     
     public static BloodInfuserConfig _instance;
 

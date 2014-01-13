@@ -1,9 +1,9 @@
 package evilcraft.items;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 
-public class WerewolfFleshConfig extends ExtendedConfig {
+public class WerewolfFleshConfig extends ItemConfig {
     
     public static WerewolfFleshConfig _instance;
 

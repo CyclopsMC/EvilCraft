@@ -1,7 +1,12 @@
 package evilcraft.entities.tileentities;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,26 +21,52 @@ import net.minecraftforge.fluids.ItemFluidContainer;
 import evilcraft.CustomRecipe;
 import evilcraft.CustomRecipeRegistry;
 import evilcraft.CustomRecipeResult;
+import evilcraft.api.entities.tileentitites.ExtendedTileEntity;
 import evilcraft.api.fluids.SingleUseTank;
 import evilcraft.blocks.BloodInfuser;
+import evilcraft.entities.tileentities.tickaction.bloodinfuser.BloodInfuserTickAction;
+import evilcraft.entities.tileentities.tickaction.bloodinfuser.FluidContainerItemTickAction;
+import evilcraft.entities.tileentities.tickaction.bloodinfuser.InfuseItemTickAction;
+import evilcraft.entities.tileentities.tickaction.bloodinfuser.ItemBucketTickAction;
 import evilcraft.fluids.Blood;
 import evilcraft.inventory.SimpleInventory;
-import evilcraft.items.BucketBlood;
 
-public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, IFluidHandler{
+public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, IFluidHandler, IConsumeProduceWithTankTile {
     
     public static final int SLOT_CONTAINER = 0;
     public static final int SLOT_INFUSE = 1;
+    public static final int SLOT_INFUSE_RESULT = 2;
     public static final int LIQUID_PER_SLOT = FluidContainerRegistry.BUCKET_VOLUME * 10;
     public static final int TICKS_PER_MLIQUID = 2;
+    public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
     
-    protected SimpleInventory inventory = new SimpleInventory(2 , "BloodInfuser", 64);
+    public static final Map<Class<?>, BloodInfuserTickAction> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, BloodInfuserTickAction>();
+    static {
+        INFUSE_TICK_ACTIONS.put(ItemBucket.class, new ItemBucketTickAction());
+        INFUSE_TICK_ACTIONS.put(IFluidContainerItem.class, new FluidContainerItemTickAction());
+        INFUSE_TICK_ACTIONS.put(Item.class, new InfuseItemTickAction());
+    }
+    
+    protected SimpleInventory inventory = new SimpleInventory(3 , "BloodInfuser", 64);
     public SingleUseTank tank = new SingleUseTank("bloodTank", LIQUID_PER_SLOT, this);
     
     private int infuseTick = 0;
     
     public TileBloodInfuser() {
-        tank.setAcceptedFluid(Blood.getInstance()); // Only accept blood!
+        tank.setAcceptedFluid(ACCEPTED_FLUID); // Only accept blood!
+    }
+    
+    public static BloodInfuserTickAction getTickAction(Item item) {
+        for(Entry<Class<?>, BloodInfuserTickAction> entry : INFUSE_TICK_ACTIONS.entrySet()) {
+            if(entry.getKey().isInstance(item)) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+    
+    public SingleUseTank getTank() {
+        return tank;
     }
 
     @Override
@@ -133,27 +164,19 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
         super.updateEntity();
         fillTank();
         infuse();
-        /*if (CoreProxy.proxy.isRenderWorld(worldObj)) {
-            return;
-        }
-
-        balanceSlots();
-
-        if (craftSlot == null) {
-            internalPlayer = new InternalPlayer();
-            craftSlot = new SlotCrafting(internalPlayer, craftMatrix, craftResult, 0, 0, 0);
-        }
-        if (resultInv.getStackInSlot(SLOT_RESULT) != null) {
-            return;
-        }
-        update++;
-        if (update % UPDATE_TIME == 0) {
-            updateCrafting();
-        }*/
+        this.sendUpdate();
+    }
+    
+    @Override
+    public boolean canConsume(ItemStack itemStack) {
+        CustomRecipe customRecipeKey = new CustomRecipe(itemStack, tank.getFluid(), BloodInfuser.getInstance());
+        CustomRecipeResult result = CustomRecipeRegistry.get(customRecipeKey);
+        return itemStack.getItem() instanceof ItemBucket
+                || itemStack.getItem() instanceof IFluidContainerItem
+                || result != null;
     }
     
     private void fillTank() {
-        // TODO
         if(!tank.isFull()) {
             ItemStack containerStack = inventory.getStackInSlot(SLOT_CONTAINER);
             if(containerStack != null && (containerStack.getItem() instanceof ItemBucket
@@ -180,39 +203,21 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
     }
     
     private void infuse() {
-        infuseTick++;
-        if(!tank.isEmpty()) {
-            ItemStack infuseStack = inventory.getStackInSlot(SLOT_INFUSE);
-            if(infuseStack != null && infuseStack.getItem() != null) {
-                if(infuseStack.getItem() instanceof ItemBucket) {
-                    FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(infuseStack);
-                    if(tank.getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME && fluidStack == null) {
-                        tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                        inventory.setInventorySlotContents(SLOT_INFUSE, new ItemStack(BucketBlood.getInstance()));
-                    }
-                } else if(infuseStack.getItem() instanceof IFluidContainerItem) {
-                    ItemFluidContainer container = (ItemFluidContainer) infuseStack.getItem();
-                    int filled = container.fill(infuseStack, tank.getFluid(), true);
-                    tank.drain(filled, true);
-                } else {
-                    // TODO: recipe manager for blood infusings
-                    CustomRecipe customRecipeKey = new CustomRecipe(infuseStack, tank.getFluid(), BloodInfuser.getInstance());
-                    CustomRecipeResult result = CustomRecipeRegistry.get(customRecipeKey);
-                    //System.out.println("found:"+result);
-                    if(result != null) {
-                        inventory.setInventorySlotContents(SLOT_INFUSE, result.getResult().copy());
-                        if(result.getRecipe().getFluidStack() != null) {
-                            tank.drain(result.getRecipe().getFluidStack().amount, true);
-                        }
-                    }
-                }
+        ItemStack infuseStack = inventory.getStackInSlot(SLOT_INFUSE);
+        if(infuseStack != null) {
+            BloodInfuserTickAction action = getTickAction(infuseStack.getItem());
+            if(action.canTick(this, infuseTick)){
+                infuseTick++;
+                action.onTick(this, infuseTick);
             }
         }
     }
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        return tank.fill(resource, doFill);
+        int filled = tank.fill(resource, doFill);
+        this.sendUpdate();
+        return filled;
     }
 
     @Override
@@ -220,12 +225,16 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
             boolean doDrain) {
         if (resource == null || !resource.isFluidEqual(tank.getFluid()))
             return null;
-        return drain(from, resource.amount, doDrain);
+        FluidStack drained = drain(from, resource.amount, doDrain);
+        this.sendUpdate();
+        return drained;
     }
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-        return tank.drain(maxDrain, doDrain);
+        FluidStack drained = tank.drain(maxDrain, doDrain);
+        this.sendUpdate();
+        return drained;
     }
 
     @Override
@@ -243,6 +252,21 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
         FluidTankInfo[] info = new FluidTankInfo[1];
         info[0] = tank.getInfo();
         return info;
+    }
+
+    @Override
+    public SimpleInventory getInventory() {
+        return inventory;
+    }
+
+    @Override
+    public int getConsumeSlot() {
+        return SLOT_INFUSE;
+    }
+
+    @Override
+    public int getProduceSlot() {
+        return SLOT_INFUSE_RESULT;
     }
 
 }

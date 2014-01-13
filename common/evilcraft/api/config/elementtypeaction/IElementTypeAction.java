@@ -1,39 +1,21 @@
 package evilcraft.api.config.elementtypeaction;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigHandler;
-import evilcraft.api.config.ElementType;
-import evilcraft.api.config.ExtendedConfig;
-
 import net.minecraftforge.common.Configuration;
+import evilcraft.EvilCraft;
+import evilcraft.api.config.ExtendedConfig;
 
 /**
  * An action that can be used to register Configurables
  * @author Ruben Taelman
+ * @param <C> The subclass of ExtendedConfig
  *
  */
-public abstract class IElementTypeAction {
+public abstract class IElementTypeAction<C extends ExtendedConfig<C>> {
     
-    public static Map<ElementType, String> CATEGORIES = new HashMap<ElementType, String>();
-    static {
-        CATEGORIES.put(ElementType.ITEM, ConfigHandler.CATEGORY_ITEM);
-        CATEGORIES.put(ElementType.BLOCK, ConfigHandler.CATEGORY_BLOCK);
-        CATEGORIES.put(ElementType.BLOCKCONTAINER, ConfigHandler.CATEGORY_BLOCK);
-        CATEGORIES.put(ElementType.MOB, ConfigHandler.CATEGORY_ENTITY);
-        CATEGORIES.put(ElementType.ENTITY, ConfigHandler.CATEGORY_ENTITY);
-        CATEGORIES.put(ElementType.LIQUID, ConfigHandler.CATEGORY_LIQUID);
-        CATEGORIES.put(ElementType.ENCHANTMENT, ConfigHandler.CATEGORY_ENCHANTMENT);
-        
-        CATEGORIES.put(ElementType.DUMMY, ConfigHandler.CATEGORY_GENERAL);
-    }
-    
-    public void commonRun(ExtendedConfig eConfig, Configuration config) {
-        preRun(eConfig, config);
+    public void commonRun(ExtendedConfig<C> eConfig, Configuration config) {
+        preRun(eConfig.downCast(), config);
         if(eConfig.isEnabled()) {
-            postRun(eConfig, config);
+            postRun(eConfig.downCast(), config);
         } else if(!eConfig.isDisableable()) {
             throw new UndisableableConfigException(eConfig);
         } else {
@@ -41,7 +23,7 @@ public abstract class IElementTypeAction {
         }
     }
     
-    protected void onSkipRegistration(ExtendedConfig eConfig) {
+    protected void onSkipRegistration(ExtendedConfig<C> eConfig) {
         EvilCraft.log("Skipped registering "+eConfig.NAME);
     }
     
@@ -50,11 +32,11 @@ public abstract class IElementTypeAction {
      * @param eConfig configuration holder.
      * @param config configuration from the config file.
      */
-    public abstract void preRun(ExtendedConfig eConfig, Configuration config);
+    public abstract void preRun(C eConfig, Configuration config);
     /**
      * Logic to register the eConfig target.
      * @param eConfig configuration holder.
      * @param config configuration from the config file.
      */
-    public abstract void postRun(ExtendedConfig eConfig, Configuration config);
+    public abstract void postRun(C eConfig, Configuration config);
 }

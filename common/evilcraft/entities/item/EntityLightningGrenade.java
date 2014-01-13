@@ -11,9 +11,9 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.Configurable;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.Configurable;
 
 public class EntityLightningGrenade extends EntityThrowable implements Configurable{
     
@@ -24,6 +24,10 @@ public class EntityLightningGrenade extends EntityThrowable implements Configura
     // Set a configuration for this entity
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
+    }
+    
+    public EntityLightningGrenade(World par1World) {
+        super(par1World);
     }
 
     public EntityLightningGrenade(World par1World, EntityLivingBase par2EntityLivingBase) {

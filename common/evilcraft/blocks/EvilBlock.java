@@ -4,8 +4,8 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.common.MinecraftForge;
-import evilcraft.api.config.ConfigurableBlockConnectedTexture;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableBlockConnectedTexture;
 
 public class EvilBlock extends ConfigurableBlockConnectedTexture {
     

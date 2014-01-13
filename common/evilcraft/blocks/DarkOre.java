@@ -10,8 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableBlock;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableBlock;
 import evilcraft.items.DarkGemConfig;
 
 public class DarkOre extends ConfigurableBlock {

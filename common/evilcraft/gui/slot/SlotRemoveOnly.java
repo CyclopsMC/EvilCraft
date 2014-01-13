@@ -1,0 +1,19 @@
+package evilcraft.gui.slot;
+
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+
+public class SlotRemoveOnly extends Slot {
+
+    public SlotRemoveOnly(IInventory inventory, int index, int x,
+            int y) {
+        super(inventory, index, x, y);
+    }
+    
+    @Override
+    public boolean isItemValid(ItemStack itemStack) {
+        return false;
+    }
+
+}

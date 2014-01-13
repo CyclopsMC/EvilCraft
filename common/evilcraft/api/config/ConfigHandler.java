@@ -1,8 +1,6 @@
 package evilcraft.api.config;
 
-import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.Map;
 
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -10,17 +8,6 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig.ConfigProperty;
-import evilcraft.api.config.elementtypeaction.BlockAction;
-import evilcraft.api.config.elementtypeaction.DummyAction;
-import evilcraft.api.config.elementtypeaction.EnchantmentAction;
-import evilcraft.api.config.elementtypeaction.EntityAction;
-import evilcraft.api.config.elementtypeaction.EntityNoGlobalIdAction;
-import evilcraft.api.config.elementtypeaction.IElementTypeAction;
-import evilcraft.api.config.elementtypeaction.ItemAction;
-import evilcraft.api.config.elementtypeaction.LiquidAction;
-import evilcraft.api.config.elementtypeaction.MobAction;
-import evilcraft.api.config.elementtypeaction.VillagerAction;
 import evilcraft.commands.CommandConfig;
 import evilcraft.commands.CommandConfigSet;
 
@@ -31,33 +18,7 @@ import evilcraft.commands.CommandConfigSet;
  */
 public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
     
-    public static final String CATEGORY_ITEM = "item";
-    public static final String CATEGORY_BLOCK = "block";
-    public static final String CATEGORY_LIQUID = "liquid";
-    public static final String CATEGORY_ENTITY = "entity";
-    public static final String CATEGORY_GENERAL = "general";
-    public static final String CATEGORY_OREGENERATION = "oregeneration";
-    public static final String CATEGORY_ENCHANTMENT = "enchantment";
-    public static final String CATEGORY_MOB = "mob";
-    
-    public static final String CATEGORY_CORE = "core";
-    
     private static ConfigHandler _instance = null;
-    
-    private static Map<ElementType, IElementTypeAction> elementTypeActions = new HashMap<ElementType, IElementTypeAction>();
-    static {
-        elementTypeActions.put(ElementType.BLOCK, new BlockAction());
-        elementTypeActions.put(ElementType.BLOCKCONTAINER, new BlockAction());
-        elementTypeActions.put(ElementType.ITEM, new ItemAction());
-        elementTypeActions.put(ElementType.MOB, new MobAction());
-        elementTypeActions.put(ElementType.ENTITY, new EntityAction());
-        elementTypeActions.put(ElementType.LIQUID, new LiquidAction());
-        elementTypeActions.put(ElementType.ENCHANTMENT, new EnchantmentAction());
-        elementTypeActions.put(ElementType.VILLAGER, new VillagerAction());
-        elementTypeActions.put(ElementType.ENTITY_NO_GLOBAL_ID, new EntityNoGlobalIdAction());
-        
-        elementTypeActions.put(ElementType.DUMMY, new DummyAction());
-    }
     
     public static ConfigHandler getInstance() {
         if(_instance == null)
@@ -79,7 +40,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         // Loading the configuration from its file
         config.load();
         
-        for(ExtendedConfig eConfig : this) {
+        for(ExtendedConfig<?> eConfig : this) {
             if(!eConfig.isForceDisabled()) {
                 // Save additional properties
                 for(ConfigProperty configProperty : eConfig.configProperties) {
@@ -96,7 +57,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                 ElementType type = eConfig.getHolderType();
                 
                 // Register the element depending on the type and set the creative tab
-                elementTypeActions.get(type).commonRun(eConfig, config);
+                type.getElementTypeAction().commonRun(eConfig, config);
     
                 if(eConfig.isEnabled()) {
                     // Call the listener

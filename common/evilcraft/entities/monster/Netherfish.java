@@ -11,9 +11,9 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import evilcraft.api.config.Configurable;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.Configurable;
 import evilcraft.blocks.NetherfishSpawn;
 import evilcraft.blocks.NetherfishSpawnConfig;
 

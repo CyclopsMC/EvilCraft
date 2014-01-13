@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.command.ICommand;
-import evilcraft.api.config.ExtendedConfig.ConfigProperty;
+import evilcraft.api.config.ConfigProperty;
 
 public class CommandConfig extends CommandEvilCraft{
     

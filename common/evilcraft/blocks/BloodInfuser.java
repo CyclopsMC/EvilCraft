@@ -7,12 +7,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableBlockContainer;
-import evilcraft.api.config.ConfigurableBlockContainerGui;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableBlockContainer;
+import evilcraft.api.config.configurable.ConfigurableBlockContainerGui;
 import evilcraft.entities.tileentities.TileBloodInfuser;
+import evilcraft.gui.client.Gui;
 import evilcraft.render.EntityBloodSplashFX;
-import evilcraft.render.Gui;
 
 public class BloodInfuser extends ConfigurableBlockContainerGui {
     

@@ -1,26 +1,27 @@
 package evilcraft.entities.item;
 
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.proxies.ClientProxy;
+import net.minecraft.client.renderer.entity.Render;
+import evilcraft.Reference;
+import evilcraft.api.config.EntityConfig;
 import evilcraft.render.RenderBroom;
 
-public class EntityBroomConfig extends ExtendedConfig {
+public class EntityBroomConfig extends EntityConfig {
     
     public static EntityBroomConfig _instance;
 
     public EntityBroomConfig() {
         super(
-            1,
-            "EntityBroom",
+            Reference.ENTITY_BROOM,
+            "Broom",
             "entityBroom",
             null,
             EntityBroom.class
         );
     }
-    
+
     @Override
-    public void onRegistered() {
-        ClientProxy.ENTITY_RENDERERS.put(EntityBroom.class, new RenderBroom());
+    public Render getRender() {
+        return new RenderBroom();
     }
     
 }

@@ -2,8 +2,8 @@ package evilcraft.blocks;
 import java.util.Random;
 
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ConfigurableBlock;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableBlock;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
