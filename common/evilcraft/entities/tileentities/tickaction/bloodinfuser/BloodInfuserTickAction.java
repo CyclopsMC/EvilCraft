@@ -12,7 +12,7 @@ public abstract class BloodInfuserTickAction implements ITickActionWithTank<ICon
     public boolean canTick(IConsumeProduceEmptyInTankTile tile, int tick) {
         // Only allow ticking if production slot is empty or if the producing item is the same and
         // there is at least one spot left in the stack.
-        if(!tile.getTank().isEmpty() && getInfuseStack(tile) != null) {
+        if(!tile.getTank().isEmpty() && getInfuseStack(tile) != null && tile.canConsume(getInfuseStack(tile))) {
             ItemStack production = tile.getInventory().getStackInSlot(tile.getProduceSlot());
             if(production == null) {
                 return true;

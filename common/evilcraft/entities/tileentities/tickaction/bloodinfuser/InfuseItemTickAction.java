@@ -45,9 +45,4 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
         return result.getResult().itemID;
     }
     
-    @Override
-    public boolean canTick(IConsumeProduceEmptyInTankTile tile, int tick) {
-        return getResult(tile) != null && super.canTick(tile, tick);
-    }
-    
 }

@@ -32,11 +32,5 @@ public class ItemBucketTickAction extends BloodInfuserTickAction{
     public int willProduceItemID(IConsumeProduceEmptyInTankTile tile) {
         return BucketBloodConfig._instance.ID;
     }
-    
-    @Override
-    public boolean canTick(IConsumeProduceEmptyInTankTile tile, int tick) {
-        return super.canTick(tile, tick)
-                && tile.getTank().getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME;
-    }
 
 }

@@ -184,7 +184,8 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
     @Override
     public boolean canConsume(ItemStack itemStack) {
         // Empty bucket
-        if(itemStack.getItem().itemID == Item.bucketEmpty.itemID)
+        if(itemStack.getItem().itemID == Item.bucketEmpty.itemID
+                && this.getTank().getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME)
             return true;
         
         // Valid fluid container
