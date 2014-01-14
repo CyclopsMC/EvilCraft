@@ -117,40 +117,32 @@ public class ContainerBloodInfuser extends ExtendedContainer {
     }
     
     @Override
-    protected boolean mergeItemStack(ItemStack stack, int slotStart, int slotRange, boolean reverse)
-    {
+    protected boolean mergeItemStack(ItemStack stack, int slotStart, int slotRange, boolean reverse) {
             boolean successful = false;
             int slotIndex = slotStart;
             int maxStack = Math.min(stack.getMaxStackSize(), tile.getInventorySize());
             
-            if(reverse)
-            {
+            if(reverse) {
                     slotIndex = slotRange - 1;
             }
             
             Slot slot;
             ItemStack existingStack;
             
-            if(stack.isStackable())
-            {
-                    while(stack.stackSize > 0 && (!reverse && slotIndex < slotRange || reverse && slotIndex >= slotStart))
-                    {
+            if(stack.isStackable()) {
+                    while(stack.stackSize > 0 && (!reverse && slotIndex < slotRange || reverse && slotIndex >= slotStart)) {
                             slot = (Slot)this.inventorySlots.get(slotIndex);
                             existingStack = slot.getStack();
                             
-                            if(slot.isItemValid(stack) && existingStack != null && existingStack.itemID == stack.itemID && (!stack.getHasSubtypes() || stack.getItemDamage() == existingStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, existingStack))
-                            {
+                            if(slot.isItemValid(stack) && existingStack != null && existingStack.itemID == stack.itemID && (!stack.getHasSubtypes() || stack.getItemDamage() == existingStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, existingStack)) {
                                     int existingSize = existingStack.stackSize + stack.stackSize;
                                     
-                                    if(existingSize <= maxStack)
-                                    {
+                                    if(existingSize <= maxStack) {
                                             stack.stackSize = 0;
                                             existingStack.stackSize = existingSize;
                                             slot.onSlotChanged();
                                             successful = true;
-                                    }
-                                    else if (existingStack.stackSize < maxStack)
-                                    {
+                                    } else if (existingStack.stackSize < maxStack) {
                                             stack.stackSize -= maxStack - existingStack.stackSize;
                                             existingStack.stackSize = maxStack;
                                             slot.onSlotChanged();
@@ -158,35 +150,26 @@ public class ContainerBloodInfuser extends ExtendedContainer {
                                     }
                             }
                             
-                            if(reverse)
-                            {
+                            if(reverse) {
                                     --slotIndex;
-                            }
-                            else
-                            {
+                            } else {
                                     ++slotIndex;
                             }
                     }
             }
             
-            if(stack.stackSize > 0)
-            {
-                    if(reverse)
-                    {
+            if(stack.stackSize > 0) {
+                    if(reverse) {
                             slotIndex = slotRange - 1;
-                    }
-                    else
-                    {
+                    } else {
                             slotIndex = slotStart;
                     }
                     
-                    while(!reverse && slotIndex < slotRange || reverse && slotIndex >= slotStart)
-                    {
+                    while(!reverse && slotIndex < slotRange || reverse && slotIndex >= slotStart) {
                             slot = (Slot)this.inventorySlots.get(slotIndex);
                             existingStack = slot.getStack();
                             
-                            if(slot.isItemValid(stack) && existingStack == null)
-                            {
+                            if(slot.isItemValid(stack) && existingStack == null) {
                                     slot.putStack(stack.copy());
                                     slot.onSlotChanged();
                                     stack.stackSize = 0;
@@ -194,12 +177,9 @@ public class ContainerBloodInfuser extends ExtendedContainer {
                                     break;
                             }
                             
-                            if(reverse)
-                            {
+                            if(reverse) {
                                     --slotIndex;
-                            }
-                            else
-                            {
+                            } else {
                                     ++slotIndex;
                             }
                     }
