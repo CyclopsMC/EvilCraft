@@ -1,9 +1,9 @@
 package evilcraft.entities.tileentities;
 
-import evilcraft.api.fluids.Tank;
+import evilcraft.api.fluids.SingleUseTank;
 
 public interface IConsumeProduceWithTankTile extends IConsumeProduceTile {
     
-    public Tank getTank();
+    public SingleUseTank getTank();
     
 }

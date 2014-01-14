@@ -17,21 +17,22 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.fluids.ItemFluidContainer;
 import evilcraft.CustomRecipe;
 import evilcraft.CustomRecipeRegistry;
 import evilcraft.CustomRecipeResult;
 import evilcraft.api.entities.tileentitites.ExtendedTileEntity;
 import evilcraft.api.fluids.SingleUseTank;
 import evilcraft.blocks.BloodInfuser;
-import evilcraft.entities.tileentities.tickaction.bloodinfuser.BloodInfuserTickAction;
+import evilcraft.entities.tileentities.tickaction.bloodinfuser.EmptyFluidContainerInTankTickAction;
+import evilcraft.entities.tileentities.tickaction.bloodinfuser.EmptyItemBucketInTankTickAction;
 import evilcraft.entities.tileentities.tickaction.bloodinfuser.FluidContainerItemTickAction;
+import evilcraft.entities.tileentities.tickaction.bloodinfuser.ITickActionWithTank;
 import evilcraft.entities.tileentities.tickaction.bloodinfuser.InfuseItemTickAction;
 import evilcraft.entities.tileentities.tickaction.bloodinfuser.ItemBucketTickAction;
 import evilcraft.fluids.Blood;
 import evilcraft.inventory.SimpleInventory;
 
-public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, IFluidHandler, IConsumeProduceWithTankTile {
+public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, IFluidHandler, IConsumeProduceEmptyInTankTile {
     
     public static final int SLOTS = 3;
     public static final int SLOT_CONTAINER = 0;
@@ -41,11 +42,17 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
     public static final int TICKS_PER_MLIQUID = 2;
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
     
-    public static final Map<Class<?>, BloodInfuserTickAction> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, BloodInfuserTickAction>();
+    public static final Map<Class<?>, ITickActionWithTank<IConsumeProduceEmptyInTankTile>> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickActionWithTank<IConsumeProduceEmptyInTankTile>>();
     static {
         INFUSE_TICK_ACTIONS.put(ItemBucket.class, new ItemBucketTickAction());
         INFUSE_TICK_ACTIONS.put(IFluidContainerItem.class, new FluidContainerItemTickAction());
         INFUSE_TICK_ACTIONS.put(Item.class, new InfuseItemTickAction());
+    }
+    
+    public static final Map<Class<?>, ITickActionWithTank<IConsumeProduceEmptyInTankTile>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickActionWithTank<IConsumeProduceEmptyInTankTile>>();
+    static {
+        EMPTY_IN_TANK_TICK_ACTIONS.put(ItemBucket.class, new EmptyItemBucketInTankTickAction());
+        EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction());
     }
     
     protected SimpleInventory inventory = new SimpleInventory(SLOTS , "BloodInfuser", 64);
@@ -53,6 +60,7 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
     
     public int infuseTick = 0;
     public int requiredTicks = 0;
+    public int emptyTick = 0;
     
     public TileBloodInfuser() {
         tank.setAcceptedFluid(ACCEPTED_FLUID); // Only accept blood!
@@ -62,8 +70,8 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
         return inventory.getSizeInventory();
     }
     
-    public static BloodInfuserTickAction getTickAction(Item item) {
-        for(Entry<Class<?>, BloodInfuserTickAction> entry : INFUSE_TICK_ACTIONS.entrySet()) {
+    public static ITickActionWithTank<IConsumeProduceEmptyInTankTile> getTickAction(Item item, Map<Class<?>, ITickActionWithTank<IConsumeProduceEmptyInTankTile>> map) {
+        for(Entry<Class<?>, ITickActionWithTank<IConsumeProduceEmptyInTankTile>> entry : map.entrySet()) {
             if(entry.getKey().isInstance(item)) {
                 return entry.getValue();
             }
@@ -71,6 +79,7 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
         return null;
     }
     
+    @Override
     public SingleUseTank getTank() {
         return tank;
     }
@@ -174,52 +183,55 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
     
     @Override
     public boolean canConsume(ItemStack itemStack) {
-        CustomRecipe customRecipeKey = new CustomRecipe(itemStack, tank.getFluid(), BloodInfuser.getInstance());
-        CustomRecipeResult result = CustomRecipeRegistry.get(customRecipeKey);
-        return itemStack.getItem() instanceof ItemBucket
-                || itemStack.getItem() instanceof IFluidContainerItem
-                || result != null;
-    }
-    
-    private void fillTank() {
-        if(!tank.isFull()) {
-            ItemStack containerStack = inventory.getStackInSlot(SLOT_CONTAINER);
-            if(containerStack != null && (containerStack.getItem() instanceof ItemBucket
-                    || containerStack.getItem() instanceof IFluidContainerItem)) {
-                // Two cases for fluid draining into the tank
-                if(containerStack.getItem() instanceof ItemBucket) { // item is ItemBucket
-                    FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(containerStack);
-                    if(tank.getCapacity() - tank.getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME
-                            && fluidStack != null && tank.getAcceptedFluid().equals(fluidStack.getFluid())) {
-                        tank.fill(fluidStack, true);
-                        inventory.setInventorySlotContents(SLOT_CONTAINER, FluidContainerRegistry.EMPTY_BUCKET.copy());
-                    }
-                } else { // item is IFluidContainerItem
-                    ItemFluidContainer container = (ItemFluidContainer) containerStack.getItem();
-                    // In the following case our container is empty
-                    if(container.getFluid(containerStack) != null) {
-                        FluidStack fluidStack = container.getFluid(containerStack).copy();
-                        int filled = tank.fill(fluidStack, true);
-                        container.drain(containerStack, filled, true);
-                    }
+        // Empty bucket
+        if(itemStack.getItem().itemID == Item.bucketEmpty.itemID)
+            return true;
+        
+        // Valid fluid container
+        if(itemStack.getItem() instanceof IFluidContainerItem) {
+            IFluidContainerItem container = (IFluidContainerItem) itemStack.getItem();
+            FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
+            if(fluidStack == null) {
+                return true;
+            } else {
+                if(fluidStack.getFluid() == tank.getAcceptedFluid()
+                        && fluidStack.amount < container.getCapacity(itemStack)) {
+                    return true;
                 }
             }
         }
+        
+        // Valid custom recipe
+        CustomRecipe customRecipeKey = new CustomRecipe(itemStack, tank.getFluid(), BloodInfuser.getInstance());
+        CustomRecipeResult result = CustomRecipeRegistry.get(customRecipeKey);
+        if(result != null)
+            return true;
+        
+        // In all other cases: false
+        return false;
+    }
+    
+    private void fillTank() {
+        emptyTick = tick(emptyTick, inventory.getStackInSlot(SLOT_CONTAINER), EMPTY_IN_TANK_TICK_ACTIONS, false);
     }
     
     private void infuse() {
-        ItemStack infuseStack = inventory.getStackInSlot(SLOT_INFUSE);
-        if(infuseStack != null) {
-            BloodInfuserTickAction action = getTickAction(infuseStack.getItem());
-            if(action.canTick(this, infuseTick)){
-                if(infuseTick == 0)
+        infuseTick = tick(infuseTick, inventory.getStackInSlot(SLOT_INFUSE), INFUSE_TICK_ACTIONS, true);
+    }
+    
+    private int tick(int tick, ItemStack itemStack, Map<Class<?>, ITickActionWithTank<IConsumeProduceEmptyInTankTile>> map, boolean setRequiredTicks) {
+        if(itemStack != null) {
+            ITickActionWithTank<IConsumeProduceEmptyInTankTile> action = getTickAction(itemStack.getItem(), map);
+            if(action.canTick(this, tick)){
+                if(tick == 0 && setRequiredTicks)
                     requiredTicks = action.getRequiredTicks(this);
-                infuseTick++;
-                action.onTick(this, infuseTick);
+                tick++;
+                action.onTick(this, tick);
             } else {
-                infuseTick = 0;
+                tick = 0;
             }
-        } else infuseTick = 0;
+        } else tick = 0;
+        return tick;
     }
 
     @Override
@@ -281,6 +293,11 @@ public class TileBloodInfuser extends ExtendedTileEntity implements IInventory, 
 
     public int getInfuseTickScaled(int scale) {
         return (int) ((float)infuseTick / (float)requiredTicks * (float)scale);
+    }
+
+    @Override
+    public int getEmptyToTankSlot() {
+        return SLOT_CONTAINER;
     }
 
 }

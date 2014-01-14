@@ -24,6 +24,7 @@ public class ContainerBloodInfuser extends ExtendedContainer {
     private TileBloodInfuser tile;
     
     private int infuseTick = 0;
+    private int emptyTick = 0;
 
     public ContainerBloodInfuser(InventoryPlayer inventory, TileBloodInfuser tile) {
         super(tile.getInventorySize());
@@ -50,6 +51,7 @@ public class ContainerBloodInfuser extends ExtendedContainer {
     public void addCraftingToCrafters(ICrafting crafter) {
         super.addCraftingToCrafters(crafter);
         crafter.sendProgressBarUpdate(this, 0, this.tile.infuseTick);
+        crafter.sendProgressBarUpdate(this, 1, this.tile.emptyTick);
     }
     
     @Override
@@ -61,6 +63,10 @@ public class ContainerBloodInfuser extends ExtendedContainer {
             if (this.infuseTick != this.tile.infuseTick) {
                 icrafting.sendProgressBarUpdate(this, 0, this.tile.infuseTick);
             }
+            
+            if (this.emptyTick != this.tile.emptyTick) {
+                icrafting.sendProgressBarUpdate(this, 1, this.tile.emptyTick);
+            }
         }
         this.infuseTick = this.tile.infuseTick;
     }
@@ -70,6 +76,9 @@ public class ContainerBloodInfuser extends ExtendedContainer {
     public void updateProgressBar(int index, int value) {
         if (index == 0) {
             this.tile.infuseTick = value;
+        }
+        if (index == 1) {
+            this.tile.emptyTick = value;
         }
     }
     
@@ -83,11 +92,11 @@ public class ContainerBloodInfuser extends ExtendedContainer {
             ItemStack stackInSlot = slot.getStack();
             stack = stackInSlot.copy();
 
-            if(slotID < slots) {
+            if(slotID < slots) { // Click in tile -> player inventory
                 if(!mergeItemStack(stackInSlot, slots, inventorySlots.size(), true)) {
                     return null;
                 }
-            } else if(!mergeItemStack(stackInSlot, 0, slots, false)) {
+            } else if(!mergeItemStack(stackInSlot, 0, slots, false)) { // Click in player inventory -> tile
                 return null;
             }
             
@@ -112,7 +121,7 @@ public class ContainerBloodInfuser extends ExtendedContainer {
     {
             boolean successful = false;
             int slotIndex = slotStart;
-            int maxStack = Math.min(stack.getMaxStackSize(), tile.getInventoryStackLimit());
+            int maxStack = Math.min(stack.getMaxStackSize(), tile.getInventorySize());
             
             if(reverse)
             {
@@ -198,4 +207,5 @@ public class ContainerBloodInfuser extends ExtendedContainer {
             
             return successful;
     }
+    
 }

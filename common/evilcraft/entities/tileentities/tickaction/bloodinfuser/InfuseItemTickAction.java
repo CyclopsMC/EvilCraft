@@ -5,13 +5,12 @@ import evilcraft.CustomRecipe;
 import evilcraft.CustomRecipeRegistry;
 import evilcraft.CustomRecipeResult;
 import evilcraft.blocks.BloodInfuser;
-import evilcraft.entities.tileentities.IConsumeProduceWithTankTile;
-import evilcraft.items.BucketBloodConfig;
+import evilcraft.entities.tileentities.IConsumeProduceEmptyInTankTile;
 
 public class InfuseItemTickAction extends BloodInfuserTickAction{
 
     @Override
-    public void onTick(IConsumeProduceWithTankTile tile, int tick) {
+    public void onTick(IConsumeProduceEmptyInTankTile tile, int tick) {
         CustomRecipeResult result = getResult(tile);
         if(tick >= getRequiredTicks(tile, result.getRecipe())) {
             if(result != null) {
@@ -23,7 +22,7 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
         }
     }
     
-    private CustomRecipeResult getResult(IConsumeProduceWithTankTile tile) {
+    private CustomRecipeResult getResult(IConsumeProduceEmptyInTankTile tile) {
         ItemStack infuseStack = getInfuseStack(tile);
         CustomRecipe customRecipeKey = new CustomRecipe(infuseStack, tile.getTank().getFluid(), BloodInfuser.getInstance());
         CustomRecipeResult result = CustomRecipeRegistry.get(customRecipeKey);
@@ -31,19 +30,24 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
     }
     
     @Override
-    public int getRequiredTicks(IConsumeProduceWithTankTile tile) {
+    public int getRequiredTicks(IConsumeProduceEmptyInTankTile tile) {
         CustomRecipeResult result = getResult(tile);
         return getRequiredTicks(tile, result.getRecipe());
     }
     
-    private int getRequiredTicks(IConsumeProduceWithTankTile tile, CustomRecipe customRecipe) {
+    private int getRequiredTicks(IConsumeProduceEmptyInTankTile tile, CustomRecipe customRecipe) {
         return customRecipe.getDuration();
     }
     
     @Override
-    public int willProduceItemID(IConsumeProduceWithTankTile tile) {
+    public int willProduceItemID(IConsumeProduceEmptyInTankTile tile) {
         CustomRecipeResult result = getResult(tile);
         return result.getResult().itemID;
+    }
+    
+    @Override
+    public boolean canTick(IConsumeProduceEmptyInTankTile tile, int tick) {
+        return getResult(tile) != null && super.canTick(tile, tick);
     }
     
 }
