@@ -1,9 +1,10 @@
 package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 
 import net.minecraft.item.ItemStack;
-import evilcraft.entities.tileentities.IConsumeProduceEmptyInTankTile;
+import evilcraft.api.entities.tileentitites.IConsumeProduceEmptyInTankTile;
+import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 
-public abstract class EmptyInTankTickAction implements ITickActionWithTank<IConsumeProduceEmptyInTankTile> {
+public abstract class EmptyInTankTickAction implements ITickAction<IConsumeProduceEmptyInTankTile> {
     
     protected final static int MB_PER_TICK = 100;
     

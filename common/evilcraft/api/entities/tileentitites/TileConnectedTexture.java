@@ -8,7 +8,7 @@ import net.minecraftforge.common.ForgeDirection;
 import evilcraft.api.DirectionCorner;
 import evilcraft.api.Helpers;
 
-public class TileConnectedTexture extends ExtendedTileEntity{
+public class TileConnectedTexture extends EvilCraftTileEntity{
     
     // Which directions relative to this block should connect (have same ID for example)
     protected boolean[] connectWithSides = new boolean[Helpers.DIRECTIONS.size()];

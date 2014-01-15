@@ -4,8 +4,8 @@ import net.minecraft.item.ItemStack;
 import evilcraft.CustomRecipe;
 import evilcraft.CustomRecipeRegistry;
 import evilcraft.CustomRecipeResult;
+import evilcraft.api.entities.tileentitites.IConsumeProduceEmptyInTankTile;
 import evilcraft.blocks.BloodInfuser;
-import evilcraft.entities.tileentities.IConsumeProduceEmptyInTankTile;
 
 public class InfuseItemTickAction extends BloodInfuserTickAction{
 

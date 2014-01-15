@@ -20,7 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import evilcraft.api.entities.tileentitites.ExtendedTileEntity;
+import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 public class Helpers {
     public static final int MINECRAFT_DAY = 24000;
@@ -105,8 +105,8 @@ public class Helpers {
             //}
         }
 
-        if (tile instanceof ExtendedTileEntity) {
-            ((ExtendedTileEntity) tile).destroy();
+        if (tile instanceof EvilCraftTileEntity) {
+            ((EvilCraftTileEntity) tile).destroy();
         }
     }
     

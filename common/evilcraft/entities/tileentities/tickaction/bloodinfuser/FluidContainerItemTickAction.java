@@ -3,7 +3,7 @@ package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
-import evilcraft.entities.tileentities.IConsumeProduceEmptyInTankTile;
+import evilcraft.api.entities.tileentitites.IConsumeProduceEmptyInTankTile;
 
 public class FluidContainerItemTickAction extends BloodInfuserTickAction{
 

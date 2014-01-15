@@ -1,4 +1,4 @@
-package evilcraft.entities.tileentities;
+package evilcraft.api.entities.tileentitites;
 
 import evilcraft.api.fluids.SingleUseTank;
 

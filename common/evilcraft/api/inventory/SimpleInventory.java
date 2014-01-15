@@ -1,4 +1,4 @@
-package evilcraft.inventory;
+package evilcraft.api.inventory;
 
 import java.util.LinkedList;
 
