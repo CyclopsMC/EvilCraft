@@ -1,19 +1,18 @@
 package evilcraft.api.config.configurable;
 
-import evilcraft.EvilCraft;
-import evilcraft.api.Helpers;
-import evilcraft.api.config.ExtendedConfig;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import evilcraft.EvilCraft;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
     
     private int guiID;
 
     public ConfigurableBlockContainerGui(ExtendedConfig eConfig,
-            Material material, Class<? extends TileEntity> tileEntity, int guiID) {
+            Material material, Class<? extends EvilCraftTileEntity> tileEntity, int guiID) {
         super(eConfig, material, tileEntity);
         this.guiID = guiID;
     }

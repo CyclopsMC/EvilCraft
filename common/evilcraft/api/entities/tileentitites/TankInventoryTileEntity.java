@@ -13,7 +13,7 @@ import evilcraft.api.fluids.SingleUseTank;
  * @author rubensworks
  *
  */
-public class TankInventoryTileEntity extends InventoryTileEntity implements IFluidHandler {
+public abstract class TankInventoryTileEntity extends InventoryTileEntity implements IFluidHandler {
     
     protected SingleUseTank tank;
 

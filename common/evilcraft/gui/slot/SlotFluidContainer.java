@@ -16,6 +16,10 @@ public class SlotFluidContainer extends Slot {
     
     @Override
     public boolean isItemValid(ItemStack itemStack) {
+        return checkIsItemValid(itemStack);
+    }
+    
+    public static boolean checkIsItemValid(ItemStack itemStack) {
         return itemStack != null
                 && (itemStack.getItem() instanceof ItemBucket
                 || itemStack.getItem() instanceof IFluidContainerItem)

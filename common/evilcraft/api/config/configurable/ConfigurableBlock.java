@@ -2,10 +2,10 @@ package evilcraft.api.config.configurable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
@@ -108,6 +108,7 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
         // Well, the world goes on, cry just a little and carry on!
     }
     
+    @Override
     public void setInventoryBlock(boolean isInventoryBlock) {
         this.isInventoryBlock = isInventoryBlock;
     }

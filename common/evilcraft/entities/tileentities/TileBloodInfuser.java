@@ -1,11 +1,14 @@
 package evilcraft.entities.tileentities;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -25,6 +28,7 @@ import evilcraft.entities.tileentities.tickaction.bloodinfuser.FluidContainerIte
 import evilcraft.entities.tileentities.tickaction.bloodinfuser.InfuseItemTickAction;
 import evilcraft.entities.tileentities.tickaction.bloodinfuser.ItemBucketTickAction;
 import evilcraft.fluids.Blood;
+import evilcraft.gui.slot.SlotFluidContainer;
 
 public class TileBloodInfuser extends TickingTankInventoryTileEntity implements IConsumeProduceEmptyInTankTile {
     
@@ -50,8 +54,7 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
         EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction());
     }
     
-    private TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>> infuseTicker;
-    private TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>> emptyTicker;
+    private int infuseTicker;
     
     public TileBloodInfuser() {
         super(
@@ -60,20 +63,31 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
                 LIQUID_PER_SLOT,
                 BloodInfuserConfig._instance.NAME + " Tank",
                 ACCEPTED_FLUID);
-        infuseTicker = new TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>>(this, INFUSE_TICK_ACTIONS, true);
-        emptyTicker = new TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>>(this, EMPTY_IN_TANK_TICK_ACTIONS);
-    }
-    
-    @Override
-    public boolean canUpdate() {
-        return true;
-    }
-    
-    @Override
-    public void updateEntity() {
-        super.updateEntity();
-        emptyTicker.tick(inventory.getStackInSlot(SLOT_CONTAINER));
-        infuseTicker.tick(inventory.getStackInSlot(SLOT_INFUSE));
+        infuseTicker = addTicker(
+                new TickComponent<
+                    IConsumeProduceEmptyInTankTile,
+                    ITickAction<IConsumeProduceEmptyInTankTile>
+                >(this, INFUSE_TICK_ACTIONS, SLOT_INFUSE, true)
+                );
+        addTicker(
+                new TickComponent<
+                    IConsumeProduceEmptyInTankTile,
+                    ITickAction<IConsumeProduceEmptyInTankTile>
+                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
+                );
+        
+        // The slots side mapping
+        List<Integer> inSlots = new LinkedList<Integer>();
+        inSlots.add(SLOT_INFUSE);
+        List<Integer> inSlotsTank = new LinkedList<Integer>();
+        inSlotsTank.add(SLOT_CONTAINER);
+        List<Integer> outSlots = new LinkedList<Integer>();
+        outSlots.add(SLOT_INFUSE_RESULT);
+        addSlotsToSide(ForgeDirection.EAST, inSlotsTank);
+        addSlotsToSide(ForgeDirection.UP, inSlots);
+        addSlotsToSide(ForgeDirection.DOWN, outSlots);
+        addSlotsToSide(ForgeDirection.SOUTH, outSlots);
+        addSlotsToSide(ForgeDirection.WEST, outSlots);
     }
     
     @Override
@@ -106,6 +120,15 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
         // In all other cases: false
         return false;
     }
+    
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        if(slot == SLOT_INFUSE)
+            return canConsume(itemStack);
+        if(slot == SLOT_CONTAINER)
+            return SlotFluidContainer.checkIsItemValid(itemStack);
+        return false;
+    }
 
     @Override
     public int getConsumeSlot() {
@@ -117,10 +140,19 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
         return SLOT_INFUSE_RESULT;
     }
     
+    /**
+     * If the blood infuser is running an infusion.
+     * @return If it is infusing.
+     */
     public boolean isInfusing() {
         return getInfuseTick() > 0;
     }
 
+    /**
+     * Get the infuse progress scaled, to be used in GUI's.
+     * @param scale The scale this progress should be applied to.
+     * @return The scaled infusion progress.
+     */
     public int getInfuseTickScaled(int scale) {
         return (int) ((float)getInfuseTick() / (float)getRequiredTicks() * (float)scale);
     }
@@ -130,24 +162,12 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
         return SLOT_CONTAINER;
     }
     
-    public int getInfuseTick() {
-        return infuseTicker.getTick();
+    private int getInfuseTick() {
+        return getTickers().get(infuseTicker).getTick();
     }
     
-    public void setInfuseTick(int infuseTick) {
-        this.infuseTicker.setTick(infuseTick);
-    }
-    
-    public int getEmptyTick() {
-        return emptyTicker.getTick();
-    }
-    
-    public void setEmptyTick(int emptyTick) {
-        this.emptyTicker.setTick(emptyTick);
-    }
-    
-    public int getRequiredTicks() {
-        return infuseTicker.getRequiredTicks();
+    private int getRequiredTicks() {
+        return getTickers().get(infuseTicker).getRequiredTicks();
     }
 
 }

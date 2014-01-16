@@ -9,6 +9,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityLivingData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
@@ -24,8 +25,20 @@ import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 public class Helpers {
     public static final int MINECRAFT_DAY = 24000;
+    public static final int COMPARATOR_MULTIPLIER = 15;
+    
     public static List<ForgeDirection> DIRECTIONS = Arrays.asList(ForgeDirection.VALID_DIRECTIONS);
     public static List<DirectionCorner> DIRECTIONS_CORNERS = Arrays.asList(DirectionCorner.VALID_DIRECTIONS);
+    public static final ForgeDirection[] ENTITYFACING =
+        {ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.NORTH, ForgeDirection.EAST};
+    public static ForgeDirection[][] TEXTURESIDE_ORIENTATION = {
+        {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST}, // DOWN
+        {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST}, // UP
+        {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST}, // NORTH
+        {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.WEST}, // SOUTH
+        {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.EAST, ForgeDirection.WEST, ForgeDirection.NORTH, ForgeDirection.SOUTH}, // WEST
+        {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.WEST, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH}, // EAST
+    };
     
     /**
      * Check if it's day in this world
@@ -99,10 +112,8 @@ public class Helpers {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
 
         if (tile instanceof IInventory && !world.isRemote) {
-            //if (!(tile instanceof IDropControlInventory) || ((IDropControlInventory) tile).doDrop()) {
-                dropItems(world, (IInventory) tile, x, y, z);
-                clearInventory((IInventory) tile);
-            //}
+            dropItems(world, (IInventory) tile, x, y, z);
+            clearInventory((IInventory) tile);
         }
 
         if (tile instanceof EvilCraftTileEntity) {
@@ -219,6 +230,11 @@ public class Helpers {
             }
         } catch (Exception e) {}
         return newValueParsed;
+    }
+    
+    public static ForgeDirection getEntityFacingDirection(EntityLivingBase entity) {
+        int facingDirection = MathHelper.floor_double((entity.rotationYaw * 4F) / 360F + 0.5D) & 3;
+        return ENTITYFACING[facingDirection];
     }
     
 }
