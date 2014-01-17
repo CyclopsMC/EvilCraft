@@ -25,7 +25,7 @@ public class GuiBloodInfuser extends GuiContainer {
 
     private static final int TANKHEIGHT = 58;
     private static final int TANKWIDTH = 16;
-    private static final int TANKX = 26;
+    private static final int TANKX = 43;
     private static final int TANKY = 72;
     
     protected TileBloodInfuser tile;
@@ -46,14 +46,14 @@ public class GuiBloodInfuser extends GuiContainer {
         
         if (this.tile.isInfusing()) {
             int progressScaled = this.tile.getInfuseTickScaled(24);
-            this.drawTexturedModalRect(j + 64, k + 36, 192, 0, progressScaled, 16);
+            this.drawTexturedModalRect(j + 102, k + 36, 192, 0, progressScaled, 16);
         }
     }
     
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tile.getInvName(), 8, 4, 4210752);
-        
+        GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         SingleUseTank tank = tile.getTank();
         if(shouldRenderTank()) {

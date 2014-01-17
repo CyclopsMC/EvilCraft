@@ -38,7 +38,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     private Class<? extends EvilCraftTileEntity> tileEntity;
     
     private boolean rotatable;
-    private Icon[] sideIcons = new Icon[Helpers.DIRECTIONS.size()];
+    protected Icon[] sideIcons = new Icon[Helpers.DIRECTIONS.size()];
     
     public ConfigurableBlockContainer(ExtendedConfig eConfig, Material material, Class<? extends EvilCraftTileEntity> tileEntity) {
         super(eConfig.ID, material);
@@ -148,7 +148,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
             
             if(tile.isRotatable()) {
                 ForgeDirection facing = Helpers.getEntityFacingDirection(entity);
-                tile.setRotation(facing.getOpposite());
+                tile.setRotation(facing);
             }
         }
     }
