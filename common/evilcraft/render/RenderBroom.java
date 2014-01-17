@@ -29,7 +29,11 @@ public class RenderBroom extends Render {
 	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
 		GL11.glPushMatrix();
         GL11.glTranslatef((float)x, (float)y, (float)z);
-        GL11.glRotatef(180.0F - yaw, 0.0F, 1.0F, 0.0F);
+        
+        // Note: using entity.rotationYaw instead of yaw seems to fix some glitchyness when rendering
+        // In case this causes other problems, you can replace it by the yaw again
+        GL11.glRotatef(180.0F - entity.rotationYaw, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(-entity.rotationPitch, 1.0F, 0.0F, 0.0F);
         
         bindEntityTexture(entity);
         

@@ -3,13 +3,12 @@ package evilcraft.entities.item;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.EvilCraft;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.network.RemoteKeyHandler;
 import evilcraft.api.config.configurable.Configurable;
 
 /**
@@ -26,7 +25,13 @@ public class EntityBroom extends Entity implements Configurable{
     
     // Speed for the broom (in all directions)
     public static final double SPEED = 0.4;
-
+    
+    // Maximum and minimum angle of the broom between the XZ-plane and the Y-axis 
+    // (in degrees, -90 = completely up, +90 = completely down)
+    // This limits the angle under which the player can move up or down
+    public static final float MAX_ANGLE = 45.0F;	
+    public static final float MIN_ANGLE = -45.0F;
+    
     // Set a configuration for this entity
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
@@ -81,11 +86,18 @@ public class EntityBroom extends Entity implements Configurable{
     		// Rotate broom
     		rotationPitch = player.rotationPitch;
     		rotationYaw = player.rotationYaw;
+    		
+    		// Limit the angle under which the player can move up or down
+    		if (rotationPitch > MAX_ANGLE)
+    			rotationPitch = MAX_ANGLE;
+    		else if (rotationPitch < MIN_ANGLE)
+    			rotationPitch = MIN_ANGLE;
+    		
     		setRotation(rotationYaw, rotationPitch);
     		
     		// Handle player movement
-    		double pitch = ((player.rotationPitch + 90) * Math.PI) / 180;
-    		double yaw = ((player.rotationYaw + 90) * Math.PI) / 180;
+    		double pitch = ((rotationPitch + 90) * Math.PI) / 180;
+    		double yaw = ((rotationYaw + 90) * Math.PI) / 180;
     		
     		double x = Math.sin(pitch) * Math.cos(yaw);
     		double z = Math.sin(pitch) * Math.sin(yaw);
