@@ -2,6 +2,7 @@ package evilcraft.entities.item;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -10,6 +11,7 @@ import evilcraft.EvilCraft;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.items.Broom;
 
 /**
  * Entity for a broom
@@ -31,6 +33,9 @@ public class EntityBroom extends Entity implements Configurable{
     // This limits the angle under which the player can move up or down
     public static final float MAX_ANGLE = 45.0F;	
     public static final float MIN_ANGLE = -45.0F;
+    
+    // The player that last mounted this broom (used to detect dismounting)
+    public EntityPlayer lastMounted = null;
     
     // Set a configuration for this entity
     public void setConfig(ExtendedConfig eConfig) {
@@ -71,6 +76,7 @@ public class EntityBroom extends Entity implements Configurable{
     public boolean interactFirst(EntityPlayer player) {
     	if (!worldObj.isRemote && riddenByEntity == null) {
     		player.mountEntity(this);
+    		lastMounted = player;
     	}
     	
     	return true;
@@ -80,8 +86,22 @@ public class EntityBroom extends Entity implements Configurable{
     public void onUpdate() {
     	super.onUpdate();
     	
-    	if (riddenByEntity != null && riddenByEntity instanceof EntityPlayer) {
+    	if (riddenByEntity == null && lastMounted != null) {
+    		// The player dismounted, give him his broom back
+    		worldObj.removeEntity(this);
+    		lastMounted.inventory.addItemStackToInventory(new ItemStack(Broom.getInstance(), 1));
+    		
+    	} else if (riddenByEntity != null && riddenByEntity instanceof EntityPlayer) {
     		EntityPlayer player = (EntityPlayer)riddenByEntity;
+    		
+    		/*
+    		 * TODO: if we ever have the problem that a player can dismount without
+    		 * getting the broom back in his inventory and removing the entity from the world
+    		 * its probably because of this next line of code because onUpdate() is called AFTER
+    		 * the player is dismounted, thus lastMounted is not updated before the player dismounts
+    		 * and thus the dismounting code is never executed
+    		 */
+    		lastMounted = player;
     		
     		// Rotate broom
     		rotationPitch = player.rotationPitch;

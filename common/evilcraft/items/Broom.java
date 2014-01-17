@@ -33,6 +33,8 @@ public class Broom extends ConfigurableItem {
     	
     	if (!world.isRemote) {
     		world.spawnEntityInWorld(new EntityBroom(world, x + 0.5, y + Y_SPAWN_OFFSET, z + 0.5));
+    		stack.stackSize--;
+    		
     		return true;
     	}
     	
