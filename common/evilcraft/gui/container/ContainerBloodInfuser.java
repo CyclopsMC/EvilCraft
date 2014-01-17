@@ -15,12 +15,10 @@ public class ContainerBloodInfuser extends TickingInventoryContainer<TileBloodIn
     public ContainerBloodInfuser(InventoryPlayer inventory, TileBloodInfuser tile) {
         super(inventory, tile);
 
-        // TODO Nicer GUI (make it more thaumcrafty than buildcrafty)
-
         // Adding inventory
         addSlotToContainer(new SlotFluidContainer(tile, TileBloodInfuser.SLOT_CONTAINER, 8, 36)); // Container emptier
-        addSlotToContainer(new SlotInfuse(tile, TileBloodInfuser.SLOT_INFUSE, 115, 36, tile)); // Infuse slot
-        addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, 130, 36)); // Infuse result slot
+        addSlotToContainer(new SlotInfuse(tile, TileBloodInfuser.SLOT_INFUSE, 79, 36, tile)); // Infuse slot
+        addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, 133, 36)); // Infuse result slot
 
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }

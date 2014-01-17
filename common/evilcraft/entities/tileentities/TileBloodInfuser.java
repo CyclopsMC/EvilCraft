@@ -170,4 +170,14 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
         return getTickers().get(infuseTicker).getRequiredTicks();
     }
 
+    @Override
+    public int getState() {
+        return this.isInfusing()?1:0;
+    }
+
+    @Override
+    public void onStateChanged() {
+        worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+    }
+
 }

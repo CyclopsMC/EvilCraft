@@ -14,6 +14,7 @@ import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
 public abstract class TickingTankInventoryTileEntity extends TankInventoryTileEntity {
     
     private LinkedList<TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>>> tickers;
+    private int currentState = -1;
     
     /**
      * Make a new TickingTankInventoryTileEntity.
@@ -55,9 +56,21 @@ public abstract class TickingTankInventoryTileEntity extends TankInventoryTileEn
     @Override
     public void updateEntity() {
         super.updateEntity();
+        
+        // Update tickers.
         for(TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>> ticker : getTickers()) {
             ticker.tick(inventory.getStackInSlot(ticker.getSlot()));
         }
+        
+        // Update state (for block render update)
+        int newState = getState();
+        if(newState != currentState) {
+            currentState = newState;
+            onStateChanged();
+        }
     }
+    
+    public abstract int getState();
+    public abstract void onStateChanged();
 
 }
