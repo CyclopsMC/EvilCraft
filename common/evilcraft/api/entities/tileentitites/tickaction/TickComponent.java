@@ -59,6 +59,8 @@ public class TickComponent<C extends IConsumeProduceTile, T extends ITickAction<
                 if(tick == 0 && setRequiredTicks)
                     requiredTicks = action.getRequiredTicks(tile);
                 tick++;
+                if(setRequiredTicks && tick > requiredTicks)
+                    tick = 0;
                 action.onTick(tile, tick);
             } else {
                 tick = 0;

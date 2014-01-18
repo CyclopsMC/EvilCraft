@@ -30,11 +30,13 @@ import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.entities.villager.WerewolfVillagerConfig;
 import evilcraft.fluids.BloodConfig;
 import evilcraft.items.BloodExtractorConfig;
+import evilcraft.items.BloodInfusionCoreConfig;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
 import evilcraft.items.BroomConfig;
 import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.ContainedFluxConfig;
 import evilcraft.items.DarkGemConfig;
+import evilcraft.items.DarkPowerGemConfig;
 import evilcraft.items.DarkStickConfig;
 import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.LargeDoorItemConfig;
@@ -82,6 +84,7 @@ public class Configs {
         configs.add(new NetherfishSpawnConfig());
         configs.add(new ExcrementPileConfig());
         configs.add(new HardenedBloodConfig());
+        configs.add(new ObscuredGlassConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -96,7 +99,8 @@ public class Configs {
         configs.add(new BloodPearlOfTeleportationConfig());
         configs.add(new BroomConfig());
         configs.add(new HardenedBloodShardConfig());
-        configs.add(new ObscuredGlassConfig());
+        configs.add(new DarkPowerGemConfig());
+        configs.add(new BloodInfusionCoreConfig());
         
         // Entities
         // Item

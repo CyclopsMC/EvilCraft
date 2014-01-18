@@ -47,6 +47,8 @@ public class Reference {
     public static final int ITEM_BLOODPEARLOFTELEPORTATION = 4009;
     public static final int ITEM_BROOM = 4010;
     public static final int ITEM_HARDENEDBLOODSHARD = 4011;
+    public static final int ITEM_DARKPOWERGEM = 4012;
+    public static final int ITEM_BLOODINFUSIONCORE = 4013;
     
     // Enchantment ID's
     public static final int ENCHANTMENT_BREAKING = 101;

@@ -1,6 +1,8 @@
 package evilcraft.api.config;
 
+import evilcraft.api.render.AlphaItemRenderer;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
 
@@ -15,6 +17,20 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
      */
     public String getOreDictionaryId() {
         return null;
+    }
+    
+    /**
+     * If this item should be rendered with a blended alpha channel, thereby using the AlphaItemRenderer.
+     * @return If it should be alpha blended.
+     */
+    public boolean blendAlpha() {
+        return false;
+    }
+    
+    @Override
+    public void onRegistered() {
+        if(blendAlpha())
+            MinecraftForgeClient.registerItemRenderer(this.ID, new AlphaItemRenderer());
     }
 
 }

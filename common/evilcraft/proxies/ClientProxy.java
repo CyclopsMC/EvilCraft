@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.client.IItemRenderer;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.EvilCraft;

@@ -7,18 +7,23 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.elementtypeaction.IElementTypeAction;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.DarkBlock;
 import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.fluids.BloodConfig;
+import evilcraft.items.BloodInfusionCore;
+import evilcraft.items.BloodInfusionCoreConfig;
 import evilcraft.items.BloodPearlOfTeleportation;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
 import evilcraft.items.ContainedFlux;
 import evilcraft.items.ContainedFluxConfig;
 import evilcraft.items.DarkGem;
 import evilcraft.items.DarkGemConfig;
+import evilcraft.items.DarkPowerGem;
+import evilcraft.items.DarkPowerGemConfig;
+import evilcraft.items.HardenedBloodShard;
+import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainerConfig;
 
@@ -27,7 +32,7 @@ import evilcraft.items.WeatherContainerConfig;
  */
 public class Recipes {
     
-    private static boolean isItemEnabled(Class<? extends ExtendedConfig> config) {
+    public static boolean isItemEnabled(Class<? extends ExtendedConfig> config) {
         try {
             return ((ExtendedConfig)config.getField("_instance").get(null)).isEnabled();
         } catch (NullPointerException e1) {
@@ -81,19 +86,29 @@ public class Recipes {
                     'E', new ItemStack(Item.enderPearl)
             );
         }
+        // Blood Infusion Core
+        if(isItemEnabled(BloodInfusionCoreConfig.class) && isItemEnabled(HardenedBloodShardConfig.class) && isItemEnabled(DarkPowerGemConfig.class)) {
+            GameRegistry.addRecipe(new ItemStack(BloodInfusionCore.getInstance()),
+                    "SSS",
+                    "SGS",
+                    "SSS",
+                    'S', new ItemStack(HardenedBloodShard.getInstance()),
+                    'G', new ItemStack(DarkPowerGem.getInstance())
+            );
+        }
         
         registerCustomRecipes();
     }
     
     public static void registerCustomRecipes() {
-        if(isItemEnabled(ContainedFluxConfig.class) && isItemEnabled(ContainedFluxConfig.class) && isItemEnabled(BloodConfig.class)) {
+        if(isItemEnabled(DarkGemConfig.class) && isItemEnabled(DarkPowerGemConfig.class) && isItemEnabled(BloodConfig.class)) {
             CustomRecipeRegistry.put(new CustomRecipe(
                             new ItemStack(DarkGem.getInstance()),
                             new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 4),
                             BloodInfuser.getInstance(),
                             20
                         ),
-                    new ItemStack(ContainedFlux.getInstance()
+                    new ItemStack(DarkPowerGem.getInstance()
             ));
         }
     }

@@ -17,4 +17,9 @@ public class BloodPearlOfTeleportationConfig extends ItemConfig {
         );
     }
     
+    @Override
+    public boolean blendAlpha() {
+        return true;
+    }
+    
 }
