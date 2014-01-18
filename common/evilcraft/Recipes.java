@@ -1,5 +1,6 @@
 package evilcraft;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -8,6 +9,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.blocks.BloodInfuser;
+import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.DarkBlock;
 import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.fluids.Blood;
@@ -94,6 +96,17 @@ public class Recipes {
                     "SSS",
                     'S', new ItemStack(HardenedBloodShard.getInstance()),
                     'G', new ItemStack(DarkPowerGem.getInstance())
+            );
+        }
+        // Blood Infuser
+        if(isItemEnabled(BloodInfusionCoreConfig.class) && isItemEnabled(BloodInfuserConfig.class)) {
+            GameRegistry.addRecipe(new ShapedOreRecipe(BloodInfuser.getInstance(), true, 
+                    new Object[]{
+                    "CCC",
+                    "CIC",
+                    "CCC",
+                    'C', "cobblestone",
+                    'I', new ItemStack(BloodInfusionCore.getInstance())})
             );
         }
         

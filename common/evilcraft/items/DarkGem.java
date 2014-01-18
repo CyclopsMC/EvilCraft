@@ -70,7 +70,7 @@ public class DarkGem extends ConfigurableItem {
                                 if(amount == REQUIRED_BLOOD_BLOCKS) {
                                     // Spawn the new item
                                     entityItem.getEntityItem().stackSize--;
-                                    entityItem.dropItem(BloodInfusionCoreConfig._instance.ID, 1);
+                                    entityItem.dropItem(DarkPowerGemConfig._instance.ID, 1);
                                     
                                     // Retrace coordinate step and remove all those blocks + spawn particles
                                     for(int restep = 0; restep < amount; restep++) {
