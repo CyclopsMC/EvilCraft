@@ -12,7 +12,7 @@ import net.minecraftforge.common.Property;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.api.config.configurable.ConfigurableProperty;
-import evilcraft.api.item.ExtendedItemBlockWithMetadata;
+import evilcraft.api.item.ItemBlockMetadata;
 
 /**
  * Registration configurations

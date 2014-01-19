@@ -1,7 +1,15 @@
 package evilcraft.api.item;
 
-import net.minecraft.item.Item;
+import java.util.List;
+
+import evilcraft.api.IInformationProvider;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.ItemFluidContainer;
 
 /**
  * A component that has to be added for classes that want to implement the DamageIndicator behaviour.
@@ -21,7 +29,7 @@ public class DamageIndicatedItemComponent{
     /**
      * The item class on which the behaviour will be added.
      */
-    public Item item;
+    public ItemFluidContainer item;
     /**
      * The custom defined capacity this damage indicator must have.
      */
@@ -35,7 +43,7 @@ public class DamageIndicatedItemComponent{
      * @param capacity
      *          The custom defined capacity this damage indicator must have.
      */
-    public DamageIndicatedItemComponent(Item item, int capacity)
+    public DamageIndicatedItemComponent(ItemFluidContainer item, int capacity)
     {
         this.item = item;
         this.capacity = capacity;
@@ -60,6 +68,34 @@ public class DamageIndicatedItemComponent{
         {
             item.setDamage(itemStack, 101 - ((amount * 100) / (capacity)));
         }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void getSubItems(int id, CreativeTabs tab, List itemList, Fluid fluid) {
+        // Add the 'full' container.
+        ItemStack itemStackFull = new ItemStack(item, 1);
+        item.fill(itemStackFull, new FluidStack(fluid, capacity), true);
+        itemList.add(itemStackFull);
+        
+        // Add the 'empty' container.
+        ItemStack itemStackEmpty = new ItemStack(item, 1);
+        item.fill(itemStackEmpty, new FluidStack(fluid, 0), true);
+        itemList.add(itemStackEmpty);
+    }
+    
+    public String getInfo(ItemStack itemStack) {
+        int amount = 0;
+        if(item.getFluid(itemStack) != null)
+            amount = item.getFluid(itemStack).amount;
+        return getInfo(amount, this.capacity);
+    }
+    
+    public static String getInfo(int amount, int capacity) {
+        return "" + amount + " / " + capacity + " mB";
+    }
+    
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+        list.add(IInformationProvider.ITEM_PREFIX+((IInformationProvider) itemStack.getItem()).getInfo(itemStack));
     }
     
 }

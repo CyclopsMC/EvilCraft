@@ -11,12 +11,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
-public class ExtendedItemBlockWithMetadata extends ItemBlockWithMetadata{
+public class ItemBlockMetadata extends ItemBlockWithMetadata{
     
     protected boolean hasInfo = false;
     protected Block block = null;
 
-    public ExtendedItemBlockWithMetadata(int metaData, Block block) {
+    public ItemBlockMetadata(int metaData, Block block) {
         super(metaData, block);
         this.block = block;
         if(block instanceof IInformationProvider)
@@ -25,8 +25,7 @@ public class ExtendedItemBlockWithMetadata extends ItemBlockWithMetadata{
     
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
-    {
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         if(hasInfo)
             list.add(IInformationProvider.BLOCK_PREFIX+((IInformationProvider) block).getInfo(itemStack));
     }

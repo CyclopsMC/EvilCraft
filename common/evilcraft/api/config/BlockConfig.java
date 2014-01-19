@@ -1,6 +1,6 @@
 package evilcraft.api.config;
 
-import evilcraft.api.item.ExtendedItemBlockWithMetadata;
+import evilcraft.api.item.ItemBlockMetadata;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 
@@ -24,7 +24,7 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
      * @return the ItemBlock class to use for the target block.
      */
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ExtendedItemBlockWithMetadata.class;
+        return ItemBlockMetadata.class;
     }
 
 }

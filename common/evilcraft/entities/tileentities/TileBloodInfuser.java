@@ -37,6 +37,7 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
     public static final int SLOT_INFUSE = 1;
     public static final int SLOT_INFUSE_RESULT = 2;
     
+    public static String TANKNAME = "bloodInfuserTank";
     public static final int LIQUID_PER_SLOT = FluidContainerRegistry.BUCKET_VOLUME * 10;
     public static final int TICKS_PER_LIQUID = 2;
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
@@ -61,7 +62,7 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
                 SLOTS,
                 BloodInfuserConfig._instance.NAME,
                 LIQUID_PER_SLOT,
-                BloodInfuserConfig._instance.NAME + " Tank",
+                TileBloodInfuser.TANKNAME,
                 ACCEPTED_FLUID);
         infuseTicker = addTicker(
                 new TickComponent<

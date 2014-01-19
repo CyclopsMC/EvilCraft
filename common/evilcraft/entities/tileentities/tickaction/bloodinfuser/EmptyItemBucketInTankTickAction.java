@@ -1,11 +1,11 @@
 package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import evilcraft.api.entities.tileentitites.IConsumeProduceEmptyInTankTile;
 import evilcraft.api.fluids.SingleUseTank;
-import evilcraft.items.BucketBlood;
 
 public class EmptyItemBucketInTankTickAction extends EmptyInTankTickAction {
 
@@ -21,6 +21,13 @@ public class EmptyItemBucketInTankTickAction extends EmptyInTankTickAction {
                 tile.getInventory().setInventorySlotContents(tile.getEmptyToTankSlot(), FluidContainerRegistry.EMPTY_BUCKET.copy());
             }
         }
+    }
+    
+    @Override
+    public boolean canTick(IConsumeProduceEmptyInTankTile tile, int tick) {
+        boolean emptyContainer = false;
+        ItemStack containerStack = getEmptyStack(tile);
+        return super.canTick(tile, tick) && containerStack.itemID != Item.bucketEmpty.itemID;
     }
     
     @Override

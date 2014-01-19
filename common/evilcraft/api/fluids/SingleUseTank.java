@@ -12,6 +12,9 @@ import net.minecraftforge.fluids.FluidStack;
  *
  */
 public class SingleUseTank extends Tank {
+    
+    public static final String NBT_ACCEPTED_FLUID = "acceptedFluid";
+    
     private Fluid acceptedFluid;
 
     public SingleUseTank(String name, int capacity, TileEntity tile) {
@@ -45,12 +48,12 @@ public class SingleUseTank extends Tank {
     public void writeTankToNBT(NBTTagCompound nbt) {
         super.writeTankToNBT(nbt);
         if (acceptedFluid != null)
-            nbt.setString("acceptedFluid", acceptedFluid.getName());
+            nbt.setString(NBT_ACCEPTED_FLUID, acceptedFluid.getName());
     }
 
     @Override
     public void readTankFromNBT(NBTTagCompound nbt) {
         super.readTankFromNBT(nbt);
-        acceptedFluid = FluidRegistry.getFluid(nbt.getString("acceptedFluid"));
+        acceptedFluid = FluidRegistry.getFluid(nbt.getString(NBT_ACCEPTED_FLUID));
     }
 }

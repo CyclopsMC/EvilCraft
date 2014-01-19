@@ -1,24 +1,21 @@
 package evilcraft.blocks;
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlockContainerGui;
-import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.api.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.client.Gui;
 
-public class BloodInfuser extends ConfigurableBlockContainerGui {
+public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
     
     private static BloodInfuser _instance = null;
     
@@ -89,6 +86,16 @@ public class BloodInfuser extends ConfigurableBlockContainerGui {
         TileBloodInfuser tile = (TileBloodInfuser) world.getBlockTileEntity(x, y, z);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(Helpers.COMPARATOR_MULTIPLIER * output);
+    }
+
+    @Override
+    public String getTankNBTName() {
+        return TileBloodInfuser.TANKNAME;
+    }
+
+    @Override
+    public int getTankCapacity() {
+        return TileBloodInfuser.LIQUID_PER_SLOT;
     }
 
 }

@@ -1,7 +1,9 @@
 package evilcraft.blocks;
 
+import net.minecraft.item.ItemBlock;
 import evilcraft.Reference;
 import evilcraft.api.config.BlockConfig;
+import evilcraft.api.item.ItemBlockNBT;
 
 public class BloodInfuserConfig extends BlockConfig {
     
@@ -15,6 +17,16 @@ public class BloodInfuserConfig extends BlockConfig {
             null,
             BloodInfuser.class
         );
+    }
+    
+    @Override
+    public boolean hasSubTypes() {
+        return true;
+    }
+    
+    @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlockNBT.class;
     }
     
 }

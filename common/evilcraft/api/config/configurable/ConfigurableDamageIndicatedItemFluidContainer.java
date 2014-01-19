@@ -35,7 +35,8 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     
     protected ConfigurableDamageIndicatedItemFluidContainer(ExtendedConfig eConfig, int capacity, Fluid fluid) {
         super(eConfig.ID, capacity, fluid);
-        eConfig.ID = this.itemID; // This could've changed.
+        if(eConfig != null)
+            eConfig.ID = this.itemID; // This could've changed.
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
     }

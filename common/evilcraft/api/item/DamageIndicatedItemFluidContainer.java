@@ -37,21 +37,18 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
      * @param fluid
      *          The Fluid instance this container must hold.
      */
-    public DamageIndicatedItemFluidContainer(int itemID, int capacity, Fluid fluid)
-    {
+    public DamageIndicatedItemFluidContainer(int itemID, int capacity, Fluid fluid) {
         super(itemID, capacity);
         this.fluid = fluid;
         init();
     }
     
-    private void init()
-    {
+    private void init() {
         component = new DamageIndicatedItemComponent(this, this.capacity);
     }
     
     @Override
-    public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain)
-    {
+    public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
         FluidStack fluidStack = super.drain(container, maxDrain, doDrain);
         int newAmount = getFluid(container) == null ? 0 : getFluid(container).amount;
         component.updateAmount(container, newAmount);
@@ -59,8 +56,7 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     }
     
     @Override
-    public int fill(ItemStack container, FluidStack resource, boolean doFill)
-    {
+    public int fill(ItemStack container, FluidStack resource, boolean doFill) {
         int filled = super.fill(container, resource, doFill);
         component.updateAmount(container, getFluid(container).amount);
         return filled;
@@ -69,35 +65,22 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     /**
      * Make sure the full and empty container is available is the CreativeTab.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "rawtypes"})
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(int id, CreativeTabs tab, List itemList)
-    {
-        // Add the 'full' container.
-        ItemStack itemStackFull = new ItemStack(this, 1);
-        fill(itemStackFull, new FluidStack(fluid, component.capacity), true);
-        itemList.add(itemStackFull);
-        
-        // Add the 'empty' container.
-        ItemStack itemStackEmpty = new ItemStack(this, 1);
-        fill(itemStackEmpty, new FluidStack(fluid, 0), true);
-        itemList.add(itemStackEmpty);
+    public void getSubItems(int id, CreativeTabs tab, List itemList) {
+        component.getSubItems(id, tab, itemList, fluid);
     }
     
     @Override
     public String getInfo(ItemStack itemStack) {
-        int amount = 0;
-        if(getFluid(itemStack) != null)
-            amount = getFluid(itemStack).amount;
-        return "" + amount + " / " + this.capacity + " mB";
+        return component.getInfo(itemStack);
     }
     
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
-    {
-        list.add(IInformationProvider.ITEM_PREFIX+((IInformationProvider) itemStack.getItem()).getInfo(itemStack));
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+        component.addInformation(itemStack, entityPlayer, list, par4);
     }
 
 }

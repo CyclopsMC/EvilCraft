@@ -131,7 +131,9 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     @Override
     public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
         Helpers.preDestroyBlock(world, x, y, z);
-        super.breakBlock(world, x, y, z, par5, par6);
+        // We delay the supercall to breakblock until getBlockDropped()
+        // Otherwise the tileentity will already be removed.
+        //super.breakBlock(world, x, y, z, par5, par6);
     }
     
     @Override
@@ -151,6 +153,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
                 tile.setRotation(facing);
             }
         }
+        super.onBlockPlacedBy(world, x, y, z, entity, stack);
     }
     
     @Override
@@ -170,8 +173,11 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
         ItemStack itemStack = new ItemStack(idDropped(blockID, world.rand, fortune), 1, damageDropped(metadata));
         EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getBlockTileEntity(x, y, z);
-        itemStack.setTagCompound(tile.getNBTTagCompound());
+        if(tile != null)
+            itemStack.setTagCompound(tile.getNBTTagCompound());
         drops.add(itemStack);
+        // The delayed breakBlock supercall
+        super.breakBlock(world, x, y, z, 0, 0);
         return drops;
     }
     
