@@ -2,48 +2,45 @@ package evilcraft.blocks;
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.util.Icon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainerGuiTankInfo;
+import evilcraft.entities.tileentities.TileBloodChest;
 import evilcraft.entities.tileentities.TileBloodInfuser;
-import evilcraft.gui.client.GuiBloodInfuser;
-import evilcraft.gui.container.ContainerBloodInfuser;
+import evilcraft.gui.client.GuiBloodChest;
+import evilcraft.gui.container.ContainerBloodChest;
 
-public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
+public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
     
-    private static BloodInfuser _instance = null;
+    private static BloodChest _instance = null;
     
     private Icon sideIcon;
     private Icon topIcon;
     private Icon frontIconOn;
     private Icon frontIconOff;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
-            _instance = new BloodInfuser(eConfig);
+            _instance = new BloodChest(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
-    public static BloodInfuser getInstance() {
+    public static BloodChest getInstance() {
         return _instance;
     }
 
-    private BloodInfuser(ExtendedConfig eConfig) {
-        super(eConfig, Material.ground, TileBloodInfuser.class, Reference.GUI_BLOOD_INFUSER);
+    private BloodChest(ExtendedConfig<BlockConfig> eConfig) {
+        super(eConfig, Material.ground, TileBloodChest.class, Reference.GUI_BLOOD_CHEST);
         this.setRotatable(true);
-        setGUI(ContainerBloodInfuser.class, GuiBloodInfuser.class);
+        setGUI(ContainerBloodChest.class, GuiBloodChest.class);
     }
     
-    @Override
+    /*@Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister) {
         topIcon = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.UP.name());
@@ -72,11 +69,11 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
         } else {
             return sideIcon;
         }
-    }
+    }*/
     
     @Override
     public int idDropped(int par1, Random random, int zero) {
-        return BloodInfuserConfig._instance.ID;
+        return BloodChestConfig._instance.ID;
     }
     
     @Override
@@ -93,12 +90,12 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
 
     @Override
     public String getTankNBTName() {
-        return TileBloodInfuser.TANKNAME;
+        return TileBloodChest.TANKNAME;
     }
 
     @Override
     public int getTankCapacity() {
-        return TileBloodInfuser.LIQUID_PER_SLOT;
+        return TileBloodChest.LIQUID_PER_SLOT;
     }
 
 }

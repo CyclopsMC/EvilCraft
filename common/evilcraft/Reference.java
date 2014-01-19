@@ -32,6 +32,7 @@ public class Reference {
     public static final int BLOCK_BLOODYCOBBLESTONE = 3855;
     public static final int BLOCK_HARDENEDBLOOD = 3856;
     public static final int BLOCK_OBSCUREDGLASS = 3857;
+    public static final int BLOCK_BLOODCHEST = 3858;
     
     // Item ID's
     public static final int ITEM_BLOODEXTRACTOR = 4000;
@@ -61,4 +62,8 @@ public class Reference {
     public static final int ENTITY_LIGHTNINGGRENADE = 4;
     public static final int ENTITY_BROOM = 5;
     public static final int ENTITY_BLOODPEARL = 6;
+    
+    // GUI ID's
+    public static final int GUI_BLOOD_INFUSER = 10;
+    public static final int GUI_BLOOD_CHEST = 11;
 }

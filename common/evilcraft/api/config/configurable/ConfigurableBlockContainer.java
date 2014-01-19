@@ -6,12 +6,13 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -36,6 +37,8 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     
     protected Random random;
     private Class<? extends EvilCraftTileEntity> tileEntity;
+    
+    protected boolean hasGui = false;
     
     private boolean rotatable;
     protected Icon[] sideIcons = new Icon[Helpers.DIRECTIONS.size()];
@@ -64,6 +67,10 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     @Override
     public String getUniqueName() {
         return "blocks."+eConfig.NAMEDID;
+    }
+    
+    public boolean hasGui() {
+        return hasGui;
     }
     
     @Override
@@ -192,6 +199,10 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
 
     public void setRotatable(boolean rotatable) {
         this.rotatable = rotatable;
+    }
+    
+    public String getGuiTexture() {
+        return Reference.TEXTURE_PATH_GUI + eConfig.NAMEDID + "_gui.png";
     }
 
 }

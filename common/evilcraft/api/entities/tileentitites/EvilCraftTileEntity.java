@@ -7,6 +7,8 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import evilcraft.api.config.configurable.ConfigurableBlock;
+import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 
 public class EvilCraftTileEntity extends TileEntity{
     
@@ -70,6 +72,10 @@ public class EvilCraftTileEntity extends TileEntity{
 
     public void setRotation(ForgeDirection rotation) {
         this.rotation = rotation;
+    }
+    
+    public ConfigurableBlockContainer getBlock() {
+        return (ConfigurableBlockContainer) this.getBlockType();
     }
     
 }

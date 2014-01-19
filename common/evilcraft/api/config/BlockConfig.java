@@ -2,7 +2,10 @@ package evilcraft.api.config;
 
 import evilcraft.api.item.ItemBlockMetadata;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.tileentity.TileEntity;
 
 public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
 

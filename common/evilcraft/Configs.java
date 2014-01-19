@@ -4,6 +4,7 @@ import java.util.Set;
 
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.blocks.BloodChestConfig;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.blocks.BloodyCobblestoneConfig;
@@ -85,6 +86,7 @@ public class Configs {
         configs.add(new ExcrementPileConfig());
         configs.add(new HardenedBloodConfig());
         configs.add(new ObscuredGlassConfig());
+        configs.add(new BloodChestConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

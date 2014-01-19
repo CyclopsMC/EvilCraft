@@ -55,7 +55,7 @@ public class TickComponent<C extends IConsumeProduceTile, T extends ITickAction<
     public void tick(ItemStack itemStack) {
         if(itemStack != null) {
             T action = getTickAction(itemStack.getItem());
-            if(action.canTick(tile, tick)){
+            if(action != null && action.canTick(tile, tick)){
                 if(tick == 0 && setRequiredTicks)
                     requiredTicks = action.getRequiredTicks(tile);
                 tick++;

@@ -6,10 +6,11 @@ import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraftTab;
+import evilcraft.GuiHandler;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementType;
-import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
+import evilcraft.api.config.configurable.ConfigurableBlockContainerGui;
 
 public class BlockAction extends IElementTypeAction<BlockConfig> {
 
@@ -54,6 +55,13 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
         if(eConfig.getHolderType().equals(ElementType.BLOCKCONTAINER)) {
             ConfigurableBlockContainer container = (ConfigurableBlockContainer) block;
             GameRegistry.registerTileEntity(container.getTileEntity(), eConfig.getSubUniqueName());
+            
+            // If the block has a GUI, go ahead and register that.
+            if(container.hasGui()) {
+                ConfigurableBlockContainerGui gui = (ConfigurableBlockContainerGui) container;
+                GuiHandler.CONTAINERS.put(gui.getGuiID(), gui.getContainer());
+                GuiHandler.GUIS.put(gui.getGuiID(), gui.getGUI());
+            }
         }
     }
 
