@@ -25,6 +25,7 @@ import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.network.RemoteKeyHandler;
 import evilcraft.proxies.CommonProxy;
+import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.EvilDungeonGenerator;
 import evilcraft.worldgen.EvilWorldGenerator;
 
@@ -77,6 +78,7 @@ public class EvilCraft {
         
         GameRegistry.registerWorldGenerator(new EvilWorldGenerator());
         GameRegistry.registerWorldGenerator(new EvilDungeonGenerator());
+        GameRegistry.registerWorldGenerator(new DarkTempleGenerator());
         NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
         proxy.registerRenderers();
     }

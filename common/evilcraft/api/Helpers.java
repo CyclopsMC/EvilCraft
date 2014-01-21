@@ -237,4 +237,13 @@ public class Helpers {
         return ENTITYFACING[facingDirection];
     }
     
+    
+    public static ForgeDirection getForgeDirectionFromXSign(int xSign) {
+    	return xSign > 0 ? ForgeDirection.EAST : ForgeDirection.WEST;
+    }
+    
+    public static ForgeDirection getForgeDirectionFromZSing(int zSign) {
+    	return zSign > 0 ? ForgeDirection.SOUTH : ForgeDirection.NORTH;
+    }
+    
 }
