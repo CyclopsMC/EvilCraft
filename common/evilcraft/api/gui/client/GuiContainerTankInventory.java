@@ -18,27 +18,67 @@ import evilcraft.Reference;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.api.fluids.SingleUseTank;
 
-public class GuiContainerTankInventory extends GuiContainer {
-    
-    private int tankHeight;
+public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extends GuiContainer {
+
+    private boolean showTank = false;
     private int tankWidth;
+    private int tankHeight;
     private int tankX;
     private int tankY;
+    private int tankTargetX;
+    private int tankTargetY;
     
-    protected TankInventoryTileEntity tile;
+    private boolean showProgress = false;
+    private int progressWidth;
+    private int progressHeight;
+    private int progressX;
+    private int progressY;
+    private int progressTargetX;
+    private int progressTargetY;
+
+    private int textureWidth = 176;
+    private int textureHeight = 166;
+    
+    protected T tile;
     private ResourceLocation texture;
 
-    public GuiContainerTankInventory(Container container, TankInventoryTileEntity tile) {
+    public GuiContainerTankInventory(Container container, T tile) {
         super(container);
         this.tile = tile;
         this.texture = new ResourceLocation(Reference.MOD_ID, tile.getBlock().getGuiTexture());
     }
     
-    protected void setTank(int tankHeight, int tankWidth, int tankX, int tankY) {
-        this.tankHeight = tankHeight;
+    protected void setDimensions(int textureWidth, int textureHeight) {
+        this.textureWidth = textureWidth;
+        this.textureHeight = textureHeight;
+    }
+    
+    protected void setTank(int tankWidth, int tankHeight, int tankX, int tankY, int tankTargetX, int tankTargetY) {
+        this.showTank = true;
         this.tankWidth = tankWidth;
+        this.tankHeight = tankHeight;
         this.tankX = tankX;
         this.tankY = tankY;
+        this.tankTargetX = tankTargetX;
+        this.tankTargetY = tankTargetY;
+    }
+    
+    protected void setProgress(int progressWidth, int progressHeight, int progressX, int progressY, int progressTargetX, int progressTargetY) {
+        this.showProgress = true;
+        this.progressWidth = progressWidth;
+        this.progressHeight = progressHeight;
+        this.progressX = progressX;
+        this.progressY = progressY;
+        this.progressTargetX = progressTargetX;
+        this.progressTargetY = progressTargetY;
+    }
+    
+    protected boolean isShowProgress() {
+        return showProgress;
+    }
+    
+    protected int getProgressScaled(int scale) {
+        return 0;
     }
 
     @Override
@@ -48,17 +88,26 @@ public class GuiContainerTankInventory extends GuiContainer {
         int j = (width - xSize) / 2;
         int k = (height - ySize) / 2;
         drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
+        
+        if (isShowProgress()) {
+            int progressScaled = getProgressScaled(progressWidth);
+            this.drawTexturedModalRect(j + progressTargetX, k + progressTargetY, progressX, progressY, progressScaled, progressHeight);
+        }
+    }
+    
+    protected void drawForgegroundString() {
+        fontRenderer.drawString(tile.getInvName(), 8, 4, 4210752);
     }
     
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRenderer.drawString(tile.getInvName(), 8, 4, 4210752);
+        drawForgegroundString();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         SingleUseTank tank = tile.getTank();
         if(shouldRenderTank()) {
             int tankSize = tank.getFluidAmount() * tankHeight / tank.getCapacity();
-            drawTank(tankX, tankY, tank.getAcceptedFluid().getID(), tankSize);
+            drawTank(tankTargetX, tankTargetY, tank.getAcceptedFluid().getID(), tankSize);
         }
     }
     
@@ -69,6 +118,8 @@ public class GuiContainerTankInventory extends GuiContainer {
     }
     
     protected boolean shouldRenderTank() {
+        if(!showTank)
+            return false;
         SingleUseTank tank = tile.getTank();
         return tank != null && tank.getAcceptedFluid() != null && tank.getFluidAmount() > 0;
     }
@@ -98,12 +149,12 @@ public class GuiContainerTankInventory extends GuiContainer {
             }
             
             this.mc.renderEngine.bindTexture(texture);
-            this.drawTexturedModalRect(xOffset, yOffset - tankHeight, 176, 0, 16, tankHeight);
+            this.drawTexturedModalRect(xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight);
         }
     }
     
     protected void drawTooltips(int mouseX, int mouseY) {
-        if(isPointInRegion(tankX, tankY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
+        if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
             SingleUseTank tank = tile.getTank();
             drawBarTooltip(FluidRegistry.getFluidName(tank.getFluid().fluidID),
                     "mB", tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);

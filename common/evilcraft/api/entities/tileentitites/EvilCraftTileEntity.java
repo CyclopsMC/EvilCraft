@@ -7,13 +7,12 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import evilcraft.api.config.configurable.ConfigurableBlock;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 
 public class EvilCraftTileEntity extends TileEntity{
     
-    protected boolean rotatable = false;
-    protected ForgeDirection rotation = ForgeDirection.NORTH;
+    private boolean rotatable = false;
+    private ForgeDirection rotation = ForgeDirection.NORTH;
     
     public void destroy() {
         
@@ -39,14 +38,15 @@ public class EvilCraftTileEntity extends TileEntity{
         readFromNBT(tag);
     }
     
-    public void writeToNBT(NBTTagCompound NBTTagCompound)
-    {
+    @Override
+    public void writeToNBT(NBTTagCompound NBTTagCompound) {
         super.writeToNBT(NBTTagCompound);
         NBTTagCompound.setBoolean("rotatable", rotatable);
         NBTTagCompound.setInteger("rotation", rotation.ordinal());
     }
-    public void readFromNBT(NBTTagCompound NBTTagCompound)
-    {
+    
+    @Override
+    public void readFromNBT(NBTTagCompound NBTTagCompound) {
         super.readFromNBT(NBTTagCompound);
         rotatable = NBTTagCompound.getBoolean("rotatable");
         rotation = ForgeDirection.getOrientation(NBTTagCompound.getInteger("rotation"));

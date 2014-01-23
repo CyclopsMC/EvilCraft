@@ -127,7 +127,7 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
         if(slot == SLOT_INFUSE)
             return canConsume(itemStack);
         if(slot == SLOT_CONTAINER)
-            return SlotFluidContainer.checkIsItemValid(itemStack);
+            return SlotFluidContainer.checkIsItemValid(itemStack, ACCEPTED_FLUID);
         return false;
     }
 

@@ -161,8 +161,6 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
 
     @Override
     public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
-        System.out.println("Slot:"+slot+"side:"+side);
-        System.out.println("Can?"+canAccess(slot, side) + " Valid?"+this.isItemValidForSlot(slot, itemStack));
         return canAccess(slot, side) && this.isItemValidForSlot(slot, itemStack);
     }
 

@@ -4,6 +4,9 @@ import net.minecraft.item.ItemBlock;
 import evilcraft.Reference;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.item.ItemBlockNBT;
+import evilcraft.entities.tileentities.TileBloodChest;
+import evilcraft.proxies.ClientProxy;
+import evilcraft.render.RenderBloodChest;
 
 public class BloodChestConfig extends BlockConfig {
     
@@ -27,6 +30,11 @@ public class BloodChestConfig extends BlockConfig {
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
         return ItemBlockNBT.class;
+    }
+    
+    @Override
+    public void onRegistered() {
+        ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new RenderBloodChest());
     }
     
 }

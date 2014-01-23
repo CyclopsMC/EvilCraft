@@ -5,16 +5,22 @@ import evilcraft.api.gui.client.GuiContainerTankInventory;
 import evilcraft.entities.tileentities.TileBloodChest;
 import evilcraft.gui.container.ContainerBloodChest;
 
-public class GuiBloodChest extends GuiContainerTankInventory {
+public class GuiBloodChest extends GuiContainerTankInventory<TileBloodChest> {
+
+    private static final int TEXTUREWIDTH = 176;
+    private static final int TEXTUREHEIGHT = 166;
     
-    private static final int TANKHEIGHT = 58;
     private static final int TANKWIDTH = 16;
-    private static final int TANKX = 43;
-    private static final int TANKY = 72;
+    private static final int TANKHEIGHT = 58;
+    private static final int TANKX = TEXTUREWIDTH;
+    private static final int TANKY = 0;
+    private static final int TANKTARGETX = 43;
+    private static final int TANKTARGETY = 72;
     
     public GuiBloodChest(InventoryPlayer inventory, TileBloodChest tile) {
         super(new ContainerBloodChest(inventory, tile), tile);
-        this.setTank(TANKHEIGHT, TANKWIDTH, TANKX, TANKY);
+        this.setDimensions(TEXTUREWIDTH, TEXTUREHEIGHT);
+        this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
     }
 
     

@@ -16,8 +16,7 @@ public class Reference {
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";
     public static final String TEXTURE_PATH_SKINS = "textures/skins/";
-    //public static final String TEXTURE_PATH_BLOCKS = MOD_ID + ":textures/blocks/";
-    //public static final String TEXTURE_PATH_ENTITIES = "textures/entities/";
+    public static final String TEXTURE_PATH_MODELS = "textures/models/";
     
     // Block ID's
     public static final int BLOCK_BLOODSTAINEDDIRT = 3846;
