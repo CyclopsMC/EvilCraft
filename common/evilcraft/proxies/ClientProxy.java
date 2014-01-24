@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.client.renderer.ChestItemRenderHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
@@ -15,6 +16,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.api.render.MultiPassBlockRenderer;
+import evilcraft.render.BloodChestItemRenderHelper;
 
 public class ClientProxy extends CommonProxy{
     
@@ -44,5 +46,7 @@ public class ClientProxy extends CommonProxy{
         // Block renderers
         for(ISimpleBlockRenderingHandler renderer : BLOCK_RENDERERS)
             RenderingRegistry.registerBlockHandler(renderer);
+        
+        ChestItemRenderHelper.instance = new BloodChestItemRenderHelper();
     }
 }
