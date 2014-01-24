@@ -7,7 +7,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.entities.tileentitites.IConsumeProduceEmptyInTankTile;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
@@ -18,9 +17,9 @@ import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
  *
  * @param <T> The TickingTankInventoryTileEntity class.
  */
-public class TickingInventoryContainer<T extends TickingTankInventoryTileEntity> extends InventoryContainer<T>{
+public class TickingInventoryContainer<T extends TickingTankInventoryTileEntity<T>> extends InventoryContainer<T>{
 
-    private Map<TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>>, Integer> containerTickers;
+    private Map<TickComponent<T, ITickAction<T>>, Integer> containerTickers;
     
     /**
      * Make a new TickingInventoryContainer.
@@ -29,8 +28,8 @@ public class TickingInventoryContainer<T extends TickingTankInventoryTileEntity>
      */
     public TickingInventoryContainer(InventoryPlayer inventory, T tile) {
         super(inventory, tile);
-        containerTickers = new HashMap<TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>>, Integer>();
-        for(TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>> ticker : tile.getTickers()) {
+        containerTickers = new HashMap<TickComponent<T, ITickAction<T>>, Integer>();
+        for(TickComponent<T, ITickAction<T>> ticker : tile.getTickers()) {
             containerTickers.put(ticker, ticker.getTick());
         }
     }
@@ -39,7 +38,7 @@ public class TickingInventoryContainer<T extends TickingTankInventoryTileEntity>
     public void addCraftingToCrafters(ICrafting crafter) {
         super.addCraftingToCrafters(crafter);
         int i = 0;
-        for(TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>> ticker : tile.getTickers()) {
+        for(TickComponent<T, ITickAction<T>> ticker : tile.getTickers()) {
             crafter.sendProgressBarUpdate(this, i, ticker.getTick());
             i++;
         }
@@ -51,14 +50,14 @@ public class TickingInventoryContainer<T extends TickingTankInventoryTileEntity>
         for (int i = 0; i < this.crafters.size(); ++i) {
             ICrafting icrafting = (ICrafting)this.crafters.get(i);
 
-            for(TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>> ticker : tile.getTickers()) {
+            for(TickComponent<T, ITickAction<T>> ticker : tile.getTickers()) {
                 if(containerTickers.get(ticker) != ticker.getTick()) {
                     icrafting.sendProgressBarUpdate(this, i, ticker.getTick());
                 }
             }
         }
         
-        for(TickComponent<IConsumeProduceEmptyInTankTile, ITickAction<IConsumeProduceEmptyInTankTile>> ticker : tile.getTickers()) {
+        for(TickComponent<T, ITickAction<T>> ticker : tile.getTickers()) {
             containerTickers.put(ticker, ticker.getTick());
         }
     }

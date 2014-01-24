@@ -5,7 +5,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 
-public abstract class TickingChestContainer<T extends TickingTankInventoryTileEntity> extends TickingInventoryContainer<T> {
+public abstract class TickingChestContainer<T extends TickingTankInventoryTileEntity<T>> extends TickingInventoryContainer<T> {
     
     private int offsetX;
     private int offsetY;
@@ -20,7 +20,7 @@ public abstract class TickingChestContainer<T extends TickingTankInventoryTileEn
     protected void addChestSlots(int rows, int columns) {
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
-                addSlotToContainer(makeSlot(tile, column + row * rows, offsetX + column * 18, offsetY + row * 18));
+                addSlotToContainer(makeSlot(tile, column + row * columns, offsetX + column * 18, offsetY + row * 18));
             }
         }
     }

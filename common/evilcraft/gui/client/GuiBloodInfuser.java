@@ -26,7 +26,6 @@ public class GuiBloodInfuser extends GuiContainerTankInventory<TileBloodInfuser>
     
     public GuiBloodInfuser(InventoryPlayer inventory, TileBloodInfuser tile) {
         super(new ContainerBloodInfuser(inventory, tile), tile);
-        this.setDimensions(TEXTUREWIDTH, TEXTUREHEIGHT);
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
         this.setProgress(PROGRESSWIDTH, PROGRESSHEIGHT, PROGRESSX, PROGRESSY, PROGRESSTARGETX, PROGRESSTARGETY);
     }

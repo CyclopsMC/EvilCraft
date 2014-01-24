@@ -19,7 +19,6 @@ public class GuiBloodChest extends GuiContainerTankInventory<TileBloodChest> {
     
     public GuiBloodChest(InventoryPlayer inventory, TileBloodChest tile) {
         super(new ContainerBloodChest(inventory, tile), tile);
-        this.setDimensions(TEXTUREWIDTH, TEXTUREHEIGHT);
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
     }
 

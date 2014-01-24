@@ -1,14 +1,26 @@
 package evilcraft.entities.tileentities;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
+import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
+import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
 import evilcraft.blocks.BloodChestConfig;
+import evilcraft.entities.tileentities.tickaction.EmptyFluidContainerInTankTickAction;
+import evilcraft.entities.tileentities.tickaction.EmptyItemBucketInTankTickAction;
+import evilcraft.entities.tileentities.tickaction.bloodchest.RepairItemTickAction;
 import evilcraft.fluids.Blood;
 import evilcraft.gui.container.ContainerBloodChest;
 import evilcraft.gui.slot.SlotRepairable;
@@ -18,36 +30,34 @@ import evilcraft.gui.slot.SlotRepairable;
  * @author rubensworks
  *
  */
-public class TileBloodChest extends TickingTankInventoryTileEntity {
+public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChest> {
     
-    public static final int SLOTS = ContainerBloodChest.CHEST_INVENTORY_ROWS * ContainerBloodChest.CHEST_INVENTORY_COLUMNS;
+    public static final int SLOTS_CHEST = ContainerBloodChest.CHEST_INVENTORY_ROWS * ContainerBloodChest.CHEST_INVENTORY_COLUMNS;
+    public static final int SLOTS = SLOTS_CHEST + 1;
+    public static final int SLOT_CONTAINER = SLOTS - 1;
     
     public static String TANKNAME = "bloodChestTank";
     public static final int LIQUID_PER_SLOT = FluidContainerRegistry.BUCKET_VOLUME * 10;
     public static final int TICKS_PER_LIQUID = 2;
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
     
-    /*public static final Map<Class<?>, ITickAction<IConsumeProduceEmptyInTankTile>> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<IConsumeProduceEmptyInTankTile>>();
-    static {
-        INFUSE_TICK_ACTIONS.put(ItemBucket.class, new ItemBucketTickAction());
-        INFUSE_TICK_ACTIONS.put(IFluidContainerItem.class, new FluidContainerItemTickAction());
-        INFUSE_TICK_ACTIONS.put(Item.class, new InfuseItemTickAction());
-    }
-    
-    public static final Map<Class<?>, ITickAction<IConsumeProduceEmptyInTankTile>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<IConsumeProduceEmptyInTankTile>>();
-    static {
-        EMPTY_IN_TANK_TICK_ACTIONS.put(ItemBucket.class, new EmptyItemBucketInTankTickAction());
-        EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction());
-    }*/
-    
     private int ticksSinceSync = -1;
     public float prevLidAngle;
     public float lidAngle;
     private int playersUsing;
     
-    private int repairTicker;
-    
     private int blockID = BloodChestConfig._instance.ID;
+    
+    public static final Map<Class<?>, ITickAction<TileBloodChest>> REPAIR_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodChest>>();
+    static {
+        REPAIR_TICK_ACTIONS.put(Item.class, new RepairItemTickAction());
+    }
+    
+    public static final Map<Class<?>, ITickAction<TileBloodChest>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodChest>>();
+    static {
+        EMPTY_IN_TANK_TICK_ACTIONS.put(ItemBucket.class, new EmptyItemBucketInTankTickAction<TileBloodChest>());
+        EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileBloodChest>());
+    }
     
     public TileBloodChest() {
         super(
@@ -56,50 +66,37 @@ public class TileBloodChest extends TickingTankInventoryTileEntity {
                 LIQUID_PER_SLOT,
                 TileBloodChest.TANKNAME,
                 ACCEPTED_FLUID);
-        /*repairTicker = addTicker(
-                new TickComponent<
-                    IConsumeProduceEmptyInTankTile,
-                    ITickAction<IConsumeProduceEmptyInTankTile>
-                >(this, INFUSE_TICK_ACTIONS, SLOT_INFUSE, true)
-                );
+        for(int i = 0; i < SLOTS_CHEST; i++) {
+            addTicker(
+                    new TickComponent<
+                        TileBloodChest,
+                        ITickAction<TileBloodChest>
+                    >(this, REPAIR_TICK_ACTIONS, i, true)
+                    );
+        }
         addTicker(
                 new TickComponent<
-                    IConsumeProduceEmptyInTankTile,
-                    ITickAction<IConsumeProduceEmptyInTankTile>
+                    TileBloodChest,
+                    ITickAction<TileBloodChest>
                 >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
-                );*/
+                );
         
         // The slots side mapping
-        /*List<Integer> inSlots = new LinkedList<Integer>();
-        inSlots.add(SLOT_INFUSE);
         List<Integer> inSlotsTank = new LinkedList<Integer>();
         inSlotsTank.add(SLOT_CONTAINER);
-        List<Integer> outSlots = new LinkedList<Integer>();
-        outSlots.add(SLOT_INFUSE_RESULT);
+        List<Integer> inSlotsInventory = new LinkedList<Integer>();
+        inSlotsInventory.add(SLOT_CONTAINER);
         addSlotsToSide(ForgeDirection.EAST, inSlotsTank);
-        addSlotsToSide(ForgeDirection.UP, inSlots);
-        addSlotsToSide(ForgeDirection.DOWN, outSlots);
-        addSlotsToSide(ForgeDirection.SOUTH, outSlots);
-        addSlotsToSide(ForgeDirection.WEST, outSlots);*/
+        addSlotsToSide(ForgeDirection.UP, inSlotsInventory);
+        addSlotsToSide(ForgeDirection.DOWN, inSlotsInventory);
+        addSlotsToSide(ForgeDirection.SOUTH, inSlotsInventory);
+        addSlotsToSide(ForgeDirection.WEST, inSlotsInventory);
     }
     
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
         return SlotRepairable.checkIsItemValid(itemStack);
     }
-
-    /*@Override
-    public int getEmptyToTankSlot() {
-        return SLOT_CONTAINER;
-    }
-    
-    private int getInfuseTick() {
-        return getTickers().get(infuseTicker).getTick();
-    }
-    
-    private int getRequiredTicks() {
-        return getTickers().get(infuseTicker).getRequiredTicks();
-    }*/
 
     @Override
     public int getState() {
@@ -108,12 +105,11 @@ public class TileBloodChest extends TickingTankInventoryTileEntity {
 
     @Override
     public void onStateChanged() {
-        //worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        
     }
     
     @Override
-    public void updateEntity()
-    {
+    public void updateEntity() {
         super.updateEntity();
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.

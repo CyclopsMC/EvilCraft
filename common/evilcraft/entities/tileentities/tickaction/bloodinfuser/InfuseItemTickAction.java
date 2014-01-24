@@ -4,13 +4,13 @@ import net.minecraft.item.ItemStack;
 import evilcraft.CustomRecipe;
 import evilcraft.CustomRecipeRegistry;
 import evilcraft.CustomRecipeResult;
-import evilcraft.api.entities.tileentitites.IConsumeProduceEmptyInTankTile;
 import evilcraft.blocks.BloodInfuser;
+import evilcraft.entities.tileentities.TileBloodInfuser;
 
 public class InfuseItemTickAction extends BloodInfuserTickAction{
 
     @Override
-    public void onTick(IConsumeProduceEmptyInTankTile tile, int tick) {
+    public void onTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
         CustomRecipeResult result = getResult(tile);
         if(tick >= getRequiredTicks(tile, result.getRecipe())) {
             if(result != null) {
@@ -22,7 +22,7 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
         }
     }
     
-    private CustomRecipeResult getResult(IConsumeProduceEmptyInTankTile tile) {
+    private CustomRecipeResult getResult(TileBloodInfuser tile) {
         ItemStack infuseStack = getInfuseStack(tile);
         CustomRecipe customRecipeKey = new CustomRecipe(infuseStack, tile.getTank().getFluid(), BloodInfuser.getInstance());
         CustomRecipeResult result = CustomRecipeRegistry.get(customRecipeKey);
@@ -30,17 +30,17 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
     }
     
     @Override
-    public int getRequiredTicks(IConsumeProduceEmptyInTankTile tile) {
+    public int getRequiredTicks(TileBloodInfuser tile, int slot) {
         CustomRecipeResult result = getResult(tile);
         return getRequiredTicks(tile, result.getRecipe());
     }
     
-    private int getRequiredTicks(IConsumeProduceEmptyInTankTile tile, CustomRecipe customRecipe) {
+    private int getRequiredTicks(TileBloodInfuser tile, CustomRecipe customRecipe) {
         return customRecipe.getDuration();
     }
     
     @Override
-    public int willProduceItemID(IConsumeProduceEmptyInTankTile tile) {
+    public int willProduceItemID(TileBloodInfuser tile) {
         CustomRecipeResult result = getResult(tile);
         return result.getResult().itemID;
     }

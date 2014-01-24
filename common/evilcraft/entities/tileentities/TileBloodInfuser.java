@@ -16,21 +16,20 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.CustomRecipe;
 import evilcraft.CustomRecipeRegistry;
 import evilcraft.CustomRecipeResult;
-import evilcraft.api.entities.tileentitites.IConsumeProduceEmptyInTankTile;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.BloodInfuserConfig;
-import evilcraft.entities.tileentities.tickaction.bloodinfuser.EmptyFluidContainerInTankTickAction;
-import evilcraft.entities.tileentities.tickaction.bloodinfuser.EmptyItemBucketInTankTickAction;
+import evilcraft.entities.tileentities.tickaction.EmptyFluidContainerInTankTickAction;
+import evilcraft.entities.tileentities.tickaction.EmptyItemBucketInTankTickAction;
 import evilcraft.entities.tileentities.tickaction.bloodinfuser.FluidContainerItemTickAction;
 import evilcraft.entities.tileentities.tickaction.bloodinfuser.InfuseItemTickAction;
 import evilcraft.entities.tileentities.tickaction.bloodinfuser.ItemBucketTickAction;
 import evilcraft.fluids.Blood;
 import evilcraft.gui.slot.SlotFluidContainer;
 
-public class TileBloodInfuser extends TickingTankInventoryTileEntity implements IConsumeProduceEmptyInTankTile {
+public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodInfuser> {
     
     public static final int SLOTS = 3;
     public static final int SLOT_CONTAINER = 0;
@@ -42,20 +41,20 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
     public static final int TICKS_PER_LIQUID = 2;
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
     
-    public static final Map<Class<?>, ITickAction<IConsumeProduceEmptyInTankTile>> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<IConsumeProduceEmptyInTankTile>>();
+    private int infuseTicker;
+    
+    public static final Map<Class<?>, ITickAction<TileBloodInfuser>> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
     static {
         INFUSE_TICK_ACTIONS.put(ItemBucket.class, new ItemBucketTickAction());
         INFUSE_TICK_ACTIONS.put(IFluidContainerItem.class, new FluidContainerItemTickAction());
         INFUSE_TICK_ACTIONS.put(Item.class, new InfuseItemTickAction());
     }
     
-    public static final Map<Class<?>, ITickAction<IConsumeProduceEmptyInTankTile>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<IConsumeProduceEmptyInTankTile>>();
+    public static final Map<Class<?>, ITickAction<TileBloodInfuser>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
     static {
-        EMPTY_IN_TANK_TICK_ACTIONS.put(ItemBucket.class, new EmptyItemBucketInTankTickAction());
-        EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction());
+        EMPTY_IN_TANK_TICK_ACTIONS.put(ItemBucket.class, new EmptyItemBucketInTankTickAction<TileBloodInfuser>());
+        EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileBloodInfuser>());
     }
-    
-    private int infuseTicker;
     
     public TileBloodInfuser() {
         super(
@@ -66,14 +65,14 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
                 ACCEPTED_FLUID);
         infuseTicker = addTicker(
                 new TickComponent<
-                    IConsumeProduceEmptyInTankTile,
-                    ITickAction<IConsumeProduceEmptyInTankTile>
+                    TileBloodInfuser,
+                    ITickAction<TileBloodInfuser>
                 >(this, INFUSE_TICK_ACTIONS, SLOT_INFUSE, true)
                 );
         addTicker(
                 new TickComponent<
-                    IConsumeProduceEmptyInTankTile,
-                    ITickAction<IConsumeProduceEmptyInTankTile>
+                    TileBloodInfuser,
+                    ITickAction<TileBloodInfuser>
                 >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
                 );
         
@@ -91,7 +90,6 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
         addSlotsToSide(ForgeDirection.WEST, outSlots);
     }
     
-    @Override
     public boolean canConsume(ItemStack itemStack) {
         // Empty bucket
         if(itemStack.getItem().itemID == Item.bucketEmpty.itemID
@@ -122,6 +120,14 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
         return false;
     }
     
+    public int getConsumeSlot() {
+        return SLOT_INFUSE;
+    }
+
+    public int getProduceSlot() {
+        return SLOT_INFUSE_RESULT;
+    }
+    
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
         if(slot == SLOT_INFUSE)
@@ -129,16 +135,6 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
         if(slot == SLOT_CONTAINER)
             return SlotFluidContainer.checkIsItemValid(itemStack, ACCEPTED_FLUID);
         return false;
-    }
-
-    @Override
-    public int getConsumeSlot() {
-        return SLOT_INFUSE;
-    }
-
-    @Override
-    public int getProduceSlot() {
-        return SLOT_INFUSE_RESULT;
     }
     
     /**
@@ -156,11 +152,6 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity implements 
      */
     public int getInfuseTickScaled(int scale) {
         return (int) ((float)getInfuseTick() / (float)getRequiredTicks() * (float)scale);
-    }
-
-    @Override
-    public int getEmptyToTankSlot() {
-        return SLOT_CONTAINER;
     }
     
     private int getInfuseTick() {

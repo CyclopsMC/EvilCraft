@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import evilcraft.api.entities.tileentitites.IConsumeProduceTile;
+import net.minecraft.tileentity.TileEntity;
 
 /**
  * A component used in TileEntities to support handling of ITickActions.
@@ -14,7 +14,7 @@ import evilcraft.api.entities.tileentitites.IConsumeProduceTile;
  * @param <T> The type of tick action that this component has to tick for.
  *
  */
-public class TickComponent<C extends IConsumeProduceTile, T extends ITickAction<C>> {
+public class TickComponent<C extends TileEntity, T extends ITickAction<C>> {
     
     private Map<Class<?>, T> tickActions;
     
@@ -51,17 +51,18 @@ public class TickComponent<C extends IConsumeProduceTile, T extends ITickAction<
     /**
      * Add one tick.
      * @param itemStack The itemStack that is currently inside the slot for this ticker.
+     * @param slot The slot id for the ticker.
      */
-    public void tick(ItemStack itemStack) {
+    public void tick(ItemStack itemStack, int slot) {
         if(itemStack != null) {
             T action = getTickAction(itemStack.getItem());
-            if(action != null && action.canTick(tile, tick)){
+            if(action != null && action.canTick(tile, itemStack, slot, tick)){
                 if(tick == 0 && setRequiredTicks)
-                    requiredTicks = action.getRequiredTicks(tile);
+                    requiredTicks = action.getRequiredTicks(tile, slot);
                 tick++;
                 if(setRequiredTicks && tick > requiredTicks)
                     tick = 0;
-                action.onTick(tile, tick);
+                action.onTick(tile, itemStack, slot, tick);
             } else {
                 tick = 0;
             }

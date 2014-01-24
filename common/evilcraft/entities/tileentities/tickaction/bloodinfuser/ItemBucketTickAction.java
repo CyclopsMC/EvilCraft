@@ -3,15 +3,15 @@ package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.api.entities.tileentitites.IConsumeProduceEmptyInTankTile;
+import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.items.BucketBlood;
 import evilcraft.items.BucketBloodConfig;
 
 public class ItemBucketTickAction extends BloodInfuserTickAction{
 
     @Override
-    public void onTick(IConsumeProduceEmptyInTankTile tile, int tick) {
-        if(tick >= getRequiredTicks(tile)) {
+    public void onTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
+        if(tick >= getRequiredTicks(tile, slot)) {
             ItemStack infuseStack = getInfuseStack(tile);
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(infuseStack);
             if(tile.getTank().getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME && fluidStack == null) {
@@ -24,12 +24,12 @@ public class ItemBucketTickAction extends BloodInfuserTickAction{
     }
     
     @Override
-    public int getRequiredTicks(IConsumeProduceEmptyInTankTile tile) {
+    public int getRequiredTicks(TileBloodInfuser tile, int slot) {
         return FluidContainerRegistry.BUCKET_VOLUME / MB_PER_TICK;
     }
 
     @Override
-    public int willProduceItemID(IConsumeProduceEmptyInTankTile tile) {
+    public int willProduceItemID(TileBloodInfuser tile) {
         return BucketBloodConfig._instance.ID;
     }
 

@@ -35,9 +35,6 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     private int progressY;
     private int progressTargetX;
     private int progressTargetY;
-
-    private int textureWidth = 176;
-    private int textureHeight = 166;
     
     protected T tile;
     private ResourceLocation texture;
@@ -46,11 +43,6 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         super(container);
         this.tile = tile;
         this.texture = new ResourceLocation(Reference.MOD_ID, tile.getBlock().getGuiTexture());
-    }
-    
-    protected void setDimensions(int textureWidth, int textureHeight) {
-        this.textureWidth = textureWidth;
-        this.textureHeight = textureHeight;
     }
     
     protected void setTank(int tankWidth, int tankHeight, int tankX, int tankY, int tankTargetX, int tankTargetY) {
