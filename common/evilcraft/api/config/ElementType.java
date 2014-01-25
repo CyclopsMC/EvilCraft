@@ -25,7 +25,7 @@ public enum ElementType {
     ENTITY(false, EntityConfig.class, new EntityAction(), ElementTypeCategory.ENTITY),
     FLUID(true, FluidConfig.class, new FluidAction(), ElementTypeCategory.LIQUID),
     ENCHANTMENT(true, EnchantmentConfig.class, new EnchantmentAction(), ElementTypeCategory.ENCHANTMENT),
-    VILLAGER(false, VillagerConfig.class, new VillagerAction(), ElementTypeCategory.MOB),
+    VILLAGER(true, VillagerConfig.class, new VillagerAction(), ElementTypeCategory.MOB),
     ENTITY_NO_GLOBAL_ID(false, EntityConfig.class, new EntityNoGlobalIdAction(), ElementTypeCategory.ENTITY),
     
     DUMMY(false, DummyConfig.class, new DummyAction(), ElementTypeCategory.GENERAL);

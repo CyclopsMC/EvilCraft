@@ -5,6 +5,7 @@ import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.registry.VillagerRegistry;
 import evilcraft.Reference;
 import evilcraft.api.config.VillagerConfig;
+import evilcraft.api.config.configurable.ConfigurableVillager;
 
 public class VillagerAction extends IElementTypeAction<VillagerConfig>{
 
@@ -24,7 +25,7 @@ public class VillagerAction extends IElementTypeAction<VillagerConfig>{
         VillagerRegistry.instance().registerVillagerSkin(eConfig.ID, villagerSkin);
         
         // Add trades
-        VillagerRegistry.instance().registerVillageTradeHandler(eConfig.ID, eConfig);
+        VillagerRegistry.instance().registerVillageTradeHandler(eConfig.ID, (ConfigurableVillager) eConfig.getSubInstance());
     }
 
 }
