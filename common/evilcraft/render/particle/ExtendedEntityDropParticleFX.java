@@ -1,4 +1,4 @@
-package evilcraft.render;
+package evilcraft.render.particle;
 
 import net.minecraft.block.BlockFluid;
 import net.minecraft.block.material.Material;

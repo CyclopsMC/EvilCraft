@@ -8,7 +8,7 @@ import evilcraft.api.config.configurable.ConfigurableProperty;
 import evilcraft.api.item.ItemBlockNBT;
 import evilcraft.entities.tileentities.TileBloodChest;
 import evilcraft.proxies.ClientProxy;
-import evilcraft.render.RenderBloodChest;
+import evilcraft.render.tileentity.RenderBloodChest;
 
 public class BloodChestConfig extends BlockConfig {
     

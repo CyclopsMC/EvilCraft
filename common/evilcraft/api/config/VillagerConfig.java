@@ -16,11 +16,6 @@ public abstract class VillagerConfig extends ExtendedConfig<VillagerConfig> impl
     }
     
     @Override
-    public void onRegistered() {
-        VillagerRegistry.instance().registerVillageTradeHandler(this.ID, this);
-    }
-    
-    @Override
     public void manipulateTradesForVillager(EntityVillager villager,
             MerchantRecipeList recipeList, Random random) {
         if (villager.getProfession() == this.ID) {

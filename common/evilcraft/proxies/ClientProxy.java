@@ -16,7 +16,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.api.render.MultiPassBlockRenderer;
-import evilcraft.render.BloodChestItemRenderHelper;
+import evilcraft.render.tileentity.BloodChestItemRenderHelper;
 
 public class ClientProxy extends CommonProxy{
     

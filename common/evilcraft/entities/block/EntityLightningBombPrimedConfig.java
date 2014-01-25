@@ -5,9 +5,9 @@ import evilcraft.Reference;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.EntityConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.api.render.ModelRender;
 import evilcraft.blocks.LightningBomb;
-import evilcraft.proxies.ClientProxy;
-import evilcraft.render.RenderBombPrimed;
+import evilcraft.render.block.RenderBombPrimed;
 
 public class EntityLightningBombPrimedConfig extends EntityConfig {
     

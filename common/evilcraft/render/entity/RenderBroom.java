@@ -1,12 +1,12 @@
-package evilcraft.render;
+package evilcraft.render.entity;
 
-import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import evilcraft.Reference;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.render.ModelRender;
 import evilcraft.render.models.BroomModel;
 
 /**
@@ -15,14 +15,10 @@ import evilcraft.render.models.BroomModel;
  * @author immortaleeb
  *
  */
-public class RenderBroom extends Render {
+public class RenderBroom extends ModelRender {
 	
-	private static final ResourceLocation BROOM_TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/models/broom.png");
-	
-	private final BroomModel model;
-	
-	public RenderBroom() {
-		model = new BroomModel();
+	public RenderBroom(ExtendedConfig config) {
+	    super(config);
 	}
 
 	@Override
@@ -40,12 +36,11 @@ public class RenderBroom extends Render {
         model.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.08F);
         
         GL11.glPopMatrix();
-		
 	}
 
-	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) {
-		return BROOM_TEXTURE;
-	}
+    @Override
+    protected ModelBase constructModel() {
+        return new BroomModel();
+    }
 
 }

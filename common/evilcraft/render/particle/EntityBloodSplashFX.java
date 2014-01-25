@@ -1,4 +1,4 @@
-package evilcraft.render;
+package evilcraft.render.particle;
 
 import java.util.Random;
 

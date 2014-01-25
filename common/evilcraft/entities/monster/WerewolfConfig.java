@@ -1,13 +1,14 @@
 package evilcraft.entities.monster;
 
+import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderZombie;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.src.ModLoader;
+import net.minecraft.world.biome.BiomeGenBase;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
-import evilcraft.proxies.ClientProxy;
+import evilcraft.render.entity.RenderWerewolf;
+import evilcraft.render.models.WerewolfModel;
 
 public class WerewolfConfig extends MobConfig {
     
@@ -43,7 +44,12 @@ public class WerewolfConfig extends MobConfig {
 
     @Override
     public Render getRender() {
-        return new RenderZombie();
+        return new RenderWerewolf(this, new WerewolfModel(), 0.5F);
+    }
+    
+    @Override
+    public void onRegistered() {
+        //EntityRegistry.addSpawn(this.ELEMENT, 5, 2, 6, EnumCreatureType.monster, BiomeGenBase.mushroomIsland);
     }
     
 }

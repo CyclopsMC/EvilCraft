@@ -2,12 +2,10 @@ package evilcraft.entities.monster;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderSilverfish;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.src.ModLoader;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
-import evilcraft.proxies.ClientProxy;
+import evilcraft.api.render.ModelRender;
 
 public class NetherfishConfig extends MobConfig {
     
@@ -40,7 +38,7 @@ public class NetherfishConfig extends MobConfig {
     public int getForegroundEggColor() {
         return 654321;
     }
-
+    
     @Override
     public Render getRender() {
         return new RenderSilverfish();

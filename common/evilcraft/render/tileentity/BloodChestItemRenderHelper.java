@@ -1,4 +1,4 @@
-package evilcraft.render;
+package evilcraft.render.tileentity;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.ChestItemRenderHelper;

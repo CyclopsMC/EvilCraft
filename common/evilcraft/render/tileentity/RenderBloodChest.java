@@ -1,4 +1,4 @@
-package evilcraft.render;
+package evilcraft.render.tileentity;
 
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

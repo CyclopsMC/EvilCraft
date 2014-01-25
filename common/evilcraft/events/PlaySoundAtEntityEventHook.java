@@ -1,6 +1,7 @@
 package evilcraft.events;
 
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -11,6 +12,8 @@ import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.blocks.ExcrementPile;
 import evilcraft.blocks.ExcrementPileConfig;
+import evilcraft.entities.monster.Werewolf;
+import evilcraft.entities.villager.WerewolfVillagerConfig;
 
 public class PlaySoundAtEntityEventHook {
     
@@ -21,6 +24,7 @@ public class PlaySoundAtEntityEventHook {
     public void onPlaySoundAtEntity(PlaySoundAtEntityEvent event) {
         dropExcrement(event);
         dieWithoutAnyReason(event);
+        transformWerewolfVillager(event);
     }
     
     private void dropExcrement(PlaySoundAtEntityEvent event) {
@@ -44,6 +48,18 @@ public class PlaySoundAtEntityEventHook {
         if(event.entity instanceof EntityPlayer && event.entity.worldObj.rand.nextInt(CHANCE_DIE_WITHOUT_ANY_REASON) == 0) {
             EntityPlayer entity = (EntityPlayer) event.entity;
             entity.attackEntityFrom(ExtendedDamageSource.dieWithoutAnyReason, Float.MAX_VALUE);
+        }
+    }
+    
+    private void transformWerewolfVillager(PlaySoundAtEntityEvent event) {
+        if(event.entity instanceof EntityVillager) {
+            World world = event.entity.worldObj;
+            EntityVillager villager = (EntityVillager) event.entity;
+            if(!world.isRemote
+                    && Werewolf.isWerewolfTime(world)
+                    && villager.getProfession() == WerewolfVillagerConfig._instance.ID) {
+                Werewolf.replaceVillager(villager);
+            }
         }
     }
     

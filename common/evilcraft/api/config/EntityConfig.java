@@ -1,16 +1,12 @@
 package evilcraft.api.config;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.src.ModLoader;
-import evilcraft.blocks.LightningBomb;
-import evilcraft.entities.block.EntityLightningBombPrimed;
-import evilcraft.items.LightningGrenade;
+import evilcraft.api.render.ModelRender;
 import evilcraft.proxies.ClientProxy;
-import evilcraft.render.RenderBombPrimed;
 
 public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
 
@@ -49,5 +45,5 @@ public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
         return false;
     }
     
-    public abstract Render getRender();
+    protected abstract Render getRender();
 }

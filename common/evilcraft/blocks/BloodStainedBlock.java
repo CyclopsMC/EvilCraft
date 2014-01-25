@@ -14,7 +14,7 @@ import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockWithInnerBlocks;
 import evilcraft.api.render.AlternatingBlockIconComponent;
-import evilcraft.render.EntityBloodSplashFX;
+import evilcraft.render.particle.EntityBloodSplashFX;
 
 public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     

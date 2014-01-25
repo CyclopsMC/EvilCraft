@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.render.ExtendedEntityDropParticleFX;
+import evilcraft.render.particle.ExtendedEntityDropParticleFX;
 
 /**
  * Block that can hold ExtendedConfigs

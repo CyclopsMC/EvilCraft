@@ -22,6 +22,9 @@ public class VillagerAction extends IElementTypeAction<VillagerConfig>{
         VillagerRegistry.instance().registerVillagerId(eConfig.ID);
         ResourceLocation villagerSkin = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_SKINS + eConfig.NAMEDID + ".png");
         VillagerRegistry.instance().registerVillagerSkin(eConfig.ID, villagerSkin);
+        
+        // Add trades
+        VillagerRegistry.instance().registerVillageTradeHandler(eConfig.ID, eConfig);
     }
 
 }

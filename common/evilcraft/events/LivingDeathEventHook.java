@@ -20,7 +20,7 @@ import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.items.BloodExtractor;
-import evilcraft.render.EntityBloodSplashFX;
+import evilcraft.render.particle.EntityBloodSplashFX;
 
 public class LivingDeathEventHook {
 

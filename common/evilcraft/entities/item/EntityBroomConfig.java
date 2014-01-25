@@ -2,10 +2,11 @@ package evilcraft.entities.item;
 
 import net.minecraft.client.renderer.entity.Render;
 import evilcraft.Reference;
-import evilcraft.api.config.EntityConfig;
-import evilcraft.render.RenderBroom;
+import evilcraft.api.config.ModelEntityConfig;
+import evilcraft.api.render.ModelRender;
+import evilcraft.render.entity.RenderBroom;
 
-public class EntityBroomConfig extends EntityConfig {
+public class EntityBroomConfig extends ModelEntityConfig {
     
     public static EntityBroomConfig _instance;
 
@@ -13,15 +14,15 @@ public class EntityBroomConfig extends EntityConfig {
         super(
             Reference.ENTITY_BROOM,
             "Broom",
-            "entityBroom",
+            "broom",
             null,
             EntityBroom.class
         );
     }
 
     @Override
-    public Render getRender() {
-        return new RenderBroom();
+    public Class<? extends ModelRender> getRenderClass() {
+        return RenderBroom.class;
     }
     
 }
