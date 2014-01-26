@@ -10,6 +10,7 @@ import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.blocks.BloodyCobblestoneConfig;
 import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkOreConfig;
+import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.blocks.EvilBlockConfig;
 import evilcraft.blocks.ExcrementPileConfig;
 import evilcraft.blocks.FluidBlockBloodConfig;
@@ -89,6 +90,7 @@ public class Configs {
         configs.add(new HardenedBloodConfig());
         configs.add(new ObscuredGlassConfig());
         configs.add(new BloodChestConfig());
+        configs.add(new EnvironmentalAccumulatorConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

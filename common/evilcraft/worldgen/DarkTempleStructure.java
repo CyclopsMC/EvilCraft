@@ -8,6 +8,7 @@ import evilcraft.api.Helpers;
 import evilcraft.api.MetadataHelper;
 import evilcraft.api.MetadataHelper.SlabType;
 import evilcraft.api.MetadataHelper.StoneBrickType;
+import evilcraft.blocks.EnvironmentalAccumulator;
 
 public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	// DEBUG: seed: -2622550573405024187, coords: -325 119 -1469 and -50 102 -1592
@@ -71,6 +72,8 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 		int to = Block.torchWood.blockID;
 		int cw = Block.cobblestoneWall.blockID;
 		
+		int ea = EnvironmentalAccumulator.getInstance().blockID;
+		
 		addLayer(1, new int[]{
 				0 ,0 ,0 ,0 ,0 ,0 ,
 				0 ,0 ,0 ,us,ds,0 ,
@@ -95,7 +98,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 				0 ,0 ,0 ,fe,0 ,0 ,
 				rs,0 ,0 ,0 ,0 ,0 ,
 				cs,rs,0 ,0 ,0 ,0 ,
-				0 ,cs,rs,0 ,0 ,0
+				ea,cs,rs,0 ,0 ,0
 			});
 		
 		addLayer(4, new int[]{
