@@ -1,15 +1,13 @@
 package evilcraft.blocks;
 import java.util.Random;
 
-import evilcraft.EvilCraft;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlock;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.common.MinecraftForge;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableBlockConnectedTexture;
 
-public class DarkBlock extends ConfigurableBlock {
+public class DarkBlock extends ConfigurableBlockConnectedTexture {
     
     private static DarkBlock _instance = null;
     
@@ -33,6 +31,11 @@ public class DarkBlock extends ConfigurableBlock {
     
     public int idDropped(int par1, Random random, int zero) {
         return DarkBlockConfig._instance.ID;
+    }
+    
+    @Override
+    public boolean hasSeperateInventoryBlockIcon() {
+        return true;
     }
 
 }
