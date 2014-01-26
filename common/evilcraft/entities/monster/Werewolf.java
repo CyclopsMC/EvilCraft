@@ -21,6 +21,7 @@ import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.entities.villager.WerewolfVillagerConfig;
 import evilcraft.items.WerewolfBoneConfig;
+import evilcraft.items.WerewolfFurConfig;
 
 public class Werewolf extends EntityMob implements Configurable{
     
@@ -60,7 +61,7 @@ public class Werewolf extends EntityMob implements Configurable{
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(40.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.5D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(2.0D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(7.0D);
     }
     
@@ -77,8 +78,7 @@ public class Werewolf extends EntityMob implements Configurable{
     }
     
     public static boolean isWerewolfTime(World world) {
-        return true; // TODO: TMP
-        //return world.getMoonPhase() == 0 && !Helpers.isDay(world);
+        return world.getMoonPhase() == 0 && !Helpers.isDay(world);
     }
     
     private static void replaceEntity(EntityLiving old, EntityLiving neww, World world) {
@@ -120,6 +120,11 @@ public class Werewolf extends EntityMob implements Configurable{
             return WerewolfBoneConfig._instance.ID;
         else
             return super.getDropItemId();
+    }
+    
+    protected void dropRareDrop(int par1) {
+        if(WerewolfFurConfig._instance.isEnabled())
+            this.dropItem(WerewolfFurConfig._instance.ID, 1);
     }
     
     @Override

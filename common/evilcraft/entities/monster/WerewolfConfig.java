@@ -47,9 +47,4 @@ public class WerewolfConfig extends MobConfig {
         return new RenderWerewolf(this, new WerewolfModel(), 0.5F);
     }
     
-    @Override
-    public void onRegistered() {
-        //EntityRegistry.addSpawn(this.ELEMENT, 5, 2, 6, EnumCreatureType.monster, BiomeGenBase.mushroomIsland);
-    }
-    
 }

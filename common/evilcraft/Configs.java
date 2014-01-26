@@ -46,6 +46,7 @@ import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.WeatherContainerConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
+import evilcraft.items.WerewolfFurConfig;
 
 public class Configs {
     
@@ -105,6 +106,7 @@ public class Configs {
         configs.add(new DarkPowerGemConfig());
         configs.add(new BloodInfusionCoreConfig());
         configs.add(new BloodContainerConfig());
+        configs.add(new WerewolfFurConfig());
         
         // Entities
         // Item
