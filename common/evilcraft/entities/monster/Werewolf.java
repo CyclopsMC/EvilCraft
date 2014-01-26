@@ -77,7 +77,8 @@ public class Werewolf extends EntityMob implements Configurable{
     }
     
     public static boolean isWerewolfTime(World world) {
-        return world.getMoonPhase() == 0 && !Helpers.isDay(world);
+        return true; // TODO: TMP
+        //return world.getMoonPhase() == 0 && !Helpers.isDay(world);
     }
     
     private static void replaceEntity(EntityLiving old, EntityLiving neww, World world) {

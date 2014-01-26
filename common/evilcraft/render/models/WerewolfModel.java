@@ -5,105 +5,108 @@
 // - ZeuX
 package evilcraft.render.models;
 
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
  * @author Davivs69
  */
-public class WerewolfModel extends ModelBase {
+public class WerewolfModel extends ModelBiped {
     //fields
-    ModelRenderer Caput;
+    ModelRenderer bipedEar1;
+    ModelRenderer bipedEar2;
     ModelRenderer Upper_Jaw;
     ModelRenderer Lower_Jaw;
-    ModelRenderer Thorax;
-    ModelRenderer Left_Arm;
-    ModelRenderer Right_Arm;
-    ModelRenderer Left_Leg;
-    ModelRenderer Right_Leg;
-    ModelRenderer Left_Ear;
-    ModelRenderer Right_Ear;
 
     public WerewolfModel() {
-        textureWidth = 64;
-        textureHeight = 135;
-
-        Caput = new ModelRenderer(this, 24, 0);
-        Caput.addBox(0F, 0F, 0F, 10, 10, 10);
-        Caput.setRotationPoint(-5F, -23F, -6F);
-        Caput.setTextureSize(64, 135);
-        Caput.mirror = true;
-        setRotation(Caput, 0F, 0F, 0F);
+        this.textureWidth = 64;
+        this.textureHeight = 135;
+        bipedHead = new ModelRenderer(this, 24, 0);
+        bipedHead.addBox(-5F, -10F, -5F, 10, 10, 10);
+        bipedHead.setRotationPoint(0F, -13F, 0F);
+        bipedHead.setTextureSize(64, 135);
+        bipedHead.mirror = true;
+        setRotation(bipedHead, 0F, 0F, 0F);
+        bipedEar1 = new ModelRenderer(this, 18, 0);
+        bipedEar1.addBox(-4F, -14F, 2F, 2, 4, 1);
+        bipedEar1.setRotationPoint(0F, -13F, 0F);
+        bipedEar1.setTextureSize(64, 135);
+        bipedEar1.mirror = true;
+        setRotation(bipedEar1, 0F, 0F, 0F);
+        bipedEar2 = new ModelRenderer(this, 12, 0);
+        bipedEar2.addBox(2F, -14F, 2F, 2, 4, 1);
+        bipedEar2.setRotationPoint(0F, -13F, 0F);
+        bipedEar2.setTextureSize(64, 135);
+        bipedEar2.mirror = true;
+        setRotation(bipedEar2, 0F, 0F, 0F);
         Upper_Jaw = new ModelRenderer(this, 32, 122);
-        Upper_Jaw.addBox(0F, 0F, 0F, 6, 3, 10);
-        Upper_Jaw.setRotationPoint(-3F, -19F, -12F);
+        Upper_Jaw.addBox(-3F, -7F, -11F, 6, 3, 10);
+        Upper_Jaw.setRotationPoint(0F, -13F, 0F);
         Upper_Jaw.setTextureSize(64, 135);
         Upper_Jaw.mirror = true;
         setRotation(Upper_Jaw, 0F, 0F, 0F);
         Lower_Jaw = new ModelRenderer(this, 0, 122);
-        Lower_Jaw.addBox(0F, 0F, 0F, 6, 2, 10);
-        Lower_Jaw.setRotationPoint(-3F, -15F, -11F);
+        Lower_Jaw.addBox(-3F, -4F, -10F, 6, 2, 10);
+        Lower_Jaw.setRotationPoint(0F, -13F, 0F);
         Lower_Jaw.setTextureSize(64, 135);
         Lower_Jaw.mirror = true;
         setRotation(Lower_Jaw, 0.1745329F, 0F, 0F);
-        Thorax = new ModelRenderer(this, 12, 20);
-        Thorax.addBox(0F, 0F, 0F, 14, 19, 12);
-        Thorax.setRotationPoint(-7F, -13F, -7F);
-        Thorax.setTextureSize(64, 135);
-        Thorax.mirror = true;
-        setRotation(Thorax, 0F, 0F, 0F);
-        Left_Arm = new ModelRenderer(this, 0, 72);
-        Left_Arm.addBox(0F, 0F, 0F, 4, 4, 17);
-        Left_Arm.setRotationPoint(7F, -10F, -17F);
-        Left_Arm.setTextureSize(64, 135);
-        Left_Arm.mirror = true;
-        setRotation(Left_Arm, 0.1047198F, 0F, 0F);
-        Right_Arm = new ModelRenderer(this, 22, 51);
-        Right_Arm.addBox(0F, 0F, 0F, 4, 4, 17);
-        Right_Arm.setRotationPoint(-11F, -10F, -17F);
-        Right_Arm.setTextureSize(64, 135);
-        Right_Arm.mirror = true;
-        setRotation(Right_Arm, 0.1047198F, 0F, 0F);
-        Left_Leg = new ModelRenderer(this, 24, 93);
-        Left_Leg.addBox(0F, 0F, 0F, 5, 24, 5);
-        Left_Leg.setRotationPoint(1F, 0F, -3F);
-        Left_Leg.setTextureSize(64, 135);
-        Left_Leg.mirror = true;
-        setRotation(Left_Leg, 0F, 0F, 0F);
-        Right_Leg = new ModelRenderer(this, 44, 93);
-        Right_Leg.addBox(0F, 0F, 0F, 5, 24, 5);
-        Right_Leg.setRotationPoint(-6F, 0F, -3F);
-        Right_Leg.setTextureSize(64, 135);
-        Right_Leg.mirror = true;
-        setRotation(Right_Leg, 0F, 0F, 0F);
-        Left_Ear = new ModelRenderer(this, 12, 0);
-        Left_Ear.addBox(0F, 0F, 0F, 2, 4, 1);
-        Left_Ear.setRotationPoint(3F, -27F, 0F);
-        Left_Ear.setTextureSize(64, 135);
-        Left_Ear.mirror = true;
-        setRotation(Left_Ear, 0F, 0F, 0F);
-        Right_Ear = new ModelRenderer(this, 18, 0);
-        Right_Ear.addBox(0F, 0F, 0F, 2, 4, 1);
-        Right_Ear.setRotationPoint(-5F, -27F, 0F);
-        Right_Ear.setTextureSize(64, 135);
-        Right_Ear.mirror = true;
-        setRotation(Right_Ear, 0F, 0F, 0F);
+        bipedBody = new ModelRenderer(this, 12, 20);
+        bipedBody.addBox(-7F, 0F, -6F, 14, 19, 12);
+        bipedBody.setRotationPoint(0F, -13F, 0F);
+        bipedBody.setTextureSize(64, 135);
+        bipedBody.mirror = true;
+        setRotation(bipedBody, 0F, 0F, 0F);
+        bipedRightArm = new ModelRenderer(this, 22, 51);
+        bipedRightArm.addBox(-4F, -2F, -16F, 4, 4, 17);
+        bipedRightArm.setRotationPoint(-7F, -8F, 0F);
+        bipedRightArm.setTextureSize(64, 135);
+        bipedRightArm.mirror = true;
+        setRotation(bipedRightArm, 0.1047198F, 0F, 0F);
+        bipedLeftArm = new ModelRenderer(this, 0, 72);
+        bipedLeftArm.addBox(0F, -2F, -16F, 4, 4, 17);
+        bipedLeftArm.setRotationPoint(7F, -8F, 0F);
+        bipedLeftArm.setTextureSize(64, 135);
+        bipedLeftArm.mirror = true;
+        setRotation(bipedLeftArm, 0.1047198F, 0F, 0F);
+        bipedRightLeg = new ModelRenderer(this, 44, 93);
+        bipedRightLeg.addBox(-2.5F, 0F, -2.5F, 5, 18, 5);
+        bipedRightLeg.setRotationPoint(-3F, 6F, 0F);
+        bipedRightLeg.setTextureSize(64, 135);
+        bipedRightLeg.mirror = true;
+        setRotation(bipedRightLeg, 0F, 0F, 0F);
+        bipedLeftLeg = new ModelRenderer(this, 24, 93);
+        bipedLeftLeg.addBox(-2.5F, 0F, -2.5F, 5, 18, 5);
+        bipedLeftLeg.setRotationPoint(3F, 6F, 0F);
+        bipedLeftLeg.setTextureSize(64, 135);
+        bipedLeftLeg.mirror = true;
+        setRotation(bipedLeftLeg, 0F, 0F, 0F);
     }
 
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        super.render(entity, f, f1, f2, f3, f4, f5);
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-        Caput.render(f5);
+        bipedHead.setRotationPoint(0F, -13F, 0F);
+        bipedHead.render(f5);
+        this.bipedEar1.rotateAngleY = this.bipedHead.rotateAngleY;
+        this.bipedEar1.rotateAngleX = this.bipedHead.rotateAngleX;
+        this.bipedEar1.render(f5);
+        this.bipedEar2.rotateAngleY = this.bipedHead.rotateAngleY;
+        this.bipedEar2.rotateAngleX = this.bipedHead.rotateAngleX;
+        this.bipedEar2.render(f5);
+        this.Upper_Jaw.rotateAngleY = this.bipedHead.rotateAngleY;
+        this.Upper_Jaw.rotateAngleX = this.bipedHead.rotateAngleX;
         Upper_Jaw.render(f5);
+        this.Lower_Jaw.rotateAngleY = this.bipedHead.rotateAngleY;
+        this.Lower_Jaw.rotateAngleX = this.bipedHead.rotateAngleX;
         Lower_Jaw.render(f5);
-        Thorax.render(f5);
-        Left_Arm.render(f5);
-        Right_Arm.render(f5);
-        Left_Leg.render(f5);
-        Right_Leg.render(f5);
-        Left_Ear.render(f5);
-        Right_Ear.render(f5);
+        bipedBody.render(f5);
+        bipedRightArm.render(f5);
+        bipedLeftArm.render(f5);
+        bipedRightLeg.setRotationPoint(-3F, 6F, 0F);
+        bipedRightLeg.render(f5);
+        bipedLeftLeg.setRotationPoint(3F, 6F, 0F);
+        bipedLeftLeg.render(f5);
     }
 
     private void setRotation(ModelRenderer model, float x, float y, float z) {
@@ -111,9 +114,11 @@ public class WerewolfModel extends ModelBase {
         model.rotateAngleY = y;
         model.rotateAngleZ = z;
     }
-
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
-        super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+    
+    @Override
+    public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
+    {
+        super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
     }
 
 }
