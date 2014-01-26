@@ -34,8 +34,9 @@ public class SlotFluidContainer extends Slot {
         if(itemStack != null && itemStack.stackSize == 1) {
             // This is done because the FluidContainerRegistry saves keys on item id and damage value,
             // but our containers can have different damage values for the same container.
+            // But not anymore!
             ItemStack itemStackEmptyCopy = itemStack.copy();
-            itemStackEmptyCopy.setItemDamage(0);
+            //itemStackEmptyCopy.setItemDamage(0);
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStackEmptyCopy);
             if(itemStack.getItem() instanceof ItemBucket) {
                 if(itemStack.getItem().itemID != Item.bucketEmpty.itemID) {

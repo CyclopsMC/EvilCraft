@@ -29,10 +29,6 @@ public class DamageIndicatedItemComponent{
      * The item class on which the behaviour will be added.
      */
     public ItemFluidContainer item;
-    /**
-     * The custom defined capacity this damage indicator must have.
-     */
-    public int capacity;
     
     private int fakeMaxDamage = 100;
 
@@ -44,10 +40,9 @@ public class DamageIndicatedItemComponent{
      * @param capacity
      *          The custom defined capacity this damage indicator must have.
      */
-    public DamageIndicatedItemComponent(ItemFluidContainer item, int capacity)
+    public DamageIndicatedItemComponent(ItemFluidContainer item)
     {
         this.item = item;
-        this.capacity = capacity;
         item.setMaxStackSize(1);
         item.setMaxDamage(fakeMaxDamage + 2);
         item.setNoRepair();
@@ -67,20 +62,20 @@ public class DamageIndicatedItemComponent{
      */
     @Deprecated
     public void updateAmount(ItemStack itemStack, int amount) {
-        if(itemStack.getItem() == item && capacity > 0 && amount <= capacity) {
-            item.setDamage(itemStack, fakeMaxDamage + 1 - ((amount * fakeMaxDamage) / (capacity)));
+        if(itemStack.getItem() == item && item.getCapacity(itemStack) > 0 && amount <= item.getCapacity(itemStack)) {
+            item.setDamage(itemStack, fakeMaxDamage + 1 - ((amount * fakeMaxDamage) / (item.getCapacity(itemStack))));
         }
     }
     
     @SuppressWarnings("unchecked")
-    public void getSubItems(int id, CreativeTabs tab, List itemList, Fluid fluid) {
+    public void getSubItems(int id, CreativeTabs tab, List itemList, Fluid fluid, int meta) {
         // Add the 'full' container.
-        ItemStack itemStackFull = new ItemStack(item, 1);
-        item.fill(itemStackFull, new FluidStack(fluid, capacity), true);
+        ItemStack itemStackFull = new ItemStack(item, 1, meta);
+        item.fill(itemStackFull, new FluidStack(fluid, item.getCapacity(itemStackFull)), true);
         itemList.add(itemStackFull);
         
         // Add the 'empty' container.
-        ItemStack itemStackEmpty = new ItemStack(item, 1);
+        ItemStack itemStackEmpty = new ItemStack(item, 1, meta);
         item.fill(itemStackEmpty, new FluidStack(fluid, 0), true);
         itemList.add(itemStackEmpty);
     }
@@ -89,7 +84,7 @@ public class DamageIndicatedItemComponent{
         int amount = 0;
         if(item.getFluid(itemStack) != null)
             amount = item.getFluid(itemStack).amount;
-        return getInfo(amount, this.capacity);
+        return getInfo(amount, item.getCapacity(itemStack));
     }
     
     public static String getInfo(int amount, int capacity) {
@@ -104,7 +99,7 @@ public class DamageIndicatedItemComponent{
         int amount = 0;
         if(item.getFluid(itemStack) != null)
             amount = item.getFluid(itemStack).amount;
-        return fakeMaxDamage + 1 - ((amount * fakeMaxDamage) / (capacity));
+        return fakeMaxDamage + 1 - ((amount * fakeMaxDamage) / (item.getCapacity(itemStack)));
     }
     
 }

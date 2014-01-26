@@ -24,8 +24,8 @@ import evilcraft.api.IInformationProvider;
  */
 public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContainer implements IInformationProvider {
 
-    private DamageIndicatedItemComponent component;
-    private Fluid fluid;
+    protected DamageIndicatedItemComponent component;
+    protected Fluid fluid;
     
     /**
      * Create a new DamageIndicatedItemFluidContainer.
@@ -44,7 +44,7 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     }
     
     private void init() {
-        component = new DamageIndicatedItemComponent(this, this.capacity);
+        component = new DamageIndicatedItemComponent(this);
     }
     
     @Override
@@ -57,7 +57,10 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     
     @Override
     public int fill(ItemStack container, FluidStack resource, boolean doFill) {
+        int capacityOld = capacity;
+        capacity = getCapacity(container);
         int filled = super.fill(container, resource, doFill);
+        capacity = capacityOld;
         //component.updateAmount(container, getFluid(container).amount);
         return filled;
     }
@@ -69,7 +72,7 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(int id, CreativeTabs tab, List itemList) {
-        component.getSubItems(id, tab, itemList, fluid);
+        component.getSubItems(id, tab, itemList, fluid, 0);
     }
     
     @Override

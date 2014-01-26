@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.CustomRecipe;
@@ -99,7 +100,7 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodIn
         // Valid fluid container
         if(itemStack.getItem() instanceof IFluidContainerItem) {
             IFluidContainerItem container = (IFluidContainerItem) itemStack.getItem();
-            FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
+            FluidStack fluidStack = container.getFluid(itemStack);
             if(fluidStack == null) {
                 return true;
             } else {

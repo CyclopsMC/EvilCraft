@@ -30,6 +30,7 @@ import evilcraft.entities.monster.NetherfishConfig;
 import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.entities.villager.WerewolfVillagerConfig;
 import evilcraft.fluids.BloodConfig;
+import evilcraft.items.BloodContainerConfig;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BloodInfusionCoreConfig;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
@@ -103,6 +104,7 @@ public class Configs {
         configs.add(new HardenedBloodShardConfig());
         configs.add(new DarkPowerGemConfig());
         configs.add(new BloodInfusionCoreConfig());
+        configs.add(new BloodContainerConfig());
         
         // Entities
         // Item
