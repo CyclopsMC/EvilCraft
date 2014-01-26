@@ -50,15 +50,15 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     @Override
     public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
         FluidStack fluidStack = super.drain(container, maxDrain, doDrain);
-        int newAmount = getFluid(container) == null ? 0 : getFluid(container).amount;
-        component.updateAmount(container, newAmount);
+        //int newAmount = getFluid(container) == null ? 0 : getFluid(container).amount;
+        //component.updateAmount(container, newAmount);
         return fluidStack;
     }
     
     @Override
     public int fill(ItemStack container, FluidStack resource, boolean doFill) {
         int filled = super.fill(container, resource, doFill);
-        component.updateAmount(container, getFluid(container).amount);
+        //component.updateAmount(container, getFluid(container).amount);
         return filled;
     }
     
@@ -81,6 +81,16 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         component.addInformation(itemStack, entityPlayer, list, par4);
+    }
+    
+    @Override
+    public boolean isDamaged(ItemStack itemStack) {
+        return true;
+    }
+    
+    @Override
+    public int getDisplayDamage(ItemStack itemStack) {
+        return component.getDisplayDamage(itemStack);
     }
 
 }

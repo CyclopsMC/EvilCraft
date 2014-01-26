@@ -2,14 +2,13 @@ package evilcraft.api.item;
 
 import java.util.List;
 
-import evilcraft.api.IInformationProvider;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
+import evilcraft.api.IInformationProvider;
 
 /**
  * A component that has to be added for classes that want to implement the DamageIndicator behaviour.
@@ -34,6 +33,8 @@ public class DamageIndicatedItemComponent{
      * The custom defined capacity this damage indicator must have.
      */
     public int capacity;
+    
+    private int fakeMaxDamage = 100;
 
     /**
      * Create a new DamageIndicatedItemComponent
@@ -48,7 +49,7 @@ public class DamageIndicatedItemComponent{
         this.item = item;
         this.capacity = capacity;
         item.setMaxStackSize(1);
-        item.setMaxDamage(102);
+        item.setMaxDamage(fakeMaxDamage + 2);
         item.setNoRepair();
     }
     
@@ -56,17 +57,18 @@ public class DamageIndicatedItemComponent{
      * Updates the amount of the given stack with the given amount depending on the predefined item.
      * This method should be called whenever the contained amount of this container should be updated, 
      * together with the damage indicator.
+     * Deprecated, no damage values are used anymore for storing damage bar values.
+     * Using this anyways will break stuff if your item is meta data based.
      * 
      * @param itemStack
      *          The itemStack that will get an updated damage bar
      * @param amount
      *          The new amount this damage indicator must hold for the given itemStack.
      */
-    public void updateAmount(ItemStack itemStack, int amount)
-    {
-        if(itemStack.getItem() == item && capacity > 0 && amount <= capacity)
-        {
-            item.setDamage(itemStack, 101 - ((amount * 100) / (capacity)));
+    @Deprecated
+    public void updateAmount(ItemStack itemStack, int amount) {
+        if(itemStack.getItem() == item && capacity > 0 && amount <= capacity) {
+            item.setDamage(itemStack, fakeMaxDamage + 1 - ((amount * fakeMaxDamage) / (capacity)));
         }
     }
     
@@ -96,6 +98,13 @@ public class DamageIndicatedItemComponent{
     
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         list.add(IInformationProvider.ITEM_PREFIX+((IInformationProvider) itemStack.getItem()).getInfo(itemStack));
+    }
+
+    public int getDisplayDamage(ItemStack itemStack) {
+        int amount = 0;
+        if(item.getFluid(itemStack) != null)
+            amount = item.getFluid(itemStack).amount;
+        return fakeMaxDamage + 1 - ((amount * fakeMaxDamage) / (capacity));
     }
     
 }
