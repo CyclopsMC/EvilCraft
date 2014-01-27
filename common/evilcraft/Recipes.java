@@ -12,6 +12,12 @@ import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.DarkBlock;
 import evilcraft.blocks.DarkBlockConfig;
+import evilcraft.blocks.UndeadLog;
+import evilcraft.blocks.UndeadLogConfig;
+import evilcraft.blocks.UndeadPlank;
+import evilcraft.blocks.UndeadPlankConfig;
+import evilcraft.blocks.UndeadSapling;
+import evilcraft.blocks.UndeadSaplingConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.fluids.BloodConfig;
 import evilcraft.items.BloodInfusionCore;
@@ -24,6 +30,8 @@ import evilcraft.items.DarkGem;
 import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkPowerGem;
 import evilcraft.items.DarkPowerGemConfig;
+import evilcraft.items.DarkStick;
+import evilcraft.items.DarkStickConfig;
 import evilcraft.items.HardenedBloodShard;
 import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.WeatherContainer;
@@ -109,6 +117,22 @@ public class Recipes {
                     'I', new ItemStack(BloodInfusionCore.getInstance())})
             );
         }
+        // 1 Undead Log -> 4 Undead Planks
+        if(isItemEnabled(UndeadLogConfig.class) && isItemEnabled(UndeadPlankConfig.class)) {
+            GameRegistry.addShapelessRecipe(new ItemStack(UndeadPlank.getInstance(), 4),
+                    new ItemStack(UndeadLog.getInstance())
+            );
+        }
+        // Dark Stick
+        if(isItemEnabled(UndeadPlankConfig.class) && isItemEnabled(DarkGemConfig.class) && isItemEnabled(DarkStickConfig.class)) {
+            GameRegistry.addRecipe(new ItemStack(DarkStick.getInstance()),
+                    " G ",
+                    " P ",
+                    " P ",
+                    'G', new ItemStack(DarkGem.getInstance()),
+                    'P', new ItemStack(UndeadPlank.getInstance())
+            );
+        }
         
         registerCustomRecipes();
     }
@@ -122,6 +146,17 @@ public class Recipes {
                             20
                         ),
                     new ItemStack(DarkPowerGem.getInstance()
+            ));
+        }
+        
+        if(isItemEnabled(UndeadSaplingConfig.class)) {
+            CustomRecipeRegistry.put(new CustomRecipe(
+                            new ItemStack(Block.deadBush),
+                            new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2),
+                            BloodInfuser.getInstance(),
+                            20
+                        ),
+                    new ItemStack(UndeadSapling.getInstance()
             ));
         }
     }

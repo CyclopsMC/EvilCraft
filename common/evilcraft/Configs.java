@@ -19,6 +19,10 @@ import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.NetherfishSpawnConfig;
 import evilcraft.blocks.ObscuredGlassConfig;
+import evilcraft.blocks.UndeadLeavesConfig;
+import evilcraft.blocks.UndeadLogConfig;
+import evilcraft.blocks.UndeadPlankConfig;
+import evilcraft.blocks.UndeadSaplingConfig;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import evilcraft.enchantment.EnchantmentPoisonTipConfig;
@@ -91,6 +95,10 @@ public class Configs {
         configs.add(new ObscuredGlassConfig());
         configs.add(new BloodChestConfig());
         configs.add(new EnvironmentalAccumulatorConfig());
+        configs.add(new UndeadLeavesConfig());
+        configs.add(new UndeadLogConfig());
+        configs.add(new UndeadSaplingConfig());
+        configs.add(new UndeadPlankConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

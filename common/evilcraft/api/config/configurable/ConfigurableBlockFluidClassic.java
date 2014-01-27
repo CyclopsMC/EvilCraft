@@ -13,6 +13,8 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
+import evilcraft.api.blockcomponents.EntityDropParticleFXBlockComponent;
+import evilcraft.api.blockcomponents.IEntityDropParticleFXBlock;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.render.particle.ExtendedEntityDropParticleFX;
@@ -22,7 +24,7 @@ import evilcraft.render.particle.ExtendedEntityDropParticleFX;
  * @author Ruben Taelman
  *
  */
-public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic implements Configurable{
+public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic implements Configurable, IEntityDropParticleFXBlock{
     
     protected ExtendedConfig eConfig = null;
     public static ElementType TYPE = ElementType.BLOCK;
@@ -32,9 +34,7 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     
     private Fluid fluid;
     
-    protected float particleRed;
-    protected float particleGreen;
-    protected float particleBlue;
+    protected EntityDropParticleFXBlockComponent entityDropParticleFXBlockComponent;
     
     public ConfigurableBlockFluidClassic(ExtendedConfig eConfig, Fluid fluid, Material material) {
         super(eConfig.ID, fluid, material);
@@ -71,9 +71,7 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     }
     
     public ConfigurableBlockFluidClassic setParticleColor(float particleRed, float particleGreen, float particleBlue) {
-        this.particleRed = particleRed;
-        this.particleGreen = particleGreen;
-        this.particleBlue = particleBlue;
+        entityDropParticleFXBlockComponent = new EntityDropParticleFXBlockComponent(particleRed, particleGreen, particleBlue);
         return this;
     }
     
@@ -84,25 +82,13 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
      */
     public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
         super.randomDisplayTick(world, x, y, z, rand);
-
-        if (rand.nextInt(10) == 0 && world.doesBlockHaveSolidTopSurface(x, y - 1, z) && !world.getBlockMaterial(x, y - 2, z).blocksMovement()) {
-            double px = (double) ((float) x + rand.nextFloat());
-            double py = (double) y - 1.05D;
-            double pz = (double) ((float) z + rand.nextFloat());
-
-            EntityFX fx = new ExtendedEntityDropParticleFX(world, px, py, pz, particleRed, particleGreen, particleBlue);
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
-        }
+        if(entityDropParticleFXBlockComponent != null)
+            entityDropParticleFXBlockComponent.randomDisplayTick(world, x, y, z, rand);
     }
     
     @Override
     public boolean isEntity() {
         return false;
     }
-    
-    /*@Override
-    public void onRegister() {
-        //BucketHandler.INSTANCE.buckets.put(this, this.fluid);
-    }*/
 
 }

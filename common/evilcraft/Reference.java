@@ -33,6 +33,10 @@ public class Reference {
     public static final int BLOCK_OBSCUREDGLASS = 3857;
     public static final int BLOCK_BLOODCHEST = 3858;
     public static final int BLOCK_ENVIRONMENTAL_ACCUMULATOR = 3859;
+    public static final int BLOCK_UNDEADSAPLING = 3860;
+    public static final int BLOCK_UNDEADLEAVES = 3861;
+    public static final int BLOCK_UNDEADWOOD = 3862;
+    public static final int BLOCK_UNDEADPLANK = 3863;
     
     // Item ID's
     public static final int ITEM_BLOODEXTRACTOR = 4000;

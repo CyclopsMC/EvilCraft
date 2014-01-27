@@ -2,7 +2,6 @@ package evilcraft;
 import java.util.logging.Level;
 
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -16,18 +15,18 @@ import evilcraft.api.BucketHandler;
 import evilcraft.api.Debug;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
-import evilcraft.client.CustomKeyHandler;
 import evilcraft.commands.CommandEvilCraft;
+import evilcraft.events.BonemealEventHook;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlaySoundAtEntityEventHook;
 import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.TextureStitchEventHook;
-import evilcraft.network.RemoteKeyHandler;
 import evilcraft.proxies.CommonProxy;
 import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.EvilDungeonGenerator;
 import evilcraft.worldgen.EvilWorldGenerator;
+import evilcraft.worldgen.WorldGeneratorUndeadTree;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION)
 @NetworkMod(clientSideRequired = true, serverSideRequired = true)
@@ -95,6 +94,7 @@ public class EvilCraft {
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
         MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
+        MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
     }
     
     @EventHandler
