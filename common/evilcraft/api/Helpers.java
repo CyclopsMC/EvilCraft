@@ -14,6 +14,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityLivingData;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -264,4 +265,7 @@ public class Helpers {
         return ISOBFUSICATED;
     }
     
+    public static boolean isPlayerInventoryFull(EntityPlayer player) {
+        return player.inventory.getFirstEmptyStack() == -1;
+    }
 }
