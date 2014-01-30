@@ -74,12 +74,18 @@ public class EntityBroom extends Entity implements Configurable{
     
     @Override
     public boolean interactFirst(EntityPlayer player) {
-    	if (!worldObj.isRemote && riddenByEntity == null) {
-    		player.mountEntity(this);
-    		lastMounted = player;
-    	}
-    	
+    	mountEntity(player);
     	return true;
+    }
+    
+    @Override
+    public void mountEntity(Entity entity) {
+        if (!worldObj.isRemote && riddenByEntity == null && entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer)entity;
+            
+            player.mountEntity(this);
+            lastMounted = player;
+        }
     }
     
     @Override
@@ -87,9 +93,11 @@ public class EntityBroom extends Entity implements Configurable{
     	super.onUpdate();
     	
     	if (riddenByEntity == null && lastMounted != null) {
-    		// The player dismounted, give him his broom back
+    		// The player dismounted, give him his broom back if he's not in creative mode
+    		if (!lastMounted.capabilities.isCreativeMode)
+    		    lastMounted.inventory.addItemStackToInventory(new ItemStack(Broom.getInstance(), 1));
+    		
     		worldObj.removeEntity(this);
-    		lastMounted.inventory.addItemStackToInventory(new ItemStack(Broom.getInstance(), 1));
     		
     	} else if (riddenByEntity != null && riddenByEntity instanceof EntityPlayer) {
     		EntityPlayer player = (EntityPlayer)riddenByEntity;
