@@ -11,7 +11,7 @@ public class BroomConfig extends ItemConfig {
         super(
             Reference.ITEM_BROOM,
             "Broom",
-            "broomItem",
+            "broom",
             null,
             Broom.class
         );
