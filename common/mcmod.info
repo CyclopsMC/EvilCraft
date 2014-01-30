@@ -1,0 +1,23 @@
+[
+{
+  "modid": "evilcraft",
+  "name": "EvilCraft",
+  "description": "An evil mod for Minecraft.",
+  "version": "@VERSION@",
+  "credits": "TODO",
+  "logoFile": "/mods/evilcraft/textures/logo.png",
+  "mcversion": "@MC_VERSION@",
+  "url": "http://TODO",
+  "updateUrl": "",
+  "authors": [
+  	"rubensworks (aka kroeserr)",
+  	"immortaleeb (aka _EeB_)"
+  ],
+  "credits": "Models and mob textures by Davivs69.",
+  "parent":"",
+  "screenshots": [],
+  "dependencies": [
+     "MinecraftForge"
+  ]
+}
+]
