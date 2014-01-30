@@ -1,10 +1,12 @@
 package evilcraft.api;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -39,6 +41,9 @@ public class Helpers {
         {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.EAST, ForgeDirection.WEST, ForgeDirection.NORTH, ForgeDirection.SOUTH}, // WEST
         {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.WEST, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH}, // EAST
     };
+    
+    private static boolean ISOBFUSICATED_CHECKED = false;
+    private static boolean ISOBFUSICATED;
     
     /**
      * Check if it's day in this world
@@ -244,6 +249,19 @@ public class Helpers {
     
     public static ForgeDirection getForgeDirectionFromZSing(int zSign) {
     	return zSign > 0 ? ForgeDirection.SOUTH : ForgeDirection.NORTH;
+    }
+    
+    public static boolean isObfusicated() {
+        if(!ISOBFUSICATED_CHECKED) {
+            ISOBFUSICATED_CHECKED = true;
+            ISOBFUSICATED = false;
+            try {
+                Field field = Minecraft.getMinecraft().getClass().getField("currentScreen");
+            } catch (NoSuchFieldException e) {
+                ISOBFUSICATED = true;
+            } catch (SecurityException e) {}
+        }
+        return ISOBFUSICATED;
     }
     
 }

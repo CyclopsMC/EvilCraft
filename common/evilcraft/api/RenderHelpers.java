@@ -31,6 +31,24 @@ public class RenderHelpers {
         FIELDS_UVROTATE.put(ForgeDirection.SOUTH, "uvRotateWest");
         FIELDS_UVROTATE.put(ForgeDirection.WEST, "uvRotateNorth");
     }
+    private static Map<ForgeDirection, String> METHODS_RENDERFACE_OBFUSICATED = new HashMap<ForgeDirection, String>();
+    static {
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.DOWN, "func_78613_a");
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.UP, "func_78617_b");
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.NORTH, "func_78622_d");
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.EAST, "func_78605_f");
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.SOUTH, "func_78611_c");
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.WEST, "func_78573_e");
+    }
+    private static Map<ForgeDirection, String> FIELDS_UVROTATE_OBFUSICATED = new HashMap<ForgeDirection, String>();
+    static { // Note: the fields from the RenderBlock are INCORRECT! Very good read: http://greyminecraftcoder.blogspot.be/2013/07/rendering-non-standard-blocks.html
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.DOWN, "field_78675_l");
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.UP, "field_78681_k");
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.NORTH, "field_78662_g");
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.EAST, "field_78685_i");
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.SOUTH, "field_78683_h");
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.WEST, "field_78679_j");
+    }
     private static int[] ROTATE_UV_ROTATE = {0, 1, 3, 2}; // N, E, S, W -> N, E, W, S
     
     public static Icon EMPTYICON;
@@ -49,7 +67,8 @@ public class RenderHelpers {
             RenderBlocks renderer, Block block, double x, double y, double z,
             Icon blockIconFromSideAndMetadata) {
         try {
-            Method method = renderer.getClass().getMethod(METHODS_RENDERFACE.get(renderDirection), Block.class, double.class, double.class, double.class, Icon.class);
+            String methodName = Helpers.isObfusicated()?METHODS_RENDERFACE_OBFUSICATED.get(renderDirection):METHODS_RENDERFACE.get(renderDirection);
+            Method method = renderer.getClass().getMethod(methodName, Block.class, double.class, double.class, double.class, Icon.class);
             method.invoke(renderer, block, x, y, z, blockIconFromSideAndMetadata);
         } catch (NoSuchMethodException e1) {
             // Impossible to go wrong, unless this code changes or those of Minecraft...
@@ -67,16 +86,9 @@ public class RenderHelpers {
     
     public static void setRenderBlocksUVRotation(RenderBlocks renderer, ForgeDirection side, int rotation) {
         try {
-            Field field = renderer.getClass().getField(FIELDS_UVROTATE.get(side));
+            String fieldName = Helpers.isObfusicated()?FIELDS_UVROTATE_OBFUSICATED.get(side):FIELDS_UVROTATE.get(side);
+            Field field = renderer.getClass().getField(fieldName);
             field.set(renderer, ROTATE_UV_ROTATE[rotation]);
-            /*if((side == ForgeDirection.EAST || side == ForgeDirection.NORTH)
-                    && (rotation == 1 || rotation == 2)) {
-                renderer.flipTexture = true;
-            }
-            if(side == ForgeDirection.DOWN) {
-                renderer.flipTexture = true;
-            }
-            renderer.flipTexture = true;*/
         } catch (NoSuchFieldException e1) {
             // Impossible to go wrong, unless this code changes or those of Minecraft...
             e1.printStackTrace();
