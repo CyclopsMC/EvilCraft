@@ -1,15 +1,21 @@
 package evilcraft.blocks;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import evilcraft.EvilCraft;
+import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
 import evilcraft.items.DarkGemConfig;
@@ -211,6 +217,20 @@ public class DarkOre extends ConfigurableBlock {
     @Override
     public boolean canSilkHarvest() {
         return true;
+    }
+    
+    @Override
+    public int getRenderPasses() {
+        return 2;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public Icon getIcon(int side, int meta, int renderPass) {
+        if(renderPass == 1) {
+            return this.blockIcon;
+        } else {
+            return Block.stone.getIcon(side, meta);
+        }
     }
 
 }
