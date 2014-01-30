@@ -7,7 +7,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
@@ -45,17 +44,18 @@ public class EntityBroom extends Entity implements Configurable{
 
     public EntityBroom(World world) {
         super(world);
-    }
-    
-    @Override
-    public double getMountedYOffset() {
-    	return 0.0;
+        
     }
     
     @SideOnly(Side.CLIENT)
     public EntityBroom(World world, double x, double y, double z) {
         super(world);
         setPosition(x, y, z);
+    }
+    
+    @Override
+    public double getMountedYOffset() {
+        return 0.0;
     }
 
     @Override
@@ -148,8 +148,8 @@ public class EntityBroom extends Entity implements Configurable{
     			motionY = 0;
     			motionZ = 0;
     		}
-        	
-        	setPosition(posX + motionX, posY + motionY, posZ + motionZ);
+
+		    moveEntity(motionX, motionY, motionZ);
     	}
     	
     }
