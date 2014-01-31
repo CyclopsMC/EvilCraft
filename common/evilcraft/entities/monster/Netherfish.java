@@ -37,21 +37,9 @@ public class Netherfish extends EntitySilverfish implements Configurable{
         this.experienceValue = 10;
     }
     
-    /**
-     * Returns the block ID for the item the mob drops on death.
-     */
     @Override
     protected int getDropItemId() {
         return Item.gunpowder.itemID;
-    }
-    
-    /**
-     * The amount of drops (1 or 2)
-     * @param par1Random 
-     * @return 
-     */
-    public int quantityDropped(Random par1Random) {
-        return par1Random.nextInt(1) + 1;
     }
 
     @Override
@@ -64,6 +52,7 @@ public class Netherfish extends EntitySilverfish implements Configurable{
         return true;
     }
     
+    @Override
     protected void entityInit() {
         super.entityInit();
         this.dataWatcher.addObject(16, new Byte((byte)0));
@@ -88,6 +77,7 @@ public class Netherfish extends EntitySilverfish implements Configurable{
     
     @Override
     public void onLivingUpdate() {
+        // TODO: for some reason, this does not work, although it is called client side, it just doesn't render those damn particles...
         if(!this.worldObj.isRemote) {
             for (int i = 0; i < 2; ++i) {
                 this.worldObj.spawnParticle("fire", this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);

@@ -13,7 +13,7 @@ public abstract class ModelRenderLiving<M extends ModelBase> extends RenderLivin
     
     public ModelRenderLiving(ExtendedConfig config, ModelBase model, float par2) {
         super(model, par2);
-        texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + config.NAMEDID + ".png");
+        texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.NAMEDID + ".png");
     }
 
     @Override

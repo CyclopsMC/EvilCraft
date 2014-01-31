@@ -9,10 +9,10 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 
 public class WorldGenMinableConfigurable extends WorldGenMinable{
     
-    private int blocksPerVein;
-    private int veinsPerChunk;
-    private int startY;
-    private int endY;
+    protected int blocksPerVein;
+    protected int veinsPerChunk;
+    protected int startY;
+    protected int endY;
     
     public WorldGenMinableConfigurable(int id, int blocksPerVein, int veinsPerChunk, int startY, int endY) {
         super(id, blocksPerVein, Block.stone.blockID);

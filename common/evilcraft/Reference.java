@@ -17,6 +17,7 @@ public class Reference {
     public static final String TEXTURE_PATH_GUI = "textures/gui/";
     public static final String TEXTURE_PATH_SKINS = "textures/skins/";
     public static final String TEXTURE_PATH_MODELS = "textures/models/";
+    public static final String TEXTURE_PATH_ENTITIES = "textures/entities/";
     
     // Block ID's
     public static final int BLOCK_BLOODSTAINEDDIRT = 3846;
