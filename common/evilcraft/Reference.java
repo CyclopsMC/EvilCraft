@@ -69,6 +69,10 @@ public class Reference {
     public static final int ENTITY_BROOM = 5;
     public static final int ENTITY_BLOODPEARL = 6;
     
+    // MOB ID's
+    public static final int MOB_WEREWOLF = 1;
+    public static final int MOB_NETHERFISH = 2;
+    
     // GUI ID's
     public static final int GUI_BLOOD_INFUSER = 10;
     public static final int GUI_BLOOD_CHEST = 11;

@@ -2,8 +2,10 @@ package evilcraft.entities.monster;
 
 import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
+import evilcraft.Reference;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
@@ -19,7 +21,7 @@ public class WerewolfConfig extends MobConfig {
 
     public WerewolfConfig() {
         super(
-            1,
+            Reference.MOB_WEREWOLF,
             "Werewolf",
             "werewolf",
             null,

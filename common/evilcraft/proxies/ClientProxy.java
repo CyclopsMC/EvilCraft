@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import net.minecraft.client.renderer.ChestItemRenderHelper;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderSilverfish;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -16,6 +17,9 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.api.render.MultiPassBlockRenderer;
+import evilcraft.entities.monster.Netherfish;
+import evilcraft.entities.monster.Werewolf;
+import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.render.tileentity.BloodChestItemRenderHelper;
 
 public class ClientProxy extends CommonProxy{

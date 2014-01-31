@@ -125,7 +125,7 @@ public class Configs {
         // Block
         configs.add(new EntityLightningBombPrimedConfig());
         // Monster
-        configs.add(new WerewolfConfig()); // http://www.minecraftwiki.net/wiki/Resource_pack#pack.mcmeta
+        configs.add(new WerewolfConfig());
         configs.add(new NetherfishConfig());
         // Villager
         configs.add(new WerewolfVillagerConfig());

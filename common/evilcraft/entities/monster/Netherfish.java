@@ -56,7 +56,7 @@ public class Netherfish extends EntitySilverfish implements Configurable{
 
     @Override
     public String getUniqueName() {
-        return "entities.monster."+eConfig.NAMEDID;
+        return "entity."+eConfig.NAMEDID;
     }
 
     @Override
@@ -88,8 +88,10 @@ public class Netherfish extends EntitySilverfish implements Configurable{
     
     @Override
     public void onLivingUpdate() {
-        for (int i = 0; i < 2; ++i) {
-            this.worldObj.spawnParticle("fire", this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
+        if(!this.worldObj.isRemote) {
+            for (int i = 0; i < 2; ++i) {
+                this.worldObj.spawnParticle("fire", this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
+            }
         }
         super.onLivingUpdate();
     }

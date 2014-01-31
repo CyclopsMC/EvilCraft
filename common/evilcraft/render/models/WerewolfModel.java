@@ -8,6 +8,8 @@ package evilcraft.render.models;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.MathHelper;
+import evilcraft.entities.monster.Werewolf;
 
 /**
  * @author Davivs69
@@ -18,6 +20,8 @@ public class WerewolfModel extends ModelBiped {
     ModelRenderer bipedEar2;
     ModelRenderer Upper_Jaw;
     ModelRenderer Lower_Jaw;
+    
+    public int barkprogress = -1;
 
     public WerewolfModel() {
         this.textureWidth = 64;
@@ -86,26 +90,15 @@ public class WerewolfModel extends ModelBiped {
 
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-        bipedHead.setRotationPoint(0F, -13F, 0F);
         bipedHead.render(f5);
-        this.bipedEar1.rotateAngleY = this.bipedHead.rotateAngleY;
-        this.bipedEar1.rotateAngleX = this.bipedHead.rotateAngleX;
-        this.bipedEar1.render(f5);
-        this.bipedEar2.rotateAngleY = this.bipedHead.rotateAngleY;
-        this.bipedEar2.rotateAngleX = this.bipedHead.rotateAngleX;
-        this.bipedEar2.render(f5);
-        this.Upper_Jaw.rotateAngleY = this.bipedHead.rotateAngleY;
-        this.Upper_Jaw.rotateAngleX = this.bipedHead.rotateAngleX;
+        bipedEar1.render(f5);
+        bipedEar2.render(f5);
         Upper_Jaw.render(f5);
-        this.Lower_Jaw.rotateAngleY = this.bipedHead.rotateAngleY;
-        this.Lower_Jaw.rotateAngleX = this.bipedHead.rotateAngleX;
         Lower_Jaw.render(f5);
         bipedBody.render(f5);
         bipedRightArm.render(f5);
         bipedLeftArm.render(f5);
-        bipedRightLeg.setRotationPoint(-3F, 6F, 0F);
         bipedRightLeg.render(f5);
-        bipedLeftLeg.setRotationPoint(3F, 6F, 0F);
         bipedLeftLeg.render(f5);
     }
 
@@ -116,9 +109,25 @@ public class WerewolfModel extends ModelBiped {
     }
     
     @Override
-    public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
-    {
-        super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
+    public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity) {
+        super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
+        bipedHead.setRotationPoint(0F, -13F, 0F);
+        bipedRightArm.setRotationPoint(-7F, -8F, 0F);
+        bipedLeftArm.setRotationPoint(7F, -8F, 0F);
+        bipedRightLeg.setRotationPoint(-3F, 6F, 0F);
+        bipedLeftLeg.setRotationPoint(3F, 6F, 0F);
+        
+        this.bipedEar1.rotateAngleY = this.bipedHead.rotateAngleY;
+        this.bipedEar1.rotateAngleX = this.bipedHead.rotateAngleX;
+        this.bipedEar2.rotateAngleY = this.bipedHead.rotateAngleY;
+        this.bipedEar2.rotateAngleX = this.bipedHead.rotateAngleX;
+        
+        if(entity instanceof Werewolf) {
+            Werewolf werewolf = (Werewolf) entity;
+            float barkRotation = werewolf.getBarkProgressScaled(0.1745329F);
+            setRotation(Upper_Jaw, this.bipedHead.rotateAngleX + 0F, this.bipedHead.rotateAngleY + 0F, 0F);
+            setRotation(Lower_Jaw, this.bipedHead.rotateAngleX + barkRotation, this.bipedHead.rotateAngleY + 0F, 0F);
+        }
     }
 
 }

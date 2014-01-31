@@ -34,7 +34,7 @@ public class MobAction extends IElementTypeAction<MobConfig>{
         // Register mob
         Class<? extends EntityLiving> clazz = (Class<? extends EntityLiving>) eConfig.ELEMENT;
         ClientProxy.ENTITY_RENDERERS.put(clazz, eConfig.getRender());
-        EntityRegistry.registerModEntity(clazz, eConfig.NAMEDID, 2, EvilCraft._instance, 80, 3, true);
+        EntityRegistry.registerModEntity(clazz, eConfig.NAMEDID, eConfig.ID, EvilCraft._instance, 80, 3, true);
         
         // Add I18N
         LanguageRegistry.instance().addStringLocalization("entity.instance." + eConfig.NAMEDID + ".name", eConfig.NAME);

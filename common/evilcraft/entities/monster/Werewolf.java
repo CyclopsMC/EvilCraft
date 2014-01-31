@@ -1,5 +1,7 @@
 package evilcraft.entities.monster;
 
+import java.util.Random;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingData;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -31,6 +33,10 @@ public class Werewolf extends EntityMob implements Configurable{
     
     private NBTTagCompound villagerNBTTagCompound = new NBTTagCompound();
     private boolean fromVillager = false;
+    
+    private static int BARKCHANCE = 1000;
+    private static int BARKLENGTH = 40;
+    private static int barkprogress = -1;
 
     // Set a configuration for this entity
     public void setConfig(ExtendedConfig eConfig) {
@@ -78,7 +84,7 @@ public class Werewolf extends EntityMob implements Configurable{
     }
     
     public static boolean isWerewolfTime(World world) {
-        return world.getMoonPhase() == 0 && !Helpers.isDay(world);
+        return WerewolfConfig._instance.isEnabled() && world.getMoonPhase() == 0 && !Helpers.isDay(world);
     }
     
     private static void replaceEntity(EntityLiving old, EntityLiving neww, World world) {
@@ -106,12 +112,31 @@ public class Werewolf extends EntityMob implements Configurable{
     }
     
     @Override
-    public void onLivingUpdate() {
+    public void onLivingUpdate() {        
         if(!worldObj.isRemote && !isWerewolfTime(worldObj)) {
             replaceWithVillager();
         } else {
             super.onLivingUpdate();
         }
+        
+        // Random barking
+        Random random = worldObj.rand;
+        if(random.nextInt(BARKCHANCE) == 0 && barkprogress == -1) {
+            barkprogress++;
+        } else if(barkprogress > -1) {
+            playSound("mob.wolf.growl", 0.15F, 1.0F);
+            barkprogress++;
+            if(barkprogress > BARKLENGTH) {
+                barkprogress = -1;
+            }
+        }
+    }
+    
+    public float getBarkProgressScaled(float scale) {
+        if(barkprogress == -1)
+            return 0;
+        else
+            return (float)barkprogress / (float)BARKLENGTH * scale;
     }
     
     @Override

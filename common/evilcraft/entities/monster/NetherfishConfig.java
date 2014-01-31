@@ -2,6 +2,8 @@ package evilcraft.entities.monster;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderSilverfish;
+import net.minecraft.entity.EntityLiving;
+import evilcraft.Reference;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
@@ -16,7 +18,7 @@ public class NetherfishConfig extends MobConfig {
 
     public NetherfishConfig() {
         super(
-            1,
+            Reference.MOB_NETHERFISH,
             "Netherfish",
             "netherFish",
             null,
