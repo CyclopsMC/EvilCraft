@@ -13,6 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.blocks.EnvironmentalAccumulator;
+import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 
@@ -22,16 +23,13 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     private static final double WEATHER_CONTAINER_MAX_DROP_HEIGHT = 5.0;
     private static final double WEATHER_CONTAINER_SPAWN_HEIGHT = 2.0;
     
-    // Amount of time it takes for the accumulator to cooldown
-    private static final long TICK_COOLDOWN = 200;
-    
     private static final Vector4f ACTIVE_INNER_COLOR = new Vector4f(1, 0, 0, 0.13f);
     private static final Vector4f ACTIVE_OUTER_COLOR = new Vector4f(0, 0, 1, 0.13f);
     
     private static final Vector4f COOLDOWN_INNER_COLOR = new Vector4f(0, 0, 0, 0.13f);
     private static final Vector4f COOLDOWN_OUTER_COLOR = new Vector4f(0, 0, 0, 0.13f);
     
-    private long cooldownTick = 0;
+    private int cooldownTick = 0;
     private boolean cooldown = false;
     
     @SideOnly(Side.CLIENT)
@@ -106,7 +104,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	}
 	
 	private void activateCooldown() {
-	    cooldownTick = TICK_COOLDOWN;
+	    cooldownTick = EnvironmentalAccumulatorConfig.tickCooldown;
 	    cooldown = true;
 	    worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.BEAM_INACTIVE, 2);
 	}
@@ -130,7 +128,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	public void readFromNBT(NBTTagCompound compound) {
 	    super.readFromNBT(compound);
 	    
-	    cooldownTick = compound.getLong("cooldownTick");
+	    cooldownTick = compound.getInteger("cooldownTick");
 	    if (cooldownTick > 0)
 	        cooldown = true;
 	}
@@ -139,6 +137,6 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	public void writeToNBT(NBTTagCompound compound) {
 	    super.writeToNBT(compound);
 	    
-	    compound.setLong("cooldownTick", cooldownTick);
+	    compound.setInteger("cooldownTick", cooldownTick);
 	}
 }
