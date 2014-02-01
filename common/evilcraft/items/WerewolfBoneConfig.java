@@ -17,4 +17,9 @@ public class WerewolfBoneConfig extends ItemConfig {
         );
     }
     
+    @Override
+    public String getOreDictionaryId() {
+        return Reference.DICT_MATERIALBONE;
+    }
+    
 }

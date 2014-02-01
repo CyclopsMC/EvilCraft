@@ -31,13 +31,8 @@ public class DarkOreConfig extends BlockConfig {
         );
     }
     
-    @Override
-    public void onRegistered() {
-        OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(DarkOre.getInstance()));
-    }
-    
     public String getOreDictionaryId() {
-        return "oreDark";
+        return Reference.DICT_OREDARK;
     }
     
 }

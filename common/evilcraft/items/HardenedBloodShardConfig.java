@@ -20,11 +20,6 @@ public class HardenedBloodShardConfig extends ItemConfig {
     }
     
     @Override
-    public void onRegistered() {
-        OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(HardenedBloodShard.getInstance()));
-    }
-    
-    @Override
     public String getOreDictionaryId() {
         return "shardBlood";
     }

@@ -20,12 +20,8 @@ public class BloodyCobblestoneConfig extends BlockConfig {
     }
     
     @Override
-    public void onRegistered() {
-        OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(BloodyCobblestone.getInstance()));
-    }
-    
     public String getOreDictionaryId() {
-        return "blockStone";
+        return Reference.DICT_BLOCKSTONE;
     }
     
 }

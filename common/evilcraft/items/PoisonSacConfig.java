@@ -5,23 +5,23 @@ import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.Reference;
 import evilcraft.api.config.ItemConfig;
 
-public class DarkStickConfig extends ItemConfig {
+public class PoisonSacConfig extends ItemConfig {
     
-    public static DarkStickConfig _instance;
+    public static PoisonSacConfig _instance;
 
-    public DarkStickConfig() {
+    public PoisonSacConfig() {
         super(
-            Reference.ITEM_DARKSTICK,
-            "Dark Stick",
-            "darkStick",
+            Reference.ITEM_POISONSAC,
+            "Poison Sac",
+            "poisonSac",
             null,
-            DarkStick.class
+            PoisonSac.class
         );
     }
     
     @Override
     public String getOreDictionaryId() {
-        return Reference.DICT_WOODSTICK;
+        return Reference.DICT_MATERIALPOISONOUS;
     }
     
 }

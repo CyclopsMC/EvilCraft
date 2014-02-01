@@ -20,8 +20,6 @@ public class WerewolfModel extends ModelBiped {
     ModelRenderer bipedEar2;
     ModelRenderer Upper_Jaw;
     ModelRenderer Lower_Jaw;
-    
-    public int barkprogress = -1;
 
     public WerewolfModel() {
         this.textureWidth = 64;

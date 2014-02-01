@@ -48,6 +48,7 @@ public class EvilCraft {
         // Register configs and start with loading the general configs
         Configs.getInstance().registerGeneralConfigs();
         ConfigHandler.getInstance().handle(event);
+        Configs.getInstance().registerVanillaDictionary();
         Configs.getInstance().registerConfigs();
         
         // Run debugging tools

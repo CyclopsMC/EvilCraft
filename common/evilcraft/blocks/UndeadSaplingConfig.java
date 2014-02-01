@@ -25,7 +25,7 @@ public class UndeadSaplingConfig extends BlockConfig {
     }
     
     public String getOreDictionaryId() {
-        return "sapplingUndead";
+        return Reference.DICT_SAPLINGTREE;
     }
     
 }

@@ -19,4 +19,9 @@ public class UndeadLogConfig extends BlockConfig {
         );
     }
     
+    @Override
+    public String getOreDictionaryId() {
+        return Reference.DICT_WOODLOG;
+    }
+    
 }

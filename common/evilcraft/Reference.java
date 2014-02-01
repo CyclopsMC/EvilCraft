@@ -27,7 +27,7 @@ public class Reference {
     public static final int BLOCK_EVILBLOCK = 3850;
     public static final int BLOCK_LARGEDOOR = 3851;
     public static final int BLOCK_LIGHTNINGBOMB = 3852;
-    public static final int BLOCK_LIQUIDBLOCKBLOOD = 3853;
+    public static final int BLOCK_FLUIDBLOCKBLOOD = 3853;
     public static final int BLOCK_BLOODINFUSER = 3854;
     public static final int BLOCK_BLOODYCOBBLESTONE = 3855;
     public static final int BLOCK_HARDENEDBLOOD = 3856;
@@ -38,6 +38,7 @@ public class Reference {
     public static final int BLOCK_UNDEADLEAVES = 3861;
     public static final int BLOCK_UNDEADWOOD = 3862;
     public static final int BLOCK_UNDEADPLANK = 3863;
+    public static final int BLOCK_FLUIDBLOCKPOISON = 3864;
     
     // Item ID's
     public static final int ITEM_BLOODEXTRACTOR = 4000;
@@ -57,6 +58,8 @@ public class Reference {
     public static final int ITEM_BLOODINFUSIONCORE = 4013;
     public static final int ITEM_BLOODCONTAINER = 4014;
     public static final int ITEM_WEREWOLFFUR = 4015;
+    public static final int ITEM_POISONSAC = 4016;
+    public static final int ITEM_BUCKETPOISON = 4017;
     
     // Enchantment ID's
     public static final int ENCHANTMENT_BREAKING = 101;
@@ -73,8 +76,23 @@ public class Reference {
     // MOB ID's
     public static final int MOB_WEREWOLF = 1;
     public static final int MOB_NETHERFISH = 2;
+    public static final int MOB_POISONOUSLIBELLE =32;
     
     // GUI ID's
     public static final int GUI_BLOOD_INFUSER = 10;
     public static final int GUI_BLOOD_CHEST = 11;
+    
+    // OREDICT NAMES
+    public static final String DICT_MATERIALPOISONOUS = "materialPoisonous";
+    public static final String DICT_MATERIALGLASS = "materialGlass";
+    public static final String DICT_MATERIALLEATHER = "materialLeather";
+    public static final String DICT_MATERIALBONE = "materialBone";
+    public static final String DICT_COBBLESTONE = "cobblestone";
+    public static final String DICT_BLOCKSTONE = "blockStone";
+    public static final String DICT_OREDARK = "oreDark";
+    public static final String DICT_WOODPLANK = "plankWood";
+    public static final String DICT_WOODLOG = "logWood";
+    public static final String DICT_WOODSTICK = "stickWood";
+    public static final String DICT_SAPLINGTREE = "treeSapling";
+    public static final String DICT_GEMDARK = "gemDark";
 }

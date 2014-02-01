@@ -2,6 +2,10 @@ package evilcraft;
 
 import java.util.Set;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.blocks.BloodChestConfig;
@@ -14,6 +18,7 @@ import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.blocks.EvilBlockConfig;
 import evilcraft.blocks.ExcrementPileConfig;
 import evilcraft.blocks.FluidBlockBloodConfig;
+import evilcraft.blocks.FluidBlockPoisonConfig;
 import evilcraft.blocks.HardenedBloodConfig;
 import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
@@ -32,15 +37,18 @@ import evilcraft.entities.item.EntityBloodPearlConfig;
 import evilcraft.entities.item.EntityBroomConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
 import evilcraft.entities.monster.NetherfishConfig;
+import evilcraft.entities.monster.PoisonousLibelleConfig;
 import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.entities.villager.WerewolfVillagerConfig;
 import evilcraft.fluids.BloodConfig;
+import evilcraft.fluids.PoisonConfig;
 import evilcraft.items.BloodContainerConfig;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BloodInfusionCoreConfig;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
 import evilcraft.items.BroomConfig;
 import evilcraft.items.BucketBloodConfig;
+import evilcraft.items.BucketPoisonConfig;
 import evilcraft.items.ContainedFluxConfig;
 import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkPowerGemConfig;
@@ -48,6 +56,7 @@ import evilcraft.items.DarkStickConfig;
 import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
+import evilcraft.items.PoisonSacConfig;
 import evilcraft.items.WeatherContainerConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
@@ -70,13 +79,20 @@ public class Configs {
     }
     
     public void registerGeneralConfigs() {
-     // General
+        // General
         configs.add(new GeneralConfig());
+    }
+    
+    public void registerVanillaDictionary() {
+        OreDictionary.registerOre(Reference.DICT_MATERIALGLASS, new ItemStack(Block.glass));
+        OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Item.poisonousPotato));
+        OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Item.bone));
     }
     
     public void registerConfigs() {        
         // Fluids
         configs.add(new BloodConfig());
+        configs.add(new PoisonConfig());
         
         // Blocks
         configs.add(new EvilBlockConfig());
@@ -99,6 +115,7 @@ public class Configs {
         configs.add(new UndeadLogConfig());
         configs.add(new UndeadSaplingConfig());
         configs.add(new UndeadPlankConfig());
+        configs.add(new FluidBlockPoisonConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -116,6 +133,8 @@ public class Configs {
         configs.add(new DarkPowerGemConfig());
         configs.add(new BloodInfusionCoreConfig());
         configs.add(new BloodContainerConfig());
+        configs.add(new PoisonSacConfig());
+        configs.add(new BucketPoisonConfig());
         configs.add(new WerewolfFurConfig());
         
         // Entities
@@ -127,6 +146,7 @@ public class Configs {
         // Monster
         configs.add(new WerewolfConfig());
         configs.add(new NetherfishConfig());
+        configs.add(new PoisonousLibelleConfig());
         // Villager
         configs.add(new WerewolfVillagerConfig());
         // Other

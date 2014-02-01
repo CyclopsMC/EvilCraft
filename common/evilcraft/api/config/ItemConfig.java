@@ -1,8 +1,11 @@
 package evilcraft.api.config;
 
 import evilcraft.api.render.AlphaItemRenderer;
+import evilcraft.items.DarkStick;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.oredict.OreDictionary;
 
 public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
 
@@ -31,6 +34,10 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     public void onRegistered() {
         if(blendAlpha())
             MinecraftForgeClient.registerItemRenderer(this.ID, new AlphaItemRenderer());
+        
+        if(getOreDictionaryId() != null) {
+            OreDictionary.registerOre(getOreDictionaryId(), new ItemStack((Item)this.getSubInstance()));
+        }
     }
 
 }

@@ -20,13 +20,8 @@ public class DarkGemConfig extends ItemConfig {
     }
     
     @Override
-    public void onRegistered() {
-        OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(DarkGem.getInstance()));
-    }
-    
-    @Override
     public String getOreDictionaryId() {
-        return "gemDark";
+        return Reference.DICT_GEMDARK;
     }
     
 }

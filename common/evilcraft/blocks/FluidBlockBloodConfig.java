@@ -9,7 +9,7 @@ public class FluidBlockBloodConfig extends BlockConfig {
 
     public FluidBlockBloodConfig() {
         super(
-            Reference.BLOCK_LIQUIDBLOCKBLOOD,
+            Reference.BLOCK_FLUIDBLOCKBLOOD,
             "Blood",
             "blockBlood",
             null,

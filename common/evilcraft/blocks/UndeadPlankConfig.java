@@ -20,12 +20,8 @@ public class UndeadPlankConfig extends BlockConfig {
     }
     
     @Override
-    public void onRegistered() {
-        OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(UndeadPlank.getInstance()));
-    }
-    
     public String getOreDictionaryId() {
-        return "plankWood";
+        return Reference.DICT_WOODPLANK;
     }
     
 }

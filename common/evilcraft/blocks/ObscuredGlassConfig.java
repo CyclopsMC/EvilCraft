@@ -17,4 +17,9 @@ public class ObscuredGlassConfig extends BlockConfig {
         );
     }
     
+    @Override
+    public String getOreDictionaryId() {
+        return "materialGlass";
+    }
+    
 }
