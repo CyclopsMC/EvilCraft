@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
 import org.lwjgl.util.vector.Vector4f;
@@ -22,7 +23,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     private static final double WEATHER_CONTAINER_SPAWN_HEIGHT = 2.0;
     
     // Amount of time it takes for the accumulator to cooldown
-    private static final long TICK_COOLDOWN = 100;
+    private static final long TICK_COOLDOWN = 200;
     
     private static final Vector4f ACTIVE_INNER_COLOR = new Vector4f(1, 0, 0, 0.13f);
     private static final Vector4f ACTIVE_OUTER_COLOR = new Vector4f(0, 0, 1, 0.13f);
@@ -123,5 +124,21 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     	    
     	    lastMetadata = metadata;
 	    }
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+	    super.readFromNBT(compound);
+	    
+	    cooldownTick = compound.getLong("cooldownTick");
+	    if (cooldownTick > 0)
+	        cooldown = true;
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound compound) {
+	    super.writeToNBT(compound);
+	    
+	    compound.setLong("cooldownTick", cooldownTick);
 	}
 }
