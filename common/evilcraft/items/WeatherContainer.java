@@ -11,107 +11,26 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
+import evilcraft.api.weather.WeatherType;
 
+/**
+ * Class for the WeatherContainer item. Each weather container has a specific
+ * WeatherContainerType which contains the actual data and functionality that
+ * will be used when using this weather container. The different types of 
+ * weather containers are identified by their item damage, which equals
+ * to the ordinal of the corresponding WeatherContainerType.
+ * Any new weather containers should by added by adding an entry in
+ * the WeatherContainerType enum.
+ * 
+ * @author immortaleeb
+ *
+ */
 public class WeatherContainer extends ConfigurableItem {
     
     private static WeatherContainer _instance = null;
-    
-    private Icon[] icons = new Icon[5];
-    private Icon overlay;
-    private static final String[] DAMAGENAMES = new String[]{
-        "Empty",
-        /*"Day",
-        "Night",
-        "Rain",
-        "Thunder"*/
-        "My only sunshine",
-        "Darkness",
-        "When the rain begins to fall",
-        "Thunderstruck",
-    };
-    private static final EnumChatFormatting[] DAMAGECOLORS = new EnumChatFormatting[]{
-        EnumChatFormatting.GRAY,
-        EnumChatFormatting.AQUA,
-        EnumChatFormatting.BLUE,
-        EnumChatFormatting.DARK_BLUE,
-        EnumChatFormatting.GOLD
-    };
-    private static final Integer[] DAMAGERENDERCOLORS = new Integer[]{
-        Helpers.RGBToInt(125, 125, 125),
-        Helpers.RGBToInt(30, 150, 230),
-        Helpers.RGBToInt(100, 100, 255),
-        Helpers.RGBToInt(0, 0, 255),
-        Helpers.RGBToInt(255, 215, 0),
-    };
-    private static final Runnable[] AFTERFILLTO = new Runnable[]{
-        new Runnable() {
-            @Override
-            public void run(World world) {
-                // Not possible
-            }
-        },
-        new Runnable() {
-            @Override
-            public void run(World world) {
-                Helpers.setDay(world, false);
-            }
-        },
-        new Runnable() {
-            @Override
-            public void run(World world) {
-                Helpers.setDay(world, true);
-                //world.getWorldInfo().setWorldTime(world.getWorldTime() + Helpers.MINECRAFT_DAY/2);
-            }
-        },
-        new Runnable() {
-            @Override
-            public void run(World world) {
-                world.getWorldInfo().setRaining(false);
-            }
-        },
-        new Runnable() {
-            @Override
-            public void run(World world) {
-                world.getWorldInfo().setThundering(false);
-            }
-        },
-    };
-    private static final Runnable[] ONEMPTY = new Runnable[]{
-        new Runnable() {
-            @Override
-            public void run(World world) {
-                // Not possible
-            }
-        },
-        new Runnable() {
-            @Override
-            public void run(World world) {
-                Helpers.setDay(world, true);
-            }
-        },
-        new Runnable() {
-            @Override
-            public void run(World world) {
-                Helpers.setDay(world, false);
-            }
-        },
-        new Runnable() {
-            @Override
-            public void run(World world) {
-                world.getWorldInfo().setRaining(true);
-            }
-        },
-        new Runnable() {
-            @Override
-            public void run(World world) {
-                world.getWorldInfo().setThundering(true);
-            }
-        },
-    };
     
     public static void initInstance(ExtendedConfig eConfig) {
         if(_instance == null)
@@ -123,6 +42,8 @@ public class WeatherContainer extends ConfigurableItem {
     public static WeatherContainer getInstance() {
         return _instance;
     }
+    
+    private Icon overlay;
 
     private WeatherContainer(ExtendedConfig eConfig) {
         super(eConfig);
@@ -148,7 +69,7 @@ public class WeatherContainer extends ConfigurableItem {
     @SideOnly(Side.CLIENT)
     public int getColorFromDamage(int damage)
     {
-        return DAMAGERENDERCOLORS[damage];
+        return getWeatherContainerType(damage).damageRenderColor;
     }
 
     @Override
@@ -171,24 +92,12 @@ public class WeatherContainer extends ConfigurableItem {
                 world.playSoundAtEntity(entityPlayer, "mob.ghast.moan", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
                 world.playSoundAtEntity(entityPlayer, "mob.wither.death", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             }
-            if(this.getDamage(itemStack) == 0) {
-                int newDamage = 0;
-                if(world.isThundering()) {
-                    newDamage=4;
-                } else if(world.isRaining()) {
-                    newDamage=3;
-                } else if(!Helpers.isDay(world)) {
-                    newDamage=2;
-                } else {
-                    newDamage=1;
-                }
-                AFTERFILLTO[newDamage].run(world);
-                world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-                this.setDamage(itemStack, newDamage);
-            } else {
-                ONEMPTY[this.getDamage(itemStack)].run(world);
-                itemStack.stackSize--;
-            }
+            
+            WeatherContainerTypes type = getWeatherContainerType(itemStack);
+            type.onUse(world, itemStack);
+            world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            
+            itemStack.stackSize--;
         }
 
         return itemStack;
@@ -201,20 +110,16 @@ public class WeatherContainer extends ConfigurableItem {
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
     {
         //String s1 = StatCollector.translateToLocal("potion.empty").trim();
-        int damage = itemStack.getItemDamage();
-        list.add(DAMAGECOLORS[damage] + DAMAGENAMES[damage]);
+        WeatherContainerTypes type = getWeatherContainerType(itemStack);
+        
+        list.add(type.damageColor + type.description);
     }
     
     @SideOnly(Side.CLIENT)
     @Override
     public void registerIcons(IconRegister iconRegister)
     {
-        Icon icon = iconRegister.registerIcon(getIconString());
-        this.icons[0] = icon;
-        this.icons[1] = icon;
-        this.icons[2] = icon;
-        this.icons[3] = icon;
-        this.icons[4] = icon;
+        itemIcon = iconRegister.registerIcon(getIconString());
         overlay = iconRegister.registerIcon(getIconString() + "_overlay");
     }
     
@@ -227,28 +132,98 @@ public class WeatherContainer extends ConfigurableItem {
     }
     
     /**
-     * Gets an icon index based on an item's damage value
-     */
-    @Override
-    public Icon getIconFromDamage(int par1)
-    {
-        //EvilCraft.log("dmg:"+par1);
-        return this.icons[par1];
-    }
-    
-    /**
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
      */
     @SideOnly(Side.CLIENT)
     public void getSubItems(int itemId, CreativeTabs creativeTabs, List list)
     {
-        for(int i = 0; i < DAMAGENAMES.length; i++) {
+        for(int i = 0; i < WeatherContainerTypes.values().length; i++) {
             list.add(new ItemStack(itemId, 1, i));
         }
     }
-
-    interface Runnable {
-        public void run(World world);
+    
+    /**
+     * Checks wether or not a WeatherContainer is empty (it does not contain any weather)
+     * given its item damage
+     * 
+     * @param itemDamage item damage of the WeatherContainer
+     * @return true if the WeatherContainer is empty, false other
+     */
+    public static boolean isEmpty(int itemDamage) {
+        return itemDamage == WeatherContainerTypes.EMPTY.ordinal();
     }
     
+    /**
+     * Returns the weather container type for a weather container with the given
+     * item damage
+     * 
+     * @param damage Item damage of a weather container
+     * @return the weather container type for a weather container with the associated item damage
+     */
+    public static WeatherContainerTypes getWeatherContainerType(int damage) {
+        if (damage > WeatherContainerTypes.values().length)
+            return WeatherContainerTypes.EMPTY;
+        
+        return WeatherContainerTypes.values()[damage];
+    }
+    
+    /**
+     * Returns the weather container type for the weather container in the given
+     * ItemStack
+     * 
+     * @param stack ItemStack which holds a WeatherContainer
+     * @return weather container type of the weather container in the given ItemStack
+     */
+    public static WeatherContainerTypes getWeatherContainerType(ItemStack stack) {
+        return getWeatherContainerType(stack.getItemDamage());
+    }
+    
+    /**
+     * Enum containing the data for the different weather container types.
+     * New weather containers should be added by adding an entry in this enum
+     * 
+     * @author immortaleeb
+     *
+     */
+    public enum WeatherContainerTypes {
+        EMPTY(null, "Empty", EnumChatFormatting.GRAY, Helpers.RGBToInt(125, 125, 125)),
+        CLEAR(WeatherType.CLEAR, "My only sunshine", EnumChatFormatting.AQUA, Helpers.RGBToInt(30, 150, 230)),  
+        RAIN(WeatherType.RAIN, "When the rain begins to fall", EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(0, 0, 255)),
+        LIGHTNING(WeatherType.LIGHTNING, "Thunderstruck", EnumChatFormatting.GOLD, Helpers.RGBToInt(255, 215, 0));
+        
+        private final WeatherType type;
+        
+        private final String description;
+        private final EnumChatFormatting damageColor;
+        private final int damageRenderColor;
+        
+        private WeatherContainerTypes(WeatherType type, String description, EnumChatFormatting damageColor, int damageRenderColor) {
+            this.type = type;
+            
+            this.description = description;
+            this.damageColor = damageColor;
+            this.damageRenderColor = damageRenderColor;
+        }
+        
+        public void onFill(World world, ItemStack containerStack) {
+            WeatherContainerTypes currentWeatherType = EMPTY;
+            
+            // Find the weather container type who's weather is currently active
+            for (WeatherContainerTypes type : values()) {
+                if (type.type != null && type.type.isActive(world))
+                    currentWeatherType = type;
+            }
+            
+            containerStack.setItemDamage(currentWeatherType.ordinal());
+            currentWeatherType.type.deactivate(world);
+            
+        }
+        
+        public void onUse(World world, ItemStack containerStack) {
+            if (type != null)
+                type.activate(world);
+            
+            containerStack.setItemDamage(EMPTY.ordinal());
+        }
+    }
 }
