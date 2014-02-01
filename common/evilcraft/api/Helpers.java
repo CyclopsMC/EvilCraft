@@ -23,6 +23,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.ForgeDirection;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
@@ -45,6 +46,20 @@ public class Helpers {
     
     private static boolean ISOBFUSICATED_CHECKED = false;
     private static boolean ISOBFUSICATED;
+    
+    public static List<String> CHESTGENCATEGORIES = new LinkedList<String>();
+    static {
+        CHESTGENCATEGORIES.add(ChestGenHooks.BONUS_CHEST);
+        CHESTGENCATEGORIES.add(ChestGenHooks.DUNGEON_CHEST);
+        CHESTGENCATEGORIES.add(ChestGenHooks.MINESHAFT_CORRIDOR);
+        CHESTGENCATEGORIES.add(ChestGenHooks.PYRAMID_DESERT_CHEST);
+        CHESTGENCATEGORIES.add(ChestGenHooks.PYRAMID_JUNGLE_CHEST);
+        CHESTGENCATEGORIES.add(ChestGenHooks.PYRAMID_JUNGLE_DISPENSER);
+        CHESTGENCATEGORIES.add(ChestGenHooks.STRONGHOLD_CORRIDOR);
+        CHESTGENCATEGORIES.add(ChestGenHooks.STRONGHOLD_CROSSING);
+        CHESTGENCATEGORIES.add(ChestGenHooks.STRONGHOLD_LIBRARY);
+        CHESTGENCATEGORIES.add(ChestGenHooks.VILLAGE_BLACKSMITH);
+    }
     
     /**
      * Check if it's day in this world
