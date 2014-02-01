@@ -23,7 +23,7 @@ public class EntityBroom extends Entity implements Configurable{
     
     protected ExtendedConfig eConfig = null;
     
-    public static ElementType TYPE = ElementType.ENTITY_NO_GLOBAL_ID;
+    public static ElementType TYPE = ElementType.ENTITY;
     
     // Speed for the broom (in all directions)
     public static final double SPEED = 0.4;
@@ -153,6 +153,9 @@ public class EntityBroom extends Entity implements Configurable{
     	}
     	
     }
+    
+    @Override
+    protected void fall(float par1) { } // Makes sure the player doesn't get any fall damage when on the broom
 
     @Override
     protected void entityInit() {
