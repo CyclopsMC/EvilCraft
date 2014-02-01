@@ -17,4 +17,9 @@ public class ContainedFluxConfig extends ItemConfig {
         );
     }
     
+    @Override
+    public boolean isForceDisabled() {
+        return true;
+    }
+    
 }
