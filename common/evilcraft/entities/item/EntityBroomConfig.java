@@ -2,11 +2,10 @@ package evilcraft.entities.item;
 
 import net.minecraft.client.renderer.entity.Render;
 import evilcraft.Reference;
-import evilcraft.api.config.ModelEntityConfig;
-import evilcraft.api.render.ModelRender;
+import evilcraft.api.config.EntityConfig;
 import evilcraft.render.entity.RenderBroom;
 
-public class EntityBroomConfig extends ModelEntityConfig {
+public class EntityBroomConfig extends EntityConfig {
     
     public static EntityBroomConfig _instance;
 
@@ -19,10 +18,14 @@ public class EntityBroomConfig extends ModelEntityConfig {
             EntityBroom.class
         );
     }
-
+    
     @Override
-    public Class<? extends ModelRender> getRenderClass() {
-        return RenderBroom.class;
+    protected Render getRender() {
+        return new RenderBroom(this);
     }
     
+    @Override
+    public boolean sendVelocityUpdates() {
+        return true;
+    }
 }

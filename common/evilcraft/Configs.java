@@ -122,6 +122,7 @@ public class Configs {
         // Item
         configs.add(new EntityLightningGrenadeConfig());
         configs.add(new EntityBloodPearlConfig());
+        configs.add(new EntityBroomConfig());
         // Block
         configs.add(new EntityLightningBombPrimedConfig());
         // Monster
@@ -130,7 +131,6 @@ public class Configs {
         // Villager
         configs.add(new WerewolfVillagerConfig());
         // Other
-        configs.add(new EntityBroomConfig());
         
         // Enchantments
         configs.add(new EnchantmentUnusingConfig());
