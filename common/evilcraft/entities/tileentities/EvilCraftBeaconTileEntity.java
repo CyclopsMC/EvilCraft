@@ -14,6 +14,8 @@ public abstract class EvilCraftBeaconTileEntity extends EvilCraftTileEntity {
 	private Vector4f beamInnerColor;
 	private Vector4f beamOuterColor;
 	
+	private boolean isActive;
+	
 	@SideOnly(Side.CLIENT)
 	private long lastUpdated;
 	@SideOnly(Side.CLIENT)
@@ -22,18 +24,32 @@ public abstract class EvilCraftBeaconTileEntity extends EvilCraftTileEntity {
 	public EvilCraftBeaconTileEntity(Vector4f beamInnerColor, Vector4f beamOuterColor) {
 		this.beamInnerColor = beamInnerColor;
 		this.beamOuterColor = beamOuterColor;
+		
+		isActive = true;
 	}
 	
 	public Vector4f getBeamInnerColor() {
 		return beamInnerColor;
 	}
 	
+	public void setBeamInnerColor(Vector4f beamInnerColor) {
+	    this.beamInnerColor = beamInnerColor;
+	}
+	
 	public Vector4f getBeamOuterColor() {
 		return beamOuterColor;
 	}
 	
+	public void setBeamOuterColor(Vector4f beamOuterColor) {
+	    this.beamOuterColor = beamOuterColor;
+	}
+	
 	public boolean isBeamActive() {
-		return true;
+		return isActive;
+	}
+	
+	public void setBeamActive(boolean active) {
+	    this.isActive = active;
 	}
 	
 	@SideOnly(Side.CLIENT)

@@ -103,6 +103,14 @@ public class WeatherContainer extends ConfigurableItem {
         return itemStack;
     }
     
+    public void onUse(World world, ItemStack itemStack) {
+        getWeatherContainerType(itemStack).onUse(world, itemStack);
+    }
+    
+    public void onFill(World world, ItemStack itemStack) {
+        getWeatherContainerType(itemStack).onFill(world, itemStack);
+    }
+    
     /**
      * Display the contained weather
      */
@@ -176,6 +184,10 @@ public class WeatherContainer extends ConfigurableItem {
      */
     public static WeatherContainerTypes getWeatherContainerType(ItemStack stack) {
         return getWeatherContainerType(stack.getItemDamage());
+    }
+    
+    public static ItemStack createItemStack(WeatherContainerTypes type, int amount) {
+        return new ItemStack(getInstance(), amount, type.ordinal());
     }
     
     /**
