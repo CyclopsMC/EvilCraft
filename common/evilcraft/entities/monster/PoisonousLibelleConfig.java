@@ -4,6 +4,8 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
 import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
@@ -43,6 +45,7 @@ public class PoisonousLibelleConfig extends MobConfig {
         return 654321;
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public Render getRender() {
         return new RenderPoisonousLibelle(this, new PoisonousLibelleModel(), 0.5F);

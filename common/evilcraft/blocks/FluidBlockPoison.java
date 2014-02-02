@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.fluids.Poison;
@@ -29,7 +30,9 @@ public class FluidBlockPoison extends ConfigurableBlockFluidClassic {
 
     private FluidBlockPoison(ExtendedConfig eConfig) {
         super(eConfig, Poison.getInstance(), Material.water);
-        this.setParticleColor(0.0F, 1.0F, 0.0F);
+        
+        if (Helpers.isClientSide())
+            this.setParticleColor(0.0F, 1.0F, 0.0F);
         this.setTickRandomly(true);
     }
     

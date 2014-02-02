@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.Helpers;
 import evilcraft.api.blockcomponents.EntityDropParticleFXBlockComponent;
 import evilcraft.api.blockcomponents.IEntityDropParticleFXBlock;
 import evilcraft.api.config.ExtendedConfig;
@@ -29,9 +30,12 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
 
     private UndeadLeaves(ExtendedConfig eConfig) {
         super(eConfig);
-        entityDropParticleFXBlockComponent = new EntityDropParticleFXBlockComponent(1.0F, 0.0F, 0.0F);
-        entityDropParticleFXBlockComponent.setOffset(0);
-        entityDropParticleFXBlockComponent.setChance(50);
+        
+        if (Helpers.isClientSide()) {
+            entityDropParticleFXBlockComponent = new EntityDropParticleFXBlockComponent(1.0F, 0.0F, 0.0F);
+            entityDropParticleFXBlockComponent.setOffset(0);
+            entityDropParticleFXBlockComponent.setChance(50);
+        }
     }
 
     @Override

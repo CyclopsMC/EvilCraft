@@ -1,5 +1,7 @@
 package evilcraft.entities.item;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import evilcraft.Reference;
@@ -21,6 +23,7 @@ public class EntityLightningGrenadeConfig extends EntityConfig {
         );
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public Render getRender() {
         return new RenderSnowball(LightningGrenade.getInstance());

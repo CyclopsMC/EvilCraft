@@ -1,5 +1,7 @@
 package evilcraft.entities.monster;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.entity.Render;
 import evilcraft.Reference;
 import evilcraft.api.config.ElementTypeCategory;
@@ -39,6 +41,7 @@ public class NetherfishConfig extends MobConfig {
         return 654321;
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
     public Render getRender() {
         return new RenderNetherfish(this);

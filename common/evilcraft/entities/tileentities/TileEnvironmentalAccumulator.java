@@ -32,7 +32,6 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     private int cooldownTick = 0;
     private boolean cooldown = false;
     
-    @SideOnly(Side.CLIENT)
     private int lastMetadata = -1;
     
 	public TileEnvironmentalAccumulator() {

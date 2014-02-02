@@ -1,5 +1,7 @@
 package evilcraft.entities.item;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.entity.Render;
 import evilcraft.Reference;
 import evilcraft.api.config.EntityConfig;
@@ -19,6 +21,7 @@ public class EntityWeatherContainerConfig extends EntityConfig {
         );
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
     public Render getRender() {
         return new RenderThrowable(WeatherContainer.getInstance());

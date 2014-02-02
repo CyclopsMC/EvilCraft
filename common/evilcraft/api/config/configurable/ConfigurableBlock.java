@@ -73,6 +73,7 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
         return super.getIcon(side, meta);
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
     public int getRenderType() {
         return MultiPassBlockRenderer.ID;

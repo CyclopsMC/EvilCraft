@@ -1,5 +1,6 @@
 package evilcraft.api.config;
 
+import evilcraft.api.Helpers;
 import evilcraft.api.render.AlphaItemRenderer;
 import evilcraft.items.DarkStick;
 import net.minecraft.item.Item;
@@ -32,7 +33,7 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     
     @Override
     public void onRegistered() {
-        if(blendAlpha())
+        if(blendAlpha() && Helpers.isClientSide())
             MinecraftForgeClient.registerItemRenderer(this.ID, new AlphaItemRenderer());
         
         if(getOreDictionaryId() != null) {

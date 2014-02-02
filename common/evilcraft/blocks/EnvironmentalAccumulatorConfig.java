@@ -28,7 +28,8 @@ public class EnvironmentalAccumulatorConfig extends BlockConfig {
 	
 	@Override
 	public void onRegistered() {
-		ClientProxy.TILE_ENTITY_RENDERERS.put(TileEnvironmentalAccumulator.class, new TileEntityBeaconRenderer());
+	    if (Helpers.isClientSide())
+	        ClientProxy.TILE_ENTITY_RENDERERS.put(TileEnvironmentalAccumulator.class, new TileEntityBeaconRenderer());
 	}
 
 }

@@ -100,6 +100,7 @@ public class LightningBomb extends ConfigurableBlock {
         return par1 == 0 ? this.blockIconBottom : (par1 == 1 ? this.blockIconTop : this.blockIcon);
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
         this.blockIcon = par1IconRegister.registerIcon(this.getTextureName() + "_side");

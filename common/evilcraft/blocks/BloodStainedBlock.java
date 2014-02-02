@@ -99,6 +99,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
         super.onBlockClicked(par1World, par2, par3, par4, par5EntityPlayer);
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void onEntityWalking(World par1World, int par2, int par3, int par4, Entity par5Entity)
     {
@@ -106,6 +107,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
         super.onEntityWalking(par1World, par2, par3, par4, par5Entity);
     }
     
+    @SideOnly(Side.CLIENT)
     public static void splash(World world, int x, int y, int z) {
         EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 1, 1 + world.rand.nextInt(3));
     }

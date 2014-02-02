@@ -7,6 +7,7 @@ import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraft;
+import evilcraft.api.Helpers;
 import evilcraft.api.config.MobConfig;
 import evilcraft.proxies.ClientProxy;
 
@@ -33,7 +34,8 @@ public class MobAction extends IElementTypeAction<MobConfig>{
         
         // Register mob
         Class<? extends EntityLiving> clazz = (Class<? extends EntityLiving>) eConfig.ELEMENT;
-        ClientProxy.ENTITY_RENDERERS.put(clazz, eConfig.getRender());
+        if (Helpers.isClientSide())
+            ClientProxy.ENTITY_RENDERERS.put(clazz, eConfig.getRender());
         EntityRegistry.registerModEntity(clazz, eConfig.NAMEDID, eConfig.ID, EvilCraft._instance, 80, 3, true);
         
         // Add I18N
