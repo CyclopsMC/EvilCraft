@@ -80,7 +80,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 				us,us,us,us,us,0 ,
 				us,us,us,us,0 ,0 ,
 				us,us,us,us,0 ,0 ,
-				0 ,us,us,us,0 ,0
+				us,us,us,us,0 ,0
 			});
 		
 		addLayer(2, new int[]{
@@ -89,7 +89,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 				sb,sb,sb,sb,cb,0 ,
 				ds,co,wa,sb,0 ,0 ,
 				co,co,co,sb,0 ,0 ,
-				0 ,co,ds,sb,0 ,0
+				co,co,ds,sb,0 ,0
 			});
 		
 		addLayer(3, new int[]{
