@@ -38,8 +38,8 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
         
         if (Helpers.isClientSide())
             setGUI(GuiBloodChest.class);
-        else
-            setContainer(ContainerBloodChest.class);
+        
+        setContainer(ContainerBloodChest.class);
     }
     
     @Override

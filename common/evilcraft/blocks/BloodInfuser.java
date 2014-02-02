@@ -43,8 +43,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
         
         if (Helpers.isClientSide())
             setGUI(GuiBloodInfuser.class);
-        else
-            setContainer(ContainerBloodInfuser.class);
+        setContainer(ContainerBloodInfuser.class);
     }
     
     @Override

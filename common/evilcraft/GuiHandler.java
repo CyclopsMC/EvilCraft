@@ -20,7 +20,6 @@ public class GuiHandler implements IGuiHandler {
     public static Map<Integer, Class<? extends Container>> CONTAINERS = new HashMap<Integer, Class<? extends Container>>();
     public static Map<Integer, Class<? extends GuiContainer>> GUIS = new HashMap<Integer, Class<? extends GuiContainer>>();
 
-    @SideOnly(Side.SERVER)
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);

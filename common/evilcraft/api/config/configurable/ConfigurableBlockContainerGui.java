@@ -14,7 +14,7 @@ import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
     
     private int guiID;
-    @SideOnly(Side.SERVER)
+
     private Class<? extends Container> container;
     @SideOnly(Side.CLIENT)
     private Class<? extends GuiContainer> gui;
@@ -35,12 +35,10 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
         this.gui = gui;
     }
     
-    @SideOnly(Side.SERVER)
     protected void setContainer(Class<? extends Container> container) {
         this.container = container;
     }
     
-    @SideOnly(Side.SERVER)
     public Class<? extends Container> getContainer() {
         return container;
     }

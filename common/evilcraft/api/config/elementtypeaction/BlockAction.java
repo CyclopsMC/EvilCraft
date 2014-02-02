@@ -63,8 +63,7 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
                 
                 if (Helpers.isClientSide())
                     GuiHandler.GUIS.put(gui.getGuiID(), gui.getGUI());
-                else
-                    GuiHandler.CONTAINERS.put(gui.getGuiID(), gui.getContainer());
+                GuiHandler.CONTAINERS.put(gui.getGuiID(), gui.getContainer());
             }
         }
     }
