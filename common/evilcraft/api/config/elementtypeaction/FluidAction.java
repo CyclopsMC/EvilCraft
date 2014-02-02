@@ -22,7 +22,7 @@ public class FluidAction extends IElementTypeAction<FluidConfig>{
         FluidRegistry.registerFluid((Fluid) eConfig.getSubInstance());
         
         // Add I18N
-        //LanguageRegistry.instance().addStringLocalization("fluid."+eConfig.NAMEDID+".name", eConfig.NAME);
+        LanguageRegistry.instance().addStringLocalization("fluid.fluids."+eConfig.NAMEDID, eConfig.NAME);
     }
 
 }

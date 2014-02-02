@@ -14,6 +14,8 @@ import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import cpw.mods.fml.common.registry.LanguageRegistry;
+
 import evilcraft.Reference;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.api.fluids.SingleUseTank;
@@ -149,8 +151,8 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     protected void drawTooltips(int mouseX, int mouseY) {
         if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
             SingleUseTank tank = tile.getTank();
-            drawBarTooltip(FluidRegistry.getFluidName(tank.getFluid().fluidID),
-                    "mB", tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
+            String fluidName = LanguageRegistry.instance().getStringLocalization("fluid.fluids."+FluidRegistry.getFluidName(tank.getFluid().fluidID));
+            drawBarTooltip(fluidName, "mB", tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
         }
     }
     

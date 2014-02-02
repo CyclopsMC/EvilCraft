@@ -1,6 +1,7 @@
 package evilcraft;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -8,8 +9,10 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -70,6 +73,8 @@ import evilcraft.items.WeatherContainerConfig;
  * Holder class of all the recipes.
  */
 public class Recipes {
+    
+    public static Map<Item, FluidStack> BUCKETS = new HashMap<Item, FluidStack>();
 
     public static boolean isItemEnabled(Class<? extends ExtendedConfig> config) {
         try {
@@ -381,8 +386,26 @@ public class Recipes {
                 FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", bloodInfuse);
             }
             
-            // Fluid Transposer: TODO: buckets
+            // Fluid Transposer: buckets
+            for(Entry<Item, FluidStack> entry : BUCKETS.entrySet()) {
+                NBTTagCompound fill = new NBTTagCompound();
+                fill.setInteger("energy", 2000);
+                fill.setCompoundTag("input", new NBTTagCompound());
+                fill.setCompoundTag("output", new NBTTagCompound());
+                fill.setCompoundTag("fluid", new NBTTagCompound());
+    
+                new ItemStack(entry.getKey()).writeToNBT(fill.getCompoundTag("input"));
+                new ItemStack(Item.bucketEmpty).writeToNBT(fill.getCompoundTag("output"));
+                fill.setBoolean("reversible", true);
+                entry.getValue().copy().writeToNBT(fill.getCompoundTag("fluid"));
+                FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", fill);
+            }
             
+            // Compression Dynamo: blood
+            NBTTagCompound compression = new NBTTagCompound();
+            compression.setString("fluidName", Blood.getInstance().getName());
+            compression.setInteger("energy", 600000);
+            FMLInterModComms.sendMessage(TE, "CompressionFuel", compression);
         }
     }
 }
