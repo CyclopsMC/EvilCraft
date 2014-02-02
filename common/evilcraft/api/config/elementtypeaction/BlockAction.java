@@ -7,6 +7,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraftTab;
 import evilcraft.GuiHandler;
+import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
@@ -59,8 +60,11 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
             // If the block has a GUI, go ahead and register that.
             if(container.hasGui()) {
                 ConfigurableBlockContainerGui gui = (ConfigurableBlockContainerGui) container;
-                GuiHandler.CONTAINERS.put(gui.getGuiID(), gui.getContainer());
-                GuiHandler.GUIS.put(gui.getGuiID(), gui.getGUI());
+                
+                if (Helpers.isClientSide())
+                    GuiHandler.GUIS.put(gui.getGuiID(), gui.getGUI());
+                else
+                    GuiHandler.CONTAINERS.put(gui.getGuiID(), gui.getContainer());
             }
         }
     }

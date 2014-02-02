@@ -42,7 +42,9 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
         this.setRotatable(true);
         
         if (Helpers.isClientSide())
-            setGUI(ContainerBloodInfuser.class, GuiBloodInfuser.class);
+            setGUI(GuiBloodInfuser.class);
+        else
+            setContainer(ContainerBloodInfuser.class);
     }
     
     @Override

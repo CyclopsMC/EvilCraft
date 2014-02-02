@@ -75,7 +75,8 @@ public class DarkGem extends ConfigurableItem {
                                     // Retrace coordinate step and remove all those blocks + spawn particles
                                     for(int restep = 0; restep < amount; restep++) {
                                         world.setBlockToAir(xs[restep], ys[restep], zs[restep]);
-                                        BloodStainedBlock.splash(world, xs[restep], ys[restep] - 1, zs[restep]);
+                                        if (world.isRemote)
+                                            BloodStainedBlock.splash(world, xs[restep], ys[restep] - 1, zs[restep]);
                                         world.notifyBlocksOfNeighborChange(xs[restep], ys[restep], zs[restep], 0);
                                     }
                                     return false;

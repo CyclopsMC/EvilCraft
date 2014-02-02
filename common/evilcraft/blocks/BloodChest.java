@@ -37,7 +37,9 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
         setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
         
         if (Helpers.isClientSide())
-            setGUI(ContainerBloodChest.class, GuiBloodChest.class);
+            setGUI(GuiBloodChest.class);
+        else
+            setContainer(ContainerBloodChest.class);
     }
     
     @Override

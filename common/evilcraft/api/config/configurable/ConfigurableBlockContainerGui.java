@@ -1,5 +1,7 @@
 package evilcraft.api.config.configurable;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,8 +14,10 @@ import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
     
     private int guiID;
-    private Class<? extends Container> container = null;
-    private Class<? extends GuiContainer> gui = null;
+    @SideOnly(Side.SERVER)
+    private Class<? extends Container> container;
+    @SideOnly(Side.CLIENT)
+    private Class<? extends GuiContainer> gui;
 
     public ConfigurableBlockContainerGui(ExtendedConfig eConfig,
             Material material, Class<? extends EvilCraftTileEntity> tileEntity, int guiID) {
@@ -26,15 +30,22 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
         return this.guiID;
     }
     
-    protected void setGUI(Class<? extends Container> container, Class<? extends GuiContainer> gui) {
-        this.container = container;
+    @SideOnly(Side.CLIENT)
+    protected void setGUI(Class<? extends GuiContainer> gui) {
         this.gui = gui;
     }
     
+    @SideOnly(Side.SERVER)
+    protected void setContainer(Class<? extends Container> container) {
+        this.container = container;
+    }
+    
+    @SideOnly(Side.SERVER)
     public Class<? extends Container> getContainer() {
         return container;
     }
     
+    @SideOnly(Side.CLIENT)
     public Class<? extends GuiContainer> getGUI() {
         return gui;
     }

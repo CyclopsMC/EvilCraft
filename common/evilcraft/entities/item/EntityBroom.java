@@ -47,7 +47,6 @@ public class EntityBroom extends Entity implements Configurable{
         
     }
     
-    @SideOnly(Side.CLIENT)
     public EntityBroom(World world, double x, double y, double z) {
         super(world);
         setPosition(x, y, z);

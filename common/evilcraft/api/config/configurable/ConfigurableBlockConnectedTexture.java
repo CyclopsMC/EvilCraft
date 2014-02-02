@@ -55,6 +55,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
     public int getRenderType() {
         return MultiPassBlockRenderer.ID;
     }

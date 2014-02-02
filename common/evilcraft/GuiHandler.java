@@ -12,15 +12,15 @@ import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
-import evilcraft.entities.tileentities.TileBloodInfuser;
-import evilcraft.gui.client.GuiBloodInfuser;
-import evilcraft.gui.container.ContainerBloodInfuser;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class GuiHandler implements IGuiHandler {
 
     public static Map<Integer, Class<? extends Container>> CONTAINERS = new HashMap<Integer, Class<? extends Container>>();
     public static Map<Integer, Class<? extends GuiContainer>> GUIS = new HashMap<Integer, Class<? extends GuiContainer>>();
 
+    @SideOnly(Side.SERVER)
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
@@ -44,6 +44,7 @@ public class GuiHandler implements IGuiHandler {
         return null;
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
