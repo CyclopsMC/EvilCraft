@@ -2,6 +2,7 @@ package evilcraft.blocks;
 
 import net.minecraft.item.ItemBlock;
 import evilcraft.Reference;
+import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.configurable.ConfigurableProperty;
@@ -39,7 +40,8 @@ public class BloodChestConfig extends BlockConfig {
     
     @Override
     public void onRegistered() {
-        ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new RenderBloodChest());
+        if (Helpers.isClientSide())
+            ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new RenderBloodChest());
     }
     
 }

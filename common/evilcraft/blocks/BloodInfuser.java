@@ -40,7 +40,9 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
     private BloodInfuser(ExtendedConfig eConfig) {
         super(eConfig, Material.ground, TileBloodInfuser.class, Reference.GUI_BLOOD_INFUSER);
         this.setRotatable(true);
-        setGUI(ContainerBloodInfuser.class, GuiBloodInfuser.class);
+        
+        if (Helpers.isClientSide())
+            setGUI(ContainerBloodInfuser.class, GuiBloodInfuser.class);
     }
     
     @Override
@@ -52,6 +54,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
         frontIconOff = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.NORTH.name() + "_off");
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
     public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
         TileBloodInfuser tile = (TileBloodInfuser) world.getBlockTileEntity(x, y, z);
@@ -59,6 +62,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
         return getIcon(rotatedDirection.ordinal(), tile.isInfusing()?1:0);
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
     public Icon getIcon(int side, int meta) {
         if(side == ForgeDirection.UP.ordinal() || side == ForgeDirection.DOWN.ordinal()) {

@@ -34,6 +34,7 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     
     private Fluid fluid;
     
+    @SideOnly(Side.CLIENT)
     protected EntityDropParticleFXBlockComponent entityDropParticleFXBlockComponent;
     
     public ConfigurableBlockFluidClassic(ExtendedConfig eConfig, Fluid fluid, Material material) {
@@ -70,6 +71,7 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
         return side != 0 && side != 1 ? this.icon[1] : this.icon[0];
     }
     
+    @SideOnly(Side.CLIENT)
     public ConfigurableBlockFluidClassic setParticleColor(float particleRed, float particleGreen, float particleBlue) {
         entityDropParticleFXBlockComponent = new EntityDropParticleFXBlockComponent(particleRed, particleGreen, particleBlue);
         return this;

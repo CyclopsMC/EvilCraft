@@ -2,10 +2,13 @@ package evilcraft.blocks;
 import java.lang.reflect.Field;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingSand;
 import net.minecraft.world.World;
+import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.fluids.Blood;
@@ -29,7 +32,9 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
 
     private FluidBlockBlood(ExtendedConfig eConfig) {
         super(eConfig, Blood.getInstance(), Material.water);
-        this.setParticleColor(1.0F, 0.0F, 0.0F);
+        
+        if (Helpers.isClientSide())
+            this.setParticleColor(1.0F, 0.0F, 0.0F);
         this.setTickRandomly(true);
     }
     

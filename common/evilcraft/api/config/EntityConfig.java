@@ -1,11 +1,9 @@
 package evilcraft.api.config;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import evilcraft.api.render.ModelRender;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.proxies.ClientProxy;
 
 public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
@@ -16,6 +14,7 @@ public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
     public void onRegistered() {
         Class<? extends Entity> clazz = (Class<? extends Entity>) this.ELEMENT;
         ClientProxy.ENTITY_RENDERERS.put(clazz, getRender());

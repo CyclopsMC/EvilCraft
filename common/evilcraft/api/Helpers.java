@@ -25,6 +25,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.ForgeDirection;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 public class Helpers {
@@ -282,5 +284,9 @@ public class Helpers {
     
     public static boolean isPlayerInventoryFull(EntityPlayer player) {
         return player.inventory.getFirstEmptyStack() == -1;
+    }
+    
+    public static boolean isClientSide() {
+        return FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT;
     }
 }
