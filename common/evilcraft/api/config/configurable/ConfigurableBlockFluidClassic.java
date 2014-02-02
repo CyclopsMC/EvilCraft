@@ -17,6 +17,7 @@ import evilcraft.api.blockcomponents.EntityDropParticleFXBlockComponent;
 import evilcraft.api.blockcomponents.IEntityDropParticleFXBlock;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.events.TextureStitchEventHook;
 import evilcraft.render.particle.ExtendedEntityDropParticleFX;
 
 /**
@@ -44,6 +45,7 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
         this.setUnlocalizedName(this.getUniqueName());
         fluid.setBlockID(this);
         this.fluid = fluid;
+        TextureStitchEventHook.fluidMap.put(fluid, this);
     }
 
     // Set a configuration for this item
