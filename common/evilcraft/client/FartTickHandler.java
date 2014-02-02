@@ -7,7 +7,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.network.PacketDispatcher;
-import evilcraft.EvilCraft;
 import evilcraft.Reference;
 
 public class FartTickHandler implements ITickHandler {

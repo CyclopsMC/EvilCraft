@@ -22,7 +22,8 @@ public class FartPacketHandler implements IPacketHandler {
     private static final int MAX_PARTICLES = 200;
     private static final int MIN_PARTICLES = 100;
     
-    private static final float PLAYER_Y_OFFSET = -0.8f;
+    private static final float CLIENT_PLAYER_Y_OFFSET = -0.8f;
+    private static final float REMOTE_PLAYER_Y_OFFSET = 0.65f;
 
     // List of players that have rainbow farts
     private static final String[] ALLOW_RAINBOW_FARTS = { "kroeserr", "_EeB_" };
@@ -31,15 +32,23 @@ public class FartPacketHandler implements IPacketHandler {
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
         if (player instanceof EntityPlayer) {
             EntityPlayer entityPlayer = (EntityPlayer)player;
-            World world = entityPlayer.worldObj;
             
-            if (Helpers.isClientSide() && packet.data != null)
-                spawnFartParticles(world, world.getPlayerEntityByName(new String(packet.data)));
-            else
+            if (Helpers.isClientSide() && packet.data != null) {
+                World world = entityPlayer.worldObj;
+                String username = new String(packet.data);
+                boolean isRemotePlayer = !entityPlayer.username.equals(username);
+                
+                if (isRemotePlayer) 
+                    entityPlayer = world.getPlayerEntityByName(new String(packet.data));
+                
+                spawnFartParticles(world, entityPlayer, isRemotePlayer);
+                
+            } else if (!Helpers.isClientSide()){
                 PacketDispatcher.sendPacketToAllAround(
                         entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, FART_RANGE, 
                         entityPlayer.dimension, PacketDispatcher.getPacket(Reference.MOD_CHANNEL, entityPlayer.username.getBytes())
                 );
+            }
         }
     }
     
@@ -49,7 +58,7 @@ public class FartPacketHandler implements IPacketHandler {
     // east x+ 270
     
     @SideOnly(Side.CLIENT)
-    private void spawnFartParticles(World world, EntityPlayer player) {
+    private void spawnFartParticles(World world, EntityPlayer player, boolean isRemotePlayer) {
         if (player == null)
             return;
         
@@ -62,11 +71,14 @@ public class FartPacketHandler implements IPacketHandler {
         double playerXOffset = Math.sin(yaw) * 0.7;
         double playerZOffset = -Math.cos(yaw) * 0.7;
         
+        // Make corrections for the location of the player's bottom
+        float playerYOffset = isRemotePlayer ? REMOTE_PLAYER_Y_OFFSET : CLIENT_PLAYER_Y_OFFSET;
+        
         for (int i=0; i < numParticles; i++) {
             double extraDistance = rand.nextFloat() % 0.3;
             
             double particleX = player.posX + playerXOffset + extraDistance;
-            double particleY = player.posY + PLAYER_Y_OFFSET;
+            double particleY = player.posY + playerYOffset;
             double particleZ = player.posZ + playerZOffset + extraDistance;
             
             float particleMotionX = -0.5F + rand.nextFloat();
