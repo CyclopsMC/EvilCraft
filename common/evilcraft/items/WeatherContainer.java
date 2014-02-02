@@ -15,6 +15,7 @@ import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
 import evilcraft.api.weather.WeatherType;
+import evilcraft.entities.item.EntityWeatherContainer;
 
 /**
  * Class for the WeatherContainer item. Each weather container has a specific
@@ -66,6 +67,11 @@ public class WeatherContainer extends ConfigurableItem {
         return true;
     }
     
+    @Override
+    public int getRenderPasses(int metadata) {
+        return 2;
+    }
+    
     @SideOnly(Side.CLIENT)
     public int getColorFromDamage(int damage)
     {
@@ -74,9 +80,9 @@ public class WeatherContainer extends ConfigurableItem {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int par2)
+    public int getColorFromItemStack(ItemStack itemStack, int renderPass)
     {
-        return par2 > 0 ? 16777215 : this.getColorFromDamage(itemStack.getItemDamage());
+        return renderPass > 0 ? 16777215 : this.getColorFromDamage(itemStack.getItemDamage());
     }
     
     /**
@@ -84,7 +90,7 @@ public class WeatherContainer extends ConfigurableItem {
      */
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
     {
-        if(!world.isRemote) {
+        if(!world.isRemote && getWeatherContainerType(itemStack) != WeatherContainerTypes.EMPTY) {
             // Play evil sounds at the players in that world
             for(Object o : world.playerEntities) {
                 EntityPlayer entityPlayer = (EntityPlayer) o;
@@ -93,9 +99,8 @@ public class WeatherContainer extends ConfigurableItem {
                 world.playSoundAtEntity(entityPlayer, "mob.wither.death", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             }
             
-            WeatherContainerTypes type = getWeatherContainerType(itemStack);
-            type.onUse(world, itemStack);
             world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            world.spawnEntityInWorld(new EntityWeatherContainer(world, player, itemStack));
             
             itemStack.stackSize--;
         }

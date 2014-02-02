@@ -72,6 +72,7 @@ public class Reference {
     public static final int ENTITY_LIGHTNINGGRENADE = 4;
     public static final int ENTITY_BROOM = 5;
     public static final int ENTITY_BLOODPEARL = 6;
+    public static final int ENTITY_WEATHERCONTAINER = 7;
     
     // MOB ID's
     public static final int MOB_WEREWOLF = 1;

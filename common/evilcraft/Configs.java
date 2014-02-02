@@ -36,6 +36,7 @@ import evilcraft.entities.block.EntityLightningBombPrimedConfig;
 import evilcraft.entities.item.EntityBloodPearlConfig;
 import evilcraft.entities.item.EntityBroomConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
+import evilcraft.entities.item.EntityWeatherContainerConfig;
 import evilcraft.entities.monster.NetherfishConfig;
 import evilcraft.entities.monster.PoisonousLibelleConfig;
 import evilcraft.entities.monster.WerewolfConfig;
@@ -142,6 +143,7 @@ public class Configs {
         configs.add(new EntityLightningGrenadeConfig());
         configs.add(new EntityBloodPearlConfig());
         configs.add(new EntityBroomConfig());
+        configs.add(new EntityWeatherContainerConfig());
         // Block
         configs.add(new EntityLightningBombPrimedConfig());
         // Monster
