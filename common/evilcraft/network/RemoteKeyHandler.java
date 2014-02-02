@@ -6,13 +6,8 @@ import java.util.Map;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteStreams;
-
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;
-import evilcraft.EvilCraft;
 
 /**
  * This class handles key RemoteKeyS sent by the client.
@@ -38,11 +33,11 @@ public class RemoteKeyHandler implements IPacketHandler {
 		return _instance;
 	}
 	
-	private RemoteKeyHandler() {}
-	
 	// Maps the player to the keys he pressed
-	private Map<String, Map<String, Boolean>> keysPressed = new HashMap<String, Map<String, Boolean>>();
-
+    private Map<String, Map<String, Boolean>> keysPressed = new HashMap<String, Map<String, Boolean>>();
+    
+	private RemoteKeyHandler() { }
+	
 	@Override
 	public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
 		if (player instanceof EntityPlayerMP) {

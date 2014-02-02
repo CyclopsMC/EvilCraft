@@ -8,18 +8,19 @@ import java.util.Map.Entry;
 
 import net.minecraft.client.renderer.ChestItemRenderHelper;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderSilverfish;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 import evilcraft.EvilCraft;
 import evilcraft.api.render.MultiPassBlockRenderer;
-import evilcraft.entities.monster.Netherfish;
-import evilcraft.entities.monster.Werewolf;
-import evilcraft.entities.monster.WerewolfConfig;
+import evilcraft.client.CustomClientKeyHandler;
+import evilcraft.client.FartTickHandler;
 import evilcraft.render.tileentity.BloodChestItemRenderHelper;
 
 public class ClientProxy extends CommonProxy{
@@ -52,5 +53,18 @@ public class ClientProxy extends CommonProxy{
             RenderingRegistry.registerBlockHandler(renderer);
         
         ChestItemRenderHelper.instance = new BloodChestItemRenderHelper();
+    }
+    
+    @Override
+    public void registerKeyBindings() {
+        //KeyBindingRegistry.registerKeyBinding(new CustomRemoteKeyHandler());
+        KeyBindingRegistry.registerKeyBinding(CustomClientKeyHandler.getInstance());
+        EvilCraft.log("Registered key bindings");
+    }
+    
+    @Override
+    public void registerTickHandlers() {
+        TickRegistry.registerTickHandler(new FartTickHandler(), Side.CLIENT);
+        EvilCraft.log("Registered tick handlers");
     }
 }

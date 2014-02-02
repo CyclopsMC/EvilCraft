@@ -22,11 +22,11 @@ import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlaySoundAtEntityEventHook;
 import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.TextureStitchEventHook;
+import evilcraft.network.RemoteKeyHandler;
 import evilcraft.proxies.CommonProxy;
 import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.EvilDungeonGenerator;
 import evilcraft.worldgen.EvilWorldGenerator;
-import evilcraft.worldgen.WorldGeneratorUndeadTree;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION)
 @NetworkMod(clientSideRequired = true, serverSideRequired = true)
@@ -66,10 +66,10 @@ public class EvilCraft {
         
         // Add death messages
         DeathMessages.register();
-        
-        // If we need to handle custom keys on the server side, uncomment this code and look at CustomKeyHandler
-        //KeyBindingRegistry.registerKeyBinding(new CustomKeyHandler());
-        //NetworkRegistry.instance().registerChannel(RemoteKeyHandler.getInstance(), Reference.MOD_CHANNEL);
+
+        proxy.registerKeyBindings();
+        proxy.registerPacketHandlers();
+        proxy.registerTickHandlers();
     }
     
     @EventHandler

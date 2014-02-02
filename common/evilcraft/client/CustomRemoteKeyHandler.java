@@ -25,12 +25,12 @@ import evilcraft.network.RemoteKey;
  *
  */
 
-public class CustomKeyHandler extends KeyHandler {
+public class CustomRemoteKeyHandler extends KeyHandler {
 	// Example keys:
 	public static KeyBinding KEY_UP = new KeyBinding("key.evilcraft.broom.up", Keyboard.KEY_K);
 	public static KeyBinding KEY_DOWN = new KeyBinding("key.evilcraft.broom.down", Keyboard.KEY_L);
 
-	public CustomKeyHandler() {
+	public CustomRemoteKeyHandler() {
 		super(new KeyBinding[] { KEY_UP, KEY_DOWN }, new boolean[] {false, false});
 	}
 
