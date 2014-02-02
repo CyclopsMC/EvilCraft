@@ -36,7 +36,7 @@ public class FartTickHandler implements ITickHandler {
     }
     
     private boolean isToggled() {
-        boolean isPressed = CustomClientKeyHandler.isKeyPressed("key.evilcraft.fart");
+        boolean isPressed = CustomClientKeyHandler.isKeyPressed(Reference.KEY_FART);
         
         if (isPressed != lastPressed) {
             lastPressed = isPressed;

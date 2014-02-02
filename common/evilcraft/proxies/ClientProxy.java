@@ -58,7 +58,10 @@ public class ClientProxy extends CommonProxy{
     @Override
     public void registerKeyBindings() {
         //KeyBindingRegistry.registerKeyBinding(new CustomRemoteKeyHandler());
+        
+        // CustomClientKeyHandler
         KeyBindingRegistry.registerKeyBinding(CustomClientKeyHandler.getInstance());
+        
         EvilCraft.log("Registered key bindings");
     }
     

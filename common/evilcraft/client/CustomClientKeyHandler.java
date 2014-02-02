@@ -10,6 +10,7 @@ import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
+import evilcraft.Reference;
 
 /**
  * Handles all custom key presses and saves their pressed state in a giant hashmap 
@@ -19,8 +20,7 @@ import cpw.mods.fml.common.TickType;
  *
  */
 public class CustomClientKeyHandler extends KeyHandler {
-    
-    public static KeyBinding KEY_FART = new KeyBinding("key.evilcraft.fart", Keyboard.KEY_P);
+    public static KeyBinding KEY_FART = new KeyBinding(Reference.KEY_FART, Keyboard.KEY_P);
     
     private Map<String, Boolean> keyMap = new HashMap<String, Boolean>();
     

@@ -100,4 +100,7 @@ public class Reference {
     
     // MOD ID's
     public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
+    
+    // Keybinding ID's
+    public static final String KEY_FART = "key.evilcraft.fart";
 }
