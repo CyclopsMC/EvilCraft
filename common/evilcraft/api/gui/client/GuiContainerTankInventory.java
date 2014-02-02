@@ -101,6 +101,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
             int tankSize = tank.getFluidAmount() * tankHeight / tank.getCapacity();
             drawTank(tankTargetX, tankTargetY, tank.getAcceptedFluid().getID(), tankSize);
         }
+        GL11.glDisable(GL11.GL_BLEND);
     }
     
     @Override
