@@ -23,8 +23,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     private static final double WEATHER_CONTAINER_MAX_DROP_HEIGHT = 5.0;
     private static final double WEATHER_CONTAINER_SPAWN_HEIGHT = 2.0;
     
-    private static final Vector4f ACTIVE_INNER_COLOR = new Vector4f(1, 0, 0, 0.13f);
-    private static final Vector4f ACTIVE_OUTER_COLOR = new Vector4f(0, 0, 1, 0.13f);
+    private static final Vector4f ACTIVE_INNER_COLOR = new Vector4f(0.48046875F, 0.29296875F, 0.1171875F, 0.13f);
+    private static final Vector4f ACTIVE_OUTER_COLOR = new Vector4f(0.30078125F, 0.1875F, 0.08203125F, 0.13f);
     
     private static final Vector4f COOLDOWN_INNER_COLOR = new Vector4f(0, 0, 0, 0.13f);
     private static final Vector4f COOLDOWN_OUTER_COLOR = new Vector4f(0, 0, 0, 0.13f);
@@ -37,6 +37,10 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     
 	public TileEnvironmentalAccumulator() {
 		super(ACTIVE_INNER_COLOR, ACTIVE_OUTER_COLOR);
+	}
+	
+	public int getMaxCooldownTick() {
+	    return EnvironmentalAccumulatorConfig.tickCooldown;
 	}
 	
 	@Override
@@ -104,7 +108,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	}
 	
 	private void activateCooldown() {
-	    cooldownTick = EnvironmentalAccumulatorConfig.tickCooldown;
+	    cooldownTick = getMaxCooldownTick();
 	    cooldown = true;
 	    worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.BEAM_INACTIVE, 2);
 	}
