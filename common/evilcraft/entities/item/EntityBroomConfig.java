@@ -31,4 +31,9 @@ public class EntityBroomConfig extends EntityConfig {
     public boolean sendVelocityUpdates() {
         return true;
     }
+    
+    @Override
+    public int getUpdateFrequency() {
+        return 5;
+    }
 }
