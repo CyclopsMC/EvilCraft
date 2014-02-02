@@ -3,6 +3,7 @@ package evilcraft.worldgen;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import evilcraft.api.Helpers;
 import evilcraft.api.MetadataHelper;
@@ -11,8 +12,6 @@ import evilcraft.api.MetadataHelper.StoneBrickType;
 import evilcraft.blocks.EnvironmentalAccumulator;
 
 public class DarkTempleStructure extends QuarterSymmetricalStructure {
-	// DEBUG: seed: -2622550573405024187, coords: -325 119 -1469 and -50 102 -1592
-	
 	private static final int STRUCTURE_HEIGHT = 9;
 	private static final int MAX_BUILD_HEIGHT = 256 - STRUCTURE_HEIGHT;
 	private static final int MIN_BUILD_HEIGHT = 90;
@@ -55,7 +54,8 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	}
 	
 	private boolean isSolidBlock(World world, int x, int y, int z) {
-		return Block.isNormalCube(world.getBlockId(x, y, z));
+	    Material material =  world.getBlockMaterial(x, y, z);
+		return material.isSolid() && material.isOpaque();
 	}
 	
 	@Override

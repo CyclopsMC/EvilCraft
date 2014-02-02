@@ -3,7 +3,6 @@ package evilcraft.worldgen;
 import java.util.Random;
 
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.common.IWorldGenerator;
 
@@ -13,8 +12,11 @@ public class DarkTempleGenerator implements IWorldGenerator {
 		if (world.provider.dimensionId != 0)
 			return;
 		
-		// TODO: increase randomness of spawning temple structures
+		// Add some randomness for spawning, might be too low?
+		int modX = random.nextInt(7) + 3;
+		int modZ = random.nextInt(7) + 3;
 		
-		DarkTempleStructure.getInstance().generate(world, random, chunkX * 16 + random.nextInt(16), 0, chunkZ * 16 + random.nextInt(16));
+		if (chunkX % modX == random.nextInt(modX) && chunkZ % modZ == random.nextInt(modZ))
+		    DarkTempleStructure.getInstance().generate(world, random, chunkX * 16 + random.nextInt(16), 0, chunkZ * 16 + random.nextInt(16));
     }
 }
