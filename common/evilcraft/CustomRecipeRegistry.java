@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
 public class CustomRecipeRegistry {
@@ -21,5 +22,14 @@ public class CustomRecipeRegistry {
                 return entry.getValue();
         }
         return null;
+    }
+    
+    public static Map<CustomRecipe, CustomRecipeResult> getRecipesForFactory(Block factory) {
+        Map<CustomRecipe, CustomRecipeResult> factoryRecipes = new HashMap<CustomRecipe, CustomRecipeResult>();
+        for(Entry<CustomRecipe, CustomRecipeResult> entry : recipes.entrySet()) {
+            if(entry.getKey().getFactory() == factory)
+                factoryRecipes.put(entry.getKey(), entry.getValue());
+        }
+        return factoryRecipes;
     }
 }

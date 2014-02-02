@@ -52,7 +52,7 @@
 	<target name="jarify">
 		<!-- Build the jar -->
 		<mkdir dir="${build.dir.release}/${build.release.minecraft.version}/${build.release.mod.version}" />
-		<jar destfile="${build.dir.release}/${build.release.minecraft.version}/${build.release.mod.version}/EvilCraft-${build.release.mod.version}-${build_number.build_number}.jar">
+		<jar destfile="${build.dir.release}/${build.release.minecraft.version}/${build.release.mod.version}/EvilCraft-${build.release.minecraft.version}-${build.release.mod.version}-${build_number.build_number}.jar">
 			<fileset dir="${forge.dir}/mcp/src/minecraft/evilcraft" includes="mcmod.info" />
 			<fileset dir="${forge.dir}/mcp/reobf/minecraft" />
 			<fileset dir="${project.dir}/resources" excludes="**/xcf/**" />

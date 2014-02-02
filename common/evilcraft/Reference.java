@@ -96,4 +96,7 @@ public class Reference {
     public static final String DICT_WOODSTICK = "stickWood";
     public static final String DICT_SAPLINGTREE = "treeSapling";
     public static final String DICT_GEMDARK = "gemDark";
+    
+    // MOD ID's
+    public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
 }

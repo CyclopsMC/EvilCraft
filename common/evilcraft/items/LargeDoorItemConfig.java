@@ -17,4 +17,8 @@ public class LargeDoorItemConfig extends ItemConfig {
         );
     }
     
+    public boolean isForceDisabled() {
+        return true;
+    }
+    
 }

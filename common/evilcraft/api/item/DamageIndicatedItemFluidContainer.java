@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
@@ -49,6 +50,14 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     
     @Override
     public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
+        // Fix for Thermal Expansion
+        FluidStack stack = FluidStack.loadFluidStackFromNBT(container.stackTagCompound.getCompoundTag("Fluid"));
+        if(stack.amount <= 0) {
+            stack.amount = 0;
+            NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag("Fluid");
+            fluidTag.setInteger("Amount", 0);
+            return stack;
+        }
         FluidStack fluidStack = super.drain(container, maxDrain, doDrain);
         //int newAmount = getFluid(container) == null ? 0 : getFluid(container).amount;
         //component.updateAmount(container, newAmount);

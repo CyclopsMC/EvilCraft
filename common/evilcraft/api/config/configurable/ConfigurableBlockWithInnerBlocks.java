@@ -82,4 +82,12 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
         return INNER_BLOCKS[Math.min(INNER_BLOCKS.length - 1, blockMetadata)];
     }
     
+    /**
+     * Get the amount of innerblocks
+     * @return amount of innerblocks
+     */
+    public int getInnerBlocks() {
+        return INNER_BLOCKS.length;
+    }
+    
 }
