@@ -66,6 +66,7 @@ public class Reference {
     public static final int ENCHANTMENT_LIFESTEALING = 102;
     public static final int ENCHANTMENT_UNUSING = 103;
     public static final int ENCHANTMENT_POISON_TIP = 104;
+    public static final int ENCHANTMENT_KNOCKSPEED = 105;
     
     // Entity ID's
     public static final int ENTITY_LIGHTNINGBOMB = 3;

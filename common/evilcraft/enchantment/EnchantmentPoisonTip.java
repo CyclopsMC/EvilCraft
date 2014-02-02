@@ -29,16 +29,19 @@ public class EnchantmentPoisonTip extends ConfigurableEnchantment {
         super(eConfig, 1, EnumEnchantmentType.weapon);
     }
     
-    public int getMinEnchantability(int par1) {
-        return 20;
+    @Override
+    public int getMinEnchantability(int level) {
+        return 10 + (level - 1) * 10;
     }
     
-    public int getMaxEnchantability(int par1) {
-        return 50;
+    @Override
+    public int getMaxEnchantability(int level) {
+        return super.getMinEnchantability(level) + 50;
     }
     
+    @Override
     public int getMaxLevel() {
-        return 1;
+        return 3;
     }
     
     public static void poison(EntityLivingBase entity, int level) {

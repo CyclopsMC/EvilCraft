@@ -30,14 +30,17 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
         super(eConfig, 1, EnumEnchantmentType.all);
     }
     
+    @Override
     public int getMinEnchantability(int par1) {
-        return 20;
+        return 10;
     }
     
+    @Override
     public int getMaxEnchantability(int par1) {
         return 50;
     }
     
+    @Override
     public int getMaxLevel() {
         return 1;
     }

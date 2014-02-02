@@ -32,23 +32,26 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
     }
 
     private EnchantmentBreaking(ExtendedConfig eConfig) {
-        super(eConfig, 1, EnumEnchantmentType.all);
+        super(eConfig, 10, EnumEnchantmentType.all);
     }
     
+    @Override
     public int getMinEnchantability(int level) {
-        return 5 + (level - 1) * 8;
+        return 1 + (level - 1) * 8;
     }
     
+    @Override
     public int getMaxEnchantability(int level) {
         return super.getMinEnchantability(level) + 50;
     }
     
+    @Override
     public int getMaxLevel() {
         return 3;
     }
     
-    public boolean canApply(ItemStack par1ItemStack)
-    {
+    @Override
+    public boolean canApply(ItemStack par1ItemStack) {
         return par1ItemStack.isItemStackDamageable() ? true : super.canApply(par1ItemStack);
     }
     
@@ -57,8 +60,7 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
      * enchantment level. If the ItemStack is Armor then there is a flat 60% chance for damage to be amplified no
      * matter the enchantment level, otherwise there is a 1-(level/1) chance for damage to be amplified.
      */
-    public static void amplifyDamage(ItemStack itemStack, int enchantmentListID, Random random)
-    {
+    public static void amplifyDamage(ItemStack itemStack, int enchantmentListID, Random random) {
         if(enchantmentListID > -1) {
             NBTTagList enchlist = itemStack.getEnchantmentTagList();
             int level = ((NBTTagCompound)enchlist.tagAt(enchantmentListID)).getShort("level");

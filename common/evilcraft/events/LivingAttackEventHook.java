@@ -45,23 +45,23 @@ public class LivingAttackEventHook {
     }
     
     private void unusingEvent(LivingAttackEvent event) {
-        if(event.source.getEntity() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.source.getEntity();
-            ItemStack itemStack = player.getCurrentEquippedItem();
+        if(event.source.getEntity() instanceof EntityLivingBase) {
+            EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
+            ItemStack itemStack = entity.getCurrentItemOrArmor(0);
             if(Helpers.doesEnchantApply(itemStack, EnchantmentUnusingConfig._instance.ID) > -1) {
-                if(player != null
+                if(entity != null
                         && EnchantmentUnusing.unuseTool(itemStack)) {
                     event.setCanceled(true);
-                    player.stopUsingItem();
+                    //player.stopUsingItem();
                 }
             }
         }
     }
     
     private void breakingEvent(LivingAttackEvent event) {
-        if(event.source.getEntity() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.source.getEntity();
-            ItemStack itemStack = player.getCurrentEquippedItem();
+        if(event.source.getEntity() instanceof EntityLivingBase) {
+            EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
+            ItemStack itemStack = entity.getCurrentItemOrArmor(0);
             int enchantmentListID = Helpers.doesEnchantApply(itemStack, EnchantmentBreakingConfig._instance.ID);
             if(enchantmentListID > -1) {
                 EnchantmentBreaking.amplifyDamage(itemStack, enchantmentListID, new Random());
@@ -70,9 +70,9 @@ public class LivingAttackEventHook {
     }
     
     private void poisonTipEvent(LivingAttackEvent event) {
-        if(event.source.getEntity() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.source.getEntity();
-            ItemStack itemStack = player.getCurrentEquippedItem();
+        if(event.source.getEntity() instanceof EntityLivingBase) {
+            EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
+            ItemStack itemStack = entity.getCurrentItemOrArmor(0);
             int enchantmentListID = Helpers.doesEnchantApply(itemStack, EnchantmentPoisonTipConfig._instance.ID);
             if(enchantmentListID > -1) {
                 NBTTagList enchlist = itemStack.getEnchantmentTagList();

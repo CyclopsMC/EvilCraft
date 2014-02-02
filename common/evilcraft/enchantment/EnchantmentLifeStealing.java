@@ -1,9 +1,7 @@
 package evilcraft.enchantment;
 
 import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import evilcraft.EvilCraft;
+import net.minecraft.entity.EntityLivingBase;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableEnchantment;
 
@@ -23,23 +21,26 @@ public class EnchantmentLifeStealing extends ConfigurableEnchantment {
     }
 
     private EnchantmentLifeStealing(ExtendedConfig eConfig) {
-        super(eConfig, 1, EnumEnchantmentType.all);
+        super(eConfig, 3, EnumEnchantmentType.weapon);
     }
     
-    public int getMinEnchantability(int par1) {
-        return 20;
+    @Override
+    public int getMinEnchantability(int level) {
+        return 15 + (level - 1) * 15;
     }
     
-    public int getMaxEnchantability(int par1) {
-        return 50;
+    @Override
+    public int getMaxEnchantability(int level) {
+        return super.getMinEnchantability(level) + 50;
     }
     
+    @Override
     public int getMaxLevel() {
         return 3;
     }
     
-    public static void stealLife(EntityPlayer player, float damage, int level) {
-        player.heal(damage / EnchantmentLifeStealing._instance.getMaxLevel() * (level + 1));
+    public static void stealLife(EntityLivingBase entity, float damage, int level) {
+        entity.heal(damage / EnchantmentLifeStealing._instance.getMaxLevel() * (level + 1));
     }
 
 }
