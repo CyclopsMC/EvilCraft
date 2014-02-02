@@ -6,12 +6,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.render.particle.EntityFartFX;
@@ -31,11 +31,15 @@ public class FartPacketHandler implements IPacketHandler {
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
         if (player instanceof EntityPlayer) {
             EntityPlayer entityPlayer = (EntityPlayer)player;
+            World world = entityPlayer.worldObj;
             
-            if (Helpers.isClientSide())
-                spawnFartParticles(entityPlayer);
-            else // Note: we can get away with sending an empty packet because we only need the player data
-                PacketDispatcher.sendPacketToAllAround(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, FART_RANGE, entityPlayer.dimension, PacketDispatcher.getPacket(Reference.MOD_CHANNEL, null));
+            if (Helpers.isClientSide() && packet.data != null)
+                spawnFartParticles(world, world.getPlayerEntityByName(new String(packet.data)));
+            else
+                PacketDispatcher.sendPacketToAllAround(
+                        entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, FART_RANGE, 
+                        entityPlayer.dimension, PacketDispatcher.getPacket(Reference.MOD_CHANNEL, entityPlayer.username.getBytes())
+                );
         }
     }
     
@@ -45,8 +49,11 @@ public class FartPacketHandler implements IPacketHandler {
     // east x+ 270
     
     @SideOnly(Side.CLIENT)
-    private void spawnFartParticles(EntityPlayer player) {
-        Random rand = player.worldObj.rand;
+    private void spawnFartParticles(World world, EntityPlayer player) {
+        if (player == null)
+            return;
+        
+        Random rand = world.rand;
         int numParticles = rand.nextInt(MAX_PARTICLES - MIN_PARTICLES) + MIN_PARTICLES;
         boolean rainbow = hasRainbowFart(player);
         
@@ -66,7 +73,7 @@ public class FartPacketHandler implements IPacketHandler {
             float particleMotionY = -0.5F + rand.nextFloat();
             float particleMotionZ = -0.5F + rand.nextFloat();
             
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFartFX(player.worldObj, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ, rainbow));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFartFX(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ, rainbow));
         }
     }
     

@@ -2,10 +2,12 @@ package evilcraft.client;
 
 import java.util.EnumSet;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
 
 public class FartTickHandler implements ITickHandler {
@@ -46,6 +48,8 @@ public class FartTickHandler implements ITickHandler {
     }
     
     private void playerTick(EntityPlayer player) {
+        if (player != Minecraft.getMinecraft().thePlayer)
+            return;
         
         if (isToggled()) {
             fartEnabled = !fartEnabled;
