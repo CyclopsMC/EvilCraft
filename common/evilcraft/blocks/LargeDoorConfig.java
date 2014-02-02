@@ -17,4 +17,8 @@ public class LargeDoorConfig extends BlockConfig {
         );
     }
     
+    public boolean isForceDisabled() {
+        return true;
+    }
+    
 }
