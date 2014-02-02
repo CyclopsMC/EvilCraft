@@ -13,7 +13,7 @@ public class UndeadLeavesConfig extends BlockConfig {
         super(
             Reference.BLOCK_UNDEADLEAVES,
             "Undead Leaves",
-            "undeadleaves",
+            "undeadLeaves",
             null,
             UndeadLeaves.class
         );
