@@ -5,7 +5,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 
-public abstract class TickingChestContainer<T extends TickingTankInventoryTileEntity<T>> extends TickingInventoryContainer<T> {
+public abstract class TickingChestContainer<T extends TickingTankInventoryTileEntity<T>> extends TickingTankInventoryContainer<T> {
     
     private int offsetX;
     private int offsetY;

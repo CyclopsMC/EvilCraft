@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 /**
  * A component used in TileEntities to support handling of ITickActions.
@@ -14,14 +14,13 @@ import net.minecraft.tileentity.TileEntity;
  * @param <T> The type of tick action that this component has to tick for.
  *
  */
-public class TickComponent<C extends TileEntity, T extends ITickAction<C>> {
+public class TickComponent<C extends EvilCraftTileEntity, T extends ITickAction<C>> {
     
     private Map<Class<?>, T> tickActions;
     
     private C tile;
     private int tick = 0;
     
-    private boolean setRequiredTicks = false;
     private int requiredTicks = 0;
     private int slot;
     
@@ -30,13 +29,11 @@ public class TickComponent<C extends TileEntity, T extends ITickAction<C>> {
      * @param tile The IConsumeProduceTile reference in which this ticker runs.
      * @param tickActions The collection of actions this ticker can perform.
      * @param slot The inventory slot this ticker applies to.
-     * @param setRequiredTick Whether this ticker should keep track of it's required ticks.
      */
-    public TickComponent(C tile, Map<Class<?>, T> tickActions, int slot, boolean setRequiredTick) {
+    public TickComponent(C tile, Map<Class<?>, T> tickActions, int slot) {
         this.tile = tile;
         this.tickActions = tickActions;
         this.slot = slot;
-        this.setRequiredTicks = setRequiredTick;
     }
 
     protected T getTickAction(Item item) {
@@ -57,10 +54,10 @@ public class TickComponent<C extends TileEntity, T extends ITickAction<C>> {
         if(itemStack != null) {
             T action = getTickAction(itemStack.getItem());
             if(action != null && action.canTick(tile, itemStack, slot, tick)){
-                if(tick == 0 && setRequiredTicks)
+                if(tick == 0)
                     requiredTicks = action.getRequiredTicks(tile, slot);
                 tick++;
-                if(setRequiredTicks && tick >= requiredTicks)
+                if(tick >= requiredTicks)
                     tick = 0;
                 action.onTick(tile, itemStack, slot, tick);
             } else {
@@ -99,6 +96,14 @@ public class TickComponent<C extends TileEntity, T extends ITickAction<C>> {
      */
     public int getSlot() {
         return slot;
+    }
+
+    /**
+     * Set the required ticks, should only be called client side, for display purposes.
+     * @param requiredTicks The new required ticks.
+     */
+    public void setRequiredTicks(int requiredTicks) {
+        this.requiredTicks = requiredTicks;
     }
     
 }

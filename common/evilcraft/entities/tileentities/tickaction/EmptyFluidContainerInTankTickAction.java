@@ -14,7 +14,7 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
         IFluidContainerItem container = (IFluidContainerItem) containerStack.getItem();
         if(container.getFluid(containerStack) != null) {
             FluidStack fluidStack = container.getFluid(containerStack).copy();
-            fluidStack.amount = MB_PER_TICK;
+            fluidStack.amount = Math.min(MB_PER_TICK, fluidStack.amount);
             int filled = tile.getTank().fill(fluidStack, true);
             container.drain(containerStack, filled, true);
         }

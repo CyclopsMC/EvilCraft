@@ -1,13 +1,13 @@
 package evilcraft.gui.container;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import evilcraft.api.gui.container.TickingInventoryContainer;
+import evilcraft.api.gui.container.TickingTankInventoryContainer;
 import evilcraft.api.gui.slot.SlotRemoveOnly;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.slot.SlotFluidContainer;
 import evilcraft.gui.slot.SlotInfuse;
 
-public class ContainerBloodInfuser extends TickingInventoryContainer<TileBloodInfuser> {
+public class ContainerBloodInfuser extends TickingTankInventoryContainer<TileBloodInfuser> {
     
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;

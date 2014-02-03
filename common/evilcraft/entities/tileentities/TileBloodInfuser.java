@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.omg.CORBA.Current;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
@@ -68,13 +70,13 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodIn
                 new TickComponent<
                     TileBloodInfuser,
                     ITickAction<TileBloodInfuser>
-                >(this, INFUSE_TICK_ACTIONS, SLOT_INFUSE, true)
+                >(this, INFUSE_TICK_ACTIONS, SLOT_INFUSE)
                 );
         addTicker(
                 new TickComponent<
                     TileBloodInfuser,
                     ITickAction<TileBloodInfuser>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
+                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER)
                 );
         
         // The slots side mapping
@@ -145,6 +147,14 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodIn
     public boolean isInfusing() {
         return getInfuseTick() > 0;
     }
+    
+    /**
+     * If the blood infuser should visually (block icon) show it is infusing, should only be called client-side.
+     * @return If the state is infusing.
+     */
+    public boolean isBlockInfusing() {
+        return getCurrentState() == 1;
+    }
 
     /**
      * Get the infuse progress scaled, to be used in GUI's.
@@ -168,16 +178,17 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodIn
      */
     public void resetInfusion() {
         getTickers().get(infuseTicker).setTick(0);
+        getTickers().get(infuseTicker).setRequiredTicks(0);
     }
 
     @Override
-    public int getState() {
+    public int getNewState() {
         return this.isInfusing()?1:0;
     }
 
     @Override
     public void onStateChanged() {
-        worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        sendUpdate();
     }
 
 }

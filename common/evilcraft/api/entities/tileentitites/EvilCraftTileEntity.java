@@ -7,6 +7,8 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 
 public class EvilCraftTileEntity extends TileEntity{
@@ -15,7 +17,7 @@ public class EvilCraftTileEntity extends TileEntity{
     private ForgeDirection rotation = ForgeDirection.NORTH;
     
     public void destroy() {
-        
+        invalidate();
     }
     
     public boolean canInteractWith(EntityPlayer entityPlayer) {

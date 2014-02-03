@@ -71,14 +71,14 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
                     new TickComponent<
                         TileBloodChest,
                         ITickAction<TileBloodChest>
-                    >(this, REPAIR_TICK_ACTIONS, i, true)
+                    >(this, REPAIR_TICK_ACTIONS, i)
                     );
         }
         addTicker(
                 new TickComponent<
                     TileBloodChest,
                     ITickAction<TileBloodChest>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
+                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER)
                 );
         
         // The slots side mapping
@@ -99,7 +99,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     }
 
     @Override
-    public int getState() {
+    public int getNewState() {
         return 0;
     }
 

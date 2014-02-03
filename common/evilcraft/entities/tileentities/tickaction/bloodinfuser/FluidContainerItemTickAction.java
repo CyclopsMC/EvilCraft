@@ -12,9 +12,9 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
     public void onTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
         ItemStack infuseStack = getInfuseStack(tile);
         IFluidContainerItem container = (IFluidContainerItem) infuseStack.getItem();
-        FluidStack fluid = tile.getTank().getFluid().copy();
-        fluid.amount = MB_PER_TICK;
-        int filled = container.fill(infuseStack, fluid, true);
+        FluidStack fluidStack = tile.getTank().getFluid().copy();
+        fluidStack.amount = Math.min(MB_PER_TICK, fluidStack.amount);
+        int filled = container.fill(infuseStack, fluidStack, true);
         tile.getTank().drain(filled, true);
         if(container.getFluid(infuseStack).amount == container.getCapacity(infuseStack)) {
             if(addToProduceSlot(tile, infuseStack)) {

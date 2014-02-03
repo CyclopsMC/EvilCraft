@@ -3,6 +3,9 @@ package evilcraft.api.entities.tileentitites;
 import java.util.LinkedList;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraftforge.fluids.Fluid;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
@@ -17,6 +20,7 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
     
     private LinkedList<TickComponent<T, ITickAction<T>>> tickers;
     private int currentState = -1;
+    private int previousState = -1;
     
     /**
      * Make a new TickingTankInventoryTileEntity.
@@ -56,23 +60,49 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
     }
     
     @Override
+    public void readFromNBT(NBTTagCompound data) {
+        super.readFromNBT(data);
+        currentState = data.getInteger("currentState");
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound data) {
+        super.writeToNBT(data);
+        data.setInteger("currentState", currentState);
+    }
+    
+    @Override
     public void updateEntity() {
         super.updateEntity();
         
         // Update tickers.
-        for(TickComponent<T, ITickAction<T>> ticker : getTickers()) {
-            ticker.tick(inventory.getStackInSlot(ticker.getSlot()), ticker.getSlot());
+        if(!worldObj.isRemote) {
+            for(TickComponent<T, ITickAction<T>> ticker : getTickers()) {
+                ticker.tick(inventory.getStackInSlot(ticker.getSlot()), ticker.getSlot());
+            }
         }
         
-        // Update state (for block render update)
-        int newState = getState();
-        if(newState != currentState) {
-            currentState = newState;
-            onStateChanged();
+        if(!worldObj.isRemote) {
+            // Update state server->clients.
+            int newState = getNewState();
+            if(newState != currentState) {
+                currentState = newState;
+                onStateChanged();
+            }
+        } else {
+            // Update internal state for client.
+            if(previousState != currentState) {
+                previousState = currentState;
+                onStateChanged();
+            }
         }
     }
     
-    public abstract int getState();
+    public abstract int getNewState();
     public abstract void onStateChanged();
+
+    public int getCurrentState() {
+        return currentState;
+    }
 
 }
