@@ -60,7 +60,7 @@ public class TickComponent<C extends TileEntity, T extends ITickAction<C>> {
                 if(tick == 0 && setRequiredTicks)
                     requiredTicks = action.getRequiredTicks(tile, slot);
                 tick++;
-                if(setRequiredTicks && tick > requiredTicks)
+                if(setRequiredTicks && tick >= requiredTicks)
                     tick = 0;
                 action.onTick(tile, itemStack, slot, tick);
             } else {
