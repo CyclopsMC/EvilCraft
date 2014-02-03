@@ -3,10 +3,13 @@ package evilcraft.api.config.elementtypeaction;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraftTab;
 import evilcraft.GuiHandler;
+import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementType;
@@ -65,6 +68,11 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
                     GuiHandler.GUIS.put(gui.getGuiID(), gui.getGUI());
                 GuiHandler.CONTAINERS.put(gui.getGuiID(), gui.getContainer());
             }
+        }
+        
+        // Register buildcraft facade
+        if(eConfig.isMultipartEnabled() && Loader.isModLoaded(Reference.MOD_BUILDCRAFT_TRANSPORT)) {
+            FMLInterModComms.sendMessage(Reference.MOD_BUILDCRAFT_TRANSPORT, "add-facade", eConfig.ID+"@"+0);
         }
     }
 

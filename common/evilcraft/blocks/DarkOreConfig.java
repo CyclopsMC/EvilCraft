@@ -31,6 +31,7 @@ public class DarkOreConfig extends BlockConfig {
         );
     }
     
+    @Override
     public String getOreDictionaryId() {
         return Reference.DICT_OREDARK;
     }

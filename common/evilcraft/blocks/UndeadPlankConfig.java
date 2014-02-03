@@ -24,4 +24,9 @@ public class UndeadPlankConfig extends BlockConfig {
         return Reference.DICT_WOODPLANK;
     }
     
+    @Override
+    public boolean isMultipartEnabled() {
+        return true;
+    }
+    
 }

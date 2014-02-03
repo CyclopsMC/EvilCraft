@@ -43,6 +43,14 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
         return null;
     }
     
+    /**
+     * If this block should enable Forge Multiparts and BC facades.
+     * @return If that should be enabled for this block.
+     */
+    public boolean isMultipartEnabled() {
+        return false;
+    }
+    
     @Override
     public void onRegistered() {
         if(getOreDictionaryId() != null) {

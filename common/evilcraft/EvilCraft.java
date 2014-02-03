@@ -28,7 +28,7 @@ import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.EvilDungeonGenerator;
 import evilcraft.worldgen.EvilWorldGenerator;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION)
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, dependencies = "after:"+Reference.MOD_BUILDCRAFT_TRANSPORT)
 @NetworkMod(clientSideRequired = true, serverSideRequired = true)
 public class EvilCraft {
     

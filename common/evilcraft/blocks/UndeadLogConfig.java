@@ -24,4 +24,9 @@ public class UndeadLogConfig extends BlockConfig {
         return Reference.DICT_WOODLOG;
     }
     
+    @Override
+    public boolean isMultipartEnabled() {
+        return true;
+    }
+    
 }
