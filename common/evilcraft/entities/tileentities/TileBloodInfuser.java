@@ -162,6 +162,13 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodIn
     private int getRequiredTicks() {
         return getTickers().get(infuseTicker).getRequiredTicks();
     }
+    
+    /**
+     * Resets the ticks of the infusion.
+     */
+    public void resetInfusion() {
+        getTickers().get(infuseTicker).setTick(0);
+    }
 
     @Override
     public int getState() {

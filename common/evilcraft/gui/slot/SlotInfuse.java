@@ -1,5 +1,6 @@
 package evilcraft.gui.slot;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,11 @@ public class SlotInfuse extends Slot {
     @Override
     public boolean isItemValid(ItemStack itemStack) {
         return itemStack != null && tile.canConsume(itemStack);
+    }
+    
+    @Override
+    public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
+        tile.resetInfusion();
     }
     
 }
