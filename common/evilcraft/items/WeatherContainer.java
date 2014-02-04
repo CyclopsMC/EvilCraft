@@ -91,14 +91,6 @@ public class WeatherContainer extends ConfigurableItem {
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
     {
         if(!world.isRemote && getWeatherContainerType(itemStack) != WeatherContainerTypes.EMPTY) {
-            // Play evil sounds at the players in that world
-            for(Object o : world.playerEntities) {
-                EntityPlayer entityPlayer = (EntityPlayer) o;
-                world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-                world.playSoundAtEntity(entityPlayer, "mob.ghast.moan", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-                world.playSoundAtEntity(entityPlayer, "mob.wither.death", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-            }
-            
             world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             world.spawnEntityInWorld(new EntityWeatherContainer(world, player, itemStack));
             

@@ -7,6 +7,7 @@ import evilcraft.api.entities.item.EntityThrowable;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -46,6 +47,16 @@ public class EntityWeatherContainer extends EntityThrowable implements Configura
     protected void onImpact(MovingObjectPosition movingobjectposition) {
         WeatherContainerTypes containerType = WeatherContainer.getWeatherContainerType(stack);
         containerType.onUse(worldObj, stack);
+        
+        if (!worldObj.isRemote) {
+            // Play evil sounds at the players in that world
+            for(Object o : worldObj.playerEntities) {
+                EntityPlayer entityPlayer = (EntityPlayer) o;
+                worldObj.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 0.5F, 0.4F / (rand.nextFloat() * 0.4F + 0.8F));
+                worldObj.playSoundAtEntity(entityPlayer, "mob.ghast.moan", 0.5F, 0.4F / (rand.nextFloat() * 0.4F + 0.8F));
+                worldObj.playSoundAtEntity(entityPlayer, "mob.wither.death", 0.5F, 0.4F / (rand.nextFloat() * 0.4F + 0.8F));
+            }
+        }
         
         // Play sound and show particles of splash potion of harming
         // TODO: make custom particles for this
