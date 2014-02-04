@@ -56,14 +56,16 @@ public class LivingDeathEventHook {
             int z = MathHelper.floor_double(event.entity.posZ);
             int blockID = event.entity.worldObj.getBlockId(x, y, z);
             int meta = BloodStainedBlock.getInstance().getMetadataFromBlockID(blockID);
-            if(!event.entity.worldObj.isRemote && meta > -1) {
-                // Transform block into blood stained version
-                event.entity.worldObj.setBlock(x, y, z, BloodStainedBlockConfig._instance.ID);
-                event.entity.worldObj.setBlockMetadataWithNotify(x, y, z, meta, 2);
-                
-                // Init particles
-                Random random = new Random();
-                EntityBloodSplashFX.spawnParticles(event.entity.worldObj, x, y + 1, z, ((int)event.entityLiving.getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
+            if(meta > -1) {
+                if (!event.entity.worldObj.isRemote) {
+                    // Transform block into blood stained version
+                    event.entity.worldObj.setBlock(x, y, z, BloodStainedBlockConfig._instance.ID);
+                    event.entity.worldObj.setBlockMetadataWithNotify(x, y, z, meta, 2);
+                } else {
+                    // Init particles
+                    Random random = new Random();
+                    EntityBloodSplashFX.spawnParticles(event.entity.worldObj, x, y + 1, z, ((int)event.entityLiving.getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
+                }
             }
         }
     }
