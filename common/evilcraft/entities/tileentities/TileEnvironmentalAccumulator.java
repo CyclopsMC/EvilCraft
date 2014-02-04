@@ -24,16 +24,6 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     private static final double WEATHER_CONTAINER_MAX_DROP_HEIGHT = 5.0;
     private static final double WEATHER_CONTAINER_SPAWN_HEIGHT = 2.0;
     
-    @SideOnly(Side.CLIENT)
-    private static final Vector4f ACTIVE_INNER_COLOR = new Vector4f(0.48046875F, 0.29296875F, 0.1171875F, 0.13f);
-    @SideOnly(Side.CLIENT)
-    private static final Vector4f ACTIVE_OUTER_COLOR = new Vector4f(0.30078125F, 0.1875F, 0.08203125F, 0.13f);
-    
-    @SideOnly(Side.CLIENT)
-    private static final Vector4f COOLDOWN_INNER_COLOR = new Vector4f(0, 0, 0, 0.13f);
-    @SideOnly(Side.CLIENT)
-    private static final Vector4f COOLDOWN_OUTER_COLOR = new Vector4f(0, 0, 0, 0.13f);
-    
     private int cooldownTick = 0;
     private boolean cooldown = false;
     
@@ -43,10 +33,30 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	    super();
 	    
 	    if (Helpers.isClientSide()) {
-	        setBeamInnerColor(ACTIVE_INNER_COLOR);
-	        setBeamOuterColor(ACTIVE_OUTER_COLOR);
+	        setBeamInnerColor(getActiveInnerColor());
+	        setBeamOuterColor(getActiveOuterColor());
 	    }
 	}
+	
+	@SideOnly(Side.CLIENT)
+	private Vector4f getActiveInnerColor() {
+	    return new Vector4f(0.48046875F, 0.29296875F, 0.1171875F, 0.13f);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private Vector4f getActiveOuterColor() {
+        return new Vector4f(0.30078125F, 0.1875F, 0.08203125F, 0.13f);
+    }
+	
+	@SideOnly(Side.CLIENT)
+	private Vector4f getCooldownInnerColor() {
+        return new Vector4f(0, 0, 0, 0.13f);
+    }
+	
+	@SideOnly(Side.CLIENT)
+	private Vector4f getCooldownOuterColor() {
+	    return new Vector4f(0, 0, 0, 0.13f);
+    }
 	
 	public int getMaxCooldownTick() {
 	    return EnvironmentalAccumulatorConfig.tickCooldown;
@@ -131,8 +141,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	public void setBeamColors(int metadata) {
 	    if (lastMetadata != metadata) {
 	        if (worldObj.isRemote) { 
-        	    setBeamInnerColor((metadata != 1) ? ACTIVE_INNER_COLOR : COOLDOWN_INNER_COLOR);
-        	    setBeamOuterColor((metadata != 1) ? ACTIVE_OUTER_COLOR : COOLDOWN_OUTER_COLOR);
+        	    setBeamInnerColor((metadata != 1) ? getActiveInnerColor() : getCooldownInnerColor());
+        	    setBeamOuterColor((metadata != 1) ? getActiveOuterColor() : getCooldownOuterColor());
 	        }
     	    
     	    lastMetadata = metadata;
