@@ -12,6 +12,7 @@ import org.lwjgl.util.vector.Vector4f;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
+import evilcraft.api.Helpers;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.items.WeatherContainer;
@@ -23,10 +24,14 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     private static final double WEATHER_CONTAINER_MAX_DROP_HEIGHT = 5.0;
     private static final double WEATHER_CONTAINER_SPAWN_HEIGHT = 2.0;
     
+    @SideOnly(Side.CLIENT)
     private static final Vector4f ACTIVE_INNER_COLOR = new Vector4f(0.48046875F, 0.29296875F, 0.1171875F, 0.13f);
+    @SideOnly(Side.CLIENT)
     private static final Vector4f ACTIVE_OUTER_COLOR = new Vector4f(0.30078125F, 0.1875F, 0.08203125F, 0.13f);
     
+    @SideOnly(Side.CLIENT)
     private static final Vector4f COOLDOWN_INNER_COLOR = new Vector4f(0, 0, 0, 0.13f);
+    @SideOnly(Side.CLIENT)
     private static final Vector4f COOLDOWN_OUTER_COLOR = new Vector4f(0, 0, 0, 0.13f);
     
     private int cooldownTick = 0;
@@ -35,7 +40,12 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     private int lastMetadata = -1;
     
 	public TileEnvironmentalAccumulator() {
-		super(ACTIVE_INNER_COLOR, ACTIVE_OUTER_COLOR);
+	    super();
+	    
+	    if (Helpers.isClientSide()) {
+	        setBeamInnerColor(ACTIVE_INNER_COLOR);
+	        setBeamOuterColor(ACTIVE_OUTER_COLOR);
+	    }
 	}
 	
 	public int getMaxCooldownTick() {
@@ -120,8 +130,10 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	
 	public void setBeamColors(int metadata) {
 	    if (lastMetadata != metadata) {
-    	    setBeamInnerColor((metadata != 1) ? ACTIVE_INNER_COLOR : COOLDOWN_INNER_COLOR);
-    	    setBeamOuterColor((metadata != 1) ? ACTIVE_OUTER_COLOR : COOLDOWN_OUTER_COLOR);
+	        if (worldObj.isRemote) { 
+        	    setBeamInnerColor((metadata != 1) ? ACTIVE_INNER_COLOR : COOLDOWN_INNER_COLOR);
+        	    setBeamOuterColor((metadata != 1) ? ACTIVE_OUTER_COLOR : COOLDOWN_OUTER_COLOR);
+	        }
     	    
     	    lastMetadata = metadata;
 	    }

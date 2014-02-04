@@ -11,7 +11,9 @@ import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 public abstract class EvilCraftBeaconTileEntity extends EvilCraftTileEntity {
 	
+    @SideOnly(Side.CLIENT)
 	private Vector4f beamInnerColor;
+    @SideOnly(Side.CLIENT)
 	private Vector4f beamOuterColor;
 	
 	private boolean isActive;
@@ -21,6 +23,11 @@ public abstract class EvilCraftBeaconTileEntity extends EvilCraftTileEntity {
 	@SideOnly(Side.CLIENT)
     private float renderVariable;
 	
+	public EvilCraftBeaconTileEntity() {
+	    isActive = true;
+	}
+	
+	@SideOnly(Side.CLIENT)
 	public EvilCraftBeaconTileEntity(Vector4f beamInnerColor, Vector4f beamOuterColor) {
 		this.beamInnerColor = beamInnerColor;
 		this.beamOuterColor = beamOuterColor;
@@ -28,18 +35,22 @@ public abstract class EvilCraftBeaconTileEntity extends EvilCraftTileEntity {
 		isActive = true;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public Vector4f getBeamInnerColor() {
 		return beamInnerColor;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public void setBeamInnerColor(Vector4f beamInnerColor) {
 	    this.beamInnerColor = beamInnerColor;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public Vector4f getBeamOuterColor() {
 		return beamOuterColor;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public void setBeamOuterColor(Vector4f beamOuterColor) {
 	    this.beamOuterColor = beamOuterColor;
 	}
