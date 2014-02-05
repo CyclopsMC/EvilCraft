@@ -2,12 +2,12 @@ package evilcraft.gui.client;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Random;
 
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.util.ResourceLocation;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
-import scala.util.Random;
 
 public class GuiMainMenuEvilifier {
 
