@@ -37,8 +37,7 @@ public class LivingAttackEventHook {
             int enchantmentListID = Helpers.doesEnchantApply(itemStack, EnchantmentLifeStealingConfig._instance.ID);
             if(enchantmentListID > -1) {
                 float damage = event.ammount;
-                NBTTagList enchlist = itemStack.getEnchantmentTagList();
-                int level = ((NBTTagCompound)enchlist.tagAt(enchantmentListID)).getShort("level");
+                int level = Helpers.getEnchantmentLevel(itemStack, enchantmentListID);
                 EnchantmentLifeStealing.stealLife(player, damage, level);
             }
         }
@@ -75,8 +74,7 @@ public class LivingAttackEventHook {
             ItemStack itemStack = entity.getCurrentItemOrArmor(0);
             int enchantmentListID = Helpers.doesEnchantApply(itemStack, EnchantmentPoisonTipConfig._instance.ID);
             if(enchantmentListID > -1) {
-                NBTTagList enchlist = itemStack.getEnchantmentTagList();
-                int level = ((NBTTagCompound)enchlist.tagAt(enchantmentListID)).getShort("level");
+                int level = Helpers.getEnchantmentLevel(itemStack, enchantmentListID);
                 EnchantmentPoisonTip.poison((EntityLivingBase)event.entity, level);
             }
         }

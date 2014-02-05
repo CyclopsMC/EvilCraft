@@ -212,6 +212,19 @@ public class Helpers {
     }
     
     /**
+     * Returns the level of an enchantment given an itemstack and the id
+     * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
+     * the id in the enchantmentlist)
+     * @param itemStack The itemStack which contains the enchanted item
+     * @param enchantmentListID The id of the enchantment in the enchantment list
+     * @return The level of the enchantment on the given item
+     */
+    public static int getEnchantmentLevel(ItemStack itemStack, int enchantmentListID) {
+        NBTTagList enchlist = itemStack.getEnchantmentTagList();
+        return ((NBTTagCompound)enchlist.tagAt(enchantmentListID)).getShort("lvl");
+    }
+    
+    /**
      * Iterate over the coordinates for the sides of the given block coordinates.
      * @param xc x coordinate of the center block.
      * @param yc y coordinate of the center block.

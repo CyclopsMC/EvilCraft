@@ -12,6 +12,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import evilcraft.EvilCraft;
+import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableEnchantment;
 import evilcraft.blocks.BloodyCobblestone;
@@ -62,8 +63,7 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
      */
     public static void amplifyDamage(ItemStack itemStack, int enchantmentListID, Random random) {
         if(enchantmentListID > -1) {
-            NBTTagList enchlist = itemStack.getEnchantmentTagList();
-            int level = ((NBTTagCompound)enchlist.tagAt(enchantmentListID)).getShort("level");
+            int level = Helpers.getEnchantmentLevel(itemStack, enchantmentListID);
             int newDamage = itemStack.getItemDamage() + 2;
             if(itemStack.getItem() instanceof ItemArmor
                     && random.nextFloat() < 0.6F ? false : random.nextInt(level + 1) > 0
