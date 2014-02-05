@@ -119,24 +119,5 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
         // Transform to regular block when it rains
         world.setBlock(x, y, z, getBlockFromMetadata(world.getBlockMetadata(x, y, z)).blockID);
     }
-    
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
-        if(getBlockFromMetadata(world.getBlockMetadata(x, y, z)).blockID == Block.grass.blockID) {
-            return Block.grass.colorMultiplier(world, x, y, z);
-        } else {
-            return super.colorMultiplier(world, x, y, z);
-        }
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getRenderColor(int meta) {
-        if(getBlockFromMetadata(meta).blockID == Block.grass.blockID)
-            return Block.grass.getBlockColor();
-        else
-            return super.getRenderColor(meta);
-    }*/
 
 }

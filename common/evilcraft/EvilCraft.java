@@ -12,6 +12,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 import evilcraft.api.BucketHandler;
 import evilcraft.api.Debug;
 import evilcraft.api.LoggerHelper;
@@ -23,6 +24,7 @@ import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlaySoundAtEntityEventHook;
 import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.TextureStitchEventHook;
+import evilcraft.gui.client.GuiMainMenuEvilifier;
 import evilcraft.proxies.CommonProxy;
 import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.EvilDungeonGenerator;
@@ -66,6 +68,11 @@ public class EvilCraft {
         
         // Add death messages
         DeathMessages.register();
+        
+        // Add custom panorama's
+        if(event.getSide() == Side.CLIENT) {
+            GuiMainMenuEvilifier.evilifyMainMenu();
+        }
 
         proxy.registerKeyBindings();
         proxy.registerPacketHandlers();
