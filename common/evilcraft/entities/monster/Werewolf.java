@@ -84,7 +84,10 @@ public class Werewolf extends EntityMob implements Configurable{
     }
     
     public static boolean isWerewolfTime(World world) {
-        return WerewolfConfig._instance.isEnabled() && world.getCurrentMoonPhaseFactor() == 1.0 && !Helpers.isDay(world);
+        return WerewolfConfig._instance.isEnabled()
+                && world.getCurrentMoonPhaseFactor() == 1.0
+                && !Helpers.isDay(world)
+                && world.difficultySetting != 0;
     }
     
     private static void replaceEntity(EntityLiving old, EntityLiving neww, World world) {
@@ -113,7 +116,7 @@ public class Werewolf extends EntityMob implements Configurable{
     
     @Override
     public void onLivingUpdate() {        
-        if(!worldObj.isRemote && !isWerewolfTime(worldObj)) {
+        if(!worldObj.isRemote && (!isWerewolfTime(worldObj) || worldObj.difficultySetting == 0)) {
             replaceWithVillager();
         } else {
             super.onLivingUpdate();
@@ -196,7 +199,7 @@ public class Werewolf extends EntityMob implements Configurable{
 
     @Override
     public String getUniqueName() {
-        return "entities.monster."+eConfig.NAMEDID;
+        return "entity."+eConfig.NAMEDID+".name";
     }
 
     @Override
