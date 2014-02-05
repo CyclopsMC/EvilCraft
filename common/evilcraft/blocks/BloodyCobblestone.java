@@ -26,7 +26,8 @@ public class BloodyCobblestone extends ConfigurableBlock {
 
     private BloodyCobblestone(ExtendedConfig eConfig) {
         super(eConfig, Material.rock);
-        this.setHardness(25.0F);
+        this.setHardness(1.5F);
+        this.setResistance(10.0F);
         this.setStepSound(Block.soundStoneFootstep);
         MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 0); // Wood tier
     }

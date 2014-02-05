@@ -41,8 +41,8 @@ public class LightningBomb extends ConfigurableBlock {
 
     private LightningBomb(ExtendedConfig eConfig) {
         super(eConfig, Material.tnt);
-        this.setHardness(0.5F);
-        this.setStepSound(Block.soundPowderFootstep);
+        this.setHardness(0.0F);
+        this.setStepSound(Block.soundGrassFootstep);
     }
     
     @Override

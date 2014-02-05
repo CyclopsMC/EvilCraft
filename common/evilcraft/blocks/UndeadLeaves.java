@@ -31,6 +31,10 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
     private UndeadLeaves(ExtendedConfig eConfig) {
         super(eConfig);
         
+        setHardness(0.2F);
+        setLightOpacity(1);
+        setStepSound(soundGrassFootstep);
+        
         if (Helpers.isClientSide()) {
             entityDropParticleFXBlockComponent = new EntityDropParticleFXBlockComponent(1.0F, 0.0F, 0.0F);
             entityDropParticleFXBlockComponent.setOffset(0);

@@ -24,7 +24,7 @@ public class DarkBlock extends ConfigurableBlockConnectedTexture {
 
     private DarkBlock(ExtendedConfig eConfig) {
         super(eConfig, Material.rock);
-        this.setHardness(25.0F);
+        this.setHardness(5.0F);
         this.setStepSound(Block.soundMetalFootstep);
         MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 2); // Iron tier
     }

@@ -30,15 +30,21 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
 
     private HardenedBlood(ExtendedConfig eConfig) {
-        super(eConfig, Material.rock);
-        this.setHardness(2F);
-        this.setStepSound(Block.soundSnowFootstep);
+        super(eConfig, Material.ice);
+        this.setStepSound(Block.soundStoneFootstep);
+        this.setHardness(0.5F);
+        
         MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 0);
     }
     
     @Override
     public int idDropped(int par1, Random random, int zero) {
         return 0;
+    }
+    
+    @Override
+    protected boolean canSilkHarvest() {
+        return true;
     }
     
     @Override
@@ -53,8 +59,6 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
                 this.dropBlockAsItem_do(world, x, y, z, itemstack);
             }
         } else {
-            int fortune = EnchantmentHelper.getFortuneModifier(player);
-            this.dropBlockAsItem(world, x, y, z, meta, fortune);
             Material material = world.getBlockMaterial(x, y - 1, z);
 
             if (material.blocksMovement() || material.isLiquid()) {
