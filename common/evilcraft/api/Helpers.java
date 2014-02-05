@@ -238,7 +238,7 @@ public class Helpers {
     }
     
     public static boolean isOp(ICommandSender sender) {
-        return MinecraftServer.getServer().getConfigurationManager().getOps().contains(sender.getCommandSenderName());
+        return MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(sender.getCommandSenderName());
     }
     
     public static Object tryParse(String newValue, Object oldValue) {

@@ -91,7 +91,7 @@ public class CommandEvilCraft implements ICommand {
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
-        return true || Helpers.isOp(icommandsender); // TODO: tmp!
+        return Helpers.isOp(icommandsender);
     }
 
     @Override
