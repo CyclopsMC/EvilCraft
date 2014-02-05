@@ -46,9 +46,11 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
             if (renderBlocks.renderStandardBlock(block, x, y, z)) {
                 visible = true;
                 for (int pass = 0; pass < blockToRender.getRenderPasses(); pass++) {
+                    renderBlocks.setOverrideBlockTexture(renderer.overrideBlockTexture);
                     blockToRender.setRenderBlocks(renderBlocks);
                     blockToRender.setRenderPass(pass);
                     renderBlocks.renderStandardBlock(block, x, y, z);
+                    renderBlocks.clearOverrideBlockTexture();
                     resetFacesOnRenderer(renderBlocks);
                 }
             }
@@ -79,15 +81,14 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
         
         // The following 3 methods enable transparency of a certain flavor
         GL11.glEnable(GL11.GL_BLEND);
-        //GL11.glDepthMask(false);
-        //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        //GL11.glDepthMask(false); <- I can't remember why I put this here, but it works better without it (in F5 mode)
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         
         
         if (block instanceof IMultiRenderPassBlock) {
             IMultiRenderPassBlock blockToRender = (IMultiRenderPassBlock)block;
             blockToRender.setInventoryBlock(true);
             for (int pass = 0; pass < blockToRender.getRenderPasses(); pass++) {
-                System.out.println("PASS:"+pass);
                 blockToRender.setRenderPass(pass);
                 // Loop over sides and render them relative to the given direction.
                 for(ForgeDirection renderDirection : Helpers.DIRECTIONS) {
