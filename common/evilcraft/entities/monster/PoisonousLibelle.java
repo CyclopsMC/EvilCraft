@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -40,6 +41,8 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
     private static int WINGLENGTH = 4;
     private int wingProgress = 0;
     private boolean wingGoUp = true;
+    
+    private static final int MAXHEIGHT = 70;
 
     // Set a configuration for this entity
     public void setConfig(ExtendedConfig eConfig) {
@@ -124,7 +127,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
             f1 = MathHelper.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
 
             if (f1 <= -0.3F && f >= -0.3F) {
-                this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.bat.idle", 5.0F, 0.8F + this.rand.nextFloat() * 0.3F, false);
+                this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.bat.idle", 0.5F, 0.8F + this.rand.nextFloat() * 0.3F, false);
             }
         }
 
@@ -175,14 +178,19 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
                     Yplus = 10.0D;
                 }
 
-                this.targetY = this.target.boundingBox.minY + Yplus;
+                this.targetY = Math.min(this.target.boundingBox.minY + Yplus, MAXHEIGHT);
             } else {
                 this.targetX += this.rand.nextGaussian() * 2.0D;
                 this.targetZ += this.rand.nextGaussian() * 2.0D;
             }
 
             // Reset target
-            if (this.forceNewTarget || distance < 3.0D || distance > 22500.0D || this.isCollidedHorizontally || this.isCollidedVertically) {
+            if (this.forceNewTarget
+                    || distance < 3.0D
+                    || distance > 250.0D
+                    || this.isCollidedHorizontally
+                    || this.isCollidedVertically
+                    || this.targetY > MAXHEIGHT) {
                 this.setNewTarget();
             }
 
@@ -260,14 +268,27 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
             if(wingProgress < -WINGLENGTH)
                 wingGoUp = true;
         }
+        
+        if (!this.worldObj.isRemote && this.worldObj.difficultySetting == 0) {
+            this.setDead();
+        }
     }
 
     private void attackEntitiesInList(List<Entity> entities) {
         for (int i = 0; i < entities.size(); ++i) {
             Entity entity = (Entity)entities.get(i);
             if (entity instanceof EntityLivingBase) {
-                entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
-                ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
+                boolean shouldAttack = true;
+                if(entity instanceof EntityPlayer) {
+                    if(((EntityPlayer)entity).capabilities.isCreativeMode) {
+                        shouldAttack = false;
+                        setNewTarget();
+                    }
+                }
+                if(shouldAttack) {
+                    entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
+                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
+                }
             }
         }
     }
@@ -275,9 +296,18 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
     private void setNewTarget() {
         this.forceNewTarget = false;
 
+        boolean targetSet = false;
         if (this.rand.nextInt(2) == 0 && !this.worldObj.playerEntities.isEmpty()) {
             this.target = (Entity)this.worldObj.playerEntities.get(this.rand.nextInt(this.worldObj.playerEntities.size()));
-        } else {
+            targetSet = true;
+            if(target instanceof EntityPlayer) {
+                if(((EntityPlayer)target).capabilities.isCreativeMode) {
+                    targetSet = false;
+                }
+            }
+        }
+        
+        if(!targetSet) {
             boolean flag = false;
 
             do {
@@ -289,7 +319,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
                 double d0 = this.posX - this.targetX;
                 double d1 = this.posY - this.targetY;
                 double d2 = this.posZ - this.targetZ;
-                flag = d0 * d0 + d1 * d1 + d2 * d2 > 100.0D;
+                flag = d0 * d0 + d1 * d1 + d2 * d2 > 20.0D;
             } while (!flag);
 
             this.target = null;
