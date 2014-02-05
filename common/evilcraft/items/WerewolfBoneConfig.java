@@ -10,7 +10,7 @@ public class WerewolfBoneConfig extends ItemConfig {
     public WerewolfBoneConfig() {
         super(
             Reference.ITEM_WEREWOLFBONE,
-            "WerewolfBone",
+            "Werewolf Bone",
             "werewolfBone",
             null,
             WerewolfBone.class
