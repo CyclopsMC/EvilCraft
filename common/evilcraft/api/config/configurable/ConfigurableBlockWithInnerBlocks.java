@@ -6,9 +6,14 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
@@ -47,7 +52,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     
     @Override
     public int idDropped(int meta, Random random, int zero) {
-        return getBlockFromMetadata(meta).blockID;
+        return getBlockFromMetadata(meta).idDropped(meta, random, zero);
     }
     
     @Override
@@ -88,6 +93,40 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
      */
     public int getInnerBlocks() {
         return INNER_BLOCKS.length;
+    }
+    
+    @Override
+    public float getBlockHardness(World world, int x, int y, int z) {
+        int meta = world.getBlockMetadata(x, y, z);
+        return getBlockFromMetadata(meta).getBlockHardness(world, x, y, z);
+    }
+    
+    @Override
+    public int damageDropped(int meta) {
+        return meta;
+    }
+    
+    @Override
+    public boolean canHarvestBlock(EntityPlayer player, int meta) {
+        return getBlockFromMetadata(meta).canHarvestBlock(player, 0);
+    }
+    
+    @Override
+    public float getPlayerRelativeBlockHardness(EntityPlayer player, World world, int x, int y, int z) {
+        int meta = world.getBlockMetadata(x, y, z);
+        return getBlockFromMetadata(meta).getPlayerRelativeBlockHardness(player, world, x, y, z);
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+        return getBlockFromMetadata(world.getBlockMetadata(x, y, z)).colorMultiplier(world, x, y, z);
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getRenderColor(int meta) {
+        return getBlockFromMetadata(meta).getRenderColor(0);
     }
     
 }

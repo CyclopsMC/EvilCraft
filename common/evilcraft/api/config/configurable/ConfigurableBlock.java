@@ -76,7 +76,7 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
     @SideOnly(Side.CLIENT)
     @Override
     public int getRenderType() {
-        return MultiPassBlockRenderer.ID;
+        return getRenderPasses() == 1? super.getRenderType() : MultiPassBlockRenderer.ID;
     }
     
     @Override
@@ -104,9 +104,7 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
     
     @Override
     public void updateTileEntity(IBlockAccess world, int x, int y, int z) {
-        // Do nothing, because this block has to tile entity!
-        // What a shame, I love tile entities...
-        // Well, the world goes on, cry just a little and carry on!
+        // There was absolutely nothing here...
     }
     
     @Override

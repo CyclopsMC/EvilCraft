@@ -1,4 +1,6 @@
 package evilcraft.blocks;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -67,8 +69,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
-    {
+    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
         return this.getIcon(side, world.getBlockMetadata(x, y, z), pass, alternatingBlockIconComponent.getAlternateIcon(world, x, y, z, side));
     }
     
@@ -119,10 +120,9 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
         world.setBlock(x, y, z, getBlockFromMetadata(world.getBlockMetadata(x, y, z)).blockID);
     }
     
-    @Override
+    /*@Override
     @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockAccess world, int x, int y, int z)
-    {
+    public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
         if(getBlockFromMetadata(world.getBlockMetadata(x, y, z)).blockID == Block.grass.blockID) {
             return Block.grass.colorMultiplier(world, x, y, z);
         } else {
@@ -132,12 +132,11 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     
     @Override
     @SideOnly(Side.CLIENT)
-    public int getRenderColor(int meta)
-    {
+    public int getRenderColor(int meta) {
         if(getBlockFromMetadata(meta).blockID == Block.grass.blockID)
             return Block.grass.getBlockColor();
         else
             return super.getRenderColor(meta);
-    }
+    }*/
 
 }

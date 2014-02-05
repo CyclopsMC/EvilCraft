@@ -15,7 +15,7 @@ public class NetherfishSpawnConfig extends BlockConfig {
     public NetherfishSpawnConfig() {
         super(
             Reference.BLOCK_DARKBLOCK,
-            "Nether Monster Block",
+            "Nether Monster Egg",
             "netherMonsterBlock",
             null,
             NetherfishSpawn.class
