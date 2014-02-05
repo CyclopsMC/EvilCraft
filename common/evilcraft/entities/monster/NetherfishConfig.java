@@ -20,7 +20,7 @@ public class NetherfishConfig extends MobConfig {
         super(
             Reference.MOB_NETHERFISH,
             "Netherfish",
-            "netherFish",
+            "netherfish",
             null,
             Netherfish.class
         );
