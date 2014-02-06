@@ -8,6 +8,7 @@ import evilcraft.api.config.configurable.ConfigurableProperty;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 import evilcraft.proxies.ClientProxy;
 import evilcraft.render.tileentity.TileEntityBeaconRenderer;
+import evilcraft.render.tileentity.TileEntityEnvironmentalAccumulatorRenderer;
 
 public class EnvironmentalAccumulatorConfig extends BlockConfig {
 
@@ -29,7 +30,7 @@ public class EnvironmentalAccumulatorConfig extends BlockConfig {
 	@Override
 	public void onRegistered() {
 	    if (Helpers.isClientSide())
-	        ClientProxy.TILE_ENTITY_RENDERERS.put(TileEnvironmentalAccumulator.class, new TileEntityBeaconRenderer());
+	        ClientProxy.TILE_ENTITY_RENDERERS.put(TileEnvironmentalAccumulator.class, new TileEntityEnvironmentalAccumulatorRenderer());
 	}
 
 }

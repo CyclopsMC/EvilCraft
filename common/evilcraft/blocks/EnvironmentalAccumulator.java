@@ -35,6 +35,7 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer {
     
     public static final int BEAM_ACTIVE = 0;
     public static final int BEAM_INACTIVE = 1;
+    public static final int MOVING_ITEM = 2;
     
     private Icon sideIcon;
     private Icon bottomIcon;

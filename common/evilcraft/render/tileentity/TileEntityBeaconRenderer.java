@@ -21,13 +21,13 @@ import evilcraft.entities.tileentities.EvilCraftBeaconTileEntity;
 public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer {
 	
 	private static final ResourceLocation BEACON_TEXTURE = new ResourceLocation("textures/entity/beacon_beam.png");
-
+	
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double par2, double par4, double par6, float par8) {
-		renderBeacon((EvilCraftBeaconTileEntity)tileentity, par2, par4, par6, par8);
+	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime) {
+		renderBeacon((EvilCraftBeaconTileEntity)tileentity, x, y, z, partialTickTime);
 	}
 	
-	public void renderBeacon(EvilCraftBeaconTileEntity tileentity, double par2, double par4, double par6, float par8) {
+	public void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime) {
 		float f1 = tileentity.getBeamRenderVariable();
 
         if (tileentity.isBeamActive())
@@ -44,7 +44,7 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer {
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glDepthMask(true);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            float f2 = (float)tileentity.getWorldObj().getTotalWorldTime() + par8;
+            float f2 = (float)tileentity.getWorldObj().getTotalWorldTime() + partialTickTime;
             float f3 = -f2 * 0.2F - (float)MathHelper.floor_float(-f2 * 0.1F);
             byte b0 = 1;
             double d3 = (double)f2 * 0.025D * (1.0D - (double)(b0 & 1) * 2.5D);
@@ -64,22 +64,22 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer {
             double d15 = 1.0D;
             double d16 = (double)(-1.0F + f3);
             double d17 = (double)(256.0F * f1) * (0.5D / d4) + d16;
-            tessellator.addVertexWithUV(par2 + d5, par4 + d13, par6 + d6, d15, d17);
-            tessellator.addVertexWithUV(par2 + d5, par4, par6 + d6, d15, d16);
-            tessellator.addVertexWithUV(par2 + d7, par4, par6 + d8, d14, d16);
-            tessellator.addVertexWithUV(par2 + d7, par4 + d13, par6 + d8, d14, d17);
-            tessellator.addVertexWithUV(par2 + d11, par4 + d13, par6 + d12, d15, d17);
-            tessellator.addVertexWithUV(par2 + d11, par4, par6 + d12, d15, d16);
-            tessellator.addVertexWithUV(par2 + d9, par4, par6 + d10, d14, d16);
-            tessellator.addVertexWithUV(par2 + d9, par4 + d13, par6 + d10, d14, d17);
-            tessellator.addVertexWithUV(par2 + d7, par4 + d13, par6 + d8, d15, d17);
-            tessellator.addVertexWithUV(par2 + d7, par4, par6 + d8, d15, d16);
-            tessellator.addVertexWithUV(par2 + d11, par4, par6 + d12, d14, d16);
-            tessellator.addVertexWithUV(par2 + d11, par4 + d13, par6 + d12, d14, d17);
-            tessellator.addVertexWithUV(par2 + d9, par4 + d13, par6 + d10, d15, d17);
-            tessellator.addVertexWithUV(par2 + d9, par4, par6 + d10, d15, d16);
-            tessellator.addVertexWithUV(par2 + d5, par4, par6 + d6, d14, d16);
-            tessellator.addVertexWithUV(par2 + d5, par4 + d13, par6 + d6, d14, d17);
+            tessellator.addVertexWithUV(x + d5, y + d13, z + d6, d15, d17);
+            tessellator.addVertexWithUV(x + d5, y, z + d6, d15, d16);
+            tessellator.addVertexWithUV(x + d7, y, z + d8, d14, d16);
+            tessellator.addVertexWithUV(x + d7, y + d13, z + d8, d14, d17);
+            tessellator.addVertexWithUV(x + d11, y + d13, z + d12, d15, d17);
+            tessellator.addVertexWithUV(x + d11, y, z + d12, d15, d16);
+            tessellator.addVertexWithUV(x + d9, y, z + d10, d14, d16);
+            tessellator.addVertexWithUV(x + d9, y + d13, z + d10, d14, d17);
+            tessellator.addVertexWithUV(x + d7, y + d13, z + d8, d15, d17);
+            tessellator.addVertexWithUV(x + d7, y, z + d8, d15, d16);
+            tessellator.addVertexWithUV(x + d11, y, z + d12, d14, d16);
+            tessellator.addVertexWithUV(x + d11, y + d13, z + d12, d14, d17);
+            tessellator.addVertexWithUV(x + d9, y + d13, z + d10, d15, d17);
+            tessellator.addVertexWithUV(x + d9, y, z + d10, d15, d16);
+            tessellator.addVertexWithUV(x + d5, y, z + d6, d14, d16);
+            tessellator.addVertexWithUV(x + d5, y + d13, z + d6, d14, d17);
             tessellator.draw();
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -99,22 +99,22 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer {
             double d28 = 1.0D;
             double d29 = (double)(-1.0F + f3);
             double d30 = (double)(256.0F * f1) + d29;
-            tessellator.addVertexWithUV(par2 + d18, par4 + d26, par6 + d19, d28, d30);
-            tessellator.addVertexWithUV(par2 + d18, par4, par6 + d19, d28, d29);
-            tessellator.addVertexWithUV(par2 + d20, par4, par6 + d21, d27, d29);
-            tessellator.addVertexWithUV(par2 + d20, par4 + d26, par6 + d21, d27, d30);
-            tessellator.addVertexWithUV(par2 + d24, par4 + d26, par6 + d25, d28, d30);
-            tessellator.addVertexWithUV(par2 + d24, par4, par6 + d25, d28, d29);
-            tessellator.addVertexWithUV(par2 + d22, par4, par6 + d23, d27, d29);
-            tessellator.addVertexWithUV(par2 + d22, par4 + d26, par6 + d23, d27, d30);
-            tessellator.addVertexWithUV(par2 + d20, par4 + d26, par6 + d21, d28, d30);
-            tessellator.addVertexWithUV(par2 + d20, par4, par6 + d21, d28, d29);
-            tessellator.addVertexWithUV(par2 + d24, par4, par6 + d25, d27, d29);
-            tessellator.addVertexWithUV(par2 + d24, par4 + d26, par6 + d25, d27, d30);
-            tessellator.addVertexWithUV(par2 + d22, par4 + d26, par6 + d23, d28, d30);
-            tessellator.addVertexWithUV(par2 + d22, par4, par6 + d23, d28, d29);
-            tessellator.addVertexWithUV(par2 + d18, par4, par6 + d19, d27, d29);
-            tessellator.addVertexWithUV(par2 + d18, par4 + d26, par6 + d19, d27, d30);
+            tessellator.addVertexWithUV(x + d18, y + d26, z + d19, d28, d30);
+            tessellator.addVertexWithUV(x + d18, y, z + d19, d28, d29);
+            tessellator.addVertexWithUV(x + d20, y, z + d21, d27, d29);
+            tessellator.addVertexWithUV(x + d20, y + d26, z + d21, d27, d30);
+            tessellator.addVertexWithUV(x + d24, y + d26, z + d25, d28, d30);
+            tessellator.addVertexWithUV(x + d24, y, z + d25, d28, d29);
+            tessellator.addVertexWithUV(x + d22, y, z + d23, d27, d29);
+            tessellator.addVertexWithUV(x + d22, y + d26, z + d23, d27, d30);
+            tessellator.addVertexWithUV(x + d20, y + d26, z + d21, d28, d30);
+            tessellator.addVertexWithUV(x + d20, y, z + d21, d28, d29);
+            tessellator.addVertexWithUV(x + d24, y, z + d25, d27, d29);
+            tessellator.addVertexWithUV(x + d24, y + d26, z + d25, d27, d30);
+            tessellator.addVertexWithUV(x + d22, y + d26, z + d23, d28, d30);
+            tessellator.addVertexWithUV(x + d22, y, z + d23, d28, d29);
+            tessellator.addVertexWithUV(x + d18, y, z + d19, d27, d29);
+            tessellator.addVertexWithUV(x + d18, y + d26, z + d19, d27, d30);
             tessellator.draw();
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_TEXTURE_2D);
