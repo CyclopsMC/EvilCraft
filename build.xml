@@ -28,6 +28,7 @@
 	<target name="replace_tokens">
 		<replace dir="${forge.dir}/mcp/src/minecraft" token="@VERSION@" value="${build.release.mod.version}" />
 		<replace dir="${forge.dir}/mcp/src/minecraft" token="@MC_VERSION@" value="${build.release.minecraft.version}" />
+		<replace dir="${forge.dir}/mcp/src/minecraft" token="@FORGE_VERSION@" value="${build.release.forge.version}" />
 		<replace dir="${forge.dir}/mcp/src/minecraft" token="@BUILD_NUMBER@" value="${build_number.build_number}" />
 	</target>
 	

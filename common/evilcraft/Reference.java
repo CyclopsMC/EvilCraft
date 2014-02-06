@@ -100,8 +100,14 @@ public class Reference {
     public static final String DICT_GEMDARK = "gemDark";
     
     // MOD ID's
+    public static final String MOD_FORGE = "Forge";
     public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
     public static final String MOD_BUILDCRAFT_TRANSPORT = "BuildCraft|Transport";
+    
+    // Dependencies
+    public static final String MOD_DEPENDENCIES = "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"
+            + "after:"+MOD_BUILDCRAFT_TRANSPORT
+            + ";after:"+Reference.MOD_THERMALEXPANSION;
     
     // Keybinding ID's
     public static final String KEY_FART = "key.evilcraft.fart";

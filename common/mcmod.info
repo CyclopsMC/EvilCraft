@@ -4,10 +4,10 @@
   "name": "EvilCraft",
   "description": "An evil mod for Minecraft.",
   "version": "@VERSION@",
+  "mcversion": "@MC_VERSION@",
   "credits": "TODO",
   "logoFile": "/mods/evilcraft/textures/logo.png",
-  "mcversion": "@MC_VERSION@",
-  "url": "http://TODO",
+  "url": "https://github.com/rubensworks/EvilCraft",
   "updateUrl": "",
   "authors": [
   	"rubensworks (aka kroeserr)",
@@ -17,7 +17,10 @@
   "parent":"",
   "screenshots": [],
   "dependencies": [
-     "MinecraftForge"
-  ]
+     "MinecraftForge",
+     "ThermalExpansion",
+     "BuildCraft|Transport"
+  ],
+  "useDependencyInformation": "true"
 }
 ]
