@@ -8,6 +8,7 @@ import net.minecraft.client.particle.EntityBubbleFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
@@ -22,6 +23,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
+import evilcraft.items.Broom;
+import evilcraft.items.BroomConfig;
 
 public class ExcrementPile extends ConfigurableBlock {
     
@@ -30,6 +33,7 @@ public class ExcrementPile extends ConfigurableBlock {
     private static final int CHANCE_DESPAWN = 25; // 1/CHANCE_DESPAWN per random tick chance for despawning and potentially triggering bonemeal event
     private static final int CHANCE_BONEMEAL = 3; // 1/CHANCE_BONEMEAL for ground below to be bonemealed or turn into grass from dirt
     private static final int POISON_DURATION = 3;
+    private static final int PIG_BOOST_DURATION = 3;
     
     public static void initInstance(ExtendedConfig eConfig) {
         if(_instance == null)
@@ -93,6 +97,11 @@ public class ExcrementPile extends ConfigurableBlock {
         if (block == this && (par1World.getBlockMetadata(par2, par3 - 1, par4) & 7) == 7) return true;
         if (!block.isLeaves(par1World, par2, par3 - 1, par4) && !Block.blocksList[l].isOpaqueCube()) return false;
         return par1World.getBlockMaterial(par2, par3 - 1, par4).blocksMovement();
+    }
+    
+    @Override
+    public boolean canHarvestBlock(EntityPlayer player, int meta) {
+        return player.getCurrentEquippedItem() != null && BroomConfig._instance.isEnabled() && player.getCurrentEquippedItem().itemID == BroomConfig._instance.ID;
     }
 
     @Override
@@ -176,14 +185,36 @@ public class ExcrementPile extends ConfigurableBlock {
     @Override
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
         if(entity instanceof EntityLivingBase) {
-            if(entity instanceof EntityPlayer || ExcrementPileConfig.hurtEntities) {
+            // Pigs love excrement
+            if(entity instanceof EntityPig) {
+                if(isChanceWithHeight(world, x, y, z)) {
+                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.heal.id, PIG_BOOST_DURATION * 20, 1));
+                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.moveSpeed.id, PIG_BOOST_DURATION * 20, 1));
+                }
+            } else if(entity instanceof EntityPlayer || ExcrementPileConfig.hurtEntities) {
                 // Poison player or mob with a chance depending on the height of the pile.
-                float height = ((float) (world.getBlockMetadata(x, y, z) & 7) + 1) * 0.125F;
-                if(world.rand.nextFloat() * 10 < height)
+                if(isChanceWithHeight(world, x, y, z))
                     ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
             }
         }
         super.onEntityCollidedWithBlock(world, x, y, z, entity);
+    }
+    
+    private boolean isChanceWithHeight(World world, int x, int y, int z) {
+        float height = ((float) (world.getBlockMetadata(x, y, z) & 7) + 1) * 0.125F;
+        return world.rand.nextFloat() * 10 < height;
+    }
+    
+    /**
+     * If the height of this block can be increased.
+     * @param world the World
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param z Z coordinate
+     */
+    public static boolean canHeightenPileAt(World world, int x, int y, int z) {
+        int meta = world.getBlockMetadata(x, y, z);
+        return meta < 7;
     }
 
     /**

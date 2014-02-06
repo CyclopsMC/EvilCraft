@@ -17,9 +17,13 @@ public class ExcrementPileItemBlock extends ItemBlock {
     @Override
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World world, int x, int y, int z, int side, float par8, float par9, float par10) {
         int block = world.getBlockId(x, y, z);
-        if (block == ExcrementPileConfig._instance.ID) {
-            ExcrementPile.heightenPileAt(world, x, y, z);
-            return true;
+        if (block == ExcrementPileConfig._instance.ID && par1ItemStack != null) {
+            if(ExcrementPile.canHeightenPileAt(world, x, y, z)) {
+                ExcrementPile.heightenPileAt(world, x, y, z);
+                par1ItemStack.stackSize--;
+                return true;
+            }
+            return false;
         }
         return super.onItemUse(par1ItemStack, par2EntityPlayer, world, x, y, z, side, par8, par9, par10);
     }
