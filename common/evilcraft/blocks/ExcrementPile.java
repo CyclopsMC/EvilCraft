@@ -132,6 +132,8 @@ public class ExcrementPile extends ConfigurableBlock {
                                 world.setBlock(xr, y - 1, zr, Block.grass.blockID);
                             } else if(blockIDBelow == Block.grass.blockID) {
                                 ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y - 1, zr, null);
+                            } else {
+                                ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y, zr, null);
                             }
                         }
                     }
