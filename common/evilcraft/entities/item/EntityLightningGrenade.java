@@ -11,6 +11,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
@@ -50,7 +51,7 @@ public class EntityLightningGrenade extends EntityThrowable implements Configura
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition par1MovingObjectPosition) {
+    protected void onImpact(MovingObjectPosition par1MovingObjectPosition) {        
         if (par1MovingObjectPosition.entityHit != null) {
             par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
         }
@@ -60,7 +61,8 @@ public class EntityLightningGrenade extends EntityThrowable implements Configura
         }
 
         if (!this.worldObj.isRemote) {
-            if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {                
+            if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {    
+                Helpers.onEntityCollided(this.worldObj, par1MovingObjectPosition.blockX, par1MovingObjectPosition.blockY, par1MovingObjectPosition.blockZ, this);
                 this.worldObj.addWeatherEffect(new EntityLightningBolt(this.worldObj, this.posX, this.posY, this.posZ));
             }
 

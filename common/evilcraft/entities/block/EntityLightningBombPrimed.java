@@ -19,6 +19,8 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements Config
     protected ExtendedConfig eConfig = null;
     
     public static ElementType TYPE = ElementType.ENTITY;
+    
+    private static final float EXPLOSION_STRENGTH = 1.0f;
 
     // Set a configuration for this entity
     public void setConfig(ExtendedConfig eConfig) {
@@ -83,7 +85,8 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements Config
             world.spawnParticle("magicCrit", x, y + rand.nextDouble() * 2.0D, z, rand.nextGaussian(), 0.0D, rand.nextGaussian());
         }
 
-        if (!world.isRemote) {             
+        if (!world.isRemote) {
+            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, EXPLOSION_STRENGTH, true);
             world.addWeatherEffect(new EntityLightningBolt(world, x, y, z));
         }
     }

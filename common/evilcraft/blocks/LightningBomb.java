@@ -20,6 +20,7 @@ import evilcraft.EvilCraft;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
 import evilcraft.entities.block.EntityLightningBombPrimed;
+import evilcraft.entities.item.EntityLightningGrenade;
 
 public class LightningBomb extends ConfigurableBlock {
     
@@ -130,6 +131,11 @@ public class LightningBomb extends ConfigurableBlock {
                 this.primeBomb(par1World, par2, par3, par4, 1, entityarrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)entityarrow.shootingEntity : null);
                 par1World.setBlockToAir(par2, par3, par4);
             }
+        } else if (par5Entity instanceof EntityLightningGrenade && !par1World.isRemote) {
+            EntityLightningGrenade entitygrenade = (EntityLightningGrenade)par5Entity;
+
+            this.primeBomb(par1World, par2, par3, par4, 1, entitygrenade.getThrower() instanceof EntityLivingBase ? (EntityLivingBase)entitygrenade.getThrower() : null);
+            par1World.setBlockToAir(par2, par3, par4);
         }
     }
     

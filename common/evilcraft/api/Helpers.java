@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
@@ -301,5 +302,10 @@ public class Helpers {
     
     public static boolean isClientSide() {
         return FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT;
+    }
+
+    public static void onEntityCollided(World world, int x, int y, int z, Entity entity) {
+        int blockID = world.getBlockId(x, y, z);
+        Block.blocksList[blockID].onEntityCollidedWithBlock(world, x, y, z, entity);
     }
 }
