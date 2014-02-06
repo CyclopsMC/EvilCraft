@@ -30,7 +30,7 @@ public class ExcrementPile extends ConfigurableBlock {
     
     private static ExcrementPile _instance = null;
     
-    private static final int CHANCE_DESPAWN = 25; // 1/CHANCE_DESPAWN per random tick chance for despawning and potentially triggering bonemeal event
+    private static final int CHANCE_DESPAWN = 1; // 1/CHANCE_DESPAWN per random tick chance for despawning and potentially triggering bonemeal event
     private static final int CHANCE_BONEMEAL = 3; // 1/CHANCE_BONEMEAL for ground below to be bonemealed or turn into grass from dirt
     private static final int POISON_DURATION = 3;
     private static final int PIG_BOOST_DURATION = 3;
@@ -132,9 +132,8 @@ public class ExcrementPile extends ConfigurableBlock {
                                 world.setBlock(xr, y - 1, zr, Block.grass.blockID);
                             } else if(blockIDBelow == Block.grass.blockID) {
                                 ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y - 1, zr, null);
-                            } else {
-                                ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y, zr, null);
                             }
+                            ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y, zr, null);
                         }
                     }
                 }
