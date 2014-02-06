@@ -33,7 +33,9 @@ public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFl
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-        FluidStack fluidStack = this.drain(itemStack, 100, false);
+        FluidStack fluidStack = null;
+        if(itemStack != null && itemStack.stackTagCompound != null)
+            fluidStack = this.drain(itemStack, 100, false);
         if(fluidStack != null && fluidStack.amount > 0) {
             if (!player.capabilities.isCreativeMode) {
                 this.drain(itemStack, 100, true);

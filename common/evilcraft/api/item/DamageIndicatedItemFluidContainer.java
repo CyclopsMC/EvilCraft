@@ -59,8 +59,6 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
             return stack;
         }
         FluidStack fluidStack = super.drain(container, maxDrain, doDrain);
-        //int newAmount = getFluid(container) == null ? 0 : getFluid(container).amount;
-        //component.updateAmount(container, newAmount);
         return fluidStack;
     }
     
@@ -70,7 +68,6 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
         capacity = getCapacity(container);
         int filled = super.fill(container, resource, doFill);
         capacity = capacityOld;
-        //component.updateAmount(container, getFluid(container).amount);
         return filled;
     }
     
