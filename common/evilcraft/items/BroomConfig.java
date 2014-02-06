@@ -26,7 +26,7 @@ public class BroomConfig extends ItemConfig {
     public void onRegistered() {
         super.onRegistered();
         for(String chestCategory : Helpers.CHESTGENCATEGORIES) {
-            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(new ItemStack(Broom.getInstance()), 1, 2, 5));
+            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(new ItemStack(Broom.getInstance()), 1, 2, 2));
         }
     }
     
