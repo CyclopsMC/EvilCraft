@@ -296,7 +296,7 @@ public class Recipes {
                     new ItemStack(DarkGem.getInstance()),
                     new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 4),
                     BloodInfuser.getInstance(),
-                    20
+                    200
                     ),
                     new ItemStack(DarkPowerGem.getInstance()
                             ));
@@ -307,7 +307,7 @@ public class Recipes {
                     new ItemStack(Block.deadBush),
                     new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2),
                     BloodInfuser.getInstance(),
-                    20
+                    200
                     ),
                     new ItemStack(UndeadSapling.getInstance()
                             ));

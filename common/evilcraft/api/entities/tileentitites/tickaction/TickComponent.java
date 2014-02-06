@@ -57,7 +57,7 @@ public class TickComponent<C extends EvilCraftTileEntity, T extends ITickAction<
                 if(tick == 0)
                     requiredTicks = action.getRequiredTicks(tile, slot);
                 tick++;
-                if(tick >= requiredTicks)
+                if(tick > requiredTicks)
                     tick = 0;
                 action.onTick(tile, itemStack, slot, tick);
             } else {
