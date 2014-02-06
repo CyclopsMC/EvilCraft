@@ -9,10 +9,8 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -53,6 +51,8 @@ import evilcraft.items.BloodInfusionCore;
 import evilcraft.items.BloodInfusionCoreConfig;
 import evilcraft.items.BloodPearlOfTeleportation;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
+import evilcraft.items.BucketBlood;
+import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.BucketPoison;
 import evilcraft.items.BucketPoisonConfig;
 import evilcraft.items.DarkGem;
@@ -73,7 +73,7 @@ import evilcraft.items.WeatherContainerConfig;
  * Holder class of all the recipes.
  */
 public class Recipes {
-    
+
     public static Map<Item, FluidStack> BUCKETS = new HashMap<Item, FluidStack>();
 
     public static boolean isItemEnabled(Class<? extends ExtendedConfig> config) {
@@ -92,7 +92,7 @@ public class Recipes {
         }
     }
 
-    public static void registerRecipes() {
+    public static void registerRecipes() {        
         // 9 DarkGems -> 1 DarkBlock
         if(isItemEnabled(DarkGemConfig.class) && isItemEnabled(DarkBlockConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(DarkBlock.getInstance(), true,
@@ -285,6 +285,15 @@ public class Recipes {
             }
                     ));
         }
+        // 1000 mB Blood in blood extractor + empty bucket -> blood bucket
+        if(isItemEnabled(BucketBloodConfig.class) && isItemEnabled(BloodExtractorConfig.class)) {
+            ItemStack bloodExtractor = new ItemStack(BloodExtractor.getInstance().setContainerItem(BloodExtractor.getInstance()), 1);
+            BloodExtractor.getInstance().fill(bloodExtractor, new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME), true);
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BucketBlood.getInstance()),
+                    bloodExtractor,
+                    new ItemStack(Item.bucketEmpty.setContainerItem(null))
+                    ));
+        }
 
         registerCustomRecipes();
         registerInterModRecipes();
@@ -362,12 +371,12 @@ public class Recipes {
                 crucibleBlood.setInteger("energy", 2000);
                 crucibleBlood.setCompoundTag("input", new NBTTagCompound());
                 crucibleBlood.setCompoundTag("output", new NBTTagCompound());
-    
+
                 materialPoisonous.writeToNBT(crucibleBlood.getCompoundTag("input"));
                 new FluidStack(Blood.getInstance(), 750).writeToNBT(crucibleBlood.getCompoundTag("output"));
                 FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleBlood);
             }
-            
+
             // Fluid Transposer: blood infuse
             Map<CustomRecipe, CustomRecipeResult> bloodInfuseRecipes = CustomRecipeRegistry.getRecipesForFactory(BloodInfuser.getInstance());
             for(Entry<CustomRecipe, CustomRecipeResult> entry : bloodInfuseRecipes.entrySet()) {
@@ -385,7 +394,7 @@ public class Recipes {
                 fluid.writeToNBT(bloodInfuse.getCompoundTag("fluid"));
                 FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", bloodInfuse);
             }
-            
+
             // Fluid Transposer: buckets
             for(Entry<Item, FluidStack> entry : BUCKETS.entrySet()) {
                 NBTTagCompound fill = new NBTTagCompound();
@@ -393,14 +402,14 @@ public class Recipes {
                 fill.setCompoundTag("input", new NBTTagCompound());
                 fill.setCompoundTag("output", new NBTTagCompound());
                 fill.setCompoundTag("fluid", new NBTTagCompound());
-    
+
                 new ItemStack(entry.getKey()).writeToNBT(fill.getCompoundTag("input"));
                 new ItemStack(Item.bucketEmpty).writeToNBT(fill.getCompoundTag("output"));
                 fill.setBoolean("reversible", true);
                 entry.getValue().copy().writeToNBT(fill.getCompoundTag("fluid"));
                 FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", fill);
             }
-            
+
             // Compression Dynamo: blood
             NBTTagCompound compression = new NBTTagCompound();
             compression.setString("fluidName", Blood.getInstance().getName());

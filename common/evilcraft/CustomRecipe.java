@@ -48,7 +48,7 @@ public class CustomRecipe {
         if(this.getFluidStack() != null) {
             fluid = false;
             if(o.getFluidStack() != null) {
-                if(this.getFluidStack().getFluid().equals(o.getFluidStack().getFluid())) {
+                if(o.getFluidStack() != null && this.getFluidStack().getFluid().equals(o.getFluidStack().getFluid())) {
                     fluid = o.getFluidStack().amount >= this.getFluidStack().amount;
                 }
             }

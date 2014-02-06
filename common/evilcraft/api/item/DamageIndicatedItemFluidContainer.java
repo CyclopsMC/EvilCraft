@@ -50,13 +50,15 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     
     @Override
     public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
-        // Fix for Thermal Expansion
-        FluidStack stack = FluidStack.loadFluidStackFromNBT(container.stackTagCompound.getCompoundTag("Fluid"));
-        if(stack.amount <= 0) {
-            stack.amount = 0;
-            NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag("Fluid");
-            fluidTag.setInteger("Amount", 0);
-            return stack;
+        if(container != null && container.stackTagCompound != null && container.stackTagCompound.getCompoundTag("Fluid") != null) {
+            // Fix for Thermal Expansion
+            FluidStack stack = FluidStack.loadFluidStackFromNBT(container.stackTagCompound.getCompoundTag("Fluid"));
+            if(stack.amount <= 0) {
+                stack.amount = 0;
+                NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag("Fluid");
+                fluidTag.setInteger("Amount", 0);
+                return stack;
+            }
         }
         FluidStack fluidStack = super.drain(container, maxDrain, doDrain);
         return fluidStack;
