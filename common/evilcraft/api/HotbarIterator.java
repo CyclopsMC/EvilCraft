@@ -2,6 +2,7 @@ package evilcraft.api;
 
 import java.util.Iterator;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 
@@ -12,14 +13,14 @@ import net.minecraft.item.ItemStack;
  */
 public class HotbarIterator implements Iterator<ItemStack>{
     
-    private EntityPlayerMP player;
+    private EntityPlayer player;
     private int i;
     
     /**
      * Create a new HotbarIterator.
      * @param player The player to iterate the hotbar from.
      */
-    public HotbarIterator(EntityPlayerMP player) {
+    public HotbarIterator(EntityPlayer player) {
         this.player = player;
     }
 

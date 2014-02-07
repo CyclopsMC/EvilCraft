@@ -53,7 +53,7 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
         if(container != null && container.stackTagCompound != null && container.stackTagCompound.getCompoundTag("Fluid") != null) {
             // Fix for Thermal Expansion
             FluidStack stack = FluidStack.loadFluidStackFromNBT(container.stackTagCompound.getCompoundTag("Fluid"));
-            if(stack.amount <= 0) {
+            if(stack != null && stack.amount <= 0) {
                 stack.amount = 0;
                 NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag("Fluid");
                 fluidTag.setInteger("Amount", 0);

@@ -62,18 +62,20 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
 
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-        FluidStack fluidStack = getFluid(itemStack);
-        // Empty container
-        FluidStack drained = this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, false);
-        
-        ForgeDirection direction = ForgeDirection.getOrientation(side);
-        x += direction.offsetX;
-        y += direction.offsetY;
-        z += direction.offsetZ;
-        
-        if(drained != null && drained.amount == FluidContainerRegistry.BUCKET_VOLUME && (world.isAirBlock(x, y, z) || world.getBlockId(x, y, z) == fluidStack.getFluid().getBlockID())) {
-            this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, true);
-            world.setBlock(x, y, z, fluidStack.getFluid().getBlockID(), 0, 3);
+        if(!player.isSneaking()) {
+            FluidStack fluidStack = getFluid(itemStack);
+            // Empty container
+            FluidStack drained = this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, false);
+            
+            ForgeDirection direction = ForgeDirection.getOrientation(side);
+            x += direction.offsetX;
+            y += direction.offsetY;
+            z += direction.offsetZ;
+            
+            if(drained != null && drained.amount == FluidContainerRegistry.BUCKET_VOLUME && (world.isAirBlock(x, y, z) || world.getBlockId(x, y, z) == fluidStack.getFluid().getBlockID())) {
+                this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, true);
+                world.setBlock(x, y, z, fluidStack.getFluid().getBlockID(), 0, 3);
+            }
         }
         return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
     }
