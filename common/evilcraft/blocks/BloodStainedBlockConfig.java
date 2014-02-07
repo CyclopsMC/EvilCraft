@@ -1,7 +1,9 @@
 package evilcraft.blocks;
 
+import net.minecraft.item.ItemBlock;
 import evilcraft.Reference;
 import evilcraft.api.config.BlockConfig;
+import evilcraft.api.item.ItemBlockMetadata;
 
 public class BloodStainedBlockConfig extends BlockConfig {
     
@@ -18,8 +20,8 @@ public class BloodStainedBlockConfig extends BlockConfig {
     }
     
     @Override
-    public boolean hasSubTypes() {
-        return true;
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlockMetadata.class;
     }
     
 }

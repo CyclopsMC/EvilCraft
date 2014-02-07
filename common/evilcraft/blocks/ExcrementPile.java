@@ -1,4 +1,5 @@
 package evilcraft.blocks;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -21,12 +22,13 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
+import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
 import evilcraft.items.Broom;
 import evilcraft.items.BroomConfig;
 
-public class ExcrementPile extends ConfigurableBlock {
+public class ExcrementPile extends ConfigurableBlock implements IInformationProvider {
     
     private static ExcrementPile _instance = null;
     
@@ -230,5 +232,14 @@ public class ExcrementPile extends ConfigurableBlock {
         if(meta < 7)
             world.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
     }
+    
+    @Override
+    public String getInfo(ItemStack itemStack) {
+        return IInformationProvider.INFO_PREFIX + "Will form below animals.";
+    }
+
+    @Override
+    public void provideInformation(ItemStack itemStack,
+            EntityPlayer entityPlayer, List list, boolean par4) {}
 
 }

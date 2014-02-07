@@ -1,6 +1,9 @@
 package evilcraft.api.config.configurable;
 
+import java.util.List;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import evilcraft.api.IInformationProvider;
@@ -28,6 +31,10 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
                 amount = fluid.amount;
         }
         return DamageIndicatedItemComponent.getInfo(amount, getTankCapacity());
+    }
+    
+    public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+        
     }
 
 }

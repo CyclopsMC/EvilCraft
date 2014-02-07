@@ -1,4 +1,5 @@
 package evilcraft.blocks;
+import java.util.List;
 import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
@@ -15,12 +16,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import evilcraft.EvilCraft;
+import evilcraft.api.IInformationProvider;
 import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
 import evilcraft.items.DarkGemConfig;
 
-public class DarkOre extends ConfigurableBlock {
+public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     
     private static DarkOre _instance = null;
     private static final int MINIMUM_DROPS = 1; // Minimum amount of drops when mining this block
@@ -232,5 +234,14 @@ public class DarkOre extends ConfigurableBlock {
             return Block.stone.getIcon(side, meta);
         }
     }
+
+    @Override
+    public String getInfo(ItemStack itemStack) {
+        return IInformationProvider.INFO_PREFIX + "Found between levels "+DarkOreConfig.startY+" and "+DarkOreConfig.endY;
+    }
+
+    @Override
+    public void provideInformation(ItemStack itemStack,
+            EntityPlayer entityPlayer, List list, boolean par4) {}
 
 }

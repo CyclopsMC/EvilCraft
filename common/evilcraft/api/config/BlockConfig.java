@@ -1,16 +1,8 @@
 package evilcraft.api.config;
 
-import evilcraft.api.item.ItemBlockMetadata;
-import evilcraft.api.render.AlphaItemRenderer;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.oredict.OreDictionary;
+import evilcraft.api.item.ItemBlockExtended;
 
 public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
 
@@ -20,19 +12,11 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
     }
     
     /**
-     * Override this method if this block has subtypes.
-     * @return if the target block has subtypes.
-     */
-    public boolean hasSubTypes() {
-        return false;
-    }
-    
-    /**
      * If hasSubTypes() returns true this method can be overwritten to define another ItemBlock class
      * @return the ItemBlock class to use for the target block.
      */
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockMetadata.class;
+        return ItemBlockExtended.class;
     }
     
     /**
@@ -49,13 +33,6 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
      */
     public boolean isMultipartEnabled() {
         return false;
-    }
-    
-    @Override
-    public void onRegistered() {
-        if(getOreDictionaryId() != null) {
-            OreDictionary.registerOre(getOreDictionaryId(), new ItemStack((Block)this.getSubInstance()));
-        }
     }
 
 }

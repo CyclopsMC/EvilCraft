@@ -1,4 +1,4 @@
-package evilcraft.blocks;
+    package evilcraft.blocks;
 import java.util.Random;
 
 import net.minecraft.block.Block;

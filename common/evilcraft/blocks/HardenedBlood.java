@@ -1,4 +1,5 @@
 package evilcraft.blocks;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -10,11 +11,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockConnectedTexture;
 import evilcraft.items.HardenedBloodShard;
 
-public class HardenedBlood extends ConfigurableBlockConnectedTexture {
+public class HardenedBlood extends ConfigurableBlockConnectedTexture implements IInformationProvider {
     
     private static HardenedBlood _instance = null;
     
@@ -94,5 +96,14 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
         dropBlockAsItem_do(world, x, y, z, itemStack);
         world.setBlockToAir(x, y, z);
     }
+    
+    @Override
+    public String getInfo(ItemStack itemStack) {
+        return IInformationProvider.INFO_PREFIX + "Created when Blood dries out. Will liquidify when raining.";
+    }
+
+    @Override
+    public void provideInformation(ItemStack itemStack,
+            EntityPlayer entityPlayer, List list, boolean par4) {}
 
 }

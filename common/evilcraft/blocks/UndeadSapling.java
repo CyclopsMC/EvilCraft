@@ -1,9 +1,14 @@
 package evilcraft.blocks;
+import java.util.List;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockSapling;
 
-public class UndeadSapling extends ConfigurableBlockSapling {
+public class UndeadSapling extends ConfigurableBlockSapling implements IInformationProvider {
     
     private static UndeadSapling _instance = null;
     
@@ -21,5 +26,14 @@ public class UndeadSapling extends ConfigurableBlockSapling {
     private UndeadSapling(ExtendedConfig eConfig) {
         super(eConfig, Material.plants);
     }
+    
+    @Override
+    public String getInfo(ItemStack itemStack) {
+        return IInformationProvider.INFO_PREFIX + "Infuse dead bush with blood.";
+    }
+
+    @Override
+    public void provideInformation(ItemStack itemStack,
+            EntityPlayer entityPlayer, List list, boolean par4) {}
 
 }

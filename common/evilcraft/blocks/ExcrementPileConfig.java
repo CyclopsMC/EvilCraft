@@ -26,11 +26,6 @@ public class ExcrementPileConfig extends BlockConfig {
     }
     
     @Override
-    public boolean hasSubTypes() {
-        return true;
-    }
-    
-    @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
         return ExcrementPileItemBlock.class;
     }

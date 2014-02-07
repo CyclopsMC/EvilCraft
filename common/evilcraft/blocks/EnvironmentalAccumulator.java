@@ -1,5 +1,6 @@
 package evilcraft.blocks;
 
+import java.util.List;
 import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
@@ -9,16 +10,18 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 
-public class EnvironmentalAccumulator extends ConfigurableBlockContainer {
+public class EnvironmentalAccumulator extends ConfigurableBlockContainer implements IInformationProvider {
 	
 	private static EnvironmentalAccumulator _instance = null;
 	
@@ -84,4 +87,13 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer {
 	    // Environmental Accumulators should not drop upon breaking
 	    world.setBlockToAir(x, y, z);
 	}
+	
+	@Override
+    public String getInfo(ItemStack itemStack) {
+        return IInformationProvider.INFO_PREFIX + "Found at Dark Temples, high in the mountains.";
+    }
+
+    @Override
+    public void provideInformation(ItemStack itemStack,
+            EntityPlayer entityPlayer, List list, boolean par4) {}
 }

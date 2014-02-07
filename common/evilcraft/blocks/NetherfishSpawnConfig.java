@@ -1,9 +1,11 @@
 package evilcraft.blocks;
 
+import net.minecraft.item.ItemBlock;
 import evilcraft.Reference;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.api.item.ItemBlockMetadata;
 
 public class NetherfishSpawnConfig extends BlockConfig {
     
@@ -23,8 +25,8 @@ public class NetherfishSpawnConfig extends BlockConfig {
     }
     
     @Override
-    public boolean hasSubTypes() {
-        return true;
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlockMetadata.class;
     }
     
 }

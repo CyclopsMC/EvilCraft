@@ -88,10 +88,16 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
         return component.getInfo(itemStack);
     }
     
+    @Override
+    public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+        
+    }
+    
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         component.addInformation(itemStack, entityPlayer, list, par4);
+        super.addInformation(itemStack, entityPlayer, list, par4);
     }
     
     @Override

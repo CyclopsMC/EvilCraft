@@ -65,6 +65,11 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
         return "Block: "+EnumChatFormatting.ITALIC+getBlockFromMetadata(itemStack.getItemDamage()).getLocalizedName();
     }
     
+    @Override
+    public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+        
+    }
+    
     /**
      * Get the metadata for the given (inner) block id
      * @param blockID The id to search a stained version for

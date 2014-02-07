@@ -306,6 +306,7 @@ public class Helpers {
 
     public static void onEntityCollided(World world, int x, int y, int z, Entity entity) {
         int blockID = world.getBlockId(x, y, z);
-        Block.blocksList[blockID].onEntityCollidedWithBlock(world, x, y, z, entity);
+        if(blockID != 0)
+            Block.blocksList[blockID].onEntityCollidedWithBlock(world, x, y, z, entity);
     }
 }

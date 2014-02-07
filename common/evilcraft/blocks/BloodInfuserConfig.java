@@ -20,11 +20,6 @@ public class BloodInfuserConfig extends BlockConfig {
     }
     
     @Override
-    public boolean hasSubTypes() {
-        return true;
-    }
-    
-    @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
         return ItemBlockNBT.class;
     }

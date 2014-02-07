@@ -1,4 +1,5 @@
 package evilcraft.blocks;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -6,12 +7,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.IInformationProvider;
 import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockWithInnerBlocks;
@@ -118,6 +122,15 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     public void fillWithRain(World world, int x, int y, int z) {
         // Transform to regular block when it rains
         world.setBlock(x, y, z, getBlockFromMetadata(world.getBlockMetadata(x, y, z)).blockID);
+    }
+    
+    @Override
+    public String getInfo(ItemStack itemStack) {
+        return "Block: "+EnumChatFormatting.ITALIC+getBlockFromMetadata(itemStack.getItemDamage()).getLocalizedName();
+    }
+    
+    public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+        list.add(IInformationProvider.INFO_PREFIX+"Created when entity falls to death.");
     }
 
 }

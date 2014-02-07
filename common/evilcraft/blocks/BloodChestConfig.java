@@ -6,6 +6,8 @@ import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.api.item.ItemBlockExtended;
+import evilcraft.api.item.ItemBlockMetadata;
 import evilcraft.api.item.ItemBlockNBT;
 import evilcraft.entities.tileentities.TileBloodChest;
 import evilcraft.proxies.ClientProxy;
@@ -26,11 +28,6 @@ public class BloodChestConfig extends BlockConfig {
             null,
             BloodChest.class
         );
-    }
-    
-    @Override
-    public boolean hasSubTypes() {
-        return true;
     }
     
     @Override

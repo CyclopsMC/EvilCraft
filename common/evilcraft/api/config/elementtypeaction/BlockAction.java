@@ -1,8 +1,10 @@
 package evilcraft.api.config.elementtypeaction;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -36,18 +38,11 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
         Block block = (Block) eConfig.getSubInstance();
 
         // Register
-        if(eConfig.hasSubTypes()) {
-            GameRegistry.registerBlock(
-                    block,
-                    eConfig.getItemBlockClass(),
-                    eConfig.getSubUniqueName()
-                    );
-        } else {
-            GameRegistry.registerBlock(
-                    block,
-                    eConfig.getSubUniqueName()
-                    );
-        }
+        GameRegistry.registerBlock(
+                block,
+                eConfig.getItemBlockClass(),
+                eConfig.getSubUniqueName()
+                );
 
         // Set creative tab
         block.setCreativeTab(EvilCraftTab.getInstance());
@@ -68,6 +63,11 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
                     GuiHandler.GUIS.put(gui.getGuiID(), gui.getGUI());
                 GuiHandler.CONTAINERS.put(gui.getGuiID(), gui.getContainer());
             }
+        }
+        
+        // Register optional ore dictionary ID
+        if(eConfig.getOreDictionaryId() != null) {
+            OreDictionary.registerOre(eConfig.getOreDictionaryId(), new ItemStack((Block)eConfig.getSubInstance()));
         }
         
         // Register buildcraft facade
