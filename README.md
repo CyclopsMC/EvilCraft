@@ -34,4 +34,4 @@ You can contact us at [irc.esper.net](irc://irc.esper.net) on #evilcraft.
 _Coming soon, but when looking at the build file it should be pretty straightforward_
 
 ### License
-All code is licenced under [Creative Commons 4](http://creativecommons.org/licenses/by/4.0/)
+All code and images are licenced under [Creative Commons 4](http://creativecommons.org/licenses/by/4.0/)
