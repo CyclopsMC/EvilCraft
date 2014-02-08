@@ -43,6 +43,7 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
 
     private BloodContainer(ExtendedConfig eConfig) {
         super(eConfig, BloodExtractorConfig.containerSize, Blood.getInstance());
+        setPlaceFluids(true);
     }
     
     @Override

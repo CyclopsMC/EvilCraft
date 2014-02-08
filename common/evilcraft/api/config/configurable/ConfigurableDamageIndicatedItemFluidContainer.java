@@ -25,6 +25,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
 
     protected ExtendedConfig eConfig = null;
     protected boolean canPickUp = true;
+    private boolean placeFluids = false;
 
     public static ElementType TYPE = ElementType.ITEM;
 
@@ -62,7 +63,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
 
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-        if(!player.isSneaking()) {
+        if(!player.isSneaking() && isPlaceFluids()) {
             FluidStack fluidStack = getFluid(itemStack);
             // Empty container
             FluidStack drained = this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, false);
@@ -78,6 +79,14 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
             }
         }
         return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+    }
+
+    public boolean isPlaceFluids() {
+        return placeFluids;
+    }
+
+    public void setPlaceFluids(boolean placeFluids) {
+        this.placeFluids = placeFluids;
     }
 
 }
