@@ -309,4 +309,16 @@ public class Helpers {
         if(blockID != 0)
             Block.blocksList[blockID].onEntityCollidedWithBlock(world, x, y, z, entity);
     }
+    
+    public static float normalizeAngle_180(float angle) {
+        angle %= 360;
+        
+        while (angle <= -180)
+            angle += 360;
+        
+        while (angle > 180)
+            angle -= 360;
+        
+        return angle;
+    }
 }
