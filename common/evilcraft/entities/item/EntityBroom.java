@@ -1,12 +1,14 @@
 package evilcraft.entities.item;
 
+import java.util.List;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
@@ -37,19 +39,31 @@ public class EntityBroom extends Entity implements Configurable{
     // The player that last mounted this broom (used to detect dismounting)
     public EntityPlayer lastMounted = null;
     
+    private double newPosX;
+    private double newPosY;
+    private double newPosZ;
+    private double newRotationYaw;
+    private double newRotationPitch;
+    private int newPosRotationIncrements;
+    
     // Set a configuration for this entity
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
     public EntityBroom(World world) {
-        super(world);
-        
+        this(world, 0.0, 0.0, 0.0);
     }
     
     public EntityBroom(World world, double x, double y, double z) {
         super(world);
         setPosition(x, y, z);
+        this.motionX = 0.0;
+        this.motionY = 0.0;
+        this.motionZ = 0.0;
+        this.prevPosX = x;
+        this.prevPosY = y;
+        this.prevPosZ = z;
     }
     
     @Override
@@ -89,6 +103,20 @@ public class EntityBroom extends Entity implements Configurable{
     }
     
     @Override
+    public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements)
+    {
+        posRotationIncrements += 6;
+        
+        this.yOffset = 0.0F;
+        this.newPosX = x;
+        this.newPosY = y;
+        this.newPosZ = z;
+        this.newRotationYaw = (double)yaw;
+        this.newRotationPitch = (double)pitch;
+        this.newPosRotationIncrements = posRotationIncrements;
+    }
+    
+    @Override
     public void onUpdate() {
     	super.onUpdate();
     	
@@ -107,50 +135,101 @@ public class EntityBroom extends Entity implements Configurable{
     		worldObj.removeEntity(this);
     		
     	} else if (riddenByEntity != null && riddenByEntity instanceof EntityPlayer) {
-    		EntityPlayer player = (EntityPlayer)riddenByEntity;
-    		
-    		/*
-    		 * TODO: if we ever have the problem that a player can dismount without
-    		 * getting the broom back in his inventory and removing the entity from the world
-    		 * its probably because of this next line of code because onUpdate() is called AFTER
-    		 * the player is dismounted, thus lastMounted is not updated before the player dismounts
-    		 * and thus the dismounting code is never executed
-    		 */
-    		lastMounted = player;
-    		
-    		// Rotate broom
-    		rotationPitch = player.rotationPitch;
-    		rotationYaw = player.rotationYaw;
-    		
-    		// Limit the angle under which the player can move up or down
-    		if (rotationPitch > MAX_ANGLE)
-    			rotationPitch = MAX_ANGLE;
-    		else if (rotationPitch < MIN_ANGLE)
-    			rotationPitch = MIN_ANGLE;
-    		
-    		setRotation(rotationYaw, rotationPitch);
-    		
-    		// Handle player movement
-    		double pitch = ((rotationPitch + 90) * Math.PI) / 180;
-    		double yaw = ((rotationYaw + 90) * Math.PI) / 180;
-    		
-    		double x = Math.sin(pitch) * Math.cos(yaw);
-    		double z = Math.sin(pitch) * Math.sin(yaw);
-    		double y = Math.cos(pitch);
-    		
-    		if (player.moveForward != 0) {
-    			motionX = x * SPEED * player.moveForward;
-    			motionY = y * SPEED * player.moveForward;
-    			motionZ = z * SPEED * player.moveForward;
-    		} else {
-    			motionX = 0;
-    			motionY = 0;
-    			motionZ = 0;
-    		}
-
-		    moveEntity(motionX, motionY, motionZ);
+            /*
+             * TODO: if we ever have the problem that a player can dismount without
+             * getting the broom back in his inventory and removing the entity from the world
+             * its probably because of this next line of code because onUpdate() is called AFTER
+             * the player is dismounted, thus lastMounted is not updated before the player dismounts
+             * and thus the dismounting code is never executed
+             */
+            lastMounted = (EntityPlayer)riddenByEntity;
+            
+            prevPosX = posX;
+            prevPosY = posY;
+            prevPosZ = posZ;
+            prevRotationPitch = rotationPitch;
+            prevRotationYaw = rotationYaw;
+            
+    	    if (!worldObj.isRemote || Minecraft.getMinecraft().thePlayer == lastMounted) {
+    	        updateMountedServer();   
+    	    } else {
+    	        updateMountedClient();
+    	    }
     	}
     	
+    }
+    
+    protected void updateMountedClient() {
+        if (newPosRotationIncrements > 0) {
+            double x = posX + (newPosX - posX) / newPosRotationIncrements;
+            double y = posY + (newPosY - posY) / newPosRotationIncrements;
+            double z = posZ + (newPosZ - posZ) / newPosRotationIncrements;
+            
+            float yaw = Helpers.normalizeAngle_180((float)(newRotationYaw - rotationYaw));
+            rotationYaw += yaw / newPosRotationIncrements;
+            rotationPitch += (newRotationPitch - rotationPitch) / newPosRotationIncrements;
+            
+            newPosRotationIncrements--;
+            
+            setPosition(x, y, z);
+            setRotation(rotationYaw, rotationPitch);
+        }
+    }
+    
+    /**
+     * Called on the server side for all players or on the client side when the 
+     * player mounted on the broom is the local player, so movement is as smooth as
+     * possible.
+     */
+    protected void updateMountedServer() {
+        // Rotate broom
+        rotationPitch = Helpers.normalizeAngle_180(lastMounted.rotationPitch);
+        rotationYaw = Helpers.normalizeAngle_180(lastMounted.rotationYaw);
+        
+        // Limit the angle under which the player can move up or down
+        if (rotationPitch > MAX_ANGLE)
+            rotationPitch = MAX_ANGLE;
+        else if (rotationPitch < MIN_ANGLE)
+            rotationPitch = MIN_ANGLE;
+        
+        setRotation(rotationYaw, rotationPitch);
+        
+        // Handle player movement
+        double pitch = ((riddenByEntity.rotationPitch + 90) * Math.PI) / 180;
+        double yaw = ((riddenByEntity.rotationYaw + 90) * Math.PI) / 180;
+        
+        double x = Math.sin(pitch) * Math.cos(yaw);
+        double z = Math.sin(pitch) * Math.sin(yaw);
+        double y = Math.cos(pitch);
+        
+        if (lastMounted.moveForward != 0) {
+            motionX = x * SPEED * lastMounted.moveForward;
+            motionY = y * SPEED * lastMounted.moveForward;
+            motionZ = z * SPEED * lastMounted.moveForward;
+        } else {
+            motionX = 0;
+            motionY = 0;
+            motionZ = 0;
+        }
+
+        moveEntity(motionX, motionY, motionZ);
+        
+        // Apply collisions
+        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.2, 0.0, 0.2));
+        int l;
+
+        if (list != null && !list.isEmpty())
+        {
+            for (l = 0; l < list.size(); ++l)
+            {
+                Entity entity = (Entity)list.get(l);
+
+                if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityBoat)
+                {
+                    entity.applyEntityCollision(this);
+                }
+            }
+        }
     }
     
     @Override

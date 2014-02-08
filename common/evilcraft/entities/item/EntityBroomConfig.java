@@ -34,6 +34,6 @@ public class EntityBroomConfig extends EntityConfig {
     
     @Override
     public int getUpdateFrequency() {
-        return 5;
+        return 10;
     }
 }
