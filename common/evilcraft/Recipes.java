@@ -285,15 +285,6 @@ public class Recipes {
             }
                     ));
         }
-        // 1000 mB Blood in blood extractor + empty bucket -> blood bucket
-        if(isItemEnabled(BucketBloodConfig.class) && isItemEnabled(BloodExtractorConfig.class)) {
-            ItemStack bloodExtractor = new ItemStack(BloodExtractor.getInstance().setContainerItem(BloodExtractor.getInstance()), 1);
-            BloodExtractor.getInstance().fill(bloodExtractor, new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME), true);
-            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BucketBlood.getInstance()),
-                    bloodExtractor,
-                    new ItemStack(Item.bucketEmpty.setContainerItem(null))
-                    ));
-        }
 
         registerCustomRecipes();
         registerInterModRecipes();
