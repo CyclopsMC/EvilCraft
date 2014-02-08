@@ -20,6 +20,7 @@ import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     
     private static final int ITEM_MOVE_DURATION = 100;
+    private static final int ITEM_MOVE_COOLDOWN_DURATION = 100;
     private static final float ITEM_MOVE_SPEED = 0.3f / 20;
     
     private static final double WEATHER_CONTAINER_MIN_DROP_HEIGHT = 0.0;
@@ -30,6 +31,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     private boolean cooldown = false;
     
     private int moveItemTick = 0;
+    private int moveItemCooldownTick = 0;
     private boolean movingItem = false;
     
     private int lastMetadata;
@@ -41,8 +43,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	    super();
 	    
 	    if (Helpers.isClientSide()) {
-	        setBeamInnerColor(getInnerColorByMetadata(EnvironmentalAccumulator.BEAM_ACTIVE));
-	        setBeamOuterColor(getOuterColorByMetadata(EnvironmentalAccumulator.BEAM_ACTIVE));
+	        setBeamInnerColor(getInnerColorByMetadata(EnvironmentalAccumulator.BEAM_INACTIVE));
+	        setBeamOuterColor(getOuterColorByMetadata(EnvironmentalAccumulator.BEAM_INACTIVE));
 	        
 	        movingItemY = -1.0f;
 	        lastMetadata = -1;
@@ -51,17 +53,18 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	
 	@SideOnly(Side.CLIENT)
 	private Vector4f getInnerColorByMetadata(int metadata) {
-	    if (metadata == EnvironmentalAccumulator.BEAM_ACTIVE)
-	        return new Vector4f(0.48046875F, 0.29296875F, 0.1171875F, 0.13f);
-	    else if (metadata == EnvironmentalAccumulator.BEAM_INACTIVE)
-	        return new Vector4f(0, 0, 0, 0.13f);
-	    else
+	    if (EnvironmentalAccumulator.isMovingItem(metadata) && EnvironmentalAccumulator.isBeamActive(metadata))
 	        return new Vector4f(0.48046875F, 0.29296875F, 0.1171875F, 0.05f);
+	    if (EnvironmentalAccumulator.isBeamActive(metadata))
+	        return new Vector4f(0.48046875F, 0.29296875F, 0.1171875F, 0.13f);
+	    else
+	        return new Vector4f(0, 0, 0, 0.13f);
+	        
 	}
 	
 	@SideOnly(Side.CLIENT)
     private Vector4f getOuterColorByMetadata(int metadata) {
-        if (metadata == EnvironmentalAccumulator.BEAM_INACTIVE)
+        if (!EnvironmentalAccumulator.isBeamActive(metadata))
             return new Vector4f(0, 0, 0, 0.13f);
         else
             return new Vector4f(0.30078125F, 0.1875F, 0.08203125F, 0.13f);
@@ -90,6 +93,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
                 dropWeatherContainer();
                 activateCooldown();
             }
+	        
+	        if (cooldown)
+	            updateDoneItemMoving();
 	        
 	        if (!cooldown)
 	            updateEnvironmentalAccumulator();
@@ -132,16 +138,17 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	    // We use the metadata to indicate an update from the server
 	    // So here we check if the server has sent us an update
 	    if (metadata == lastMetadata) {
-	        if (lastMetadata == EnvironmentalAccumulator.MOVING_ITEM) {
+	        if (EnvironmentalAccumulator.isMovingItem(metadata) && !EnvironmentalAccumulator.isDoneMovingItem(metadata)) {
 	            movingItemY += ITEM_MOVE_SPEED;
 	        }
 	    } else {
-    	    if (metadata == EnvironmentalAccumulator.MOVING_ITEM) {
+	        if (EnvironmentalAccumulator.isDoneMovingItem(metadata)) {
+	         // Stop showing the moving item animation
+                // TODO: make a custom particle effect for this
+                this.worldObj.playAuxSFX(2002, (int)Math.round(xCoord), (int)Math.round(yCoord + WEATHER_CONTAINER_SPAWN_HEIGHT), (int)Math.round(zCoord), 16428);
+                movingItemY = -1.0f;
+	        } else if (EnvironmentalAccumulator.isMovingItem(metadata)) {
     	        movingItemY = 0f;
-    	    } else if (metadata == EnvironmentalAccumulator.BEAM_INACTIVE) {
-	            // Stop showing the moving item animation
-	            // TODO: make a custom particle effect for this
-	            this.worldObj.playAuxSFX(2002, (int)Math.round(xCoord), (int)Math.round(yCoord + WEATHER_CONTAINER_SPAWN_HEIGHT), (int)Math.round(zCoord), 16428);
     	    }
     	    
     	    setBeamColors(metadata);
@@ -176,6 +183,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     }
     
     private void deactivateMoveItem() {
+        moveItemCooldownTick = ITEM_MOVE_COOLDOWN_DURATION;
         movingItem = false;
         moveItemTick = 0;
     }
@@ -183,7 +191,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	private void activateCooldown() {
 	    cooldownTick = getMaxCooldownTick();
 	    cooldown = true;
-	    worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.BEAM_INACTIVE, 2);
+	    worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.BEAM_INACTIVE | EnvironmentalAccumulator.MOVING_ITEM, 2);
 	}
 	
 	private void deactivateCooldown() {
@@ -197,6 +205,18 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     	    setBeamInnerColor(getInnerColorByMetadata(metadata));
     	    setBeamOuterColor(getOuterColorByMetadata(metadata));
         }
+	}
+	
+	public void updateDoneItemMoving() {
+	    int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+	    
+	    if (EnvironmentalAccumulator.isDoneMovingItem(metadata)) { 
+	        moveItemCooldownTick--;
+    	    
+	        if (moveItemCooldownTick <= 0) {
+    	        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.BEAM_INACTIVE, 2);
+    	    }
+	    }
 	}
 	
 	@Override

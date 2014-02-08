@@ -1,22 +1,17 @@
 package evilcraft.blocks;
 
 import java.util.List;
-import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
-import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
@@ -36,8 +31,13 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer impleme
         return _instance;
     }
     
+    // First bit of metadata indicates the beam is active
+    // 0: beam active, 1: beam inactive
     public static final int BEAM_ACTIVE = 0;
     public static final int BEAM_INACTIVE = 1;
+    
+    // Second bit indicates wether or not we're moving an item in the beam
+    // 0: not moving, 1: moving
     public static final int MOVING_ITEM = 2;
     
     private Icon sideIcon;
@@ -96,4 +96,16 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer impleme
     @Override
     public void provideInformation(ItemStack itemStack,
             EntityPlayer entityPlayer, List list, boolean par4) {}
+    
+    public static boolean isBeamActive(int metadata) {
+        return (metadata & EnvironmentalAccumulator.BEAM_INACTIVE) == 0;
+    }
+    
+    public static boolean isMovingItem(int metadata) {
+        return (metadata & EnvironmentalAccumulator.MOVING_ITEM) == EnvironmentalAccumulator.MOVING_ITEM;
+    }
+    
+    public static boolean isDoneMovingItem(int metadata) {
+        return !isBeamActive(metadata) && isMovingItem(metadata);
+    }
 }
