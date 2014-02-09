@@ -1,9 +1,5 @@
 package evilcraft.entities.monster;
 
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockSilverfish;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntitySilverfish;
@@ -17,22 +13,35 @@ import evilcraft.api.config.configurable.Configurable;
 import evilcraft.blocks.NetherfishSpawn;
 import evilcraft.blocks.NetherfishSpawnConfig;
 
+/**
+ * A silverfish for the nether.
+ * @author rubensworks
+ *
+ */
 public class Netherfish extends EntitySilverfish implements Configurable{
     
-    protected ExtendedConfig eConfig = null;
+    protected ExtendedConfig<?> eConfig = null;
     
+    /**
+     * The type for this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.MOB;
     
     private static final int MAX_FIRE_DURATION = 3;
     private static final double FIRE_CHANCE = 0.5;
 
-    // Set a configuration for this entity
+    @SuppressWarnings("rawtypes")
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
-    public Netherfish(World par1World) {
-        super(par1World);
+    /**
+     * Make a new instance.
+     * @param world The world.
+     */
+    public Netherfish(World world) {
+        super(world);
         this.isImmuneToFire = true;
         this.experienceValue = 10;
     }

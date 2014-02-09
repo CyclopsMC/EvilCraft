@@ -22,6 +22,9 @@ public class BroomModel extends ModelBase {
 	ModelRenderer Gem;
 	ModelRenderer Borstel;
 
+	/**
+	 * Make a new instance.
+	 */
 	public BroomModel() {
 		textureWidth = 64;
 		textureHeight = 32;
@@ -46,6 +49,7 @@ public class BroomModel extends ModelBase {
 		setRotation(Borstel, 0F, 0F, 0F);
 	}
 
+	@Override
 	public void render(Entity entity, float moveTime, float moveSpeed, float ticksExisted, float lookYaw, float lookPitch, float scale) {
 		Steel.render(scale);
 		Gem.render(scale);

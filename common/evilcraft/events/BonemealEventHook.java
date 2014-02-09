@@ -7,8 +7,17 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import evilcraft.api.config.configurable.ConfigurableBlockSapling;
 
+/**
+ * Event hook for {@link BonemealEvent}.
+ * @author rubensworks
+ *
+ */
 public class BonemealEventHook {
 
+    /**
+     * When a bonemeal event is received.
+     * @param event The received event.
+     */
     @ForgeSubscribe(priority = EventPriority.NORMAL)
     public void onBonemeal(BonemealEvent event) {
         bonemealCustomSaplings(event);

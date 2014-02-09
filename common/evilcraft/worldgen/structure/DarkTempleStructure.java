@@ -1,4 +1,4 @@
-package evilcraft.worldgen;
+package evilcraft.worldgen.structure;
 
 import java.util.Random;
 
@@ -6,18 +6,28 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import evilcraft.api.Helpers;
-import evilcraft.api.MetadataHelper;
-import evilcraft.api.MetadataHelper.SlabType;
-import evilcraft.api.MetadataHelper.StoneBrickType;
+import evilcraft.api.StairSlabMetadataHelper;
+import evilcraft.api.StairSlabMetadataHelper.SlabType;
+import evilcraft.api.StairSlabMetadataHelper.StoneBrickType;
 import evilcraft.blocks.EnvironmentalAccumulator;
 
+/**
+ * The Dark
+ * @author immortaleeb
+ *
+ */
 public class DarkTempleStructure extends QuarterSymmetricalStructure {
+    
 	private static final int STRUCTURE_HEIGHT = 9;
 	private static final int MAX_BUILD_HEIGHT = 256 - STRUCTURE_HEIGHT;
 	private static final int MIN_BUILD_HEIGHT = 90;
 	
 	private static DarkTempleStructure _instance = null;
 	
+	/**
+	 * Get the unique instance.
+	 * @return Unique instance.
+	 */
 	public static DarkTempleStructure getInstance() {
 		if (_instance == null)
 			_instance = new DarkTempleStructure();
@@ -60,12 +70,12 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	
 	@Override
 	protected void generateLayers() {
-		int us = getBlockIdWithMetadata(Block.stoneSingleSlab.blockID, MetadataHelper.getSlabMetadata(SlabType.STONE, true));	// upside down stone slab
+		int us = getBlockIdWithMetadata(Block.stoneSingleSlab.blockID, StairSlabMetadataHelper.getSlabMetadata(SlabType.STONE, true));	// upside down stone slab
 		int rs = Block.stoneSingleSlab.blockID;
 		int ds = Block.stoneDoubleSlab.blockID;
-		int cb = getBlockIdWithMetadata(Block.stoneBrick.blockID, MetadataHelper.getStoneBrickMetadata(StoneBrickType.CHISELED));	// chiseled brick
+		int cb = getBlockIdWithMetadata(Block.stoneBrick.blockID, StairSlabMetadataHelper.getStoneBrickMetadata(StoneBrickType.CHISELED));	// chiseled brick
 		int sb = Block.stoneBrick.blockID;
-		int cs = getBlockIdWithMetadata(Block.stoneSingleSlab.blockID, MetadataHelper.getSlabMetadata(SlabType.COBBLESTONE, false));	// cobblestone slab
+		int cs = getBlockIdWithMetadata(Block.stoneSingleSlab.blockID, StairSlabMetadataHelper.getSlabMetadata(SlabType.COBBLESTONE, false));	// cobblestone slab
 		int co = Block.cobblestone.blockID;
 		int wa = Block.waterStill.blockID;
 		int fe = Block.fence.blockID;
@@ -173,8 +183,8 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 		// z+ south
 		// x- west
 		// z- west
-		int metadata1 = MetadataHelper.getStairMetadata(Helpers.getForgeDirectionFromXSign(incX), true);	// metadata for stair 1
-		int metadata2 = MetadataHelper.getStairMetadata(Helpers.getForgeDirectionFromZSing(incZ), true);	// metadata for stair 2
+		int metadata1 = StairSlabMetadataHelper.getStairMetadata(Helpers.getForgeDirectionFromXSign(incX), true);	// metadata for stair 1
+		int metadata2 = StairSlabMetadataHelper.getStairMetadata(Helpers.getForgeDirectionFromZSing(incZ), true);	// metadata for stair 2
 
 		world.setBlock(x + 3*incX, y + 5, z + 4*incZ, Block.stairsCobblestone.blockID, metadata1, 2);
 		world.setBlock(x + 4*incX, y + 5, z + 3*incZ, Block.stairsCobblestone.blockID, metadata2, 2);

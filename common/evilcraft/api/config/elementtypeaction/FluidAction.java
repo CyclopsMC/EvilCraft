@@ -6,6 +6,11 @@ import net.minecraftforge.fluids.FluidRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.api.config.FluidConfig;
 
+/**
+ * The action used for {@link FluidConfig}.
+ * @author rubensworks
+ * @see IElementTypeAction
+ */
 public class FluidAction extends IElementTypeAction<FluidConfig>{
 
     @Override

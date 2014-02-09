@@ -3,15 +3,25 @@ package evilcraft.items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
-import net.minecraftforge.common.MinecraftForge;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ItemConfig;
 
+/**
+ * Config for the {@link Broom}.
+ * @author rubensworks
+ *
+ */
 public class BroomConfig extends ItemConfig {
     
+    /**
+     * The unique instance.
+     */
     public static BroomConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public BroomConfig() {
         super(
             Reference.ITEM_BROOM,

@@ -3,7 +3,6 @@ package evilcraft.events;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.event.EventPriority;
@@ -15,11 +14,20 @@ import evilcraft.blocks.ExcrementPileConfig;
 import evilcraft.entities.monster.Werewolf;
 import evilcraft.entities.villager.WerewolfVillagerConfig;
 
+/**
+ * Event hook for {@link PlaySoundAtEntityEvent}.
+ * @author rubensworks
+ *
+ */
 public class PlaySoundAtEntityEventHook {
     
     private static final int CHANCE_DROP_EXCREMENT = 500; // Real chance is 1/CHANCE_DROP_EXCREMENT
     private static final int CHANCE_DIE_WITHOUT_ANY_REASON = 1000000; // Real chance is 1/CHANCE_DIE_WITHOUT_ANY_REASON
 
+    /**
+     * When a sound event is received.
+     * @param event The received event.
+     */
     @ForgeSubscribe(priority = EventPriority.NORMAL)
     public void onPlaySoundAtEntity(PlaySoundAtEntityEvent event) {
         dropExcrement(event);

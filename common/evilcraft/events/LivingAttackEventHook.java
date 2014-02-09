@@ -5,8 +5,6 @@ import java.util.Random;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -20,8 +18,17 @@ import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.enchantment.EnchantmentUnusing;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
 
+/**
+ * Event hook for {@link LivingAttackEvent}.
+ * @author rubensworks
+ *
+ */
 public class LivingAttackEventHook {
 
+    /**
+     * When a living attack event is received.
+     * @param event The received event.
+     */
     @ForgeSubscribe(priority = EventPriority.NORMAL)
     public void onLivingAttack(LivingAttackEvent event) {
         stealLife(event);

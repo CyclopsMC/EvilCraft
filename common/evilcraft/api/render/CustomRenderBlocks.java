@@ -6,7 +6,13 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 
-public class CustomRenderBlocks extends RenderBlocks{
+/**
+ * An extension of the {@link RenderBlocks} that has some rendering corrections used
+ * for rendering connected textures. It is also able to store the current world object.
+ * @author rubensworks
+ *
+ */
+public class CustomRenderBlocks extends RenderBlocks {
     
     // Three renderfaces are overwritten because for some reason Minecraft randomly
     // flips the icon in some rotations, "it's a motherflippin' joke!"

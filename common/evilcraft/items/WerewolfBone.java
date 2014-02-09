@@ -1,39 +1,42 @@
 package evilcraft.items;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
-import evilcraft.api.Helpers;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableItem;
-import evilcraft.entities.monster.Werewolf;
-import evilcraft.entities.monster.WerewolfConfig;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatMessageComponent;
-import net.minecraft.util.EnumMovingObjectType;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import evilcraft.api.Helpers;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
+import evilcraft.api.config.configurable.ConfigurableItem;
+import evilcraft.entities.monster.WerewolfConfig;
 
+/**
+ * A bone that is dropped from werewolves.
+ * @author rubensworks
+ *
+ */
 public class WerewolfBone extends ConfigurableItem {
     
     private static WerewolfBone _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new WerewolfBone(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static WerewolfBone getInstance() {
         return _instance;
     }
 
-    private WerewolfBone(ExtendedConfig eConfig) {
+    private WerewolfBone(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
     

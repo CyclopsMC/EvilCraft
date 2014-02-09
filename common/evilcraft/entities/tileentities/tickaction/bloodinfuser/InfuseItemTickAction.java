@@ -4,9 +4,15 @@ import net.minecraft.item.ItemStack;
 import evilcraft.CustomRecipe;
 import evilcraft.CustomRecipeRegistry;
 import evilcraft.CustomRecipeResult;
+import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 
+/**
+ * {@link ITickAction} that can infuse items with blood.
+ * @author rubensworks
+ *
+ */
 public class InfuseItemTickAction extends BloodInfuserTickAction{
 
     @Override

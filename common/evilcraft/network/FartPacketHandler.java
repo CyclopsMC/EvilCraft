@@ -16,6 +16,11 @@ import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.render.particle.EntityFartFX;
 
+/**
+ * An {@link IPacketHandler} for sending farts.
+ * @author immortaleeb
+ *
+ */
 public class FartPacketHandler implements IPacketHandler {
     
     private static final int FART_RANGE = 64;
@@ -89,6 +94,11 @@ public class FartPacketHandler implements IPacketHandler {
         }
     }
     
+    /**
+     * Check if the given player should have rainbow farts.
+     * @param player The player to check.
+     * @return If that player has rainbow farts.
+     */
     public boolean hasRainbowFart(EntityPlayer player) {
         for (String name : ALLOW_RAINBOW_FARTS) {
             if (name.equals(player.username))

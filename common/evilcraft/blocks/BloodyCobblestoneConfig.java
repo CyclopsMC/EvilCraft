@@ -1,14 +1,23 @@
 package evilcraft.blocks;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.Reference;
 import evilcraft.api.config.BlockConfig;
 
+/**
+ * Config for the {@link BloodyCobblestone}.
+ * @author rubensworks
+ *
+ */
 public class BloodyCobblestoneConfig extends BlockConfig {
     
+    /**
+     * The unique instance.
+     */
     public static BloodyCobblestoneConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public BloodyCobblestoneConfig() {
         super(
             Reference.BLOCK_DARKBLOCK,

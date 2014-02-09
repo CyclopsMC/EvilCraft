@@ -1,46 +1,56 @@
 package evilcraft.items;
-import evilcraft.EvilCraft;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableItem;
-import evilcraft.entities.item.EntityLightningGrenade;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
+import evilcraft.api.config.configurable.ConfigurableItem;
+import evilcraft.entities.item.EntityLightningGrenade;
 
+/**
+ * Pearl that spawns lightning on collision.
+ * @author rubensworks
+ *
+ */
 public class LightningGrenade extends ConfigurableItem {
     
     private static LightningGrenade _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new LightningGrenade(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static LightningGrenade getInstance() {
         return _instance;
     }
 
-    private LightningGrenade(ExtendedConfig eConfig) {
+    private LightningGrenade(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.maxStackSize = 16;
     }
     
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
-    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
-    {
-        if(!par2World.isRemote) {
-            if (!par3EntityPlayer.capabilities.isCreativeMode) {
-                --par1ItemStack.stackSize;
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+        if(!world.isRemote) {
+            if (!player.capabilities.isCreativeMode) {
+                --itemStack.stackSize;
             }
-            par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
     
-            par2World.spawnEntityInWorld(new EntityLightningGrenade(par2World, par3EntityPlayer));
+            world.spawnEntityInWorld(new EntityLightningGrenade(world, player));
         }
-        return par1ItemStack;
+        return itemStack;
     }
 
 }

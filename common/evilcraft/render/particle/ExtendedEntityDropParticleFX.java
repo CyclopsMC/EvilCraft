@@ -10,6 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 
 /**
+ * Particle that appears underneath blocks for simulating drops.
  * Courtesy of BuildCraft: https://github.com/BuildCraft/BuildCraft/blob/master/common/buildcraft/energy/render/EntityDropParticleFX.java
  *
  */
@@ -21,6 +22,16 @@ public class ExtendedEntityDropParticleFX extends EntityFX {
      */
     private int bobTimer;
 
+    /**
+     * Make a new instance.
+     * @param world The world.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     * @param particleRed Red color.
+     * @param particleGreen Green color.
+     * @param particleBlue Blue color.
+     */
     public ExtendedEntityDropParticleFX(World world, double x, double y, double z, float particleRed, float particleGreen, float particleBlue) {
         super(world, x, y, z, 0.0D, 0.0D, 0.0D);
         this.motionX = this.motionY = this.motionZ = 0.0D;
@@ -37,9 +48,6 @@ public class ExtendedEntityDropParticleFX extends EntityFX {
         this.motionX = this.motionY = this.motionZ = 0.0D;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     @Override
     public void onUpdate() {
         this.prevPosX = this.posX;

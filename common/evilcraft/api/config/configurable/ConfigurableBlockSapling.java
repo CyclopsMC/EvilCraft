@@ -18,18 +18,28 @@ import evilcraft.api.config.ExtendedConfig;
 import evilcraft.worldgen.WorldGeneratorUndeadTree;
 
 /**
- * Block that can hold ExtendedConfigs
+ * Block extending from a sapling that can hold ExtendedConfigs
  * @author Ruben Taelman
  *
  */
 public abstract class ConfigurableBlockSapling extends BlockSapling implements Configurable{
 
+    @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
 
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.BLOCK;
 
     private WorldGeneratorUndeadTree treeGenerator;
 
+    /**
+     * Make a new block instance.
+     * @param eConfig Config for this block.
+     * @param material Material of this block.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlockSapling(ExtendedConfig eConfig, Material material) {
         super(eConfig.ID);
         eConfig.ID = this.blockID; // This could've changed.
@@ -38,11 +48,12 @@ public abstract class ConfigurableBlockSapling extends BlockSapling implements C
         treeGenerator = new WorldGeneratorUndeadTree(true, this);
     }
 
-    // Set a configuration for this item
-    public void setConfig(ExtendedConfig eConfig) {
+    @Override
+    public void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
+    @Override
     public String getUniqueName() {
         return "blocks."+eConfig.NAMEDID;
     }
@@ -52,6 +63,7 @@ public abstract class ConfigurableBlockSapling extends BlockSapling implements C
         return Reference.MOD_ID+":"+eConfig.NAMEDID;
     }
 
+    @Override
     public boolean isEntity() {
         return false;
     }
@@ -67,30 +79,31 @@ public abstract class ConfigurableBlockSapling extends BlockSapling implements C
         return this.blockIcon;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void getSubBlocks(int id, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(id, 1, 0));
     }
 
     @Override
-    public int damageDropped(int par1) {
-        return par1;
+    public int damageDropped(int meta) {
+        return meta;
     }
 
     @Override
-    public boolean isSameSapling(World par1World, int par2, int par3, int par4, int par5) {
-        return par1World.getBlockId(par2, par3, par4) == this.blockID && (par1World.getBlockMetadata(par2, par3, par4)) == par5;
+    public boolean isSameSapling(World world, int x, int y, int z, int meta) {
+        return world.getBlockId(x, y, z) == this.blockID && (world.getBlockMetadata(x, y, z)) == meta;
     }
 
     @Override
-    public void growTree(World world, int x, int y, int z, Random rand) {
+    public void growTree(World world, int x, int y, int z, Random random) {
         if (world.isRemote) {
             return;
         }
 
         world.setBlockToAir(x, y, z);
 
-        if(!treeGenerator.growTree(world, rand, x, y, z)) {
+        if(!treeGenerator.growTree(world, random, x, y, z)) {
             world.setBlock(x, y, z, blockID, 0, 4);
         }
     }

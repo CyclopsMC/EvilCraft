@@ -2,6 +2,11 @@ package evilcraft.api.weather;
 
 import net.minecraft.world.World;
 
+/**
+ * Clear weather type.
+ * @author rubensworks
+ *
+ */
 public class WeatherTypeClear extends WeatherType {
     @Override
     public boolean isActive(World world) {

@@ -6,9 +6,13 @@ import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraftTab;
-import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 
+/**
+ * The action used for {@link ItemConfig}.
+ * @author rubensworks
+ * @see IElementTypeAction
+ */
 public class ItemAction extends IElementTypeAction<ItemConfig>{
 
     @Override

@@ -1,13 +1,14 @@
 package evilcraft.api.entities.tileentitites.tickaction;
 
+import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 /**
- * An action that can be given to TickComponents which are used inside Ticking TileEntities.
+ * An action that can be given to TickComponents which are used inside {@link TickingTankInventoryTileEntity}
  * @author rubensworks
- *
  * @param <T> Subclass of TileEntity
+ * @see TickComponent
  */
 public interface ITickAction<T extends TileEntity> {
     
@@ -17,7 +18,7 @@ public interface ITickAction<T extends TileEntity> {
      * @param itemStack The ItemStack that is in the slot for which this ticker runs.
      * @param slot The slot ID for the ticker.
      * @param tick The current tick.
-     * @return
+     * @return If the action can tick for the given parameters.
      */
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick);
     /**
@@ -32,7 +33,7 @@ public interface ITickAction<T extends TileEntity> {
      * Get the required conditions for the given conditions.
      * @param tile The tile entity that ticks.
      * @param slot The slot ID for the ticker.
-     * @return
+     * @return Get the required ticks for the given slot for the given tile.
      */
     public int getRequiredTicks(T tile, int slot);
     

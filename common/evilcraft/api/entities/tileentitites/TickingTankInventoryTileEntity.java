@@ -2,19 +2,20 @@ package evilcraft.api.entities.tileentitites;
 
 import java.util.LinkedList;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraftforge.fluids.Fluid;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
-import evilcraft.api.inventory.SimpleInventory;
 
 /**
  * A TileEntity with Tank and Inventory that can tick.
+ * It uses a list of {@link TickComponent} that are able to tick.
+ * And these components will contain a collection of {@link ITickAction}
+ * that can perform specific actions depending on the condition of the {@link TickComponent}.
  * @author rubensworks
- *
+ * @param <T> The subclass of {@link TankInventoryTileEntity}, will be in
+ * most cases just the extension class.
+ * @see TickComponent
  */
 public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTileEntity> extends TankInventoryTileEntity {
     
@@ -98,9 +99,20 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
         }
     }
     
+    /**
+     * Get the new (numerical) state for this tile entity.
+     * @return The new state.
+     */
     public abstract int getNewState();
+    /**
+     * What needs to happen when the (numerical) state is changed.
+     */
     public abstract void onStateChanged();
 
+    /**
+     * Get the current (numerical) state.
+     * @return The current tile entity state.
+     */
     public int getCurrentState() {
         return currentState;
     }

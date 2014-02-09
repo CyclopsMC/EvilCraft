@@ -6,30 +6,43 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.render.particle.EntityBloodSplashFX;
 
+/**
+ * Can extract blood from attacking mobs and {@link BloodStainedBlock}.
+ * @author rubensworks
+ *
+ */
 public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContainer {
     
     private static BloodExtractor _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new BloodExtractor(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static BloodExtractor getInstance() {
         return _instance;
     }
 
-    private BloodExtractor(ExtendedConfig eConfig) {
+    private BloodExtractor(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, BloodExtractorConfig.containerSize, Blood.getInstance());
         setPlaceFluids(true);
     }

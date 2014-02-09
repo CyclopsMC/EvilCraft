@@ -4,9 +4,6 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityBubbleFX;
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityPig;
@@ -21,13 +18,17 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
 import evilcraft.api.IInformationProvider;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
-import evilcraft.items.Broom;
 import evilcraft.items.BroomConfig;
 
+/**
+ * The excrement that is dropped by animals.
+ * @author rubensworks
+ *
+ */
 public class ExcrementPile extends ConfigurableBlock implements IInformationProvider {
     
     private static ExcrementPile _instance = null;
@@ -37,18 +38,26 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     private static final int POISON_DURATION = 3;
     private static final int PIG_BOOST_DURATION = 3;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new ExcrementPile(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static ExcrementPile getInstance() {
         return _instance;
     }
 
-    private ExcrementPile(ExtendedConfig eConfig) {
+    private ExcrementPile(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.clay);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
         this.setTickRandomly(true);
@@ -81,44 +90,46 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     }
     
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4) {
-        this.setBlockBoundsForPileDepth(par1IBlockAccess.getBlockMetadata(par2, par3, par4));
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+        this.setBlockBoundsForPileDepth(world.getBlockMetadata(x, y, z));
     }
     
-    protected void setBlockBoundsForPileDepth(int par1) {
-        int j = par1 & 7;
+    protected void setBlockBoundsForPileDepth(int meta) {
+        int j = meta & 7;
         float f = (float)(2 * (1 + j)) / 16.0F;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
     }
 
     @Override
-    public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4) {
-        int l = par1World.getBlockId(par2, par3 - 1, par4);        
+    public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+        int l = world.getBlockId(x, y - 1, z);        
         Block block = Block.blocksList[l];
         if (block == null) return false;
-        if (block == this && (par1World.getBlockMetadata(par2, par3 - 1, par4) & 7) == 7) return true;
-        if (!block.isLeaves(par1World, par2, par3 - 1, par4) && !Block.blocksList[l].isOpaqueCube()) return false;
-        return par1World.getBlockMaterial(par2, par3 - 1, par4).blocksMovement();
+        if (block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7) return true;
+        if (!block.isLeaves(world, x, y - 1, z) && !Block.blocksList[l].isOpaqueCube()) return false;
+        return world.getBlockMaterial(x, y - 1, z).blocksMovement();
     }
     
     @Override
     public boolean canHarvestBlock(EntityPlayer player, int meta) {
-        return player.getCurrentEquippedItem() != null && BroomConfig._instance.isEnabled() && player.getCurrentEquippedItem().itemID == BroomConfig._instance.ID;
+        return player.getCurrentEquippedItem() != null
+                && BroomConfig._instance.isEnabled()
+                && player.getCurrentEquippedItem().itemID == BroomConfig._instance.ID;
     }
 
     @Override
-    public void harvestBlock(World par1World, EntityPlayer par2EntityPlayer, int par3, int par4, int par5, int par6) {
-        super.harvestBlock(par1World, par2EntityPlayer, par3, par4, par5, par6);
-        par1World.setBlockToAir(par3, par4, par5);
+    public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+        super.harvestBlock(world, player, x, y, z, meta);
+        world.setBlockToAir(x, y, z);
     }
 
     @Override
-    public int quantityDropped(Random par1Random) {
+    public int quantityDropped(Random random) {
         return 1;
     }
     
     @Override
-    public int tickRate(World par1World) {
+    public int tickRate(World world) {
         return 100;
     }
 
@@ -145,8 +156,8 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     }
     
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random)
-    {
+    @Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
         if(random.nextInt(100) == 0) {
             int meta = world.getBlockMetadata(x, y, z);
             float height = (float)(meta + 1) / 8.0F;
@@ -163,8 +174,8 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
-        return par5 == 1 ? true : super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5);
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+        return side == 1 ? true : super.shouldSideBeRendered(world, x, y, z, side);
     }
 
     @Override
@@ -178,8 +189,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     }
     
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int neighbourBlockID)
-    {
+    public void onNeighborBlockChange(World world, int x, int y, int z, int neighbourBlockID) {
         if (!this.canPlaceBlockAt(world, x, y, z)) {
             world.setBlockToAir(x, y, z);
         }
@@ -214,6 +224,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
      * @param x X coordinate
      * @param y Y coordinate
      * @param z Z coordinate
+     * @return If this pile can become higher.
      */
     public static boolean canHeightenPileAt(World world, int x, int y, int z) {
         int meta = world.getBlockMetadata(x, y, z);
@@ -238,6 +249,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
         return IInformationProvider.INFO_PREFIX + "Will form below animals.";
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public void provideInformation(ItemStack itemStack,
             EntityPlayer entityPlayer, List list, boolean par4) {}

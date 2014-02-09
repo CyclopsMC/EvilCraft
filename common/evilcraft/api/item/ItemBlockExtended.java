@@ -8,16 +8,29 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.IInformationProvider;
 
+/**
+ * An extended {@link ItemBlock} that will automatically add information to the block
+ * item if that block implements {@link IInformationProvider}.
+ * @author rubensworks
+ *
+ */
 public class ItemBlockExtended extends ItemBlock {
 
     protected InformationProviderComponent informationProvider;
 
+    /**
+     * Make a new instance.
+     * @param blockID The block ID.
+     * @param block The block instance.
+     */
     public ItemBlockExtended(int blockID, Block block) {
         super(blockID);
         informationProvider = new InformationProviderComponent(block);
     }
     
+    @SuppressWarnings("rawtypes")
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {

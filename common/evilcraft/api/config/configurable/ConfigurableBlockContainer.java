@@ -6,10 +6,8 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
@@ -25,14 +23,18 @@ import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 /**
- * Block that can hold ExtendedConfigs
+ * Block with a tile entity that can hold ExtendedConfigs.
  * @author Ruben Taelman
  *
  */
 public abstract class ConfigurableBlockContainer extends BlockContainer implements Configurable{
     
+    @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
     
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.BLOCKCONTAINER;
     
     protected Random random;
@@ -43,6 +45,13 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     private boolean rotatable;
     protected Icon[] sideIcons = new Icon[Helpers.DIRECTIONS.size()];
     
+    /**
+     * Make a new block instance.
+     * @param eConfig Config for this block.
+     * @param material Material of this block.
+     * @param tileEntity The class of the tile entity this block holds.
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public ConfigurableBlockContainer(ExtendedConfig eConfig, Material material, Class<? extends EvilCraftTileEntity> tileEntity) {
         super(eConfig.ID, material);
         eConfig.ID = this.blockID; // This could've changed.
@@ -54,11 +63,15 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         setStepSound(Block.soundAnvilFootstep);
     }
     
+    /**
+     * Get the class of the tile entity this block holds.
+     * @return The tile entity class.
+     */
     public Class<? extends TileEntity> getTileEntity() {
         return this.tileEntity;
     }
 
-    // Set a configuration for this item
+    @SuppressWarnings("rawtypes")
     @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
@@ -69,6 +82,10 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         return "blocks."+eConfig.NAMEDID;
     }
     
+    /**
+     * If this block container has a corresponding GUI.
+     * @return If it has a GUI.
+     */
     public boolean hasGui() {
         return hasGui;
     }
@@ -193,14 +210,26 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
             return false;
     }
 
+    /**
+     * If this block can be rotated.
+     * @return Can be rotated.
+     */
     public boolean isRotatable() {
         return rotatable;
     }
 
+    /**
+     * Set whether of not this container must be able to be rotated.
+     * @param rotatable Can be rotated.
+     */
     public void setRotatable(boolean rotatable) {
         this.rotatable = rotatable;
     }
     
+    /**
+     * Get the texture path of the GUI.
+     * @return The path of the GUI for this block.
+     */
     public String getGuiTexture() {
         return Reference.TEXTURE_PATH_GUI + eConfig.NAMEDID + "_gui.png";
     }

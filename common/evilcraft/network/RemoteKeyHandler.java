@@ -26,6 +26,10 @@ public class RemoteKeyHandler implements IPacketHandler {
 	
 	private static RemoteKeyHandler _instance = null;
 	
+	/**
+	 * Get the unique instance.
+	 * @return Unique instance.
+	 */
 	public static RemoteKeyHandler getInstance() {
 		if (_instance == null)
 			_instance = new RemoteKeyHandler();
@@ -49,6 +53,12 @@ public class RemoteKeyHandler implements IPacketHandler {
 		}
 	}
 	
+	/**
+	 * Check if a player is pressing a key.
+	 * @param username The player username.
+	 * @param key The key identifier.
+	 * @return If the key is being pressed by that player.
+	 */
 	public boolean isKeyPressed(String username, String key) {
 		Map<String, Boolean> map = keysPressed.get(username);
 		if (map == null)
@@ -71,10 +81,19 @@ public class RemoteKeyHandler implements IPacketHandler {
 		map.put(keyDescr, pressed);
 	}
 	
+	/**
+	 * Removed the keypressed data for the given player.
+	 * @param username The username of the player.
+	 */
 	public void clearKeyData(String username) {
 		keysPressed.remove(username);
 	}
 	
+	/**
+     * Removed the given keypressed data for the given player.
+     * @param username The username of the player.
+	 * @param keys The keys to remove.
+     */
 	public void clearKeyData(String username, String[] keys) {
 		Map<String, Boolean> map = keysPressed.get(username);
 		if (map != null) {

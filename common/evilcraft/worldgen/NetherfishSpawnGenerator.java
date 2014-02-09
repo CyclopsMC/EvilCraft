@@ -2,22 +2,25 @@ package evilcraft.worldgen;
 
 import java.util.Random;
 
-import evilcraft.EvilCraft;
-import evilcraft.api.config.ElementTypeCategory;
-import evilcraft.api.config.configurable.ConfigurableProperty;
-import evilcraft.blocks.DarkOreConfig;
+import net.minecraft.world.World;
 import evilcraft.blocks.NetherfishSpawn;
 import evilcraft.blocks.NetherfishSpawnConfig;
-import net.minecraft.block.Block;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 
+/**
+ * WorldGenerator for netherfish spawn blocks.
+ * @author rubensworks
+ *
+ */
 public class NetherfishSpawnGenerator extends WorldGenMinableConfigurable{
     
+    /**
+     * Make a new instance.
+     */
     public NetherfishSpawnGenerator() {
         super(NetherfishSpawnConfig._instance.ID, 1, NetherfishSpawnConfig.veinsPerChunk, 1, 127);
     }
     
+    @Override
     public void loopGenerate(World world, Random rand, int chunkX, int chunkZ) {
         for(int k = 0; k < veinsPerChunk; k++){
             int firstBlockXCoord = chunkX + rand.nextInt(16);

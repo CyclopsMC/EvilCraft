@@ -5,13 +5,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.render.CustomRenderBlocks;
+import evilcraft.api.render.IMultiRenderPassBlock;
 import evilcraft.api.render.MultiPassBlockRenderer;
 
 /**
@@ -21,14 +21,24 @@ import evilcraft.api.render.MultiPassBlockRenderer;
  */
 public abstract class ConfigurableBlock extends Block implements Configurable, IMultiRenderPassBlock{
     
+    @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
+    
+    /**
+     * The type of this {@link Configurable}.
+     */
+    public static ElementType TYPE = ElementType.BLOCK;
     
     protected int pass = 0;
     protected CustomRenderBlocks renderer;
     protected boolean isInventoryBlock = false;
     
-    public static ElementType TYPE = ElementType.BLOCK;
-    
+    /**
+     * Make a new block instance.
+     * @param eConfig Config for this block.
+     * @param material Material of this block.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlock(ExtendedConfig eConfig, Material material) {
         super(eConfig.ID, material);
         eConfig.ID = this.blockID; // This could've changed.
@@ -36,11 +46,12 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
         this.setUnlocalizedName(this.getUniqueName());
     }
 
-    // Set a configuration for this item
-    public void setConfig(ExtendedConfig eConfig) {
+    @Override
+    public void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
+    @Override
     public String getUniqueName() {
         return "blocks."+eConfig.NAMEDID;
     }
@@ -56,6 +67,7 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
         return Reference.MOD_ID+":"+eConfig.NAMEDID;
     }
     
+    @Override
     public boolean isEntity() {
         return false;
     }

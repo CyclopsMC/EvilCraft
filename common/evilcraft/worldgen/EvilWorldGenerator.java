@@ -8,17 +8,24 @@ import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.common.IWorldGenerator;
 import evilcraft.GeneralConfig;
 import evilcraft.blocks.DarkOreConfig;
-import evilcraft.blocks.NetherfishSpawnConfig;
 import evilcraft.entities.monster.NetherfishConfig;
 
+/**
+ * Main world generator for this mod.
+ * @author rubensworks
+ *
+ */
 public class EvilWorldGenerator implements IWorldGenerator {
     
     private WorldGenMinableConfigurable darkOres;
     private WorldGenMinableConfigurable extraSilverfish;
     private WorldGenMinableConfigurable netherfish;
     
+    /**
+     * Make new instance.
+     */
     public EvilWorldGenerator() {
-        darkOres = new WorldGenMinableConfigurable(DarkOreConfig._instance.ID, DarkOreConfig._instance.blocksPerVein, DarkOreConfig._instance.veinsPerChunk, DarkOreConfig._instance.startY, DarkOreConfig._instance.endY);
+        darkOres = new WorldGenMinableConfigurable(DarkOreConfig._instance.ID, DarkOreConfig.blocksPerVein, DarkOreConfig.veinsPerChunk, DarkOreConfig.startY, DarkOreConfig.endY);
         extraSilverfish = new WorldGenMinableConfigurable(Block.silverfish.blockID, 8, GeneralConfig.silverfish_BlocksPerVein, GeneralConfig.silverfish_VeinsPerChunk, GeneralConfig.silverfish_StartY, GeneralConfig.silverfish_EndY);
         netherfish = new NetherfishSpawnGenerator();
     }

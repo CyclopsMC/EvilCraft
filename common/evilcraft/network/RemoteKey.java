@@ -20,20 +20,37 @@ import com.google.common.io.ByteStreams;
  *
  */
 public class RemoteKey {
-	// Name of the key
+	/**
+	 *  Name of the key
+	 */
 	public String name;
-	// True if the key is pressed, false otherwise
+	/**
+	 *  True if the key is pressed, false otherwise
+	 */
 	public boolean pressed;
 	
+	/**
+	 * Make a new instance.
+	 * @param kb The keybinding for this key.
+	 */
 	public RemoteKey(KeyBinding kb) {
 		this(kb.keyDescription, kb.pressed);
 	}
 	
+	/**
+     * Make a new instance.
+	 * @param name The name of this key.
+	 * @param pressed If this key is pressed.
+     */
 	public RemoteKey(String name, boolean pressed) {
 		this.name = name;
 		this.pressed = pressed;
 	}
 	
+	/**
+	 * Convert this key to a byte array.
+	 * @return The byte array.
+	 */
 	public byte[] toByteArray() {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 		DataOutputStream dataStream = new DataOutputStream(byteStream);
@@ -65,6 +82,11 @@ public class RemoteKey {
 		return res;
 	}
 	
+	/**
+	 * Get a remote key from a byte array.
+	 * @param data The byte array that contains an encoded byte array/
+	 * @return The remote key.
+	 */
 	public static RemoteKey fromByteArray(byte[] data) {
 		ByteArrayDataInput reader = ByteStreams.newDataInput(data);
 		RemoteKey res = null;

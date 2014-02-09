@@ -6,10 +6,23 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 
+/**
+ * Slot that is used for only acceepting infusable items.
+ * @author rubensworks
+ *
+ */
 public class SlotInfuse extends Slot {
     
     private TileBloodInfuser tile;
     
+    /**
+     * Make a new instance.
+     * @param inventory The inventory this slot will be in.
+     * @param index The index of this slot.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param tile The this slot is in.
+     */
     public SlotInfuse(IInventory inventory, int index, int x,
             int y, TileBloodInfuser tile) {
         super(inventory, index, x, y);

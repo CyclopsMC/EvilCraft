@@ -10,13 +10,14 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatMessageComponent;
 import evilcraft.api.Helpers;
 
+/**
+ * The EvilCraft command.
+ * @author rubensworks
+ *
+ */
 public class CommandEvilCraft implements ICommand {
     
     private static final String NAME = "evilcraft";
-    
-    public CommandEvilCraft() {
-        
-    }
     
     protected List<String> getAliases() {
         List<String> list = new LinkedList<String>();
@@ -61,6 +62,7 @@ public class CommandEvilCraft implements ICommand {
         return NAME + " " + possibilities;
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List getCommandAliases() {
         return this.getAliases();
@@ -94,6 +96,7 @@ public class CommandEvilCraft implements ICommand {
         return Helpers.isOp(icommandsender);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List addTabCompletionOptions(ICommandSender icommandsender,
             String[] astring) {

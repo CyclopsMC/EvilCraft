@@ -7,10 +7,21 @@ import evilcraft.api.config.configurable.ConfigurableFluid;
 import evilcraft.blocks.FluidBlockPoison;
 import evilcraft.fluids.Poison;
 
+/**
+ * Config for the {@link BucketPoison}.
+ * @author rubensworks
+ *
+ */
 public class BucketPoisonConfig extends ItemBucketConfig {
     
+    /**
+     * The unique instance.
+     */
     public static BucketPoisonConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public BucketPoisonConfig() {
         super(
             Reference.ITEM_BUCKETPOISON,

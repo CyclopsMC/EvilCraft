@@ -9,6 +9,11 @@ import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import evilcraft.Reference;
 
+/**
+ * A tick handler that is used to check the fart toggle keybinding and act accordingly.
+ * @author rubensworks
+ *
+ */
 public class FartTickHandler implements ITickHandler {
     private boolean fartEnabled = false;
     private boolean lastPressed = false;

@@ -12,11 +12,19 @@ import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 
-
+/**
+ * Villager that can hold ExtendedConfigs
+ * @author Ruben Taelman
+ *
+ */
 public class ConfigurableVillager implements Configurable, IVillageTradeHandler {
 
+    @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
     
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.VILLAGER;
     
     // The weights of the output - inputs must be less than than maxWeightDifference
@@ -30,19 +38,27 @@ public class ConfigurableVillager implements Configurable, IVillageTradeHandler 
     private int attemptAddRecipeUpperbound = 100;
     private int attemptAddRecipe = 0;
     
+    /**
+     * Make a new instance of a villager.
+     * @param eConfig The config for this villager.
+     */
+    @SuppressWarnings("rawtypes")
     protected ConfigurableVillager(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
     }
     
-    // Set a configuration for this villager
+    @SuppressWarnings({ "rawtypes" })
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
+    @Override
     public String getUniqueName() {
         return "villager."+eConfig.NAMEDID;
     }
     
+    @Override
     public boolean isEntity() {
         return true;
     }
@@ -128,19 +144,37 @@ public class ConfigurableVillager implements Configurable, IVillageTradeHandler 
         return min + random.nextInt(max - min);
     }
     
+    /**
+     * An ItemStack that has a certain weight that can be used to occur with a certain chance.
+     * @author rubensworks
+     *
+     */
     public class WeightedItemStack{
         private ItemStack itemStack;
         private int weight;
         
+        /**
+         * Make a new instance.
+         * @param itemStack The ItemStack to weigh.
+         * @param weight The weight of the ItemStack.
+         */
         public WeightedItemStack(ItemStack itemStack, int weight) {
             this.itemStack = itemStack;
             this.weight = weight;
         }
         
+        /**
+         * Get the ItemStack.
+         * @return The ItemStack.
+         */
         public ItemStack getItemStack() {
             return itemStack;
         }
         
+        /**
+         * Get the weight.
+         * @return The weight.
+         */
         public int getWeight() {
             return weight;
         }

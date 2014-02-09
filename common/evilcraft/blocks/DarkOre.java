@@ -2,26 +2,28 @@ package evilcraft.blocks;
 import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
-import evilcraft.EvilCraft;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
-import evilcraft.api.RenderHelpers;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
+import evilcraft.items.DarkGem;
 import evilcraft.items.DarkGemConfig;
 
+/**
+ * Ore that drops {@link DarkGem}.
+ * @author rubensworks
+ *
+ */
 public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     
     private static DarkOre _instance = null;
@@ -31,18 +33,26 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     
     private static final int GLOWINGMETA = 1;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new DarkOre(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static DarkOre getInstance() {
         return _instance;
     }
 
-    private DarkOre(ExtendedConfig eConfig) {
+    private DarkOre(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
         this.setTickRandomly(true);
         this.setHardness(3.0F);
@@ -50,96 +60,67 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
         MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 2); // Iron tier
     }
     
-    public int idDropped(int par1, Random random, int zero) {
+    @Override
+    public int idDropped(int meta, Random random, int zero) {
         if(DarkGemConfig._instance.isEnabled())
             return DarkGemConfig._instance.ID;
         else
             return zero;
     }
     
-    /**
-     * Returns the usual quantity dropped by the block plus a bonus of 1 to 'i' (inclusive).
-     */
-    public int quantityDroppedWithBonus(int par1, Random par2Random)
-    {
-        return this.quantityDropped(par2Random) + par2Random.nextInt(par1 + 1);
+    @Override
+    public int quantityDroppedWithBonus(int amount, Random random) {
+        return this.quantityDropped(random) + random.nextInt(amount + 1);
     }
 
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
-    public int quantityDropped(Random par1Random)
-    {
-        return MINIMUM_DROPS + par1Random.nextInt(INCREASE_DROPS);
+    @Override
+    public int quantityDropped(Random random) {
+        return MINIMUM_DROPS + random.nextInt(INCREASE_DROPS);
     }
     
-    /**
-     * Drops the block items with a specified chance of dropping the specified items
-     */
-    public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
-    {
-        super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, par7);
+    @Override
+    public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float dropchance, int fortune) {
+        super.dropBlockAsItemWithChance(world, x, y, z, meta, dropchance, fortune);
 
-        if (this.idDropped(par5, par1World.rand, par7) != this.blockID)
-        {
-            int j1 = 1 + par1World.rand.nextInt(INCREASE_XP);
-            this.dropXpOnBlockBreak(par1World, par2, par3, par4, j1);
+        if (this.idDropped(meta, world.rand, fortune) != this.blockID) {
+            int xp = 1 + world.rand.nextInt(INCREASE_XP);
+            this.dropXpOnBlockBreak(world, x, y, z, xp);
         }
     }
     
-    /**
-     * Returns an item stack containing a single instance of the current block type. 'i' is the block's subtype/damage
-     * and is ignored for blocks which do not support subtypes. Blocks which cannot be harvested should return null.
-     */
-    protected ItemStack createStackedBlock(int par1)
-    {
+    @Override
+    protected ItemStack createStackedBlock(int meta) {
         return new ItemStack(DarkOre._instance);
     }
     
-    /**
-     * How many world ticks before ticking
-     */
-    public int tickRate(World par1World)
-    {
+    @Override
+    public int tickRate(World world) {
         return 30;
     }
     
-    /**
-     * Called when the block is clicked by a player. Args: x, y, z, entityPlayer
-     */
-    public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
-    {
-        this.glow(par1World, par2, par3, par4);
-        super.onBlockClicked(par1World, par2, par3, par4, par5EntityPlayer);
+    @Override
+    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) {
+        this.glow(world, x, y, z);
+        super.onBlockClicked(world, x, y, z, player);
     }
 
-    /**
-     * Called whenever an entity is walking on top of this block. Args: world, x, y, z, entity
-     */
-    public void onEntityWalking(World par1World, int par2, int par3, int par4, Entity par5Entity)
-    {
-        this.glow(par1World, par2, par3, par4);
-        super.onEntityWalking(par1World, par2, par3, par4, par5Entity);
+    @Override
+    public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
+        this.glow(world, x, y, z);
+        super.onEntityWalking(world, x, y, z, entity);
     }
     
-    /**
-     * Called upon block activation (right click on the block.)
-     */
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
-    {
-        this.glow(par1World, par2, par3, par4);
-        return super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float motionX, float motionY, float motionZ) {
+        this.glow(world, x, y, z);
+        return super.onBlockActivated(world, x, y, z, player, meta, motionX, motionY, motionZ);
     }
     
     private boolean isGlowing(World world, int x, int y, int z) {
         return world.getBlockMetadata(x, y, z) == GLOWINGMETA;
     }
 
-    /**
-     * The darkore glows.
-     */
-    private void glow(World world, int x, int y, int z)
-    {
+    private void glow(World world, int x, int y, int z) {
         this.sparkle(world, x, y, z);
 
         if (!isGlowing(world, x, y, z)) {
@@ -148,70 +129,60 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
         }
     }
     
-    /**
-     * Ticks the block if it's been scheduled
-     */
-    public void updateTick(World world, int x, int y, int z, Random random)
-    {
+    @Override
+    public void updateTick(World world, int x, int y, int z, Random random) {
         if (isGlowing(world, x, y, z)) {
             world.setBlockMetadataWithNotify(x, y, z, 0, 2);// Flag=2 causes client update
         }
     }
     
-    /**
-     * A randomly called display update to be able to add particles or other items for display
-     */
-    public void randomDisplayTick(World world, int x, int y, int z, Random random)
-    {
+    @Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
         if (isGlowing(world, x, y, z)) {
             this.sparkle(world, x, y, z);
         }
     }
     
-    /**
-     * The darkore sparkles.
-     */
-    private void sparkle(World par1World, int par2, int par3, int par4)
-    {
-        Random random = par1World.rand;
-        double d0 = 0.0625D;
+    private void sparkle(World world, int x, int y, int z) {
+        Random random = world.rand;
+        double offset = 0.0625D;
 
         for (int l = 0; l < 6; ++l) {
-            double d1 = (double)((float)par2 + random.nextFloat());
-            double d2 = (double)((float)par3 + random.nextFloat());
-            double d3 = (double)((float)par4 + random.nextFloat());
+            double sparkX = (double)((float)x + random.nextFloat());
+            double sparkY = (double)((float)y + random.nextFloat());
+            double sparkZ = (double)((float)z + random.nextFloat());
 
-            if (l == 0 && !par1World.isBlockOpaqueCube(par2, par3 + 1, par4)) {
-                d2 = (double)(par3 + 1) + d0;
+            if (l == 0 && !world.isBlockOpaqueCube(x, y + 1, z)) {
+                sparkY = (double)(y + 1) + offset;
             }
 
-            if (l == 1 && !par1World.isBlockOpaqueCube(par2, par3 - 1, par4)) {
-                d2 = (double)(par3 + 0) - d0;
+            if (l == 1 && !world.isBlockOpaqueCube(x, y - 1, z)) {
+                sparkY = (double)(y + 0) - offset;
             }
 
-            if (l == 2 && !par1World.isBlockOpaqueCube(par2, par3, par4 + 1)) {
-                d3 = (double)(par4 + 1) + d0;
+            if (l == 2 && !world.isBlockOpaqueCube(x, y, z + 1)) {
+                sparkZ = (double)(z + 1) + offset;
             }
 
-            if (l == 3 && !par1World.isBlockOpaqueCube(par2, par3, par4 - 1)) {
-                d3 = (double)(par4 + 0) - d0;
+            if (l == 3 && !world.isBlockOpaqueCube(x, y, z - 1)) {
+                sparkZ = (double)(z + 0) - offset;
             }
 
-            if (l == 4 && !par1World.isBlockOpaqueCube(par2 + 1, par3, par4)) {
-                d1 = (double)(par2 + 1) + d0;
+            if (l == 4 && !world.isBlockOpaqueCube(x + 1, y, z)) {
+                sparkX = (double)(x + 1) + offset;
             }
 
-            if (l == 5 && !par1World.isBlockOpaqueCube(par2 - 1, par3, par4)) {
-                d1 = (double)(par2 + 0) - d0;
+            if (l == 5 && !world.isBlockOpaqueCube(x - 1, y, z)) {
+                sparkX = (double)(x + 0) - offset;
             }
 
-            if (d1 < (double)par2
-                    || d1 > (double)(par2 + 1)
-                    || d2 < 0.0D
-                    || d2 > (double)(par3 + 1)
-                    || d3 < (double)par4
-                    || d3 > (double)(par4 + 1)) {
-                par1World.spawnParticle("smoke", d1, d2, d3, 0.0D, 0.0D, 0.0D);
+            if (sparkX < (double)x
+                    || sparkX > (double)(x + 1)
+                    || sparkY < 0.0D
+                    || sparkY > (double)(y + 1)
+                    || sparkZ < (double)z
+                    || sparkZ > (double)(z + 1)) {
+                world.spawnParticle("smoke", sparkX, sparkY, sparkZ, 0.0D, 0.0D, 0.0D);
             }
         }
     }
@@ -227,6 +198,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
     
     @SideOnly(Side.CLIENT)
+    @Override
     public Icon getIcon(int side, int meta, int renderPass) {
         if(renderPass == 1) {
             return this.blockIcon;
@@ -240,6 +212,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
         return IInformationProvider.INFO_PREFIX + "Found between levels "+DarkOreConfig.startY+" and "+DarkOreConfig.endY;
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public void provideInformation(ItemStack itemStack,
             EntityPlayer entityPlayer, List list, boolean par4) {}

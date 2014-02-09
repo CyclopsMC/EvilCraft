@@ -2,17 +2,16 @@ package evilcraft.worldgen;
 
 import java.util.Random;
 
-import evilcraft.blocks.UndeadLeaves;
-import evilcraft.blocks.UndeadSapling;
-import evilcraft.blocks.UndeadLog;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.ForgeDirection;
+import evilcraft.blocks.UndeadLeaves;
+import evilcraft.blocks.UndeadLog;
 
 /**
+ * WorldGenerator for Undead Trees.
  * Inspired by MFR tree generator
  * @author rubensworks
  *
@@ -23,13 +22,19 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
     private Block leaves = UndeadLeaves.getInstance();
     private Block logs = UndeadLog.getInstance();
 
-    public WorldGeneratorUndeadTree()
-    {
+    /**
+     * Make a new instance.
+     */
+    public WorldGeneratorUndeadTree() {
         super();
     }
 
-    public WorldGeneratorUndeadTree(boolean doNotify, Block sapling)
-    {
+    /**
+     * Make a new instance.
+     * @param doNotify If the generator should notify the world.
+     * @param sapling The sapling for this tree.
+     */
+    public WorldGeneratorUndeadTree(boolean doNotify, Block sapling) {
         super(doNotify);
         this.sapling = sapling;
     }
@@ -53,6 +58,15 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
         return true;
     }
 
+    /**
+     * Grow an Undead Tree at the given location.
+     * @param world The world.
+     * @param rand Random object.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     * @return If the tree was grown.
+     */
     public boolean growTree(World world, Random rand, int x, int y, int z) {
         int treeHeight = rand.nextInt(9) + 4;
         int worldHeight = world.getHeight();

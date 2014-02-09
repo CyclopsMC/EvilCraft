@@ -1,15 +1,27 @@
 package evilcraft.api.config;
 
-import evilcraft.api.Helpers;
-import evilcraft.api.render.AlphaItemRenderer;
-import evilcraft.items.DarkStick;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
+import evilcraft.api.Helpers;
+import evilcraft.api.render.AlphaItemRenderer;
 
+/**
+ * Config for items.
+ * @author rubensworks
+ * @see ExtendedConfig
+ */
 public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
 
+    /**
+     * Make a new instance.
+     * @param defaultId The default ID for the configurable.
+     * @param name The name for the configurable.
+     * @param namedId The unique name ID for the configurable.
+     * @param comment The comment to add in the config file for this configurable.
+     * @param element The class of this configurable.
+     */
     public ItemConfig(int defaultId, String name, String namedId,
             String comment, Class<? extends Item> element) {
         super(defaultId, name, namedId, comment, element);

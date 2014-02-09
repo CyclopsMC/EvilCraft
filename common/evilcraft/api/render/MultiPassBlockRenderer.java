@@ -13,7 +13,6 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.api.Helpers;
 import evilcraft.api.RenderHelpers;
-import evilcraft.api.config.configurable.IMultiRenderPassBlock;
 
 
 /**
@@ -23,8 +22,11 @@ import evilcraft.api.config.configurable.IMultiRenderPassBlock;
  */
 public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
     
+    /**
+     * The ID for this renderer.
+     */
     public static int ID = RenderingRegistry.getNextAvailableRenderId();
-    public CustomRenderBlocks renderBlocks = new CustomRenderBlocks();
+    protected CustomRenderBlocks renderBlocks = new CustomRenderBlocks();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {

@@ -1,36 +1,45 @@
 package evilcraft.blocks;
-import java.lang.reflect.Field;
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityFallingSand;
 import net.minecraft.world.World;
 import evilcraft.api.Helpers;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.fluids.Blood;
 
+/**
+ * A block for the {@link Blood} fluid.
+ * @author rubensworks
+ *
+ */
 public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     
     private static final int CHANCE_HARDEN = 10;
 
     private static FluidBlockBlood _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new FluidBlockBlood(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static FluidBlockBlood getInstance() {
         return _instance;
     }
 
-    private FluidBlockBlood(ExtendedConfig eConfig) {
+    private FluidBlockBlood(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Blood.getInstance(), Material.water);
         
         if (Helpers.isClientSide())

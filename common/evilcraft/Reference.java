@@ -1,17 +1,19 @@
 package evilcraft;
 
 /**
- * Class that can hold basic static mod info details
+ * Class that can hold basic static things that are better not hard-coded
+ * like mod details, texture paths, ID's...
  * @author Ruben Taelman
  *
  */
+@SuppressWarnings("javadoc")
 public class Reference {
     // Mod info
     public static final String MOD_ID = "evilcraft";
     public static final String MOD_NAME = "EvilCraft";
     public static final String MOD_VERSION = "@VERSION@";
     
-    public static final String MOD_CHANNEL = "evilcraft";
+    public static final String MOD_CHANNEL = MOD_ID;
     
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";
@@ -19,6 +21,7 @@ public class Reference {
     public static final String TEXTURE_PATH_MODELS = "textures/models/";
     public static final String TEXTURE_PATH_ENTITIES = "textures/entities/";
     public static final String TEXTURE_PATH_GUIBACKGROUNDS = "textures/gui/title/background/";
+    public static final String TEXTURE_PATH_ITEMS = "textures/items/";
     
     // Block ID's
     public static final int BLOCK_BLOODSTAINEDDIRT = 3846;

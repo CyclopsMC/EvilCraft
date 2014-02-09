@@ -63,12 +63,25 @@ import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
 import evilcraft.items.WerewolfFurConfig;
 
+/**
+ * This class holds a set of all the configs that need to be registered.
+ * @author rubensworks
+ *
+ */
 public class Configs {
     
     private static Configs _instance;
     
+    /**
+     * The set of configs.
+     */
+    @SuppressWarnings("rawtypes")
     public Set<ExtendedConfig> configs = ConfigHandler.getInstance(); // Order is necessary for some registrations
     
+    /**
+     * Get the unique instance.
+     * @return Unique instance.
+     */
     public static Configs getInstance() {
         if(_instance == null)
             _instance = new Configs();
@@ -79,17 +92,26 @@ public class Configs {
         
     }
     
+    /**
+     * Register the general configs. They won't be checked with the config debugger.
+     */
     public void registerGeneralConfigs() {
         // General
         configs.add(new GeneralConfig());
     }
     
+    /**
+     * Register ore dictionary keys for vanilla items/blocks.
+     */
     public void registerVanillaDictionary() {
         OreDictionary.registerOre(Reference.DICT_MATERIALGLASS, new ItemStack(Block.glass));
         OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Item.poisonousPotato));
         OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Item.bone));
     }
     
+    /**
+     * Register all the configs.
+     */
     public void registerConfigs() {        
         // Fluids
         configs.add(new BloodConfig());

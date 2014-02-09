@@ -5,14 +5,28 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import evilcraft.Reference;
+import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.entities.tileentities.EvilCraftBeaconTileEntity;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
+import evilcraft.items.WeatherContainerConfig;
 
+/**
+ * Renderer for the {@link EnvironmentalAccumulator}.
+ * @author rubensworks
+ *
+ */
 public class TileEntityEnvironmentalAccumulatorRenderer extends TileEntityBeaconRenderer {
-    // TODO: this should not be hardcoded
-    private static final ResourceLocation WEATHER_CONTAINER_TEXTURE = new ResourceLocation("evilcraft:textures/items/weatherContainer.png");
+
+    private ResourceLocation weatherContainerTexture;
     
     private static final int ITEM_SPIN_SPEED = 3;
+    
+    private ResourceLocation getResourceLocation() {
+        if(weatherContainerTexture == null)
+            weatherContainerTexture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ITEMS + WeatherContainerConfig._instance.NAMEDID + ".png");
+        return weatherContainerTexture;
+    }
     
     @Override
     public void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime) {
@@ -28,7 +42,7 @@ public class TileEntityEnvironmentalAccumulatorRenderer extends TileEntityBeacon
     private void renderMovingWeatherContainer(TileEnvironmentalAccumulator tileentity, double x, double y, double z, float partialTickTime) {
         GL11.glPushMatrix();
         
-        bindTexture(WEATHER_CONTAINER_TEXTURE);
+        bindTexture(getResourceLocation());
         GL11.glDisable(GL11.GL_LIGHTING);
         
         float f2 = (float)tileentity.getWorldObj().getTotalWorldTime() + partialTickTime;

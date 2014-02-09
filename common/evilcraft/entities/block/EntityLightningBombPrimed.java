@@ -2,36 +2,57 @@ package evilcraft.entities.block;
 
 import java.util.Random;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import com.sun.xml.internal.stream.Entity;
+
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.blocks.LightningBomb;
 
+/**
+ * Entity for primed {@link LightningBomb}.
+ * @author rubensworks
+ *
+ */
 public class EntityLightningBombPrimed extends EntityTNTPrimed implements Configurable{
     
-    protected ExtendedConfig eConfig = null;
+    protected ExtendedConfig<?> eConfig = null;
     
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.ENTITY;
     
     private static final float EXPLOSION_STRENGTH = 1.0f;
 
-    // Set a configuration for this entity
+    @Override
+    @SuppressWarnings({ "rawtypes" })
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
-    public EntityLightningBombPrimed(World par1World) {
-        super(par1World);
+    /**
+     * Make a new instance in the given world.
+     * @param world The world to make it in.
+     */
+    public EntityLightningBombPrimed(World world) {
+        super(world);
         setFuse();
     }
     
+    /**
+     * Make a new instance at the given location in a world by a placer {@link EntityLivingBase}.
+     * @param world The world.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     * @param placer The {@link EntityLivingBase} that placed this {@link Entity}.
+     */
     public EntityLightningBombPrimed(World world, double x, double y, double z, EntityLivingBase placer) {
         super(world, x, y, z, placer);
         setFuse();

@@ -1,17 +1,40 @@
 package evilcraft.render.particle;
 
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
+/**
+ * A fart special effect.
+ * @author immortaleeb
+ *
+ */
 public class EntityFartFX extends EntityFX {
     
+    /**
+     * Make a new instance.
+     * @param world The world.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     * @param rainbow If it should have rainbow colors.
+     */
     public EntityFartFX(World world, double x, double y, double z, boolean rainbow) {
         super(world, x, y, z);
         
         setParticleSettings(rainbow);
     }
 
+    /**
+     * Make a new instance.
+     * @param world The world.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     * @param motionX X axis speed.
+     * @param motionY Y axis speed.
+     * @param motionZ Z axis speed.
+     * @param rainbow If it should have rainbow colors.
+     */
     public EntityFartFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow) {
         super(world, x, y, z, motionX, motionY, motionZ);
         

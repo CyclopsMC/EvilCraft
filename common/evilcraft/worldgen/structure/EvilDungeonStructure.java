@@ -1,4 +1,4 @@
-package evilcraft.worldgen;
+package evilcraft.worldgen.structure;
 
 import java.util.Random;
 

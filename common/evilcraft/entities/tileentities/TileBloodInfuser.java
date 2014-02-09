@@ -5,15 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.omg.CORBA.Current;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.CustomRecipe;
@@ -32,33 +29,65 @@ import evilcraft.entities.tileentities.tickaction.bloodinfuser.ItemBucketTickAct
 import evilcraft.fluids.Blood;
 import evilcraft.gui.slot.SlotFluidContainer;
 
+/**
+ * A machine that can infuse things with blood.
+ * @author rubensworks
+ *
+ */
 public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodInfuser> {
     
+    /**
+     * The total amount of slots in this machine.
+     */
     public static final int SLOTS = 3;
+    /**
+     * The id of the fluid container drainer slot.
+     */
     public static final int SLOT_CONTAINER = 0;
+    /**
+     * The id of the infusion slot.
+     */
     public static final int SLOT_INFUSE = 1;
+    /**
+     * The id of the infusion result slot.
+     */
     public static final int SLOT_INFUSE_RESULT = 2;
     
+    /**
+     * The name of the tank, used for NBT storage.
+     */
     public static String TANKNAME = "bloodInfuserTank";
+    /**
+     * The capacity of the tank.
+     */
     public static final int LIQUID_PER_SLOT = FluidContainerRegistry.BUCKET_VOLUME * 10;
+    /**
+     * The amount of ticks per mB the tank can accept per tick.
+     */
     public static final int TICKS_PER_LIQUID = 2;
+    /**
+     * The fluid that is accepted in the tank.
+     */
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
     
     private int infuseTicker;
     
-    public static final Map<Class<?>, ITickAction<TileBloodInfuser>> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
+    private static final Map<Class<?>, ITickAction<TileBloodInfuser>> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
     static {
         INFUSE_TICK_ACTIONS.put(ItemBucket.class, new ItemBucketTickAction());
         INFUSE_TICK_ACTIONS.put(IFluidContainerItem.class, new FluidContainerItemTickAction());
         INFUSE_TICK_ACTIONS.put(Item.class, new InfuseItemTickAction());
     }
     
-    public static final Map<Class<?>, ITickAction<TileBloodInfuser>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
+    private static final Map<Class<?>, ITickAction<TileBloodInfuser>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
     static {
         EMPTY_IN_TANK_TICK_ACTIONS.put(ItemBucket.class, new EmptyItemBucketInTankTickAction<TileBloodInfuser>());
         EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileBloodInfuser>());
     }
     
+    /**
+     * Make a new instance.
+     */
     public TileBloodInfuser() {
         super(
                 SLOTS,
@@ -93,6 +122,11 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodIn
         addSlotsToSide(ForgeDirection.WEST, outSlots);
     }
     
+    /**
+     * Check if the given item can be infused.
+     * @param itemStack The item to check.
+     * @return If it can be infused.
+     */
     public boolean canConsume(ItemStack itemStack) {
         // Empty bucket
         if(itemStack.getItem().itemID == Item.bucketEmpty.itemID
@@ -123,10 +157,18 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodIn
         return false;
     }
     
+    /**
+     * Get the id of the infusion slot.
+     * @return id of the infusion slot.
+     */
     public int getConsumeSlot() {
         return SLOT_INFUSE;
     }
 
+    /**
+     * Get the id of the result slot.
+     * @return id of the result slot.
+     */
     public int getProduceSlot() {
         return SLOT_INFUSE_RESULT;
     }

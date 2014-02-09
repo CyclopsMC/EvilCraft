@@ -51,8 +51,6 @@ import evilcraft.items.BloodInfusionCore;
 import evilcraft.items.BloodInfusionCoreConfig;
 import evilcraft.items.BloodPearlOfTeleportation;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
-import evilcraft.items.BucketBlood;
-import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.BucketPoison;
 import evilcraft.items.BucketPoisonConfig;
 import evilcraft.items.DarkGem;
@@ -71,11 +69,22 @@ import evilcraft.items.WeatherContainerConfig;
 
 /**
  * Holder class of all the recipes.
+ * @author rubensworks
+ *
  */
 public class Recipes {
 
+    /**
+     * The extra buckets that are added with this mod.
+     */
     public static Map<Item, FluidStack> BUCKETS = new HashMap<Item, FluidStack>();
 
+    /**
+     * A safe way to check if an item (config) is enabled. @see ExtendedConfig#isEnabled()
+     * @param config The config to check.
+     * @return If the given config is enabled.
+     */
+    @SuppressWarnings("rawtypes")
     public static boolean isItemEnabled(Class<? extends ExtendedConfig> config) {
         try {
             return ((ExtendedConfig)config.getField("_instance").get(null)).isEnabled();
@@ -92,6 +101,9 @@ public class Recipes {
         }
     }
 
+    /**
+     * Register all the recipes of this mod.
+     */
     public static void registerRecipes() {        
         // 9 DarkGems -> 1 DarkBlock
         if(isItemEnabled(DarkGemConfig.class) && isItemEnabled(DarkBlockConfig.class)) {
@@ -317,11 +329,10 @@ public class Recipes {
     private static void registerInterModRecipes() {
         registerThermalExpansionRecipes();
     }
-
     private static void registerThermalExpansionRecipes() {
         String TE = Reference.MOD_THERMALEXPANSION;
         if(Loader.isModLoaded(TE)) {
-            System.out.println("Registering "+TE+" recipes");
+            EvilCraft.log("Registering " + TE + " recipes");
             // Sawmill undead wood
             NBTTagCompound sawmillUndeadWood = new NBTTagCompound();
             sawmillUndeadWood.setInteger("energy", 2000);

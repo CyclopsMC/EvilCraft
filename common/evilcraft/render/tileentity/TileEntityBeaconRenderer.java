@@ -27,7 +27,7 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer {
 		renderBeacon((EvilCraftBeaconTileEntity)tileentity, x, y, z, partialTickTime);
 	}
 	
-	public void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime) {
+	protected void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime) {
 		float f1 = tileentity.getBeamRenderVariable();
 
         if (tileentity.isBeamActive())

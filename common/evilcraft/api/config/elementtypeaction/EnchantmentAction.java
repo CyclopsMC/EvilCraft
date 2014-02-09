@@ -4,6 +4,11 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import evilcraft.api.config.EnchantmentConfig;
 
+/**
+ * The action used for {@link EnchantmentConfig}.
+ * @author rubensworks
+ * @see IElementTypeAction
+ */
 public class EnchantmentAction extends IElementTypeAction<EnchantmentConfig>{
 
     @Override

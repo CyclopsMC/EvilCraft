@@ -5,6 +5,11 @@ import net.minecraft.client.renderer.ChestItemRenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import evilcraft.blocks.BloodChest;
 
+/**
+ * Helper for rendering the {@link BloodChest}.
+ * @author rubensworks
+ *
+ */
 public class BloodChestItemRenderHelper extends ChestItemRenderHelper {
 
     @Override

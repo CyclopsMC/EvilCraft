@@ -1,14 +1,23 @@
 package evilcraft.items;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.Reference;
 import evilcraft.api.config.ItemConfig;
 
+/**
+ * Config for the {@link PoisonSac}.
+ * @author rubensworks
+ *
+ */
 public class PoisonSacConfig extends ItemConfig {
     
+    /**
+     * The unique instance.
+     */
     public static PoisonSacConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public PoisonSacConfig() {
         super(
             Reference.ITEM_POISONSAC,

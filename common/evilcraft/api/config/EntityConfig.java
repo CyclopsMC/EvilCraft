@@ -6,8 +6,23 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.proxies.ClientProxy;
 
+/**
+ * Config for entities.
+ * For mobs, there is the {@link MobConfig}.
+ * For entities with custom models there is {@link ModelEntityConfig}.
+ * @author rubensworks
+ * @see ExtendedConfig
+ */
 public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
 
+    /**
+     * Make a new instance.
+     * @param defaultId The default ID for the configurable.
+     * @param name The name for the configurable.
+     * @param namedId The unique name ID for the configurable.
+     * @param comment The comment to add in the config file for this configurable.
+     * @param element The class of this configurable.
+     */
     public EntityConfig(int defaultId, String name, String namedId,
             String comment, Class<? extends Entity> element) {
         super(defaultId, name, namedId, comment, element);
@@ -16,13 +31,14 @@ public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
     @Override
     @SideOnly(Side.CLIENT)
     public void onRegistered() {
+        @SuppressWarnings("unchecked")
         Class<? extends Entity> clazz = (Class<? extends Entity>) this.ELEMENT;
         ClientProxy.ENTITY_RENDERERS.put(clazz, getRender());
     }
     
     /**
      * The range at which MC will send tracking updates.
-     * @return
+     * @return The tracking range.
      */
     public int getTrackingRange() {
         return 160;
@@ -30,7 +46,7 @@ public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
     
     /**
      * The frequency of tracking updates.
-     * @return
+     * @return The update frequency.
      */
     public int getUpdateFrequency() {
         return 10;
@@ -38,7 +54,7 @@ public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
     
     /**
      * Whether to send velocity information packets as well.
-     * @return
+     * @return Send velocity updates?
      */
     public boolean sendVelocityUpdates() {
         return false;

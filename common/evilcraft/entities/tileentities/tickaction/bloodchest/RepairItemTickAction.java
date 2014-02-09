@@ -9,6 +9,11 @@ import evilcraft.blocks.BloodChestConfig;
 import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.entities.tileentities.TileBloodChest;
 
+/**
+ * {@link ITickAction} that can repair items using blood.
+ * @author rubensworks
+ *
+ */
 public class RepairItemTickAction implements ITickAction<TileBloodChest> {
     
     protected final static int MB_PER_DAMAGE = 10;

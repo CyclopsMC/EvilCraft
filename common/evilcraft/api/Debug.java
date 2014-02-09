@@ -15,6 +15,7 @@ import evilcraft.api.config.ExtendedConfig;
 public class Debug {
     
     private static String CONFIGCHECKER_PREFIX = "[CONFIGCHECKER] ";
+    @SuppressWarnings("rawtypes")
     private static Set<ExtendedConfig> savedConfigs = new HashSet<ExtendedConfig>();
     
     private static boolean ok = true;
@@ -23,6 +24,7 @@ public class Debug {
      * Loops over the list of configs and checks their correctness.
      * @param configs List of configs
      */
+    @SuppressWarnings("rawtypes")
     public static void checkPreConfigurables(Set<ExtendedConfig> configs) {
         for(ExtendedConfig config : configs) {
             // _instance field on ExtendedConfig
@@ -42,6 +44,7 @@ public class Debug {
     /**
      * Loops over the list of configs (was saved from the Pre call) and checks their correctness.
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static void checkPostConfigurables() {
         for(ExtendedConfig config : savedConfigs) {            
             if(config.getHolderType().hasUniqueInstance()) {

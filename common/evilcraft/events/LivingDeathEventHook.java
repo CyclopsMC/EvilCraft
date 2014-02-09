@@ -2,8 +2,6 @@ package evilcraft.events;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -14,7 +12,6 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
-import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.api.HotbarIterator;
 import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.BloodStainedBlockConfig;
@@ -22,8 +19,17 @@ import evilcraft.fluids.Blood;
 import evilcraft.items.BloodExtractor;
 import evilcraft.render.particle.EntityBloodSplashFX;
 
+/**
+ * Event for {@link LivingDeathEvent}.
+ * @author rubensworks
+ *
+ */
 public class LivingDeathEventHook {
 
+    /**
+     * When a living death event is received.
+     * @param event The received event.
+     */
     @ForgeSubscribe(priority = EventPriority.NORMAL)
     public void onLivingDeath(LivingDeathEvent event) {
         bloodObtainEvent(event);

@@ -7,13 +7,27 @@ import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.configurable.ConfigurableProperty;
 import evilcraft.api.item.ItemBlockMetadata;
 
+/**
+ * Config for the {@link NetherfishSpawn}.
+ * @author rubensworks
+ *
+ */
 public class NetherfishSpawnConfig extends BlockConfig {
     
+    /**
+     * The unique instance.
+     */
+    public static NetherfishSpawnConfig _instance;
+    
+    /**
+     * The amount of veins per chunk.
+     */
     @ConfigurableProperty(category = ElementTypeCategory.OREGENERATION, comment = "How many veins per chunk.")
     public static int veinsPerChunk = 250;
-    
-    public static NetherfishSpawnConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public NetherfishSpawnConfig() {
         super(
             Reference.BLOCK_DARKBLOCK,

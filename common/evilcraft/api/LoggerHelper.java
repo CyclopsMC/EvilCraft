@@ -7,7 +7,8 @@ import cpw.mods.fml.common.FMLLog;
 import evilcraft.Reference;
 
 /**
- * Based on iChun's LoggerHelper: https://github.com/iChun/iChunUtil/blob/master/ichun/core/LoggerHelper.java
+ * Based on iChun's LoggerHelper.
+ * @see <a href="https://github.com/iChun/iChunUtil/blob/master/ichun/core/LoggerHelper.java">iChun LoggerHelper</a>
  * @author rubensworks
  *
  */
@@ -15,18 +16,28 @@ public class LoggerHelper
 {
     private static Logger logger = Logger.getLogger(Reference.MOD_NAME);
 
-    public static void init()
-    {
+    /**
+     * Initialize the logger.
+     */
+    public static void init() {
         logger.setParent(FMLLog.getLogger());
     }
-
-    public static void log(Level logLevel, String message)
-    {
+    
+    /**
+     * Log a new message.
+     * @param logLevel The level to log at.
+     * @param message The message to log.
+     */
+    public static void log(Level logLevel, String message) {
         logger.log(logLevel, message);
     }
 
-    public static Logger createLogger(String s)
-    {
+    /**
+     * Create a new logger.
+     * @param s The id of the logger.
+     * @return The logger.
+     */
+    public static Logger createLogger(String s) {
         Logger logger = Logger.getLogger(s);
         logger.setParent(FMLLog.getLogger());
         return logger;

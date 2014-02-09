@@ -1,21 +1,27 @@
 package evilcraft.items;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
 import evilcraft.Reference;
-import evilcraft.api.BucketHandler;
 import evilcraft.api.config.ItemBucketConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.api.config.configurable.ConfigurableFluid;
 import evilcraft.blocks.FluidBlockBlood;
 import evilcraft.fluids.Blood;
 
+/**
+ * Config for the {@link BucketBlood}.
+ * @author rubensworks
+ *
+ */
 public class BucketBloodConfig extends ItemBucketConfig {
     
+    /**
+     * The unique instance.
+     */
     public static BucketBloodConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public BucketBloodConfig() {
         super(
             Reference.ITEM_BUCKETBLOOD,

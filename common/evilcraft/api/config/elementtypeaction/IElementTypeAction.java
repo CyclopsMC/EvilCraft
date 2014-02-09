@@ -2,16 +2,23 @@ package evilcraft.api.config.elementtypeaction;
 
 import net.minecraftforge.common.Configuration;
 import evilcraft.EvilCraft;
+import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
 
 /**
- * An action that can be used to register Configurables
+ * An action that can be used to register Configurables.
+ * Used inside of {@link ConfigHandler}.
  * @author Ruben Taelman
  * @param <C> The subclass of ExtendedConfig
- *
+ * @see ConfigHandler
  */
 public abstract class IElementTypeAction<C extends ExtendedConfig<C>> {
     
+    /**
+     * The common run method for all the subtypes of {@link IElementTypeAction}.
+     * @param eConfig The config to be registered.
+     * @param config The config file reference.
+     */
     public void commonRun(ExtendedConfig<C> eConfig, Configuration config) {
         preRun(eConfig.downCast(), config);
         if(eConfig.isEnabled()) {

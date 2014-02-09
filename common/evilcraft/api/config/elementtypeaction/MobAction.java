@@ -1,8 +1,6 @@
 package evilcraft.api.config.elementtypeaction;
 
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -11,6 +9,11 @@ import evilcraft.api.Helpers;
 import evilcraft.api.config.MobConfig;
 import evilcraft.proxies.ClientProxy;
 
+/**
+ * The action used for {@link MobConfig}.
+ * @author rubensworks
+ * @see IElementTypeAction
+ */
 public class MobAction extends IElementTypeAction<MobConfig>{
 
     @Override
@@ -18,6 +21,7 @@ public class MobAction extends IElementTypeAction<MobConfig>{
         if(!eConfig.isEnabled()) eConfig.ID = 0;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void postRun(MobConfig eConfig, Configuration config) {
         // Save the config inside the correct element

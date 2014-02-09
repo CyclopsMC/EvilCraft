@@ -13,6 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
 import evilcraft.api.weather.WeatherType;
 import evilcraft.entities.item.EntityWeatherContainer;
@@ -33,37 +34,42 @@ public class WeatherContainer extends ConfigurableItem {
     
     private static WeatherContainer _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    private Icon overlay;
+    
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new WeatherContainer(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static WeatherContainer getInstance() {
         return _instance;
     }
-    
-    private Icon overlay;
 
-    private WeatherContainer(ExtendedConfig eConfig) {
+    private WeatherContainer(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setMaxStackSize(1);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
     }
     
-    /**
-     * returns the action that specifies what animation to play when the items is being used
-     */
-    public EnumAction getItemUseAction(ItemStack itemStack)
-    {
+    @Override
+    public EnumAction getItemUseAction(ItemStack itemStack) {
         return EnumAction.bow;
     }
     
+    @Override
     @SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses()
-    {
+    public boolean requiresMultipleRenderPasses() {
         return true;
     }
     
@@ -72,24 +78,24 @@ public class WeatherContainer extends ConfigurableItem {
         return 2;
     }
     
+    /**
+     * Get the overlay color from a damage value.
+     * @param damage The damage value.
+     * @return The color.
+     */
     @SideOnly(Side.CLIENT)
-    public int getColorFromDamage(int damage)
-    {
+    public int getColorFromDamage(int damage) {
         return getWeatherContainerType(damage).damageRenderColor;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int renderPass)
-    {
+    public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
         return renderPass > 0 ? 16777215 : this.getColorFromDamage(itemStack.getItemDamage());
     }
     
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
-    {
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         if(!world.isRemote && getWeatherContainerType(itemStack) != WeatherContainerTypes.EMPTY) {
             world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             world.spawnEntityInWorld(new EntityWeatherContainer(world, player, itemStack));
@@ -100,48 +106,48 @@ public class WeatherContainer extends ConfigurableItem {
         return itemStack;
     }
     
+    /**
+     * When the actual usage of the container should be called.
+     * @param world The world.
+     * @param itemStack The weather container that was thrown.
+     */
     public void onUse(World world, ItemStack itemStack) {
         getWeatherContainerType(itemStack).onUse(world, itemStack);
     }
     
+    /**
+     * When the actual filling of the container should be called.
+     * @param world The world.
+     * @param itemStack The weather container that was filled.
+     */
     public void onFill(World world, ItemStack itemStack) {
         getWeatherContainerType(itemStack).onFill(world, itemStack);
     }
     
-    /**
-     * Display the contained weather
-     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
-    {
-        //String s1 = StatCollector.translateToLocal("potion.empty").trim();
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         WeatherContainerTypes type = getWeatherContainerType(itemStack);
-        
         list.add(type.damageColor + type.description);
     }
     
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
-    {
+    public void registerIcons(IconRegister iconRegister) {
         itemIcon = iconRegister.registerIcon(getIconString());
         overlay = iconRegister.registerIcon(getIconString() + "_overlay");
     }
     
-    /**
-     * Gets an icon index based on an item's damage value and the given render pass
-     */
-    public Icon getIconFromDamageForRenderPass(int par1, int par2)
-    {
-        return par2 == 0 ? this.overlay : super.getIconFromDamageForRenderPass(par1, par2);
+    @Override
+    public Icon getIconFromDamageForRenderPass(int meta, int renderpass) {
+        return renderpass == 0 ? this.overlay : super.getIconFromDamageForRenderPass(meta, renderpass);
     }
     
-    /**
-     * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
-     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(int itemId, CreativeTabs creativeTabs, List list)
-    {
+    public void getSubItems(int itemId, CreativeTabs creativeTabs, List list) {
         for(int i = 0; i < WeatherContainerTypes.values().length; i++) {
             list.add(new ItemStack(itemId, 1, i));
         }
@@ -183,6 +189,13 @@ public class WeatherContainer extends ConfigurableItem {
         return getWeatherContainerType(stack.getItemDamage());
     }
     
+    /**
+     * Create a stack of a certain type of weather containers.
+     * 
+     * @param type The type of weather container to make.
+     * @param amount The amount per stack.
+     * @return The stack.
+     */
     public static ItemStack createItemStack(WeatherContainerTypes type, int amount) {
         return new ItemStack(getInstance(), amount, type.ordinal());
     }
@@ -195,9 +208,21 @@ public class WeatherContainer extends ConfigurableItem {
      *
      */
     public enum WeatherContainerTypes {
+        /**
+         * Empty weather container.
+         */
         EMPTY(null, "Empty", EnumChatFormatting.GRAY, Helpers.RGBToInt(125, 125, 125)),
+        /**
+         * Clear weather container.
+         */
         CLEAR(WeatherType.CLEAR, "My only sunshine", EnumChatFormatting.AQUA, Helpers.RGBToInt(30, 150, 230)),  
+        /**
+         * Rain weather container.
+         */
         RAIN(WeatherType.RAIN, "When the rain begins to fall", EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(0, 0, 255)),
+        /**
+         * Lightning weather container.
+         */
         LIGHTNING(WeatherType.LIGHTNING, "Thunderstruck", EnumChatFormatting.GOLD, Helpers.RGBToInt(255, 215, 0));
         
         private final WeatherType type;
@@ -214,6 +239,11 @@ public class WeatherContainer extends ConfigurableItem {
             this.damageRenderColor = damageRenderColor;
         }
         
+        /**
+         * When the actual filling of the container should be called.
+         * @param world The world.
+         * @param containerStack The weather container that was filled.
+         */
         public void onFill(World world, ItemStack containerStack) {
             WeatherContainerTypes currentWeatherType = EMPTY;
             
@@ -228,6 +258,11 @@ public class WeatherContainer extends ConfigurableItem {
             
         }
         
+        /**
+         * When the actual usage of the container should be called.
+         * @param world The world.
+         * @param containerStack The weather container that was thrown.
+         */
         public void onUse(World world, ItemStack containerStack) {
             if (type != null)
                 type.activate(world);

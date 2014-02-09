@@ -9,15 +9,32 @@ import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
 import evilcraft.fluids.Blood;
 
+/**
+ * Config for the {@link BloodContainer}.
+ * @author rubensworks
+ *
+ */
 public class BloodContainerConfig extends ItemConfig {
     
+    /**
+     * The unique instance.
+     */
     public static BloodContainerConfig _instance;
     
+    /**
+     * Base container size in mB that will be multiplied every tier.
+     */
     @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The base amount of blood (mB) this container can hold * the level of container.")
     public static int containerSizeBase = 5000;
     
+    /**
+     * The different containers.
+     */
     public static String[] containerLevelNames = {"Blood Cell", "Blood Can", "Blood Basin"};
 
+    /**
+     * Make a new instance.
+     */
     public BloodContainerConfig() {
         super(
             Reference.ITEM_BLOODCONTAINER,
@@ -28,6 +45,10 @@ public class BloodContainerConfig extends ItemConfig {
         );
     }
     
+    /**
+     * Get the amount of container tiers.
+     * @return The container tiers.
+     */
     public static int getContainerLevels() {
         return containerLevelNames.length;
     }

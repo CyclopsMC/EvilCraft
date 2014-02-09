@@ -27,9 +27,18 @@ import evilcraft.network.RemoteKey;
 
 public class CustomRemoteKeyHandler extends KeyHandler {
 	// Example keys:
+    /**
+     * The keybinding to go up with a broom.
+     */
 	public static KeyBinding KEY_UP = new KeyBinding("key.evilcraft.broom.up", Keyboard.KEY_K);
+	/**
+	 * The keybinding to go down with a broom.	
+	 */
 	public static KeyBinding KEY_DOWN = new KeyBinding("key.evilcraft.broom.down", Keyboard.KEY_L);
 
+	/**
+	 * Make a new instance.
+	 */
 	public CustomRemoteKeyHandler() {
 		super(new KeyBinding[] { KEY_UP, KEY_DOWN }, new boolean[] {false, false});
 	}

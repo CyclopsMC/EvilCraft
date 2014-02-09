@@ -16,19 +16,28 @@ import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 
 /**
- * Block that can hold ExtendedConfigs
+ * Block that extends from a log that can hold ExtendedConfigs
  * @author Ruben Taelman
  *
  */
 public abstract class ConfigurableBlockLog extends BlockLog implements Configurable{
 
+    @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
 
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.BLOCK;
 
     private Icon iconTop;
     private Icon iconSide;
 
+    /**
+     * Make a new block instance.
+     * @param eConfig Config for this block.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlockLog(ExtendedConfig eConfig) {
         super(eConfig.ID);
         eConfig.ID = this.blockID; // This could've changed.
@@ -36,11 +45,13 @@ public abstract class ConfigurableBlockLog extends BlockLog implements Configura
         this.setUnlocalizedName(this.getUniqueName());
     }
 
-    // Set a configuration for this item
+    @SuppressWarnings("rawtypes")
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
+    @Override
     public String getUniqueName() {
         return "blocks."+eConfig.NAMEDID;
     }
@@ -50,6 +61,7 @@ public abstract class ConfigurableBlockLog extends BlockLog implements Configura
         return Reference.MOD_ID+":"+eConfig.NAMEDID;
     }
 
+    @Override
     public boolean isEntity() {
         return false;
     }
@@ -85,6 +97,7 @@ public abstract class ConfigurableBlockLog extends BlockLog implements Configura
         return false;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void getSubBlocks(int id, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(id, 1, 0));

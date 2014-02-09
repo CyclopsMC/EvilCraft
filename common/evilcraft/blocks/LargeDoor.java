@@ -1,27 +1,26 @@
 package evilcraft.blocks;
-import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.IconFlipped;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockDoor;
 import evilcraft.items.LargeDoorItemConfig;
 
+/**
+ * A door that is three blocks high.
+ * @author rubensworks
+ *
+ */
 public class LargeDoor extends ConfigurableBlockDoor {
     
     private static LargeDoor _instance = null;
@@ -30,18 +29,26 @@ public class LargeDoor extends ConfigurableBlockDoor {
     private Icon[] blockIconMiddle;
     private Icon[] blockIconLower;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new LargeDoor(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static LargeDoor getInstance() {
         return _instance;
     }
 
-    private LargeDoor(ExtendedConfig eConfig) {
+    private LargeDoor(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.wood);
         this.setBlockBounds(0, 0.0F, 0, 1, 2.0F, 1); // Height +2
         this.setHardness(3.0F);
@@ -50,22 +57,14 @@ public class LargeDoor extends ConfigurableBlockDoor {
     }
     
     @SideOnly(Side.CLIENT)
-    /**
-     * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
-     */
-    public Icon getIcon(int par1, int par2)
-    {
+    @Override
+    public Icon getIcon(int side, int meta) {
         return this.blockIconLower[0];
     }
     
-    /**
-     * Retrieves the block texture to use based on the display side. Args: iBlockAccess, x, y, z, side
-     */
     @Override
-    public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
-    {
-        if (side != 1 && side != 0)
-        {
+    public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side) {
+        if (side != 1 && side != 0) {
             int meta = this.getFullMetadata(par1IBlockAccess, x, y, z);
             int orientation = meta & 3;
             boolean isOpen = (meta & 4) != 0;
@@ -113,12 +112,9 @@ public class LargeDoor extends ConfigurableBlockDoor {
         }
     }
     
-    /**
-     * Called upon block activation (right click on the block.)
-     */
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
-    {
-        int meta = this.getFullMetadata(par1World, par2, par3, par4);
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float coordX, float coordY, float coordZ) {
+        int meta = this.getFullMetadata(world, x, y, z);
         int isOpen = (meta & 7) ^ 4; // To open door (metadata)
 
         // Update the lowest part of the door
@@ -126,82 +122,66 @@ public class LargeDoor extends ConfigurableBlockDoor {
         if ((meta & 8) == 0) // Lower
         {
             EvilCraft.log("lower");
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, isOpen, 2);
-            par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
+            world.setBlockMetadataWithNotify(x, y, z, isOpen, 2);
+            world.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
         }
         else if ((meta & 8) == 1) // Middle
         {
             EvilCraft.log("middle");
-            par1World.setBlockMetadataWithNotify(par2, par3 - 1, par4, isOpen, 2);
-            par1World.markBlockRangeForRenderUpdate(par2, par3 - 1, par4, par2, par3, par4);
+            world.setBlockMetadataWithNotify(x, y - 1, z, isOpen, 2);
+            world.markBlockRangeForRenderUpdate(x, y - 1, z, x, y, z);
         }
         else if ((meta & 16) == 1) // Upper
         {
             EvilCraft.log("upper");
-            par1World.setBlockMetadataWithNotify(par2, par3 - 2, par4, isOpen, 2);
-            par1World.markBlockRangeForRenderUpdate(par2, par3 - 2, par4, par2, par3, par4);
+            world.setBlockMetadataWithNotify(x, y - 2, z, isOpen, 2);
+            world.markBlockRangeForRenderUpdate(x, y - 2, z, x, y, z);
         }
 
-        par1World.playAuxSFXAtEntity(par5EntityPlayer, 1003, par2, par3, par4, 0);
+        world.playAuxSFXAtEntity(player, 1003, x, y, z, 0);
         return true;
     }
     
     @SideOnly(Side.CLIENT)
-    /**
-     * When this method is called, your block should register all the icons it needs with the given IconRegister. This
-     * is the only chance you get to register icons.
-     */
-    public void registerIcons(IconRegister par1IconRegister)
-    {
+    @Override
+    public void registerIcons(IconRegister iconRegister) {
         this.blockIconUpper = new Icon[2];
         this.blockIconMiddle = new Icon[2];
         this.blockIconLower = new Icon[2];
-        this.blockIconUpper[0] = par1IconRegister.registerIcon(this.getTextureName() + "_upper");
-        this.blockIconMiddle[0] = par1IconRegister.registerIcon(this.getTextureName() + "_middle");
-        this.blockIconLower[0] = par1IconRegister.registerIcon(this.getTextureName() + "_lower");
+        this.blockIconUpper[0] = iconRegister.registerIcon(this.getTextureName() + "_upper");
+        this.blockIconMiddle[0] = iconRegister.registerIcon(this.getTextureName() + "_middle");
+        this.blockIconLower[0] = iconRegister.registerIcon(this.getTextureName() + "_lower");
         this.blockIconUpper[1] = new IconFlipped(this.blockIconUpper[0], true, false);
         this.blockIconMiddle[1] = new IconFlipped(this.blockIconMiddle[0], true, false);
         this.blockIconMiddle[1] = new IconFlipped(this.blockIconMiddle[0], true, false);
     }
     
-    /**
-     * Returns the ID of the items to drop on destruction.
-     */
-    public int idDropped(int par1, Random par2Random, int par3)
-    {
+    @Override
+    public int idDropped(int meta, Random random, int zero) {
         return LargeDoorItemConfig._instance.ID;
     }
     
-    /**
-     * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
-     */
-    public boolean canPlaceBlockAt(World par1World, int x, int y, int z)
-    {
-        return y >= 255 ? false : (par1World.doesBlockHaveSolidTopSurface(x, y - 1, z)
-                && par1World.isAirBlock(x, y, z)
-                && par1World.isAirBlock(x, y + 1, z)
-                && par1World.isAirBlock(x, y + 2, z));
+    @Override
+    public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+        return y >= 255 ? false : (world.doesBlockHaveSolidTopSurface(x, y - 1, z)
+                && world.isAirBlock(x, y, z)
+                && world.isAirBlock(x, y + 1, z)
+                && world.isAirBlock(x, y + 2, z));
     }
     
-    /**
-     * only called by clickMiddleMouseButton , and passed to inventory.setCurrentItem (along with isCreative)
-     */
-    public int idPicked(World par1World, int par2, int par3, int par4)
-    {
+    @Override
+    public int idPicked(World world, int x, int y, int z) {
         return LargeDoorItemConfig._instance.ID;
     }
 
-    /**
-     * Called when the block is attempted to be harvested
-     */
-    public void onBlockHarvested(World par1World, int x, int y, int z, int side, EntityPlayer par6EntityPlayer)
-    {
-        if (par6EntityPlayer.capabilities.isCreativeMode && (side & 8) != 0
-                && par1World.getBlockId(x, y - 1, z) == this.blockID
-                && par1World.getBlockId(x, y - 2, z) == this.blockID)
+    @Override
+    public void onBlockHarvested(World world, int x, int y, int z, int side, EntityPlayer player) {
+        if (player.capabilities.isCreativeMode && (side & 8) != 0
+                && world.getBlockId(x, y - 1, z) == this.blockID
+                && world.getBlockId(x, y - 2, z) == this.blockID)
         {
-            par1World.setBlockToAir(x, y - 1, z);
-            par1World.setBlockToAir(x, y - 2, z);
+            world.setBlockToAir(x, y - 1, z);
+            world.setBlockToAir(x, y - 2, z);
         }
     }
 

@@ -1,18 +1,28 @@
 package evilcraft.entities.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderSnowball;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.config.EntityConfig;
 import evilcraft.items.BloodPearlOfTeleportation;
-import evilcraft.proxies.ClientProxy;
 
+/**
+ * Config for the {@link EntityBloodPearl}.
+ * @author rubensworks
+ *
+ */
 public class EntityBloodPearlConfig extends EntityConfig {
     
+    /**
+     * The unique instance.
+     */
     public static EntityBloodPearlConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public EntityBloodPearlConfig() {
         super(
             Reference.ENTITY_BLOODPEARL,

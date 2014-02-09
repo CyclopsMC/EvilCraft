@@ -5,9 +5,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
+import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.fluids.SingleUseTank;
 
-public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileEntity> extends EmptyInTankTickAction<T> {
+/**
+ * {@link ITickAction} that can empty buckets in tanks.
+ * @author rubensworks
+ *
+ * @param <T> Extension of {@link TickingTankInventoryTileEntity} that has a tank.
+ */
+public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileEntity<T>> extends EmptyInTankTickAction<T> {
 
     @Override
     public void onTick(T tile, ItemStack itemStack, int slot, int tick) {
@@ -25,7 +32,6 @@ public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileE
     
     @Override
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick) {
-        boolean emptyContainer = false;
         ItemStack containerStack = tile.getInventory().getStackInSlot(slot);
         return super.canTick(tile, itemStack, slot, tick) && containerStack.itemID != Item.bucketEmpty.itemID;
     }

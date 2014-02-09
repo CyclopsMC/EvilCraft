@@ -24,12 +24,18 @@ import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlaySoundAtEntityEventHook;
 import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.TextureStitchEventHook;
+import evilcraft.gui.GuiHandler;
 import evilcraft.gui.client.GuiMainMenuEvilifier;
 import evilcraft.proxies.CommonProxy;
 import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.EvilDungeonGenerator;
 import evilcraft.worldgen.EvilWorldGenerator;
 
+/**
+ * The main mod class of EvilCraft.
+ * @author rubensworks
+ *
+ */
 @Mod(modid = Reference.MOD_ID,
     name = Reference.MOD_NAME,
     useMetadata = true,
@@ -39,18 +45,29 @@ import evilcraft.worldgen.EvilWorldGenerator;
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class EvilCraft {
     
+    /**
+     * The proxy of this mod, depending on 'side' a different proxy will be inside this field.
+     * @see cpw.mods.fml.common.SidedProxy
+     */
     @SidedProxy(clientSide = "evilcraft.proxies.ClientProxy", serverSide = "evilcraft.proxies.CommonProxy")
     public static CommonProxy proxy;
     
+    /**
+     * The unique instance of this mod, will only be available after @see EvilCraft#preInit()
+     */
     public static EvilCraft _instance;
     
+    /**
+     * The pre-initialization, will register required configs.
+     * @param event The Forge event required for this.
+     */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         LoggerHelper.init();
         LoggerHelper.log(Level.INFO, "preInit()");
         
         // Save this instance, so we can use it later
-        this._instance = this;
+        EvilCraft._instance = this;
         
         // Register configs and start with loading the general configs
         Configs.getInstance().registerGeneralConfigs();
@@ -72,29 +89,39 @@ public class EvilCraft {
         }
         
         // Add death messages
-        DeathMessages.register();
+        CustomDeathMessageRegistry.register();
+    }
+    
+    /**
+     * Register the config dependent things like world generation and proxy handlers.
+     * @param event The Forge event required for this.
+     */
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        LoggerHelper.log(Level.INFO, "init()");
+        
+        // Register world generation
+        GameRegistry.registerWorldGenerator(new EvilWorldGenerator());
+        GameRegistry.registerWorldGenerator(new EvilDungeonGenerator());
+        GameRegistry.registerWorldGenerator(new DarkTempleGenerator());
+        NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
         
         // Add custom panorama's
         if(event.getSide() == Side.CLIENT) {
             GuiMainMenuEvilifier.evilifyMainMenu();
         }
-
+        
+        // Register proxy related things.
+        proxy.registerRenderers();
         proxy.registerKeyBindings();
         proxy.registerPacketHandlers();
         proxy.registerTickHandlers();
     }
     
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
-        LoggerHelper.log(Level.INFO, "init()");
-        
-        GameRegistry.registerWorldGenerator(new EvilWorldGenerator());
-        GameRegistry.registerWorldGenerator(new EvilDungeonGenerator());
-        GameRegistry.registerWorldGenerator(new DarkTempleGenerator());
-        NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
-        proxy.registerRenderers();
-    }
-    
+    /**
+     * Register the event hooks.
+     * @param event The Forge event required for this.
+     */
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         LoggerHelper.log(Level.INFO, "postInit()");
@@ -110,15 +137,28 @@ public class EvilCraft {
         MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
     }
     
+    /**
+     * Register the things that are related to server starting, like commands.
+     * @param event The Forge event required for this.
+     */
     @EventHandler
-    public void onLivingAttack(FMLServerStartingEvent event) {
+    public void onServerStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandEvilCraft());
     }
     
+    /**
+     * Log a new info message for this mod.
+     * @param message The message to show.
+     */
     public static void log(String message) {
         log(message, Level.INFO);
     }
     
+    /**
+     * Log a new message of the given level for this mod.
+     * @param message The message to show.
+     * @param level The level in which the message must be shown.
+     */
     public static void log(String message, Level level) {
         LoggerHelper.log(level, message);
     }

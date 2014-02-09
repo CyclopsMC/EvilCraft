@@ -2,6 +2,11 @@ package evilcraft.api.weather;
 
 import net.minecraft.world.World;
 
+/**
+ * Lightning weather type.
+ * @author rubensworks
+ *
+ */
 public class WeatherTypeLightning extends WeatherType {
 
     @Override

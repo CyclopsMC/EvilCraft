@@ -6,13 +6,20 @@ import java.util.Map.Entry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 
 /**
- * A component used in TileEntities to support handling of ITickActions.
+ * A component used in {@link TickingTankInventoryTileEntity} to support handling of ITickActions.
+ * A new instance can be created with a dictionary of (an extension of) {@link ITickAction}.
+ * It must be used like {@link TickingTankInventoryTileEntity#updateEntity()}.
+ * It will then tick for the given tile and slot and check the current item inside
+ * the given slot. It will then take the class of that item and lookup the item class inside
+ * that map to get the correct {@link ITickAction} on which it will call the methods.
  * @author rubensworks
  * @param <C> A tile that has a consume and produce slot.
  * @param <T> The type of tick action that this component has to tick for.
- *
+ * @see ITickAction
+ * @see TickingTankInventoryTileEntity
  */
 public class TickComponent<C extends EvilCraftTileEntity, T extends ITickAction<C>> {
     
@@ -28,6 +35,7 @@ public class TickComponent<C extends EvilCraftTileEntity, T extends ITickAction<
      * Make a new TickComponent.
      * @param tile The IConsumeProduceTile reference in which this ticker runs.
      * @param tickActions The collection of actions this ticker can perform.
+     * It must map the item class to an extension of {@link ITickAction}.
      * @param slot The inventory slot this ticker applies to.
      */
     public TickComponent(C tile, Map<Class<?>, T> tickActions, int slot) {

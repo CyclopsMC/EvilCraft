@@ -5,7 +5,13 @@ import java.util.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.common.IWorldGenerator;
+import evilcraft.worldgen.structure.DarkTempleStructure;
 
+/**
+ * World generator for Dark Temples.
+ * @author immortaleeb
+ *
+ */
 public class DarkTempleGenerator implements IWorldGenerator {
 	@Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {

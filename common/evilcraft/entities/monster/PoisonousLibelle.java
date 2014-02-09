@@ -14,27 +14,51 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.items.PoisonSacConfig;
 
+/**
+ * A libelle that poisons you.
+ * @author rubensworks
+ *
+ */
 public class PoisonousLibelle extends EntityFlying implements Configurable{
 
-    protected ExtendedConfig eConfig = null;
+    protected ExtendedConfig<?> eConfig = null;
 
+    /**
+     * The type for this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.MOB;
     
     private static final int POISON_DURATION = 3;
 
+    /**
+     * Target X.
+     */
     public double targetX;
+    /**
+     * Target Y.
+     */
     public double targetY;
+    /**
+     * Target Z.
+     */
     public double targetZ;
 
+    /**
+     * Previous animation time.
+     */
     public float prevAnimTime;
+    /**
+     * Current animation time.
+     */
     public float animTime;
+    /**
+     * If a new search for a target is toggled.
+     */
     public boolean forceNewTarget;
     private Entity target;
     
@@ -44,11 +68,16 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
     
     private static final int MAXHEIGHT = 70;
 
-    // Set a configuration for this entity
+    @SuppressWarnings("rawtypes")
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
+    /**
+     * Make a new instance.
+     * @param world The world.
+     */
     public PoisonousLibelle(World world) {
         super(world);
 
@@ -57,11 +86,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
         this.isImmuneToFire = false;
     }
 
-    @SideOnly(Side.CLIENT)
-    public boolean func_110182_bF() {
-        return this.dataWatcher.getWatchableObjectByte(16) != 0;
-    }
-
+    @Override
     protected void entityInit() {
         super.entityInit();
         this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
@@ -117,6 +142,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onLivingUpdate() {        
         float f;
@@ -326,6 +352,11 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
         }
     }
     
+    /**
+     * Get the wing progress scaled to the given parameter.
+     * @param scale The scale.
+     * @return The scaled progress.
+     */
     public float getWingProgressScaled(float scale) {
         return (float)wingProgress / (float)WINGLENGTH * scale;
     }

@@ -1,33 +1,43 @@
 package evilcraft.items;
-import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.EvilCraft;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.entities.item.EntityBloodPearl;
 import evilcraft.fluids.Blood;
 
+/**
+ * Ender pearl that runs on blood.
+ * @author rubensworks
+ *
+ */
 public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFluidContainer {
     
     private static BloodPearlOfTeleportation _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new BloodPearlOfTeleportation(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static BloodPearlOfTeleportation getInstance() {
         return _instance;
     }
 
-    private BloodPearlOfTeleportation(ExtendedConfig eConfig) {
+    private BloodPearlOfTeleportation(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, 1000, Blood.getInstance());
     }
     
