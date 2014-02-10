@@ -37,7 +37,8 @@ public class WerewolfBone extends ConfigurableItem {
         super(eConfig);
     }
     
-    @Override
+    // Disabled for now
+    /*@Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {           
         if(!world.isRemote) {
             stack.stackSize--;
@@ -45,6 +46,6 @@ public class WerewolfBone extends ConfigurableItem {
             return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
         }
         return false;
-    }
+    }*/
 
 }
