@@ -66,7 +66,10 @@ def generateBBCode(info):
         if(isinstance(v, str)):
             code += v
         else:
-            code += r"[spoiler='" + k + r"']" + "\n" + generateBBCode(v) + r"[/spoiler]" + "\n"
+            if(len(v) == 1):
+                code += "[u][b]" + k + "[/b][/u]" + "\n" + generateBBCode(v) + "\n"
+            else:
+                code += r"[spoiler='" + k + r"']" + "\n" + generateBBCode(v) + r"[/spoiler]" + "\n"
     return code
 
 if __name__ == "__main__":
