@@ -17,4 +17,9 @@ public class EvilBlockConfig extends BlockConfig {
         );
     }
     
+    @Override
+    public boolean isForceDisabled() {
+        return true;
+    }
+    
 }
