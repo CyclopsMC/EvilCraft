@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info imgPrefix="http://rubensworks.net/evilcraft/images/" imgSuffix=".png">
+	<element name="Machines">
+		<element name="Blood Chest" img="true" recipe="true">
+			akaka
+		</element>
+		<element name="Blood Infuser" img="true" recipe="true">
+			akoekoe
+		</element>
+		<element name="Environmental Accumulator" img="true">
+			TODO
+		</element>
+	</element>
+	<element name="Fluids">
+		<element name="Blood" img="true">
+			TODO
+		</element>
+		<element name="Poison" img="true">
+			TODO
+		</element>
+	</element>
+	<element name="World Generation">
+		<element name="Dark Ore" img="true">
+			TODO
+		</element>
+		<element name="Silverfish Spawn">
+			TODO
+		</element>
+		<element name="Netherfish Spawn">
+			TODO
+		</element>
+		<element name="Dark Temple" img="true">
+			TODO
+		</element>
+	</element>
+	<element name="Blocks">
+		<element name="Blood Stained Block" img="true">
+			akoekoe
+		</element>
+		<element name="Bloody Cobblestone" img="true">
+			akoekoe
+		</element>
+		<element name="Dark Block" img="true" recipe="true">
+			akoekoe
+		</element>
+		<element name="Excrement Pile" img="true">
+			TODO
+		</element>
+		<element name="Hardened Blood" img="true">
+			TODO
+		</element>
+		<element name="Lightning Bomb" recipe="true">
+			TODO
+			[img]LightningBomb[/img]
+			[img]LightningBomb_1[/img]
+			[img]LightningBomb_2[/img]
+		</element>
+		<element name="Obscured Glass" img="true" recipe="true">
+			TODO
+		</element>
+		<element name="Undead Tree" img="true">
+			TODO
+		</element>
+	</element>
+	<element name="Items">
+		<element name="Blood Containers">
+			TODO
+			[b]Recipe:[/b]
+			[img]recipes/BloodCell[/img]
+			[img]recipes/BloodCan[/img]
+			[img]recipes/BloodBasin[/img]
+		</element>
+		<element name="Blood Extractor" recipe="true">
+			TODO
+		</element>
+		<element name="Blood Infusion Core" recipe="true">
+			TODO
+		</element>
+		<element name="Blood Pearl of Teleportation" recipe="true">
+			TODO
+		</element>
+		<element name="Broom" img="true">
+			TODO
+		</element>
+		<element name="Dark Gem">
+			TODO
+		</element>
+		<element name="Dark Power Gem">
+			TODO
+		</element>
+		<element name="Dark Stick" recipe="true">
+			TODO
+		</element>
+		<element name="Hardened Blood Shard">
+			TODO
+		</element>
+		<element name="Lightning Grenade" img="true" recipe="true">
+			TODO
+		</element>
+		<element name="Poison Sac">
+			TODO
+		</element>
+		<element name="Weather Container" img="true" recipe="true">
+			TODO
+		</element>
+		<element name="Werewolf Bone">
+			TODO
+		</element>
+		<element name="Werewolf Flesh">
+			TODO
+		</element>
+		<element name="Werewolf Fur">
+			TODO
+		</element>
+	</element>
+	<element name="Entities">
+		<element name="Werewolf" img="true">
+			TODO
+		</element>
+		<element name="Werewolf Villager" img="true">
+			TODO
+		</element>
+		<element name="Poisonous Libelle" img="true">
+			TODO
+		</element>
+		<element name="Netherfish" img="true">
+			TODO
+		</element>
+	</element>
+	<element name="Enchantments">
+		TODO (no imgs, rather useless)
+	</element>
+	<element name="Other Recipes">
+		<element name="Poison Tip Enchantment">
+			TODO
+			[b]Recipe:[/b]
+			[img]recipes/EnchantedBook[/img]
+		</element>
+		<element name="Poisonous Potato">
+			TODO
+			[b]Recipe:[/b]
+			[img]recipes/PoisonousPotato[/img]
+		</element>
+		<element name="Potion of Poison">
+			TODO
+			[b]Recipe:[/b]
+			[img]recipes/PotionofPoison[/img]
+		</element>
+	</element>
+	<element name="Cross-mod compatibilities">
+		NEI, TE, BC
+	</element>
+	<element name="Configuration">
+		Important config file settings. + commands
+	</element>
+	<element name="Download and Install">
+		TODO
+		+ GIT
+	</element>
+	<element name="Other">
+		other stuffies. + Farting
+	</element>
+</info>
