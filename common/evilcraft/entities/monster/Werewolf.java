@@ -64,6 +64,11 @@ public class Werewolf extends EntityMob implements Configurable{
     }
     
     @Override
+    protected float getSoundPitch() {
+        return super.getSoundPitch() * 0.75F;
+    }
+    
+    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(40.0D);
