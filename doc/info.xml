@@ -2,26 +2,52 @@
 <info imgPrefix="http://rubensworks.net/evilcraft/images/" imgSuffix=".png">
 	<element name="Machines">
 		<element name="Blood Chest" img="true" recipe="true">
-			akaka
+            Ever had to repair that precious enchanted diamond sword, only to find out 
+            that your limited supply of diamonds has run out? Then you may find the [u]blood 
+            chest[/u] a very handy addition ! 
+            Just put in whatever tool you want and the blood chest will gradually repair 
+            it at only the expense of some [u]blood[/u]. To fill the blood chest, just insert
+            any item containing blood into the very left slot and watch how the internal
+            blood buffer fills up. But beware ... this chest might add some nasty effects
+            to your repaired item (NOTE: this feature can be disabled in the configuration file).
 		</element>
 		<element name="Blood Infuser" img="true" recipe="true">
-			akoekoe
+		    As its name suggests, the [u]blood infuser[/u] can infuse or fill items with [u]blood[/u].
+            Simply put an item containing blood in the left slot to fill up the internal blood buffer and put an item
+            in the slot directly to the right of the liquid meter to start infusing or filling items with blood.
+            Some items that can be filled with blood are vanilla buckets, [u]blood containers[/u] and the [u]blood extractor[/u].
+            The blood infuser is also the only way to gain [u]dark power gems[/u] and [u]undead saplings[/u].
 		</element>
-		<element name="Environmental Accumulator" img="true">
-			TODO
+        <element name="Environmental Accumulator" img="true">
+            The [u]environmental accumulator[/u] allows you to fill [u]weather containers[/u] with the weather that is currently
+            active. You do this by throwing an [u]empty weather container[/u] into the brown beam emitted by the accumulator.
+            This will suck up the weather, bottle it into the weather container and change the weather to its complete
+            opposite (sunshine becomes rain, rain/lightning becomes sunshine).
+            Once used, the beam of the environmental accumulator will become black, which means that it is currently
+            in a cooldown state. It will remain in this state for about half a minecraft day, and you can see that it
+            has returned to its originally state because the beam will change back to a brown color.
+            (NOTE: the cooldown time can be changed in the configuration file)
+            Note that this block can not be crafted or picked up and that these blocks only spawn at the centre of [u]dark temples[/u].
 		</element>
 	</element>
 	<element name="Fluids">
 		<element name="Blood" img="true">
-			TODO
+			Yeah... its liquid blood...
 		</element>
 		<element name="Poison" img="true">
-			TODO
+			EvilCraft also adds liquid [u]poison[/u], but don't worry you won't find it spawning
+			in the world, well ... at least not yet.
+			To get some poison, just put a water bucket and any poisoned item in a crafting
+			table and you will obtain a bucket of poison.
+			Examples of poisoned items are poisoned potatoes and [u]poison sacs[/u].
 		</element>
 	</element>
 	<element name="World Generation">
 		<element name="Dark Ore" img="true">
-			TODO
+			For now, EvilCraft adds only one new ore to the world generation, called [u]dark ore[/u].
+			This ore spawns from Y-levels 6 to 66 (see what we did there) and drops [u]dark
+			gems[/u] upon breaking. You will at least need an iron tier pickaxe to mine it
+			and fortune does have an effect on the drop rate.
 		</element>
 		<element name="Silverfish Spawn">
 			TODO
@@ -30,7 +56,11 @@
 			TODO
 		</element>
 		<element name="Dark Temple" img="true">
-			TODO
+			When exploring, you might come across some weird-looking structures called [u]dark temples[/u].
+            You can find them at higher places (above Y-level 90) and they should be easy 
+            to spot because of the brown beacon beam that is emitted by the environmental accumulator 
+            at the centre of the structure.
+            Also note that dark temples are the only places where you can find [u]environmental accumulators[/u].
 		</element>
 	</element>
 	<element name="Blocks">
