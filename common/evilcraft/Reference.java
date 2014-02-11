@@ -40,6 +40,7 @@ public class Reference {
     public static final int BLOCK_UNDEADWOOD = 3862;
     public static final int BLOCK_UNDEADPLANK = 3863;
     public static final int BLOCK_FLUIDBLOCKPOISON = 3864;
+    public static final int BLOCK_INVISIBLEREDSTONE = 3865;
     
     // Item ID's
     public static final int ITEM_BLOODEXTRACTOR = 4000;
@@ -49,6 +50,7 @@ public class Reference {
     public static final int ITEM_DARKSTICK = 4004;
     public static final int ITEM_LARGEDOOR = 4005;
     public static final int ITEM_LIGHTNINGGRENADE = 4006;
+    public static final int ITEM_REDSTONEGRENADE = 4018;
     public static final int ITEM_WEREWOLFBONE = 4007;
     public static final int ITEM_WEREWOLFFLESH = 4008;
     public static final int ITEM_WEATHERCONTAINER = 4008;
@@ -72,6 +74,7 @@ public class Reference {
     // Entity ID's
     public static final int ENTITY_LIGHTNINGBOMB = 3;
     public static final int ENTITY_LIGHTNINGGRENADE = 4;
+    public static final int ENTITY_REDSTONEGRENADE = 9;
     public static final int ENTITY_BROOM = 5;
     public static final int ENTITY_BLOODPEARL = 6;
     public static final int ENTITY_WEATHERCONTAINER = 7;

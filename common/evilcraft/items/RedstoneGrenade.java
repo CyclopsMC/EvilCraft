@@ -1,32 +1,34 @@
 package evilcraft.items;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.entities.item.EntityLightningGrenade;
+import evilcraft.entities.item.EntityRedstoneGrenade;
 
-public class LightningGrenade extends AbstractGrenade {
+public class RedstoneGrenade extends AbstractGrenade {
     
-    private static LightningGrenade _instance = null;
+    private static RedstoneGrenade _instance = null;
     
     public static void initInstance(ExtendedConfig eConfig) {
         if(_instance == null)
-            _instance = new LightningGrenade(eConfig);
+            _instance = new RedstoneGrenade(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
-    public static LightningGrenade getInstance() {
+    public static RedstoneGrenade getInstance() {
         return _instance;
     }
 
-    private LightningGrenade(ExtendedConfig eConfig) {
+    protected RedstoneGrenade(ExtendedConfig eConfig) {
         super(eConfig);
     }
 
     @Override
     protected EntityThrowable getThrowableEntity(ItemStack itemStack, World world, EntityPlayer player) {
-        return new EntityLightningGrenade(world, player);
+        return new EntityRedstoneGrenade(world, player);
     }
+
 }
