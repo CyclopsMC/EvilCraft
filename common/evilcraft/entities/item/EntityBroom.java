@@ -1,6 +1,7 @@
 package evilcraft.entities.item;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -257,7 +258,8 @@ public class EntityBroom extends Entity implements Configurable{
     }
 
     protected double getHoverOffset() {
-        return Math.cos((worldObj.getWorldTime() + broomHoverTickOffset) / 10) * 0.03f;
+        float x = worldObj.getWorldTime() + broomHoverTickOffset;
+        return Math.cos(x / 10) * Math.cos(x / 12) * Math.cos(x / 15) * 0.01f;
     }
     
     @Override
