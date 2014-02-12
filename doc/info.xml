@@ -33,6 +33,12 @@
 	<element name="Fluids">
 		<element name="Blood" img="true">
 			Yeah... its liquid blood...
+			To obtain blood you can right click a [u]blood stained block[/u] with a [u]blood extractor[/u].
+			This blood can then be used in a [u]blood infuser[/u] and [u]blood chest[/u] and stored in [u]blood
+			containers[/u], [u]blood extractors[/u] or regular vanilla buckets.
+			You can place blood in the world, just like most liquids, after which it will turn in into
+			[u]hardened blood[/u] after some time, except when it's raining (see the section about hardened blood
+			for more information about this).
 		</element>
 		<element name="Poison" img="true">
 			EvilCraft also adds liquid [u]poison[/u], but don't worry you won't find it spawning
@@ -50,10 +56,12 @@
 			and fortune does have an effect on the drop rate.
 		</element>
 		<element name="Silverfish Spawn">
-			TODO
+			Silverfish spawn blocks can now spawn in any biome!
 		</element>
 		<element name="Netherfish Spawn">
-			TODO
+			Since we added a new mob called [u]netherfish[/u] to the game, we needed a way to
+			spawn them. So beware when breaking netherrack, netherbrick or soul sand in the
+			nether, because some rather unexpected mobs might spawn...
 		</element>
 		<element name="Dark Temple" img="true">
 			When exploring, you might come across some weird-looking structures called [u]dark temples[/u].
@@ -62,117 +70,259 @@
             at the centre of the structure.
             Also note that dark temples are the only places where you can find [u]environmental accumulators[/u].
 		</element>
+		<element name="Evil Dungeon" img="true">
+			These are kinda like vanilla spawners, except that all mossy cobblestone is
+			replaced by bloody cobblestone and instead of 1 vanilla spawner, you might find
+			a little more than one...
+			So, if it's more dangerous, then what is the gain you might ask? Well, not only
+			the number of spawners is increased, but also the number of chests.
+		</element>
 	</element>
 	<element name="Blocks">
 		<element name="Blood Stained Block" img="true">
-			akoekoe
+			All living creatures are composed of [u]blood[/u], amongst other things, so every now
+			and then a mob might spill its blood on the block it has died upon.
+			These blocks are called [u]blood stained blocks[/u] and you can extract blood
+			from them by right clicking them with a [u]blood extractor[/u].
 		</element>
 		<element name="Bloody Cobblestone" img="true">
-			akoekoe
+			These blocks can only be found in evil dungeons and serve the same functionality
+			as mossy cobblestone does for vanilla dungeons.
 		</element>
 		<element name="Dark Block" img="true" recipe="true">
-			akoekoe
+			Acts as a storage block for dark gems.
+			They're pretty dark and have connected textures by default, so they
+			might be useful for building.
 		</element>
 		<element name="Excrement Pile" img="true">
-			TODO
+			The whole digestion cycle in minecraft has finally been completed !
+			Animals will drop excrement piles, which act as bonemeal when placed on the ground.
+			The only way to pick up an excrement pile is by cleaning it up with a broom, and you
+			better clean up your farm every once in a while because these piles can stack like snow.
+			Also look out when you encounter such a pile because it has a chance of poisoning when
+			you walk through them (NOTE: for animals and entities this can be changed in the
+			configuration file).
 		</element>
 		<element name="Hardened Blood" img="true">
-			TODO
+			When you place liquid [u]blood[/u] into the world when no rain is falling on it, 
+			it will	change into [u]hardened blood[/u] after a small time.
+			These blocks will drop [u]hardened blood shards[/u], when a flint and steel
+			is used on them and will turn back into liquid blood when rain falls on it.
+			Finally, these blocks have connected textures and might be useful when building,
+			just don't forget to put a roof above these blocks, or parts of your house might
+			literally wash away when it starts to rain...
 		</element>
 		<element name="Lightning Bomb" recipe="true">
-			TODO
+			If you ever wanted to lure mobs or players into a trap which killed them
+			with lightning, then the lightning bomb is your new friend !
+			Just like tnt, it will lit a fuse when a redstone signal is applied to it, but
+			instead of spawning a simple explosion, it will spawn several lightning bolts on
+			the exact same place as it was placed.
 			[img]LightningBomb[/img]
 			[img]LightningBomb_1[/img]
 			[img]LightningBomb_2[/img]
 		</element>
 		<element name="Obscured Glass" img="true" recipe="true">
-			TODO
+			You can see through it like regular glass, but it doesn't let through any light
+			at all. Might be useful for building mob farms with a glass ceiling. Also
+			it has a connected texture (I think it's clear by now that we love connected
+			textures).
 		</element>
 		<element name="Undead Tree" img="true">
-			TODO
+			Who said only zombies can come back from the dead? Just put a dead bush, found
+			in deserts into a [u]blood infuser[/u] and you will get an [u]undead sapling[/u],
+			which will grow [u]undead trees[/u]. These trees look just like any other tree,
+			except that they have [u]undead wood[/u] for their trunk and branches and that 
+			the [u]undead leaves[/u] spawned by this tree drip with blood.
 		</element>
 	</element>
 	<element name="Items">
 		<element name="Blood Containers">
-			TODO
+			[u]Blood containers[/u] are storages for all your blood needs!
+			They come in three sizes: cell, can and basin, in increasing order
+			of storage sizes.
+			When you shift-right click a blood container, you will activate auto-refill mode,
+			which will automatically refill an item you hold in your hand with blood, given
+			that item can contain blood. 
+			This can prove useful when using the [u]blood pearl of teleportation[/u].
+			If you activate multiple blood containers, the rate at which the held item is
+			refilled will be proportional to the number of activated containers.
 			[b]Recipe:[/b]
 			[img]recipes/BloodCell[/img]
 			[img]recipes/BloodCan[/img]
 			[img]recipes/BloodBasin[/img]
 		</element>
 		<element name="Blood Extractor" recipe="true">
-			TODO
+			Probably one of the first EvilCraft items you will craft, the [u]blood extractor[/u]
+			allows you to extract blood from [u]blood stained blocks[/u], which will provide
+			your main (and only) source of blood.
 		</element>
 		<element name="Blood Infusion Core" recipe="true">
-			TODO
+			Surround a [u]dark power gem[/u] with 9 [u]hardened blood shards[/u] and you will get a
+			blood infusion core, which is the main item used to construct EvilCraft machines such as
+			the [u]blood infuser[/u] and [u]blood chest[/u].
 		</element>
 		<element name="Blood Pearl of Teleportation" recipe="true">
-			TODO
+			The [u]blood pearl of teleportation[/u] gives you the powers of an enderman! 
+			Or at least... sort of. This pearl actually has the same functionality as an 
+			ender pearl: when thrown it will teleport you to blood the pearl has fallen on,
+			except that this pearl will not be used when thrown. Instead it uses an amount
+			of blood stored inside of it when thrown.
+			To refill the pearl you can either infuse it with blood in a [u]blood infuser[/u]
+			or by activating a [u]blood container[/u], after which it will refill whenever
+			you hold the pearl in your hand.
 		</element>
 		<element name="Broom" img="true">
-			TODO
+			Let's see, what else is evil? Ah yes ! Witches! They fly on brooms don't they?
+			Well now you can too. Just right click a broom to mount it or shift right click it
+			to place it into the world.
+			The broom can be controlled by pressing forward whilst looking in the direction you
+			want to fly to, so the actual steering is done by moving the mouse.
+			Note that at the moment brooms can only be found in dungeon chests, but don't worry
+			we've got some great plans for the future which might allow you to craft
+			maybe just a little more than this basic broom...
 		</element>
 		<element name="Dark Gem">
-			TODO
+			Dark gems are dropped when mining a [u]dark ore[/u], which is added to the 
+			world generation just like any ore.
 		</element>
 		<element name="Dark Power Gem">
-			TODO
+			This item can be crafted by infusing a dark gem with blood using the [u]blood infuser[/u].
+			Since the blood infuser also requires a dark power gem to craft, an alternative
+			way to craft this item is by throwing a dark gem in a pool of at least 5 liquid
+			[u]blood[/u] blocks placed in the world.
 		</element>
 		<element name="Dark Stick" recipe="true">
-			TODO
+			At the moment this item has no use at all, except that it works in all recipes
+			which requires vanilla sticks. We do however have some plans to use this item
+			in recipes in the future.
 		</element>
 		<element name="Hardened Blood Shard">
-			TODO
+			This item is used in the recipes for several items and can be obtained by using
+			a flint and steel on a [u]hardened blood[/u] block.
 		</element>
 		<element name="Lightning Grenade" img="true" recipe="true">
-			TODO
+			Lightning is now completely under you control with the [u]lightning grenade[/u]!
+			Simply throw it like an ender pearl and it will spawn lightning on the block it
+			hits when it falls on the ground.
+			Very useful when you want to burn down forest, create supercharged creepers, or
+			killing your friends with lightning bolts.
 		</element>
 		<element name="Poison Sac">
-			TODO
+			It looks like ink sac and it is filled with poison!
+			These items can only be obtained by killing a [u]Poisonous Libelle[/u].
+			This item acts as poisoned item besides poisoned potatoes and can thus be 
+			used in recipes that require poisoned items.
 		</element>
 		<element name="Weather Container" img="true" recipe="true">
-			TODO
+			Control the weather with weather containers and the environmental accumulator!
+			When a weather container is filled with a specific weather type, you can change
+			the weather to weather stored in the weather container by throwing it on the ground.
+			When crafting weather containers, they will initially be empty.
+			The only way to fill an empty weather container is by throwing it in the
+			beam of an [u]environmental accumulator[/u], after which the current weather
+			(one of lightning, rain or sunshine) will be bottled into the weather container.
+			Also not that some items such as lightning pearls require specific 
+			weather containers in order to be crafted.
 		</element>
 		<element name="Werewolf Bone">
-			TODO
+			An item dropped by [u]werewolfs[/u].
+			It might have some fun uses in the near future, but for now it has completely
+			no use.
 		</element>
 		<element name="Werewolf Flesh">
-			TODO
+			[u]Werewolf flesh[/u] is a rare drop which can be obtained from [u]werewolfs[/u].
+			Don't eat it when it is day, you'll just get a stomach ache, at night however...
+			this flesh will start to glow and might provide some rather useful effects when eaten.
 		</element>
 		<element name="Werewolf Fur">
-			TODO
+			Another item dropped by [u]werewolfs[/u].
+			This item can be used in any recipe as a replacement of leather, but has no real
+			other purpose for now, though It might have in the near future.
 		</element>
 	</element>
 	<element name="Entities">
 		<element name="Werewolf" img="true">
-			TODO
+			Beware of these beast, if you're not well prepared they might just single-hit you
+			(literally)!
+			You shouldn't be able to encounter these at daytime, but look out at night, 
+			especially when there is a [u]werewolf villager[/u] standing near you...
 		</element>
 		<element name="Werewolf Villager" img="true">
-			TODO
+			Yes, another kind of villager, willing to trade at day but beware of him
+			at night, especially when it is full moon...
+			For now this villager adds some specific EvilCraft item trades, but there's
+			really nothing you can exclusively get through trading.
 		</element>
 		<element name="Poisonous Libelle" img="true">
-			TODO
+			Although these little creatures look rather innocent at first sight, you will
+			quickly discover that quite the opposite is true.
+			These nasty little mobs spawn in river biomes and will try to hit whatever entities
+			they come across including players, passive mobs and other poisonous libelles.
+			Upon hitting an entity, they will be poisoned for a short time and they will continue
+			to annoy players by following them for as long as they can...
+			Moreover, they are really quick and rather small, but have really low (about
+			one hit should suffice to kill them).
+			They drop [u]poisoned sacs[/u], which can be used in various crafting recipes.
 		</element>
 		<element name="Netherfish" img="true">
-			TODO
+			Since silverfish weren't evil enough, we added a variant called [u]netherfish[/u]
+			to the game. They're just like silverfish, except you can only find them by breaking
+			monster egg blocks in the nether, which are added to the nether world generation.
+			Oh yeah, did I also mention they can set you on fire?
 		</element>
 	</element>
 	<element name="Enchantments">
-		TODO (no imgs, rather useless)
+		EvilCraft adds four new enchants to minecraft, which can all be got by doing
+		regular ol' enchanting. Although most enchants are rather useful, some might be
+		pretty ... evil ... But don't worry: you can disable every single enchant in
+		the configuration file.
+		
+		[u]Breaking (I,II and III)[/u]
+		This is a very evil enchant, which does the exact opposite of the
+		unbreaking enchant: it has a random chance increasing item damage
+		to more than 1 whenever you use a tool.
+		(NOTE: again, if you find this an annoying feature, you can simply disable
+		it in the configuration file)
+		
+		[u]Life Stealing (I, II and III)[/u]
+		As its name implies, this item allows you to steal life from a mob and add it
+		to your own. The more damage you deal with a hit and the higher the level
+		of the enchant, the higher the amount of life added to the player.
+		
+		[u]Poison Tip (I, II, and III)[/u]
+		Just as the flame enchant allows you to put mobs on fire, this enchant allows
+		you to poison mobs. This enchant can be put on any weapon (including bows) and
+		the poison effect caused by the enchant will last longer with an increasing level
+		of the poison tip enchant.
+		
+		[u]Unusing (I)[/u]
+		Have you ever broken your favourite enchanted pickaxe by accident because you didn't
+		pay notice to the amount of damage it had taken?
+		The unusing enchant tries to solve exactly this problem!
+		When an item is enchanted with the unusing enchant, you will not be able to use
+		the item when it is about to break and you will only be able to use that item when 
+		it has been (partially) repaired.
 	</element>
 	<element name="Other Recipes">
 		<element name="Poison Tip Enchantment">
-			TODO
+			To get a [u]poison tip enchantment book[/u], you can either trie to randomly enchant 
+			a book or you can combine a regular book with a poison bucket in a crafting table.
 			[b]Recipe:[/b]
 			[img]recipes/EnchantedBook[/img]
 		</element>
 		<element name="Poisonous Potato">
-			TODO
+			Becomes poisonous potatoes don't have any use in vanilla crafting, we added
+			added poisonous potatoes to the list of poisoned items, which allows you
+			to craft a [u]poison bucket[/u] when combined with a water bucket.
+			Moreover, poisonous potatoes can also be crafted by combining a regular potato
+			and a [u]poison bucket[/u].
 			[b]Recipe:[/b]
 			[img]recipes/PoisonousPotato[/img]
 		</element>
 		<element name="Potion of Poison">
-			TODO
+			EvilCraft allows you to craft potions of poison without having to do any
+			brewing: simply combine a glass bottle with a [u]poison bucket[/u].
 			[b]Recipe:[/b]
 			[img]recipes/PotionofPoison[/img]
 		</element>
@@ -188,9 +338,14 @@
 		+ GIT
 	</element>
 	<element name="Other">
-		other stuffies.
+		Other stuff.
 		[spoiler="Farts"]
-			TODO
+			Ever noticed that whenever a player shifts it looks like he's farting?
+			Well what can I say... EvilCraft adds the option to let loose all those internal
+			gases. To use this feature, simply press the fart hotkey (by default mapped on
+			P) and whenever you shift a fart should be let loose!
+			And in case you were wondering: Yes, it does work on servers, so now you don't
+			have to fart alone anymore, you can now also do it with friends... I guess...
 			[img]Farts[/img]
 		[/spoiler]
 	</element>
