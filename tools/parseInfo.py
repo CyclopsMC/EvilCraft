@@ -61,7 +61,7 @@ def parseCategory(category, imgPrefix, imgSuffix):
                 imgid = "recipes/" + nameid
                 if(element.attrib["recipe"] != "true"):
                     imgid = element.attrib["recipe"]
-                element.text += "\n[b]Recipe:[/b]\n[img]" + imgid + "[/img]\n"
+                element.text += "\n[b]Recipe:[/b]\n[center][img]" + imgid + "[/img]\n\n[/center]\n"
             catInfo[element.attrib["name"]] = parseCategory(element, imgPrefix, imgSuffix)
     return catInfo
     
@@ -76,7 +76,7 @@ def generateBBCode(info):
             if(len(v) == 1):
                 code += "[u][b]" + k + "[/b][/u]" + "\n" + content + "\n"
             else:
-                code += r"[spoiler='" + k + r"']" + "\n" + content + r"[/spoiler]" + "\n"
+                code += r"[spoiler='" + k + r"']"  + content + r"[/spoiler]" + "\n"
     return code
 
 if __name__ == "__main__":
