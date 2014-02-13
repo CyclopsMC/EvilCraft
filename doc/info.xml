@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
-	<slogan>An evil mod for minecraft</slogan>
-	<version for="1.6.4">1.0.0b</version>
-	<workingOn>Porting to minecraft version 1.7</workingOn>
+	<slogan>An evil mod for Minecraft</slogan>
+	<download for="1.6.4" version="0.2.0b">TODO link</download>
+	<workingOn>Porting to Minecraft version 1.7</workingOn>
 	
 	<description>
-		EvilCraft is a mod developed by two guys who wanted to get some experience in minecraft modding.
- 		This mod basically adds various evil things to minecraft, from everything such as little flying
- 		monster that will follow you around and try to poison you to bottles that allow you to store and
+		EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding.
+ 		This mod basically adds various evil things to Minecraft, from everything such as little flying
+ 		monster that will follow you around and try to poison you, to bottles that allow you to store and
  		control the weather.
  	</description>
  	<additionalInformation>
- 		This is our first public release of this mod for minecraft 1.6.4 and the very first thing
- 		we plan on doing is porting it to minecraft 1.7. We do however plan on fixing any bugs you
- 		might encounter and we will keep releasing version for minecraft 1.6.4 until the next version
- 		for minecraft 1.7 is complete, so please don't hesitate to post any bugs you might find
+ 		This is our first public release of this mod for Minecraft 1.6.4 and the very first thing
+ 		we plan on doing is porting it to Minecraft 1.7. We do however plan on fixing any bugs you
+ 		might encounter and we will keep releasing versions for Minecraft 1.6.4 until the next version
+ 		for Minecraft 1.7 is complete, so please don't hesitate to post any bugs you might find
  		on our bug tracker. If you have suggestions how we could improve our mod or any additions
  		you might want to see in the future, they can also be posted on our bug tracker.
  		We will also be releasing the source code on github very shortly (we're currently working
  		on some documentation), so if you want to contribute you can find us on
- 		https://github.com/rubensworks/EvilCraft.
+ 		https://github.com/rubensworks/EvilCraft . You can also contact kroeser directly on https://twitter.com/rubensworks .
  	</additionalInformation>
  	
  	
@@ -53,7 +53,7 @@
             This will suck up the weather, bottle it into the weather container and change the weather to its complete
             opposite (sunshine becomes rain, rain/lightning becomes sunshine).
             Once used, the beam of the environmental accumulator will become black, which means that it is currently
-            in a cooldown state. It will remain in this state for about half a minecraft day, and you can see that it
+            in a cooldown state. It will remain in this state for about half a Minecraft day, and you can see that it
             has returned to its originally state because the beam will change back to a brown color.
             (NOTE: the cooldown time can be changed in the configuration file)
             Note that this block can not be crafted or picked up and that these blocks only spawn at the centre of [u]dark temples[/u].
@@ -125,7 +125,7 @@
 			might be useful for building.
 		</element>
 		<element name="Excrement Pile" img="BUivWbp">
-			The whole digestion cycle in minecraft has finally been completed !
+			The whole digestion cycle in Minecraft has finally been completed !
 			Animals will drop excrement piles, which act as bonemeal when placed on the ground.
 			The only way to pick up an excrement pile is by cleaning it up with a broom, and you
 			better clean up your farm every once in a while because these piles can stack like snow.
@@ -315,7 +315,7 @@
 	</element>
 	<element name="Enchantments">
 		<element name="General">
-		EvilCraft adds four new enchants to minecraft, which can all be gotten by doing
+		EvilCraft adds four new enchants to Minecraft, which can all be gotten by doing
 		regular ol' enchanting. Although most enchants are rather useful, some might be
 		pretty ... evil ... But don't worry: you can disable every single enchant in
 		the configuration file.
@@ -352,7 +352,7 @@
 		it has been (partially) repaired.
 		</element>
 	</element>
-	<element name="Other Recipes">
+	<element name="Other">
 		<element name="Poison Tip Enchantment" recipe="007pTz1">
 			To get a [u]poison tip enchantment book[/u], you can either try to randomly enchant
 			a book or you can combine a regular book with a poison bucket in a crafting table.
@@ -368,6 +368,14 @@
 			EvilCraft allows you to craft potions of poison without having to do any
 			brewing: simply combine a glass bottle with a [u]poison bucket[/u].
 		</element>
+		<element name="Farts" img="51gkECl">
+			Ever noticed that whenever a player shifts it looks like he's farting?
+			Well what can I say... EvilCraft adds the option to let loose all those internal
+			gases. To use this feature, simply press the fart hotkey (by default mapped on
+			P) and whenever you shift a fart should be let loose!
+			And in case you were wondering: Yes, it does work on servers, so now you don't
+			have to fart alone anymore, you can now also do it with friends... I guess...
+	</element>
 	</element>
 	<element name="Cross-mod compatibilities">
 		<element name="General">
@@ -390,23 +398,13 @@
 		</element>
 	</element>
 	<element name="Configuration">
-		Important config file settings. + commands
+		Almost every feature can be disabled and changed in the config file (config/evilcraft.cfg).
+		It is however mandatory that config files at server and client side are identical,
+		otherwise you might encounter ID conflicts.
 	</element>
 	<element name="Download and Install">
-		Download: TODO (0.2.0b)
-		This mod will become open source very soon, link will appear here...
-	</element>
-	<element name="Other">
-		Some random things...
-		[spoiler="Farts"]
-			Ever noticed that whenever a player shifts it looks like he's farting?
-			Well what can I say... EvilCraft adds the option to let loose all those internal
-			gases. To use this feature, simply press the fart hotkey (by default mapped on
-			P) and whenever you shift a fart should be let loose!
-			And in case you were wondering: Yes, it does work on servers, so now you don't
-			have to fart alone anymore, you can now also do it with friends... I guess...
-			[img]51gkECl[/img]
-		[/spoiler]
+Download: TODO (0.2.0b)
+This mod will become open source very soon, link will appear here...
 	</element>
 	</elements>
 </info>
