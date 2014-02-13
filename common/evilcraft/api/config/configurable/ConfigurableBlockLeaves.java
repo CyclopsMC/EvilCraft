@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
@@ -38,6 +39,7 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
         eConfig.ID = this.blockID; // This could've changed.
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
+        setBurnProperties(blockID, 30, 60);
     }
 
     // Set a configuration for this item
