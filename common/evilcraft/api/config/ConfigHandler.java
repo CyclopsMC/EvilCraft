@@ -49,10 +49,6 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                         CommandConfig.PROPERTIES.put(eConfig.NAMEDID, configProperty);
                 }
                 
-                if(eConfig.getHolderType().equals(ElementType.MOB)) { // For entity id's we have to do somethin' special!
-                    eConfig.ID = EntityRegistry.findGlobalUniqueEntityId();
-                }
-                
                 // Check the type of the element
                 ElementType type = eConfig.getHolderType();
                 
