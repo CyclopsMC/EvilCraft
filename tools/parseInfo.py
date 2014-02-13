@@ -25,22 +25,36 @@ def main():
         print("Please provide a valid input file.")
         sys.exit(2)
         
-    info = parseInfo(file)
-    print(generateBBCode(info))
-    
-# Parse the file
-# TODO: keep original ordening!
-def parseInfo(file):
-    info = OrderedDict();
-    
     tree = etree.parse(file)
-    root = tree.getroot() 
+    root = tree.getroot()
     imgPrefix = root.attrib["imgPrefix"]
     imgSuffix = root.attrib["imgSuffix"]
     
-    info = parseCategory(root, imgPrefix, imgSuffix)
+    headers = parseHeader(root, imgPrefix, imgSuffix)    
+    info = parseCategory(root.find("elements"), imgPrefix, imgSuffix)
+    
+    print(generateBBCode(headers, info))
+    
+def parseHeader(root, imgPrefix, imgSuffix):
+    code = ""
+    
+    for element in root:
+        if (element.tag == "logo"):
+            code += "[center][img]" + imgPrefix + element.text + imgSuffix + "[/img][/center]"
+        elif (element.tag == "slogan"):
+            code += "[center][color=#A63F00]" + element.text + "[/color][/center]"
+        elif (element.tag == "version"):
+            code += "[center][b]Latest version:[/b] " + element.text + " (for minecraft " + element.attrib["for"] + ")[/center]"
+        elif (element.tag == "workingOn"):
+            code += "[center][b]Currently working on:[/b] " + element.text + "[/center]\n\n"
+        elif (element.tag == "description"):
+            code += removeTabsAndNewlines(element.text) + "\n\n"
+        elif (element.tag == "additionalInformation"):
+            code += removeTabsAndNewlines(element.text) + "\n\n"
+        elif (element.tag == "featuresRemark"):
+            code += "[b][size=20]Features[/size][/b]\n" + removeTabsAndNewlines(element.text) + "\n"
             
-    return info
+    return code
 
 # Recursively parse the xml
 def parseCategory(category, imgPrefix, imgSuffix):
@@ -66,18 +80,29 @@ def parseCategory(category, imgPrefix, imgSuffix):
     return catInfo
     
 # Make BBCode from a given info dictionary
-def generateBBCode(info):
+def generateBBCode(headers, info):
+    code = headers + "\n"
+    code += generateBBCodeHelp(info)
+    
+    return code
+
+def generateBBCodeHelp(info):
     code = ""
+
     for (k, v) in info.items():
         if(isinstance(v, str)):
             code += v
         else:
-            content = re.sub(' +', ' ', re.sub('\n ', '', re.sub('\t', '    ', generateBBCode(v))))
+            content = re.sub(' +', ' ', re.sub('\n ', '', re.sub('\t', '    ', generateBBCodeHelp(v))))
             if(len(v) == 1):
                 code += "[u][b]" + k + "[/b][/u]" + "\n" + content + "\n"
             else:
                 code += r"[spoiler='" + k + r"']"  + content + r"[/spoiler]" + "\n"
     return code
+
+# Removes newlines and tabs in the given string
+def removeTabsAndNewlines(str):
+    return re.sub(' +', ' ', re.sub('\n ', '', re.sub('\t', '    ', str)))
 
 if __name__ == "__main__":
     main()

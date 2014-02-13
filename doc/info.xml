@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
+	<logo>4Pe8YfI</logo>
+	<slogan>An evil mod for minecraft</slogan>
+	<version for="1.6.4">1.0.0b</version>
+	<workingOn>Porting to minecraft version 1.7</workingOn>
+	
+	<description>
+		EvilCraft is a mod developed by two guys who wanted to get some experience in minecraft modding.
+ 		This mod basically adds various evil things to minecraft, from everything such as little flying
+ 		monster that will follow you around and try to poison you to bottles that allow you to store and
+ 		control the weather.
+ 	</description>
+ 	<additionalInformation>
+ 		This is our first public release of this mod for minecraft 1.6.4 and the very first thing
+ 		we plan on doing is porting it to minecraft 1.7. We do however plan on fixing any bugs you
+ 		might encounter and we will keep releasing version for minecraft 1.6.4 until the next version
+ 		for minecraft 1.7 is complete, so please don't hesitate to post any bugs you might find
+ 		on our bug tracker. If you have suggestions how we could improve our mod or any additions
+ 		you might want to see in the future, they can also be posted on our bug tracker.
+ 		We will also be releasing the source code on github very shortly (we're currently working
+ 		on some documentation), so if you want to contribute you can find us on
+ 		https://github.com/rubensworks/EvilCraft.
+ 	</additionalInformation>
+ 	
+ 	
+ 	<featuresRemark>NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATION FILE</featuresRemark>
+ 	
+ 	<elements>
 	<element name="Machines">
 		<element name="Blood Chest" img="bFE65ei" recipe="b3kMa0n">
             Ever had to repair that precious enchanted diamond sword, only to find out 
@@ -381,4 +408,5 @@
 			[img]51gkECl[/img]
 		[/spoiler]
 	</element>
+	</elements>
 </info>
