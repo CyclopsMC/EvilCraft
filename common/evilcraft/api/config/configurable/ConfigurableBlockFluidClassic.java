@@ -19,7 +19,7 @@ import evilcraft.events.TextureStitchEventHook;
 
 /**
  * Block that represents an in-world fluid that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic implements Configurable, IEntityDropParticleFXBlock{

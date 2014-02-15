@@ -14,7 +14,7 @@ import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Villager that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public class ConfigurableVillager implements Configurable, IVillageTradeHandler {

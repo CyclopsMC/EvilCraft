@@ -4,7 +4,7 @@ import evilcraft.api.config.ExtendedConfig;
 
 /**
  * An exception that is thrown when the player disabled an undisableable config.
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public class UndisableableConfigException extends RuntimeException {

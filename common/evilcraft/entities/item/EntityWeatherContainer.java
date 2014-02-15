@@ -1,17 +1,17 @@
 package evilcraft.entities.item;
 
-import evilcraft.api.config.ElementType;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.Configurable;
-import evilcraft.api.entities.item.EntityThrowable;
-import evilcraft.items.WeatherContainer;
-import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import evilcraft.api.config.ElementType;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.Configurable;
+import evilcraft.api.entities.item.EntityThrowable;
+import evilcraft.items.WeatherContainer;
+import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 
 /**
  * Entity for the {@link WeatherContainer}.
@@ -33,8 +33,7 @@ public class EntityWeatherContainer extends EntityThrowable implements Configura
         this.eConfig = eConfig;
     }
     
-    // ItemStack containing the weather container
-    private final ItemStack stack;
+    private static final int ITEMSTACK_INDEX = 15;
     
     /**
      * Make a new instance in the given world.
@@ -42,7 +41,6 @@ public class EntityWeatherContainer extends EntityThrowable implements Configura
      */
     public EntityWeatherContainer(World world) {
         super(world);
-        stack = WeatherContainer.createItemStack(WeatherContainerTypes.EMPTY, 1);
     }
 
     /**
@@ -63,11 +61,12 @@ public class EntityWeatherContainer extends EntityThrowable implements Configura
      */
     public EntityWeatherContainer(World world, EntityLivingBase entity, ItemStack stack) {
         super(world, entity);
-        this.stack = stack.copy();
+        setItemStack(stack);
     }
 
     @Override
     protected void onImpact(MovingObjectPosition movingobjectposition) {
+        ItemStack stack = getItemStack();
         WeatherContainerTypes containerType = WeatherContainer.getWeatherContainerType(stack);
         containerType.onUse(worldObj, stack);
         
@@ -118,6 +117,17 @@ public class EntityWeatherContainer extends EntityThrowable implements Configura
 
     @Override
     public ItemStack getItemStack() {
-        return this.stack;
+        return dataWatcher.getWatchableObjectItemStack(ITEMSTACK_INDEX);
+    }
+    
+    private void setItemStack(ItemStack stack) {
+        dataWatcher.updateObject(ITEMSTACK_INDEX, stack);
+    }
+    
+    @Override
+    protected void entityInit() {
+        super.entityInit();
+        
+        dataWatcher.addObject(ITEMSTACK_INDEX, WeatherContainer.createItemStack(WeatherContainerTypes.EMPTY, 1));
     }
 }

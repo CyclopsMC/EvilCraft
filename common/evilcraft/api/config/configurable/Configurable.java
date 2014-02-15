@@ -4,7 +4,7 @@ import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Interface for all elements that are configurable
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public interface Configurable {

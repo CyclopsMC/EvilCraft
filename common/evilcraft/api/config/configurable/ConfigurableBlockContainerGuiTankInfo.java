@@ -13,7 +13,7 @@ import evilcraft.api.item.DamageIndicatedItemComponent;
 
 /**
  * Block that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableBlockContainerGuiTankInfo extends ConfigurableBlockContainerGui implements IInformationProvider {

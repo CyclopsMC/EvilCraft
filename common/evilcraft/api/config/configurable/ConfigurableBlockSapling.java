@@ -19,7 +19,7 @@ import evilcraft.worldgen.WorldGeneratorUndeadTree;
 
 /**
  * Block extending from a sapling that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableBlockSapling extends BlockSapling implements Configurable{

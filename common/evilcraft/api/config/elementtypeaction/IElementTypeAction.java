@@ -8,7 +8,7 @@ import evilcraft.api.config.ExtendedConfig;
 /**
  * An action that can be used to register Configurables.
  * Used inside of {@link ConfigHandler}.
- * @author Ruben Taelman
+ * @author rubensworks
  * @param <C> The subclass of ExtendedConfig
  * @see ConfigHandler
  */

@@ -4,6 +4,7 @@ import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraft;
+import evilcraft.Reference;
 import evilcraft.api.config.EntityConfig;
 
 /**
@@ -25,11 +26,6 @@ public class EntityAction extends IElementTypeAction<EntityConfig>{
         eConfig.save();
         
         // Register
-        EntityRegistry.registerGlobalEntityID(
-                eConfig.ELEMENT,
-                eConfig.getSubUniqueName(),
-                eConfig.ID
-        );
         EntityRegistry.registerModEntity(
                 eConfig.ELEMENT,
                 eConfig.getSubUniqueName(),
@@ -41,7 +37,7 @@ public class EntityAction extends IElementTypeAction<EntityConfig>{
         );
         
         // Add I18N
-        LanguageRegistry.instance().addStringLocalization("entity."+eConfig.NAMEDID+".name", eConfig.NAME);
+        LanguageRegistry.instance().addStringLocalization("entity." + Reference.MOD_ID + "."+eConfig.NAMEDID+".name", eConfig.NAME);
     }
 
 }

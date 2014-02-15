@@ -1,12 +1,7 @@
 package evilcraft.items;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
-import evilcraft.entities.monster.WerewolfConfig;
 
 /**
  * A bone that is dropped from werewolves.
@@ -40,7 +35,8 @@ public class WerewolfBone extends ConfigurableItem {
         super(eConfig);
     }
     
-    @Override
+    // Disabled for now
+    /*@Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {           
         if(!world.isRemote) {
             stack.stackSize--;
@@ -48,6 +44,6 @@ public class WerewolfBone extends ConfigurableItem {
             return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
         }
         return false;
-    }
+    }*/
 
 }

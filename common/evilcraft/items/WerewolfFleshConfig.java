@@ -21,7 +21,7 @@ public class WerewolfFleshConfig extends ItemConfig {
     public WerewolfFleshConfig() {
         super(
             Reference.ITEM_WEREWOLFFLESH,
-            "WerewolfFlesh",
+            "Werewolf Flesh",
             "werewolfFlesh",
             null,
             WerewolfFlesh.class

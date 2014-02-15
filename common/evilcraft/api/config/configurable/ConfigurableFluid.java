@@ -6,7 +6,7 @@ import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Fluid that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableFluid extends Fluid implements Configurable{

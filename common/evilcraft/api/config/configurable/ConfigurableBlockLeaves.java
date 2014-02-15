@@ -20,7 +20,7 @@ import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Block that extends from BlockLeaves that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Configurable{
@@ -46,6 +46,7 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
         eConfig.ID = this.blockID; // This could've changed.
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
+        setBurnProperties(blockID, 30, 60);
     }
 
     @Override

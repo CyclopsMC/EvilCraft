@@ -60,6 +60,10 @@ public class EntityBroom extends Entity implements Configurable{
     private double newRotationPitch;
     private int newPosRotationIncrements;
     
+    // This value adds a random value to the world tick in the calculations of the hover offset of a broom
+    // This makes sure that all brooms don't reach the highest and lowest hovering points at the same time
+    private int broomHoverTickOffset;
+    
     @SuppressWarnings("rawtypes")
     @Override
     public void setConfig(ExtendedConfig eConfig) {
@@ -72,6 +76,7 @@ public class EntityBroom extends Entity implements Configurable{
      */
     public EntityBroom(World world) {
         this(world, 0.0, 0.0, 0.0);
+        initBroomHoverTickOffset();
     }
     
     /**
@@ -90,6 +95,11 @@ public class EntityBroom extends Entity implements Configurable{
         this.prevPosX = x;
         this.prevPosY = y;
         this.prevPosZ = z;
+        initBroomHoverTickOffset();
+    }
+    
+    protected void initBroomHoverTickOffset() {
+        broomHoverTickOffset = rand.nextInt((int)(Math.PI * 10));
     }
     
     @Override
@@ -181,6 +191,8 @@ public class EntityBroom extends Entity implements Configurable{
     	    } else {
     	        updateMountedClient();
     	    }
+    	} else {
+    	    updateUnmounted();
     	}
     	
     }
@@ -200,6 +212,8 @@ public class EntityBroom extends Entity implements Configurable{
             setPosition(x, y, z);
             setRotation(rotationYaw, rotationPitch);
         }
+        
+        moveEntity(0, getHoverOffset(), 0);
     }
     
     /**
@@ -237,6 +251,10 @@ public class EntityBroom extends Entity implements Configurable{
             motionY = 0;
             motionZ = 0;
         }
+        
+        // Update motion on client side to provide a hovering effect
+        if (worldObj.isRemote)
+            motionY += getHoverOffset();
 
         moveEntity(motionX, motionY, motionZ);
         
@@ -257,6 +275,17 @@ public class EntityBroom extends Entity implements Configurable{
                 }
             }
         }
+    }
+    
+    protected void updateUnmounted() {
+        if (worldObj.isRemote) {
+            moveEntity(0, getHoverOffset(), 0);
+        }
+    }
+
+    protected double getHoverOffset() {
+        float x = worldObj.getWorldTime() + broomHoverTickOffset;
+        return Math.cos(x / 10) * Math.cos(x / 12) * Math.cos(x / 15) * 0.01f;
     }
     
     @Override

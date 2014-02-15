@@ -24,7 +24,7 @@ import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 /**
  * Block with a tile entity that can hold ExtendedConfigs.
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableBlockContainer extends BlockContainer implements Configurable{

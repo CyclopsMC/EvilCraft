@@ -16,7 +16,7 @@ import evilcraft.api.render.MultiPassBlockRenderer;
 
 /**
  * Block that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableBlock extends Block implements Configurable, IMultiRenderPassBlock{

@@ -1,20 +1,21 @@
 package evilcraft.items;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
-import evilcraft.entities.item.EntityLightningGrenade;
+import evilcraft.entities.item.EntityRedstoneGrenade;
 
 /**
- * Pearl that spawns lightning on collision.
- * @author rubensworks
+ * Grenade that will trigger a redstone signal.
+ * @author immortaleeb
  *
  */
-public class LightningGrenade extends AbstractGrenade {
+public class RedstoneGrenade extends AbstractGrenade {
     
-    private static LightningGrenade _instance = null;
+    private static RedstoneGrenade _instance = null;
     
     /**
      * Initialise the configurable.
@@ -22,7 +23,7 @@ public class LightningGrenade extends AbstractGrenade {
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
-            _instance = new LightningGrenade(eConfig);
+            _instance = new RedstoneGrenade(eConfig);
         else
             eConfig.showDoubleInitError();
     }
@@ -31,16 +32,17 @@ public class LightningGrenade extends AbstractGrenade {
      * Get the unique instance.
      * @return The instance.
      */
-    public static LightningGrenade getInstance() {
+    public static RedstoneGrenade getInstance() {
         return _instance;
     }
 
-    private LightningGrenade(ExtendedConfig<ItemConfig> eConfig) {
+    protected RedstoneGrenade(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
 
     @Override
     protected EntityThrowable getThrowableEntity(ItemStack itemStack, World world, EntityPlayer player) {
-        return new EntityLightningGrenade(world, player);
+        return new EntityRedstoneGrenade(world, player);
     }
+
 }

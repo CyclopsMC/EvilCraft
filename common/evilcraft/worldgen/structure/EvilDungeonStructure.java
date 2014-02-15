@@ -16,7 +16,7 @@ import net.minecraftforge.common.DungeonHooks;
 
 /**
  * Evil Dungeon, based on vanilla dungeons
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public class EvilDungeonStructure extends WorldGenDungeons {

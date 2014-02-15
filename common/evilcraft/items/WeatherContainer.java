@@ -98,7 +98,7 @@ public class WeatherContainer extends ConfigurableItem {
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         if(!world.isRemote && getWeatherContainerType(itemStack) != WeatherContainerTypes.EMPTY) {
             world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-            world.spawnEntityInWorld(new EntityWeatherContainer(world, player, itemStack));
+            world.spawnEntityInWorld(new EntityWeatherContainer(world, player, itemStack.copy()));
             
             itemStack.stackSize--;
         }

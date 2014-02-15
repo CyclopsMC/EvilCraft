@@ -5,7 +5,7 @@ import evilcraft.api.config.DummyConfig;
 
 /**
  * Just a dummy action.
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public class DummyAction extends IElementTypeAction<DummyConfig> {

@@ -10,7 +10,7 @@ import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Item that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableItem extends Item implements Configurable{

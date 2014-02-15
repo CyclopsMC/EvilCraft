@@ -20,6 +20,7 @@ import evilcraft.blocks.ExcrementPileConfig;
 import evilcraft.blocks.FluidBlockBloodConfig;
 import evilcraft.blocks.FluidBlockPoisonConfig;
 import evilcraft.blocks.HardenedBloodConfig;
+import evilcraft.blocks.InvisibleRedstoneBlockConfig;
 import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.NetherfishSpawnConfig;
@@ -36,6 +37,7 @@ import evilcraft.entities.block.EntityLightningBombPrimedConfig;
 import evilcraft.entities.item.EntityBloodPearlConfig;
 import evilcraft.entities.item.EntityBroomConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
+import evilcraft.entities.item.EntityRedstoneGrenadeConfig;
 import evilcraft.entities.item.EntityWeatherContainerConfig;
 import evilcraft.entities.monster.NetherfishConfig;
 import evilcraft.entities.monster.PoisonousLibelleConfig;
@@ -58,6 +60,7 @@ import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.PoisonSacConfig;
+import evilcraft.items.RedstoneGrenadeConfig;
 import evilcraft.items.WeatherContainerConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
@@ -139,11 +142,13 @@ public class Configs {
         configs.add(new UndeadSaplingConfig());
         configs.add(new UndeadPlankConfig());
         configs.add(new FluidBlockPoisonConfig());
+        configs.add(new InvisibleRedstoneBlockConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
         configs.add(new WerewolfFleshConfig());
         configs.add(new LightningGrenadeConfig());
+        configs.add(new RedstoneGrenadeConfig());
         configs.add(new BucketBloodConfig());
         configs.add(new BloodExtractorConfig());
         configs.add(new DarkGemConfig());
@@ -163,6 +168,7 @@ public class Configs {
         // Entities
         // Item
         configs.add(new EntityLightningGrenadeConfig());
+        configs.add(new EntityRedstoneGrenadeConfig());
         configs.add(new EntityBloodPearlConfig());
         configs.add(new EntityBroomConfig());
         configs.add(new EntityWeatherContainerConfig());

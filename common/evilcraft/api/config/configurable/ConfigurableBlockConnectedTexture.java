@@ -22,7 +22,7 @@ import evilcraft.api.render.MultiPassBlockRenderer;
  * Block that can hold ExtendedConfigs with connected textures.
  * It will automatically render connected textures when the same blocks are next to it.
  * It uses {@link ConnectableIcon} as the icon that dynamically changes it's appearance.
- * @author Ruben Taelman
+ * @author rubensworks
  * @see ConnectableIcon
  */
 public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBlockContainer implements IMultiRenderPassBlock{

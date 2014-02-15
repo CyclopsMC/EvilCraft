@@ -17,7 +17,7 @@ import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Block that extends from a log that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableBlockLog extends BlockLog implements Configurable{

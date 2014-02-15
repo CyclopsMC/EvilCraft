@@ -8,7 +8,7 @@ import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Door block that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableBlockDoor extends BlockDoor implements Configurable{

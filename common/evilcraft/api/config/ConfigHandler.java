@@ -4,7 +4,6 @@ import java.util.LinkedHashSet;
 
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
@@ -13,7 +12,7 @@ import evilcraft.commands.CommandConfigSet;
 
 /**
  * Create config file and register items & blocks from the given ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 @SuppressWarnings("rawtypes")
@@ -58,10 +57,6 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                     configProperty.save(config);
                     if(configProperty.isCommandable())
                         CommandConfig.PROPERTIES.put(eConfig.NAMEDID, configProperty);
-                }
-                
-                if(eConfig.getHolderType().equals(ElementType.MOB)) { // For entity id's we have to do somethin' special!
-                    eConfig.ID = EntityRegistry.findGlobalUniqueEntityId();
                 }
                 
                 // Check the type of the element

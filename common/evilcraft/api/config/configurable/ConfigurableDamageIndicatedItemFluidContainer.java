@@ -17,7 +17,7 @@ import evilcraft.api.item.DamageIndicatedItemFluidContainer;
 
 /**
  * Item food that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableDamageIndicatedItemFluidContainer extends DamageIndicatedItemFluidContainer implements Configurable{
