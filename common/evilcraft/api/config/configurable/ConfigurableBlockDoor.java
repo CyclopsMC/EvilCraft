@@ -28,10 +28,9 @@ public abstract class ConfigurableBlockDoor extends BlockDoor implements Configu
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlockDoor(ExtendedConfig eConfig, Material material) {
-        super(eConfig.ID, material);
-        eConfig.ID = this.blockID; // This could've changed.
+        super(material);
         this.setConfig(eConfig);
-        this.setUnlocalizedName(this.getUniqueName());
+        this.setBlockName(this.getUniqueName());
     }
 
     @SuppressWarnings("rawtypes")

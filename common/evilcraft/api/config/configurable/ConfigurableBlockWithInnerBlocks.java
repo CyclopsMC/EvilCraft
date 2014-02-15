@@ -7,9 +7,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -47,21 +48,21 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void getSubBlocks(int id, CreativeTabs creativeTabs, List list) {
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         for (int j = 0; j < INNER_BLOCKS.length; ++j) {
-            list.add(new ItemStack(id, 1, j));
+            list.add(new ItemStack(item, 1, j));
         }
     }
     
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         return INNER_BLOCKS[meta].getBlockTextureFromSide(side);
     }
     
     @Override
-    public int idDropped(int meta, Random random, int zero) {
-        return getBlockFromMetadata(meta).idDropped(meta, random, zero);
+    public Item getItemDropped(int meta, Random random, int zero) {
+        return getBlockFromMetadata(meta).getItemDropped(meta, random, zero);
     }
     
     @Override
@@ -85,9 +86,9 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
      * @param blockID The id to search a stained version for
      * @return metadata for this block or -1 if none can be found.
      */
-    public int getMetadataFromBlockID(int blockID) {
+    public int getMetadataFromBlock(Block block) {
         for(int i = 0; i < INNER_BLOCKS.length; i++) {
-            if(INNER_BLOCKS[i].blockID == blockID)
+            if(INNER_BLOCKS[i] == block)
                 return i;
         }
         return -1;

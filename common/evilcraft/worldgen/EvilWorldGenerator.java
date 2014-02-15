@@ -2,11 +2,12 @@ package evilcraft.worldgen;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.common.IWorldGenerator;
 import evilcraft.GeneralConfig;
+import evilcraft.blocks.DarkOre;
 import evilcraft.blocks.DarkOreConfig;
 import evilcraft.entities.monster.NetherfishConfig;
 
@@ -25,8 +26,8 @@ public class EvilWorldGenerator implements IWorldGenerator {
      * Make new instance.
      */
     public EvilWorldGenerator() {
-        darkOres = new WorldGenMinableConfigurable(DarkOreConfig._instance.ID, DarkOreConfig.blocksPerVein, DarkOreConfig.veinsPerChunk, DarkOreConfig.startY, DarkOreConfig.endY);
-        extraSilverfish = new WorldGenMinableConfigurable(Block.silverfish.blockID, 8, GeneralConfig.silverfish_BlocksPerVein, GeneralConfig.silverfish_VeinsPerChunk, GeneralConfig.silverfish_StartY, GeneralConfig.silverfish_EndY);
+        darkOres = new WorldGenMinableConfigurable(DarkOre.getInstance(), DarkOreConfig.blocksPerVein, DarkOreConfig.veinsPerChunk, DarkOreConfig.startY, DarkOreConfig.endY);
+        extraSilverfish = new WorldGenMinableConfigurable(Blocks.monster_egg, 8, GeneralConfig.silverfish_BlocksPerVein, GeneralConfig.silverfish_VeinsPerChunk, GeneralConfig.silverfish_StartY, GeneralConfig.silverfish_EndY);
         netherfish = new NetherfishSpawnGenerator();
     }
     

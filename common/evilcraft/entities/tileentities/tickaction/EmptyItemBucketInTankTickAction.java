@@ -1,6 +1,6 @@
 package evilcraft.entities.tileentities.tickaction;
 
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -33,7 +33,7 @@ public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileE
     @Override
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick) {
         ItemStack containerStack = tile.getInventory().getStackInSlot(slot);
-        return super.canTick(tile, itemStack, slot, tick) && containerStack.itemID != Item.bucketEmpty.itemID;
+        return super.canTick(tile, itemStack, slot, tick) && containerStack.getItem() != Items.bucket;
     }
     
     @Override

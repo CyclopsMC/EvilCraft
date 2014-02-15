@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -74,15 +75,15 @@ public class DamageIndicatedItemComponent{
      * @param meta The meta data for the item to add.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void getSubItems(int id, CreativeTabs tab, List itemList, Fluid fluid, int meta) {
+    public void getSubItems(Item item, CreativeTabs tab, List itemList, Fluid fluid, int meta) {
         // Add the 'full' container.
-        ItemStack itemStackFull = new ItemStack(item, 1, meta);
-        item.fill(itemStackFull, new FluidStack(fluid, item.getCapacity(itemStackFull)), true);
+        ItemStack itemStackFull = new ItemStack(this.item, 1, meta);
+        this.item.fill(itemStackFull, new FluidStack(fluid, this.item.getCapacity(itemStackFull)), true);
         itemList.add(itemStackFull);
         
         // Add the 'empty' container.
         ItemStack itemStackEmpty = new ItemStack(item, 1, meta);
-        item.fill(itemStackEmpty, new FluidStack(fluid, 0), true);
+        this.item.fill(itemStackEmpty, new FluidStack(fluid, 0), true);
         itemList.add(itemStackEmpty);
     }
     

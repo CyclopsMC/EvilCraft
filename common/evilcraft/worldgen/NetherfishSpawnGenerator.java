@@ -2,6 +2,7 @@ package evilcraft.worldgen;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import evilcraft.blocks.NetherfishSpawn;
 import evilcraft.blocks.NetherfishSpawnConfig;
@@ -17,7 +18,7 @@ public class NetherfishSpawnGenerator extends WorldGenMinableConfigurable{
      * Make a new instance.
      */
     public NetherfishSpawnGenerator() {
-        super(NetherfishSpawnConfig._instance.ID, 1, NetherfishSpawnConfig.veinsPerChunk, 1, 127);
+        super(NetherfishSpawn.getInstance(), 1, NetherfishSpawnConfig.veinsPerChunk, 1, 127);
     }
     
     @Override
@@ -27,8 +28,8 @@ public class NetherfishSpawnGenerator extends WorldGenMinableConfigurable{
             int firstBlockYCoord = startY + rand.nextInt(endY - startY);
             int firstBlockZCoord = chunkZ + rand.nextInt(16);
             
-            int blockID = world.getBlockId(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
-            int meta = NetherfishSpawn.getInstance().getMetadataFromBlockID(blockID);
+            Block block = world.getBlock(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
+            int meta = NetherfishSpawn.getInstance().getMetadataFromBlock(block);
             if(meta != -1) {
                 this.generate(world, rand, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
                 world.setBlockMetadataWithNotify(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord, meta, 2);

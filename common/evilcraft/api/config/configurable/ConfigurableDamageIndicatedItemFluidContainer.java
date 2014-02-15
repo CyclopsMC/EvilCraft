@@ -1,10 +1,10 @@
 package evilcraft.api.config.configurable;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -42,8 +42,6 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     @SuppressWarnings({ "unchecked", "rawtypes" })
     protected ConfigurableDamageIndicatedItemFluidContainer(ExtendedConfig eConfig, int capacity, Fluid fluid) {
         super(eConfig.ID, capacity, fluid);
-        if(eConfig != null)
-            eConfig.ID = this.itemID; // This could've changed.
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
     }
@@ -66,7 +64,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerIcons(IIconRegister iconRegister) {
         itemIcon = iconRegister.registerIcon(getIconString());
     }
 
@@ -87,9 +85,9 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
             y += direction.offsetY;
             z += direction.offsetZ;
             
-            if(drained != null && drained.amount == FluidContainerRegistry.BUCKET_VOLUME && (world.isAirBlock(x, y, z) || world.getBlockId(x, y, z) == fluidStack.getFluid().getBlockID())) {
+            if(drained != null && drained.amount == FluidContainerRegistry.BUCKET_VOLUME && (world.isAirBlock(x, y, z) || world.getBlock(x, y, z) == fluidStack.getFluid().getBlock())) {
                 this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, true);
-                world.setBlock(x, y, z, fluidStack.getFluid().getBlockID(), 0, 3);
+                world.setBlock(x, y, z, fluidStack.getFluid().getBlock(), 0, 3);
             }
         }
         return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);

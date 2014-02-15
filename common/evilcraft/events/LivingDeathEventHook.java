@@ -2,19 +2,19 @@ package evilcraft.events;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.event.EventPriority;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.api.HotbarIterator;
 import evilcraft.blocks.BloodStainedBlock;
-import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.items.BloodExtractor;
 import evilcraft.render.particle.EntityBloodSplashFX;
@@ -30,7 +30,7 @@ public class LivingDeathEventHook {
      * When a living death event is received.
      * @param event The received event.
      */
-    @ForgeSubscribe(priority = EventPriority.NORMAL)
+	@SubscribeEvent(priority = EventPriority.NORMAL)
     public void onLivingDeath(LivingDeathEvent event) {
         bloodObtainEvent(event);
         bloodStainedBlockEvent(event);
@@ -60,12 +60,12 @@ public class LivingDeathEventHook {
             int x = MathHelper.floor_double(event.entity.posX);
             int y = MathHelper.floor_double(event.entity.posY - event.entity.getYOffset() - 1);
             int z = MathHelper.floor_double(event.entity.posZ);
-            int blockID = event.entity.worldObj.getBlockId(x, y, z);
-            int meta = BloodStainedBlock.getInstance().getMetadataFromBlockID(blockID);
+            Block block = event.entity.worldObj.getBlock(x, y, z);
+            int meta = BloodStainedBlock.getInstance().getMetadataFromBlock(block);
             if(meta > -1) {
                 if (!event.entity.worldObj.isRemote) {
                     // Transform block into blood stained version
-                    event.entity.worldObj.setBlock(x, y, z, BloodStainedBlockConfig._instance.ID);
+                    event.entity.worldObj.setBlock(x, y, z, BloodStainedBlock.getInstance());
                     event.entity.worldObj.setBlockMetadataWithNotify(x, y, z, meta, 2);
                 } else {
                     // Init particles

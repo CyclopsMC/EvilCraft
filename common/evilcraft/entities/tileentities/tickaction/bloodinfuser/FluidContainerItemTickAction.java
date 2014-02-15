@@ -1,5 +1,6 @@
 package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -35,8 +36,8 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
     }
 
     @Override
-    public int willProduceItemID(TileBloodInfuser tile) {
-        return tile.getInventory().getStackInSlot(tile.getConsumeSlot()).itemID;
+    public Item willProduceItem(TileBloodInfuser tile) {
+        return tile.getInventory().getStackInSlot(tile.getConsumeSlot()).getItem();
     }
     
 }

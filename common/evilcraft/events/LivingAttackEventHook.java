@@ -5,9 +5,9 @@ import java.util.Random;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.EventPriority;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.api.Helpers;
 import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
@@ -29,7 +29,7 @@ public class LivingAttackEventHook {
      * When a living attack event is received.
      * @param event The received event.
      */
-    @ForgeSubscribe(priority = EventPriority.NORMAL)
+    @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onLivingAttack(LivingAttackEvent event) {
         stealLife(event);
         unusingEvent(event);
@@ -53,7 +53,7 @@ public class LivingAttackEventHook {
     private void unusingEvent(LivingAttackEvent event) {
         if(event.source.getEntity() instanceof EntityLivingBase) {
             EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
-            ItemStack itemStack = entity.getCurrentItemOrArmor(0);
+            ItemStack itemStack = entity.getEquipmentInSlot(0);
             if(Helpers.doesEnchantApply(itemStack, EnchantmentUnusingConfig._instance.ID) > -1) {
                 if(entity != null
                         && EnchantmentUnusing.unuseTool(itemStack)) {
@@ -67,7 +67,7 @@ public class LivingAttackEventHook {
     private void breakingEvent(LivingAttackEvent event) {
         if(event.source.getEntity() instanceof EntityLivingBase) {
             EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
-            ItemStack itemStack = entity.getCurrentItemOrArmor(0);
+            ItemStack itemStack = entity.getEquipmentInSlot(0);
             int enchantmentListID = Helpers.doesEnchantApply(itemStack, EnchantmentBreakingConfig._instance.ID);
             if(enchantmentListID > -1) {
                 EnchantmentBreaking.amplifyDamage(itemStack, enchantmentListID, new Random());
@@ -78,7 +78,7 @@ public class LivingAttackEventHook {
     private void poisonTipEvent(LivingAttackEvent event) {
         if(event.source.getEntity() instanceof EntityLivingBase) {
             EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
-            ItemStack itemStack = entity.getCurrentItemOrArmor(0);
+            ItemStack itemStack = entity.getEquipmentInSlot(0);
             int enchantmentListID = Helpers.doesEnchantApply(itemStack, EnchantmentPoisonTipConfig._instance.ID);
             if(enchantmentListID > -1) {
                 int level = Helpers.getEnchantmentLevel(itemStack, enchantmentListID);

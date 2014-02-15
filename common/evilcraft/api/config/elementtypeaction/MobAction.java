@@ -1,7 +1,7 @@
 package evilcraft.api.config.elementtypeaction;
 
 import net.minecraft.entity.EntityLiving;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraft;

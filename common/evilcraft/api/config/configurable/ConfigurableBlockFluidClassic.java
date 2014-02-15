@@ -3,8 +3,8 @@ package evilcraft.api.config.configurable;
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.util.Icon;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
@@ -33,7 +33,7 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     public static ElementType TYPE = ElementType.BLOCK;
     
     @SideOnly(Side.CLIENT)
-    protected Icon[] icon;
+    protected IIcon[] icon;
     
     @SideOnly(Side.CLIENT)
     protected EntityDropParticleFXBlockComponent entityDropParticleFXBlockComponent;
@@ -46,11 +46,10 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlockFluidClassic(ExtendedConfig eConfig, Fluid fluid, Material material) {
-        super(eConfig.ID, fluid, material);
-        eConfig.ID = this.blockID; // This could've changed.
+        super(fluid, material);
         this.setConfig(eConfig);
-        this.setUnlocalizedName(this.getUniqueName());
-        fluid.setBlockID(this);
+        this.setBlockName(this.getUniqueName());
+        fluid.setBlock(this);
         TextureStitchEventHook.fluidMap.put(fluid, this);
     }
 
@@ -71,12 +70,12 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
-        this.icon = new Icon[] { iconRegister.registerIcon(getTextureName()+"_still"), iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.NAMEDID+"_flow") };
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        this.icon = new IIcon[] { iconRegister.registerIcon(getTextureName()+"_still"), iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.NAMEDID+"_flow") };
     }
     
     @Override
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         return side != 0 && side != 1 ? this.icon[1] : this.icon[0];
     }
     

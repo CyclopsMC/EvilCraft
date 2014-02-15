@@ -8,8 +8,8 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.util.Icon;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * A helper for rendering.
@@ -59,7 +59,7 @@ public class RenderHelpers {
     /**
      * An icon that contains to texture, useful for when you want to render nothing.
      */
-    public static Icon EMPTYICON;
+    public static IIcon EMPTYICON;
 
     /**
      * Call the correct face renderer on the renderer depending on the given renderDirection.
@@ -73,10 +73,10 @@ public class RenderHelpers {
      */
     public static void renderFaceDirection(ForgeDirection renderDirection,
             RenderBlocks renderer, Block block, double x, double y, double z,
-            Icon blockIconFromSideAndMetadata) {
+            IIcon blockIconFromSideAndMetadata) {
         try {
             String methodName = Helpers.isObfusicated()?METHODS_RENDERFACE_OBFUSICATED.get(renderDirection):METHODS_RENDERFACE.get(renderDirection);
-            Method method = renderer.getClass().getMethod(methodName, Block.class, double.class, double.class, double.class, Icon.class);
+            Method method = renderer.getClass().getMethod(methodName, Block.class, double.class, double.class, double.class, IIcon.class);
             method.invoke(renderer, block, x, y, z, blockIconFromSideAndMetadata);
         } catch (NoSuchMethodException e1) {
             // Impossible to go wrong, unless this code changes or those of Minecraft...

@@ -27,11 +27,11 @@ public class RenderPoisonousLibelle extends ModelRenderLiving<ModelBase> {
 	}
 	
 	private void renderLibelle(PoisonousLibelle libelle, double x, double y, double z, float yaw, float partialTickTime) {
-	    super.doRenderLiving(libelle, x, y, z, yaw, partialTickTime);
+	    super.doRender(libelle, x, y, z, yaw, partialTickTime);
     }
 
 	@Override
-    public void doRenderLiving(EntityLiving par1EntityLiving, double x, double y, double z, float yaw, float partialTickTime) {
+    public void doRender(EntityLiving par1EntityLiving, double x, double y, double z, float yaw, float partialTickTime) {
         this.renderLibelle((PoisonousLibelle)par1EntityLiving, x, y, z, yaw, partialTickTime);
     }
 

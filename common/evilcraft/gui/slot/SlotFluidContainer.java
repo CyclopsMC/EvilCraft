@@ -1,5 +1,6 @@
 package evilcraft.gui.slot;
 
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
@@ -66,7 +67,7 @@ public class SlotFluidContainer extends Slot {
             //itemStackEmptyCopy.setItemDamage(0);
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStackEmptyCopy);
             if(itemStack.getItem() instanceof ItemBucket) {
-                if(itemStack.getItem().itemID != Item.bucketEmpty.itemID) {
+                if(itemStack.getItem() != Items.bucket) {
                     if(acceptedFluid != null) {
                         if(fluidStack != null) {
                             return acceptedFluid.equals(fluidStack.getFluid());

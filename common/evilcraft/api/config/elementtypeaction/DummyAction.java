@@ -1,6 +1,6 @@
 package evilcraft.api.config.elementtypeaction;
 
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import evilcraft.api.config.DummyConfig;
 
 /**

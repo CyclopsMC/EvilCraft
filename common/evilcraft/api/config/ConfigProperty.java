@@ -3,8 +3,8 @@ package evilcraft.api.config;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.configurable.Configurable;
 

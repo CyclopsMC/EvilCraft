@@ -2,11 +2,11 @@ package evilcraft.api.entities.tileentitites;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 
 /**
@@ -44,13 +44,13 @@ public class EvilCraftTileEntity extends TileEntity{
     
     @Override
     public Packet getDescriptionPacket() {
-        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 1, getNBTTagCompound());
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, getNBTTagCompound());
     }
     
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
         super.onDataPacket(net, packet);
-        NBTTagCompound tag = packet.data;
+        NBTTagCompound tag = packet.func_148857_g();
         readFromNBT(tag);
     }
     

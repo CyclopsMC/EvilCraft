@@ -9,7 +9,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import evilcraft.api.Helpers;
 import evilcraft.api.inventory.SimpleInventory;
 
@@ -104,13 +104,13 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     }
 
     @Override
-    public String getInvName() {
-        return inventory.getInvName();
+    public String getInventoryName() {
+        return inventory.getInventoryName();
     }
 
     @Override
-    public boolean isInvNameLocalized() {
-        return inventory.isInvNameLocalized();
+    public boolean hasCustomInventoryName() {
+        return inventory.hasCustomInventoryName();
     }
 
     @Override
@@ -120,16 +120,16 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
-        return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this && entityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
     }
     
     @Override
-    public void openChest() {
+    public void openInventory() {
         
     }
 
     @Override
-    public void closeChest() {
+    public void closeInventory() {
         
     }
     

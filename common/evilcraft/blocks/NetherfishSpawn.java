@@ -3,7 +3,8 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -49,15 +50,15 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     @Override
     protected Block[] makeInnerBlockList() {
         return new Block[]{
-                Block.netherrack,
-                Block.netherBrick, 
-                Block.slowSand
+                Blocks.netherrack,
+                Blocks.nether_brick, 
+                Blocks.soul_sand
                 };
     }
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {}
+    public void registerBlockIcons(IIconRegister iconRegister) {}
     
     @Override
     public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta) {
@@ -82,7 +83,7 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
      * @return if the metadata corresponds to an inner block.
      */
     public boolean getPosingIdByMetadata(int meta) {
-        return getMetadataFromBlockID(meta) > -1;
+        return getBlockFromMetadata(meta) != null;
     }
 
 }

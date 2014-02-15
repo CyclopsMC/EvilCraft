@@ -163,7 +163,7 @@ public class EntityBroom extends Entity implements Configurable{
     		    if (!Helpers.isPlayerInventoryFull(lastMounted))
     		        lastMounted.inventory.addItemStackToInventory(new ItemStack(Broom.getInstance(), 1));
     		    else
-    		        dropItem(Broom.getInstance().itemID, 1);
+    		        dropItem(Broom.getInstance(), 1);
     		}
     		
             lastMounted = null;

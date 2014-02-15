@@ -112,7 +112,7 @@ public class InventoryContainer<T extends InventoryTileEntity> extends Container
                             slot = (Slot)this.inventorySlots.get(slotIndex);
                             existingStack = slot.getStack();
                             
-                            if(slot.isItemValid(stack) && existingStack != null && existingStack.itemID == stack.itemID && (!stack.getHasSubtypes() || stack.getItemDamage() == existingStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, existingStack)) {
+                            if(slot.isItemValid(stack) && existingStack != null && existingStack.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getItemDamage() == existingStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, existingStack)) {
                                     int existingSize = existingStack.stackSize + stack.stackSize;
                                     
                                     if(existingSize <= maxStack) {

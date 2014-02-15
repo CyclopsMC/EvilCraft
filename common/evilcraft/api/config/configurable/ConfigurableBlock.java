@@ -2,8 +2,8 @@ package evilcraft.api.config.configurable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.util.Icon;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,10 +40,9 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlock(ExtendedConfig eConfig, Material material) {
-        super(eConfig.ID, material);
-        eConfig.ID = this.blockID; // This could've changed.
+        super(material);
         this.setConfig(eConfig);
-        this.setUnlocalizedName(this.getUniqueName());
+        this.setBlockName(this.getUniqueName());
     }
 
     @Override
@@ -58,7 +57,7 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon(getTextureName());
     }
     
@@ -74,13 +73,13 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
     
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         return getIcon(side, meta, pass);
     }
     
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int side, int meta, int renderPass) {
+    public IIcon getIcon(int side, int meta, int renderPass) {
         if(renderPass < 0) return null;
         return super.getIcon(side, meta);
     }

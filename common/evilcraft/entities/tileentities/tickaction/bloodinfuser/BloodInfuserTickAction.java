@@ -1,5 +1,6 @@
 package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.entities.tileentities.TileBloodInfuser;
@@ -21,7 +22,7 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
             ItemStack production = tile.getInventory().getStackInSlot(tile.getProduceSlot());
             if(production == null) {
                 return true;
-            } else if(production.itemID == willProduceItemID(tile)) {
+            } else if(production.getItem() == willProduceItem(tile)) {
                 if(production.stackSize < production.getMaxStackSize())
                     return true;
             }                
@@ -39,11 +40,11 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
     }
     
     /**
-     * Get the item id of the item that will be produced after infusion.
+     * Get the item of the item that will be produced after infusion.
      * @param tile The tile that performs the infusion.
-     * @return The item id.
+     * @return The item.
      */
-    public abstract int willProduceItemID(TileBloodInfuser tile);
+    public abstract Item willProduceItem(TileBloodInfuser tile);
     
     /**
      * Try to add the given item to the production slot.

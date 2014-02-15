@@ -12,11 +12,10 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
     
     /**
      * Make a new instance.
-     * @param blockID The block ID.
      * @param block The block instance.
      */
-    public ItemBlockFluidContainer(int blockID, Block block) {
-        super(blockID, block);
+    public ItemBlockFluidContainer(Block block) {
+        super(block);
     }
 
 }

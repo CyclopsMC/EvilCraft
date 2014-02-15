@@ -1,7 +1,7 @@
 package evilcraft.api.config.elementtypeaction;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.registry.VillagerRegistry;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;

@@ -53,7 +53,7 @@ public class EntityDropParticleFXBlockComponent implements IEntityDropParticleFX
 
     @Override
     public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-        if (rand.nextInt(chance) == 0 && (offset == 0 || world.doesBlockHaveSolidTopSurface(x, y - offset, z)) && !world.getBlockMaterial(x, y - offset - 1, z).blocksMovement()) {
+        if (rand.nextInt(chance) == 0 && (offset == 0 || world.doesBlockHaveSolidTopSurface(world, x, y - offset, z)) && !world.getBlock(x, y - offset - 1, z).getMaterial().blocksMovement()) {
             double px = (double) ((float) x + rand.nextFloat());
             double py = (double) y - 0.05D - offset;
             double pz = (double) ((float) z + rand.nextFloat());

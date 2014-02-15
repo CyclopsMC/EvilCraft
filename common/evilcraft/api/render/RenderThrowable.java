@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -44,7 +44,7 @@ public class RenderThrowable extends Render {
         
         int renderPass = 0;
         int numberOfPasses = item.getRenderPasses(damage);
-        Icon icon = item.getIconFromDamageForRenderPass(damage, renderPass);
+        IIcon icon = item.getIconFromDamageForRenderPass(damage, renderPass);
 
         if (icon != null) {
             GL11.glPushMatrix();
@@ -89,7 +89,7 @@ public class RenderThrowable extends Render {
         GL11.glColor3f(red, green, blue);
     }
     
-    private void renderIcon(Tessellator tessellator, Icon icon) {
+    private void renderIcon(Tessellator tessellator, IIcon icon) {
         float f = icon.getMinU();
         float f1 = icon.getMaxU();
         float f2 = icon.getMinV();

@@ -34,7 +34,7 @@ public class UndeadLog extends ConfigurableBlockLog {
     private UndeadLog(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig);
         setHardness(2.0F);
-        setStepSound(soundWoodFootstep);
+        setStepSound(soundTypeWood);
     }
 
 }

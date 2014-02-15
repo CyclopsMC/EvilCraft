@@ -1,12 +1,13 @@
 package evilcraft.api.config.configurable;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.DirectionCorner;
@@ -31,10 +32,10 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     protected CustomRenderBlocks renderer;
     
     protected ConnectableIcon connectableIcon;
-    protected Icon blockIconBorder;
-    protected Icon blockIconCorner;
-    protected Icon blockIconInnerCorner;
-    protected Icon blockIconInventory;
+    protected IIcon blockIconBorder;
+    protected IIcon blockIconCorner;
+    protected IIcon blockIconInnerCorner;
+    protected IIcon blockIconInventory;
 
     
     /**
@@ -52,7 +53,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * Get the icon of the background.
      * @return The background icon.
      */
-    public Icon getIconBackground() {
+    public IIcon getIconBackground() {
         return blockIcon;
     }
 
@@ -60,7 +61,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * Get the icon for the borders.
      * @return The border icon.
      */
-    public Icon getIconBorders() {
+    public IIcon getIconBorders() {
         return blockIconBorder;
     }
 
@@ -68,7 +69,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * Get the icon for the corners.
      * @return The corner icon.
      */
-    public Icon getIconCorners() {
+    public IIcon getIconCorners() {
         return blockIconCorner;
     }
 
@@ -76,7 +77,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * Get the inner corner icon.
      * @return The inner corner icon.
      */
-    public Icon getIconInnerCorners() {
+    public IIcon getIconInnerCorners() {
         return blockIconInnerCorner;
     }
     
@@ -85,7 +86,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * @return The inventory block icon.
      * @see ConfigurableBlockConnectedTexture#hasSeperateInventoryBlockIcon()
      */
-    public Icon getIconInventory() {
+    public IIcon getIconInventory() {
         return hasSeperateInventoryBlockIcon()?blockIconInventory:blockIcon;
     }
     
@@ -118,8 +119,8 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * @see ForgeDirection
      */
     public boolean shouldConnectDirection(IBlockAccess world, ForgeDirection side, int x, int y, int z) {
-        if(!shouldConnect(world, x, y, z))return false;
-        return world.getBlockId(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this.blockID;
+        if(!shouldConnect(world, x, y, z)) return false;
+        return world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this;
     }
     
     /**
@@ -134,7 +135,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      */
     public boolean shouldConnectDirection(IBlockAccess world, DirectionCorner side, int x, int y, int z) {
         if(!shouldConnect(world, x, y, z))return false;
-        return world.getBlockId(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this.blockID;
+        return world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this;
     }
     
     @Override
@@ -157,7 +158,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     
     @Override
     public void updateTileEntity(IBlockAccess world, int x, int y, int z) {
-        TileEntity tile = (TileEntity) world.getBlockTileEntity(x, y, z);
+        TileEntity tile = (TileEntity) world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileConnectedTexture){
             TileConnectedTexture tileConnectedTexture = (TileConnectedTexture) tile;
             connectableIcon.setTileConnectedTexture(tileConnectedTexture);
@@ -166,8 +167,8 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
-        super.registerIcons(iconRegister);
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        super.registerBlockIcons(iconRegister);
         blockIconBorder = iconRegister.registerIcon(getTextureName()+"_border");
         blockIconCorner = iconRegister.registerIcon(getTextureName()+"_corner");
         blockIconInnerCorner = iconRegister.registerIcon(getTextureName()+"_innerCorner");
@@ -178,13 +179,13 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         return getIcon(side, meta, pass);
     }
     
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int side, int meta, int renderPass) {
+    public IIcon getIcon(int side, int meta, int renderPass) {
         if(this.getRenderBlocks() != null) { // In case for inventoryblock?
             connectableIcon.prepareIcon(side, renderPass, this.getRenderBlocks());
         }
@@ -192,9 +193,9 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     }
     
     @Override
-    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
         updateConnections(world, x, y, z);// If there are framerate issues, this will propably be the cause.
-        return super.getBlockTexture(world, x, y, z, side);
+        return super.getIcon(world, x, y, z, side);
     }
     
     @Override
@@ -203,12 +204,12 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     }
     
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int meta){
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block){
         updateConnections(world, x, y, z);
     }
     
     private void updateConnections(IBlockAccess world, int x, int y, int z) {
-        TileEntity tile = (TileEntity) world.getBlockTileEntity(x, y, z);
+        TileEntity tile = (TileEntity) world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileConnectedTexture){
             TileConnectedTexture tileConnectedTexture = (TileConnectedTexture) tile;
             // Regular sides

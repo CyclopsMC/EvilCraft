@@ -1,6 +1,6 @@
 package evilcraft.api.render;
 
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
 /**
@@ -18,7 +18,7 @@ public interface IMultiRenderPassBlock {
      * @param renderPass The renderpass.
      * @return The icon.
      */
-    public Icon getIcon(int side, int meta, int renderPass);
+    public IIcon getIcon(int side, int meta, int renderPass);
     /**
      * Get the amount of required render passes.
      * @return Required render passes.

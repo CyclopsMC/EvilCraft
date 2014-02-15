@@ -1,5 +1,6 @@
 package evilcraft;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.items.DarkGem;
 
@@ -28,7 +29,7 @@ public class EvilCraftTab extends CreativeTabs{
     }
     
     @Override
-    public int getTabIconItemIndex() {
-        return DarkGem.getInstance().itemID;
+    public Item getTabIconItem() {
+        return DarkGem.getInstance();
     }
 }

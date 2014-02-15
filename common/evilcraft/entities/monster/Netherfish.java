@@ -1,8 +1,10 @@
 package evilcraft.entities.monster;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntitySilverfish;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
@@ -47,8 +49,8 @@ public class Netherfish extends EntitySilverfish implements Configurable{
     }
     
     @Override
-    protected int getDropItemId() {
-        return Item.gunpowder.itemID;
+    protected Item getDropItem() {
+        return Items.gunpowder;
     }
 
     @Override
@@ -71,9 +73,9 @@ public class Netherfish extends EntitySilverfish implements Configurable{
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         // A bit stronger than those normal silverfish...
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(12.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.8D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(2.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(12.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.8D);
+        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
     }
     
     @Override
@@ -112,11 +114,12 @@ public class Netherfish extends EntitySilverfish implements Configurable{
                 j = MathHelper.floor_double(this.posY + 0.5D);
                 k = MathHelper.floor_double(this.posZ);
                 int i2 = this.rand.nextInt(6);
-                l = this.worldObj.getBlockId(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2]);
-
+                Block block = this.worldObj.getBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2]);
+                l = this.worldObj.getBlockMetadata(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2]);
+                
                 if (NetherfishSpawn.getInstance().getPosingIdByMetadata(l))
                 {
-                    this.worldObj.setBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2], NetherfishSpawnConfig._instance.ID, NetherfishSpawn.getInstance().getMetadataFromBlockID(l), 3);
+                    this.worldObj.setBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2], NetherfishSpawn.getInstance(), NetherfishSpawn.getInstance().getMetadataFromBlock(block), 3);
                     this.spawnExplosionParticle();
                     this.setDead();
                 }

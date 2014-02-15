@@ -3,13 +3,13 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.item.Item;
-import net.minecraft.util.Icon;
+import net.minecraft.init.Items;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -29,8 +29,8 @@ public class LightningBomb extends ConfigurableBlock {
     
     private static LightningBomb _instance = null;
     
-    private Icon blockIconTop;
-    private Icon blockIconBottom;
+    private IIcon blockIconTop;
+    private IIcon blockIconBottom;
     
     /**
      * Initialise the configurable.
@@ -54,7 +54,7 @@ public class LightningBomb extends ConfigurableBlock {
     private LightningBomb(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.tnt);
         this.setHardness(0.0F);
-        this.setStepSound(Block.soundGrassFootstep);
+        this.setStepSound(soundTypeGrass);
     }
     
     @Override
@@ -68,7 +68,7 @@ public class LightningBomb extends ConfigurableBlock {
     }
     
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int neighbourID) {
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbour) {
         if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
             this.onBlockDestroyedByPlayer(world, x, y, z, 1);
             world.setBlockToAir(x, y, z);
@@ -115,13 +115,13 @@ public class LightningBomb extends ConfigurableBlock {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         return side == 0 ? this.blockIconBottom : (side == 1 ? this.blockIconTop : this.blockIcon);
     }
     
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister ironRegister) {
+    public void registerBlockIcons(IIconRegister ironRegister) {
         this.blockIcon = ironRegister.registerIcon(this.getTextureName() + "_side");
         this.blockIconTop = ironRegister.registerIcon(this.getTextureName() + "_top");
         this.blockIconBottom = ironRegister.registerIcon(this.getTextureName() + "_bottom");
@@ -129,7 +129,7 @@ public class LightningBomb extends ConfigurableBlock {
     
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float coordX, float coordY, float coordZ) {
-        if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID) {
+        if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.flint_and_steel) {
             this.primeBomb(world, x, y, z, 1, player);
             world.setBlockToAir(x, y, z);
             player.getCurrentEquippedItem().damageItem(1, player);

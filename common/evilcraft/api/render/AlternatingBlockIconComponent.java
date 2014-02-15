@@ -2,8 +2,8 @@ package evilcraft.api.render;
 
 import java.util.Random;
 
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.util.Icon;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
 /**
@@ -24,7 +24,7 @@ import net.minecraft.world.IBlockAccess;
  */
 public class AlternatingBlockIconComponent {
     
-    private Icon[] alternateIcons;
+    private IIcon[] alternateIcons;
     private Random random = new Random();
     
     /**
@@ -32,7 +32,7 @@ public class AlternatingBlockIconComponent {
      * @param alternateIcons The amount of icons to alternate.
      */
     public AlternatingBlockIconComponent(int alternateIcons) {
-        this.alternateIcons =  new Icon[alternateIcons];
+        this.alternateIcons =  new IIcon[alternateIcons];
     }
     
     /**
@@ -40,7 +40,7 @@ public class AlternatingBlockIconComponent {
      * @param textureNameBase The base texture name.
      * @param iconRegister The {@link IconRegister}.
      */
-    public void registerIcons(String textureNameBase, IconRegister iconRegister) {
+    public void registerIcons(String textureNameBase, IIconRegister iconRegister) {
         for(int i = 0; i < getAlternateIcons().length; i++) {
             alternateIcons[i] = iconRegister.registerIcon(textureNameBase + "_" + i);
         }
@@ -50,7 +50,7 @@ public class AlternatingBlockIconComponent {
      * The array of alternate icons.
      * @return The icon array.
      */
-    public Icon[] getAlternateIcons() {
+    public IIcon[] getAlternateIcons() {
         return alternateIcons;
     }
     
@@ -63,7 +63,7 @@ public class AlternatingBlockIconComponent {
      * @param side The side of the block that will be rendered.
      * @return The icon to render.
      */
-    public Icon getAlternateIcon(IBlockAccess world, int x, int y, int z, int side) {
+    public IIcon getAlternateIcon(IBlockAccess world, int x, int y, int z, int side) {
         random.setSeed(String.format("%s:%s:%s:%s", x, y, z, side).hashCode());
         int randomIndex = random.nextInt(getAlternateIcons().length);
         return alternateIcons[randomIndex];
@@ -73,7 +73,7 @@ public class AlternatingBlockIconComponent {
      * Get the first/base icon.
      * @return The base icon.
      */
-    public Icon getBaseIcon() {
+    public IIcon getBaseIcon() {
         return alternateIcons[0];
     }
 }

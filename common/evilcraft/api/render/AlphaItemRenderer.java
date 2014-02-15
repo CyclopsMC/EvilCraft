@@ -2,7 +2,7 @@ package evilcraft.api.render;
 
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
@@ -37,7 +37,7 @@ public class AlphaItemRenderer implements IItemRenderer{
     @Override
     public void renderItem(ItemRenderType type, ItemStack itemStack, Object... data) {
         GL11.glEnable(GL11.GL_BLEND);
-        Icon icon = itemStack.getIconIndex();
+        IIcon icon = itemStack.getIconIndex();
         renderItem.renderIcon(0, 0, icon, 16, 16);
         GL11.glDisable(GL11.GL_BLEND);
     }

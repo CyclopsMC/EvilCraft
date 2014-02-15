@@ -4,9 +4,10 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import evilcraft.blocks.UndeadLeaves;
 import evilcraft.blocks.UndeadLog;
 
@@ -78,8 +79,7 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
             int yOffset;
             int zOffset;
 
-            blockId = world.getBlockId(x, y - 1, z);
-            block = Block.blocksList[blockId];
+            block = world.getBlock(x, y - 1, z);
 
             if((block != null && block.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP,
                     ((BlockSapling)sapling))) && y < worldHeight - treeHeight - 1) {
@@ -98,12 +98,10 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
                     if(yOffset >= 0 & yOffset < worldHeight) {
                         for(xOffset = x - radius; xOffset <= x + radius; ++xOffset) {
                             for(zOffset = z - radius; zOffset <= z + radius; ++zOffset) {
-                                blockId = world.getBlockId(xOffset, yOffset, zOffset);
-
-                                block = Block.blocksList[blockId];
+                                block = world.getBlock(xOffset, yOffset, zOffset);
 
                                 if(block != null && !(block.isLeaves(world, xOffset, yOffset, zOffset) ||
-                                        block.isAirBlock(world, xOffset, yOffset, zOffset) ||
+                                        block == Blocks.air ||
                                         block.canBeReplacedByLeaves(world, xOffset, yOffset, zOffset))) {
                                     return false;
                                 }
@@ -114,8 +112,7 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
                     }
                 }
 
-                blockId = world.getBlockId(x, y - 1, z);
-                block = Block.blocksList[blockId];
+                block = world.getBlock(x, y - 1, z);
                 if (block != null) {
                     block.onPlantGrow(world, x, y - 1, z, x, y, z);
 
@@ -133,15 +130,15 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
                                 int zPos = zOffset - z;
                                 zPos = (zPos + (t = zPos >> 31)) ^ t;
     
-                                block = Block.blocksList[world.getBlockId(xOffset, yOffset, zOffset)];
+                                block = world.getBlock(xOffset, yOffset, zOffset);
     
                                 if(((xPos != center | zPos != center) ||
                                         rand.nextInt(2) != 0 && var12 != 0) &&
                                         (block == null || block.isLeaves(world, xOffset, yOffset, zOffset) ||
-                                        block.isAirBlock(world, xOffset, yOffset, zOffset) ||
+                                        block == Blocks.air ||
                                         block.canBeReplacedByLeaves(world, xOffset, yOffset, zOffset))) {
-                                    this.setBlockAndMetadata(world, xOffset, yOffset, zOffset,
-                                            leaves.blockID, 0);
+                                    this.setBlockAndNotifyAdequately(world, xOffset, yOffset, zOffset,
+                                            leaves, 0);
                                 }
                             }
                         }
@@ -149,15 +146,13 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
 
                     // Replace replacable blocks with logs
                     for(yOffset = 0; yOffset < treeHeight; ++yOffset) {
-                        blockId = world.getBlockId(x, y + yOffset, z);
+                        block = world.getBlock(x, y + yOffset, z);
 
-                        block = Block.blocksList[blockId];
-
-                        if(block == null || block.isAirBlock(world, x, y + yOffset, z)  ||
+                        if(block == null || block == Blocks.air  ||
                                 block.isLeaves(world, x, y + yOffset, z) ||
-                                block.isBlockReplaceable(world, x, y + yOffset, z)) {
-                            this.setBlockAndMetadata(world, x, y + yOffset, z,
-                                    logs.blockID, 1);
+                                block.isReplaceable(world, x, y + yOffset, z)) {
+                            this.setBlockAndNotifyAdequately(world, x, y + yOffset, z,
+                                    logs, 1);
                         }
                     }
                     return true;

@@ -1,8 +1,8 @@
 package evilcraft.api.config.elementtypeaction;
 
 import net.minecraft.item.Item;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraftTab;
@@ -18,7 +18,7 @@ public class ItemAction extends IElementTypeAction<ItemConfig>{
     @Override
     public void preRun(ItemConfig eConfig, Configuration config) {
         // Get property in config file and set comment
-        Property property = config.getItem(eConfig.getHolderType().getCategory(), eConfig.NAMEDID, eConfig.ID);
+        Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID, eConfig.ID);
         property.comment = eConfig.COMMENT;
         
         // Update the ID, it could've changed

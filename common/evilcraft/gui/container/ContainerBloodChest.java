@@ -39,7 +39,7 @@ public class ContainerBloodChest extends TickingChestContainer<TileBloodChest> {
      */
     public ContainerBloodChest(InventoryPlayer inventory, TileBloodChest tile) {
         super(inventory, tile, CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y);
-        tile.openChest();
+        tile.openInventory();
         addSlotToContainer(new SlotFluidContainer(tile, TileBloodChest.SLOT_CONTAINER, 8, 36, TileBloodInfuser.ACCEPTED_FLUID)); // Container emptier
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
@@ -52,7 +52,7 @@ public class ContainerBloodChest extends TickingChestContainer<TileBloodChest> {
     @Override
     public void onContainerClosed(EntityPlayer entityplayer) {
         super.onContainerClosed(entityplayer);
-        tile.closeChest();
+        tile.closeInventory();
     }
     
 }

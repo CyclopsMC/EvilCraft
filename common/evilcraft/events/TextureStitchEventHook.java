@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
@@ -31,7 +31,7 @@ public class TextureStitchEventHook {
      * Before the texture stitching.
      * @param event The received event.
      */
-    @ForgeSubscribe
+    @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onTextureHookPre(TextureStitchEvent.Pre event) {
         RenderHelpers.EMPTYICON = event.map.registerIcon(Reference.MOD_ID+":"+EMPTY_ICON_NAME);
@@ -41,7 +41,7 @@ public class TextureStitchEventHook {
      * After the texture stitching.
      * @param event The received event.
      */
-    @ForgeSubscribe
+    @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void postStitch(TextureStitchEvent.Post event) {
         for(Entry<Fluid, BlockFluidBase> fluids : fluidMap.entrySet()) {

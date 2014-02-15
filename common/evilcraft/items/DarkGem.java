@@ -1,5 +1,6 @@
 package evilcraft.items;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -83,14 +84,14 @@ public class DarkGem extends ConfigurableItem {
                                 if(amount == REQUIRED_BLOOD_BLOCKS) {
                                     // Spawn the new item
                                     entityItem.getEntityItem().stackSize--;
-                                    entityItem.dropItem(DarkPowerGemConfig._instance.ID, 1);
+                                    entityItem.dropItem(DarkPowerGem.getInstance(), 1);
                                     
                                     // Retrace coordinate step and remove all those blocks + spawn particles
                                     for(int restep = 0; restep < amount; restep++) {
                                         world.setBlockToAir(xs[restep], ys[restep], zs[restep]);
                                         if (world.isRemote)
                                             BloodStainedBlock.splash(world, xs[restep], ys[restep] - 1, zs[restep]);
-                                        world.notifyBlocksOfNeighborChange(xs[restep], ys[restep], zs[restep], 0);
+                                        world.notifyBlocksOfNeighborChange(xs[restep], ys[restep], zs[restep], Blocks.air);
                                     }
                                     return false;
                                 }
@@ -104,7 +105,7 @@ public class DarkGem extends ConfigurableItem {
     }
     
     private boolean isValidBlock(IBlockAccess world, int x, int y, int z) {
-        return world.getBlockId(x, y, z) == FluidBlockBloodConfig._instance.ID
+        return world.getBlock(x, y, z) == FluidBlockBlood.getInstance()
                 && FluidBlockBlood.getInstance().isSourceBlock(world, x, y, z);
     }
 

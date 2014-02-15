@@ -1,13 +1,14 @@
 package evilcraft.items;
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,7 +35,7 @@ public class WeatherContainer extends ConfigurableItem {
     
     private static WeatherContainer _instance = null;
     
-    private Icon overlay;
+    private IIcon overlay;
     
     /**
      * Initialise the configurable.
@@ -134,22 +135,22 @@ public class WeatherContainer extends ConfigurableItem {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerIcons(IIconRegister iconRegister) {
         itemIcon = iconRegister.registerIcon(getIconString());
         overlay = iconRegister.registerIcon(getIconString() + "_overlay");
     }
     
     @Override
-    public Icon getIconFromDamageForRenderPass(int meta, int renderpass) {
+    public IIcon getIconFromDamageForRenderPass(int meta, int renderpass) {
         return renderpass == 0 ? this.overlay : super.getIconFromDamageForRenderPass(meta, renderpass);
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(int itemId, CreativeTabs creativeTabs, List list) {
+    public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
         for(int i = 0; i < WeatherContainerTypes.values().length; i++) {
-            list.add(new ItemStack(itemId, 1, i));
+            list.add(new ItemStack(item, 1, i));
         }
     }
     

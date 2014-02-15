@@ -3,8 +3,8 @@ package evilcraft.entities.monster;
 import java.util.Random;
 
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingData;
 import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -15,14 +15,18 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.entities.villager.WerewolfVillagerConfig;
+import evilcraft.items.WerewolfBone;
 import evilcraft.items.WerewolfBoneConfig;
+import evilcraft.items.WerewolfFur;
 import evilcraft.items.WerewolfFurConfig;
 
 /**
@@ -84,15 +88,15 @@ public class Werewolf extends EntityMob implements Configurable{
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(40.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(2.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(7.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(2.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(7.0D);
     }
     
     @Override
     public void writeEntityToNBT(NBTTagCompound NBTTagCompound) {
         super.writeEntityToNBT(NBTTagCompound);
-        NBTTagCompound.setCompoundTag("villager", villagerNBTTagCompound);
+        NBTTagCompound.setTag("villager", villagerNBTTagCompound);
         NBTTagCompound.setBoolean("fromVillager", fromVillager);
     }
 
@@ -112,7 +116,7 @@ public class Werewolf extends EntityMob implements Configurable{
         return WerewolfConfig._instance.isEnabled()
                 && world.getCurrentMoonPhaseFactor() == 1.0
                 && !Helpers.isDay(world)
-                && world.difficultySetting != 0;
+                && world.difficultySetting != EnumDifficulty.PEACEFUL;
     }
     
     private static void replaceEntity(EntityLiving old, EntityLiving neww, World world) {
@@ -120,7 +124,7 @@ public class Werewolf extends EntityMob implements Configurable{
         // Maybe something like this: https://github.com/iChun/Morph/blob/master/morph/client/model/ModelMorphAcquisition.java
         neww.copyLocationAndAnglesFrom(old);
         world.removeEntity(old);
-        neww.onSpawnWithEgg((EntityLivingData)null);
+        neww.onSpawnWithEgg((IEntityLivingData)null);
 
         world.spawnEntityInWorld(neww);
         world.playAuxSFXAtEntity((EntityPlayer)null, 1016, (int)old.posX, (int)old.posY, (int)old.posZ, 0);
@@ -148,7 +152,7 @@ public class Werewolf extends EntityMob implements Configurable{
     
     @Override
     public void onLivingUpdate() {        
-        if(!worldObj.isRemote && (!isWerewolfTime(worldObj) || worldObj.difficultySetting == 0)) {
+        if(!worldObj.isRemote && (!isWerewolfTime(worldObj) || worldObj.difficultySetting == EnumDifficulty.PEACEFUL)) {
             replaceWithVillager();
         } else {
             super.onLivingUpdate();
@@ -180,17 +184,17 @@ public class Werewolf extends EntityMob implements Configurable{
     }
     
     @Override
-    protected int getDropItemId() {
+    protected Item getDropItem() {
         if(WerewolfBoneConfig._instance.isEnabled())
-            return WerewolfBoneConfig._instance.ID;
+            return WerewolfBone.getInstance();
         else
-            return super.getDropItemId();
+            return super.getDropItem();
     }
     
     @Override
     protected void dropRareDrop(int chance) {
         if(WerewolfFurConfig._instance.isEnabled())
-            this.dropItem(WerewolfFurConfig._instance.ID, 1);
+            this.dropItem(WerewolfFur.getInstance(), 1);
     }
     
     @Override

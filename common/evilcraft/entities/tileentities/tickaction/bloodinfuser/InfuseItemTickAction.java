@@ -1,5 +1,6 @@
 package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import evilcraft.CustomRecipe;
 import evilcraft.CustomRecipeRegistry;
@@ -46,9 +47,9 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
     }
     
     @Override
-    public int willProduceItemID(TileBloodInfuser tile) {
+    public Item willProduceItem(TileBloodInfuser tile) {
         CustomRecipeResult result = getResult(tile);
-        return result.getResult().itemID;
+        return result.getResult().getItem();
     }
     
 }

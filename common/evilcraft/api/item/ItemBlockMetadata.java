@@ -22,11 +22,10 @@ public class ItemBlockMetadata extends ItemBlockWithMetadata{
 
     /**
      * Make a new instance.
-     * @param blockID The block ID.
      * @param block The block instance.
      */
-    public ItemBlockMetadata(int blockID, Block block) {
-        super(blockID, block);
+    public ItemBlockMetadata(Block block) {
+        super(block, block);
         informationProvider = new InformationProviderComponent(block);
     }
     

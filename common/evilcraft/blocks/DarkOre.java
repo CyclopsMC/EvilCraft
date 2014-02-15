@@ -2,14 +2,14 @@ package evilcraft.blocks;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
@@ -56,16 +56,16 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
         super(eConfig, Material.rock);
         this.setTickRandomly(true);
         this.setHardness(3.0F);
-        this.setStepSound(Block.soundStoneFootstep);
-        MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 2); // Iron tier
+        this.setStepSound(soundTypeStone);
+        this.setHarvestLevel("pickaxe", 2); // Iron tier
     }
     
     @Override
-    public int idDropped(int meta, Random random, int zero) {
+    public Item getItemDropped(int meta, Random random, int zero) {
         if(DarkGemConfig._instance.isEnabled())
-            return DarkGemConfig._instance.ID;
+            return DarkGem.getInstance();
         else
-            return zero;
+            return null;
     }
     
     @Override
@@ -82,7 +82,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float dropchance, int fortune) {
         super.dropBlockAsItemWithChance(world, x, y, z, meta, dropchance, fortune);
 
-        if (this.idDropped(meta, world.rand, fortune) != this.blockID) {
+        if (this.getItemDropped(meta, world.rand, fortune) != Item.getItemFromBlock(this)) {
             int xp = 1 + world.rand.nextInt(INCREASE_XP);
             this.dropXpOnBlockBreak(world, x, y, z, xp);
         }
@@ -125,7 +125,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
 
         if (!isGlowing(world, x, y, z)) {
             world.setBlockMetadataWithNotify(x, y, z, GLOWINGMETA, 2);// Flag=2 causes client update
-            world.scheduleBlockUpdate(x,y,z,blockID,tickRate(world));
+            world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
         }
     }
     
@@ -152,27 +152,27 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
             double sparkY = (double)((float)y + random.nextFloat());
             double sparkZ = (double)((float)z + random.nextFloat());
 
-            if (l == 0 && !world.isBlockOpaqueCube(x, y + 1, z)) {
+            if (l == 0 && !world.getBlock(x, y + 1, z).isBlockNormalCube()) {
                 sparkY = (double)(y + 1) + offset;
             }
 
-            if (l == 1 && !world.isBlockOpaqueCube(x, y - 1, z)) {
+            if (l == 1 && !world.getBlock(x, y - 1, z).isBlockNormalCube()) {
                 sparkY = (double)(y + 0) - offset;
             }
 
-            if (l == 2 && !world.isBlockOpaqueCube(x, y, z + 1)) {
+            if (l == 2 && !world.getBlock(x, y, z + 1).isBlockNormalCube()) {
                 sparkZ = (double)(z + 1) + offset;
             }
 
-            if (l == 3 && !world.isBlockOpaqueCube(x, y, z - 1)) {
+            if (l == 3 && !world.getBlock(x, y, z - 1).isBlockNormalCube()) {
                 sparkZ = (double)(z + 0) - offset;
             }
 
-            if (l == 4 && !world.isBlockOpaqueCube(x + 1, y, z)) {
+            if (l == 4 && !world.getBlock(x + 1, y, z).isBlockNormalCube()) {
                 sparkX = (double)(x + 1) + offset;
             }
 
-            if (l == 5 && !world.isBlockOpaqueCube(x - 1, y, z)) {
+            if (l == 5 && !world.getBlock(x - 1, y, z).isBlockNormalCube()) {
                 sparkX = (double)(x + 0) - offset;
             }
 
@@ -199,11 +199,11 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public Icon getIcon(int side, int meta, int renderPass) {
+    public IIcon getIcon(int side, int meta, int renderPass) {
         if(renderPass == 1) {
             return this.blockIcon;
         } else {
-            return Block.stone.getIcon(side, meta);
+            return Blocks.stone.getIcon(side, meta);
         }
     }
 

@@ -97,7 +97,7 @@ public class LargeDoorItem extends ConfigurableItem {
             b0 = 1;
         }
 
-        int i1 = (world.isBlockNormalCube(x - b0, y, z - b1) ? 1 : 0)
+        /*int i1 = (world.isBlockNormalCube(x - b0, y, z - b1) ? 1 : 0)
                 + (world.isBlockNormalCube(x - b0, y + 1, z - b1) ? 1 : 0)
                 + (world.isBlockNormalCube(x - b0, y + 2, z - b1) ? 1 : 0);
         int j1 = (world.isBlockNormalCube(x + b0, y, z + b1) ? 1 : 0)
@@ -116,7 +116,7 @@ public class LargeDoorItem extends ConfigurableItem {
         world.setBlock(x, y + 2, z, block.blockID, 16 | (flag2 ? 1 : 0), 2);
         world.notifyBlocksOfNeighborChange(x, y, z, block.blockID);
         world.notifyBlocksOfNeighborChange(x, y + 1, z, block.blockID);
-        world.notifyBlocksOfNeighborChange(x, y + 2, z, block.blockID);
+        world.notifyBlocksOfNeighborChange(x, y + 2, z, block.blockID);*/
     }
 
 }

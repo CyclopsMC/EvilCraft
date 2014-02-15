@@ -34,7 +34,7 @@ public class BucketPoison extends ConfigurableItemBucket {
     }
 
     private BucketPoison(ExtendedConfig<ItemConfig> eConfig) {
-        super(eConfig, FluidBlockPoison.getInstance().blockID);
+        super(eConfig, FluidBlockPoison.getInstance());
     }
 
 }

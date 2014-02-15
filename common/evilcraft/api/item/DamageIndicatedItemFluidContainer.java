@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
@@ -76,8 +77,8 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     @SuppressWarnings({ "rawtypes"})
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(int id, CreativeTabs tab, List itemList) {
-        component.getSubItems(id, tab, itemList, fluid, 0);
+    public void getSubItems(Item item, CreativeTabs tab, List itemList) {
+        component.getSubItems(item, tab, itemList, fluid, 0);
     }
     
     @Override

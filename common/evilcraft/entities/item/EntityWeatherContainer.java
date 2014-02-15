@@ -50,7 +50,7 @@ public class EntityWeatherContainer extends EntityThrowable implements Configura
      * @param damage The damage value for the {@link WeatherContainer} to be rendered.
      */
     public EntityWeatherContainer(World world, EntityLivingBase entity, int damage) {
-        this(world, entity, new ItemStack(WeatherContainer.getInstance().itemID, 1, damage));
+        this(world, entity, new ItemStack(WeatherContainer.getInstance(), 1, damage));
     }
 
     /**

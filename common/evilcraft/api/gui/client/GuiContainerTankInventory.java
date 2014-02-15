@@ -5,8 +5,9 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -15,7 +16,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
-
 import evilcraft.Reference;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.api.fluids.SingleUseTank;
@@ -101,7 +101,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     }
     
     protected void drawForgegroundString() {
-        fontRenderer.drawString(tile.getInvName(), 8, 4, 4210752);
+    	fontRendererObj.drawString(tile.getInventoryName(), 8, 4, 4210752);
     }
     
     @Override
@@ -133,8 +133,8 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
         FluidStack stack = new FluidStack(fluidID, 1);
         if(fluidID > 0 && stack != null) {
-            Icon icon = stack.getFluid().getIcon();
-            if (icon == null) icon = Block.waterMoving.getIcon(0, 0);
+            IIcon icon = stack.getFluid().getIcon();
+            if (icon == null) icon = Blocks.water.getIcon(0, 0);
             
             int verticalOffset = 0;
             
@@ -160,7 +160,8 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     }
     
     protected void drawTooltips(int mouseX, int mouseY) {
-        if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
+    	//TODO: MCP isPointInRegion
+        if(func_146978_c(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
             SingleUseTank tank = tile.getTank();
             String fluidName = LanguageRegistry.instance().getStringLocalization("fluid.fluids."+FluidRegistry.getFluidName(tank.getFluid().fluidID));
             drawBarTooltip(fluidName, "mB", tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
@@ -186,7 +187,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         int yStart;
         
         for(int i = 0; i < lines.size(); i++) {
-            tempWidth = this.fontRenderer.getStringWidth(lines.get(i));
+            tempWidth = this.fontRendererObj.getStringWidth(lines.get(i));
             
             if(tempWidth > tooltipWidth) {
                 tooltipWidth = tempWidth;
@@ -206,7 +207,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         }
         
         this.zLevel = 300.0F;
-        itemRenderer.zLevel = 300.0F;
+        itemRender.zLevel = 300.0F;
         int color1 = -267386864;
         this.drawGradientRect(xStart - 3, yStart - 4, xStart + tooltipWidth + 3, yStart - 3, color1, color1);
         this.drawGradientRect(xStart - 3, yStart + tooltipHeight + 3, xStart + tooltipWidth + 3, yStart + tooltipHeight + 4, color1, color1);
@@ -229,7 +230,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
                 line = "\u00a77" + line;
             }
             
-            this.fontRenderer.drawStringWithShadow(line, xStart, yStart, -1);
+            this.fontRendererObj.drawStringWithShadow(line, xStart, yStart, -1);
             
             if(stringIndex == 0) {
                 yStart += 2;
@@ -242,7 +243,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         
         this.zLevel = 0.0F;
-        itemRenderer.zLevel = 0.0F;
+        itemRender.zLevel = 0.0F;
     }
 
 }

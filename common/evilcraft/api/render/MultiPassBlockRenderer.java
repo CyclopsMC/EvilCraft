@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -59,11 +59,11 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
         }
         return visible;
     }
-
+    
     @Override
-    public boolean shouldRender3DInInventory() {
-        return true;
-    }
+	public boolean shouldRender3DInInventory(int modelId) {
+		return true;
+	}
 
     @Override
     public int getRenderId() {

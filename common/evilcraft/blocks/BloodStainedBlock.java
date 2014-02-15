@@ -3,15 +3,16 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
@@ -54,18 +55,18 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     private BloodStainedBlock(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.ground);
         this.setHardness(0.5F);
-        this.setStepSound(Block.soundGravelFootstep);
+        this.setStepSound(soundTypeGravel);
     }
     
     @Override
     protected Block[] makeInnerBlockList() {
         return new Block[]{
-                Block.grass,
-                Block.dirt,
-                Block.stone,
-                Block.stoneBrick,
-                Block.cobblestone,
-                Block.sand
+                Blocks.grass,
+                Blocks.dirt,
+                Blocks.stone,
+                Blocks.stonebrick,
+                Blocks.cobblestone,
+                Blocks.sand
                 };
     }
     
@@ -84,19 +85,19 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         alternatingBlockIconComponent.registerIcons(getTextureName(), iconRegister);
     }
     
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
         return this.getIcon(side, world.getBlockMetadata(x, y, z), pass, alternatingBlockIconComponent.getAlternateIcon(world, x, y, z, side));
     }
     
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         // Only for inventory blocks
         return getIcon(side, meta, pass, alternatingBlockIconComponent.getBaseIcon());
     }
@@ -110,7 +111,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
      * @return The icon.
      */
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int side, int meta, int renderPass, Icon defaultIcon) {
+    public IIcon getIcon(int side, int meta, int renderPass, IIcon defaultIcon) {
         if(renderPass < 0) {
             return RenderHelpers.EMPTYICON;
         } else if(renderPass == 1) {
@@ -124,16 +125,14 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
-    {
+    public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer) {
         splash(par1World, par2, par3, par4);
         super.onBlockClicked(par1World, par2, par3, par4, par5EntityPlayer);
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void onEntityWalking(World par1World, int par2, int par3, int par4, Entity par5Entity)
-    {
+    public void onEntityWalking(World par1World, int par2, int par3, int par4, Entity par5Entity) {
         splash(par1World, par2, par3, par4);
         super.onEntityWalking(par1World, par2, par3, par4, par5Entity);
     }
@@ -153,7 +152,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     @Override
     public void fillWithRain(World world, int x, int y, int z) {
         // Transform to regular block when it rains
-        world.setBlock(x, y, z, getBlockFromMetadata(world.getBlockMetadata(x, y, z)).blockID);
+        world.setBlock(x, y, z, getBlockFromMetadata(world.getBlockMetadata(x, y, z)));
     }
     
     @Override

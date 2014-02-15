@@ -5,10 +5,11 @@ import java.util.Random;
 
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -41,10 +42,8 @@ public abstract class ConfigurableBlockSapling extends BlockSapling implements C
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlockSapling(ExtendedConfig eConfig, Material material) {
-        super(eConfig.ID);
-        eConfig.ID = this.blockID; // This could've changed.
         this.setConfig(eConfig);
-        this.setUnlocalizedName(this.getUniqueName());
+        this.setBlockName(this.getUniqueName());
         treeGenerator = new WorldGeneratorUndeadTree(true, this);
     }
 
@@ -70,19 +69,19 @@ public abstract class ConfigurableBlockSapling extends BlockSapling implements C
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon(getTextureName());
     }
 
     @Override
-    public Icon getIcon(int par1, int par2) {
+    public IIcon getIcon(int par1, int par2) {
         return this.blockIcon;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public void getSubBlocks(int id, CreativeTabs creativeTabs, List list) {
-        list.add(new ItemStack(id, 1, 0));
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+        list.add(new ItemStack(item, 1, 0));
     }
 
     @Override
@@ -90,13 +89,15 @@ public abstract class ConfigurableBlockSapling extends BlockSapling implements C
         return meta;
     }
 
+    //isSameSapling
     @Override
-    public boolean isSameSapling(World world, int x, int y, int z, int meta) {
-        return world.getBlockId(x, y, z) == this.blockID && (world.getBlockMetadata(x, y, z)) == meta;
+    public boolean func_149880_a(World world, int x, int y, int z, int meta) {
+        return world.getBlock(x, y, z) == this && (world.getBlockMetadata(x, y, z)) == meta;
     }
 
+    //growTree
     @Override
-    public void growTree(World world, int x, int y, int z, Random random) {
+    public void func_149878_d(World world, int x, int y, int z, Random random) {
         if (world.isRemote) {
             return;
         }
@@ -104,7 +105,7 @@ public abstract class ConfigurableBlockSapling extends BlockSapling implements C
         world.setBlockToAir(x, y, z);
 
         if(!treeGenerator.growTree(world, random, x, y, z)) {
-            world.setBlock(x, y, z, blockID, 0, 4);
+            world.setBlock(x, y, z, this, 0, 4);
         }
     }
 

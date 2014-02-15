@@ -12,7 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EntityLivingData;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -24,7 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
@@ -132,7 +132,7 @@ public class Helpers {
                 entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360.0F), 0.0F);
                 entityliving.rotationYawHead = entityliving.rotationYaw;
                 entityliving.renderYawOffset = entityliving.rotationYaw;
-                entityliving.onSpawnWithEgg((EntityLivingData)null);
+                entityliving.onSpawnWithEgg((IEntityLivingData)null);
                 world.spawnEntityInWorld(entity);
                 entityliving.playLivingSound();
             }
@@ -160,7 +160,7 @@ public class Helpers {
      * @param z z coordinate
      */
     public static void preDestroyBlock(World world, int x, int y, int z) {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof IInventory && !world.isRemote) {
             dropItems(world, (IInventory) tile, x, y, z);
@@ -230,7 +230,7 @@ public class Helpers {
             NBTTagList enchantmentList = itemStack.getEnchantmentTagList();
             if(enchantmentList != null) {
                 for(int i = 0; i < enchantmentList.tagCount(); i++) {
-                    if (((NBTTagCompound)enchantmentList.tagAt(i)).getShort("id") == enchantID) {
+                    if (((NBTTagCompound)enchantmentList.getCompoundTagAt(i)).getShort("id") == enchantID) {
                         return i;
                     }
                 }
@@ -249,7 +249,7 @@ public class Helpers {
      */
     public static int getEnchantmentLevel(ItemStack itemStack, int enchantmentListID) {
         NBTTagList enchlist = itemStack.getEnchantmentTagList();
-        return ((NBTTagCompound)enchlist.tagAt(enchantmentListID)).getShort("lvl");
+        return ((NBTTagCompound)enchlist.getCompoundTagAt(enchantmentListID)).getShort("lvl");
     }
     
     /**
@@ -387,9 +387,9 @@ public class Helpers {
      * @param entity The entity that collides.
      */
     public static void onEntityCollided(World world, int x, int y, int z, Entity entity) {
-        int blockID = world.getBlockId(x, y, z);
-        if(blockID != 0)
-            Block.blocksList[blockID].onEntityCollidedWithBlock(world, x, y, z, entity);
+        Block block = world.getBlock(x, y, z);
+        if(block != null)
+            block.onEntityCollidedWithBlock(world, x, y, z, entity);
     }
     
     /**

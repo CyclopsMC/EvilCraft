@@ -1,5 +1,6 @@
 package evilcraft.api.config;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -49,7 +50,7 @@ public abstract class ItemBucketConfig extends ItemConfig {
         FluidContainerRegistry.registerFluidContainer(
                 fluidStack,
                 new ItemStack(item),
-                new ItemStack(Item.bucketEmpty)
+                new ItemStack(Items.bucket)
         );
         BucketHandler.getInstance().buckets.put(getFluidBlockInstance(), item);
         Recipes.BUCKETS.put(item, fluidStack);

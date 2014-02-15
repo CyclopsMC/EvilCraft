@@ -34,7 +34,7 @@ public class BucketBlood extends ConfigurableItemBucket {
     }
 
     private BucketBlood(ExtendedConfig<ItemConfig> eConfig) {
-        super(eConfig, FluidBlockBlood.getInstance().blockID);
+        super(eConfig, FluidBlockBlood.getInstance());
     }
 
 }

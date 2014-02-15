@@ -2,8 +2,8 @@ package evilcraft;
 
 import java.util.Set;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.api.config.ConfigHandler;
@@ -107,9 +107,9 @@ public class Configs {
      * Register ore dictionary keys for vanilla items/blocks.
      */
     public void registerVanillaDictionary() {
-        OreDictionary.registerOre(Reference.DICT_MATERIALGLASS, new ItemStack(Block.glass));
-        OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Item.poisonousPotato));
-        OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Item.bone));
+        OreDictionary.registerOre(Reference.DICT_MATERIALGLASS, new ItemStack(Blocks.glass));
+        OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Items.poisonous_potato));
+        OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Items.bone));
     }
     
     /**

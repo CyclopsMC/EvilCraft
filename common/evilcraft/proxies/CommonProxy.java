@@ -29,7 +29,7 @@ public class CommonProxy {
      * Register packet handlers.
      */
     public void registerPacketHandlers() {
-        NetworkRegistry.instance().registerChannel(new FartPacketHandler(), Reference.MOD_CHANNEL);
+        NetworkRegistry.INSTANCE.registerChannel(new FartPacketHandler(), Reference.MOD_CHANNEL);
         EvilCraft.log("Registered remote key handlers");
     }
     

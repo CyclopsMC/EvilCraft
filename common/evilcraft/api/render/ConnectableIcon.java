@@ -1,8 +1,8 @@
 package evilcraft.api.render;
 
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.util.Icon;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.DirectionCorner;
@@ -27,13 +27,13 @@ import evilcraft.api.entities.tileentitites.TileConnectedTexture;
  * @author rubensworks
  *
  */
-public class ConnectableIcon implements Icon{
+public class ConnectableIcon implements IIcon{
     
     protected static final int LAYERS = 4;
     protected static final int EDGES = 4;
     protected static final int SIDES = Helpers.DIRECTIONS.size();
-    protected Icon[] icons = new Icon[LAYERS];// background; borders; corners; innerCorners
-    protected Icon inventoryBlockIcon; // Icon for inventoryBlock
+    protected IIcon[] icons = new IIcon[LAYERS];// background; borders; corners; innerCorners
+    protected IIcon inventoryBlockIcon; // Icon for inventoryBlock
     
     protected int renderPass = 0; // Current renderpass of the icon
     protected int side = 0; // Current side to display icon for
@@ -69,7 +69,7 @@ public class ConnectableIcon implements Icon{
      * @param innerCorners The inner corner icon.
      * @param inventoryBlockIcon The inventory block icon.
      */
-    public ConnectableIcon(Icon background, Icon borders, Icon corners, Icon innerCorners, Icon inventoryBlockIcon) {
+    public ConnectableIcon(IIcon background, IIcon borders, IIcon corners, IIcon innerCorners, IIcon inventoryBlockIcon) {
         this.icons[0] = background;
         this.icons[1] = borders;
         this.icons[2] = corners;
@@ -99,7 +99,7 @@ public class ConnectableIcon implements Icon{
             this.side = 0;
     }
     
-    protected Icon getInnerIcon() {
+    protected IIcon getInnerIcon() {
         if(isInventoryBlock)
             return inventoryBlockIcon;
         else if(shouldRender(getCurrentLayer()))

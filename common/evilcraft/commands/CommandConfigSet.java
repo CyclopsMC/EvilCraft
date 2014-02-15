@@ -5,10 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.client.gui.ChatLine;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatMessageComponent;
-import net.minecraftforge.common.Configuration;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.config.Configuration;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ConfigProperty;
 

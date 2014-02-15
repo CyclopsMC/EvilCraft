@@ -1,7 +1,8 @@
 package evilcraft.api.config.configurable;
 
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.item.Item;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemBucket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,12 +33,11 @@ public abstract class ConfigurableItemBucket extends ItemBucket implements Confi
      * @param blockID The fluid block ID it can pick up.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    protected ConfigurableItemBucket(ExtendedConfig eConfig, int blockID) {
-        super(eConfig.ID, blockID);
-        eConfig.ID = this.itemID; // This could've changed.
+    protected ConfigurableItemBucket(ExtendedConfig eConfig, Block block) {
+        super(block);
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
-        setContainerItem(Item.bucketEmpty);
+        setContainerItem(Items.bucket);
     }
 
     @SuppressWarnings("rawtypes")
@@ -58,7 +58,7 @@ public abstract class ConfigurableItemBucket extends ItemBucket implements Confi
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerIcons(IIconRegister iconRegister) {
         itemIcon = iconRegister.registerIcon(getIconString());
     }
     

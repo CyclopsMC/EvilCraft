@@ -5,18 +5,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
+import evilcraft.blocks.BloodChest;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.entities.tileentities.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.entities.tileentities.tickaction.EmptyItemBucketInTankTickAction;
@@ -74,7 +76,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     public float lidAngle;
     private int playersUsing;
     
-    private int blockID = BloodChestConfig._instance.ID;
+    private Block block = BloodChest.getInstance();
     
     private static final Map<Class<?>, ITickAction<TileBloodChest>> REPAIR_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodChest>>();
     static {
@@ -171,7 +173,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         }
 
         if (worldObj != null && !worldObj.isRemote && ticksSinceSync < 0) {
-            worldObj.addBlockEvent(xCoord, yCoord, zCoord, blockID, 1, playersUsing);
+            worldObj.addBlockEvent(xCoord, yCoord, zCoord, block, 1, playersUsing);
         }
 
         this.ticksSinceSync++;
@@ -223,26 +225,26 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     }
 
     @Override
-    public void openChest() {
+    public void openInventory() {
         triggerPlayerUsageChange(1);
     }
 
     @Override
-    public void closeChest() {
+    public void closeInventory() {
         triggerPlayerUsageChange(-1);
     }
     
     private void triggerPlayerUsageChange(int change) {
         if (worldObj != null) {
             playersUsing += change;
-            worldObj.addBlockEvent(xCoord, yCoord, zCoord, blockID, 1, playersUsing);
+            worldObj.addBlockEvent(xCoord, yCoord, zCoord, block, 1, playersUsing);
         }
     }
     
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
         return super.isUseableByPlayer(entityPlayer)
-                && (worldObj == null || worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this);
+                && (worldObj == null || worldObj.getTileEntity(xCoord, yCoord, zCoord) != this);
     }
 
 }

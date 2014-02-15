@@ -3,9 +3,12 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockIce;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
@@ -48,15 +51,15 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
 
     private HardenedBlood(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.ice);
-        this.setStepSound(Block.soundStoneFootstep);
+        this.setStepSound(soundTypeStone);
         this.setHardness(0.5F);
         
-        MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 0);
+        this.setHarvestLevel("pickaxe", 0);
     }
     
     @Override
-    public int idDropped(int par1, Random random, int zero) {
-        return 0;
+    public Item getItemDropped(int par1, Random random, int zero) {
+        return null;
     }
     
     @Override
@@ -66,20 +69,20 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
     
     @Override
     public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
-        player.addStat(StatList.mineBlockStatArray[this.blockID], 1);
+        player.addStat(StatList.mineBlockStatArray[Block.getIdFromBlock(this)], 1);
         player.addExhaustion(0.025F);
 
         if (this.canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(player)) {
             ItemStack itemstack = this.createStackedBlock(meta);
 
             if (itemstack != null) {
-                this.dropBlockAsItem_do(world, x, y, z, itemstack);
+                this.dropBlockAsItem(world, x, y, z, itemstack);
             }
         } else {
-            Material material = world.getBlockMaterial(x, y - 1, z);
+            Material material = world.getBlock(x, y - 1, z).getMaterial();
 
             if (material.blocksMovement() || material.isLiquid()) {
-                world.setBlock(x, y, z, FluidBlockBloodConfig._instance.ID);
+                world.setBlock(x, y, z, FluidBlockBlood.getInstance());
             }
         }
     }
@@ -91,13 +94,13 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
     
     @Override
     public void fillWithRain(World world, int x, int y, int z) {
-        world.setBlock(x, y, z, FluidBlockBloodConfig._instance.ID);
+        world.setBlock(x, y, z, FluidBlockBlood.getInstance());
     }
     
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float coordX, float coordY, float coordZ) {
         if (player.getCurrentEquippedItem() != null) {
-            if (player.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID) {
+            if (player.getCurrentEquippedItem().getIconIndex() == Items.flint_and_steel) {
                 if(player.capabilities.isCreativeMode || !player.getCurrentEquippedItem().attemptDamageItem(1, world.rand))
                     splitBlock(world, x, y, z);
                 return true;
@@ -108,7 +111,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
 
     private void splitBlock(World world, int x, int y, int z) {
         ItemStack itemStack = new ItemStack(HardenedBloodShard.getInstance(), 9);
-        dropBlockAsItem_do(world, x, y, z, itemStack);
+        dropBlockAsItem(world, x, y, z, itemStack);
         world.setBlockToAir(x, y, z);
     }
     

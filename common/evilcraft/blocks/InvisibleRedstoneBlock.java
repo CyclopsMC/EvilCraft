@@ -5,7 +5,7 @@ import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import evilcraft.api.RenderHelpers;
@@ -45,7 +45,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
         super(eConfig, Material.iron, TileInvisibleRedstoneBlock.class);
         setHardness(5.0F);
         setResistance(10.0F);
-        setStepSound(soundMetalFootstep);
+        setStepSound(soundTypeMetal);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     }
     
     @Override
-    public boolean isBlockReplaceable(World world, int x, int y, int z) {
+    public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
         return true;
     }
     
@@ -89,7 +89,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     }
     
     @Override
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         return RenderHelpers.EMPTYICON;
     }
 }

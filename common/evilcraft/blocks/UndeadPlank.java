@@ -35,7 +35,7 @@ public class UndeadPlank extends ConfigurableBlock {
     private UndeadPlank(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.wood);
         setHardness(2.0F);
-        setStepSound(soundWoodFootstep);
+        setStepSound(soundTypeWood);
     }
 
 }

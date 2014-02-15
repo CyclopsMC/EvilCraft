@@ -139,7 +139,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
                 ItemStack stack = container.getEntityItem();
                 
                 // Does the stack contain empty weather containers?
-                if (stack.itemID == WeatherContainer.getInstance().itemID && WeatherContainer.isEmpty(stack.getItemDamage())) {
+                if (stack.getItem() == WeatherContainer.getInstance() && WeatherContainer.isEmpty(stack.getItemDamage())) {
                     decreaseStackSize(container, stack);
                     activateMoveItem();
                 }

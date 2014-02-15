@@ -4,9 +4,9 @@ import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.EventPriority;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.api.Helpers;
 import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
@@ -24,7 +24,7 @@ public class PlayerInteractEventHook {
      * When a player interactO event is received.
      * @param event The received event.
      */
-    @ForgeSubscribe(priority = EventPriority.HIGH)
+	@SubscribeEvent(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
         unusingEvent(event);
         breakingEvent(event);

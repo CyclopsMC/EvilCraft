@@ -8,15 +8,18 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.items.PoisonSac;
 import evilcraft.items.PoisonSacConfig;
 
 /**
@@ -95,16 +98,16 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(1.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(1.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.0D);
     }
 
     @Override
-    protected int getDropItemId() {
+    protected Item getDropItem() {
         if(PoisonSacConfig._instance.isEnabled())
-            return PoisonSacConfig._instance.ID;
+            return PoisonSac.getInstance();
         else
-            return super.getDropItemId();
+            return super.getDropItem();
     }
 
     @Override
@@ -295,7 +298,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
                 wingGoUp = true;
         }
         
-        if (!this.worldObj.isRemote && this.worldObj.difficultySetting == 0) {
+        if (!this.worldObj.isRemote && this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL) {
             this.setDead();
         }
     }

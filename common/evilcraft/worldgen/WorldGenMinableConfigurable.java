@@ -3,6 +3,7 @@ package evilcraft.worldgen;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 
@@ -20,14 +21,14 @@ public class WorldGenMinableConfigurable extends WorldGenMinable{
     
     /**
      * Make a new instance.
-     * @param id ID of the block to spawn.
+     * @param Block block to spawn.
      * @param blocksPerVein Blocks per vein.
      * @param veinsPerChunk Veins per chunk.
      * @param startY Start coordinate for Y
      * @param endY End coordinate for Y.
      */
-    public WorldGenMinableConfigurable(int id, int blocksPerVein, int veinsPerChunk, int startY, int endY) {
-        super(id, blocksPerVein, Block.stone.blockID);
+    public WorldGenMinableConfigurable(Block block, int blocksPerVein, int veinsPerChunk, int startY, int endY) {
+        super(block, blocksPerVein, Blocks.stone);
         this.blocksPerVein = blocksPerVein;
         this.veinsPerChunk = veinsPerChunk;
         this.startY = startY;
@@ -36,15 +37,15 @@ public class WorldGenMinableConfigurable extends WorldGenMinable{
     
     /**
      * Make a new instance.
-     * @param id ID of the block to spawn.
+     * @param Block block to spawn.
      * @param meta Metadata of the block to spawn.
      * @param blocksPerVein Blocks per vein.
      * @param veinsPerChunk Veins per chunk.
      * @param startY Start coordinate for Y
      * @param endY End coordinate for Y.
      */
-    public WorldGenMinableConfigurable(int id, int meta, int blocksPerVein, int veinsPerChunk, int startY, int endY) {
-        super(id, meta, blocksPerVein, Block.stone.blockID);
+    public WorldGenMinableConfigurable(Block block, int meta, int blocksPerVein, int veinsPerChunk, int startY, int endY) {
+        super(block, meta, blocksPerVein, Blocks.stone);
         this.blocksPerVein = blocksPerVein;
         this.veinsPerChunk = veinsPerChunk;
         this.startY = startY;

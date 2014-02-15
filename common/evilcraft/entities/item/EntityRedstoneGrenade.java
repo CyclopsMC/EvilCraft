@@ -93,7 +93,7 @@ public class EntityRedstoneGrenade extends EntityThrowable implements Configurab
                 pos.blockX + dx, 
                 pos.blockY + dy, 
                 pos.blockZ + dz,
-                InvisibleRedstoneBlock.getInstance().blockID);
+                InvisibleRedstoneBlock.getInstance());
             
             if (worldObj.isRemote) {
                 double x = dx + ((dx >= 0) ? 0.5 : 0.9) + ((dx == 1) ? -0.5 : 0);

@@ -6,14 +6,15 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
@@ -43,7 +44,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     protected boolean hasGui = false;
     
     private boolean rotatable;
-    protected Icon[] sideIcons = new Icon[Helpers.DIRECTIONS.size()];
+    protected IIcon[] sideIcons = new IIcon[Helpers.DIRECTIONS.size()];
     
     /**
      * Make a new block instance.
@@ -53,14 +54,13 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public ConfigurableBlockContainer(ExtendedConfig eConfig, Material material, Class<? extends EvilCraftTileEntity> tileEntity) {
-        super(eConfig.ID, material);
-        eConfig.ID = this.blockID; // This could've changed.
+        super(material);
         this.setConfig(eConfig);
-        this.setUnlocalizedName(this.getUniqueName());
+        this.setBlockName(this.getUniqueName());
         this.random = new Random();
         this.tileEntity = tileEntity;
         setHardness(5F);
-        setStepSound(Block.soundAnvilFootstep);
+        setStepSound(Block.soundTypeAnvil);
     }
     
     /**
@@ -92,7 +92,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         if(isRotatable()) {
             for(ForgeDirection direction : Helpers.DIRECTIONS) {
                 sideIcons[direction.ordinal()] = iconRegister.registerIcon(getTextureName() + "_" + direction.name());
@@ -103,19 +103,19 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     }
     
     @Override
-    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
         if(isRotatable()) {
             int meta = world.getBlockMetadata(x, y, z);
-            EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getBlockTileEntity(x, y, z);
+            EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
             ForgeDirection rotatedDirection = Helpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
             return this.getIcon(rotatedDirection.ordinal(), meta);
         } else {
-            return super.getBlockTexture(world, x, y, z, side);
+            return super.getIcon(world, x, y, z, side);
         }
     }
     
     @Override
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         if(isRotatable()) {
             return sideIcons[side];
         } else {
@@ -134,7 +134,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     }
     
     @Override
-    public TileEntity createNewTileEntity(World var1) {
+    public TileEntity createNewTileEntity(World world, int meta) {
         try {
             EvilCraftTileEntity tile = tileEntity.newInstance();
             tile.setRotatable(isRotatable());
@@ -153,7 +153,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     }
     
     @Override
-    public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
+    public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
         Helpers.preDestroyBlock(world, x, y, z);
         // We delay the supercall to breakblock until getBlockDropped()
         // Otherwise the tileentity will already be removed.
@@ -163,7 +163,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
         if(entity != null) {
-            EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getBlockTileEntity(x, y, z);
+            EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
             
             if(stack.getTagCompound() != null) {
                     stack.getTagCompound().setInteger("x", x);
@@ -183,7 +183,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     @Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         if(!world.isRemote) {
-            EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getBlockTileEntity(x, y, z);
+            EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
             if(tile.isRotatable()) {
                 tile.setRotation(tile.getRotation().getRotation(axis));
                 return true;
@@ -193,21 +193,21 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     }
     
     @Override
-    public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune) {
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-        ItemStack itemStack = new ItemStack(idDropped(blockID, world.rand, fortune), 1, damageDropped(metadata));
-        EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getBlockTileEntity(x, y, z);
+        ItemStack itemStack = new ItemStack(getItemDropped(metadata, world.rand, fortune), 1, damageDropped(metadata));
+        EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
         if(tile != null)
             itemStack.setTagCompound(tile.getNBTTagCompound());
         drops.add(itemStack);
         // The delayed breakBlock supercall
-        super.breakBlock(world, x, y, z, 0, 0);
+        super.breakBlock(world, x, y, z, Blocks.air, 0);
         return drops;
     }
     
     @Override
-    public boolean isBlockNormalCube(World world, int x, int y, int z) {
-            return false;
+    public boolean isBlockNormalCube() {
+    	return false;
     }
 
     /**

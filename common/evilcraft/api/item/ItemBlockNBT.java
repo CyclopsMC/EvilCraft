@@ -23,15 +23,15 @@ public class ItemBlockNBT extends ItemBlockExtended {
      * @param blockID The block ID.
      * @param block The block instance.
      */
-    public ItemBlockNBT(int blockID, Block block) {
-        super(blockID, block);
+    public ItemBlockNBT(Block block) {
+        super(block);
         this.setMaxStackSize(1);
     }
     
     @Override
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
         if (super.placeBlockAt(stack, player, world, x, y, z, side, hitX, hitY, hitZ, metadata)) {
-            TileEntity tile = world.getBlockTileEntity(x, y, z);
+            TileEntity tile = world.getTileEntity(x, y, z);
 
             if (tile != null && stack.stackTagCompound != null) {
                 tile.readFromNBT(stack.stackTagCompound);

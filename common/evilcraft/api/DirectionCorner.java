@@ -1,6 +1,6 @@
 package evilcraft.api;
 
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * An equivalent to {@link ForgeDirection} for being able to also refer to

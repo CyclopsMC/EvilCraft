@@ -6,18 +6,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.jcraft.jorbis.Block;
-
-import net.minecraft.client.renderer.ChestItemRenderHelper;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererChestHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+
+import com.jcraft.jorbis.Block;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import evilcraft.EvilCraft;
 import evilcraft.api.render.MultiPassBlockRenderer;
@@ -68,7 +67,7 @@ public class ClientProxy extends CommonProxy{
         for(ISimpleBlockRenderingHandler renderer : BLOCK_RENDERERS)
             RenderingRegistry.registerBlockHandler(renderer);
         
-        ChestItemRenderHelper.instance = new BloodChestItemRenderHelper();
+        TileEntityRendererChestHelper.instance = new BloodChestItemRenderHelper();
     }
     
     @Override

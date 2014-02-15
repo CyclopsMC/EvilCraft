@@ -1,9 +1,8 @@
 package evilcraft.blocks;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.item.Item;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
@@ -40,13 +39,13 @@ public class BloodyCobblestone extends ConfigurableBlock {
         super(eConfig, Material.rock);
         this.setHardness(1.5F);
         this.setResistance(10.0F);
-        this.setStepSound(Block.soundStoneFootstep);
-        MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 0); // Wood tier
+        this.setStepSound(soundTypeStone);
+        this.setHarvestLevel("pickaxe", 0); // Wood tier
     }
     
     @Override
-    public int idDropped(int par1, Random random, int zero) {
-        return BloodyCobblestoneConfig._instance.ID;
+    public Item getItemDropped(int par1, Random random, int zero) {
+        return Item.getItemFromBlock(this);
     }
 
 }

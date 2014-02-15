@@ -5,10 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -129,7 +130,7 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodIn
      */
     public boolean canConsume(ItemStack itemStack) {
         // Empty bucket
-        if(itemStack.getItem().itemID == Item.bucketEmpty.itemID
+        if(itemStack.getItem() == Items.bucket
                 && this.getTank().getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME)
             return true;
         

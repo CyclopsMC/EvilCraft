@@ -3,6 +3,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -41,7 +42,7 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     private ObscuredGlass(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.glass);
         this.setHardness(0.5F);
-        this.setStepSound(Block.soundGlassFootstep);
+        this.setStepSound(soundTypeGlass);
         this.setLightOpacity(10);
     }
     
@@ -51,15 +52,15 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public int idDropped(int par1, Random random, int zero) {
-        return ObscuredGlassConfig._instance.ID;
+    public Item getItemDropped(int par1, Random random, int zero) {
+        return Item.getItemFromBlock(this);
     }
     
     @SideOnly(Side.CLIENT)
     @Override
     public boolean shouldSideBeRendered (IBlockAccess world, int x, int y, int z, int side) {
-        int id = world.getBlockId(x, y, z);
-        return id == this.blockID ? false : super.shouldSideBeRendered(world, x, y, z, side);
+        Block block = world.getBlock(x, y, z);
+        return block == this ? false : super.shouldSideBeRendered(world, x, y, z, side);
     }
     
     @Override

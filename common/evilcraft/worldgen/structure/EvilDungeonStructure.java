@@ -2,10 +2,12 @@ package evilcraft.worldgen.structure;
 
 import java.util.Random;
 
+import evilcraft.blocks.BloodyCobblestone;
 import evilcraft.blocks.BloodyCobblestoneConfig;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.WeightedRandomChestContent;
@@ -40,7 +42,7 @@ public class EvilDungeonStructure extends WorldGenDungeons {
         for (int xr = x - radiusX - 1; xr <= x + radiusX + 1; ++xr) {
             for (int yr = y - 1; yr <= y + height + 1; ++yr) {
                 for (int zr = z - radiusZ - 1; zr <= z + radiusZ + 1; ++zr) {
-                    Material material = world.getBlockMaterial(xr, yr, zr);
+                    Material material = world.getBlock(xr, yr, zr).getMaterial();
                     if (yr == y - 1 && !material.isSolid())
                         return false;
                     if (yr == y + height + 1 && !material.isSolid())
@@ -63,13 +65,13 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                                 && yr != y + height + 1
                                 && zr != z + radiusZ + 1) {
                             world.setBlockToAir(xr, yr, zr);
-                        } else if (yr >= 0 && !world.getBlockMaterial(xr, yr - 1, zr).isSolid()) {
+                        } else if (yr >= 0 && !world.getBlock(xr, yr - 1, zr).getMaterial().isSolid()) {
                             world.setBlockToAir(xr, yr, zr);
-                        } else if (world.getBlockMaterial(xr, yr, zr).isSolid()) {
+                        } else if (world.getBlock(xr, yr, zr).getMaterial().isSolid()) {
                             if (yr == y - 1 && random.nextInt(4) != 0) {
-                                world.setBlock(xr, yr, zr, BloodyCobblestoneConfig._instance.ID, 0, 2);
+                                world.setBlock(xr, yr, zr, BloodyCobblestone.getInstance(), 0, 2);
                             } else {
-                                world.setBlock(xr, yr, zr, Block.cobblestone.blockID, 0, 2);
+                                world.setBlock(xr, yr, zr, Blocks.cobblestone, 0, 2);
                             }
                         }
                     }
@@ -85,21 +87,21 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                 if (world.isAirBlock(xrr, y, zrr)) {
                     int wallCounter = 0;
 
-                    if (world.getBlockMaterial(xrr - 1, y, zrr).isSolid())
+                    if (world.getBlock(xrr - 1, y, zrr).getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockMaterial(xrr + 1, y, zrr).isSolid())
+                    if (world.getBlock(xrr + 1, y, zrr).getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockMaterial(xrr, y, zrr - 1).isSolid())
+                    if (world.getBlock(xrr, y, zrr - 1).getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockMaterial(xrr, y, zrr + 1).isSolid())
+                    if (world.getBlock(xrr, y, zrr + 1).getMaterial().isSolid())
                         ++wallCounter;
 
                     if (wallCounter == 1) {
-                        world.setBlock(xrr, y, zrr, Block.chest.blockID, 0, 2);
-                        TileEntityChest tileentitychest = (TileEntityChest)world.getBlockTileEntity(xrr, y, zrr);
+                        world.setBlock(xrr, y, zrr, Blocks.chest, 0, 2);
+                        TileEntityChest tileentitychest = (TileEntityChest)world.getTileEntity(xrr, y, zrr);
 
                         if (tileentitychest != null) {
                             ChestGenHooks info = ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST);
@@ -114,11 +116,12 @@ public class EvilDungeonStructure extends WorldGenDungeons {
 
             for(int xs = x - 1; xs <= x + 1; xs += 2) {
                 for(int zs = z - 1; zs <= z + 1; zs += 2) {
-                    world.setBlock(xs, y, zs, Block.mobSpawner.blockID, 0, 2);
-                    TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner)world.getBlockTileEntity(xs, y, zs);
+                    world.setBlock(xs, y, zs, Blocks.mob_spawner, 0, 2);
+                    TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner)world.getTileEntity(xs, y, zs);
         
                     if (tileentitymobspawner != null) {
-                        tileentitymobspawner.getSpawnerLogic().setMobID(this.pickMobSpawner(random));
+                    	//getSpawnerLogic
+                        tileentitymobspawner.func_145881_a().setMobID(this.pickMobSpawner(random));
                     } else {
                         System.err.println("Failed to fetch mob spawner entity at (" + xs + ", " + y + ", " + zs + ")");
                     }

@@ -3,14 +3,14 @@ package evilcraft.events;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.event.EventPriority;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.blocks.ExcrementPile;
-import evilcraft.blocks.ExcrementPileConfig;
 import evilcraft.entities.monster.Werewolf;
 import evilcraft.entities.villager.WerewolfVillagerConfig;
 
@@ -28,7 +28,7 @@ public class PlaySoundAtEntityEventHook {
      * When a sound event is received.
      * @param event The received event.
      */
-    @ForgeSubscribe(priority = EventPriority.NORMAL)
+    @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onPlaySoundAtEntity(PlaySoundAtEntityEvent event) {
         dropExcrement(event);
         dieWithoutAnyReason(event);
@@ -43,9 +43,9 @@ public class PlaySoundAtEntityEventHook {
                 int x = MathHelper.floor_double(entity.posX);
                 int y = MathHelper.floor_double(entity.posY);
                 int z = MathHelper.floor_double(entity.posZ);
-                if(world.getBlockId(x, y, z) == 0 && world.isBlockNormalCube(x, y - 1, z)) {
-                    world.setBlock(x, y, z, ExcrementPileConfig._instance.ID);
-                } else if (world.getBlockId(x, y, z) == ExcrementPileConfig._instance.ID) {
+                if(world.getBlock(x, y, z) == Blocks.air && world.getBlock(x, y - 1, z).isBlockNormalCube()) {
+                    world.setBlock(x, y, z, ExcrementPile.getInstance());
+                } else if (world.getBlock(x, y, z) == ExcrementPile.getInstance()) {
                     ExcrementPile.heightenPileAt(world, x, y, z);
                 }
             }

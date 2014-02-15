@@ -2,14 +2,15 @@ package evilcraft.items;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -30,7 +31,7 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     
     private static BloodContainer _instance = null;
     
-    private Icon[] icons = new Icon[BloodContainerConfig.getContainerLevels()];
+    private IIcon[] icons = new IIcon[BloodContainerConfig.getContainerLevels()];
     
     private static final int MB_FILL_PERTICK = 10;
     
@@ -60,23 +61,23 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerIcons(IIconRegister iconRegister) {
         for(int i = 0; i < icons.length; i++) {
             icons[i] = iconRegister.registerIcon(getIconString() + "_" + i);
         }
     }
     
     @Override
-    public Icon getIconFromDamage(int damage) {
+    public IIcon getIconFromDamage(int damage) {
         return icons[Math.min(damage & 7, icons.length - 1)];
     }
     
     @SuppressWarnings({ "rawtypes"})
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(int id, CreativeTabs tab, List itemList) {
+    public void getSubItems(Item item, CreativeTabs tab, List itemList) {
         for(int i = 0; i < icons.length; i++) {
-            component.getSubItems(id, tab, itemList, fluid, i);
+            component.getSubItems(item, tab, itemList, fluid, i);
         }
     }
     

@@ -1,7 +1,8 @@
 package evilcraft.blocks;
 import java.util.Random;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -47,7 +48,7 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
         
         setHardness(0.2F);
         setLightOpacity(1);
-        setStepSound(soundGrassFootstep);
+        setStepSound(soundTypeGrass);
         
         if (Helpers.isClientSide()) {
             entityDropParticleFXBlockComponent = new EntityDropParticleFXBlockComponent(1.0F, 0.0F, 0.0F);
@@ -57,8 +58,8 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
     }
 
     @Override
-    public int idDropped(int meta, Random random, int zero) {
-        return Block.deadBush.blockID;
+    public Item getItemDropped(int meta, Random random, int zero) {
+        return Item.getItemFromBlock(Blocks.deadbush);
     }
     
     @Override

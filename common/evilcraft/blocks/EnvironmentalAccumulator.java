@@ -3,12 +3,12 @@ package evilcraft.blocks;
 import java.util.List;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
@@ -62,14 +62,14 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer impleme
      */
     public static final int MOVING_ITEM = 2;
     
-    private Icon sideIcon;
-    private Icon bottomIcon;
-    private Icon topIcon;
+    private IIcon sideIcon;
+    private IIcon bottomIcon;
+    private IIcon topIcon;
 
 	private EnvironmentalAccumulator(ExtendedConfig<BlockConfig> eConfig) {
 		super(eConfig, Material.iron, TileEnvironmentalAccumulator.class);
 		this.setRotatable(true);
-		this.setStepSound(soundMetalFootstep);
+		this.setStepSound(soundTypeMetal);
 		this.setHardness(50.0F);
 		this.setResistance(6000000.0F);   // Can not be destroyed by explosions
 	}
@@ -86,7 +86,7 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer impleme
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public Icon getIcon(int side, int meta) {
+	public IIcon getIcon(int side, int meta) {
 	    if (side == ForgeDirection.UP.ordinal())
 	        return topIcon;
 	    
@@ -98,7 +98,7 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer impleme
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerIcons(IconRegister iconRegister) {
+	public void registerBlockIcons(IIconRegister iconRegister) {
 	    sideIcon = iconRegister.registerIcon(getTextureName() + "_side");
 	    bottomIcon = iconRegister.registerIcon(getTextureName() + "_bottom");
 	    topIcon = iconRegister.registerIcon(getTextureName() + "_top");

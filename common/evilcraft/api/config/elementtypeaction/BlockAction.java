@@ -2,8 +2,8 @@ package evilcraft.api.config.elementtypeaction;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
@@ -28,11 +28,8 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
     @Override
     public void preRun(BlockConfig eConfig, Configuration config) {
         // Get property in config file and set comment
-        Property property = config.getBlock(eConfig.getHolderType().getCategory(), eConfig.NAMEDID, eConfig.ID);
+        Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID, eConfig.ID);
         property.comment = eConfig.COMMENT;
-        
-        // Update the ID, it could've changed
-        eConfig.ID = property.getInt();
     }
 
     @Override

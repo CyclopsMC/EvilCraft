@@ -94,7 +94,7 @@ public class CustomRecipe {
     public boolean equals(Object object) {
         if(!(object instanceof CustomRecipe)) return false;
         CustomRecipe o = (CustomRecipe) object;
-        boolean item = this.getItemStack().itemID == o.getItemStack().itemID;
+        boolean item = this.getItemStack().getItem() == o.getItemStack().getItem();
         boolean fluid = true;
         boolean factory = this.getFactory() == o.getFactory();
         if(this.getFluidStack() != null) {

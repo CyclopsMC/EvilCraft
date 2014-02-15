@@ -27,11 +27,11 @@ public class RenderWerewolf extends ModelRenderLiving<ModelBase> {
 	}
 	
 	private void renderWerewolf(Werewolf werewolf, double x, double y, double z, float yaw, float partialTickTime) {
-	    super.doRenderLiving(werewolf, x, y, z, yaw, partialTickTime);
+	    super.doRender(werewolf, x, y, z, yaw, partialTickTime);
     }
 
 	@Override
-    public void doRenderLiving(EntityLiving par1EntityLiving, double x, double y, double z, float yaw, float partialTickTime) {
+    public void doRender(EntityLiving par1EntityLiving, double x, double y, double z, float yaw, float partialTickTime) {
         this.renderWerewolf((Werewolf)par1EntityLiving, x, y, z, yaw, partialTickTime);
     }
 

@@ -1,7 +1,5 @@
 package evilcraft.api.inventory;
 
-import java.util.LinkedList;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -19,7 +17,6 @@ public class SimpleInventory implements IInventory {
     private final ItemStack[] _contents;
     private final String _name;
     private final int _stackLimit;
-    private final LinkedList<TileEntity> _listener = new LinkedList<TileEntity>();
 
     /**
      * Make a new instance.
@@ -73,7 +70,7 @@ public class SimpleInventory implements IInventory {
     }
 
     @Override
-    public String getInvName() {
+    public String getInventoryName() {
         return _name;
     }
 
@@ -82,11 +79,8 @@ public class SimpleInventory implements IInventory {
         return _stackLimit;
     }
 
-    @Override
-    public void onInventoryChanged() {
-        for (TileEntity handler : _listener) {
-            handler.onInventoryChanged();
-        }
+    private void onInventoryChanged() {
+        markDirty();
     }
 
     @Override
@@ -95,11 +89,11 @@ public class SimpleInventory implements IInventory {
     }
 
     @Override
-    public void openChest() {
+    public void openInventory() {
     }
 
     @Override
-    public void closeChest() {
+    public void closeInventory() {
     }
 
     /**
@@ -119,7 +113,7 @@ public class SimpleInventory implements IInventory {
         NBTTagList nbttaglist = data.getTagList(tag);
 
         for (int j = 0; j < nbttaglist.tagCount(); ++j) {
-            NBTTagCompound slot = (NBTTagCompound) nbttaglist.tagAt(j);
+            NBTTagCompound slot = (NBTTagCompound) nbttaglist.getCompoundTagAt(j);
             int index;
             if (slot.hasKey("index")) {
                 index = slot.getInteger("index");
@@ -158,14 +152,6 @@ public class SimpleInventory implements IInventory {
         data.setTag(tag, slots);
     }
 
-    /**
-     * Add a new update listener.
-     * @param listener The {@link TileEntity} that has to listen to changes.
-     */
-    public void addListener(TileEntity listener) {
-        _listener.add(listener);
-    }
-
     @Override
     public ItemStack getStackInSlotOnClosing(int slotId) {
         if (this._contents[slotId] == null) {
@@ -186,7 +172,7 @@ public class SimpleInventory implements IInventory {
     }
 
     @Override
-    public boolean isInvNameLocalized() {
+    public boolean hasCustomInventoryName() {
         return false;
     }
 
@@ -194,4 +180,9 @@ public class SimpleInventory implements IInventory {
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
         return true;
     }
+
+	@Override
+	public void markDirty() {
+		
+	}
 }

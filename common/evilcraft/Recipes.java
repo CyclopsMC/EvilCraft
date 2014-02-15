@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -130,8 +132,8 @@ public class Recipes {
                 " P ",
                 " S ",
                 'G', new ItemStack(DarkPowerGem.getInstance()),
-                'P', new ItemStack(Item.glassBottle),
-                'S', new ItemStack(Item.sugar)
+                'P', new ItemStack(Items.glass_bottle),
+                'S', new ItemStack(Items.sugar)
             }
                     ));
         }
@@ -143,7 +145,7 @@ public class Recipes {
                 "GEG",
                 "EGE",
                 'G', new ItemStack(DarkPowerGem.getInstance()),
-                'E', new ItemStack(Item.enderPearl)
+                'E', new ItemStack(Items.ender_pearl)
             }
                     ));
         }
@@ -208,31 +210,31 @@ public class Recipes {
                     Reference.DICT_MATERIALPOISONOUS,
                     Reference.DICT_MATERIALPOISONOUS,
                     Reference.DICT_MATERIALPOISONOUS,
-                    new ItemStack(Item.bucketWater.setContainerItem(null))
+                    new ItemStack(Items.water_bucket.setContainerItem(null))
                     ));
         }
         // Poisonous potato
         if(isItemEnabled(BucketPoisonConfig.class)) {
-            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.poisonousPotato),
-                    new ItemStack(Item.potato),
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.poisonous_potato),
+                    new ItemStack(Items.potato),
                     new ItemStack(BucketPoison.getInstance())
                     ));
         }
         // Poisontip enchant
         if(isItemEnabled(BucketPoisonConfig.class) && isItemEnabled(EnchantmentPoisonTipConfig.class)) {
-            ItemStack poisonTipEnchant = new ItemStack(Item.enchantedBook);
+            ItemStack poisonTipEnchant = new ItemStack(Items.enchanted_book);
             Enchantment enchant = EnchantmentPoisonTip.getInstance();
-            Item.enchantedBook.addEnchantment(poisonTipEnchant, new EnchantmentData(enchant, enchant.getMinLevel()));
+            Items.enchanted_book.addEnchantment(poisonTipEnchant, new EnchantmentData(enchant, enchant.getMinLevel()));
             GameRegistry.addRecipe(new ShapelessOreRecipe(poisonTipEnchant,
                     new ItemStack(BucketPoison.getInstance()),
-                    new ItemStack(Item.book)
+                    new ItemStack(Items.book)
                     ));
         }
         // Potion of poison
         if(isItemEnabled(BucketPoisonConfig.class)) {
-            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.potion, 1, 8196),
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.potionitem, 1, 8196),
                     new ItemStack(BucketPoison.getInstance()),
-                    new ItemStack(Item.glassBottle)
+                    new ItemStack(Items.glass_bottle)
                     ));
         }
         // Obscured glass
@@ -243,7 +245,7 @@ public class Recipes {
                 "GDG",
                 "GGG",
                 'D', DarkGemConfig._instance.getOreDictionaryId(),
-                'G', new ItemStack(Block.glass)
+                'G', new ItemStack(Blocks.glass)
             }
                     ));
         }
@@ -255,7 +257,7 @@ public class Recipes {
                 "ELE",
                 "EEE",
                 'L', new ItemStack(WeatherContainer.getInstance(), 1, WeatherContainerTypes.LIGHTNING.ordinal()),
-                'E', new ItemStack(Item.enderPearl)
+                'E', new ItemStack(Items.ender_pearl)
             }
                     ));
         }
@@ -263,7 +265,7 @@ public class Recipes {
         if(isItemEnabled(LightningBombConfig.class) && isItemEnabled(LightningGrenadeConfig.class)) {
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(LightningBomb.getInstance()),
                     new ItemStack(LightningGrenade.getInstance()),
-                    new ItemStack(Block.tnt)
+                    new ItemStack(Blocks.tnt)
                     ));
         }
         // Blood Containers
@@ -274,7 +276,7 @@ public class Recipes {
                 "DGD",
                 "DDD",
                 'D', new ItemStack(DarkGem.getInstance()),
-                'G', new ItemStack(Block.glass)
+                'G', new ItemStack(Blocks.glass)
             }
                     ));
             for(int i = 1; i < BloodContainerConfig.getContainerLevels(); i++) {
@@ -292,8 +294,8 @@ public class Recipes {
                 " S ",
                 " C ",
                 'C', new ItemStack(BloodContainer.getInstance(), 1, 0),
-                'S', new ItemStack(Item.reed),
-                'I', new ItemStack(Item.ingotIron)
+                'S', new ItemStack(Items.reeds),
+                'I', new ItemStack(Items.iron_ingot)
             }
                     ));
         }
@@ -316,7 +318,7 @@ public class Recipes {
 
         if(isItemEnabled(UndeadSaplingConfig.class)) {
             CustomRecipeRegistry.put(new CustomRecipe(
-                    new ItemStack(Block.deadBush),
+                    new ItemStack(Blocks.deadbush),
                     new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2),
                     BloodInfuser.getInstance(),
                     200
@@ -336,8 +338,8 @@ public class Recipes {
             // Sawmill undead wood
             NBTTagCompound sawmillUndeadWood = new NBTTagCompound();
             sawmillUndeadWood.setInteger("energy", 2000);
-            sawmillUndeadWood.setCompoundTag("input", new NBTTagCompound());
-            sawmillUndeadWood.setCompoundTag("primaryOutput", new NBTTagCompound());
+            sawmillUndeadWood.setTag("input", new NBTTagCompound());
+            sawmillUndeadWood.setTag("primaryOutput", new NBTTagCompound());
 
             new ItemStack(UndeadLog.getInstance()).writeToNBT(sawmillUndeadWood.getCompoundTag("input"));
             new ItemStack(UndeadPlank.getInstance(), 6).writeToNBT(sawmillUndeadWood.getCompoundTag("primaryOutput"));
@@ -346,8 +348,8 @@ public class Recipes {
             // Pulverizer dark ore
             NBTTagCompound pulverizerDarkOre = new NBTTagCompound();
             pulverizerDarkOre.setInteger("energy", 2000);
-            pulverizerDarkOre.setCompoundTag("input", new NBTTagCompound());
-            pulverizerDarkOre.setCompoundTag("primaryOutput", new NBTTagCompound());
+            pulverizerDarkOre.setTag("input", new NBTTagCompound());
+            pulverizerDarkOre.setTag("primaryOutput", new NBTTagCompound());
 
             new ItemStack(DarkOre.getInstance()).writeToNBT(pulverizerDarkOre.getCompoundTag("input"));
             new ItemStack(DarkGem.getInstance(), 2).writeToNBT(pulverizerDarkOre.getCompoundTag("primaryOutput"));
@@ -358,8 +360,8 @@ public class Recipes {
             for(ItemStack materialPoisonous : materialPoisonousList) {
                 NBTTagCompound cruciblePoison = new NBTTagCompound();
                 cruciblePoison.setInteger("energy", 2000);
-                cruciblePoison.setCompoundTag("input", new NBTTagCompound());
-                cruciblePoison.setCompoundTag("output", new NBTTagCompound());
+                cruciblePoison.setTag("input", new NBTTagCompound());
+                cruciblePoison.setTag("output", new NBTTagCompound());
 
                 materialPoisonous.writeToNBT(cruciblePoison.getCompoundTag("input"));
                 new FluidStack(Poison.getInstance(), 250).writeToNBT(cruciblePoison.getCompoundTag("output"));
@@ -371,8 +373,8 @@ public class Recipes {
                 ItemStack materialPoisonous = new ItemStack(BloodStainedBlock.getInstance(), 1, i);
                 NBTTagCompound crucibleBlood = new NBTTagCompound();
                 crucibleBlood.setInteger("energy", 2000);
-                crucibleBlood.setCompoundTag("input", new NBTTagCompound());
-                crucibleBlood.setCompoundTag("output", new NBTTagCompound());
+                crucibleBlood.setTag("input", new NBTTagCompound());
+                crucibleBlood.setTag("output", new NBTTagCompound());
 
                 materialPoisonous.writeToNBT(crucibleBlood.getCompoundTag("input"));
                 new FluidStack(Blood.getInstance(), 750).writeToNBT(crucibleBlood.getCompoundTag("output"));
@@ -384,9 +386,9 @@ public class Recipes {
             for(Entry<CustomRecipe, CustomRecipeResult> entry : bloodInfuseRecipes.entrySet()) {
                 NBTTagCompound bloodInfuse = new NBTTagCompound();
                 bloodInfuse.setInteger("energy", entry.getKey().getDuration() * 100);
-                bloodInfuse.setCompoundTag("input", new NBTTagCompound());
-                bloodInfuse.setCompoundTag("output", new NBTTagCompound());
-                bloodInfuse.setCompoundTag("fluid", new NBTTagCompound());
+                bloodInfuse.setTag("input", new NBTTagCompound());
+                bloodInfuse.setTag("output", new NBTTagCompound());
+                bloodInfuse.setTag("fluid", new NBTTagCompound());
 
                 entry.getKey().getItemStack().writeToNBT(bloodInfuse.getCompoundTag("input"));
                 entry.getValue().getResult().writeToNBT(bloodInfuse.getCompoundTag("output"));
@@ -401,12 +403,12 @@ public class Recipes {
             for(Entry<Item, FluidStack> entry : BUCKETS.entrySet()) {
                 NBTTagCompound fill = new NBTTagCompound();
                 fill.setInteger("energy", 2000);
-                fill.setCompoundTag("input", new NBTTagCompound());
-                fill.setCompoundTag("output", new NBTTagCompound());
-                fill.setCompoundTag("fluid", new NBTTagCompound());
+                fill.setTag("input", new NBTTagCompound());
+                fill.setTag("output", new NBTTagCompound());
+                fill.setTag("fluid", new NBTTagCompound());
 
                 new ItemStack(entry.getKey()).writeToNBT(fill.getCompoundTag("input"));
-                new ItemStack(Item.bucketEmpty).writeToNBT(fill.getCompoundTag("output"));
+                new ItemStack(Items.bucket).writeToNBT(fill.getCompoundTag("output"));
                 fill.setBoolean("reversible", true);
                 entry.getValue().copy().writeToNBT(fill.getCompoundTag("fluid"));
                 FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", fill);

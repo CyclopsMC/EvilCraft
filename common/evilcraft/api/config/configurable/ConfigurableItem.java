@@ -1,6 +1,6 @@
 package evilcraft.api.config.configurable;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,8 +29,6 @@ public abstract class ConfigurableItem extends Item implements Configurable{
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     protected ConfigurableItem(ExtendedConfig eConfig) {
-        super(eConfig.ID);
-        eConfig.ID = this.itemID; // This could've changed.
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
     }
@@ -53,7 +51,7 @@ public abstract class ConfigurableItem extends Item implements Configurable{
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerIcons(IIconRegister iconRegister) {
         itemIcon = iconRegister.registerIcon(getIconString());
     }
     

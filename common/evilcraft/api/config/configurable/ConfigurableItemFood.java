@@ -1,6 +1,6 @@
 package evilcraft.api.config.configurable;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemFood;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,8 +31,7 @@ public abstract class ConfigurableItemFood extends ItemFood implements Configura
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected ConfigurableItemFood(ExtendedConfig eConfig, int healAmount, float saturationModifier, boolean isWolfsFavoriteMeat) {
-        super(eConfig.ID, healAmount, saturationModifier, isWolfsFavoriteMeat);
-        eConfig.ID = this.itemID; // This could've changed.
+        super(healAmount, saturationModifier, isWolfsFavoriteMeat);
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
     }
@@ -55,7 +54,7 @@ public abstract class ConfigurableItemFood extends ItemFood implements Configura
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerIcons(IIconRegister iconRegister) {
         itemIcon = iconRegister.registerIcon(getIconString());
     }
     

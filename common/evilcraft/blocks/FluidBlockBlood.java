@@ -55,7 +55,7 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
         if(isSourceBlock(world, x, y, z) && !world.isRaining() && random.nextInt(CHANCE_HARDEN) == 0) {
-            world.setBlock(x, y, z, HardenedBloodConfig._instance.ID);
+            world.setBlock(x, y, z, HardenedBlood.getInstance());
             world.setBlockMetadataWithNotify(x, y, z, 0, 2);
         } else {
             super.updateTick(world, x, y, z, random);

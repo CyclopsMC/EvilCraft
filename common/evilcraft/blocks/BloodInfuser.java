@@ -2,11 +2,12 @@ package evilcraft.blocks;
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.util.Icon;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
@@ -27,10 +28,10 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
     
     private static BloodInfuser _instance = null;
     
-    private Icon sideIcon;
-    private Icon topIcon;
-    private Icon frontIconOn;
-    private Icon frontIconOff;
+    private IIcon sideIcon;
+    private IIcon topIcon;
+    private IIcon frontIconOn;
+    private IIcon frontIconOff;
     
     /**
      * Initialise the configurable.
@@ -53,7 +54,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
 
     private BloodInfuser(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock, TileBloodInfuser.class, Reference.GUI_BLOOD_INFUSER);
-        this.setStepSound(soundStoneFootstep);
+        this.setStepSound(soundTypeStone);
         this.setRotatable(true);
         
         if (Helpers.isClientSide())
@@ -63,7 +64,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         topIcon = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.UP.name());
         sideIcon = iconRegister.registerIcon(getTextureName() + "_" + "side");
         frontIconOn = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.NORTH.name() + "_on");
@@ -72,15 +73,15 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
-        TileBloodInfuser tile = (TileBloodInfuser) world.getBlockTileEntity(x, y, z);
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
+        TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
         ForgeDirection rotatedDirection = Helpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
         return getIcon(rotatedDirection.ordinal(), tile.isBlockInfusing()?1:0);
     }
     
     @SideOnly(Side.CLIENT)
     @Override
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         if(side == ForgeDirection.UP.ordinal() || side == ForgeDirection.DOWN.ordinal()) {
             return topIcon;
         } else if (side == ForgeDirection.SOUTH.ordinal()) {
@@ -95,8 +96,8 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
     }
     
     @Override
-    public int idDropped(int par1, Random random, int zero) {
-        return BloodInfuserConfig._instance.ID;
+    public Item getItemDropped(int par1, Random random, int zero) {
+        return Item.getItemFromBlock(this);
     }
     
     @Override
@@ -106,7 +107,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
 
     @Override
     public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-        TileBloodInfuser tile = (TileBloodInfuser) world.getBlockTileEntity(x, y, z);
+        TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(Helpers.COMPARATOR_MULTIPLIER * output);
     }

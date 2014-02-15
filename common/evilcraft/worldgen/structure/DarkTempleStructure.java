@@ -64,7 +64,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	}
 	
 	private boolean isSolidBlock(World world, int x, int y, int z) {
-	    Material material =  world.getBlockMaterial(x, y, z);
+	    Material material =  world.getBlock(x, y, z).getMaterial();
 		return material.isSolid() && material.isOpaque();
 	}
 	

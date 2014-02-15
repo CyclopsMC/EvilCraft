@@ -1,7 +1,7 @@
 package evilcraft.api.entities.tileentitites;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import evilcraft.api.DirectionCorner;
 import evilcraft.api.Helpers;
 

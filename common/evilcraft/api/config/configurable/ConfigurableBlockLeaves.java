@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.block.BlockNewLeaf;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -23,7 +24,7 @@ import evilcraft.api.config.ExtendedConfig;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Configurable{
+public abstract class ConfigurableBlockLeaves extends BlockNewLeaf implements Configurable{
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
@@ -33,8 +34,8 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
      */
     public static ElementType TYPE = ElementType.BLOCK;
 
-    private Icon iconOpaque;
-    private Icon iconTransparent;
+    private IIcon iconOpaque;
+    private IIcon iconTransparent;
     
     /**
      * Make a new block instance.
@@ -42,11 +43,9 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlockLeaves(ExtendedConfig eConfig) {
-        super(eConfig.ID);
-        eConfig.ID = this.blockID; // This could've changed.
         this.setConfig(eConfig);
-        this.setUnlocalizedName(this.getUniqueName());
-        setBurnProperties(blockID, 30, 60);
+        this.setBlockName(this.getUniqueName());
+        setBurnProperties(this, 30, 60);
     }
 
     @Override
@@ -71,38 +70,33 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         iconTransparent = iconRegister.registerIcon(getTextureName());
         iconOpaque = iconRegister.registerIcon(getTextureName() + "_opaque");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
-        return Block.leaves.graphicsLevel ? iconTransparent : iconOpaque;
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
+        return !isOpaqueCube() ? iconTransparent : iconOpaque;
     }
 
     @Override
-    public Icon getIcon(int side, int meta) {
-        return Block.leaves.graphicsLevel ? iconTransparent : iconTransparent;
+    public IIcon getIcon(int side, int meta) {
+        return !isOpaqueCube() ? iconTransparent : iconTransparent;
     }
 
     @Override
-    public boolean isOpaqueCube() {
-        return !Block.leaves.graphicsLevel;
-    }
-
-    @Override
-    public abstract int idDropped(int meta, Random random, int zero);
+    public abstract Item getItemDropped(int meta, Random random, int zero);
 
     @Override
     public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune) {
         if(!world.isRemote) {
-            ArrayList<ItemStack> items = getBlockDropped(world, x, y, z, meta, fortune);
+            ArrayList<ItemStack> items = getDrops(world, x, y, z, meta, fortune);
 
             for (ItemStack item : items) {
                 if (world.rand.nextFloat() <= chance) {
-                    this.dropBlockAsItem_do(world, x, y, z, item);
+                    this.dropBlockAsItem(world, x, y, z, item);
                 }
             }
         }
@@ -111,13 +105,13 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
     @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
-        return Block.leaves.graphicsLevel ? true : super.shouldSideBeRendered(world, x, y, z, side);
+        return !!isOpaqueCube() ? true : super.shouldSideBeRendered(world, x, y, z, side);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public void getSubBlocks(int id, CreativeTabs creativeTabs, List list) {
-        list.add(new ItemStack(id, 1, 0));
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+        list.add(new ItemStack(item, 1, 0));
     }
 
 }

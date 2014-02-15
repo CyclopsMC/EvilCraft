@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.BlockLog;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,8 +31,8 @@ public abstract class ConfigurableBlockLog extends BlockLog implements Configura
      */
     public static ElementType TYPE = ElementType.BLOCK;
 
-    private Icon iconTop;
-    private Icon iconSide;
+    private IIcon iconTop;
+    private IIcon iconSide;
 
     /**
      * Make a new block instance.
@@ -39,10 +40,8 @@ public abstract class ConfigurableBlockLog extends BlockLog implements Configura
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlockLog(ExtendedConfig eConfig) {
-        super(eConfig.ID);
-        eConfig.ID = this.blockID; // This could've changed.
         this.setConfig(eConfig);
-        this.setUnlocalizedName(this.getUniqueName());
+        this.setBlockName(this.getUniqueName());
     }
 
     @SuppressWarnings("rawtypes")
@@ -68,27 +67,27 @@ public abstract class ConfigurableBlockLog extends BlockLog implements Configura
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         iconSide = iconRegister.registerIcon(getTextureName());
         iconTop = iconRegister.registerIcon(getTextureName() + "_top");
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    protected Icon getSideIcon(int par1) {
+    protected IIcon getSideIcon(int par1) {
         return this.iconSide;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    protected Icon getEndIcon(int par1) {
+    protected IIcon getTopIcon(int par1) {
         return this.iconTop;
     }
 
     @Override
-    public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune) {
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-        drops.add(new ItemStack(blockID, 1, 0));
+        drops.add(new ItemStack(this, 1, 0));
         return drops;
     }
 
@@ -99,8 +98,8 @@ public abstract class ConfigurableBlockLog extends BlockLog implements Configura
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public void getSubBlocks(int id, CreativeTabs creativeTabs, List list) {
-        list.add(new ItemStack(id, 1, 0));
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+        list.add(new ItemStack(item, 1, 0));
     }
 
 }

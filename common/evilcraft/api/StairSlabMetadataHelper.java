@@ -1,6 +1,6 @@
 package evilcraft.api;
 
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * A metadata helper for vanilla stairs and slabs.

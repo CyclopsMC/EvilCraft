@@ -8,6 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
@@ -22,6 +24,7 @@ import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
+import evilcraft.items.Broom;
 import evilcraft.items.BroomConfig;
 
 /**
@@ -65,8 +68,8 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     }
     
     @Override
-    public int idDropped(int par1, Random random, int zero) {
-        return ExcrementPileConfig._instance.ID;
+    public Item getItemDropped(int par1, Random random, int zero) {
+        return Item.getItemFromBlock(this);
     }
     
     @Override
@@ -101,20 +104,19 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     }
 
     @Override
-    public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-        int l = world.getBlockId(x, y - 1, z);        
-        Block block = Block.blocksList[l];
+    public boolean canPlaceBlockAt(World world, int x, int y, int z) {    
+        Block block = world.getBlock(x, y - 1, z);
         if (block == null) return false;
         if (block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7) return true;
-        if (!block.isLeaves(world, x, y - 1, z) && !Block.blocksList[l].isOpaqueCube()) return false;
-        return world.getBlockMaterial(x, y - 1, z).blocksMovement();
+        if (!block.isLeaves(world, x, y - 1, z) && !block.isOpaqueCube()) return false;
+        return block.getMaterial().blocksMovement();
     }
     
     @Override
     public boolean canHarvestBlock(EntityPlayer player, int meta) {
         return player.getCurrentEquippedItem() != null
                 && BroomConfig._instance.isEnabled()
-                && player.getCurrentEquippedItem().itemID == BroomConfig._instance.ID;
+                && player.getCurrentEquippedItem().getItem() == Broom.getInstance();
     }
 
     @Override
@@ -140,13 +142,13 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
                 for(int xr = x - 1; xr <= x + 1; xr++) {
                     for(int zr = z - 1; zr <= z + 1; zr++) {
                         if(random.nextInt(9) == 0) {
-                            int blockIDBelow = world.getBlockId(xr, y - 1, zr);
-                            if(blockIDBelow == Block.dirt.blockID) {
-                                world.setBlock(xr, y - 1, zr, Block.grass.blockID);
-                            } else if(blockIDBelow == Block.grass.blockID) {
-                                ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y - 1, zr, null);
+                            Block blockBelow = world.getBlock(xr, y - 1, zr);
+                            if(blockBelow == Blocks.dirt) {
+                                world.setBlock(xr, y - 1, zr, Blocks.grass);
+                            } else if(blockBelow == Blocks.grass) {
+                                ItemDye.applyBonemeal(new ItemStack(Items.dye, 1), world, xr, y - 1, zr, null);
                             }
-                            ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y, zr, null);
+                            ItemDye.applyBonemeal(new ItemStack(Items.dye, 1), world, xr, y, zr, null);
                         }
                     }
                 }
@@ -184,12 +186,12 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     }
 
     @Override
-    public boolean isBlockReplaceable(World world, int x, int y, int z) {
+    public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
         return true;
     }
     
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int neighbourBlockID) {
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbourBlock) {
         if (!this.canPlaceBlockAt(world, x, y, z)) {
             world.setBlockToAir(x, y, z);
         }

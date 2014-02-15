@@ -3,9 +3,10 @@ import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.IconFlipped;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Icon;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -14,7 +15,7 @@ import evilcraft.EvilCraft;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockDoor;
-import evilcraft.items.LargeDoorItemConfig;
+import evilcraft.items.LargeDoorItem;
 
 /**
  * A door that is three blocks high.
@@ -25,9 +26,9 @@ public class LargeDoor extends ConfigurableBlockDoor {
     
     private static LargeDoor _instance = null;
     
-    private Icon[] blockIconUpper;
-    private Icon[] blockIconMiddle;
-    private Icon[] blockIconLower;
+    private IIcon[] blockIconUpper;
+    private IIcon[] blockIconMiddle;
+    private IIcon[] blockIconLower;
     
     /**
      * Initialise the configurable.
@@ -52,20 +53,20 @@ public class LargeDoor extends ConfigurableBlockDoor {
         super(eConfig, Material.wood);
         this.setBlockBounds(0, 0.0F, 0, 1, 2.0F, 1); // Height +2
         this.setHardness(3.0F);
-        this.setStepSound(soundWoodFootstep);
+        this.setStepSound(soundTypeWood);
         this.disableStats();
     }
     
     @SideOnly(Side.CLIENT)
     @Override
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         return this.blockIconLower[0];
     }
     
     @Override
-    public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side) {
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
         if (side != 1 && side != 0) {
-            int meta = this.getFullMetadata(par1IBlockAccess, x, y, z);
+            int meta = world.getBlockMetadata(x, y, z);
             int orientation = meta & 3;
             boolean isOpen = (meta & 4) != 0;
             boolean flipped = false;
@@ -114,7 +115,7 @@ public class LargeDoor extends ConfigurableBlockDoor {
     
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float coordX, float coordY, float coordZ) {
-        int meta = this.getFullMetadata(world, x, y, z);
+        int meta = world.getBlockMetadata(x, y, z);
         int isOpen = (meta & 7) ^ 4; // To open door (metadata)
 
         // Update the lowest part of the door
@@ -144,10 +145,10 @@ public class LargeDoor extends ConfigurableBlockDoor {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister) {
-        this.blockIconUpper = new Icon[2];
-        this.blockIconMiddle = new Icon[2];
-        this.blockIconLower = new Icon[2];
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        this.blockIconUpper = new IIcon[2];
+        this.blockIconMiddle = new IIcon[2];
+        this.blockIconLower = new IIcon[2];
         this.blockIconUpper[0] = iconRegister.registerIcon(this.getTextureName() + "_upper");
         this.blockIconMiddle[0] = iconRegister.registerIcon(this.getTextureName() + "_middle");
         this.blockIconLower[0] = iconRegister.registerIcon(this.getTextureName() + "_lower");
@@ -157,28 +158,23 @@ public class LargeDoor extends ConfigurableBlockDoor {
     }
     
     @Override
-    public int idDropped(int meta, Random random, int zero) {
-        return LargeDoorItemConfig._instance.ID;
+    public Item getItemDropped(int meta, Random random, int zero) {
+        return LargeDoorItem.getInstance();
     }
     
     @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-        return y >= 255 ? false : (world.doesBlockHaveSolidTopSurface(x, y - 1, z)
+        return y >= 255 ? false : (World.doesBlockHaveSolidTopSurface(world, x, y - 1, z)
                 && world.isAirBlock(x, y, z)
                 && world.isAirBlock(x, y + 1, z)
                 && world.isAirBlock(x, y + 2, z));
-    }
-    
-    @Override
-    public int idPicked(World world, int x, int y, int z) {
-        return LargeDoorItemConfig._instance.ID;
     }
 
     @Override
     public void onBlockHarvested(World world, int x, int y, int z, int side, EntityPlayer player) {
         if (player.capabilities.isCreativeMode && (side & 8) != 0
-                && world.getBlockId(x, y - 1, z) == this.blockID
-                && world.getBlockId(x, y - 2, z) == this.blockID)
+                && world.getBlock(x, y - 1, z) == this
+                && world.getBlock(x, y - 2, z) == this)
         {
             world.setBlockToAir(x, y - 1, z);
             world.setBlockToAir(x, y - 2, z);

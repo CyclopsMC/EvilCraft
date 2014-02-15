@@ -2,8 +2,9 @@ package evilcraft.blocks;
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.util.Icon;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -49,7 +50,7 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
         super(eConfig, Material.wood, TileBloodChest.class, Reference.GUI_BLOOD_CHEST);
         
         this.setHardness(2.5F);
-        this.setStepSound(soundWoodFootstep);
+        this.setStepSound(soundTypeWood);
         this.setRotatable(true);
         setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
         
@@ -66,20 +67,20 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         
     }
     
     @Override
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         // This is ONLY used for the block breaking/broken particles
         // Since the blood infuser looks very similar, we use that icon.
         return BloodInfuser.getInstance().getIcon(side, meta);
     }
     
     @Override
-    public int idDropped(int par1, Random random, int zero) {
-        return BloodChestConfig._instance.ID;
+    public Item getItemDropped(int par1, Random random, int zero) {
+        return Item.getItemFromBlock(this);
     }
     
     @Override
@@ -89,7 +90,7 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
 
     @Override
     public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-        TileBloodInfuser tile = (TileBloodInfuser) world.getBlockTileEntity(x, y, z);
+        TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(Helpers.COMPARATOR_MULTIPLIER * output);
     }

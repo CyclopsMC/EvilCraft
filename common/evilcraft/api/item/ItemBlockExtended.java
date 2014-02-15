@@ -22,11 +22,10 @@ public class ItemBlockExtended extends ItemBlock {
 
     /**
      * Make a new instance.
-     * @param blockID The block ID.
      * @param block The block instance.
      */
-    public ItemBlockExtended(int blockID, Block block) {
-        super(blockID);
+    public ItemBlockExtended(Block block) {
+    	super(block);
         informationProvider = new InformationProviderComponent(block);
     }
     
