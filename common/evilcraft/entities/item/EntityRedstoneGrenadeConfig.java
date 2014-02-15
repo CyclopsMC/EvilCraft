@@ -8,9 +8,21 @@ import evilcraft.Reference;
 import evilcraft.api.config.EntityConfig;
 import evilcraft.items.RedstoneGrenade;
 
+/**
+ * Config for the {@link EntityRedstoneGrenade}.
+ * @author rubensworks
+ *
+ */
 public class EntityRedstoneGrenadeConfig extends EntityConfig {
+    
+    /**
+     * The unique instance.
+     */
     public static EntityRedstoneGrenadeConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public EntityRedstoneGrenadeConfig() {
         super(
             Reference.ENTITY_REDSTONEGRENADE,
@@ -31,4 +43,5 @@ public class EntityRedstoneGrenadeConfig extends EntityConfig {
     public boolean sendVelocityUpdates() {
         return true;
     }
+    
 }

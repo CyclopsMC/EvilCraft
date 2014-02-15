@@ -7,28 +7,41 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockWithInnerBlocks;
 import evilcraft.entities.monster.Netherfish;
 import evilcraft.entities.monster.NetherfishConfig;
 
+/**
+ * A block that spawns a {@link Netherfish} when the block breaks.
+ * @author rubensworks
+ *
+ */
 public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     
     private static NetherfishSpawn _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new NetherfishSpawn(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static NetherfishSpawn getInstance() {
         return _instance;
     }
 
-    private NetherfishSpawn(ExtendedConfig eConfig) {
+    private NetherfishSpawn(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.clay);
         this.setHardness(0.0F);
     }
@@ -47,19 +60,19 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     public void registerIcons(IconRegister par1IconRegister) {}
     
     @Override
-    public void onBlockDestroyedByPlayer(World par1World, int par2, int par3, int par4, int par5) {
-        if (!par1World.isRemote && NetherfishConfig._instance.isEnabled()) {
-            Netherfish netherfish = new Netherfish(par1World);
-            netherfish.setLocationAndAngles((double)par2 + 0.5D, (double)par3, (double)par4 + 0.5D, 0.0F, 0.0F);
-            par1World.spawnEntityInWorld(netherfish);
+    public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta) {
+        if (!world.isRemote && NetherfishConfig._instance.isEnabled()) {
+            Netherfish netherfish = new Netherfish(world);
+            netherfish.setLocationAndAngles((double)x + 0.5D, (double)y, (double)z + 0.5D, 0.0F, 0.0F);
+            world.spawnEntityInWorld(netherfish);
             netherfish.spawnExplosionParticle();
         }
 
-        super.onBlockDestroyedByPlayer(par1World, par2, par3, par4, par5);
+        super.onBlockDestroyedByPlayer(world, x, y, z, meta);
     }
     
     @Override
-    public int quantityDropped(Random par1Random) {
+    public int quantityDropped(Random random) {
         return 0;
     }
     
@@ -68,8 +81,7 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
      * @param meta Metadata for the (inner) block
      * @return if the metadata corresponds to an inner block.
      */
-    public boolean getPosingIdByMetadata(int meta)
-    {
+    public boolean getPosingIdByMetadata(int meta) {
         return getMetadataFromBlockID(meta) > -1;
     }
 

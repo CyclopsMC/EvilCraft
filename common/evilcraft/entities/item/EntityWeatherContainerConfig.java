@@ -8,9 +8,21 @@ import evilcraft.api.config.EntityConfig;
 import evilcraft.api.render.RenderThrowable;
 import evilcraft.items.WeatherContainer;
 
+/**
+ * Config for the {@link EntityWeatherContainer}.
+ * @author rubensworks
+ *
+ */
 public class EntityWeatherContainerConfig extends EntityConfig {
+    
+    /**
+     * The unique instance.
+     */
     public static EntityWeatherContainerConfig _instance;
     
+    /**
+     * Make a new instance.
+     */
     public EntityWeatherContainerConfig() {
         super(
             Reference.ENTITY_WEATHERCONTAINER,

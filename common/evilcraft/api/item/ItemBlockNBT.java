@@ -2,12 +2,27 @@ package evilcraft.api.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 
+/**
+ * An extended {@link ItemBlockExtended} that will add the NBT data that is stored inside
+ * the item to the placed {@link TileEntity} for the block.
+ * Subinstances of {@link ConfigurableBlockContainer} will perform the inverse operation, being
+ * that broken blocks will save the NBT data inside the dropped {@link ItemBlock}.
+ * @author rubensworks
+ *
+ */
 public class ItemBlockNBT extends ItemBlockExtended {
     
+    /**
+     * Make a new instance.
+     * @param blockID The block ID.
+     * @param block The block instance.
+     */
     public ItemBlockNBT(int blockID, Block block) {
         super(blockID, block);
         this.setMaxStackSize(1);

@@ -11,6 +11,12 @@ import evilcraft.EvilCraft;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
+/**
+ * Block with a tile entity with a GUI that can hold ExtendedConfigs.
+ * The container and GUI must be set inside the constructor of the extension.
+ * @author rubensworks
+ *
+ */
 public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
     
     private int guiID;
@@ -19,6 +25,14 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
     @SideOnly(Side.CLIENT)
     private Class<? extends GuiContainer> gui;
 
+    /**
+     * Make a new block instance.
+     * @param eConfig Config for this block.
+     * @param material Material of this block.
+     * @param tileEntity The class of the tile entity this block holds.
+     * @param guiID The unique ID for the GUI this block has.
+     */
+    @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockContainerGui(ExtendedConfig eConfig,
             Material material, Class<? extends EvilCraftTileEntity> tileEntity, int guiID) {
         super(eConfig, material, tileEntity);
@@ -26,6 +40,10 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
         this.hasGui = true;
     }
     
+    /**
+     * Get the unique ID for the GUI this block has.
+     * @return the GUI ID.
+     */
     public int getGuiID() {
         return this.guiID;
     }
@@ -39,10 +57,18 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
         this.container = container;
     }
     
+    /**
+     * Get the container for this block.
+     * @return The container class.
+     */
     public Class<? extends Container> getContainer() {
         return container;
     }
     
+    /**
+     * Get the GUI for this block.
+     * @return The GUI class.
+     */
     @SideOnly(Side.CLIENT)
     public Class<? extends GuiContainer> getGUI() {
         return gui;

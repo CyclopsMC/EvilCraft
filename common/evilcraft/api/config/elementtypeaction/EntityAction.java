@@ -7,6 +7,11 @@ import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.config.EntityConfig;
 
+/**
+ * The action used for {@link EntityConfig}.
+ * @author rubensworks
+ * @see IElementTypeAction
+ */
 public class EntityAction extends IElementTypeAction<EntityConfig>{
 
     @Override
@@ -14,6 +19,7 @@ public class EntityAction extends IElementTypeAction<EntityConfig>{
         if(!eConfig.isEnabled()) eConfig.ID = 0;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void postRun(EntityConfig eConfig, Configuration config) {
         // Save the config inside the correct element

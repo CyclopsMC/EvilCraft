@@ -10,13 +10,27 @@ import evilcraft.api.config.configurable.ConfigurableProperty;
 import evilcraft.render.entity.RenderWerewolf;
 import evilcraft.render.models.WerewolfModel;
 
+/**
+ * Config for the {@link Werewolf}.
+ * @author rubensworks
+ *
+ */
 public class WerewolfConfig extends MobConfig {
     
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Werewolf be enabled?")
-    public static boolean isEnabled = true;
-    
+    /**
+     * The unique instance.
+     */
     public static WerewolfConfig _instance;
+    
+    /**
+     * Should the Werewolf be enabled?
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Werewolf be enabled?")
+    public static boolean isEnabled = true;    
 
+    /**
+     * Make a new instance.
+     */
     public WerewolfConfig() {
         super(
             Reference.MOB_WEREWOLF,

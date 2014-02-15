@@ -1,4 +1,4 @@
-package evilcraft;
+package evilcraft.gui;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -15,9 +15,20 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+/**
+ * The handler class that will map Containers to GUI's.
+ * @author rubensworks
+ *
+ */
 public class GuiHandler implements IGuiHandler {
 
+    /**
+     * A map from container;map id to container instance.
+     */
     public static Map<Integer, Class<? extends Container>> CONTAINERS = new HashMap<Integer, Class<? extends Container>>();
+    /**
+     * A map from container;map id to GUI instance.
+     */
     public static Map<Integer, Class<? extends GuiContainer>> GUIS = new HashMap<Integer, Class<? extends GuiContainer>>();
 
     @Override

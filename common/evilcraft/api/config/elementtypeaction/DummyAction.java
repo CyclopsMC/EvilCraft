@@ -2,11 +2,10 @@ package evilcraft.api.config.elementtypeaction;
 
 import net.minecraftforge.common.Configuration;
 import evilcraft.api.config.DummyConfig;
-import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Just a dummy action.
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public class DummyAction extends IElementTypeAction<DummyConfig> {

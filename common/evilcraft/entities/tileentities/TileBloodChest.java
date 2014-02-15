@@ -26,39 +26,70 @@ import evilcraft.gui.container.ContainerBloodChest;
 import evilcraft.gui.slot.SlotRepairable;
 
 /**
- * Partially based on cpw's IronChests
+ * A chest that is able to repair tools with the use of blood.
+ * Partially based on cpw's IronChests.
  * @author rubensworks
  *
  */
 public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChest> {
     
+    /**
+     * The amount of slots in the chest.
+     */
     public static final int SLOTS_CHEST = ContainerBloodChest.CHEST_INVENTORY_ROWS * ContainerBloodChest.CHEST_INVENTORY_COLUMNS;
+    /**
+     * The total amount of slots.
+     */
     public static final int SLOTS = SLOTS_CHEST + 1;
+    /**
+     * The id of the fluid container slot.
+     */
     public static final int SLOT_CONTAINER = SLOTS - 1;
     
+    /**
+     * The name of the tank, used for NBT storage.
+     */
     public static String TANKNAME = "bloodChestTank";
+    /**
+     * The capacity of the tank.
+     */
     public static final int LIQUID_PER_SLOT = FluidContainerRegistry.BUCKET_VOLUME * 10;
+    /**
+     * The amount of ticks per mB the tank can accept per tick.
+     */
     public static final int TICKS_PER_LIQUID = 2;
+    /**
+     * The fluid that is accepted in the tank.
+     */
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
     
     private int ticksSinceSync = -1;
+    /**
+     * The previous angle of the lid.
+     */
     public float prevLidAngle;
+    /**
+     * The current angle of the lid.
+     */
     public float lidAngle;
     private int playersUsing;
     
     private int blockID = BloodChestConfig._instance.ID;
     
-    public static final Map<Class<?>, ITickAction<TileBloodChest>> REPAIR_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodChest>>();
+    private static final Map<Class<?>, ITickAction<TileBloodChest>> REPAIR_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodChest>>();
     static {
         REPAIR_TICK_ACTIONS.put(Item.class, new RepairItemTickAction());
     }
     
-    public static final Map<Class<?>, ITickAction<TileBloodChest>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodChest>>();
+    private static final Map<Class<?>, ITickAction<TileBloodChest>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodChest>>();
     static {
         EMPTY_IN_TANK_TICK_ACTIONS.put(ItemBucket.class, new EmptyItemBucketInTankTickAction<TileBloodChest>());
         EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileBloodChest>());
     }
     
+    /**
+     * Make a new instance.
+     */
     public TileBloodChest() {
         super(
                 SLOTS,

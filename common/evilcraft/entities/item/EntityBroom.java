@@ -1,7 +1,6 @@
 package evilcraft.entities.item;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -24,20 +23,34 @@ import evilcraft.items.Broom;
  */
 public class EntityBroom extends Entity implements Configurable{
     
-    protected ExtendedConfig eConfig = null;
+    protected ExtendedConfig<?> eConfig = null;
     
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.ENTITY;
     
-    // Speed for the broom (in all directions)
+    /**
+     * Speed for the broom (in all directions)
+     */
     public static final double SPEED = 0.4;
     
-    // Maximum and minimum angle of the broom between the XZ-plane and the Y-axis 
-    // (in degrees, -90 = completely up, +90 = completely down)
-    // This limits the angle under which the player can move up or down
+    /**
+     * Maximum angle of the broom between the XZ-plane and the Y-axis 
+     * (in degrees, -90 = completely up, +90 = completely down)
+     * This limits the angle under which the player can move up or down
+     */
     public static final float MAX_ANGLE = 45.0F;	
+    /**
+     * Minimum angle of the broom between the XZ-plane and the Y-axis 
+     * (in degrees, -90 = completely up, +90 = completely down)
+     * This limits the angle under which the player can move up or down
+     */
     public static final float MIN_ANGLE = -45.0F;
     
-    // The player that last mounted this broom (used to detect dismounting)
+    /**
+     * The player that last mounted this broom (used to detect dismounting)
+     */
     public EntityPlayer lastMounted = null;
     
     private double newPosX;
@@ -51,16 +64,28 @@ public class EntityBroom extends Entity implements Configurable{
     // This makes sure that all brooms don't reach the highest and lowest hovering points at the same time
     private int broomHoverTickOffset;
     
-    // Set a configuration for this entity
+    @SuppressWarnings("rawtypes")
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
+    /**
+     * Make a new instance in the given world.
+     * @param world The world to make it in.
+     */
     public EntityBroom(World world) {
         this(world, 0.0, 0.0, 0.0);
         initBroomHoverTickOffset();
     }
     
+    /**
+     * Make a new instance at the given location in a world.
+     * @param world The world.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     */
     public EntityBroom(World world, double x, double y, double z) {
         super(world);
         setPosition(x, y, z);
@@ -234,6 +259,7 @@ public class EntityBroom extends Entity implements Configurable{
         moveEntity(motionX, motionY, motionZ);
         
         // Apply collisions
+        @SuppressWarnings("rawtypes")
         List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.2, 0.0, 0.2));
         int l;
 

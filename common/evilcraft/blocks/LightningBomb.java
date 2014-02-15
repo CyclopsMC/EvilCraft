@@ -6,8 +6,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
@@ -16,12 +14,17 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
 import evilcraft.entities.block.EntityLightningBombPrimed;
 import evilcraft.entities.item.EntityLightningGrenade;
 
+/**
+ * A bomb that spawns lightning when ignited.
+ * @author rubensworks
+ *
+ */
 public class LightningBomb extends ConfigurableBlock {
     
     private static LightningBomb _instance = null;
@@ -29,30 +32,38 @@ public class LightningBomb extends ConfigurableBlock {
     private Icon blockIconTop;
     private Icon blockIconBottom;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new LightningBomb(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static LightningBomb getInstance() {
         return _instance;
     }
 
-    private LightningBomb(ExtendedConfig eConfig) {
+    private LightningBomb(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.tnt);
         this.setHardness(0.0F);
         this.setStepSound(Block.soundGrassFootstep);
     }
     
     @Override
-    public void onBlockAdded(World par1World, int par2, int par3, int par4) {
-        super.onBlockAdded(par1World, par2, par3, par4);
+    public void onBlockAdded(World world, int x, int y, int z) {
+        super.onBlockAdded(world, x, y, z);
 
-        if (par1World.isBlockIndirectlyGettingPowered(par2, par3, par4)) {
-            this.onBlockDestroyedByPlayer(par1World, par2, par3, par4, 1);
-            par1World.setBlockToAir(par2, par3, par4);
+        if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
+            this.onBlockDestroyedByPlayer(world, x, y, z, 1);
+            world.setBlockToAir(x, y, z);
         }
     }
     
@@ -73,12 +84,19 @@ public class LightningBomb extends ConfigurableBlock {
         }
     }
     
+    @Override
     public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta) {
         this.primeBomb(world, x, y, z, meta, (EntityLivingBase)null);
     }
     
     /**
      * spawns the primed bomb and plays the fuse sound.
+     * @param world The world.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     * @param meta Meta of this block.
+     * @param placer The entity that primed the bomb.
      */
     public void primeBomb(World world, int x, int y, int z, int meta, EntityLivingBase placer) {
         if (!world.isRemote) {
@@ -97,45 +115,44 @@ public class LightningBomb extends ConfigurableBlock {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public Icon getIcon(int par1, int par2) {
-        return par1 == 0 ? this.blockIconBottom : (par1 == 1 ? this.blockIconTop : this.blockIcon);
+    public Icon getIcon(int side, int meta) {
+        return side == 0 ? this.blockIconBottom : (side == 1 ? this.blockIconTop : this.blockIcon);
     }
     
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister par1IconRegister) {
-        this.blockIcon = par1IconRegister.registerIcon(this.getTextureName() + "_side");
-        this.blockIconTop = par1IconRegister.registerIcon(this.getTextureName() + "_top");
-        this.blockIconBottom = par1IconRegister.registerIcon(this.getTextureName() + "_bottom");
+    public void registerIcons(IconRegister ironRegister) {
+        this.blockIcon = ironRegister.registerIcon(this.getTextureName() + "_side");
+        this.blockIconTop = ironRegister.registerIcon(this.getTextureName() + "_top");
+        this.blockIconBottom = ironRegister.registerIcon(this.getTextureName() + "_bottom");
     }
     
     @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
-        if (par5EntityPlayer.getCurrentEquippedItem() != null && par5EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID) {
-            this.primeBomb(par1World, par2, par3, par4, 1, par5EntityPlayer);
-            par1World.setBlockToAir(par2, par3, par4);
-            par5EntityPlayer.getCurrentEquippedItem().damageItem(1, par5EntityPlayer);
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float coordX, float coordY, float coordZ) {
+        if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID) {
+            this.primeBomb(world, x, y, z, 1, player);
+            world.setBlockToAir(x, y, z);
+            player.getCurrentEquippedItem().damageItem(1, player);
             return true;
         } else {
-            return super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
+            return super.onBlockActivated(world, x, y, z, player, meta, coordX, coordY, coordZ);
         }
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
-    {
-        if (par5Entity instanceof EntityArrow && !par1World.isRemote) {
-            EntityArrow entityarrow = (EntityArrow)par5Entity;
+    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+        if (entity instanceof EntityArrow && !world.isRemote) {
+            EntityArrow entityarrow = (EntityArrow)entity;
 
             if (entityarrow.isBurning()) {
-                this.primeBomb(par1World, par2, par3, par4, 1, entityarrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)entityarrow.shootingEntity : null);
-                par1World.setBlockToAir(par2, par3, par4);
+                this.primeBomb(world, x, y, z, 1, entityarrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)entityarrow.shootingEntity : null);
+                world.setBlockToAir(x, y, z);
             }
-        } else if (par5Entity instanceof EntityLightningGrenade && !par1World.isRemote) {
-            EntityLightningGrenade entitygrenade = (EntityLightningGrenade)par5Entity;
+        } else if (entity instanceof EntityLightningGrenade && !world.isRemote) {
+            EntityLightningGrenade entitygrenade = (EntityLightningGrenade)entity;
 
-            this.primeBomb(par1World, par2, par3, par4, 1, entitygrenade.getThrower() instanceof EntityLivingBase ? (EntityLivingBase)entitygrenade.getThrower() : null);
-            par1World.setBlockToAir(par2, par3, par4);
+            this.primeBomb(world, x, y, z, 1, entitygrenade.getThrower() instanceof EntityLivingBase ? (EntityLivingBase)entitygrenade.getThrower() : null);
+            world.setBlockToAir(x, y, z);
         }
     }
     

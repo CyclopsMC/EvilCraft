@@ -2,37 +2,43 @@ package evilcraft.enchantment;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import evilcraft.EvilCraft;
 import evilcraft.api.Helpers;
+import evilcraft.api.config.EnchantmentConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableEnchantment;
-import evilcraft.blocks.BloodyCobblestone;
 
+/**
+ * Enchantment for letting tools break tools faster.
+ * @author rubensworks
+ *
+ */
 public class EnchantmentBreaking extends ConfigurableEnchantment {
     
     private static EnchantmentBreaking _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<EnchantmentConfig> eConfig) {
         if(_instance == null)
             _instance = new EnchantmentBreaking(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static EnchantmentBreaking getInstance() {
         return _instance;
     }
 
-    private EnchantmentBreaking(ExtendedConfig eConfig) {
+    private EnchantmentBreaking(ExtendedConfig<EnchantmentConfig> eConfig) {
         super(eConfig, 10, EnumEnchantmentType.weapon);
     }
     
@@ -60,6 +66,9 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
      * Used by ItemStack.attemptDamageItem. Randomly determines if a point of damage should be amplified using the
      * enchantment level. If the ItemStack is Armor then there is a flat 60% chance for damage to be amplified no
      * matter the enchantment level, otherwise there is a 1-(level/1) chance for damage to be amplified.
+     * @param itemStack The ItemStack.
+     * @param enchantmentListID Enchantments.
+     * @param random A random object.
      */
     public static void amplifyDamage(ItemStack itemStack, int enchantmentListID, Random random) {
         if(enchantmentListID > -1) {

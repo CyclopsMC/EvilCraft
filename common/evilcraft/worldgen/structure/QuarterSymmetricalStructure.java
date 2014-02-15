@@ -1,4 +1,4 @@
-package evilcraft.worldgen;
+package evilcraft.worldgen.structure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,11 @@ import java.util.Random;
 
 import net.minecraft.world.World;
 
+/**
+ * A quarter of a structure that can be rotated three times.
+ * @author immortaleeb
+ *
+ */
 public abstract class QuarterSymmetricalStructure {
 	private List<Integer> layerHeights;
 	private List<int[]> layers;
@@ -15,6 +20,11 @@ public abstract class QuarterSymmetricalStructure {
 	protected int quarterWidth;
 	protected int quarterHeight;
 
+	/**
+	 * Make a new instance with the given dimensions (only one height layer).
+	 * @param quarterWidth Width of the quarter.
+	 * @param quarterHeight Height of the quarter.
+	 */
 	public QuarterSymmetricalStructure(int quarterWidth, int quarterHeight) {
 		layerHeights = new ArrayList<Integer>();
 		layers = new ArrayList<int[]>();
@@ -74,6 +84,15 @@ public abstract class QuarterSymmetricalStructure {
 		
 	}
 
+	/**
+	 * Generate this structure.
+	 * @param world The world.
+	 * @param random Random object.
+	 * @param x X center coordinate.
+	 * @param y Y center coordinate.
+	 * @param z Z center coordinate.
+	 * @return If the structure was generated.
+	 */
 	public boolean generate(World world, Random random, int x, int y, int z) {
 		buildCorner(world, x, y, z, 1, 1);
 		buildCorner(world, x, y, z, -1, 1);

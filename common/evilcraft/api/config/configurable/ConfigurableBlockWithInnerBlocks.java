@@ -10,10 +10,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
@@ -29,14 +27,25 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     // No more than 16 different innerblocks allowed!
     protected final Block[] INNER_BLOCKS;
     
+    /**
+     * Make a new block instance.
+     * @param eConfig Config for this block.
+     * @param material Material of this block.
+     */
+    @SuppressWarnings("rawtypes")
     public ConfigurableBlockWithInnerBlocks(ExtendedConfig eConfig, Material material) {
         super(eConfig, material);
         INNER_BLOCKS = makeInnerBlockList();
     }
     
+    /**
+     * This should be implemented and return a list of innerblocks, they all must refer to
+     * non-null block instanced to work correctly.
+     * @return The list of innerblocks
+     */
     protected abstract Block[] makeInnerBlockList();
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public void getSubBlocks(int id, CreativeTabs creativeTabs, List list) {
         for (int j = 0; j < INNER_BLOCKS.length; ++j) {
@@ -65,6 +74,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
         return "Block: "+EnumChatFormatting.ITALIC+getBlockFromMetadata(itemStack.getItemDamage()).getLocalizedName();
     }
     
+    @SuppressWarnings("rawtypes")
     @Override
     public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         

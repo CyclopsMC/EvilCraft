@@ -1,14 +1,23 @@
 package evilcraft.items;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.Reference;
 import evilcraft.api.config.ItemConfig;
 
+/**
+ * Config for the {@link DarkGem}.
+ * @author rubensworks
+ *
+ */
 public class DarkGemConfig extends ItemConfig {
     
+    /**
+     * The unique instance.
+     */
     public static DarkGemConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public DarkGemConfig() {
         super(
             Reference.ITEM_DARKGEM,

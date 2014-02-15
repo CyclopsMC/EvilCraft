@@ -1,11 +1,19 @@
 package evilcraft.entities.tileentities.tickaction;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
+import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 
+/**
+ * {@link ITickAction} for emptying fluid containers in a tank.
+ * @author rubensworks
+ *
+ * @param <T> {@link TickingTankInventoryTileEntity} to drain to.
+ */
 public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryTileEntity<T>> extends EmptyInTankTickAction<T> {
 
     @Override
@@ -25,6 +33,12 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
         return getRequiredTicks(tile, tile.getInventory().getStackInSlot(slot));
     }
     
+    /**
+     * Get the required ticks for a given item.
+     * @param tile The {@link TileEntity} to drain to.
+     * @param itemStack The item to get the required ticks for.
+     * @return The required ticks.
+     */
     public static int getRequiredTicks(TankInventoryTileEntity tile, ItemStack itemStack) {
         IFluidContainerItem container = (IFluidContainerItem) itemStack.getItem();
         int amount = 0;

@@ -25,10 +25,18 @@ import evilcraft.entities.villager.WerewolfVillagerConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFurConfig;
 
+/**
+ * A large werewolf, only appears at night by transforming from a werewolf villager.
+ * @author rubensworks
+ *
+ */
 public class Werewolf extends EntityMob implements Configurable{
     
-    protected ExtendedConfig eConfig = null;
+    protected ExtendedConfig<?> eConfig = null;
     
+    /**
+     * The type for this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.MOB;
     
     private NBTTagCompound villagerNBTTagCompound = new NBTTagCompound();
@@ -38,11 +46,16 @@ public class Werewolf extends EntityMob implements Configurable{
     private static int BARKLENGTH = 40;
     private static int barkprogress = -1;
 
-    // Set a configuration for this entity
+    @SuppressWarnings("rawtypes")
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
+    /**
+     * Make a new instance.
+     * @param world The world.
+     */
     public Werewolf(World world) {
         super(world);
         
@@ -76,18 +89,25 @@ public class Werewolf extends EntityMob implements Configurable{
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(7.0D);
     }
     
+    @Override
     public void writeEntityToNBT(NBTTagCompound NBTTagCompound) {
         super.writeEntityToNBT(NBTTagCompound);
         NBTTagCompound.setCompoundTag("villager", villagerNBTTagCompound);
         NBTTagCompound.setBoolean("fromVillager", fromVillager);
     }
 
+    @Override
     public void readEntityFromNBT(NBTTagCompound NBTTagCompound) {
         super.readEntityFromNBT(NBTTagCompound);
         this.villagerNBTTagCompound = NBTTagCompound.getCompoundTag("villager");
         this.fromVillager = NBTTagCompound.getBoolean("fromVillager");
     }
     
+    /**
+     * If at the current time in the given world werewolves can appear.
+     * @param world The world.
+     * @return If it is werewolf party time.
+     */
     public static boolean isWerewolfTime(World world) {
         return WerewolfConfig._instance.isEnabled()
                 && world.getCurrentMoonPhaseFactor() == 1.0
@@ -106,12 +126,19 @@ public class Werewolf extends EntityMob implements Configurable{
         world.playAuxSFXAtEntity((EntityPlayer)null, 1016, (int)old.posX, (int)old.posY, (int)old.posZ, 0);
     }
     
+    /**
+     * Replace this entity with the stored villager.
+     */
     public void replaceWithVillager() {
         EntityVillager villager = new EntityVillager(this.worldObj, WerewolfVillagerConfig._instance.ID);
         replaceEntity(this, villager, this.worldObj);
         villager.readEntityFromNBT(villagerNBTTagCompound);
     }
     
+    /**
+     * Replace the given villager with a werewolf and store the data of that villager.
+     * @param villager The villager to replace.
+     */
     public static void replaceVillager(EntityVillager villager) {
         Werewolf werewolf = new Werewolf(villager.worldObj);
         villager.writeEntityToNBT(werewolf.getVillagerNBTTagCompound());
@@ -140,6 +167,11 @@ public class Werewolf extends EntityMob implements Configurable{
         }
     }
     
+    /**
+     * Get the bark progress scaled to the given parameter.
+     * @param scale The scale.
+     * @return The scaled progress.
+     */
     public float getBarkProgressScaled(float scale) {
         if(barkprogress == -1)
             return 0;
@@ -155,7 +187,8 @@ public class Werewolf extends EntityMob implements Configurable{
             return super.getDropItemId();
     }
     
-    protected void dropRareDrop(int par1) {
+    @Override
+    protected void dropRareDrop(int chance) {
         if(WerewolfFurConfig._instance.isEnabled())
             this.dropItem(WerewolfFurConfig._instance.ID, 1);
     }
@@ -190,14 +223,26 @@ public class Werewolf extends EntityMob implements Configurable{
         return !isFromVillager();
     }
     
+    /**
+     * Get the villager data.
+     * @return Villager data.
+     */
     public NBTTagCompound getVillagerNBTTagCompound() {
         return villagerNBTTagCompound;
     }
     
+    /**
+     * If this werewolf was created from a transforming villager.
+     * @return If it was a villager.
+     */
     public boolean isFromVillager() {
         return fromVillager;
     }
     
+    /**
+     * Set is from villager.
+     * @param fromVillager If this werewolf is a transformed villager.
+     */
     public void setFromVillager(boolean fromVillager) {
         this.fromVillager = fromVillager;
     }

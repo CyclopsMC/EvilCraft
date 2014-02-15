@@ -9,6 +9,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
+/**
+ * A basic inventory implementation.
+ * @author rubensworks
+ *
+ */
 public class SimpleInventory implements IInventory {
 
     private final ItemStack[] _contents;
@@ -16,6 +21,12 @@ public class SimpleInventory implements IInventory {
     private final int _stackLimit;
     private final LinkedList<TileEntity> _listener = new LinkedList<TileEntity>();
 
+    /**
+     * Make a new instance.
+     * @param size The amount of slots in the inventory.
+     * @param name The name of the inventory, used for NBT storage.
+     * @param stackLimit The stack limit for each slot.
+     */
     public SimpleInventory(int size, String name, int stackLimit) {
         _contents = new ItemStack[size];
         _name = name;
@@ -91,11 +102,19 @@ public class SimpleInventory implements IInventory {
     public void closeChest() {
     }
 
-    //@Override
+    /**
+     * Read inventory data from the given NBT.
+     * @param data The NBT data containing inventory data.
+     */
     public void readFromNBT(NBTTagCompound data) {
         readFromNBT(data, "items");
     }
 
+    /**
+     * Read inventory data from the given NBT.
+     * @param data The NBT data containing inventory data.
+     * @param tag The NBT tag name where the info is located.
+     */
     public void readFromNBT(NBTTagCompound data, String tag) {
         NBTTagList nbttaglist = data.getTagList(tag);
 
@@ -113,11 +132,19 @@ public class SimpleInventory implements IInventory {
         }
     }
 
-    //@Override
+    /**
+     * Write inventory data to the given NBT.
+     * @param data The NBT tag that will receive inventory data.
+     */
     public void writeToNBT(NBTTagCompound data) {
         writeToNBT(data, "items");
     }
 
+    /**
+     * Write inventory data to the given NBT.
+     * @param data The NBT tag that will receive inventory data.
+     * @param tag The NBT tag name where the info must be located.
+     */
     public void writeToNBT(NBTTagCompound data, String tag) {
         NBTTagList slots = new NBTTagList();
         for (byte index = 0; index < _contents.length; ++index) {
@@ -131,8 +158,12 @@ public class SimpleInventory implements IInventory {
         data.setTag(tag, slots);
     }
 
-    public void addListener(TileEntity listner) {
-        _listener.add(listner);
+    /**
+     * Add a new update listener.
+     * @param listener The {@link TileEntity} that has to listen to changes.
+     */
+    public void addListener(TileEntity listener) {
+        _listener.add(listener);
     }
 
     @Override
@@ -146,6 +177,10 @@ public class SimpleInventory implements IInventory {
         return stackToTake;
     }
 
+    /**
+     * Get the array of {@link ItemStack} inside this inventory.
+     * @return The items in this inventory.
+     */
     public ItemStack[] getItemStacks() {
         return _contents;
     }

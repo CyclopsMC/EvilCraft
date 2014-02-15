@@ -6,14 +6,12 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
@@ -21,19 +19,28 @@ import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 
 /**
- * Block that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * Block that extends from BlockLeaves that can hold ExtendedConfigs
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Configurable{
 
+    @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
 
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.BLOCK;
 
     private Icon iconOpaque;
     private Icon iconTransparent;
     
+    /**
+     * Make a new block instance.
+     * @param eConfig Config for this block.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlockLeaves(ExtendedConfig eConfig) {
         super(eConfig.ID);
         eConfig.ID = this.blockID; // This could've changed.
@@ -42,11 +49,12 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
         setBurnProperties(blockID, 30, 60);
     }
 
-    // Set a configuration for this item
-    public void setConfig(ExtendedConfig eConfig) {
+    @Override
+    public void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
+    @Override
     public String getUniqueName() {
         return "blocks."+eConfig.NAMEDID;
     }
@@ -56,6 +64,7 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
         return Reference.MOD_ID+":"+eConfig.NAMEDID;
     }
 
+    @Override
     public boolean isEntity() {
         return false;
     }
@@ -83,16 +92,17 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
         return !Block.leaves.graphicsLevel;
     }
 
-    public abstract int idDropped(int par1, Random par2Random, int par3);
+    @Override
+    public abstract int idDropped(int meta, Random random, int zero);
 
     @Override
-    public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7) {
-        if(!par1World.isRemote) {
-            ArrayList<ItemStack> items = getBlockDropped(par1World, par2, par3, par4, par5, par7);
+    public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune) {
+        if(!world.isRemote) {
+            ArrayList<ItemStack> items = getBlockDropped(world, x, y, z, meta, fortune);
 
             for (ItemStack item : items) {
-                if (par1World.rand.nextFloat() <= par6) {
-                    this.dropBlockAsItem_do(par1World, par2, par3, par4, item);
+                if (world.rand.nextFloat() <= chance) {
+                    this.dropBlockAsItem_do(world, x, y, z, item);
                 }
             }
         }
@@ -100,10 +110,11 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess iba, int x, int y, int z, int side) {
-        return Block.leaves.graphicsLevel ? true : super.shouldSideBeRendered(iba, x, y, z, side);
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+        return Block.leaves.graphicsLevel ? true : super.shouldSideBeRendered(world, x, y, z, side);
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void getSubBlocks(int id, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(id, 1, 0));

@@ -11,12 +11,15 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 
 /**
- * Allows item to be rendered with a better (alpha) transparancy blend.
+ * Allows item to be rendered with a better (alpha) transparency blend.
  * @author rubensworks
  *
  */
 public class AlphaItemRenderer implements IItemRenderer{
 
+    /**
+     * The ID for this renderer.
+     */
     public static int ID = RenderingRegistry.getNextAvailableRenderId();
     private static RenderItem renderItem = new RenderItem();
 

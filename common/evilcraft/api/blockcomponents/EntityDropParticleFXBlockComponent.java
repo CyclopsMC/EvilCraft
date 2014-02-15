@@ -23,6 +23,12 @@ public class EntityDropParticleFXBlockComponent implements IEntityDropParticleFX
     protected int offset = 1;
     protected int chance = 10;
     
+    /**
+     * Make a new instance.
+     * @param particleRed Red color.
+     * @param particleGreen Green color.
+     * @param particleBlue Blue color.
+     */
     public EntityDropParticleFXBlockComponent(float particleRed, float particleGreen, float particleBlue) {
         this.particleRed = particleRed;
         this.particleGreen = particleGreen;
@@ -45,6 +51,7 @@ public class EntityDropParticleFXBlockComponent implements IEntityDropParticleFX
         this.chance = chance;
     }
 
+    @Override
     public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
         if (rand.nextInt(chance) == 0 && (offset == 0 || world.doesBlockHaveSolidTopSurface(x, y - offset, z)) && !world.getBlockMaterial(x, y - offset - 1, z).blocksMovement()) {
             double px = (double) ((float) x + rand.nextFloat());

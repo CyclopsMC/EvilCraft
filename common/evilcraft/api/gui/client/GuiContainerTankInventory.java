@@ -20,6 +20,12 @@ import evilcraft.Reference;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.api.fluids.SingleUseTank;
 
+/**
+ * A GUI container that has support for the display of inventories and a tank.
+ * @author rubensworks
+ *
+ * @param <T> The {@link TankInventoryTileEntity} class, mostly just the extension class.
+ */
 public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extends GuiContainer {
 
     private boolean showTank = false;
@@ -41,6 +47,11 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     protected T tile;
     private ResourceLocation texture;
 
+    /**
+     * Make a new instance.
+     * @param container The container to make the GUI for.
+     * @param tile The tile entity to make the GUI for.
+     */
     public GuiContainerTankInventory(Container container, T tile) {
         super(container);
         this.tile = tile;

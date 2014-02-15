@@ -1,13 +1,13 @@
 package evilcraft.entities.item;
 
+import com.sun.xml.internal.stream.Entity;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,29 +15,55 @@ import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.items.LightningGrenade;
 
+/**
+ * Entity for the {@link LightningGrenade}.
+ * @author rubensworks
+ *
+ */
 public class EntityLightningGrenade extends EntityThrowable implements Configurable{
     
-    protected ExtendedConfig eConfig = null;
+    protected ExtendedConfig<?> eConfig = null;
     
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.ENTITY;
 
-    // Set a configuration for this entity
+    @Override
+    @SuppressWarnings("rawtypes")
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
-    public EntityLightningGrenade(World par1World) {
-        super(par1World);
+    /**
+     * Make a new instance in the given world.
+     * @param world The world to make it in.
+     */
+    public EntityLightningGrenade(World world) {
+        super(world);
     }
 
-    public EntityLightningGrenade(World par1World, EntityLivingBase par2EntityLivingBase) {
-        super(par1World, par2EntityLivingBase);
+    /**
+     * Make a new instance in a world by a placer {@link EntityLivingBase}.
+     * @param world The world.
+     * @param entity The {@link EntityLivingBase} that placed this {@link Entity}.
+     */
+    public EntityLightningGrenade(World world, EntityLivingBase entity) {
+        super(world, entity);
     }
     
+    /**
+     * Make a new instance at the given location in a world.
+     * @param world The world.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     */
     @SideOnly(Side.CLIENT)
-    public EntityLightningGrenade(World par1World, double par2, double par4, double par6) {
-        super(par1World, par2, par4, par6);
+    public EntityLightningGrenade(World world, double x, double y, double z) {
+        super(world, x, y, z);
     }
 
     @Override

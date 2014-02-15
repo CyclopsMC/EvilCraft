@@ -3,33 +3,47 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
 
+/**
+ * Blood infused {@link DarkGem}.
+ * @author rubensworks
+ *
+ */
 public class DarkPowerGem extends ConfigurableItem {
     
     private static DarkPowerGem _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new DarkPowerGem(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static DarkPowerGem getInstance() {
         return _instance;
     }
 
-    private DarkPowerGem(ExtendedConfig eConfig) {
+    private DarkPowerGem(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.maxStackSize = 16;
     }
     
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {

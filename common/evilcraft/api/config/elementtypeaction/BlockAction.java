@@ -10,14 +10,19 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraftTab;
-import evilcraft.GuiHandler;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.api.config.configurable.ConfigurableBlockContainerGui;
+import evilcraft.gui.GuiHandler;
 
+/**
+ * The action used for {@link BlockConfig}.
+ * @author rubensworks
+ * @see IElementTypeAction
+ */
 public class BlockAction extends IElementTypeAction<BlockConfig> {
 
     @Override

@@ -1,26 +1,33 @@
 package evilcraft.api.config.configurable;
 
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
-import evilcraft.EvilCraftTab;
 import evilcraft.Reference;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.item.Item;
 
 /**
  * Item that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableItem extends Item implements Configurable{
     
+    @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
     
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.ITEM;
     
+    /**
+     * Make a new item instance.
+     * @param eConfig Config for this block.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     protected ConfigurableItem(ExtendedConfig eConfig) {
         super(eConfig.ID);
         eConfig.ID = this.itemID; // This could've changed.
@@ -28,7 +35,7 @@ public abstract class ConfigurableItem extends Item implements Configurable{
         this.setUnlocalizedName(this.getUniqueName());
     }
 
-    // Set a configuration for this item
+    @SuppressWarnings("rawtypes")
     @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;

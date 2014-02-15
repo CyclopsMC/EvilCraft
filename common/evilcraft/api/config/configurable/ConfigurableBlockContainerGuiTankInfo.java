@@ -10,16 +10,36 @@ import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.api.item.DamageIndicatedItemComponent;
-import evilcraft.blocks.BloodInfuserConfig;
 
+/**
+ * Block that can hold ExtendedConfigs
+ * @author rubensworks
+ *
+ */
 public abstract class ConfigurableBlockContainerGuiTankInfo extends ConfigurableBlockContainerGui implements IInformationProvider {
 
+    /**
+     * Make a new block instance.
+     * @param eConfig Config for this block.
+     * @param material Material of this block.
+     * @param tileEntity The class of the tile entity this block holds.
+     * @param guiID The unique ID for the GUI this block has.
+     */
+    @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockContainerGuiTankInfo(ExtendedConfig eConfig,
             Material material, Class<? extends TankInventoryTileEntity> tileEntity, int guiID) {
         super(eConfig, material, tileEntity, guiID);
     }
     
+    /**
+     * Get the NBT name for the inner tank.
+     * @return The NBT key for the tank.
+     */
     public abstract String getTankNBTName();
+    /**
+     * Get the maximal tank capacity.
+     * @return The maximal tank capacity in mB.
+     */
     public abstract int getTankCapacity();
     
     @Override
@@ -33,6 +53,8 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
         return DamageIndicatedItemComponent.getInfo(amount, getTankCapacity());
     }
     
+    @SuppressWarnings("rawtypes")
+    @Override
     public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         
     }

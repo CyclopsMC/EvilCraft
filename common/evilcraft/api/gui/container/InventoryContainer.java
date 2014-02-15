@@ -165,5 +165,13 @@ public class InventoryContainer<T extends InventoryTileEntity> extends Container
             
             return successful;
     }
+
+    /**
+     * Get the inventory of the player for which this container is instantiated.
+     * @return The player inventory.
+     */
+    public IInventory getPlayerIInventory() {
+        return playerIInventory;
+    }
     
 }

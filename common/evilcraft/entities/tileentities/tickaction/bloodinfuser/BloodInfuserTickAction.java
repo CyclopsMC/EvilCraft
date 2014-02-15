@@ -4,6 +4,11 @@ import net.minecraft.item.ItemStack;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 
+/**
+ * Abstract {@link ITickAction} that can infuse items with blood.
+ * @author rubensworks
+ *
+ */
 public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInfuser> {
     
     protected final static int MB_PER_TICK = 100;
@@ -24,12 +29,28 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
         return false;
     }
     
+    /**
+     * Get the stack in the infusion slot.
+     * @param tile The tile to check the slot for.
+     * @return The item in that slot.
+     */
     public ItemStack getInfuseStack(TileBloodInfuser tile) {
         return tile.getInventory().getStackInSlot(tile.getConsumeSlot());
     }
     
+    /**
+     * Get the item id of the item that will be produced after infusion.
+     * @param tile The tile that performs the infusion.
+     * @return The item id.
+     */
     public abstract int willProduceItemID(TileBloodInfuser tile);
     
+    /**
+     * Try to add the given item to the production slot.
+     * @param tile The tile where infusion happened.
+     * @param itemStack The item to try to put in the production slot.
+     * @return If the item could be added or joined in the production slot.
+     */
     public boolean addToProduceSlot(TileBloodInfuser tile, ItemStack itemStack) {
         ItemStack produceStack = tile.getInventory().getStackInSlot(tile.getProduceSlot());
         if(produceStack == null) {

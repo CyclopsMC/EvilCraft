@@ -1,5 +1,6 @@
 package evilcraft.entities.item;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -12,31 +13,53 @@ import evilcraft.api.entities.item.EntityThrowable;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 
+/**
+ * Entity for the {@link WeatherContainer}.
+ * @author rubensworks
+ *
+ */
 public class EntityWeatherContainer extends EntityThrowable implements Configurable {
     
-    protected ExtendedConfig eConfig = null;
+    protected ExtendedConfig<?> eConfig = null;
     
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.ENTITY;
 
-    // Set a configuration for this entity
+    @SuppressWarnings("rawtypes")
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
     private static final int ITEMSTACK_INDEX = 15;
     
-    public EntityWeatherContainer(World world)
-    {
+    /**
+     * Make a new instance in the given world.
+     * @param world The world to make it in.
+     */
+    public EntityWeatherContainer(World world) {
         super(world);
     }
 
-    public EntityWeatherContainer(World world, EntityLivingBase entity, int damage)
-    {
+    /**
+     * Make a new instance in a world by a placer {@link EntityLivingBase}.
+     * @param world The world.
+     * @param entity The {@link EntityLivingBase} that placed this {@link Entity}.
+     * @param damage The damage value for the {@link WeatherContainer} to be rendered.
+     */
+    public EntityWeatherContainer(World world, EntityLivingBase entity, int damage) {
         this(world, entity, new ItemStack(WeatherContainer.getInstance().itemID, 1, damage));
     }
 
-    public EntityWeatherContainer(World world, EntityLivingBase entity, ItemStack stack)
-    {
+    /**
+     * Make a new instance at the given location in a world.
+     * @param world The world.
+     * @param entity The entity
+     * @param stack The {@link ItemStack} inside this entity.
+     */
+    public EntityWeatherContainer(World world, EntityLivingBase entity, ItemStack stack) {
         super(world, entity);
         setItemStack(stack);
     }
@@ -65,22 +88,19 @@ public class EntityWeatherContainer extends EntityThrowable implements Configura
     }
     
     @Override
-    protected float getGravityVelocity()
-    {
+    protected float getGravityVelocity() {
         // The bigger, the faster the entity falls to the ground
         return 0.1F;
     }
 
     @Override
-    protected float func_70182_d()
-    {
+    protected float func_70182_d() {
         // Determines the distance of the throw
         return 1.0F;
     }
 
     @Override
-    protected float func_70183_g()
-    {
+    protected float func_70183_g() {
         // Offset for the start height at which the entity is thrown
         return 0.0F;
     }

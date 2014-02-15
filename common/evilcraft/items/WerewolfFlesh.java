@@ -8,11 +8,16 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItemFood;
 
+/**
+ * Random flesh drop from werewolves, gives some fine boosts at night.
+ * @author rubensworks
+ *
+ */
 public class WerewolfFlesh extends ConfigurableItemFood {
     
     private static WerewolfFlesh _instance = null;
@@ -22,18 +27,26 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     
     private boolean power = false;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new WerewolfFlesh(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static WerewolfFlesh getInstance() {
         return _instance;
     }
 
-    private WerewolfFlesh(ExtendedConfig eConfig) {
+    private WerewolfFlesh(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, -5, 0, false);
     }
     
@@ -41,8 +54,9 @@ public class WerewolfFlesh extends ConfigurableItemFood {
         return power;
     }
     
+    @Override
     @SideOnly(Side.CLIENT)
-    public EnumRarity getRarity(ItemStack par1ItemStack){
+    public EnumRarity getRarity(ItemStack itemStack){
         return power ? EnumRarity.rare : EnumRarity.common;
     }
     
@@ -52,26 +66,26 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     }
     
     @Override
-    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3EntityPlayer, int par4, boolean par5) {
-        power = !Helpers.isDay(par2World);
+    public void onUpdate(ItemStack itemStack, World world, Entity player, int par4, boolean par5) {
+        power = !Helpers.isDay(world);
     }
     
-    public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
-    {
-        --par1ItemStack.stackSize;
+    @Override
+    public ItemStack onEaten(ItemStack itemStack, World world, EntityPlayer player) {
+        --itemStack.stackSize;
         if(isPower()) {
-            par3EntityPlayer.getFoodStats().addStats(this);
-            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.damageBoost.id, POWER_DURATION * 20, 2));
-            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, POWER_DURATION * 20, 2));
-            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.jump.id, POWER_DURATION * 20, 2));
-            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.nightVision.id, POWER_DURATION * 20, 2));
-            par2World.playSoundAtEntity(par3EntityPlayer, "mob.wolf.howl", 0.5F, par2World.rand.nextFloat() * 0.1F + 0.9F);
+            player.getFoodStats().addStats(this);
+            player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, POWER_DURATION * 20, 2));
+            player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, POWER_DURATION * 20, 2));
+            player.addPotionEffect(new PotionEffect(Potion.jump.id, POWER_DURATION * 20, 2));
+            player.addPotionEffect(new PotionEffect(Potion.nightVision.id, POWER_DURATION * 20, 2));
+            world.playSoundAtEntity(player, "mob.wolf.howl", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
         } else {
-            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
-            par2World.playSoundAtEntity(par3EntityPlayer, "mob.wolf.hurt", 0.5F, par2World.rand.nextFloat() * 0.1F + 0.9F);
+            player.addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
+            world.playSoundAtEntity(player, "mob.wolf.hurt", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
         }
-        this.onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
-        return par1ItemStack;
+        this.onFoodEaten(itemStack, world, player);
+        return itemStack;
     }
 
 }

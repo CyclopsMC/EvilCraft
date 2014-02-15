@@ -8,7 +8,6 @@ package evilcraft.render.models;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.MathHelper;
 import evilcraft.entities.monster.Werewolf;
 
 /**
@@ -21,6 +20,9 @@ public class WerewolfModel extends ModelBiped {
     ModelRenderer Upper_Jaw;
     ModelRenderer Lower_Jaw;
 
+    /**
+     * Make a new instance.
+     */
     public WerewolfModel() {
         this.textureWidth = 64;
         this.textureHeight = 135;
@@ -86,6 +88,7 @@ public class WerewolfModel extends ModelBiped {
         setRotation(bipedLeftLeg, 0F, 0F, 0F);
     }
 
+    @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
         bipedHead.render(f5);

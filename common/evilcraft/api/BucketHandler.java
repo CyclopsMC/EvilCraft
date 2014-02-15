@@ -12,11 +12,25 @@ import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 
+/**
+ * This will take care of the logic of custom buckets, so they can be filled like other buckets.
+ * @author rubensworks
+ *
+ */
 public class BucketHandler {
 
     private static BucketHandler _instance;
+    
+    /**
+     * The map that will map the fluid block to the respective bucket that is capable
+     * to hold the fluid of that block.
+     */
     public Map<Block, Item> buckets = new HashMap<Block, Item>();
     
+    /**
+     * Get the unique instance.
+     * @return The unique instance.
+     */
     public static BucketHandler getInstance() {
         if(_instance == null) _instance = new BucketHandler();
         return _instance;
@@ -26,6 +40,10 @@ public class BucketHandler {
         
     }
 
+    /**
+     * Called when player right clicks with an empty bucket on a fluid block.
+     * @param event The Forge event required for this.
+     */
     @ForgeSubscribe
     public void onBucketFill(FillBucketEvent event) {
         ItemStack result = fillCustomBucket(event.world, event.target);

@@ -1,33 +1,37 @@
 package evilcraft.blocks;
-import java.util.Random;
-
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.world.World;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.blockcomponents.EntityDropParticleFXBlockComponent;
-import evilcraft.api.blockcomponents.IEntityDropParticleFXBlock;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockLog;
-import evilcraft.render.particle.ExtendedEntityDropParticleFX;
 
+/**
+ * Logs for the Undead Tree.
+ * @author rubensworks
+ *
+ */
 public class UndeadLog extends ConfigurableBlockLog {
     
     private static UndeadLog _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new UndeadLog(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static UndeadLog getInstance() {
         return _instance;
     }
 
-    private UndeadLog(ExtendedConfig eConfig) {
+    private UndeadLog(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig);
         setHardness(2.0F);
         setStepSound(soundWoodFootstep);

@@ -1,19 +1,32 @@
 package evilcraft.entities.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
+import com.sun.xml.internal.stream.Entity;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.blocks.InvisibleRedstoneBlock;
+import evilcraft.items.RedstoneGrenade;
 
+/**
+ * Entity for the {@link RedstoneGrenade}.
+ * @author immortaleeb
+ *
+ */
 public class EntityRedstoneGrenade extends EntityThrowable implements Configurable {
+    
+    protected ExtendedConfig<?> eConfig = null;
+    
+    /**
+     * The type of this {@link Configurable}.
+     */
+    public static ElementType TYPE = ElementType.ENTITY;
     
     /**
      * Maps a side number to the offset of the X, Y and Z coordinates where the
@@ -24,24 +37,37 @@ public class EntityRedstoneGrenade extends EntityThrowable implements Configurab
     private static final int[] sideYOffsets = {-1, 1,  0, 0,  0, 0};
     private static final int[] sideZOffsets = { 0, 0, -1, 1,  0, 0};
     
+    /**
+     * Make a new instance in the given world.
+     * @param world The world to make it in.
+     */
     public EntityRedstoneGrenade(World world) {
         super(world);
     }
     
+    /**
+     * Make a new instance in a world by a placer {@link EntityLivingBase}.
+     * @param world The world.
+     * @param entityLivingBase The {@link EntityLivingBase} that placed this {@link Entity}.
+     */
     public EntityRedstoneGrenade(World world, EntityLivingBase entityLivingBase) {
         super(world, entityLivingBase);
     }
     
+    /**
+     * Make a new instance at the given location in a world.
+     * @param world The world.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     */
     @SideOnly(Side.CLIENT)
     public EntityRedstoneGrenade(World world, double x, double y, double z) {
         super(world, x, y, z);
     }
 
-    protected ExtendedConfig eConfig = null;
-    
-    public static ElementType TYPE = ElementType.ENTITY;
-
-    // Set a configuration for this entity
+    @SuppressWarnings("rawtypes")
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }

@@ -2,15 +2,12 @@ package evilcraft.entities.item;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
@@ -19,31 +16,57 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.items.BloodPearlOfTeleportation;
 
+/**
+ * Entity for the {@link BloodPearlOfTeleportation}.
+ * @author rubensworks
+ *
+ */
 public class EntityBloodPearl extends EntityThrowable implements Configurable{
     
-    protected ExtendedConfig eConfig = null;
+    protected ExtendedConfig<?> eConfig = null;
     
+    /**
+     * The type for this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.ENTITY;
     
     private static final int SLOW_DURATION = 5;
 
-    // Set a configuration for this entity
+    @Override
+    @SuppressWarnings("rawtypes")
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
-    public EntityBloodPearl(World par1World) {
-        super(par1World);
+    /**
+     * Make a new instance in the given world.
+     * @param world The world to make it in.
+     */
+    public EntityBloodPearl(World world) {
+        super(world);
     }
 
-    public EntityBloodPearl(World par1World, EntityLivingBase par2EntityLivingBase) {
-        super(par1World, par2EntityLivingBase);
+    /**
+     * Make a new instance in a world by a placer {@link EntityLivingBase}.
+     * @param world The world.
+     * @param entity The {@link EntityLivingBase} that placed this {@link Entity}.
+     */
+    public EntityBloodPearl(World world, EntityLivingBase entity) {
+        super(world, entity);
     }
     
+    /**
+     * Make a new instance at the given location in a world.
+     * @param world The world.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     */
     @SideOnly(Side.CLIENT)
-    public EntityBloodPearl(World par1World, double par2, double par4, double par6) {
-        super(par1World, par2, par4, par6);
+    public EntityBloodPearl(World world, double x, double y, double z) {
+        super(world, x, y, z);
     }
 
     @Override
@@ -57,9 +80,9 @@ public class EntityBloodPearl extends EntityThrowable implements Configurable{
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition par1MovingObjectPosition) {
-        if (par1MovingObjectPosition.entityHit != null) {
-            par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
+    protected void onImpact(MovingObjectPosition position) {
+        if (position.entityHit != null) {
+            position.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
         }
 
         for (int i = 0; i < 32; ++i) {

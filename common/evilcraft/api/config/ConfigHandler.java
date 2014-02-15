@@ -4,7 +4,6 @@ import java.util.LinkedHashSet;
 
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
@@ -13,13 +12,23 @@ import evilcraft.commands.CommandConfigSet;
 
 /**
  * Create config file and register items & blocks from the given ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
+@SuppressWarnings("rawtypes")
 public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
+    
+    /**
+     * Serialization ID.
+     */
+    private static final long serialVersionUID = 1L;
     
     private static ConfigHandler _instance = null;
     
+    /**
+     * Get the unique instance.
+     * @return Unique instance.
+     */
     public static ConfigHandler getInstance() {
         if(_instance == null)
             _instance = new ConfigHandler();
@@ -30,6 +39,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
      * Iterate over the given ExtendedConfigs to read/write the config and register the given elements
      * @param event the event from the init methods
      */
+    @SuppressWarnings("unchecked")
     public void handle(FMLPreInitializationEvent event) {
         // You will be able to find the config file in .minecraft/config/ and it will be named EvilCraft.cfg
         // here our Configuration has been instantiated, and saved under the name "config"

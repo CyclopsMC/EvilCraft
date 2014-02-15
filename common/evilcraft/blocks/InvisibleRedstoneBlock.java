@@ -3,33 +3,45 @@ package evilcraft.blocks;
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import evilcraft.api.RenderHelpers;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.entities.tileentities.TileInvisibleRedstoneBlock;
 
+/**
+ * An invisible block where players can walk through and disappears after a few ticks.
+ * @author immortaleeb
+ *
+ */
 public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     private static InvisibleRedstoneBlock _instance = null;
 
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if (_instance == null)
             _instance = new InvisibleRedstoneBlock(eConfig);
         else
             eConfig.showDoubleInitError();
     }
 
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static InvisibleRedstoneBlock getInstance() {
         return _instance;
     }
 
-    private InvisibleRedstoneBlock(ExtendedConfig eConfig) {
+    private InvisibleRedstoneBlock(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileInvisibleRedstoneBlock.class);
         setHardness(5.0F);
         setResistance(10.0F);

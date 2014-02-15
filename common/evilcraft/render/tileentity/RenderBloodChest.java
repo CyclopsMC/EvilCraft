@@ -10,15 +10,21 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import evilcraft.Reference;
+import evilcraft.blocks.BloodChest;
 import evilcraft.entities.tileentities.TileBloodChest;
 
+/**
+ * Renderer for the {@link BloodChest}.
+ * @author rubensworks
+ *
+ */
 public class RenderBloodChest extends TileEntitySpecialRenderer {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "bloodChest.png");
 
     private ModelChest chestModel = new ModelChest();
 
-    public void renderTileEntityChestAt(TileBloodChest tile, double x, double y, double z, float partialTick) {
+    private void renderTileEntityChestAt(TileBloodChest tile, double x, double y, double z, float partialTick) {
         ForgeDirection direction = tile.getRotation();
         ModelChest modelchest = this.chestModel;
         this.bindTexture(TEXTURE);

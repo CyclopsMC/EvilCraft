@@ -10,16 +10,39 @@ import evilcraft.api.BucketHandler;
 import evilcraft.api.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.api.config.configurable.ConfigurableFluid;
 
+/**
+ * Config for buckets, extension of {@link ItemConfig}.
+ * @author rubensworks
+ * @see ExtendedConfig
+ * @see ItemConfig
+ */
 public abstract class ItemBucketConfig extends ItemConfig {
 
+    /**
+     * Make a new instance.
+     * @param defaultId The default ID for the configurable.
+     * @param name The name for the configurable.
+     * @param namedId The unique name ID for the configurable.
+     * @param comment The comment to add in the config file for this configurable.
+     * @param element The class of this configurable.
+     */
     public ItemBucketConfig(int defaultId, String name, String namedId,
             String comment, Class<? extends Item> element) {
         super(defaultId, name, namedId, comment, element);
     }
     
+    /**
+     * Get the {@link ConfigurableFluid} this bucket can contain.
+     * @return the fluid.
+     */
     public abstract ConfigurableFluid getFluidInstance();
+    /**
+     * Get the {@link ConfigurableBlockFluidClassic} this bucket can place / pick up.
+     * @return the fluid block.
+     */
     public abstract ConfigurableBlockFluidClassic getFluidBlockInstance();
     
+    @Override
     public void onRegistered() {
         Item item = (Item) this.getSubInstance();
         FluidStack fluidStack = FluidRegistry.getFluidStack(getFluidInstance().getName(), FluidContainerRegistry.BUCKET_VOLUME);

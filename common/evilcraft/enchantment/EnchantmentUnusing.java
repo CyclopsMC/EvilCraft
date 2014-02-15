@@ -1,32 +1,40 @@
 package evilcraft.enchantment;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import evilcraft.EvilCraft;
+import evilcraft.api.config.EnchantmentConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableEnchantment;
-import evilcraft.blocks.BloodyCobblestone;
 
+/**
+ * Enchantment that stop your tool from being usable when it only has durability left.
+ * @author rubensworks
+ *
+ */
 public class EnchantmentUnusing extends ConfigurableEnchantment {
     
     private static EnchantmentUnusing _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<EnchantmentConfig> eConfig) {
         if(_instance == null)
             _instance = new EnchantmentUnusing(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static EnchantmentUnusing getInstance() {
         return _instance;
     }
 
-    private EnchantmentUnusing(ExtendedConfig eConfig) {
+    private EnchantmentUnusing(ExtendedConfig<EnchantmentConfig> eConfig) {
         super(eConfig, 1, EnumEnchantmentType.all);
     }
     
@@ -45,6 +53,11 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
         return 1;
     }
     
+    /**
+     * Check if the given item can be used.
+     * @param itemStack The {@link ItemStack} that will be unused.
+     * @return If the item can be used.
+     */
     public static boolean unuseTool(ItemStack itemStack) {
         int damageBorder = itemStack.getMaxDamage() - 5;
         if(itemStack.getItemDamage() >= damageBorder) {

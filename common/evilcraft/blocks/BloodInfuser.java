@@ -11,12 +11,18 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.client.GuiBloodInfuser;
 import evilcraft.gui.container.ContainerBloodInfuser;
 
+/**
+ * A machine that can infuse stuff with blood.
+ * @author rubensworks
+ *
+ */
 public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
     
     private static BloodInfuser _instance = null;
@@ -26,18 +32,26 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
     private Icon frontIconOn;
     private Icon frontIconOff;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new BloodInfuser(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static BloodInfuser getInstance() {
         return _instance;
     }
 
-    private BloodInfuser(ExtendedConfig eConfig) {
+    private BloodInfuser(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock, TileBloodInfuser.class, Reference.GUI_BLOOD_INFUSER);
         this.setStepSound(soundStoneFootstep);
         this.setRotatable(true);

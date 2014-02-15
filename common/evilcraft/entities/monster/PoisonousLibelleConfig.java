@@ -13,13 +13,27 @@ import evilcraft.api.config.configurable.ConfigurableProperty;
 import evilcraft.render.entity.RenderPoisonousLibelle;
 import evilcraft.render.models.PoisonousLibelleModel;
 
+/**
+ * Config for the {@link PoisonousLibelle}.
+ * @author rubensworks
+ *
+ */
 public class PoisonousLibelleConfig extends MobConfig {
     
+    /**
+     * The unique instance.
+     */
+    public static PoisonousLibelleConfig _instance;
+    
+    /**
+     * Should the PoisonousLibelle be enabled?
+     */
     @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Poisonous Libelle be enabled?")
     public static boolean isEnabled = true;
-    
-    public static PoisonousLibelleConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public PoisonousLibelleConfig() {
         super(
             Reference.MOB_POISONOUSLIBELLE,

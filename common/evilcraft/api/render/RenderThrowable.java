@@ -16,10 +16,19 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.entities.item.EntityThrowable;
 
+/**
+ * A renderer for a throwable item.
+ * @author rubensworks
+ *
+ */
 @SideOnly(Side.CLIENT)
 public class RenderThrowable extends Render {
     private Item item;
     
+    /**
+     * Make a new instance.
+     * @param item The item that will be rendered.
+     */
     public RenderThrowable(Item item) {
         this.item = item;
     }
@@ -37,8 +46,7 @@ public class RenderThrowable extends Render {
         int numberOfPasses = item.getRenderPasses(damage);
         Icon icon = item.getIconFromDamageForRenderPass(damage, renderPass);
 
-        if (icon != null)
-        {
+        if (icon != null) {
             GL11.glPushMatrix();
             GL11.glTranslatef((float)x, (float)y, (float)z);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -81,8 +89,7 @@ public class RenderThrowable extends Render {
         GL11.glColor3f(red, green, blue);
     }
     
-    private void renderIcon(Tessellator tessellator, Icon icon)
-    {
+    private void renderIcon(Tessellator tessellator, Icon icon) {
         float f = icon.getMinU();
         float f1 = icon.getMaxU();
         float f2 = icon.getMinV();

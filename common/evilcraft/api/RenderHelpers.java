@@ -11,6 +11,11 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.Icon;
 import net.minecraftforge.common.ForgeDirection;
 
+/**
+ * A helper for rendering.
+ * @author rubensworks
+ *
+ */
 public class RenderHelpers {
     
     private static Map<ForgeDirection, String> METHODS_RENDERFACE = new HashMap<ForgeDirection, String>();
@@ -51,6 +56,9 @@ public class RenderHelpers {
     }
     private static int[] ROTATE_UV_ROTATE = {0, 1, 3, 2}; // N, E, S, W -> N, E, W, S
     
+    /**
+     * An icon that contains to texture, useful for when you want to render nothing.
+     */
     public static Icon EMPTYICON;
 
     /**
@@ -84,6 +92,14 @@ public class RenderHelpers {
         }
     }
     
+    /**
+     * Set the correct rotation of the given renderer given a {@link ForgeDirection}.
+     * It will use reflection to set the correct field in the {@link RenderBlocks}.
+     * @param renderer The renderer to set the rotation at.
+     * @param side The {@link ForgeDirection} to set a rotation for.
+     * @param rotation The rotation to set.
+     * @see RenderBlocks
+     */
     public static void setRenderBlocksUVRotation(RenderBlocks renderer, ForgeDirection side, int rotation) {
         try {
             String fieldName = Helpers.isObfusicated()?FIELDS_UVROTATE_OBFUSICATED.get(side):FIELDS_UVROTATE.get(side);

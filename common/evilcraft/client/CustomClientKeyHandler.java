@@ -20,12 +20,20 @@ import evilcraft.Reference;
  *
  */
 public class CustomClientKeyHandler extends KeyHandler {
+    
+    /**
+     * The key binding for toggling farts.
+     */
     public static KeyBinding KEY_FART = new KeyBinding(Reference.KEY_FART, Keyboard.KEY_P);
     
     private Map<String, Boolean> keyMap = new HashMap<String, Boolean>();
     
     private static CustomClientKeyHandler _instance;
     
+    /**
+     * Get the unique instance.
+     * @return The unique instance.
+     */
     public static CustomClientKeyHandler getInstance() {
         if (_instance == null)
             _instance = new CustomClientKeyHandler();
@@ -62,6 +70,11 @@ public class CustomClientKeyHandler extends KeyHandler {
         keyMap.put(kb.keyDescription, kb.pressed);
     }
     
+    /**
+     * Check if the given key is pressed.
+     * @param key The key to check.
+     * @return If that key is pressed.
+     */
     public static boolean isKeyPressed(String key) {
         Boolean b = getInstance().keyMap.get(key);
         return (b != null) ? b.booleanValue() : false;

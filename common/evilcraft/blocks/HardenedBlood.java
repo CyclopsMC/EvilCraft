@@ -12,26 +12,41 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import evilcraft.api.IInformationProvider;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockConnectedTexture;
+import evilcraft.fluids.Blood;
 import evilcraft.items.HardenedBloodShard;
 
+/**
+ * A hardened version of {@link Blood}.
+ * @author rubensworks
+ *
+ */
 public class HardenedBlood extends ConfigurableBlockConnectedTexture implements IInformationProvider {
     
     private static HardenedBlood _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new HardenedBlood(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static HardenedBlood getInstance() {
         return _instance;
     }
 
-    private HardenedBlood(ExtendedConfig eConfig) {
+    private HardenedBlood(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.ice);
         this.setStepSound(Block.soundStoneFootstep);
         this.setHardness(0.5F);
@@ -80,7 +95,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
     }
     
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float par7, float par8, float par9) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float coordX, float coordY, float coordZ) {
         if (player.getCurrentEquippedItem() != null) {
             if (player.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID) {
                 if(player.capabilities.isCreativeMode || !player.getCurrentEquippedItem().attemptDamageItem(1, world.rand))
@@ -88,7 +103,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
                 return true;
             }
         }
-        return super.onBlockActivated(world, x, y, z, player, meta, par7, par8, par9);
+        return super.onBlockActivated(world, x, y, z, player, meta, coordX, coordY, coordZ);
     }
 
     private void splitBlock(World world, int x, int y, int z) {
@@ -102,6 +117,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
         return IInformationProvider.INFO_PREFIX + "Created when Blood dries out. Will liquidify when raining.";
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public void provideInformation(ItemStack itemStack,
             EntityPlayer entityPlayer, List list, boolean par4) {}

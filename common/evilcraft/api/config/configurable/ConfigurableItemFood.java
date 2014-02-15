@@ -10,15 +10,26 @@ import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Item food that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableItemFood extends ItemFood implements Configurable{
     
+    @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
     
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.ITEM;
     
+    /**
+     * Make a new block instance.
+     * @param eConfig Config for this block.
+     * @param healAmount Amount of health to regen.
+     * @param saturationModifier The modifier for the saturation.
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     protected ConfigurableItemFood(ExtendedConfig eConfig, int healAmount, float saturationModifier, boolean isWolfsFavoriteMeat) {
         super(eConfig.ID, healAmount, saturationModifier, isWolfsFavoriteMeat);
         eConfig.ID = this.itemID; // This could've changed.
@@ -26,11 +37,13 @@ public abstract class ConfigurableItemFood extends ItemFood implements Configura
         this.setUnlocalizedName(this.getUniqueName());
     }
 
-    // Set a configuration for this item
+    @SuppressWarnings("rawtypes")
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
+    @Override
     public String getUniqueName() {
         return "items."+eConfig.NAMEDID;
     }
@@ -46,6 +59,7 @@ public abstract class ConfigurableItemFood extends ItemFood implements Configura
         itemIcon = iconRegister.registerIcon(getIconString());
     }
     
+    @Override
     public boolean isEntity() {
         return false;
     }

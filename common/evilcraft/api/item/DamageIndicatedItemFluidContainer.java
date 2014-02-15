@@ -73,9 +73,6 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
         return filled;
     }
     
-    /**
-     * Make sure the full and empty container is available is the CreativeTab.
-     */
     @SuppressWarnings({ "rawtypes"})
     @Override
     @SideOnly(Side.CLIENT)
@@ -88,11 +85,13 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
         return component.getInfo(itemStack);
     }
     
+    @SuppressWarnings("rawtypes")
     @Override
     public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         
     }
     
+    @SuppressWarnings("rawtypes")
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {

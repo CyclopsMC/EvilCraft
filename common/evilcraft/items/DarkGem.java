@@ -3,32 +3,45 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Recipes;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
 import evilcraft.blocks.BloodStainedBlock;
+import evilcraft.blocks.DarkOre;
 import evilcraft.blocks.FluidBlockBlood;
 import evilcraft.blocks.FluidBlockBloodConfig;
 
+/**
+ * Gem that drops from {@link DarkOre}.
+ * @author rubensworks
+ *
+ */
 public class DarkGem extends ConfigurableItem {
     
     private static DarkGem _instance = null;
     private static final int REQUIRED_BLOOD_BLOCKS = 5;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new DarkGem(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static DarkGem getInstance() {
         return _instance;
     }
 
-    private DarkGem(ExtendedConfig eConfig) {
+    private DarkGem(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
     

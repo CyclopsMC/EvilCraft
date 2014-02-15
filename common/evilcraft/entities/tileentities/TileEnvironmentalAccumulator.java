@@ -17,6 +17,11 @@ import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 
+/**
+ * Machine that can accumulate the weather and put it in a bottle.
+ * @author immortaleeb
+ *
+ */
 public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     
     private static final int ITEM_MOVE_DURATION = 100;
@@ -39,6 +44,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
     @SideOnly(Side.CLIENT)
     private float movingItemY;
     
+    /**
+     * Make a new instance.
+     */
 	public TileEnvironmentalAccumulator() {
 	    super();
 	    
@@ -70,10 +78,18 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
             return new Vector4f(0.30078125F, 0.1875F, 0.08203125F, 0.13f);
     }
 	
+	/**
+	 * Get the maximum cooldown tick for accumulating weather.
+	 * @return The maximum cooldown tick.
+	 */
 	public int getMaxCooldownTick() {
 	    return EnvironmentalAccumulatorConfig.tickCooldown;
 	}
 	
+	/**
+	 * Get the Y coordinate of the current moving item.
+	 * @return The Y coordinate of the inner item.
+	 */
 	@SideOnly(Side.CLIENT)
 	public float getMovingItemY() {
 	    return movingItemY;
@@ -108,7 +124,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	    if (!worldObj.isRemote) {
 	        
 	        // Look for items thrown into the beam
-	        List containers = worldObj.getEntitiesWithinAABB(EntityItem.class, 
+	        @SuppressWarnings("rawtypes")
+            List containers = worldObj.getEntitiesWithinAABB(EntityItem.class, 
                     AxisAlignedBB.getBoundingBox(
                             this.xCoord, this.yCoord + WEATHER_CONTAINER_MIN_DROP_HEIGHT, this.zCoord, 
                             this.xCoord + 1.0, this.yCoord + WEATHER_CONTAINER_MAX_DROP_HEIGHT, this.zCoord + 1.0)
@@ -200,6 +217,10 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	    worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.BEAM_ACTIVE, 2);
 	}
 	
+	/**
+	 * Set the beam colors.
+	 * @param metadata The metadata to base the colors on.
+	 */
 	public void setBeamColors(int metadata) {
         if (worldObj.isRemote) { 
     	    setBeamInnerColor(getInnerColorByMetadata(metadata));
@@ -207,6 +228,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
         }
 	}
 	
+	/**
+	 * Called when the machine is done putting something in a bottle.
+	 */
 	public void updateDoneItemMoving() {
 	    int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 	    

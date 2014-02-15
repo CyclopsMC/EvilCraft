@@ -1,6 +1,5 @@
 package evilcraft.api;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -30,14 +29,38 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
+/**
+ * A collection of helper methods and fields.
+ * @author rubensworks
+ *
+ */
 public class Helpers {
+    /**
+     * The length of one Minecraft day.
+     */
     public static final int MINECRAFT_DAY = 24000;
+    /**
+     * The amount of steps there are in a comparator.
+     */
     public static final int COMPARATOR_MULTIPLIER = 15;
     
+    /**
+     * A list of all the {@link ForgeDirection}.
+     */
     public static List<ForgeDirection> DIRECTIONS = Arrays.asList(ForgeDirection.VALID_DIRECTIONS);
+    /**
+     * A list of all the {@link DirectionCorner}
+     */
     public static List<DirectionCorner> DIRECTIONS_CORNERS = Arrays.asList(DirectionCorner.VALID_DIRECTIONS);
+    /**
+     * The facing directions of an entity, used in {@link Helpers#getEntityFacingDirection(EntityLivingBase)}.
+     */
     public static final ForgeDirection[] ENTITYFACING =
         {ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.NORTH, ForgeDirection.EAST};
+    /**
+     * A double array that contains the visual side. The first argument should be the rotation of
+     * the block and the second argument is the side for which the texture is called.
+     */
     public static ForgeDirection[][] TEXTURESIDE_ORIENTATION = {
         {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST}, // DOWN
         {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST}, // UP
@@ -50,6 +73,10 @@ public class Helpers {
     private static boolean ISOBFUSICATED_CHECKED = false;
     private static boolean ISOBFUSICATED;
     
+    /**
+     * A list of all the {@link ChestGenHooks}.
+     * @see ChestGenHooks
+     */
     public static List<String> CHESTGENCATEGORIES = new LinkedList<String>();
     static {
         CHESTGENCATEGORIES.add(ChestGenHooks.BONUS_CHEST);
@@ -65,9 +92,9 @@ public class Helpers {
     }
     
     /**
-     * Check if it's day in this world
+     * Check if it's day in this world.
      * @param world
-     * @return
+     * @return If it is day in the world, checked with the world time.
      */
     public static boolean isDay(World world) {
         return world.getWorldTime() % MINECRAFT_DAY < MINECRAFT_DAY/2;
@@ -86,12 +113,12 @@ public class Helpers {
     
     /**
      * Spawns the creature specified by the egg's type in the location specified by the last three parameters.
-     * @param world
-     * @param entityID
-     * @param x
-     * @param y
-     * @param z
-     * @return the entity that was spawned
+     * @param world The world.
+     * @param entityID The ID of the entity.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     * @return the entity that was spawned.
      */
     public static Entity spawnCreature(World world, int entityID, double x, double y, double z)
     {
@@ -196,7 +223,7 @@ public class Helpers {
      * Checks if an itemStack has a certain enchantment.
      * @param itemStack The itemStack to check.
      * @param enchantID The Enchantment to compare.
-     * @return The id of the enchantment in the enchantmentlist or -1 if it does not appy.
+     * @return The id of the enchantment in the enchantmentlist or -1 if it does not apply.
      */
     public static int doesEnchantApply(ItemStack itemStack, int enchantID) {
         if(itemStack != null) {
@@ -213,7 +240,7 @@ public class Helpers {
     }
     
     /**
-     * Returns the level of an enchantment given an itemstack and the id
+     * Returns the level of an enchantment given an itemStack and the id
      * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
      * the id in the enchantmentlist)
      * @param itemStack The itemStack which contains the enchanted item
@@ -230,7 +257,8 @@ public class Helpers {
      * @param xc x coordinate of the center block.
      * @param yc y coordinate of the center block.
      * @param zc z coordinate of the center block.
-     * @return
+     * @return Iterator for coordinates of sides.
+     * @see Coordinate
      */
     public static Iterator<Coordinate> getSideIterator(int xc, int yc, int zc) {
         List<Coordinate> coordinates = new LinkedList<Coordinate>();
@@ -247,14 +275,32 @@ public class Helpers {
         return coordinates.iterator();
     }
     
+    /**
+     * Get an iterator for all the {@link ForgeDirection}.
+     * @return The {@link ForgeDirection} iterator
+     * @see Helpers#DIRECTIONS
+     * @see ForgeDirection
+     */
     public static Iterator<ForgeDirection> getDirectionIterator() {
         return DIRECTIONS.iterator();
     }
     
+    /**
+     * Check if a command sender is an operator.
+     * @param sender The command sender.
+     * @return If this sender is an OP.
+     */
     public static boolean isOp(ICommandSender sender) {
         return MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(sender.getCommandSenderName());
     }
     
+    /**
+     * Safe parsing of a string to it's real object type.
+     * The real object type is determined by checking the class of the oldValue.
+     * @param newValue The value to parse
+     * @param oldValue The old value that has a certain type.
+     * @return The parsed newValue.
+     */
     public static Object tryParse(String newValue, Object oldValue) {
         Object newValueParsed = null;
         try {
@@ -269,26 +315,44 @@ public class Helpers {
         return newValueParsed;
     }
     
+    /**
+     * Get the ForgeDirection the entity is facing, only vertical directions.
+     * @param entity The entity that is facing a direction.
+     * @return The {@link ForgeDirection} the entity is facing.
+     */
     public static ForgeDirection getEntityFacingDirection(EntityLivingBase entity) {
         int facingDirection = MathHelper.floor_double((entity.rotationYaw * 4F) / 360F + 0.5D) & 3;
         return ENTITYFACING[facingDirection];
     }
     
-    
+    /**
+     * Get the {@link ForgeDirection} from the sign of an X offset.
+     * @param xSign X offset from somewhere.
+     * @return The {@link ForgeDirection} for the offset.
+     */
     public static ForgeDirection getForgeDirectionFromXSign(int xSign) {
     	return xSign > 0 ? ForgeDirection.EAST : ForgeDirection.WEST;
     }
     
+    /**
+     * Get the {@link ForgeDirection} from the sign of an Z offset.
+     * @param zSign Z offset from somewhere.
+     * @return The {@link ForgeDirection} for the offset.
+     */
     public static ForgeDirection getForgeDirectionFromZSing(int zSign) {
     	return zSign > 0 ? ForgeDirection.SOUTH : ForgeDirection.NORTH;
     }
     
+    /**
+     * Check if Minecraft is currently running in an obfusicated environment.
+     * @return If we run obfusicated.
+     */
     public static boolean isObfusicated() {
         if(!ISOBFUSICATED_CHECKED) {
             ISOBFUSICATED_CHECKED = true;
             ISOBFUSICATED = false;
             try {
-                Field field = Minecraft.getMinecraft().getClass().getField("currentScreen");
+                Minecraft.getMinecraft().getClass().getField("currentScreen");
             } catch (NoSuchFieldException e) {
                 ISOBFUSICATED = true;
             } catch (SecurityException e) {}
@@ -296,20 +360,43 @@ public class Helpers {
         return ISOBFUSICATED;
     }
     
+    /**
+     * Check if the given player inventory is full.
+     * @param player The player.
+     * @return If the player does not have a free spot in it's inventory.
+     */
     public static boolean isPlayerInventoryFull(EntityPlayer player) {
         return player.inventory.getFirstEmptyStack() == -1;
     }
     
+    /**
+     * Check if this code is ran on client side.
+     * @return If we are at client side.
+     */
     public static boolean isClientSide() {
         return FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT;
     }
 
+    /**
+     * This should by called when custom entities collide. It will call the
+     * correct method in {@link Block#onEntityCollidedWithBlock(World, int, int, int, Entity)}.
+     * @param world The world
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     * @param entity The entity that collides.
+     */
     public static void onEntityCollided(World world, int x, int y, int z, Entity entity) {
         int blockID = world.getBlockId(x, y, z);
         if(blockID != 0)
             Block.blocksList[blockID].onEntityCollidedWithBlock(world, x, y, z, entity);
     }
     
+    /**
+     * Normalize an angle around 180 degrees so that this value doesn't become too large/small.
+     * @param angle The angle to normalize.
+     * @return The normalized angle.
+     */
     public static float normalizeAngle_180(float angle) {
         angle %= 360;
         

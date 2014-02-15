@@ -5,24 +5,38 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.entities.item.EntityRedstoneGrenade;
 
+/**
+ * Grenade that will trigger a redstone signal.
+ * @author immortaleeb
+ *
+ */
 public class RedstoneGrenade extends AbstractGrenade {
     
     private static RedstoneGrenade _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new RedstoneGrenade(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static RedstoneGrenade getInstance() {
         return _instance;
     }
 
-    protected RedstoneGrenade(ExtendedConfig eConfig) {
+    protected RedstoneGrenade(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
 

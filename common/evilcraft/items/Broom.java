@@ -3,27 +3,41 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
 import evilcraft.entities.item.EntityBroom;
 
+/**
+ * Item for the {@link EntityBroom}.
+ * @author rubensworks
+ *
+ */
 public class Broom extends ConfigurableItem {
     
     private static Broom _instance = null;
     
     private static final float Y_SPAWN_OFFSET = 1.5f;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new Broom(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static Broom getInstance() {
         return _instance;
     }
 
-    private Broom(ExtendedConfig eConfig) {
+    private Broom(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.maxStackSize = 1;
     }

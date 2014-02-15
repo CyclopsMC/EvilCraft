@@ -37,8 +37,6 @@ public class DamageIndicatedItemComponent{
      * 
      * @param item
      *          The item class on which the behaviour will be added.
-     * @param capacity
-     *          The custom defined capacity this damage indicator must have.
      */
     public DamageIndicatedItemComponent(ItemFluidContainer item)
     {
@@ -67,7 +65,15 @@ public class DamageIndicatedItemComponent{
         }
     }
     
-    @SuppressWarnings("unchecked")
+    /**
+     * Add the creative tab items.
+     * @param id The item ID.
+     * @param tab The creative tab to add to.
+     * @param itemList The item list to add to.
+     * @param fluid The fluid in the container that needs to be added.
+     * @param meta The meta data for the item to add.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void getSubItems(int id, CreativeTabs tab, List itemList, Fluid fluid, int meta) {
         // Add the 'full' container.
         ItemStack itemStackFull = new ItemStack(item, 1, meta);
@@ -80,6 +86,11 @@ public class DamageIndicatedItemComponent{
         itemList.add(itemStackEmpty);
     }
     
+    /**
+     * Get hovering info for the given {@link ItemStack}.
+     * @param itemStack The item stack to add the info for.
+     * @return The info for the item.
+     */
     public String getInfo(ItemStack itemStack) {
         int amount = 0;
         if(item.getFluid(itemStack) != null)
@@ -87,14 +98,33 @@ public class DamageIndicatedItemComponent{
         return getInfo(amount, item.getCapacity(itemStack));
     }
     
+    /**
+     * Get hovering info for the given amount and capacity.
+     * @param amount The amount to show.
+     * @param capacity The capacity to show.
+     * @return The info generated from the given parameters.
+     */
     public static String getInfo(int amount, int capacity) {
         return "" + amount + " / " + capacity + " mB";
     }
     
+    /**
+     * Add information to the given list for the given item.
+     * @param itemStack The {@link ItemStack} to add info for.
+     * @param entityPlayer The player that will see the info.
+     * @param list The info list where the info will be added.
+     * @param par4 No idea...
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         list.add(IInformationProvider.ITEM_PREFIX+((IInformationProvider) itemStack.getItem()).getInfo(itemStack));
     }
 
+    /**
+     * Get the displayed damage value for the given {@link ItemStack}.
+     * @param itemStack The {@link ItemStack} to get the displayed damage for.
+     * @return The displayed damage.
+     */
     public int getDisplayDamage(ItemStack itemStack) {
         int amount = 0;
         if(item.getFluid(itemStack) != null)

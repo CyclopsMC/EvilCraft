@@ -1,18 +1,28 @@
 package evilcraft.entities.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderSnowball;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.config.EntityConfig;
 import evilcraft.items.LightningGrenade;
-import evilcraft.proxies.ClientProxy;
 
+/**
+ * Config for {@link EntityLightningGrenade}.
+ * @author rubensworks
+ *
+ */
 public class EntityLightningGrenadeConfig extends EntityConfig {
     
+    /**
+     * The unique instance.
+     */
     public static EntityLightningGrenadeConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public EntityLightningGrenadeConfig() {
         super(
             Reference.ENTITY_LIGHTNINGGRENADE,

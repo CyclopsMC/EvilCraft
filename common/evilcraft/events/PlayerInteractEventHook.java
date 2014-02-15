@@ -4,8 +4,6 @@ import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -15,8 +13,17 @@ import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentUnusing;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
 
+/**
+ * Event hook for {@link PlayerInteractEvent}.O
+ * @author rubensworks
+ *
+ */
 public class PlayerInteractEventHook {
     
+    /**
+     * When a player interactO event is received.
+     * @param event The received event.
+     */
     @ForgeSubscribe(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
         unusingEvent(event);

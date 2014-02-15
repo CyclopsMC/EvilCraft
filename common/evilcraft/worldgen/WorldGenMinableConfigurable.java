@@ -2,11 +2,15 @@ package evilcraft.worldgen;
 
 import java.util.Random;
 
-import evilcraft.blocks.DarkOreConfig;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 
+/**
+ * WorldGenerator for mineable blocks.
+ * @author rubensworks
+ *
+ */
 public class WorldGenMinableConfigurable extends WorldGenMinable{
     
     protected int blocksPerVein;
@@ -14,6 +18,14 @@ public class WorldGenMinableConfigurable extends WorldGenMinable{
     protected int startY;
     protected int endY;
     
+    /**
+     * Make a new instance.
+     * @param id ID of the block to spawn.
+     * @param blocksPerVein Blocks per vein.
+     * @param veinsPerChunk Veins per chunk.
+     * @param startY Start coordinate for Y
+     * @param endY End coordinate for Y.
+     */
     public WorldGenMinableConfigurable(int id, int blocksPerVein, int veinsPerChunk, int startY, int endY) {
         super(id, blocksPerVein, Block.stone.blockID);
         this.blocksPerVein = blocksPerVein;
@@ -22,6 +34,15 @@ public class WorldGenMinableConfigurable extends WorldGenMinable{
         this.endY = endY;
     }
     
+    /**
+     * Make a new instance.
+     * @param id ID of the block to spawn.
+     * @param meta Metadata of the block to spawn.
+     * @param blocksPerVein Blocks per vein.
+     * @param veinsPerChunk Veins per chunk.
+     * @param startY Start coordinate for Y
+     * @param endY End coordinate for Y.
+     */
     public WorldGenMinableConfigurable(int id, int meta, int blocksPerVein, int veinsPerChunk, int startY, int endY) {
         super(id, meta, blocksPerVein, Block.stone.blockID);
         this.blocksPerVein = blocksPerVein;
@@ -30,6 +51,13 @@ public class WorldGenMinableConfigurable extends WorldGenMinable{
         this.endY = endY;
     }
     
+    /**
+     * Generate the ores in a loop for the veins per chunk/
+     * @param world The world.
+     * @param rand Random object.
+     * @param chunkX X chunk coordinate.
+     * @param chunkZ Z chunk coordinate.
+     */
     public void loopGenerate(World world, Random rand, int chunkX, int chunkZ) {
         for(int k = 0; k < veinsPerChunk; k++){
             int firstBlockXCoord = chunkX + rand.nextInt(16);

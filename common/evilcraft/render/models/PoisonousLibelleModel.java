@@ -29,6 +29,9 @@ public class PoisonousLibelleModel extends ModelBase {
     private List<ModelRenderer> wings_left = new LinkedList<ModelRenderer>();
     private List<ModelRenderer> wings_right = new LinkedList<ModelRenderer>();
 
+    /**
+     * Make a new instance.
+     */
     public PoisonousLibelleModel() {
         this.textureWidth = 64;
         this.textureHeight = 32;
@@ -82,6 +85,7 @@ public class PoisonousLibelleModel extends ModelBase {
         wings_right.add(Right_M_wing);
     }
 
+    @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);        
         head.render(f5);

@@ -3,10 +3,21 @@ package evilcraft.items;
 import evilcraft.Reference;
 import evilcraft.api.config.ItemConfig;
 
+/**
+ * Config for the {@link LargeDoorItem}.
+ * @author rubensworks
+ *
+ */
 public class LargeDoorItemConfig extends ItemConfig {
     
+    /**
+     * The unique instance.
+     */
     public static LargeDoorItemConfig _instance;
 
+    /**
+     * Make a new instance.
+     */
     public LargeDoorItemConfig() {
         super(
             Reference.ITEM_LARGEDOOR,
@@ -17,6 +28,7 @@ public class LargeDoorItemConfig extends ItemConfig {
         );
     }
     
+    @Override
     public boolean isForceDisabled() {
         return true;
     }

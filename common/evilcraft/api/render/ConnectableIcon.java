@@ -10,6 +10,23 @@ import evilcraft.api.Helpers;
 import evilcraft.api.RenderHelpers;
 import evilcraft.api.entities.tileentitites.TileConnectedTexture;
 
+/**
+ * A virtual {@link Icon} that has several icons and needs multiple render passes for
+ * making it possible to dynamically render connected textures.
+ * Blocks that use this icon must implement {@link IMultiRenderPassBlock}.
+ * Five icons are necessary for this.
+ * <ul>
+ *  <li>An icon that will be used as background, it will always be rendered at the
+ *  lowest pass.</li>
+ *  <li>An icon that contains one border, it will be rotated four times. Some passes
+ *  might be invisible depending on the neighbouring blocks.</li>
+ *  <li>An icon that contains one corner, analogously used as the border icon.</li>
+ *  <li>An icon that contains one inner corner, analogously used as the border icon.</li>
+ *  <li>An icon that with the solely use of rendering inventory blocks.</li>
+ * </ul>
+ * @author rubensworks
+ *
+ */
 public class ConnectableIcon implements Icon{
     
     protected static final int LAYERS = 4;
@@ -25,7 +42,7 @@ public class ConnectableIcon implements Icon{
     protected TileConnectedTexture tileConnectedTexture = null;
     
     // With what direction should side X with rotation Y connect. rotation: N, E, S, W
-    public static final ForgeDirection[][] CONNECT_MATRIX = {
+    protected static final ForgeDirection[][] CONNECT_MATRIX = {
         {ForgeDirection.NORTH, ForgeDirection.WEST, ForgeDirection.SOUTH, ForgeDirection.EAST}, // DOWN
         {ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST}, // UP
         {ForgeDirection.UP, ForgeDirection.WEST, ForgeDirection.DOWN, ForgeDirection.EAST}, // NORTH
@@ -35,7 +52,7 @@ public class ConnectableIcon implements Icon{
     };
     
     // With what direction should side X with rotation Y connect. rotation: N, E, S, W
-    public static final DirectionCorner[][] CONNECT_CORNER_MATRIX = {
+    protected static final DirectionCorner[][] CONNECT_CORNER_MATRIX = {
         {DirectionCorner.MIDDLE_NORTHWEST, DirectionCorner.MIDDLE_SOUTHWEST, DirectionCorner.MIDDLE_SOUTHEAST, DirectionCorner.MIDDLE_NORTHEAST}, // DOWN
         {DirectionCorner.MIDDLE_NORTHWEST, DirectionCorner.MIDDLE_NORTHEAST, DirectionCorner.MIDDLE_SOUTHEAST, DirectionCorner.MIDDLE_SOUTHWEST}, // UP
         {DirectionCorner.UPPER_EAST, DirectionCorner.UPPER_WEST, DirectionCorner.LOWER_WEST, DirectionCorner.LOWER_EAST}, // NORTH
@@ -44,6 +61,14 @@ public class ConnectableIcon implements Icon{
         {DirectionCorner.UPPER_SOUTH, DirectionCorner.UPPER_NORTH, DirectionCorner.LOWER_NORTH, DirectionCorner.LOWER_SOUTH}, // EAST
     };
     
+    /**
+     * Make a new instance.
+     * @param background The background icon.
+     * @param borders The border icon.
+     * @param corners The corner icon.
+     * @param innerCorners The inner corner icon.
+     * @param inventoryBlockIcon The inventory block icon.
+     */
     public ConnectableIcon(Icon background, Icon borders, Icon corners, Icon innerCorners, Icon inventoryBlockIcon) {
         this.icons[0] = background;
         this.icons[1] = borders;
@@ -52,6 +77,10 @@ public class ConnectableIcon implements Icon{
         this.inventoryBlockIcon = inventoryBlockIcon;
     }
     
+    /**
+     * Set the tile entity that contains connected texture information.
+     * @param tileConnectedTexture The tile entity.
+     */
     public void setTileConnectedTexture(TileConnectedTexture tileConnectedTexture) {
         this.tileConnectedTexture = tileConnectedTexture;
     }
@@ -177,12 +206,22 @@ public class ConnectableIcon implements Icon{
         return side;
     }
     
+    /**
+     * Get the required render passes for rendering all the possible connections.
+     * @return The render passes.
+     */
     public int getRequiredPasses() {
         if(isInventoryBlock)
             return 1;
         return LAYERS * EDGES;
     }
 
+    /**
+     * Will be called before rendering the icon to set the correct inner icon.
+     * @param side The side that will be rendered.
+     * @param renderPass The render pass for that side.
+     * @param renderBlocks The {@link RenderBlocks} instance.
+     */
     public void prepareIcon(int side, int renderPass, RenderBlocks renderBlocks) {
         this.setRenderPass(renderPass);
         this.setSide(side);
@@ -191,6 +230,10 @@ public class ConnectableIcon implements Icon{
         RenderHelpers.setRenderBlocksUVRotation(renderBlocks, renderSide, rotation);
     }
     
+    /**
+     * Define whether or not the current rendering is for an inventory block.
+     * @param isInventoryBlock
+     */
     public void setInventoryBlock(boolean isInventoryBlock) {
         this.isInventoryBlock = isInventoryBlock;
     }

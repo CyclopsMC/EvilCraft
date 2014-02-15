@@ -11,6 +11,11 @@ import org.lwjgl.opengl.GL11;
 
 import evilcraft.entities.block.EntityLightningBombPrimed;
 
+/**
+ * Renderer for a primed bomb.
+ * @author rubensworks
+ *
+ */
 public class RenderBombPrimed extends RenderTNTPrimed{
     
     protected RenderBlocks blockRenderer = new RenderBlocks();
@@ -23,15 +28,14 @@ public class RenderBombPrimed extends RenderTNTPrimed{
     public RenderBombPrimed(Block block) {
         this.block = block;
     }
-
     
-    public void renderPrimedBomb(EntityLightningBombPrimed entity, double par2, double par4, double par6, float par8, float par9) {
+    private void renderPrimedBomb(EntityLightningBombPrimed entity, double x, double y, double z, float yaw, float partialTickTime) {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)par2, (float)par4, (float)par6);
+        GL11.glTranslatef((float)x, (float)y, (float)z);
         float f2;
 
-        if ((float)entity.fuse - par9 + 1.0F < 10.0F) {
-            f2 = 1.0F - ((float)entity.fuse - par9 + 1.0F) / 10.0F;
+        if ((float)entity.fuse - partialTickTime + 1.0F < 10.0F) {
+            f2 = 1.0F - ((float)entity.fuse - partialTickTime + 1.0F) / 10.0F;
 
             if (f2 < 0.0F) {
                 f2 = 0.0F;
@@ -47,9 +51,9 @@ public class RenderBombPrimed extends RenderTNTPrimed{
             GL11.glScalef(f3, f3, f3);
         }
 
-        f2 = (1.0F - ((float)entity.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
+        f2 = (1.0F - ((float)entity.fuse - partialTickTime + 1.0F) / 100.0F) * 0.8F;
         this.bindEntityTexture(entity);
-        this.blockRenderer.renderBlockAsItem(block, 0, entity.getBrightness(par9));
+        this.blockRenderer.renderBlockAsItem(block, 0, entity.getBrightness(partialTickTime));
 
         if (entity.fuse / 5 % 2 == 0) {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -73,8 +77,8 @@ public class RenderBombPrimed extends RenderTNTPrimed{
     }
     
     @Override
-    public void doRender(Entity entity, double par2, double par4, double par6, float par8, float par9) {
-        this.renderPrimedBomb((EntityLightningBombPrimed)entity, par2, par4, par6, par8, par9);
+    public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
+        this.renderPrimedBomb((EntityLightningBombPrimed)entity, x, y, z, yaw, partialTickTime);
     }
     
 }

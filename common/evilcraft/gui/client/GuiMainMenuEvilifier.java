@@ -9,6 +9,11 @@ import net.minecraft.util.ResourceLocation;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
 
+/**
+ * This can add an evil surrounding to the main menu.
+ * @author rubensworks
+ *
+ */
 public class GuiMainMenuEvilifier {
 
     private static int EVIL_MAINMENU_CHANCE = 2;
@@ -21,6 +26,9 @@ public class GuiMainMenuEvilifier {
         }
     }
 
+    /**
+     * Make the main menu evil with a certain chance.
+     */
     public static void evilifyMainMenu() {
         Random random = new Random();
         if(random.nextInt(EVIL_MAINMENU_CHANCE) == 0) {

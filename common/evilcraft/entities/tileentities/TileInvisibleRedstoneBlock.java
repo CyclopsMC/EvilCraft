@@ -2,7 +2,13 @@ package evilcraft.entities.tileentities;
 
 import net.minecraft.world.World;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.blocks.InvisibleRedstoneBlock;
 
+/**
+ * Tile for the {@link InvisibleRedstoneBlock}.
+ * @author rubensworks
+ *
+ */
 public class TileInvisibleRedstoneBlock extends EvilCraftTileEntity {
     
     // Destroy redstone block after 1 redstone tick (= 2 game ticks)
@@ -10,6 +16,10 @@ public class TileInvisibleRedstoneBlock extends EvilCraftTileEntity {
     
     private final long tickCreated;
     
+    /**
+     * Make a new instance.
+     * @param world The world.
+     */
     public TileInvisibleRedstoneBlock(World world) {
         tickCreated = world.getTotalWorldTime();
     }

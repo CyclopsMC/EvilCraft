@@ -6,29 +6,45 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 
-import net.minecraft.item.ItemBlock;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.api.config.configurable.ConfigurableProperty;
-import evilcraft.api.item.ItemBlockMetadata;
 
 /**
- * Registration configurations
- * @author Ruben Taelman
+ * A config that refers to a {@link Configurable}. Every unique {@link Configurable} must have one
+ * unique extension of this class. This contains several configurable settings and properties
+ * that can also be set in the config file.
+ * @author rubensworks
  * @param <C> Class of the extension of ExtendedConfig
  *
  */
 public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Comparable<ExtendedConfig<C>>{
     
+    /**
+     * The ID for the configurable.
+     */
     public int ID;
+    /**
+     * The name for the configurable.
+     */
     public String NAME;
+    /**
+     * The unique name ID for the configurable.
+     */
     public String NAMEDID;
+    /**
+     * The comment to add in the config file for this configurable.
+     */
     public String COMMENT;
+    /**
+     * The class of this configurable.
+     */
+    @SuppressWarnings("rawtypes")
     public Class ELEMENT;
     
-    // To store additional stuff inside the config
+    /**
+     * A list of {@link ConfigProperty} that can contain additional settings for this configurable.
+     */
     public List<ConfigProperty> configProperties = new LinkedList<ConfigProperty>();
     
     /**
@@ -39,7 +55,7 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
      * @param comment a comment that can be added to the config file line
      * @param element the class for the element this config is for
      */
-    public ExtendedConfig(int defaultId, String name, String namedId, String comment, Class element) {
+    public ExtendedConfig(int defaultId, String name, String namedId, String comment, Class<?> element) {
         this.ID = defaultId;
         this.NAME = name;
         this.NAMEDID = namedId;
@@ -91,9 +107,9 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
     }
     
     /**
-     * Save this config inside the correct element and inside the implementation if itself
-     * @throws Throwable 
+     * Save this config inside the correct element and inside the implementation if itself.
      */
+    @SuppressWarnings("unchecked")
     public void save() {
         try {
             // Save inside the self-implementation
@@ -142,6 +158,7 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
      * Will return the instance of the object this config refers to
      * @return instance of sub object
      */
+    @SuppressWarnings("unchecked")
     public Configurable getSubInstance() {
         if(!this.getHolderType().hasUniqueInstance()) return null; // TODO: possibly add a nice exception here
         try {
@@ -215,14 +232,11 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
     
     /**
      * Get the lowest castable config.
-     * @return
+     * @return The downcasted config.
      */
+    @SuppressWarnings("unchecked")
     public C downCast() {
         C c = (C) this;
         return c;
-    }
-    
-    public abstract class ConfigPropertyCallback {
-        public abstract void run(Object newValue);
     }
 }

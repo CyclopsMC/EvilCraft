@@ -2,6 +2,11 @@ package evilcraft.api.weather;
 
 import net.minecraft.world.World;
 
+/**
+ * Rain weather type.
+ * @author rubensworks
+ *
+ */
 public class WeatherTypeRain extends WeatherType {
 
     @Override

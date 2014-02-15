@@ -1,10 +1,10 @@
 package evilcraft.render.entity;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
 
 import org.lwjgl.opengl.GL11;
 
+import evilcraft.api.config.EntityConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.render.ModelRender;
 import evilcraft.render.models.BroomModel;
@@ -15,9 +15,13 @@ import evilcraft.render.models.BroomModel;
  * @author immortaleeb
  *
  */
-public class RenderBroom extends ModelRender {
+public class RenderBroom extends ModelRender<BroomModel> {
 	
-	public RenderBroom(ExtendedConfig config) {
+    /**
+     * Make a new instance.
+     * @param config
+     */
+	public RenderBroom(ExtendedConfig<EntityConfig> config) {
 	    super(config);
 	}
 
@@ -39,7 +43,7 @@ public class RenderBroom extends ModelRender {
 	}
 
     @Override
-    protected ModelBase constructModel() {
+    protected BroomModel constructModel() {
         return new BroomModel();
     }
 

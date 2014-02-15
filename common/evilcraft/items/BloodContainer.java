@@ -13,15 +13,19 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.HotbarIterator;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.fluids.Blood;
 
+/**
+ * Containers that can container blood. Different types for different metadata.
+ * @author rubensworks
+ *
+ */
 public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContainer {
     
     private static BloodContainer _instance = null;
@@ -30,18 +34,26 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     
     private static final int MB_FILL_PERTICK = 10;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new BloodContainer(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static BloodContainer getInstance() {
         return _instance;
     }
 
-    private BloodContainer(ExtendedConfig eConfig) {
+    private BloodContainer(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, BloodExtractorConfig.containerSize, Blood.getInstance());
         setPlaceFluids(true);
     }
@@ -91,6 +103,7 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
         return isContainerActivated(itemStack);
     }
     
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
@@ -129,10 +142,19 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
     
+    /**
+     * Check if the given item is an activated container.
+     * @param itemStack The item to check
+     * @return If it is an active container.
+     */
     public static boolean isContainerActivated(ItemStack itemStack) {
         return itemStack != null && itemStack.getTagCompound() != null && itemStack.getTagCompound().getBoolean("enabled");
     }
     
+    /**
+     * Toggle activation for the given item.
+     * @param itemStack The item to toggle.
+     */
     public static void toggleContainerActivation(ItemStack itemStack) {
         NBTTagCompound tag = itemStack.getTagCompound();
         if(tag == null) {

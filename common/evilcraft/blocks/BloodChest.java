@@ -17,10 +17,19 @@ import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.client.GuiBloodChest;
 import evilcraft.gui.container.ContainerBloodChest;
 
+/**
+ * A chest that runs on blood and repairs tools.
+ * @author rubensworks
+ *
+ */
 public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
     
     private static BloodChest _instance = null;
     
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
     public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new BloodChest(eConfig);
@@ -28,6 +37,10 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static BloodChest getInstance() {
         return _instance;
     }

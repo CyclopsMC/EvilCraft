@@ -8,6 +8,11 @@ import evilcraft.api.Helpers;
 import evilcraft.api.config.VillagerConfig;
 import evilcraft.api.config.configurable.ConfigurableVillager;
 
+/**
+ * The action used for {@link VillagerConfig}.
+ * @author rubensworks
+ * @see IElementTypeAction
+ */
 public class VillagerAction extends IElementTypeAction<VillagerConfig>{
 
     @Override

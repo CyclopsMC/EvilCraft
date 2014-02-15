@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.jcraft.jorbis.Block;
+
 import net.minecraft.client.renderer.ChestItemRenderHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -23,10 +25,24 @@ import evilcraft.client.CustomClientKeyHandler;
 import evilcraft.client.FartTickHandler;
 import evilcraft.render.tileentity.BloodChestItemRenderHelper;
 
+/**
+ * Proxy for the client side.
+ * @author rubensworks
+ *
+ */
 public class ClientProxy extends CommonProxy{
     
+    /**
+     * Map for {@link Entity} renderers.
+     */
     public static Map<Class<? extends Entity>, Render> ENTITY_RENDERERS = new HashMap<Class<? extends Entity>, Render>();
+    /**
+     * Map for the {@link TileEntity} renderers.
+     */
     public static Map<Class<? extends TileEntity>, TileEntitySpecialRenderer> TILE_ENTITY_RENDERERS = new HashMap<Class<? extends TileEntity>, TileEntitySpecialRenderer>();
+    /**
+     * List of {@link Block} rendereres.
+     */
     public static List<ISimpleBlockRenderingHandler> BLOCK_RENDERERS = new LinkedList<ISimpleBlockRenderingHandler>();
     
     // Renderers required for the API

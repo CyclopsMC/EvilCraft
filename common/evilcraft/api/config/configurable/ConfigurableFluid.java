@@ -1,24 +1,29 @@
 package evilcraft.api.config.configurable;
 
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraftforge.fluids.Fluid;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 
 /**
  * Fluid that can hold ExtendedConfigs
- * @author Ruben Taelman
+ * @author rubensworks
  *
  */
 public abstract class ConfigurableFluid extends Fluid implements Configurable{
     
+    @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
     
+    /**
+     * The type of this {@link Configurable}.
+     */
     public static ElementType TYPE = ElementType.FLUID;
     
+    /**
+     * Make a new fluid instance.
+     * @param eConfig Config for this block.
+     */
+    @SuppressWarnings({ "rawtypes" })
     protected ConfigurableFluid(ExtendedConfig eConfig) {
         super(eConfig.NAME);
         //eConfig.ID = this.getID(); // This could've changed.
@@ -26,15 +31,18 @@ public abstract class ConfigurableFluid extends Fluid implements Configurable{
         this.setUnlocalizedName(this.getUniqueName());
     }
 
-    // Set a configuration for this item
+    @SuppressWarnings("rawtypes")
+    @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
+    @Override
     public String getUniqueName() {
         return "fluids."+eConfig.NAMEDID;
     }
     
+    @Override
     public boolean isEntity() {
         return false;
     }

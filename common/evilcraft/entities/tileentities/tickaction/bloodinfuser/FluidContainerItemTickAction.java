@@ -3,9 +3,15 @@ package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.entities.tileentities.tickaction.EmptyFluidContainerInTankTickAction;
 
+/**
+ * {@link ITickAction} that can fill fluid containers with blood.
+ * @author rubensworks
+ *
+ */
 public class FluidContainerItemTickAction extends BloodInfuserTickAction{
 
     @Override

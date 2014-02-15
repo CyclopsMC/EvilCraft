@@ -4,24 +4,38 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.entities.item.EntityLightningGrenade;
 
+/**
+ * Pearl that spawns lightning on collision.
+ * @author rubensworks
+ *
+ */
 public class LightningGrenade extends AbstractGrenade {
     
     private static LightningGrenade _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
             _instance = new LightningGrenade(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static LightningGrenade getInstance() {
         return _instance;
     }
 
-    private LightningGrenade(ExtendedConfig eConfig) {
+    private LightningGrenade(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
 

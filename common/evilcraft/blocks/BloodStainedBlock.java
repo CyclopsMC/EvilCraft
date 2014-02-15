@@ -1,6 +1,5 @@
 package evilcraft.blocks;
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -17,28 +16,42 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.RenderHelpers;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockWithInnerBlocks;
 import evilcraft.api.render.AlternatingBlockIconComponent;
 import evilcraft.render.particle.EntityBloodSplashFX;
 
+/**
+ * Multiple block types (defined by metadata) that have blood stains.
+ * @author rubensworks
+ *
+ */
 public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     
     private static BloodStainedBlock _instance = null;
     private AlternatingBlockIconComponent alternatingBlockIconComponent = new AlternatingBlockIconComponent(getAlternateIconsAmount());
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new BloodStainedBlock(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static BloodStainedBlock getInstance() {
         return _instance;
     }
 
-    private BloodStainedBlock(ExtendedConfig eConfig) {
+    private BloodStainedBlock(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.ground);
         this.setHardness(0.5F);
         this.setStepSound(Block.soundGravelFootstep);
@@ -56,6 +69,10 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
                 };
     }
     
+    /**
+     * Get the amount of alternative icons for the blood stains.
+     * @return The amount of icons.
+     */
     public int getAlternateIconsAmount() {
         return 3;
     }
@@ -84,6 +101,14 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
         return getIcon(side, meta, pass, alternatingBlockIconComponent.getBaseIcon());
     }
     
+    /**
+     * Get the icon.
+     * @param side The side to render.
+     * @param meta The metadata for the block to render.
+     * @param renderPass The renderpass.
+     * @param defaultIcon The default icon to render if none needs to be rendered.
+     * @return The icon.
+     */
     @SideOnly(Side.CLIENT)
     public Icon getIcon(int side, int meta, int renderPass, Icon defaultIcon) {
         if(renderPass < 0) {
@@ -113,6 +138,13 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
         super.onEntityWalking(par1World, par2, par3, par4, par5Entity);
     }
     
+    /**
+     * Spawn particles.
+     * @param world The world.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     */
     @SideOnly(Side.CLIENT)
     public static void splash(World world, int x, int y, int z) {
         EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 1, 1 + world.rand.nextInt(3));
@@ -129,6 +161,8 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
         return "Block: "+EnumChatFormatting.ITALIC+getBlockFromMetadata(itemStack.getItemDamage()).getLocalizedName();
     }
     
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
     public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         list.add(IInformationProvider.INFO_PREFIX+"Created when entity falls to death.");
     }

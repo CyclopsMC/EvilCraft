@@ -5,20 +5,23 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
 
+/**
+ * Abstract grenade class.
+ * @author immortaleeb
+ *
+ */
 public abstract class AbstractGrenade extends ConfigurableItem {
 
-    protected AbstractGrenade(ExtendedConfig eConfig) {
+    protected AbstractGrenade(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.maxStackSize = 16;
     }
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
-    {
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
         if(!world.isRemote) {
             if (!entityPlayer.capabilities.isCreativeMode) {
                 --itemStack.stackSize;

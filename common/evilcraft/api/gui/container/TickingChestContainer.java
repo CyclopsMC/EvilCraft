@@ -5,11 +5,26 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 
+/**
+ * A container for a chest that allows slot ticking.
+ * @author rubensworks
+ *
+ * @param <T>
+ */
 public abstract class TickingChestContainer<T extends TickingTankInventoryTileEntity<T>> extends TickingTankInventoryContainer<T> {
     
     private int offsetX;
     private int offsetY;
     
+    /**
+     * Make a new instance.
+     * @param inventory The player inventory.
+     * @param tile The tile entity this container refers to.
+     * @param rows The amount of rows this chest has.
+     * @param columns The amount of columns this chest has.
+     * @param offsetX The X offset for the chest slots.
+     * @param offsetY The Y offset for the chest slots.
+     */
     public TickingChestContainer(InventoryPlayer inventory, T tile, int rows, int columns, int offsetX, int offsetY) {
         super(inventory, tile);
         this.offsetX = offsetX;
@@ -25,6 +40,14 @@ public abstract class TickingChestContainer<T extends TickingTankInventoryTileEn
         }
     }
     
+    /**
+     * Add a new slot in the given inventory at the given index and at the given row and column.
+     * @param inventory The inventory for the chest.
+     * @param index The index to make the slot at.
+     * @param row The row for the slot.
+     * @param column The column for the slot.
+     * @return The new slot instance.
+     */
     public abstract Slot makeSlot(IInventory inventory, int index, int row, int column);
     
     

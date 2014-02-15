@@ -3,31 +3,42 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockConnectedTexture;
-import evilcraft.api.render.ConnectableIcon;
 
+/**
+ * Glass that holds back some light.
+ * @author rubensworks
+ *
+ */
 public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     
     private static ObscuredGlass _instance = null;
     
-    public static void initInstance(ExtendedConfig eConfig) {
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
             _instance = new ObscuredGlass(eConfig);
         else
             eConfig.showDoubleInitError();
     }
     
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
     public static ObscuredGlass getInstance() {
         return _instance;
     }
 
-    private ObscuredGlass(ExtendedConfig eConfig) {
+    private ObscuredGlass(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.glass);
         this.setHardness(0.5F);
         this.setStepSound(Block.soundGlassFootstep);
@@ -45,9 +56,10 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     }
     
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered (IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
-        int i1 = par1IBlockAccess.getBlockId(par2, par3, par4);
-        return i1 == this.blockID ? false : super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5);
+    @Override
+    public boolean shouldSideBeRendered (IBlockAccess world, int x, int y, int z, int side) {
+        int id = world.getBlockId(x, y, z);
+        return id == this.blockID ? false : super.shouldSideBeRendered(world, x, y, z, side);
     }
     
     @Override
