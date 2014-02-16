@@ -121,7 +121,7 @@ public class EvilDungeonStructure extends WorldGenDungeons {
         
                     if (tileentitymobspawner != null) {
                     	//getSpawnerLogic
-                        tileentitymobspawner.func_145881_a().setMobID(this.pickMobSpawner(random));
+                        tileentitymobspawner.func_145881_a().setEntityName(this.pickMobSpawner(random));
                     } else {
                         System.err.println("Failed to fetch mob spawner entity at (" + xs + ", " + y + ", " + zs + ")");
                     }

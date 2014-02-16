@@ -13,3 +13,8 @@
 .DS_Store
 
 # Ignore other files that aren't supposed to be here
+.pydevproject
+
+# Ignore forge gradle stuff
+eclipse/*
+.gradle/*

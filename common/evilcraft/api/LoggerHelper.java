@@ -20,7 +20,7 @@ public class LoggerHelper
      * Initialize the logger.
      */
     public static void init() {
-        logger.setParent((Logger) FMLLog.getLogger());
+        //logger.setParent(FMLLog.getLogger());
     }
     
     /**

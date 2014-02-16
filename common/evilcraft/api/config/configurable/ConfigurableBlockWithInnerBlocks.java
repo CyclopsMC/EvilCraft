@@ -57,7 +57,10 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        return INNER_BLOCKS[meta].getBlockTextureFromSide(side);
+    	if(meta < getInnerBlocks())
+    		return INNER_BLOCKS[meta].getBlockTextureFromSide(side);
+    	else
+    		return null;
     }
     
     @Override

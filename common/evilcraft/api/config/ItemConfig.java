@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.api.Helpers;
-import evilcraft.api.config.configurable.ConfigurableItem;
 import evilcraft.api.render.AlphaItemRenderer;
 
 /**
@@ -44,18 +43,17 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
         return false;
     }
     
-    @Override
-    public ConfigurableItem getSubInstance() {
-    	return (ConfigurableItem) super.getSubInstance();
+    public Item getItemInstance() {
+    	return (Item) super.getSubInstance();
     }
     
     @Override
     public void onRegistered() {
         if(blendAlpha() && Helpers.isClientSide())
-            MinecraftForgeClient.registerItemRenderer(this.getSubInstance(), new AlphaItemRenderer());
+            MinecraftForgeClient.registerItemRenderer(this.getItemInstance(), new AlphaItemRenderer());
         
         if(getOreDictionaryId() != null) {
-            OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(this.getSubInstance()));
+            OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(this.getItemInstance()));
         }
     }
 
