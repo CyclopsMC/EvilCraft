@@ -2,7 +2,7 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.6.4" version="0.2.0b">TODO link</download>
+	<download for="1.6.4" version="0.2.1b">http://bit.ly/1jIDSpw</download>
 	<workingOn>Porting to Minecraft version 1.7</workingOn>
 	
 	<description>
@@ -403,7 +403,7 @@
 		otherwise you might encounter ID conflicts.
 	</element>
 	<element name="Download and Install">
-Download: TODO (0.2.0b)
+Download: http://bit.ly/1jIDSpw (0.2.1b)
 This mod will become open source very soon, link will appear here...
 	</element>
 	</elements>
