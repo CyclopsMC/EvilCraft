@@ -101,7 +101,8 @@ public class EvilCraft {
         // Register world generation
         GameRegistry.registerWorldGenerator(new EvilWorldGenerator(), 5);
         GameRegistry.registerWorldGenerator(new EvilDungeonGenerator(), 2);
-        GameRegistry.registerWorldGenerator(new DarkTempleGenerator(), 1);
+        // TODO: rewrite
+        //GameRegistry.registerWorldGenerator(new DarkTempleGenerator(), 1);
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         
         // Add custom panorama's

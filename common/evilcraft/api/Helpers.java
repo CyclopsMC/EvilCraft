@@ -69,6 +69,18 @@ public class Helpers {
         {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.EAST, ForgeDirection.WEST, ForgeDirection.NORTH, ForgeDirection.SOUTH}, // WEST
         {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.WEST, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH}, // EAST
     };
+    /**
+     * The types of NBT Tags, used for the second parameter in
+     * {@link NBTTagCompound#getTagList(String, int)}.
+     * @author rubensworks
+     *
+     */
+    public enum NBTTag_Types {
+		NBTTagEnd, NBTTagByte, NBTTagShort, 
+		NBTTagInt, NBTTagLong, NBTTagFloat, 
+		NBTTagDouble, NBTTagByteArray, NBTTagString,
+		NBTTagList, NBTTagCompound, NBTTagIntArray
+	}
     
     private static boolean ISOBFUSICATED_CHECKED = false;
     private static boolean ISOBFUSICATED;

@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererChestHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 
@@ -75,14 +76,16 @@ public class ClientProxy extends CommonProxy{
         //KeyBindingRegistry.registerKeyBinding(new CustomRemoteKeyHandler());
         
         // CustomClientKeyHandler
-        KeyBindingRegistry.registerKeyBinding(CustomClientKeyHandler.getInstance());
+    	// TODO: rewrite
+        //KeyBindingRegistry.registerKeyBinding(CustomClientKeyHandler.getInstance());
         
         EvilCraft.log("Registered key bindings");
     }
     
     @Override
     public void registerTickHandlers() {
-        TickRegistry.registerTickHandler(new FartTickHandler(), Side.CLIENT);
+    	// TODO: rewrite
+        //TickRegistry.registerTickHandler(new FartTickHandler(), Side.CLIENT);
         EvilCraft.log("Registered tick handlers");
     }
 }

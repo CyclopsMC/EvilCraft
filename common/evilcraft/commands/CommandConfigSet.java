@@ -9,6 +9,7 @@ import net.minecraft.client.gui.ChatLine;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
 import net.minecraftforge.common.config.Configuration;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ConfigProperty;
@@ -53,7 +54,7 @@ public class CommandConfigSet extends CommandEvilCraft {
     @Override
     public void processCommand(ICommandSender icommandsender, String[] astring) {
         if(astring.length == 0 || astring.length > 1) {
-            icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Please define one new value."));
+            icommandsender.addChatMessage(new ChatComponentText("Please define one new value."));
         } else {
             Object newValue = Helpers.tryParse(astring[0], config.getValue());
             if(newValue != null) {
@@ -61,10 +62,10 @@ public class CommandConfigSet extends CommandEvilCraft {
                 config.setValue(newValue);
                 config.save(CONFIGURATION, true);
                 CONFIGURATION.save();
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Updated "+name+" to: "+newValue.toString() + " (not updated in config file)"));
+                icommandsender.addChatMessage(new ChatComponentText("Updated "+name+" to: "+newValue.toString() + " (not updated in config file)"));
                 // TODO: Why not updated in config? Config not changeable at runtime?
             } else {
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Invalid new value."));
+                icommandsender.addChatMessage(new ChatComponentText("Invalid new value."));
             }
         }
     }

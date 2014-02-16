@@ -2,6 +2,7 @@ package evilcraft.entities.monster;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
@@ -212,8 +213,9 @@ public class Werewolf extends EntityMob implements Configurable{
         return "mob.wolf.death";
     }
     
+    //playStepSound
     @Override
-    protected void playStepSound(int par1, int par2, int par3, int par4) {
+    protected void func_145780_a(int x, int y, int z, Block block) {
         this.playSound("mob.zombie.step", 0.15F, 1.0F);
     }
     

@@ -93,7 +93,7 @@ public class EntityBloodPearl extends EntityThrowable implements Configurable{
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {
                 EntityPlayerMP entityplayermp = (EntityPlayerMP)this.getThrower();
 
-                if (!entityplayermp.playerNetServerHandler.connectionClosed && entityplayermp.worldObj == this.worldObj) {
+                if (entityplayermp.playerNetServerHandler.netManager.isChannelOpen() && entityplayermp.worldObj == this.worldObj) {
                     EnderTeleportEvent event = new EnderTeleportEvent(entityplayermp, this.posX, this.posY, this.posZ, 0.0F);
                     if (!MinecraftForge.EVENT_BUS.post(event)) {
                         if (this.getThrower().isRiding()) {

@@ -1,5 +1,6 @@
 package evilcraft.api.inventory;
 
+import evilcraft.api.Helpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -110,7 +111,7 @@ public class SimpleInventory implements IInventory {
      * @param tag The NBT tag name where the info is located.
      */
     public void readFromNBT(NBTTagCompound data, String tag) {
-        NBTTagList nbttaglist = data.getTagList(tag);
+        NBTTagList nbttaglist = data.getTagList(tag, Helpers.NBTTag_Types.NBTTagCompound.ordinal());
 
         for (int j = 0; j < nbttaglist.tagCount(); ++j) {
             NBTTagCompound slot = (NBTTagCompound) nbttaglist.getCompoundTagAt(j);

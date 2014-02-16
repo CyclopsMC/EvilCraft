@@ -74,7 +74,9 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     public ItemStack onEaten(ItemStack itemStack, World world, EntityPlayer player) {
         --itemStack.stackSize;
         if(isPower()) {
-            player.getFoodStats().addStats(this);
+        	int foodLevel = this.func_150905_g(itemStack);// get healAmount
+        	float saturationLevel = this.func_150906_h(itemStack);// get saturationModifier
+            player.getFoodStats().addStats(foodLevel, saturationLevel);
             player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, POWER_DURATION * 20, 2));
             player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, POWER_DURATION * 20, 2));
             player.addPotionEffect(new PotionEffect(Potion.jump.id, POWER_DURATION * 20, 2));

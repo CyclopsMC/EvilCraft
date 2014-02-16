@@ -45,7 +45,7 @@ public abstract class ConfigurableBlockLeaves extends BlockNewLeaf implements Co
     public ConfigurableBlockLeaves(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
         this.setBlockName(this.getUniqueName());
-        setBurnProperties(this, 30, 60);
+        //setBurnProperties(this, 30, 60);
     }
 
     @Override
