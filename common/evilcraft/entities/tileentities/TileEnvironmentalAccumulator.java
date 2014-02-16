@@ -113,7 +113,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	        if (cooldown)
 	            updateDoneItemMoving();
 	        
-	        if (!cooldown)
+	        if (!(cooldown || movingItem))
 	            updateEnvironmentalAccumulator();
 	    } else {
 	        updateClient();
