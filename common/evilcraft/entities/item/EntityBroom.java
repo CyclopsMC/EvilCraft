@@ -9,6 +9,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
@@ -48,6 +50,9 @@ public class EntityBroom extends Entity implements Configurable{
      */
     public static final float MIN_ANGLE = -45.0F;
     
+    // Maximum amplitude of the cosine functions which generate the hovering effect
+    private static final float MAX_COS_AMPLITUDE = 0.2f;
+    
     /**
      * The player that last mounted this broom (used to detect dismounting)
      */
@@ -63,6 +68,14 @@ public class EntityBroom extends Entity implements Configurable{
     // This value adds a random value to the world tick in the calculations of the hover offset of a broom
     // This makes sure that all brooms don't reach the highest and lowest hovering points at the same time
     private int broomHoverTickOffset;
+    
+    /**
+     * This variable holds the last hover offset
+     * that was set by this broom during its last
+     * update.
+     */
+    @SideOnly(Side.CLIENT)
+    private double oldHoverOffset;
     
     @SuppressWarnings("rawtypes")
     @Override
@@ -99,7 +112,7 @@ public class EntityBroom extends Entity implements Configurable{
     }
     
     protected void initBroomHoverTickOffset() {
-        broomHoverTickOffset = rand.nextInt((int)(Math.PI * 10));
+        broomHoverTickOffset = rand.nextInt((int)Math.PI);
     }
     
     @Override
@@ -284,8 +297,14 @@ public class EntityBroom extends Entity implements Configurable{
     }
 
     protected double getHoverOffset() {
-        float x = worldObj.getWorldTime() + broomHoverTickOffset;
-        return Math.cos(x / 10) * Math.cos(x / 12) * Math.cos(x / 15) * 0.01f;
+        float x = worldObj.getWorldTime();
+        float t = broomHoverTickOffset;
+        double newHoverOffset = Math.cos(x / 10 + t) * Math.cos(x / 12 + t) * Math.cos(x / 15 + t) * MAX_COS_AMPLITUDE;
+        
+        double newHoverDifference = newHoverOffset - oldHoverOffset;
+        oldHoverOffset += newHoverDifference;
+        
+        return newHoverDifference;
     }
     
     @Override
