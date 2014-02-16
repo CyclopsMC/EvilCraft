@@ -2,7 +2,7 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.6.4" version="0.2.1b">http://bit.ly/1jIDSpw</download>
+	<download for="1.6.4" version="0.2.1b">http://bit.ly/1dzFuyc</download>
 	<workingOn>Porting to Minecraft version 1.7</workingOn>
 	
 	<description>
@@ -18,9 +18,8 @@
  		for Minecraft 1.7 is complete, so please don't hesitate to post any bugs you might find
  		on our bug tracker. If you have suggestions how we could improve our mod or any additions
  		you might want to see in the future, they can also be posted on our bug tracker.
- 		We will also be releasing the source code on github very shortly (we're currently working
- 		on some documentation), so if you want to contribute you can find us on
- 		https://github.com/rubensworks/EvilCraft . You can also contact kroeser directly on https://twitter.com/rubensworks .
+ 		Furthermore this mod is an open-source mod, so if you want to contribute you can find us on
+ 		https://github.com/rubensworks/EvilCraft. You can also contact kroeser directly on https://twitter.com/rubensworks.
  	</additionalInformation>
  	
  	
@@ -403,8 +402,8 @@
 		otherwise you might encounter ID conflicts.
 	</element>
 	<element name="Download and Install">
-Download: http://bit.ly/1jIDSpw (0.2.1b)
-This mod will become open source very soon, link will appear here...
+Download: http://bit.ly/1dzFuyc (0.2.1b)
+Source code: https://github.com/rubensworks/EvilCraft
 	</element>
 	</elements>
 </info>

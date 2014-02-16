@@ -4,6 +4,8 @@ _Master branch status: Minecraft 1.6.4, Forge 9.11.1.965_
 
 _Porting to 1.7 will start soon._
 
+_The latest (stable) release can be found in the release section on our github page_
+
 ## Team
 Lead developers:
  * rubensworks (kroeserr)
