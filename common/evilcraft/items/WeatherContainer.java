@@ -264,6 +264,9 @@ public class WeatherContainer extends ConfigurableItem {
          * @param containerStack The weather container that was thrown.
          */
         public void onUse(World world, ItemStack containerStack) {
+            if (world.isRemote)
+                return;
+            
             if (type != null)
                 type.activate(world);
             
