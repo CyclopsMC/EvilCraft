@@ -1,8 +1,11 @@
 package evilcraft.api.config.configurable;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -24,12 +27,12 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
+
     /**
      * The type of this {@link Configurable}.
      */
     public static ElementType TYPE = ElementType.ITEM;
-    
+
     protected boolean canPickUp = true;
     private boolean placeFluids = false;
 
@@ -76,23 +79,90 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-        if(!player.isSneaking() && isPlaceFluids()) {
-            FluidStack fluidStack = getFluid(itemStack);
-            // Empty container
-            FluidStack drained = this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, false);
-            
-            ForgeDirection direction = ForgeDirection.getOrientation(side);
-            x += direction.offsetX;
-            y += direction.offsetY;
-            z += direction.offsetZ;
-            
-            if(drained != null && drained.amount == FluidContainerRegistry.BUCKET_VOLUME && (world.isAirBlock(x, y, z) || world.getBlockId(x, y, z) == fluidStack.getFluid().getBlockID())) {
-                this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, true);
-                world.setBlock(x, y, z, fluidStack.getFluid().getBlockID(), 0, 3);
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+        FluidStack fluidStack = getFluid(itemStack);
+        FluidStack drained = this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, false);
+        int blockID = getFluid().getBlockID();
+
+        boolean hasBucket = drained != null
+                && (drained.amount == FluidContainerRegistry.BUCKET_VOLUME);
+        boolean hasSpace = fluidStack == null
+                || (fluidStack.amount + FluidContainerRegistry.BUCKET_VOLUME <= getCapacity(itemStack));
+        MovingObjectPosition movingobjectpositionDrain = this.getMovingObjectPositionFromPlayer(world, player, false);
+        MovingObjectPosition movingobjectpositionFill = this.getMovingObjectPositionFromPlayer(world, player, true);
+
+        if (movingobjectpositionDrain != null && movingobjectpositionFill != null) {
+            if (movingobjectpositionFill.typeOfHit == EnumMovingObjectType.TILE) {
+                // Fill the container and remove fluid block
+                int x = movingobjectpositionFill.blockX;
+                int y = movingobjectpositionFill.blockY;
+                int z = movingobjectpositionFill.blockZ;
+                if (!world.canMineBlock(player, x, y, z)) {
+                    return itemStack;
+                }
+
+                if (!player.canPlayerEdit(x, y, z, movingobjectpositionFill.sideHit, itemStack)) {
+                    return itemStack;
+                }
+                if (world.getBlockId(x, y, z) == blockID && world.getBlockMetadata(x, y, z) == 0) {
+                    if(hasSpace) {
+                        world.setBlockToAir(x, y, z);
+                        this.fill(itemStack, new FluidStack(getFluid(), FluidContainerRegistry.BUCKET_VOLUME), true);
+                    }
+                    return itemStack;
+                }
+            }
+
+            // Drain container and place fluid block
+            if (hasBucket && movingobjectpositionDrain.typeOfHit == EnumMovingObjectType.TILE) {
+                int x = movingobjectpositionDrain.blockX;
+                int y = movingobjectpositionDrain.blockY;
+                int z = movingobjectpositionDrain.blockZ;
+                if (!world.canMineBlock(player, x, y, z)) {
+                    return itemStack;
+                }
+
+                ForgeDirection direction = ForgeDirection.getOrientation(movingobjectpositionDrain.sideHit);
+                x += direction.offsetX;
+                y += direction.offsetY;
+                z += direction.offsetZ;
+
+                if (!player.canPlayerEdit(x, y, z, movingobjectpositionDrain.sideHit, itemStack)) {
+                    return itemStack;
+                }
+
+                if (this.tryPlaceContainedLiquid(world, x, y, z, blockID, hasBucket)) {
+                    this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, true);
+                    return itemStack;
+                }
             }
         }
-        return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+        return itemStack;
+    }
+
+    private boolean tryPlaceContainedLiquid(World world, int x, int y, int z, int blockID, boolean hasBucket) {
+        if (!hasBucket) {
+            return false;
+        } else {
+            Material material = world.getBlockMaterial(x, y, z);
+
+            if (!world.isAirBlock(x, y, z) && material.isSolid()) {
+                return false;
+            } else {
+                if (!world.isRemote && !material.isSolid() && !material.isLiquid()) {
+                    world.destroyBlock(x, y, z, true);
+                }
+
+                world.setBlock(x, y, z, blockID, 0, 3);
+
+                return true;
+            }
+        }
+    }
+
+    @Override
+    public boolean canItemEditBlocks() {
+        return true;
     }
 
     /**

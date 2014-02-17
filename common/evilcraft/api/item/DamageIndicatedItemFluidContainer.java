@@ -108,5 +108,13 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     public int getDisplayDamage(ItemStack itemStack) {
         return component.getDisplayDamage(itemStack);
     }
+    
+    /**
+     * Get the fluid.
+     * @return The fluid.
+     */
+    public Fluid getFluid() {
+        return this.fluid;
+    }
 
 }
