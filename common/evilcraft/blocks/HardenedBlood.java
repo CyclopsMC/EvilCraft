@@ -121,5 +121,10 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
     @Override
     public void provideInformation(ItemStack itemStack,
             EntityPlayer entityPlayer, List list, boolean par4) {}
+    
+    @Override
+    public boolean isBlockNormalCube(World world, int x, int y, int z) {
+        return false;
+    }
 
 }
