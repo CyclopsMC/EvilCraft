@@ -12,6 +12,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import evilcraft.api.IInformationProvider;
@@ -124,5 +125,10 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
     @Override
     public void provideInformation(ItemStack itemStack,
             EntityPlayer entityPlayer, List list, boolean par4) {}
+    
+    @Override
+    public boolean isNormalCube(IBlockAccess world, int x, int y, int z) {
+        return false;
+    }
 
 }

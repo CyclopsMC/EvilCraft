@@ -67,7 +67,9 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
                     // Init particles
                     EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + random.nextInt(2));
                 }
+                return true;
             }
+            return false;
         }
         return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
     }

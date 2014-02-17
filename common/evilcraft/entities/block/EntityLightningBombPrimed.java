@@ -2,13 +2,11 @@ package evilcraft.entities.block;
 
 import java.util.Random;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.world.World;
-
-import com.sun.xml.internal.stream.Entity;
-
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;

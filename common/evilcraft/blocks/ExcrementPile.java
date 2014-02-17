@@ -139,8 +139,8 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     public void updateTick(World world, int x, int y, int z, Random random) {
         if(random.nextInt(CHANCE_DESPAWN) == 0) {
             if(random.nextInt(CHANCE_BONEMEAL) == 0) {
-                for(int xr = x - 1; xr <= x + 1; xr++) {
-                    for(int zr = z - 1; zr <= z + 1; zr++) {
+                for(int xr = x - 2; xr <= x + 2; xr++) {
+                    for(int zr = z - 2; zr <= z + 2; zr++) {
                         if(random.nextInt(9) == 0) {
                             Block blockBelow = world.getBlock(xr, y - 1, zr);
                             if(blockBelow == Blocks.dirt) {

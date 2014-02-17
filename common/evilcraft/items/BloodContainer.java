@@ -94,8 +94,10 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-        if(!world.isRemote && player.isSneaking()) {
-            toggleContainerActivation(itemStack);
+        if(player.isSneaking()) {
+            if(!world.isRemote)
+                toggleContainerActivation(itemStack);
+            return itemStack;
         }
         return super.onItemRightClick(itemStack, world, player);
     }

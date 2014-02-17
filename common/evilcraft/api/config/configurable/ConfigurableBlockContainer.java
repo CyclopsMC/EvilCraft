@@ -204,11 +204,6 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         super.breakBlock(world, x, y, z, Blocks.air, 0);
         return drops;
     }
-    
-    @Override
-    public boolean isBlockNormalCube() {
-    	return false;
-    }
 
     /**
      * If this block can be rotated.

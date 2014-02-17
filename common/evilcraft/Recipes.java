@@ -239,7 +239,7 @@ public class Recipes {
         }
         // Obscured glass
         if(isItemEnabled(ObscuredGlassConfig.class) && isItemEnabled(DarkGemConfig.class)) {
-            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ObscuredGlass.getInstance()), true, 
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ObscuredGlass.getInstance(), 8), true, 
                     new Object[]{
                 "GGG",
                 "GDG",

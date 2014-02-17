@@ -2,7 +2,7 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.6.4" version="0.2.0b">TODO link</download>
+	<download for="1.6.4" version="0.2.2b">http://bit.ly/1kNTEjb</download>
 	<workingOn>Porting to Minecraft version 1.7</workingOn>
 	
 	<description>
@@ -18,8 +18,7 @@
  		for Minecraft 1.7 is complete, so please don't hesitate to post any bugs you might find
  		on our bug tracker. If you have suggestions how we could improve our mod or any additions
  		you might want to see in the future, they can also be posted on our bug tracker.
- 		We will also be releasing the source code on github very shortly (we're currently working
- 		on some documentation), so if you want to contribute you can find us on
+ 		Furthermore this mod is an open-source mod, so if you want to contribute you can find us on
  		https://github.com/rubensworks/EvilCraft . You can also contact kroeser directly on https://twitter.com/rubensworks .
  	</additionalInformation>
  	
@@ -27,6 +26,14 @@
  	<featuresRemark>NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATION FILE</featuresRemark>
  	
  	<elements>
+ 	<element name="Spotlights">
+ 		<element name="General">
+ 			Thanks to these people for their awesome spotlights!
+ 		</element>
+ 		<element name="EncryptedTonight">
+ 			[center][media]http://www.youtube.com/watch?v=e_GLGPpuYGM[/media][/center]
+ 		</element>
+ 	</element>
 	<element name="Machines">
 		<element name="Blood Chest" img="bFE65ei" recipe="b3kMa0n">
             Ever had to repair that precious enchanted diamond sword, only to find out 
@@ -126,7 +133,7 @@
 		</element>
 		<element name="Excrement Pile" img="BUivWbp">
 			The whole digestion cycle in Minecraft has finally been completed !
-			Animals will drop excrement piles, which act as bonemeal when placed on the ground.
+			Animals will drop excrement piles, which act as bonemeal after a while when placed on the ground.
 			The only way to pick up an excrement pile is by cleaning it up with a broom, and you
 			better clean up your farm every once in a while because these piles can stack like snow.
 			Also look out when you encounter such a pile because it has a chance of poisoning when
@@ -178,9 +185,11 @@
 			If you activate multiple blood containers, the rate at which the held item is
 			refilled will be proportional to the number of activated containers.
 [b]Recipes:[/b]
+[center]
 [img]lNkmioA[/img]
 [img]MEsLqmi[/img]
 [img]glXvDRG[/img]
+[/center]
 
 		</element>
 		<element name="Blood Extractor" recipe="Wo2nvKG">
@@ -278,8 +287,7 @@
 		</element>
 		<element name="Werewolf Fur">
 			Another item dropped by [u]werewolves[/u].
-			This item can be used in any recipe as a replacement of leather, but has no real
-			other purpose for now, though it might have in the near future.
+			This item has no real other purpose for now, though it might have in the near future.
 		</element>
 	</element>
 	<element name="Entities">
@@ -343,7 +351,6 @@
 		</element>
 		
 		<element name="Unusing (I)">
-		[u]Unusing (I)[/u]
 		Have you ever broken your favourite enchanted pickaxe by accident because you didn't
 		pay notice to the amount of damage it had taken?
 		The unusing enchant tries to solve exactly this problem!
@@ -403,8 +410,8 @@
 		otherwise you might encounter ID conflicts.
 	</element>
 	<element name="Download and Install">
-Download: TODO (0.2.0b)
-This mod will become open source very soon, link will appear here...
+Download: http://bit.ly/1kNTEjb (0.2.2b)
+Source code: https://github.com/rubensworks/EvilCraft
 	</element>
 	</elements>
 </info>
