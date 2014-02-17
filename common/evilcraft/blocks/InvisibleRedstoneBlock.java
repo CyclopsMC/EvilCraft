@@ -2,7 +2,11 @@ package evilcraft.blocks;
 
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -12,6 +16,7 @@ import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
+import evilcraft.api.render.ConnectableIcon;
 import evilcraft.entities.tileentities.TileInvisibleRedstoneBlock;
 
 /**
@@ -47,6 +52,10 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
         setResistance(10.0F);
         setStepSound(soundTypeMetal);
     }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {}
 
     @Override
     public int isProvidingWeakPower(IBlockAccess blockAccess, int x, int y, int z, int side) {

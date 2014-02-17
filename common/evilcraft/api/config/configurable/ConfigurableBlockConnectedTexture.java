@@ -10,8 +10,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Reference;
 import evilcraft.api.DirectionCorner;
 import evilcraft.api.Helpers;
+import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.TileConnectedTexture;
 import evilcraft.api.render.ConnectableIcon;
@@ -175,6 +177,9 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
         if(hasSeperateInventoryBlockIcon())
             blockIconInventory = iconRegister.registerIcon(getTextureName()+"_inventory");
         connectableIcon = new ConnectableIcon(getIconBackground(), getIconBorders(), getIconCorners(), getIconInnerCorners(), getIconInventory());
+        
+        //TMP
+        RenderHelpers.EMPTYICON = iconRegister.registerIcon(Reference.MOD_ID+":empty");
     }
     
     @Override

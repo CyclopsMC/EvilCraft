@@ -88,6 +88,15 @@ public class EvilCraft {
         
         // Add death messages
         CustomDeathMessageRegistry.register();
+        
+        // Register events
+        MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());
+        MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
+        MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
+        MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
+        MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
+        MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
+        MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
     }
     
     /**
@@ -124,16 +133,7 @@ public class EvilCraft {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         LoggerHelper.log(Level.INFO, "postInit()");
-        
         Recipes.registerRecipes();
-        
-        MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());
-        MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
-        MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
-        MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
-        MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
-        MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
-        MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
     }
     
     /**

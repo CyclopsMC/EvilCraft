@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.RenderHelpers;
 
@@ -34,7 +36,7 @@ public class TextureStitchEventHook {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onTextureHookPre(TextureStitchEvent.Pre event) {
-        RenderHelpers.EMPTYICON = event.map.registerIcon(Reference.MOD_ID+":"+EMPTY_ICON_NAME);
+        RenderHelpers.EMPTYICON = Minecraft.getMinecraft().getTextureMapBlocks().registerIcon(Reference.MOD_ID+":"+EMPTY_ICON_NAME);
     }
     
     /**
