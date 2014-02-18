@@ -57,6 +57,7 @@ public class BloodContainerConfig extends ItemConfig {
     public void onRegistered() {
         for(int level = 0; level < getContainerLevels(); level ++) {
             ItemStack itemStack = new ItemStack(BloodContainer.getInstance(), 1, level);
+            System.out.println("Level:"+level+" - "+itemStack.hashCode());
             FluidContainerRegistry.registerFluidContainer(
                     FluidRegistry.getFluidStack(Blood.getInstance().getName(), BloodContainer.getInstance().getCapacity(itemStack)),
                     itemStack
