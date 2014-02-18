@@ -1,0 +1,58 @@
+# Blocks
+tile.blocks.blockBlood.name=Blood
+tile.blocks.blockPoison.name=Poison
+tile.blocks.bloodChest.name=Blood Chest
+tile.blocks.bloodInfuser.name=Blood Infuser
+tile.blocks.darkOre.name=Dark Ore
+tile.blocks.darkBlock.name=Dark Block
+tile.blocks.bloodStainedBlock.name=Blood Stained Block
+tile.blocks.lightningBomb.name=Lightning Bomb
+tile.blocks.bloodyCobblestone.name=Bloody Cobblestone
+tile.blocks.netherMonsterBlock.name=Nether Monster Egg
+tile.blocks.excrementPile.name=Excrement Pile
+tile.blocks.hardenedBlood.name=Hardened Blood
+tile.blocks.obscuredGlass.name=Obscured Glass
+tile.blocks.environmentalAccumulator.name=Environmental Accumulator
+tile.blocks.undeadLeaves.name=Undead Leaves
+tile.blocks.undeadLog.name=Undead Log
+tile.blocks.undeadSapling.name=Undead Sapling
+tile.blocks.undeadPlank.name=Undead Plank
+tile.blocks.invisibleRedstoneBlock.name=Invisible Redstone Block
+
+# Items
+item.items.werewolfBone.name=Werewolf Bone
+item.items.werewolfFlesh.name=Werewolf Flesh
+item.items.lightningGrenade.name=Lightning Grenade
+item.items.redstoneGrenade.name=Redstone Grenade
+item.items.bucketBlood.name=Blood Bucket
+item.items.bucketPoison.name=Poison Bucket
+item.items.bloodExtractor.name=Blood Extractor
+item.items.darkGem.name=Dark Gem
+item.items.darkStick.name=Dark Stick
+item.items.weatherContainer.name=Weather Container
+item.items.bloodPearlOfTeleportation.name=Blood Pearl of Teleportation
+item.items.broom.name=Broom
+item.items.hardenedBloodShard.name=Hardened Blood Shard
+item.items.bloodInfusionCore.name=Blood Infusion Core
+item.items.darkPowerGem.name=Dark Power Gem
+item.items.bloodContainer.bloodCell.name=Blood Cell
+item.items.bloodContainer.bloodCan.name=Blood Can
+item.items.bloodContainer.bloodBasin.name=Blood Basin
+item.items.poisonSac.name=Poison Sac
+item.items.werewolfFur.name=Werewolf Fur
+
+# Fluids
+fluid.fluids.blood=Blood
+fluid.fluids.poison=Poison
+
+# Weather container info
+weatherContainer.empty=Empty
+weatherContainer.clear=My only sunshine
+weatherContainer.rain=When the rain begins to fall
+weatherContainer.lightning=Thunderstruck
+
+# Controls
+key.fart=Toggle Farting
+
+# Block and Item info
+# TODO: make sure all IInformationProvidor's get their static text from here.

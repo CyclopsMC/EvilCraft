@@ -89,7 +89,7 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     //getItemDisplayName
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
-        return BloodContainerConfig.containerLevelNames[Math.min(itemStack.getItemDamage() & 7, icons.length - 1)];
+        return super.getUnlocalizedName() + "." + BloodContainerConfig.containerLevelNames[Math.min(itemStack.getItemDamage() & 7, icons.length - 1)];
     }
     
     @Override

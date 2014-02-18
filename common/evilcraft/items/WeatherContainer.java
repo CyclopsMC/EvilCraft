@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -212,19 +213,19 @@ public class WeatherContainer extends ConfigurableItem {
         /**
          * Empty weather container.
          */
-        EMPTY(null, "Empty", EnumChatFormatting.GRAY, Helpers.RGBToInt(125, 125, 125)),
+        EMPTY(null, "empty", EnumChatFormatting.GRAY, Helpers.RGBToInt(125, 125, 125)),
         /**
          * Clear weather container.
          */
-        CLEAR(WeatherType.CLEAR, "My only sunshine", EnumChatFormatting.AQUA, Helpers.RGBToInt(30, 150, 230)),  
+        CLEAR(WeatherType.CLEAR, "clear", EnumChatFormatting.AQUA, Helpers.RGBToInt(30, 150, 230)),  
         /**
          * Rain weather container.
          */
-        RAIN(WeatherType.RAIN, "When the rain begins to fall", EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(0, 0, 255)),
+        RAIN(WeatherType.RAIN, "rain", EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(0, 0, 255)),
         /**
          * Lightning weather container.
          */
-        LIGHTNING(WeatherType.LIGHTNING, "Thunderstruck", EnumChatFormatting.GOLD, Helpers.RGBToInt(255, 215, 0));
+        LIGHTNING(WeatherType.LIGHTNING, "lightning", EnumChatFormatting.GOLD, Helpers.RGBToInt(255, 215, 0));
         
         private final WeatherType type;
         
@@ -235,7 +236,7 @@ public class WeatherContainer extends ConfigurableItem {
         private WeatherContainerTypes(WeatherType type, String description, EnumChatFormatting damageColor, int damageRenderColor) {
             this.type = type;
             
-            this.description = description;
+            this.description = StatCollector.translateToLocal("weatherContainer." + description);
             this.damageColor = damageColor;
             this.damageRenderColor = damageRenderColor;
         }

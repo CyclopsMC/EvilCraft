@@ -30,7 +30,7 @@ public class BloodContainerConfig extends ItemConfig {
     /**
      * The different containers.
      */
-    public static String[] containerLevelNames = {"Blood Cell", "Blood Can", "Blood Basin"};
+    public static String[] containerLevelNames = {"bloodCell", "bloodCan", "bloodBasin"};
 
     /**
      * Make a new instance.

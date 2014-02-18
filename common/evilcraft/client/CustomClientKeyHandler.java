@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
 
@@ -24,6 +25,7 @@ public class CustomClientKeyHandler extends KeyHandler {
     /**
      * The key binding for toggling farts.
      */
+	// TODO: make !configurable! and use StatCollector.translateToLocal(KEY_ID) and put in en_US.lang
     public static KeyBinding KEY_FART = new KeyBinding(Reference.KEY_FART, Keyboard.KEY_P);
     
     private Map<String, Boolean> keyMap = new HashMap<String, Boolean>();
