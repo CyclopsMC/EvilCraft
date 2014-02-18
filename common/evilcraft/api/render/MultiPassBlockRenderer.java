@@ -43,17 +43,19 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
         if (block instanceof IMultiRenderPassBlock) {
             IMultiRenderPassBlock blockToRender = (IMultiRenderPassBlock)block;
             blockToRender.setInventoryBlock(false);
-            blockToRender.setRenderPass(-1);
+            blockToRender.setRenderPass(0);
             blockToRender.updateTileEntity(world, x, y, z);
             if (renderBlocks.renderStandardBlock(block, x, y, z)) {
                 visible = true;
-                for (int pass = 0; pass < blockToRender.getRenderPasses(); pass++) {
-                    renderBlocks.setOverrideBlockTexture(renderer.overrideBlockTexture);
-                    blockToRender.setRenderBlocks(renderBlocks);
-                    blockToRender.setRenderPass(pass);
-                    renderBlocks.renderStandardBlock(block, x, y, z);
-                    renderBlocks.clearOverrideBlockTexture();
-                    resetFacesOnRenderer(renderBlocks);
+                for (int pass = 1; pass < blockToRender.getRenderPasses(); pass++) {
+                	if(blockToRender.shouldRender(pass)){
+	                    renderBlocks.setOverrideBlockTexture(renderer.overrideBlockTexture);
+	                    blockToRender.setRenderBlocks(renderBlocks);
+	                    blockToRender.setRenderPass(pass);
+	                    renderBlocks.renderStandardBlock(block, x, y, z);
+	                    renderBlocks.clearOverrideBlockTexture();
+	                    resetFacesOnRenderer(renderBlocks);
+                	}
                 }
             }
         }

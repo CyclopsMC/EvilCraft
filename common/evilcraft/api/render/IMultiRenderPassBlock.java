@@ -30,6 +30,12 @@ public interface IMultiRenderPassBlock {
      */
     public void setRenderPass(int pass);
     /**
+     * If the block should be rendered in this pass.
+     * @param pass The pass to check.
+     * @return If it should be rendered.
+     */
+    public boolean shouldRender(int pass);
+    /**
      * Set the {@link CustomRenderBlocks} instance.
      * @param renderer The {@link CustomRenderBlocks} instance.
      */

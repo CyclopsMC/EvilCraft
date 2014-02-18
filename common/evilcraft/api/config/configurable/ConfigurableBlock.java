@@ -104,6 +104,11 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
     }
     
     @Override
+    public boolean shouldRender(int pass) {
+    	return true;
+    }
+    
+    @Override
     public void setRenderBlocks(CustomRenderBlocks renderer) {
         this.renderer = renderer;
     }

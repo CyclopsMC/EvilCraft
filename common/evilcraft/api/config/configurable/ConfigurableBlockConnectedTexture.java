@@ -149,6 +149,11 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     }
     
     @Override
+    public boolean shouldRender(int pass) {
+    	return pass==0 || pass>=4;
+    }
+    
+    @Override
     public void setRenderBlocks(CustomRenderBlocks renderer) {
         this.renderer = renderer;
     }
