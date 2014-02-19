@@ -4,6 +4,9 @@
 # Also ignore build folder
 /build
 
+# Ignore build number
+build_number.properties
+
 # Ignore eclipse specific files
 .classpath
 .project
