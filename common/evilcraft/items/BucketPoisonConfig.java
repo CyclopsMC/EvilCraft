@@ -24,8 +24,6 @@ public class BucketPoisonConfig extends ItemBucketConfig {
      */
     public BucketPoisonConfig() {
         super(
-            Reference.ITEM_BUCKETPOISON,
-            "Poison Bucket",
             "bucketPoison",
             null,
             BucketPoison.class

@@ -20,8 +20,6 @@ public class ObscuredGlassConfig extends BlockConfig {
      */
     public ObscuredGlassConfig() {
         super(
-            Reference.BLOCK_OBSCUREDGLASS,
-            "Obscured Glass",
             "obscuredGlass",
             null,
             ObscuredGlass.class

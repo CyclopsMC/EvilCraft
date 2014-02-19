@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import evilcraft.Recipes;
 import evilcraft.api.Helpers;
 import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
@@ -38,7 +39,7 @@ public class LivingAttackEventHook {
     }
     
     private void stealLife(LivingAttackEvent event) {
-        if(event.source.getEntity() instanceof EntityPlayer) {
+        if(Recipes.isItemEnabled(EnchantmentLifeStealingConfig.class) && event.source.getEntity() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.source.getEntity();
             ItemStack itemStack = player.getCurrentEquippedItem();
             int enchantmentListID = Helpers.doesEnchantApply(itemStack, EnchantmentLifeStealingConfig._instance.ID);
@@ -51,7 +52,7 @@ public class LivingAttackEventHook {
     }
     
     private void unusingEvent(LivingAttackEvent event) {
-        if(event.source.getEntity() instanceof EntityLivingBase) {
+        if(Recipes.isItemEnabled(EnchantmentUnusingConfig.class) && event.source.getEntity() instanceof EntityLivingBase) {
             EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
             ItemStack itemStack = entity.getEquipmentInSlot(0);
             if(Helpers.doesEnchantApply(itemStack, EnchantmentUnusingConfig._instance.ID) > -1) {
@@ -65,7 +66,7 @@ public class LivingAttackEventHook {
     }
     
     private void breakingEvent(LivingAttackEvent event) {
-        if(event.source.getEntity() instanceof EntityLivingBase) {
+        if(Recipes.isItemEnabled(EnchantmentBreakingConfig.class) && event.source.getEntity() instanceof EntityLivingBase) {
             EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
             ItemStack itemStack = entity.getEquipmentInSlot(0);
             int enchantmentListID = Helpers.doesEnchantApply(itemStack, EnchantmentBreakingConfig._instance.ID);
@@ -76,7 +77,7 @@ public class LivingAttackEventHook {
     }
     
     private void poisonTipEvent(LivingAttackEvent event) {
-        if(event.source.getEntity() instanceof EntityLivingBase) {
+        if(Recipes.isItemEnabled(EnchantmentPoisonTipConfig.class) && event.source.getEntity() instanceof EntityLivingBase) {
             EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
             ItemStack itemStack = entity.getEquipmentInSlot(0);
             int enchantmentListID = Helpers.doesEnchantApply(itemStack, EnchantmentPoisonTipConfig._instance.ID);

@@ -22,8 +22,6 @@ public class UndeadSaplingConfig extends BlockConfig {
      */
     public UndeadSaplingConfig() {
         super(
-            Reference.BLOCK_UNDEADSAPLING,
-            "Undead Sapling",
             "undeadSapling",
             null,
             UndeadSapling.class

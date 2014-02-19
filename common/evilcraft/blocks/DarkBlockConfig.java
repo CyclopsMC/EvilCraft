@@ -20,8 +20,6 @@ public class DarkBlockConfig extends BlockConfig {
      */
     public DarkBlockConfig() {
         super(
-            Reference.BLOCK_DARKBLOCK,
-            "Dark Block",
             "darkBlock",
             null,
             DarkBlock.class

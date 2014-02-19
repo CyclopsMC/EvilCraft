@@ -43,8 +43,6 @@ public class DarkOreConfig extends BlockConfig {
      */
     public DarkOreConfig() {
         super(
-            Reference.BLOCK_DARKORE,
-            "Dark Ore",
             "darkOre",
             null,
             DarkOre.class

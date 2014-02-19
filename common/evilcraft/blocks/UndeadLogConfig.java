@@ -20,8 +20,6 @@ public class UndeadLogConfig extends BlockConfig {
      */
     public UndeadLogConfig() {
         super(
-            Reference.BLOCK_UNDEADWOOD,
-            "Undead Log",
             "undeadLog",
             null,
             UndeadLog.class

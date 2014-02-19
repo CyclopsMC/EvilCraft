@@ -2,6 +2,7 @@ package evilcraft.api.config;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
+import evilcraft.api.config.ExtendedConfig.ConfigStatus;
 import evilcraft.api.item.ItemBlockExtended;
 
 /**
@@ -13,15 +14,12 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
 
     /**
      * Make a new instance.
-     * @param defaultId The default ID for the configurable.
-     * @param name The name for the configurable.
      * @param namedId The unique name ID for the configurable.
      * @param comment The comment to add in the config file for this configurable.
      * @param element The class of this configurable.
      */
-    public BlockConfig(int defaultId, String name, String namedId,
-            String comment, Class<? extends Block> element) {
-        super(defaultId, name, namedId, comment, element);
+    public BlockConfig(String namedId, String comment, Class<? extends Block> element) {
+        super(ConfigStatus.ENABLED.ordinal(), null, namedId, comment, element);
     }
     
     /**

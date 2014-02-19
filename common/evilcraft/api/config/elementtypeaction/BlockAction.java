@@ -14,6 +14,7 @@ import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementType;
+import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.api.config.configurable.ConfigurableBlockContainerGui;
 import evilcraft.gui.GuiHandler;
@@ -28,8 +29,14 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
     @Override
     public void preRun(BlockConfig eConfig, Configuration config) {
         // Get property in config file and set comment
-        Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID, eConfig.ID);
+        Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID,
+        		eConfig.ID == ExtendedConfig.ConfigStatus.ENABLED.ordinal());
         property.comment = eConfig.COMMENT;
+        
+        // Update the ID, it could've changed
+        eConfig.ID = property.getBoolean(true) ?
+        		ExtendedConfig.ConfigStatus.ENABLED.ordinal()
+        		: ExtendedConfig.ConfigStatus.DISABLED.ordinal();
     }
 
     @Override
@@ -48,9 +55,6 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
 
         // Set creative tab
         block.setCreativeTab(EvilCraftTab.getInstance());
-
-        // Add I18N
-        LanguageRegistry.addName(eConfig.getSubInstance(), eConfig.NAME);
 
         // Also register tile entity
         if(eConfig.getHolderType().equals(ElementType.BLOCKCONTAINER)) {

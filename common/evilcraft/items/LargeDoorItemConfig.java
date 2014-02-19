@@ -20,8 +20,6 @@ public class LargeDoorItemConfig extends ItemConfig {
      */
     public LargeDoorItemConfig() {
         super(
-            Reference.ITEM_LARGEDOOR,
-            "Large Door",
             "largeDoorItem",
             null,
             LargeDoorItem.class

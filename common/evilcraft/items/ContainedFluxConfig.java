@@ -20,8 +20,6 @@ public class ContainedFluxConfig extends ItemConfig {
      */
     public ContainedFluxConfig() {
         super(
-            Reference.ITEM_CONTAINEDFLUX,
-            "Contained Flux",
             "containedFlux",
             null,
             ContainedFlux.class

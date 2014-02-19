@@ -20,8 +20,6 @@ public class BloodInfusionCoreConfig extends ItemConfig {
      */
     public BloodInfusionCoreConfig() {
         super(
-            Reference.ITEM_BLOODINFUSIONCORE,
-            "Blood Infusion Core",
             "bloodInfusionCore",
             null,
             BloodInfusionCore.class

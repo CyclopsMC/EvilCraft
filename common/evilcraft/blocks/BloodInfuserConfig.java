@@ -22,8 +22,6 @@ public class BloodInfuserConfig extends BlockConfig {
      */
     public BloodInfuserConfig() {
         super(
-            Reference.BLOCK_BLOODINFUSER,
-            "Blood Infuser",
             "bloodInfuser",
             null,
             BloodInfuser.class

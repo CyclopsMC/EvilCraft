@@ -31,7 +31,7 @@ public abstract class IElementTypeAction<C extends ExtendedConfig<C>> {
     }
     
     protected void onSkipRegistration(ExtendedConfig<C> eConfig) {
-        EvilCraft.log("Skipped registering "+eConfig.NAME);
+        EvilCraft.log("Skipped registering "+eConfig.NAMEDID);
     }
     
     /**

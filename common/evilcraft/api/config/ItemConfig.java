@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.api.Helpers;
+import evilcraft.api.config.ExtendedConfig.ConfigStatus;
 import evilcraft.api.render.AlphaItemRenderer;
 
 /**
@@ -16,15 +17,12 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
 
     /**
      * Make a new instance.
-     * @param defaultId The default ID for the configurable.
-     * @param name The name for the configurable.
      * @param namedId The unique name ID for the configurable.
      * @param comment The comment to add in the config file for this configurable.
      * @param element The class of this configurable.
      */
-    public ItemConfig(int defaultId, String name, String namedId,
-            String comment, Class<? extends Item> element) {
-        super(defaultId, name, namedId, comment, element);
+    public ItemConfig(String namedId, String comment, Class<? extends Item> element) {
+        super(ConfigStatus.ENABLED.ordinal(), null, namedId, comment, element);
     }
     
     /**

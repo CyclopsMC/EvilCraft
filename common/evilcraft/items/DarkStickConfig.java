@@ -20,8 +20,6 @@ public class DarkStickConfig extends ItemConfig {
      */
     public DarkStickConfig() {
         super(
-            Reference.ITEM_DARKSTICK,
-            "Dark Stick",
             "darkStick",
             null,
             DarkStick.class

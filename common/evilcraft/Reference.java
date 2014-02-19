@@ -23,50 +23,6 @@ public class Reference {
     public static final String TEXTURE_PATH_GUIBACKGROUNDS = "textures/gui/title/background/";
     public static final String TEXTURE_PATH_ITEMS = "textures/items/";
     
-    // Block ID's
-    public static final int BLOCK_BLOODSTAINEDDIRT = 3846;
-    public static final int BLOCK_DARKBLOCK = 3847;
-    public static final int BLOCK_DARKORE = 3848;
-    public static final int BLOCK_DARKOREGLOWING = 3849;
-    public static final int BLOCK_EVILBLOCK = 3850;
-    public static final int BLOCK_LARGEDOOR = 3851;
-    public static final int BLOCK_LIGHTNINGBOMB = 3852;
-    public static final int BLOCK_FLUIDBLOCKBLOOD = 3853;
-    public static final int BLOCK_BLOODINFUSER = 3854;
-    public static final int BLOCK_BLOODYCOBBLESTONE = 3855;
-    public static final int BLOCK_HARDENEDBLOOD = 3856;
-    public static final int BLOCK_OBSCUREDGLASS = 3857;
-    public static final int BLOCK_BLOODCHEST = 3858;
-    public static final int BLOCK_ENVIRONMENTAL_ACCUMULATOR = 3859;
-    public static final int BLOCK_UNDEADSAPLING = 3860;
-    public static final int BLOCK_UNDEADLEAVES = 3861;
-    public static final int BLOCK_UNDEADWOOD = 3862;
-    public static final int BLOCK_UNDEADPLANK = 3863;
-    public static final int BLOCK_FLUIDBLOCKPOISON = 3864;
-    public static final int BLOCK_INVISIBLEREDSTONE = 3865;
-    
-    // Item ID's
-    public static final int ITEM_BLOODEXTRACTOR = 4000;
-    public static final int ITEM_BUCKETBLOOD = 4001;
-    public static final int ITEM_CONTAINEDFLUX = 4002;
-    public static final int ITEM_DARKGEM = 4003;
-    public static final int ITEM_DARKSTICK = 4004;
-    public static final int ITEM_LARGEDOOR = 4005;
-    public static final int ITEM_LIGHTNINGGRENADE = 4006;
-    public static final int ITEM_REDSTONEGRENADE = 4018;
-    public static final int ITEM_WEREWOLFBONE = 4007;
-    public static final int ITEM_WEREWOLFFLESH = 4008;
-    public static final int ITEM_WEATHERCONTAINER = 4008;
-    public static final int ITEM_BLOODPEARLOFTELEPORTATION = 4009;
-    public static final int ITEM_BROOM = 4010;
-    public static final int ITEM_HARDENEDBLOODSHARD = 4011;
-    public static final int ITEM_DARKPOWERGEM = 4012;
-    public static final int ITEM_BLOODINFUSIONCORE = 4013;
-    public static final int ITEM_BLOODCONTAINER = 4014;
-    public static final int ITEM_WEREWOLFFUR = 4015;
-    public static final int ITEM_POISONSAC = 4016;
-    public static final int ITEM_BUCKETPOISON = 4017;
-    
     // Enchantment ID's
     public static final int ENCHANTMENT_BREAKING = 101;
     public static final int ENCHANTMENT_LIFESTEALING = 102;
@@ -116,5 +72,6 @@ public class Reference {
             + ";after:"+Reference.MOD_THERMALEXPANSION;
     
     // Keybinding ID's
+    // TODO: move this shit
     public static final String KEY_FART = "key.evilcraft.fart";
 }

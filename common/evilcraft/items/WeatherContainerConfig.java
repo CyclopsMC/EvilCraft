@@ -20,8 +20,6 @@ public class WeatherContainerConfig extends ItemConfig {
      */
     public WeatherContainerConfig() {
         super(
-            Reference.ITEM_WEATHERCONTAINER,
-            "Weather Container",
             "weatherContainer",
             null,
             WeatherContainer.class

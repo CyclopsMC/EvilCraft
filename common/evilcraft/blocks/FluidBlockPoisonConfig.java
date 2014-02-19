@@ -20,8 +20,6 @@ public class FluidBlockPoisonConfig extends BlockConfig {
      */
     public FluidBlockPoisonConfig() {
         super(
-            Reference.BLOCK_FLUIDBLOCKPOISON,
-            "Poison",
             "blockPoison",
             null,
             FluidBlockPoison.class

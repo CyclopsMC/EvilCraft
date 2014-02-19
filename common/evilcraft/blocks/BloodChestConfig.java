@@ -34,8 +34,6 @@ public class BloodChestConfig extends BlockConfig {
      */
     public BloodChestConfig() {
         super(
-            Reference.BLOCK_BLOODCHEST,
-            "Blood Chest",
             "bloodChest",
             null,
             BloodChest.class

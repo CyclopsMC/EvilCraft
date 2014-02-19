@@ -20,8 +20,6 @@ public class RedstoneGrenadeConfig extends ItemConfig {
      */
     public RedstoneGrenadeConfig() {
         super(
-                Reference.ITEM_REDSTONEGRENADE,
-                "Redstone Pearl",
                 "redstoneGrenade",
                 null,
                 RedstoneGrenade.class

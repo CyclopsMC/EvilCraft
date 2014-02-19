@@ -20,8 +20,6 @@ public class BloodyCobblestoneConfig extends BlockConfig {
      */
     public BloodyCobblestoneConfig() {
         super(
-            Reference.BLOCK_DARKBLOCK,
-            "Bloody Cobblestone",
             "bloodyCobblestone",
             null,
             BloodyCobblestone.class

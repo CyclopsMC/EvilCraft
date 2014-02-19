@@ -20,8 +20,6 @@ public class HardenedBloodConfig extends BlockConfig {
      */
     public HardenedBloodConfig() {
         super(
-            Reference.BLOCK_HARDENEDBLOOD,
-            "Hardened Blood",
             "hardenedBlood",
             null,
             HardenedBlood.class

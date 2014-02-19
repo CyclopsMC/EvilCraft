@@ -6,6 +6,7 @@ import net.minecraftforge.common.config.Property;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraftTab;
+import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 
 /**
@@ -18,11 +19,14 @@ public class ItemAction extends IElementTypeAction<ItemConfig>{
     @Override
     public void preRun(ItemConfig eConfig, Configuration config) {
         // Get property in config file and set comment
-        Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID, eConfig.ID);
+        Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID,
+        		eConfig.ID == ExtendedConfig.ConfigStatus.ENABLED.ordinal());
         property.comment = eConfig.COMMENT;
         
         // Update the ID, it could've changed
-        eConfig.ID = property.getInt();
+        eConfig.ID = property.getBoolean(true) ?
+        		ExtendedConfig.ConfigStatus.ENABLED.ordinal()
+        		: ExtendedConfig.ConfigStatus.DISABLED.ordinal();
     }
 
     @Override
@@ -40,9 +44,6 @@ public class ItemAction extends IElementTypeAction<ItemConfig>{
         
         // Set creative tab
         item.setCreativeTab(EvilCraftTab.getInstance());
-        
-        // Add I18N
-        LanguageRegistry.addName(eConfig.getSubInstance(), eConfig.NAME);
     }
 
 }

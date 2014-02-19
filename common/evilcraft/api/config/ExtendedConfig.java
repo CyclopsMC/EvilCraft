@@ -204,7 +204,7 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
      * @return if the target should be enabled.
      */
     public boolean isEnabled() {
-        return !isForceDisabled() && this.ID > 0;
+        return !isForceDisabled() && this.ID != ExtendedConfig.ConfigStatus.DISABLED.ordinal();
     }
     
     /**
@@ -238,5 +238,15 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
     public C downCast() {
         C c = (C) this;
         return c;
+    }
+    
+    /**
+     * For defining the status of availability in the config constructor.
+     * @author rubensworks
+     *
+     */
+    public enum ConfigStatus {
+    	DISABLED,
+    	ENABLED;
     }
 }

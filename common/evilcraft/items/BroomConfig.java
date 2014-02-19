@@ -24,8 +24,6 @@ public class BroomConfig extends ItemConfig {
      */
     public BroomConfig() {
         super(
-            Reference.ITEM_BROOM,
-            "Broom",
             "broom",
             null,
             Broom.class

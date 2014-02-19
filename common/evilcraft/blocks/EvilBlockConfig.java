@@ -20,8 +20,6 @@ public class EvilBlockConfig extends BlockConfig {
      */
     public EvilBlockConfig() {
         super(
-            Reference.BLOCK_EVILBLOCK,
-            "EvilBlock",
             "evilBlock",
             null,
             EvilBlock.class

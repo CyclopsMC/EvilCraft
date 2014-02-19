@@ -20,8 +20,6 @@ public class LargeDoorConfig extends BlockConfig {
      */
     public LargeDoorConfig() {
         super(
-            Reference.BLOCK_LARGEDOOR,
-            "Large Door",
             "largeDoor",
             null,
             LargeDoor.class

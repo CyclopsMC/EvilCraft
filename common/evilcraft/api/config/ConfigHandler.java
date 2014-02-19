@@ -69,16 +69,13 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                     // Call the listener
                     eConfig.onRegistered();
     
-                    EvilCraft.log("Registered "+eConfig.NAME);
+                    EvilCraft.log("Registered "+eConfig.NAMEDID);
                 }
             }
         }
         
         // Empty the configs so they won't be loaded again later
         this.removeAll(this);
-        
-        // Add I18N for the creative tab
-        LanguageRegistry.instance().addStringLocalization("itemGroup."+Reference.MOD_NAME, "en_US", Reference.MOD_NAME);
         
         // Saving the configuration to its file
         config.save();

@@ -20,8 +20,6 @@ public class WerewolfFurConfig extends ItemConfig {
      */
     public WerewolfFurConfig() {
         super(
-            Reference.ITEM_WEREWOLFFUR,
-            "Werewolf Fur",
             "werewolfFur",
             null,
             WerewolfFur.class

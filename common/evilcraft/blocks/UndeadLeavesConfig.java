@@ -20,8 +20,6 @@ public class UndeadLeavesConfig extends BlockConfig {
      */
     public UndeadLeavesConfig() {
         super(
-            Reference.BLOCK_UNDEADLEAVES,
-            "Undead Leaves",
             "undeadLeaves",
             null,
             UndeadLeaves.class

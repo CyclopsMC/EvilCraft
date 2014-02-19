@@ -20,8 +20,6 @@ public class LightningGrenadeConfig extends ItemConfig {
      */
     public LightningGrenadeConfig() {
         super(
-            Reference.ITEM_LIGHTNINGGRENADE,
-            "Lightning Pearl",
             "lightningGrenade",
             null,
             LightningGrenade.class

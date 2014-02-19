@@ -20,8 +20,6 @@ public class BloodPearlOfTeleportationConfig extends ItemConfig {
      */
     public BloodPearlOfTeleportationConfig() {
         super(
-            Reference.ITEM_WEATHERCONTAINER,
-            "Blood Pearl of Teleportation",
             "bloodPearlOfTeleportation",
             null,
             BloodPearlOfTeleportation.class

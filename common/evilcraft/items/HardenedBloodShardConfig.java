@@ -20,8 +20,6 @@ public class HardenedBloodShardConfig extends ItemConfig {
      */
     public HardenedBloodShardConfig() {
         super(
-            Reference.ITEM_DARKSTICK,
-            "Hardened Blood Shard",
             "hardenedBloodShard",
             null,
             HardenedBloodShard.class

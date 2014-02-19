@@ -19,8 +19,11 @@ public class InvisibleRedstoneBlockConfig extends BlockConfig {
      * Make a new instance.
      */
     public InvisibleRedstoneBlockConfig() {
-        super(Reference.BLOCK_INVISIBLEREDSTONE, "Invisible Redstone Block",
-                "invisibleRedstoneBlock", null, InvisibleRedstoneBlock.class);
+        super(
+        		"invisibleRedstoneBlock",
+        		null,
+        		InvisibleRedstoneBlock.class
+        );
     }
     
 }

@@ -17,26 +17,35 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0"
-group= "evilcraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "evilcraft"
+ext.configFile = file "build.properties"
+configFile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    ext.config = new ConfigSlurper().parse prop
+}
+
+version = config.mod_version
+build_number = config.build_number
+group = "evilcraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "EvilCraft"
 
 minecraft {
-    version = "1.7.2-10.12.0.1024"
+    version = config.minecraft_version + "-" + config.forge_version
     assetDir = "eclipse/assets"
 }
 processResources
 {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
+        include 'common/mcmod.info'
+        //include 'common/evilcraft/Reference.java'
                 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.version, 'mcversion':project.minecraft.version, '@VERSION@':project.version, '@MC_VERSION@':project.config.minecraft_version, '@FORGE_VERSION@':project.config.forge_version, '@BUILD_NUMBER@':project.build_number
     }
         
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+        exclude 'common/mcmod.info'
     }
 }

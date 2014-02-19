@@ -20,8 +20,6 @@ public class LightningBombConfig extends BlockConfig {
      */
     public LightningBombConfig() {
         super(
-            Reference.BLOCK_LIGHTNINGBOMB,
-            "Lightning Bomb",
             "lightningBomb",
             null,
             LightningBomb.class

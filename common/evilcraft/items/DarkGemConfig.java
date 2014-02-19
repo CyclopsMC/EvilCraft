@@ -20,8 +20,6 @@ public class DarkGemConfig extends ItemConfig {
      */
     public DarkGemConfig() {
         super(
-            Reference.ITEM_DARKGEM,
-            "Dark Gem",
             "darkGem",
             null,
             DarkGem.class

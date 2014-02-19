@@ -20,8 +20,6 @@ public class DarkPowerGemConfig extends ItemConfig {
      */
     public DarkPowerGemConfig() {
         super(
-            Reference.ITEM_DARKPOWERGEM,
-            "Dark Power Gem",
             "darkPowerGem",
             null,
             DarkPowerGem.class
