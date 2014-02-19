@@ -15,6 +15,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import evilcraft.api.Helpers;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
@@ -118,7 +119,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
     
     @Override
     public String getInfo(ItemStack itemStack) {
-        return IInformationProvider.INFO_PREFIX + "Created when Blood dries out. Will liquidify when raining.";
+    	return Helpers.getLocalizedInfo(this);
     }
 
     @SuppressWarnings("rawtypes")

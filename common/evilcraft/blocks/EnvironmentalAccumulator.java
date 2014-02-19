@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.Helpers;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
@@ -112,7 +113,7 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer impleme
 	
 	@Override
     public String getInfo(ItemStack itemStack) {
-        return IInformationProvider.INFO_PREFIX + "Found at Dark Temples, high in the mountains.";
+		return Helpers.getLocalizedInfo(this);
     }
 
     @SuppressWarnings("rawtypes")

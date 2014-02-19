@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.Helpers;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
@@ -48,8 +49,9 @@ public class DarkPowerGem extends ConfigurableItem {
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(IInformationProvider.INFO_PREFIX + "Throw a Dark Gem in a pool of at least five non-hardened Blood blocks.");
-        list.add(IInformationProvider.INFO_PREFIX + "Or infuse Dark Gem with blood.");
+        list.add(Helpers.getLocalizedInfo(this, ".0"));
+        list.add(Helpers.getLocalizedInfo(this, ".1"));
+        list.add(Helpers.getLocalizedInfo(this, ".2"));
     }
 
 }

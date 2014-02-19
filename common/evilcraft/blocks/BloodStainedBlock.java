@@ -10,11 +10,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.Helpers;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.BlockConfig;
@@ -163,7 +165,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        list.add(IInformationProvider.INFO_PREFIX+"Created when entity falls to death.");
+        list.add(Helpers.getLocalizedInfo(this));
     }
 
 }

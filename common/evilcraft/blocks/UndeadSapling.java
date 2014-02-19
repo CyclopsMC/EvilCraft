@@ -4,6 +4,7 @@ import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import evilcraft.api.Helpers;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
@@ -43,7 +44,7 @@ public class UndeadSapling extends ConfigurableBlockSapling implements IInformat
     
     @Override
     public String getInfo(ItemStack itemStack) {
-        return IInformationProvider.INFO_PREFIX + "Infuse dead bush with blood.";
+    	return Helpers.getLocalizedInfo(this);
     }
 
     @SuppressWarnings("rawtypes")

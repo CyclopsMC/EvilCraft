@@ -9,16 +9,20 @@ tile.blocks.bloodInfuser.name=Blood Infuser
 tile.blocks.darkOre.name=Dark Ore
 tile.blocks.darkBlock.name=Dark Block
 tile.blocks.bloodStainedBlock.name=Blood Stained Block
+tile.blocks.bloodStainedBlock.info=Created when entity falls to death.
 tile.blocks.lightningBomb.name=Lightning Bomb
 tile.blocks.bloodyCobblestone.name=Bloody Cobblestone
 tile.blocks.netherMonsterBlock.name=Nether Monster Egg
 tile.blocks.excrementPile.name=Excrement Pile
 tile.blocks.hardenedBlood.name=Hardened Blood
+tile.blocks.hardenedBlood.info=Created when Blood dries out. Will liquidify when raining.
 tile.blocks.obscuredGlass.name=Obscured Glass
 tile.blocks.environmentalAccumulator.name=Environmental Accumulator
+tile.blocks.environmentalAccumulator.info=Found at Dark Temples, high in the mountains.
 tile.blocks.undeadLeaves.name=Undead Leaves
 tile.blocks.undeadLog.name=Undead Log
 tile.blocks.undeadSapling.name=Undead Sapling
+tile.blocks.undeadSapling.info=Infuse dead bush with blood.
 tile.blocks.undeadPlank.name=Undead Plank
 tile.blocks.invisibleRedstoneBlock.name=Invisible Redstone Block
 
@@ -36,11 +40,19 @@ item.items.weatherContainer.name=Weather Container
 item.items.bloodPearlOfTeleportation.name=Blood Pearl of Teleportation
 item.items.broom.name=Broom
 item.items.hardenedBloodShard.name=Hardened Blood Shard
+item.items.hardenedBloodShard.info=Use Flint and Steel on Hardened Blood.
 item.items.bloodInfusionCore.name=Blood Infusion Core
 item.items.darkPowerGem.name=Dark Power Gem
+item.items.darkPowerGem.info.0=Throw a Dark Gem in a pool of at
+item.items.darkPowerGem.info.1=least five non-hardened Blood blocks.
+item.items.darkPowerGem.info.2=Or infuse Dark Gem with blood.
 item.items.bloodContainer.bloodCell.name=Blood Cell
 item.items.bloodContainer.bloodCan.name=Blood Can
 item.items.bloodContainer.bloodBasin.name=Blood Basin
+item.items.bloodContainer.info.main=Shift + Right click to toggle auto-supply.
+item.items.bloodContainer.info.enabled=Enabled
+item.items.bloodContainer.info.disabled=Disabled
+item.items.bloodContainer.info.autoSupply=Auto-supply:
 item.items.poisonSac.name=Poison Sac
 item.items.werewolfFur.name=Werewolf Fur
 
@@ -61,6 +73,3 @@ key.fart=Toggle Farting
 entity.evilcraft.werewolf.name=Werewolf
 entity.evilcraft.poisonousLibelle.name=Poisonous Libelle
 entity.evilcraft.netherfish.name=Nether Fish
-
-# Block and Item info
-# TODO: make sure all IInformationProvidor's get their static text from here.
