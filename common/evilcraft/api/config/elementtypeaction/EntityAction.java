@@ -34,10 +34,7 @@ public class EntityAction extends IElementTypeAction<EntityConfig>{
                 eConfig.getTrackingRange(),
                 eConfig.getUpdateFrequency(),
                 eConfig.sendVelocityUpdates()
-        );
-        
-        // Add I18N
-        LanguageRegistry.instance().addStringLocalization("entity." + Reference.MOD_ID + "."+eConfig.NAMEDID+".name", eConfig.NAME);
+        );;
     }
 
 }

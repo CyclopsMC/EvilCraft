@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
+import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
@@ -48,12 +49,12 @@ public class WerewolfConfig extends MobConfig {
     
     @Override
     public int getBackgroundEggColor() {
-        return 123456;
+        return Helpers.RGBToInt(105, 67, 18);
     }
 
     @Override
     public int getForegroundEggColor() {
-        return 654321;
+        return Helpers.RGBToInt(57, 25, 10);
     }
 
     @SideOnly(Side.CLIENT)

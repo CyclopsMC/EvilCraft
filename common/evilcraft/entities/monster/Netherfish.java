@@ -107,24 +107,20 @@ public class Netherfish extends EntitySilverfish implements Configurable{
     protected void updateEntityActionState() {
         // This fish does NOT grief, maybe this could be implemented, maybe not, nobody likes griefing mobs, but it is quite evil though...
         if (!this.worldObj.isRemote) {
-            if (this.entityToAttack == null && !this.hasPath())
-            {
-                int i, j, k, l;
+            if (this.entityToAttack == null && !this.hasPath()) {
+                int i, j, k;
                 i = MathHelper.floor_double(this.posX);
                 j = MathHelper.floor_double(this.posY + 0.5D);
                 k = MathHelper.floor_double(this.posZ);
                 int i2 = this.rand.nextInt(6);
                 Block block = this.worldObj.getBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2]);
-                l = this.worldObj.getBlockMetadata(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2]);
+                int metaData = NetherfishSpawn.getInstance().getMetadataFromBlock(block);
                 
-                if (NetherfishSpawn.getInstance().getPosingIdByMetadata(l))
-                {
+                if (metaData >= 0) {
                     this.worldObj.setBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2], NetherfishSpawn.getInstance(), NetherfishSpawn.getInstance().getMetadataFromBlock(block), 3);
                     this.spawnExplosionParticle();
                     this.setDead();
-                }
-                else
-                {
+                } else {
                     this.updateWanderPath();
                 }
             }

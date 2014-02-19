@@ -1,3 +1,6 @@
+# General
+itemGroup.EvilCraft=EvilCraft
+
 # Blocks
 tile.blocks.blockBlood.name=Blood
 tile.blocks.blockPoison.name=Poison
@@ -53,6 +56,11 @@ weatherContainer.lightning=Thunderstruck
 
 # Controls
 key.fart=Toggle Farting
+
+# Entities
+entity.evilcraft.werewolf.name=Werewolf
+entity.evilcraft.poisonousLibelle.name=Poisonous Libelle
+entity.evilcraft.netherfish.name=Nether Fish
 
 # Block and Item info
 # TODO: make sure all IInformationProvidor's get their static text from here.
