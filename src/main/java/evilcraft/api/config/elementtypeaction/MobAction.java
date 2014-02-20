@@ -6,7 +6,10 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import evilcraft.EvilCraft;
+import evilcraft.Reference;
 import evilcraft.api.Helpers;
+import evilcraft.api.Helpers.IDType;
+import evilcraft.api.config.ElementType;
 import evilcraft.api.config.MobConfig;
 import evilcraft.proxies.ClientProxy;
 
@@ -19,7 +22,7 @@ public class MobAction extends IElementTypeAction<MobConfig>{
 
     @Override
     public void preRun(MobConfig eConfig, Configuration config) {
-        if(!eConfig.isEnabled()) eConfig.ID = 0;
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -32,7 +35,7 @@ public class MobAction extends IElementTypeAction<MobConfig>{
         Class<? extends EntityLiving> clazz = (Class<? extends EntityLiving>) eConfig.ELEMENT;
         if (Helpers.isClientSide())
             ClientProxy.ENTITY_RENDERERS.put(clazz, eConfig.getRender());
-        EntityRegistry.registerModEntity(clazz, eConfig.NAMEDID, eConfig.ID, EvilCraft._instance, 80, 3, true);
+        EntityRegistry.registerModEntity(clazz, eConfig.NAMEDID, Helpers.getNewId(IDType.ENTITY), EvilCraft._instance, 80, 3, true);
         registerSpawnEgg(clazz, eConfig.getBackgroundEggColor(), eConfig.getForegroundEggColor());
     }
     

@@ -8,6 +8,7 @@ package evilcraft;
  */
 @SuppressWarnings("javadoc")
 public class Reference {
+	
     // Mod info
     public static final String MOD_ID = "evilcraft";
     public static final String MOD_NAME = "EvilCraft";
@@ -29,23 +30,6 @@ public class Reference {
     public static final int ENCHANTMENT_UNUSING = 103;
     public static final int ENCHANTMENT_POISON_TIP = 104;
     public static final int ENCHANTMENT_KNOCKSPEED = 105;
-    
-    // Entity ID's
-    public static final int ENTITY_LIGHTNINGBOMB = 3;
-    public static final int ENTITY_LIGHTNINGGRENADE = 4;
-    public static final int ENTITY_REDSTONEGRENADE = 9;
-    public static final int ENTITY_BROOM = 5;
-    public static final int ENTITY_BLOODPEARL = 6;
-    public static final int ENTITY_WEATHERCONTAINER = 7;
-    
-    // MOB ID's
-    public static final int MOB_WEREWOLF = 1;
-    public static final int MOB_NETHERFISH = 2;
-    public static final int MOB_POISONOUSLIBELLE =32;
-    
-    // GUI ID's
-    public static final int GUI_BLOOD_INFUSER = 10;
-    public static final int GUI_BLOOD_CHEST = 11;
     
     // OREDICT NAMES
     public static final String DICT_MATERIALPOISONOUS = "materialPoisonous";

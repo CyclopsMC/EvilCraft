@@ -83,7 +83,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     
     /**
      * Get the metadata for the given (inner) block id
-     * @param blockID The id to search a stained version for
+     * @param block The block to search a stained version for
      * @return metadata for this block or -1 if none can be found.
      */
     public int getMetadataFromBlock(Block block) {

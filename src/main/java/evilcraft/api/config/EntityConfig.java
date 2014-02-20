@@ -17,15 +17,13 @@ public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
 
     /**
      * Make a new instance.
-     * @param defaultId The default ID for the configurable.
-     * @param name The name for the configurable.
+     * @param enabled If this should is enabled.
      * @param namedId The unique name ID for the configurable.
      * @param comment The comment to add in the config file for this configurable.
      * @param element The class of this configurable.
      */
-    public EntityConfig(int defaultId, String name, String namedId,
-            String comment, Class<? extends Entity> element) {
-        super(defaultId, name, namedId, comment, element);
+    public EntityConfig(boolean enabled, String namedId, String comment, Class<? extends Entity> element) {
+        super(enabled, namedId, comment, element);
     }
     
     @Override

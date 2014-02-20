@@ -11,6 +11,7 @@ import net.minecraft.village.MerchantRecipeList;
 import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.VillagerConfig;
 
 /**
  * Villager that can hold ExtendedConfigs
@@ -19,8 +20,7 @@ import evilcraft.api.config.ExtendedConfig;
  */
 public class ConfigurableVillager implements Configurable, IVillageTradeHandler {
 
-    @SuppressWarnings("rawtypes")
-    protected ExtendedConfig eConfig = null;
+    protected ExtendedConfig<VillagerConfig> eConfig = null;
     
     /**
      * The type of this {@link Configurable}.
@@ -66,7 +66,7 @@ public class ConfigurableVillager implements Configurable, IVillageTradeHandler 
     @Override
     public void manipulateTradesForVillager(EntityVillager villager,
             MerchantRecipeList recipeList, Random random) {
-        if (villager.getProfession() == eConfig.ID) {
+        if (villager.getProfession() == eConfig.downCast().ID) {
             while(addedRecipes < requiredAddedRecipes && attemptAddRecipe < attemptAddRecipeUpperbound) {                
                 WeightedItemStack outputWeighted = getRandomOutput(random);
                 WeightedItemStack inputAWeighted = getRandomInput(random);

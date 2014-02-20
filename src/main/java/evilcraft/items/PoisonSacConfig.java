@@ -20,6 +20,7 @@ public class PoisonSacConfig extends ItemConfig {
      */
     public PoisonSacConfig() {
         super(
+        	true,
             "poisonSac",
             null,
             PoisonSac.class

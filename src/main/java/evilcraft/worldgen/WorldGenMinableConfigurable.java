@@ -21,7 +21,7 @@ public class WorldGenMinableConfigurable extends WorldGenMinable{
     
     /**
      * Make a new instance.
-     * @param Block block to spawn.
+     * @param block block to spawn.
      * @param blocksPerVein Blocks per vein.
      * @param veinsPerChunk Veins per chunk.
      * @param startY Start coordinate for Y
@@ -37,7 +37,7 @@ public class WorldGenMinableConfigurable extends WorldGenMinable{
     
     /**
      * Make a new instance.
-     * @param Block block to spawn.
+     * @param block block to spawn.
      * @param meta Metadata of the block to spawn.
      * @param blocksPerVein Blocks per vein.
      * @param veinsPerChunk Veins per chunk.

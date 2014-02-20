@@ -37,8 +37,7 @@ public class PoisonousLibelleConfig extends MobConfig {
      */
     public PoisonousLibelleConfig() {
         super(
-            Reference.MOB_POISONOUSLIBELLE,
-            "Poisonous Libelle",
+        	true,
             "poisonousLibelle",
             null,
             PoisonousLibelle.class

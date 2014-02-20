@@ -43,6 +43,7 @@ public class DarkOreConfig extends BlockConfig {
      */
     public DarkOreConfig() {
         super(
+        	true,
             "darkOre",
             null,
             DarkOre.class

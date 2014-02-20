@@ -20,6 +20,7 @@ public class LightningGrenadeConfig extends ItemConfig {
      */
     public LightningGrenadeConfig() {
         super(
+        	true,
             "lightningGrenade",
             null,
             LightningGrenade.class

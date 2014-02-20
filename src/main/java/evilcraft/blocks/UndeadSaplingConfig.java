@@ -22,6 +22,7 @@ public class UndeadSaplingConfig extends BlockConfig {
      */
     public UndeadSaplingConfig() {
         super(
+        	true,
             "undeadSapling",
             null,
             UndeadSapling.class

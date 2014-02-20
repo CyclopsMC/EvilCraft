@@ -9,6 +9,11 @@ import net.minecraft.enchantment.Enchantment;
  */
 public abstract class EnchantmentConfig extends ExtendedConfig<EnchantmentConfig>{
 
+	/**
+     * The ID for the configurable.
+     */
+    public int ID;
+	
     /**
      * Make a new instance.
      * @param defaultId The default ID for the configurable.
@@ -17,9 +22,10 @@ public abstract class EnchantmentConfig extends ExtendedConfig<EnchantmentConfig
      * @param comment The comment to add in the config file for this configurable.
      * @param element The class of this configurable.
      */
-    public EnchantmentConfig(int defaultId, String name, String namedId,
+    public EnchantmentConfig(int defaultId, String namedId,
             String comment, Class<? extends Enchantment> element) {
-        super(defaultId, name, namedId, comment, element);
+        super(defaultId != 0, namedId, comment, element);
+        this.ID = defaultId;
     }
 
 }

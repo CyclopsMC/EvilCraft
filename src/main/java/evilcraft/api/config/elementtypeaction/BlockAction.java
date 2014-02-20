@@ -30,13 +30,11 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
     public void preRun(BlockConfig eConfig, Configuration config) {
         // Get property in config file and set comment
         Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID,
-        		eConfig.ID == ExtendedConfig.ConfigStatus.ENABLED.ordinal());
+        		eConfig.isEnabled());
         property.comment = eConfig.COMMENT;
         
         // Update the ID, it could've changed
-        eConfig.ID = property.getBoolean(true) ?
-        		ExtendedConfig.ConfigStatus.ENABLED.ordinal()
-        		: ExtendedConfig.ConfigStatus.DISABLED.ordinal();
+        eConfig.setEnabled(property.getBoolean(true));
     }
 
     @Override
@@ -78,7 +76,7 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
         
         // Register buildcraft facade
         if(eConfig.isMultipartEnabled() && Loader.isModLoaded(Reference.MOD_BUILDCRAFT_TRANSPORT)) {
-            FMLInterModComms.sendMessage(Reference.MOD_BUILDCRAFT_TRANSPORT, "add-facade", eConfig.ID+"@"+0);
+            FMLInterModComms.sendMessage(Reference.MOD_BUILDCRAFT_TRANSPORT, "add-facade", eConfig.NAMEDID+"@"+0);
         }
     }
 

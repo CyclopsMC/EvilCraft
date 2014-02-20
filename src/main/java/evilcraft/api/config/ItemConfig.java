@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.api.Helpers;
-import evilcraft.api.config.ExtendedConfig.ConfigStatus;
 import evilcraft.api.render.AlphaItemRenderer;
 
 /**
@@ -17,12 +16,13 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
 
     /**
      * Make a new instance.
+     * @param enabled If this should is enabled.O
      * @param namedId The unique name ID for the configurable.
      * @param comment The comment to add in the config file for this configurable.
      * @param element The class of this configurable.
      */
-    public ItemConfig(String namedId, String comment, Class<? extends Item> element) {
-        super(ConfigStatus.ENABLED.ordinal(), null, namedId, comment, element);
+    public ItemConfig(boolean enabled, String namedId, String comment, Class<? extends Item> element) {
+        super(enabled, namedId, comment, element);
     }
     
     /**
@@ -41,6 +41,10 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
         return false;
     }
     
+    /**
+     * Get the casted instance of the item.
+     * @return The item.
+     */
     public Item getItemInstance() {
     	return (Item) super.getSubInstance();
     }

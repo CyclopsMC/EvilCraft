@@ -39,8 +39,8 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
      * @param fluid
      *          The Fluid instance this container must hold.
      */
-    public DamageIndicatedItemFluidContainer(int itemID, int capacity, Fluid fluid) {
-        super(itemID, capacity);
+    public DamageIndicatedItemFluidContainer(int capacity, Fluid fluid) {
+        super(0, capacity);
         this.fluid = fluid;
         init();
     }

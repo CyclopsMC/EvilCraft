@@ -34,8 +34,7 @@ public class WerewolfConfig extends MobConfig {
      */
     public WerewolfConfig() {
         super(
-            Reference.MOB_WEREWOLF,
-            "Werewolf",
+        	true,
             "werewolf",
             null,
             Werewolf.class

@@ -20,6 +20,7 @@ public class WerewolfFleshConfig extends ItemConfig {
      */
     public WerewolfFleshConfig() {
         super(
+        	true,
             "werewolfFlesh",
             null,
             WerewolfFlesh.class

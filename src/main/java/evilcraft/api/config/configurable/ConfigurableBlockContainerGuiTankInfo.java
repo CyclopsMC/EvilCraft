@@ -27,8 +27,8 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockContainerGuiTankInfo(ExtendedConfig eConfig,
-            Material material, Class<? extends TankInventoryTileEntity> tileEntity, int guiID) {
-        super(eConfig, material, tileEntity, guiID);
+            Material material, Class<? extends TankInventoryTileEntity> tileEntity) {
+        super(eConfig, material, tileEntity);
     }
     
     /**

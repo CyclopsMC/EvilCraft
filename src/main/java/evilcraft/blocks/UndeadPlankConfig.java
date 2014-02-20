@@ -20,6 +20,7 @@ public class UndeadPlankConfig extends BlockConfig {
      */
     public UndeadPlankConfig() {
         super(
+        	true,
             "undeadPlank",
             null,
             UndeadPlank.class

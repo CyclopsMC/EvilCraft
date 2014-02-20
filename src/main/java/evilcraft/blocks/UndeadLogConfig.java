@@ -20,6 +20,7 @@ public class UndeadLogConfig extends BlockConfig {
      */
     public UndeadLogConfig() {
         super(
+        	true,
             "undeadLog",
             null,
             UndeadLog.class

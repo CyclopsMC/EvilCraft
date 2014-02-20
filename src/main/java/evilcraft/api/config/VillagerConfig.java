@@ -1,5 +1,6 @@
 package evilcraft.api.config;
 
+import evilcraft.api.config.configurable.Configurable;
 import evilcraft.api.config.configurable.ConfigurableVillager;
 
 /**
@@ -9,6 +10,11 @@ import evilcraft.api.config.configurable.ConfigurableVillager;
  */
 public abstract class VillagerConfig extends ExtendedConfig<VillagerConfig> {
 
+	/**
+	 * ID of this {@link Configurable}.
+	 */
+	public int ID;
+	
     /**
      * Make a new instance.
      * @param defaultId The default ID for the configurable.
@@ -17,9 +23,9 @@ public abstract class VillagerConfig extends ExtendedConfig<VillagerConfig> {
      * @param comment The comment to add in the config file for this configurable.
      * @param element The class of this configurable.
      */
-    public VillagerConfig(int defaultId, String name, String namedId,
+    public VillagerConfig(int defaultId, String namedId,
             String comment, Class<? extends ConfigurableVillager> element) {
-        super(defaultId, name, namedId, comment, element);
+        super(defaultId != 0, namedId, comment, element);
     }
     
 

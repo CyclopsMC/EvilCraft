@@ -92,7 +92,7 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodIn
     public TileBloodInfuser() {
         super(
                 SLOTS,
-                BloodInfuserConfig._instance.NAME,
+                BloodInfuser.getInstance().getLocalizedName(),
                 LIQUID_PER_SLOT,
                 TileBloodInfuser.TANKNAME,
                 ACCEPTED_FLUID);

@@ -8,6 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.world.World;
 import evilcraft.EvilCraft;
+import evilcraft.api.Helpers;
+import evilcraft.api.Helpers.IDType;
+import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
@@ -30,13 +33,12 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
      * @param eConfig Config for this block.
      * @param material Material of this block.
      * @param tileEntity The class of the tile entity this block holds.
-     * @param guiID The unique ID for the GUI this block has.
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockContainerGui(ExtendedConfig eConfig,
-            Material material, Class<? extends EvilCraftTileEntity> tileEntity, int guiID) {
+            Material material, Class<? extends EvilCraftTileEntity> tileEntity) {
         super(eConfig, material, tileEntity);
-        this.guiID = guiID;
+        this.guiID = Helpers.getNewId(IDType.GUI);
         this.hasGui = true;
     }
     

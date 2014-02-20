@@ -19,8 +19,7 @@ public class BloodConfig extends FluidConfig {
      */
     public BloodConfig() {
         super(
-            1,
-            "Blood",
+            true,
             "blood",
             null,
             Blood.class

@@ -20,15 +20,11 @@ public class EvilBlockConfig extends BlockConfig {
      */
     public EvilBlockConfig() {
         super(
+        	false,
             "evilBlock",
             null,
             EvilBlock.class
         );
-    }
-    
-    @Override
-    public boolean isForceDisabled() {
-        return true;
     }
     
 }

@@ -25,8 +25,7 @@ public class EntityBloodPearlConfig extends EntityConfig {
      */
     public EntityBloodPearlConfig() {
         super(
-            Reference.ENTITY_BLOODPEARL,
-            "Blood Pearl of Teleportation",
+        	true,
             "entityBloodPearl",
             null,
             EntityBloodPearl.class

@@ -57,7 +57,7 @@ public class GuiHandler implements IGuiHandler {
     @SideOnly(Side.CLIENT)
     @Override
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
+    	TileEntity tileEntity = world.getTileEntity(x, y, z);
         Class<? extends GuiContainer> guiClass = GUIS.get(id);
         try {
             Constructor<? extends GuiContainer> guiConstructor = guiClass.getConstructor(InventoryPlayer.class, tileEntity.getClass());

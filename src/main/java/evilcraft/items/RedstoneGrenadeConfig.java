@@ -20,6 +20,7 @@ public class RedstoneGrenadeConfig extends ItemConfig {
      */
     public RedstoneGrenadeConfig() {
         super(
+        		true,
                 "redstoneGrenade",
                 null,
                 RedstoneGrenade.class

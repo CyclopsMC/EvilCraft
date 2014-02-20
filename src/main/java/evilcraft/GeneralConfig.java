@@ -62,7 +62,7 @@ public class GeneralConfig extends DummyConfig {
      * Create a new instance.
      */
     public GeneralConfig() {
-        super(0, "General Info", "info", null, GeneralConfig.class);
+        super(true, "info", null, GeneralConfig.class);
     }
     
     @Override

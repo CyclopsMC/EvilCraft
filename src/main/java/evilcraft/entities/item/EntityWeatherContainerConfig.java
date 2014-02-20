@@ -25,8 +25,7 @@ public class EntityWeatherContainerConfig extends EntityConfig {
      */
     public EntityWeatherContainerConfig() {
         super(
-            Reference.ENTITY_WEATHERCONTAINER,
-            "Weather Container",
+        	true,
             "entityWeatherContainer",
             null,
             EntityWeatherContainer.class

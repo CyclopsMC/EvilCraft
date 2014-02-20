@@ -11,15 +11,14 @@ public abstract class FluidConfig extends ExtendedConfig<FluidConfig> {
 
     /**
      * Make a new instance.
-     * @param defaultId The default ID for the configurable.
-     * @param name The name for the configurable.
+     * @param enabled If this should is enabled.
      * @param namedId The unique name ID for the configurable.
      * @param comment The comment to add in the config file for this configurable.
      * @param element The class of this configurable.
      */
-    public FluidConfig(int defaultId, String name, String namedId,
+    public FluidConfig(boolean enabled, String namedId,
             String comment, Class<? extends Fluid> element) {
-        super(defaultId, name, namedId, comment, element);
+        super(enabled, namedId, comment, element);
     }
     
     @Override

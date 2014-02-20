@@ -28,7 +28,6 @@ public class WerewolfVillagerConfig extends VillagerConfig {
     public WerewolfVillagerConfig() {
         super(
             66666,
-            "Werewolf Villager",
             "werewolfVillager",
             null,
             WerewolfVillager.class

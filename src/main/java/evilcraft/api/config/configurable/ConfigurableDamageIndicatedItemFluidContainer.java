@@ -44,7 +44,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     protected ConfigurableDamageIndicatedItemFluidContainer(ExtendedConfig eConfig, int capacity, Fluid fluid) {
-        super(eConfig.ID, capacity, fluid);
+        super(capacity, fluid);
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
     }

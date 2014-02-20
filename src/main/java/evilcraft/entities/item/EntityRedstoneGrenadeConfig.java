@@ -25,8 +25,7 @@ public class EntityRedstoneGrenadeConfig extends EntityConfig {
      */
     public EntityRedstoneGrenadeConfig() {
         super(
-            Reference.ENTITY_REDSTONEGRENADE,
-            "Redstone Grenade",
+        	true,
             "entityRedstoneGrenade",
             null,
             EntityRedstoneGrenade.class

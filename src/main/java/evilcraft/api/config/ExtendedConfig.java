@@ -20,15 +20,9 @@ import evilcraft.api.config.configurable.ConfigurableProperty;
  */
 public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Comparable<ExtendedConfig<C>>{
     
-    /**
-     * The ID for the configurable.
-     */
-    public int ID;
-    /**
-     * The name for the configurable.
-     */
-    public String NAME;
-    /**
+	private boolean enabled;
+
+	/**
      * The unique name ID for the configurable.
      */
     public String NAMEDID;
@@ -49,15 +43,13 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
     
     /**
      * Create a new config
-     * @param defaultId the id for this element (preferably from a config file)
-     * @param name the name to be displayed
+     * @param enabled If this should is enabled.
      * @param namedId a unique name id
      * @param comment a comment that can be added to the config file line
      * @param element the class for the element this config is for
      */
-    public ExtendedConfig(int defaultId, String name, String namedId, String comment, Class<?> element) {
-        this.ID = defaultId;
-        this.NAME = name;
+    public ExtendedConfig(boolean enabled, String namedId, String comment, Class<?> element) {
+    	this.enabled = enabled;
         this.NAMEDID = namedId;
         this.COMMENT = comment;
         this.ELEMENT = element;
@@ -204,16 +196,16 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
      * @return if the target should be enabled.
      */
     public boolean isEnabled() {
-        return !isForceDisabled() && this.ID != ExtendedConfig.ConfigStatus.DISABLED.ordinal();
+        return this.enabled;
     }
     
     /**
-     * Checks if the eConfig refers to a target that should be force disabled.
-     * @return if the target should be force disabled.
+     * Set the enabling of the target.
+     * @param enabled If the target should be enabled.
      */
-    public boolean isForceDisabled() {
-        return false;
-    }
+    public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
     
     /**
      * Override this method to prevent configs to be disabled from the config file. (non-zero id's that is)
@@ -238,15 +230,5 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
     public C downCast() {
         C c = (C) this;
         return c;
-    }
-    
-    /**
-     * For defining the status of availability in the config constructor.
-     * @author rubensworks
-     *
-     */
-    public enum ConfigStatus {
-    	DISABLED,
-    	ENABLED;
     }
 }
