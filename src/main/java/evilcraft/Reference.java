@@ -58,8 +58,4 @@ public class Reference {
     public static final String MOD_DEPENDENCIES = "" // This is not required anymore (and never was?) "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"
             + "after:"+MOD_BUILDCRAFT_TRANSPORT
             + ";after:"+Reference.MOD_THERMALEXPANSION;
-    
-    // Keybinding ID's
-    // TODO: move this shit
-    public static final String KEY_FART = "key.evilcraft.fart";
 }

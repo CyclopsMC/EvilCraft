@@ -102,8 +102,6 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerTickHandlers() {
-		// TODO: rewrite
-		// TickRegistry.registerTickHandler(new FartTickHandler(), Side.CLIENT);
 		EvilCraft.log("Registered tick handlers");
 	}
 

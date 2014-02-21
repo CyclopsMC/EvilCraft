@@ -35,9 +35,6 @@ public class CommonProxy {
      * Register packet handlers.
      */
     public void registerPacketHandlers() {
-    	// TODO: rewrite
-        //NetworkRegistry.INSTANCE.registerChannel(new FartPacketHandler(), Reference.MOD_CHANNEL);
-    	
     	// Create and save a new network wrapper
     	EvilCraft.channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(Reference.MOD_CHANNEL);
     	

@@ -43,6 +43,7 @@ public class FartPacketHandler {
      * 
      * @param event Event that contains data about the fart packet.
      */
+    @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onClientPacketReceived(ClientCustomPacketEvent event) {
     	EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -68,6 +69,7 @@ public class FartPacketHandler {
      * 
      * @param event Event that contains data about the fart packet.
      */
+    @SideOnly(Side.SERVER)
 	@SubscribeEvent
 	public void onServerPacketReceived(ServerCustomPacketEvent event) {
 		EntityPlayer player = ((NetHandlerPlayServer) event.handler).playerEntity;
