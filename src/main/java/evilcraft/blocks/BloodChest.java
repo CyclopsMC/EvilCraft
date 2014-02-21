@@ -47,7 +47,7 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
     }
 
     private BloodChest(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.wood, TileBloodChest.class, Reference.GUI_BLOOD_CHEST);
+        super(eConfig, Material.wood, TileBloodChest.class);
         
         this.setHardness(2.5F);
         this.setStepSound(soundTypeWood);

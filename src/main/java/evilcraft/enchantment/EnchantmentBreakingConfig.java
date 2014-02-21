@@ -21,8 +21,7 @@ public class EnchantmentBreakingConfig extends EnchantmentConfig {
     public EnchantmentBreakingConfig() {
         super(
             Reference.ENCHANTMENT_BREAKING,
-            "Breaking",
-            "enchantmentBreaking",
+            "breaking",
             null,
             EnchantmentBreaking.class
         );

@@ -20,6 +20,7 @@ public class FluidBlockBloodConfig extends BlockConfig {
      */
     public FluidBlockBloodConfig() {
         super(
+        	true,
             "blockBlood",
             null,
             FluidBlockBlood.class

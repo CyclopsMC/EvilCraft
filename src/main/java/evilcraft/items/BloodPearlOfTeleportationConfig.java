@@ -20,6 +20,7 @@ public class BloodPearlOfTeleportationConfig extends ItemConfig {
      */
     public BloodPearlOfTeleportationConfig() {
         super(
+        	true,
             "bloodPearlOfTeleportation",
             null,
             BloodPearlOfTeleportation.class

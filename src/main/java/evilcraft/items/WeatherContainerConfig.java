@@ -20,6 +20,7 @@ public class WeatherContainerConfig extends ItemConfig {
      */
     public WeatherContainerConfig() {
         super(
+        	true,
             "weatherContainer",
             null,
             WeatherContainer.class

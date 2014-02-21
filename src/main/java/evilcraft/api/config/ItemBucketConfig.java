@@ -8,7 +8,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import evilcraft.Recipes;
 import evilcraft.api.BucketHandler;
-import evilcraft.api.config.ExtendedConfig.ConfigStatus;
 import evilcraft.api.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.api.config.configurable.ConfigurableFluid;
 
@@ -22,12 +21,13 @@ public abstract class ItemBucketConfig extends ItemConfig {
 
     /**
      * Make a new instance.
+     * @param enabled If this should is enabled.
      * @param namedId The unique name ID for the configurable.
      * @param comment The comment to add in the config file for this configurable.
      * @param element The class of this configurable.
      */
-    public ItemBucketConfig(String namedId, String comment, Class<? extends Item> element) {
-        super(namedId, comment, element);
+    public ItemBucketConfig(boolean enabled, String namedId, String comment, Class<? extends Item> element) {
+        super(enabled, namedId, comment, element);
     }
     
     /**

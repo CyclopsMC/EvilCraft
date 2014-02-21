@@ -30,6 +30,7 @@ public class NetherfishSpawnConfig extends BlockConfig {
      */
     public NetherfishSpawnConfig() {
         super(
+        	true,
             "netherMonsterBlock",
             null,
             NetherfishSpawn.class

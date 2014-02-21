@@ -19,8 +19,7 @@ public class PoisonConfig extends FluidConfig {
      */
     public PoisonConfig() {
         super(
-            1,
-            "Poison",
+            true,
             "poison",
             null,
             Poison.class

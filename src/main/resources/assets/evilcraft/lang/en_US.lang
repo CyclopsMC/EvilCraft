@@ -74,3 +74,9 @@ key.fart=Toggle Farting
 entity.evilcraft.werewolf.name=Werewolf
 entity.evilcraft.poisonousLibelle.name=Poisonous Libelle
 entity.evilcraft.netherfish.name=Nether Fish
+
+# Enchantments
+enchantment.breaking=Breaking
+enchantment.lifeStealing=Poison Tip
+enchantment.unusing=Unusing
+enchantment.poisonTip=Poison Tip

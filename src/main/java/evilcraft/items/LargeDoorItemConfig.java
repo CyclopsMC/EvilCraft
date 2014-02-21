@@ -20,15 +20,11 @@ public class LargeDoorItemConfig extends ItemConfig {
      */
     public LargeDoorItemConfig() {
         super(
+        	false,
             "largeDoorItem",
             null,
             LargeDoorItem.class
         );
-    }
-    
-    @Override
-    public boolean isForceDisabled() {
-        return true;
     }
     
 }

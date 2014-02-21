@@ -24,8 +24,7 @@ public class EntityBroomConfig extends EntityConfig {
      */
     public EntityBroomConfig() {
         super(
-            Reference.ENTITY_BROOM,
-            "Broom",
+        	true,
             "broom",
             null,
             EntityBroom.class

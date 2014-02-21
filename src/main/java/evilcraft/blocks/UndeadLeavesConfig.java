@@ -20,6 +20,7 @@ public class UndeadLeavesConfig extends BlockConfig {
      */
     public UndeadLeavesConfig() {
         super(
+        	true,
             "undeadLeaves",
             null,
             UndeadLeaves.class

@@ -30,6 +30,7 @@ public class ExcrementPileConfig extends BlockConfig {
      */
     public ExcrementPileConfig() {
         super(
+        	true,
             "excrementPile",
             null,
             ExcrementPile.class

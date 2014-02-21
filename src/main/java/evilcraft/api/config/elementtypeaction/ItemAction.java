@@ -20,13 +20,11 @@ public class ItemAction extends IElementTypeAction<ItemConfig>{
     public void preRun(ItemConfig eConfig, Configuration config) {
         // Get property in config file and set comment
         Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID,
-        		eConfig.ID == ExtendedConfig.ConfigStatus.ENABLED.ordinal());
+        		eConfig.isEnabled());
         property.comment = eConfig.COMMENT;
         
         // Update the ID, it could've changed
-        eConfig.ID = property.getBoolean(true) ?
-        		ExtendedConfig.ConfigStatus.ENABLED.ordinal()
-        		: ExtendedConfig.ConfigStatus.DISABLED.ordinal();
+        eConfig.setEnabled(property.getBoolean(true));
     }
 
     @Override

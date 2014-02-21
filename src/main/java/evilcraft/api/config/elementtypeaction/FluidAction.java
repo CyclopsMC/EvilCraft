@@ -15,7 +15,7 @@ public class FluidAction extends IElementTypeAction<FluidConfig>{
 
     @Override
     public void preRun(FluidConfig eConfig, Configuration config) {
-        eConfig.ID = 1;
+        
     }
 
     @Override

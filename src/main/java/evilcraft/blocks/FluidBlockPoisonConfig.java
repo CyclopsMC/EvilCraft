@@ -20,6 +20,7 @@ public class FluidBlockPoisonConfig extends BlockConfig {
      */
     public FluidBlockPoisonConfig() {
         super(
+        	true,
             "blockPoison",
             null,
             FluidBlockPoison.class

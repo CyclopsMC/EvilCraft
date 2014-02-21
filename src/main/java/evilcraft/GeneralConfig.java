@@ -32,6 +32,12 @@ public class GeneralConfig extends DummyConfig {
     public static boolean dieWithoutAnyReason = false;
     
     /**
+     * If the version checker should be enabled.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If the version checker should be enabled.")
+    public static boolean versionChecker = true;
+    
+    /**
      * The type of this config.
      */
     public static ElementType TYPE = ElementType.DUMMY;
@@ -62,7 +68,7 @@ public class GeneralConfig extends DummyConfig {
      * Create a new instance.
      */
     public GeneralConfig() {
-        super(0, "General Info", "info", null, GeneralConfig.class);
+        super(true, "info", null, GeneralConfig.class);
     }
     
     @Override

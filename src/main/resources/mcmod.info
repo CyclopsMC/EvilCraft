@@ -3,15 +3,14 @@
   "modid": "evilcraft",
   "name": "EvilCraft",
   "description": "An evil mod for Minecraft.",
-  "version": "$version",
-  "mcversion": "$mcversion",
-  "credits": "TODO",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
   "logoFile": "/mods/evilcraft/textures/logo.png",
   "url": "https://github.com/rubensworks/EvilCraft",
-  "updateUrl": "",
+  "updateUrl": "http://www.minecraftforum.net/topic/2403603-164forge-evilcraft-open-source/",
   "authors": [
-  	"rubensworks (aka kroeserr)",
-  	"immortaleeb (aka _EeB_)"
+    "rubensworks (aka kroeserr)",
+    "immortaleeb (aka _EeB_)"
   ],
   "credits": "Models and mob textures by Davivs69.",
   "parent":"",

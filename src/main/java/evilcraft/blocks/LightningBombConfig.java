@@ -20,6 +20,7 @@ public class LightningBombConfig extends BlockConfig {
      */
     public LightningBombConfig() {
         super(
+        	true,
             "lightningBomb",
             null,
             LightningBomb.class

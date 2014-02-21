@@ -20,15 +20,11 @@ public class ContainedFluxConfig extends ItemConfig {
      */
     public ContainedFluxConfig() {
         super(
+        	false,
             "containedFlux",
             null,
             ContainedFlux.class
         );
-    }
-    
-    @Override
-    public boolean isForceDisabled() {
-        return true;
     }
     
 }

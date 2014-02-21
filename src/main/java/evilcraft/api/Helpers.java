@@ -1,9 +1,11 @@
 package evilcraft.api;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -30,6 +32,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
+import evilcraft.api.config.configurable.Configurable;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 /**
@@ -78,6 +81,7 @@ public class Helpers {
      * @author rubensworks
      *
      */
+    @SuppressWarnings("javadoc")
     public enum NBTTag_Types {
 		NBTTagEnd, NBTTagByte, NBTTagShort, 
 		NBTTagInt, NBTTagLong, NBTTagFloat, 
@@ -87,6 +91,8 @@ public class Helpers {
     
     private static boolean ISOBFUSICATED_CHECKED = false;
     private static boolean ISOBFUSICATED;
+    
+    private static Map<IDType, Integer> ID_COUNTER = new HashMap<IDType, Integer>();
     
     /**
      * A list of all the {@link ChestGenHooks}.
@@ -462,5 +468,33 @@ public class Helpers {
      */
     public static TargetPoint createTargetPointFromEntityPosition(Entity entity, int range) {
     	return new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, range);
+    }
+    
+	/**
+     * Get a new ID for the given type.
+     * @param type Type for a {@link Configurable}.
+     * @return The incremented ID.
+     */
+    public static int getNewId(IDType type) {
+    	Integer ID = ID_COUNTER.get(type);
+    	if(ID == null) ID = new Integer(0);
+    	ID_COUNTER.put(type, ID + 1);
+    	return ID;
+    }
+    
+    /**
+     * Type of ID's to use in {@link Helpers#getNewId(IDType)}
+     * @author rubensworks
+     *
+     */
+    public enum IDType {
+    	/**
+    	 * Entity ID.
+    	 */
+    	ENTITY,
+    	/**
+    	 * GUI ID.
+    	 */
+    	GUI;
     }
 }

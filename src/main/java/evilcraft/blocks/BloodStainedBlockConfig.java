@@ -22,6 +22,7 @@ public class BloodStainedBlockConfig extends BlockConfig {
      */
     public BloodStainedBlockConfig() {
         super(
+        	true,
             "bloodStainedBlock",
             null,
             BloodStainedBlock.class

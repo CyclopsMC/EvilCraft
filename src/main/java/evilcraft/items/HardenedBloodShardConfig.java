@@ -20,6 +20,7 @@ public class HardenedBloodShardConfig extends ItemConfig {
      */
     public HardenedBloodShardConfig() {
         super(
+        	true,
             "hardenedBloodShard",
             null,
             HardenedBloodShard.class

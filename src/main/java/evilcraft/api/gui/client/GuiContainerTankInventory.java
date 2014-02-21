@@ -159,7 +159,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     }
     
     protected void drawTooltips(int mouseX, int mouseY) {
-    	//TODO: MCP isPointInRegion
+    	// MCP isPointInRegion
         if(func_146978_c(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
             SingleUseTank tank = tile.getTank();
             String fluidName = StatCollector.translateToLocal("fluid.fluids."+FluidRegistry.getFluidName(tank.getFluid().fluidID));

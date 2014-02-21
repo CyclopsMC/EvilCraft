@@ -28,6 +28,7 @@ import evilcraft.client.KeyHandler;
 import evilcraft.client.Keys;
 import evilcraft.events.KeyInputEventHook;
 import evilcraft.events.PlaySoundAtEntityEventHook;
+import evilcraft.events.PlayerTickEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.render.tileentity.BloodChestItemRenderHelper;
 
@@ -114,5 +115,6 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
 
 		FMLCommonHandler.instance().bus().register(KeyInputEventHook.getInstance());
+		FMLCommonHandler.instance().bus().register(new PlayerTickEventHook());
 	}
 }

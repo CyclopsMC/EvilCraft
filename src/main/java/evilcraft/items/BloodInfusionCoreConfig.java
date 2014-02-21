@@ -20,6 +20,7 @@ public class BloodInfusionCoreConfig extends ItemConfig {
      */
     public BloodInfusionCoreConfig() {
         super(
+        	true,
             "bloodInfusionCore",
             null,
             BloodInfusionCore.class

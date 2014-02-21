@@ -20,6 +20,7 @@ public class WerewolfFurConfig extends ItemConfig {
      */
     public WerewolfFurConfig() {
         super(
+        	true,
             "werewolfFur",
             null,
             WerewolfFur.class

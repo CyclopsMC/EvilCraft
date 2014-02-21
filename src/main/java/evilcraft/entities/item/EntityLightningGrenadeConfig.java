@@ -25,8 +25,7 @@ public class EntityLightningGrenadeConfig extends EntityConfig {
      */
     public EntityLightningGrenadeConfig() {
         super(
-            Reference.ENTITY_LIGHTNINGGRENADE,
-            "Lightning Grenade",
+        	true,
             "entityLightningGrenade",
             null,
             EntityLightningGrenade.class

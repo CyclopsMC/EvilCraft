@@ -51,7 +51,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         config.load();
         
         for(ExtendedConfig<?> eConfig : this) {
-            if(!eConfig.isForceDisabled()) {
+            if(eConfig.isEnabled()) {
                 // Save additional properties
                 for(ConfigProperty configProperty : eConfig.configProperties) {
                     configProperty.save(config);
@@ -64,13 +64,11 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                 
                 // Register the element depending on the type and set the creative tab
                 type.getElementTypeAction().commonRun(eConfig, config);
-    
-                if(eConfig.isEnabled()) {
-                    // Call the listener
-                    eConfig.onRegistered();
-    
-                    EvilCraft.log("Registered "+eConfig.NAMEDID);
-                }
+                
+                // Call the listener
+                eConfig.onRegistered();
+
+                EvilCraft.log("Registered "+eConfig.NAMEDID);
             }
         }
         

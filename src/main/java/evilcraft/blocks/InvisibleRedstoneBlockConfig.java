@@ -20,6 +20,7 @@ public class InvisibleRedstoneBlockConfig extends BlockConfig {
      */
     public InvisibleRedstoneBlockConfig() {
         super(
+        		true,
         		"invisibleRedstoneBlock",
         		null,
         		InvisibleRedstoneBlock.class

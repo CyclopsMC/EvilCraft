@@ -21,8 +21,7 @@ public class EnchantmentLifeStealingConfig extends EnchantmentConfig {
     public EnchantmentLifeStealingConfig() {
         super(
             Reference.ENCHANTMENT_LIFESTEALING,
-            "Life Stealing",
-            "enchantmentLifestealing",
+            "lifeStealing",
             null,
             EnchantmentLifeStealing.class
         );

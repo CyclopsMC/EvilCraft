@@ -38,7 +38,7 @@ public class AlternatingBlockIconComponent {
     /**
      * Register icons
      * @param textureNameBase The base texture name.
-     * @param iconRegister The {@link IconRegister}.
+     * @param iconRegister The {@link IIconRegister}.
      */
     public void registerIcons(String textureNameBase, IIconRegister iconRegister) {
         for(int i = 0; i < getAlternateIcons().length; i++) {

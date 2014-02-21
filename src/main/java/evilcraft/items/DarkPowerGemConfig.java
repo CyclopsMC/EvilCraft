@@ -20,6 +20,7 @@ public class DarkPowerGemConfig extends ItemConfig {
      */
     public DarkPowerGemConfig() {
         super(
+        	true,
             "darkPowerGem",
             null,
             DarkPowerGem.class

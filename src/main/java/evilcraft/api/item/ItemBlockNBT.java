@@ -20,7 +20,6 @@ public class ItemBlockNBT extends ItemBlockExtended {
     
     /**
      * Make a new instance.
-     * @param blockID The block ID.
      * @param block The block instance.
      */
     public ItemBlockNBT(Block block) {

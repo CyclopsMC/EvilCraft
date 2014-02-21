@@ -21,8 +21,7 @@ public class EnchantmentPoisonTipConfig extends EnchantmentConfig {
     public EnchantmentPoisonTipConfig() {
         super(
             Reference.ENCHANTMENT_POISON_TIP,
-            "Poison Tip",
-            "enchantmentPoisonTip",
+            "poisonTip",
             null,
             EnchantmentPoisonTip.class
         );

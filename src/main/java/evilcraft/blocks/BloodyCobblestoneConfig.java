@@ -20,6 +20,7 @@ public class BloodyCobblestoneConfig extends BlockConfig {
      */
     public BloodyCobblestoneConfig() {
         super(
+        	true,
             "bloodyCobblestone",
             null,
             BloodyCobblestone.class

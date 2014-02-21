@@ -24,6 +24,7 @@ public class BucketBloodConfig extends ItemBucketConfig {
      */
     public BucketBloodConfig() {
         super(
+        	true,
             "bucketBlood",
             null,
             BucketBlood.class

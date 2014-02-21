@@ -44,7 +44,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     protected ConfigurableDamageIndicatedItemFluidContainer(ExtendedConfig eConfig, int capacity, Fluid fluid) {
-        super(eConfig.ID, capacity, fluid);
+        super(capacity, fluid);
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
     }
@@ -148,7 +148,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
                 return false;
             } else {
                 if (!world.isRemote && !material.isSolid() && !material.isLiquid()) {
-                	// TODO: MCP destroyBlock
+                	// MCP destroyBlock
                     world.func_147480_a(x, y, z, true);
                 }
 

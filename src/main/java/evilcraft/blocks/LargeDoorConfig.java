@@ -20,15 +20,11 @@ public class LargeDoorConfig extends BlockConfig {
      */
     public LargeDoorConfig() {
         super(
+        	false,
             "largeDoor",
             null,
             LargeDoor.class
         );
-    }
-    
-    @Override
-    public boolean isForceDisabled() {
-        return true;
     }
     
 }

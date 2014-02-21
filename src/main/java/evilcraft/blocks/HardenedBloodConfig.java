@@ -20,6 +20,7 @@ public class HardenedBloodConfig extends BlockConfig {
      */
     public HardenedBloodConfig() {
         super(
+        	true,
             "hardenedBlood",
             null,
             HardenedBlood.class

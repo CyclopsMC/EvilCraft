@@ -24,6 +24,7 @@ public class BucketPoisonConfig extends ItemBucketConfig {
      */
     public BucketPoisonConfig() {
         super(
+        	true,
             "bucketPoison",
             null,
             BucketPoison.class

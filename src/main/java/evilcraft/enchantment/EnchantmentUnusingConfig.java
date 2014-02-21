@@ -21,8 +21,7 @@ public class EnchantmentUnusingConfig extends EnchantmentConfig {
     public EnchantmentUnusingConfig() {
         super(
             Reference.ENCHANTMENT_UNUSING,
-            "Unusing",
-            "enchantmentUnusing",
+            "unusing",
             null,
             EnchantmentUnusing.class
         );

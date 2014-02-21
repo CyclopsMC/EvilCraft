@@ -68,7 +68,7 @@ public class DamageIndicatedItemComponent{
     
     /**
      * Add the creative tab items.
-     * @param id The item ID.
+     * @param item The item.
      * @param tab The creative tab to add to.
      * @param itemList The item list to add to.
      * @param fluid The fluid in the container that needs to be added.

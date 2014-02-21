@@ -37,6 +37,7 @@ public class BloodContainerConfig extends ItemConfig {
      */
     public BloodContainerConfig() {
         super(
+        	true,
             "bloodContainer",
             null,
             BloodContainer.class

@@ -32,6 +32,7 @@ public class EnvironmentalAccumulatorConfig extends BlockConfig {
      */
 	public EnvironmentalAccumulatorConfig() {
 		super(
+				true,
 				"environmentalAccumulator",
 				null,
 				EnvironmentalAccumulator.class

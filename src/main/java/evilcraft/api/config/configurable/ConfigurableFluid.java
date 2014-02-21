@@ -25,7 +25,7 @@ public abstract class ConfigurableFluid extends Fluid implements Configurable{
      */
     @SuppressWarnings({ "rawtypes" })
     protected ConfigurableFluid(ExtendedConfig eConfig) {
-        super(eConfig.NAME);
+        super(eConfig.NAMEDID);
         //eConfig.ID = this.getID(); // This could've changed.
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());

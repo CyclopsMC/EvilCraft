@@ -42,6 +42,7 @@ public class BloodExtractorConfig extends ItemConfig {
      */
     public BloodExtractorConfig() {
         super(
+        	true,
             "bloodExtractor",
             null,
             BloodExtractor.class

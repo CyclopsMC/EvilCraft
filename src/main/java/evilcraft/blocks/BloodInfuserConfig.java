@@ -22,6 +22,7 @@ public class BloodInfuserConfig extends BlockConfig {
      */
     public BloodInfuserConfig() {
         super(
+        	true,
             "bloodInfuser",
             null,
             BloodInfuser.class

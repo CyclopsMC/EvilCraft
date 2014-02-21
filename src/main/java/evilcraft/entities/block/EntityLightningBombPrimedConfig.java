@@ -33,8 +33,7 @@ public class EntityLightningBombPrimedConfig extends EntityConfig {
      */
     public EntityLightningBombPrimedConfig() {
         super(
-            Reference.ENTITY_LIGHTNINGBOMB,
-            "Lightning Bomb",
+        	true,
             "entityLightningBomb",
             null,
             EntityLightningBombPrimed.class

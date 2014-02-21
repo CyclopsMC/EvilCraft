@@ -14,7 +14,6 @@ import evilcraft.gui.container.ContainerBloodInfuser;
 public class GuiBloodInfuser extends GuiContainerTankInventory<TileBloodInfuser> {
     
     private static final int TEXTUREWIDTH = 176;
-    @SuppressWarnings("unused")
     private static final int TEXTUREHEIGHT = 166;
 
     private static final int TANKWIDTH = 16;

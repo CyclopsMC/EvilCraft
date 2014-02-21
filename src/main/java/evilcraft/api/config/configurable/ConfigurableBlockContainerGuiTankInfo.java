@@ -23,12 +23,11 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
      * @param eConfig Config for this block.
      * @param material Material of this block.
      * @param tileEntity The class of the tile entity this block holds.
-     * @param guiID The unique ID for the GUI this block has.
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockContainerGuiTankInfo(ExtendedConfig eConfig,
-            Material material, Class<? extends TankInventoryTileEntity> tileEntity, int guiID) {
-        super(eConfig, material, tileEntity, guiID);
+            Material material, Class<? extends TankInventoryTileEntity> tileEntity) {
+        super(eConfig, material, tileEntity);
     }
     
     /**

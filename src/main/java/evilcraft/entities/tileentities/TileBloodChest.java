@@ -95,7 +95,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     public TileBloodChest() {
         super(
                 SLOTS,
-                BloodChestConfig._instance.NAME,
+                BloodChest.getInstance().getLocalizedName(),
                 LIQUID_PER_SLOT,
                 TileBloodChest.TANKNAME,
                 ACCEPTED_FLUID);

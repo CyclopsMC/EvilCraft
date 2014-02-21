@@ -20,6 +20,7 @@ public class DarkStickConfig extends ItemConfig {
      */
     public DarkStickConfig() {
         super(
+        	true,
             "darkStick",
             null,
             DarkStick.class

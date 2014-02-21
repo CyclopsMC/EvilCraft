@@ -30,6 +30,7 @@ public class CommandEvilCraft implements ICommand {
     protected Map<String, ICommand> getSubcommands() {
         Map<String, ICommand> map = new HashMap<String, ICommand>();
         map.put("config", new CommandConfig());
+        map.put("version", new CommandVersion());
         return map;
     }
     

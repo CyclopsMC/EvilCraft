@@ -4,6 +4,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.util.StatCollector;
 import evilcraft.api.config.ElementType;
+import evilcraft.api.config.EnchantmentConfig;
 import evilcraft.api.config.ExtendedConfig;
 
 /**
@@ -13,8 +14,7 @@ import evilcraft.api.config.ExtendedConfig;
  */
 public class ConfigurableEnchantment extends Enchantment implements Configurable {
 
-    @SuppressWarnings("rawtypes")
-    protected ExtendedConfig eConfig = null;
+    protected ExtendedConfig<EnchantmentConfig> eConfig = null;
     
     /**
      * The type of this {@link Configurable}.
@@ -27,10 +27,9 @@ public class ConfigurableEnchantment extends Enchantment implements Configurable
      * @param weight The weight in which this enchantment should occurd
      * @param type The type of enchantment
      */
-    @SuppressWarnings("rawtypes")
-    protected ConfigurableEnchantment(ExtendedConfig eConfig, int weight,
+    protected ConfigurableEnchantment(ExtendedConfig<EnchantmentConfig> eConfig, int weight,
             EnumEnchantmentType type) {
-        super(eConfig.ID, weight, type);
+        super(eConfig.downCast().ID, weight, type);
         this.setConfig(eConfig);
         this.setName(this.getUniqueName());
         
@@ -54,7 +53,7 @@ public class ConfigurableEnchantment extends Enchantment implements Configurable
     
     @Override
     public String getTranslatedName(int level) {
-        String enchantmentName = eConfig.NAME;
+        String enchantmentName = StatCollector.translateToLocal("enchantment." + eConfig.downCast().NAMEDID);
         return enchantmentName + " " + StatCollector.translateToLocal("enchantment.level." + level);
     }
 
