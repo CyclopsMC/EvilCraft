@@ -1,6 +1,5 @@
 package evilcraft.blocks;
 
-import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementTypeCategory;

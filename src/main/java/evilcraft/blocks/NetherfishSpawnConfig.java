@@ -1,7 +1,6 @@
 package evilcraft.blocks;
 
 import net.minecraft.item.ItemBlock;
-import evilcraft.Reference;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.configurable.ConfigurableProperty;

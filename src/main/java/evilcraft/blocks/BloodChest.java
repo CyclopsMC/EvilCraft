@@ -8,7 +8,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;

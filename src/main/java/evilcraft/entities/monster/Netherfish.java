@@ -13,7 +13,6 @@ import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.blocks.NetherfishSpawn;
-import evilcraft.blocks.NetherfishSpawnConfig;
 
 /**
  * A silverfish for the nether.

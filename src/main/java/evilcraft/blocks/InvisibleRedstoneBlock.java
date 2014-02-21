@@ -16,7 +16,6 @@ import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
-import evilcraft.api.render.ConnectableIcon;
 import evilcraft.entities.tileentities.TileInvisibleRedstoneBlock;
 
 /**

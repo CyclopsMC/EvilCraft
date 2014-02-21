@@ -6,7 +6,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
