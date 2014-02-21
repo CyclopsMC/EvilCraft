@@ -1,5 +1,6 @@
 package evilcraft.render.tileentity;
 
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -29,7 +30,8 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer {
 	
 	protected void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime) {
 		float f1 = tileentity.getBeamRenderVariable();
-
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+		
         if (tileentity.isBeamActive())
         {
         	Vector4f beamInnerColor = tileentity.getBeamInnerColor();
@@ -43,7 +45,7 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer {
             GL11.glDisable(GL11.GL_CULL_FACE);
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glDepthMask(true);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+            OpenGlHelper.glBlendFunc(770, 1, 1, 0);
             float f2 = (float)tileentity.getWorldObj().getTotalWorldTime() + partialTickTime;
             float f3 = -f2 * 0.2F - (float)MathHelper.floor_float(-f2 * 0.1F);
             byte b0 = 1;
@@ -82,7 +84,7 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer {
             tessellator.addVertexWithUV(x + d5, y + d13, z + d6, d14, d17);
             tessellator.draw();
             GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
             GL11.glDepthMask(false);
             tessellator.startDrawingQuads();
             tessellator.setColorRGBA_F(beamOuterColor.x, beamOuterColor.y, beamOuterColor.z, beamOuterColor.w);
@@ -120,6 +122,8 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer {
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glDepthMask(true);
         }
+        
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.5F);
 	}
 
 }
