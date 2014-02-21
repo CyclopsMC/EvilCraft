@@ -121,6 +121,9 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
 
     private void glow(World world, int x, int y, int z) {
+    	if (!world.isRemote)
+    		return;
+    	
         this.sparkle(world, x, y, z);
 
         if (!isGlowing(world, x, y, z)) {
@@ -144,6 +147,9 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
     
     private void sparkle(World world, int x, int y, int z) {
+    	if (!world.isRemote)
+    		return;
+    	
         Random random = world.rand;
         double offset = 0.0625D;
 
