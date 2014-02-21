@@ -50,7 +50,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         Block block = world.getBlock(x, y, z);
-        if(block == BloodStainedBlock.getInstance()) {
+        if(block == BloodStainedBlock.getInstance() && player.isSneaking()) {
             Random random = world.rand;
             
             // Fill the extractor a bit
@@ -63,15 +63,23 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
                 int metaData = world.getBlockMetadata(x, y, z);
                 world.setBlock(x, y, z, BloodStainedBlock.getInstance().getBlockFromMetadata(metaData));
                 
-                if (world.isRemote) {
+                if (!world.isRemote) {
                     // Init particles
                     EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + random.nextInt(2));
                 }
-                return true;
+                return false;
             }
             return false;
         }
         return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+    }
+    
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+        if(!player.isSneaking()) {
+            return super.onItemRightClick(itemStack, world, player);
+        }
+        return itemStack;
     }
 
 }

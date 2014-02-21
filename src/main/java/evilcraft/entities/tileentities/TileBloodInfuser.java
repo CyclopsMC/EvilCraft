@@ -21,7 +21,6 @@ import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
 import evilcraft.blocks.BloodInfuser;
-import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.entities.tileentities.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.entities.tileentities.tickaction.EmptyItemBucketInTankTickAction;
 import evilcraft.entities.tileentities.tickaction.bloodinfuser.FluidContainerItemTickAction;
