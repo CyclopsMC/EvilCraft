@@ -52,8 +52,6 @@ public class FartPacketHandler {
             String username = getUsername(event.packet);
             boolean isRemotePlayer = !player.getDisplayName().equals(username);
             
-            EvilCraft.log("farts for '" + username + "' '" + player.getDisplayName() + "' " + isRemotePlayer);
-            
             if (isRemotePlayer) 
                 player = world.getPlayerEntityByName(username);
             
