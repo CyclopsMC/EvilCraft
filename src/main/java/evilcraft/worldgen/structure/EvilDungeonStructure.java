@@ -2,10 +2,6 @@ package evilcraft.worldgen.structure;
 
 import java.util.Random;
 
-import evilcraft.blocks.BloodyCobblestone;
-import evilcraft.blocks.BloodyCobblestoneConfig;
-
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
@@ -15,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenDungeons;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.DungeonHooks;
+import evilcraft.blocks.BloodyCobblestone;
 
 /**
  * Evil Dungeon, based on vanilla dungeons

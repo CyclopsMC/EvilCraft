@@ -3,7 +3,6 @@ package evilcraft.items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-import evilcraft.Reference;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;

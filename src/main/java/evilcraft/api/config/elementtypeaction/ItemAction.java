@@ -4,9 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraftTab;
-import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 
 /**

@@ -1,16 +1,15 @@
 package evilcraft.api.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.api.Helpers;
 import evilcraft.api.Helpers.IDType;
-import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 

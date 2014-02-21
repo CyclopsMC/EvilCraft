@@ -11,7 +11,6 @@ import net.minecraftforge.fluids.Fluid;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.RenderHelpers;
 

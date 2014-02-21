@@ -11,7 +11,6 @@ import evilcraft.api.config.configurable.ConfigurableItem;
 import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.DarkOre;
 import evilcraft.blocks.FluidBlockBlood;
-import evilcraft.blocks.FluidBlockBloodConfig;
 
 /**
  * Gem that drops from {@link DarkOre}.

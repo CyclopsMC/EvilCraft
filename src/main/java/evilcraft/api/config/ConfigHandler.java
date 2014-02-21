@@ -4,9 +4,7 @@ import java.util.LinkedHashSet;
 
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraft;
-import evilcraft.Reference;
 import evilcraft.commands.CommandConfig;
 import evilcraft.commands.CommandConfigSet;
 

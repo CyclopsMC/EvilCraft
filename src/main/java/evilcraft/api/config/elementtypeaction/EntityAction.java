@@ -5,7 +5,6 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.api.Helpers;
 import evilcraft.api.Helpers.IDType;
-import evilcraft.api.config.ElementType;
 import evilcraft.api.config.EntityConfig;
 
 /**

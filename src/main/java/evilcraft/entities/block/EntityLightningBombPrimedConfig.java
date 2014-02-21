@@ -3,7 +3,6 @@ package evilcraft.entities.block;
 import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.EntityConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;

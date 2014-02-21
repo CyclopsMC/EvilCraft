@@ -1,6 +1,5 @@
 package evilcraft.items;
 
-import evilcraft.Reference;
 import evilcraft.api.config.ItemBucketConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.api.config.configurable.ConfigurableFluid;

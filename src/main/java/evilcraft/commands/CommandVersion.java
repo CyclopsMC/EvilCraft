@@ -4,13 +4,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import evilcraft.VersionStats;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ConfigProperty;
 
 /**
