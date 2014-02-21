@@ -32,8 +32,6 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     /**
      * Create a new DamageIndicatedItemFluidContainer.
      * 
-     * @param itemID
-     *          The ID for this container.
      * @param capacity
      *          The capacity this container will have.
      * @param fluid

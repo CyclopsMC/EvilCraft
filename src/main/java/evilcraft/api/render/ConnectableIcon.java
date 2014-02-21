@@ -11,7 +11,7 @@ import evilcraft.api.RenderHelpers;
 import evilcraft.api.entities.tileentitites.TileConnectedTexture;
 
 /**
- * A virtual {@link Icon} that has several icons and needs multiple render passes for
+ * A virtual {@link IIcon} that has several icons and needs multiple render passes for
  * making it possible to dynamically render connected textures.
  * Blocks that use this icon must implement {@link IMultiRenderPassBlock}.
  * Five icons are necessary for this.
