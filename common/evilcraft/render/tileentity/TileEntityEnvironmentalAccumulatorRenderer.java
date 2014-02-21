@@ -1,5 +1,6 @@
 package evilcraft.render.tileentity;
 
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 
@@ -20,7 +21,11 @@ public class TileEntityEnvironmentalAccumulatorRenderer extends TileEntityBeacon
 
     private ResourceLocation weatherContainerTexture;
     
+    // Speed at which the item should spin in the animation
     private static final int ITEM_SPIN_SPEED = 3;
+    
+    // Tickness of the item that is spinning around
+    private static final float ITEM_TICKNESS = 0.05f;
     
     private ResourceLocation getResourceLocation() {
         if(weatherContainerTexture == null)
@@ -45,50 +50,17 @@ public class TileEntityEnvironmentalAccumulatorRenderer extends TileEntityBeacon
         bindTexture(getResourceLocation());
         GL11.glDisable(GL11.GL_LIGHTING);
         
-        float f2 = (float)tileentity.getWorldObj().getTotalWorldTime() + partialTickTime;
-        float f3 = ITEM_SPIN_SPEED * (f2 % 180);
+        // Calculate angle for the spinning item
+        double totalTickTime = tileentity.getWorldObj().getTotalWorldTime() + partialTickTime;
+        double angle = ITEM_SPIN_SPEED * (totalTickTime % 360);
         
+        // Translate to the point we will rotate around
         GL11.glTranslated(x + 0.5, y, z + 0.5);
-        GL11.glRotatef(f3, 0, 1, 0);
-        
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        
-        tessellator.addVertexWithUV(-0.25, 0, 0, 1, 1);
-        tessellator.addVertexWithUV(-0.25, 0.5, 0, 1, 0);
-        tessellator.addVertexWithUV(0.25, 0.5, 0, 0, 0);
-        tessellator.addVertexWithUV(0.25, 0, 0, 0, 1);
-        
-        /*
-        // This code contains some experimentation with rendering different
-        // things depending on the direction the player is looking in
-        // it might be usefull for fancier effects
-        RenderManager renderManager = RenderManager.instance;
-        float yaw = renderManager.playerViewY % 360;
-        
-        if (yaw >= 270.0f || yaw <= 45.0f) {
-            tessellator.addVertexWithUV(x + 0.25, y, z + 0.25, 1, 1);
-            tessellator.addVertexWithUV(x + 0.25, y + 0.5, z + 0.25, 1, 0);
-            tessellator.addVertexWithUV(x + 0.75, y + 0.5, z + 0.25, 0, 0);
-            tessellator.addVertexWithUV(x + 0.75, y, z + 0.25, 0, 1);
-        } else if (yaw > 45.0f && yaw <= 135.0f) {
-            tessellator.addVertexWithUV(x + 0.75, y, z + 0.25, 1, 1);
-            tessellator.addVertexWithUV(x + 0.75, y + 0.5, z + 0.25, 1, 0);
-            tessellator.addVertexWithUV(x + 0.75, y + 0.5, z + 0.75, 0, 0);
-            tessellator.addVertexWithUV(x + 0.75, y, z + 0.75, 0, 1);
-        } else if (yaw > 135.0f && yaw <= 225.0f) {
-            tessellator.addVertexWithUV(x + 0.75, y, z + 0.75, 1, 1);
-            tessellator.addVertexWithUV(x + 0.75, y + 0.5, z + 0.75, 1, 0);
-            tessellator.addVertexWithUV(x + 0.25, y + 0.5, z + 0.75, 0, 0);
-            tessellator.addVertexWithUV(x + 0.25, y, z + 0.75, 0, 1);
-        } else {
-            tessellator.addVertexWithUV(x + 0.25, y, z + 0.75, 1, 1);
-            tessellator.addVertexWithUV(x + 0.25, y + 0.5, z + 0.75, 1, 0);
-            tessellator.addVertexWithUV(x + 0.25, y + 0.5, z + 0.25, 0, 0);
-            tessellator.addVertexWithUV(x + 0.25, y, z + 0.25, 0, 1);
-        }*/
-        
-        tessellator.draw();
+        // Rotate
+        GL11.glRotated(angle, 0, 1, 0);
+        // Render the item with tickness and center the rendering around the rotation point
+        GL11.glTranslated(-0.5, 0.0, ITEM_TICKNESS/2.0);
+        ItemRenderer.renderItemIn2D(Tessellator.instance, 0, 0, 1, 1, 16, 16, ITEM_TICKNESS);
         
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
