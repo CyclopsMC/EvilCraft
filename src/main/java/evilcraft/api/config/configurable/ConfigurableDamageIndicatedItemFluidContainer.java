@@ -148,7 +148,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
                 return false;
             } else {
                 if (!world.isRemote && !material.isSolid() && !material.isLiquid()) {
-                	// TODO: MCP destroyBlock
+                	// MCP destroyBlock
                     world.func_147480_a(x, y, z, true);
                 }
 

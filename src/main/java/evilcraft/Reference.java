@@ -55,7 +55,7 @@ public class Reference {
     public static final String MOD_BUILDCRAFT_TRANSPORT = "BuildCraft|Transport";
     
     // Dependencies
-    public static final String MOD_DEPENDENCIES = ""// TODO: "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"
+    public static final String MOD_DEPENDENCIES = "" // This is not required anymore (and never was?) "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"
             + "after:"+MOD_BUILDCRAFT_TRANSPORT
             + ";after:"+Reference.MOD_THERMALEXPANSION;
     
