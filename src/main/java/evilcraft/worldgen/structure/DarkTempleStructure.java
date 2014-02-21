@@ -2,8 +2,8 @@ package evilcraft.worldgen.structure;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import evilcraft.api.Helpers;
 import evilcraft.api.StairSlabMetadataHelper;
@@ -12,7 +12,8 @@ import evilcraft.api.StairSlabMetadataHelper.StoneBrickType;
 import evilcraft.blocks.EnvironmentalAccumulator;
 
 /**
- * The Dark
+ * Structure which generates Dark Temples.
+ * 
  * @author immortaleeb
  *
  */
@@ -20,7 +21,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
     
 	private static final int STRUCTURE_HEIGHT = 9;
 	private static final int MAX_BUILD_HEIGHT = 256 - STRUCTURE_HEIGHT;
-	private static final int MIN_BUILD_HEIGHT = 90;
+	private static final int MIN_BUILD_HEIGHT = 0;
 	
 	private static DarkTempleStructure _instance = null;
 	
@@ -70,109 +71,101 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	
 	@Override
 	protected void generateLayers() {
-		int us = getBlockIdWithMetadata(Block.stoneSingleSlab.blockID, StairSlabMetadataHelper.getSlabMetadata(SlabType.STONE, true));	// upside down stone slab
-		int rs = Block.stoneSingleSlab.blockID;
-		int ds = Block.stoneDoubleSlab.blockID;
-		int cb = getBlockIdWithMetadata(Block.stoneBrick.blockID, StairSlabMetadataHelper.getStoneBrickMetadata(StoneBrickType.CHISELED));	// chiseled brick
-		int sb = Block.stoneBrick.blockID;
-		int cs = getBlockIdWithMetadata(Block.stoneSingleSlab.blockID, StairSlabMetadataHelper.getSlabMetadata(SlabType.COBBLESTONE, false));	// cobblestone slab
-		int co = Block.cobblestone.blockID;
-		int wa = Block.waterStill.blockID;
-		int fe = Block.fence.blockID;
-		int to = Block.torchWood.blockID;
-		int cw = Block.cobblestoneWall.blockID;
+		BlockWrapper us = new BlockWrapper(Blocks.stone_slab, StairSlabMetadataHelper.getSlabMetadata(SlabType.STONE, true));	// upside down stone slab
+		BlockWrapper rs = new BlockWrapper(Blocks.stone_slab);
+		BlockWrapper ds = new BlockWrapper(Blocks.double_stone_slab);
+		BlockWrapper cb = new BlockWrapper(Blocks.stonebrick, StairSlabMetadataHelper.getStoneBrickMetadata(StoneBrickType.CHISELED));	// chiseled brick
+		BlockWrapper sb = new BlockWrapper(Blocks.stonebrick);
+		BlockWrapper cs = new BlockWrapper(Blocks.stone_slab, StairSlabMetadataHelper.getSlabMetadata(SlabType.COBBLESTONE, false));	// cobblestone slab
+		BlockWrapper co = new BlockWrapper(Blocks.cobblestone);
+		BlockWrapper wa = new BlockWrapper(Blocks.water);
+		BlockWrapper fe = new BlockWrapper(Blocks.fence);
+		BlockWrapper to = new BlockWrapper(Blocks.torch);
+		BlockWrapper cw = new BlockWrapper(Blocks.cobblestone_wall);
 		
-		int ea = EnvironmentalAccumulator.getInstance().blockID;
+		BlockWrapper ea = new BlockWrapper(EnvironmentalAccumulator.getInstance());
+		BlockWrapper o = null;	// Just to keep things compact...
 		
-		addLayer(1, new int[]{
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,us,ds,0 ,
-				us,us,us,us,us,0 ,
-				us,us,us,us,0 ,0 ,
-				us,us,us,us,0 ,0 ,
-				us,us,us,us,0 ,0
+		addLayer(1, new BlockWrapper[]{
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,us,ds,o ,
+				us,us,us,us,us,o ,
+				us,us,us,us,o ,o ,
+				us,us,us,us,o ,o ,
+				us,us,us,us,o ,o
 			});
 		
-		addLayer(2, new int[]{
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,cb,cb,0 ,
-				sb,sb,sb,sb,cb,0 ,
-				ds,co,wa,sb,0 ,0 ,
-				co,co,co,sb,0 ,0 ,
-				co,co,ds,sb,0 ,0
+		addLayer(2, new BlockWrapper[]{
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,cb,cb,o ,
+				sb,sb,sb,sb,cb,o ,
+				ds,co,wa,sb,o ,o ,
+				co,co,co,sb,o ,o ,
+				co,co,ds,sb,o ,o
 			});
 		
-		addLayer(3, new int[]{
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,sb,0 ,
-				0 ,0 ,0 ,fe,0 ,0 ,
-				rs,0 ,0 ,0 ,0 ,0 ,
-				cs,rs,0 ,0 ,0 ,0 ,
-				ea,cs,rs,0 ,0 ,0
+		addLayer(3, new BlockWrapper[]{
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,sb,o ,
+				o ,o ,o ,fe,o ,o ,
+				rs,o ,o ,o ,o ,o ,
+				cs,rs,o ,o ,o ,o ,
+				ea,cs,rs,o ,o ,o
 			});
 		
-		addLayer(4, new int[]{
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,cb,0 ,
-				0 ,0 ,0 ,to,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0
+		addLayer(4, new BlockWrapper[]{
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,cb,o ,
+				o ,o ,o ,to,o ,o ,
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,o ,o
 			});
 		
-		addLayer(5, new int[]{
-				us,0 ,0 ,0 ,cw,0 ,
-				0 ,0 ,0 ,0 ,sb,cw,
-				0 ,0 ,0 ,0, 0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,us
+		addLayer(5, new BlockWrapper[]{
+				us,o ,o ,o ,cw,o ,
+				o ,o ,o ,o ,sb,cw,
+				o ,o ,o ,o, o ,o ,
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,o ,us
 			});
 		
-		addLayer(6, new int[]{
-				cb,ds,rs,rs,rs,0 ,
+		addLayer(6, new BlockWrapper[]{
+				cb,ds,rs,rs,rs,o ,
 				co,co,co,co,co,rs,
 				co,co,co,co,co,rs,
 				co,co,co,co,co,rs,
 				co,co,co,co,co,ds,
-				0 ,co,co,co,co,cb
+				o ,co,co,co,co,cb
 			});
 		
-		addLayer(7, new int[]{
-				rs,0 ,0 ,0 ,0 ,0 ,
-				cw,0 ,0 ,0 ,0 ,0 ,
-				cs,cs,cs,0 ,0 ,0 ,
-				co,co,cs,cs,0 ,0 ,
-				co,co,co,cs,0 ,0 ,
-				0 ,co,co,cs,cw,rs
+		addLayer(7, new BlockWrapper[]{
+				rs,o ,o ,o ,o ,o ,
+				cw,o ,o ,o ,o ,o ,
+				cs,cs,cs,o ,o ,o ,
+				co,co,cs,cs,o ,o ,
+				co,co,co,cs,o ,o ,
+				o ,co,co,cs,cw,rs
 			});
 		
-		addLayer(8, new int[]{
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				cs,cw,0 ,0 ,0 ,0 ,
-				0 ,cs,0 ,0 ,0 ,0
+		addLayer(8, new BlockWrapper[]{
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,o ,o ,
+				cs,cw,o ,o ,o ,o ,
+				o ,cs,o ,o ,o ,o
 			});
 		
-		addLayer(9, new int[]{
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,to,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0
+		addLayer(9, new BlockWrapper[]{
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,o ,o ,
+				o ,o ,o ,o ,o ,o ,
+				o ,to,o ,o ,o ,o ,
+				o ,o ,o ,o ,o ,o
 			});
-		
-		/*
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0 ,
-				0 ,0 ,0 ,0 ,0 ,0
-		 */
 	}
 	
 	@Override
@@ -186,15 +179,15 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 		int metadata1 = StairSlabMetadataHelper.getStairMetadata(Helpers.getForgeDirectionFromXSign(incX), true);	// metadata for stair 1
 		int metadata2 = StairSlabMetadataHelper.getStairMetadata(Helpers.getForgeDirectionFromZSing(incZ), true);	// metadata for stair 2
 
-		world.setBlock(x + 3*incX, y + 5, z + 4*incZ, Block.stairsCobblestone.blockID, metadata1, 2);
-		world.setBlock(x + 4*incX, y + 5, z + 3*incZ, Block.stairsCobblestone.blockID, metadata2, 2);
+		world.setBlock(x + 3*incX, y + 5, z + 4*incZ, Blocks.stone_stairs, metadata1, 2);
+		world.setBlock(x + 4*incX, y + 5, z + 3*incZ, Blocks.stone_stairs, metadata2, 2);
 		
 		// pillars to the ground
 		int xx = x + 4*incX;
 		int zz = z + 4*incZ;
 		
 		while (!isSolidBlock(world, xx, y, zz)) {
-			world.setBlock(xx, y, zz, Block.cobblestone.blockID, 0, 2);
+			world.setBlock(xx, y, zz, Blocks.cobblestone, 0, 2);
 			y--;
 		}
 	}

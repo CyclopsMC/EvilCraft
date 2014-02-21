@@ -19,6 +19,7 @@ import evilcraft.commands.CommandEvilCraft;
 import evilcraft.gui.GuiHandler;
 import evilcraft.gui.client.GuiMainMenuEvilifier;
 import evilcraft.proxies.CommonProxy;
+import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.EvilDungeonGenerator;
 import evilcraft.worldgen.EvilWorldGenerator;
 
@@ -102,8 +103,9 @@ public class EvilCraft {
         // Register world generation
         GameRegistry.registerWorldGenerator(new EvilWorldGenerator(), 5);
         GameRegistry.registerWorldGenerator(new EvilDungeonGenerator(), 2);
-        // TODO: rewrite
-        //GameRegistry.registerWorldGenerator(new DarkTempleGenerator(), 1);
+        GameRegistry.registerWorldGenerator(new DarkTempleGenerator(), 1);
+        
+        // Gui Handlers
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         
         // Add custom panorama's

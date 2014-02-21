@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
 /**
@@ -13,8 +14,7 @@ import net.minecraft.world.World;
  */
 public abstract class QuarterSymmetricalStructure {
 	private List<Integer> layerHeights;
-	private List<int[]> layers;
-	private List<int[]> metadataIds;
+	private List<BlockWrapper[]> layers;
 
 	// Width and height of a quarter of the structure
 	protected int quarterWidth;
@@ -27,8 +27,7 @@ public abstract class QuarterSymmetricalStructure {
 	 */
 	public QuarterSymmetricalStructure(int quarterWidth, int quarterHeight) {
 		layerHeights = new ArrayList<Integer>();
-		layers = new ArrayList<int[]>();
-		metadataIds = new ArrayList<int[]>();
+		layers = new ArrayList<BlockWrapper[]>();
 
 		this.quarterWidth = quarterWidth;
 		this.quarterHeight = quarterHeight;
@@ -38,41 +37,25 @@ public abstract class QuarterSymmetricalStructure {
 
 	protected abstract void generateLayers();
 
-	protected void addLayer(int height, int[] layer) {
+	protected void addLayer(int height, BlockWrapper[] layer) {
 		layerHeights.add(height);
 		layers.add(layer);
-	}
-
-	protected int getBlockIdWithMetadata(int blockId, int metadata) {
-		metadataIds.add(new int[] { blockId, metadata });
-		return -metadataIds.size();
-	}
-
-	protected int[] getBlockAndMetadata(int metadataBlockId) {
-		return metadataIds.get(-metadataBlockId - 1);
 	}
 
 	protected void buildCorner(World world, int x, int y, int z, int incX, int incZ) {
 		for (int i = 0; i < layerHeights.size(); ++i) {
 			int layerHeight = layerHeights.get(i);
-			int[] layer = layers.get(i);
+			BlockWrapper[] layer = layers.get(i);
 
 			// Don't overwrite the borders everytime we place blocks
 			int start = (incX == incZ) ? 0 : 1;
 
 			for (int zr = start; zr < quarterHeight; ++zr) {
 				for (int xr = start; xr < quarterWidth; ++xr) {
-					int id = layer[(quarterWidth - xr - 1) * quarterHeight + zr];
-					int metadata = 0;
+					BlockWrapper wrapper = layer[(quarterWidth - xr - 1) * quarterHeight + zr];
 
-					if (id < 0) {
-						int[] data = getBlockAndMetadata(id);
-						id = data[0];
-						metadata = data[1];
-					}
-
-					if (id != 0) // not an air block?
-						world.setBlock(x + xr * incX, y + layerHeight, z + zr * incZ, id, metadata, 2);
+					if (wrapper != null) // not an air block?
+						world.setBlock(x + xr * incX, y + layerHeight, z + zr * incZ, wrapper.block, wrapper.metadata, 2);
 				}
 			}
 		}
@@ -100,5 +83,41 @@ public abstract class QuarterSymmetricalStructure {
 		buildCorner(world, x, y, z, -1, -1);
 
 		return true;
+	}
+	
+	/**
+	 * This is a wrapper class, which wraps around a {@link Block} and
+	 * pairs with it the metadata for that specific block instance.
+	 * 
+	 * @author immortaleeb
+	 *
+	 */
+	public class BlockWrapper {
+		/**
+		 * {@link Block} for which this instance is a wrapper.
+		 */
+		public Block block;
+		/**
+		 * Metadata which should be used for the specific {@link Block}.
+		 */
+		public int metadata;
+		
+		/**
+		 * Creates a new wrapper around the specified {@link Block} with metadata 0.
+		 * @param block
+		 */
+		public BlockWrapper(Block block) {
+			this(block, 0);
+		}
+		
+		/**
+		 * Creates a new wrapper around the specified {@link Block} with the specified metadata. 
+		 * @param block
+		 * @param metadata
+		 */
+		public BlockWrapper(Block block, int metadata) {
+			this.block = block;
+			this.metadata = metadata;
+		}
 	}
 }
