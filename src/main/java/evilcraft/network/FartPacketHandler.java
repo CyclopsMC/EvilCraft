@@ -4,26 +4,29 @@ import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.IPacketHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
+import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
+import evilcraft.EvilCraft;
 import evilcraft.api.Helpers;
 import evilcraft.render.particle.EntityFartFX;
 
 /**
- * An {@link IPacketHandler} for sending farts.
+ * Instances of this class handles receiving {@link FartPacket}S
+ * at both client and server side.
+ * 
  * @author immortaleeb
  *
  */
-public class FartPacketHandler implements IPacketHandler {
-    
-    private static final int FART_RANGE = 64;
+public class FartPacketHandler {
+	
+	private static final int FART_RANGE = 3000;
     private static final int MAX_PARTICLES = 200;
     private static final int MIN_PARTICLES = 100;
     
@@ -33,36 +36,55 @@ public class FartPacketHandler implements IPacketHandler {
     // List of players that have rainbow farts
     private static final String[] ALLOW_RAINBOW_FARTS = { "kroeserr", "_EeB_" };
     
-    @Override
-    public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
-        if (player instanceof EntityPlayer) {
-            EntityPlayer entityPlayer = (EntityPlayer)player;
+    /**
+     * Handles the receiving fart packets at the client side.
+     * It basically just spawns particles around the bottom
+     * of the player who generated the fart.
+     * 
+     * @param event Event that contains data about the fart packet.
+     */
+    @SubscribeEvent
+    public void onClientPacketReceived(ClientCustomPacketEvent event) {
+    	EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+    	
+    	if (event.packet.payload().readableBytes() > 0) {
+            World world = player.worldObj;
+            String username = getUsername(event.packet);
+            boolean isRemotePlayer = !player.getDisplayName().equals(username);
             
-            if (Helpers.isClientSide() && packet.data != null) {
-                World world = entityPlayer.worldObj;
-                String username = new String(packet.data);
-                boolean isRemotePlayer = !entityPlayer.username.equals(username);
-                
-                if (isRemotePlayer) 
-                    entityPlayer = world.getPlayerEntityByName(new String(packet.data));
-                
-                spawnFartParticles(world, entityPlayer, isRemotePlayer);
-                
-            } else if (!Helpers.isClientSide()){
-                PacketDispatcher.sendPacketToAllAround(
-                        entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, FART_RANGE, 
-                        entityPlayer.dimension, PacketDispatcher.getPacket(Reference.MOD_CHANNEL, entityPlayer.username.getBytes())
-                );
-            }
-        }
+            EvilCraft.log("farts for '" + username + "' '" + player.getDisplayName() + "' " + isRemotePlayer);
+            
+            if (isRemotePlayer) 
+                player = world.getPlayerEntityByName(username);
+            
+            spawnFartParticles(world, player, isRemotePlayer);
+    	}
     }
-    
-    // south z+ 0
-    // west x- 90
-    // nort z- 180
-    // east x+ 270
-    
-    @SideOnly(Side.CLIENT)
+
+    /**
+     * Handles the receiving fart packets at the server side.
+     * Whenever a client sends a fart packet to the server, 
+     * the server will just send the packet back to all players
+     * who are standing around the player who spawned the fart
+     * within a specific range.
+     * 
+     * @param event Event that contains data about the fart packet.
+     */
+	@SubscribeEvent
+	public void onServerPacketReceived(ServerCustomPacketEvent event) {
+		EntityPlayer player = ((NetHandlerPlayServer) event.handler).playerEntity;
+    	
+    	EvilCraft.channel.sendToAllAround(
+    			new FartPacket(player.getDisplayName()),
+    			Helpers.createTargetPointFromEntityPosition(player, FART_RANGE)
+    	);
+	}
+	
+	private String getUsername(FMLProxyPacket packet) {
+		return ByteBufUtils.readUTF8String(packet.payload());
+	}
+	
+	@SideOnly(Side.CLIENT)
     private void spawnFartParticles(World world, EntityPlayer player, boolean isRemotePlayer) {
         if (player == null)
             return;
@@ -101,7 +123,7 @@ public class FartPacketHandler implements IPacketHandler {
      */
     public boolean hasRainbowFart(EntityPlayer player) {
         for (String name : ALLOW_RAINBOW_FARTS) {
-            if (name.equals(player.username))
+            if (name.equals(player.getCommandSenderName()))
                 return true;
         }
         

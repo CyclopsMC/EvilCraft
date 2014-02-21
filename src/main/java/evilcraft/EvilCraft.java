@@ -1,7 +1,6 @@
 package evilcraft;
 import java.util.logging.Level;
 
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -9,24 +8,17 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import evilcraft.api.BucketHandler;
 import evilcraft.api.Debug;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.commands.CommandEvilCraft;
-import evilcraft.events.BonemealEventHook;
-import evilcraft.events.LivingAttackEventHook;
-import evilcraft.events.LivingDeathEventHook;
-import evilcraft.events.PlaySoundAtEntityEventHook;
-import evilcraft.events.PlayerInteractEventHook;
-import evilcraft.events.TextureStitchEventHook;
 import evilcraft.gui.GuiHandler;
 import evilcraft.gui.client.GuiMainMenuEvilifier;
 import evilcraft.proxies.CommonProxy;
-import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.EvilDungeonGenerator;
 import evilcraft.worldgen.EvilWorldGenerator;
 
@@ -54,6 +46,12 @@ public class EvilCraft {
      * The unique instance of this mod, will only be available after @see EvilCraft#preInit()
      */
     public static EvilCraft _instance;
+    
+    /**
+     * Unique instance of the FMLEventChannel that is used to send EvilCraft messages between
+     * clients and server
+     */
+    public static FMLEventChannel channel;
     
     /**
      * The pre-initialization, will register required configs.
@@ -90,13 +88,7 @@ public class EvilCraft {
         CustomDeathMessageRegistry.register();
         
         // Register events
-        MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());
-        MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
-        MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
-        MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
-        MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
-        MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
-        MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
+        proxy.registerEventHooks();
     }
     
     /**

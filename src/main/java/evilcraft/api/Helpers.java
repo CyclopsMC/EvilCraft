@@ -28,6 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
@@ -449,5 +450,17 @@ public class Helpers {
      */
     public static String getLocalizedInfo(Item item, String suffix) {
     	return IInformationProvider.INFO_PREFIX + StatCollector.translateToLocal(item.getUnlocalizedName() + ".info" + suffix);
+    }
+    
+    /**
+     * Creates a {@link TargetPoint} for the dimension and position of the given {@link Entity}
+     * and a given range.
+     * 
+     * @param entity Entity who's dimension and position will be used to create the {@link TargetPoint}. 
+     * @param range The range of the {@link TargetPoint}.
+     * @return A {@link TargetPoint} with the position and dimension of the entity and the given range.
+     */
+    public static TargetPoint createTargetPointFromEntityPosition(Entity entity, int range) {
+    	return new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, range);
     }
 }
