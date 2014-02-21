@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
+import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -50,7 +51,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         int blockID = world.getBlockId(x, y, z);
-        if(blockID == BloodStainedBlockConfig._instance.ID) {
+        if(blockID == BloodStainedBlockConfig._instance.ID && player.isSneaking()) {
             Random random = world.rand;
             
             // Fill the extractor a bit
@@ -63,15 +64,23 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
                 int metaData = world.getBlockMetadata(x, y, z);
                 world.setBlock(x, y, z, BloodStainedBlock.getInstance().getBlockFromMetadata(metaData).blockID);
                 
-                if (world.isRemote) {
+                if (!world.isRemote) {
                     // Init particles
                     EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + random.nextInt(2));
                 }
-                return true;
+                return false;
             }
             return false;
         }
         return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+    }
+    
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+        if(!player.isSneaking()) {
+            return super.onItemRightClick(itemStack, world, player);
+        }
+        return itemStack;
     }
 
 }
