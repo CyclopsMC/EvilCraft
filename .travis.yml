@@ -1,0 +1,5 @@
+language: java
+script: "./gradlew build"
+branches:
+    only:
+        - version-1.7
