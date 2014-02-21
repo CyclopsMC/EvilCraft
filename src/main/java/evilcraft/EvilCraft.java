@@ -2,6 +2,7 @@ package evilcraft;
 import java.util.logging.Level;
 
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -22,11 +23,11 @@ import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlaySoundAtEntityEventHook;
 import evilcraft.events.PlayerInteractEventHook;
+import evilcraft.events.PlayerTickEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.gui.GuiHandler;
 import evilcraft.gui.client.GuiMainMenuEvilifier;
 import evilcraft.proxies.CommonProxy;
-import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.EvilDungeonGenerator;
 import evilcraft.worldgen.EvilWorldGenerator;
 
@@ -97,6 +98,7 @@ public class EvilCraft {
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
         MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
         MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
+        FMLCommonHandler.instance().bus().register(new PlayerTickEventHook());
     }
     
     /**
