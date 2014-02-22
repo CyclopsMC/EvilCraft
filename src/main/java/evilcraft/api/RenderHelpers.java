@@ -38,21 +38,21 @@ public class RenderHelpers {
     }
     private static Map<ForgeDirection, String> METHODS_RENDERFACE_OBFUSICATED = new HashMap<ForgeDirection, String>();
     static {
-        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.DOWN, "func_78613_a");
-        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.UP, "func_78617_b");
-        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.NORTH, "func_78622_d");
-        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.EAST, "func_78605_f");
-        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.SOUTH, "func_78611_c");
-        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.WEST, "func_78573_e");
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.DOWN, "func_147768_a");
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.UP, "func_147806_b");
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.NORTH, "func_147734_d");
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.EAST, "func_147764_f");
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.SOUTH, "func_147761_c");
+        METHODS_RENDERFACE_OBFUSICATED.put(ForgeDirection.WEST, "func_147798_e");
     }
     private static Map<ForgeDirection, String> FIELDS_UVROTATE_OBFUSICATED = new HashMap<ForgeDirection, String>();
     static { // Note: the fields from the RenderBlock are INCORRECT! Very good read: http://greyminecraftcoder.blogspot.be/2013/07/rendering-non-standard-blocks.html
-        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.DOWN, "field_78675_l");
-        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.UP, "field_78681_k");
-        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.NORTH, "field_78662_g");
-        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.EAST, "field_78685_i");
-        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.SOUTH, "field_78683_h");
-        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.WEST, "field_78679_j");
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.DOWN, "field_147865_v");
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.UP, "field_147867_u");
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.NORTH, "field_147875_q");
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.EAST, "field_147871_s");
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.SOUTH, "field_147873_r");
+        FIELDS_UVROTATE_OBFUSICATED.put(ForgeDirection.WEST, "field_147869_t");
     }
     private static int[] ROTATE_UV_ROTATE = {0, 1, 3, 2}; // N, E, S, W -> N, E, W, S
     
