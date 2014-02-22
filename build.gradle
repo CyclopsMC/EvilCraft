@@ -46,7 +46,7 @@ minecraft {
     replace "@BUILD_NUMBER@", project.buildnumber
 }
 
-version = "${config.minecraft_version}-${config.mod_version}.${buildnumber}"
+version = "${config.minecraft_version}-${config.mod_version}-${buildnumber}"
 
 processResources {
     // replace stuff in mcmod.info, nothing else
@@ -57,7 +57,7 @@ processResources {
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
         
-    // copy everything else, thats not the mcmod.info
+    // copy everything else, thats not the mcmod.info or the psd folder
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
