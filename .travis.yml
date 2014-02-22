@@ -1,5 +1,13 @@
 language: java
-script: "./gradlew build"
+jdk: openjdk7
+
+install:
+    - true
+before_script:
+    gradle setupCIWorkspace
+script:
+    gradle build
+
 branches:
     only:
         - version-1.7
