@@ -20,7 +20,8 @@ public class FartPacket extends FMLProxyPacket {
 	 * Creates a packet with no content
 	 */
 	public FartPacket() {
-		super(writeStringToByteBuf(Unpooled.buffer(), "WHATTHEFLIP"), Reference.MOD_CHANNEL);
+		// Ideally we would have an empty buffer here, but for some reason that doesn't work...
+		super(Unpooled.buffer(), Reference.MOD_CHANNEL);
 	}
 	
 	/**

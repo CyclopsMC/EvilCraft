@@ -21,7 +21,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
     
 	private static final int STRUCTURE_HEIGHT = 9;
 	private static final int MAX_BUILD_HEIGHT = 256 - STRUCTURE_HEIGHT;
-	private static final int MIN_BUILD_HEIGHT = 0;
+	private static final int MIN_BUILD_HEIGHT = 90;
 	
 	private static DarkTempleStructure _instance = null;
 	
