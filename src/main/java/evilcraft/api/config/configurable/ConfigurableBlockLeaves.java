@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.BlockNewLeaf;
+import net.minecraft.block.BlockLeavesBase;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -23,7 +24,7 @@ import evilcraft.api.config.ExtendedConfig;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockLeaves extends BlockNewLeaf implements Configurable{
+public abstract class ConfigurableBlockLeaves extends BlockLeavesBase implements Configurable{
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
@@ -42,6 +43,7 @@ public abstract class ConfigurableBlockLeaves extends BlockNewLeaf implements Co
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlockLeaves(ExtendedConfig eConfig) {
+    	super(Material.leaves, false);
         this.setConfig(eConfig);
         this.setBlockName(this.getUniqueName());
         //setBurnProperties(this, 30, 60);
@@ -77,12 +79,12 @@ public abstract class ConfigurableBlockLeaves extends BlockNewLeaf implements Co
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        return !isOpaqueCube() ? iconTransparent : iconOpaque;
+        return !field_150121_P? iconTransparent : iconOpaque;
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        return !isOpaqueCube() ? iconTransparent : iconTransparent;
+        return !field_150121_P? iconTransparent : iconOpaque;
     }
 
     @Override
@@ -103,8 +105,12 @@ public abstract class ConfigurableBlockLeaves extends BlockNewLeaf implements Co
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
-        return !!isOpaqueCube() ? true : super.shouldSideBeRendered(world, x, y, z, side);
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int meta) {
+    	if (meta > 7 || field_150121_P) {
+            return super.shouldSideBeRendered(world, x, y, z, meta);
+        } else {
+            return true;
+        }
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
