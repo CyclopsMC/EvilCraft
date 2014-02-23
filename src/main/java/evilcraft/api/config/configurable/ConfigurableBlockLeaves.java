@@ -105,9 +105,9 @@ public abstract class ConfigurableBlockLeaves extends BlockLeavesBase implements
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int meta) {
-    	if (meta > 7 || field_150121_P) {
-            return super.shouldSideBeRendered(world, x, y, z, meta);
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+    	if (side > 7 || field_150121_P) {
+            return super.shouldSideBeRendered(world, x, y, z, side);
         } else {
             return true;
         }

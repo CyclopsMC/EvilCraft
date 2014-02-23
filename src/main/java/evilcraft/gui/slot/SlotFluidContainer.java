@@ -57,7 +57,7 @@ public class SlotFluidContainer extends Slot {
      * @return If the given item is valid.
      */
     public static boolean checkIsItemValid(ItemStack itemStack, Fluid acceptedFluid) {
-        if(itemStack != null && itemStack.stackSize == 1) {
+        if(itemStack != null && itemStack.stackSize == 1 && itemStack.getItem() instanceof IFluidContainerItem) {
             // This is done because the FluidContainerRegistry saves keys on item id and damage value,
             // but our containers can have different damage values for the same container.
             // But not anymore!
