@@ -25,6 +25,7 @@ public abstract class VillagerConfig extends ExtendedConfig<VillagerConfig> {
     public VillagerConfig(int defaultId, String namedId,
             String comment, Class<? extends ConfigurableVillager> element) {
         super(defaultId != 0, namedId, comment, element);
+        this.ID = defaultId;
     }
     
 
