@@ -69,7 +69,7 @@ public class VersionStats {
 	
 	private static boolean needsUpdate(VersionStats versionStats) {
 		if(versionStats != null) {
-			if(Reference.MOD_VERSION != versionStats.mod_version)
+			if(!Reference.MOD_VERSION.equals(versionStats.mod_version))
 				return true;
 		}
 		return false;
