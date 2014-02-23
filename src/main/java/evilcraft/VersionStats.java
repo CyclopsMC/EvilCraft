@@ -55,7 +55,7 @@ public class VersionStats {
 				
 				sendMessage(player, "Using "+Reference.MOD_NAME+" "+getVersion());
 				
-				if(GeneralConfig.version != Reference.MOD_VERSION) {
+				if(!GeneralConfig.version.equals(Reference.MOD_VERSION)) {
 					sendMessage(player, "Your config file is out of date, this could cause problems.");
 				}
 				
