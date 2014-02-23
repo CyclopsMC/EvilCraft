@@ -64,7 +64,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
                 int metaData = world.getBlockMetadata(x, y, z);
                 world.setBlock(x, y, z, BloodStainedBlock.getInstance().getBlockFromMetadata(metaData).blockID);
                 
-                if (!world.isRemote) {
+                if (world.isRemote) {
                     // Init particles
                     EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + random.nextInt(2));
                 }
