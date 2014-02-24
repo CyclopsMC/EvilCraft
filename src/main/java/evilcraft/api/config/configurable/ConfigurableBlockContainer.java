@@ -197,7 +197,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
         ItemStack itemStack = new ItemStack(getItemDropped(metadata, world.rand, fortune), 1, damageDropped(metadata));
         EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
-        if(tile != null)
+        if(tile != null && isKeepNBTOnDrop())
             itemStack.setTagCompound(tile.getNBTTagCompound());
         drops.add(itemStack);
         // The delayed breakBlock supercall
@@ -206,6 +206,15 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     }
 
     /**
+     * If the NBT data of this block should be preserved in the item when it
+     * is broken into an item.
+     * @return If it should keep NBT data.
+     */
+    public boolean isKeepNBTOnDrop() {
+		return true;
+	}
+
+	/**
      * If this block can be rotated.
      * @return Can be rotated.
      */

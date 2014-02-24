@@ -77,5 +77,10 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     public boolean isOpaqueCube() {
         return false;
     }
+    
+    @Override
+    public boolean isKeepNBTOnDrop() {
+		return false;
+	}
 
 }

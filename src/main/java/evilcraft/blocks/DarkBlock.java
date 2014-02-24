@@ -52,5 +52,10 @@ public class DarkBlock extends ConfigurableBlockConnectedTexture {
     public boolean hasSeperateInventoryBlockIcon() {
         return true;
     }
+    
+    @Override
+    public boolean isKeepNBTOnDrop() {
+		return false;
+	}
 
 }
