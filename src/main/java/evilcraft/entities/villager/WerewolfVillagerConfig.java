@@ -1,5 +1,6 @@
 package evilcraft.entities.villager;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.VillagerConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
@@ -21,13 +22,19 @@ public class WerewolfVillagerConfig extends VillagerConfig {
      */
     @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Werewolf villager be enabled?")
     public static boolean isEnabled = true;
+    
+    /**
+     * The id of the Werewolf villager
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "The id of the Werewolf villager.")
+    public static int villagerID = Reference.VILLAGER_WEREWOLF;
 
     /**
      * Make a new instance.
      */
     public WerewolfVillagerConfig() {
         super(
-            66666,
+        	villagerID,
             "werewolfVillager",
             null,
             WerewolfVillager.class

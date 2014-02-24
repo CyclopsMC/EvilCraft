@@ -35,6 +35,9 @@ public class Reference {
     public static final int ENCHANTMENT_POISON_TIP = 104;
     public static final int ENCHANTMENT_KNOCKSPEED = 105;
     
+    // Villager ID's
+    public static final int VILLAGER_WEREWOLF = 66666;
+    
     // OREDICT NAMES
     public static final String DICT_MATERIALPOISONOUS = "materialPoisonous";
     public static final String DICT_MATERIALGLASS = "materialGlass";
