@@ -5,6 +5,7 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
@@ -29,11 +30,10 @@ public class FartKeyHandler implements KeyHandler {
 		if (kb == Keys.FART.keyBinding) {
 			fartingEnabled = !fartingEnabled;
 			
-			// TODO: i18n
 			if (fartingEnabled)
-				player.addChatComponentMessage(new ChatComponentText("Farting enabled"));
+				player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("chat.command.fartingEnabled")));
 			else
-				player.addChatComponentMessage(new ChatComponentText("Farting disabled"));
+				player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("chat.command.fartingDisabled")));
 		}
 		
 		if (fartingEnabled && kb == settings.keyBindSneak) {

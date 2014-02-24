@@ -80,3 +80,12 @@ enchantment.breaking=Breaking
 enchantment.lifeStealing=Life Stealing
 enchantment.unusing=Unusing
 enchantment.poisonTip=Poison Tip
+
+# Chat messages
+chat.command.invalidArguments=Invalid Arguments
+chat.command.invalidSubcommand=Invalid Subcommand
+chat.command.onlyOneValue=Please define one new value
+chat.command.invalidNewValue=Invalid new value
+chat.command.updatedValue=Updated %s to: %s (not updated in config file)
+chat.command.fartingEnabled=Farting enabled
+chat.command.fartingDisabled=Farting disabled

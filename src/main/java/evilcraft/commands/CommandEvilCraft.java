@@ -8,6 +8,7 @@ import java.util.Map;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 import evilcraft.api.Helpers;
 
 /**
@@ -80,14 +81,14 @@ public class CommandEvilCraft implements ICommand {
     @Override
     public void processCommand(ICommandSender icommandsender, String[] astring) {
         if(astring.length == 0) {
-            icommandsender.addChatMessage(new ChatComponentText("Invalid arguments."));
+            icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("chat.command.invalidArguments")));
         } else {
             ICommand subcommand = getSubcommands().get(astring[0]);
             if(subcommand != null) {
                 String[] asubstring = shortenArgumentList(astring);
                 subcommand.processCommand(icommandsender, asubstring);
             } else {
-                icommandsender.addChatMessage(new ChatComponentText("Invalid subcommand."));
+                icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("chat.command.invalidSubcommand")));
             }
         }
     }
