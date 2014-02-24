@@ -69,4 +69,9 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
         entityDropParticleFXBlockComponent.randomDisplayTick(world, x, y, z, random);
     }
 
+	@Override
+	public String[] func_150125_e() {
+		return null;
+	}
+
 }

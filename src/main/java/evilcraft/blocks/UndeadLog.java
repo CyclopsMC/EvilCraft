@@ -1,4 +1,5 @@
 package evilcraft.blocks;
+import net.minecraft.init.Blocks;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockLog;
@@ -35,6 +36,7 @@ public class UndeadLog extends ConfigurableBlockLog {
         super(eConfig);
         setHardness(2.0F);
         setStepSound(soundTypeWood);
+        Blocks.fire.setFireInfo(this, 5, 20);
     }
 
 }

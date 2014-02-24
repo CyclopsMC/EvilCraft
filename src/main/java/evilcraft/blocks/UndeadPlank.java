@@ -1,5 +1,6 @@
 package evilcraft.blocks;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
@@ -36,6 +37,7 @@ public class UndeadPlank extends ConfigurableBlock {
         super(eConfig, Material.wood);
         setHardness(2.0F);
         setStepSound(soundTypeWood);
+        Blocks.fire.setFireInfo(this, 5, 20);
     }
 
 }

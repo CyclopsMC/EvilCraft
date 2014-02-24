@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.BlockLeavesBase;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -24,7 +24,7 @@ import evilcraft.api.config.ExtendedConfig;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockLeaves extends BlockLeavesBase implements Configurable{
+public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Configurable{
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
@@ -43,10 +43,9 @@ public abstract class ConfigurableBlockLeaves extends BlockLeavesBase implements
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public ConfigurableBlockLeaves(ExtendedConfig eConfig) {
-    	super(Material.leaves, false);
         this.setConfig(eConfig);
         this.setBlockName(this.getUniqueName());
-        //setBurnProperties(this, 30, 60);
+        Blocks.fire.setFireInfo(this, 30, 60);
     }
 
     @Override
