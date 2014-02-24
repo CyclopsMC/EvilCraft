@@ -1,5 +1,6 @@
 package evilcraft.blocks;
 
+import net.minecraft.init.Blocks;
 import evilcraft.Reference;
 import evilcraft.api.config.BlockConfig;
 
@@ -35,6 +36,11 @@ public class UndeadLogConfig extends BlockConfig {
     @Override
     public boolean isMultipartEnabled() {
         return true;
+    }
+    
+    @Override
+    public void onRegistered() {
+    	Blocks.fire.setFireInfo(UndeadLog.getInstance(), 5, 20);
     }
     
 }

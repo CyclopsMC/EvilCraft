@@ -1,5 +1,6 @@
 package evilcraft.blocks;
 
+import net.minecraft.init.Blocks;
 import evilcraft.api.config.BlockConfig;
 
 /**
@@ -24,6 +25,11 @@ public class UndeadLeavesConfig extends BlockConfig {
             null,
             UndeadLeaves.class
         );
+    }
+    
+    @Override
+    public void onRegistered() {
+    	Blocks.fire.setFireInfo(UndeadLeaves.getInstance(), 30, 60);
     }
     
 }

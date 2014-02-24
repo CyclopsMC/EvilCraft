@@ -7,7 +7,6 @@ import java.util.Random;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -45,7 +44,6 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
     public ConfigurableBlockLeaves(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
         this.setBlockName(this.getUniqueName());
-        Blocks.fire.setFireInfo(this, 30, 60);
     }
 
     @Override
