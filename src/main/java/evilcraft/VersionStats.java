@@ -50,19 +50,15 @@ public class VersionStats {
 	public static synchronized void check(PlayerTickEvent event) {
 		if(!CHECKED) {
 			CHECKED = true;
-			if(GeneralConfig.versionChecker) {
-				EntityPlayer player = event.player;
-				
-				sendMessage(player, "Using "+Reference.MOD_NAME+" "+getVersion());
-				
-				if(!GeneralConfig.version.equals(Reference.MOD_VERSION)) {
-					sendMessage(player, "Your config file is out of date, this could cause problems.");
-				}
-				
-				VersionStats versionStats = getVersionStats();
-				if(needsUpdate(versionStats)) {
-					sendMessage(player, "Version " + versionStats.mod_version + " is available at " + versionStats.update_link);
-				}
+			EntityPlayer player = event.player;
+			
+			if(!GeneralConfig.version.equals(Reference.MOD_VERSION)) {
+				sendMessage(player, "Your " + Reference.MOD_NAME + " config file is out of date, this could cause problems.");
+			}
+			
+			VersionStats versionStats = getVersionStats();
+			if(GeneralConfig.versionChecker && needsUpdate(versionStats)) {
+				sendMessage(player, "Update " + versionStats.mod_version + " of "+Reference.MOD_NAME+"(" + Reference.MOD_VERSION + "): " + versionStats.update_link);
 			}
 		}
 	}
