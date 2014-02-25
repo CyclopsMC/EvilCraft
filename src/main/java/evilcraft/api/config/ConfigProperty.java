@@ -1,10 +1,12 @@
 package evilcraft.api.config;
 
 import java.lang.reflect.Field;
-import java.util.logging.Level;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+
+import org.apache.logging.log4j.Level;
+
 import evilcraft.EvilCraft;
 import evilcraft.api.config.configurable.Configurable;
 
@@ -219,7 +221,7 @@ public class ConfigProperty {
                 getCallback().run(additionalProperty.getString());
             }
         } else {
-            EvilCraft.log("Invalid config property class.", Level.SEVERE);
+            EvilCraft.log("Invalid config property class.", Level.FATAL);
         }
     }
 }

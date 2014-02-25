@@ -2,7 +2,8 @@ package evilcraft.api;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ExtendedConfig;
@@ -80,7 +81,7 @@ public class Debug {
     
     private static void log(String message) {
         ok = false;
-        EvilCraft.log(CONFIGCHECKER_PREFIX+message, Level.SEVERE);
+        EvilCraft.log(CONFIGCHECKER_PREFIX+message, Level.INFO);
     }
 
 }

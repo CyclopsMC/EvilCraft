@@ -1,5 +1,6 @@
 package evilcraft;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;

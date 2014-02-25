@@ -1,27 +1,24 @@
 package evilcraft.api;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.common.FMLLog;
 import evilcraft.Reference;
 
 /**
- * Based on iChun's LoggerHelper.
- * @see <a href="https://github.com/iChun/iChunUtil/blob/master/ichun/core/LoggerHelper.java">iChun LoggerHelper</a>
+ * Logger that will be used in this mod.
  * @author rubensworks
  *
  */
-public class LoggerHelper
-{
-    private static Logger logger = Logger.getLogger(Reference.MOD_NAME);
+public class LoggerHelper {
+	
+    private static Logger logger = LogManager.getLogger(Reference.MOD_NAME);
 
     /**
      * Initialize the logger.
      */
-    public static void init() {
-        //logger.setParent(FMLLog.getLogger());
-    }
+    public static void init() { }
     
     /**
      * Log a new message.
@@ -30,16 +27,5 @@ public class LoggerHelper
      */
     public static void log(Level logLevel, String message) {
         logger.log(logLevel, message);
-    }
-
-    /**
-     * Create a new logger.
-     * @param s The id of the logger.
-     * @return The logger.
-     */
-    public static Logger createLogger(String s) {
-        Logger logger = Logger.getLogger(s);
-        logger.setParent((Logger) FMLLog.getLogger());
-        return logger;
     }
 }

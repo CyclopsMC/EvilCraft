@@ -4,7 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import evilcraft.EvilCraft;
 import evilcraft.api.config.configurable.Configurable;
@@ -219,7 +220,7 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
      * Call this method in the initInstance method of Configurables if the instance was already set.
      */
     public void showDoubleInitError() {
-        EvilCraft.log(this.getClass()+" caused a double registration of "+getSubInstance()+". This is an error in the mod code.", Level.SEVERE);
+        EvilCraft.log(this.getClass()+" caused a double registration of "+getSubInstance()+". This is an error in the mod code.", Level.FATAL);
     }
     
     /**
