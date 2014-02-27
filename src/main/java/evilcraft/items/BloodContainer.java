@@ -8,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
@@ -18,6 +17,7 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Helpers;
+import evilcraft.api.ItemHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -97,7 +97,7 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         if(player.isSneaking()) {
             if(!world.isRemote)
-                toggleContainerActivation(itemStack);
+            	ItemHelpers.toggleActivation(itemStack);
             return itemStack;
         }
         return super.onItemRightClick(itemStack, world, player);
@@ -105,7 +105,7 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public boolean hasEffect(ItemStack itemStack){
-        return isContainerActivated(itemStack);
+        return ItemHelpers.isActivated(itemStack);
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -115,7 +115,7 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
         super.addInformation(itemStack, entityPlayer, list, par4);
         list.add(Helpers.getLocalizedInfo(this, ".main"));
         String autoSupply = EnumChatFormatting.RESET + StatCollector.translateToLocal(getUnlocalizedName() + ".info.disabled");
-        if(isContainerActivated(itemStack)) {
+        if(ItemHelpers.isActivated(itemStack)) {
             autoSupply = EnumChatFormatting.GREEN + StatCollector.translateToLocal(getUnlocalizedName() + ".info.enabled");
         }
         list.add(EnumChatFormatting.BOLD + StatCollector.translateToLocal(getUnlocalizedName() + ".info.autoSupply") + " " + autoSupply);
@@ -123,7 +123,7 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-        if(entity instanceof EntityPlayer && !world.isRemote && isContainerActivated(itemStack)) {
+        if(entity instanceof EntityPlayer && !world.isRemote && ItemHelpers.isActivated(itemStack)) {
             FluidStack tickFluid = this.getFluid(itemStack);
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;
@@ -145,28 +145,6 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
             }
         }
         super.onUpdate(itemStack, world, entity, par4, par5);
-    }
-    
-    /**
-     * Check if the given item is an activated container.
-     * @param itemStack The item to check
-     * @return If it is an active container.
-     */
-    public static boolean isContainerActivated(ItemStack itemStack) {
-        return itemStack != null && itemStack.getTagCompound() != null && itemStack.getTagCompound().getBoolean("enabled");
-    }
-    
-    /**
-     * Toggle activation for the given item.
-     * @param itemStack The item to toggle.
-     */
-    public static void toggleContainerActivation(ItemStack itemStack) {
-        NBTTagCompound tag = itemStack.getTagCompound();
-        if(tag == null) {
-            tag = new NBTTagCompound();
-            itemStack.setTagCompound(tag);
-        }
-        tag.setBoolean("enabled", !isContainerActivated(itemStack));
     }
 
 }

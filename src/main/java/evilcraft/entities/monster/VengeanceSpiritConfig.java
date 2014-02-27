@@ -1,0 +1,63 @@
+package evilcraft.entities.monster;
+
+import net.minecraft.client.renderer.entity.Render;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.Helpers;
+import evilcraft.api.config.ElementTypeCategory;
+import evilcraft.api.config.MobConfig;
+import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.render.entity.RenderVengeanceSpirit;
+
+/**
+ * Config for the {@link Netherfish}.
+ * @author rubensworks
+ *
+ */
+public class VengeanceSpiritConfig extends MobConfig {
+    
+    /**
+     * The unique instance.
+     */
+    public static VengeanceSpiritConfig _instance;
+    
+    /**
+     * Should the Vengeance Spirit be enabled?
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Vengeance Spirit be enabled?")
+    public static boolean isEnabled = true;    
+
+    /**
+     * Make a new instance.
+     */
+    public VengeanceSpiritConfig() {
+        super(
+        	true,
+            "vengeanceSpirit",
+            null,
+            VengeanceSpirit.class
+        );
+    }
+    
+    @Override
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    @Override
+    public int getBackgroundEggColor() {
+        return Helpers.RGBToInt(86, 86, 86);
+    }
+
+    @Override
+    public int getForegroundEggColor() {
+        return Helpers.RGBToInt(155, 155, 155);
+    }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public Render getRender() {
+        return new RenderVengeanceSpirit(this);
+    }
+    
+}

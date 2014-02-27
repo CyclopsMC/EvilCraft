@@ -4,10 +4,12 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
@@ -15,6 +17,7 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.api.HotbarIterator;
 import evilcraft.blocks.BloodStainedBlock;
+import evilcraft.entities.monster.VengeanceSpirit;
 import evilcraft.fluids.Blood;
 import evilcraft.items.BloodExtractor;
 import evilcraft.render.particle.EntityBloodSplashFX;
@@ -34,9 +37,10 @@ public class LivingDeathEventHook {
     public void onLivingDeath(LivingDeathEvent event) {
         bloodObtainEvent(event);
         bloodStainedBlockEvent(event);
+        vengeanceEvent(event);
     }
-    
-    private void bloodObtainEvent(LivingDeathEvent event) {
+
+	private void bloodObtainEvent(LivingDeathEvent event) {
         Entity e = event.source.getEntity();
         if(e != null && e instanceof EntityPlayerMP && !e.worldObj.isRemote && event.entityLiving != null) {
             EntityPlayerMP player = (EntityPlayerMP) e;
@@ -75,5 +79,18 @@ public class LivingDeathEventHook {
             }
         }
     }
+    
+	private void vengeanceEvent(LivingDeathEvent event) {
+		if(event.entityLiving != null) {
+			World world = event.entityLiving.worldObj;
+			if(!world.isRemote && VengeanceSpirit.canSustain(event.entityLiving)) {
+				VengeanceSpirit spirit = new VengeanceSpirit(world);
+				spirit.setInnerEntity(event.entityLiving);
+				spirit.copyLocationAndAnglesFrom(event.entityLiving);
+				spirit.onSpawnWithEgg((IEntityLivingData)null);
+				world.spawnEntityInWorld(spirit);
+			}
+		}
+	}
     
 }
