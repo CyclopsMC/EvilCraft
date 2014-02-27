@@ -329,6 +329,8 @@ public class Helpers {
                 newValueParsed = Integer.parseInt(newValue);
             } else if(oldValue instanceof Boolean) {
                 newValueParsed = Boolean.parseBoolean(newValue);
+            } else if(oldValue instanceof Double) {
+                newValueParsed = Double.parseDouble(newValue);
             } else if(oldValue instanceof String) {
                 newValueParsed = newValue;
             }
