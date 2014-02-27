@@ -56,7 +56,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                 for(ConfigProperty configProperty : eConfig.configProperties) {
                     configProperty.save(config);
                     if(configProperty.isCommandable())
-                        CommandConfig.PROPERTIES.put(eConfig.NAMEDID, configProperty);
+                        CommandConfig.PROPERTIES.put(configProperty.getName(), configProperty);
                 }
                 
                 // Check the type of the element
