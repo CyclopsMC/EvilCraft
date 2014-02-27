@@ -50,7 +50,9 @@ public class EntityBroom extends Entity implements Configurable{
      */
     public static final float MIN_ANGLE = -45.0F;
     
-    // Maximum amplitude of the cosine functions which generate the hovering effect
+    /**
+     * Maximum amplitude of the cosine functions which generate the hovering effect
+     */
     private static final float MAX_COS_AMPLITUDE = 0.2f;
     
     /**
@@ -163,6 +165,38 @@ public class EntityBroom extends Entity implements Configurable{
         this.newRotationYaw = (double)yaw;
         this.newRotationPitch = (double)pitch;
         this.newPosRotationIncrements = posRotationIncrements;
+        
+        /**
+         * If the player on the broom is the same as the client player,
+         * then make some corrections for its position based on what the server
+         * sent us
+         */
+        if (worldObj.isRemote && Minecraft.getMinecraft().thePlayer == lastMounted) {
+            double dx = newPosX - posX;
+            double dy = newPosY - posY + oldHoverOffset;
+            double dz = newPosZ - posZ;
+            
+            boolean changePosition = false;
+            
+            // Correct positions when the difference between the server and client position gets too big
+            if (Math.abs(dx) > EntityBroomConfig.desyncThreshold) {
+                posX += dx * EntityBroomConfig.desyncCorrectionValue;
+                changePosition = true;
+            }
+            
+            if (Math.abs(dy) > EntityBroomConfig.desyncThreshold) {
+                posY += dy * EntityBroomConfig.desyncCorrectionValue;
+                changePosition = true;
+            }
+            
+            if (Math.abs(dz) > EntityBroomConfig.desyncThreshold) {
+                posZ += dz * EntityBroomConfig.desyncCorrectionValue;
+                changePosition = true;
+            }
+            
+            if (changePosition)
+                setPosition(posX, posY, posZ);
+        }
     }
     
     @Override
