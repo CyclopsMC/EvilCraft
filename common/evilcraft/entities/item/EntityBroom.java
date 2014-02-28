@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -294,9 +295,11 @@ public class EntityBroom extends Entity implements Configurable{
         double y = Math.cos(pitch);
         
         if (lastMounted.moveForward != 0) {
-            motionX = x * SPEED * lastMounted.moveForward;
-            motionY = y * SPEED * lastMounted.moveForward;
-            motionZ = z * SPEED * lastMounted.moveForward;
+            double playerSpeed = 10 * lastMounted.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+            
+            motionX = x * SPEED * playerSpeed * lastMounted.moveForward;
+            motionY = y * SPEED * playerSpeed * lastMounted.moveForward;
+            motionZ = z * SPEED * playerSpeed * lastMounted.moveForward;
         } else {
             motionX = 0;
             motionY = 0;
