@@ -3,7 +3,8 @@
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
 	<download for="1.6.4" version="0.2.3b">http://bit.ly/1fwx4cX</download>
-	<workingOn>Porting to Minecraft version 1.7, just a few more hours.</workingOn>
+	<download for="1.7.2" version="0.2.3b">http://bit.ly/1hK5Ywl</download>
+	<workingOn>New features, additional content and bugfixes.</workingOn>
 	
 	<description>
 		EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding.
@@ -12,14 +13,17 @@
  		control the weather.
  	</description>
  	<additionalInformation>
- 		This is our first public release of this mod for Minecraft 1.6.4 and the very first thing
- 		we plan on doing is porting it to Minecraft 1.7. We do however plan on fixing any bugs you
- 		might encounter and we will keep releasing versions for Minecraft 1.6.4 until the next version
- 		for Minecraft 1.7 is complete, so please don't hesitate to post any bugs you might find
- 		on our bug tracker. If you have suggestions how we could improve our mod or any additions
- 		you might want to see in the future, they can also be posted on our bug tracker.
- 		Furthermore this mod is an open-source mod, so if you want to contribute you can find us on
- 		https://github.com/rubensworks/EvilCraft . You can also contact kroeser directly on https://twitter.com/rubensworks .
+ 		With our latest release, we provide support for both Minecraft 1.6.4 and 1.7.X. Since a lot of mods
+ 		still didn't convert yet to 1.7 and because some people might be interested in combining EvilCraft
+ 		with other mods (e.g. in mod packs), we will do our best to keep both 1.6.4 and 1.7.X up to date.
+ 		This means that we will still provide bug fixes for 1.6.4 and 1.7.X aswel as small features (e.g. features
+ 		that do not depend on the changes made to Minecraft since 1.7.X). For bigger features however, we will
+ 		only provide support for 1.7.X.
+ 		As soon as we notice that forge for 1.7.X becomes the new "standard" amongst other mods and most users start
+ 		to use mods and/or modpacks for 1.7.X, we will abandon support for 1.6 (note however that this might still take
+ 		a while, since A LOT of mod authors still haven't even started on updating their mods to the newer version).
+ 		Once that happens, we will probably do a major release which (hopefully) contains a lot of new content
+ 		so people will actually have a feeling that things have changed since 1.6.
  	</additionalInformation>
  	
  	
