@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -104,6 +103,7 @@ public class EntityBroom extends Entity implements Configurable{
     public EntityBroom(World world, double x, double y, double z) {
         super(world);
         setPosition(x, y, z);
+        setSize(1.5f, 0.6f);
         this.motionX = 0.0;
         this.motionY = 0.0;
         this.motionZ = 0.0;
@@ -139,8 +139,12 @@ public class EntityBroom extends Entity implements Configurable{
     
     @Override
     public boolean interactFirst(EntityPlayer player) {
-    	mountEntity(player);
-    	return true;
+        if (riddenByEntity == null) {
+            mountEntity(player);
+            return true;
+        }
+        
+    	return false;
     }
     
     @Override
@@ -316,7 +320,7 @@ public class EntityBroom extends Entity implements Configurable{
             {
                 Entity entity = (Entity)list.get(l);
 
-                if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityBoat)
+                if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityBroom)
                 {
                     entity.applyEntityCollision(this);
                 }
