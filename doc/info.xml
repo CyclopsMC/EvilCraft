@@ -30,6 +30,9 @@
  		<element name="General">
  			Thanks to these people for their awesome spotlights!
  		</element>
+ 		<element name="Darton">
+ 			[center][media]http://www.youtube.com/watch?v=sU3n60Mp_pI[/media][/center]
+ 		</element>
  		<element name="EncryptedTonight">
  			[center][media]http://www.youtube.com/watch?v=e_GLGPpuYGM[/media][/center]
  		</element>
@@ -79,7 +82,7 @@
 		<element name="Poison" img="7nAk82E">
 			EvilCraft also adds liquid [u]poison[/u], but don't worry you won't find it spawning
 			in the world, well ... at least not yet.
-			To get some poison, just put a water bucket and any poisoned item in a crafting
+			To get some poison, just put a water bucket and 4 of any poisoned item in a crafting
 			table and you will obtain a bucket of poison.
 			Examples of poisoned items are poisoned potatoes and [u]poison sacs[/u].
 		</element>
@@ -306,7 +309,7 @@
 		<element name="Poisonous Libelle" img="UJaj0XW">
 			Although these little creatures look rather innocent at first sight, you will
 			quickly discover that quite the opposite is true.
-			These nasty little mobs spawn in river biomes and will try to hit whatever entities
+			These nasty little mobs spawn in river and jungle biomes and will try to hit whatever entities
 			they come across including players, passive mobs and other poisonous libelles.
 			Upon hitting an entity, they will be poisoned for a short time and they will continue
 			to annoy players by following them for as long as they can...

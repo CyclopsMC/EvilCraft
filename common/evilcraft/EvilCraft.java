@@ -1,10 +1,14 @@
 package evilcraft;
+import java.util.EnumSet;
 import java.util.logging.Level;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -43,7 +47,7 @@ import evilcraft.worldgen.EvilWorldGenerator;
     dependencies = Reference.MOD_DEPENDENCIES
     )
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
-public class EvilCraft {
+public class EvilCraft implements ITickHandler {
     
     /**
      * The proxy of this mod, depending on 'side' a different proxy will be inside this field.
@@ -161,5 +165,25 @@ public class EvilCraft {
      */
     public static void log(String message, Level level) {
         LoggerHelper.log(level, message);
+    }
+
+    @Override
+    public void tickStart(EnumSet<TickType> type, Object... tickData) {
+        
+    }
+
+    @Override
+    public void tickEnd(EnumSet<TickType> type, Object... tickData) {
+        VersionStats.check(Minecraft.getMinecraft().thePlayer);
+    }
+
+    @Override
+    public EnumSet<TickType> ticks() {
+        return EnumSet.of(TickType.PLAYER);
+    }
+
+    @Override
+    public String getLabel() {
+        return Reference.MOD_ID;
     }
 }

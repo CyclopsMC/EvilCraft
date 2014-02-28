@@ -12,6 +12,8 @@ public class Reference {
     public static final String MOD_ID = "evilcraft";
     public static final String MOD_NAME = "EvilCraft";
     public static final String MOD_VERSION = "@VERSION@";
+    public static final String MOD_BUILD_NUMBER = "@BUILD_NUMBER@";
+    public static final String MOD_MC_VERSION = "@MC_VERSION@";
     
     public static final String MOD_CHANNEL = MOD_ID;
     
@@ -22,6 +24,9 @@ public class Reference {
     public static final String TEXTURE_PATH_ENTITIES = "textures/entities/";
     public static final String TEXTURE_PATH_GUIBACKGROUNDS = "textures/gui/title/background/";
     public static final String TEXTURE_PATH_ITEMS = "textures/items/";
+    
+ // External locations
+    public static final String URL_VERSIONSTATS = "http://rubensworks.net/evilcraft-versionstats/";
     
     // Block ID's
     public static final int BLOCK_BLOODSTAINEDDIRT = 3846;
