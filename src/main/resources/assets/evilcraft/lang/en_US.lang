@@ -57,8 +57,8 @@ item.items.poisonSac.name=Poison Sac
 item.items.werewolfFur.name=Werewolf Fur
 
 # Fluids
-fluid.fluids.blood=Blood
-fluid.fluids.poison=Poison
+fluid.fluids.evilcraftblood=Blood
+fluid.fluids.evilcraftpoison=Poison
 
 # Weather container info
 weatherContainer.empty=Empty
