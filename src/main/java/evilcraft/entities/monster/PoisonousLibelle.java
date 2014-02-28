@@ -69,7 +69,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
     private int wingProgress = 0;
     private boolean wingGoUp = true;
     
-    private static final int MAXHEIGHT = 70;
+    private static final int MAXHEIGHT = 80;
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -340,9 +340,9 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
             boolean flag = false;
 
             do {
-                this.targetX = 0.0D;
-                this.targetY = (double)(70.0F + this.rand.nextFloat() * 50.0F);
-                this.targetZ = 0.0D;
+                this.targetX = this.posX;
+                this.targetY = (double)(MAXHEIGHT - this.rand.nextFloat() * 30.0F);
+                this.targetZ = this.posZ;
                 this.targetX += (double)(this.rand.nextFloat() * 120.0F - 60.0F);
                 this.targetZ += (double)(this.rand.nextFloat() * 120.0F - 60.0F);
                 double d0 = this.posX - this.targetX;

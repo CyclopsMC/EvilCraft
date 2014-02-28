@@ -1,5 +1,7 @@
 package evilcraft.network;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
@@ -49,14 +51,7 @@ public class FartPacketHandler {
     	EntityPlayer player = Minecraft.getMinecraft().thePlayer;
     	
     	if (event.packet.payload().readableBytes() > 0) {
-            World world = player.worldObj;
-            String username = getUsername(event.packet);
-            boolean isRemotePlayer = !player.getDisplayName().equals(username);
-            
-            if (isRemotePlayer) 
-                player = world.getPlayerEntityByName(username);
-            
-            spawnFartParticles(world, player, isRemotePlayer);
+           handleClientFartPacket(player, event.packet);
     	}
     }
 
@@ -74,17 +69,43 @@ public class FartPacketHandler {
 		EntityPlayer player = ((NetHandlerPlayServer) event.handler).playerEntity;
     	
     	EvilCraft.channel.sendToAllAround(
-    			new FartPacket(player.getDisplayName()),
+    			FartPacket.createFartPacket(player),
     			Helpers.createTargetPointFromEntityPosition(player, FART_RANGE)
     	);
 	}
 	
-	private String getUsername(FMLProxyPacket packet) {
-		return ByteBufUtils.readUTF8String(packet.payload());
+	private void handleClientFartPacket(EntityPlayer player, FMLProxyPacket packet) {
+		ByteBuf buffer = packet.payload();
+		World world = player.worldObj;
+		 
+		// Read username
+		String username = ByteBufUtils.readUTF8String(packet.payload());
+		boolean isRemotePlayer = !player.getDisplayName().equals(username);
+         
+		if (isRemotePlayer) { 
+			player = world.getPlayerEntityByName(username);
+			
+			// Read position of the player
+			double posX = buffer.readDouble();
+			double posY = buffer.readDouble();
+			double posZ = buffer.readDouble();
+			
+			spawnFartParticles(world, player, posX, posY, posZ, true);
+		} else {
+			spawnFartParticles(world, player, false);
+		}
 	}
 	
 	@SideOnly(Side.CLIENT)
     private void spawnFartParticles(World world, EntityPlayer player, boolean isRemotePlayer) {
+        spawnFartParticles(world, player, player.posX, player.posY, player.posZ, isRemotePlayer);
+    }
+    
+    @SideOnly(Side.CLIENT)
+    private void spawnFartParticles(
+            World world, EntityPlayer player, 
+            double posX, double posY, double posZ, boolean isRemotePlayer) {
+        
         if (player == null)
             return;
         
@@ -103,9 +124,9 @@ public class FartPacketHandler {
         for (int i=0; i < numParticles; i++) {
             double extraDistance = rand.nextFloat() % 0.3;
             
-            double particleX = player.posX + playerXOffset + extraDistance;
-            double particleY = player.posY + playerYOffset;
-            double particleZ = player.posZ + playerZOffset + extraDistance;
+            double particleX = posX + playerXOffset + extraDistance;
+            double particleY = posY + playerYOffset;
+            double particleZ = posZ + playerZOffset + extraDistance;
             
             float particleMotionX = -0.5F + rand.nextFloat();
             float particleMotionY = -0.5F + rand.nextFloat();
