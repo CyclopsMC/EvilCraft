@@ -41,6 +41,7 @@ import evilcraft.entities.item.EntityRedstoneGrenadeConfig;
 import evilcraft.entities.item.EntityWeatherContainerConfig;
 import evilcraft.entities.monster.NetherfishConfig;
 import evilcraft.entities.monster.PoisonousLibelleConfig;
+import evilcraft.entities.monster.VengeanceSpiritConfig;
 import evilcraft.entities.monster.WerewolfConfig;
 import evilcraft.entities.villager.WerewolfVillagerConfig;
 import evilcraft.fluids.BloodConfig;
@@ -61,6 +62,7 @@ import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.PoisonSacConfig;
 import evilcraft.items.RedstoneGrenadeConfig;
+import evilcraft.items.VengeanceRingConfig;
 import evilcraft.items.WeatherContainerConfig;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFleshConfig;
@@ -164,6 +166,7 @@ public class Configs {
         configs.add(new PoisonSacConfig());
         configs.add(new BucketPoisonConfig());
         configs.add(new WerewolfFurConfig());
+        configs.add(new VengeanceRingConfig());
         
         // Entities
         // Item
@@ -178,6 +181,7 @@ public class Configs {
         configs.add(new WerewolfConfig());
         configs.add(new NetherfishConfig());
         configs.add(new PoisonousLibelleConfig());
+        configs.add(new VengeanceSpiritConfig());
         // Villager
         configs.add(new WerewolfVillagerConfig());
         // Other
