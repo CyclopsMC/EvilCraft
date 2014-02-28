@@ -2,8 +2,8 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.6.4" version="0.2.2b">http://bit.ly/1gbWrx0</download>
-	<workingOn>Porting to Minecraft version 1.7</workingOn>
+	<download for="1.6.4" version="0.2.3b">http://bit.ly/1fwx4cX</download>
+	<workingOn>Porting to Minecraft version 1.7, just a few more hours.</workingOn>
 	
 	<description>
 		EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding.
@@ -411,6 +411,10 @@
 		Almost every feature can be disabled and changed in the config file (config/evilcraft.cfg).
 		It is however mandatory that config files at server and client side are identical,
 		otherwise you might encounter ID conflicts.
+	</element>
+	<element name="Modpacks">
+		Regarding modpacks, anyone is more than welcome to use this mod in any modpack, both public and private.
+		We do however ask that you notify us if you would use it in a public pack, just so we know.
 	</element>
 	<element name="Download and Install">
 [mod]evilcraft[/mod]

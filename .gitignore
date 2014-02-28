@@ -1,5 +1,6 @@
 # We don't want compiled stuff in here!
 /bin
+doc/info.txt
 
 # Also ignore build folder
 /build
