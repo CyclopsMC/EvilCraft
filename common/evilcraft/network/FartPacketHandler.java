@@ -1,6 +1,9 @@
 package evilcraft.network;
 
+import java.nio.BufferUnderflowException;
+import java.nio.ByteBuffer;
 import java.util.Random;
+import java.util.logging.Level;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +15,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.render.particle.EntityFartFX;
@@ -39,21 +43,65 @@ public class FartPacketHandler implements IPacketHandler {
             EntityPlayer entityPlayer = (EntityPlayer)player;
             
             if (Helpers.isClientSide() && packet.data != null) {
-                World world = entityPlayer.worldObj;
-                String username = new String(packet.data);
-                boolean isRemotePlayer = !entityPlayer.username.equals(username);
-                
-                if (isRemotePlayer) 
-                    entityPlayer = world.getPlayerEntityByName(new String(packet.data));
-                
-                spawnFartParticles(world, entityPlayer, isRemotePlayer);
+                handlePacketData(entityPlayer, packet.data);
                 
             } else if (!Helpers.isClientSide()){
+                
                 PacketDispatcher.sendPacketToAllAround(
                         entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, FART_RANGE, 
-                        entityPlayer.dimension, PacketDispatcher.getPacket(Reference.MOD_CHANNEL, entityPlayer.username.getBytes())
+                        entityPlayer.dimension, createPacket(entityPlayer)
                 );
             }
+        }
+    }
+    
+    private Packet250CustomPayload createPacket(EntityPlayer entityPlayer) {
+        byte[] usernameBytes = entityPlayer.username.getBytes();
+        ByteBuffer buffer = ByteBuffer.allocate(4 + usernameBytes.length + 3 * 8);
+        
+        buffer.putInt(usernameBytes.length);
+        buffer.put(usernameBytes);
+        
+        /**
+         * Due to some unknown reason, using the position of an EntityPlayer sometimes displays
+         * farts in the wrong place, so we have to send along the position of the player from
+         * the server to the client so farts are displayed on the correct positions
+         */
+        buffer.putDouble(entityPlayer.posX);
+        buffer.putDouble(entityPlayer.posY);
+        buffer.putDouble(entityPlayer.posZ);
+        
+        return PacketDispatcher.getPacket(Reference.MOD_CHANNEL, buffer.array());
+    }
+    
+    private void handlePacketData(EntityPlayer entityPlayer, byte[] data) {
+        ByteBuffer buffer = ByteBuffer.wrap(data);
+        
+        World world = entityPlayer.worldObj;
+        
+        try {
+            // Get the username of the player
+            int usernameLength = buffer.getInt();
+            byte[] usernameBytes = new byte[usernameLength];
+            buffer.get(usernameBytes);
+            String username = new String(usernameBytes);
+            
+            boolean isRemotePlayer = !entityPlayer.username.equals(username);
+            
+            if (isRemotePlayer) {
+                entityPlayer = world.getPlayerEntityByName(username);
+                
+                // Get the player's position
+                double posX = buffer.getDouble();
+                double posY = buffer.getDouble();
+                double posZ = buffer.getDouble();
+                
+                spawnFartParticles(world, entityPlayer, posX, posY, posZ, true);
+            } else {
+                spawnFartParticles(world, entityPlayer, false);
+            }
+        } catch (BufferUnderflowException e) {
+            EvilCraft.log("Failed to parse fart packet: " + e.getMessage(), Level.SEVERE);
         }
     }
     
@@ -64,6 +112,14 @@ public class FartPacketHandler implements IPacketHandler {
     
     @SideOnly(Side.CLIENT)
     private void spawnFartParticles(World world, EntityPlayer player, boolean isRemotePlayer) {
+        spawnFartParticles(world, player, player.posX, player.posY, player.posZ, isRemotePlayer);
+    }
+    
+    @SideOnly(Side.CLIENT)
+    private void spawnFartParticles(
+            World world, EntityPlayer player, 
+            double posX, double posY, double posZ, boolean isRemotePlayer) {
+        
         if (player == null)
             return;
         
@@ -82,9 +138,9 @@ public class FartPacketHandler implements IPacketHandler {
         for (int i=0; i < numParticles; i++) {
             double extraDistance = rand.nextFloat() % 0.3;
             
-            double particleX = player.posX + playerXOffset + extraDistance;
-            double particleY = player.posY + playerYOffset;
-            double particleZ = player.posZ + playerZOffset + extraDistance;
+            double particleX = posX + playerXOffset + extraDistance;
+            double particleY = posY + playerYOffset;
+            double particleZ = posZ + playerZOffset + extraDistance;
             
             float particleMotionX = -0.5F + rand.nextFloat();
             float particleMotionY = -0.5F + rand.nextFloat();
