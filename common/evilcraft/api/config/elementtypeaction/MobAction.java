@@ -1,5 +1,7 @@
 package evilcraft.api.config.elementtypeaction;
 
+import net.minecraft.entity.EntityEggInfo;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -38,6 +40,19 @@ public class MobAction extends IElementTypeAction<MobConfig>{
         // Add I18N
         LanguageRegistry.instance().addStringLocalization("entity." + Reference.MOD_ID + ".instance." + eConfig.NAMEDID + ".name", eConfig.NAME);
         LanguageRegistry.instance().addStringLocalization("entity." + Reference.MOD_ID + "." + eConfig.NAMEDID + ".name", eConfig.NAME);
+        registerSpawnEgg(clazz, eConfig.getBackgroundEggColor(), eConfig.getForegroundEggColor());
+    }
+    
+    @SuppressWarnings("unchecked")
+    private static void registerSpawnEgg(Class<? extends EntityLiving> entity, int backgroundColor, int foregroundColor) {
+        int globalEntityID = 0;
+        while (EntityList.getStringFromID(globalEntityID) != null){
+            globalEntityID++;
+        }       
+        
+        EntityList.IDtoClassMapping.put(globalEntityID, entity);
+        EntityList.entityEggs.put(globalEntityID, new EntityEggInfo(globalEntityID, backgroundColor, foregroundColor));
+        
     }
 
 }

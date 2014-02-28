@@ -1,9 +1,10 @@
 package evilcraft.entities.monster;
 
+import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.entity.Render;
 import evilcraft.Reference;
+import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
@@ -47,12 +48,12 @@ public class NetherfishConfig extends MobConfig {
 
     @Override
     public int getBackgroundEggColor() {
-        return 123456;
+        return Helpers.RGBToInt(73, 27, 20);
     }
 
     @Override
     public int getForegroundEggColor() {
-        return 654321;
+        return Helpers.RGBToInt(160, 45, 27);
     }
     
     @SideOnly(Side.CLIENT)
