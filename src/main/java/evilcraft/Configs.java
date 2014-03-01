@@ -34,6 +34,7 @@ import evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
 import evilcraft.entities.block.EntityLightningBombPrimedConfig;
+import evilcraft.entities.effect.EntityNeutronBeamConfig;
 import evilcraft.entities.item.EntityBloodPearlConfig;
 import evilcraft.entities.item.EntityBroomConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
@@ -60,6 +61,7 @@ import evilcraft.items.DarkStickConfig;
 import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
+import evilcraft.items.NeutronBlasterConfig;
 import evilcraft.items.PoisonSacConfig;
 import evilcraft.items.RedstoneGrenadeConfig;
 import evilcraft.items.VengeanceRingConfig;
@@ -167,6 +169,7 @@ public class Configs {
         configs.add(new BucketPoisonConfig());
         configs.add(new WerewolfFurConfig());
         configs.add(new VengeanceRingConfig());
+        configs.add(new NeutronBlasterConfig());
         
         // Entities
         // Item
@@ -185,6 +188,7 @@ public class Configs {
         // Villager
         configs.add(new WerewolfVillagerConfig());
         // Other
+        configs.add(new EntityNeutronBeamConfig());
         
         // Enchantments
         configs.add(new EnchantmentUnusingConfig());

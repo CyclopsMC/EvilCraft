@@ -181,7 +181,11 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
         }
         
         if(getFrozenDuration() > 0) {
-        	setFrozenDuration(getFrozenDuration() - 1);
+        	this.motionX = 0;
+        	this.motionY = 0;
+        	this.motionZ = 0;
+        	addFrozenDuration(-1);
+        	// TODO: render entangled particles
         } else {
 	        setRemainingLife(getRemainingLife() - 1);
 	        if(getRemainingLife() <= 0) {
@@ -387,6 +391,14 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	public static boolean canSustain(EntityLivingBase entityLiving) {
 		// TODO: make better, with blacklist & stuff?
 		return !(entityLiving instanceof VengeanceSpirit);
+	}
+
+	/**
+	 * Add a frozen duration.
+	 * @param addFrozen Ticks to add frozen.
+	 */
+	public void addFrozenDuration(int addFrozen) {
+		this.setFrozenDuration(this.getFrozenDuration() + addFrozen);
 	}
     
 }
