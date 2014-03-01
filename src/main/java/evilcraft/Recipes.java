@@ -64,6 +64,8 @@ import evilcraft.items.HardenedBloodShard;
 import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.LightningGrenade;
 import evilcraft.items.LightningGrenadeConfig;
+import evilcraft.items.VengeancePickaxe;
+import evilcraft.items.VengeancePickaxeConfig;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 import evilcraft.items.WeatherContainerConfig;
@@ -295,6 +297,19 @@ public class Recipes {
                 'C', new ItemStack(BloodContainer.getInstance(), 1, 0),
                 'S', new ItemStack(Items.reeds),
                 'I', new ItemStack(Items.iron_ingot)
+            }
+                    ));
+        }
+        // Vengeance Pickaxe
+        if(isItemEnabled(DarkStickConfig.class) && isItemEnabled(VengeancePickaxeConfig.class) && isItemEnabled(HardenedBloodShardConfig.class)) {
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(VengeancePickaxe.getInstance()), true,
+                    new Object[]{
+                "HDH",
+                "DSD",
+                " S ",
+                'H', new ItemStack(HardenedBloodShard.getInstance()),
+                'D', new ItemStack(Items.diamond),
+                'S', new ItemStack(DarkStick.getInstance())
             }
                     ));
         }

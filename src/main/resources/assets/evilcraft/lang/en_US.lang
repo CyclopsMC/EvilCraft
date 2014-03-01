@@ -55,6 +55,9 @@ item.items.bloodContainer.info.disabled=Disabled
 item.items.bloodContainer.info.autoSupply=Auto-supply:
 item.items.poisonSac.name=Poison Sac
 item.items.werewolfFur.name=Werewolf Fur
+item.items.vengeanceRing.name=Vengeance Ring
+item.items.neutronBlaster.name=Neutron Blaster
+item.items.vengeancePickaxe.name=Vengeance Pickaxe
 
 # Fluids
 fluid.fluids.blood=Blood

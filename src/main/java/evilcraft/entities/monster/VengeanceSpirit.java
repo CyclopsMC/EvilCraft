@@ -46,7 +46,6 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
      * The maximum life duration in ticks the spirits should have.
      */
     public static final int REMAININGLIFE_MAX = 1000;
-    private static final int FROZENDURATION_MAX = 1000;
     
     private static final int WATCHERID_INNER = 20;
     private static final int WATCHERID_REMAININGLIFE = 21;
@@ -72,6 +71,8 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
         this.stepHeight = 5.0F;
         this.isImmuneToFire = true;
         this.preventEntitySpawning = false;
+        
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
         
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIWander(this, 1.0F));
@@ -275,11 +276,6 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     public void setEnabledVengeance(EntityPlayer player, boolean enabled) {
     	String[] players = getVengeancePlayers();
     	int index = ArrayUtils.indexOf(players, player.getDisplayName());
-    	/*for(int i = 0; i < players.length; i++) {
-    		if(player.equals(players[i]))
-    			index = i;
-    	}*/
-    	System.out.println("Set "+index+" to "+enabled);
     	if(enabled && index == ArrayUtils.INDEX_NOT_FOUND)
     		players = ArrayUtils.add(players, player.getDisplayName());
     	else if(!enabled && index != ArrayUtils.INDEX_NOT_FOUND)

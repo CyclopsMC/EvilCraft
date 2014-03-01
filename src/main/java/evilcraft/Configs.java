@@ -64,6 +64,7 @@ import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.NeutronBlasterConfig;
 import evilcraft.items.PoisonSacConfig;
 import evilcraft.items.RedstoneGrenadeConfig;
+import evilcraft.items.VengeancePickaxeConfig;
 import evilcraft.items.VengeanceRingConfig;
 import evilcraft.items.WeatherContainerConfig;
 import evilcraft.items.WerewolfBoneConfig;
@@ -170,6 +171,7 @@ public class Configs {
         configs.add(new WerewolfFurConfig());
         configs.add(new VengeanceRingConfig());
         configs.add(new NeutronBlasterConfig());
+        configs.add(new VengeancePickaxeConfig());
         
         // Entities
         // Item

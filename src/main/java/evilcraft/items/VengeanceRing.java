@@ -66,28 +66,39 @@ public class VengeanceRing extends ConfigurableItem {
         return ItemHelpers.isActivated(itemStack);
     }
     
+    /**
+     * Toggle vengeance around the given entity within the given area of effect.
+     * @param world The world.
+     * @param entity The entity to activate vengeance around.
+     * @param area The area size.
+     * @param enableVengeance If vengeance should be enabled (if false, will be disabled)
+     */
     @SuppressWarnings("unchecked")
+	public static void toggleVengeanceArea(World world, Entity entity, int area, boolean enableVengeance) {
+    	double x = entity.posX;
+    	double y = entity.posY;
+    	double z = entity.posZ;
+    	
+    	AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
+    	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABBExcludingEntity(entity, box, new IEntitySelector() {
+
+			@Override
+			public boolean isEntityApplicable(Entity entity) {
+				return entity instanceof VengeanceSpirit;
+			}
+        	
+        });
+    	
+    	for(VengeanceSpirit spirit : spirits) {
+    		spirit.setEnabledVengeance((EntityPlayer) entity, enableVengeance);
+    	}
+    }
+    
 	@Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
         if(entity instanceof EntityPlayer && !world.isRemote) {
-        	int AOE = VengeanceRingConfig.areaOfEffect;
-        	double x = entity.posX;
-        	double y = entity.posY;
-        	double z = entity.posZ;
-        	
-        	AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(AOE, AOE, AOE);
-        	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABBExcludingEntity(entity, box, new IEntitySelector() {
-
-				@Override
-				public boolean isEntityApplicable(Entity entity) {
-					return entity instanceof VengeanceSpirit;
-				}
-            	
-            });
-        	
-        	for(VengeanceSpirit spirit : spirits) {
-        		spirit.setEnabledVengeance((EntityPlayer) entity, ItemHelpers.isActivated(itemStack));
-        	}
+        	int area = VengeanceRingConfig.areaOfEffect;
+        	toggleVengeanceArea(world, entity, area, ItemHelpers.isActivated(itemStack));
         }
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
