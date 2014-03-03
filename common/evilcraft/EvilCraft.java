@@ -17,8 +17,10 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.BucketHandler;
 import evilcraft.api.Debug;
+import evilcraft.api.Helpers;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.commands.CommandEvilCraft;
@@ -173,6 +175,7 @@ public class EvilCraft implements ITickHandler {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void tickEnd(EnumSet<TickType> type, Object... tickData) {
         VersionStats.check(Minecraft.getMinecraft().thePlayer);
     }
