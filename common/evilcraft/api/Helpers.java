@@ -166,6 +166,17 @@ public class Helpers {
             dropItems(world, (IInventory) tile, x, y, z);
             clearInventory((IInventory) tile);
         }
+    }
+    
+    /**
+     * This method should be called after a BlockContainer is destroyed
+     * @param world world
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param z z coordinate
+     */
+    public static void postDestroyBlock(World world, int x, int y, int z) {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
 
         if (tile instanceof EvilCraftTileEntity) {
             ((EvilCraftTileEntity) tile).destroy();

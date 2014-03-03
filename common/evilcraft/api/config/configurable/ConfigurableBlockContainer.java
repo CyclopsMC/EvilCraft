@@ -200,6 +200,8 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         if(tile != null)
             itemStack.setTagCompound(tile.getNBTTagCompound());
         drops.add(itemStack);
+        
+        Helpers.postDestroyBlock(world, x, y, z);
         // The delayed breakBlock supercall
         super.breakBlock(world, x, y, z, 0, 0);
         return drops;
