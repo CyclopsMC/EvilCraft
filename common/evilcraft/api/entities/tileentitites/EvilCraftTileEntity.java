@@ -1,5 +1,9 @@
 package evilcraft.api.entities.tileentitites;
 
+import java.lang.reflect.Field;
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -16,8 +20,19 @@ import evilcraft.api.config.configurable.ConfigurableBlockContainer;
  */
 public class EvilCraftTileEntity extends TileEntity{
     
+    private List<Field> nbtPersistedFields = null;
+    
+    @NBTPersist
     private boolean rotatable = false;
+    @NBTPersist
     private ForgeDirection rotation = ForgeDirection.NORTH;
+    
+    /**
+     * Make a new instance.
+     */
+    public EvilCraftTileEntity() {
+        generateNBTPersistedFields();
+    }
     
     /**
      * Called when the block of this tile entity is destroyed.
@@ -54,18 +69,35 @@ public class EvilCraftTileEntity extends TileEntity{
         readFromNBT(tag);
     }
     
+    private void generateNBTPersistedFields() {
+        nbtPersistedFields = new LinkedList<Field>();
+        for(Field field : this.getClass().getDeclaredFields()) {
+            if(field.isAnnotationPresent(NBTPersist.class)) {         
+                nbtPersistedFields.add(field);
+            }
+        }
+    }
+    
+    private void writePersistedField(Field field, NBTTagCompound tag) {
+        NBTClassType.performActionForField(this, field, tag, true);
+    }
+    
+    private void readPersistedField(Field field, NBTTagCompound tag) {
+        NBTClassType.performActionForField(this, field, tag, false);
+    }
+    
     @Override
     public void writeToNBT(NBTTagCompound NBTTagCompound) {
         super.writeToNBT(NBTTagCompound);
-        NBTTagCompound.setBoolean("rotatable", rotatable);
-        NBTTagCompound.setInteger("rotation", rotation.ordinal());
+        for(Field field : nbtPersistedFields)
+            writePersistedField(field, NBTTagCompound);
     }
     
     @Override
     public void readFromNBT(NBTTagCompound NBTTagCompound) {
         super.readFromNBT(NBTTagCompound);
-        rotatable = NBTTagCompound.getBoolean("rotatable");
-        rotation = ForgeDirection.getOrientation(NBTTagCompound.getInteger("rotation"));
+        for(Field field : nbtPersistedFields)
+            readPersistedField(field, NBTTagCompound);
     }
     
     /**

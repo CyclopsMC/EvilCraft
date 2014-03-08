@@ -23,6 +23,7 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     protected SimpleInventory inventory;
     protected Map<ForgeDirection, int[]> slotSides;
     protected Map<ForgeDirection, Integer> slotSidesSize;
+    protected boolean sendUpdateOnInventoryChanged = false;
     
     /**
      * Make new tile with an inventory.
@@ -90,7 +91,10 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
 
     @Override
     public ItemStack decrStackSize(int slotId, int count) {
-        return inventory.decrStackSize(slotId, count);
+        ItemStack itemStack  = inventory.decrStackSize(slotId, count);
+        if(isSendUpdateOnInventoryChanged())
+            sendUpdate();
+        return itemStack;
     }
 
     @Override
@@ -101,6 +105,8 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     @Override
     public void setInventorySlotContents(int slotId, ItemStack itemstack) {
         inventory.setInventorySlotContents(slotId, itemstack);
+        if(isSendUpdateOnInventoryChanged())
+            sendUpdate();
     }
 
     @Override
@@ -167,6 +173,23 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     @Override
     public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
         return canAccess(slot, side);
+    }
+
+    /**
+     * If this tile should send block updates when the inventory has changed.
+     * @return If it should send block updates.
+     */
+    public boolean isSendUpdateOnInventoryChanged() {
+        return sendUpdateOnInventoryChanged;
+    }
+
+    /**
+     * If this tile should send block updates when the inventory has changed.
+     * @param sendUpdateOnInventoryChanged If it should send block updates.
+     */
+    public void setSendUpdateOnInventoryChanged(
+            boolean sendUpdateOnInventoryChanged) {
+        this.sendUpdateOnInventoryChanged = sendUpdateOnInventoryChanged;
     }
     
 }
