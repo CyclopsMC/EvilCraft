@@ -51,6 +51,8 @@ import evilcraft.items.BloodInfusionCore;
 import evilcraft.items.BloodInfusionCoreConfig;
 import evilcraft.items.BloodPearlOfTeleportation;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
+import evilcraft.items.Blook;
+import evilcraft.items.BlookConfig;
 import evilcraft.items.BucketPoison;
 import evilcraft.items.BucketPoisonConfig;
 import evilcraft.items.DarkGem;
@@ -322,6 +324,17 @@ public class Recipes {
                     200
                     ),
                     new ItemStack(UndeadSapling.getInstance()
+                            ));
+        }
+        
+        if(isItemEnabled(BlookConfig.class)) {
+            CustomRecipeRegistry.put(new CustomRecipe(
+                    new ItemStack(Item.book),
+                    new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 2),
+                    BloodInfuser.getInstance(),
+                    500
+                    ),
+                    new ItemStack(Blook.getInstance()
                             ));
         }
     }

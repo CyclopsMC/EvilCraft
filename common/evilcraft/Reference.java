@@ -49,6 +49,7 @@ public class Reference {
     public static final int BLOCK_UNDEADPLANK = 3863;
     public static final int BLOCK_FLUIDBLOCKPOISON = 3864;
     public static final int BLOCK_INVISIBLEREDSTONE = 3865;
+    public static final int BLOCK_PURIFIER = 3866;
     
     // Item ID's
     public static final int ITEM_BLOODEXTRACTOR = 4000;
@@ -71,6 +72,7 @@ public class Reference {
     public static final int ITEM_WEREWOLFFUR = 4015;
     public static final int ITEM_POISONSAC = 4016;
     public static final int ITEM_BUCKETPOISON = 4017;
+    public static final int ITEM_BLOOK = 4018;
     
     // Enchantment ID's
     public static final int ENCHANTMENT_BREAKING = 101;

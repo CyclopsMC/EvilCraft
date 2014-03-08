@@ -251,7 +251,7 @@ public class Helpers {
     }
     
     /**
-     * Returns the level of an enchantment given an itemStack and the id
+     * Returns the level of an enchantment given an itemStack and the list id
      * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
      * the id in the enchantmentlist)
      * @param itemStack The itemStack which contains the enchanted item
@@ -261,6 +261,40 @@ public class Helpers {
     public static int getEnchantmentLevel(ItemStack itemStack, int enchantmentListID) {
         NBTTagList enchlist = itemStack.getEnchantmentTagList();
         return ((NBTTagCompound)enchlist.tagAt(enchantmentListID)).getShort("lvl");
+    }
+    
+    /**
+     * Returns the id of an enchantment given an itemStack and the list id
+     * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
+     * the id in the enchantmentlist)
+     * @param itemStack The itemStack which contains the enchanted item
+     * @param enchantmentListID The id of the enchantment in the enchantment list
+     * @return The id of the enchantment on the given item
+     */
+    public static int getEnchantmentID(ItemStack itemStack, int enchantmentListID) {
+        NBTTagList enchlist = itemStack.getEnchantmentTagList();
+        return ((NBTTagCompound)enchlist.tagAt(enchantmentListID)).getShort("id");
+    }
+    
+    /**
+     * Sets the level of an enchantment given an itemStack and the id
+     * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
+     * the id in the enchantmentlist)
+     * Will clear the enchantment if the new level <= 0
+     * @param itemStack The itemStack which contains the enchanted item
+     * @param enchantmentListID The id of the enchantment in the enchantment list
+     * @param level The new level of the enchantment on the given item
+     */
+    public static void setEnchantmentLevel(ItemStack itemStack, int enchantmentListID, int level) {
+        NBTTagList enchlist = itemStack.getEnchantmentTagList();
+        if(level <= 0) {
+            enchlist.removeTag(enchantmentListID);
+            if(enchlist.tagCount() == 0) {
+                itemStack.stackTagCompound.removeTag("ench");
+            }
+        } else {
+            ((NBTTagCompound)enchlist.tagAt(enchantmentListID)).setShort("lvl", (short) level);
+        }
     }
     
     /**

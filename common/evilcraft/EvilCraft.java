@@ -20,7 +20,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.BucketHandler;
 import evilcraft.api.Debug;
-import evilcraft.api.Helpers;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.commands.CommandEvilCraft;

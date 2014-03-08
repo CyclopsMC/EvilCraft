@@ -16,6 +16,7 @@ import evilcraft.api.fluids.SingleUseTank;
 public abstract class TankInventoryTileEntity extends InventoryTileEntity implements IFluidHandler {
     
     protected SingleUseTank tank;
+    protected boolean sendUpdateOnTankChanged = false;
 
     /**
      * Make new tile with a tank that can accept anything and an inventory.
@@ -30,6 +31,19 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
     }
     
     /**
+     * Make new tile with a tank that can accept anything and an inventory.
+     * @param inventorySize Amount of slots in the inventory.
+     * @param inventoryName Internal name of the inventory.
+     * @param stackSize The maximum stacksize each slot can have
+     * @param tankSize Size (mB) of the tank.
+     * @param tankName Internal name of the tank.
+     */
+    public TankInventoryTileEntity(int inventorySize, String inventoryName, int stackSize, int tankSize, String tankName) {
+        super(inventorySize, inventoryName, stackSize);
+        tank = new SingleUseTank(tankName, tankSize, this);
+    }
+    
+    /**
      * Make new tile with a tank that can accept only one fluid and an inventory.
      * @param inventorySize Amount of slots in the inventory.
      * @param inventoryName Internal name of the inventory.
@@ -39,6 +53,20 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      */
     public TankInventoryTileEntity(int inventorySize, String inventoryName, int tankSize, String tankName, Fluid acceptedFluid) {
         this(inventorySize, inventoryName, tankSize, tankName);
+        tank.setAcceptedFluid(acceptedFluid);
+    }
+    
+    /**
+     * Make new tile with a tank that can accept only one fluid and an inventory.
+     * @param inventorySize Amount of slots in the inventory.
+     * @param inventoryName Internal name of the inventory.
+     * @param stackSize The maximum stacksize each slot can have
+     * @param tankSize Size (mB) of the tank.
+     * @param tankName Internal name of the tank.
+     * @param acceptedFluid Type of Fluid to accept.
+     */
+    public TankInventoryTileEntity(int inventorySize, String inventoryName, int stackSize, int tankSize, String tankName, Fluid acceptedFluid) {
+        this(inventorySize, inventoryName, stackSize, tankSize, tankName);
         tank.setAcceptedFluid(acceptedFluid);
     }
     
@@ -65,6 +93,8 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
         int filled = tank.fill(resource, doFill);
+        if(isSendUpdateOnTankChanged())
+            sendUpdate();
         return filled;
     }
 
@@ -74,12 +104,16 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
         if (resource == null || !resource.isFluidEqual(tank.getFluid()))
             return null;
         FluidStack drained = drain(from, resource.amount, doDrain);
+        if(isSendUpdateOnTankChanged())
+            sendUpdate();
         return drained;
     }
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
         FluidStack drained = tank.drain(maxDrain, doDrain);
+        if(isSendUpdateOnTankChanged())
+            sendUpdate();
         return drained;
     }
 
@@ -98,6 +132,22 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
         FluidTankInfo[] info = new FluidTankInfo[1];
         info[0] = tank.getInfo();
         return info;
+    }
+
+    /**
+     * If this tile should send block updates when the tank has changed.
+     * @return If it should send block updates.
+     */
+    public boolean isSendUpdateOnTankChanged() {
+        return sendUpdateOnTankChanged;
+    }
+
+    /**
+     * If this tile should send block updates when the tank has changed.
+     * @param sendUpdateOnTankChanged If it should send block updates.
+     */
+    public void setSendUpdateOnTankChanged(boolean sendUpdateOnTankChanged) {
+        this.sendUpdateOnTankChanged = sendUpdateOnTankChanged;
     }
 
 }
