@@ -48,10 +48,6 @@ public class VersionStats {
 		if(!CHECKED) {
 			CHECKED = true;
 			
-			if(!GeneralConfig.version.equals(Reference.MOD_VERSION)) {
-				sendMessage(player, "Your " + Reference.MOD_NAME + " config file is out of date, this could cause problems.");
-			}
-			
 			VersionStats versionStats = getVersionStats();
 			if(GeneralConfig.versionChecker && needsUpdate(versionStats)) {
 				sendMessage(player, "Update " + versionStats.mod_version + " of "+Reference.MOD_NAME+"(" + Reference.MOD_VERSION + "): " + versionStats.update_link);

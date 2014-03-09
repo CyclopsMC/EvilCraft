@@ -34,7 +34,6 @@ public class MobAction extends IElementTypeAction<MobConfig>{
         Class<? extends EntityLiving> clazz = (Class<? extends EntityLiving>) eConfig.ELEMENT;
         if (Helpers.isClientSide())
             ClientProxy.ENTITY_RENDERERS.put(clazz, eConfig.getRender());
-        System.out.println("ID:"+eConfig.ID);
         EntityRegistry.registerModEntity(clazz, eConfig.NAMEDID, eConfig.ID, EvilCraft._instance, 80, 3, true);
         
         // Add I18N
