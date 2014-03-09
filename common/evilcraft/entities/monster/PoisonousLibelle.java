@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -24,7 +25,7 @@ import evilcraft.items.PoisonSacConfig;
  * @author rubensworks
  *
  */
-public class PoisonousLibelle extends EntityFlying implements Configurable{
+public class PoisonousLibelle extends EntityFlying implements Configurable, IMob {
 
     protected ExtendedConfig<?> eConfig = null;
 
