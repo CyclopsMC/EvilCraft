@@ -23,6 +23,7 @@ import evilcraft.EvilCraft;
 import evilcraft.api.render.MultiPassBlockRenderer;
 import evilcraft.client.CustomClientKeyHandler;
 import evilcraft.client.FartTickHandler;
+import evilcraft.events.PlayerTickEventHook;
 import evilcraft.render.tileentity.BloodChestItemRenderHelper;
 
 /**
@@ -84,7 +85,7 @@ public class ClientProxy extends CommonProxy{
     @Override
     public void registerTickHandlers() {
         TickRegistry.registerTickHandler(new FartTickHandler(), Side.CLIENT);
-        TickRegistry.registerTickHandler(EvilCraft._instance, Side.CLIENT);
+        TickRegistry.registerTickHandler(new PlayerTickEventHook(), Side.CLIENT);
         EvilCraft.log("Registered tick handlers");
     }
 }
