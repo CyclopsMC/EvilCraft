@@ -1,8 +1,13 @@
 package evilcraft.items;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import cpw.mods.fml.common.ICraftingHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.Reference;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.ItemConfig;
@@ -14,7 +19,7 @@ import evilcraft.fluids.Blood;
  * @author rubensworks
  *
  */
-public class BloodContainerConfig extends ItemConfig {
+public class BloodContainerConfig extends ItemConfig implements ICraftingHandler {
     
     /**
      * The unique instance.
@@ -62,6 +67,26 @@ public class BloodContainerConfig extends ItemConfig {
                     itemStack
             );
         }
+        GameRegistry.registerCraftingHandler(this);
     }
+
+    @Override
+    public void onCrafting(EntityPlayer player, ItemStack item, IInventory craftMatrix) {
+        if(item != null && item.getItem().getClass() == this.ELEMENT) {
+            for(int i = 0; i < craftMatrix.getSizeInventory(); i++) {           
+                if(craftMatrix.getStackInSlot(i) != null) {
+                    ItemStack input = craftMatrix.getStackInSlot(i);
+                    if(input.getItem() != null && input.getItem().getClass() == this.ELEMENT) {
+                        FluidStack inputFluid = BloodContainer.getInstance().getFluid(input);
+                        BloodContainer.getInstance().fill(item, inputFluid, true);
+                    }
+                }  
+            }
+        }
+        
+    }
+
+    @Override
+    public void onSmelting(EntityPlayer player, ItemStack item) {}
     
 }
