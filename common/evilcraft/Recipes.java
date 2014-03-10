@@ -210,7 +210,8 @@ public class Recipes {
                     Reference.DICT_MATERIALPOISONOUS,
                     Reference.DICT_MATERIALPOISONOUS,
                     Reference.DICT_MATERIALPOISONOUS,
-                    new ItemStack(Item.bucketWater.setContainerItem(null))
+                    new ItemStack(Item.bucketWater),
+                    new ItemStack(Item.bucketEmpty)
                     ));
         }
         // Poisonous potato
