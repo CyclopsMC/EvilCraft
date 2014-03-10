@@ -3,6 +3,7 @@ package evilcraft.entities.tileentities;
 import net.minecraft.world.World;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 import evilcraft.blocks.InvisibleRedstoneBlock;
+import evilcraft.items.RedstoneGrenadeConfig;
 
 /**
  * Tile for the {@link InvisibleRedstoneBlock}.
@@ -27,6 +28,6 @@ public class TileInvisibleRedstoneBlock extends EvilCraftTileEntity {
     @Override
     public void updateEntity() {
         if (worldObj.getTotalWorldTime() - tickCreated >= TICK_DESTRUCTION_THRESHOLD)
-            worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+            worldObj.destroyBlock(xCoord, yCoord, zCoord, RedstoneGrenadeConfig.dropAfterUsage);
     }
 }

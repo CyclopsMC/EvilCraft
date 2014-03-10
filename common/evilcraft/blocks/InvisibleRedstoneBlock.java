@@ -13,6 +13,7 @@ import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.entities.tileentities.TileInvisibleRedstoneBlock;
+import evilcraft.items.RedstoneGrenadeConfig;
 
 /**
  * An invisible block where players can walk through and disappears after a few ticks.
@@ -42,10 +43,15 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     }
 
     private InvisibleRedstoneBlock(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.iron, TileInvisibleRedstoneBlock.class);
+        super(eConfig, Material.air, TileInvisibleRedstoneBlock.class);
         setHardness(5.0F);
         setResistance(10.0F);
         setStepSound(soundMetalFootstep);
+    }
+    
+    @Override
+    public int idDropped(int meta, Random random, int zero) {
+        return RedstoneGrenadeConfig._instance.ID;
     }
 
     @Override
@@ -60,7 +66,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     
     @Override
     public int quantityDropped(Random random) {
-        return 0;
+        return 1;
     }
     
     @Override
