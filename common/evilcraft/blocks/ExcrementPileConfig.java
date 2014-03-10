@@ -20,10 +20,10 @@ public class ExcrementPileConfig extends BlockConfig {
     public static ExcrementPileConfig _instance;
     
     /**
-     * If Excrement can also hurt any mob next to players.
+     * If Excrement can also poison any mob next to players.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If Excrement can also hurt any mob next to players.", isCommandable = true)
-    public static boolean hurtEntities = false;
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If Excrement can also poison any mob next to players.", isCommandable = true)
+    public static boolean poisonEntities = false;
 
     /**
      * Make a new instance.
