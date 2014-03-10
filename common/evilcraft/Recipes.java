@@ -65,6 +65,8 @@ import evilcraft.items.HardenedBloodShard;
 import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.LightningGrenade;
 import evilcraft.items.LightningGrenadeConfig;
+import evilcraft.items.PotentiaSphere;
+import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 import evilcraft.items.WeatherContainerConfig;
@@ -300,6 +302,20 @@ public class Recipes {
             }
                     ));
         }
+        // Potentia Sphere
+        if(isItemEnabled(PotentiaSphereConfig.class)) {
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(PotentiaSphere.getInstance()), true,
+                    new Object[]{
+                "RGR",
+                "GSG",
+                "LGL",
+                'S', new ItemStack(Item.slimeBall),
+                'R', new ItemStack(Item.redstone),
+                'G', new ItemStack(Item.glowstone),
+                'L', new ItemStack(Item.dyePowder, 1, 4)
+            }
+                    ));
+        }
 
         registerCustomRecipes();
         registerInterModRecipes();
@@ -336,6 +352,17 @@ public class Recipes {
                     500
                     ),
                     new ItemStack(Blook.getInstance()
+                            ));
+        }
+        
+        if(isItemEnabled(PotentiaSphereConfig.class)) {
+            CustomRecipeRegistry.put(new CustomRecipe(
+                    new ItemStack(PotentiaSphere.getInstance()),
+                    new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2),
+                    BloodInfuser.getInstance(),
+                    1000
+                    ),
+                    new ItemStack(Item.enderPearl
                             ));
         }
     }

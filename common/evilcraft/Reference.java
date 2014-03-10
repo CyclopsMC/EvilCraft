@@ -73,6 +73,7 @@ public class Reference {
     public static final int ITEM_POISONSAC = 4016;
     public static final int ITEM_BUCKETPOISON = 4017;
     public static final int ITEM_BLOOK = 4018;
+    public static final int ITEM_POTENTIASPHERE = 4019;
     
     // Enchantment ID's
     public static final int ENCHANTMENT_BREAKING = 101;

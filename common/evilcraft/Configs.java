@@ -62,6 +62,7 @@ import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.PoisonSacConfig;
+import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.RedstoneGrenadeConfig;
 import evilcraft.items.WeatherContainerConfig;
 import evilcraft.items.WerewolfBoneConfig;
@@ -168,6 +169,7 @@ public class Configs {
         configs.add(new BucketPoisonConfig());
         configs.add(new WerewolfFurConfig());
         configs.add(new BlookConfig());
+        configs.add(new PotentiaSphereConfig());
         
         // Entities
         // Item
