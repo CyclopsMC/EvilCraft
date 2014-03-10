@@ -313,7 +313,8 @@ public class PoisonousLibelle extends EntityFlying implements Configurable, IMob
                     }
                 }
                 if(shouldAttack) {
-                    entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
+                    if(PoisonousLibelleConfig.hasAttackDamage)
+                        entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
                     ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
                 }
             }
