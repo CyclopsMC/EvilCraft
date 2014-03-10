@@ -24,6 +24,12 @@ public class ExcrementPileConfig extends BlockConfig {
      */
     @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If Excrement can also poison any mob next to players.", isCommandable = true)
     public static boolean poisonEntities = false;
+    
+    /**
+     * The relative effectiveness when compared to bonemeal if shift right click using.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The relative effectiveness when compared to bonemeal if shift right click using.", isCommandable = true)
+    public static int effectiveness = 3;
 
     /**
      * Make a new instance.
