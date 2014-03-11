@@ -32,6 +32,8 @@ import evilcraft.blocks.LightningBomb;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.ObscuredGlass;
 import evilcraft.blocks.ObscuredGlassConfig;
+import evilcraft.blocks.Purifier;
+import evilcraft.blocks.PurifierConfig;
 import evilcraft.blocks.UndeadLog;
 import evilcraft.blocks.UndeadLogConfig;
 import evilcraft.blocks.UndeadPlank;
@@ -313,6 +315,24 @@ public class Recipes {
                 'R', new ItemStack(Item.redstone),
                 'G', new ItemStack(Item.glowstone),
                 'L', new ItemStack(Item.dyePowder, 1, 4)
+            }
+                    ));
+        }
+        // Purifier
+        if(isItemEnabled(PurifierConfig.class)
+                && isItemEnabled(HardenedBloodShardConfig.class)
+                && isItemEnabled(DarkGemConfig.class)
+                && isItemEnabled(BloodInfusionCoreConfig.class)
+                && isItemEnabled(DarkBlockConfig.class)) {
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Purifier.getInstance()), true,
+                    new Object[]{
+                "S S",
+                "GCG",
+                "GBG",
+                'S', new ItemStack(HardenedBloodShard.getInstance()),
+                'G', new ItemStack(DarkGem.getInstance()),
+                'C', new ItemStack(BloodInfusionCore.getInstance()),
+                'B', new ItemStack(DarkBlock.getInstance())
             }
                     ));
         }
