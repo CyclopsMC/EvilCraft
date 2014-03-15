@@ -18,9 +18,12 @@ import evilcraft.entities.tileentities.TileBloodChest;
  * @author rubensworks
  *
  */
-public class RenderBloodChest extends TileEntitySpecialRenderer {
+public class TileEntityBloodChestRenderer extends TileEntitySpecialRenderer {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "bloodChest.png");
+    /**
+     * Texture of the {@link BloodChest}.
+     */
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "bloodChest.png");
 
     private ModelChest chestModel = new ModelChest();
 
