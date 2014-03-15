@@ -2,6 +2,7 @@ package evilcraft.render.tileentity;
 
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -38,6 +39,7 @@ public class TileEntityEnvironmentalAccumulatorRenderer extends TileEntityBeacon
         super.renderBeacon(tileentity, x, y, z, partialTickTime);
         
         TileEnvironmentalAccumulator tile = (TileEnvironmentalAccumulator)tileentity;
+        BossStatus.setBossStatus(tile, false);
         
         // Render the weather container moving up if the player just threw one in
         if (tile.getMovingItemY() != -1.0f)
