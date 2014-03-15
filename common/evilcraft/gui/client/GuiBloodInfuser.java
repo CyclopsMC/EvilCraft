@@ -13,23 +13,64 @@ import evilcraft.gui.container.ContainerBloodInfuser;
  */
 public class GuiBloodInfuser extends GuiContainerTankInventory<TileBloodInfuser> {
     
-    private static final int TEXTUREWIDTH = 176;
-    @SuppressWarnings("unused")
-    private static final int TEXTUREHEIGHT = 166;
+    /**
+     * Texture width.
+     */
+    public static final int TEXTUREWIDTH = 176;
+    /**
+     * Texture height.
+     */
+    public static final int TEXTUREHEIGHT = 166;
 
-    private static final int TANKWIDTH = 16;
-    private static final int TANKHEIGHT = 58;
-    private static final int TANKX = TEXTUREWIDTH;
-    private static final int TANKY = 0;
-    private static final int TANKTARGETX = 43;
-    private static final int TANKTARGETY = 72;
+    /**
+     * Tank width.
+     */
+    public static final int TANKWIDTH = 16;
+    /**
+     * Tank height.
+     */
+    public static final int TANKHEIGHT = 58;
+    /**
+     * Tank X.
+     */
+    public static final int TANKX = TEXTUREWIDTH;
+    /**
+     * Tank Y.
+     */
+    public static final int TANKY = 0;
+    /**
+     * Tank target X.
+     */
+    public static final int TANKTARGETX = 43;
+    /**
+     * Tank target Y.
+     */
+    public static final int TANKTARGETY = 72;
 
-    private static final int PROGRESSWIDTH = 24;
-    private static final int PROGRESSHEIGHT = 16;
-    private static final int PROGRESSX = 192;
-    private static final int PROGRESSY = 0;
-    private static final int PROGRESSTARGETX = 102;
-    private static final int PROGRESSTARGETY = 36;
+    /**
+     * Progress width.
+     */
+    public static final int PROGRESSWIDTH = 24;
+    /**
+     * Progress height.
+     */
+    public static final int PROGRESSHEIGHT = 16;
+    /**
+     * Progress X.
+     */
+    public static final int PROGRESSX = 192;
+    /**
+     * Progress Y.
+     */
+    public static final int PROGRESSY = 0;
+    /**
+     * Progress target X.
+     */
+    public static final int PROGRESSTARGETX = 102;
+    /**
+     * Progress target Y.
+     */
+    public static final int PROGRESSTARGETY = 36;
     
     /**
      * Make a new instance.

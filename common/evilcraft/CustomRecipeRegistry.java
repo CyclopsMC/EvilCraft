@@ -42,6 +42,20 @@ public class CustomRecipeRegistry {
     }
     
     /**
+     * Get the recipe of a given result.
+     * @param result The resulting {@link ItemStack}.
+     * @return The recipe of the given result. Will be null if none can be found.
+     */
+    public static CustomRecipe get(ItemStack result) {
+        // TODO: when the recipes list gets big, this might need to get more efficient...
+        for(Entry<CustomRecipe, CustomRecipeResult> entry : recipes.entrySet()) {
+            if(ItemStack.areItemStacksEqual(entry.getValue().getResult(), result))
+                return entry.getKey();
+        }
+        return null;
+    }
+    
+    /**
      * Retrieve the map of all recipes and their results for a given factory.
      * @param factory The factory block to search for.
      * @return The Map of {@link CustomRecipe} to {@link CustomRecipeResult}.
