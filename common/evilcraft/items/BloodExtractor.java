@@ -1,4 +1,5 @@
 package evilcraft.items;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -6,6 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -72,6 +76,14 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
             return false;
         }
         return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+    }
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+        super.addInformation(itemStack, entityPlayer, list, par4);
+        list.add(IInformationProvider.INFO_PREFIX+"Shift + Right click to extract.");
     }
     
     @Override
