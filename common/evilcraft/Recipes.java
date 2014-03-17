@@ -65,6 +65,8 @@ import evilcraft.items.DarkStick;
 import evilcraft.items.DarkStickConfig;
 import evilcraft.items.HardenedBloodShard;
 import evilcraft.items.HardenedBloodShardConfig;
+import evilcraft.items.InvertedPotentia;
+import evilcraft.items.InvertedPotentiaConfig;
 import evilcraft.items.LightningGrenade;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.PotentiaSphere;
@@ -333,6 +335,18 @@ public class Recipes {
                 'G', new ItemStack(DarkGem.getInstance()),
                 'C', new ItemStack(BloodInfusionCore.getInstance()),
                 'B', new ItemStack(DarkBlock.getInstance())
+            }
+                    ));
+        }
+        // Inverted Potentia
+        if(isItemEnabled(PotentiaSphereConfig.class) && isItemEnabled(InvertedPotentiaConfig.class) && isItemEnabled(DarkGemConfig.class)) {
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(InvertedPotentia.getInstance()), true,
+                    new Object[]{
+                " D ",
+                "DSD",
+                " D ",
+                'S', new ItemStack(PotentiaSphere.getInstance()),
+                'D', new ItemStack(DarkGem.getInstance()),
             }
                     ));
         }
