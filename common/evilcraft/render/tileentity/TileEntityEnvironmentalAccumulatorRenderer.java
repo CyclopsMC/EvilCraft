@@ -39,7 +39,8 @@ public class TileEntityEnvironmentalAccumulatorRenderer extends TileEntityBeacon
         super.renderBeacon(tileentity, x, y, z, partialTickTime);
         
         TileEnvironmentalAccumulator tile = (TileEnvironmentalAccumulator)tileentity;
-        BossStatus.setBossStatus(tile, false);
+        if(tile.getHealth() != tile.getMaxHealth())
+            BossStatus.setBossStatus(tile, false);
         
         // Render the weather container moving up if the player just threw one in
         if (tile.getMovingItemY() != -1.0f)
