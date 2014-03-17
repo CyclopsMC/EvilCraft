@@ -51,6 +51,11 @@ public class TilePurifier extends TankInventoryTileEntity {
      */
     public static final int SLOT_BOOK = 1;
     
+    /**
+     * Duration in ticks to show the 'poof' animation.
+     */
+    private static final int ANIMATION_FINISHED_DURATION = 2;
+    
     @NBTPersist
     private Float randomRotation = 0F;
     
@@ -114,6 +119,8 @@ public class TilePurifier extends TankInventoryTileEntity {
         if(getPurifyItem() != null && buckets > 0) {
             tick++;
             boolean done = false;
+            
+            // Try removing bad enchants.
             for(ConfigurableEnchantment enchant : RepairItemTickAction.BAD_ENCHANTS) {
                 if(!done) {
                     int enchantmentListID = Helpers.doesEnchantApply(getPurifyItem(), enchant.effectId);
@@ -124,34 +131,40 @@ public class TilePurifier extends TankInventoryTileEntity {
                                 Helpers.setEnchantmentLevel(getPurifyItem(), enchantmentListID, level - 1);
                             }
                             setBuckets(buckets - 1, getBucketsRest());
+                            finishedAnimation = ANIMATION_FINISHED_DURATION;
                         }
                         if(worldObj.isRemote)
                             showEffect();
-                        finishedAnimation = 5;
                         done = true;
                     }
                 }
             }
+            
+            // If no bad enchants were found/removed, try disenchanting.
             if(!done && buckets == getMaxBuckets()
                     && getBookItem() != null && getBookItem().getItem().getClass() == ALLOWED_BOOK) {
                 NBTTagList enchantmentList = getPurifyItem().getEnchantmentTagList();
                 if(enchantmentList != null) {
                     if(tick >= PURIFY_DURATION) {
                         if(!worldObj.isRemote) {
+                            // Init enchantment data.
                             int enchantmentListID = worldObj.rand.nextInt(enchantmentList.tagCount());
                             int level = Helpers.getEnchantmentLevel(getPurifyItem(), enchantmentListID);
                             int id = Helpers.getEnchantmentID(getPurifyItem(), enchantmentListID);
                             ItemStack enchantedItem = new ItemStack(Item.enchantedBook, 1);
                             
+                            // Set the enchantment book.
                             Map<Integer, Integer> enchantments = new HashMap<Integer, Integer>();
                             enchantments.put(id, level);
                             EnchantmentHelper.setEnchantments(enchantments, enchantedItem);
                             
+                            // Define the enchanted book level.
                             Helpers.setEnchantmentLevel(getPurifyItem(), enchantmentListID, 0);
                             
+                            // Put the enchanted book in the book slot.
                             setBookItem(enchantedItem);
                         }
-                        finishedAnimation = 5;
+                        finishedAnimation = ANIMATION_FINISHED_DURATION;
                         setBuckets(0, getBucketsRest());
                     }
                     if(worldObj.isRemote) {
@@ -165,6 +178,7 @@ public class TilePurifier extends TankInventoryTileEntity {
             tick = 0;
         }
         
+        // Animation tick/display.
         if(finishedAnimation > 0) {
             finishedAnimation--;
             if(worldObj.isRemote) {
@@ -188,6 +202,7 @@ public class TilePurifier extends TankInventoryTileEntity {
     
     /**
      * Get the rest of the fluid that can not fit in a bucket.
+     * Use this in {@link TilePurifier#setBuckets(int, int)} as rest.
      * @return The rest of the fluid.
      */
     public int getBucketsRest() {
@@ -195,7 +210,7 @@ public class TilePurifier extends TankInventoryTileEntity {
     }
     
     /**
-     * Set the amount of contained buckets.
+     * Set the amount of contained buckets. This will also change the inner tank.
      * @param buckets The amount of buckets.
      * @param rest The rest of the fluid.
      */
