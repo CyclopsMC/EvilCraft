@@ -20,7 +20,10 @@ public class InvertedPotentia extends ConfigurableItem {
     
     private static InvertedPotentia _instance = null;
     
-    private static final int EMPOWERED_META = 1;
+    /**
+     * Meta data for the empowered state.
+     */
+    public static final int EMPOWERED_META = 1;
     
     /**
      * Initialise the configurable.

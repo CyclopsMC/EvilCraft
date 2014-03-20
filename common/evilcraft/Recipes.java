@@ -69,6 +69,8 @@ import evilcraft.items.InvertedPotentia;
 import evilcraft.items.InvertedPotentiaConfig;
 import evilcraft.items.LightningGrenade;
 import evilcraft.items.LightningGrenadeConfig;
+import evilcraft.items.MaceOfDistortion;
+import evilcraft.items.MaceOfDistortionConfig;
 import evilcraft.items.PotentiaSphere;
 import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.WeatherContainer;
@@ -347,6 +349,20 @@ public class Recipes {
                 " D ",
                 'S', new ItemStack(PotentiaSphere.getInstance()),
                 'D', new ItemStack(DarkGem.getInstance()),
+            }
+                    ));
+        }
+        // Mace of Distortion
+        if(isItemEnabled(MaceOfDistortionConfig.class) && isItemEnabled(DarkStickConfig.class) && isItemEnabled(DarkPowerGemConfig.class)
+                && isItemEnabled(InvertedPotentiaConfig.class)) {
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MaceOfDistortion.getInstance()), true,
+                    new Object[]{
+                " PI",
+                " SP",
+                "S  ",
+                'S', new ItemStack(DarkStick.getInstance()),
+                'P', new ItemStack(DarkPowerGem.getInstance()),
+                'I', new ItemStack(InvertedPotentia.getInstance(), 1, InvertedPotentia.EMPOWERED_META),
             }
                     ));
         }
