@@ -32,6 +32,7 @@ public class CommandEvilCraft implements ICommand {
         Map<String, ICommand> map = new HashMap<String, ICommand>();
         map.put("config", new CommandConfig());
         map.put("version", new CommandVersion());
+        map.put("recursion", new CommandRecursion());
         return map;
     }
     

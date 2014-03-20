@@ -28,9 +28,9 @@ public interface IInformationProvider {
      */
     public static String ITEM_PREFIX = BLOCK_PREFIX;
     /**
-     * A prexif for additional info.
+     * A prefix for additional info.
      */
-    public static String INFO_PREFIX = EnumChatFormatting.BLUE.toString() + EnumChatFormatting.ITALIC.toString();
+    public static String INFO_PREFIX = EnumChatFormatting.DARK_PURPLE.toString() + EnumChatFormatting.ITALIC.toString();
     
     /**
      * Get info for a given itemStack.

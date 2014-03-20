@@ -25,6 +25,7 @@ tile.blocks.undeadSapling.name=Undead Sapling
 tile.blocks.undeadSapling.info=Infuse dead bush with blood.
 tile.blocks.undeadPlank.name=Undead Plank
 tile.blocks.invisibleRedstoneBlock.name=Invisible Redstone Block
+tile.blocks.purifier.name=Purifier
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone
@@ -55,6 +56,8 @@ item.items.bloodContainer.info.disabled=Disabled
 item.items.bloodContainer.info.autoSupply=Auto-supply:
 item.items.poisonSac.name=Poison Sac
 item.items.werewolfFur.name=Werewolf Fur
+item.items.blook.name=Blook
+item.items.potentiaSphere.name=Potentia Sphere
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
@@ -89,3 +92,4 @@ chat.command.invalidNewValue=Invalid new value
 chat.command.updatedValue=Updated %s to: %s (not updated in config file)
 chat.command.fartingEnabled=Farting enabled
 chat.command.fartingDisabled=Farting disabled
+chat.bossDisplay.charge=%s Charge

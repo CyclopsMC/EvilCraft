@@ -26,7 +26,7 @@ public abstract class ConfigurableBlockDoor extends BlockDoor implements Configu
      * @param eConfig Config for this block.
      * @param material Material of this block.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockDoor(ExtendedConfig eConfig, Material material) {
         super(material);
         this.setConfig(eConfig);

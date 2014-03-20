@@ -37,7 +37,8 @@ public class MobAction extends IElementTypeAction<MobConfig>{
         registerSpawnEgg(clazz, eConfig.getBackgroundEggColor(), eConfig.getForegroundEggColor());
     }
     
-    private static void registerSpawnEgg(Class<? extends EntityLiving> entity, int backgroundColor, int foregroundColor) {
+    @SuppressWarnings("unchecked")
+	private static void registerSpawnEgg(Class<? extends EntityLiving> entity, int backgroundColor, int foregroundColor) {
     	int globalEntityID = 0;
     	while (EntityList.getStringFromID(globalEntityID) != null){
     		globalEntityID++;
@@ -45,7 +46,6 @@ public class MobAction extends IElementTypeAction<MobConfig>{
     	
     	EntityList.IDtoClassMapping.put(globalEntityID, entity);
     	EntityList.entityEggs.put(globalEntityID, new EntityEggInfo(globalEntityID, backgroundColor, foregroundColor));
-    	
     }
 
 }

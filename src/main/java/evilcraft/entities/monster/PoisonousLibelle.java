@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
@@ -27,7 +28,7 @@ import evilcraft.items.PoisonSacConfig;
  * @author rubensworks
  *
  */
-public class PoisonousLibelle extends EntityFlying implements Configurable{
+public class PoisonousLibelle extends EntityFlying implements Configurable, IMob {
 
     protected ExtendedConfig<?> eConfig = null;
 
@@ -124,6 +125,11 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
     protected String getDeathSound() {
         return "mob.bat.death";
     }
+    
+    @Override
+    protected float getSoundVolume() {
+        return 0.2F;
+    }
 
     @Override
     public EnumCreatureAttribute getCreatureAttribute() {
@@ -156,7 +162,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
             f1 = MathHelper.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
 
             if (f1 <= -0.3F && f >= -0.3F) {
-                this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.bat.idle", 0.5F, 0.8F + this.rand.nextFloat() * 0.3F, false);
+                this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.bat.idle", 0.1F, 0.8F + this.rand.nextFloat() * 0.3F, false);
             }
         }
 
@@ -315,7 +321,8 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
                     }
                 }
                 if(shouldAttack) {
-                    entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
+                    if(PoisonousLibelleConfig.hasAttackDamage)
+                        entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
                     ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
                 }
             }

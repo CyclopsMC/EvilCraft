@@ -25,6 +25,7 @@ import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.NetherfishSpawnConfig;
 import evilcraft.blocks.ObscuredGlassConfig;
+import evilcraft.blocks.PurifierConfig;
 import evilcraft.blocks.UndeadLeavesConfig;
 import evilcraft.blocks.UndeadLogConfig;
 import evilcraft.blocks.UndeadPlankConfig;
@@ -49,6 +50,7 @@ import evilcraft.items.BloodContainerConfig;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BloodInfusionCoreConfig;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
+import evilcraft.items.BlookConfig;
 import evilcraft.items.BroomConfig;
 import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.BucketPoisonConfig;
@@ -60,6 +62,7 @@ import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.PoisonSacConfig;
+import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.RedstoneGrenadeConfig;
 import evilcraft.items.WeatherContainerConfig;
 import evilcraft.items.WerewolfBoneConfig;
@@ -143,6 +146,7 @@ public class Configs {
         configs.add(new UndeadPlankConfig());
         configs.add(new FluidBlockPoisonConfig());
         configs.add(new InvisibleRedstoneBlockConfig());
+        configs.add(new PurifierConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -164,6 +168,8 @@ public class Configs {
         configs.add(new PoisonSacConfig());
         configs.add(new BucketPoisonConfig());
         configs.add(new WerewolfFurConfig());
+        configs.add(new BlookConfig());
+        configs.add(new PotentiaSphereConfig());
         
         // Entities
         // Item

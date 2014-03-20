@@ -35,7 +35,7 @@ public class ConfigurableEnchantment extends Enchantment implements Configurable
         
     }
     
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;

@@ -2,10 +2,14 @@ package evilcraft.entities.tileentities;
 
 import java.util.List;
 
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.StatCollector;
 
 import org.lwjgl.util.vector.Vector4f;
 
@@ -22,7 +26,7 @@ import evilcraft.items.WeatherContainer.WeatherContainerTypes;
  * @author immortaleeb
  *
  */
-public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
+public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity implements IBossDisplayData {
     
     private static final int ITEM_MOVE_DURATION = 100;
     private static final int ITEM_MOVE_COOLDOWN_DURATION = 100;
@@ -97,9 +101,11 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	
 	@Override
 	public void updateEntity() {
+	    if(cooldownTick > 0)
+	        cooldownTick--;
+	    
 	    if (!worldObj.isRemote) {
 	        moveItemTick--;
-	        cooldownTick--;
             
 	        if (cooldown && cooldownTick <= 0)
 	            deactivateCooldown();
@@ -209,12 +215,14 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	    cooldownTick = getMaxCooldownTick();
 	    cooldown = true;
 	    worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.BEAM_INACTIVE | EnvironmentalAccumulator.MOVING_ITEM, 2);
+	    sendUpdate();
 	}
 	
 	private void deactivateCooldown() {
 	    cooldownTick = 0;
 	    cooldown = false;
 	    worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.BEAM_ACTIVE, 2);
+	    sendUpdate();
 	}
 	
 	/**
@@ -262,5 +270,23 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity {
 	    
 	    compound.setInteger("cooldownTick", cooldownTick);
 	    compound.setInteger("moveItemTick", moveItemTick);
+	}
+    
+    @Override
+    public float getMaxHealth() {
+        return getMaxCooldownTick();
+    }
+
+    @Override
+    public float getHealth() {
+        return Math.min(getMaxCooldownTick() - cooldownTick, getMaxCooldownTick());
+    }
+
+	@Override
+	public IChatComponent func_145748_c_() {
+		String message = StatCollector.translateToLocalFormatted("chat.bossDisplay.charge",
+				new Object[]{StatCollector.translateToLocal(
+						EnvironmentalAccumulator.getInstance().getUnlocalizedName() + ".name")});
+		return new ChatComponentText(message);
 	}
 }

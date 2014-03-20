@@ -32,7 +32,7 @@ public abstract class ConfigurableItemBucket extends ItemBucket implements Confi
      * @param eConfig Config for this block.
      * @param blockID The fluid block ID it can pick up.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes" })
     protected ConfigurableItemBucket(ExtendedConfig eConfig, Block block) {
         super(block);
         this.setConfig(eConfig);

@@ -16,11 +16,14 @@ import evilcraft.entities.tileentities.TileBloodChest;
  */
 public class RepairItemTickAction implements ITickAction<TileBloodChest> {
     
-    protected final static int MB_PER_DAMAGE = 1;
+    protected final static int MB_PER_DAMAGE = 5;
     protected final static int TICKS_PER_DAMAGE = 2;
     
     private static final int CHANCE_RANDOM_ENCHANT = 10000;
-    private static final LinkedList<ConfigurableEnchantment> BAD_ENCHANTS = new LinkedList<ConfigurableEnchantment>();
+    /**
+     * All the possible bad enchantments
+     */
+    public static final LinkedList<ConfigurableEnchantment> BAD_ENCHANTS = new LinkedList<ConfigurableEnchantment>();
     static {
         BAD_ENCHANTS.add(EnchantmentBreaking.getInstance());
     }

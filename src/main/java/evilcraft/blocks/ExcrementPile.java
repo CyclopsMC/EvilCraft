@@ -206,7 +206,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
                     ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.heal.id, PIG_BOOST_DURATION * 20, 1));
                     ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.moveSpeed.id, PIG_BOOST_DURATION * 20, 1));
                 }
-            } else if(entity instanceof EntityPlayer || ExcrementPileConfig.hurtEntities) {
+            } else if(entity instanceof EntityPlayer || ExcrementPileConfig.poisonEntities) {
                 // Poison player or mob with a chance depending on the height of the pile.
                 if(isChanceWithHeight(world, x, y, z))
                     ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));

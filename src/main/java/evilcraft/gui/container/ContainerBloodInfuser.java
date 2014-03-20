@@ -17,6 +17,33 @@ public class ContainerBloodInfuser extends TickingTankInventoryContainer<TileBlo
     
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;
+    
+    /**
+     * Container slot X coordinate.
+     */
+    public static final int SLOT_CONTAINER_X = 8;
+    /**
+     * Container slot Y coordinate.
+     */
+    public static final int SLOT_CONTAINER_Y = 36;
+    
+    /**
+     * Infuse slot X coordinate.
+     */
+    public static final int SLOT_INFUSE_X = 79;
+    /**
+     * Infuse slot Y coordinate.
+     */
+    public static final int SLOT_INFUSE_Y = 36;
+    
+    /**
+     * Infuse result slot X coordinate.
+     */
+    public static final int SLOT_INFUSE_RESULT_X = 133;
+    /**
+     * Infuse result slot Y coordinate.
+     */
+    public static final int SLOT_INFUSE_RESULT_Y = 36;
 
     /**
      * Make a new instance.
@@ -27,9 +54,9 @@ public class ContainerBloodInfuser extends TickingTankInventoryContainer<TileBlo
         super(inventory, tile);
 
         // Adding inventory
-        addSlotToContainer(new SlotFluidContainer(tile, TileBloodInfuser.SLOT_CONTAINER, 8, 36, TileBloodInfuser.ACCEPTED_FLUID)); // Container emptier
-        addSlotToContainer(new SlotInfuse(tile, TileBloodInfuser.SLOT_INFUSE, 79, 36, tile)); // Infuse slot
-        addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, 133, 36)); // Infuse result slot
+        addSlotToContainer(new SlotFluidContainer(tile, TileBloodInfuser.SLOT_CONTAINER, SLOT_CONTAINER_X, SLOT_CONTAINER_Y, TileBloodInfuser.ACCEPTED_FLUID)); // Container emptier
+        addSlotToContainer(new SlotInfuse(tile, TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, tile)); // Infuse slot
+        addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y)); // Infuse result slot
 
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }

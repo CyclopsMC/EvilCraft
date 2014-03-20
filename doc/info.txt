@@ -1,14 +1,16 @@
-[center][img]http://i.imgur.com/4Pe8YfI.png[/img][/center][center][color=#A63F00]An evil mod for Minecraft[/color][/center][center][b]Download:[/b] http://bit.ly/1gbWrx0 (version 0.2.2b for minecraft 1.6.4)[/center][center][b]Currently working on:[/b] Porting to Minecraft version 1.7[/center]
+[center][img]http://i.imgur.com/4Pe8YfI.png[/img][/center][center][color=#A63F00]An evil mod for Minecraft[/color][/center][center][b]Download for MC 1.6.4:[/b] http://bit.ly/1fwx4cX (version 0.2.3b)[/center][center][b]Download for MC 1.7.2:[/b] http://bit.ly/1hK5Ywl (version 0.2.3b)[/center][center][b]Currently working on:[/b] New features, additional content and bugfixes.[/center]
 
  EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding. This mod basically adds various evil things to Minecraft, from everything such as little flying monster that will follow you around and try to poison you, to bottles that allow you to store and control the weather. 
 
- This is our first public release of this mod for Minecraft 1.6.4 and the very first thing we plan on doing is porting it to Minecraft 1.7. We do however plan on fixing any bugs you might encounter and we will keep releasing versions for Minecraft 1.6.4 until the next version for Minecraft 1.7 is complete, so please don't hesitate to post any bugs you might find on our bug tracker. If you have suggestions how we could improve our mod or any additions you might want to see in the future, they can also be posted on our bug tracker. Furthermore this mod is an open-source mod, so if you want to contribute you can find us on https://github.com/rubensworks/EvilCraft . You can also contact kroeser directly on https://twitter.com/rubensworks . 
+ With our latest release, we provide support for both Minecraft 1.6.4 and 1.7.X. Since a lot of mods still didn't convert yet to 1.7 and because some people might be interested in combining EvilCraft with other mods (e.g. in mod packs), we will do our best to keep both 1.6.4 and 1.7.X up to date. This means that we will still provide bug fixes for 1.6.4 and 1.7.X aswel as small features (e.g. features that do not depend on the changes made to Minecraft since 1.7.X). For bigger features however, we will only provide support for 1.7.X. As soon as we notice that forge for 1.7.X becomes the new "standard" amongst other mods and most users start to use mods and/or modpacks for 1.7.X, we will abandon support for 1.6 (note however that this might still take a while, since A LOT of mod authors still haven't even started on updating their mods to the newer version). Once that happens, we will probably do a major release which (hopefully) contains a lot of new content so people will actually have a feeling that things have changed since 1.6. 
 
 [b][size=20]Features[/size][/b]
 NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATION FILE
 
 [spoiler='Spotlights'][u][b]General[/b][/u]
 Thanks to these people for their awesome spotlights!
+[u][b]Darton[/b][/u]
+[center][media]http://www.youtube.com/watch?v=sU3n60Mp_pI[/media][/center]
 [u][b]EncryptedTonight[/b][/u]
 [center][media]http://www.youtube.com/watch?v=e_GLGPpuYGM[/media][/center]
 [/spoiler]
@@ -36,7 +38,7 @@ The [u]environmental accumulator[/u] allows you to fill [u]weather containers[/u
 Yeah... its liquid blood... To obtain blood you can right click a [u]blood stained block[/u] with a [u]blood extractor[/u]. This blood can then be used in a [u]blood infuser[/u] and [u]blood chest[/u] and stored in [u]blood containers[/u], [u]blood extractors[/u] or regular vanilla buckets. You can place blood in the world, just like most liquids, after which it will turn into [u]hardened blood[/u] after some time, except when it's raining (see the section about hardened blood for more information about this). 
 [img]http://i.imgur.com/vuVQhag.png[/img]
 [u][b]Poison[/b][/u]
-EvilCraft also adds liquid [u]poison[/u], but don't worry you won't find it spawning in the world, well ... at least not yet. To get some poison, just put a water bucket and any poisoned item in a crafting table and you will obtain a bucket of poison. Examples of poisoned items are poisoned potatoes and [u]poison sacs[/u]. 
+EvilCraft also adds liquid [u]poison[/u], but don't worry you won't find it spawning in the world, well ... at least not yet. To get some poison, just put a water bucket and 4 of any poisoned item in a crafting table and you will obtain a bucket of poison. Examples of poisoned items are poisoned potatoes and [u]poison sacs[/u]. 
 [img]http://i.imgur.com/7nAk82E.png[/img]
 [/spoiler]
 [spoiler='World Generation'][u][b]Dark Ore[/b][/u]
@@ -167,7 +169,7 @@ Beware of these beasts, if you're not well-prepared they might just single-hit y
 Yes, another kind of villager, willing to trade at day but beware of him at night, especially when it is full moon... For now this villager adds some specific EvilCraft item trades, but there's really nothing you can get exclusively through trading. 
 [img]http://i.imgur.com/JINHxDi.png[/img]
 [u][b]Poisonous Libelle[/b][/u]
-Although these little creatures look rather innocent at first sight, you will quickly discover that quite the opposite is true. These nasty little mobs spawn in river biomes and will try to hit whatever entities they come across including players, passive mobs and other poisonous libelles. Upon hitting an entity, they will be poisoned for a short time and they will continue to annoy players by following them for as long as they can... Moreover, they are really quick and rather small, but have really low health (about one hit should suffice to kill them). They drop [u]poisoned sacs[/u], which can be used in various crafting recipes. 
+Although these little creatures look rather innocent at first sight, you will quickly discover that quite the opposite is true. These nasty little mobs spawn in river and jungle biomes and will try to hit whatever entities they come across including players, passive mobs and other poisonous libelles. Upon hitting an entity, they will be poisoned for a short time and they will continue to annoy players by following them for as long as they can... Moreover, they are really quick and rather small, but have really low health (about one hit should suffice to kill them). They drop [u]poisoned sacs[/u], which can be used in various crafting recipes. 
 [img]http://i.imgur.com/UJaj0XW.png[/img]
 [u][b]Netherfish[/b][/u]
 Since silverfish weren't evil enough, we added a variant called [u]netherfish[/u] to the game. They're just like silverfish, except you can only find them by breaking monster egg blocks in the nether, which are added to the nether world generation. Oh yeah, did I also mention they can set you on fire? 
@@ -217,6 +219,8 @@ Obviously all of the recipes are also available in the NEI plugin.
 [/spoiler]
 [u][b]Configuration[/b][/u]
 Almost every feature can be disabled and changed in the config file (config/evilcraft.cfg). It is however mandatory that config files at server and client side are identical, otherwise you might encounter ID conflicts.
+[u][b]Modpacks[/b][/u]
+Regarding modpacks, anyone is more than welcome to use this mod in any modpack, both public and private. We do however ask that you notify us if you would use it in a public pack, just so we know.
 [u][b]Download and Install[/b][/u]
 [mod]evilcraft[/mod]
 Source code: https://github.com/rubensworks/EvilCraft

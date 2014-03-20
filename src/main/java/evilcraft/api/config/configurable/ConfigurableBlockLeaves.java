@@ -40,7 +40,7 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
      * Make a new block instance.
      * @param eConfig Config for this block.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockLeaves(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
         this.setBlockName(this.getUniqueName());

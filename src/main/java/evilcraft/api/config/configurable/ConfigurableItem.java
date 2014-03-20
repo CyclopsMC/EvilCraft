@@ -27,7 +27,7 @@ public abstract class ConfigurableItem extends Item implements Configurable{
      * Make a new item instance.
      * @param eConfig Config for this block.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes" })
     protected ConfigurableItem(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());

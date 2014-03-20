@@ -2,21 +2,22 @@ package evilcraft.blocks;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.entities.tileentities.TileInvisibleRedstoneBlock;
+import evilcraft.items.RedstoneGrenade;
 
 /**
  * An invisible block where players can walk through and disappears after a few ticks.
@@ -46,7 +47,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     }
 
     private InvisibleRedstoneBlock(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.iron, TileInvisibleRedstoneBlock.class);
+        super(eConfig, Material.air, TileInvisibleRedstoneBlock.class);
         setHardness(5.0F);
         setResistance(10.0F);
         setStepSound(soundTypeMetal);
@@ -55,6 +56,11 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {}
+    
+    @Override
+    public Item getItemDropped(int meta, Random random, int zero) {
+        return RedstoneGrenade.getInstance();
+    }
 
     @Override
     public int isProvidingWeakPower(IBlockAccess blockAccess, int x, int y, int z, int side) {
@@ -68,7 +74,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     
     @Override
     public int quantityDropped(Random random) {
-        return 0;
+        return 1;
     }
     
     @Override

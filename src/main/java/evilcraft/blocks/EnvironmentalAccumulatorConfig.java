@@ -6,6 +6,7 @@ import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.configurable.ConfigurableProperty;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 import evilcraft.proxies.ClientProxy;
+import evilcraft.render.block.RenderEnvironmentalAccumulator;
 import evilcraft.render.tileentity.TileEntityEnvironmentalAccumulatorRenderer;
 
 /**
@@ -40,8 +41,10 @@ public class EnvironmentalAccumulatorConfig extends BlockConfig {
 	
 	@Override
 	public void onRegistered() {
-	    if (Helpers.isClientSide())
+	    if(Helpers.isClientSide()) {
+	        ClientProxy.BLOCK_RENDERERS.add(new RenderEnvironmentalAccumulator());
 	        ClientProxy.TILE_ENTITY_RENDERERS.put(TileEnvironmentalAccumulator.class, new TileEntityEnvironmentalAccumulatorRenderer());
+	    }
 	}
 
 }

@@ -33,6 +33,8 @@ import evilcraft.blocks.LightningBomb;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.ObscuredGlass;
 import evilcraft.blocks.ObscuredGlassConfig;
+import evilcraft.blocks.Purifier;
+import evilcraft.blocks.PurifierConfig;
 import evilcraft.blocks.UndeadLog;
 import evilcraft.blocks.UndeadLogConfig;
 import evilcraft.blocks.UndeadPlank;
@@ -52,6 +54,8 @@ import evilcraft.items.BloodInfusionCore;
 import evilcraft.items.BloodInfusionCoreConfig;
 import evilcraft.items.BloodPearlOfTeleportation;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
+import evilcraft.items.Blook;
+import evilcraft.items.BlookConfig;
 import evilcraft.items.BucketPoison;
 import evilcraft.items.BucketPoisonConfig;
 import evilcraft.items.DarkGem;
@@ -64,6 +68,8 @@ import evilcraft.items.HardenedBloodShard;
 import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.LightningGrenade;
 import evilcraft.items.LightningGrenadeConfig;
+import evilcraft.items.PotentiaSphere;
+import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 import evilcraft.items.WeatherContainerConfig;
@@ -209,7 +215,8 @@ public class Recipes {
                     Reference.DICT_MATERIALPOISONOUS,
                     Reference.DICT_MATERIALPOISONOUS,
                     Reference.DICT_MATERIALPOISONOUS,
-                    new ItemStack(Items.water_bucket.setContainerItem(null))
+                    new ItemStack(Items.water_bucket),
+                    new ItemStack(Items.bucket)
                     ));
         }
         // Poisonous potato
@@ -298,6 +305,38 @@ public class Recipes {
             }
                     ));
         }
+        // Potentia Sphere
+        if(isItemEnabled(PotentiaSphereConfig.class)) {
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(PotentiaSphere.getInstance()), true,
+                    new Object[]{
+                "RGR",
+                "GSG",
+                "LGL",
+                'S', new ItemStack(Items.slime_ball),
+                'R', new ItemStack(Items.redstone),
+                'G', new ItemStack(Items.glowstone_dust),
+                'L', new ItemStack(Items.dye, 1, 4)
+            }
+                    ));
+        }
+        // Purifier
+        if(isItemEnabled(PurifierConfig.class)
+                && isItemEnabled(HardenedBloodShardConfig.class)
+                && isItemEnabled(DarkGemConfig.class)
+                && isItemEnabled(BloodInfusionCoreConfig.class)
+                && isItemEnabled(DarkBlockConfig.class)) {
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Purifier.getInstance()), true,
+                    new Object[]{
+                "S S",
+                "GCG",
+                "GBG",
+                'S', new ItemStack(HardenedBloodShard.getInstance()),
+                'G', new ItemStack(DarkGem.getInstance()),
+                'C', new ItemStack(BloodInfusionCore.getInstance()),
+                'B', new ItemStack(DarkBlock.getInstance())
+            }
+                    ));
+        }
 
         registerCustomRecipes();
         registerInterModRecipes();
@@ -323,6 +362,28 @@ public class Recipes {
                     200
                     ),
                     new ItemStack(UndeadSapling.getInstance()
+                            ));
+        }
+        
+        if(isItemEnabled(BlookConfig.class)) {
+            CustomRecipeRegistry.put(new CustomRecipe(
+                    new ItemStack(Items.book),
+                    new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 2),
+                    BloodInfuser.getInstance(),
+                    500
+                    ),
+                    new ItemStack(Blook.getInstance()
+                            ));
+        }
+        
+        if(isItemEnabled(PotentiaSphereConfig.class) && PotentiaSphereConfig.enderPearlRecipe) {
+            CustomRecipeRegistry.put(new CustomRecipe(
+                    new ItemStack(PotentiaSphere.getInstance()),
+                    new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2),
+                    BloodInfuser.getInstance(),
+                    1000
+                    ),
+                    new ItemStack(Items.ender_pearl
                             ));
         }
     }

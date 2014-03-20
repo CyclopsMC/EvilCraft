@@ -56,6 +56,7 @@ public class Reference {
     public static final String MOD_FORGE = "Forge";
     public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
     public static final String MOD_BUILDCRAFT_TRANSPORT = "BuildCraft|Transport";
+    public static final String MOD_WAILA = "Waila";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "" // This is not required anymore (and never was?) "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"

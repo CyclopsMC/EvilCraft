@@ -1,5 +1,6 @@
 package evilcraft.blocks;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
@@ -8,7 +9,8 @@ import evilcraft.api.config.configurable.ConfigurableProperty;
 import evilcraft.api.item.ItemBlockNBT;
 import evilcraft.entities.tileentities.TileBloodChest;
 import evilcraft.proxies.ClientProxy;
-import evilcraft.render.tileentity.RenderBloodChest;
+import evilcraft.render.item.RenderItemBloodChest;
+import evilcraft.render.tileentity.TileEntityBloodChestRenderer;
 
 /**
  * Config for the {@link BloodChest}.
@@ -47,8 +49,10 @@ public class BloodChestConfig extends BlockConfig {
     
     @Override
     public void onRegistered() {
-        if (Helpers.isClientSide())
-            ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new RenderBloodChest());
+        if (Helpers.isClientSide()) {
+            ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new TileEntityBloodChestRenderer());
+            ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BloodChest.getInstance()), new RenderItemBloodChest());
+        }
     }
     
 }

@@ -38,7 +38,7 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
      * @param eConfig Config for this block.
      * @param material Material of this block.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlock(ExtendedConfig eConfig, Material material) {
         super(material);
         this.setConfig(eConfig);

@@ -30,6 +30,12 @@ public class PoisonousLibelleConfig extends MobConfig {
      */
     @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Poisonous Libelle be enabled?")
     public static boolean isEnabled = true;
+    
+    /**
+     * Should the Poisonous Libelle do damage, next to poisoning?
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Poisonous Libelle do damage, next to poisoning?", isCommandable = true)
+    public static boolean hasAttackDamage = false;
 
     /**
      * Make a new instance.
@@ -66,7 +72,7 @@ public class PoisonousLibelleConfig extends MobConfig {
     
     @Override
     public void onRegistered() {
-        EntityRegistry.addSpawn(PoisonousLibelle.class, 1, 1, 4, EnumCreatureType.ambient, BiomeGenBase.river, BiomeGenBase.jungle);
+        EntityRegistry.addSpawn(PoisonousLibelle.class, 1, 1, 2, EnumCreatureType.monster, BiomeGenBase.river);
     }
     
 }

@@ -17,6 +17,7 @@ import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
+import evilcraft.render.block.RenderEnvironmentalAccumulator;
 
 /**
  * Block that can collect the weather and stuff.
@@ -79,6 +80,11 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer impleme
 	public boolean isOpaqueCube() {
 		return false;
 	}
+	
+	@Override
+    public int getRenderType() {
+        return RenderEnvironmentalAccumulator.ID;
+    }
 	
 	@Override
 	public boolean renderAsNormalBlock() {

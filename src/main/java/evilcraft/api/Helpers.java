@@ -187,6 +187,17 @@ public class Helpers {
             dropItems(world, (IInventory) tile, x, y, z);
             clearInventory((IInventory) tile);
         }
+    }
+    
+    /**
+     * This method should be called after a BlockContainer is destroyed
+     * @param world world
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param z z coordinate
+     */
+    public static void postDestroyBlock(World world, int x, int y, int z) {
+        TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof EvilCraftTileEntity) {
             ((EvilCraftTileEntity) tile).destroy();
@@ -261,7 +272,7 @@ public class Helpers {
     }
     
     /**
-     * Returns the level of an enchantment given an itemStack and the id
+     * Returns the level of an enchantment given an itemStack and the list id
      * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
      * the id in the enchantmentlist)
      * @param itemStack The itemStack which contains the enchanted item
@@ -271,6 +282,40 @@ public class Helpers {
     public static int getEnchantmentLevel(ItemStack itemStack, int enchantmentListID) {
         NBTTagList enchlist = itemStack.getEnchantmentTagList();
         return ((NBTTagCompound)enchlist.getCompoundTagAt(enchantmentListID)).getShort("lvl");
+    }
+    
+    /**
+     * Returns the id of an enchantment given an itemStack and the list id
+     * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
+     * the id in the enchantmentlist)
+     * @param itemStack The itemStack which contains the enchanted item
+     * @param enchantmentListID The id of the enchantment in the enchantment list
+     * @return The id of the enchantment on the given item
+     */
+    public static int getEnchantmentID(ItemStack itemStack, int enchantmentListID) {
+        NBTTagList enchlist = itemStack.getEnchantmentTagList();
+        return ((NBTTagCompound)enchlist.getCompoundTagAt(enchantmentListID)).getShort("id");
+    }
+    
+    /**
+     * Sets the level of an enchantment given an itemStack and the id
+     * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
+     * the id in the enchantmentlist)
+     * Will clear the enchantment if the new level <= 0
+     * @param itemStack The itemStack which contains the enchanted item
+     * @param enchantmentListID The id of the enchantment in the enchantment list
+     * @param level The new level of the enchantment on the given item
+     */
+    public static void setEnchantmentLevel(ItemStack itemStack, int enchantmentListID, int level) {
+        NBTTagList enchlist = itemStack.getEnchantmentTagList();
+        if(level <= 0) {
+            enchlist.removeTag(enchantmentListID);
+            if(enchlist.tagCount() == 0) {
+                itemStack.stackTagCompound.removeTag("ench");
+            }
+        } else {
+            ((NBTTagCompound)enchlist.getCompoundTagAt(enchantmentListID)).setShort("lvl", (short) level);
+        }
     }
     
     /**

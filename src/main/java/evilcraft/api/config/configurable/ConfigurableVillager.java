@@ -47,7 +47,7 @@ public class ConfigurableVillager implements Configurable, IVillageTradeHandler 
         this.setConfig(eConfig);
     }
     
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;

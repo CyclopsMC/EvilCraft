@@ -16,6 +16,7 @@ import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
+import evilcraft.GeneralConfig;
 import evilcraft.api.Helpers;
 import evilcraft.render.particle.EntityFartFX;
 
@@ -66,33 +67,37 @@ public class FartPacketHandler {
      */
 	@SubscribeEvent
 	public void onServerPacketReceived(ServerCustomPacketEvent event) {
-		EntityPlayer player = ((NetHandlerPlayServer) event.handler).playerEntity;
-    	
-    	EvilCraft.channel.sendToAllAround(
-    			FartPacket.createFartPacket(player),
-    			Helpers.createTargetPointFromEntityPosition(player, FART_RANGE)
-    	);
+		if(GeneralConfig.farting) {
+			EntityPlayer player = ((NetHandlerPlayServer) event.handler).playerEntity;
+	    	
+	    	EvilCraft.channel.sendToAllAround(
+	    			FartPacket.createFartPacket(player),
+	    			Helpers.createTargetPointFromEntityPosition(player, FART_RANGE)
+	    	);
+		}
 	}
 	
 	private void handleClientFartPacket(EntityPlayer player, FMLProxyPacket packet) {
-		ByteBuf buffer = packet.payload();
-		World world = player.worldObj;
-		 
-		// Read username
-		String username = ByteBufUtils.readUTF8String(packet.payload());
-		boolean isRemotePlayer = !player.getDisplayName().equals(username);
-         
-		if (isRemotePlayer) { 
-			player = world.getPlayerEntityByName(username);
-			
-			// Read position of the player
-			double posX = buffer.readDouble();
-			double posY = buffer.readDouble();
-			double posZ = buffer.readDouble();
-			
-			spawnFartParticles(world, player, posX, posY, posZ, true);
-		} else {
-			spawnFartParticles(world, player, false);
+		if(GeneralConfig.farting) {
+			ByteBuf buffer = packet.payload();
+			World world = player.worldObj;
+			 
+			// Read username
+			String username = ByteBufUtils.readUTF8String(packet.payload());
+			boolean isRemotePlayer = !player.getDisplayName().equals(username);
+	         
+			if (isRemotePlayer) { 
+				player = world.getPlayerEntityByName(username);
+				
+				// Read position of the player
+				double posX = buffer.readDouble();
+				double posY = buffer.readDouble();
+				double posZ = buffer.readDouble();
+				
+				spawnFartParticles(world, player, posX, posY, posZ, true);
+			} else {
+				spawnFartParticles(world, player, false);
+			}
 		}
 	}
 	

@@ -44,7 +44,7 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
      * @param fluid The fluid this block has to represent
      * @param material Material of this block.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockFluidClassic(ExtendedConfig eConfig, Fluid fluid, Material material) {
         super(fluid, material);
         this.setConfig(eConfig);

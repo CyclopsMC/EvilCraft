@@ -1,5 +1,6 @@
 package evilcraft.api.config.elementtypeaction;
 
+import evilcraft.api.config.EvilCraftConfigException;
 import evilcraft.api.config.ExtendedConfig;
 
 /**
@@ -7,7 +8,7 @@ import evilcraft.api.config.ExtendedConfig;
  * @author rubensworks
  *
  */
-public class UndisableableConfigException extends RuntimeException {
+public class UndisableableConfigException extends EvilCraftConfigException {
     
     /**
      * The serial version ID.

@@ -52,7 +52,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
      * @param material Material of this block.
      * @param tileEntity The class of the tile entity this block holds.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockContainer(ExtendedConfig eConfig, Material material, Class<? extends EvilCraftTileEntity> tileEntity) {
         super(material);
         this.setConfig(eConfig);
@@ -200,6 +200,8 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         if(tile != null && isKeepNBTOnDrop())
             itemStack.setTagCompound(tile.getNBTTagCompound());
         drops.add(itemStack);
+        
+        Helpers.postDestroyBlock(world, x, y, z);
         // The delayed breakBlock supercall
         super.breakBlock(world, x, y, z, Blocks.air, 0);
         return drops;
@@ -235,7 +237,16 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
      * @return The path of the GUI for this block.
      */
     public String getGuiTexture() {
-        return Reference.TEXTURE_PATH_GUI + eConfig.NAMEDID + "_gui.png";
+        return getGuiTexture("");
+    }
+    
+    /**
+     * Get the texture path of the GUI.
+     * @param suffix Suffix to add to the path.
+     * @return The path of the GUI for this block.
+     */
+    public String getGuiTexture(String suffix) {
+        return Reference.TEXTURE_PATH_GUI + eConfig.NAMEDID + "_gui" + suffix + ".png";
     }
 
 }
