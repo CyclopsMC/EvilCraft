@@ -122,6 +122,11 @@ public class PoisonousLibelle extends EntityFlying implements Configurable, IMob
     protected String getDeathSound() {
         return "mob.bat.death";
     }
+    
+    @Override
+    protected float getSoundVolume() {
+        return 0.2F;
+    }
 
     @Override
     public EnumCreatureAttribute getCreatureAttribute() {
@@ -154,7 +159,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable, IMob
             f1 = MathHelper.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
 
             if (f1 <= -0.3F && f >= -0.3F) {
-                this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.bat.idle", 0.5F, 0.8F + this.rand.nextFloat() * 0.3F, false);
+                this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.bat.idle", 0.1F, 0.8F + this.rand.nextFloat() * 0.3F, false);
             }
         }
 
