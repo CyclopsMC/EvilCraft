@@ -1,4 +1,4 @@
-[center][img]http://i.imgur.com/4Pe8YfI.png[/img][/center][center][color=#A63F00]An evil mod for Minecraft[/color][/center][center][b]Download for MC 1.6.4:[/b] http://bit.ly/1fwx4cX (version 0.2.3b)[/center][center][b]Download for MC 1.7.2:[/b] http://bit.ly/1hK5Ywl (version 0.2.3b)[/center][center][b]Currently working on:[/b] New features, additional content and bugfixes.[/center]
+[center][img]http://i.imgur.com/4Pe8YfI.png[/img][/center][center][color=#A63F00]An evil mod for Minecraft[/color][/center][center][b]Download for MC 1.6.4:[/b] http://bit.ly/1pgfhqk (version 0.3.0b)[/center][center][b]Download for MC 1.7.2:[/b] http://bit.ly/1pgfn11 (version 0.3.0b)[/center][center][b]Currently working on:[/b] New features, additional content and bugfixes.[/center]
 
  EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding. This mod basically adds various evil things to Minecraft, from everything such as little flying monster that will follow you around and try to poison you, to bottles that allow you to store and control the weather. 
 
@@ -9,6 +9,8 @@ NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATIO
 
 [spoiler='Spotlights'][u][b]General[/b][/u]
 Thanks to these people for their awesome spotlights!
+[u][b]TheDiamondMinecart[/b][/u]
+[center][media]http://www.youtube.com/watch?v=aOnjvMASgjA[/media][/center]
 [u][b]Darton[/b][/u]
 [center][media]http://www.youtube.com/watch?v=sU3n60Mp_pI[/media][/center]
 [u][b]EncryptedTonight[/b][/u]
@@ -33,12 +35,20 @@ As its name suggests, the [u]blood infuser[/u] can infuse or fill items with [u]
 [u][b]Environmental Accumulator[/b][/u]
 The [u]environmental accumulator[/u] allows you to fill [u]weather containers[/u] with the weather that is currently active. You do this by throwing an [u]empty weather container[/u] into the brown beam emitted by the accumulator. This will suck up the weather, bottle it into the weather container and change the weather to its complete opposite (sunshine becomes rain, rain/lightning becomes sunshine). Once used, the beam of the environmental accumulator will become black, which means that it is currently in a cooldown state. It will remain in this state for about half a Minecraft day, and you can see that it has returned to its originally state because the beam will change back to a brown color. (NOTE: the cooldown time can be changed in the configuration file) Note that this block can not be crafted or picked up and that these blocks only spawn at the centre of [u]dark temples[/u]. 
 [img]http://i.imgur.com/J5FLxFO.png[/img]
+[u][b]Purifier[/b][/u]
+You know that the [u]Blood Chest[/u] could add some bad enchantments to your tools, right? Well, now there is a way to circumvent this uncomfortability. The Purifier runs on [u]blood[/u] that can be inserted with regular buckets, or your favorite fluid pipes. You just right click with your cursed tool, and for each bucket that is inside the Purifier, one level of bad enchantment will go off the tool. Right click with an empty hand to get back your tool. But hold on, that is not all! The Purifier can also be used to remove random enchantments from tools and move them to books. Since regular books are not 'spongy' enough, you will have to infuse a book with blood to make a [u]Blook[/u], you can insert that inside the Purifier together with your tool. From the moment the Purifier is completely filled with [u]blood[/u], the process will begin. [img]http://i.imgur.com/I3fcQc4.png[/img] 
+[img]http://i.imgur.com/eorzNTj.png[/img]
+
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/BBveFpy.png[/img]
+
+[/center]
 [/spoiler]
 [spoiler='Fluids'][u][b]Blood[/b][/u]
 Yeah... its liquid blood... To obtain blood you can right click a [u]blood stained block[/u] with a [u]blood extractor[/u]. This blood can then be used in a [u]blood infuser[/u] and [u]blood chest[/u] and stored in [u]blood containers[/u], [u]blood extractors[/u] or regular vanilla buckets. You can place blood in the world, just like most liquids, after which it will turn into [u]hardened blood[/u] after some time, except when it's raining (see the section about hardened blood for more information about this). 
 [img]http://i.imgur.com/vuVQhag.png[/img]
 [u][b]Poison[/b][/u]
-EvilCraft also adds liquid [u]poison[/u], but don't worry you won't find it spawning in the world, well ... at least not yet. To get some poison, just put a water bucket and 4 of any poisoned item in a crafting table and you will obtain a bucket of poison. Examples of poisoned items are poisoned potatoes and [u]poison sacs[/u]. 
+EvilCraft also adds liquid [u]poison[/u], but don't worry you won't find it spawning in the world, well ... at least not yet. To get some poison, just put a water bucket [b]and an empty bucket[/b] and 4 of any poisoned item in a crafting table and you will obtain a bucket of poison. Examples of poisoned items are poisoned potatoes and [u]poison sacs[/u]. 
 [img]http://i.imgur.com/7nAk82E.png[/img]
 [/spoiler]
 [spoiler='World Generation'][u][b]Dark Ore[/b][/u]
@@ -55,7 +65,7 @@ When exploring, you might come across some weird-looking structures called [u]da
 These are kinda like vanilla spawners, except that all mossy cobblestone is replaced by bloody cobblestone and instead of 1 vanilla spawner, you might find a little more than one... So, if it's more dangerous, then what is the gain you might ask? Well, not only the number of spawners is increased, but also the number of chests.
 [/spoiler]
 [spoiler='Blocks'][u][b]Blood Stained Block[/b][/u]
-All living creatures are composed of [u]blood[/u], amongst other things, so every now and then a mob might spill its blood on the block it has died upon. These blocks are called [u]blood stained blocks[/u] and you can extract blood from them by right clicking them with a [u]blood extractor[/u]. 
+All living creatures are composed of [u]blood[/u], amongst other things, so every now and then a mob might spill its blood on the block it has died upon. These blocks are called [u]blood stained blocks[/u] and you can extract blood from them by [b]shift + right clicking[/b] them with a [u]blood extractor[/u]. 
 [img]http://i.imgur.com/RCvAnGQ.png[/img]
 [u][b]Bloody Cobblestone[/b][/u]
 These blocks can only be found in evil dungeons and serve the same functionality as mossy cobblestone does for vanilla dungeons. 
@@ -69,7 +79,7 @@ Acts as a storage block for dark gems. They're pretty dark and have connected te
 
 [/center]
 [u][b]Excrement Pile[/b][/u]
-The whole digestion cycle in Minecraft has finally been completed ! Animals will drop excrement piles, which act as bonemeal after a while when placed on the ground. The only way to pick up an excrement pile is by cleaning it up with a broom, and you better clean up your farm every once in a while because these piles can stack like snow. Also look out when you encounter such a pile because it has a chance of poisoning when you walk through them (NOTE: for animals and entities this can be changed in the configuration file). 
+The whole digestion cycle in Minecraft has finally been completed ! Animals will drop excrement piles, which act as bonemeal after a while when placed on the ground. The only way to pick up an excrement pile is by cleaning it up with a broom, and you better clean up your farm every once in a while because these piles can stack like snow. Shift + right clicking with an excrement pile will act as bonemeal, but it is three times more effective as regular bonemeal. Also look out when you encounter such a pile because it has a chance of poisoning when you walk through them (NOTE: for animals and entities this can be changed in the configuration file). 
 [img]http://i.imgur.com/BUivWbp.png[/img]
 [u][b]Hardened Blood[/b][/u]
 When you place liquid [u]blood[/u] into the world when no rain is falling on it, it will change into [u]hardened blood[/u] after a small time. These blocks will drop [u]hardened blood shards[/u], when a flint and steel is used on them and will turn back into liquid blood when rain falls on them. Finally, these blocks have connected textures and might be useful when building, just don't forget to put a roof above these blocks, or parts of your house might literally wash away when it starts to rain... 
@@ -118,6 +128,8 @@ The [u]blood pearl of teleportation[/u] gives you the powers of an enderman! Or 
 [center][img]http://i.imgur.com/3CDA3vt.png[/img]
 
 [/center]
+[u][b]Blook[/b][/u]
+This is just a Book infused with [u]blood[/u] so that it can be used in the [u]Purifier[/u].
 [u][b]Broom[/b][/u]
 Let's see, what else is evil? Ah yes! Witches! They fly on brooms don't they? Well now you can too. Just right click a broom to mount it or shift right click it to place it into the world. The broom can be controlled by pressing forward whilst looking in the direction you want to fly to, so the actual steering is done by moving the mouse. Note that at the moment brooms can only be found in dungeon chests, but don't worry we've got some great plans for the future which might allow you to craft maybe just a little more than this basic broom... 
 [img]http://i.imgur.com/iyJ8d0c.png[/img]
@@ -147,6 +159,12 @@ Lightning is now completely under you control with the [u]lightning grenade[/u]!
 [/center]
 [u][b]Poison Sac[/b][/u]
 It looks like and ink sac and it's filled with poison! These items can only be obtained by killing a [u]Poisonous Libelle[/u]. This item acts as poisoned item besides poisoned potatoes and can thus be used in recipes that require poisoned items.
+[u][b]Potentia Sphere[/b][/u]
+A pretty expensive item that has the potential to do great things. For now the only use of this is that it can be infused with [u]blood[/u] to make Ender Pearls. This can however be disabled in the config since this is a pretty powerful recipe. 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/dzmhUQu.png[/img]
+
+[/center]
 [u][b]Weather Container[/b][/u]
 Control the weather with weather containers and the environmental accumulator! When a weather container is filled with a specific weather type, you can change the weather to the weather stored in the weather container by throwing it on the ground. When crafting weather containers, they will initially be empty. The only way to fill an empty weather container is by throwing it in the beam of an [u]environmental accumulator[/u], after which the current weather (one of lightning, rain or sunshine) will be bottled into the weather container. Also note that some items such as lightning pearls require specific weather containers in order to be crafted. 
 [img]http://i.imgur.com/gc6YNru.png[/img]
@@ -169,7 +187,7 @@ Beware of these beasts, if you're not well-prepared they might just single-hit y
 Yes, another kind of villager, willing to trade at day but beware of him at night, especially when it is full moon... For now this villager adds some specific EvilCraft item trades, but there's really nothing you can get exclusively through trading. 
 [img]http://i.imgur.com/JINHxDi.png[/img]
 [u][b]Poisonous Libelle[/b][/u]
-Although these little creatures look rather innocent at first sight, you will quickly discover that quite the opposite is true. These nasty little mobs spawn in river and jungle biomes and will try to hit whatever entities they come across including players, passive mobs and other poisonous libelles. Upon hitting an entity, they will be poisoned for a short time and they will continue to annoy players by following them for as long as they can... Moreover, they are really quick and rather small, but have really low health (about one hit should suffice to kill them). They drop [u]poisoned sacs[/u], which can be used in various crafting recipes. 
+Although these little creatures look rather innocent at first sight, you will quickly discover that quite the opposite is true. These nasty little mobs spawn rarely in river biomes and will try to hit whatever entities they come across including players, passive mobs and other poisonous libelles. Upon hitting an entity, they will be poisoned for a short time and they will continue to annoy players by following them for as long as they can... Moreover, they are really quick and rather small, but have really low health (about one hit should suffice to kill them). By default they won't do direct damage (except for the poison damage) to entities, this can however be enabled in the configs if you like a challenge. They drop [u]poisoned sacs[/u], which can be used in various crafting recipes. 
 [img]http://i.imgur.com/UJaj0XW.png[/img]
 [u][b]Netherfish[/b][/u]
 Since silverfish weren't evil enough, we added a variant called [u]netherfish[/u] to the game. They're just like silverfish, except you can only find them by breaking monster egg blocks in the nether, which are added to the nether world generation. Oh yeah, did I also mention they can set you on fire? 
@@ -215,7 +233,9 @@ This mod is compatible with various Thermal Expansion machines, like for example
 [u][b]BuildCraft[/b][/u]
 We also provide some facades when BuildCraft is installed.
 [u][b]NEI[/b][/u]
-Obviously all of the recipes are also available in the NEI plugin.
+Obviously all of the recipes are also available in the NEI plugin. [b]Minecraft 1.6.4 only:[/b] Blood Infuser recipes are also visible.
+[u][b]Waila[/b][/u]
+[b]Minecraft 1.6.4 only:[/b] Machines status and minor block display improvements.
 [/spoiler]
 [u][b]Configuration[/b][/u]
 Almost every feature can be disabled and changed in the config file (config/evilcraft.cfg). It is however mandatory that config files at server and client side are identical, otherwise you might encounter ID conflicts.
