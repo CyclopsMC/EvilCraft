@@ -16,6 +16,7 @@ import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
+import evilcraft.GeneralConfig;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.render.particle.EntityFartFX;
@@ -39,7 +40,7 @@ public class FartPacketHandler implements IPacketHandler {
     
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
-        if (player instanceof EntityPlayer) {
+        if (player instanceof EntityPlayer && GeneralConfig.farting) {
             EntityPlayer entityPlayer = (EntityPlayer)player;
             
             if (Helpers.isClientSide() && packet.data != null) {
