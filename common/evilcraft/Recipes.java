@@ -375,7 +375,7 @@ public class Recipes {
                             ));
         }
         
-        if(isItemEnabled(PotentiaSphereConfig.class)) {
+        if(isItemEnabled(PotentiaSphereConfig.class) && PotentiaSphereConfig.enderPearlRecipe) {
             CustomRecipeRegistry.put(new CustomRecipe(
                     new ItemStack(PotentiaSphere.getInstance()),
                     new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2),
