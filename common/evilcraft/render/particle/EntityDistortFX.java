@@ -1,9 +1,8 @@
 package evilcraft.render.particle;
 
-import evilcraft.items.BloodPearlOfTeleportation;
-import evilcraft.items.MaceOfDistortion;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
+import evilcraft.items.MaceOfDistortion;
 
 /**
  * An effect for the distortion radial effect.
@@ -26,25 +25,22 @@ public class EntityDistortFX extends EntityFX {
     public EntityDistortFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale) {
         super(world, x, y, z, motionX, motionY, motionZ);
         
-        setParticleIcon(BloodPearlOfTeleportation.getInstance().getIconFromDamage(0));
-        
         particleScale = scale;
         particleAlpha = 0.1F;
         particleMaxAge = MaceOfDistortion.AOE_TICK_UPDATE;
         
-        particleRed = 0.001F * rand.nextFloat();
-        particleGreen = 0.001F * rand.nextFloat();
-        particleBlue = 0.001F * rand.nextFloat();
+        particleRed = 1.0F * rand.nextFloat();
+        particleGreen = 0.01F * rand.nextFloat();
+        particleBlue = 0.5F * rand.nextFloat();
+        
+        this.noClip = false;
     }
     
     @Override
     public void onUpdate() {
+        particleScale = (1 - (float)particleAge / particleMaxAge) * 3;
+        this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
         super.onUpdate();
-    }
-    
-    @Override
-    public int getFXLayer() {
-        return 1;
     }
 
 }
