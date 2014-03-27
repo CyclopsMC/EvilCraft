@@ -59,8 +59,10 @@ import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkPowerGemConfig;
 import evilcraft.items.DarkStickConfig;
 import evilcraft.items.HardenedBloodShardConfig;
+import evilcraft.items.InvertedPotentiaConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
+import evilcraft.items.MaceOfDistortionConfig;
 import evilcraft.items.PoisonSacConfig;
 import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.RedstoneGrenadeConfig;
@@ -170,6 +172,8 @@ public class Configs {
         configs.add(new WerewolfFurConfig());
         configs.add(new BlookConfig());
         configs.add(new PotentiaSphereConfig());
+        configs.add(new InvertedPotentiaConfig());
+        configs.add(new MaceOfDistortionConfig());
         
         // Entities
         // Item
