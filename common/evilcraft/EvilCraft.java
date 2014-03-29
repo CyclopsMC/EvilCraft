@@ -121,6 +121,9 @@ public class EvilCraft {
         
         // Send Waila register message
         FMLInterModComms.sendMessage(Reference.MOD_WAILA, "register", "evilcraft.mods.Waila.callbackRegister");
+        
+        // Register recipes
+        Recipes.registerRecipes();
     }
     
     /**
@@ -130,8 +133,6 @@ public class EvilCraft {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         LoggerHelper.log(Level.INFO, "postInit()");
-        
-        Recipes.registerRecipes();
         
         MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
