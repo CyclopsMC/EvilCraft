@@ -16,6 +16,7 @@ import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.api.config.configurable.ConfigurableBlockContainerGui;
+import evilcraft.fmp.ForgeMultipart;
 import evilcraft.gui.GuiHandler;
 
 /**
@@ -75,9 +76,17 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
             OreDictionary.registerOre(eConfig.getOreDictionaryId(), new ItemStack((Block)eConfig.getSubInstance()));
         }
         
-        // Register buildcraft facade
-        if(eConfig.isMultipartEnabled() && Loader.isModLoaded(Reference.MOD_BUILDCRAFT_TRANSPORT)) {
-            FMLInterModComms.sendMessage(Reference.MOD_BUILDCRAFT_TRANSPORT, "add-facade", eConfig.ID+"@"+0);
+        // Register third-party mod block parts.
+        if(eConfig.isMultipartEnabled()) {
+            // Register buildcraft facade.
+            if(Loader.isModLoaded(Reference.MOD_BUILDCRAFT_TRANSPORT)) {
+                FMLInterModComms.sendMessage(Reference.MOD_BUILDCRAFT_TRANSPORT, "add-facade", eConfig.ID+"@"+0);
+            }
+            
+            // Register multipart block.
+            if(Loader.isModLoaded(Reference.MOD_FMP)) {
+                ForgeMultipart.registerBlock((Block) eConfig.getSubInstance());
+            }
         }
     }
 
