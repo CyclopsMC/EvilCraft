@@ -56,6 +56,9 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
                     resetFacesOnRenderer(renderBlocks);
                 }
             }
+            blockToRender.setInventoryBlock(true);
+            blockToRender.setRenderPass(-1);
+            blockToRender.setRenderBlocks(null);
         }
         return visible;
     }
