@@ -1,4 +1,4 @@
-package evilcraft.fmp;
+package evilcraft.modcompat.fmp;
 
 import net.minecraft.block.Block;
 import codechicken.microblock.BlockMicroMaterial;

@@ -1,4 +1,4 @@
-package evilcraft.mods;
+package evilcraft.modcompat.waila;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package evilcraft.nei;
+package evilcraft.modcompact.nei;
 
 import static codechicken.core.gui.GuiDraw.changeTexture;
 import static codechicken.core.gui.GuiDraw.drawTexturedModalRect;

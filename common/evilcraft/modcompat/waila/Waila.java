@@ -1,4 +1,4 @@
-package evilcraft.mods;
+package evilcraft.modcompat.waila;
 
 import mcp.mobius.waila.api.IWailaRegistrar;
 import evilcraft.Recipes;

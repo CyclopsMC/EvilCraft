@@ -6,7 +6,6 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -28,6 +27,7 @@ import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.TextureStitchEventHook;
 import evilcraft.gui.GuiHandler;
 import evilcraft.gui.client.GuiMainMenuEvilifier;
+import evilcraft.modcompat.ModCompatLoader;
 import evilcraft.proxies.CommonProxy;
 import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.EvilDungeonGenerator;
@@ -92,6 +92,9 @@ public class EvilCraft {
         
         // Add death messages
         CustomDeathMessageRegistry.register();
+        
+        // Mod compatibility loading.
+        ModCompatLoader.preInit();
     }
     
     /**
@@ -119,11 +122,11 @@ public class EvilCraft {
         proxy.registerPacketHandlers();
         proxy.registerTickHandlers();
         
-        // Send Waila register message
-        FMLInterModComms.sendMessage(Reference.MOD_WAILA, "register", "evilcraft.mods.Waila.callbackRegister");
-        
         // Register recipes
         Recipes.registerRecipes();
+        
+        // Mod compatibility loading.
+        ModCompatLoader.init();
     }
     
     /**
@@ -142,6 +145,9 @@ public class EvilCraft {
         MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
         MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
         MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
+        
+        // Mod compatibility loading.
+        ModCompatLoader.postInit();
     }
     
     /**

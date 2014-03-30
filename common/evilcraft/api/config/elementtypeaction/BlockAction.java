@@ -5,19 +5,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import net.minecraftforge.oredict.OreDictionary;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.EvilCraftTab;
-import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.api.config.configurable.ConfigurableBlockContainerGui;
-import evilcraft.fmp.ForgeMultipart;
 import evilcraft.gui.GuiHandler;
+import evilcraft.modcompat.buildcraft.BuildcraftHelper;
+import evilcraft.modcompat.fmp.ForgeMultipartHelper;
 
 /**
  * The action used for {@link BlockConfig}.
@@ -78,15 +76,8 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
         
         // Register third-party mod block parts.
         if(eConfig.isMultipartEnabled()) {
-            // Register buildcraft facade.
-            if(Loader.isModLoaded(Reference.MOD_BUILDCRAFT_TRANSPORT)) {
-                FMLInterModComms.sendMessage(Reference.MOD_BUILDCRAFT_TRANSPORT, "add-facade", eConfig.ID+"@"+0);
-            }
-            
-            // Register multipart block.
-            if(Loader.isModLoaded(Reference.MOD_FMP)) {
-                ForgeMultipart.registerBlock((Block) eConfig.getSubInstance());
-            }
+            BuildcraftHelper.registerFacade(eConfig);
+            ForgeMultipartHelper.registerMicroblock(eConfig);
         }
     }
 
