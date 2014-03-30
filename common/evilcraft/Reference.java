@@ -121,6 +121,7 @@ public class Reference {
     public static final String MOD_BUILDCRAFT_TRANSPORT = "BuildCraft|Transport";
     public static final String MOD_WAILA = "Waila";
     public static final String MOD_FMP = "ForgeMultipart";
+    public static final String MOD_FORESTRY = "Forestry";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"

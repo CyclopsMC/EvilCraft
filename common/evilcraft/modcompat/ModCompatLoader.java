@@ -8,6 +8,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
+import evilcraft.modcompat.forestry.ForestryModCompat;
 import evilcraft.modcompat.thermalexpansion.ThermalExpansionModCompat;
 import evilcraft.modcompat.waila.WailaModCompat;
 
@@ -23,6 +24,7 @@ public class ModCompatLoader {
      */
     public static List<IModCompat> MODCOMPATS = new LinkedList<IModCompat>();
     static {
+        MODCOMPATS.add(new ForestryModCompat());
         MODCOMPATS.add(new ThermalExpansionModCompat());
         MODCOMPATS.add(new WailaModCompat());
     }
