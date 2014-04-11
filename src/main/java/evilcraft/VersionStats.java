@@ -10,6 +10,7 @@ import net.minecraft.util.EnumChatFormatting;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
@@ -78,6 +79,8 @@ public class VersionStats {
 			String location = Reference.URL_VERSIONSTATS
 					+ "?mc_version=" + Reference.MOD_MC_VERSION + "&mod_version=" + Reference.MOD_VERSION;
 			versionStats = gson.fromJson(IOUtils.toString(new URL(location)), VersionStats.class);
+		} catch (JsonSyntaxException e) {
+		    EvilCraft.log("The version stats server returned an invalid answer.");
 		} catch (IOException e) {
 			EvilCraft.log("Can't connect to version stats server");
 		}
