@@ -77,6 +77,9 @@ key.fart=Toggle Farting
 entity.evilcraft.werewolf.name=Werewolf
 entity.evilcraft.poisonousLibelle.name=Poisonous Libelle
 entity.evilcraft.netherfish.name=Nether Fish
+entity.werewolf.name=Werewolf
+entity.poisonousLibelle.name=Poisonous Libelle
+entity.netherfish.name=Nether Fish
 
 # Enchantments
 enchantment.breaking=Breaking

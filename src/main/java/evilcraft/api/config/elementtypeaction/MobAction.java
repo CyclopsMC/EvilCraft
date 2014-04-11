@@ -1,7 +1,5 @@
 package evilcraft.api.config.elementtypeaction;
 
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityList.EntityEggInfo;
 import net.minecraft.entity.EntityLiving;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -33,19 +31,8 @@ public class MobAction extends IElementTypeAction<MobConfig>{
         Class<? extends EntityLiving> clazz = (Class<? extends EntityLiving>) eConfig.ELEMENT;
         if (Helpers.isClientSide())
             ClientProxy.ENTITY_RENDERERS.put(clazz, eConfig.getRender());
-        EntityRegistry.registerModEntity(clazz, eConfig.NAMEDID, Helpers.getNewId(IDType.ENTITY), EvilCraft._instance, 80, 3, true);
-        registerSpawnEgg(clazz, eConfig.getBackgroundEggColor(), eConfig.getForegroundEggColor());
-    }
-    
-    @SuppressWarnings("unchecked")
-	private static void registerSpawnEgg(Class<? extends EntityLiving> entity, int backgroundColor, int foregroundColor) {
-    	int globalEntityID = 0;
-    	while (EntityList.getStringFromID(globalEntityID) != null){
-    		globalEntityID++;
-    	}    	
-    	
-    	EntityList.IDtoClassMapping.put(globalEntityID, entity);
-    	EntityList.entityEggs.put(globalEntityID, new EntityEggInfo(globalEntityID, backgroundColor, foregroundColor));
+        EntityRegistry.registerGlobalEntityID(clazz, eConfig.NAMEDID, EntityRegistry.findGlobalUniqueEntityId(), eConfig.getBackgroundEggColor(), eConfig.getForegroundEggColor());
+		EntityRegistry.registerModEntity(clazz, eConfig.NAMEDID, Helpers.getNewId(IDType.ENTITY), EvilCraft._instance, 80, 3, true);
     }
 
 }
