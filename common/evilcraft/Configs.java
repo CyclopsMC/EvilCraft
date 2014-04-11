@@ -60,6 +60,7 @@ import evilcraft.items.DarkPowerGemConfig;
 import evilcraft.items.DarkStickConfig;
 import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.InvertedPotentiaConfig;
+import evilcraft.items.KineticatorConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.MaceOfDistortionConfig;
@@ -174,6 +175,7 @@ public class Configs {
         configs.add(new PotentiaSphereConfig());
         configs.add(new InvertedPotentiaConfig());
         configs.add(new MaceOfDistortionConfig());
+        configs.add(new KineticatorConfig());
         
         // Entities
         // Item

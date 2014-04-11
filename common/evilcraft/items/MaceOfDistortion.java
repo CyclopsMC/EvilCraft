@@ -10,7 +10,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
@@ -26,6 +25,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
+import evilcraft.api.ItemHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -330,15 +330,12 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     }
     
     /**
-     * Get the power level of the given ItemStack/
+     * Get the power level of the given ItemStack.
      * @param itemStack The item to check.
-     * @return The power this Mace currenly has.
+     * @return The power this Mace currently has.
      */
     public static int getPower(ItemStack itemStack) {
-        if(itemStack == null || itemStack.getTagCompound() == null) {
-            return 0;
-        }
-        return itemStack.getTagCompound().getInteger(NBT_KEY_POWER);
+        return ItemHelpers.getNBTInt(itemStack, NBT_KEY_POWER);
     }
     
     /**
@@ -347,12 +344,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
      * @param power The new power level.
      */
     public static void setPower(ItemStack itemStack, int power) {
-        NBTTagCompound tag = itemStack.getTagCompound();
-        if(tag == null) {
-            tag = new NBTTagCompound();
-            itemStack.setTagCompound(tag);
-        }
-        tag.setInteger(NBT_KEY_POWER, power);
+        ItemHelpers.setNBTInt(itemStack, power, NBT_KEY_POWER);
     }
 
 }
