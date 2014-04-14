@@ -11,7 +11,9 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.GeneralConfig;
+import evilcraft.Recipes;
 import evilcraft.blocks.ExcrementPile;
+import evilcraft.blocks.ExcrementPileConfig;
 import evilcraft.entities.monster.Werewolf;
 import evilcraft.entities.villager.WerewolfVillagerConfig;
 
@@ -40,7 +42,8 @@ public class PlaySoundAtEntityEventHook {
         if(event.entity instanceof EntityAnimal) {
             EntityAnimal entity = (EntityAnimal) event.entity;
             World world = entity.worldObj;
-            if(world.rand.nextInt(CHANCE_DROP_EXCREMENT) == 0) {
+            if(world.rand.nextInt(CHANCE_DROP_EXCREMENT) == 0
+                    && Recipes.isItemEnabled(ExcrementPileConfig.class)) {
                 int x = MathHelper.floor_double(entity.posX);
                 int y = MathHelper.floor_double(entity.posY);
                 int z = MathHelper.floor_double(entity.posZ);
