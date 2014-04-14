@@ -144,9 +144,9 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
                             if(blockIDBelow == Block.dirt.blockID) {
                                 world.setBlock(xr, y - 1, zr, Block.grass.blockID);
                             } else if(blockIDBelow == Block.grass.blockID) {
-                                ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y - 1, zr, null);
+                                ItemDye.func_96604_a(new ItemStack(Item.dyePowder, 1, 15), world, xr, y - 1, zr)
                             }
-                            ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y, zr, null);
+                            ItemDye.func_96604_a(new ItemStack(Item.dyePowder, 1, 15), world, xr, y, zr)
                         }
                     }
                 }
