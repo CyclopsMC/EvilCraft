@@ -30,8 +30,8 @@ public class NetherfishSpawnGenerator extends WorldGenMinableConfigurable{
             int blockID = world.getBlockId(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
             int meta = NetherfishSpawn.getInstance().getMetadataFromBlockID(blockID);
             if(meta != -1) {
-                this.generate(world, rand, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
-                world.setBlockMetadataWithNotify(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord, meta, 2);
+                world.setBlock(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord, id, meta, 2);
+                System.out.println("ADDED: "+firstBlockXCoord +" "+ firstBlockYCoord +" "+ firstBlockZCoord);
             }
         }
     }
