@@ -2,6 +2,7 @@ package evilcraft.worldgen.structure;
 
 import java.util.Random;
 
+import evilcraft.Configs;
 import evilcraft.blocks.BloodyCobblestoneConfig;
 
 import net.minecraft.block.Block;
@@ -67,7 +68,9 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                             world.setBlockToAir(xr, yr, zr);
                         } else if (world.getBlockMaterial(xr, yr, zr).isSolid()) {
                             if (yr == y - 1 && random.nextInt(4) != 0) {
-                                world.setBlock(xr, yr, zr, BloodyCobblestoneConfig._instance.ID, 0, 2);
+                                if(Configs.isEnabled(BloodyCobblestoneConfig.class)) {
+                                    world.setBlock(xr, yr, zr, BloodyCobblestoneConfig._instance.ID, 0, 2);
+                                }
                             } else {
                                 world.setBlock(xr, yr, zr, Block.cobblestone.blockID, 0, 2);
                             }

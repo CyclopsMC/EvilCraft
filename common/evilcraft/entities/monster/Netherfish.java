@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import evilcraft.Configs;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
@@ -114,7 +115,8 @@ public class Netherfish extends EntitySilverfish implements Configurable{
                 int i2 = this.rand.nextInt(6);
                 l = this.worldObj.getBlockId(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2]);
 
-                if (NetherfishSpawn.getInstance().getPosingIdByMetadata(l))
+                if (Configs.isEnabled(NetherfishSpawnConfig.class)
+                        && NetherfishSpawn.getInstance().getPosingIdByMetadata(l))
                 {
                     this.worldObj.setBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2], NetherfishSpawnConfig._instance.ID, NetherfishSpawn.getInstance().getMetadataFromBlockID(l), 3);
                     this.spawnExplosionParticle();

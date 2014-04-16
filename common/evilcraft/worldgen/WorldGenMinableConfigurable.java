@@ -17,6 +17,7 @@ public class WorldGenMinableConfigurable extends WorldGenMinable{
     protected int veinsPerChunk;
     protected int startY;
     protected int endY;
+    protected int id;
     
     /**
      * Make a new instance.
@@ -28,6 +29,7 @@ public class WorldGenMinableConfigurable extends WorldGenMinable{
      */
     public WorldGenMinableConfigurable(int id, int blocksPerVein, int veinsPerChunk, int startY, int endY) {
         super(id, blocksPerVein, Block.stone.blockID);
+        this.id = id;
         this.blocksPerVein = blocksPerVein;
         this.veinsPerChunk = veinsPerChunk;
         this.startY = startY;

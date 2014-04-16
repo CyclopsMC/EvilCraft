@@ -3,10 +3,12 @@ package evilcraft.entities.tileentities.tickaction.bloodchest;
 import java.util.LinkedList;
 
 import net.minecraft.item.ItemStack;
+import evilcraft.Configs;
 import evilcraft.api.config.configurable.ConfigurableEnchantment;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.enchantment.EnchantmentBreaking;
+import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.entities.tileentities.TileBloodChest;
 
 /**
@@ -25,7 +27,9 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
      */
     public static final LinkedList<ConfigurableEnchantment> BAD_ENCHANTS = new LinkedList<ConfigurableEnchantment>();
     static {
-        BAD_ENCHANTS.add(EnchantmentBreaking.getInstance());
+        if(Configs.isEnabled(EnchantmentBreakingConfig.class)) {
+            BAD_ENCHANTS.add(EnchantmentBreaking.getInstance());
+        }
     }
     
     @Override

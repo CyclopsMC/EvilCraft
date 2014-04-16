@@ -12,11 +12,13 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
+import evilcraft.Configs;
 import evilcraft.api.HotbarIterator;
 import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.items.BloodExtractor;
+import evilcraft.items.BloodExtractorConfig;
 import evilcraft.render.particle.EntityBloodSplashFX;
 
 /**
@@ -38,7 +40,8 @@ public class LivingDeathEventHook {
     
     private void bloodObtainEvent(LivingDeathEvent event) {
         Entity e = event.source.getEntity();
-        if(e != null && e instanceof EntityPlayerMP && !e.worldObj.isRemote && event.entityLiving != null) {
+        if(e != null && e instanceof EntityPlayerMP && !e.worldObj.isRemote
+                && event.entityLiving != null && Configs.isEnabled(BloodExtractorConfig.class)) {
             EntityPlayerMP player = (EntityPlayerMP) e;
            
             int health = MathHelper.floor_float(event.entityLiving.getMaxHealth());
@@ -56,7 +59,8 @@ public class LivingDeathEventHook {
     }
     
     private void bloodStainedBlockEvent(LivingDeathEvent event) {
-        if(event.source.damageType == DamageSource.fall.damageType) {
+        if(event.source.damageType == DamageSource.fall.damageType
+                && Configs.isEnabled(BloodStainedBlockConfig.class)) {
             int x = MathHelper.floor_double(event.entity.posX);
             int y = MathHelper.floor_double(event.entity.posY - event.entity.getYOffset() - 1);
             int z = MathHelper.floor_double(event.entity.posZ);

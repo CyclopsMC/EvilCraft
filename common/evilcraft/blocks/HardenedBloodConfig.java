@@ -33,4 +33,9 @@ public class HardenedBloodConfig extends BlockConfig {
         return true;
     }
     
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
+    
 }

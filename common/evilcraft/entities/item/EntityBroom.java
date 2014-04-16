@@ -11,11 +11,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.items.Broom;
+import evilcraft.items.BroomConfig;
 
 /**
  * Entity for a broom
@@ -210,7 +212,7 @@ public class EntityBroom extends Entity implements Configurable{
     	
     	if (!worldObj.isRemote && riddenByEntity == null && lastMounted != null) {
     		// The player dismounted, give him his broom back if he's not in creative mode
-    		if (!lastMounted.capabilities.isCreativeMode) {
+    		if (!lastMounted.capabilities.isCreativeMode && Configs.isEnabled(BroomConfig.class)) {
     		    // Return to inventory if we have space, otherwise drop it on the ground
     		    if (!Helpers.isPlayerInventoryFull(lastMounted))
     		        lastMounted.inventory.addItemStackToInventory(new ItemStack(Broom.getInstance(), 1));

@@ -9,6 +9,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
@@ -54,7 +55,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         int blockID = world.getBlockId(x, y, z);
-        if(blockID == BloodStainedBlockConfig._instance.ID && player.isSneaking()) {
+        if(Configs.isEnabled(BloodStainedBlockConfig.class) && blockID == BloodStainedBlockConfig._instance.ID && player.isSneaking()) {
             Random random = world.rand;
             
             // Fill the extractor a bit

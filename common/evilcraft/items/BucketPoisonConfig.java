@@ -42,4 +42,9 @@ public class BucketPoisonConfig extends ItemBucketConfig {
         return FluidBlockPoison.getInstance();
     }
     
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
+    
 }

@@ -17,6 +17,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import evilcraft.Configs;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
@@ -109,8 +110,7 @@ public class Werewolf extends EntityMob implements Configurable{
      * @return If it is werewolf party time.
      */
     public static boolean isWerewolfTime(World world) {
-        return WerewolfConfig._instance.isEnabled()
-                && world.getCurrentMoonPhaseFactor() == 1.0
+        return world.getCurrentMoonPhaseFactor() == 1.0
                 && !Helpers.isDay(world)
                 && world.difficultySetting != 0;
     }
@@ -130,9 +130,11 @@ public class Werewolf extends EntityMob implements Configurable{
      * Replace this entity with the stored villager.
      */
     public void replaceWithVillager() {
-        EntityVillager villager = new EntityVillager(this.worldObj, WerewolfVillagerConfig._instance.ID);
-        replaceEntity(this, villager, this.worldObj);
-        villager.readEntityFromNBT(villagerNBTTagCompound);
+        if(Configs.isEnabled(WerewolfVillagerConfig.class)) {
+            EntityVillager villager = new EntityVillager(this.worldObj, WerewolfVillagerConfig._instance.ID);
+            replaceEntity(this, villager, this.worldObj);
+            villager.readEntityFromNBT(villagerNBTTagCompound);
+        }
     }
     
     /**
@@ -140,10 +142,12 @@ public class Werewolf extends EntityMob implements Configurable{
      * @param villager The villager to replace.
      */
     public static void replaceVillager(EntityVillager villager) {
-        Werewolf werewolf = new Werewolf(villager.worldObj);
-        villager.writeEntityToNBT(werewolf.getVillagerNBTTagCompound());
-        werewolf.setFromVillager(true);
-        replaceEntity(villager, werewolf, villager.worldObj);
+        if(Configs.isEnabled(WerewolfConfig.class)) {
+            Werewolf werewolf = new Werewolf(villager.worldObj);
+            villager.writeEntityToNBT(werewolf.getVillagerNBTTagCompound());
+            werewolf.setFromVillager(true);
+            replaceEntity(villager, werewolf, villager.worldObj);
+        }
     }
     
     @Override
@@ -181,7 +185,7 @@ public class Werewolf extends EntityMob implements Configurable{
     
     @Override
     protected int getDropItemId() {
-        if(WerewolfBoneConfig._instance.isEnabled())
+        if(Configs.isEnabled(WerewolfBoneConfig.class))
             return WerewolfBoneConfig._instance.ID;
         else
             return super.getDropItemId();
@@ -189,7 +193,7 @@ public class Werewolf extends EntityMob implements Configurable{
     
     @Override
     protected void dropRareDrop(int chance) {
-        if(WerewolfFurConfig._instance.isEnabled())
+        if(Configs.isEnabled(WerewolfFurConfig.class))
             this.dropItem(WerewolfFurConfig._instance.ID, 1);
     }
     

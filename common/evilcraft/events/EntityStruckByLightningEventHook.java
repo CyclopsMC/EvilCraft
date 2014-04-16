@@ -4,7 +4,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
+import evilcraft.Configs;
 import evilcraft.items.InvertedPotentia;
+import evilcraft.items.InvertedPotentiaConfig;
 
 /**
  * Event hook for {@link EntityStruckByLightningEvent}.
@@ -23,7 +25,7 @@ public class EntityStruckByLightningEventHook {
     }
     
     private void empowerInvertedPotentia(EntityStruckByLightningEvent event) {
-        if(event.entity instanceof EntityItem) {
+        if(event.entity instanceof EntityItem && Configs.isEnabled(InvertedPotentiaConfig.class)) {
             EntityItem entity = (EntityItem) event.entity;
             if(!InvertedPotentia.isEmpowered(entity.getEntityItem())) {
                 InvertedPotentia.empower(entity.getEntityItem());
