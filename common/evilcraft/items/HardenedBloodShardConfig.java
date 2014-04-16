@@ -30,7 +30,7 @@ public class HardenedBloodShardConfig extends ItemConfig {
     
     @Override
     public String getOreDictionaryId() {
-        return "shardBlood";
+        return Reference.DICT_DYERED;
     }
     
 }
