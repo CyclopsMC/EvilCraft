@@ -1,7 +1,5 @@
 package evilcraft.api.config.elementtypeaction;
 
-import net.minecraft.entity.EntityEggInfo;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -34,24 +32,13 @@ public class MobAction extends IElementTypeAction<MobConfig>{
         Class<? extends EntityLiving> clazz = (Class<? extends EntityLiving>) eConfig.ELEMENT;
         if (Helpers.isClientSide())
             ClientProxy.ENTITY_RENDERERS.put(clazz, eConfig.getRender());
+        EntityRegistry.registerGlobalEntityID(clazz, eConfig.NAMEDID, EntityRegistry.findGlobalUniqueEntityId(), eConfig.getBackgroundEggColor(), eConfig.getForegroundEggColor());
         EntityRegistry.registerModEntity(clazz, eConfig.NAMEDID, eConfig.ID, EvilCraft._instance, 80, 3, true);
         
         // Add I18N
         LanguageRegistry.instance().addStringLocalization("entity." + Reference.MOD_ID + ".instance." + eConfig.NAMEDID + ".name", eConfig.NAME);
         LanguageRegistry.instance().addStringLocalization("entity." + Reference.MOD_ID + "." + eConfig.NAMEDID + ".name", eConfig.NAME);
-        registerSpawnEgg(clazz, eConfig.getBackgroundEggColor(), eConfig.getForegroundEggColor());
-    }
-    
-    @SuppressWarnings("unchecked")
-    private static void registerSpawnEgg(Class<? extends EntityLiving> entity, int backgroundColor, int foregroundColor) {
-        int globalEntityID = 0;
-        while (EntityList.getStringFromID(globalEntityID) != null){
-            globalEntityID++;
-        }       
-        
-        EntityList.IDtoClassMapping.put(globalEntityID, entity);
-        EntityList.entityEggs.put(globalEntityID, new EntityEggInfo(globalEntityID, backgroundColor, foregroundColor));
-        
+        LanguageRegistry.instance().addStringLocalization("entity." + eConfig.NAMEDID + ".name", eConfig.NAME); // For global registering
     }
 
 }

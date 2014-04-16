@@ -1,4 +1,4 @@
-[center][img]http://i.imgur.com/4Pe8YfI.png[/img][/center][center][color=#A63F00]An evil mod for Minecraft[/color][/center][center][b]Download for MC 1.6.4:[/b] http://bit.ly/1pgfhqk (version 0.3.0b)[/center][center][b]Download for MC 1.7.2:[/b] http://bit.ly/1pgfn11 (version 0.3.0b)[/center][center][b]Currently working on:[/b] New features, additional content and bugfixes.[/center]
+[center][img]http://i.imgur.com/4Pe8YfI.png[/img][/center][center][color=#A63F00]An evil mod for Minecraft[/color][/center][center][b]Download for MC 1.6.4:[/b] http://bit.ly/1epMEax (version 0.3.2b)[/center][center][b]Download for MC 1.7.2:[/b] http://bit.ly/1iNigUT (version 0.3.2b)[/center][center][b]Currently working on:[/b] New features, additional content and bugfixes.[/center]
 
  EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding. This mod basically adds various evil things to Minecraft, from everything such as little flying monster that will follow you around and try to poison you, to bottles that allow you to store and control the weather. 
 
@@ -6,15 +6,19 @@
 
 [b][size=20]Features[/size][/b]
 NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATION FILE
+ NOTE2: In [b]MC 1.6[/b] there is a [b]Blood conflict[/b] if you use [b]Tinkers' Construct[/b], you can solve it by setting the following line in [b]forge.cfg[/b] to false: "B:forceDuplicateFluidBlockCrash=false". 
+
 
 [spoiler='Spotlights'][u][b]General[/b][/u]
 Thanks to these people for their awesome spotlights!
 [u][b]TheDiamondMinecart[/b][/u]
-[center][media]http://www.youtube.com/watch?v=aOnjvMASgjA[/media][/center]
-[u][b]Darton[/b][/u]
-[center][media]http://www.youtube.com/watch?v=sU3n60Mp_pI[/media][/center]
+[b]0.2.3b[/b] [center][media]http://www.youtube.com/watch?v=aOnjvMASgjA[/media][/center]
+[u][b]Dartron[/b][/u]
+[b]0.2.2b[/b] [center][media]http://www.youtube.com/watch?v=sU3n60Mp_pI[/media][/center]
+[u][b]QuinGames[/b][/u]
+[b]0.3.0b[/b] (Dutch) [center][media]http://www.youtube.com/watch?v=p8IgbtCb-YQ[/media][/center]
 [u][b]EncryptedTonight[/b][/u]
-[center][media]http://www.youtube.com/watch?v=e_GLGPpuYGM[/media][/center]
+[b]0.2.2b[/b] [center][media]http://www.youtube.com/watch?v=e_GLGPpuYGM[/media][/center]
 [/spoiler]
 [spoiler='Machines'][u][b]Blood Chest[/b][/u]
 Ever had to repair that precious enchanted diamond sword, only to find out that your limited supply of diamonds has run out? Then you may find the [u]blood chest[/u] a very handy addition ! Just put in whatever tool you want and the blood chest will gradually repair it at only the expense of some [u]blood[/u]. To fill the blood chest, just insert any item containing blood into the very left slot and watch how the internal blood buffer fills up. But beware ... this chest might add some nasty effects to your repaired item (NOTE: this feature can be disabled in the configuration file). [img]http://i.imgur.com/UHh37KV.png[/img] 
