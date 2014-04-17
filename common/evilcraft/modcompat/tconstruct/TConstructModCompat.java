@@ -1,10 +1,11 @@
 package evilcraft.modcompat.tconstruct;
 
 import evilcraft.Reference;
+import evilcraft.entities.tileentities.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import evilcraft.modcompat.IModCompat;
 
 /**
- * Compatibility plugin for Tinkers Construct.
+ * Compatibility plugin for Tinkers' Construct.
  * @author rubensworks
  *
  */
@@ -27,7 +28,7 @@ public class TConstructModCompat implements IModCompat {
 
     @Override
     public void postInit() {
-        
+        BloodChestRepairActionRegistry.register(new TConstructToolRepairTickAction());
     }
 
 }

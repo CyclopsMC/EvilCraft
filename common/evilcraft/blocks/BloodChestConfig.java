@@ -41,6 +41,12 @@ public class BloodChestConfig extends BlockConfig {
      */
     @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The amount of ticks required for repairing one damage value.", isCommandable = true)
     public static int ticksPerDamage = 2;
+    
+    /**
+     * If the Blood Chest should be able to repair tools from Tinkers' Construct (if that mod is available).
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If the Blood Chest should be able to repair tools from Tinkers' Construct", isCommandable = true)
+    public static boolean repairTConstructTools = true;
 
     /**
      * Make a new instance.
