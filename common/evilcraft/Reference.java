@@ -124,6 +124,7 @@ public class Reference {
     public static final String MOD_WAILA = "Waila";
     public static final String MOD_FMP = "ForgeMultipart";
     public static final String MOD_FORESTRY = "Forestry";
+    public static final String MOD_TCONSTRUCT = "TConstruct";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"
