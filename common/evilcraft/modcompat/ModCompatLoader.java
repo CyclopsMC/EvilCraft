@@ -9,6 +9,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 import evilcraft.modcompat.forestry.ForestryModCompat;
+import evilcraft.modcompat.tconstruct.TConstructModCompat;
 import evilcraft.modcompat.thermalexpansion.ThermalExpansionModCompat;
 import evilcraft.modcompat.waila.WailaModCompat;
 
@@ -26,6 +27,7 @@ public class ModCompatLoader {
     static {
         MODCOMPATS.add(new ForestryModCompat());
         MODCOMPATS.add(new ThermalExpansionModCompat());
+        MODCOMPATS.add(new TConstructModCompat());
         MODCOMPATS.add(new WailaModCompat());
     }
     
