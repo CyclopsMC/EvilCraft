@@ -18,9 +18,6 @@ import evilcraft.entities.tileentities.TileBloodChest;
  */
 public class RepairItemTickAction implements ITickAction<TileBloodChest> {
     
-    protected final static int MB_PER_DAMAGE = 5;
-    protected final static int TICKS_PER_DAMAGE = 2;
-    
     private static final int CHANCE_RANDOM_ENCHANT = 10000;
     /**
      * All the possible bad enchantments
@@ -38,7 +35,7 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
     }
     
     private void repair(TileBloodChest tile, ItemStack itemStack) {
-        tile.getTank().drain(MB_PER_DAMAGE, true);
+        tile.getTank().drain(BloodChestConfig.mBPerDamage, true);
         
         // Repair the item
         int newDamage = itemStack.getItemDamage() - 1;
@@ -61,7 +58,7 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
         if(tick >= getRequiredTicks(tile, slot)) {
             if(
                     !tile.getTank().isEmpty()
-                    && tile.getTank().getFluidAmount() >= MB_PER_DAMAGE
+                    && tile.getTank().getFluidAmount() >= BloodChestConfig.mBPerDamage
                     && itemStack != null
                     && itemStack.isItemDamaged()
                     && itemStack.getItem().isRepairable()
@@ -73,7 +70,7 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
 
     @Override
     public int getRequiredTicks(TileBloodChest tile, int slot) {
-        return TICKS_PER_DAMAGE;
+        return BloodChestConfig.ticksPerDamage;
     }
     
 }

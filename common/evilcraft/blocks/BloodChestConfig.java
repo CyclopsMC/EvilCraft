@@ -29,6 +29,18 @@ public class BloodChestConfig extends BlockConfig {
      */
     @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If the Blood Chest should add random bad enchants with a small chance to repairing items.", isCommandable = true)
     public static boolean addRandomBadEnchants = true;
+    
+    /**
+     * The amount Blood mB required for repairing one damage value.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The amount Blood mB required for repairing one damage value.", isCommandable = true)
+    public static int mBPerDamage = 5;
+    
+    /**
+     * The amount of ticks required for repairing one damage value.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The amount of ticks required for repairing one damage value.", isCommandable = true)
+    public static int ticksPerDamage = 2;
 
     /**
      * Make a new instance.
