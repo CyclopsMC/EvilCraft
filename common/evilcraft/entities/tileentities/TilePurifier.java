@@ -144,7 +144,7 @@ public class TilePurifier extends TankInventoryTileEntity {
             if(!done && buckets == getMaxBuckets()
                     && getBookItem() != null && getBookItem().getItem().getClass() == ALLOWED_BOOK) {
                 NBTTagList enchantmentList = getPurifyItem().getEnchantmentTagList();
-                if(enchantmentList != null) {
+                if(enchantmentList != null && enchantmentList.tagCount() > 0) {
                     if(tick >= PURIFY_DURATION) {
                         if(!worldObj.isRemote) {
                             // Init enchantment data.
