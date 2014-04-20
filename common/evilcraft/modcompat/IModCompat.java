@@ -9,6 +9,9 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
  * Implement this on classes that require external mod functionality
  * that needs to be called in the preInit, init or postInit events.
  * Add instances to the {@link ModCompatLoader#MODCOMPATS} list.
+ * Note that classes implementing this interface can NOT use classes
+ * from the targetted mod, since an instance of the ModCompat will be
+ * created anyways, and otherwise certain class definitions won't be found.
  * @author rubensworks
  *
  */
