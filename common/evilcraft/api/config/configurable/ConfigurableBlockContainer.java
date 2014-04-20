@@ -153,9 +153,17 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         return false;
     }
     
+    /**
+     * If the NBT data of this tile entity should be added to the dropped block.
+     * @return If the NBT data should be added.
+     */
+    public boolean saveNBTToDroppedItem() {
+        return true;
+    }
+    
     @Override
     public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
-        Helpers.preDestroyBlock(world, x, y, z);
+        Helpers.preDestroyBlock(world, x, y, z, saveNBTToDroppedItem());
         super.breakBlock(world, x, y, z, par5, par6);
     }
     
@@ -175,6 +183,8 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
                 ForgeDirection facing = Helpers.getEntityFacingDirection(entity);
                 tile.setRotation(facing);
             }
+            
+            tile.sendUpdate();
         }
         super.onBlockPlacedBy(world, x, y, z, entity, stack);
     }

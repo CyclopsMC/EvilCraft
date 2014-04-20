@@ -159,8 +159,9 @@ public class Helpers {
      * @param x x coordinate
      * @param y y coordinate
      * @param z z coordinate
+     * @param saveNBT If the NBT data should be saved to the dropped item.
      */
-    public static void preDestroyBlock(World world, int x, int y, int z) {
+    public static void preDestroyBlock(World world, int x, int y, int z, boolean saveNBT) {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
 
         if (tile instanceof IInventory && !world.isRemote) {
@@ -168,7 +169,7 @@ public class Helpers {
             clearInventory((IInventory) tile);
         }
         
-        if (tile instanceof EvilCraftTileEntity) {
+        if (tile instanceof EvilCraftTileEntity && saveNBT) {
             // Cache 
             EvilCraftTileEntity ecTile = ((EvilCraftTileEntity) tile);
             TileEntityNBTStorage.TAG = ecTile.getNBTTagCompound();
