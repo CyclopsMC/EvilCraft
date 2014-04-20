@@ -31,4 +31,9 @@ public class ObscuredGlassConfig extends BlockConfig {
         return "materialGlass";
     }
     
+    @Override
+    public boolean isMultipartEnabled() {
+        return true;
+    }
+    
 }

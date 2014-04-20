@@ -43,4 +43,9 @@ public class UndeadLogConfig extends BlockConfig {
     	Blocks.fire.setFireInfo(UndeadLog.getInstance(), 5, 20);
     }
     
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
+    
 }

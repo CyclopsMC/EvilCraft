@@ -1,5 +1,6 @@
 package evilcraft.items;
 
+import evilcraft.Reference;
 import evilcraft.api.config.ItemConfig;
 
 /**
@@ -28,7 +29,7 @@ public class HardenedBloodShardConfig extends ItemConfig {
     
     @Override
     public String getOreDictionaryId() {
-        return "shardBlood";
+        return Reference.DICT_DYERED;
     }
     
 }

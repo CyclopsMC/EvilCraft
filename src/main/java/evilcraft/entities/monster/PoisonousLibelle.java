@@ -17,6 +17,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import evilcraft.Configs;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
@@ -105,7 +106,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable, IMob
 
     @Override
     protected Item getDropItem() {
-        if(PoisonSacConfig._instance.isEnabled())
+        if(Configs.isEnabled(PoisonSacConfig.class))
             return PoisonSac.getInstance();
         else
             return super.getDropItem();

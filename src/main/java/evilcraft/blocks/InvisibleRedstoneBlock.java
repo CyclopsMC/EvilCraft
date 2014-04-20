@@ -12,12 +12,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
 import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.entities.tileentities.TileInvisibleRedstoneBlock;
 import evilcraft.items.RedstoneGrenade;
+import evilcraft.items.RedstoneGrenadeConfig;
 
 /**
  * An invisible block where players can walk through and disappears after a few ticks.
@@ -59,7 +61,11 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     
     @Override
     public Item getItemDropped(int meta, Random random, int zero) {
-        return RedstoneGrenade.getInstance();
+    	if(Configs.isEnabled(RedstoneGrenadeConfig.class)) {
+    		return RedstoneGrenade.getInstance();
+    	} else {
+    		return null;
+    	}
     }
 
     @Override

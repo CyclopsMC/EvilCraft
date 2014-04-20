@@ -51,12 +51,16 @@ public class Reference {
     public static final String DICT_WOODSTICK = "stickWood";
     public static final String DICT_SAPLINGTREE = "treeSapling";
     public static final String DICT_GEMDARK = "gemDark";
+    public static final String DICT_DYERED = "dyeRed";
     
     // MOD ID's
     public static final String MOD_FORGE = "Forge";
     public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
     public static final String MOD_BUILDCRAFT_TRANSPORT = "BuildCraft|Transport";
     public static final String MOD_WAILA = "Waila";
+    public static final String MOD_FMP = "ForgeMultipart";
+    public static final String MOD_FORESTRY = "Forestry";
+    public static final String MOD_TCONSTRUCT = "TConstruct";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "" // This is not required anymore (and never was?) "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"

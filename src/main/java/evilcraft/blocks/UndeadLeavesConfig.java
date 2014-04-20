@@ -32,4 +32,9 @@ public class UndeadLeavesConfig extends BlockConfig {
     	Blocks.fire.setFireInfo(UndeadLeaves.getInstance(), 30, 60);
     }
     
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
+    
 }

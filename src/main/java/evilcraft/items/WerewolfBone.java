@@ -35,7 +35,7 @@ public class WerewolfBone extends ConfigurableItem {
         super(eConfig);
     }
     
-    // Disabled for now
+    // Disabled for now, add check for isEnabled Werewolf if this will be enabled again.
     /*@Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {           
         if(!world.isRemote) {

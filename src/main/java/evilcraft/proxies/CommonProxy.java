@@ -6,6 +6,7 @@ import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.BucketHandler;
 import evilcraft.events.BonemealEventHook;
+import evilcraft.events.EntityStruckByLightningEventHook;
 import evilcraft.events.ItemCraftedEventHook;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
@@ -62,5 +63,6 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
         MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
         MinecraftForge.EVENT_BUS.register(new ItemCraftedEventHook());
+        MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
     }
 }

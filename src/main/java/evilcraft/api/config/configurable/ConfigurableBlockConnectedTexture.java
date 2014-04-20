@@ -249,5 +249,10 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     public boolean hasSeperateInventoryBlockIcon() {
         return false;
     }
+    
+    @Override
+    public boolean saveNBTToDroppedItem() {
+        return false;
+    }
 
 }

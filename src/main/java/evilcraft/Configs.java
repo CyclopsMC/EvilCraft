@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.Configurable;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlockConfig;
@@ -59,8 +60,10 @@ import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkPowerGemConfig;
 import evilcraft.items.DarkStickConfig;
 import evilcraft.items.HardenedBloodShardConfig;
+import evilcraft.items.InvertedPotentiaConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
+import evilcraft.items.MaceOfDistortionConfig;
 import evilcraft.items.PoisonSacConfig;
 import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.RedstoneGrenadeConfig;
@@ -170,6 +173,8 @@ public class Configs {
         configs.add(new WerewolfFurConfig());
         configs.add(new BlookConfig());
         configs.add(new PotentiaSphereConfig());
+        configs.add(new InvertedPotentiaConfig());
+        configs.add(new MaceOfDistortionConfig());
         
         // Entities
         // Item
@@ -193,6 +198,28 @@ public class Configs {
         configs.add(new EnchantmentBreakingConfig());
         configs.add(new EnchantmentLifeStealingConfig());
         configs.add(new EnchantmentPoisonTipConfig());
+    }
+
+    /**
+     * A safe way to check if a {@link Configurable} is enabled. @see ExtendedConfig#isEnabled()
+     * @param config The config to check.
+     * @return If the given config is enabled.
+     */
+    @SuppressWarnings("rawtypes")
+    public static boolean isEnabled(Class<? extends ExtendedConfig> config) {
+        try {
+            return ((ExtendedConfig)config.getField("_instance").get(null)).isEnabled();
+        } catch (NullPointerException e1) {
+            return false;
+        } catch (IllegalArgumentException e2) {
+            return false;
+        } catch (IllegalAccessException e3) {
+            return false;
+        } catch (NoSuchFieldException e3) {
+            return false;
+        } catch (SecurityException e4) {
+            return false;
+        }
     }
     
 }

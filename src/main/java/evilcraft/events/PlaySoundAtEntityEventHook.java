@@ -9,9 +9,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import evilcraft.Configs;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.GeneralConfig;
-import evilcraft.Recipes;
 import evilcraft.blocks.ExcrementPile;
 import evilcraft.blocks.ExcrementPileConfig;
 import evilcraft.entities.monster.Werewolf;
@@ -39,11 +39,10 @@ public class PlaySoundAtEntityEventHook {
     }
     
     private void dropExcrement(PlaySoundAtEntityEvent event) {
-        if(event.entity instanceof EntityAnimal) {
+        if(event.entity instanceof EntityAnimal && Configs.isEnabled(ExcrementPileConfig.class)) {
             EntityAnimal entity = (EntityAnimal) event.entity;
             World world = entity.worldObj;
-            if(world.rand.nextInt(CHANCE_DROP_EXCREMENT) == 0
-                    && Recipes.isItemEnabled(ExcrementPileConfig.class)) {
+            if(world.rand.nextInt(CHANCE_DROP_EXCREMENT) == 0) {
                 int x = MathHelper.floor_double(entity.posX);
                 int y = MathHelper.floor_double(entity.posY);
                 int z = MathHelper.floor_double(entity.posZ);

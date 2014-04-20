@@ -58,6 +58,9 @@ item.items.poisonSac.name=Poison Sac
 item.items.werewolfFur.name=Werewolf Fur
 item.items.blook.name=Blook
 item.items.potentiaSphere.name=Potentia Sphere
+item.items.invertedPotentia.name=Inverted Potentia
+item.items.maceOfDistortion.name=Mace of Distortion
+item.items.maceOfDistortion.setPower=Set power to %s
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

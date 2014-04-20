@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import evilcraft.Recipes;
+import evilcraft.Configs;
 import evilcraft.items.BloodContainer;
 import evilcraft.items.BloodContainerConfig;
 
@@ -27,7 +27,7 @@ public class ItemCraftedEventHook {
     }
     
     private void craftBloodContainer(ItemCraftedEvent event) {
-    	if(Recipes.isItemEnabled(BloodContainerConfig.class)) {
+    	if(Configs.isEnabled(BloodContainerConfig.class)) {
     		IInventory craftMatrix = event.craftMatrix;
 	    	Item item = event.crafting.getItem();
 	    	if(item != null && item == BloodContainer.getInstance()) {

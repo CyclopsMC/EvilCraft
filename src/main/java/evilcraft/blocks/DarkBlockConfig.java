@@ -26,4 +26,9 @@ public class DarkBlockConfig extends BlockConfig {
         );
     }
     
+    @Override
+    public boolean isMultipartEnabled() {
+        return true;
+    }
+    
 }

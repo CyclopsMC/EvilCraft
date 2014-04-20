@@ -8,7 +8,6 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -22,6 +21,7 @@ import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.api.item.TileEntityNBTStorage;
 
 /**
  * Block with a tile entity that can hold ExtendedConfigs.
@@ -152,12 +152,18 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         return false;
     }
     
+    /**
+     * If the NBT data of this tile entity should be added to the dropped block.
+     * @return If the NBT data should be added.
+     */
+    public boolean saveNBTToDroppedItem() {
+        return true;
+    }
+    
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-        Helpers.preDestroyBlock(world, x, y, z);
-        // We delay the supercall to breakblock until getBlockDropped()
-        // Otherwise the tileentity will already be removed.
-        //super.breakBlock(world, x, y, z, par5, par6);
+        Helpers.preDestroyBlock(world, x, y, z, saveNBTToDroppedItem());
+        super.breakBlock(world, x, y, z, block, meta);
     }
     
     @Override
@@ -176,6 +182,8 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
                 ForgeDirection facing = Helpers.getEntityFacingDirection(entity);
                 tile.setRotation(facing);
             }
+            
+            tile.sendUpdate();
         }
         super.onBlockPlacedBy(world, x, y, z, entity, stack);
     }
@@ -196,14 +204,11 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
         ItemStack itemStack = new ItemStack(getItemDropped(metadata, world.rand, fortune), 1, damageDropped(metadata));
-        EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
-        if(tile != null && isKeepNBTOnDrop())
-            itemStack.setTagCompound(tile.getNBTTagCompound());
-        drops.add(itemStack);
+		if(TileEntityNBTStorage.TAG != null)
+		    itemStack.setTagCompound(TileEntityNBTStorage.TAG);
+		drops.add(itemStack);
         
         Helpers.postDestroyBlock(world, x, y, z);
-        // The delayed breakBlock supercall
-        super.breakBlock(world, x, y, z, Blocks.air, 0);
         return drops;
     }
 

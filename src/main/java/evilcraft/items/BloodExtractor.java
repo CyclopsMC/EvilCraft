@@ -10,11 +10,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
+import evilcraft.api.HotbarIterator;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.blocks.BloodStainedBlock;
+import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.render.particle.EntityBloodSplashFX;
 
@@ -54,13 +57,11 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         Block block = world.getBlock(x, y, z);
-        if(block == BloodStainedBlock.getInstance() && player.isSneaking()) {
+        if(Configs.isEnabled(BloodStainedBlockConfig.class) && block == BloodStainedBlock.getInstance() && player.isSneaking()) {
             Random random = world.rand;
             
             // Fill the extractor a bit
-            int toFill = BloodExtractorConfig.minMB + random.nextInt(BloodExtractorConfig.maxMB - BloodExtractorConfig.minMB);
-            ItemFluidContainer container = (ItemFluidContainer) itemStack.getItem();
-            int filled = container.fill(itemStack, new FluidStack(Blood.getInstance(), toFill), true);
+            int filled = fillBloodExtractor(itemStack, BloodExtractorConfig.minMB, BloodExtractorConfig.maxMB, !world.isRemote);
             
             // Transform bloody dirt into regular dirt if we used some of the blood
             if(filled > 0) {
@@ -92,6 +93,41 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
             return super.onItemRightClick(itemStack, world, player);
         }
         return itemStack;
+    }
+    
+    /**
+     * Fill a given Blood Extractor with a random amount of blood.
+     * @param itemStack The ItemStack that is a Blood Extractor to fill.
+     * @param minimumMB The minimum amount to fill. (inclusive)
+     * @param maximumMB The maximum amount to fill. (exclusive)
+     * @param doFill If the container really has to be filled, otherwise just simulated.
+     * @return The amount of blood that was filled with.
+     */
+    public int fillBloodExtractor(ItemStack itemStack, int minimumMB, int maximumMB, boolean doFill) {
+        int toFill = minimumMB + itemRand.nextInt(maximumMB - minimumMB);
+        ItemFluidContainer container = (ItemFluidContainer) itemStack.getItem();
+        int filled = container.fill(itemStack, new FluidStack(Blood.getInstance(), toFill), doFill);
+        return filled;
+    }
+    
+    /**
+     * Fill all the Blood Extractors on a player's hotbar for a given fluid amount.
+     * It will fill Blood Extractors until the predefined blood amount is depleted.
+     * (It fills on at a time).
+     * @param player The player to the the Blood Extractors for.
+     * @param minimumMB The minimum amount to fill. (inclusive)
+     * @param maximumMB The maximum amount to fill. (exclusive)
+     */
+    public void fillForAllBloodExtractors(EntityPlayer player, int minimumMB, int maximumMB) {
+        int toFill = minimumMB + itemRand.nextInt(maximumMB - minimumMB);
+        HotbarIterator it = new HotbarIterator(player);
+        while(it.hasNext() && toFill > 0) {
+            ItemStack itemStack = it.next();
+            if(itemStack != null && itemStack.getItem() == BloodExtractor.getInstance()) {
+                ItemFluidContainer container = (ItemFluidContainer) itemStack.getItem();
+                toFill -= container.fill(itemStack, new FluidStack(Blood.getInstance(), toFill), true);
+            }
+        }
     }
 
 }

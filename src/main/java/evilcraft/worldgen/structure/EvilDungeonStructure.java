@@ -11,7 +11,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenDungeons;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.DungeonHooks;
+import evilcraft.Configs;
 import evilcraft.blocks.BloodyCobblestone;
+import evilcraft.blocks.BloodyCobblestoneConfig;
 
 /**
  * Evil Dungeon, based on vanilla dungeons
@@ -66,7 +68,9 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                             world.setBlockToAir(xr, yr, zr);
                         } else if (world.getBlock(xr, yr, zr).getMaterial().isSolid()) {
                             if (yr == y - 1 && random.nextInt(4) != 0) {
-                                world.setBlock(xr, yr, zr, BloodyCobblestone.getInstance(), 0, 2);
+								if(Configs.isEnabled(BloodyCobblestoneConfig.class)) {
+									world.setBlock(xr, yr, zr, BloodyCobblestone.getInstance(), 0, 2);
+								}
                             } else {
                                 world.setBlock(xr, yr, zr, Blocks.cobblestone, 0, 2);
                             }

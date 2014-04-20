@@ -2,8 +2,8 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.6.4" version="0.3.0b">http://bit.ly/1pgfhqk</download>
-	<download for="1.7.2" version="0.3.0b">http://bit.ly/1pgfn11</download>
+	<download for="1.6.4" version="0.3.2b">http://bit.ly/1epMEax</download>
+	<download for="1.7.2" version="0.3.2b">http://bit.ly/1iNigUT</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
 	
 	<description>
@@ -26,21 +26,27 @@
  		so people will actually have a feeling that things have changed since 1.6.
  	</additionalInformation>
  	
- 	
  	<featuresRemark>NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATION FILE</featuresRemark>
+ 	
+ 	<additionalInformation>
+ 		NOTE2: In [b]MC 1.6[/b] there is a [b]Blood conflict[/b] if you use [b]Tinkers' Construct[/b], you can solve it by setting the following line in [b]forge.cfg[/b] to false: "B:forceDuplicateFluidBlockCrash=false".
+ 	</additionalInformation>
  	
  	<elements>
  	<element name="Spotlights">
  		<element name="General">
  			Thanks to these people for their awesome spotlights!
  		</element>
- 		<element name="TheDiamondMinecart">
+ 		<element name="TheDiamondMinecart">[b]0.2.3b[/b]
  			[center][media]http://www.youtube.com/watch?v=aOnjvMASgjA[/media][/center]
  		</element>
- 		<element name="Darton">
+ 		<element name="Dartron">[b]0.2.2b[/b]
  			[center][media]http://www.youtube.com/watch?v=sU3n60Mp_pI[/media][/center]
  		</element>
- 		<element name="EncryptedTonight">
+ 		<element name="QuinGames">[b]0.3.0b[/b] (Dutch)
+ 			[center][media]http://www.youtube.com/watch?v=p8IgbtCb-YQ[/media][/center]
+ 		</element>
+ 		<element name="EncryptedTonight">[b]0.2.2b[/b]
  			[center][media]http://www.youtube.com/watch?v=e_GLGPpuYGM[/media][/center]
  		</element>
  	</element>
