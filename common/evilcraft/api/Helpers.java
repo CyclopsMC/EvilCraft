@@ -28,6 +28,7 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.api.item.TileEntityNBTStorage;
 
 /**
  * A collection of helper methods and fields.
@@ -166,6 +167,16 @@ public class Helpers {
             dropItems(world, (IInventory) tile, x, y, z);
             clearInventory((IInventory) tile);
         }
+        
+        if (tile instanceof EvilCraftTileEntity) {
+            // Cache 
+            EvilCraftTileEntity ecTile = ((EvilCraftTileEntity) tile);
+            TileEntityNBTStorage.TAG = ecTile.getNBTTagCompound();
+            
+            ecTile.destroy();
+        } else {
+            TileEntityNBTStorage.TAG = null;
+        }
     }
     
     /**
@@ -176,11 +187,7 @@ public class Helpers {
      * @param z z coordinate
      */
     public static void postDestroyBlock(World world, int x, int y, int z) {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
-
-        if (tile instanceof EvilCraftTileEntity) {
-            ((EvilCraftTileEntity) tile).destroy();
-        }
+        // Does nothing for now.
     }
     
     /**
