@@ -70,7 +70,7 @@ public class ForestryModCompat implements IModCompat {
             int time = 20;
             ItemStack[] input = {new ItemStack(UndeadLog.getInstance())};
             FluidStack fluidStack = new FluidStack(Blood.getInstance(),
-                    FluidContainerRegistry.BUCKET_VOLUME / 5);
+                    FluidContainerRegistry.BUCKET_VOLUME / 10);
             ItemStack output = new ItemStack(HardenedBloodShard.getInstance());
             int outputChance = 25; // Out of 100
             RecipeManagers.squeezerManager.addRecipe(time, input, fluidStack, output, outputChance);
@@ -83,7 +83,7 @@ public class ForestryModCompat implements IModCompat {
             int time = 10;
             ItemStack[] input = {new ItemStack(UndeadLeaves.getInstance())};
             FluidStack fluidStack = new FluidStack(Blood.getInstance(),
-                    FluidContainerRegistry.BUCKET_VOLUME / 10);
+                    FluidContainerRegistry.BUCKET_VOLUME / 20);
             ItemStack output = new ItemStack(HardenedBloodShard.getInstance());
             int outputChance = 10; // Out of 100
             RecipeManagers.squeezerManager.addRecipe(time, input, fluidStack, output, outputChance);

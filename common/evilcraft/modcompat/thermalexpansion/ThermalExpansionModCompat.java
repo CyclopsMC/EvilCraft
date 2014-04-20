@@ -29,6 +29,7 @@ import evilcraft.blocks.UndeadPlank;
 import evilcraft.blocks.UndeadPlankConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.fluids.Poison;
+import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.DarkGem;
 import evilcraft.items.DarkGemConfig;
 import evilcraft.modcompat.IModCompat;
@@ -110,7 +111,7 @@ public class ThermalExpansionModCompat implements IModCompat {
                 crucibleBlood.setCompoundTag("output", new NBTTagCompound());
     
                 materialPoisonous.writeToNBT(crucibleBlood.getCompoundTag("input"));
-                new FluidStack(Blood.getInstance(), 750).writeToNBT(crucibleBlood.getCompoundTag("output"));
+                new FluidStack(Blood.getInstance(), BloodExtractorConfig.maxMB).writeToNBT(crucibleBlood.getCompoundTag("output"));
                 FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleBlood);
             }
         }
