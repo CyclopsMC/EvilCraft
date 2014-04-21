@@ -23,7 +23,7 @@ import evilcraft.api.entities.tileentitites.NBTPersist;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.blocks.Purifier;
 import evilcraft.blocks.PurifierConfig;
-import evilcraft.entities.tileentities.tickaction.bloodchest.RepairItemTickAction;
+import evilcraft.entities.tileentities.tickaction.bloodchest.DamageableItemRepairAction;
 import evilcraft.fluids.Blood;
 import evilcraft.items.Blook;
 import evilcraft.render.particle.EntityBloodBubbleFX;
@@ -121,7 +121,7 @@ public class TilePurifier extends TankInventoryTileEntity {
             boolean done = false;
             
             // Try removing bad enchants.
-            for(ConfigurableEnchantment enchant : RepairItemTickAction.BAD_ENCHANTS) {
+            for(ConfigurableEnchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
                 if(!done) {
                     int enchantmentListID = Helpers.doesEnchantApply(getPurifyItem(), enchant.effectId);
                     if(enchantmentListID > -1) {
@@ -144,7 +144,7 @@ public class TilePurifier extends TankInventoryTileEntity {
             if(!done && buckets == getMaxBuckets()
                     && getBookItem() != null && getBookItem().getItem().getClass() == ALLOWED_BOOK) {
                 NBTTagList enchantmentList = getPurifyItem().getEnchantmentTagList();
-                if(enchantmentList != null) {
+                if(enchantmentList != null && enchantmentList.tagCount() > 0) {
                     if(tick >= PURIFY_DURATION) {
                         if(!worldObj.isRemote) {
                             // Init enchantment data.

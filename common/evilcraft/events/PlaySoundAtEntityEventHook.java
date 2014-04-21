@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
+import evilcraft.Configs;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.GeneralConfig;
 import evilcraft.blocks.ExcrementPile;
@@ -37,7 +38,7 @@ public class PlaySoundAtEntityEventHook {
     }
     
     private void dropExcrement(PlaySoundAtEntityEvent event) {
-        if(event.entity instanceof EntityAnimal) {
+        if(event.entity instanceof EntityAnimal && Configs.isEnabled(ExcrementPileConfig.class)) {
             EntityAnimal entity = (EntityAnimal) event.entity;
             World world = entity.worldObj;
             if(world.rand.nextInt(CHANCE_DROP_EXCREMENT) == 0) {

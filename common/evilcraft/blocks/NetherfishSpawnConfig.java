@@ -30,7 +30,7 @@ public class NetherfishSpawnConfig extends BlockConfig {
      */
     public NetherfishSpawnConfig() {
         super(
-            Reference.BLOCK_DARKBLOCK,
+            Reference.BLOCK_NETHERFISHSPAWN,
             "Nether Monster Egg",
             "netherMonsterBlock",
             null,

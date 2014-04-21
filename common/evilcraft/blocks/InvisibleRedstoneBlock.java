@@ -8,6 +8,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import evilcraft.Configs;
 import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
@@ -51,7 +52,11 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     
     @Override
     public int idDropped(int meta, Random random, int zero) {
-        return RedstoneGrenadeConfig._instance.ID;
+        if(Configs.isEnabled(RedstoneGrenadeConfig.class)) {
+            return RedstoneGrenadeConfig._instance.ID;
+        } else {
+            return 0;
+        }
     }
 
     @Override

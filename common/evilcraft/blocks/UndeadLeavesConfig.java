@@ -28,4 +28,9 @@ public class UndeadLeavesConfig extends BlockConfig {
         );
     }
     
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
+    
 }

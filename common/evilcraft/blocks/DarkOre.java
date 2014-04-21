@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
@@ -62,7 +63,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     
     @Override
     public int idDropped(int meta, Random random, int zero) {
-        if(DarkGemConfig._instance.isEnabled())
+        if(Configs.isEnabled(DarkGemConfig.class))
             return DarkGemConfig._instance.ID;
         else
             return zero;

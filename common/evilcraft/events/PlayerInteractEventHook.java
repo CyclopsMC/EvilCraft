@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import evilcraft.Configs;
 import evilcraft.api.Helpers;
 import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
@@ -31,7 +32,7 @@ public class PlayerInteractEventHook {
     }
     
     private void unusingEvent(PlayerInteractEvent event) {
-        if(doesEnchantApply(event, EnchantmentUnusingConfig._instance.ID) > -1) {
+        if(Configs.isEnabled(EnchantmentUnusingConfig.class) && doesEnchantApply(event, EnchantmentUnusingConfig._instance.ID) > -1) {
             if(event.entityPlayer != null
                     && EnchantmentUnusing.unuseTool(event.entityPlayer.getCurrentEquippedItem())) {
                 event.setCanceled(true);
@@ -41,9 +42,11 @@ public class PlayerInteractEventHook {
     }
     
     private void breakingEvent(PlayerInteractEvent event) {
-        int i = doesEnchantApply(event, EnchantmentBreakingConfig._instance.ID);
-        ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
-        EnchantmentBreaking.amplifyDamage(itemStack, i, new Random());
+        if(Configs.isEnabled(EnchantmentBreakingConfig.class)) {
+            int i = doesEnchantApply(event, EnchantmentBreakingConfig._instance.ID);
+            ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
+            EnchantmentBreaking.amplifyDamage(itemStack, i, new Random());
+        }
     }
     
     private int doesEnchantApply(PlayerInteractEvent event, int enchantID) {

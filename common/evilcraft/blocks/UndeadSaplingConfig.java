@@ -40,4 +40,9 @@ public class UndeadSaplingConfig extends BlockConfig {
         return Reference.DICT_SAPLINGTREE;
     }
     
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
+    
 }

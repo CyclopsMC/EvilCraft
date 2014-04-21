@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockWithInnerBlocks;
@@ -61,7 +62,7 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     
     @Override
     public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta) {
-        if (!world.isRemote && NetherfishConfig._instance.isEnabled()) {
+        if (!world.isRemote && Configs.isEnabled(NetherfishConfig.class)) {
             Netherfish netherfish = new Netherfish(world);
             netherfish.setLocationAndAngles((double)x + 0.5D, (double)y, (double)z + 0.5D, 0.0F, 0.0F);
             world.spawnEntityInWorld(netherfish);

@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.event.FMLInterModComms;
+import evilcraft.Configs;
 import evilcraft.CustomRecipe;
 import evilcraft.CustomRecipeRegistry;
 import evilcraft.CustomRecipeResult;
@@ -17,13 +18,20 @@ import evilcraft.EvilCraft;
 import evilcraft.Recipes;
 import evilcraft.Reference;
 import evilcraft.blocks.BloodInfuser;
+import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlock;
+import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.blocks.DarkOre;
+import evilcraft.blocks.DarkOreConfig;
 import evilcraft.blocks.UndeadLog;
+import evilcraft.blocks.UndeadLogConfig;
 import evilcraft.blocks.UndeadPlank;
+import evilcraft.blocks.UndeadPlankConfig;
 import evilcraft.fluids.Blood;
 import evilcraft.fluids.Poison;
+import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.DarkGem;
+import evilcraft.items.DarkGemConfig;
 import evilcraft.modcompat.IModCompat;
 
 /**
@@ -57,24 +65,28 @@ public class ThermalExpansionModCompat implements IModCompat {
         String TE = getModID();
         EvilCraft.log("Registering " + TE + " recipes");
         // Sawmill undead wood
-        NBTTagCompound sawmillUndeadWood = new NBTTagCompound();
-        sawmillUndeadWood.setInteger("energy", 2000);
-        sawmillUndeadWood.setCompoundTag("input", new NBTTagCompound());
-        sawmillUndeadWood.setCompoundTag("primaryOutput", new NBTTagCompound());
-
-        new ItemStack(UndeadLog.getInstance()).writeToNBT(sawmillUndeadWood.getCompoundTag("input"));
-        new ItemStack(UndeadPlank.getInstance(), 6).writeToNBT(sawmillUndeadWood.getCompoundTag("primaryOutput"));
-        FMLInterModComms.sendMessage(TE, "SawmillRecipe", sawmillUndeadWood);
+        if(Configs.isEnabled(UndeadLogConfig.class) && Configs.isEnabled(UndeadPlankConfig.class)) {
+            NBTTagCompound sawmillUndeadWood = new NBTTagCompound();
+            sawmillUndeadWood.setInteger("energy", 2000);
+            sawmillUndeadWood.setCompoundTag("input", new NBTTagCompound());
+            sawmillUndeadWood.setCompoundTag("primaryOutput", new NBTTagCompound());
+    
+            new ItemStack(UndeadLog.getInstance()).writeToNBT(sawmillUndeadWood.getCompoundTag("input"));
+            new ItemStack(UndeadPlank.getInstance(), 6).writeToNBT(sawmillUndeadWood.getCompoundTag("primaryOutput"));
+            FMLInterModComms.sendMessage(TE, "SawmillRecipe", sawmillUndeadWood);
+        }
 
         // Pulverizer dark ore
-        NBTTagCompound pulverizerDarkOre = new NBTTagCompound();
-        pulverizerDarkOre.setInteger("energy", 2000);
-        pulverizerDarkOre.setCompoundTag("input", new NBTTagCompound());
-        pulverizerDarkOre.setCompoundTag("primaryOutput", new NBTTagCompound());
-
-        new ItemStack(DarkOre.getInstance()).writeToNBT(pulverizerDarkOre.getCompoundTag("input"));
-        new ItemStack(DarkGem.getInstance(), 2).writeToNBT(pulverizerDarkOre.getCompoundTag("primaryOutput"));
-        FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
+        if(Configs.isEnabled(DarkOreConfig.class) && Configs.isEnabled(DarkGemConfig.class)) {
+            NBTTagCompound pulverizerDarkOre = new NBTTagCompound();
+            pulverizerDarkOre.setInteger("energy", 2000);
+            pulverizerDarkOre.setCompoundTag("input", new NBTTagCompound());
+            pulverizerDarkOre.setCompoundTag("primaryOutput", new NBTTagCompound());
+    
+            new ItemStack(DarkOre.getInstance()).writeToNBT(pulverizerDarkOre.getCompoundTag("input"));
+            new ItemStack(DarkGem.getInstance(), 2).writeToNBT(pulverizerDarkOre.getCompoundTag("primaryOutput"));
+            FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
+        }
 
         // Crucible poison
         ArrayList<ItemStack> materialPoisonousList = OreDictionary.getOres(Reference.DICT_MATERIALPOISONOUS);
@@ -90,34 +102,38 @@ public class ThermalExpansionModCompat implements IModCompat {
         }
 
         // Crucible blood
-        for(int i = 0; i < BloodStainedBlock.getInstance().getInnerBlocks(); i++) {
-            ItemStack materialPoisonous = new ItemStack(BloodStainedBlock.getInstance(), 1, i);
-            NBTTagCompound crucibleBlood = new NBTTagCompound();
-            crucibleBlood.setInteger("energy", 2000);
-            crucibleBlood.setCompoundTag("input", new NBTTagCompound());
-            crucibleBlood.setCompoundTag("output", new NBTTagCompound());
-
-            materialPoisonous.writeToNBT(crucibleBlood.getCompoundTag("input"));
-            new FluidStack(Blood.getInstance(), 750).writeToNBT(crucibleBlood.getCompoundTag("output"));
-            FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleBlood);
+        if(Configs.isEnabled(BloodStainedBlockConfig.class)) {
+            for(int i = 0; i < BloodStainedBlock.getInstance().getInnerBlocks(); i++) {
+                ItemStack materialPoisonous = new ItemStack(BloodStainedBlock.getInstance(), 1, i);
+                NBTTagCompound crucibleBlood = new NBTTagCompound();
+                crucibleBlood.setInteger("energy", 2000);
+                crucibleBlood.setCompoundTag("input", new NBTTagCompound());
+                crucibleBlood.setCompoundTag("output", new NBTTagCompound());
+    
+                materialPoisonous.writeToNBT(crucibleBlood.getCompoundTag("input"));
+                new FluidStack(Blood.getInstance(), BloodExtractorConfig.maxMB).writeToNBT(crucibleBlood.getCompoundTag("output"));
+                FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleBlood);
+            }
         }
 
         // Fluid Transposer: blood infuse
-        Map<CustomRecipe, CustomRecipeResult> bloodInfuseRecipes = CustomRecipeRegistry.getRecipesForFactory(BloodInfuser.getInstance());
-        for(Entry<CustomRecipe, CustomRecipeResult> entry : bloodInfuseRecipes.entrySet()) {
-            NBTTagCompound bloodInfuse = new NBTTagCompound();
-            bloodInfuse.setInteger("energy", entry.getKey().getDuration() * 100);
-            bloodInfuse.setCompoundTag("input", new NBTTagCompound());
-            bloodInfuse.setCompoundTag("output", new NBTTagCompound());
-            bloodInfuse.setCompoundTag("fluid", new NBTTagCompound());
-
-            entry.getKey().getItemStack().writeToNBT(bloodInfuse.getCompoundTag("input"));
-            entry.getValue().getResult().writeToNBT(bloodInfuse.getCompoundTag("output"));
-            bloodInfuse.setBoolean("reversible", false);
-            FluidStack fluid = entry.getKey().getFluidStack().copy();
-            fluid.amount *= 1.5;
-            fluid.writeToNBT(bloodInfuse.getCompoundTag("fluid"));
-            FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", bloodInfuse);
+        if(Configs.isEnabled(BloodInfuserConfig.class)) {
+            Map<CustomRecipe, CustomRecipeResult> bloodInfuseRecipes = CustomRecipeRegistry.getRecipesForFactory(BloodInfuser.getInstance());
+            for(Entry<CustomRecipe, CustomRecipeResult> entry : bloodInfuseRecipes.entrySet()) {
+                NBTTagCompound bloodInfuse = new NBTTagCompound();
+                bloodInfuse.setInteger("energy", entry.getKey().getDuration() * 100);
+                bloodInfuse.setCompoundTag("input", new NBTTagCompound());
+                bloodInfuse.setCompoundTag("output", new NBTTagCompound());
+                bloodInfuse.setCompoundTag("fluid", new NBTTagCompound());
+    
+                entry.getKey().getItemStack().writeToNBT(bloodInfuse.getCompoundTag("input"));
+                entry.getValue().getResult().writeToNBT(bloodInfuse.getCompoundTag("output"));
+                bloodInfuse.setBoolean("reversible", false);
+                FluidStack fluid = entry.getKey().getFluidStack().copy();
+                fluid.amount *= 1.5;
+                fluid.writeToNBT(bloodInfuse.getCompoundTag("fluid"));
+                FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", bloodInfuse);
+            }
         }
 
         // Fluid Transposer: buckets

@@ -39,7 +39,7 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
     }
 
     private EnchantmentBreaking(ExtendedConfig<EnchantmentConfig> eConfig) {
-        super(eConfig, 0, EnumEnchantmentType.weapon);
+        super(eConfig, 10, EnumEnchantmentType.weapon);
     }
     
     @Override

@@ -13,7 +13,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
-import evilcraft.api.config.ExtendedConfig;
 import evilcraft.blocks.BloodChest;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.blocks.BloodInfuser;
@@ -81,33 +80,11 @@ public class Recipes {
     public static Map<Item, FluidStack> BUCKETS = new HashMap<Item, FluidStack>();
 
     /**
-     * A safe way to check if an item (config) is enabled. @see ExtendedConfig#isEnabled()
-     * @param config The config to check.
-     * @return If the given config is enabled.
-     */
-    @SuppressWarnings("rawtypes")
-    public static boolean isItemEnabled(Class<? extends ExtendedConfig> config) {
-        try {
-            return ((ExtendedConfig)config.getField("_instance").get(null)).isEnabled();
-        } catch (NullPointerException e1) {
-            return false;
-        } catch (IllegalArgumentException e2) {
-            return false;
-        } catch (IllegalAccessException e3) {
-            return false;
-        } catch (NoSuchFieldException e3) {
-            return false;
-        } catch (SecurityException e4) {
-            return false;
-        }
-    }
-
-    /**
      * Register all the recipes of this mod.
      */
     public static void registerRecipes() {        
         // 9 DarkGems -> 1 DarkBlock
-        if(isItemEnabled(DarkGemConfig.class) && isItemEnabled(DarkBlockConfig.class)) {
+        if(Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkBlockConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(DarkBlock.getInstance(), true,
                     new Object[]{
                 "GGG",
@@ -118,13 +95,13 @@ public class Recipes {
                     ));
         }
         // 1 DarkBlock -> 9 DarkGems
-        if(isItemEnabled(DarkGemConfig.class) && isItemEnabled(DarkBlockConfig.class)) {
+        if(Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkBlockConfig.class)) {
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(DarkGem.getInstance(), 9),
                     new ItemStack(DarkBlock.getInstance())
                     ));
         }
         // Weather Container
-        if(isItemEnabled(WeatherContainerConfig.class) && isItemEnabled(DarkPowerGemConfig.class)) {
+        if(Configs.isEnabled(WeatherContainerConfig.class) && Configs.isEnabled(DarkPowerGemConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(WeatherContainer.getInstance()), true,
                     new Object[]{
                 " G ",
@@ -137,7 +114,7 @@ public class Recipes {
                     ));
         }
         // Blood Pearl of Teleportation
-        if(isItemEnabled(BloodPearlOfTeleportationConfig.class) && isItemEnabled(DarkPowerGemConfig.class)) {
+        if(Configs.isEnabled(BloodPearlOfTeleportationConfig.class) && Configs.isEnabled(DarkPowerGemConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BloodPearlOfTeleportation.getInstance()), true,
                     new Object[]{
                 "EGE",
@@ -149,7 +126,7 @@ public class Recipes {
                     ));
         }
         // Blood Infusion Core
-        if(isItemEnabled(BloodInfusionCoreConfig.class) && isItemEnabled(HardenedBloodShardConfig.class) && isItemEnabled(DarkPowerGemConfig.class)) {
+        if(Configs.isEnabled(BloodInfusionCoreConfig.class) && Configs.isEnabled(HardenedBloodShardConfig.class) && Configs.isEnabled(DarkPowerGemConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BloodInfusionCore.getInstance()), true,
                     new Object[]{
                 "SSS",
@@ -161,7 +138,7 @@ public class Recipes {
                     ));
         }
         // Blood Infuser
-        if(isItemEnabled(BloodInfusionCoreConfig.class) && isItemEnabled(BloodInfuserConfig.class)) {
+        if(Configs.isEnabled(BloodInfusionCoreConfig.class) && Configs.isEnabled(BloodInfuserConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BloodInfuser.getInstance()), true, 
                     new Object[]{
                 "CCC",
@@ -173,7 +150,7 @@ public class Recipes {
                     ));
         }
         // Blood Chest
-        if(isItemEnabled(BloodInfusionCoreConfig.class) && isItemEnabled(BloodChestConfig.class)) {
+        if(Configs.isEnabled(BloodInfusionCoreConfig.class) && Configs.isEnabled(BloodChestConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BloodChest.getInstance()), true, 
                     new Object[]{
                 "PPP",
@@ -185,13 +162,13 @@ public class Recipes {
                     ));
         }
         // 1 Undead Log -> 4 Undead Planks
-        if(isItemEnabled(UndeadLogConfig.class) && isItemEnabled(UndeadPlankConfig.class)) {
+        if(Configs.isEnabled(UndeadLogConfig.class) && Configs.isEnabled(UndeadPlankConfig.class)) {
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(UndeadPlank.getInstance(), 4),
                     new ItemStack(UndeadLog.getInstance())
                     ));
         }
         // Dark Stick
-        if(isItemEnabled(UndeadPlankConfig.class) && isItemEnabled(DarkGemConfig.class) && isItemEnabled(DarkStickConfig.class)) {
+        if(Configs.isEnabled(UndeadPlankConfig.class) && Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkStickConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(DarkStick.getInstance()), true, 
                     new Object[]{
                 " G ",
@@ -203,7 +180,7 @@ public class Recipes {
                     ));
         }
         // Poison Bucket
-        if(isItemEnabled(BucketPoisonConfig.class)) {
+        if(Configs.isEnabled(BucketPoisonConfig.class)) {
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BucketPoison.getInstance()),
                     Reference.DICT_MATERIALPOISONOUS,
                     Reference.DICT_MATERIALPOISONOUS,
@@ -214,14 +191,14 @@ public class Recipes {
                     ));
         }
         // Poisonous potato
-        if(isItemEnabled(BucketPoisonConfig.class)) {
+        if(Configs.isEnabled(BucketPoisonConfig.class)) {
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.poisonousPotato),
                     new ItemStack(Item.potato),
                     new ItemStack(BucketPoison.getInstance())
                     ));
         }
         // Poisontip enchant
-        if(isItemEnabled(BucketPoisonConfig.class) && isItemEnabled(EnchantmentPoisonTipConfig.class)) {
+        if(Configs.isEnabled(BucketPoisonConfig.class) && Configs.isEnabled(EnchantmentPoisonTipConfig.class)) {
             ItemStack poisonTipEnchant = new ItemStack(Item.enchantedBook);
             Enchantment enchant = EnchantmentPoisonTip.getInstance();
             Item.enchantedBook.addEnchantment(poisonTipEnchant, new EnchantmentData(enchant, enchant.getMinLevel()));
@@ -231,14 +208,14 @@ public class Recipes {
                     ));
         }
         // Potion of poison
-        if(isItemEnabled(BucketPoisonConfig.class)) {
+        if(Configs.isEnabled(BucketPoisonConfig.class)) {
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.potion, 1, 8196),
                     new ItemStack(BucketPoison.getInstance()),
                     new ItemStack(Item.glassBottle)
                     ));
         }
         // Obscured glass
-        if(isItemEnabled(ObscuredGlassConfig.class) && isItemEnabled(DarkGemConfig.class)) {
+        if(Configs.isEnabled(ObscuredGlassConfig.class) && Configs.isEnabled(DarkGemConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ObscuredGlass.getInstance(), 8), true, 
                     new Object[]{
                 "GGG",
@@ -250,7 +227,7 @@ public class Recipes {
                     ));
         }
         // Lightning grenade
-        if(isItemEnabled(LightningGrenadeConfig.class) && isItemEnabled(WeatherContainerConfig.class)) {
+        if(Configs.isEnabled(LightningGrenadeConfig.class) && Configs.isEnabled(WeatherContainerConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(LightningGrenade.getInstance(), 8), true,
                     new Object[]{
                 "EEE",
@@ -262,14 +239,14 @@ public class Recipes {
                     ));
         }
         // Lightning bomb
-        if(isItemEnabled(LightningBombConfig.class) && isItemEnabled(LightningGrenadeConfig.class)) {
+        if(Configs.isEnabled(LightningBombConfig.class) && Configs.isEnabled(LightningGrenadeConfig.class)) {
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(LightningBomb.getInstance()),
                     new ItemStack(LightningGrenade.getInstance()),
                     new ItemStack(Block.tnt)
                     ));
         }
         // Blood Containers
-        if(isItemEnabled(BloodContainerConfig.class) && isItemEnabled(DarkGemConfig.class)) {
+        if(Configs.isEnabled(BloodContainerConfig.class) && Configs.isEnabled(DarkGemConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BloodContainer.getInstance(), 1, 0), true,
                     new Object[]{
                 "DDD",
@@ -287,7 +264,7 @@ public class Recipes {
             }
         }
         // Blood Extractor
-        if(isItemEnabled(BloodContainerConfig.class) && isItemEnabled(BloodExtractorConfig.class)) {
+        if(Configs.isEnabled(BloodContainerConfig.class) && Configs.isEnabled(BloodExtractorConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BloodExtractor.getInstance()), true,
                     new Object[]{
                 " I ",
@@ -300,7 +277,7 @@ public class Recipes {
                     ));
         }
         // Potentia Sphere
-        if(isItemEnabled(PotentiaSphereConfig.class)) {
+        if(Configs.isEnabled(PotentiaSphereConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(PotentiaSphere.getInstance()), true,
                     new Object[]{
                 "RGR",
@@ -314,11 +291,11 @@ public class Recipes {
                     ));
         }
         // Purifier
-        if(isItemEnabled(PurifierConfig.class)
-                && isItemEnabled(HardenedBloodShardConfig.class)
-                && isItemEnabled(DarkGemConfig.class)
-                && isItemEnabled(BloodInfusionCoreConfig.class)
-                && isItemEnabled(DarkBlockConfig.class)) {
+        if(Configs.isEnabled(PurifierConfig.class)
+                && Configs.isEnabled(HardenedBloodShardConfig.class)
+                && Configs.isEnabled(DarkGemConfig.class)
+                && Configs.isEnabled(BloodInfusionCoreConfig.class)
+                && Configs.isEnabled(DarkBlockConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Purifier.getInstance()), true,
                     new Object[]{
                 "S S",
@@ -332,7 +309,7 @@ public class Recipes {
                     ));
         }
         // Inverted Potentia
-        if(isItemEnabled(PotentiaSphereConfig.class) && isItemEnabled(InvertedPotentiaConfig.class) && isItemEnabled(DarkGemConfig.class)) {
+        if(Configs.isEnabled(PotentiaSphereConfig.class) && Configs.isEnabled(InvertedPotentiaConfig.class) && Configs.isEnabled(DarkGemConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(InvertedPotentia.getInstance()), true,
                     new Object[]{
                 " D ",
@@ -344,8 +321,8 @@ public class Recipes {
                     ));
         }
         // Mace of Distortion
-        if(isItemEnabled(MaceOfDistortionConfig.class) && isItemEnabled(DarkStickConfig.class) && isItemEnabled(DarkPowerGemConfig.class)
-                && isItemEnabled(InvertedPotentiaConfig.class)) {
+        if(Configs.isEnabled(MaceOfDistortionConfig.class) && Configs.isEnabled(DarkStickConfig.class) && Configs.isEnabled(DarkPowerGemConfig.class)
+                && Configs.isEnabled(InvertedPotentiaConfig.class)) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MaceOfDistortion.getInstance()), true,
                     new Object[]{
                 " PI",
@@ -362,7 +339,7 @@ public class Recipes {
     }
 
     private static void registerCustomRecipes() {
-        if(isItemEnabled(DarkGemConfig.class) && isItemEnabled(DarkPowerGemConfig.class) && isItemEnabled(BloodConfig.class)) {
+        if(Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkPowerGemConfig.class) && Configs.isEnabled(BloodConfig.class)) {
             CustomRecipeRegistry.put(new CustomRecipe(
                     new ItemStack(DarkGem.getInstance()),
                     new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 4),
@@ -373,7 +350,7 @@ public class Recipes {
                             ));
         }
 
-        if(isItemEnabled(UndeadSaplingConfig.class)) {
+        if(Configs.isEnabled(UndeadSaplingConfig.class)) {
             CustomRecipeRegistry.put(new CustomRecipe(
                     new ItemStack(Block.deadBush),
                     new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2),
@@ -384,7 +361,7 @@ public class Recipes {
                             ));
         }
         
-        if(isItemEnabled(BlookConfig.class)) {
+        if(Configs.isEnabled(BlookConfig.class)) {
             CustomRecipeRegistry.put(new CustomRecipe(
                     new ItemStack(Item.book),
                     new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 2),
@@ -395,7 +372,7 @@ public class Recipes {
                             ));
         }
         
-        if(isItemEnabled(PotentiaSphereConfig.class) && PotentiaSphereConfig.enderPearlRecipe) {
+        if(Configs.isEnabled(PotentiaSphereConfig.class) && PotentiaSphereConfig.enderPearlRecipe) {
             CustomRecipeRegistry.put(new CustomRecipe(
                     new ItemStack(PotentiaSphere.getInstance()),
                     new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2),

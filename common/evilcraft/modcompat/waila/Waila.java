@@ -1,7 +1,7 @@
 package evilcraft.modcompat.waila;
 
 import mcp.mobius.waila.api.IWailaRegistrar;
-import evilcraft.Recipes;
+import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.blocks.BloodChest;
 import evilcraft.blocks.BloodChestConfig;
@@ -30,17 +30,17 @@ public class Waila {
         registrar.addConfig(Reference.MOD_NAME, getInnerBlockConfigID(), "Actual inner blocks");
         
         // Tanks
-        if(Recipes.isItemEnabled(BloodInfuserConfig.class))
+        if(Configs.isEnabled(BloodInfuserConfig.class))
             registrar.registerBodyProvider(new TankDataProvider(), BloodInfuser.class);
-        if(Recipes.isItemEnabled(BloodChestConfig.class))
+        if(Configs.isEnabled(BloodChestConfig.class))
             registrar.registerBodyProvider(new TankDataProvider(), BloodChest.class);
-        if(Recipes.isItemEnabled(PurifierConfig.class))
+        if(Configs.isEnabled(PurifierConfig.class))
             registrar.registerBodyProvider(new TankDataProvider(), Purifier.class);
         
         // Inner blocks
-        if(Recipes.isItemEnabled(BloodStainedBlockConfig.class))
+        if(Configs.isEnabled(BloodStainedBlockConfig.class))
             registrar.registerStackProvider(new InnerBlockDataProvider(), BloodStainedBlock.class);
-        if(Recipes.isItemEnabled(NetherfishSpawnConfig.class))
+        if(Configs.isEnabled(NetherfishSpawnConfig.class))
             registrar.registerStackProvider(new InnerBlockDataProvider(), NetherfishSpawn.class);
     }
     

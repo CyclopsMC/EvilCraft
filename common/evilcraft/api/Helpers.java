@@ -28,6 +28,7 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.api.item.TileEntityNBTStorage;
 
 /**
  * A collection of helper methods and fields.
@@ -158,13 +159,24 @@ public class Helpers {
      * @param x x coordinate
      * @param y y coordinate
      * @param z z coordinate
+     * @param saveNBT If the NBT data should be saved to the dropped item.
      */
-    public static void preDestroyBlock(World world, int x, int y, int z) {
+    public static void preDestroyBlock(World world, int x, int y, int z, boolean saveNBT) {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
 
         if (tile instanceof IInventory && !world.isRemote) {
             dropItems(world, (IInventory) tile, x, y, z);
             clearInventory((IInventory) tile);
+        }
+        
+        if (tile instanceof EvilCraftTileEntity && saveNBT) {
+            // Cache 
+            EvilCraftTileEntity ecTile = ((EvilCraftTileEntity) tile);
+            TileEntityNBTStorage.TAG = ecTile.getNBTTagCompound();
+            
+            ecTile.destroy();
+        } else {
+            TileEntityNBTStorage.TAG = null;
         }
     }
     
@@ -176,11 +188,7 @@ public class Helpers {
      * @param z z coordinate
      */
     public static void postDestroyBlock(World world, int x, int y, int z) {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
-
-        if (tile instanceof EvilCraftTileEntity) {
-            ((EvilCraftTileEntity) tile).destroy();
-        }
+        // Does nothing for now.
     }
     
     /**

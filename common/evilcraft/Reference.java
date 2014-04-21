@@ -25,7 +25,7 @@ public class Reference {
     public static final String TEXTURE_PATH_GUIBACKGROUNDS = "textures/gui/title/background/";
     public static final String TEXTURE_PATH_ITEMS = "textures/items/";
     
- // External locations
+    // External locations
     public static final String URL_VERSIONSTATS = "http://rubensworks.net/evilcraft-versionstats/";
     
     // Block ID's
@@ -50,6 +50,7 @@ public class Reference {
     public static final int BLOCK_FLUIDBLOCKPOISON = 3864;
     public static final int BLOCK_INVISIBLEREDSTONE = 3865;
     public static final int BLOCK_PURIFIER = 3866;
+    public static final int BLOCK_NETHERFISHSPAWN = 3867;
     
     // Item ID's
     public static final int ITEM_BLOODEXTRACTOR = 4000;
@@ -115,6 +116,7 @@ public class Reference {
     public static final String DICT_WOODSTICK = "stickWood";
     public static final String DICT_SAPLINGTREE = "treeSapling";
     public static final String DICT_GEMDARK = "gemDark";
+    public static final String DICT_DYERED = "dyeRed";
     
     // MOD ID's
     public static final String MOD_FORGE = "Forge";
@@ -123,6 +125,7 @@ public class Reference {
     public static final String MOD_WAILA = "Waila";
     public static final String MOD_FMP = "ForgeMultipart";
     public static final String MOD_FORESTRY = "Forestry";
+    public static final String MOD_TCONSTRUCT = "TConstruct";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"

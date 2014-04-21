@@ -38,4 +38,9 @@ public class UndeadLogConfig extends BlockConfig {
         return true;
     }
     
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
+    
 }

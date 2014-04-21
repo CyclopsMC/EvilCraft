@@ -5,6 +5,8 @@ import java.util.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.common.IWorldGenerator;
+import evilcraft.Configs;
+import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.worldgen.structure.DarkTempleStructure;
 
 /**
@@ -15,7 +17,7 @@ import evilcraft.worldgen.structure.DarkTempleStructure;
 public class DarkTempleGenerator implements IWorldGenerator {
 	@Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		if (world.provider.dimensionId != 0)
+		if (world.provider.dimensionId != 0 || !Configs.isEnabled(EnvironmentalAccumulatorConfig.class))
 			return;
 		
 		// Add some randomness for spawning, might be too low?

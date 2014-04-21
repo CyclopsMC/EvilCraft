@@ -18,6 +18,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
@@ -113,7 +114,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     @Override
     public boolean canHarvestBlock(EntityPlayer player, int meta) {
         return player.getCurrentEquippedItem() != null
-                && BroomConfig._instance.isEnabled()
+                && Configs.isEnabled(BroomConfig.class)
                 && player.getCurrentEquippedItem().itemID == BroomConfig._instance.ID;
     }
 
@@ -144,9 +145,9 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
                             if(blockIDBelow == Block.dirt.blockID) {
                                 world.setBlock(xr, y - 1, zr, Block.grass.blockID);
                             } else if(blockIDBelow == Block.grass.blockID) {
-                                ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y - 1, zr, null);
+                                ItemDye.func_96604_a(new ItemStack(Item.dyePowder, 1, 15), world, xr, y - 1, zr);
                             }
-                            ItemDye.applyBonemeal(new ItemStack(Item.dyePowder, 1), world, xr, y, zr, null);
+                            ItemDye.func_96604_a(new ItemStack(Item.dyePowder, 1, 15), world, xr, y, zr);
                         }
                     }
                 }
