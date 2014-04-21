@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -22,7 +23,7 @@ import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidCon
 import evilcraft.fluids.Blood;
 
 /**
- * Item that can attract or push away items.
+ * Item that can attract items and XP orbs.
  * @author rubensworks
  *
  */
@@ -30,6 +31,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     private static Kineticator _instance = null;
     
+    private static final int TICK_HOLDOFF = 10;
     private static final String NBT_KEY_POWER = "power";
     private static final int POWER_LEVELS = 5;
     private static final int RANGE_PER_LEVEL = 2;
@@ -121,43 +123,46 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
         if(entity instanceof EntityPlayer
                 && ItemHelpers.isActivated(itemStack)
                 && getFluid(itemStack) != null) {
-            // TODO: Not EVERY tick?
-            
             // Center of the attraction
             double x = entity.posX;
             double y = entity.posY;
             double z = entity.posZ;
             
-            // Get items in calculated area.
-            int area = getArea(itemStack);
-            AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
-            List<EntityItem> items = world.getEntitiesWithinAABBExcludingEntity(entity, box, new IEntitySelector() {
-
-                @Override
-                public boolean isEntityApplicable(Entity entity) {
-                    return entity instanceof EntityItem;
-                }
-                
-            });
-            
-            // Move all those items in the direction of the player.
-            for(EntityItem item : items) {
-                double dx = item.posX - x;
-                double dy = item.posY - y;
-                double dz = item.posZ - z;
-                double strength = -1;
-                
-                double d = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
-                int usage = (int) Math.ceil(d * USAGE_PER_D);
-                if(this.drain(itemStack, usage, true) != null) {
+            // Not ticking every tick.
+            if(Math.round(x + y + z) % TICK_HOLDOFF == world.getWorldTime() % TICK_HOLDOFF) {
+                // Get items in calculated area.
+                int area = getArea(itemStack);
+                AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
+                List<EntityItem> entities = world.getEntitiesWithinAABBExcludingEntity(entity, box, new IEntitySelector() {
+    
+                    @Override
+                    public boolean isEntityApplicable(Entity entity) {
+                        return entity instanceof EntityItem
+                                || (KineticatorConfig.moveXP && entity instanceof EntityXPOrb);
+                    }
                     
-                    if(world.isRemote) {
-                        showItemMoved(world, entity, item, dx, dy, dz);
-                    } else {
-                        item.delayBeforeCanPickup = 0;
-                        item.motionX += dx * strength;
-                        item.motionY += dy * strength;
-                        item.motionZ += dz * strength;
+                });
+                
+                // Move all those items in the direction of the player.
+                for(Entity moveEntity : entities) {
+                    double dx = moveEntity.posX - x;
+                    double dy = moveEntity.posY - y;
+                    double dz = moveEntity.posZ - z;
+                    double strength = -1;
+                    
+                    double d = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
+                    int usage = (int) Math.ceil(d * USAGE_PER_D);
+                    if(this.drain(itemStack, usage, true) != null) {
+                        if(world.isRemote) {
+                            showEntityMoved(world, entity, moveEntity, dx, dy, dz);
+                        } else {
+                            if(moveEntity instanceof EntityItem) {
+                                ((EntityItem)moveEntity).delayBeforeCanPickup = 0;
+                            }
+                            moveEntity.motionX += dx * strength;
+                            moveEntity.motionY += dy * strength;
+                            moveEntity.motionZ += dz * strength;
+                        }
                     }
                 }
             }
@@ -166,8 +171,8 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     }
     
     @SideOnly(Side.CLIENT)
-    protected void showItemMoved(World world, Entity player, EntityItem item, double dx, double dy, double dz) {
-        world.spawnParticle("instantSpell", item.posX, item.posY, item.posZ, dx, dy, dz);
+    protected void showEntityMoved(World world, Entity player, Entity entity, double dx, double dy, double dz) {
+        world.spawnParticle("instantSpell", entity.posX, entity.posY, entity.posZ, dx, dy, dz);
     }
 
 }
