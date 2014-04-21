@@ -57,6 +57,8 @@ import evilcraft.items.HardenedBloodShard;
 import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.InvertedPotentia;
 import evilcraft.items.InvertedPotentiaConfig;
+import evilcraft.items.Kineticator;
+import evilcraft.items.KineticatorConfig;
 import evilcraft.items.LightningGrenade;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.MaceOfDistortion;
@@ -331,6 +333,22 @@ public class Recipes {
                 'S', new ItemStack(DarkStick.getInstance()),
                 'P', new ItemStack(DarkPowerGem.getInstance()),
                 'I', new ItemStack(InvertedPotentia.getInstance(), 1, InvertedPotentia.EMPOWERED_META),
+            }
+                    ));
+        }
+        // Kineticator
+        if(Configs.isEnabled(KineticatorConfig.class) && Configs.isEnabled(DarkStickConfig.class) && Configs.isEnabled(BloodInfusionCoreConfig.class)
+                && Configs.isEnabled(InvertedPotentiaConfig.class)) {
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Kineticator.getInstance()), true,
+                    new Object[]{
+                " BS",
+                "GIG",
+                "SD ",
+                'S', new ItemStack(DarkStick.getInstance()),
+                'B', new ItemStack(BloodInfusionCore.getInstance()),
+                'I', new ItemStack(InvertedPotentia.getInstance(), 1, InvertedPotentia.EMPOWERED_META),
+                'G', new ItemStack(Item.ingotGold),
+                'D', new ItemStack(Item.diamond),
             }
                     ));
         }

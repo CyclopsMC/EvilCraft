@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
@@ -83,6 +84,7 @@ public class InvertedPotentia extends ConfigurableItem {
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(isEmpowered(itemStack))
             list.add(EnumChatFormatting.RED + "Empowered");
+        list.add(IInformationProvider.INFO_PREFIX + "Strike with lightning to empower.");
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })

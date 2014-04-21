@@ -77,6 +77,7 @@ public class Reference {
     public static final int ITEM_POTENTIASPHERE = 4019;
     public static final int ITEM_INVERTEDPOTENTIA = 4020;
     public static final int ITEM_MACEOFDISTORTION = 4021;
+    public static final int ITEM_KINETICATOR = 4022;
     
     // Enchantment ID's
     public static final int ENCHANTMENT_BREAKING = 101;
