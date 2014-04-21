@@ -23,7 +23,7 @@ public class WailaModCompat implements IModCompat {
 
     @Override
     public void init() {
-        FMLInterModComms.sendMessage(getModID(), "register", "evilcraft.mods.Waila.callbackRegister");
+        FMLInterModComms.sendMessage(getModID(), "register", Waila.class.getName() + ".callbackRegister");
     }
 
     @Override
