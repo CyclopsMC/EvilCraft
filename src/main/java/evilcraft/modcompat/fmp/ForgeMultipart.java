@@ -15,7 +15,7 @@ public class ForgeMultipart {
      * @param block The block to be microblock registered.
      */
     public static void registerBlock(Block block) {
-        BlockMicroMaterial.createAndRegister(block);
+        BlockMicroMaterial.createAndRegister(block, 0);
     }
 
 }

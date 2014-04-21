@@ -15,6 +15,17 @@ buildscript {
     }
 }
 
+repositories {
+    ivy {
+        name 'ChickenBones'
+        artifactPattern "http://www.chickenbones.craftsaddle.org/Files/New_Versions/1.6.4/[module]-dev%20[revision].[ext]"
+    }
+    maven {
+        name 'forge'
+        url 'http://files.minecraftforge.net/maven'
+    }
+}
+
 apply plugin: 'forge'
 
 // Config file with custom properties
@@ -23,6 +34,12 @@ configFile.withReader {
     def prop = new Properties()
     prop.load(it)
     ext.config = new ConfigSlurper().parse prop
+}
+
+dependencies {
+    compile "codechicken:CodeChickenLib:${config.minecraft_version}-${config.CCLIB_version}:dev"
+    compile "codechicken:ForgeMultipart:${config.minecraft_version}-${config.FMP_version}:dev"
+    //compile name: 'NotEnoughItems', version: "${config.NEI_version}", type: 'jar'
 }
 
 // grab buildNumber
