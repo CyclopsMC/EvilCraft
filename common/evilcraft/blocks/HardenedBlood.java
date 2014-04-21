@@ -114,7 +114,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
     
     @Override
     public String getInfo(ItemStack itemStack) {
-        return IInformationProvider.INFO_PREFIX + "Created when Blood dries out. Will liquidify when raining.";
+        return IInformationProvider.INFO_PREFIX + "Dried Blood. Liquidify with rain.";
     }
 
     @SuppressWarnings("rawtypes")
