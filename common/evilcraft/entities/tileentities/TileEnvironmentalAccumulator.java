@@ -2,17 +2,22 @@ package evilcraft.entities.tileentities;
 
 import java.util.List;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 
 import org.lwjgl.util.vector.Vector4f;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.Coordinate;
 import evilcraft.api.Helpers;
+import evilcraft.api.degradation.DegradationExecutor;
+import evilcraft.api.degradation.IDegradable;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.items.WeatherContainer;
@@ -23,7 +28,7 @@ import evilcraft.items.WeatherContainer.WeatherContainerTypes;
  * @author immortaleeb
  *
  */
-public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity implements IBossDisplayData {
+public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity implements IBossDisplayData, IDegradable {
     
     private static final int ITEM_MOVE_DURATION = 100;
     private static final int ITEM_MOVE_COOLDOWN_DURATION = 100;
@@ -32,6 +37,12 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     private static final double WEATHER_CONTAINER_MIN_DROP_HEIGHT = 0.0;
     private static final double WEATHER_CONTAINER_MAX_DROP_HEIGHT = 2.0;
     private static final double WEATHER_CONTAINER_SPAWN_HEIGHT = ITEM_MOVE_DURATION * ITEM_MOVE_SPEED + 1;
+    
+    private static final int DEGRADATION_RADIUS = 5;
+    private static final int DEGRADATION_TICK_INTERVAL = 10;
+    
+    private DegradationExecutor degradationExecutor;
+    private int degradation = 0;
     
     private int cooldownTick = 0;
     private boolean cooldown = false;
@@ -50,6 +61,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
      */
 	public TileEnvironmentalAccumulator() {
 	    super();
+	    
+	    degradationExecutor = new DegradationExecutor(this);
+	    degradationExecutor.setTickInterval(DEGRADATION_TICK_INTERVAL);
 	    
 	    if (Helpers.isClientSide()) {
 	        setBeamInnerColor(getInnerColorByMetadata(EnvironmentalAccumulator.BEAM_INACTIVE));
@@ -120,6 +134,12 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	            updateEnvironmentalAccumulator();
 	    } else {
 	        updateClient();
+	    }
+	    
+	    // TODO: in the rewrite of this tile entity, it should be ensured that the
+	    // random effect is equal on client and server side?
+	    if(cooldownTick > 0) {
+	        degradationExecutor.runRandomEffect(worldObj.isRemote);
 	    }
 	}
 	
@@ -252,6 +272,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	public void readFromNBT(NBTTagCompound compound) {
 	    super.readFromNBT(compound);
 	    
+	    degradation = compound.getInteger("degradation");
+	    
 	    cooldownTick = compound.getInteger("cooldownTick");
 	    if (cooldownTick > 0)
 	        cooldown = true;
@@ -259,14 +281,19 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    moveItemTick = compound.getInteger("moveItemTick");
 	    if (moveItemTick > 0)
 	        movingItem = true;
+	    
+	    degradationExecutor.readFromNBT(compound);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 	    super.writeToNBT(compound);
 	    
+	    compound.setInteger("degradation", degradation);
 	    compound.setInteger("cooldownTick", cooldownTick);
 	    compound.setInteger("moveItemTick", moveItemTick);
+	    
+	    degradationExecutor.writeToNBT(compound);
 	}
     
     @Override
@@ -282,5 +309,30 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     @Override
     public String getEntityName() {
         return EnvironmentalAccumulatorConfig._instance.NAME + " Charge";
+    }
+
+    @Override
+    public Coordinate getLocation() {
+        return new Coordinate(xCoord, yCoord, zCoord);
+    }
+
+    @Override
+    public int getRadius() {
+        return DEGRADATION_RADIUS;
+    }
+
+    @Override
+    public List<Entity> getAreaEntities() {
+        return Helpers.getEntitiesInArea(getWorld(), xCoord, yCoord, zCoord, getRadius());
+    }
+
+    @Override
+    public double getDegradation() {
+        return this.degradation;
+    }
+
+    @Override
+    public World getWorld() {
+        return this.worldObj;
     }
 }

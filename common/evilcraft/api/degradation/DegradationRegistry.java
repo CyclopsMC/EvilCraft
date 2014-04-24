@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import evilcraft.api.degradation.effects.TerraformDegradation;
+
 /**
  * Registry for all the {@link IDegradationEffect}.
  * @author rubensworks
@@ -18,6 +20,10 @@ public class DegradationRegistry {
     private static final List<IDegradationEffect> WEIGHTED_LIST =
             new ArrayList<IDegradationEffect>();
     private static final Random random = new Random();
+    
+    static {
+        registerDegradationEffect(new TerraformDegradation(), 1);
+    }
     
     /**
      * Register a new degradation effect.

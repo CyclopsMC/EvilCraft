@@ -24,7 +24,7 @@ public interface IDegradable {
      */
     public int getRadius();
     /**
-     * Get the list of entities withing the area defined by {@link IDegradable#getRadius()}.
+     * Get the list of entities within the area defined by {@link IDegradable#getRadius()}.
      * @return The entities within the area.
      */
     public List<Entity> getAreaEntities();
