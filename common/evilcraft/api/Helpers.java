@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -37,6 +38,9 @@ import evilcraft.api.item.TileEntityNBTStorage;
  *
  */
 public class Helpers {
+    
+    private static final Random random = new Random();
+    
     /**
      * The length of one Minecraft day.
      */
@@ -479,5 +483,28 @@ public class Helpers {
         @SuppressWarnings("unchecked")
         List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, box);
         return entities;
+    }
+    
+    /**
+     * Get a random point inside a sphere in an efficient way.
+     * @param center The center coordinates of the sphere.
+     * @param radius The radius of the sphere.
+     * @return The coordinates of the random point.
+     */
+    public static Coordinate getRandomPointInSphere(Coordinate center, int radius) {
+        Coordinate randomPoint = null;
+        while(randomPoint == null) {
+            int x = center.x - radius + random.nextInt(2 * radius);
+            int y = center.y - radius + random.nextInt(2 * radius);
+            int z = center.z - radius + random.nextInt(2 * radius);
+            int dx = center.x - x;
+            int dy = center.y - y;
+            int dz = center.z - z;
+            int distance = (int) Math.sqrt(dx * dx + dy * dy + dz * dz);
+            if(distance <= radius) {
+                randomPoint = new Coordinate(x, y, z);
+            }
+        }
+        return randomPoint;
     }
 }
