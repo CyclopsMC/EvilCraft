@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import evilcraft.api.degradation.effects.NauseateDegradation;
 import evilcraft.api.degradation.effects.TerraformDegradation;
 
 /**
@@ -23,6 +24,7 @@ public class DegradationRegistry {
     
     static {
         registerDegradationEffect(new TerraformDegradation(), 1);
+        registerDegradationEffect(new NauseateDegradation(), 1);
     }
     
     /**

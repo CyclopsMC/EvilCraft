@@ -38,7 +38,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     private static final double WEATHER_CONTAINER_MAX_DROP_HEIGHT = 2.0;
     private static final double WEATHER_CONTAINER_SPAWN_HEIGHT = ITEM_MOVE_DURATION * ITEM_MOVE_SPEED + 1;
     
-    private static final int DEGRADATION_RADIUS = 5;
+    private static final int DEGRADATION_RADIUS_BASE = 5;
     private static final int DEGRADATION_TICK_INTERVAL = 1;
     
     private DegradationExecutor degradationExecutor;
@@ -319,7 +319,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
     @Override
     public int getRadius() {
-        return DEGRADATION_RADIUS;
+        return DEGRADATION_RADIUS_BASE + degradation / 10;
     }
 
     @Override
