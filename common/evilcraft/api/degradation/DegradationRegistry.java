@@ -8,6 +8,7 @@ import java.util.Set;
 
 import evilcraft.api.degradation.effects.MobSpawnDegradation;
 import evilcraft.api.degradation.effects.NauseateDegradation;
+import evilcraft.api.degradation.effects.SoundDegradation;
 import evilcraft.api.degradation.effects.TerraformDegradation;
 
 /**
@@ -25,8 +26,9 @@ public class DegradationRegistry {
     
     static {
         registerDegradationEffect(new TerraformDegradation(), 1);
-        registerDegradationEffect(new NauseateDegradation(), 1);
-        registerDegradationEffect(new MobSpawnDegradation(), 1);
+        registerDegradationEffect(new NauseateDegradation(), 3);
+        registerDegradationEffect(new MobSpawnDegradation(), 2);
+        registerDegradationEffect(new SoundDegradation(), 3);
     }
     
     /**
