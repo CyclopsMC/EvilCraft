@@ -113,7 +113,7 @@ public class TerraformDegradation extends StochasticDegradationEffect {
         if(replace != null) {
             if(replace.getBlock() == null) {
                 world.setBlockToAir(x, y, z);
-            } else {System.out.println(x+" "+y+" "+z);
+            } else {
                 world.setBlock(x, y, z, replace.getBlock().blockID, replace.getMeta(), 3);
             }
         }

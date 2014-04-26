@@ -17,7 +17,7 @@ import evilcraft.api.degradation.IDegradationEffect;
 public class NauseateDegradation implements IDegradationEffect {
     
     private static final int MINIMUM_DEGRADATION = 1;
-    private static final int NAUSEA_DURATION_MULTIPLIER = 20;
+    private static final int NAUSEA_DURATION_MULTIPLIER = 20 * 4;
 
     @Override
     public boolean canRun(IDegradable degradable) {
@@ -33,7 +33,7 @@ public class NauseateDegradation implements IDegradationEffect {
     public void runServerSide(IDegradable degradable) {
         List<Entity> entities = degradable.getAreaEntities();
         for(Entity entity : entities) {
-            if(entity instanceof EntityLivingBase) {System.out.println("ye"+degradable.getDegradation());
+            if(entity instanceof EntityLivingBase) {
                 ((EntityLivingBase) entity).addPotionEffect(
                         new PotionEffect(
                                 Potion.confusion.id,
