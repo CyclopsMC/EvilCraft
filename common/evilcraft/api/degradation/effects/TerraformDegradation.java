@@ -30,6 +30,9 @@ public class TerraformDegradation extends StochasticDegradationEffect {
     private static Random random = new Random();
     
     static{
+        // Default replacement
+        putReplacement(null, new BlockTypeHolder(Block.cobblestone), 30);
+        
         putReplacement(Block.stone, new BlockTypeHolder(Block.cobblestone));
         
         putReplacement(Block.cobblestone, new BlockTypeHolder(Block.dirt), 10);
@@ -86,6 +89,9 @@ public class TerraformDegradation extends StochasticDegradationEffect {
     
     protected BlockTypeHolder getReplacement(Block block) {
         Map<BlockTypeHolder, Integer> mapValue = TERRAFORMATIONS.get(block);
+        if(mapValue == null) { // Fetch the default replacement.
+            mapValue = TERRAFORMATIONS.get(null);
+        }
         if(mapValue != null) {
             Object[] keys = mapValue.keySet().toArray();
             BlockTypeHolder holder = (BlockTypeHolder) keys[random.nextInt(keys.length)];
