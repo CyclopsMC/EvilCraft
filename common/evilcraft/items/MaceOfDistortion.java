@@ -14,7 +14,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -24,6 +23,7 @@ import com.google.common.collect.Multimap;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.ExtendedDamageSource;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.ItemHelpers;
 import evilcraft.api.config.ExtendedConfig;
@@ -242,45 +242,66 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
         });
         
         // Do knockback and damage to the list of entities
-        double knock = power + itemUsedCount / 200 + 1.0D;
-        Vec3 vec3 = world.getWorldVec3Pool().getVecFromPool(x, y, z);
+        
         for(Entity entity : entities) {
-            double inverseStrength = entity.getDistance(x, y, z) / (itemUsedCount + 1);
+            distortEntity(world, player, entity, x, y, z, itemUsedCount, power);
+        }
+    }
+    
+    /**
+     * Distort an entity.
+     * @param world The world.
+     * @param player The player distoring the entity, can be null.
+     * @param entity The distorted entity.
+     * @param x Center X coordinate.
+     * @param y Center Y coordinate.
+     * @param z Center Z coordinate.
+     * @param itemUsedCount The distortion usage power.
+     * @param power The current power.
+     */
+    public static void distortEntity(World world, EntityPlayer player, Entity entity, double x, double y, double z, int itemUsedCount, int power) {
+        double inverseStrength = entity.getDistance(x, y, z) / (itemUsedCount + 1);
+        double knock = power + itemUsedCount / 200 + 1.0D;
 
-            double dx = entity.posX - x;
-            double dy = entity.posY + (double)entity.getEyeHeight() - y;
-            double dz = entity.posZ - z;
-            double d = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
+        double dx = entity.posX - x;
+        double dy = entity.posY + (double)entity.getEyeHeight() - y;
+        double dz = entity.posZ - z;
+        double d = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
 
-            // No knockback is possible when the absolute distance is zero.
-            if (d != 0.0D) {
-                dx /= d;
-                dy /= d;
-                dz /= d;
-                double percentageBlocks = (double)world.getBlockDensity(vec3, entity.boundingBox);
-                double strength = (1.0D - inverseStrength) * percentageBlocks * knock;
-                if(entity instanceof EntityLivingBase) {
-                    // Attack the entity with the current power level.
-                    entity.attackEntityFrom(DamageSource.causePlayerDamage(player), (float) (RADIAL_DAMAGE * power));
-                    
-                    if(world.isRemote) {
-                        showEntityDistored(world, player, entity, power);
-                    }
+        // No knockback is possible when the absolute distance is zero.
+        if (d != 0.0D) {
+            dx /= d;
+            dy /= d;
+            dz /= d;
+            double strength = (1.0D - inverseStrength) * knock;
+            if(entity instanceof EntityLivingBase) {
+                // Attack the entity with the current power level.
+                DamageSource damageSource = null;
+                if(player == null) {
+                    damageSource = ExtendedDamageSource.distorted;
+                } else {
+                    damageSource = DamageSource.causePlayerDamage(player);
                 }
-                strength /= 2;
-                entity.motionX += dx * strength;
-                entity.motionY += dy * strength;
-                entity.motionZ += dz * strength;
+                entity.attackEntityFrom(damageSource, (float) (RADIAL_DAMAGE * power));
+                
+                if(world.isRemote) {
+                    showEntityDistored(world, player, entity, power);
+                }
             }
+            strength /= 2;
+            entity.motionX += dx * strength;
+            entity.motionY += dy * strength;
+            entity.motionZ += dz * strength;
         }
     }
     
     @SideOnly(Side.CLIENT)
-    protected void showEntityDistored(World world, EntityPlayer player, Entity entity, int power) {
+    protected static void showEntityDistored(World world, EntityPlayer player, Entity entity, int power) {
         // Play a nice sound with the volume depending on the power.
         world.playSoundAtEntity(entity, "random.explode", (float)(power + 1) / (float)POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-        world.playSoundAtEntity(player, "random.explode", (float)(power + 1) / (float)POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-        
+        if(player != null) {
+            world.playSoundAtEntity(player, "random.explode", (float)(power + 1) / (float)POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        }
         // Fake explosion effect.
         world.spawnParticle("largeexplode", entity.posX, entity.posY + itemRand.nextFloat(), entity.posZ, 1.0D, 0.0D, 0.0D);
     }

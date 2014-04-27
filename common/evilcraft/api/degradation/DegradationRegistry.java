@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import evilcraft.api.degradation.effects.KnockbackDistortDegradation;
 import evilcraft.api.degradation.effects.MobSpawnDegradation;
 import evilcraft.api.degradation.effects.NauseateDegradation;
 import evilcraft.api.degradation.effects.SoundDegradation;
@@ -29,6 +30,7 @@ public class DegradationRegistry {
         registerDegradationEffect(new NauseateDegradation(), 3);
         registerDegradationEffect(new MobSpawnDegradation(), 2);
         registerDegradationEffect(new SoundDegradation(), 3);
+        registerDegradationEffect(new KnockbackDistortDegradation(), 5);
     }
     
     /**
