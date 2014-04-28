@@ -116,10 +116,12 @@ public class TerraformDegradation extends StochasticDegradationEffect {
         Block block = Block.blocksList[world.getBlockId(x, y, z)];
         BlockTypeHolder replace = getReplacement(block);
         
-        if(replace != null && !degradable.getLocation().equals(blockPoint)) {
+        if(replace != null
+                && !degradable.getLocation().equals(blockPoint)
+                && world.getBlockTileEntity(x, y, z) == null) {
             if(replace.getBlock() == null) {
                 world.setBlockToAir(x, y, z);
-            } else {
+            } else if(replace.getBlock().getBlockHardness(world, x, y, z) > 0) {
                 world.setBlock(x, y, z, replace.getBlock().blockID, replace.getMeta(), 3);
             }
         }
