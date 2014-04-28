@@ -49,9 +49,9 @@ public class EntityDegradeFX extends EntityFX {
     public void onUpdate() {
         super.onUpdate();
         
-        this.motionX = (rand.nextFloat() - rand.nextFloat() * 2) * 0.2F;
-        this.motionY = (rand.nextFloat() - rand.nextFloat() * 2) * 0.1F;
-        this.motionZ = (rand.nextFloat() - rand.nextFloat() * 2) * 0.2F;
+        this.motionX = (rand.nextFloat() - rand.nextFloat()) * 0.2F;
+        this.motionY = (rand.nextFloat() - rand.nextFloat()) * 0.1F;
+        this.motionZ = (rand.nextFloat() - rand.nextFloat()) * 0.2F;
         
         particleScale = (1 - (float)particleAge / particleMaxAge) * 0.9F;
         this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
