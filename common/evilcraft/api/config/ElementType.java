@@ -1,6 +1,7 @@
 package evilcraft.api.config;
 
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.api.config.elementtypeaction.BiomeAction;
 import evilcraft.api.config.elementtypeaction.BlockAction;
 import evilcraft.api.config.elementtypeaction.DummyAction;
 import evilcraft.api.config.elementtypeaction.EnchantmentAction;
@@ -50,6 +51,10 @@ public enum ElementType {
      * Villager type.
      */
     VILLAGER(true, VillagerConfig.class, new VillagerAction(), ElementTypeCategory.MOB),
+    /**
+     * Villager type.
+     */
+    BIOME(true, BiomeConfig.class, new BiomeAction(), ElementTypeCategory.BIOME),
 
     /**
      * Dummy type, only used for configs that refer to nothing.

@@ -86,6 +86,9 @@ public class Reference {
     public static final int ENCHANTMENT_POISON_TIP = 104;
     public static final int ENCHANTMENT_KNOCKSPEED = 105;
     
+    // Biome ID's
+    public static final int BIOME_DEGRADED = 105;
+    
     // Entity ID's
     public static final int ENTITY_LIGHTNINGBOMB = 3;
     public static final int ENTITY_LIGHTNINGGRENADE = 4;

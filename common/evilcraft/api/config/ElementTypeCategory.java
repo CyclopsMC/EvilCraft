@@ -40,6 +40,10 @@ public enum ElementTypeCategory {
      * Mob category.
      */
     MOB("mob"),
+    /**
+     * Biome category.
+     */
+    BIOME("biome"),
     
     /**
      * Category with core settings.

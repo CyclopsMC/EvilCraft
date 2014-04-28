@@ -9,6 +9,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.biomes.BiomeDegradedConfig;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlockConfig;
@@ -200,6 +201,9 @@ public class Configs {
         configs.add(new EnchantmentBreakingConfig());
         configs.add(new EnchantmentLifeStealingConfig());
         configs.add(new EnchantmentPoisonTipConfig());
+        
+        // Biomes
+        configs.add(new BiomeDegradedConfig());
     }
 
     /**

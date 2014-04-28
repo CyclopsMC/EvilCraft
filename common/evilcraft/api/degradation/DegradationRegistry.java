@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import evilcraft.Configs;
+import evilcraft.api.degradation.effects.BiomeDegradation;
 import evilcraft.api.degradation.effects.KnockbackDistortDegradation;
 import evilcraft.api.degradation.effects.MobSpawnDegradation;
 import evilcraft.api.degradation.effects.NauseateDegradation;
 import evilcraft.api.degradation.effects.ParticleDegradation;
 import evilcraft.api.degradation.effects.SoundDegradation;
 import evilcraft.api.degradation.effects.TerraformDegradation;
+import evilcraft.biomes.BiomeDegradedConfig;
 
 /**
  * Registry for all the {@link IDegradationEffect}.
@@ -33,6 +36,9 @@ public class DegradationRegistry {
         registerDegradationEffect(new SoundDegradation(), 3);
         registerDegradationEffect(new KnockbackDistortDegradation(), 5);
         registerDegradationEffect(new ParticleDegradation(), 10);
+        if(Configs.isEnabled(BiomeDegradedConfig.class)) {
+            registerDegradationEffect(new BiomeDegradation(), 1);
+        }
     }
     
     /**
