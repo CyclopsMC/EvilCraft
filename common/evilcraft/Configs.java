@@ -9,6 +9,13 @@ import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.api.degradation.effects.BiomeDegradationConfig;
+import evilcraft.api.degradation.effects.KnockbackDistortDegradationConfig;
+import evilcraft.api.degradation.effects.MobSpawnDegradationConfig;
+import evilcraft.api.degradation.effects.NauseateDegradationConfig;
+import evilcraft.api.degradation.effects.ParticleDegradationConfig;
+import evilcraft.api.degradation.effects.SoundDegradationConfig;
+import evilcraft.api.degradation.effects.TerraformDegradationConfig;
 import evilcraft.biomes.BiomeDegradedConfig;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.blocks.BloodInfuserConfig;
@@ -204,6 +211,15 @@ public class Configs {
         
         // Biomes
         configs.add(new BiomeDegradedConfig());
+        
+        // Degradation Effects
+        configs.add(new BiomeDegradationConfig());
+        configs.add(new KnockbackDistortDegradationConfig());
+        configs.add(new MobSpawnDegradationConfig());
+        configs.add(new NauseateDegradationConfig());
+        configs.add(new ParticleDegradationConfig());
+        configs.add(new SoundDegradationConfig());
+        configs.add(new TerraformDegradationConfig());
     }
 
     /**

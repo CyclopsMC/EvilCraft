@@ -44,6 +44,10 @@ public enum ElementTypeCategory {
      * Biome category.
      */
     BIOME("biome"),
+    /**
+     * Degradation Effect category.
+     */
+    DEGRADATIONEFFECT("degradation effect"),
     
     /**
      * Category with core settings.

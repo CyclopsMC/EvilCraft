@@ -2,6 +2,10 @@ package evilcraft.api.degradation;
 
 import java.util.Random;
 
+import evilcraft.api.config.DegradationEffectConfig;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableDegradationEffect;
+
 /**
  * A {@link IDegradationEffect} that can be executed with a certain chance.
  * It will take into account the current degradation factor and the higher this
@@ -10,23 +14,26 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public abstract class StochasticDegradationEffect implements IDegradationEffect {
+public abstract class StochasticDegradationEffect extends ConfigurableDegradationEffect implements IDegradationEffect {
 
     private double chance;
     
     /**
      * Make a new instance.
+     * @param eConfig The config.
      * @param chance The chance on occuring. A value between 0 and 1.
      */
-    public StochasticDegradationEffect(double chance) {
+    public StochasticDegradationEffect(ExtendedConfig<DegradationEffectConfig> eConfig, double chance) {
+        super(eConfig);
         this.chance = chance;
     }
     
     /**
      * Make a new instance.
+     * @param eConfig The config.
      */
-    public StochasticDegradationEffect() {
-        this(1.0D);
+    public StochasticDegradationEffect(ExtendedConfig<DegradationEffectConfig> eConfig) {
+        this(eConfig, 1.0D);
     }
     
     @Override

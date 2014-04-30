@@ -6,16 +6,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import evilcraft.Configs;
-import evilcraft.api.degradation.effects.BiomeDegradation;
-import evilcraft.api.degradation.effects.KnockbackDistortDegradation;
-import evilcraft.api.degradation.effects.MobSpawnDegradation;
-import evilcraft.api.degradation.effects.NauseateDegradation;
-import evilcraft.api.degradation.effects.ParticleDegradation;
-import evilcraft.api.degradation.effects.SoundDegradation;
-import evilcraft.api.degradation.effects.TerraformDegradation;
-import evilcraft.biomes.BiomeDegradedConfig;
-
 /**
  * Registry for all the {@link IDegradationEffect}.
  * @author rubensworks
@@ -29,24 +19,13 @@ public class DegradationRegistry {
             new ArrayList<IDegradationEffect>();
     private static final Random random = new Random();
     
-    static {
-        registerDegradationEffect(new TerraformDegradation(), 1);
-        registerDegradationEffect(new NauseateDegradation(), 3);
-        registerDegradationEffect(new MobSpawnDegradation(), 2);
-        registerDegradationEffect(new SoundDegradation(), 3);
-        registerDegradationEffect(new KnockbackDistortDegradation(), 5);
-        registerDegradationEffect(new ParticleDegradation(), 10);
-        if(Configs.isEnabled(BiomeDegradedConfig.class)) {
-            registerDegradationEffect(new BiomeDegradation(), 1);
-        }
-    }
-    
     /**
      * Register a new degradation effect.
+     * @param nameID The unique name of this effect.
      * @param degradationEffect The effect to register.
      * @param weight The weight that this effect can occur.
      */
-    public static void registerDegradationEffect(IDegradationEffect degradationEffect, int weight) {
+    public static void registerDegradationEffect(String nameID, IDegradationEffect degradationEffect, int weight) {
         DEGRADATION_EFFECTS.add(degradationEffect);
         for(int i = 0; i < weight; i++) {
             WEIGHTED_LIST.add(degradationEffect);

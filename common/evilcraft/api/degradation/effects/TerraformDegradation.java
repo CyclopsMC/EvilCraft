@@ -10,6 +10,8 @@ import evilcraft.Configs;
 import evilcraft.api.Coordinate;
 import evilcraft.api.Helpers;
 import evilcraft.api.block.BlockTypeHolder;
+import evilcraft.api.config.DegradationEffectConfig;
+import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.StochasticDegradationEffect;
 import evilcraft.blocks.NetherfishSpawn;
@@ -22,6 +24,27 @@ import evilcraft.blocks.NetherfishSpawnConfig;
  *
  */
 public class TerraformDegradation extends StochasticDegradationEffect {
+    
+private static TerraformDegradation _instance = null;
+    
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
+        if(_instance == null)
+            _instance = new TerraformDegradation(eConfig);
+        else
+            eConfig.showDoubleInitError();
+    }
+    
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
+    public static TerraformDegradation getInstance() {
+        return _instance;
+    }
     
     private static Map<Block, Map<BlockTypeHolder, Integer>> TERRAFORMATIONS = 
             new HashMap<Block, Map<BlockTypeHolder, Integer>>();
@@ -75,11 +98,8 @@ public class TerraformDegradation extends StochasticDegradationEffect {
         mapValue.put(value, chance);
     }
     
-    /**
-     * Make a new instance.
-     */
-    public TerraformDegradation() {
-        super(CHANCE);
+    private TerraformDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+        super(eConfig, CHANCE);
     }
 
     @Override

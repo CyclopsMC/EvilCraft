@@ -7,8 +7,10 @@ import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.algorithms.Location;
 import evilcraft.api.algorithms.OrganicSpread;
 import evilcraft.api.algorithms.OrganicSpread.IOrganicSpreadable;
+import evilcraft.api.config.DegradationEffectConfig;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.api.degradation.IDegradable;
-import evilcraft.api.degradation.IDegradationEffect;
 import evilcraft.biomes.BiomeDegraded;
 
 /**
@@ -16,11 +18,36 @@ import evilcraft.biomes.BiomeDegraded;
  * @author rubensworks
  *
  */
-public class BiomeDegradation implements IDegradationEffect, IOrganicSpreadable {
+public class BiomeDegradation extends ConfigurableDegradationEffect implements IOrganicSpreadable {
+
+    private static BiomeDegradation _instance = null;
+    
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
+        if(_instance == null)
+            _instance = new BiomeDegradation(eConfig);
+        else
+            eConfig.showDoubleInitError();
+    }
+    
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
+    public static BiomeDegradation getInstance() {
+        return _instance;
+    }
     
     private static final Class<? extends BiomeGenBase> BIOME_CLASS = BiomeDegraded.class;
     private static final BiomeGenBase BIOME = BiomeDegraded.getInstance();
     private static final int DIMENSIONS = 2;
+    
+    private BiomeDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+        super(eConfig);
+    }
 
     @Override
     public boolean canRun(IDegradable degradable) {

@@ -9,6 +9,8 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.Event.Result;
 import evilcraft.api.Coordinate;
 import evilcraft.api.Helpers;
+import evilcraft.api.config.DegradationEffectConfig;
+import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.StochasticDegradationEffect;
 
@@ -19,13 +21,31 @@ import evilcraft.api.degradation.StochasticDegradationEffect;
  */
 public class MobSpawnDegradation extends StochasticDegradationEffect {
 
-    private static final double CHANCE = 0.01D;
+    private static MobSpawnDegradation _instance = null;
     
     /**
-     * Make a new instance.
+     * Initialise the configurable.
+     * @param eConfig The config.
      */
-    public MobSpawnDegradation() {
-        super(CHANCE);
+    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
+        if(_instance == null)
+            _instance = new MobSpawnDegradation(eConfig);
+        else
+            eConfig.showDoubleInitError();
+    }
+    
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
+    public static MobSpawnDegradation getInstance() {
+        return _instance;
+    }
+    
+    private static final double CHANCE = 0.01D;
+    
+    private MobSpawnDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+        super(eConfig, CHANCE);
     }
     
     @Override

@@ -3,6 +3,9 @@ package evilcraft.api.degradation.effects;
 import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.api.Coordinate;
+import evilcraft.api.config.DegradationEffectConfig;
+import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.IDegradationEffect;
 import evilcraft.render.particle.EntityDegradeFX;
@@ -12,8 +15,33 @@ import evilcraft.render.particle.EntityDegradeFX;
  * @author rubensworks
  *
  */
-public class ParticleDegradation implements IDegradationEffect {
+public class ParticleDegradation extends ConfigurableDegradationEffect implements IDegradationEffect {
 
+    private static ParticleDegradation _instance = null;
+    
+    /**
+     * Initialise the configurable.
+     * @param eConfig The config.
+     */
+    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
+        if(_instance == null)
+            _instance = new ParticleDegradation(eConfig);
+        else
+            eConfig.showDoubleInitError();
+    }
+    
+    /**
+     * Get the unique instance.
+     * @return The instance.
+     */
+    public static ParticleDegradation getInstance() {
+        return _instance;
+    }
+    
+    private ParticleDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+        super(eConfig);
+    }
+    
     @Override
     public boolean canRun(IDegradable degradable) {
         return true;
