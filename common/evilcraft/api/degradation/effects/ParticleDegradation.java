@@ -2,6 +2,8 @@ package evilcraft.api.degradation.effects;
 
 import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Coordinate;
 import evilcraft.api.config.DegradationEffectConfig;
 import evilcraft.api.config.ExtendedConfig;
@@ -48,6 +50,7 @@ public class ParticleDegradation extends ConfigurableDegradationEffect implement
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void runClientSide(IDegradable degradable) {
         Coordinate center = degradable.getLocation();
         World world = degradable.getWorld();
