@@ -42,16 +42,17 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     private static final int DEGRADATION_TICK_INTERVAL = 100;
     
     private DegradationExecutor degradationExecutor;
+    // This number rises with the number of uses of the env. accum.
     private int degradation = 0;
     
-    private int cooldownTick = 0;
-    private boolean cooldown = false;
-    
-    private int moveItemTick = 0;
-    private int moveItemCooldownTick = 0;
-    private boolean movingItem = false;
-    
-    private int lastMetadata;
+    /**
+     * Holds the state of the environmental accumulator.
+     * The following states are possible: idle (the default case), cooling down,
+     * processing an item and dropping an item. The different states can be found as
+     * public static variables of {@link EnvironmentalAccumulator}.
+     */
+    private int state = 0;
+    private int tick = 0;
     
     @SideOnly(Side.CLIENT)
     private float movingItemY;
@@ -66,19 +67,18 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    degradationExecutor.setTickInterval(DEGRADATION_TICK_INTERVAL);
 	    
 	    if (Helpers.isClientSide()) {
-	        setBeamInnerColor(getInnerColorByMetadata(EnvironmentalAccumulator.BEAM_INACTIVE));
-	        setBeamOuterColor(getOuterColorByMetadata(EnvironmentalAccumulator.BEAM_INACTIVE));
+	        setBeamInnerColor(getInnerColorByState(state));
+	        setBeamOuterColor(getOuterColorByState(state));
 	        
 	        movingItemY = -1.0f;
-	        lastMetadata = -1;
 	    }
 	}
 	
 	@SideOnly(Side.CLIENT)
-	private Vector4f getInnerColorByMetadata(int metadata) {
-	    if (EnvironmentalAccumulator.isMovingItem(metadata) && EnvironmentalAccumulator.isBeamActive(metadata))
+	private Vector4f getInnerColorByState(int state) {
+	    if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM)
 	        return new Vector4f(0.48046875F, 0.29296875F, 0.1171875F, 0.05f);
-	    if (EnvironmentalAccumulator.isBeamActive(metadata))
+	    if (state == EnvironmentalAccumulator.STATE_IDLE)
 	        return new Vector4f(0.48046875F, 0.29296875F, 0.1171875F, 0.13f);
 	    else
 	        return new Vector4f(0, 0, 0, 0.13f);
@@ -86,8 +86,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	}
 	
 	@SideOnly(Side.CLIENT)
-    private Vector4f getOuterColorByMetadata(int metadata) {
-        if (!EnvironmentalAccumulator.isBeamActive(metadata))
+    private Vector4f getOuterColorByState(int state) {
+        if (state == EnvironmentalAccumulator.STATE_COOLING_DOWN)
             return new Vector4f(0, 0, 0, 0.13f);
         else
             return new Vector4f(0.30078125F, 0.1875F, 0.08203125F, 0.13f);
@@ -112,89 +112,78 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	
 	@Override
 	public void updateEntity() {
-	    if(cooldownTick > 0)
-	        cooldownTick--;
+	    // Keep ticking if necessary
+	    if (tick > 0)
+	        tick--;
 	    
-	    if (!worldObj.isRemote) {
-	        moveItemTick--;
-            
-	        if (cooldown && cooldownTick <= 0)
-	            deactivateCooldown();
-	        
-	        if (movingItem && moveItemTick <= 0) {
-                deactivateMoveItem();
+	    if (state == EnvironmentalAccumulator.STATE_IDLE) {
+            updateEnvironmentalAccumulatorIdle();
+        } // Are we processing an item?
+        else if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM) {
+            // Are we done moving the item?
+            if (tick == 0) {
                 dropWeatherContainer();
-                activateCooldown();
+                activateFinishedProcessingItemState();
             }
+        } // Have we just finished processing an item?
+        else if (state == EnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
+            // We stay in this state for a while so the client gets some time to 
+            // show the corresponding effect when an item is finished processing
+            
+            // Are we done waiting for the client to update?
+            if (tick == 0) {
+                activateCooldownState();
+            }
+        } // Are we cooling down?
+        else if (state == EnvironmentalAccumulator.STATE_COOLING_DOWN) {
+	        // TODO: in the rewrite of this tile entity, it should be ensured that the
+	        // random effect is equal on client and server side?
+	        degradationExecutor.runRandomEffect(worldObj.isRemote);
 	        
-	        if (cooldown)
-	            updateDoneItemMoving();
-	        
-	        if (!(cooldown || movingItem))
-	            updateEnvironmentalAccumulator();
-	    } else {
-	        updateClient();
+	        // Are we done cooling down?
+	        if (tick == 0)
+	            activateIdleState();
 	    }
 	    
-	    // TODO: in the rewrite of this tile entity, it should be ensured that the
-	    // random effect is equal on client and server side?
-	    if(cooldownTick > 0) {
-	        degradationExecutor.runRandomEffect(worldObj.isRemote);
-	    }
+	    // Some extra stuff needs to be update on the client side
+	    if (worldObj.isRemote)
+	        updateClient();
 	}
 	
-	private void updateEnvironmentalAccumulator() {
-	    if (!worldObj.isRemote) {
-	        
-	        // Look for items thrown into the beam
-	        @SuppressWarnings("rawtypes")
-            List containers = worldObj.getEntitiesWithinAABB(EntityItem.class, 
-                    AxisAlignedBB.getBoundingBox(
-                            this.xCoord, this.yCoord + WEATHER_CONTAINER_MIN_DROP_HEIGHT, this.zCoord, 
-                            this.xCoord + 1.0, this.yCoord + WEATHER_CONTAINER_MAX_DROP_HEIGHT, this.zCoord + 1.0)
-                    );
+	private void updateEnvironmentalAccumulatorIdle() {
+        // Look for items thrown into the beam
+        @SuppressWarnings("rawtypes")
+        List containers = worldObj.getEntitiesWithinAABB(EntityItem.class, 
+                AxisAlignedBB.getBoundingBox(
+                        this.xCoord, this.yCoord + WEATHER_CONTAINER_MIN_DROP_HEIGHT, this.zCoord, 
+                        this.xCoord + 1.0, this.yCoord + WEATHER_CONTAINER_MAX_DROP_HEIGHT, this.zCoord + 1.0)
+                );
+        
+        int i = 0;
+        boolean foundEmptyContainer = false;
+        
+        while (i < containers.size() && !foundEmptyContainer) {
+            EntityItem container = (EntityItem)containers.get(i);
+            ItemStack stack = container.getEntityItem();
             
-            int i = 0;
-            boolean foundEmptyContainer = false;
-            
-            while (i < containers.size() && !foundEmptyContainer) {
-                EntityItem container = (EntityItem)containers.get(i);
-                ItemStack stack = container.getEntityItem();
+            // Does the stack contain empty weather containers?
+            if (stack.itemID == WeatherContainer.getInstance().itemID && WeatherContainer.isEmpty(stack.getItemDamage())) {
+                foundEmptyContainer = true;
                 
-                // Does the stack contain empty weather containers?
-                if (stack.itemID == WeatherContainer.getInstance().itemID && WeatherContainer.isEmpty(stack.getItemDamage())) {
+                if (!worldObj.isRemote)
                     decreaseStackSize(container, stack);
-                    activateMoveItem();
-                }
                 
-                i++;
+                activateProcessingItemState();
             }
-	    }
+            
+            i++;
+        }
 	}
 	
 	private void updateClient() {
-	    int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-	    
-	    // We use the metadata to indicate an update from the server
-	    // So here we check if the server has sent us an update
-	    if (metadata == lastMetadata) {
-	        if (EnvironmentalAccumulator.isMovingItem(metadata) && !EnvironmentalAccumulator.isDoneMovingItem(metadata)) {
-	            movingItemY += ITEM_MOVE_SPEED;
-	        }
-	    } else {
-	        if (EnvironmentalAccumulator.isDoneMovingItem(metadata)) {
-	         // Stop showing the moving item animation
-                // TODO: make a custom particle effect for this
-                this.worldObj.playAuxSFX(2002, (int)Math.round(xCoord), (int)Math.round(yCoord + WEATHER_CONTAINER_SPAWN_HEIGHT), (int)Math.round(zCoord), 16428);
-                movingItemY = -1.0f;
-	        } else if (EnvironmentalAccumulator.isMovingItem(metadata)) {
-    	        movingItemY = 0f;
-    	    }
-    	    
-    	    setBeamColors(metadata);
-    	    
-    	    this.lastMetadata = metadata;
-	    }
+	    // TODO: make item move speed dependend on the item thrown in 
+	    if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM)
+	        movingItemY += ITEM_MOVE_SPEED;
 	}
 	
 	private void decreaseStackSize(EntityItem container, ItemStack stack) {
@@ -205,68 +194,77 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	}
 	
 	private void dropWeatherContainer() {
-	    // Create empty container and fill it with the current weather
-	    ItemStack itemStack = WeatherContainer.createItemStack(WeatherContainerTypes.EMPTY, 1);
-	    ((WeatherContainer)itemStack.getItem()).onFill(worldObj, itemStack);
-	    
-	    // Drop the weather container on the ground
-	    EntityItem entity = new EntityItem(worldObj, this.xCoord, this.yCoord + WEATHER_CONTAINER_SPAWN_HEIGHT, this.zCoord);
-	    entity.setEntityItemStack(itemStack);
-	    
-	    worldObj.spawnEntityInWorld(entity);
+	    if (!worldObj.isRemote) {
+    	    // Create empty container and fill it with the current weather
+    	    ItemStack itemStack = WeatherContainer.createItemStack(WeatherContainerTypes.EMPTY, 1);
+    	    ((WeatherContainer)itemStack.getItem()).onFill(worldObj, itemStack);
+    	    
+    	    // Drop the weather container on the ground
+    	    EntityItem entity = new EntityItem(worldObj, this.xCoord, this.yCoord + WEATHER_CONTAINER_SPAWN_HEIGHT, this.zCoord);
+    	    entity.setEntityItemStack(itemStack);
+    	    
+    	    worldObj.spawnEntityInWorld(entity);
+	    }
 	}
 	
-	private void activateMoveItem() {
-        moveItemTick = ITEM_MOVE_DURATION;
-        movingItem = true;
-        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.MOVING_ITEM, 2);
-    }
-    
-    private void deactivateMoveItem() {
-        moveItemCooldownTick = ITEM_MOVE_COOLDOWN_DURATION;
-        movingItem = false;
-        moveItemTick = 0;
+	private void activateIdleState() {
+        tick = 0;
+        state = EnvironmentalAccumulator.STATE_IDLE;
+        
+        if (!worldObj.isRemote)
+            sendUpdate();
     }
 	
-	private void activateCooldown() {
+	private void activateProcessingItemState() {
+	    // TODO: make this variable depending on the item thrown in...
+	    tick = ITEM_MOVE_DURATION;
+	    state = EnvironmentalAccumulator.STATE_PROCESSING_ITEM;
+	    
+	    if (!worldObj.isRemote)
+	        sendUpdate();
+	}
+	
+	private void activateFinishedProcessingItemState() {
+	    tick = ITEM_MOVE_COOLDOWN_DURATION;
+	    state = EnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM;
+	    
+	    if (!worldObj.isRemote)
+	        sendUpdate();
+	}
+	
+	private void activateCooldownState() {
 	    degradation++;
-	    cooldownTick = getMaxCooldownTick();
-	    cooldown = true;
-	    worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.BEAM_INACTIVE | EnvironmentalAccumulator.MOVING_ITEM, 2);
-	    sendUpdate();
+	    // TODO: make this variable depending on the item thrown in...
+	    tick = getMaxCooldownTick();
+	    state = EnvironmentalAccumulator.STATE_COOLING_DOWN;
+	    
+	    if (!worldObj.isRemote)
+	        sendUpdate();
 	}
 	
-	private void deactivateCooldown() {
-	    cooldownTick = 0;
-	    cooldown = false;
-	    worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.BEAM_ACTIVE, 2);
-	    sendUpdate();
+	@Override
+	public void onUpdateReceived() {
+	    // If we receive an update from the server and our new state is the
+	    // finished processing item state, show the corresponding effect
+	    if (worldObj.isRemote && state == EnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
+	        // TODO: make this effect dependend on the item that was processed
+	        this.worldObj.playAuxSFX(2002, (int)Math.round(xCoord), (int)Math.round(yCoord + WEATHER_CONTAINER_SPAWN_HEIGHT), (int)Math.round(zCoord), 16428);
+	        movingItemY = -1.0f;
+	    }
+	    
+	    // Change the beam colors if we receive an update
+	    setBeamColors(state);
 	}
 	
 	/**
 	 * Set the beam colors.
-	 * @param metadata The metadata to base the colors on.
+	 * @param state The state to base the colors on.
 	 */
-	public void setBeamColors(int metadata) {
+	public void setBeamColors(int state) {
         if (worldObj.isRemote) { 
-    	    setBeamInnerColor(getInnerColorByMetadata(metadata));
-    	    setBeamOuterColor(getOuterColorByMetadata(metadata));
+    	    setBeamInnerColor(getInnerColorByState(state));
+    	    setBeamOuterColor(getOuterColorByState(state));
         }
-	}
-	
-	/**
-	 * Called when the machine is done putting something in a bottle.
-	 */
-	public void updateDoneItemMoving() {
-	    int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-	    
-	    if (EnvironmentalAccumulator.isDoneMovingItem(metadata)) { 
-	        moveItemCooldownTick--;
-    	    
-	        if (moveItemCooldownTick <= 0) {
-    	        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, EnvironmentalAccumulator.BEAM_INACTIVE, 2);
-    	    }
-	    }
 	}
 	
 	@Override
@@ -274,14 +272,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    super.readFromNBT(compound);
 	    
 	    degradation = compound.getInteger("degradation");
-	    
-	    cooldownTick = compound.getInteger("cooldownTick");
-	    if (cooldownTick > 0)
-	        cooldown = true;
-	    
-	    moveItemTick = compound.getInteger("moveItemTick");
-	    if (moveItemTick > 0)
-	        movingItem = true;
+	    tick = compound.getInteger("tick");
+	    state = compound.getInteger("state");
 	    
 	    degradationExecutor.readFromNBT(compound);
 	}
@@ -291,20 +283,32 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    super.writeToNBT(compound);
 	    
 	    compound.setInteger("degradation", degradation);
-	    compound.setInteger("cooldownTick", cooldownTick);
-	    compound.setInteger("moveItemTick", moveItemTick);
+	    compound.setInteger("tick", tick);
+	    compound.setInteger("state", state);
 	    
 	    degradationExecutor.writeToNBT(compound);
 	}
     
     @Override
     public float getMaxHealth() {
+        if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM)
+            return ITEM_MOVE_DURATION;
+        
+        if (state == EnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM)
+            return 0;
+        
         return getMaxCooldownTick();
     }
 
     @Override
     public float getHealth() {
-        return Math.min(getMaxCooldownTick() - cooldownTick, getMaxCooldownTick());
+        if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM)
+            return ITEM_MOVE_DURATION - tick;
+        
+        if (state == EnvironmentalAccumulator.STATE_COOLING_DOWN)
+            return getMaxCooldownTick() - tick;
+        
+        return getMaxCooldownTick();
     }
 
     @Override
