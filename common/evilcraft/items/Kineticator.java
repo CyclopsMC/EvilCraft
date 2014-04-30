@@ -117,12 +117,23 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
         ItemHelpers.setNBTInt(itemStack, power, NBT_KEY_POWER);
     }
     
-    @SuppressWarnings("unchecked")
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-        if(entity instanceof EntityPlayer
-                && ItemHelpers.isActivated(itemStack)
-                && getFluid(itemStack) != null) {
+        if(entity instanceof EntityPlayer) {
+            kineticate(itemStack, world, entity);
+        }
+        super.onUpdate(itemStack, world, entity, par4, par5);
+    }
+    
+    @Override
+    public boolean onEntityItemUpdate(EntityItem entityItem) {
+        kineticate(entityItem.getEntityItem(), entityItem.worldObj, entityItem);
+        return super.onEntityItemUpdate(entityItem);
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void kineticate(ItemStack itemStack, World world, Entity entity) {
+        if(ItemHelpers.isActivated(itemStack) && getFluid(itemStack) != null) {
             // Center of the attraction
             double x = entity.posX;
             double y = entity.posY;
@@ -148,11 +159,14 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                     double dx = moveEntity.posX - x;
                     double dy = moveEntity.posY - y;
                     double dz = moveEntity.posZ - z;
-                    double strength = -1;
+                    double strength = -0.1;
+                    if(entity instanceof EntityPlayer) {
+                        strength = -1;
+                    }
                     
                     double d = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
                     int usage = (int) Math.ceil(d * USAGE_PER_D);
-                    if(this.drain(itemStack, usage, true) != null) {
+                    if(d > 0.5D && this.drain(itemStack, usage, true) != null) {
                         if(world.isRemote) {
                             showEntityMoved(world, entity, moveEntity, dx, dy, dz);
                         } else {
@@ -167,7 +181,6 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                 }
             }
         }
-        super.onUpdate(itemStack, world, entity, par4, par5);
     }
     
     @SideOnly(Side.CLIENT)
