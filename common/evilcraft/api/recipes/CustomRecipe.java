@@ -1,4 +1,4 @@
-package evilcraft;
+package evilcraft.api.recipes;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -31,6 +31,7 @@ public class CustomRecipe {
     private FluidStack fluidStack;
     private Block factory;
     private int duration = 20;
+    private String namedId;
     
     /**
      * Create a new Custom Recipe without a duration.
@@ -40,7 +41,19 @@ public class CustomRecipe {
      * @param factory The factory block in which this recipe applies.
      */
     public CustomRecipe(ItemStack itemStack, FluidStack fluidStack, Block factory) {
-        this(itemStack, fluidStack, factory, 0);
+        this(null, itemStack, fluidStack, factory, 0);
+    }
+    
+    /**
+     * Create a new Custom Recipe without a duration.
+     * @param namedId The (optional) named id for this recipe.
+     * @param itemStack The input itemStack
+     * @param fluidStack The input fluidStack (this specifies the minimum amount
+     * of a given fluid has to be available.
+     * @param factory The factory block in which this recipe applies.
+     */
+    public CustomRecipe(String namedId, ItemStack itemStack, FluidStack fluidStack, Block factory) {
+        this(namedId, itemStack, fluidStack, factory, 0);
     }
     
     /**
@@ -52,6 +65,20 @@ public class CustomRecipe {
      * @param duration The amount of ticks the crafting should take.
      */
     public CustomRecipe(ItemStack itemStack, FluidStack fluidStack, Block factory, int duration) {
+        this(null, itemStack, fluidStack, factory, duration);
+    }
+    
+    /**
+     * Create a new Custom Recipe with a duraction.
+     * @param namedId The (optional) named id for this recipe.
+     * @param itemStack The input itemStack
+     * @param fluidStack The input fluidStack (this specifies the minimum amount
+     * of a given fluid has to be available.
+     * @param factory The factory block in which this recipe applies.
+     * @param duration The amount of ticks the crafting should take.
+     */
+    public CustomRecipe(String namedId, ItemStack itemStack, FluidStack fluidStack, Block factory, int duration) {
+        this.namedId = namedId;
         this.itemStack = itemStack;
         this.fluidStack = fluidStack;
         this.factory = factory;
@@ -88,6 +115,18 @@ public class CustomRecipe {
      */
     public int getDuration() {
         return this.duration;
+    }
+    
+    /**
+     * Returns the named id of this recipe.
+     * Note that this can be null, since the
+     * named id is optional.
+     * @return The named id of this recipe, or
+     *         null in case no id was assigned to
+     *         this recipe.
+     */
+    public String getNamedId() {
+        return namedId;
     }
     
     @Override

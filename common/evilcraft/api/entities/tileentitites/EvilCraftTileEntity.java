@@ -67,6 +67,7 @@ public class EvilCraftTileEntity extends TileEntity{
         super.onDataPacket(net, packet);
         NBTTagCompound tag = packet.data;
         readFromNBT(tag);
+        onUpdateReceived();
     }
     
     private void generateNBTPersistedFields() {
@@ -153,4 +154,13 @@ public class EvilCraftTileEntity extends TileEntity{
         return (ConfigurableBlockContainer) this.getBlockType();
     }
     
+    /**
+     * This method is called when the tile entity receives
+     * an update (ie a data packet) from the server. 
+     * If this tile entity  uses NBT, then the NBT will have 
+     * already been updated when this method is called.
+     */
+    public void onUpdateReceived() {
+        
+    }
 }
