@@ -24,8 +24,8 @@ public class EnvironmentalAccumulatorRecipe extends CustomRecipe {
      */
     public EnvironmentalAccumulatorRecipe(String namedId, ItemStack itemStack) {
         this(namedId, itemStack, null, 
-                EnvironmentalAccumulatorConfig.defaultProcessItemTickCount,
-                EnvironmentalAccumulatorConfig.defaultProcessItemSpeed);
+                -1,
+                -1f);
     }
     
     /**
@@ -36,8 +36,8 @@ public class EnvironmentalAccumulatorRecipe extends CustomRecipe {
      */
     public EnvironmentalAccumulatorRecipe(String namedId, ItemStack itemStack, WeatherType weatherType) {
         this(namedId, itemStack, weatherType, 
-                EnvironmentalAccumulatorConfig.defaultProcessItemTickCount,
-                EnvironmentalAccumulatorConfig.defaultProcessItemSpeed);
+                -1,
+                -1f);
     }
     
     /**
@@ -79,7 +79,19 @@ public class EnvironmentalAccumulatorRecipe extends CustomRecipe {
      * @return The processing speed for this recipe.
      */
     public float getProcessingSpeed() {
+        if (processingSpeed < 0)
+            return EnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
+        
         return processingSpeed;
+    }
+    
+    @Override
+    public int getDuration() {
+        int duration = super.getDuration();
+        if (duration < 0)
+            return EnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
+        
+        return duration;
     }
     
     @Override
