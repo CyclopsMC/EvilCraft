@@ -19,6 +19,7 @@ import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.commands.CommandEvilCraft;
 import evilcraft.events.BonemealEventHook;
+import evilcraft.events.EntityJoinWorldEventHook;
 import evilcraft.events.EntityStruckByLightningEventHook;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
@@ -145,6 +146,7 @@ public class EvilCraft {
         MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
         MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
         MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
+        MinecraftForge.EVENT_BUS.register(new EntityJoinWorldEventHook());
         
         // Mod compatibility loading.
         ModCompatLoader.postInit();
