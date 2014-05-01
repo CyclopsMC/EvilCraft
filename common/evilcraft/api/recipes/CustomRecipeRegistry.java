@@ -1,4 +1,4 @@
-package evilcraft;
+package evilcraft.api.recipes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,19 @@ public class CustomRecipeRegistry {
      * @param result The resulting itemStack that acts as output of the recipe.
      */
     public static void put(CustomRecipe recipe, ItemStack result) {
-        recipes.put(recipe, new CustomRecipeResult(recipe, result));
+        put(recipe, new CustomRecipeResult(recipe, result));
+    }
+    
+    /**
+     * Add a new recipe and corresponding result to the registry map.
+     * @param recipe The input recipe.
+     * @param result The result that acts as an output of the recipe.
+     */
+    public static void put(CustomRecipe recipe, CustomRecipeResult result) {
+        if (!result.getRecipe().equals(recipe))
+            throw new CustomRecipeRegistrationException("The given recipe does not math the recipe stored in the recipe result");
+        
+        recipes.put(recipe, result);
     }
     
     /**
@@ -37,6 +49,21 @@ public class CustomRecipeRegistry {
         for(Entry<CustomRecipe, CustomRecipeResult> entry : recipes.entrySet()) {
             if(entry.getKey().equals(recipe))
                 return entry.getValue();
+        }
+        return null;
+    }
+    
+    /**
+     * Get the recipe with the given named id.
+     * @param namedId The named if of the recipe.
+     * @return The recipe of with the given named id, or null in case no
+     *         recipe with that id can be found.
+     */
+    public static CustomRecipe get(String namedId) {
+        for(Entry<CustomRecipe, CustomRecipeResult> entry : recipes.entrySet()) {
+            String id = entry.getKey().getNamedId();
+            if(id != null && id.equals(namedId))
+                return entry.getKey();
         }
         return null;
     }
@@ -67,5 +94,22 @@ public class CustomRecipeRegistry {
                 factoryRecipes.put(entry.getKey(), entry.getValue());
         }
         return factoryRecipes;
+    }
+    
+    /**
+     * Exception class for anything that goes wrong with the registration
+     * of custom recipes.
+     * @author immortaleeb
+     */
+    public static class CustomRecipeRegistrationException extends RuntimeException {
+        private static final long serialVersionUID = 2234910560275287194L;
+
+        /**
+         * Creates a new exception.
+         * @param message The error message associated with this exception.
+         */
+        public CustomRecipeRegistrationException(String message) {
+            super(message);
+        }
     }
 }

@@ -272,5 +272,20 @@ public class WeatherContainer extends ConfigurableItem {
             
             containerStack.setItemDamage(EMPTY.ordinal());
         }
+        
+        /**
+         * Returns the WeatherContainerType corresponding to the
+         * given WeatherType.
+         * @param weatherType The WeatherType.
+         * @return The corresponding WeatherContainerType, or null in case no match was found.
+         */
+        public static WeatherContainerTypes getWeatherContainerType(WeatherType weatherType) {
+            for (WeatherContainerTypes type : values()) {
+                if (type.type == weatherType)
+                    return type;
+            }
+            
+            return null;
+        }
     }
 }

@@ -13,12 +13,18 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
+import evilcraft.api.recipes.CustomRecipe;
+import evilcraft.api.recipes.CustomRecipeRegistry;
+import evilcraft.api.recipes.EnvironmentalAccumulatorRecipe;
+import evilcraft.api.recipes.EnvironmentalAccumulatorResult;
+import evilcraft.api.weather.WeatherType;
 import evilcraft.blocks.BloodChest;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.DarkBlock;
 import evilcraft.blocks.DarkBlockConfig;
+import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.blocks.LightningBomb;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.ObscuredGlass;
@@ -399,6 +405,33 @@ public class Recipes {
                     ),
                     new ItemStack(Item.enderPearl
                             ));
+        }
+        
+        if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class) && Configs.isEnabled(WeatherContainerConfig.class)) {
+            EnvironmentalAccumulatorRecipe recipe = null;
+            EnvironmentalAccumulatorResult result = null;
+            
+            // Add the different weather container recipes
+            ItemStack emptyContainer = WeatherContainer.createItemStack(WeatherContainerTypes.EMPTY, 1);
+            WeatherType[] inputs = {WeatherType.CLEAR, WeatherType.RAIN, WeatherType.LIGHTNING};
+            WeatherType[] outputs = {WeatherType.RAIN, WeatherType.CLEAR, WeatherType.RAIN};
+            
+            for (int i=0; i < inputs.length; ++i) {
+                recipe = new EnvironmentalAccumulatorRecipe(
+                        "WeatherContainer" + inputs.getClass().getSimpleName(),
+                        emptyContainer,
+                        inputs[i]
+                );
+                
+                result = new EnvironmentalAccumulatorResult(
+                        recipe,
+                        WeatherContainer.createItemStack(
+                                WeatherContainerTypes.getWeatherContainerType(inputs[i]), 1
+                        ),
+                        outputs[i]
+                );
+                CustomRecipeRegistry.put(recipe, result);
+            }
         }
     }
     
