@@ -1,4 +1,4 @@
-package evilcraft.modcompact.nei;
+package evilcraft.modcompat.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
