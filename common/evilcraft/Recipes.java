@@ -420,7 +420,7 @@ public class Recipes {
             
             for (int i=0; i < inputs.length; ++i) {
                 recipe = new EnvironmentalAccumulatorRecipe(
-                        "WeatherContainer" + inputs.getClass().getSimpleName(),
+                        "WeatherContainer" + inputs[i].getClass().getSimpleName(),
                         emptyContainer,
                         inputs[i]
                 );
@@ -438,7 +438,7 @@ public class Recipes {
             // Add Empowered Inverted Potentia recipe.
             if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
                 recipe = new EnvironmentalAccumulatorRecipe(
-                        "WeatherContainer" + inputs.getClass().getSimpleName(),
+                        "EAInvertedPotentia",
                         new ItemStack(InvertedPotentia.getInstance()),
                         WeatherType.LIGHTNING
                 );
