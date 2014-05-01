@@ -78,7 +78,6 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    super();
 	    
 	    degradationExecutor = new DegradationExecutor(this);
-	    degradationExecutor.setTickInterval(DEGRADATION_TICK_INTERVAL);
 	    
 	    inventory = new SimpleInventory(1, EnvironmentalAccumulatorConfig._instance.NAME, 64);
 	    
@@ -306,6 +305,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	
 	private void activateCooldownState() {
 	    degradation++;
+	    degradationExecutor.setTickInterval(DEGRADATION_TICK_INTERVAL / degradation);
 	    
 	    tick = getMaxCooldownTick();
 	    state = EnvironmentalAccumulator.STATE_COOLING_DOWN;

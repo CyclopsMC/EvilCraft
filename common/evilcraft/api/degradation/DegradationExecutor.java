@@ -55,8 +55,8 @@ public class DegradationExecutor {
      * @param compound The tag to read from.
      */
     public void readFromNBT(NBTTagCompound compound) {
-        this.tickInterval = compound.getInteger("tickInterval");
-        this.currentTick = compound.getInteger("currentTick");
+        this.tickInterval = compound.getCompoundTag(ROOT_TAG).getInteger("tickInterval");
+        this.currentTick = compound.getCompoundTag(ROOT_TAG).getInteger("currentTick");
     }
     
     /**
