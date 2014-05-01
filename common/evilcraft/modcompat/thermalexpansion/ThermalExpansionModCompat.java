@@ -150,12 +150,6 @@ public class ThermalExpansionModCompat implements IModCompat {
             entry.getValue().copy().writeToNBT(fill.getCompoundTag("fluid"));
             FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", fill);
         }
-
-        // Compression Dynamo: blood
-        NBTTagCompound compression = new NBTTagCompound();
-        compression.setString("fluidName", Blood.getInstance().getName());
-        compression.setInteger("energy", 600000);
-        FMLInterModComms.sendMessage(TE, "CompressionFuel", compression);
     }
 
 }
