@@ -389,7 +389,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     @Override
     public float getHealth() {
         if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM)
-            return getItemMoveDuration() - tick;
+            return tick;
         
         if (state == EnvironmentalAccumulator.STATE_COOLING_DOWN)
             return getMaxCooldownTick() - tick;

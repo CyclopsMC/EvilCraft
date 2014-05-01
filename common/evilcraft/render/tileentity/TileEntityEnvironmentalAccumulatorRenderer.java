@@ -61,7 +61,7 @@ public class TileEntityEnvironmentalAccumulatorRenderer extends TileEntityBeacon
             GL11.glTranslatef(1F, 0.675F, 1F);
             GL11.glRotated(angle, 0, 1, 0);
         } else {
-            GL11.glTranslatef(1F, 1F, 0.8F);
+            GL11.glTranslatef(1F, 1F, 1F);
             GL11.glRotated(angle, 0, 1, 0);
         }
         
