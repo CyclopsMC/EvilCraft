@@ -48,21 +48,28 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer impleme
     }
     
     /**
-     * First bit of metadata indicates the beam is active.
-     * 0: beam active, 1: beam inactive
+     * State indicating the environmental accumulator is idle.
      */
-    public static final int BEAM_ACTIVE = 0;
+    public static final int STATE_IDLE = 0;
     /**
-     * First bit of metadata indicates the beam is active.
-     * 0: beam active, 1: beam inactive
+     * State indicating the environmental accumulator is currently
+     * processing an item.
      */
-    public static final int BEAM_INACTIVE = 1;
-    
+    public static final int STATE_PROCESSING_ITEM = 1;
     /**
-     * Second bit indicates wether or not we're moving an item in the beam
-     * 0: not moving, 1: moving
+     * State indicating the environmental accumulator is cooling
+     * down.
      */
-    public static final int MOVING_ITEM = 2;
+    public static final int STATE_COOLING_DOWN = 2;
+    /**
+     * State indicating the environmental accumulator has just
+     * finished processing an item. This state is necessary
+     * because using this state we can put some delay between
+     * processing an item and cooling down so that the client
+     * gets a moment to show an effect when an item has finished
+     * processing.
+     */
+    public static final int STATE_FINISHED_PROCESSING_ITEM = 3;
     
     private IIcon sideIcon;
     private IIcon bottomIcon;
@@ -126,31 +133,4 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer impleme
     @Override
     public void provideInformation(ItemStack itemStack,
             EntityPlayer entityPlayer, List list, boolean par4) {}
-    
-    /**
-     * Check if the metadata corresponds to an accumulator with an active beam.
-     * @param metadata The metadata of an environmental accumulator.
-     * @return If the beam is active.
-     */
-    public static boolean isBeamActive(int metadata) {
-        return (metadata & EnvironmentalAccumulator.BEAM_INACTIVE) == 0;
-    }
-    
-    /**
-     * Check if the metadata corresponds to an accumulator with a moving item.
-     * @param metadata The metadata of an environmental accumulator.
-     * @return If there is a moving item.
-     */
-    public static boolean isMovingItem(int metadata) {
-        return (metadata & EnvironmentalAccumulator.MOVING_ITEM) == EnvironmentalAccumulator.MOVING_ITEM;
-    }
-    
-    /**
-     * Check if the metadata corresponds to an accumulator with a completed moving item.
-     * @param metadata The metadata of an environmental accumulator.
-     * @return If the item moving is done.
-     */
-    public static boolean isDoneMovingItem(int metadata) {
-        return !isBeamActive(metadata) && isMovingItem(metadata);
-    }
 }

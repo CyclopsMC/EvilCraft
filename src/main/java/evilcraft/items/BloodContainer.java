@@ -128,7 +128,7 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;
                 ItemStack held = player.getCurrentEquippedItem();
-                if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem) {
+                if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
                     IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
                     FluidStack heldFluid = fluidContainer.getFluid(held);
                     if(tickFluid.amount >= MB_FILL_PERTICK

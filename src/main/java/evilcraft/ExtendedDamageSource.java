@@ -13,6 +13,10 @@ public class ExtendedDamageSource extends DamageSource{
      * DamageSource for when players die without any apparent reason.
      */
     public static ExtendedDamageSource dieWithoutAnyReason = (ExtendedDamageSource)((new ExtendedDamageSource("dieWithoutAnyReason")).setDamageBypassesArmor());
+    /**
+     * DamageSource for when players die from distortion not caused by another player.
+     */
+    public static ExtendedDamageSource distorted = (ExtendedDamageSource)((new ExtendedDamageSource("distored")));
 
     protected ExtendedDamageSource(String par1Str) {
         super(par1Str);

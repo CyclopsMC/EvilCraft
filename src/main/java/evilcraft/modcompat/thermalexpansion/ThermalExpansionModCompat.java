@@ -12,12 +12,12 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import evilcraft.Configs;
-import evilcraft.CustomRecipe;
-import evilcraft.CustomRecipeRegistry;
-import evilcraft.CustomRecipeResult;
 import evilcraft.EvilCraft;
 import evilcraft.Recipes;
 import evilcraft.Reference;
+import evilcraft.api.recipes.CustomRecipe;
+import evilcraft.api.recipes.CustomRecipeRegistry;
+import evilcraft.api.recipes.CustomRecipeResult;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlock;
@@ -151,12 +151,6 @@ public class ThermalExpansionModCompat implements IModCompat {
             entry.getValue().copy().writeToNBT(fill.getCompoundTag("fluid"));
             FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", fill);
         }
-
-        // Compression Dynamo: blood
-        NBTTagCompound compression = new NBTTagCompound();
-        compression.setString("fluidName", Blood.getInstance().getName());
-        compression.setInteger("energy", 600000);
-        FMLInterModComms.sendMessage(TE, "CompressionFuel", compression);
     }
 
 }

@@ -9,6 +9,14 @@ import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.api.degradation.effects.BiomeDegradationConfig;
+import evilcraft.api.degradation.effects.KnockbackDistortDegradationConfig;
+import evilcraft.api.degradation.effects.MobSpawnDegradationConfig;
+import evilcraft.api.degradation.effects.NauseateDegradationConfig;
+import evilcraft.api.degradation.effects.ParticleDegradationConfig;
+import evilcraft.api.degradation.effects.SoundDegradationConfig;
+import evilcraft.api.degradation.effects.TerraformDegradationConfig;
+import evilcraft.biomes.BiomeDegradedConfig;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlockConfig;
@@ -61,6 +69,7 @@ import evilcraft.items.DarkPowerGemConfig;
 import evilcraft.items.DarkStickConfig;
 import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.InvertedPotentiaConfig;
+import evilcraft.items.KineticatorConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.MaceOfDistortionConfig;
@@ -175,6 +184,7 @@ public class Configs {
         configs.add(new PotentiaSphereConfig());
         configs.add(new InvertedPotentiaConfig());
         configs.add(new MaceOfDistortionConfig());
+        configs.add(new KineticatorConfig());
         
         // Entities
         // Item
@@ -198,6 +208,18 @@ public class Configs {
         configs.add(new EnchantmentBreakingConfig());
         configs.add(new EnchantmentLifeStealingConfig());
         configs.add(new EnchantmentPoisonTipConfig());
+        
+        // Biomes
+        configs.add(new BiomeDegradedConfig());
+        
+        // Degradation Effects
+        configs.add(new BiomeDegradationConfig());
+        configs.add(new KnockbackDistortDegradationConfig());
+        configs.add(new MobSpawnDegradationConfig());
+        configs.add(new NauseateDegradationConfig());
+        configs.add(new ParticleDegradationConfig());
+        configs.add(new SoundDegradationConfig());
+        configs.add(new TerraformDegradationConfig());
     }
 
     /**

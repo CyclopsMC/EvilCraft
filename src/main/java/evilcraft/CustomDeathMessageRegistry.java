@@ -18,6 +18,7 @@ public class CustomDeathMessageRegistry {
     private static Map<String, String> messages = new HashMap<String, String>();
     static {
         messages.put(ExtendedDamageSource.dieWithoutAnyReason.getID(), "%1$s dies without any apparent reason!");
+        messages.put(ExtendedDamageSource.distorted.getID(), "%1$s couldn't handle the amount of distortion anymore.");
     }
     
     /**
