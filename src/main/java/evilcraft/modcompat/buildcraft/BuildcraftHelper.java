@@ -1,5 +1,6 @@
 package evilcraft.modcompat.buildcraft;
 
+import net.minecraft.block.Block;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import evilcraft.Reference;
@@ -18,7 +19,7 @@ public class BuildcraftHelper {
      */
     public static void registerFacade(BlockConfig eConfig) {
         if(Loader.isModLoaded(Reference.MOD_BUILDCRAFT_TRANSPORT)) {
-            FMLInterModComms.sendMessage(Reference.MOD_BUILDCRAFT_TRANSPORT, "add-facade", eConfig.getItemBlockClass().getName()+"@"+0);
+            FMLInterModComms.sendMessage(Reference.MOD_BUILDCRAFT_TRANSPORT, "add-facade", Block.blockRegistry.getNameForObject((Block)eConfig.getSubInstance())+"@"+0);
         }
     }
     

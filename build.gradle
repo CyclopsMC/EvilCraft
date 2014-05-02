@@ -21,6 +21,10 @@ repositories {
         artifactPattern "http://www.chickenbones.craftsaddle.org/Files/New_Versions/1.6.4/[module]-dev%20[revision].[ext]"
     }
     maven {
+        name 'DVS1 Maven FS'
+        url 'http://dvs1.progwml6.com/files/maven'
+    }
+    maven {
         name 'forge'
         url 'http://files.minecraftforge.net/maven'
     }
@@ -37,9 +41,13 @@ configFile.withReader {
 }
 
 dependencies {
+    compile "mantle:Mantle:${config.minecraft_version}-${config.mantle_version}:deobf"
+    compile files("${config.libs_path}/TConstruct-${config.minecraft_version}-${config.tconstruct_version}.jar")
     compile "codechicken:CodeChickenLib:${config.minecraft_version}-${config.CCLIB_version}:dev"
     compile "codechicken:ForgeMultipart:${config.minecraft_version}-${config.FMP_version}:dev"
-    //compile name: 'NotEnoughItems', version: "${config.NEI_version}", type: 'jar'
+    compile files("${config.libs_path}/forestry-${config.forestry_version}-dev.jar")
+    compile files("${config.libs_path}/CodeChickenCore-${config.minecraft_version}-${config.CCCore_version}-dev.jar")
+    compile files("${config.libs_path}/NotEnoughItems-${config.minecraft_version}-${config.NEI_version}-dev.jar")
 }
 
 // grab buildNumber
