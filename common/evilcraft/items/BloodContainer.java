@@ -82,6 +82,9 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public int getCapacity(ItemStack container) {
+        if(isCreativeItem(container)) {
+            return Integer.MAX_VALUE;
+        }
         return capacity << (container.getItemDamage() & 7);
     }
     
@@ -142,6 +145,51 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
             }
         }
         super.onUpdate(itemStack, world, entity, par4, par5);
+    }
+    
+    /**
+     * Check if the given item is a creative-only container.
+     * @param itemStack The item to check.
+     * @return If it is creative-only.
+     */
+    public boolean isCreativeItem(ItemStack itemStack) {
+        return itemStack.getItemDamage() == BloodContainerConfig.getContainerLevels() - 1;
+    }
+    
+    @Override
+    public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
+        if(isCreativeItem(container)) {
+            return new FluidStack(getFluid(), maxDrain);
+        }
+        return super.drain(container, maxDrain, doDrain);
+    }
+    
+    @Override
+    public int fill(ItemStack container, FluidStack resource, boolean doFill) {
+        if(isCreativeItem(container)) {
+            if(resource == null) {
+                return 0;
+            } else {
+                return resource.amount;
+            }
+        }
+        return super.fill(container, resource, doFill);
+    }
+    
+    @Override
+    public FluidStack getFluid(ItemStack itemStack) {
+        if(isCreativeItem(itemStack)) {
+            return new FluidStack(getFluid(), Integer.MAX_VALUE / 2);
+        }
+        return super.getFluid(itemStack);
+    }
+    
+    @Override
+    public int getDisplayDamage(ItemStack itemStack) {
+        if(isCreativeItem(itemStack)) {
+            return 0;
+        }
+        return super.getDisplayDamage(itemStack);
     }
 
 }

@@ -265,10 +265,13 @@ public class Recipes {
             }
                     ));
             for(int i = 1; i < BloodContainerConfig.getContainerLevels(); i++) {
-                GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BloodContainer.getInstance(), 1, i),
-                        new ItemStack(BloodContainer.getInstance(), 1, i - 1),
-                        new ItemStack(BloodContainer.getInstance(), 1, i - 1)
-                        ));
+                ItemStack result = new ItemStack(BloodContainer.getInstance(), 1, i);
+                if(!BloodContainer.getInstance().isCreativeItem(result)) {
+                    GameRegistry.addRecipe(new ShapelessOreRecipe(result,
+                            new ItemStack(BloodContainer.getInstance(), 1, i - 1),
+                            new ItemStack(BloodContainer.getInstance(), 1, i - 1)
+                            ));
+                }
             }
         }
         // Blood Extractor

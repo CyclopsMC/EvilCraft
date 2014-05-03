@@ -35,7 +35,7 @@ public class BloodContainerConfig extends ItemConfig implements ICraftingHandler
     /**
      * The different containers.
      */
-    public static String[] containerLevelNames = {"Blood Cell", "Blood Can", "Blood Basin"};
+    public static String[] containerLevelNames = {"Blood Cell", "Blood Can", "Blood Basin", "Creative Blood Container"};
 
     /**
      * Make a new instance.
