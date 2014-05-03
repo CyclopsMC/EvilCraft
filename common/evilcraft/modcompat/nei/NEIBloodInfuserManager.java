@@ -58,6 +58,8 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     
     private float zLevel = 200.0F;
     
+    private Block factoryBlock = BloodInfuser.getInstance();
+    
     private class CachedBloodInfuserRecipe extends CachedRecipe {
         
         private int hashcode;
@@ -178,7 +180,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     @Override
     public void loadCraftingRecipes(ItemStack result) {
         CustomRecipe recipe = CustomRecipeRegistry.get(result);
-        if(recipe != null) {
+        if(recipe != null && recipe.getFactory() == factoryBlock) {
             arecipes.add(
                     new CachedBloodInfuserRecipe(
                             recipe.getItemStack(),
@@ -196,7 +198,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                 new CustomRecipe(
                     ingredient,
                     new FluidStack(TileBloodInfuser.ACCEPTED_FLUID, TileBloodInfuser.LIQUID_PER_SLOT),
-                    BloodInfuser.getInstance()
+                    factoryBlock
                 );
         CustomRecipeResult recipeResult = CustomRecipeRegistry.get(customRecipeKey);
         if(recipeResult != null) {
