@@ -46,8 +46,8 @@ dependencies {
     compile "codechicken:CodeChickenLib:${config.minecraft_version}-${config.CCLIB_version}:dev"
     compile "codechicken:ForgeMultipart:${config.minecraft_version}-${config.FMP_version}:dev"
     compile files("${config.libs_path}/forestry-${config.forestry_version}-dev.jar")
-    compile files("${config.libs_path}/CodeChickenCore-${config.minecraft_version}-${config.CCCore_version}-dev.jar")
-    compile files("${config.libs_path}/NotEnoughItems-${config.minecraft_version}-${config.NEI_version}-dev.jar")
+    //compile files("${config.libs_path}/CodeChickenCore-${config.minecraft_version}-${config.CCCore_version}-dev.jar")
+    //compile files("${config.libs_path}/NotEnoughItems-${config.minecraft_version}-${config.NEI_version}-dev.jar")
 }
 
 // grab buildNumber
