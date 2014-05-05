@@ -1,11 +1,20 @@
 package evilcraft.network;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import java.util.Random;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
-import evilcraft.Reference;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.World;
+
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.GeneralConfig;
+import evilcraft.api.Helpers;
+import evilcraft.render.particle.EntityFartFX;
 
 /**
  * Instances of this class are sent between client
@@ -15,41 +24,131 @@ import evilcraft.Reference;
  * @author immortaleeb
  *
  */
-public class FartPacket extends FMLProxyPacket {
+public class FartPacket extends PacketBase {
+	
+	private static final int FART_RANGE = 3000;
+    private static final int MAX_PARTICLES = 200;
+    private static final int MIN_PARTICLES = 100;
+    
+    private static final float CLIENT_PLAYER_Y_OFFSET = -0.8f;
+    private static final float REMOTE_PLAYER_Y_OFFSET = 0.65f;
+
+    // List of players that have rainbow farts
+    private static final String[] ALLOW_RAINBOW_FARTS = { "kroeserr", "_EeB_" };
+	
+	private String displayName;
+	private double x;
+	private double y;
+	private double z;
 
 	/**
 	 * Creates a packet with no content
 	 */
 	public FartPacket() {
-		// Ideally we would have an empty buffer here, but for some reason that doesn't work...
-		super(Unpooled.buffer(), Reference.MOD_CHANNEL);
+		
 	}
 	
 	/**
-	 * Creates a FartPacket which contains the contents
-	 * of the given {@link ByteBuf}.
-	 * 
-	 * @param buffer
+	 * Creates a FartPacket which contains the player data.
+	 * @param player The player data.
 	 */
-	public FartPacket(ByteBuf buffer) {
-		super(buffer, Reference.MOD_CHANNEL);
+	public FartPacket(EntityPlayer player) {
+		this.displayName = player.getDisplayName();
+		this.x = player.posX;
+		this.y = player.posY;
+		this.z = player.posZ;
+	}
+
+	@Override
+	public void encode(ByteArrayDataOutput output) {
+		output.writeDouble(x);
+		output.writeDouble(y);
+		output.writeDouble(z);
+		output.writeUTF(displayName);
+	}
+
+	@Override
+	public void decode(ByteArrayDataInput input) {
+		x = input.readDouble();
+		y = input.readDouble();
+		z = input.readDouble();
+		displayName = input.readUTF();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void actionClient(World world, EntityPlayer player) {
+		if(GeneralConfig.farting) {
+			boolean isRemotePlayer = !player.getDisplayName().equals(displayName);
+	         
+			if (isRemotePlayer) {
+				player = world.getPlayerEntityByName(displayName);
+				spawnFartParticles(world, player, x, y, z, true);
+			} else {
+				spawnFartParticles(world, player, false);
+			}
+		}
 	}
 	
-	/**
-	 * Creates a new FartPacket which contains the username
-	 * and position of the given player.
-	 * 
-	 * @param player The player who's position and name will be saved in the packet.
-	 * @return Returns a FartPacket with the data of the supplied player.
-	 */
-	public static FartPacket createFartPacket(EntityPlayer player) {
-		ByteBuf buffer = Unpooled.buffer();
-		
-		ByteBufUtils.writeUTF8String(buffer, player.getDisplayName());
-		buffer.writeDouble(player.posX);
-		buffer.writeDouble(player.posY);
-		buffer.writeDouble(player.posZ);
-		
-		return new FartPacket(buffer);
+	@SideOnly(Side.CLIENT)
+    private void spawnFartParticles(World world, EntityPlayer player, boolean isRemotePlayer) {
+        spawnFartParticles(world, player, player.posX, player.posY, player.posZ, isRemotePlayer);
+    }
+    
+    @SideOnly(Side.CLIENT)
+    private void spawnFartParticles(
+            World world, EntityPlayer player, 
+            double posX, double posY, double posZ, boolean isRemotePlayer) {
+        
+        if (player == null)
+            return;
+        
+        Random rand = world.rand;
+        int numParticles = rand.nextInt(MAX_PARTICLES - MIN_PARTICLES) + MIN_PARTICLES;
+        boolean rainbow = hasRainbowFart(player);
+        
+        // Make corrections for the player rotation
+        double yaw = (player.rotationYaw * Math.PI) / 180;
+        double playerXOffset = Math.sin(yaw) * 0.7;
+        double playerZOffset = -Math.cos(yaw) * 0.7;
+        
+        // Make corrections for the location of the player's bottom
+        float playerYOffset = isRemotePlayer ? REMOTE_PLAYER_Y_OFFSET : CLIENT_PLAYER_Y_OFFSET;
+        
+        for (int i=0; i < numParticles; i++) {
+            double extraDistance = rand.nextFloat() % 0.3;
+            
+            double particleX = posX + playerXOffset + extraDistance;
+            double particleY = posY + playerYOffset;
+            double particleZ = posZ + playerZOffset + extraDistance;
+            
+            float particleMotionX = -0.5F + rand.nextFloat();
+            float particleMotionY = -0.5F + rand.nextFloat();
+            float particleMotionZ = -0.5F + rand.nextFloat();
+            
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFartFX(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ, rainbow));
+        }
+    }
+    
+    /**
+     * Check if the given player should have rainbow farts.
+     * @param player The player to check.
+     * @return If that player has rainbow farts.
+     */
+    public boolean hasRainbowFart(EntityPlayer player) {
+        for (String name : ALLOW_RAINBOW_FARTS) {
+            if (name.equals(player.getCommandSenderName()))
+                return true;
+        }
+        
+        return false;
+    }
+
+	@Override
+	public void actionServer(World world, EntityPlayerMP player) {
+		if(GeneralConfig.farting) {
+			PacketHandler.sendToAllAround(new FartPacket(player),
+					Helpers.createTargetPointFromEntityPosition(player, FART_RANGE));
+		}
 	}
 }

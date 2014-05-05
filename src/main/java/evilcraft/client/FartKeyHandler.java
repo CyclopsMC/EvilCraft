@@ -8,8 +8,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
 import evilcraft.network.FartPacket;
+import evilcraft.network.PacketHandler;
 
 /**
  * A {@link KeyHandler} which handles farts.
@@ -37,7 +37,7 @@ public class FartKeyHandler implements KeyHandler {
 		}
 		
 		if (fartingEnabled && kb == settings.keyBindSneak) {
-			EvilCraft.channel.sendToServer(new FartPacket());
+			PacketHandler.sendToServer(new FartPacket(player));
 		}
 	}
 	

@@ -1,9 +1,7 @@
 package evilcraft.proxies;
 
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import evilcraft.EvilCraft;
-import evilcraft.Reference;
 import evilcraft.api.BucketHandler;
 import evilcraft.events.BonemealEventHook;
 import evilcraft.events.EntityStruckByLightningEventHook;
@@ -11,7 +9,8 @@ import evilcraft.events.ItemCraftedEventHook;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlayerInteractEventHook;
-import evilcraft.network.FartPacketHandler;
+import evilcraft.network.FartPacket;
+import evilcraft.network.PacketHandler;
 
 /**
  * Proxy for server and client side.
@@ -37,13 +36,13 @@ public class CommonProxy {
      * Register packet handlers.
      */
     public void registerPacketHandlers() {
-    	// Create and save a new network wrapper
-    	EvilCraft.channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(Reference.MOD_CHANNEL);
+    	PacketHandler.init();
     	
-    	// Registration of packet handlers
-    	EvilCraft.channel.register(new FartPacketHandler());
+    	// Register packets.
+    	// TODO: this can be cleaned up.
+    	PacketHandler.register(0, FartPacket.class);
     	
-        EvilCraft.log("Registered remote key handlers");
+        EvilCraft.log("Registered packet handler.");
     }
     
     /**
