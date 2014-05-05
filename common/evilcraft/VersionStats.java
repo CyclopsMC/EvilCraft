@@ -45,15 +45,22 @@ public class VersionStats {
 	 * Check the latest version.
 	 * @param player The player.
 	 */
-	public static synchronized void check(EntityPlayer player) {
-		if(!CHECKED) {
-			CHECKED = true;
-			
-			VersionStats versionStats = getVersionStats();
-			if(GeneralConfig.versionChecker && needsUpdate(versionStats)) {
-				sendMessage(player, "Update " + versionStats.mod_version + " of "+Reference.MOD_NAME+"(" + Reference.MOD_VERSION + "): " + versionStats.update_link);
-			}
-		}
+	public static void check(final EntityPlayer player) {
+	    new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                if(!CHECKED) {
+                    CHECKED = true;
+                    
+                    VersionStats versionStats = getVersionStats();
+                    if(GeneralConfig.versionChecker && needsUpdate(versionStats)) {
+                        sendMessage(player, "Update " + versionStats.mod_version + " of "+Reference.MOD_NAME+"(" + Reference.MOD_VERSION + "): " + versionStats.update_link);
+                    }
+                }
+            }
+	        
+	    }).start();
 	}
 	
 	private static boolean needsUpdate(VersionStats versionStats) {
