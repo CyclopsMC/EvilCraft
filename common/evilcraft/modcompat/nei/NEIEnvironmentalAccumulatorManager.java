@@ -2,6 +2,13 @@ package evilcraft.modcompat.nei;
 
 import static codechicken.core.gui.GuiDraw.changeTexture;
 import static codechicken.core.gui.GuiDraw.drawTexturedModalRect;
+
+import java.awt.Rectangle;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
@@ -11,6 +18,7 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import evilcraft.Reference;
 import evilcraft.api.recipes.CustomRecipe;
 import evilcraft.api.recipes.CustomRecipeRegistry;
+import evilcraft.api.recipes.CustomRecipeResult;
 import evilcraft.api.recipes.EnvironmentalAccumulatorRecipe;
 import evilcraft.api.recipes.EnvironmentalAccumulatorResult;
 import evilcraft.api.weather.WeatherType;
@@ -19,10 +27,25 @@ import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 
 /**
  * Manager for the recipes in {@link EnvironmentalAccumulator}.
- * @author immortaleeb
+ * @author immortaleeb, rubensworks
  *
  */
 public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
+    
+    private static final String WEATHER_ICONS = Reference.MOD_ID + ":" + Reference.TEXTURE_PATH_GUI + "weathers.png";
+    private static final Map<WeatherType, Integer> X_ICON_OFFSETS = new HashMap<WeatherType, Integer>();
+    static {
+        X_ICON_OFFSETS.put(WeatherType.CLEAR, 0);
+        X_ICON_OFFSETS.put(WeatherType.RAIN, 16);
+        X_ICON_OFFSETS.put(WeatherType.LIGHTNING, 32);
+    }
+    
+    private final int progressTargetX = 77;
+    private final int progressTargetY = 0;
+    private final int progressX = 166;
+    private final int progressY = 0;
+    private final int progressWidth = 11;
+    private final int progressHeight = 60;
     
     private class CachedEnvironmentalAccumulatorRecipe extends CachedRecipe {
         
@@ -39,12 +62,12 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
             this.inputStack = 
                     new PositionedStack(
                         inputStack,
-                        0, 0
+                        36, 48
                     );
             this.outputStack =
                     new PositionedStack(
                         outputStack,
-                        100, 10
+                        114, 48
                     );
             this.inputWeather = inputWeather;
             this.outputWeather = outputWeather;
@@ -119,6 +142,25 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
         }
         
     }
+    
+    @Override
+    public void loadTransferRects() {
+        transferRects.add(
+                new RecipeTransferRect(
+                    new Rectangle(
+                            progressTargetX,
+                            progressTargetY,
+                            progressWidth, progressHeight
+                            ),
+                    getOverlayIdentifier()
+                )
+        );
+    }
+    
+    @Override
+    public String getOverlayIdentifier() {
+        return EnvironmentalAccumulatorConfig._instance.NAMEDID;
+    }
 
     @Override
     public String getRecipeName() {
@@ -127,19 +169,48 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
 
     @Override
     public String getGuiTexture() {
-        return Reference.MOD_ID + ":" + Reference.TEXTURE_PATH_GUI + "ea_clear_nei.png";
+        return Reference.MOD_ID + ":" + EnvironmentalAccumulator.getInstance().getGuiTexture("_nei");
     }
     
     @Override
     public void drawBackground(int recipe) {
         GL11.glColor4f(1, 1, 1, 1);
         changeTexture(getGuiTexture());
-        drawTexturedModalRect(-5, -16, 0, 0, 176, 166);
+        drawTexturedModalRect(0, 0, 0, 0, 166, 165);
+    }
+    
+    private List<CachedEnvironmentalAccumulatorRecipe> getRecipes() {
+        List<CachedEnvironmentalAccumulatorRecipe> recipes = new LinkedList<CachedEnvironmentalAccumulatorRecipe>();
+        for(CustomRecipeResult recipeResult : CustomRecipeRegistry.getRecipesForFactory(EnvironmentalAccumulator.getInstance()).values()) {
+            EnvironmentalAccumulatorRecipe eaRecipe = (EnvironmentalAccumulatorRecipe) recipeResult.getRecipe();
+            EnvironmentalAccumulatorResult eaResult = (EnvironmentalAccumulatorResult) recipeResult;
+            recipes.add(
+                    new CachedEnvironmentalAccumulatorRecipe(
+                            recipeResult.getRecipe().getItemStack(),
+                            eaRecipe.getWeatherType(),
+                            recipeResult.getResult(),
+                            eaResult.getWeatherResult(),
+                            recipeResult.getRecipe().getDuration()
+                            )
+                    );
+        }
+        return recipes;
     }
     
     @Override
     public int recipiesPerPage() {
         return 1;
+    }
+    
+    @Override
+    public void loadCraftingRecipes(String outputId, Object... results) {
+        if(outputId.equals(getOverlayIdentifier())) {
+            for(CachedEnvironmentalAccumulatorRecipe recipe : getRecipes()) {
+                arecipes.add(recipe);
+            }
+        } else {
+            super.loadCraftingRecipes(outputId, results);
+        }
     }
     
     @Override
@@ -164,10 +235,9 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
         CustomRecipe customRecipeKey =
-                new CustomRecipe(
-                    ingredient,
-                    null,
-                    EnvironmentalAccumulator.getInstance()
+                new EnvironmentalAccumulatorRecipe(
+                        null,
+                        ingredient
                 );
         EnvironmentalAccumulatorResult eaResult = (EnvironmentalAccumulatorResult) CustomRecipeRegistry.get(customRecipeKey);
         if(eaResult != null) {
@@ -185,11 +255,37 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
         }
     }
     
-    @Override
+    /*@Override
     public void drawExtras(int recipeIndex) {
         CachedEnvironmentalAccumulatorRecipe recipe = (CachedEnvironmentalAccumulatorRecipe)arecipes.get(recipeIndex);
         
         GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         GL11.glRectf(0.0f, 0.0f, 10f, 10f);
+    }*/
+    
+    private CachedEnvironmentalAccumulatorRecipe getRecipe(int recipe) {
+        return (CachedEnvironmentalAccumulatorRecipe) arecipes.get(recipe);
+    }
+    
+    @Override
+    public void drawExtras(int recipe) {
+        CachedEnvironmentalAccumulatorRecipe cachedRecipe = getRecipe(recipe);
+        drawProgressBar(
+                progressTargetX,
+                progressTargetY,
+                progressX,
+                progressY,
+                progressWidth,
+                progressHeight,
+                Math.max(2, cachedRecipe.duration / 10),
+                3);
+        
+        int inputX = X_ICON_OFFSETS.get(cachedRecipe.inputWeather);
+        changeTexture(WEATHER_ICONS);
+        drawTexturedModalRect(36, 28, inputX, 0, 16, 16);
+        
+        int outputX = X_ICON_OFFSETS.get(cachedRecipe.outputWeather);
+        changeTexture(WEATHER_ICONS);
+        drawTexturedModalRect(114, 28, outputX, 0, 16, 16);
     }
 }
