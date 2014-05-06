@@ -5,6 +5,7 @@ import codechicken.nei.api.IConfigureNEI;
 import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.blocks.BloodInfuserConfig;
+import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 
 /**
  * Config for the NEI integration of this mod.
@@ -28,6 +29,11 @@ public class NEIEvilCraftConfig implements IConfigureNEI {
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
             API.registerRecipeHandler(new NEIBloodInfuserManager());
             API.registerUsageHandler(new NEIBloodInfuserManager());
+        }
+        
+        if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
+            API.registerRecipeHandler(new NEIEnvironmentalAccumulatorManager());
+            API.registerUsageHandler(new NEIEnvironmentalAccumulatorManager());
         }
     }
 
