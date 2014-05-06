@@ -26,7 +26,7 @@ public class NEIEvilCraftConfig implements IConfigureNEI {
 
     @Override
     public void loadConfig() {
-    	if(false) {
+    	//if(false) {
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
             API.registerRecipeHandler(new NEIBloodInfuserManager());
             API.registerUsageHandler(new NEIBloodInfuserManager());
@@ -36,7 +36,7 @@ public class NEIEvilCraftConfig implements IConfigureNEI {
             API.registerRecipeHandler(new NEIEnvironmentalAccumulatorManager());
             API.registerUsageHandler(new NEIEnvironmentalAccumulatorManager());
         }
-    	}
+    	//}
     }
 
 }
