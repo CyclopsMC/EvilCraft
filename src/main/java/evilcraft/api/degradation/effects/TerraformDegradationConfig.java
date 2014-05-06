@@ -20,7 +20,7 @@ public class TerraformDegradationConfig extends DegradationEffectConfig {
      */
     public TerraformDegradationConfig() {
         super(
-            true,
+            false,
             "terraform",
             null,
             TerraformDegradation.class,

@@ -266,10 +266,13 @@ public class Recipes {
             }
                     ));
             for(int i = 1; i < BloodContainerConfig.getContainerLevels(); i++) {
-                GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BloodContainer.getInstance(), 1, i),
-                        new ItemStack(BloodContainer.getInstance(), 1, i - 1),
-                        new ItemStack(BloodContainer.getInstance(), 1, i - 1)
-                        ));
+                ItemStack result = new ItemStack(BloodContainer.getInstance(), 1, i);
+                if(!BloodContainer.getInstance().isCreativeItem(result)) {
+                    GameRegistry.addRecipe(new ShapelessOreRecipe(result,
+                            new ItemStack(BloodContainer.getInstance(), 1, i - 1),
+                            new ItemStack(BloodContainer.getInstance(), 1, i - 1)
+                            ));
+                }
             }
         }
         // Blood Extractor
@@ -421,7 +424,7 @@ public class Recipes {
             
             for (int i=0; i < inputs.length; ++i) {
                 recipe = new EnvironmentalAccumulatorRecipe(
-                        "WeatherContainer" + inputs.getClass().getSimpleName(),
+                        "WeatherContainer" + inputs[i].getClass().getSimpleName(),
                         emptyContainer,
                         inputs[i]
                 );
@@ -439,7 +442,7 @@ public class Recipes {
             // Add Empowered Inverted Potentia recipe.
             if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
                 recipe = new EnvironmentalAccumulatorRecipe(
-                        "WeatherContainer" + inputs.getClass().getSimpleName(),
+                        "EAInvertedPotentia",
                         new ItemStack(InvertedPotentia.getInstance()),
                         WeatherType.LIGHTNING
                 );

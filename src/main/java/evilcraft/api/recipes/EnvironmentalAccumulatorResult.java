@@ -24,7 +24,7 @@ public class EnvironmentalAccumulatorResult extends CustomRecipeResult {
      * @param itemResult Specifies the resulting item(s).
      */
     public EnvironmentalAccumulatorResult(EnvironmentalAccumulatorRecipe recipe, ItemStack itemResult) {
-        this(recipe, itemResult, null, EnvironmentalAccumulatorConfig.defaultTickCooldown, null);
+        this(recipe, itemResult, null, -1, null);
     }
     
     /**
@@ -34,7 +34,7 @@ public class EnvironmentalAccumulatorResult extends CustomRecipeResult {
      * @param weatherResult The resulting weather.
      */
     public EnvironmentalAccumulatorResult(EnvironmentalAccumulatorRecipe recipe, ItemStack itemResult, WeatherType weatherResult) {
-        this(recipe, itemResult, weatherResult, EnvironmentalAccumulatorConfig.defaultTickCooldown, null);
+        this(recipe, itemResult, weatherResult, -1, null);
     }
     
     /**
@@ -46,7 +46,7 @@ public class EnvironmentalAccumulatorResult extends CustomRecipeResult {
      */
     public EnvironmentalAccumulatorResult(EnvironmentalAccumulatorRecipe recipe, ItemStack itemResult, WeatherType weatherResult,
             IEAProcessingFinishedEffect finishedProcessingEffect) {
-        this(recipe, itemResult, weatherResult, EnvironmentalAccumulatorConfig.defaultTickCooldown, finishedProcessingEffect);
+        this(recipe, itemResult, weatherResult, -1, finishedProcessingEffect);
     }
     
     /**
@@ -86,6 +86,9 @@ public class EnvironmentalAccumulatorResult extends CustomRecipeResult {
      * @return The cooldown time for this recipe.
      */
     public int getCooldownTime() {
+        if (cooldownTime < 0)
+            return EnvironmentalAccumulatorConfig.defaultTickCooldown;
+        
         return cooldownTime;
     }
     

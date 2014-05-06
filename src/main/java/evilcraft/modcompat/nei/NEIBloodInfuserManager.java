@@ -1,9 +1,13 @@
-package evilcraft.modcompact.nei;
+package evilcraft.modcompat.nei;
+
+import static codechicken.lib.gui.GuiDraw.changeTexture;
+import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
@@ -13,8 +17,6 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.lwjgl.opengl.GL11;
-
-import static codechicken.lib.gui.GuiDraw.*;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
@@ -56,6 +58,8 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     private final int progressHeight = GuiBloodInfuser.PROGRESSHEIGHT;
     
     private float zLevel = 200.0F;
+    
+    private Block factoryBlock = BloodInfuser.getInstance();
     
     private class CachedBloodInfuserRecipe extends CachedRecipe {
         
@@ -177,7 +181,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     @Override
     public void loadCraftingRecipes(ItemStack result) {
         CustomRecipe recipe = CustomRecipeRegistry.get(result);
-        if(recipe != null) {
+        if(recipe != null && recipe.getFactory() == factoryBlock) {
             arecipes.add(
                     new CachedBloodInfuserRecipe(
                             recipe.getItemStack(),
@@ -195,7 +199,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                 new CustomRecipe(
                     ingredient,
                     new FluidStack(TileBloodInfuser.ACCEPTED_FLUID, TileBloodInfuser.LIQUID_PER_SLOT),
-                    BloodInfuser.getInstance()
+                    factoryBlock
                 );
         CustomRecipeResult recipeResult = CustomRecipeRegistry.get(customRecipeKey);
         if(recipeResult != null) {

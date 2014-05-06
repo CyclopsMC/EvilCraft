@@ -50,6 +50,7 @@ item.items.darkPowerGem.info.2=Or infuse Dark Gem with blood.
 item.items.bloodContainer.bloodCell.name=Blood Cell
 item.items.bloodContainer.bloodCan.name=Blood Can
 item.items.bloodContainer.bloodBasin.name=Blood Basin
+item.items.bloodContainer.creativeBloodContainer.name=Creative Blood Container
 item.items.bloodContainer.info.main=Shift + Right click to toggle auto-supply.
 item.items.bloodContainer.info.enabled=Enabled
 item.items.bloodContainer.info.disabled=Disabled
