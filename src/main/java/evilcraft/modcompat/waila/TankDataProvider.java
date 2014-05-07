@@ -43,7 +43,7 @@ public class TankDataProvider implements IWailaDataProvider {
                 currenttip.add(EnumChatFormatting.ITALIC + "Empty");
             } else {
                 FluidStack fluidStack = tile.getTank().getFluid();
-                String name = StatCollector.translateToLocal(FluidRegistry.getFluidName(fluidStack));
+                String name = StatCollector.translateToLocal("fluid.fluids." + FluidRegistry.getFluidName(fluidStack));
                 currenttip.add(name + ": " + fluidStack.amount + " / " + tile.getTank().getCapacity());
             }
         }

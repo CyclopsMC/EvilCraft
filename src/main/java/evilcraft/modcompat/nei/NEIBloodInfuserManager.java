@@ -144,7 +144,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return BloodInfuserConfig._instance.NAMEDID;
+        return BloodInfuser.getInstance().getLocalizedName();
     }
     
     private List<CachedBloodInfuserRecipe> getRecipes() {

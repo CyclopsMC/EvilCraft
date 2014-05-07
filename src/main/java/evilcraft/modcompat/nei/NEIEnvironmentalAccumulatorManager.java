@@ -164,7 +164,7 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return EnvironmentalAccumulatorConfig._instance.NAMEDID;
+        return EnvironmentalAccumulator.getInstance().getLocalizedName();
     }
 
     @Override
