@@ -142,7 +142,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
             double z = entity.posZ;
             
             // Not ticking every tick.
-            if(Math.round(x + y + z) % TICK_HOLDOFF == world.getWorldTime() % TICK_HOLDOFF) {
+            if(Math.abs(Math.round(x + y + z)) % TICK_HOLDOFF == world.getWorldTime() % TICK_HOLDOFF) {
                 // Get items in calculated area.
                 int area = getArea(itemStack);
                 AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
