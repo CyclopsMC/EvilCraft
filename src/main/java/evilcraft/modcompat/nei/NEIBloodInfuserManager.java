@@ -21,10 +21,10 @@ import org.lwjgl.opengl.GL11;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import evilcraft.CustomRecipe;
-import evilcraft.CustomRecipeRegistry;
-import evilcraft.CustomRecipeResult;
 import evilcraft.Reference;
+import evilcraft.api.recipes.CustomRecipe;
+import evilcraft.api.recipes.CustomRecipeRegistry;
+import evilcraft.api.recipes.CustomRecipeResult;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.entities.tileentities.TileBloodInfuser;
@@ -149,8 +149,8 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     
     private List<CachedBloodInfuserRecipe> getRecipes() {
         List<CachedBloodInfuserRecipe> recipes = new LinkedList<CachedBloodInfuserRecipe>();
-        for(CustomRecipeResult recipeResult : CustomRecipeRegistry.getRecipesForFactory(BloodInfuser.getInstance()).values()) {
-            recipes.add(
+        for(CustomRecipeResult recipeResult : CustomRecipeRegistry.getRecipesForFactory(factoryBlock).values()) {
+        	recipes.add(
                     new CachedBloodInfuserRecipe(
                             recipeResult.getRecipe().getItemStack(),
                             recipeResult.getResult(),
