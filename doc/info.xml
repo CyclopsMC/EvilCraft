@@ -2,8 +2,8 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.6.4" version="0.3.2b">http://bit.ly/1epMEax</download>
-	<download for="1.7.2" version="0.3.2b">http://bit.ly/1iNigUT</download>
+	<download for="1.6.4" version="0.4.0b">http://bit.ly/1njwwL1</download>
+	<download for="1.7.2" version="0.4.0b">http://bit.ly/1fVBPOs</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
 	
 	<description>
@@ -13,17 +13,9 @@
  		control the weather.
  	</description>
  	<additionalInformation>
- 		With our latest release, we provide support for both Minecraft 1.6.4 and 1.7.X. Since a lot of mods
- 		still didn't convert yet to 1.7 and because some people might be interested in combining EvilCraft
- 		with other mods (e.g. in mod packs), we will do our best to keep both 1.6.4 and 1.7.X up to date.
- 		This means that we will still provide bug fixes for 1.6.4 and 1.7.X aswel as small features (e.g. features
- 		that do not depend on the changes made to Minecraft since 1.7.X). For bigger features however, we will
- 		only provide support for 1.7.X.
- 		As soon as we notice that forge for 1.7.X becomes the new "standard" amongst other mods and most users start
- 		to use mods and/or modpacks for 1.7.X, we will abandon support for 1.6 (note however that this might still take
- 		a while, since A LOT of mod authors still haven't even started on updating their mods to the newer version).
- 		Once that happens, we will probably do a major release which (hopefully) contains a lot of new content
- 		so people will actually have a feeling that things have changed since 1.6.
+ 		With our latest release, we provide support for both Minecraft 1.6.4 and 1.7.X. This will however be
+ 		the last 1.6.4 supported update because maintaining a mod for two Minecraft versions is very
+		time-consuming. But of course, we will keep fixing bugs in that version as they are discovered.
  	</additionalInformation>
  	
  	<featuresRemark>NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATION FILE</featuresRemark>
@@ -79,6 +71,11 @@
             in a cooldown state. It will remain in this state for about half a Minecraft day, and you can see that it
             has returned to its originally state because the beam will change back to a brown color.
             (NOTE: the cooldown time can be changed in the configuration file)
+            When this block in recharging, you should get away as fast as possible, because the machine
+            will start accumulating energy from the environment. This will degrade a certain area around
+            the Environmental Accumulator and it will also trigger a bunch of possible bad effects.
+            These effects include (but are not limited to) Biome degradation, Knockbacks, Nausea and Terraforming.
+            All of these effects can be disabled from within the config file if they seem too evil for you.
             Note that this block can not be crafted or picked up and that these blocks only spawn at the centre of [u]dark temples[/u].
 		</element>
 		<element name="Purifier" img="eorzNTj" recipe="BBveFpy">
@@ -211,6 +208,8 @@
 			[u]Blood containers[/u] are storages for all your blood needs!
 			They come in three sizes: cell, can and basin, in increasing order
 			of size.
+			There is also one Creative Blood Container available (creative-mode only) which
+			can be used as infinite source and drain for blood.
 			When you shift-right click a blood container, you will activate auto-refill mode,
 			which will automatically refill an item you hold in your hand with blood, given
 			that item can contain blood. 
@@ -281,6 +280,23 @@
 		<element name="Hardened Blood Shard">
 			This item is used in the recipes for several items and can be obtained by using
 			a flint and steel on a [u]hardened blood[/u] block.
+			It's red, so maybe you could use it as some kind of red dye?
+		</element>
+		<element name="Inverted Potentia" recipe="LyXJNQ1">
+			The mysterious power of [u]Potentia Spheres[/u] can be inverted to do even
+			crazier things! When it is inverted, you can't do a lot with it, you will have to
+			empower it to access it's real potential. You can do this by infusing it with the
+			power of lightning, this can be done by either throwing it into the [u]Environmental
+			Accumulator[/u] while there is thunder, or by somehow striking it with an actual
+			lightning strike (make sure it doesn't burn!).
+		</element>
+		<element name="Kineticator" recipe="s9zcw8h">
+			This item can move things towards you within a certain area, for example items and
+			experience orbs.
+			This item needs blood to function. It can be enabled by Shift-Right clicking and
+			it's range can be configured by right-clicking with the item.
+			Fun fact: This item will also function when dropped as item in the world, don't
+			let this expensive item despawn though!
 		</element>
 		<element name="Lightning Grenade" img="S2RVgWr" recipe="H9VNjnU">
 			Lightning is now completely under you control with the [u]lightning grenade[/u]!
@@ -289,15 +305,30 @@
 			Very useful when you want to burn down forests, create supercharged creepers or
 			kill your friends with lightning bolts.
 		</element>
+		<element name="Mace of Distortion" img="uuAo7Yl" recipe="tpjrwy0">
+			Why would you kill every mob in the area one by one?
+			With the [u]Mace of Distortion[/u], you can target all the mobs in a certain area
+			all at once. You can increase this area by clicking and holding right-click, from
+			the moment your release, the damage will be done.
+			A nice side-effect of this weapon is the fact that all the entities withing that
+			given radius also get a knockback dependant on the radius of the attack.
+			The damage and knockback distance can be changed by toggling between power-levels,
+			which can be done by Shift-Right clicking with the item.
+			This item runs on [u]Blood[/u], and the larger the area and power-level, the more
+			blood it will drain for each attack.
+			Note that this weapon also has a decent attack damage when just using it as a regular
+			hit weapon, but this does also drain some blood and will become unusable when ran out
+			of blood.
+		</element>
 		<element name="Poison Sac">
-			It looks like and ink sac and it's filled with poison!
+			It looks like an ink sac and it's filled with poison!
 			These items can only be obtained by killing a [u]Poisonous Libelle[/u].
 			This item acts as poisoned item besides poisoned potatoes and can thus be 
 			used in recipes that require poisoned items.
 		</element>
 		<element name="Potentia Sphere" recipe="dzmhUQu">
 			A pretty expensive item that has the potential to do great things.
-			For now the only use of this is that it can be infused with [u]blood[/u]
+			It can for example be infused with [u]blood[/u]
 			to make Ender Pearls. This can however be disabled in the config since
 			this is a pretty powerful recipe.
 		</element>
@@ -419,14 +450,14 @@
 			EvilCraft allows you to craft potions of poison without having to do any
 			brewing: simply combine a glass bottle with a [u]poison bucket[/u].
 		</element>
-		<element name="Farts" img="51gkECl">
+		<!--<element name="Farts" img="51gkECl">
 			Ever noticed that whenever a player shifts it looks like he's farting?
 			Well what can I say... EvilCraft adds the option to let loose all those internal
 			gases. To use this feature, simply press the fart hotkey (by default mapped on
 			P) and whenever you shift a fart should be let loose!
 			And in case you were wondering: Yes, it does work on servers, so now you don't
 			have to fart alone anymore, you can now also do it with friends... I guess...
-	</element>
+		</element> -->
 	</element>
 	<element name="Cross-mod compatibilities">
 		<element name="General">
@@ -435,6 +466,7 @@
 		</element>
 	
 		<element name="Thermal Expansion">
+			[b]Minecraft 1.6.4 only:[/b]
 			This mod is compatible with various Thermal Expansion machines, like for example
 			the use of the Fluid Transposer that will work exactly the same as the Blood Infuser
 			but it will use 1.5X the amount of Blood instead.
@@ -446,11 +478,26 @@
 		
 		<element name="NEI">
 			Obviously all of the recipes are also available in the NEI plugin.
-			[b]Minecraft 1.6.4 only:[/b] Blood Infuser recipes are also visible.
+			Blood Infuser and Environmental Accumulator recipes are also visible.
 		</element>
 		
 		<element name="Waila">
-			[b]Minecraft 1.6.4 only:[/b] Machines status and minor block display improvements.
+			Machines status and minor block display improvements.
+		</element>
+		
+		<element name="Forge Multipart">
+			[b]Minecraft 1.6.4 only:[/b] Regular blocks have microblock support.
+		</element>
+		
+		<element name="Forestry">
+			Several items can be placed in the Forestry backpacks. Undead logs and leaves can
+			be placed in the squeezer to recieve blood and sometimes even a Hardened Blood Shard.
+			Undead Sapplings also have Multifarm support.
+		</element>
+		
+		<element name="Tinkers' Construct">
+			All Tinkers' Construct tools can be repaired in the Blood Chest.
+			This behavior can be disabled in the config file.
 		</element>
 	</element>
 	<element name="Configuration">
