@@ -1,10 +1,10 @@
 ## EvilCraft
 
-_Master branch status: Minecraft 1.6.4, Forge 9.11.1.965_
+Master: EvilCraft 0.4.0 for Minecraft 1.7.2 (Forge 10.12.1.1060)
+The Minecraft 1.6.4 version can be found in branch 'version-1.6-0.4.0'
 
-_Porting to 1.7 will start soon._
-
-_The latest (stable) release can be found in the release section on our github page_
+The master branch will always contain the latest released version with possibly some bug fixes for that version that will eventually be released.
+New versions will be created in branched named like version-{mc_version}-{next_mod_version}
 
 ## Team
 Lead developers:
@@ -28,9 +28,6 @@ Testers:
 * Before submission, first check for duplicates, including already closed issues since those can then be re-opened.
 * Also add appropriate labels to the issues, preferably the *-pending labels.
 * Regular questions don't belong here, please use a contact channel for that.
-
-### Contact
-You can contact us at [irc.esper.net](irc://irc.esper.net) on #evilcraft.
 
 ### Building
 _Coming soon, but when looking at the build file it should be pretty straightforward_
