@@ -3,6 +3,7 @@ package evilcraft.network;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.EnumMap;
 
@@ -36,9 +37,9 @@ import evilcraft.Reference;
  *
  */
 @Sharable
-public class PacketHandler extends FMLIndexedMessageToMessageCodec<PacketBase> {
+public final class PacketHandler {
 
-	private static final PacketHandler INSTANCE = new PacketHandler();
+	private static Codec CODEC;
     private static final EnumMap<Side, FMLEmbeddedChannel> CHANNELS =
     		Maps.newEnumMap(Side.class);
 	
@@ -53,8 +54,18 @@ public class PacketHandler extends FMLIndexedMessageToMessageCodec<PacketBase> {
         if (!CHANNELS.isEmpty()) {
             return;
         }
+        
+        CODEC = new Codec();
 
-        CHANNELS.putAll(NetworkRegistry.INSTANCE.newChannel(Reference.MOD_ID, INSTANCE));
+        CHANNELS.putAll(NetworkRegistry.INSTANCE.newChannel(Reference.MOD_ID, CODEC, new HandlerServer()));
+        
+        // add handlers
+        if (FMLCommonHandler.instance().getSide().isClient()) {
+            // for the client
+            FMLEmbeddedChannel channel = CHANNELS.get(Side.CLIENT);
+            String codecName = channel.findChannelHandlerNameForType(Codec.class);
+            channel.pipeline().addAfter(codecName, "ClientHandler", new HandlerClient());
+        }
     }
     
     /**
@@ -63,41 +74,7 @@ public class PacketHandler extends FMLIndexedMessageToMessageCodec<PacketBase> {
      * @param packetType The class of the packet.
      */
     public static void register(int id, Class<? extends PacketBase> packetType) {
-    	INSTANCE.addDiscriminator(id, packetType);
-    }
-
-	@Override
-	public void encodeInto(ChannelHandlerContext context, PacketBase packet,
-			ByteBuf target) throws Exception {
-		ByteArrayDataOutput output = ByteStreams.newDataOutput();
-        packet.encode(output);
-        target.writeBytes(output.toByteArray());
-	}
-
-	@Override
-	public void decodeInto(ChannelHandlerContext context, ByteBuf source,
-			PacketBase packet) {
-		ByteArrayDataInput input = ByteStreams.newDataInput(source.array());
-        input.skipBytes(1); // skip the packet identifier byte
-        packet.decode(input);
-        
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-            actionClient(packet);
-        } else {
-            actionServer(context, packet);
-        }
-	}
-	
-	@SideOnly(Side.CLIENT)
-    private void actionClient(PacketBase packet) {
-        Minecraft minecraft = Minecraft.getMinecraft();
-        packet.actionClient(minecraft.theWorld, minecraft.thePlayer);
-    }
-    
-    private void actionServer(ChannelHandlerContext context, PacketBase packet) {
-        EntityPlayerMP player = ((NetHandlerPlayServer)context.channel()
-        		.attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
-        packet.actionServer(player.worldObj, player);
+    	CODEC.addDiscriminator(id, packetType);
     }
     
     /**
@@ -174,6 +151,61 @@ public class PacketHandler extends FMLIndexedMessageToMessageCodec<PacketBase> {
      */
     public static Packet toMcPacket(PacketBase packet) {
         return CHANNELS.get(FMLCommonHandler.instance().getEffectiveSide()).generatePacketFrom(packet);
+    }
+    
+    /**
+     * Coder/Decoder for using the FML messages in this system.
+     * @author rubensworks
+     *
+     */
+    private static final class Codec extends FMLIndexedMessageToMessageCodec<PacketBase> {
+    	
+        @Override
+        public void encodeInto(ChannelHandlerContext ctx, PacketBase packet, ByteBuf target)
+        		throws Exception {
+            ByteArrayDataOutput output = ByteStreams.newDataOutput();
+            packet.encode(output);
+            target.writeBytes(output.toByteArray());
+        }
+
+        @Override
+        public void decodeInto(ChannelHandlerContext ctx, ByteBuf source, PacketBase packet) {
+            ByteArrayDataInput input = ByteStreams.newDataInput(source.array());
+            input.skipBytes(1); // skip the packet identifier byte
+            packet.decode(input);
+        }
+        
+    }
+    
+    @Sharable
+    @SideOnly(Side.CLIENT)
+    private static final class HandlerClient extends SimpleChannelInboundHandler<PacketBase> {
+        
+    	@Override
+        protected void channelRead0(ChannelHandlerContext ctx, PacketBase packet)
+        		throws Exception {
+            Minecraft mc = Minecraft.getMinecraft();
+            packet.actionClient(mc.theWorld, mc.thePlayer);
+        }
+    	
+    }
+
+    @Sharable
+    private static final class HandlerServer extends SimpleChannelInboundHandler<PacketBase> {
+        
+    	@Override
+        protected void channelRead0(ChannelHandlerContext ctx, PacketBase packet)
+        		throws Exception {
+            if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+                // nothing on the client thread
+                return;
+            }
+            
+            EntityPlayerMP player = ((NetHandlerPlayServer) ctx.channel()
+            		.attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
+            packet.actionServer(player.worldObj, player);
+        }
+    	
     }
     
 }
