@@ -510,7 +510,8 @@
 		We do however ask that you notify us if you would use it in a public pack, just so we know.
 	</element>
 	<element name="Download and Install">
-[mod]evilcraft[/mod]
+[mod="1.7.2"]evilcraft[/mod]
+[mod="1.6.4"]evilcraft[/mod]
 Source code: https://github.com/rubensworks/EvilCraft
 	</element>
 	</elements>
