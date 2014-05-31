@@ -56,7 +56,7 @@
 		<mkdir dir="${build.dir.release}/${build.release.minecraft.version}/${build.release.mod.version}" />
 		<jar destfile="${build.dir.release}/${build.release.minecraft.version}/${build.release.mod.version}/EvilCraft-${build.release.minecraft.version}-${build.release.mod.version}-${build_number.build_number}.jar">
 			<fileset dir="${forge.dir}/mcp/src/minecraft/evilcraft" includes="mcmod.info" />
-			<fileset dir="${forge.dir}/mcp/reobf/minecraft" />
+			<fileset dir="${forge.dir}/mcp/reobf/minecraft" includes="${build.dir.modgroup}/" />
 			<fileset dir="${project.dir}/resources" excludes="**/psd/**" />
 		</jar>
 	</target>
