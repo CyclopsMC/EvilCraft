@@ -2,8 +2,9 @@
 /bin
 doc/info.txt
 
-# Also ignore build folder
+# Also ignore build and run folder
 /build
+/run
 
 # Ignore build number
 build_number.properties
