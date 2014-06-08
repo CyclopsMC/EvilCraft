@@ -1,6 +1,5 @@
 package evilcraft.biomes;
 
-import net.minecraftforge.common.BiomeDictionary;
 import evilcraft.Reference;
 import evilcraft.api.config.BiomeConfig;
 
@@ -31,7 +30,7 @@ public class BiomeDegradedConfig extends BiomeConfig {
     
     @Override
     public void registerBiomeDictionary() {
-        BiomeDictionary.registerBiomeType(getBiome(), BiomeDictionary.Type.WASTELAND);
+        // Do not register this biome in the dictionary to avoid worldgen with this.
     }
     
 }
