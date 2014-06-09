@@ -187,7 +187,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-        return world.getBlockTileEntity(x, y, z) != null;
+        return world.getTileEntity(x, y, z) != null;
     }
 
 }
