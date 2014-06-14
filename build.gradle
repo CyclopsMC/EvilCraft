@@ -15,6 +15,54 @@ buildscript {
     }
 }
 
+apply plugin: 'forge'
+
+// Config file with custom properties
+ext.configFile = file "build.properties"
+configFile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    ext.config = new ConfigSlurper().parse prop
+}
+
+// grab buildNumber
+ext.buildnumber = "DEV" // this will be referenced as simply project.buildnumber from now on.
+if (System.getenv().BUILD_NUMBER)
+    project.buildnumber = System.getenv().BUILD_NUMBER
+logger.lifecycle "BUILDING VERSION: " + project.buildnumber
+
+version = config.mod_version
+group = "evilcraft"
+archivesBaseName = "EvilCraft"
+
+minecraft {
+    version = config.minecraft_version + "-" + config.forge_version
+    assetDir = "eclipse/assets"
+    
+    replaceIn "Reference.java"
+    replace "@VERSION@", project.version
+    replace "@MC_VERSION@", project.config.minecraft_version
+    replace "@FORGE_VERSION@", project.config.forge_version
+    replace "@BUILD_NUMBER@", project.buildnumber
+}
+
+version = "${config.minecraft_version}-${config.mod_version}-${buildnumber}"
+
+processResources {
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info or the psd folder
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
 repositories {
     maven {
         name 'forge'
@@ -32,16 +80,6 @@ repositories {
         name 'DVS1 Maven FS'
         url 'http://dvs1.progwml6.com/files/maven'
     }
-}
-
-apply plugin: 'forge'
-
-// Config file with custom properties
-ext.configFile = file "build.properties"
-configFile.withReader {
-    def prop = new Properties()
-    prop.load(it)
-    ext.config = new ConfigSlurper().parse prop
 }
 
 dependencies {
@@ -86,41 +124,3 @@ task copyChicken(type: Copy, dependsOn: "extractUserDev") {
 }
 tasks.setupDevWorkspace.dependsOn copyChicken
 tasks.setupDecompWorkspace.dependsOn copyChicken
-
-// grab buildNumber
-ext.buildnumber = "DEV" // this will be referenced as simply project.buildnumber from now on.
-if (System.getenv().BUILD_NUMBER)
-    project.buildnumber = System.getenv().BUILD_NUMBER
-logger.lifecycle "BUILDING VERSION: " + project.buildnumber
-
-version = config.mod_version
-group = "evilcraft"
-archivesBaseName = "EvilCraft"
-
-minecraft {
-    version = config.minecraft_version + "-" + config.forge_version
-    assetDir = "eclipse/assets"
-    
-    replaceIn "Reference.java"
-    replace "@VERSION@", project.version
-    replace "@MC_VERSION@", project.config.minecraft_version
-    replace "@FORGE_VERSION@", project.config.forge_version
-    replace "@BUILD_NUMBER@", project.buildnumber
-}
-
-version = "${config.minecraft_version}-${config.mod_version}-${buildnumber}"
-
-processResources {
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else, thats not the mcmod.info or the psd folder
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
