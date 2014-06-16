@@ -95,6 +95,9 @@ public class EvilCraft {
         
         // Mod compatibility loading.
         ModCompatLoader.preInit();
+        
+        // Start fetching the version info
+        VersionStats.load();
     }
     
     /**

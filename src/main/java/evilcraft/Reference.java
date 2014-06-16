@@ -64,6 +64,7 @@ public class Reference {
     public static final String MOD_FMP = "ForgeMultipart";
     public static final String MOD_FORESTRY = "Forestry";
     public static final String MOD_TCONSTRUCT = "TConstruct";
+    public static final String MOD_VERSION_CHECKER = "VersionChecker";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "" // This is not required anymore (and never was?) "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"
