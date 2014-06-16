@@ -53,7 +53,7 @@ public class ItemHelpers {
      */
     public static void setNBTInt(ItemStack itemStack, int integer, String tag) {
         NBTTagCompound tagCompound = itemStack.getTagCompound();
-        if(tag == null) {
+        if(tagCompound == null) {
             tagCompound = new NBTTagCompound();
             itemStack.setTagCompound(tagCompound);
         }
