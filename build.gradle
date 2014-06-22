@@ -17,110 +17,28 @@ buildscript {
 
 apply plugin: 'forge'
 
-// Config file with custom properties
-ext.configFile = file "build.properties"
-configFile.withReader {
-    def prop = new Properties()
-    prop.load(it)
-    ext.config = new ConfigSlurper().parse prop
-}
-
-// grab buildNumber
-ext.buildnumber = "DEV" // this will be referenced as simply project.buildnumber from now on.
-if (System.getenv().BUILD_NUMBER)
-    project.buildnumber = System.getenv().BUILD_NUMBER
-logger.lifecycle "BUILDING VERSION: " + project.buildnumber
+loadProperties()
 
 version = config.mod_version
 group = "evilcraft"
 archivesBaseName = "EvilCraft"
 
-minecraft {
-    version = config.minecraft_version + "-" + config.forge_version
-    assetDir = "eclipse/assets"
+def loadProperties() {
+    // Config file with custom properties
+    ext.configFile = file "build.properties"
+    configFile.withReader {
+        def prop = new Properties()
+        prop.load(it)
+        ext.config = new ConfigSlurper().parse prop
+    }
     
-    replaceIn "Reference.java"
-    replace "@VERSION@", project.version
-    replace "@MC_VERSION@", project.config.minecraft_version
-    replace "@FORGE_VERSION@", project.config.forge_version
-    replace "@BUILD_NUMBER@", project.buildnumber
+    // grab buildNumber
+    ext.buildnumber = "DEV" // this will be referenced as simply project.buildnumber from now on.
+    if (System.getenv().BUILD_NUMBER)
+        project.buildnumber = System.getenv().BUILD_NUMBER
+    logger.lifecycle "BUILDING VERSION: " + project.buildnumber
 }
 
-version = "${config.minecraft_version}-${config.mod_version}-${buildnumber}"
-
-processResources {
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else, thats not the mcmod.info or the psd folder
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
-
-repositories {
-    maven {
-        name 'forge'
-        url 'http://files.minecraftforge.net/maven'
-    }
-    maven {
-        name "Mobius Repo"
-        url "http://mobiusstrip.eu/maven"
-    }
-    maven {
-        name 'CB Maven FS'
-        url "http://chickenbones.net/maven/"
-    }
-    maven {
-        name 'DVS1 Maven FS'
-        url 'http://dvs1.progwml6.com/files/maven'
-    }
-}
-
-dependencies {
-    compile "mantle:Mantle:${config.minecraft_version}-${config.mantle_version}:deobf"
-    compile files("${config.libs_path}/TConstruct-${config.minecraft_version}-${config.tconstruct_version}.jar")
-    compile "mcp.mobius.waila:Waila:${config.waila_version}"
-    compile "codechicken:CodeChickenLib:${config.minecraft_version}-${config.CCLIB_version}:dev"
-    compile "codechicken:ForgeMultipart:${config.minecraft_version}-${config.FMP_version}:dev"
-    compile "codechicken:CodeChickenCore:${config.minecraft_version}-${config.CCCore_version}:dev"
-    compile "codechicken:NotEnoughItems:${config.minecraft_version}-${config.NEI_version}:dev"
-    compile files("${config.libs_path}/forestry-${config.forestry_version}-dev.jar")
-    //compile files("${config.libs_path}/CodeChickenCore-${config.minecraft_version}-${config.CCCore_version}-dev.jar")
-    //compile files("${config.libs_path}/NotEnoughItems-${config.minecraft_version}-${config.NEI_version}-dev.jar")
-}
-
-// because the normal output has been made to be obfuscated
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'dev'
-}
-
-// add a source jar
-task sourceJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-}
-
-// add a javadoc jar
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from 'build/docs/javadoc'
-}
-
-// some crazy stuff to make sure the chicken stuff is in the mods folder...
-// because it wont work otherwise...  because FML doesnt laod coremods from the classpath
-// Thanks to AbrarSyed for this piece of code.
-task copyChicken(type: Copy, dependsOn: "extractUserDev") {
-    from configurations.compile
-    include "**/*Chicken*.jar", "**/*NotEnoughItems*.jar"
-    exclude "**/CodeChickenLib*" // because CCC downloads it anyways.. -_-
-    into file(minecraft.assetDir + "/../mods") // parallel to the assets dir
-}
-tasks.setupDevWorkspace.dependsOn copyChicken
-tasks.setupDecompWorkspace.dependsOn copyChicken
+apply from: 'gradle/forge.gradle'
+apply from: 'gradle/dev.gradle'
+apply from: 'gradle/chicken.gradle'

@@ -1,0 +1,13 @@
+// some crazy stuff to make sure the chicken stuff is in the mods folder...
+// because it wont work otherwise...  because FML doesnt laod coremods from the classpath
+// Thanks to AbrarSyed for this piece of code.
+task copyChicken(type: Copy, dependsOn: "extractUserDev") {
+    from { configurations.compile }
+    include "**/*Chicken*.jar", "**/*NotEnoughItems*.jar"
+    exclude "**/CodeChickenLib*" // because CCC downloads it anyways.. -_-
+    into file(minecraft.assetDir + "/../mods") // parallel to the assets dir
+    mustRunAfter "deobfBinJar"
+    mustRunAfter "repackMinecraft"
+}
+tasks.setupDevWorkspace.dependsOn copyChicken
+tasks.setupDecompWorkspace.dependsOn copyChicken

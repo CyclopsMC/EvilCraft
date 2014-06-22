@@ -1,4 +1,4 @@
-[center][img]http://i.imgur.com/4Pe8YfI.png[/img][/center][center][color=#A63F00]An evil mod for Minecraft[/color][/center][center][b]Download for MC 1.6.4:[/b] http://bit.ly/1njwwL1 (version 0.4.0b)[/center][center][b]Download for MC 1.7.2:[/b] http://bit.ly/1fVBPOs (version 0.4.0b)[/center][center][b]Currently working on:[/b] New features, additional content and bugfixes.[/center]
+[center][img]http://i.imgur.com/4Pe8YfI.png[/img][/center][center][color=#A63F00]An evil mod for Minecraft[/color][/center][center][b]Download for MC 1.6.4:[/b] http://bit.ly/1lJiaBX (version 0.4.1b)[/center][center][b]Download for MC 1.7.2:[/b] http://bit.ly/UG6J4g (version 0.4.1b)[/center][center][b]Currently working on:[/b] New features, additional content and bugfixes.[/center]
 
  EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding. This mod basically adds various evil things to Minecraft, from everything such as little flying monster that will follow you around and try to poison you, to bottles that allow you to store and control the weather. 
 
