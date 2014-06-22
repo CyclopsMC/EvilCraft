@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -46,8 +47,9 @@ public class EvilCraft {
     public static CommonProxy proxy;
     
     /**
-     * The unique instance of this mod, will only be available after @see EvilCraft#preInit()
+     * The unique instance of this mod.
      */
+    @Instance(value = Reference.MOD_ID)
     public static EvilCraft _instance;
     
     /**
@@ -64,9 +66,6 @@ public class EvilCraft {
     public void preInit(FMLPreInitializationEvent event) {
         LoggerHelper.init();
         LoggerHelper.log(Level.INFO, "preInit()");
-        
-        // Save this instance, so we can use it later
-        EvilCraft._instance = this;
         
         // Register configs and start with loading the general configs
         Configs.getInstance().registerGeneralConfigs();
