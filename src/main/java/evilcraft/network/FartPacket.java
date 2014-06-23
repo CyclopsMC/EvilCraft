@@ -6,10 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.GeneralConfig;
@@ -24,7 +20,7 @@ import evilcraft.render.particle.EntityFartFX;
  * @author immortaleeb
  *
  */
-public class FartPacket extends PacketBase {
+public class FartPacket extends PacketCodec {
 	
 	private static final int FART_RANGE = 3000;
     private static final int MAX_PARTICLES = 200;
@@ -36,10 +32,14 @@ public class FartPacket extends PacketBase {
     // List of players that have rainbow farts
     private static final String[] ALLOW_RAINBOW_FARTS = { "kroeserr", "_EeB_" };
 	
+    @CodecField
 	private String displayName;
-	private double x;
-	private double y;
-	private double z;
+    @CodecField
+	private double x = 0;
+    @CodecField
+	private double y = 0;
+    @CodecField
+	private double z = 0;
 
 	/**
 	 * Creates a packet with no content
@@ -57,22 +57,6 @@ public class FartPacket extends PacketBase {
 		this.x = player.posX;
 		this.y = player.posY;
 		this.z = player.posZ;
-	}
-
-	@Override
-	public void encode(ByteArrayDataOutput output) {
-		output.writeDouble(x);
-		output.writeDouble(y);
-		output.writeDouble(z);
-		output.writeUTF(displayName);
-	}
-
-	@Override
-	public void decode(ByteArrayDataInput input) {
-		x = input.readDouble();
-		y = input.readDouble();
-		z = input.readDouble();
-		displayName = input.readUTF();
 	}
 
 	@Override
