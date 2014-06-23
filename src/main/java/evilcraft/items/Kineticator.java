@@ -172,7 +172,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                         if(world.isRemote) {
                             showEntityMoved(world, entity, moveEntity, dx, dy, dz);
                         } else {
-                            if(moveEntity instanceof EntityItem) {
+                            if(moveEntity instanceof EntityItem && d < 5.0D) {
                                 ((EntityItem)moveEntity).delayBeforeCanPickup = 0;
                             }
                             moveEntity.motionX += dx * strength;
