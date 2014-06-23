@@ -3,8 +3,11 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
@@ -13,6 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.api.HotbarIterator;
 import evilcraft.api.IInformationProvider;
+import evilcraft.api.ItemHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -57,26 +61,37 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         Block block = world.getBlock(x, y, z);
-        if(Configs.isEnabled(BloodStainedBlockConfig.class) && block == BloodStainedBlock.getInstance() && player.isSneaking()) {
-            Random random = world.rand;
-            
-            // Fill the extractor a bit
-            int filled = fillBloodExtractor(itemStack, BloodExtractorConfig.minMB, BloodExtractorConfig.maxMB, !world.isRemote);
-            
-            // Transform bloody dirt into regular dirt if we used some of the blood
-            if(filled > 0) {
-                int metaData = world.getBlockMetadata(x, y, z);
-                world.setBlock(x, y, z, BloodStainedBlock.getInstance().getBlockFromMetadata(metaData));
-                
-                if (world.isRemote) {
-                    // Init particles
-                    EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + random.nextInt(2));
-                }
-                return false;
-            }
-            return false;
+        if(player.isSneaking()) {
+	        if(Configs.isEnabled(BloodStainedBlockConfig.class) && block == BloodStainedBlock.getInstance()) {
+	            Random random = world.rand;
+	            
+	            // Fill the extractor a bit
+	            int filled = fillBloodExtractor(itemStack, BloodExtractorConfig.minMB, BloodExtractorConfig.maxMB, !world.isRemote);
+	            
+	            // Transform bloody dirt into regular dirt if we used some of the blood
+	            if(filled > 0) {
+	                int metaData = world.getBlockMetadata(x, y, z);
+	                world.setBlock(x, y, z, BloodStainedBlock.getInstance().getBlockFromMetadata(metaData));
+	                
+	                if (world.isRemote) {
+	                    // Init particles
+	                    EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + random.nextInt(2));
+	                }
+	                return false;
+	            }
+	            return false;
+	        } else {
+	        	if(!world.isRemote) {
+	                ItemHelpers.toggleActivation(itemStack);
+	        	}
+	        }
         }
         return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+    }
+    
+    @Override
+    public boolean hasEffect(ItemStack itemStack){
+        return ItemHelpers.isActivated(itemStack);
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -84,7 +99,12 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(IInformationProvider.INFO_PREFIX+"Shift + Right click to extract.");
+        list.add(IInformationProvider.INFO_PREFIX + StatCollector.translateToLocal(getUnlocalizedName() + ".info.main"));
+        String autoSupply = EnumChatFormatting.RESET + StatCollector.translateToLocal(getUnlocalizedName() + ".info.disabled");
+        if(ItemHelpers.isActivated(itemStack)) {
+            autoSupply = EnumChatFormatting.GREEN + StatCollector.translateToLocal(getUnlocalizedName() + ".info.enabled");
+        }
+        list.add(EnumChatFormatting.BOLD + StatCollector.translateToLocal(getUnlocalizedName() + ".info.autoSupply") + " " + autoSupply);
     }
     
     @Override
@@ -128,6 +148,12 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
                 toFill -= container.fill(itemStack, new FluidStack(Blood.getInstance(), toFill), true);
             }
         }
+    }
+    
+    @Override
+    public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
+    	BloodContainer.updateAutoFill(this, itemStack, world, entity);
+        super.onUpdate(itemStack, world, entity, par4, par5);
     }
 
 }
