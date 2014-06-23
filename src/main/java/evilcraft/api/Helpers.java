@@ -19,7 +19,6 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -27,7 +26,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -488,34 +486,6 @@ public class Helpers {
             angle -= 360;
         
         return angle;
-    }
-    
-    /**
-     * Get localized info for the given block for display in tooltips.
-     * @param block The block.
-     * @return Localized info.
-     */
-    public static String getLocalizedInfo(Block block) {
-    	return IInformationProvider.INFO_PREFIX + StatCollector.translateToLocal(block.getUnlocalizedName() + ".info");
-    }
-    
-    /**
-     * Get localized info for the given item for display in tooltips.
-     * @param item The item.
-     * @return Localized info.
-     */
-    public static String getLocalizedInfo(Item item) {
-    	return getLocalizedInfo(item, "");
-    }
-    
-    /**
-     * Get localized info for the given item for display in tooltips.
-     * @param item The item.
-     * @param suffix The suffix to add to the unlocalized name.
-     * @return Localized info.
-     */
-    public static String getLocalizedInfo(Item item, String suffix) {
-    	return IInformationProvider.INFO_PREFIX + StatCollector.translateToLocal(item.getUnlocalizedName() + ".info" + suffix);
     }
     
     /**

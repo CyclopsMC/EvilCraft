@@ -1,5 +1,7 @@
 # General
 itemGroup.EvilCraft=EvilCraft
+general.info.enabled=Enabled
+general.info.disabled=Disabled
 
 # Blocks
 tile.blocks.blockBlood.name=Blood
@@ -36,9 +38,7 @@ item.items.bucketBlood.name=Blood Bucket
 item.items.bucketPoison.name=Poison Bucket
 item.items.bloodExtractor.name=Blood Extractor
 item.items.bloodExtractor.info.main=Shift + Right click to extract or auto-supply.
-item.items.bloodExtractor.info.enabled=Enabled
-item.items.bloodExtractor.info.disabled=Disabled
-item.items.bloodExtractor.info.autoSupply=Auto-supply:
+item.items.bloodExtractor.info.autoSupply=Auto-supply: %s
 item.items.darkGem.name=Dark Gem
 item.items.darkStick.name=Dark Stick
 item.items.weatherContainer.name=Weather Container
@@ -56,9 +56,7 @@ item.items.bloodContainer.bloodCan.name=Blood Can
 item.items.bloodContainer.bloodBasin.name=Blood Basin
 item.items.bloodContainer.creativeBloodContainer.name=Creative Blood Container
 item.items.bloodContainer.info.main=Shift + Right click to toggle auto-supply.
-item.items.bloodContainer.info.enabled=Enabled
-item.items.bloodContainer.info.disabled=Disabled
-item.items.bloodContainer.info.autoSupply=Auto-supply:
+item.items.bloodContainer.info.autoSupply=Auto-supply: %s
 item.items.poisonSac.name=Poison Sac
 item.items.werewolfFur.name=Werewolf Fur
 item.items.blook.name=Blook
@@ -66,8 +64,15 @@ item.items.potentiaSphere.name=Potentia Sphere
 item.items.invertedPotentia.name=Inverted Potentia
 item.items.maceOfDistortion.name=Mace of Distortion
 item.items.maceOfDistortion.setPower=Set power to %s
+item.items.maceOfDistortion.info.main.1=Shift + Right click to
+item.items.maceOfDistortion.info.main.2=change power level.
+item.items.maceOfDistortion.info.power=Power: %s
 item.items.kineticator.name=Kineticator
 item.items.kineticator.setPower=Set power to %s
+item.items.kineticator.info.main.1=Shift + Right click to toggle attraction.
+item.items.kineticator.info.main.2=Right click to change area.
+item.items.kineticator.info.attraction=Attraction: %s
+item.items.kineticator.info.area=Area: %s
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

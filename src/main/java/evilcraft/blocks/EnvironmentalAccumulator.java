@@ -11,8 +11,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.IInformationProvider;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
@@ -126,7 +126,7 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer impleme
 	
 	@Override
     public String getInfo(ItemStack itemStack) {
-		return Helpers.getLocalizedInfo(this);
+		return L10NHelpers.getLocalizedInfo(this);
     }
 
     @SuppressWarnings("rawtypes")

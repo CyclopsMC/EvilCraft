@@ -6,8 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
@@ -17,6 +15,7 @@ import evilcraft.Configs;
 import evilcraft.api.HotbarIterator;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.ItemHelpers;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -99,12 +98,9 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(IInformationProvider.INFO_PREFIX + StatCollector.translateToLocal(getUnlocalizedName() + ".info.main"));
-        String autoSupply = EnumChatFormatting.RESET + StatCollector.translateToLocal(getUnlocalizedName() + ".info.disabled");
-        if(ItemHelpers.isActivated(itemStack)) {
-            autoSupply = EnumChatFormatting.GREEN + StatCollector.translateToLocal(getUnlocalizedName() + ".info.enabled");
-        }
-        list.add(EnumChatFormatting.BOLD + StatCollector.translateToLocal(getUnlocalizedName() + ".info.autoSupply") + " " + autoSupply);
+        list.add(IInformationProvider.INFO_PREFIX + L10NHelpers.getLocalizedInfo(this, ".main"));
+        L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
+        		getUnlocalizedName() + ".info.autoSupply");
     }
     
     @Override

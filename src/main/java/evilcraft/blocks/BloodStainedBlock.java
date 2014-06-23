@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
@@ -163,7 +163,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        list.add(Helpers.getLocalizedInfo(this));
+        list.add(L10NHelpers.getLocalizedInfo(this));
     }
 
 }

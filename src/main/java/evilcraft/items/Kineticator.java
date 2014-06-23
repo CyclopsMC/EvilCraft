@@ -12,13 +12,13 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.ItemHelpers;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -75,7 +75,9 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
             } else {
                 int newPower = (getPower(itemStack) + 1) % POWER_LEVELS;
                 setPower(itemStack, newPower);
-                player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC + StatCollector.translateToLocalFormatted("item.items.kineticator.setPower", new Object[]{newPower})));
+                player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC
+                		+ L10NHelpers.localize("item.items.kineticator.setPower",
+                				new Object[]{newPower})));
             }
         }
         return itemStack;
@@ -91,14 +93,13 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(IInformationProvider.INFO_PREFIX+"Shift + Right click to toggle attraction.");
-        list.add(IInformationProvider.INFO_PREFIX+"Right click to change area.");
-        String attraction = EnumChatFormatting.RESET+"Disabled";
-        if(ItemHelpers.isActivated(itemStack)) {
-            attraction = EnumChatFormatting.GREEN + "Enabled";
-        }
-        list.add(EnumChatFormatting.BOLD + "Attraction: " + attraction);
-        list.add(EnumChatFormatting.BOLD + "Area: " + getArea(itemStack));
+        list.add(IInformationProvider.INFO_PREFIX + L10NHelpers.getLocalizedInfo(this, ".main.1"));
+        list.add(IInformationProvider.INFO_PREFIX + L10NHelpers.getLocalizedInfo(this, ".main.2"));
+        L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
+        		getUnlocalizedName() + ".info.attraction");
+        list.add(EnumChatFormatting.BOLD
+        		+ L10NHelpers.localize(getUnlocalizedName() + ".info.area",
+        				new Object[]{getArea(itemStack)}));
     }
     
     /**

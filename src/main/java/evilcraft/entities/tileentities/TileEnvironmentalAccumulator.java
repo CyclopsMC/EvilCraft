@@ -14,7 +14,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import org.lwjgl.util.vector.Vector4f;
@@ -23,6 +22,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Coordinate;
 import evilcraft.api.Helpers;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.degradation.DegradationExecutor;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.inventory.SimpleInventory;
@@ -402,8 +402,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
 	@Override
 	public IChatComponent func_145748_c_() {
-		String message = StatCollector.translateToLocalFormatted("chat.bossDisplay.charge",
-				new Object[]{StatCollector.translateToLocal(
+		String message = L10NHelpers.localize("chat.bossDisplay.charge",
+				new Object[]{L10NHelpers.localize(
 						EnvironmentalAccumulator.getInstance().getUnlocalizedName() + ".name")});
 		return new ChatComponentText(message);
 	}

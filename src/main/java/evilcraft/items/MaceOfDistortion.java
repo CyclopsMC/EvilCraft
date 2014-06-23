@@ -15,7 +15,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -28,6 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.ItemHelpers;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -125,7 +125,9 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
             if(!world.isRemote) {
                 int newPower = (getPower(itemStack) + 1) % POWER_LEVELS;
                 setPower(itemStack, newPower);
-                player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC + StatCollector.translateToLocalFormatted("item.items.maceOfDistortion.setPower", new Object[]{newPower})));
+                player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC
+                		+ L10NHelpers.localize("item.items.maceOfDistortion.setPower",
+                				new Object[]{newPower})));
             }
             return itemStack;
         } else {
@@ -336,8 +338,8 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public Multimap getItemAttributeModifiers() {
-        Multimap multimap = super.getItemAttributeModifiers();
+    public Multimap getAttributeModifiers(ItemStack itemStack) {
+        Multimap multimap = super.getAttributeModifiers(itemStack);
         multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)MELEE_DAMAGE, 0));
         return multimap;
     }
@@ -347,9 +349,11 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(IInformationProvider.INFO_PREFIX+"Shift + Right click to");
-        list.add(IInformationProvider.INFO_PREFIX+"change power level.");
-        list.add(EnumChatFormatting.BOLD + "Power: " + getPower(itemStack));
+        list.add(IInformationProvider.INFO_PREFIX + L10NHelpers.getLocalizedInfo(this, ".main.1"));
+        list.add(IInformationProvider.INFO_PREFIX + L10NHelpers.getLocalizedInfo(this, ".main.2"));
+        list.add(EnumChatFormatting.BOLD
+        		+ L10NHelpers.localize(getUnlocalizedName() + ".info.power",
+        				new Object[]{getPower(itemStack)}));
     }
     
     /**
