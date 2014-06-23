@@ -1,4 +1,4 @@
-package evilcraft.events;
+package evilcraft.network.packets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,23 +6,28 @@ import java.util.List;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.Helpers;
+import evilcraft.network.CodecField;
+import evilcraft.network.PacketCodec;
+import evilcraft.network.PacketHandler;
 import evilcraft.render.particle.EntityFireShootFX;
 
 /**
- * Event hook for {@link EntityJoinWorldEvent}.
+ * Packet for sending and showing the ring of fire.
+ * 
  * @author rubensworks
  *
  */
-public class EntityJoinWorldEventHook {
-    
-    // List of players that have a ring of fire
+public class RingOfFirePacket extends PacketCodec {
+	
+	private static final int RANGE = 3000;
+
+	// List of players that have a ring of fire
     private static final List<String> ALLOW_RING = new ArrayList<String>();
     static {
         ALLOW_RING.add("kroeserr");
@@ -30,25 +35,46 @@ public class EntityJoinWorldEventHook {
         ALLOW_RING.add("JonaBrackenwood");
     }
     private static double RING_AREA = 0.9F;
+	
+    @CodecField
+	private String displayName;
+    @CodecField
+	private double x = 0;
+    @CodecField
+	private double y = 0;
+    @CodecField
+	private double z = 0;
 
-    /**
-     * When an entity join world event is received.
-     * @param event The received event.
-     */
-    @SubscribeEvent(priority = EventPriority.NORMAL)
-    public void onBonemeal(EntityJoinWorldEvent event) {
-        fireRing(event);
-    }
+	/**
+	 * Creates a packet with no content
+	 */
+	public RingOfFirePacket() {
+		
+	}
+	
+	/**
+	 * Creates a FartPacket which contains the player data.
+	 * @param player The player data.
+	 */
+	public RingOfFirePacket(EntityPlayer player) {
+		this.displayName = player.getDisplayName();
+		this.x = player.posX;
+		this.y = player.posY;
+		this.z = player.posZ;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void actionClient(World world, EntityPlayer player) {
+		if(!player.getDisplayName().equals(displayName)) {
+			player = world.getPlayerEntityByName(displayName);
+		}
+		if(player != null) {
+			showFireRing(player);
+		}
+	}
     
-    private void fireRing(EntityJoinWorldEvent event) {
-        if(event.world.isRemote
-                && event.entity instanceof EntityPlayer
-                && ALLOW_RING.contains(((EntityPlayer)event.entity).getDisplayName())) {
-            showFireRing(event.entity);
-        }
-    }
-    
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
     private static void showFireRing(Entity entity) {
         double area = RING_AREA;
         World world = entity.worldObj;
@@ -61,7 +87,7 @@ public class EntityJoinWorldEventHook {
             double zOffset = Math.sin(u) * area;
 
             double xCoord = entity.posX;
-            double yCoord = entity.posY;
+            double yCoord = entity.posY - 1;
             double zCoord = entity.posZ;
 
             double particleX = xCoord + xOffset + world.rand.nextFloat() / 5;
@@ -84,5 +110,10 @@ public class EntityJoinWorldEventHook {
             }
         }
     }
-    
+
+	@Override
+	public void actionServer(World world, EntityPlayerMP player) {
+		PacketHandler.sendToAllAround(new RingOfFirePacket(player),
+				Helpers.createTargetPointFromEntityPosition(player, RANGE));
+	}
 }

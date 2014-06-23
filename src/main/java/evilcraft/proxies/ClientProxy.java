@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -16,9 +17,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
-
-import com.jcraft.jorbis.Block;
-
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -28,7 +26,6 @@ import evilcraft.api.render.MultiPassBlockRenderer;
 import evilcraft.client.FartKeyHandler;
 import evilcraft.client.KeyHandler;
 import evilcraft.client.Keys;
-import evilcraft.events.EntityJoinWorldEventHook;
 import evilcraft.events.KeyInputEventHook;
 import evilcraft.events.PlaySoundAtEntityEventHook;
 import evilcraft.events.PlayerTickEventHook;
@@ -119,7 +116,6 @@ public class ClientProxy extends CommonProxy {
 
 		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
 		MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
-		MinecraftForge.EVENT_BUS.register(new EntityJoinWorldEventHook());
 
 		FMLCommonHandler.instance().bus().register(KeyInputEventHook.getInstance());
 		FMLCommonHandler.instance().bus().register(new PlayerTickEventHook());

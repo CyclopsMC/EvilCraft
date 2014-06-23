@@ -1,6 +1,7 @@
 package evilcraft.proxies;
 
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.EvilCraft;
 import evilcraft.api.BucketHandler;
 import evilcraft.events.BonemealEventHook;
@@ -9,8 +10,10 @@ import evilcraft.events.ItemCraftedEventHook;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlayerInteractEventHook;
+import evilcraft.events.PlayerRingOfFire;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packets.FartPacket;
+import evilcraft.network.packets.RingOfFirePacket;
 
 /**
  * Proxy for server and client side.
@@ -40,6 +43,7 @@ public class CommonProxy {
     	
     	// Register packets.
     	PacketHandler.register(FartPacket.class);
+    	PacketHandler.register(RingOfFirePacket.class);
     	
         EvilCraft.log("Registered packet handler.");
     }
@@ -62,5 +66,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
         MinecraftForge.EVENT_BUS.register(new ItemCraftedEventHook());
         MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
+        
+        FMLCommonHandler.instance().bus().register(new PlayerRingOfFire());
     }
 }
