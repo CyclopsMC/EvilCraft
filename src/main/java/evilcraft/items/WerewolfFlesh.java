@@ -48,6 +48,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
 
     private WerewolfFlesh(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, -5, 0, false);
+        setAlwaysEdible();
     }
     
     private boolean isPower() {
