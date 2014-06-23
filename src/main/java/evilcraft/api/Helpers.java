@@ -555,7 +555,11 @@ public class Helpers {
     	/**
     	 * GUI ID.
     	 */
-    	GUI;
+    	GUI,
+    	/**
+    	 * Packet ID.
+    	 */
+    	PACKET;
     }
     
     /**

@@ -9,8 +9,8 @@ import evilcraft.events.ItemCraftedEventHook;
 import evilcraft.events.LivingAttackEventHook;
 import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlayerInteractEventHook;
-import evilcraft.network.FartPacket;
 import evilcraft.network.PacketHandler;
+import evilcraft.network.packets.FartPacket;
 
 /**
  * Proxy for server and client side.
@@ -39,8 +39,7 @@ public class CommonProxy {
     	PacketHandler.init();
     	
     	// Register packets.
-    	// TODO: this can be cleaned up.
-    	PacketHandler.register(0, FartPacket.class);
+    	PacketHandler.register(FartPacket.class);
     	
         EvilCraft.log("Registered packet handler.");
     }

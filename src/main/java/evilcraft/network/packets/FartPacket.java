@@ -1,4 +1,4 @@
-package evilcraft.network;
+package evilcraft.network.packets;
 
 import java.util.Random;
 
@@ -10,6 +10,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.GeneralConfig;
 import evilcraft.api.Helpers;
+import evilcraft.network.CodecField;
+import evilcraft.network.PacketCodec;
+import evilcraft.network.PacketHandler;
 import evilcraft.render.particle.EntityFartFX;
 
 /**

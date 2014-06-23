@@ -8,8 +8,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.network.FartPacket;
 import evilcraft.network.PacketHandler;
+import evilcraft.network.packets.FartPacket;
 
 /**
  * A {@link KeyHandler} which handles farts.

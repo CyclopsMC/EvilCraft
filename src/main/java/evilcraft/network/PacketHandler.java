@@ -27,6 +27,8 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
+import evilcraft.api.Helpers;
+import evilcraft.api.Helpers.IDType;
 
 /**
  * Advanced packet handler of {@link PacketBase} instances.
@@ -70,11 +72,10 @@ public final class PacketHandler {
     
     /**
      * Register a new packet.
-     * @param id The id for the packet.
      * @param packetType The class of the packet.
      */
-    public static void register(int id, Class<? extends PacketBase> packetType) {
-    	CODEC.addDiscriminator(id, packetType);
+    public static void register(Class<? extends PacketBase> packetType) {
+    	CODEC.addDiscriminator(Helpers.getNewId(IDType.PACKET), packetType);
     }
     
     /**
