@@ -17,7 +17,7 @@ public class ForgeMultipartHelper {
      * @param eConfig The block config.
      */
     public static void registerMicroblock(BlockConfig eConfig) {
-        if(false && Loader.isModLoaded(Reference.MOD_FMP)) {
+        if(Loader.isModLoaded(Reference.MOD_FMP)) {
             ForgeMultipart.registerBlock((Block) eConfig.getSubInstance());
         }
     }
