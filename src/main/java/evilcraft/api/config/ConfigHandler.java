@@ -49,7 +49,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         config.load();
         
         for(ExtendedConfig<?> eConfig : this) {
-            if(eConfig.isEnabled()) {
+            if(!eConfig.isHardDisabled()) {
                 // Save additional properties
                 for(ConfigProperty configProperty : eConfig.configProperties) {
                     configProperty.save(config);

@@ -234,7 +234,8 @@ public class ConfigProperty {
                 getCallback().run(additionalProperty.getString());
             }
         } else {
-            EvilCraft.log("Invalid config property class.", Level.FATAL);
+            EvilCraft.log("Invalid config property class. No match found for '"
+            		+ name + "': '" + value + "'", Level.ERROR);
         }
     }
 }

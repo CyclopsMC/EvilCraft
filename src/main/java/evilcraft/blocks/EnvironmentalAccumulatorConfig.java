@@ -39,7 +39,7 @@ public class EnvironmentalAccumulatorConfig extends BlockConfig {
 	 * when being processed by an environmental accumulator.
 	 */
 	@ConfigurableProperty(category = ElementTypeCategory.GENERAL, isCommandable = true, comment = "Sets the default default speed in increments per tick with which an item will move when being process by an environmental accumulator.")
-	public static float defaultProcessItemSpeed = 0.3f / 20;
+	public static double defaultProcessItemSpeed = 0.3d / 20;
 	
 	/**
      * Make a new instance.
