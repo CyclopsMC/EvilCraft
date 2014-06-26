@@ -40,8 +40,8 @@ public class LivingDeathEventHook {
                 && event.entityLiving != null && Configs.isEnabled(BloodExtractorConfig.class)) {
             EntityPlayerMP player = (EntityPlayerMP) e;
             float health = event.entityLiving.getMaxHealth();
-            int minimumMB = MathHelper.floor_float(health * BloodExtractorConfig.minimumMobMultiplier);
-            int maximumMB = MathHelper.floor_float(health * BloodExtractorConfig.maximumMobMultiplier);
+            int minimumMB = MathHelper.floor_float(health * (float) BloodExtractorConfig.minimumMobMultiplier);
+            int maximumMB = MathHelper.floor_float(health * (float) BloodExtractorConfig.maximumMobMultiplier);
             BloodExtractor.getInstance().fillForAllBloodExtractors(player, minimumMB, maximumMB);
         }
     }
