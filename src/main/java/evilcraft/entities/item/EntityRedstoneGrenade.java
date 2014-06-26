@@ -7,10 +7,12 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.blocks.InvisibleRedstoneBlock;
+import evilcraft.blocks.InvisibleRedstoneBlockConfig;
 import evilcraft.items.RedstoneGrenade;
 
 /**
@@ -88,11 +90,13 @@ public class EntityRedstoneGrenade extends EntityThrowable implements Configurab
         int dz = sideZOffsets[pos.sideHit];
         
         if (worldObj.isAirBlock(pos.blockX + dx, pos.blockY + dy, pos.blockZ + dz)) {
-            worldObj.setBlock(
-                pos.blockX + dx, 
-                pos.blockY + dy, 
-                pos.blockZ + dz,
-                InvisibleRedstoneBlock.getInstance());
+			if(Configs.isEnabled(InvisibleRedstoneBlockConfig.class)) {
+	            worldObj.setBlock(
+	                pos.blockX + dx, 
+	                pos.blockY + dy, 
+	                pos.blockZ + dz,
+	                InvisibleRedstoneBlock.getInstance());
+			}
             
             if (worldObj.isRemote) {
                 double x = dx + ((dx >= 0) ? 0.5 : 0.9) + ((dx == 1) ? -0.5 : 0);

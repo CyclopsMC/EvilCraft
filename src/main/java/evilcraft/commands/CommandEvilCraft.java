@@ -8,8 +8,8 @@ import java.util.Map;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.StatCollector;
 import evilcraft.api.Helpers;
+import evilcraft.api.L10NHelpers;
 
 /**
  * The EvilCraft command.
@@ -32,6 +32,7 @@ public class CommandEvilCraft implements ICommand {
         Map<String, ICommand> map = new HashMap<String, ICommand>();
         map.put("config", new CommandConfig());
         map.put("version", new CommandVersion());
+        map.put("recursion", new CommandRecursion());
         return map;
     }
     
@@ -81,14 +82,14 @@ public class CommandEvilCraft implements ICommand {
     @Override
     public void processCommand(ICommandSender icommandsender, String[] astring) {
         if(astring.length == 0) {
-            icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("chat.command.invalidArguments")));
+            icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.invalidArguments")));
         } else {
             ICommand subcommand = getSubcommands().get(astring[0]);
             if(subcommand != null) {
                 String[] asubstring = shortenArgumentList(astring);
                 subcommand.processCommand(icommandsender, asubstring);
             } else {
-                icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("chat.command.invalidSubcommand")));
+                icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.invalidSubcommand")));
             }
         }
     }

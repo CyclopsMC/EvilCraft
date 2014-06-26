@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -19,6 +20,7 @@ import evilcraft.api.config.ConfigHandler;
 import evilcraft.commands.CommandEvilCraft;
 import evilcraft.gui.GuiHandler;
 import evilcraft.gui.client.GuiMainMenuEvilifier;
+import evilcraft.modcompat.ModCompatLoader;
 import evilcraft.proxies.CommonProxy;
 import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.EvilDungeonGenerator;
@@ -45,8 +47,9 @@ public class EvilCraft {
     public static CommonProxy proxy;
     
     /**
-     * The unique instance of this mod, will only be available after @see EvilCraft#preInit()
+     * The unique instance of this mod.
      */
+    @Instance(value = Reference.MOD_ID)
     public static EvilCraft _instance;
     
     /**
@@ -63,9 +66,6 @@ public class EvilCraft {
     public void preInit(FMLPreInitializationEvent event) {
         LoggerHelper.init();
         LoggerHelper.log(Level.INFO, "preInit()");
-        
-        // Save this instance, so we can use it later
-        EvilCraft._instance = this;
         
         // Register configs and start with loading the general configs
         Configs.getInstance().registerGeneralConfigs();
@@ -91,6 +91,12 @@ public class EvilCraft {
         
         // Register events
         proxy.registerEventHooks();
+        
+        // Mod compatibility loading.
+        ModCompatLoader.preInit();
+        
+        // Start fetching the version info
+        VersionStats.load();
     }
     
     /**
@@ -119,6 +125,12 @@ public class EvilCraft {
         proxy.registerKeyBindings();
         proxy.registerPacketHandlers();
         proxy.registerTickHandlers();
+        
+        // Register recipes
+        Recipes.registerRecipes();
+        
+        // Mod compatibility loading.
+        ModCompatLoader.init();
     }
     
     /**
@@ -128,7 +140,9 @@ public class EvilCraft {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         LoggerHelper.log(Level.INFO, "postInit()");
-        Recipes.registerRecipes();
+        
+        // Mod compatibility loading.
+        ModCompatLoader.postInit();
     }
     
     /**
@@ -156,4 +170,5 @@ public class EvilCraft {
     public static void log(String message, Level level) {
         LoggerHelper.log(level, message);
     }
+    
 }

@@ -42,7 +42,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
      * @param capacity The capacity for the fluid container this item should have.
      * @param fluid The fluid this container should be able to hold.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes" })
     protected ConfigurableDamageIndicatedItemFluidContainer(ExtendedConfig eConfig, int capacity, Fluid fluid) {
         super(capacity, fluid);
         this.setConfig(eConfig);
@@ -183,6 +183,11 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
      */
     public void setPlaceFluids(boolean placeFluids) {
         this.placeFluids = placeFluids;
+    }
+    
+    @Override
+    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+        return world.getTileEntity(x, y, z) != null;
     }
 
 }

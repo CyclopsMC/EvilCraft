@@ -1,11 +1,10 @@
 package evilcraft.gui.slot;
 
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
@@ -57,34 +56,10 @@ public class SlotFluidContainer extends Slot {
      * @return If the given item is valid.
      */
     public static boolean checkIsItemValid(ItemStack itemStack, Fluid acceptedFluid) {
-        if(itemStack != null && itemStack.stackSize == 1 && itemStack.getItem() instanceof IFluidContainerItem) {
-            // This is done because the FluidContainerRegistry saves keys on item id and damage value,
-            // but our containers can have different damage values for the same container.
-            // But not anymore!
-            ItemStack itemStackEmptyCopy = itemStack.copy();
-            itemStackEmptyCopy.setItemDamage(0);
-            FluidStack fluidStack = ((IFluidContainerItem)itemStack.getItem()).getFluid(itemStack);//FluidContainerRegistry.getFluidForFilledItem(itemStackEmptyCopy);
-            if(itemStack.getItem() instanceof ItemBucket) {
-                if(itemStack.getItem() != Items.bucket) {
-                    if(acceptedFluid != null) {
-                        if(fluidStack != null) {
-                            return acceptedFluid.equals(fluidStack.getFluid());
-                        } else {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                return false;
-            } else if(itemStack.getItem() instanceof IFluidContainerItem) {
-                if(acceptedFluid != null) {                	
-                    if(fluidStack != null) {
-                        return acceptedFluid.equals(fluidStack.getFluid());   
-                    } else {
-                        return false;
-                    }
-                }
-                return true;
+        if(itemStack != null && itemStack.stackSize == 1) {
+            FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
+            if(acceptedFluid != null && fluidStack != null) {
+                return acceptedFluid.equals(fluidStack.getFluid());
             }
         }
         return false;

@@ -5,11 +5,11 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.StatCollector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.EvilCraft;
-import evilcraft.network.FartPacket;
+import evilcraft.api.L10NHelpers;
+import evilcraft.network.PacketHandler;
+import evilcraft.network.packets.FartPacket;
 
 /**
  * A {@link KeyHandler} which handles farts.
@@ -31,13 +31,13 @@ public class FartKeyHandler implements KeyHandler {
 			fartingEnabled = !fartingEnabled;
 			
 			if (fartingEnabled)
-				player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("chat.command.fartingEnabled")));
+				player.addChatComponentMessage(new ChatComponentText(L10NHelpers.localize("chat.command.fartingEnabled")));
 			else
-				player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("chat.command.fartingDisabled")));
+				player.addChatComponentMessage(new ChatComponentText(L10NHelpers.localize("chat.command.fartingDisabled")));
 		}
 		
 		if (fartingEnabled && kb == settings.keyBindSneak) {
-			EvilCraft.channel.sendToServer(new FartPacket());
+			PacketHandler.sendToServer(new FartPacket(player));
 		}
 	}
 	

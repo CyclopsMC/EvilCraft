@@ -32,4 +32,9 @@ public class BloodyCobblestoneConfig extends BlockConfig {
         return Reference.DICT_BLOCKSTONE;
     }
     
+    @Override
+    public boolean isMultipartEnabled() {
+        return true;
+    }
+    
 }

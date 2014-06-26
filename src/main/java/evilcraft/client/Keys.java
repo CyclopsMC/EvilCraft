@@ -1,10 +1,10 @@
 package evilcraft.client;
 
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
 
+import evilcraft.api.L10NHelpers;
 import evilcraft.events.KeyInputEventHook;
 
 /**
@@ -46,7 +46,7 @@ public enum Keys {
 	 * @return The translation for the given key description or category.
 	 */
 	private String t(String s) {
-		return StatCollector.translateToLocal(KEY_PREFIX + s);
+		return L10NHelpers.localize(KEY_PREFIX + s);
 	}
 	
 	/**

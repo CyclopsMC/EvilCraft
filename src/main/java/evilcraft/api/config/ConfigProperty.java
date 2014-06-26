@@ -208,6 +208,19 @@ public class ConfigProperty {
             } else {
                 getCallback().run(additionalProperty.getBoolean((Boolean)value));
             }
+            
+        } else if(value instanceof Double) {
+            additionalProperty = config.get(
+                    category,
+                    name,
+                    (Double)value
+                    );
+                additionalProperty.comment = getComment();
+                if(forceUpdate) {
+                    getCallback().run((Double)value);
+                } else {
+                    getCallback().run(additionalProperty.getDouble((Double)value));
+                } 
         } else if(value instanceof String) {
             additionalProperty = config.get(
                 category,
@@ -221,7 +234,8 @@ public class ConfigProperty {
                 getCallback().run(additionalProperty.getString());
             }
         } else {
-            EvilCraft.log("Invalid config property class.", Level.FATAL);
+            EvilCraft.log("Invalid config property class. No match found for '"
+            		+ name + "': '" + value + "'", Level.ERROR);
         }
     }
 }

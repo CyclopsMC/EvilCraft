@@ -9,11 +9,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Helpers;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
@@ -236,7 +236,7 @@ public class WeatherContainer extends ConfigurableItem {
         private WeatherContainerTypes(WeatherType type, String description, EnumChatFormatting damageColor, int damageRenderColor) {
             this.type = type;
             
-            this.description = StatCollector.translateToLocal("weatherContainer." + description);
+            this.description = L10NHelpers.localize("weatherContainer." + description);
             this.damageColor = damageColor;
             this.damageRenderColor = damageRenderColor;
         }
@@ -273,6 +273,21 @@ public class WeatherContainer extends ConfigurableItem {
                 type.activate(world);
             
             containerStack.setItemDamage(EMPTY.ordinal());
+        }
+        
+        /**
+         * Returns the WeatherContainerType corresponding to the
+         * given WeatherType.
+         * @param weatherType The WeatherType.
+         * @return The corresponding WeatherContainerType, or null in case no match was found.
+         */
+        public static WeatherContainerTypes getWeatherContainerType(WeatherType weatherType) {
+            for (WeatherContainerTypes type : values()) {
+                if (type.type == weatherType)
+                    return type;
+            }
+            
+            return null;
         }
     }
 }

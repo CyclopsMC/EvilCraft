@@ -21,7 +21,7 @@ public class PlayerTickEventHook {
      */
 	@SideOnly(Side.CLIENT)
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public void onBonemeal(PlayerTickEvent event) {
+    public void onTick(PlayerTickEvent event) {
         versionCheck(event);
     }
     

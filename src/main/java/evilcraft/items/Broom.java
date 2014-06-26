@@ -1,7 +1,10 @@
 package evilcraft.items;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
@@ -41,6 +44,10 @@ public class Broom extends ConfigurableItem {
         super(eConfig);
         this.maxStackSize = 1;
     }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iconRegister) {}
     
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {

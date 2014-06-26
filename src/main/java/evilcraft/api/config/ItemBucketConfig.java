@@ -53,5 +53,10 @@ public abstract class ItemBucketConfig extends ItemConfig {
         BucketHandler.getInstance().buckets.put(getFluidBlockInstance(), item);
         Recipes.BUCKETS.put(item, fluidStack);
     }
+    
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
 
 }

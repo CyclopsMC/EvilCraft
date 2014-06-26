@@ -47,10 +47,5 @@ public class EvilBlock extends ConfigurableBlockConnectedTexture {
     public Item getItemDropped(int meta, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
-    
-    @Override
-    public boolean isKeepNBTOnDrop() {
-		return false;
-	}
 
 }

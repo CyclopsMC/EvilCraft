@@ -99,13 +99,13 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     }
     
     @Override
-    public boolean isDamaged(ItemStack itemStack) {
-        return true;
+    public boolean showDurabilityBar(ItemStack stack) {
+    	return true;
     }
     
     @Override
-    public int getDisplayDamage(ItemStack itemStack) {
-        return component.getDisplayDamage(itemStack);
+    public double getDurabilityForDisplay(ItemStack itemStack) {
+    	return component.getDurability(itemStack);
     }
     
     /**

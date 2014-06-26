@@ -2,8 +2,9 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.6.4" version="0.2.2b">http://bit.ly/1gbWrx0</download>
-	<workingOn>Porting to Minecraft version 1.7</workingOn>
+	<download for="1.6.4" version="0.4.1b">http://bit.ly/1lJiaBX</download>
+	<download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
+	<workingOn>New features, additional content and bugfixes.</workingOn>
 	
 	<description>
 		EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding.
@@ -12,25 +13,32 @@
  		control the weather.
  	</description>
  	<additionalInformation>
- 		This is our first public release of this mod for Minecraft 1.6.4 and the very first thing
- 		we plan on doing is porting it to Minecraft 1.7. We do however plan on fixing any bugs you
- 		might encounter and we will keep releasing versions for Minecraft 1.6.4 until the next version
- 		for Minecraft 1.7 is complete, so please don't hesitate to post any bugs you might find
- 		on our bug tracker. If you have suggestions how we could improve our mod or any additions
- 		you might want to see in the future, they can also be posted on our bug tracker.
- 		Furthermore this mod is an open-source mod, so if you want to contribute you can find us on
- 		https://github.com/rubensworks/EvilCraft . You can also contact kroeser directly on https://twitter.com/rubensworks .
+ 		With our latest release, we provide support for both Minecraft 1.6.4 and 1.7.X. This will however be
+ 		the last 1.6.4 supported update because maintaining a mod for two Minecraft versions is very
+		time-consuming. But of course, we will keep fixing bugs in that version as they are discovered.
  	</additionalInformation>
  	
- 	
  	<featuresRemark>NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATION FILE</featuresRemark>
+ 	
+ 	<additionalInformation>
+ 		NOTE2: In [b]MC 1.6[/b] there is a [b]Blood conflict[/b] if you use [b]Tinkers' Construct[/b], you can solve it by setting the following line in [b]forge.cfg[/b] to false: "B:forceDuplicateFluidBlockCrash=false".
+ 	</additionalInformation>
  	
  	<elements>
  	<element name="Spotlights">
  		<element name="General">
  			Thanks to these people for their awesome spotlights!
  		</element>
- 		<element name="EncryptedTonight">
+ 		<element name="TheDiamondMinecart">[b]0.2.3b[/b]
+ 			[center][media]http://www.youtube.com/watch?v=aOnjvMASgjA[/media][/center]
+ 		</element>
+ 		<element name="Dartron">[b]0.2.2b[/b]
+ 			[center][media]http://www.youtube.com/watch?v=sU3n60Mp_pI[/media][/center]
+ 		</element>
+ 		<element name="QuinGames">[b]0.3.0b[/b] (Dutch)
+ 			[center][media]http://www.youtube.com/watch?v=p8IgbtCb-YQ[/media][/center]
+ 		</element>
+ 		<element name="EncryptedTonight">[b]0.2.2b[/b]
  			[center][media]http://www.youtube.com/watch?v=e_GLGPpuYGM[/media][/center]
  		</element>
  	</element>
@@ -63,7 +71,27 @@
             in a cooldown state. It will remain in this state for about half a Minecraft day, and you can see that it
             has returned to its originally state because the beam will change back to a brown color.
             (NOTE: the cooldown time can be changed in the configuration file)
+            When this block in recharging, you should get away as fast as possible, because the machine
+            will start accumulating energy from the environment. This will degrade a certain area around
+            the Environmental Accumulator and it will also trigger a bunch of possible bad effects.
+            These effects include (but are not limited to) Biome degradation, Knockbacks, Nausea and Terraforming.
+            All of these effects can be disabled from within the config file if they seem too evil for you.
             Note that this block can not be crafted or picked up and that these blocks only spawn at the centre of [u]dark temples[/u].
+		</element>
+		<element name="Purifier" img="eorzNTj" recipe="BBveFpy">
+		    You know that the [u]Blood Chest[/u] could add some bad enchantments to your tools, right?
+		    Well, now there is a way to circumvent this uncomfortability.
+		    The Purifier runs on [u]blood[/u] that can be inserted with regular buckets, or your favorite
+		    fluid pipes. You just right click with your cursed tool, and for each bucket that is inside
+		    the Purifier, one level of bad enchantment will go off the tool. Right click with an empty
+		    hand to get back your tool.
+		    
+		    But hold on, that is not all! The Purifier can also be used to remove random enchantments
+		    from tools and move them to books. Since regular books are not 'spongy' enough, you will
+		    have to infuse a book with blood to make a [u]Blook[/u], you can insert that inside the
+		    Purifier together with your tool. From the moment the Purifier is completely filled with
+		    [u]blood[/u], the process will begin.
+            [img]I3fcQc4[/img]
 		</element>
 	</element>
 	<element name="Fluids">
@@ -79,7 +107,7 @@
 		<element name="Poison" img="7nAk82E">
 			EvilCraft also adds liquid [u]poison[/u], but don't worry you won't find it spawning
 			in the world, well ... at least not yet.
-			To get some poison, just put a water bucket and any poisoned item in a crafting
+			To get some poison, just put a water bucket [b]and an empty bucket[/b] and 4 of any poisoned item in a crafting
 			table and you will obtain a bucket of poison.
 			Examples of poisoned items are poisoned potatoes and [u]poison sacs[/u].
 		</element>
@@ -120,7 +148,7 @@
 			All living creatures are composed of [u]blood[/u], amongst other things, so every now
 			and then a mob might spill its blood on the block it has died upon.
 			These blocks are called [u]blood stained blocks[/u] and you can extract blood
-			from them by right clicking them with a [u]blood extractor[/u].
+			from them by [b]shift + right clicking[/b] them with a [u]blood extractor[/u].
 		</element>
 		<element name="Bloody Cobblestone" img="WaVac6Q">
 			These blocks can only be found in evil dungeons and serve the same functionality
@@ -136,6 +164,8 @@
 			Animals will drop excrement piles, which act as bonemeal after a while when placed on the ground.
 			The only way to pick up an excrement pile is by cleaning it up with a broom, and you
 			better clean up your farm every once in a while because these piles can stack like snow.
+			Shift + right clicking with an excrement pile will act as bonemeal, but it is three times
+			more effective as regular bonemeal.
 			Also look out when you encounter such a pile because it has a chance of poisoning when
 			you walk through them (NOTE: for animals and entities this can be changed in the
 			configuration file).
@@ -178,6 +208,8 @@
 			[u]Blood containers[/u] are storages for all your blood needs!
 			They come in three sizes: cell, can and basin, in increasing order
 			of size.
+			There is also one Creative Blood Container available (creative-mode only) which
+			can be used as infinite source and drain for blood.
 			When you shift-right click a blood container, you will activate auto-refill mode,
 			which will automatically refill an item you hold in your hand with blood, given
 			that item can contain blood. 
@@ -215,6 +247,9 @@
 			or activate a [u]blood container[/u], after which it will refill whenever
 			you hold the pearl in your hand.
 		</element>
+		<element name="Blook">
+			This is just a Book infused with [u]blood[/u] so that it can be used in the [u]Purifier[/u].
+		</element>
 		<element name="Broom" img="iyJ8d0c">
 			Let's see, what else is evil? Ah yes! Witches! They fly on brooms don't they?
 			Well now you can too. Just right click a broom to mount it or shift right click it
@@ -245,6 +280,23 @@
 		<element name="Hardened Blood Shard">
 			This item is used in the recipes for several items and can be obtained by using
 			a flint and steel on a [u]hardened blood[/u] block.
+			It's red, so maybe you could use it as some kind of red dye?
+		</element>
+		<element name="Inverted Potentia" recipe="LyXJNQ1">
+			The mysterious power of [u]Potentia Spheres[/u] can be inverted to do even
+			crazier things! When it is inverted, you can't do a lot with it, you will have to
+			empower it to access it's real potential. You can do this by infusing it with the
+			power of lightning, this can be done by either throwing it into the [u]Environmental
+			Accumulator[/u] while there is thunder, or by somehow striking it with an actual
+			lightning strike (make sure it doesn't burn!).
+		</element>
+		<element name="Kineticator" recipe="s9zcw8h">
+			This item can move things towards you within a certain area, for example items and
+			experience orbs.
+			This item needs blood to function. It can be enabled by Shift-Right clicking and
+			it's range can be configured by right-clicking with the item.
+			Fun fact: This item will also function when dropped as item in the world, don't
+			let this expensive item despawn though!
 		</element>
 		<element name="Lightning Grenade" img="S2RVgWr" recipe="H9VNjnU">
 			Lightning is now completely under you control with the [u]lightning grenade[/u]!
@@ -253,11 +305,32 @@
 			Very useful when you want to burn down forests, create supercharged creepers or
 			kill your friends with lightning bolts.
 		</element>
+		<element name="Mace of Distortion" img="uuAo7Yl" recipe="tpjrwy0">
+			Why would you kill every mob in the area one by one?
+			With the [u]Mace of Distortion[/u], you can target all the mobs in a certain area
+			all at once. You can increase this area by clicking and holding right-click, from
+			the moment your release, the damage will be done.
+			A nice side-effect of this weapon is the fact that all the entities withing that
+			given radius also get a knockback dependant on the radius of the attack.
+			The damage and knockback distance can be changed by toggling between power-levels,
+			which can be done by Shift-Right clicking with the item.
+			This item runs on [u]Blood[/u], and the larger the area and power-level, the more
+			blood it will drain for each attack.
+			Note that this weapon also has a decent attack damage when just using it as a regular
+			hit weapon, but this does also drain some blood and will become unusable when ran out
+			of blood.
+		</element>
 		<element name="Poison Sac">
-			It looks like and ink sac and it's filled with poison!
+			It looks like an ink sac and it's filled with poison!
 			These items can only be obtained by killing a [u]Poisonous Libelle[/u].
 			This item acts as poisoned item besides poisoned potatoes and can thus be 
 			used in recipes that require poisoned items.
+		</element>
+		<element name="Potentia Sphere" recipe="dzmhUQu">
+			A pretty expensive item that has the potential to do great things.
+			It can for example be infused with [u]blood[/u]
+			to make Ender Pearls. This can however be disabled in the config since
+			this is a pretty powerful recipe.
 		</element>
 		<!-- <element name="Redstone Grenade" img="false" recipe="false">
 			Works similar to an ender pearl, except that it emits a redstone signal
@@ -306,12 +379,14 @@
 		<element name="Poisonous Libelle" img="UJaj0XW">
 			Although these little creatures look rather innocent at first sight, you will
 			quickly discover that quite the opposite is true.
-			These nasty little mobs spawn in river biomes and will try to hit whatever entities
+			These nasty little mobs spawn rarely in river biomes and will try to hit whatever entities
 			they come across including players, passive mobs and other poisonous libelles.
 			Upon hitting an entity, they will be poisoned for a short time and they will continue
 			to annoy players by following them for as long as they can...
 			Moreover, they are really quick and rather small, but have really low health (about
 			one hit should suffice to kill them).
+			By default they won't do direct damage (except for the poison damage) to entities,
+			this can however be enabled in the configs if you like a challenge.
 			They drop [u]poisoned sacs[/u], which can be used in various crafting recipes.
 		</element>
 		<element name="Netherfish" img="XzaPYzu">
@@ -375,14 +450,14 @@
 			EvilCraft allows you to craft potions of poison without having to do any
 			brewing: simply combine a glass bottle with a [u]poison bucket[/u].
 		</element>
-		<element name="Farts" img="51gkECl">
+		<!--<element name="Farts" img="51gkECl">
 			Ever noticed that whenever a player shifts it looks like he's farting?
 			Well what can I say... EvilCraft adds the option to let loose all those internal
 			gases. To use this feature, simply press the fart hotkey (by default mapped on
 			P) and whenever you shift a fart should be let loose!
 			And in case you were wondering: Yes, it does work on servers, so now you don't
 			have to fart alone anymore, you can now also do it with friends... I guess...
-	</element>
+		</element> -->
 	</element>
 	<element name="Cross-mod compatibilities">
 		<element name="General">
@@ -391,6 +466,7 @@
 		</element>
 	
 		<element name="Thermal Expansion">
+			[b]Minecraft 1.6.4 only:[/b]
 			This mod is compatible with various Thermal Expansion machines, like for example
 			the use of the Fluid Transposer that will work exactly the same as the Blood Infuser
 			but it will use 1.5X the amount of Blood instead.
@@ -402,6 +478,26 @@
 		
 		<element name="NEI">
 			Obviously all of the recipes are also available in the NEI plugin.
+			Blood Infuser and Environmental Accumulator recipes are also visible.
+		</element>
+		
+		<element name="Waila">
+			Machines status and minor block display improvements.
+		</element>
+		
+		<element name="Forge Multipart">
+			[b]Minecraft 1.6.4 only:[/b] Regular blocks have microblock support.
+		</element>
+		
+		<element name="Forestry">
+			Several items can be placed in the Forestry backpacks. Undead logs and leaves can
+			be placed in the squeezer to recieve blood and sometimes even a Hardened Blood Shard.
+			Undead Sapplings also have Multifarm support.
+		</element>
+		
+		<element name="Tinkers' Construct">
+			All Tinkers' Construct tools can be repaired in the Blood Chest.
+			This behavior can be disabled in the config file.
 		</element>
 	</element>
 	<element name="Configuration">
@@ -409,8 +505,13 @@
 		It is however mandatory that config files at server and client side are identical,
 		otherwise you might encounter ID conflicts.
 	</element>
+	<element name="Modpacks">
+		Regarding modpacks, anyone is more than welcome to use this mod in any modpack, both public and private.
+		We do however ask that you notify us if you would use it in a public pack, just so we know.
+	</element>
 	<element name="Download and Install">
-[mod]evilcraft[/mod]
+[mod="1.7.2"]evilcraft[/mod]
+[mod="1.6.4"]evilcraft[/mod]
 Source code: https://github.com/rubensworks/EvilCraft
 	</element>
 	</elements>

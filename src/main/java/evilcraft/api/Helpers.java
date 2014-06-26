@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -18,14 +19,13 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -34,6 +34,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.api.item.TileEntityNBTStorage;
 
 /**
  * A collection of helper methods and fields.
@@ -41,6 +42,9 @@ import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
  *
  */
 public class Helpers {
+    
+    private static final Random random = new Random();
+    
     /**
      * The length of one Minecraft day.
      */
@@ -179,18 +183,36 @@ public class Helpers {
      * @param x x coordinate
      * @param y y coordinate
      * @param z z coordinate
+     * @param saveNBT If the NBT data should be saved to the dropped item.
      */
-    public static void preDestroyBlock(World world, int x, int y, int z) {
+    public static void preDestroyBlock(World world, int x, int y, int z, boolean saveNBT) {
         TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof IInventory && !world.isRemote) {
             dropItems(world, (IInventory) tile, x, y, z);
             clearInventory((IInventory) tile);
         }
-
-        if (tile instanceof EvilCraftTileEntity) {
-            ((EvilCraftTileEntity) tile).destroy();
+        
+        if (tile instanceof EvilCraftTileEntity && saveNBT) {
+            // Cache 
+            EvilCraftTileEntity ecTile = ((EvilCraftTileEntity) tile);
+            TileEntityNBTStorage.TAG = ecTile.getNBTTagCompound();
+            
+            ecTile.destroy();
+        } else {
+            TileEntityNBTStorage.TAG = null;
         }
+    }
+    
+    /**
+     * This method should be called after a BlockContainer is destroyed
+     * @param world world
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param z z coordinate
+     */
+    public static void postDestroyBlock(World world, int x, int y, int z) {
+        // Does nothing for now.
     }
     
     /**
@@ -261,7 +283,7 @@ public class Helpers {
     }
     
     /**
-     * Returns the level of an enchantment given an itemStack and the id
+     * Returns the level of an enchantment given an itemStack and the list id
      * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
      * the id in the enchantmentlist)
      * @param itemStack The itemStack which contains the enchanted item
@@ -271,6 +293,40 @@ public class Helpers {
     public static int getEnchantmentLevel(ItemStack itemStack, int enchantmentListID) {
         NBTTagList enchlist = itemStack.getEnchantmentTagList();
         return ((NBTTagCompound)enchlist.getCompoundTagAt(enchantmentListID)).getShort("lvl");
+    }
+    
+    /**
+     * Returns the id of an enchantment given an itemStack and the list id
+     * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
+     * the id in the enchantmentlist)
+     * @param itemStack The itemStack which contains the enchanted item
+     * @param enchantmentListID The id of the enchantment in the enchantment list
+     * @return The id of the enchantment on the given item
+     */
+    public static int getEnchantmentID(ItemStack itemStack, int enchantmentListID) {
+        NBTTagList enchlist = itemStack.getEnchantmentTagList();
+        return ((NBTTagCompound)enchlist.getCompoundTagAt(enchantmentListID)).getShort("id");
+    }
+    
+    /**
+     * Sets the level of an enchantment given an itemStack and the id
+     * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
+     * the id in the enchantmentlist)
+     * Will clear the enchantment if the new level <= 0
+     * @param itemStack The itemStack which contains the enchanted item
+     * @param enchantmentListID The id of the enchantment in the enchantment list
+     * @param level The new level of the enchantment on the given item
+     */
+    public static void setEnchantmentLevel(ItemStack itemStack, int enchantmentListID, int level) {
+        NBTTagList enchlist = itemStack.getEnchantmentTagList();
+        if(level <= 0) {
+            enchlist.removeTag(enchantmentListID);
+            if(enchlist.tagCount() == 0) {
+                itemStack.stackTagCompound.removeTag("ench");
+            }
+        } else {
+            ((NBTTagCompound)enchlist.getCompoundTagAt(enchantmentListID)).setShort("lvl", (short) level);
+        }
     }
     
     /**
@@ -329,6 +385,8 @@ public class Helpers {
                 newValueParsed = Integer.parseInt(newValue);
             } else if(oldValue instanceof Boolean) {
                 newValueParsed = Boolean.parseBoolean(newValue);
+            } else if(oldValue instanceof Double) {
+                newValueParsed = Double.parseDouble(newValue);
             } else if(oldValue instanceof String) {
                 newValueParsed = newValue;
             }
@@ -431,34 +489,6 @@ public class Helpers {
     }
     
     /**
-     * Get localized info for the given block for display in tooltips.
-     * @param block The block.
-     * @return Localized info.
-     */
-    public static String getLocalizedInfo(Block block) {
-    	return IInformationProvider.INFO_PREFIX + StatCollector.translateToLocal(block.getUnlocalizedName() + ".info");
-    }
-    
-    /**
-     * Get localized info for the given item for display in tooltips.
-     * @param item The item.
-     * @return Localized info.
-     */
-    public static String getLocalizedInfo(Item item) {
-    	return getLocalizedInfo(item, "");
-    }
-    
-    /**
-     * Get localized info for the given item for display in tooltips.
-     * @param item The item.
-     * @param suffix The suffix to add to the unlocalized name.
-     * @return Localized info.
-     */
-    public static String getLocalizedInfo(Item item, String suffix) {
-    	return IInformationProvider.INFO_PREFIX + StatCollector.translateToLocal(item.getUnlocalizedName() + ".info" + suffix);
-    }
-    
-    /**
      * Creates a {@link TargetPoint} for the dimension and position of the given {@link Entity}
      * and a given range.
      * 
@@ -495,6 +525,49 @@ public class Helpers {
     	/**
     	 * GUI ID.
     	 */
-    	GUI;
+    	GUI,
+    	/**
+    	 * Packet ID.
+    	 */
+    	PACKET;
+    }
+    
+    /**
+     * Get the list of entities within a certain area.
+     * @param world The world to look in.
+     * @param x The center X coordinate.
+     * @param y The center Y coordinate.
+     * @param z The center Z coordinate.
+     * @param area The radius of the area.
+     * @return The list of entities in that area.
+     */
+    public static List<Entity> getEntitiesInArea(World world, int x, int y, int z, int area) {
+        AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
+        @SuppressWarnings("unchecked")
+        List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, box);
+        return entities;
+    }
+    
+    /**
+     * Get a random point inside a sphere in an efficient way.
+     * @param center The center coordinates of the sphere.
+     * @param radius The radius of the sphere.
+     * @return The coordinates of the random point.
+     */
+    public static Coordinate getRandomPointInSphere(Coordinate center, int radius) {
+        Coordinate randomPoint = null;
+        while(randomPoint == null) {
+            int x = center.x - radius + random.nextInt(2 * radius);
+            int y = center.y - radius + random.nextInt(2 * radius);
+            int z = center.z - radius + random.nextInt(2 * radius);
+            int dx = center.x - x;
+            int dy = center.y - y;
+            int dz = center.z - z;
+            int distance = (int) Math.sqrt(dx * dx + dy * dy + dz * dz);
+            if(distance <= radius) {
+                randomPoint = new Coordinate(x, y, z);
+            }
+        }
+        return randomPoint;
     }
 }

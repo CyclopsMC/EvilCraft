@@ -22,7 +22,7 @@ public class GeneralConfig extends DummyConfig {
     /**
      * If the debug mode should be enabled. @see Debug
      */
-    @ConfigurableProperty(category = ElementTypeCategory.CORE, comment = "Set 'true' to enable debug mode.\nThis will result in a lower performance!")
+    @ConfigurableProperty(category = ElementTypeCategory.CORE, comment = "Set 'true' to enable development debug mode. This will result in a lower performance!")
     public static boolean debug = false;
     
     /**
@@ -38,6 +38,15 @@ public class GeneralConfig extends DummyConfig {
     public static boolean versionChecker = true;
     
     /**
+<<<<<<< HEAD:src/main/java/evilcraft/GeneralConfig.java
+=======
+     * Server-side: If farting is enabled on this server; Client-side: If farting can be seen at your client.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "Server-side: If farting is enabled on this server; Client-side: If farting can be seen at your client.", isCommandable = true)
+    public static boolean farting = true;
+    
+    /**
+>>>>>>> origin/master:common/evilcraft/GeneralConfig.java
      * The type of this config.
      */
     public static ElementType TYPE = ElementType.DUMMY;

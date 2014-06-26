@@ -44,7 +44,7 @@ def parseHeader(root, imgPrefix, imgSuffix):
         elif (element.tag == "slogan"):
             code += "[center][color=#A63F00]" + element.text + "[/color][/center]"
         elif (element.tag == "download"):
-            code += "[center][b]Download:[/b] " + element.text + " (version " + element.attrib["version"] + " for minecraft " + element.attrib["for"] + ")[/center]"
+            code += "[center][b]Download for MC " + element.attrib["for"] + ":[/b] " + element.text + " (version " + element.attrib["version"] + ")[/center]"
         elif (element.tag == "workingOn"):
             code += "[center][b]Currently working on:[/b] " + element.text + "[/center]\n\n"
         elif (element.tag == "description"):

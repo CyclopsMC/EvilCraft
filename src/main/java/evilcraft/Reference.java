@@ -35,6 +35,9 @@ public class Reference {
     public static final int ENCHANTMENT_POISON_TIP = 104;
     public static final int ENCHANTMENT_KNOCKSPEED = 105;
     
+    // Biome ID's
+    public static final int BIOME_DEGRADED = 105;
+    
     // Villager ID's
     public static final int VILLAGER_WEREWOLF = 66666;
     
@@ -51,11 +54,17 @@ public class Reference {
     public static final String DICT_WOODSTICK = "stickWood";
     public static final String DICT_SAPLINGTREE = "treeSapling";
     public static final String DICT_GEMDARK = "gemDark";
+    public static final String DICT_DYERED = "dyeRed";
     
     // MOD ID's
     public static final String MOD_FORGE = "Forge";
     public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
     public static final String MOD_BUILDCRAFT_TRANSPORT = "BuildCraft|Transport";
+    public static final String MOD_WAILA = "Waila";
+    public static final String MOD_FMP = "ForgeMultipart";
+    public static final String MOD_FORESTRY = "Forestry";
+    public static final String MOD_TCONSTRUCT = "TConstruct";
+    public static final String MOD_VERSION_CHECKER = "VersionChecker";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "" // This is not required anymore (and never was?) "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"

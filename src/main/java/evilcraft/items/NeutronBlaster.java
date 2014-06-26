@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
@@ -81,7 +81,7 @@ public class NeutronBlaster extends ConfigurableItem {
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(Helpers.getLocalizedInfo(this, ".main"));
+        list.add(L10NHelpers.getLocalizedInfo(this, ".main"));
     }
 
 }

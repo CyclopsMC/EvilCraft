@@ -30,8 +30,6 @@ public class DamageIndicatedItemComponent{
      * The item class on which the behaviour will be added.
      */
     public ItemFluidContainer item;
-    
-    private int fakeMaxDamage = 100;
 
     /**
      * Create a new DamageIndicatedItemComponent
@@ -43,27 +41,6 @@ public class DamageIndicatedItemComponent{
     {
         this.item = item;
         item.setMaxStackSize(1);
-        item.setMaxDamage(fakeMaxDamage + 2);
-        item.setNoRepair();
-    }
-    
-    /**
-     * Updates the amount of the given stack with the given amount depending on the predefined item.
-     * This method should be called whenever the contained amount of this container should be updated, 
-     * together with the damage indicator.
-     * Deprecated, no damage values are used anymore for storing damage bar values.
-     * Using this anyways will break stuff if your item is meta data based.
-     * 
-     * @param itemStack
-     *          The itemStack that will get an updated damage bar
-     * @param amount
-     *          The new amount this damage indicator must hold for the given itemStack.
-     */
-    @Deprecated
-    public void updateAmount(ItemStack itemStack, int amount) {
-        if(itemStack.getItem() == item && item.getCapacity(itemStack) > 0 && amount <= item.getCapacity(itemStack)) {
-            item.setDamage(itemStack, fakeMaxDamage + 1 - ((amount * fakeMaxDamage) / (item.getCapacity(itemStack))));
-        }
     }
     
     /**
@@ -120,17 +97,18 @@ public class DamageIndicatedItemComponent{
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         list.add(IInformationProvider.ITEM_PREFIX+((IInformationProvider) itemStack.getItem()).getInfo(itemStack));
     }
-
+    
     /**
-     * Get the displayed damage value for the given {@link ItemStack}.
+     * Get the displayed durability value for the given {@link ItemStack}.
      * @param itemStack The {@link ItemStack} to get the displayed damage for.
-     * @return The displayed damage.
+     * @return The displayed durability.
      */
-    public int getDisplayDamage(ItemStack itemStack) {
-        int amount = 0;
+    public double getDurability(ItemStack itemStack) {
+        double amount = 0;
+        double capacity = item.getCapacity(itemStack);
         if(item.getFluid(itemStack) != null)
             amount = item.getFluid(itemStack).amount;
-        return fakeMaxDamage + 1 - ((amount * fakeMaxDamage) / (item.getCapacity(itemStack)));
+        return (capacity - amount) / capacity;
     }
     
 }

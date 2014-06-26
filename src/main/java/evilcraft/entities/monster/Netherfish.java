@@ -9,10 +9,12 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import evilcraft.Configs;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.blocks.NetherfishSpawn;
+import evilcraft.blocks.NetherfishSpawnConfig;
 
 /**
  * A silverfish for the nether.
@@ -115,7 +117,7 @@ public class Netherfish extends EntitySilverfish implements Configurable{
                 Block block = this.worldObj.getBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2]);
                 int metaData = NetherfishSpawn.getInstance().getMetadataFromBlock(block);
                 
-                if (metaData >= 0) {
+                if (Configs.isEnabled(NetherfishSpawnConfig.class) && metaData >= 0) {
                     this.worldObj.setBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2], NetherfishSpawn.getInstance(), NetherfishSpawn.getInstance().getMetadataFromBlock(block), 3);
                     this.spawnExplosionParticle();
                     this.setDead();

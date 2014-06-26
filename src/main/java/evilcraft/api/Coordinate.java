@@ -30,4 +30,13 @@ public class Coordinate {
         this.y = y;
         this.z = z;
     }
+    
+    @Override
+    public boolean equals(Object object) {
+        if(object instanceof Coordinate) {
+            Coordinate coordinate = (Coordinate) object;
+            return coordinate.x == x && coordinate.y == y && coordinate.z == z;
+        }
+        return false;
+    }
 }

@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
@@ -16,6 +17,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import evilcraft.Configs;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
@@ -27,7 +29,7 @@ import evilcraft.items.PoisonSacConfig;
  * @author rubensworks
  *
  */
-public class PoisonousLibelle extends EntityFlying implements Configurable{
+public class PoisonousLibelle extends EntityFlying implements Configurable, IMob {
 
     protected ExtendedConfig<?> eConfig = null;
 
@@ -69,7 +71,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
     private int wingProgress = 0;
     private boolean wingGoUp = true;
     
-    private static final int MAXHEIGHT = 70;
+    private static final int MAXHEIGHT = 80;
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -104,7 +106,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
 
     @Override
     protected Item getDropItem() {
-        if(PoisonSacConfig._instance.isEnabled())
+        if(Configs.isEnabled(PoisonSacConfig.class))
             return PoisonSac.getInstance();
         else
             return super.getDropItem();
@@ -123,6 +125,11 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
     @Override
     protected String getDeathSound() {
         return "mob.bat.death";
+    }
+    
+    @Override
+    protected float getSoundVolume() {
+        return 0.2F;
     }
 
     @Override
@@ -156,7 +163,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
             f1 = MathHelper.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
 
             if (f1 <= -0.3F && f >= -0.3F) {
-                this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.bat.idle", 0.5F, 0.8F + this.rand.nextFloat() * 0.3F, false);
+                this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.bat.idle", 0.1F, 0.8F + this.rand.nextFloat() * 0.3F, false);
             }
         }
 
@@ -315,7 +322,8 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
                     }
                 }
                 if(shouldAttack) {
-                    entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
+                    if(PoisonousLibelleConfig.hasAttackDamage)
+                        entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
                     ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
                 }
             }
@@ -340,9 +348,9 @@ public class PoisonousLibelle extends EntityFlying implements Configurable{
             boolean flag = false;
 
             do {
-                this.targetX = 0.0D;
-                this.targetY = (double)(70.0F + this.rand.nextFloat() * 50.0F);
-                this.targetZ = 0.0D;
+                this.targetX = this.posX;
+                this.targetY = (double)(MAXHEIGHT - this.rand.nextFloat() * 30.0F);
+                this.targetZ = this.posZ;
                 this.targetX += (double)(this.rand.nextFloat() * 120.0F - 60.0F);
                 this.targetZ += (double)(this.rand.nextFloat() * 120.0F - 60.0F);
                 double d0 = this.posX - this.targetX;

@@ -40,7 +40,7 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
      * Make a new block instance.
      * @param eConfig Config for this block.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockLeaves(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
         this.setBlockName(this.getUniqueName());
@@ -99,6 +99,16 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
             }
         }
     }
+    
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+    
+    @Override
+    public boolean renderAsNormalBlock() {
+        return false;
+    }
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -114,6 +124,11 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements Con
     @Override
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(item, 1, 0));
+    }
+    
+    @Override
+    public boolean isLeaves (IBlockAccess world, int x, int y, int z) {
+        return true;
     }
 
 }

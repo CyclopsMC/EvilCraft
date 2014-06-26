@@ -12,6 +12,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
@@ -62,7 +63,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     
     @Override
     public Item getItemDropped(int meta, Random random, int zero) {
-        if(DarkGemConfig._instance.isEnabled())
+        if(Configs.isEnabled(DarkGemConfig.class))
             return DarkGem.getInstance();
         else
             return null;

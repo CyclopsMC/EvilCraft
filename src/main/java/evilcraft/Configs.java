@@ -8,6 +8,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.config.configurable.Configurable;
+import evilcraft.api.degradation.effects.BiomeDegradationConfig;
+import evilcraft.api.degradation.effects.KnockbackDistortDegradationConfig;
+import evilcraft.api.degradation.effects.MobSpawnDegradationConfig;
+import evilcraft.api.degradation.effects.NauseateDegradationConfig;
+import evilcraft.api.degradation.effects.ParticleDegradationConfig;
+import evilcraft.api.degradation.effects.SoundDegradationConfig;
+import evilcraft.api.degradation.effects.TerraformDegradationConfig;
+import evilcraft.biomes.BiomeDegradedConfig;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlockConfig;
@@ -25,6 +34,7 @@ import evilcraft.blocks.LargeDoorConfig;
 import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.NetherfishSpawnConfig;
 import evilcraft.blocks.ObscuredGlassConfig;
+import evilcraft.blocks.PurifierConfig;
 import evilcraft.blocks.UndeadLeavesConfig;
 import evilcraft.blocks.UndeadLogConfig;
 import evilcraft.blocks.UndeadPlankConfig;
@@ -51,6 +61,7 @@ import evilcraft.items.BloodContainerConfig;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.BloodInfusionCoreConfig;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
+import evilcraft.items.BlookConfig;
 import evilcraft.items.BroomConfig;
 import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.BucketPoisonConfig;
@@ -59,10 +70,14 @@ import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkPowerGemConfig;
 import evilcraft.items.DarkStickConfig;
 import evilcraft.items.HardenedBloodShardConfig;
+import evilcraft.items.InvertedPotentiaConfig;
+import evilcraft.items.KineticatorConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
+import evilcraft.items.MaceOfDistortionConfig;
 import evilcraft.items.NeutronBlasterConfig;
 import evilcraft.items.PoisonSacConfig;
+import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.RedstoneGrenadeConfig;
 import evilcraft.items.VengeancePickaxeConfig;
 import evilcraft.items.VengeanceRingConfig;
@@ -148,6 +163,7 @@ public class Configs {
         configs.add(new UndeadPlankConfig());
         configs.add(new FluidBlockPoisonConfig());
         configs.add(new InvisibleRedstoneBlockConfig());
+        configs.add(new PurifierConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -169,6 +185,11 @@ public class Configs {
         configs.add(new PoisonSacConfig());
         configs.add(new BucketPoisonConfig());
         configs.add(new WerewolfFurConfig());
+        configs.add(new BlookConfig());
+        configs.add(new PotentiaSphereConfig());
+        configs.add(new InvertedPotentiaConfig());
+        configs.add(new MaceOfDistortionConfig());
+        configs.add(new KineticatorConfig());
         configs.add(new VengeanceRingConfig());
         configs.add(new NeutronBlasterConfig());
         configs.add(new VengeancePickaxeConfig());
@@ -197,6 +218,40 @@ public class Configs {
         configs.add(new EnchantmentBreakingConfig());
         configs.add(new EnchantmentLifeStealingConfig());
         configs.add(new EnchantmentPoisonTipConfig());
+        
+        // Biomes
+        configs.add(new BiomeDegradedConfig());
+        
+        // Degradation Effects
+        configs.add(new BiomeDegradationConfig());
+        configs.add(new KnockbackDistortDegradationConfig());
+        configs.add(new MobSpawnDegradationConfig());
+        configs.add(new NauseateDegradationConfig());
+        configs.add(new ParticleDegradationConfig());
+        configs.add(new SoundDegradationConfig());
+        configs.add(new TerraformDegradationConfig());
+    }
+
+    /**
+     * A safe way to check if a {@link Configurable} is enabled. @see ExtendedConfig#isEnabled()
+     * @param config The config to check.
+     * @return If the given config is enabled.
+     */
+    @SuppressWarnings("rawtypes")
+    public static boolean isEnabled(Class<? extends ExtendedConfig> config) {
+        try {
+            return ((ExtendedConfig)config.getField("_instance").get(null)).isEnabled();
+        } catch (NullPointerException e1) {
+            return false;
+        } catch (IllegalArgumentException e2) {
+            return false;
+        } catch (IllegalAccessException e3) {
+            return false;
+        } catch (NoSuchFieldException e3) {
+            return false;
+        } catch (SecurityException e4) {
+            return false;
+        }
     }
     
 }

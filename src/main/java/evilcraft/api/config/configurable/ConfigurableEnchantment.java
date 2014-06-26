@@ -2,7 +2,7 @@ package evilcraft.api.config.configurable;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.util.StatCollector;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.EnchantmentConfig;
 import evilcraft.api.config.ExtendedConfig;
@@ -35,7 +35,7 @@ public class ConfigurableEnchantment extends Enchantment implements Configurable
         
     }
     
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
@@ -53,8 +53,8 @@ public class ConfigurableEnchantment extends Enchantment implements Configurable
     
     @Override
     public String getTranslatedName(int level) {
-        String enchantmentName = StatCollector.translateToLocal("enchantment." + eConfig.downCast().NAMEDID);
-        return enchantmentName + " " + StatCollector.translateToLocal("enchantment.level." + level);
+        String enchantmentName = L10NHelpers.localize("enchantment." + eConfig.downCast().NAMEDID);
+        return enchantmentName + " " + L10NHelpers.localize("enchantment.level." + level);
     }
 
 }

@@ -2,10 +2,10 @@ package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import evilcraft.CustomRecipe;
-import evilcraft.CustomRecipeRegistry;
-import evilcraft.CustomRecipeResult;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
+import evilcraft.api.recipes.CustomRecipe;
+import evilcraft.api.recipes.CustomRecipeRegistry;
+import evilcraft.api.recipes.CustomRecipeResult;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 

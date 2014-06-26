@@ -4,8 +4,8 @@ import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import evilcraft.api.Helpers;
 import evilcraft.api.IInformationProvider;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockSapling;
@@ -44,7 +44,7 @@ public class UndeadSapling extends ConfigurableBlockSapling implements IInformat
     
     @Override
     public String getInfo(ItemStack itemStack) {
-    	return Helpers.getLocalizedInfo(this);
+    	return L10NHelpers.getLocalizedInfo(this);
     }
 
     @SuppressWarnings("rawtypes")

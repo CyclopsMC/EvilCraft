@@ -19,11 +19,16 @@ public class EvilBlockConfig extends BlockConfig {
      */
     public EvilBlockConfig() {
         super(
-        	false,
+        	true,
             "evilBlock",
             null,
             EvilBlock.class
         );
+    }
+    
+    @Override
+    public boolean isHardDisabled() {
+    	return true;
     }
     
 }

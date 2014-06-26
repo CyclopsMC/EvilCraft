@@ -49,12 +49,12 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         config.load();
         
         for(ExtendedConfig<?> eConfig : this) {
-            if(eConfig.isEnabled()) {
+            if(!eConfig.isHardDisabled()) {
                 // Save additional properties
                 for(ConfigProperty configProperty : eConfig.configProperties) {
                     configProperty.save(config);
                     if(configProperty.isCommandable())
-                        CommandConfig.PROPERTIES.put(eConfig.NAMEDID, configProperty);
+                        CommandConfig.PROPERTIES.put(configProperty.getName(), configProperty);
                 }
                 
                 // Check the type of the element

@@ -19,11 +19,16 @@ public class LargeDoorConfig extends BlockConfig {
      */
     public LargeDoorConfig() {
         super(
-        	false,
+        	true,
             "largeDoor",
             null,
             LargeDoor.class
         );
+    }
+    
+    @Override
+    public boolean isHardDisabled() {
+    	return true;
     }
     
 }

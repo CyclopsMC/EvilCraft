@@ -12,8 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import evilcraft.api.Helpers;
 import evilcraft.api.IInformationProvider;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockConnectedTexture;
@@ -116,7 +116,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
     
     @Override
     public String getInfo(ItemStack itemStack) {
-    	return Helpers.getLocalizedInfo(this);
+    	return L10NHelpers.getLocalizedInfo(this);
     }
 
     @SuppressWarnings("rawtypes")
@@ -128,10 +128,5 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
     public boolean isNormalCube(IBlockAccess world, int x, int y, int z) {
         return false;
     }
-    
-    @Override
-    public boolean isKeepNBTOnDrop() {
-		return false;
-	}
 
 }

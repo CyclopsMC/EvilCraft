@@ -1,8 +1,8 @@
 package evilcraft.entities.monster;
 
+import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.entity.Render;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;

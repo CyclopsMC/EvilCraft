@@ -3,15 +3,18 @@ package evilcraft.entities.item;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import evilcraft.Configs;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.api.entities.item.EntityThrowable;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
+import evilcraft.items.WeatherContainerConfig;
 
 /**
  * Entity for the {@link WeatherContainer}.
@@ -50,7 +53,7 @@ public class EntityWeatherContainer extends EntityThrowable implements Configura
      * @param damage The damage value for the {@link WeatherContainer} to be rendered.
      */
     public EntityWeatherContainer(World world, EntityLivingBase entity, int damage) {
-        this(world, entity, new ItemStack(WeatherContainer.getInstance(), 1, damage));
+        this(world, entity, new ItemStack(Configs.isEnabled(WeatherContainerConfig.class) ? WeatherContainer.getInstance() : Items.coal, 1, damage));
     }
 
     /**

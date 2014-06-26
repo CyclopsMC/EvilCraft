@@ -40,7 +40,7 @@ public abstract class ConfigurableBlockSapling extends BlockSapling implements C
      * @param eConfig Config for this block.
      * @param material Material of this block.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockSapling(ExtendedConfig eConfig, Material material) {
         this.setConfig(eConfig);
         this.setBlockName(this.getUniqueName());

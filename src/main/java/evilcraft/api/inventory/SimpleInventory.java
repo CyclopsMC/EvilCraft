@@ -111,6 +111,9 @@ public class SimpleInventory implements IInventory {
      */
     public void readFromNBT(NBTTagCompound data, String tag) {
         NBTTagList nbttaglist = data.getTagList(tag, Helpers.NBTTag_Types.NBTTagCompound.ordinal());
+        
+        for (int j = 0; j < _contents.length; ++j)
+            _contents[j] = null;
 
         for (int j = 0; j < nbttaglist.tagCount(); ++j) {
             NBTTagCompound slot = (NBTTagCompound) nbttaglist.getCompoundTagAt(j);

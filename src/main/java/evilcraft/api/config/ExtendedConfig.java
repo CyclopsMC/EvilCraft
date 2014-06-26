@@ -44,7 +44,8 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
     
     /**
      * Create a new config
-     * @param enabled If this should is enabled.
+     * @param enabled If this should is enabled by default. If this is false, this can still
+     * be enabled through the config file.
      * @param namedId a unique name id
      * @param comment a comment that can be added to the config file line
      * @param element the class for the element this config is for
@@ -104,6 +105,7 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
      */
     @SuppressWarnings("unchecked")
     public void save() {
+        String errorMessage = "Registering " + this.NAMEDID + " caused an issue.";
         try {
             // Save inside the self-implementation
             this.getClass().getField("_instance").set(null, this);
@@ -113,17 +115,22 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
                 this.ELEMENT.getMethod("initInstance", ExtendedConfig.class).invoke(null, this);
         } catch (InvocationTargetException e) {
             e.getCause().printStackTrace();
-        } catch (IllegalAccessException e1) {
-            // Only possible in development mode
-            e1.printStackTrace();
-        } catch (IllegalArgumentException e2) {
-        	e2.printStackTrace();
-        } catch (NoSuchMethodException e3) {
-        	e3.printStackTrace();
-        } catch (SecurityException e4) {
-        	e4.printStackTrace();
-        } catch (NoSuchFieldException e5) {
-        	e5.printStackTrace();
+            throw new EvilCraftConfigException("Registering " + this.NAMEDID + " caused the issue: " + e.getCause().getMessage());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new EvilCraftConfigException(errorMessage);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw new EvilCraftConfigException(errorMessage);
+        } catch (NoSuchMethodException e) {
+        	e.printStackTrace();
+        	throw new EvilCraftConfigException(errorMessage);
+        } catch (SecurityException e) {
+        	e.printStackTrace();
+        	throw new EvilCraftConfigException(errorMessage); 
+        } catch (NoSuchFieldException e) {
+        	e.printStackTrace();
+        	throw new EvilCraftConfigException(errorMessage);
         }
     }
     
@@ -153,7 +160,8 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
      */
     @SuppressWarnings("unchecked")
     public Configurable getSubInstance() {
-        if(!this.getHolderType().hasUniqueInstance()) return null; // TODO: possibly add a nice exception here
+        if(!this.getHolderType().hasUniqueInstance())
+            throw new EvilCraftConfigException("There exists no unique instance for " + this);
         try {
             return (Configurable) this.ELEMENT.getMethod("getInstance").invoke(null);
         } catch (NoSuchMethodException e1) {
@@ -197,7 +205,7 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
      * @return if the target should be enabled.
      */
     public boolean isEnabled() {
-        return this.enabled;
+        return this.enabled && !isHardDisabled();
     }
     
     /**
@@ -207,6 +215,15 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
     public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+    
+    /**
+     * If the target should be hard-disabled, this means no occurence in the config file,
+     * total ignorance.
+     * @return if the target should run trough the config handler.
+     */
+    public boolean isHardDisabled() {
+        return false;
+    }
     
     /**
      * Override this method to prevent configs to be disabled from the config file. (non-zero id's that is)
@@ -220,7 +237,9 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
      * Call this method in the initInstance method of Configurables if the instance was already set.
      */
     public void showDoubleInitError() {
-        EvilCraft.log(this.getClass()+" caused a double registration of "+getSubInstance()+". This is an error in the mod code.", Level.FATAL);
+        String message = this.getClass()+" caused a double registration of "+getSubInstance()+". This is an error in the mod code.";
+        EvilCraft.log(message, Level.FATAL);
+        throw new EvilCraftConfigException(message);
     }
     
     /**

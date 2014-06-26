@@ -1,0 +1,275 @@
+[center][img]http://i.imgur.com/4Pe8YfI.png[/img][/center][center][color=#A63F00]An evil mod for Minecraft[/color][/center][center][b]Download for MC 1.6.4:[/b] http://bit.ly/1lJiaBX (version 0.4.1b)[/center][center][b]Download for MC 1.7.2:[/b] http://bit.ly/UG6J4g (version 0.4.1b)[/center][center][b]Currently working on:[/b] New features, additional content and bugfixes.[/center]
+
+ EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding. This mod basically adds various evil things to Minecraft, from everything such as little flying monster that will follow you around and try to poison you, to bottles that allow you to store and control the weather. 
+
+ With our latest release, we provide support for both Minecraft 1.6.4 and 1.7.X. This will however be the last 1.6.4 supported update because maintaining a mod for two Minecraft versions is very time-consuming. But of course, we will keep fixing bugs in that version as they are discovered. 
+
+[b][size=20]Features[/size][/b]
+NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATION FILE
+ NOTE2: In [b]MC 1.6[/b] there is a [b]Blood conflict[/b] if you use [b]Tinkers' Construct[/b], you can solve it by setting the following line in [b]forge.cfg[/b] to false: "B:forceDuplicateFluidBlockCrash=false". 
+
+
+[spoiler='Spotlights'][u][b]General[/b][/u]
+Thanks to these people for their awesome spotlights!
+[u][b]TheDiamondMinecart[/b][/u]
+[b]0.2.3b[/b] [center][media]http://www.youtube.com/watch?v=aOnjvMASgjA[/media][/center]
+[u][b]Dartron[/b][/u]
+[b]0.2.2b[/b] [center][media]http://www.youtube.com/watch?v=sU3n60Mp_pI[/media][/center]
+[u][b]QuinGames[/b][/u]
+[b]0.3.0b[/b] (Dutch) [center][media]http://www.youtube.com/watch?v=p8IgbtCb-YQ[/media][/center]
+[u][b]EncryptedTonight[/b][/u]
+[b]0.2.2b[/b] [center][media]http://www.youtube.com/watch?v=e_GLGPpuYGM[/media][/center]
+[/spoiler]
+[spoiler='Machines'][u][b]Blood Chest[/b][/u]
+Ever had to repair that precious enchanted diamond sword, only to find out that your limited supply of diamonds has run out? Then you may find the [u]blood chest[/u] a very handy addition ! Just put in whatever tool you want and the blood chest will gradually repair it at only the expense of some [u]blood[/u]. To fill the blood chest, just insert any item containing blood into the very left slot and watch how the internal blood buffer fills up. But beware ... this chest might add some nasty effects to your repaired item (NOTE: this feature can be disabled in the configuration file). [img]http://i.imgur.com/UHh37KV.png[/img] 
+[img]http://i.imgur.com/bFE65ei.png[/img]
+
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/b3kMa0n.png[/img]
+
+[/center]
+[u][b]Blood Infuser[/b][/u]
+As its name suggests, the [u]blood infuser[/u] can infuse or fill items with [u]blood[/u]. Simply put an item containing blood in the left slot to fill up the internal blood buffer and put an item in the slot directly to the right of the liquid meter to start infusing or filling items with blood. Some items that can be filled with blood are vanilla buckets, [u]blood containers[/u] and the [u]blood extractor[/u]. The blood infuser is also the only way to gain [u]dark power gems[/u] and [u]undead saplings[/u]. [img]http://i.imgur.com/Wdivmxk.png[/img] 
+[img]http://i.imgur.com/mH2YtNA.png[/img]
+
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/okFwJY4.png[/img]
+
+[/center]
+[u][b]Environmental Accumulator[/b][/u]
+The [u]environmental accumulator[/u] allows you to fill [u]weather containers[/u] with the weather that is currently active. You do this by throwing an [u]empty weather container[/u] into the brown beam emitted by the accumulator. This will suck up the weather, bottle it into the weather container and change the weather to its complete opposite (sunshine becomes rain, rain/lightning becomes sunshine). Once used, the beam of the environmental accumulator will become black, which means that it is currently in a cooldown state. It will remain in this state for about half a Minecraft day, and you can see that it has returned to its originally state because the beam will change back to a brown color. (NOTE: the cooldown time can be changed in the configuration file) When this block in recharging, you should get away as fast as possible, because the machine will start accumulating energy from the environment. This will degrade a certain area around the Environmental Accumulator and it will also trigger a bunch of possible bad effects. These effects include (but are not limited to) Biome degradation, Knockbacks, Nausea and Terraforming. All of these effects can be disabled from within the config file if they seem too evil for you. Note that this block can not be crafted or picked up and that these blocks only spawn at the centre of [u]dark temples[/u]. 
+[img]http://i.imgur.com/J5FLxFO.png[/img]
+[u][b]Purifier[/b][/u]
+You know that the [u]Blood Chest[/u] could add some bad enchantments to your tools, right? Well, now there is a way to circumvent this uncomfortability. The Purifier runs on [u]blood[/u] that can be inserted with regular buckets, or your favorite fluid pipes. You just right click with your cursed tool, and for each bucket that is inside the Purifier, one level of bad enchantment will go off the tool. Right click with an empty hand to get back your tool. But hold on, that is not all! The Purifier can also be used to remove random enchantments from tools and move them to books. Since regular books are not 'spongy' enough, you will have to infuse a book with blood to make a [u]Blook[/u], you can insert that inside the Purifier together with your tool. From the moment the Purifier is completely filled with [u]blood[/u], the process will begin. [img]http://i.imgur.com/I3fcQc4.png[/img] 
+[img]http://i.imgur.com/eorzNTj.png[/img]
+
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/BBveFpy.png[/img]
+
+[/center]
+[/spoiler]
+[spoiler='Fluids'][u][b]Blood[/b][/u]
+Yeah... its liquid blood... To obtain blood you can right click a [u]blood stained block[/u] with a [u]blood extractor[/u]. This blood can then be used in a [u]blood infuser[/u] and [u]blood chest[/u] and stored in [u]blood containers[/u], [u]blood extractors[/u] or regular vanilla buckets. You can place blood in the world, just like most liquids, after which it will turn into [u]hardened blood[/u] after some time, except when it's raining (see the section about hardened blood for more information about this). 
+[img]http://i.imgur.com/vuVQhag.png[/img]
+[u][b]Poison[/b][/u]
+EvilCraft also adds liquid [u]poison[/u], but don't worry you won't find it spawning in the world, well ... at least not yet. To get some poison, just put a water bucket [b]and an empty bucket[/b] and 4 of any poisoned item in a crafting table and you will obtain a bucket of poison. Examples of poisoned items are poisoned potatoes and [u]poison sacs[/u]. 
+[img]http://i.imgur.com/7nAk82E.png[/img]
+[/spoiler]
+[spoiler='World Generation'][u][b]Dark Ore[/b][/u]
+For now, EvilCraft adds only one new ore to the world generation, called [u]dark ore[/u]. This ore spawns from Y-levels 6 to 66 (see what we did there) and drops [u]dark gems[/u] upon breaking. You will at least need an iron tier pickaxe to mine it and fortune does have an effect on the drop rate. 
+[img]http://i.imgur.com/Vmh5tj9.png[/img]
+[u][b]Silverfish Spawn[/b][/u]
+Silverfish spawn blocks can now spawn in any biome!
+[u][b]Netherfish Spawn[/b][/u]
+Since we added a new mob called [u]netherfish[/u] to the game, we needed a way to spawn them. So beware when breaking netherrack, netherbrick or soul sand in the nether, because some rather unexpected mobs might spawn...
+[u][b]Dark Temple[/b][/u]
+When exploring, you might come across some weird-looking structures called [u]dark temples[/u]. You can find them at higher places (above Y-level 90) and they should be easy to spot because of the brown beacon beam that is emitted by the environmental accumulator at the centre of the structure. Also note that dark temples are the only places where you can find [u]environmental accumulators[/u]. [img]http://i.imgur.com/ef99MJV.png[/img] 
+[img]http://i.imgur.com/iQm7o6j.png[/img]
+[u][b]Evil Dungeon[/b][/u]
+These are kinda like vanilla spawners, except that all mossy cobblestone is replaced by bloody cobblestone and instead of 1 vanilla spawner, you might find a little more than one... So, if it's more dangerous, then what is the gain you might ask? Well, not only the number of spawners is increased, but also the number of chests.
+[/spoiler]
+[spoiler='Blocks'][u][b]Blood Stained Block[/b][/u]
+All living creatures are composed of [u]blood[/u], amongst other things, so every now and then a mob might spill its blood on the block it has died upon. These blocks are called [u]blood stained blocks[/u] and you can extract blood from them by [b]shift + right clicking[/b] them with a [u]blood extractor[/u]. 
+[img]http://i.imgur.com/RCvAnGQ.png[/img]
+[u][b]Bloody Cobblestone[/b][/u]
+These blocks can only be found in evil dungeons and serve the same functionality as mossy cobblestone does for vanilla dungeons. 
+[img]http://i.imgur.com/WaVac6Q.png[/img]
+[u][b]Dark Block[/b][/u]
+Acts as a storage block for dark gems. They're pretty dark and have connected textures by default, so they might be useful for building. 
+[img]http://i.imgur.com/aEHs8tN.png[/img]
+
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/WA2PWqS.png[/img]
+
+[/center]
+[u][b]Excrement Pile[/b][/u]
+The whole digestion cycle in Minecraft has finally been completed ! Animals will drop excrement piles, which act as bonemeal after a while when placed on the ground. The only way to pick up an excrement pile is by cleaning it up with a broom, and you better clean up your farm every once in a while because these piles can stack like snow. Shift + right clicking with an excrement pile will act as bonemeal, but it is three times more effective as regular bonemeal. Also look out when you encounter such a pile because it has a chance of poisoning when you walk through them (NOTE: for animals and entities this can be changed in the configuration file). 
+[img]http://i.imgur.com/BUivWbp.png[/img]
+[u][b]Hardened Blood[/b][/u]
+When you place liquid [u]blood[/u] into the world when no rain is falling on it, it will change into [u]hardened blood[/u] after a small time. These blocks will drop [u]hardened blood shards[/u], when a flint and steel is used on them and will turn back into liquid blood when rain falls on them. Finally, these blocks have connected textures and might be useful when building, just don't forget to put a roof above these blocks, or parts of your house might literally wash away when it starts to rain... 
+[img]http://i.imgur.com/rXYjG07.png[/img]
+[u][b]Lightning Bomb[/b][/u]
+If you ever wanted to lure mobs or players into a trap which killed them with lightning, then the lightning bomb is your new friend ! Just like tnt, it will lit a fuse when a redstone signal is applied to it, but instead of spawning a simple explosion, it will spawn several lightning bolts on the exact same place as it was placed. [img]http://i.imgur.com/61UFx8Y.png[/img] [img]http://i.imgur.com/6z91US7.png[/img] [img]http://i.imgur.com/pPGCx71.png[/img] 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/3DkYL7w.png[/img]
+
+[/center]
+[u][b]Obscured Glass[/b][/u]
+You can see through it like regular glass, but it doesn't let through any light at all. Might be useful for building mob farms with a glass ceiling. Also it has a connected texture (I think it's clear by now that we love connected textures). 
+[img]http://i.imgur.com/H8vtFYR.png[/img]
+
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/sIG0JAH.png[/img]
+
+[/center]
+[u][b]Undead Tree[/b][/u]
+Who said only zombies can come back from the dead? Just put a dead bush, found in deserts into a [u]blood infuser[/u] and you will get an [u]undead sapling[/u], which will grow [u]undead trees[/u]. These trees look just like any other tree, except that they have [u]undead wood[/u] for their trunk and branches and that the [u]undead leaves[/u] spawned by this tree drip with blood. 
+[img]http://i.imgur.com/AyrkMPV.png[/img]
+[/spoiler]
+[spoiler='Items'][u][b]Blood Containers[/b][/u]
+[u]Blood containers[/u] are storages for all your blood needs! They come in three sizes: cell, can and basin, in increasing order of size. There is also one Creative Blood Container available (creative-mode only) which can be used as infinite source and drain for blood. When you shift-right click a blood container, you will activate auto-refill mode, which will automatically refill an item you hold in your hand with blood, given that item can contain blood. This can prove useful when using the [u]blood pearl of teleportation[/u]. If you activate multiple blood containers, the rate at which the held item is refilled will be proportional to the number of activated containers.
+[b]Recipes:[/b]
+[center]
+[img]http://i.imgur.com/lNkmioA.png[/img]
+[img]http://i.imgur.com/MEsLqmi.png[/img]
+[img]http://i.imgur.com/glXvDRG.png[/img]
+[/center]
+[u][b]Blood Extractor[/b][/u]
+Probably one of the first EvilCraft items you will craft, the [u]blood extractor[/u] allows you to extract blood from [u]blood stained blocks[/u], which will provide your main (and only) source of blood. Moreover, if you have a blood extractor in your inventory when you hit mobs, it will automatically fill up with blood. The bigger the mob, the more blood it has, so the faster the blood extractor will fill up. 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/Wo2nvKG.png[/img]
+
+[/center]
+[u][b]Blood Infusion Core[/b][/u]
+Surround a [u]dark power gem[/u] with 9 [u]hardened blood shards[/u] and you will get a blood infusion core, which is the main item used to craft EvilCraft machines such as the [u]blood infuser[/u] and [u]blood chest[/u]. 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/luMCzty.png[/img]
+
+[/center]
+[u][b]Blood Pearl of Teleportation[/b][/u]
+The [u]blood pearl of teleportation[/u] gives you the powers of an enderman! Or at least... sort of. This pearl actually has the same functionality as an ender pearl: when thrown it will teleport you to blood the pearl has fallen on, except that this pearl will not be used up when thrown, instead it uses up a small amount of blood stored inside of it when thrown. To refill the pearl you can either infuse it with blood in a [u]blood infuser[/u] or activate a [u]blood container[/u], after which it will refill whenever you hold the pearl in your hand. 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/3CDA3vt.png[/img]
+
+[/center]
+[u][b]Blook[/b][/u]
+This is just a Book infused with [u]blood[/u] so that it can be used in the [u]Purifier[/u].
+[u][b]Broom[/b][/u]
+Let's see, what else is evil? Ah yes! Witches! They fly on brooms don't they? Well now you can too. Just right click a broom to mount it or shift right click it to place it into the world. The broom can be controlled by pressing forward whilst looking in the direction you want to fly to, so the actual steering is done by moving the mouse. Note that at the moment brooms can only be found in dungeon chests, but don't worry we've got some great plans for the future which might allow you to craft maybe just a little more than this basic broom... 
+[img]http://i.imgur.com/iyJ8d0c.png[/img]
+[u][b]Dark Gem[/b][/u]
+Dark gems are dropped when mining a [u]dark ore[/u], which is added to the world generation just like any ore and can be crafted into storage blocks, called [u]dark blocks[/u]. 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/gJdVlaA.png[/img]
+
+[/center]
+[u][b]Dark Power Gem[/b][/u]
+This item can be crafted by infusing a dark gem with blood using the [u]blood infuser[/u]. Since the blood infuser also requires a dark power gem to craft, an alternative way to craft this item is by throwing a dark gem in a pool of at least 5 liquid [u]blood[/u] blocks placed in the world, after which it will suck up these blood blocks and drop a dark power gem.
+[u][b]Dark Stick[/b][/u]
+At the moment this item has no use at all, except that it works in all recipes which require vanilla sticks. We do however have some plans to use this item in recipes in the future. 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/AMPAA3x.png[/img]
+
+[/center]
+[u][b]Hardened Blood Shard[/b][/u]
+This item is used in the recipes for several items and can be obtained by using a flint and steel on a [u]hardened blood[/u] block. It's red, so maybe you could use it as some kind of red dye?
+[u][b]Inverted Potentia[/b][/u]
+The mysterious power of [u]Potentia Spheres[/u] can be inverted to do even crazier things! When it is inverted, you can't do a lot with it, you will have to empower it to access it's real potential. You can do this by infusing it with the power of lightning, this can be done by either throwing it into the [u]Environmental Accumulator[/u] while there is thunder, or by somehow striking it with an actual lightning strike (make sure it doesn't burn!). 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/LyXJNQ1.png[/img]
+
+[/center]
+[u][b]Kineticator[/b][/u]
+This item can move things towards you within a certain area, for example items and experience orbs. This item needs blood to function. It can be enabled by Shift-Right clicking and it's range can be configured by right-clicking with the item. Fun fact: This item will also function when dropped as item in the world, don't let this expensive item despawn though! 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/s9zcw8h.png[/img]
+
+[/center]
+[u][b]Lightning Grenade[/b][/u]
+Lightning is now completely under you control with the [u]lightning grenade[/u]! Simply throw it like an ender pearl and it will spawn lightning on the block it hits when it falls on the ground. Very useful when you want to burn down forests, create supercharged creepers or kill your friends with lightning bolts. 
+[img]http://i.imgur.com/S2RVgWr.png[/img]
+
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/H9VNjnU.png[/img]
+
+[/center]
+[u][b]Mace of Distortion[/b][/u]
+Why would you kill every mob in the area one by one? With the [u]Mace of Distortion[/u], you can target all the mobs in a certain area all at once. You can increase this area by clicking and holding right-click, from the moment your release, the damage will be done. A nice side-effect of this weapon is the fact that all the entities withing that given radius also get a knockback dependant on the radius of the attack. The damage and knockback distance can be changed by toggling between power-levels, which can be done by Shift-Right clicking with the item. This item runs on [u]Blood[/u], and the larger the area and power-level, the more blood it will drain for each attack. Note that this weapon also has a decent attack damage when just using it as a regular hit weapon, but this does also drain some blood and will become unusable when ran out of blood. 
+[img]http://i.imgur.com/uuAo7Yl.png[/img]
+
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/tpjrwy0.png[/img]
+
+[/center]
+[u][b]Poison Sac[/b][/u]
+It looks like an ink sac and it's filled with poison! These items can only be obtained by killing a [u]Poisonous Libelle[/u]. This item acts as poisoned item besides poisoned potatoes and can thus be used in recipes that require poisoned items.
+[u][b]Potentia Sphere[/b][/u]
+A pretty expensive item that has the potential to do great things. It can for example be infused with [u]blood[/u] to make Ender Pearls. This can however be disabled in the config since this is a pretty powerful recipe. 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/dzmhUQu.png[/img]
+
+[/center]
+[u][b]Weather Container[/b][/u]
+Control the weather with weather containers and the environmental accumulator! When a weather container is filled with a specific weather type, you can change the weather to the weather stored in the weather container by throwing it on the ground. When crafting weather containers, they will initially be empty. The only way to fill an empty weather container is by throwing it in the beam of an [u]environmental accumulator[/u], after which the current weather (one of lightning, rain or sunshine) will be bottled into the weather container. Also note that some items such as lightning pearls require specific weather containers in order to be crafted. 
+[img]http://i.imgur.com/gc6YNru.png[/img]
+
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/xsNlsee.png[/img]
+
+[/center]
+[u][b]Werewolf Bone[/b][/u]
+An item dropped by [u]werewolfs[/u]. It might have some fun uses in the near future, but for now it has completely no use.
+[u][b]Werewolf Flesh[/b][/u]
+[u]Werewolf flesh[/u] is a rare drop which can be obtained from [u]werewolfs[/u]. Don't eat it when it is day, you'll just get a stomach ache, at night however... this flesh will start to glow and might provide some rather useful effects when eaten.
+[u][b]Werewolf Fur[/b][/u]
+Another item dropped by [u]werewolves[/u]. This item has no real other purpose for now, though it might have in the near future.
+[/spoiler]
+[spoiler='Entities'][u][b]Werewolf[/b][/u]
+Beware of these beasts, if you're not well-prepared they might just single-hit you (literally)! You shouldn't be able to encounter these at daytime, but look out at night, especially when there is a [u]werewolf villager[/u] standing near you... 
+[img]http://i.imgur.com/iRZPHUd.png[/img]
+[u][b]Werewolf Villager[/b][/u]
+Yes, another kind of villager, willing to trade at day but beware of him at night, especially when it is full moon... For now this villager adds some specific EvilCraft item trades, but there's really nothing you can get exclusively through trading. 
+[img]http://i.imgur.com/JINHxDi.png[/img]
+[u][b]Poisonous Libelle[/b][/u]
+Although these little creatures look rather innocent at first sight, you will quickly discover that quite the opposite is true. These nasty little mobs spawn rarely in river biomes and will try to hit whatever entities they come across including players, passive mobs and other poisonous libelles. Upon hitting an entity, they will be poisoned for a short time and they will continue to annoy players by following them for as long as they can... Moreover, they are really quick and rather small, but have really low health (about one hit should suffice to kill them). By default they won't do direct damage (except for the poison damage) to entities, this can however be enabled in the configs if you like a challenge. They drop [u]poisoned sacs[/u], which can be used in various crafting recipes. 
+[img]http://i.imgur.com/UJaj0XW.png[/img]
+[u][b]Netherfish[/b][/u]
+Since silverfish weren't evil enough, we added a variant called [u]netherfish[/u] to the game. They're just like silverfish, except you can only find them by breaking monster egg blocks in the nether, which are added to the nether world generation. Oh yeah, did I also mention they can set you on fire? 
+[img]http://i.imgur.com/XzaPYzu.png[/img]
+[/spoiler]
+[spoiler='Enchantments'][u][b]General[/b][/u]
+EvilCraft adds four new enchants to Minecraft, which can all be gotten by doing regular ol' enchanting. Although most enchants are rather useful, some might be pretty ... evil ... But don't worry: you can disable every single enchant in the configuration file.
+[u][b]Breaking (I,II and III)[/b][/u]
+This is a very evil enchant, which does the exact opposite of the unbreaking enchant: it has a random chance of increasing the damage an item takes when you use it to a value over one. (NOTE: again, if you find this an annoying feature, you can simply disable it in the configuration file)
+[u][b]Life Stealing (I, II and III)[/b][/u]
+As its name implies, this item allows you to steal life from a mob and add it to your own. The more damage you deal with a hit and the higher the level of the enchant, the higher the amount of life added to the player.
+[u][b]Poison Tip (I, II, and III)[/b][/u]
+Just as the flame enchant allows you to put mobs on fire, this enchant allows you to poison mobs. This enchant can be put on any weapon (including bows) and the poison effect caused by the enchant will last longer with an increasing level of the poison tip enchant.
+[u][b]Unusing (I)[/b][/u]
+Have you ever broken your favourite enchanted pickaxe by accident because you didn't pay notice to the amount of damage it had taken? The unusing enchant tries to solve exactly this problem! When an item is enchanted with the unusing enchant, you will not be able to use the item when it is about to break and you will only be able to use that item again when it has been (partially) repaired.
+[/spoiler]
+[spoiler='Other'][u][b]Poison Tip Enchantment[/b][/u]
+To get a [u]poison tip enchantment book[/u], you can either try to randomly enchant a book or you can combine a regular book with a poison bucket in a crafting table. 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/007pTz1.png[/img]
+
+[/center]
+[u][b]Poisonous Potato[/b][/u]
+Becomes poisonous potatoes don't have much use in vanilla crafting, we've added added poisonous potatoes to the list of poisoned items, which allows you to craft a [u]poison bucket[/u] when combined with a water bucket. Moreover, poisonous potatoes can also be crafted by combining a regular potato and a [u]poison bucket[/u]. 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/5Rpv8x3.png[/img]
+
+[/center]
+[u][b]Potion of Poison[/b][/u]
+EvilCraft allows you to craft potions of poison without having to do any brewing: simply combine a glass bottle with a [u]poison bucket[/u]. 
+[b]Recipe:[/b]
+[center][img]http://i.imgur.com/z4fMqT0.png[/img]
+
+[/center]
+[/spoiler]
+[spoiler='Cross-mod compatibilities'][u][b]General[/b][/u]
+This mod is able to communicate with several other mods. NOTE: these mods are [b]NOT required[/b], they will only be used when they are available.
+[u][b]Thermal Expansion[/b][/u]
+[b]Minecraft 1.6.4 only:[/b] This mod is compatible with various Thermal Expansion machines, like for example the use of the Fluid Transposer that will work exactly the same as the Blood Infuser but it will use 1.5X the amount of Blood instead.
+[u][b]BuildCraft[/b][/u]
+We also provide some facades when BuildCraft is installed.
+[u][b]NEI[/b][/u]
+Obviously all of the recipes are also available in the NEI plugin. Blood Infuser and Environmental Accumulator recipes are also visible.
+[u][b]Waila[/b][/u]
+Machines status and minor block display improvements.
+[u][b]Forge Multipart[/b][/u]
+[b]Minecraft 1.6.4 only:[/b] Regular blocks have microblock support.
+[u][b]Forestry[/b][/u]
+Several items can be placed in the Forestry backpacks. Undead logs and leaves can be placed in the squeezer to recieve blood and sometimes even a Hardened Blood Shard. Undead Sapplings also have Multifarm support.
+[u][b]Tinkers' Construct[/b][/u]
+All Tinkers' Construct tools can be repaired in the Blood Chest. This behavior can be disabled in the config file.
+[/spoiler]
+[u][b]Configuration[/b][/u]
+Almost every feature can be disabled and changed in the config file (config/evilcraft.cfg). It is however mandatory that config files at server and client side are identical, otherwise you might encounter ID conflicts.
+[u][b]Modpacks[/b][/u]
+Regarding modpacks, anyone is more than welcome to use this mod in any modpack, both public and private. We do however ask that you notify us if you would use it in a public pack, just so we know.
+[u][b]Download and Install[/b][/u]
+[mod="1.7.2"]evilcraft[/mod]
+[mod="1.6.4"]evilcraft[/mod]
+Source code: https://github.com/rubensworks/EvilCraft
+

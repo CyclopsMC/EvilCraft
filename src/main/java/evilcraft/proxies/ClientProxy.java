@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererChestHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
-
-import com.jcraft.jorbis.Block;
-
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -30,7 +30,6 @@ import evilcraft.events.KeyInputEventHook;
 import evilcraft.events.PlaySoundAtEntityEventHook;
 import evilcraft.events.PlayerTickEventHook;
 import evilcraft.events.TextureStitchEventHook;
-import evilcraft.render.tileentity.BloodChestItemRenderHelper;
 
 /**
  * Proxy for the client side.
@@ -52,7 +51,11 @@ public class ClientProxy extends CommonProxy {
 	 * List of {@link Block} rendereres.
 	 */
 	public static List<ISimpleBlockRenderingHandler> BLOCK_RENDERERS = new LinkedList<ISimpleBlockRenderingHandler>();
-
+	/**
+     * Map for the {@link Item} renderers.
+     */
+    public static Map<Item, IItemRenderer> ITEM_RENDERERS = new HashMap<Item, IItemRenderer>();
+	
 	// Renderers required for the API
 	static {
 		BLOCK_RENDERERS.add(new MultiPassBlockRenderer());
@@ -80,7 +83,9 @@ public class ClientProxy extends CommonProxy {
 		for (ISimpleBlockRenderingHandler renderer : BLOCK_RENDERERS)
 			RenderingRegistry.registerBlockHandler(renderer);
 
-		TileEntityRendererChestHelper.instance = new BloodChestItemRenderHelper();
+		// Item renderers
+        for(Entry<Item, IItemRenderer> entry : ITEM_RENDERERS.entrySet())
+            MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
 	}
 
 	@Override

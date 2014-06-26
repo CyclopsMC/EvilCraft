@@ -38,7 +38,7 @@ public abstract class ConfigurableBlockLog extends BlockLog implements Configura
      * Make a new block instance.
      * @param eConfig Config for this block.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockLog(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
         this.setBlockName(this.getUniqueName());

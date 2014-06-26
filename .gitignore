@@ -1,23 +1,20 @@
 # We don't want compiled stuff in here!
 /bin
-
-# Also ignore build folder
+doc/info.txt
 /build
+/run
 
-# Ignore build number
-build_number.properties
-
-# Ignore eclipse specific files
+# Ignore project specific files
 .classpath
 .project
 .settings
+.pydevproject
+eclipse/*
+.gradle/*
 
 # Ignore mac-specific file(s)
 .DS_Store
 
-# Ignore other files that aren't supposed to be here
-.pydevproject
-
-# Ignore forge gradle stuff
-eclipse/*
-.gradle/*
+# Ignore files specific to dev environments
+gradle.properties
+build_number.properties

@@ -8,16 +8,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
+import evilcraft.api.IInformationProvider;
 import evilcraft.api.ItemHelpers;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -56,7 +56,7 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     }
 
     private BloodContainer(ExtendedConfig<ItemConfig> eConfig) {
-        super(eConfig, BloodExtractorConfig.containerSize, Blood.getInstance());
+        super(eConfig, BloodContainerConfig.containerSizeBase, Blood.getInstance());
         setPlaceFluids(true);
     }
     
@@ -84,6 +84,9 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public int getCapacity(ItemStack container) {
+        if(isCreativeItem(container)) {
+            return Integer.MAX_VALUE;
+        }
         return capacity << (container.getItemDamage() & 7);
     }
     
@@ -113,22 +116,31 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(Helpers.getLocalizedInfo(this, ".main"));
-        String autoSupply = EnumChatFormatting.RESET + StatCollector.translateToLocal(getUnlocalizedName() + ".info.disabled");
-        if(ItemHelpers.isActivated(itemStack)) {
-            autoSupply = EnumChatFormatting.GREEN + StatCollector.translateToLocal(getUnlocalizedName() + ".info.enabled");
-        }
-        list.add(EnumChatFormatting.BOLD + StatCollector.translateToLocal(getUnlocalizedName() + ".info.autoSupply") + " " + autoSupply);
+        list.add(IInformationProvider.INFO_PREFIX + L10NHelpers.getLocalizedInfo(this, ".main"));
+        L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
+        		getUnlocalizedName() + ".info.autoSupply");
     }
     
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-        if(entity instanceof EntityPlayer && !world.isRemote && ItemHelpers.isActivated(itemStack)) {
-            FluidStack tickFluid = this.getFluid(itemStack);
+    	updateAutoFill(this, itemStack, world, entity);
+        super.onUpdate(itemStack, world, entity, par4, par5);
+    }
+    
+    /**
+     * Run an auto-fill tick for filling currently held container items from this item.
+     * @param item The item type to fill from.
+     * @param itemStack The item stack to fill from.
+     * @param world The world.
+     * @param entity The entity that holds this item.
+     */
+    public static void updateAutoFill(ItemFluidContainer item, ItemStack itemStack, World world, Entity entity) {
+    	if(entity instanceof EntityPlayer && !world.isRemote && ItemHelpers.isActivated(itemStack)) {
+            FluidStack tickFluid = item.getFluid(itemStack);
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;
                 ItemStack held = player.getCurrentEquippedItem();
-                if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem) {
+                if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
                     IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
                     FluidStack heldFluid = fluidContainer.getFluid(held);
                     if(tickFluid.amount >= MB_FILL_PERTICK
@@ -139,12 +151,56 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
                                )
                             ) {
                         int filled = fluidContainer.fill(held, new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), true);
-                        this.drain(itemStack, filled, true);
+                        item.drain(itemStack, filled, true);
                     }
                 }
             }
         }
-        super.onUpdate(itemStack, world, entity, par4, par5);
+    }
+    
+    /**
+     * Check if the given item is a creative-only container.
+     * @param itemStack The item to check.
+     * @return If it is creative-only.
+     */
+    public boolean isCreativeItem(ItemStack itemStack) {
+        return itemStack.getItemDamage() == BloodContainerConfig.getContainerLevels() - 1;
+    }
+    
+    @Override
+    public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
+        if(isCreativeItem(container)) {
+            return new FluidStack(getFluid(), maxDrain);
+        }
+        return super.drain(container, maxDrain, doDrain);
+    }
+    
+    @Override
+    public int fill(ItemStack container, FluidStack resource, boolean doFill) {
+        if(isCreativeItem(container)) {
+            if(resource == null) {
+                return 0;
+            } else {
+                return resource.amount;
+            }
+        }
+        return super.fill(container, resource, doFill);
+    }
+    
+    @Override
+    public FluidStack getFluid(ItemStack itemStack) {
+        if(isCreativeItem(itemStack)) {
+            return new FluidStack(getFluid(), Integer.MAX_VALUE / 2);
+        }
+        return super.getFluid(itemStack);
+    }
+    
+    @Override
+    public int getDisplayDamage(ItemStack itemStack) {
+        if(isCreativeItem(itemStack)) {
+            return 0;
+        }
+        return super.getDisplayDamage(itemStack);
     }
 
 }

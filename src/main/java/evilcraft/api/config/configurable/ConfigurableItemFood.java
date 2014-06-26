@@ -29,7 +29,7 @@ public abstract class ConfigurableItemFood extends ItemFood implements Configura
      * @param healAmount Amount of health to regen.
      * @param saturationModifier The modifier for the saturation.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "rawtypes" })
     protected ConfigurableItemFood(ExtendedConfig eConfig, int healAmount, float saturationModifier, boolean isWolfsFavoriteMeat) {
         super(healAmount, saturationModifier, isWolfsFavoriteMeat);
         this.setConfig(eConfig);

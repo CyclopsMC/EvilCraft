@@ -40,4 +40,9 @@ public class BucketBloodConfig extends ItemBucketConfig {
         return FluidBlockBlood.getInstance();
     }
     
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
+    
 }

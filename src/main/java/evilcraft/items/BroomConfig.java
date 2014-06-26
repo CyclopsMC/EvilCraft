@@ -5,6 +5,8 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ItemConfig;
+import evilcraft.proxies.ClientProxy;
+import evilcraft.render.item.RenderBroomItem;
 
 /**
  * Config for the {@link Broom}.
@@ -35,6 +37,9 @@ public class BroomConfig extends ItemConfig {
         super.onRegistered();
         for(String chestCategory : Helpers.CHESTGENCATEGORIES) {
             ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(new ItemStack(Broom.getInstance()), 1, 2, 2));
+        }
+        if (Helpers.isClientSide()) {
+            ClientProxy.ITEM_RENDERERS.put(this.getItemInstance(), new RenderBroomItem(this));
         }
     }
     

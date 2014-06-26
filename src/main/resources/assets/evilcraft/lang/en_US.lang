@@ -1,5 +1,7 @@
 # General
 itemGroup.EvilCraft=EvilCraft
+general.info.enabled=Enabled
+general.info.disabled=Disabled
 
 # Blocks
 tile.blocks.blockBlood.name=Blood
@@ -15,7 +17,7 @@ tile.blocks.bloodyCobblestone.name=Bloody Cobblestone
 tile.blocks.netherMonsterBlock.name=Nether Monster Egg
 tile.blocks.excrementPile.name=Excrement Pile
 tile.blocks.hardenedBlood.name=Hardened Blood
-tile.blocks.hardenedBlood.info=Created when Blood dries out. Will liquidify when raining.
+tile.blocks.hardenedBlood.info=Dried Blood. Liquidify with rain.
 tile.blocks.obscuredGlass.name=Obscured Glass
 tile.blocks.environmentalAccumulator.name=Environmental Accumulator
 tile.blocks.environmentalAccumulator.info=Found at Dark Temples, high in the mountains.
@@ -25,6 +27,7 @@ tile.blocks.undeadSapling.name=Undead Sapling
 tile.blocks.undeadSapling.info=Infuse dead bush with blood.
 tile.blocks.undeadPlank.name=Undead Plank
 tile.blocks.invisibleRedstoneBlock.name=Invisible Redstone Block
+tile.blocks.purifier.name=Purifier
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone
@@ -34,6 +37,8 @@ item.items.redstoneGrenade.name=Redstone Grenade
 item.items.bucketBlood.name=Blood Bucket
 item.items.bucketPoison.name=Poison Bucket
 item.items.bloodExtractor.name=Blood Extractor
+item.items.bloodExtractor.info.main=Shift + Right click to extract or auto-supply.
+item.items.bloodExtractor.info.autoSupply=Auto-supply: %s
 item.items.darkGem.name=Dark Gem
 item.items.darkStick.name=Dark Stick
 item.items.weatherContainer.name=Weather Container
@@ -49,19 +54,32 @@ item.items.darkPowerGem.info.2=Or infuse Dark Gem with blood.
 item.items.bloodContainer.bloodCell.name=Blood Cell
 item.items.bloodContainer.bloodCan.name=Blood Can
 item.items.bloodContainer.bloodBasin.name=Blood Basin
+item.items.bloodContainer.creativeBloodContainer.name=Creative Blood Container
 item.items.bloodContainer.info.main=Shift + Right click to toggle auto-supply.
-item.items.bloodContainer.info.enabled=Enabled
-item.items.bloodContainer.info.disabled=Disabled
-item.items.bloodContainer.info.autoSupply=Auto-supply:
+item.items.bloodContainer.info.autoSupply=Auto-supply: %s
 item.items.poisonSac.name=Poison Sac
 item.items.werewolfFur.name=Werewolf Fur
+item.items.blook.name=Blook
+item.items.potentiaSphere.name=Potentia Sphere
+item.items.invertedPotentia.name=Inverted Potentia
+item.items.maceOfDistortion.name=Mace of Distortion
+item.items.maceOfDistortion.setPower=Set power to %s
+item.items.maceOfDistortion.info.main.1=Shift + Right click to
+item.items.maceOfDistortion.info.main.2=change power level.
+item.items.maceOfDistortion.info.power=Power: %s
+item.items.kineticator.name=Kineticator
+item.items.kineticator.setPower=Set power to %s
+item.items.kineticator.info.main.1=Shift + Right click to toggle attraction.
+item.items.kineticator.info.main.2=Right click to change area.
+item.items.kineticator.info.attraction=Attraction: %s
+item.items.kineticator.info.area=Area: %s
 item.items.vengeanceRing.name=Vengeance Ring
 item.items.neutronBlaster.name=Neutron Blaster
 item.items.vengeancePickaxe.name=Vengeance Pickaxe
 
 # Fluids
-fluid.fluids.blood=Blood
-fluid.fluids.poison=Poison
+fluid.fluids.evilcraftblood=Blood
+fluid.fluids.evilcraftpoison=Poison
 
 # Weather container info
 weatherContainer.empty=Empty
@@ -78,6 +96,10 @@ entity.evilcraft.werewolf.name=Werewolf
 entity.evilcraft.poisonousLibelle.name=Poisonous Libelle
 entity.evilcraft.netherfish.name=Nether Fish
 entity.evilcraft.vengeanceSpirit.name=Vengeance Spirit
+entity.werewolf.name=Werewolf
+entity.poisonousLibelle.name=Poisonous Libelle
+entity.netherfish.name=Nether Fish
+entity.vengeanceSpirit.name=Vengeance Spirit
 
 # Enchantments
 enchantment.breaking=Breaking
@@ -93,3 +115,4 @@ chat.command.invalidNewValue=Invalid new value
 chat.command.updatedValue=Updated %s to: %s (not updated in config file)
 chat.command.fartingEnabled=Farting enabled
 chat.command.fartingDisabled=Farting disabled
+chat.bossDisplay.charge=%s Charge

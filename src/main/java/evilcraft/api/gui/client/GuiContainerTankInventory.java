@@ -8,7 +8,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -16,6 +15,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import evilcraft.Reference;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.api.fluids.SingleUseTank;
 
@@ -162,7 +162,8 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     	// MCP isPointInRegion
         if(func_146978_c(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
             SingleUseTank tank = tile.getTank();
-            String fluidName = StatCollector.translateToLocal("fluid.fluids."+FluidRegistry.getFluidName(tank.getFluid().fluidID));
+            String fluidName = L10NHelpers.localize("fluid.fluids."
+            		+ FluidRegistry.getFluidName(tank.getFluid()));
             drawBarTooltip(fluidName, "mB", tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
         }
     }

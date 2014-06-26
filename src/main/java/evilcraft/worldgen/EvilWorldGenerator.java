@@ -6,9 +6,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.common.IWorldGenerator;
+import evilcraft.Configs;
 import evilcraft.GeneralConfig;
 import evilcraft.blocks.DarkOre;
 import evilcraft.blocks.DarkOreConfig;
+import evilcraft.blocks.NetherfishSpawnConfig;
 import evilcraft.entities.monster.NetherfishConfig;
 
 /**
@@ -18,17 +20,19 @@ import evilcraft.entities.monster.NetherfishConfig;
  */
 public class EvilWorldGenerator implements IWorldGenerator {
     
-    private WorldGenMinableConfigurable darkOres;
-    private WorldGenMinableConfigurable extraSilverfish;
-    private WorldGenMinableConfigurable netherfish;
+    private WorldGenMinableConfigurable darkOres = null;
+    private WorldGenMinableConfigurable extraSilverfish = null;
+    private WorldGenMinableConfigurable netherfish = null;
     
     /**
      * Make new instance.
      */
     public EvilWorldGenerator() {
-        darkOres = new WorldGenMinableConfigurable(DarkOre.getInstance(), DarkOreConfig.blocksPerVein, DarkOreConfig.veinsPerChunk, DarkOreConfig.startY, DarkOreConfig.endY);
+		if(Configs.isEnabled(DarkOreConfig.class))
+			darkOres = new WorldGenMinableConfigurable(DarkOre.getInstance(), DarkOreConfig.blocksPerVein, DarkOreConfig.veinsPerChunk, DarkOreConfig.startY, DarkOreConfig.endY);
         extraSilverfish = new WorldGenMinableConfigurable(Blocks.monster_egg, 8, GeneralConfig.silverfish_BlocksPerVein, GeneralConfig.silverfish_VeinsPerChunk, GeneralConfig.silverfish_StartY, GeneralConfig.silverfish_EndY);
-        netherfish = new NetherfishSpawnGenerator();
+        if(Configs.isEnabled(NetherfishSpawnConfig.class) && Configs.isEnabled(NetherfishConfig.class))
+        	netherfish = new NetherfishSpawnGenerator();
     }
     
     @Override
@@ -38,13 +42,14 @@ public class EvilWorldGenerator implements IWorldGenerator {
     }
     
     private void generateSurface(World world, Random rand, int chunkX, int chunkZ) {
-        darkOres.loopGenerate(world, rand, chunkX, chunkZ);
-        if(GeneralConfig.extraSilverfish)
+        if(darkOres != null)
+            darkOres.loopGenerate(world, rand, chunkX, chunkZ);
+        if(extraSilverfish != null && GeneralConfig.extraSilverfish)
             extraSilverfish.loopGenerate(world, rand, chunkX, chunkZ);
     }
     
     private void generateNether(World world, Random rand, int chunkX, int chunkZ) {
-        if(NetherfishConfig._instance.isEnabled())
+        if(netherfish != null)
             netherfish.loopGenerate(world, rand, chunkX, chunkZ);
     }
 }

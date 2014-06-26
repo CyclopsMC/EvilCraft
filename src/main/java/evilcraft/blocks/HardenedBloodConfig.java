@@ -26,4 +26,14 @@ public class HardenedBloodConfig extends BlockConfig {
         );
     }
     
+    @Override
+    public boolean isMultipartEnabled() {
+        return true;
+    }
+    
+    @Override
+    public boolean isDisableable() {
+        return false;
+    }
+    
 }

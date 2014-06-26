@@ -4,18 +4,20 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.items.Broom;
+import evilcraft.items.BroomConfig;
 
 /**
  * Entity for a broom
@@ -50,7 +52,9 @@ public class EntityBroom extends Entity implements Configurable{
      */
     public static final float MIN_ANGLE = -45.0F;
     
-    // Maximum amplitude of the cosine functions which generate the hovering effect
+    /**
+     * Maximum amplitude of the cosine functions which generate the hovering effect
+     */
     private static final float MAX_COS_AMPLITUDE = 0.2f;
     
     /**
@@ -102,6 +106,7 @@ public class EntityBroom extends Entity implements Configurable{
     public EntityBroom(World world, double x, double y, double z) {
         super(world);
         setPosition(x, y, z);
+        setSize(1.5f, 0.6f);
         this.motionX = 0.0;
         this.motionY = 0.0;
         this.motionZ = 0.0;
@@ -137,8 +142,12 @@ public class EntityBroom extends Entity implements Configurable{
     
     @Override
     public boolean interactFirst(EntityPlayer player) {
-    	mountEntity(player);
-    	return true;
+        if (riddenByEntity == null) {
+            mountEntity(player);
+            return true;
+        }
+        
+    	return false;
     }
     
     @Override
@@ -163,6 +172,38 @@ public class EntityBroom extends Entity implements Configurable{
         this.newRotationYaw = (double)yaw;
         this.newRotationPitch = (double)pitch;
         this.newPosRotationIncrements = posRotationIncrements;
+        
+        /**
+         * If the player on the broom is the same as the client player,
+         * then make some corrections for its position based on what the server
+         * sent us
+         */
+        if (worldObj.isRemote && Minecraft.getMinecraft().thePlayer == lastMounted) {
+            double dx = newPosX - posX;
+            double dy = newPosY - posY + oldHoverOffset;
+            double dz = newPosZ - posZ;
+            
+            boolean changePosition = false;
+            
+            // Correct positions when the difference between the server and client position gets too big
+            if (Math.abs(dx) > EntityBroomConfig.desyncThreshold) {
+                posX += dx * EntityBroomConfig.desyncCorrectionValue;
+                changePosition = true;
+            }
+            
+            if (Math.abs(dy) > EntityBroomConfig.desyncThreshold) {
+                posY += dy * EntityBroomConfig.desyncCorrectionValue;
+                changePosition = true;
+            }
+            
+            if (Math.abs(dz) > EntityBroomConfig.desyncThreshold) {
+                posZ += dz * EntityBroomConfig.desyncCorrectionValue;
+                changePosition = true;
+            }
+            
+            if (changePosition)
+                setPosition(posX, posY, posZ);
+        }
     }
     
     @Override
@@ -171,7 +212,7 @@ public class EntityBroom extends Entity implements Configurable{
     	
     	if (!worldObj.isRemote && riddenByEntity == null && lastMounted != null) {
     		// The player dismounted, give him his broom back if he's not in creative mode
-    		if (!lastMounted.capabilities.isCreativeMode) {
+    		if (!lastMounted.capabilities.isCreativeMode && Configs.isEnabled(BroomConfig.class)) {
     		    // Return to inventory if we have space, otherwise drop it on the ground
     		    if (!Helpers.isPlayerInventoryFull(lastMounted))
     		        lastMounted.inventory.addItemStackToInventory(new ItemStack(Broom.getInstance(), 1));
@@ -256,9 +297,11 @@ public class EntityBroom extends Entity implements Configurable{
         double y = Math.cos(pitch);
         
         if (lastMounted.moveForward != 0) {
-            motionX = x * SPEED * lastMounted.moveForward;
-            motionY = y * SPEED * lastMounted.moveForward;
-            motionZ = z * SPEED * lastMounted.moveForward;
+            double playerSpeed = 10 * lastMounted.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+            
+            motionX = x * SPEED * playerSpeed * lastMounted.moveForward;
+            motionY = y * SPEED * playerSpeed * lastMounted.moveForward;
+            motionZ = z * SPEED * playerSpeed * lastMounted.moveForward;
         } else {
             motionX = 0;
             motionY = 0;
@@ -282,7 +325,7 @@ public class EntityBroom extends Entity implements Configurable{
             {
                 Entity entity = (Entity)list.get(l);
 
-                if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityBoat)
+                if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityBroom)
                 {
                     entity.applyEntityCollision(this);
                 }

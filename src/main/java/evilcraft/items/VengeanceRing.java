@@ -12,8 +12,8 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.ItemHelpers;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
@@ -108,7 +108,7 @@ public class VengeanceRing extends ConfigurableItem {
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(Helpers.getLocalizedInfo(this, ".main"));
+        list.add(L10NHelpers.getLocalizedInfo(this, ".main"));
         String autoSupply = EnumChatFormatting.RESET + StatCollector.translateToLocal(getUnlocalizedName() + ".info.disabled");
         if(ItemHelpers.isActivated(itemStack)) {
             autoSupply = EnumChatFormatting.GREEN + StatCollector.translateToLocal(getUnlocalizedName() + ".info.enabled");

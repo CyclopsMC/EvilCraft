@@ -8,9 +8,9 @@ import java.util.Map;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.Configuration;
 import evilcraft.api.Helpers;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ConfigProperty;
 
 /**
@@ -53,7 +53,7 @@ public class CommandConfigSet extends CommandEvilCraft {
     @Override
     public void processCommand(ICommandSender icommandsender, String[] astring) {
         if(astring.length == 0 || astring.length > 1) {
-            icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("chat.command.onlyOneValue")));
+            icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.onlyOneValue")));
         } else {
             Object newValue = Helpers.tryParse(astring[0], config.getValue());
             if(newValue != null) {
@@ -61,10 +61,10 @@ public class CommandConfigSet extends CommandEvilCraft {
                 config.setValue(newValue);
                 config.save(CONFIGURATION, true);
                 CONFIGURATION.save();
-                icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted("chat.command.updatedValue", new Object[]{name, newValue.toString()})));
+                icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.updatedValue", new Object[]{name, newValue.toString()})));
                 // TODO: Why not updated in config? Config not changeable at runtime?
             } else {
-                icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("chat.command.invalidNewValue")));
+                icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.invalidNewValue")));
             }
         }
     }
