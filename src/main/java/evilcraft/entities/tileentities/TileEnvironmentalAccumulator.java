@@ -153,9 +153,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	
 	private float getItemMoveSpeed() {
 	    if (recipe == null)
-	        return EnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
+	        return (float) EnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
 	    else
-	        return recipe.getProcessingSpeed();
+	        return (float) recipe.getProcessingSpeed();
 	}
 	
 	@Override

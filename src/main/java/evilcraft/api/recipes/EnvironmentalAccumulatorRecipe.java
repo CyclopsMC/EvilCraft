@@ -78,7 +78,7 @@ public class EnvironmentalAccumulatorRecipe extends CustomRecipe {
      * as increments per tick.
      * @return The processing speed for this recipe.
      */
-    public float getProcessingSpeed() {
+    public double getProcessingSpeed() {
         if (processingSpeed < 0)
             return EnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
         
