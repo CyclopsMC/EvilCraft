@@ -19,11 +19,16 @@ public class LargeDoorItemConfig extends ItemConfig {
      */
     public LargeDoorItemConfig() {
         super(
-        	false,
+        	true,
             "largeDoorItem",
             null,
             LargeDoorItem.class
         );
+    }
+    
+    @Override
+    public boolean isHardDisabled() {
+    	return true;
     }
     
 }
