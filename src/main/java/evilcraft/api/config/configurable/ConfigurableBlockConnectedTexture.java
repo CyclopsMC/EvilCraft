@@ -1,12 +1,9 @@
 package evilcraft.api.config.configurable;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,10 +12,8 @@ import evilcraft.api.DirectionCorner;
 import evilcraft.api.Helpers;
 import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.entities.tileentitites.TileConnectedTexture;
 import evilcraft.api.render.ConnectableIcon;
 import evilcraft.api.render.CustomRenderBlocks;
-import evilcraft.api.render.IMultiRenderPassBlock;
 import evilcraft.api.render.MultiPassBlockRenderer;
 
 /**
@@ -28,7 +23,7 @@ import evilcraft.api.render.MultiPassBlockRenderer;
  * @author rubensworks
  * @see ConnectableIcon
  */
-public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBlockContainer implements IMultiRenderPassBlock{
+public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBlock {
     
     protected int pass = 0;
     protected CustomRenderBlocks renderer;
@@ -48,7 +43,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     @SuppressWarnings("rawtypes")
     public ConfigurableBlockConnectedTexture(ExtendedConfig eConfig,
             Material material) {
-        super(eConfig, material, TileConnectedTexture.class);
+        super(eConfig, material);
     }
     
     /**
@@ -164,15 +159,6 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     }
     
     @Override
-    public void updateTileEntity(IBlockAccess world, int x, int y, int z) {
-        TileEntity tile = (TileEntity) world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileConnectedTexture){
-            TileConnectedTexture tileConnectedTexture = (TileConnectedTexture) tile;
-            connectableIcon.setTileConnectedTexture(tileConnectedTexture);
-        }
-    }
-    
-    @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         super.registerBlockIcons(iconRegister);
@@ -213,25 +199,16 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
         return connectableIcon.getRequiredPasses();
     }
     
-    @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block){
-        updateConnections(world, x, y, z);
-    }
-    
     private void updateConnections(IBlockAccess world, int x, int y, int z) {
-        TileEntity tile = (TileEntity) world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileConnectedTexture){
-            TileConnectedTexture tileConnectedTexture = (TileConnectedTexture) tile;
-            // Regular sides
-            for(ForgeDirection direction : Helpers.DIRECTIONS) {
-                boolean connect = shouldConnectDirection(world, direction, x, y, z);
-                tileConnectedTexture.connect(direction, connect);
-            }
-            // Corner sides
-            for(DirectionCorner direction : Helpers.DIRECTIONS_CORNERS) {
-                boolean connect = shouldConnectDirection(world, direction, x, y, z);
-                tileConnectedTexture.connectCorner(direction, connect);
-            }
+    	// Regular sides
+        for(ForgeDirection direction : Helpers.DIRECTIONS) {
+            boolean connect = shouldConnectDirection(world, direction, x, y, z);
+            connectableIcon.connect(direction, connect);
+        }
+        // Corner sides
+        for(DirectionCorner direction : Helpers.DIRECTIONS_CORNERS) {
+            boolean connect = shouldConnectDirection(world, direction, x, y, z);
+            connectableIcon.connectCorner(direction, connect);
         }
     }
     
@@ -247,11 +224,6 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * @return If this block has a seperate icon for rendering the inventory block.
      */
     public boolean hasSeperateInventoryBlockIcon() {
-        return false;
-    }
-    
-    @Override
-    public boolean saveNBTToDroppedItem() {
         return false;
     }
 

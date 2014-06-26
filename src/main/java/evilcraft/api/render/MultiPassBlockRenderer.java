@@ -45,7 +45,6 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
             blockToRender.setInventoryBlock(false);
             blockToRender.setRenderBlocks(renderBlocks);
             blockToRender.setRenderPass(0);
-            blockToRender.updateTileEntity(world, x, y, z);
             if (renderBlocks.renderStandardBlock(block, x, y, z)) {
                 visible = true;
                 for (int pass = 1; pass < blockToRender.getRenderPasses(); pass++) {

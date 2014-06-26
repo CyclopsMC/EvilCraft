@@ -128,10 +128,5 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
     public boolean isNormalCube(IBlockAccess world, int x, int y, int z) {
         return false;
     }
-    
-    @Override
-    public boolean isKeepNBTOnDrop() {
-		return false;
-	}
 
 }

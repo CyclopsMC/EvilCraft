@@ -8,7 +8,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.DirectionCorner;
 import evilcraft.api.Helpers;
 import evilcraft.api.RenderHelpers;
-import evilcraft.api.entities.tileentitites.TileConnectedTexture;
 
 /**
  * A virtual {@link IIcon} that has several icons and needs multiple render passes for
@@ -39,8 +38,6 @@ public class ConnectableIcon implements IIcon{
     protected int side = 0; // Current side to display icon for
     protected boolean isInventoryBlock = false;
     
-    protected TileConnectedTexture tileConnectedTexture = null;
-    
     // With what direction should side X with rotation Y connect. rotation: N, E, S, W
     protected static final ForgeDirection[][] CONNECT_MATRIX = {
         {ForgeDirection.NORTH, ForgeDirection.WEST, ForgeDirection.SOUTH, ForgeDirection.EAST}, // DOWN
@@ -61,6 +58,12 @@ public class ConnectableIcon implements IIcon{
         {DirectionCorner.UPPER_SOUTH, DirectionCorner.UPPER_NORTH, DirectionCorner.LOWER_NORTH, DirectionCorner.LOWER_SOUTH}, // EAST
     };
     
+    // Temporary connection booleans, these will update every render call.
+    // Which directions relative to this block should connect (have same ID for example)
+    protected boolean[] connectWithSides = new boolean[Helpers.DIRECTIONS.size()];
+    // Which directions relative to this block (with corner) should connect (have same ID for example)
+    protected boolean[] connectWithSidesCorner = new boolean[Helpers.DIRECTIONS_CORNERS.size()];
+    
     /**
      * Make a new instance.
      * @param background The background icon.
@@ -75,14 +78,6 @@ public class ConnectableIcon implements IIcon{
         this.icons[2] = corners;
         this.icons[3] = innerCorners;
         this.inventoryBlockIcon = inventoryBlockIcon;
-    }
-    
-    /**
-     * Set the tile entity that contains connected texture information.
-     * @param tileConnectedTexture The tile entity.
-     */
-    public void setTileConnectedTexture(TileConnectedTexture tileConnectedTexture) {
-        this.tileConnectedTexture = tileConnectedTexture;
     }
     
     protected void setRenderPass(int renderPass) {
@@ -109,11 +104,11 @@ public class ConnectableIcon implements IIcon{
     }
     
     protected boolean shouldConnect(int side, int rotation) {
-        return tileConnectedTexture.getConnectWithSides()[CONNECT_MATRIX[side][rotation].ordinal()];
+        return getConnectWithSides()[CONNECT_MATRIX[side][rotation].ordinal()];
     }
     
     protected boolean shouldConnectCorner(int side, int rotation) {
-        return tileConnectedTexture.getConnectWithSidesCorner()[CONNECT_CORNER_MATRIX[side][rotation].ordinal()];
+        return getConnectWithSidesCorner()[CONNECT_CORNER_MATRIX[side][rotation].ordinal()];
     }
     
     protected boolean shouldRender(int layer) {
@@ -243,6 +238,44 @@ public class ConnectableIcon implements IIcon{
         BORDERS,
         CORNERS,
         INNERCORNERS;
+    }
+    
+    /**
+     * Get the array that is indexed by the {@link ForgeDirection} ordinal values with
+     * their respective value for whether or not this block should connect to that block.
+     * @return The connect with sides boolean array.
+     */
+    public boolean[] getConnectWithSides() {
+        return connectWithSides;
+    }
+    
+    /**
+     * Get the array that is indexed by the {@link DirectionCorner} ordinal values with
+     * their respective value for whether or not this block should connect to that block.
+     * @return The connect with sides boolean array.
+     */
+    public boolean[] getConnectWithSidesCorner() {
+        return connectWithSidesCorner;
+    }
+    
+    /**
+     * Set the connection to a certain {@link ForgeDirection}.
+     * @param direction The direction to enable/disable the connection to.
+     * @param connect If the connection for the given direction should be enabled.
+     */
+    public void connect(ForgeDirection direction, boolean connect) {
+        boolean old = this.connectWithSides[direction.ordinal()];
+        this.connectWithSides[direction.ordinal()] = connect;
+    }
+    
+    /**
+     * Set the connection to a certain {@link DirectionCorner}.
+     * @param direction The direction to enable/disable the connection to.
+     * @param connect If the connection for the given direction should be enabled.
+     */
+    public void connectCorner(DirectionCorner direction, boolean connect) {
+        boolean old = this.connectWithSidesCorner[direction.ordinal()];
+        this.connectWithSidesCorner[direction.ordinal()] = connect;
     }
 
 }
