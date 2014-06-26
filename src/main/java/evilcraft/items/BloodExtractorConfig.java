@@ -34,12 +34,12 @@ public class BloodExtractorConfig extends ItemConfig {
      * The minimum multiplier for amount of mB to receive per mob HP.
      */
     @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The minimum multiplier for amount of mB to receive per mob HP.")
-    public static float minimumMobMultiplier = 5;
+    public static double minimumMobMultiplier = 5;
     /**
      * The minimum multiplier for amount of mB to receive per mob HP.
      */
     @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The maximum multiplier for amount of mB to receive per mob HP. IMPORTANT: must be larger than maximumMobMultiplier!")
-    public static float maximumMobMultiplier = 40;
+    public static double maximumMobMultiplier = 40;
     /**
      * The amount of blood (mB) this container can hold.
      */

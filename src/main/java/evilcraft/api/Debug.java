@@ -48,10 +48,10 @@ public class Debug {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static void checkPostConfigurables() {
         for(ExtendedConfig config : savedConfigs) {            
-            if(config.getHolderType().hasUniqueInstance()) {
-                // TYPE in the sub-instance of ExtendedConfig (can be in a higher class hierarchy, bit of a hack...
+            if(config.getHolderType().hasUniqueInstance() && config.isEnabled()) {
+                // The sub-instance of ExtendedConfig (can be in a higher class hierarchy, bit of a hack...
                 if(config.getSubInstance() == null) {
-                    log(config.ELEMENT+" has no static 'TYPE' field.");
+                    log(config.ELEMENT+" has no sub-instance, even though it is enabled.");
                 }
                 
                 // initInstance(ExtendedConfig eConfig) in the sub-instance of ExtendedConfig

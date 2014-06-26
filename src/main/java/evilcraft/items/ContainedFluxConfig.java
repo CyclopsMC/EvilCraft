@@ -19,11 +19,16 @@ public class ContainedFluxConfig extends ItemConfig {
      */
     public ContainedFluxConfig() {
         super(
-        	false,
+        	true,
             "containedFlux",
             null,
             ContainedFlux.class
         );
+    }
+    
+    @Override
+    public boolean isHardDisabled() {
+    	return true;
     }
     
 }

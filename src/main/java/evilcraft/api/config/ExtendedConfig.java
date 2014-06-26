@@ -44,7 +44,8 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
     
     /**
      * Create a new config
-     * @param enabled If this should is enabled.
+     * @param enabled If this should is enabled by default. If this is false, this can still
+     * be enabled through the config file.
      * @param namedId a unique name id
      * @param comment a comment that can be added to the config file line
      * @param element the class for the element this config is for
@@ -204,7 +205,7 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
      * @return if the target should be enabled.
      */
     public boolean isEnabled() {
-        return this.enabled;
+        return this.enabled && !isHardDisabled();
     }
     
     /**
@@ -214,6 +215,15 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
     public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+    
+    /**
+     * If the target should be hard-disabled, this means no occurence in the config file,
+     * total ignorance.
+     * @return if the target should run trough the config handler.
+     */
+    public boolean isHardDisabled() {
+        return false;
+    }
     
     /**
      * Override this method to prevent configs to be disabled from the config file. (non-zero id's that is)
