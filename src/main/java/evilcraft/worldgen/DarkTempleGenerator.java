@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.common.IWorldGenerator;
 import evilcraft.Configs;
+import evilcraft.GeneralConfig;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.worldgen.structure.DarkTempleStructure;
 
@@ -20,11 +21,10 @@ public class DarkTempleGenerator implements IWorldGenerator {
 		if (world.provider.dimensionId != 0 || !Configs.isEnabled(EnvironmentalAccumulatorConfig.class))
 			return;
 		
-		// Add some randomness for spawning, might be too low?
-		int modX = random.nextInt(7) + 3;
-		int modZ = random.nextInt(7) + 3;
-		
-		if (chunkX % modX == random.nextInt(modX) && chunkZ % modZ == random.nextInt(modZ))
+		// Add some randomness to spawning
+		if (random.nextInt(GeneralConfig.darkTempleRarity) == 0) {
+			// Generate the dark temple if possible (height checks are performed inside generate)
 		    DarkTempleStructure.getInstance().generate(world, random, chunkX * 16 + random.nextInt(16), 0, chunkZ * 16 + random.nextInt(16));
+		}
     }
 }
