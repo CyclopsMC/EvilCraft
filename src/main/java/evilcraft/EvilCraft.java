@@ -86,9 +86,6 @@ public class EvilCraft {
             Debug.checkPostConfigurables();
         }
         
-        // Add death messages
-        CustomDeathMessageRegistry.register();
-        
         // Register events
         proxy.registerEventHooks();
         

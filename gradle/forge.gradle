@@ -28,7 +28,8 @@ compileJava {
 }
 
 minecraft {
-    version = "${config.minecraft_version}-${config.forge_version}"
+    //version = "${config.minecraft_version}-${config.forge_version}"
+    version = "1.7.10-${config.forge_version}"
     assetDir = "eclipse/assets"
     
     replaceIn "Reference.java"

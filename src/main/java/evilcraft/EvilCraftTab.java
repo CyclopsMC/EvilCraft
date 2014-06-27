@@ -1,7 +1,6 @@
 package evilcraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import evilcraft.items.DarkGem;
 
 /**
@@ -25,7 +24,6 @@ public class EvilCraftTab extends CreativeTabs{
 
     private EvilCraftTab() {
         super(Reference.MOD_NAME);
-        LanguageRegistry.instance().addStringLocalization("itemGroup." + Reference.MOD_NAME, "en_US", Reference.MOD_NAME);
     }
     
     @Override

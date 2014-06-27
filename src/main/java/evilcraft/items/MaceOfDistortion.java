@@ -336,8 +336,8 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public Multimap getItemAttributeModifiers() {
-        Multimap multimap = super.getItemAttributeModifiers();
+    public Multimap getAttributeModifiers(ItemStack itemStack) {
+        Multimap multimap = super.getAttributeModifiers(itemStack);
         multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)MELEE_DAMAGE, 0));
         return multimap;
     }
