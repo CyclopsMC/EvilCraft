@@ -19,17 +19,16 @@ compileJava {
     }
     
     dependencies {
-        compile "mantle:Mantle:${config.minecraft_version}-${config.mantle_version}:deobf"
-        compile files("${project.libs_path}/TConstruct-${config.minecraft_version}-${config.tconstruct_version}.jar")
+        compile "mantle:Mantle:${config.minecraft_version_tmp}-${config.mantle_version}:deobf"
+        compile files("${project.libs_path}/TConstruct-${config.minecraft_version_tmp}-${config.tconstruct_version}.jar")
         compile "mcp.mobius.waila:Waila:${config.waila_version}"
-        compile "codechicken:ForgeMultipart:${config.minecraft_version}-${config.FMP_version}:dev"
-        compile files("${project.libs_path}/forestry_${config.minecraft_version}-${config.forestry_version}-dev.jar")
+        compile "codechicken:ForgeMultipart:${config.minecraft_version_tmp}-${config.FMP_version}:dev"
+        compile files("${project.libs_path}/forestry_${config.minecraft_version_tmp}-${config.forestry_version}-dev.jar")
     }
 }
 
 minecraft {
-    //version = "${config.minecraft_version}-${config.forge_version}"
-    version = "1.7.10-${config.forge_version}"
+    version = "${config.minecraft_version}-${config.forge_version}"
     assetDir = "eclipse/assets"
     
     replaceIn "Reference.java"
