@@ -2,6 +2,7 @@ package evilcraft.entities.effect;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -17,6 +18,7 @@ import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.entities.monster.VengeanceSpirit;
+import evilcraft.render.particle.EntityBlurFX;
 
 /**
  * Entity for the Neutron beams.
@@ -24,8 +26,11 @@ import evilcraft.entities.monster.VengeanceSpirit;
  *
  */
 public class EntityNeutronBeam extends EntityThrowable implements Configurable{
+	
+	private static final int MAX_AGE = 20 * 20;
     
     protected ExtendedConfig<?> eConfig = null;
+    private int age = 0;
     
     /**
      * The type for this {@link Configurable}.
@@ -120,6 +125,8 @@ public class EntityNeutronBeam extends EntityThrowable implements Configurable{
             if (entity != null) {
                 movingobjectposition = new MovingObjectPosition(entity);
             }
+        } else {
+        	showNewBlurParticle();
         }
     	
     	if (movingobjectposition != null) {
@@ -129,24 +136,41 @@ public class EntityNeutronBeam extends EntityThrowable implements Configurable{
                 this.onImpact(movingobjectposition);
             }
         }
+    	
+    	if(age++ > MAX_AGE) {
+    		this.setDead();
+    	}
     }
 
-    @Override
-    protected void onImpact(MovingObjectPosition position) {
-        for (int i = 0; i < 32; ++i) {
-            this.worldObj.spawnParticle("portal", this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
-        }
+    @SideOnly(Side.CLIENT)
+    private void showNewBlurParticle() {
+    	float scale = 0.6F - rand.nextFloat() * 0.3F;
+    	float red = rand.nextFloat() * 0.03F + 0.01F;
+        float green = rand.nextFloat() * 0.03F;
+        float blue = rand.nextFloat() * 0.05F + 0.05F;
+        float ageMultiplier = (float) (rand.nextDouble() * 6.5D + 4D); 
+        
+		EntityBlurFX blur = new EntityBlurFX(worldObj, posX, posY, posZ, scale,
+				deriveMotion(motionX), deriveMotion(motionY), deriveMotion(motionZ),
+				red, green, blue, ageMultiplier);
+		Minecraft.getMinecraft().effectRenderer.addEffect(blur);
+	}
+    
+    private double deriveMotion(double motion) {
+    	return motion * 0.5D + (0.02D - rand.nextDouble() * 0.04D);
+    }
 
+	@Override
+    protected void onImpact(MovingObjectPosition position) {
         if (!this.worldObj.isRemote) {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {
             	if(position.entityHit != null && position.entityHit instanceof VengeanceSpirit) {
             		VengeanceSpirit spirit = (VengeanceSpirit) position.entityHit;
-            		spirit.addFrozenDuration(worldObj.rand.nextInt(2) + 1);
+            		spirit.onHit(posX, posY, posZ, motionX, motionY, motionZ);
             	}
             }
-
-            this.setDead();
         }
+        this.setDead();
     }
 
 }

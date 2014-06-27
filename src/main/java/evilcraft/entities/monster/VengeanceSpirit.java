@@ -22,10 +22,13 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.render.particle.EntityBlurFX;
 import evilcraft.render.particle.EntityDarkSmokeFX;
 
 /**
@@ -153,8 +156,14 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     @Override
     public void setDead() {
     	super.setDead();
-    	if(worldObj.isRemote)
+    	if(worldObj.isRemote) {
     		spawnSmoke();
+    	}
+    }
+    
+    @Override
+    public boolean isMovementBlocked() {
+    	return isFrozen();
     }
     
     @Override
@@ -177,11 +186,11 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
         	innerEntity.prevRotationYaw = prevRotationYaw;
         	innerEntity.prevRotationYawHead = prevRotationYawHead;
         	
-        	if(isVisible())
+        	if(isVisible() && worldObj.isRemote)
         		spawnSmoke();
         }
         
-        if(getFrozenDuration() > 0) {
+        if(isFrozen()) {
         	this.motionX = 0;
         	this.motionY = 0;
         	this.motionZ = 0;
@@ -196,6 +205,7 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
         }
     }
     
+    @SideOnly(Side.CLIENT)
     private void spawnSmoke() {
     	int numParticles = rand.nextInt(5);
     	if(this.isDead)
@@ -395,6 +405,48 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	 */
 	public void addFrozenDuration(int addFrozen) {
 		this.setFrozenDuration(this.getFrozenDuration() + addFrozen);
+	}
+	
+	/**
+	 * If this spirit is frozen.
+	 * @return If frozen duration larger than zero.
+	 */
+	public boolean isFrozen() {
+		return this.getFrozenDuration() > 0;
+	}
+	
+	/**
+	 * When this spirit is hit by a neutron.
+	 * @param hitX Hit X.
+	 * @param hitY Hit Y.
+	 * @param hitZ Hit Z.
+	 * @param impactMotionX The motion speed for X.
+	 * @param impactMotionY The motion speed for Y.
+	 * @param impactMotionZ The motion speed for Z.
+	 */
+	public void onHit(double hitX, double hitY, double hitZ,
+			double impactMotionX, double impactMotionY, double impactMotionZ) {
+		addFrozenDuration(worldObj.rand.nextInt(2) + 1);
+		showBurstParticles(hitX, hitY, hitZ, impactMotionX, impactMotionY, impactMotionZ);
+	}
+
+	private void showBurstParticles(double hitX, double hitY, double hitZ, 
+			double impactMotionX, double impactMotionY, double impactMotionZ) {
+		for(int i = 0; i < worldObj.rand.nextInt(5); i++) {
+			float scale = 0.04F - rand.nextFloat() * 0.02F;
+	    	float red = rand.nextFloat() * 0.2F + 0.3F;
+	        float green = rand.nextFloat() * 0.2F + 0.3F;
+	        float blue = rand.nextFloat() * 0.01F;
+	        float ageMultiplier = (float) (rand.nextDouble() * 0.5D + 3D);
+	        
+	        double dx = 0.1D - rand.nextDouble() * 0.2D - impactMotionX * 0.1D;
+	        double dy = 0.1D - rand.nextDouble() * 0.2D - impactMotionY * 0.1D;
+	        double dz = 0.1D - rand.nextDouble() * 0.2D - impactMotionZ * 0.1D;
+	        
+			EntityBlurFX blur = new EntityBlurFX(worldObj, hitX, hitY, hitZ, scale,
+					dx, dy, dz, red, green, blue, ageMultiplier);
+			Minecraft.getMinecraft().effectRenderer.addEffect(blur);
+		}
 	}
     
 }

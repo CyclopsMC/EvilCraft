@@ -1,12 +1,10 @@
 package evilcraft.entities.effect;
 
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import evilcraft.api.config.EntityConfig;
-import evilcraft.api.render.RenderTexture;
+import evilcraft.api.render.RenderNull;
 
 /**
  * Config for the {@link EntityNeutronBeam}.
@@ -35,7 +33,7 @@ public class EntityNeutronBeamConfig extends EntityConfig {
     @SideOnly(Side.CLIENT)
     @Override
     public Render getRender() {
-        return new RenderTexture(0.5F, new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + this.NAMEDID + ".png"));
+    	return new RenderNull();
     }
     
     @Override

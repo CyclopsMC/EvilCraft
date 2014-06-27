@@ -24,6 +24,7 @@ public class Reference {
     public static final String TEXTURE_PATH_ENTITIES = "textures/entities/";
     public static final String TEXTURE_PATH_GUIBACKGROUNDS = "textures/gui/title/background/";
     public static final String TEXTURE_PATH_ITEMS = "textures/items/";
+    public static final String TEXTURE_PATH_PARTICLES = "textures/particles/";
     
     // External locations
     public static final String URL_VERSIONSTATS = "http://rubensworks.net/evilcraft-versionstats/";
