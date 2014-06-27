@@ -74,6 +74,8 @@ item.items.kineticator.info.main.2=Right click to change area.
 item.items.kineticator.info.attraction=Attraction: %s
 item.items.kineticator.info.area=Area: %s
 item.items.vengeanceRing.name=Vengeance Ring
+item.items.vengeanceRing.info.main=Shift + Right click to toggle.
+item.items.vengeanceRing.info.status=Status: %s
 item.items.neutronBlaster.name=Neutron Blaster
 item.items.vengeancePickaxe.name=Vengeance Pickaxe
 

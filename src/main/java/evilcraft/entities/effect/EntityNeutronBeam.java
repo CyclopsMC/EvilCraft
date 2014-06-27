@@ -17,10 +17,9 @@ import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.entities.monster.VengeanceSpirit;
-import evilcraft.items.BloodPearlOfTeleportation;
 
 /**
- * Entity for the {@link BloodPearlOfTeleportation}.
+ * Entity for the Neutron beams.
  * @author rubensworks
  *
  */
