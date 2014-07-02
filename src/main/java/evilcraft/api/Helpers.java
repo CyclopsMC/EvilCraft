@@ -11,6 +11,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -325,7 +326,26 @@ public class Helpers {
                 itemStack.stackTagCompound.removeTag("ench");
             }
         } else {
-            ((NBTTagCompound)enchlist.getCompoundTagAt(enchantmentListID)).setShort("lvl", (short) level);
+        	NBTTagCompound compound = enchlist.getCompoundTagAt(enchantmentListID);
+	        compound.setShort("lvl", (short) level);
+        }
+    }
+    
+    /**
+     * Sets the level of an enchantment given an itemStack and the id
+     * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
+     * the id in the enchantmentlist)
+     * Will clear the enchantment if the new level <= 0
+     * @param itemStack The itemStack which contains the enchanted item
+     * @param enchantment The enchantment
+     * @param level The new level of the enchantment on the given item
+     */
+    public static void setEnchantmentLevel(ItemStack itemStack, Enchantment enchantment, int level) {
+        NBTTagList enchlist = itemStack.getEnchantmentTagList();
+        if(level <= 0 || enchlist != null) {
+        	setEnchantmentLevel(itemStack, enchantment.effectId, level);
+        } else {
+        	itemStack.addEnchantment(enchantment, level);
         }
     }
     

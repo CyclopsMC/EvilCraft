@@ -366,7 +366,8 @@ public class Recipes {
         }
         // Vengeance Pickaxe
         if(Configs.isEnabled(DarkStickConfig.class) && Configs.isEnabled(VengeancePickaxeConfig.class) && Configs.isEnabled(HardenedBloodShardConfig.class)) {
-            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(VengeancePickaxe.getInstance()), true,
+            ItemStack pickaxe = VengeancePickaxe.createCraftingResult();
+        	GameRegistry.addRecipe(new ShapedOreRecipe(pickaxe, true,
                     new Object[]{
                 "HDH",
                 "DSD",

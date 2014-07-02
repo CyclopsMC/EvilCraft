@@ -1,7 +1,6 @@
 package evilcraft.api.config.configurable;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import cpw.mods.fml.relauncher.Side;
@@ -32,12 +31,11 @@ public abstract class ConfigurableItemPickaxe extends ItemPickaxe implements Con
      * @param eConfig Config for this block.
      * @param blockID The fluid block ID it can pick up.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes" })
     protected ConfigurableItemPickaxe(ExtendedConfig eConfig, Item.ToolMaterial material) {
         super(material);
         this.setConfig(eConfig);
         this.setUnlocalizedName(this.getUniqueName());
-        setContainerItem(Items.bucket);
     }
 
     @SuppressWarnings("rawtypes")

@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -14,6 +15,7 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -92,7 +94,8 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     @Override
 	public void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(WATCHERID_INNER, new String());
+        String defaultInnerEntity = EntityZombie.class.getName();
+        this.dataWatcher.addObject(WATCHERID_INNER, defaultInnerEntity);
         this.dataWatcher.addObject(WATCHERID_REMAININGLIFE, 0);
         this.dataWatcher.addObject(WATCHERID_FROZENDURATION, 0);
         this.dataWatcher.addObject(WATCHERID_GLOBALVENGEANCE, 0);
@@ -446,6 +449,29 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 			EntityBlurFX blur = new EntityBlurFX(worldObj, hitX, hitY, hitZ, scale,
 					dx, dy, dz, red, green, blue, ageMultiplier);
 			Minecraft.getMinecraft().effectRenderer.addEffect(blur);
+		}
+	}
+
+	/**
+	 * Spawn a random vengeance spirit in the given area.
+	 * @param world The world.
+	 * @param x The center X coordinate.
+	 * @param y The center Y coordinate.
+	 * @param z The center Z coordinate.
+	 * @param area The radius in which the spawn can occur.
+	 */
+	public static void spawnRandom(World world, double x, double y, double z, int area) {
+		// TODO: not working yet.
+		VengeanceSpirit spirit = new VengeanceSpirit(world);
+		int attempts = 20;
+		while(!spirit.getCanSpawnHere() && attempts > 0) {
+			spirit.setLocationAndAngles(x + world.rand.nextInt(area), y + world.rand.nextInt(area),
+					z + world.rand.nextInt(area), world.rand.nextFloat() * 360.0F, 0.0F);
+			attempts--;
+		}
+		if(spirit.getCanSpawnHere()) {
+			spirit.onSpawnWithEgg((IEntityLivingData)null);
+			world.spawnEntityInWorld(spirit);
 		}
 	}
     

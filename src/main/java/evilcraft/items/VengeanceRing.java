@@ -6,6 +6,8 @@ import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -24,7 +26,8 @@ import evilcraft.entities.monster.VengeanceSpirit;
  *
  */
 public class VengeanceRing extends ConfigurableItem {
-    
+
+	private static int BONUS_POTION_DURATION = 3 * 20;
     private static VengeanceRing _instance = null;
     
     /**
@@ -93,16 +96,29 @@ public class VengeanceRing extends ConfigurableItem {
     	}
     }
     
+    /**
+     * Give bonus abilities to the given player.
+     * @param player The player to receive the powers.
+     */
+    public static void updateRingPowers(EntityPlayer player) {
+    	player.addPotionEffect(new PotionEffect(Potion.jump.id, BONUS_POTION_DURATION, 2, true));
+    	player.addPotionEffect(new PotionEffect(Potion.invisibility.id, BONUS_POTION_DURATION, 1, true));
+    	player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, BONUS_POTION_DURATION, 1, true));
+    	player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, BONUS_POTION_DURATION, 1, true));
+	}
+    
 	@Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-        if(entity instanceof EntityPlayer && !world.isRemote) {
+        if(entity instanceof EntityPlayer && !world.isRemote) { // TODO: don't spawn on all ticks.
         	int area = VengeanceRingConfig.areaOfEffect;
         	toggleVengeanceArea(world, entity, area, ItemHelpers.isActivated(itemStack));
+        	// TODO: also spawn random spirits.
+        	updateRingPowers((EntityPlayer) entity);
         }
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {

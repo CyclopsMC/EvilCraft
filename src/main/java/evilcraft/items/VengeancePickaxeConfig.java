@@ -22,7 +22,7 @@ public class VengeancePickaxeConfig extends ItemConfig {
     /**
      * The ^-1 chance on which vengeance spirits could be toggled.
      */
-    public static int vengeanceChance = 2;
+    public static int vengeanceChance = 1;
 
     /**
      * Make a new instance.
