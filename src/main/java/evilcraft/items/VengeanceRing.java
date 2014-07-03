@@ -12,6 +12,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.Helpers;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.ItemHelpers;
 import evilcraft.api.L10NHelpers;
@@ -27,7 +28,9 @@ import evilcraft.entities.monster.VengeanceSpirit;
  */
 public class VengeanceRing extends ConfigurableItem {
 
-	private static int BONUS_POTION_DURATION = 3 * 20;
+	private static final int BONUS_TICK_MODULUS = 10;
+	private static final int BONUS_POTION_DURATION = 3 * 20;
+	
     private static VengeanceRing _instance = null;
     
     /**
@@ -74,15 +77,18 @@ public class VengeanceRing extends ConfigurableItem {
      * @param entity The entity to activate vengeance around.
      * @param area The area size.
      * @param enableVengeance If vengeance should be enabled (if false, will be disabled)
+     * @param spawnRandom If a random spirit should be spawned when no spirits where in the area.
      */
     @SuppressWarnings("unchecked")
-	public static void toggleVengeanceArea(World world, Entity entity, int area, boolean enableVengeance) {
+	public static void toggleVengeanceArea(World world, Entity entity, int area,
+			boolean enableVengeance, boolean spawnRandom) {
     	double x = entity.posX;
     	double y = entity.posY;
     	double z = entity.posZ;
     	
     	AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
-    	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABBExcludingEntity(entity, box, new IEntitySelector() {
+    	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABBExcludingEntity(entity, box,
+    			new IEntitySelector() {
 
 			@Override
 			public boolean isEntityApplicable(Entity entity) {
@@ -93,6 +99,11 @@ public class VengeanceRing extends ConfigurableItem {
     	
     	for(VengeanceSpirit spirit : spirits) {
     		spirit.setEnabledVengeance((EntityPlayer) entity, enableVengeance);
+    	}
+    	
+    	if(spirits.size() == 0) {
+    		VengeanceSpirit.spawnRandom(world, (int) Math.round(x), (int) Math.round(y)
+    				, (int) Math.round(z), area, entity);
     	}
     }
     
@@ -109,10 +120,10 @@ public class VengeanceRing extends ConfigurableItem {
     
 	@Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-        if(entity instanceof EntityPlayer && !world.isRemote) { // TODO: don't spawn on all ticks.
+        if(ItemHelpers.isActivated(itemStack) && entity instanceof EntityPlayer && !world.isRemote
+        		&& Helpers.efficientTick(world, BONUS_TICK_MODULUS)) {
         	int area = VengeanceRingConfig.areaOfEffect;
-        	toggleVengeanceArea(world, entity, area, ItemHelpers.isActivated(itemStack));
-        	// TODO: also spawn random spirits.
+        	toggleVengeanceArea(world, entity, area, ItemHelpers.isActivated(itemStack), true);
         	updateRingPowers((EntityPlayer) entity);
         }
         super.onUpdate(itemStack, world, entity, par4, par5);

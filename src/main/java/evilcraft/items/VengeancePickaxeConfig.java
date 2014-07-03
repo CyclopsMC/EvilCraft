@@ -17,7 +17,7 @@ public class VengeancePickaxeConfig extends ItemConfig {
     /**
      * The area of effect in blocks in which this tool could enable vengeance spirits.
      */
-    public static int areaOfEffect = 10;
+    public static int areaOfEffect = 5;
     
     /**
      * The ^-1 chance on which vengeance spirits could be toggled.

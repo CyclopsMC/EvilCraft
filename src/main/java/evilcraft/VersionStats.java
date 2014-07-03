@@ -94,7 +94,7 @@ public class VersionStats {
 	 * @param versionStats The version info holder.
 	 */
 	public static synchronized void sendIMCOutdatedMessage(VersionStats versionStats) {
-		if(Loader.isModLoaded(Reference.MOD_VERSION_CHECKER)) {
+		if(needsUpdate(versionStats) && Loader.isModLoaded(Reference.MOD_VERSION_CHECKER)) {
 			NBTTagCompound compound = new NBTTagCompound();
 			compound.setString("modDisplayName", Reference.MOD_NAME);
 			compound.setString("oldVersion", Reference.MOD_VERSION);

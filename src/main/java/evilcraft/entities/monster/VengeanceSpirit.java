@@ -18,6 +18,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -47,6 +48,10 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
      */
     public static ElementType TYPE = ElementType.MOB;
     
+    /**
+     * The minimum life duration in ticks the spirits should have.
+     */
+    public static final int REMAININGLIFE_MIN = 250;
     /**
      * The maximum life duration in ticks the spirits should have.
      */
@@ -87,7 +92,8 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
         
-        setRemainingLife(world.rand.nextInt(REMAININGLIFE_MAX));
+        setRemainingLife(MathHelper.getRandomIntegerInRange(world.rand, REMAININGLIFE_MIN,
+        		REMAININGLIFE_MAX));
         setFrozenDuration(0);
     }
     
@@ -459,19 +465,29 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	 * @param y The center Y coordinate.
 	 * @param z The center Z coordinate.
 	 * @param area The radius in which the spawn can occur.
+	 * @param target The target that will be attacked.
 	 */
-	public static void spawnRandom(World world, double x, double y, double z, int area) {
-		// TODO: not working yet.
+	public static void spawnRandom(World world, int x, int y, int z, int area, Entity target) {
 		VengeanceSpirit spirit = new VengeanceSpirit(world);
-		int attempts = 20;
-		while(!spirit.getCanSpawnHere() && attempts > 0) {
-			spirit.setLocationAndAngles(x + world.rand.nextInt(area), y + world.rand.nextInt(area),
-					z + world.rand.nextInt(area), world.rand.nextFloat() * 360.0F, 0.0F);
+		int attempts = 50;
+		while(attempts > 0) {
+			int posX = x + MathHelper.getRandomIntegerInRange(world.rand, 5, 15) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
+            int posY = y + MathHelper.getRandomIntegerInRange(world.rand, 0, 3) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
+            int posZ = z + MathHelper.getRandomIntegerInRange(world.rand, 5, 15) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
+            
+            if(World.doesBlockHaveSolidTopSurface(world, posX, posY - 1, posZ)) {
+            	spirit.setPosition((double)posX, (double)posY, (double)posZ);
+
+                if(world.checkNoEntityCollision(spirit.boundingBox)
+                		&& world.getCollidingBoundingBoxes(spirit, spirit.boundingBox).isEmpty()
+                		&& !world.isAnyLiquid(spirit.boundingBox)) {
+                    world.spawnEntityInWorld(spirit);
+                    spirit.setTarget(target);
+                    spirit.onSpawnWithEgg((IEntityLivingData)null);
+                    attempts = -1;
+                }
+            }
 			attempts--;
-		}
-		if(spirit.getCanSpawnHere()) {
-			spirit.onSpawnWithEgg((IEntityLivingData)null);
-			world.spawnEntityInWorld(spirit);
 		}
 	}
     

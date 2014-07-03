@@ -99,6 +99,8 @@ public class Helpers {
     
     private static Map<IDType, Integer> ID_COUNTER = new HashMap<IDType, Integer>();
     
+    private static final double TICK_LAG_REDUCTION_MODULUS_MODIFIER = 1.0D;
+    
     /**
      * A list of all the {@link ChestGenHooks}.
      * @see ChestGenHooks
@@ -589,5 +591,18 @@ public class Helpers {
             }
         }
         return randomPoint;
+    }
+    
+    /**
+     * Check if an efficient tick can happen.
+     * This is useful for opererations that should happen frequently, but not strictly every tick.
+     * @param world The world to tick in.
+     * @param baseModulus The amount of ticks that could be skipped.
+     * @return If a tick of some operation can occur.
+     */
+    public static boolean efficientTick(World world, int baseModulus) {
+    	int mod = (int) (baseModulus * TICK_LAG_REDUCTION_MODULUS_MODIFIER);
+    	if(mod == 0) mod = 1;
+    	return world.rand.nextInt(mod) == 0;
     }
 }

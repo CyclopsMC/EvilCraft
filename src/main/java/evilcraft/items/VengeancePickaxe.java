@@ -14,7 +14,6 @@ import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItemPickaxe;
-import evilcraft.entities.monster.VengeanceSpirit;
 
 /**
  * A strong pickaxe that may call up spirits.
@@ -23,7 +22,6 @@ import evilcraft.entities.monster.VengeanceSpirit;
  */
 public class VengeancePickaxe extends ConfigurableItemPickaxe {
     
-	private static final int SPAWN_NEW_SPIRIT_RADIUS = 1;
     private static VengeancePickaxe _instance = null;
     
     /**
@@ -63,8 +61,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
         if(result) {
         	if(world.rand.nextInt(VengeancePickaxeConfig.vengeanceChance) == 0) {
         		int area = VengeancePickaxeConfig.areaOfEffect;
-        		VengeanceSpirit.spawnRandom(world, x, y, z, SPAWN_NEW_SPIRIT_RADIUS);
-        		VengeanceRing.toggleVengeanceArea(world, entity, area, true);
+        		VengeanceRing.toggleVengeanceArea(world, entity, area, true, true);
         	}
         }
         return result;
