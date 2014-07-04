@@ -39,18 +39,20 @@ public class RenderVengeanceSpirit extends Render {
 			spirit.worldObj.removeEntity(spirit);
 		} else if(spirit.isVisible()) {
 			Render render = (Render) RenderManager.instance.entityRenderMap.get(innerEntity.getClass());
-			GL11.glEnable(GL11.GL_BLEND);
-			if(!spirit.isFrozen()) {
-				GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
-			} else {
-				GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
+			if(render != null) {
+				GL11.glEnable(GL11.GL_BLEND);
+				if(!spirit.isFrozen()) {
+					GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
+				} else {
+					GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
+				}
+				//GL14.glBlendColor(0, 0, 0, 0);
+				//GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_CONSTANT_COLOR);
+				//GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_DST_COLOR);
+				
+				render.doRender(innerEntity, x, y, z, yaw, partialTickTime);
+				GL11.glDisable(GL11.GL_BLEND);
 			}
-			//GL14.glBlendColor(0, 0, 0, 0);
-			//GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_CONSTANT_COLOR);
-			//GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_DST_COLOR);
-			
-			render.doRender(innerEntity, x, y, z, yaw, partialTickTime);
-			GL11.glDisable(GL11.GL_BLEND);
 		}
 	}
 

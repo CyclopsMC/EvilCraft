@@ -1,5 +1,8 @@
 package evilcraft.entities.monster;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -15,7 +18,6 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
@@ -24,6 +26,8 @@ import net.minecraft.world.World;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
+
+import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -97,11 +101,19 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
         setFrozenDuration(0);
     }
     
+    @SuppressWarnings("unchecked")
+	private String getRandomInnerEntity() {
+    	Collection<EntityList.EntityEggInfo> eggs = EntityList.entityEggs.values();
+    	ArrayList<EntityList.EntityEggInfo> eggList = Lists.newArrayList(eggs);
+    	EntityList.EntityEggInfo egg = eggList.get(rand.nextInt(eggList.size()));
+    	Class<Entity> clazz = (Class<Entity>) EntityList.IDtoClassMapping.get(egg.spawnedID);
+    	return clazz.getName();
+    }
+    
     @Override
 	public void entityInit() {
         super.entityInit();
-        String defaultInnerEntity = EntityZombie.class.getName();
-        this.dataWatcher.addObject(WATCHERID_INNER, defaultInnerEntity);
+        this.dataWatcher.addObject(WATCHERID_INNER, getRandomInnerEntity());
         this.dataWatcher.addObject(WATCHERID_REMAININGLIFE, 0);
         this.dataWatcher.addObject(WATCHERID_FROZENDURATION, 0);
         this.dataWatcher.addObject(WATCHERID_GLOBALVENGEANCE, 0);
