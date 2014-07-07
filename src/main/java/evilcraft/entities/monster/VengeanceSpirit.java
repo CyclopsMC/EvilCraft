@@ -20,6 +20,7 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -31,10 +32,13 @@ import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.items.BurningGemStone;
+import evilcraft.items.BurningGemStoneConfig;
 import evilcraft.render.particle.EntityBlurFX;
 import evilcraft.render.particle.EntityDarkSmokeFX;
 
@@ -91,10 +95,10 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIWander(this, 1.0F));
         this.tasks.addTask(2, new EntityAILookIdle(this));
-        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.5D, true));
+        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.5D, false));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
         
         setRemainingLife(MathHelper.getRandomIntegerInRange(world.rand, REMAININGLIFE_MIN,
         		REMAININGLIFE_MAX));
@@ -142,6 +146,7 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(10.0D);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(3.0D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.0D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
@@ -171,6 +176,18 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     public boolean attackEntityAsMob(Entity entity) {
         this.setDead();
         this.worldObj.removeEntity(this);
+    	if(entity instanceof EntityPlayer) {
+    		EntityPlayer player = (EntityPlayer) entity;
+    		if(!Configs.isEnabled(BurningGemStoneConfig.class)
+    				|| BurningGemStone.damageForPlayer(player, false)) {
+    			entity.addVelocity(
+    					(double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * 0.01F),
+    					0.025D,
+    					(double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * 0.01F));
+    			entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.1F);
+    			return false;
+    		}
+    	}
         return super.attackEntityAsMob(entity);
     }
     
@@ -477,9 +494,9 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	 * @param y The center Y coordinate.
 	 * @param z The center Z coordinate.
 	 * @param area The radius in which the spawn can occur.
-	 * @param target The target that will be attacked.
+	 * @return The spawned spirit, could be null.
 	 */
-	public static void spawnRandom(World world, int x, int y, int z, int area, Entity target) {
+	public static VengeanceSpirit spawnRandom(World world, int x, int y, int z, int area) {
 		VengeanceSpirit spirit = new VengeanceSpirit(world);
 		int attempts = 50;
 		while(attempts > 0) {
@@ -494,13 +511,14 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
                 		&& world.getCollidingBoundingBoxes(spirit, spirit.boundingBox).isEmpty()
                 		&& !world.isAnyLiquid(spirit.boundingBox)) {
                     world.spawnEntityInWorld(spirit);
-                    spirit.setTarget(target);
                     spirit.onSpawnWithEgg((IEntityLivingData)null);
                     attempts = -1;
+                    return spirit;
                 }
             }
 			attempts--;
 		}
+		return null;
 	}
     
 }

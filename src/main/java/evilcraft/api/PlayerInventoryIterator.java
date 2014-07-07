@@ -6,11 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 /**
- * Iterate over a player's hotbar.
+ * Iterate over a player's inventory.
  * @author rubensworks
  *
  */
-public class HotbarIterator implements Iterator<ItemStack>{
+public class PlayerInventoryIterator implements Iterator<ItemStack>{
     
     private EntityPlayer player;
     private int i;
@@ -19,7 +19,7 @@ public class HotbarIterator implements Iterator<ItemStack>{
      * Create a new HotbarIterator.
      * @param player The player to iterate the hotbar from.
      */
-    public HotbarIterator(EntityPlayer player) {
+    public PlayerInventoryIterator(EntityPlayer player) {
         this.player = player;
     }
 

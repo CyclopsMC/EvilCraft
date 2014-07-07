@@ -78,6 +78,7 @@ item.items.vengeanceRing.info.main=Shift + Right click to toggle.
 item.items.vengeanceRing.info.status=Status: %s
 item.items.neutronBlaster.name=Neutron Blaster
 item.items.vengeancePickaxe.name=Vengeance Pickaxe
+item.items.burningGemStone.name=Burning GemStone
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

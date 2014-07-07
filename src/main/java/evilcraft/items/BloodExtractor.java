@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
-import evilcraft.api.HotbarIterator;
+import evilcraft.api.PlayerInventoryIterator;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.ItemHelpers;
 import evilcraft.api.L10NHelpers;
@@ -136,7 +136,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
      */
     public void fillForAllBloodExtractors(EntityPlayer player, int minimumMB, int maximumMB) {
         int toFill = minimumMB + itemRand.nextInt(maximumMB - minimumMB);
-        HotbarIterator it = new HotbarIterator(player);
+        PlayerInventoryIterator it = new PlayerInventoryIterator(player);
         while(it.hasNext() && toFill > 0) {
             ItemStack itemStack = it.next();
             if(itemStack != null && itemStack.getItem() == BloodExtractor.getInstance()) {

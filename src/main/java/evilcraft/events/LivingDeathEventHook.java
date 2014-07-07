@@ -16,6 +16,7 @@ import evilcraft.Configs;
 import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.entities.monster.VengeanceSpirit;
+import evilcraft.entities.monster.VengeanceSpiritConfig;
 import evilcraft.items.BloodExtractor;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.render.particle.EntityBloodSplashFX;
@@ -52,7 +53,9 @@ public class LivingDeathEventHook {
     
     private void bloodStainedBlockEvent(LivingDeathEvent event) {
         if(event.source.damageType == DamageSource.fall.damageType
-                && Configs.isEnabled(BloodStainedBlockConfig.class)) {
+                && Configs.isEnabled(BloodStainedBlockConfig.class)
+                && (!Configs.isEnabled(VengeanceSpiritConfig.class)
+                		|| event.entity instanceof VengeanceSpirit)) {
             int x = MathHelper.floor_double(event.entity.posX);
             int y = MathHelper.floor_double(event.entity.posY - event.entity.getYOffset() - 1);
             int z = MathHelper.floor_double(event.entity.posZ);

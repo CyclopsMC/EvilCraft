@@ -61,7 +61,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
         if(result) {
         	if(world.rand.nextInt(VengeancePickaxeConfig.vengeanceChance) == 0) {
         		int area = VengeancePickaxeConfig.areaOfEffect;
-        		VengeanceRing.toggleVengeanceArea(world, entity, area, true, true);
+        		VengeanceRing.toggleVengeanceArea(world, entity, area, true, true, true);
         	}
         }
         return result;

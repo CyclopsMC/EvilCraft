@@ -54,6 +54,8 @@ import evilcraft.items.Blook;
 import evilcraft.items.BlookConfig;
 import evilcraft.items.BucketPoison;
 import evilcraft.items.BucketPoisonConfig;
+import evilcraft.items.BurningGemStone;
+import evilcraft.items.BurningGemStoneConfig;
 import evilcraft.items.DarkGem;
 import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkPowerGem;
@@ -377,6 +379,11 @@ public class Recipes {
                 'S', new ItemStack(DarkStick.getInstance())
             }
                     ));
+        }
+        // Burning GemStone
+        if(Configs.isEnabled(BurningGemStoneConfig.class) && Configs.isEnabled(DarkBlockConfig.class)) {
+        	GameRegistry.addSmelting(DarkBlock.getInstance(),
+        			new ItemStack(BurningGemStone.getInstance()), 50);
         }
 
         registerCustomRecipes();

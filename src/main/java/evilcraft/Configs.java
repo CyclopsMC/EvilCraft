@@ -65,6 +65,7 @@ import evilcraft.items.BlookConfig;
 import evilcraft.items.BroomConfig;
 import evilcraft.items.BucketBloodConfig;
 import evilcraft.items.BucketPoisonConfig;
+import evilcraft.items.BurningGemStoneConfig;
 import evilcraft.items.ContainedFluxConfig;
 import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkPowerGemConfig;
@@ -193,6 +194,7 @@ public class Configs {
         configs.add(new VengeanceRingConfig());
         configs.add(new NeutronBlasterConfig());
         configs.add(new VengeancePickaxeConfig());
+        configs.add(new BurningGemStoneConfig());
         
         // Entities
         // Item
