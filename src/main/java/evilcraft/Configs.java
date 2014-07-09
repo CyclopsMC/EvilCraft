@@ -76,7 +76,7 @@ import evilcraft.items.KineticatorConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.MaceOfDistortionConfig;
-import evilcraft.items.NeutronBlasterConfig;
+import evilcraft.items.VengeanceFocusConfig;
 import evilcraft.items.PoisonSacConfig;
 import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.RedstoneGrenadeConfig;
@@ -192,7 +192,7 @@ public class Configs {
         configs.add(new MaceOfDistortionConfig());
         configs.add(new KineticatorConfig());
         configs.add(new VengeanceRingConfig());
-        configs.add(new NeutronBlasterConfig());
+        configs.add(new VengeanceFocusConfig());
         configs.add(new VengeancePickaxeConfig());
         configs.add(new BurningGemStoneConfig());
         

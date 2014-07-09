@@ -14,13 +14,13 @@ import evilcraft.api.config.configurable.ConfigurableItem;
 import evilcraft.entities.effect.EntityNeutronBeam;
 
 /**
- * Blaster that fires neutron to entangle vengeance spirits.
+ * Focus that is able to direct rays of the sun to entangle vengeance spirits.
  * @author rubensworks
  *
  */
-public class NeutronBlaster extends ConfigurableItem {
+public class VengeanceFocus extends ConfigurableItem {
     
-    private static NeutronBlaster _instance = null;
+    private static VengeanceFocus _instance = null;
     
     /**
      * Initialise the configurable.
@@ -28,7 +28,7 @@ public class NeutronBlaster extends ConfigurableItem {
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
         if(_instance == null)
-            _instance = new NeutronBlaster(eConfig);
+            _instance = new VengeanceFocus(eConfig);
         else
             eConfig.showDoubleInitError();
     }
@@ -37,11 +37,11 @@ public class NeutronBlaster extends ConfigurableItem {
      * Get the unique instance.
      * @return The instance.
      */
-    public static NeutronBlaster getInstance() {
+    public static VengeanceFocus getInstance() {
         return _instance;
     }
 
-    private NeutronBlaster(ExtendedConfig<ItemConfig> eConfig) {
+    private VengeanceFocus(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
     

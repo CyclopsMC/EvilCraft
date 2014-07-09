@@ -76,7 +76,8 @@ item.items.kineticator.info.area=Area: %s
 item.items.vengeanceRing.name=Vengeance Ring
 item.items.vengeanceRing.info.main=Shift + Right click to toggle.
 item.items.vengeanceRing.info.status=Status: %s
-item.items.neutronBlaster.name=Neutron Blaster
+item.items.vengeanceFocus.name=Vengeance Focus
+item.items.vengeanceFocus.info.main=Right click to accept sun-rays.
 item.items.vengeancePickaxe.name=Vengeance Pickaxe
 item.items.burningGemStone.name=Burning GemStone
 
