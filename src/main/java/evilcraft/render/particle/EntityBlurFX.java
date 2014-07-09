@@ -24,7 +24,7 @@ public class EntityBlurFX extends EntityFX {
 	private static final ResourceLocation TEXTURE = new ResourceLocation(
 			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "particleBlur.png");
 	private static final int TESSELATOR_BRIGHTNESS = 240;
-	private static final int MAX_VIEW_DISTANCE = 100;
+	private static final int MAX_VIEW_DISTANCE = 50;
 	
 	private int scaleLife;
 	private float originalScale;

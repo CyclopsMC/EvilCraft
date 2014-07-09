@@ -126,7 +126,9 @@ public class EntityNeutronBeam extends EntityThrowable implements Configurable{
                 movingobjectposition = new MovingObjectPosition(entity);
             }
         } else {
-        	showNewBlurParticle();
+        	for(int i = 0; i < worldObj.rand.nextInt(5) + 5; i++) {
+        		showNewBlurParticle();
+        	}
         }
     	
     	if (movingobjectposition != null) {
