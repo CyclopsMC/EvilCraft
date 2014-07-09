@@ -50,16 +50,17 @@ public class BurningGemStone extends ConfigurableItem {
     /**
      * Try damaging a burning gem stone inside the given player's inventory.
      * @param player The player.
+     * @param swarmTier The tier of swarm.
      * @param simulate If damaging should be simulated.
      * @return If a burning gem stone was found and damaged.
      */
-	public static boolean damageForPlayer(EntityPlayer player, boolean simulate) {
+	public static boolean damageForPlayer(EntityPlayer player, int swarmTier, boolean simulate) {
 		PlayerInventoryIterator it = new PlayerInventoryIterator(player);
 		while(it.hasNext()) {
 			ItemStack itemStack = it.next();
 			if(itemStack != null && itemStack.getItem() == BurningGemStone.getInstance()) {
 				if(!simulate) {
-					itemStack.damageItem(1, player);
+					itemStack.damageItem(1 + swarmTier, player);
 					player.addExhaustion(10);
 				}
 				return true;

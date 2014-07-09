@@ -31,6 +31,7 @@ import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
+import evilcraft.entities.monster.VengeanceSpirit;
 import evilcraft.fluids.Blood;
 import evilcraft.render.particle.EntityDistortFX;
 
@@ -291,6 +292,9 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
                 if(world.isRemote) {
                     showEntityDistored(world, player, entity, power);
                 }
+            }
+            if(entity instanceof VengeanceSpirit) {
+            	((VengeanceSpirit) entity).setIsSwarm(true);
             }
             strength /= 2;
             entity.motionX += dx * strength;

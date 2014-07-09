@@ -41,6 +41,7 @@ import evilcraft.items.BurningGemStone;
 import evilcraft.items.BurningGemStoneConfig;
 import evilcraft.render.particle.EntityBlurFX;
 import evilcraft.render.particle.EntityDarkSmokeFX;
+import evilcraft.render.particle.EntityDegradeFX;
 
 /**
  * A silverfish for the nether.
@@ -48,6 +49,9 @@ import evilcraft.render.particle.EntityDarkSmokeFX;
  *
  */
 public class VengeanceSpirit extends EntityMob implements Configurable {
+	
+	private static final int SWARM_TIERS = 5;
+	private static final int SWARM_CHANCE = 25;
 	
     protected ExtendedConfig<?> eConfig = null;
 
@@ -70,6 +74,8 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     private static final int WATCHERID_FROZENDURATION = 22;
     private static final int WATCHERID_GLOBALVENGEANCE = 23;
     private static final int WATCHERID_VENGEANCEPLAYERS = 24;
+    private static final int WATCHERID_ISSWARM = 25;
+    private static final int WATCHERID_SWARMTIER = 26;
 
 	private EntityLivingBase innerEntity = null;
 
@@ -90,18 +96,27 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
         this.isImmuneToFire = true;
         this.preventEntitySpawning = false;
         
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
+        double speed = 0.5D;
+        double damage = 0.5D;
+        int remainingLife = MathHelper.getRandomIntegerInRange(world.rand, REMAININGLIFE_MIN,
+        		REMAININGLIFE_MAX);
+        if(isSwarm()) {
+        	speed += 0.25D * getSwarmTier();
+        	damage += 0.5D * getSwarmTier();
+        	remainingLife += (REMAININGLIFE_MAX - REMAININGLIFE_MIN) * getSwarmTier();
+        }
+        
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speed);
         
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIWander(this, 1.0F));
         this.tasks.addTask(2, new EntityAILookIdle(this));
-        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.5D, false));
+        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, damage, false));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
         
-        setRemainingLife(MathHelper.getRandomIntegerInRange(world.rand, REMAININGLIFE_MIN,
-        		REMAININGLIFE_MAX));
+        setRemainingLife(remainingLife);
         setFrozenDuration(0);
     }
     
@@ -122,6 +137,8 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
         this.dataWatcher.addObject(WATCHERID_FROZENDURATION, 0);
         this.dataWatcher.addObject(WATCHERID_GLOBALVENGEANCE, 0);
         this.dataWatcher.addObject(WATCHERID_VENGEANCEPLAYERS, new String());
+        this.dataWatcher.addObject(WATCHERID_ISSWARM, (rand.nextInt(SWARM_CHANCE) == 0) ? 1 : 0);
+        this.dataWatcher.addObject(WATCHERID_SWARMTIER, rand.nextInt(SWARM_TIERS));
     }
     
     @Override
@@ -131,6 +148,8 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     		tag.setString("innerEntity", getInnerEntity().getClass().getName());
     	tag.setInteger("remainingLife", getRemainingLife());
     	tag.setInteger("frozenDuration", getFrozenDuration());
+    	tag.setBoolean("isSwarm", isSwarm());
+    	tag.setInteger("swarmTier", getSwarmTier());
     }
     
     @Override
@@ -141,6 +160,8 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     		this.dataWatcher.updateObject(WATCHERID_INNER, name);
     	setRemainingLife(tag.getInteger("remainingLife"));
     	setFrozenDuration(tag.getInteger("frozenDuration"));
+    	setIsSwarm(tag.getBoolean("isSwarm"));
+    	setSwarmTier(tag.getInteger("swarmTier"));
     }
 
     @Override
@@ -173,13 +194,18 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     }
     
     @Override
+    public boolean isEntityInvulnerable() {
+    	return true;
+    }
+    
+    @Override
     public boolean attackEntityAsMob(Entity entity) {
         this.setDead();
         this.worldObj.removeEntity(this);
     	if(entity instanceof EntityPlayer) {
     		EntityPlayer player = (EntityPlayer) entity;
     		if(!Configs.isEnabled(BurningGemStoneConfig.class)
-    				|| BurningGemStone.damageForPlayer(player, false)) {
+    				|| BurningGemStone.damageForPlayer(player, isSwarm() ? getSwarmTier() : 0, false)) {
     			entity.addVelocity(
     					(double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * 0.01F),
     					0.025D,
@@ -208,24 +234,32 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     public void onLivingUpdate() {
     	super.onLivingUpdate();
     	
-        if(innerEntity != null && isVisible()) {
-        	innerEntity.isDead = isDead;
-        	innerEntity.deathTime = deathTime;
-        	innerEntity.attackTime = attackTime;
-        	innerEntity.hurtTime = hurtTime;
-        	innerEntity.rotationPitch = rotationPitch;
-        	innerEntity.rotationYaw = rotationYaw;
-        	innerEntity.rotationYawHead = rotationYawHead;
-        	innerEntity.renderYawOffset = renderYawOffset;
-        	innerEntity.cameraPitch = cameraPitch;
-        	innerEntity.prevCameraPitch = prevCameraPitch;
-        	innerEntity.prevRenderYawOffset = prevRenderYawOffset;
-        	innerEntity.prevRotationPitch = prevRotationPitch;
-        	innerEntity.prevRotationYaw = prevRotationYaw;
-        	innerEntity.prevRotationYawHead = prevRotationYawHead;
+        if(isVisible()) {
+        	if(innerEntity != null) {
+	        	innerEntity.isDead = isDead;
+	        	innerEntity.deathTime = deathTime;
+	        	innerEntity.attackTime = attackTime;
+	        	innerEntity.hurtTime = hurtTime;
+	        	innerEntity.rotationPitch = rotationPitch;
+	        	innerEntity.rotationYaw = rotationYaw;
+	        	innerEntity.rotationYawHead = rotationYawHead;
+	        	innerEntity.renderYawOffset = renderYawOffset;
+	        	innerEntity.cameraPitch = cameraPitch;
+	        	innerEntity.prevCameraPitch = prevCameraPitch;
+	        	innerEntity.prevRenderYawOffset = prevRenderYawOffset;
+	        	innerEntity.prevRotationPitch = prevRotationPitch;
+	        	innerEntity.prevRotationYaw = prevRotationYaw;
+	        	innerEntity.prevRotationYawHead = prevRotationYawHead;
+        	}
         	
-        	if(isVisible() && worldObj.isRemote)
-        		spawnSmoke();
+        	if(worldObj.isRemote) {
+        		if(isVisible()) {
+        			spawnSmoke();
+        			if(isSwarm()) {
+        				spawnSwarmParticles();
+        			}
+        		}
+        	}
         }
         
         if(isFrozen()) {
@@ -266,6 +300,25 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
             if(this.isDead)
             	particle.setDeathParticles();
             particle.setLiving((float)getRemainingLife() / (float)REMAININGLIFE_MAX);
+            Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+        }
+    }
+    
+    @SideOnly(Side.CLIENT)
+    private void spawnSwarmParticles() {
+    	int numParticles = 5 * (rand.nextInt((getSwarmTier() << 1) + 1) + 1);
+    	for (int i=0; i < numParticles; i++) {            
+            double particleX = posX - width /2 + width * rand.nextFloat();
+            if(particleX < 0.7F && particleX >= 0) particleX += width /2;
+            if(particleX > -0.7F && particleX <= 0) particleX -= width /2;
+            double particleY = posY + height * rand.nextFloat();
+            double particleZ = posZ - width / 2 + width * rand.nextFloat();
+            
+            float particleMotionX = (-0.5F + rand.nextFloat()) * 0.05F;
+            float particleMotionY = (-0.5F + rand.nextFloat()) * 0.05F;
+            float particleMotionZ = (-0.5F + rand.nextFloat()) * 0.05F;
+            
+            EntityDegradeFX particle = new EntityDegradeFX(worldObj, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             Minecraft.getMinecraft().effectRenderer.addEffect(particle);
         }
     }
@@ -337,6 +390,11 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
      */
     @SuppressWarnings("unchecked")
 	public EntityLivingBase getInnerEntity() {
+    	if(isSwarm()) {
+    		this.height = getSwarmTier() / 2 + 1;
+    		this.width = getSwarmTier() / 3 + 1;
+    		return null;
+    	}
     	if(innerEntity != null)
     		return innerEntity;
     	try {
@@ -408,6 +466,38 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	 */
 	public void setGlobalVengeance(boolean globalVengeance) {
 		this.dataWatcher.updateObject(WATCHERID_GLOBALVENGEANCE, globalVengeance?1:0);
+	}
+	
+	/**
+	 * Is this spirit is a swarm.
+	 * @return Is a swarm.
+	 */
+	public boolean isSwarm() {
+		return dataWatcher.getWatchableObjectInt(WATCHERID_ISSWARM) == 1;
+	}
+
+	/**
+	 * Set if this spirit is a swarm.
+	 * @param isSwarm Is a swarm.
+	 */
+	public void setIsSwarm(boolean isSwarm) {
+		this.dataWatcher.updateObject(WATCHERID_ISSWARM, isSwarm?1:0);
+	}
+	
+	/**
+	 * Get the tier of swarm for this spirit.
+	 * @return The swarm tier.
+	 */
+	public int getSwarmTier() {
+		return dataWatcher.getWatchableObjectInt(WATCHERID_SWARMTIER);
+	}
+
+	/**
+	 * Set the tier of swarm this spirit should be.
+	 * @param swarmTier The tier to set.
+	 */
+	public void setSwarmTier(int swarmTier) {
+		this.dataWatcher.updateObject(WATCHERID_SWARMTIER, swarmTier);
 	}
 	
 	/**

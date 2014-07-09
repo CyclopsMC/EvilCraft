@@ -46,12 +46,12 @@ public class VengeanceSpiritConfig extends MobConfig {
 
     @Override
     public int getBackgroundEggColor() {
-        return Helpers.RGBToInt(86, 86, 86);
+        return Helpers.RGBToInt(64, 16, 93);
     }
 
     @Override
     public int getForegroundEggColor() {
-        return Helpers.RGBToInt(155, 155, 155);
+        return Helpers.RGBToInt(134, 60, 169);
     }
     
     @SideOnly(Side.CLIENT)

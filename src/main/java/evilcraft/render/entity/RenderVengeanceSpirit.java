@@ -6,10 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
-import org.apache.logging.log4j.Level;
 import org.lwjgl.opengl.GL11;
 
-import evilcraft.EvilCraft;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.MobConfig;
 import evilcraft.entities.monster.VengeanceSpirit;
@@ -34,12 +32,9 @@ public class RenderVengeanceSpirit extends Render {
 	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
 		VengeanceSpirit spirit = (VengeanceSpirit) entity;
 		EntityLivingBase innerEntity = spirit.getInnerEntity();
-		if(innerEntity == null) {
-			EvilCraft.log("A spirit has an invalid inner entity, removing from world", Level.ERROR);
-			spirit.worldObj.removeEntity(spirit);
-		} else if(spirit.isVisible()) {
+		if(innerEntity != null && spirit.isVisible()) {
 			Render render = (Render) RenderManager.instance.entityRenderMap.get(innerEntity.getClass());
-			if(render != null) {
+			if(render != null && !spirit.isSwarm()) {
 				GL11.glEnable(GL11.GL_BLEND);
 				if(!spirit.isFrozen()) {
 					GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
