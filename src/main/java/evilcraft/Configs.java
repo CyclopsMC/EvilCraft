@@ -22,6 +22,8 @@ import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.blocks.BloodyCobblestoneConfig;
 import evilcraft.blocks.DarkBlockConfig;
+import evilcraft.blocks.DarkBloodBrickConfig;
+import evilcraft.blocks.DarkBrickConfig;
 import evilcraft.blocks.DarkOreConfig;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.blocks.EvilBlockConfig;
@@ -35,6 +37,7 @@ import evilcraft.blocks.LightningBombConfig;
 import evilcraft.blocks.NetherfishSpawnConfig;
 import evilcraft.blocks.ObscuredGlassConfig;
 import evilcraft.blocks.PurifierConfig;
+import evilcraft.blocks.SpiritFurnaceConfig;
 import evilcraft.blocks.UndeadLeavesConfig;
 import evilcraft.blocks.UndeadLogConfig;
 import evilcraft.blocks.UndeadPlankConfig;
@@ -76,10 +79,10 @@ import evilcraft.items.KineticatorConfig;
 import evilcraft.items.LargeDoorItemConfig;
 import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.MaceOfDistortionConfig;
-import evilcraft.items.VengeanceFocusConfig;
 import evilcraft.items.PoisonSacConfig;
 import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.RedstoneGrenadeConfig;
+import evilcraft.items.VengeanceFocusConfig;
 import evilcraft.items.VengeancePickaxeConfig;
 import evilcraft.items.VengeanceRingConfig;
 import evilcraft.items.WeatherContainerConfig;
@@ -165,6 +168,9 @@ public class Configs {
         configs.add(new FluidBlockPoisonConfig());
         configs.add(new InvisibleRedstoneBlockConfig());
         configs.add(new PurifierConfig());
+        configs.add(new DarkBrickConfig());
+        configs.add(new DarkBloodBrickConfig());
+        configs.add(new SpiritFurnaceConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
