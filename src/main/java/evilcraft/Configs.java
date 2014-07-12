@@ -21,6 +21,7 @@ import evilcraft.blocks.BloodChestConfig;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.blocks.BloodyCobblestoneConfig;
+import evilcraft.blocks.BoxOfEternalClosureConfig;
 import evilcraft.blocks.DarkBlockConfig;
 import evilcraft.blocks.DarkBloodBrickConfig;
 import evilcraft.blocks.DarkBrickConfig;
@@ -171,6 +172,7 @@ public class Configs {
         configs.add(new DarkBrickConfig());
         configs.add(new DarkBloodBrickConfig());
         configs.add(new SpiritFurnaceConfig());
+        configs.add(new BoxOfEternalClosureConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

@@ -4,9 +4,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
-
 import net.minecraft.nbt.NBTTagCompound;
+import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 /**
  * Types of NBT field classes used for persistence of fields in {@link EvilCraftTileEntity}.
@@ -58,6 +57,19 @@ public abstract class NBTClassType<T> {
             @Override
             protected Boolean readPersistedField(String name, NBTTagCompound tag) {
                 return tag.getBoolean(name);
+            }
+        });
+        
+        NBTYPES.put(NBTTagCompound.class, new NBTClassType<NBTTagCompound>() {
+
+            @Override
+            protected void writePersistedField(String name, NBTTagCompound object, NBTTagCompound tag) {
+                tag.setTag(name, object);
+            }
+
+            @Override
+            protected NBTTagCompound readPersistedField(String name, NBTTagCompound tag) {
+                return tag.getCompoundTag(name);
             }
         });
     }

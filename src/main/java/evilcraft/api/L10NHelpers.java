@@ -77,7 +77,36 @@ public final class L10NHelpers {
 	 * @return Localized info.
 	 */
 	public static String getLocalizedInfo(Item item, String suffix) {
-		return IInformationProvider.INFO_PREFIX + localize(item.getUnlocalizedName() + ".info" + suffix);
+		return getLocalizedInfo(item.getUnlocalizedName(), suffix);
+	}
+	
+	/**
+	 * Get localized info for the given block for display in tooltips.
+	 * @param block The block.
+	 * @param suffix The suffix to add to the unlocalized name.
+	 * @return Localized info.
+	 */
+	public static String getLocalizedInfo(Block block, String suffix) {
+		return getLocalizedInfo(block.getUnlocalizedName(), suffix);
+	}
+	
+	/**
+	 * Get localized info for the given unlocalized name for display in tooltips.
+	 * @param unlocalizedName The unlocalized name.
+	 * @param suffix The suffix to add to the unlocalized name.
+	 * @return Localized info.
+	 */
+	public static String getLocalizedInfo(String unlocalizedName, String suffix) {
+		return IInformationProvider.INFO_PREFIX + localize(unlocalizedName + ".info" + suffix);
+	}
+	
+	/**
+	 * Localize a given entity id.
+	 * @param entityId The unique entity name id.
+	 * @return The localized name.
+	 */
+	public static String getLocalizedEntityName(String entityId) {
+		return L10NHelpers.localize("entity." + entityId + ".name");
 	}
 	
 }

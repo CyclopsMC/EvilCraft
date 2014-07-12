@@ -2,6 +2,7 @@
 itemGroup.EvilCraft=EvilCraft
 general.info.enabled=Enabled
 general.info.disabled=Disabled
+general.info.empty=Empty
 
 # Blocks
 tile.blocks.blockBlood.name=Blood
@@ -28,6 +29,11 @@ tile.blocks.undeadSapling.info=Infuse dead bush with blood.
 tile.blocks.undeadPlank.name=Undead Plank
 tile.blocks.invisibleRedstoneBlock.name=Invisible Redstone Block
 tile.blocks.purifier.name=Purifier
+tile.blocks.darkBrick.name=Dark Brick
+tile.blocks.darkBloodBrick.name=Dark Blood Brick
+tile.blocks.spiritFurnace.name=Spirit Furnace
+tile.blocks.boxOfEternalClosure.name=Box of Eternal Closure
+tile.blocks.boxOfEternalClosure.info.content=Contents: %s
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone
