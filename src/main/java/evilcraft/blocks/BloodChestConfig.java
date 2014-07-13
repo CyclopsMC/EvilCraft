@@ -1,7 +1,11 @@
 package evilcraft.blocks;
 
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelChest;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
+import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementTypeCategory;
@@ -68,8 +72,10 @@ public class BloodChestConfig extends BlockConfig {
     @Override
     public void onRegistered() {
         if (Helpers.isClientSide()) {
-            ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new TileEntityBloodChestRenderer());
-            ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BloodChest.getInstance()), new RenderItemBloodChest());
+        	ModelBase model = new ModelChest();
+        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "bloodChest.png");
+            ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new TileEntityBloodChestRenderer(model, texture));
+            ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BloodChest.getInstance()), new RenderItemBloodChest(model, texture));
         }
     }
     

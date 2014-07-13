@@ -50,6 +50,21 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
         this.setRotatable(true);
         //setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
     }
+    
+    @Override
+    public int getRenderType() {
+    	return -1;
+    }
+    
+    @Override
+    public boolean isOpaqueCube() {
+    	return false;
+    }
+    
+    @Override
+    public boolean renderAsNormalBlock() {
+    	return false;
+    }
 
 	@Override
 	public String getInfo(ItemStack itemStack) {
