@@ -26,6 +26,20 @@ public interface ILocation {
     public void setCoordinates(int[] coordinates);
     
     /**
+     * Get the difference between this and the given location.
+     * @param location The location to calculate the difference with.
+     * @return The difference.
+     */
+    public Size getDifference(ILocation location);
+    
+    /**
+     * Get the distance between this and the given location.
+     * @param location The location to calculate the distance with.
+     * @return The distance.
+     */
+    public int getDistance(ILocation location);
+    
+    /**
      * Copy this location.
      * @return A deep copy.
      */

@@ -5,15 +5,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import evilcraft.api.block.HollowCubeDetector;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
+import evilcraft.blocks.DarkBloodBrick;
 import evilcraft.blocks.SpiritFurnace;
 import evilcraft.entities.tileentities.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.entities.tileentities.tickaction.EmptyItemBucketInTankTickAction;
@@ -61,6 +64,13 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
      * The fluid that is accepted in the tank.
      */
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
+    
+    /**
+     * The multiblock structure detector for this furnace.
+     */
+    public static HollowCubeDetector detector = new HollowCubeDetector(
+    			new Block[]{DarkBloodBrick.getInstance(), SpiritFurnace.getInstance()}
+    		);
     
     private int cookTicker;
     

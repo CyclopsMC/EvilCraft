@@ -2,9 +2,12 @@ package evilcraft.blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import evilcraft.api.algorithms.Location;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
+import evilcraft.entities.tileentities.TileSpiritFurnace;
 import evilcraft.items.DarkGem;
 
 /**
@@ -45,6 +48,11 @@ public class DarkBloodBrick extends ConfigurableBlock {
     @Override
     public boolean canCreatureSpawn(EnumCreatureType creatureType, IBlockAccess world, int x, int y, int z) {
     	return false;
+    }
+    
+    @Override
+    public void onBlockAdded(World world, int x, int y, int z) {
+    	TileSpiritFurnace.detector.detect(world, new Location(new int[]{x, y, z}));
     }
 
 }
