@@ -102,6 +102,19 @@ public class Helpers {
     private static final double TICK_LAG_REDUCTION_MODULUS_MODIFIER = 1.0D;
     
     /**
+     * Cause a regular block update.
+     */
+    public static final int BLOCK_NOTIFY = 1;
+    /**
+     * Send a block update to the client.
+     */
+    public static final int BLOCK_NOTIFY_CLIENT = 2;
+    /**
+     * Stop the block from re-rendering.
+     */
+    public static final int BLOCK_NOTIFY_NO_RERENDER = 4;
+    
+    /**
      * A list of all the {@link ChestGenHooks}.
      * @see ChestGenHooks
      */

@@ -5,7 +5,7 @@ package evilcraft.api.algorithms;
  * @author rubensworks
  *
  */
-public interface ILocation {
+public interface ILocation extends Comparable<ILocation>{
 
     /**
      * Get the amount of dimensions this location is defined in.

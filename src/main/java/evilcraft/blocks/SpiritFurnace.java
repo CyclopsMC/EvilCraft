@@ -24,6 +24,8 @@ import evilcraft.api.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 import evilcraft.gui.client.GuiSpiritFurnace;
 import evilcraft.gui.container.ContainerSpiritFurnace;
+import evilcraft.network.PacketHandler;
+import evilcraft.network.packets.DetectionListenerPacket;
 
 /**
  * A machine that can infuse stuff with blood.
@@ -80,7 +82,7 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     @SideOnly(Side.CLIENT)
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == ForgeDirection.SOUTH.ordinal()) {
+        if (side == ForgeDirection.SOUTH.ordinal() && meta == 0) {
             return this.blockIcon;
         } else {
             return DarkBloodBrick.getInstance().getIcon(side, meta);
@@ -128,14 +130,31 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     	triggerDetector(world, x, y, z, false);
     	super.onBlockPreDestroy(world, x, y, z, meta);
     }
+    
+    /**
+     * Callback for when a structure has been detected for a spirit furnace block.
+     * @param world The world.
+     * @param location The location of one block of the structure.
+     * @param size The size of the structure.
+     * @param valid If the structure is being validated(/created), otherwise invalidated.
+     */
+    public static void detectStructure(World world, ILocation location, Size size, boolean valid) {
+    	int newMeta = valid ? 1 : 0;
+		boolean change = Locations.getBlockMeta(world, location) != newMeta;
+		Locations.setBlockMetadata(world, location, newMeta, Helpers.BLOCK_NOTIFY_CLIENT);
+		TileEntity tile = Locations.getTile(world, location);
+		if(change) {
+			PacketHandler.sendToServer(new DetectionListenerPacket(location, valid));
+		}
+    }
 
 	@Override
 	public void onDetect(World world, ILocation location, Size size, boolean valid) {
 		Block block = Locations.getBlock(world, location);
 		if(block == this) {
-			TileEntity tile = Locations.getTile(world, location);
+			detectStructure(world, location, size, valid);
+			// TODO: notify TE.
 			System.out.println("Found a furnace!:" + location + "; valid?"+valid);
-			// TODO
 		}
 	}
 

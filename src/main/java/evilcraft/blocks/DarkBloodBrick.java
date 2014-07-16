@@ -1,9 +1,13 @@
 package evilcraft.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.algorithms.Location;
 import evilcraft.api.algorithms.Locations;
@@ -23,6 +27,8 @@ import evilcraft.items.DarkGem;
 public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListener {
     
     private static DarkBloodBrick _instance = null;
+    
+    private IIcon blockIconInactive;
     
     /**
      * Initialise the configurable.
@@ -51,6 +57,22 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+    	super.registerBlockIcons(iconRegister);
+        blockIconInactive = iconRegister.registerIcon(getTextureName() + "_inactive");
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int meta) {
+    	if(meta == 0) {
+    		return blockIconInactive;
+    	}
+        return super.getIcon(side, meta);
+    }
+    
+    @Override
     public boolean canCreatureSpawn(EnumCreatureType creatureType, IBlockAccess world, int x, int y, int z) {
     	return false;
     }
@@ -74,8 +96,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
 	public void onDetect(World world, ILocation location, Size size, boolean valid) {
 		Block block = Locations.getBlock(world, location);
 		if(block == this) {
-			System.out.println("Found a brick!:" + location + "; valid?"+valid);
-			// TODO
+			SpiritFurnace.detectStructure(world, location, size, valid);
 		}
 	}
 

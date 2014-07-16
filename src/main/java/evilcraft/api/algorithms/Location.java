@@ -83,4 +83,19 @@ public class Location implements ILocation {
     	return false;
     }
 
+	@Override
+	public int compareTo(ILocation o) {
+		if(getDimensions() != o.getDimensions()) {
+			return getDimensions() - o.getDimensions();
+		}
+		int i = 0;
+		while(i < getDimensions()) {
+			if(getCoordinates()[i] != o.getCoordinates()[i]) {
+				return getCoordinates()[i] - o.getCoordinates()[i];
+			}
+			i++;
+		}
+		return 0;
+	}
+
 }

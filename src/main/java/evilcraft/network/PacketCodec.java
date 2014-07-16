@@ -42,6 +42,32 @@ public abstract class PacketCodec extends PacketBase {
 				return input.readDouble();
 			}
 		});
+		
+		codecActions.put(int.class, new ICodecAction() {
+
+			@Override
+			public void encode(Object object, ByteArrayDataOutput output) {
+				output.writeInt((Integer) object);
+			}
+
+			@Override
+			public Object decode(ByteArrayDataInput input) {
+				return input.readInt();
+			}
+		});
+		
+		codecActions.put(boolean.class, new ICodecAction() {
+
+			@Override
+			public void encode(Object object, ByteArrayDataOutput output) {
+				output.writeBoolean((Boolean) object);
+			}
+
+			@Override
+			public Object decode(ByteArrayDataInput input) {
+				return input.readBoolean();
+			}
+		});
 	}
 	
 	private void loopCodecFields(ICodecRunnable runnable) {

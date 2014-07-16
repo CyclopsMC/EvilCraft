@@ -21,8 +21,11 @@ import evilcraft.api.algorithms.Size;
  */
 public class CubeDetector {
 	
+	private static Size NULL_SIZE = new Size(new int[]{0, 0, 0});
+	
 	private Collection<Block> allowedBlocks = Sets.newHashSet();
 	private List<? extends IDetectionListener> listeners;
+	private Size minimumSize = NULL_SIZE;
 
 	/**
 	 * Make a new instance.
@@ -48,6 +51,22 @@ public class CubeDetector {
 		for(Block block : allowedBlocks) {
 			this.allowedBlocks.add(block);
 		}
+	}
+	
+	/**
+	 * @return the minimumSize
+	 */
+	public Size getMinimumSize() {
+		return minimumSize;
+	}
+
+	/**
+	 * @param minimumSize the minimumSize to set
+	 * @return this instance.
+	 */
+	public CubeDetector setMinimumSize(Size minimumSize) {
+		this.minimumSize = minimumSize;
+		return this;
 	}
 	
 	/**
@@ -182,7 +201,7 @@ public class CubeDetector {
 			}
 		} else { // Enter new recursion
 			int dimension = accumulatedCoordinates.length;
-			for(int i = dimensionEgdes[dimension][0]; i < dimensionEgdes[dimension][1]; i++) {
+			for(int i = dimensionEgdes[dimension][0]; i <= dimensionEgdes[dimension][1]; i++) {
 				// Append the current dimension coordinate to the coordinate list.
 				int[] newAccumulatedCoordinates = Arrays.copyOf(accumulatedCoordinates, accumulatedCoordinates.length + 1);
 				newAccumulatedCoordinates[accumulatedCoordinates.length] = i;
@@ -243,7 +262,7 @@ public class CubeDetector {
 		
 		// First detect if the given location is a valid block.
 		if(!isValidLocation(world, startLocation)) {
-			return new Size(new int[]{0, 0, 0});
+			return NULL_SIZE.copy();
 		}
 		
 		// Find a corner that can be used as an origin for the structure.
@@ -276,10 +295,19 @@ public class CubeDetector {
 		
 		// Loop over each block of the cube and check if they have valid blocks or are air.
 		if(!validateDimensionEdges(world, dimensionEgdes)) {
-			return null;
+			return NULL_SIZE.copy();
 		}
 		
 		Size size = new Size(distances);
+		// Check if the size is not smaller than the minimum required size.
+		// If it is smaller we immediately return a null-size, but if we are in invalidation-mode,
+		// we skip this step because we always want to be able to invalidate existing structures.
+		// TODO: the 'valid' condition might be impossible to have influence if all structure
+		// handling goes according to plan.
+		if(size.compareTo(getMinimumSize()) < 0 && valid) {
+			// System.out.println("too small");
+			return NULL_SIZE.copy();
+		}
 		postValidate(world, size, dimensionEgdes, valid);
 		return size;
 	}

@@ -12,6 +12,7 @@ import evilcraft.events.LivingDeathEventHook;
 import evilcraft.events.PlayerInteractEventHook;
 import evilcraft.events.PlayerRingOfFire;
 import evilcraft.network.PacketHandler;
+import evilcraft.network.packets.DetectionListenerPacket;
 import evilcraft.network.packets.FartPacket;
 import evilcraft.network.packets.RingOfFirePacket;
 
@@ -44,6 +45,7 @@ public class CommonProxy {
     	// Register packets.
     	PacketHandler.register(FartPacket.class);
     	PacketHandler.register(RingOfFirePacket.class);
+    	PacketHandler.register(DetectionListenerPacket.class);
     	
         EvilCraft.log("Registered packet handler.");
     }

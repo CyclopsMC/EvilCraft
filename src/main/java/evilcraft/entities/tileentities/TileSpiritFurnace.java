@@ -15,6 +15,8 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 
 import com.google.common.collect.Lists;
 
+import evilcraft.api.algorithms.Size;
+import evilcraft.api.block.CubeDetector;
 import evilcraft.api.block.HollowCubeDetector;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
@@ -72,10 +74,10 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
      * The multiblock structure detector for this furnace.
      */
     @SuppressWarnings("unchecked")
-	public static HollowCubeDetector detector = new HollowCubeDetector(
+	public static CubeDetector detector = new HollowCubeDetector(
     			new Block[]{DarkBloodBrick.getInstance(), SpiritFurnace.getInstance()},
     			Lists.newArrayList(SpiritFurnace.getInstance(), DarkBloodBrick.getInstance())
-    		);
+    		).setMinimumSize(new Size(new int[]{2, 2, 2}));
     
     private int cookTicker;
     
