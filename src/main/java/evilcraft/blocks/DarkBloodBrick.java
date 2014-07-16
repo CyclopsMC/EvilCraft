@@ -1,9 +1,14 @@
 package evilcraft.blocks;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.algorithms.Location;
+import evilcraft.api.algorithms.Locations;
+import evilcraft.api.algorithms.Size;
+import evilcraft.api.block.CubeDetector.IDetectionListener;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
@@ -15,7 +20,7 @@ import evilcraft.items.DarkGem;
  * @author rubensworks
  *
  */
-public class DarkBloodBrick extends ConfigurableBlock {
+public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListener {
     
     private static DarkBloodBrick _instance = null;
     
@@ -50,9 +55,28 @@ public class DarkBloodBrick extends ConfigurableBlock {
     	return false;
     }
     
+    private void triggerDetector(World world, int x, int y, int z, boolean valid) {
+    	TileSpiritFurnace.detector.detect(world, new Location(new int[]{x, y, z}), valid);
+    }
+    
     @Override
     public void onBlockAdded(World world, int x, int y, int z) {
-    	TileSpiritFurnace.detector.detect(world, new Location(new int[]{x, y, z}));
+    	triggerDetector(world, x, y, z, true);
     }
+    
+    @Override
+    public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
+    	triggerDetector(world, x, y, z, false);
+    	super.onBlockPreDestroy(world, x, y, z, meta);
+    }
+    
+    @Override
+	public void onDetect(World world, ILocation location, Size size, boolean valid) {
+		Block block = Locations.getBlock(world, location);
+		if(block == this) {
+			System.out.println("Found a brick!:" + location + "; valid?"+valid);
+			// TODO
+		}
+	}
 
 }

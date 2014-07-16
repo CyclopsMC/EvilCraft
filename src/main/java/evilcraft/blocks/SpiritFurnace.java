@@ -1,9 +1,11 @@
 package evilcraft.blocks;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -11,6 +13,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Helpers;
+import evilcraft.api.algorithms.ILocation;
+import evilcraft.api.algorithms.Location;
+import evilcraft.api.algorithms.Locations;
+import evilcraft.api.algorithms.Size;
+import evilcraft.api.block.CubeDetector.IDetectionListener;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainerGuiTankInfo;
@@ -23,7 +30,7 @@ import evilcraft.gui.container.ContainerSpiritFurnace;
  * @author rubensworks
  *
  */
-public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo {
+public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo implements IDetectionListener {
     
     private static SpiritFurnace _instance = null;
     
@@ -106,5 +113,30 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo {
     public int getTankCapacity() {
         return TileSpiritFurnace.LIQUID_PER_SLOT;
     }
+    
+    private void triggerDetector(World world, int x, int y, int z, boolean valid) {
+    	TileSpiritFurnace.detector.detect(world, new Location(new int[]{x, y, z}), valid);
+    }
+    
+    @Override
+    public void onBlockAdded(World world, int x, int y, int z) {
+    	triggerDetector(world, x, y, z, true);
+    }
+    
+    @Override
+    public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
+    	triggerDetector(world, x, y, z, false);
+    	super.onBlockPreDestroy(world, x, y, z, meta);
+    }
+
+	@Override
+	public void onDetect(World world, ILocation location, Size size, boolean valid) {
+		Block block = Locations.getBlock(world, location);
+		if(block == this) {
+			TileEntity tile = Locations.getTile(world, location);
+			System.out.println("Found a furnace!:" + location + "; valid?"+valid);
+			// TODO
+		}
+	}
 
 }
