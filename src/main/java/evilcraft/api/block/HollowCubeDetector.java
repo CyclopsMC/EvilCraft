@@ -2,7 +2,6 @@ package evilcraft.api.block;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.algorithms.Size;
@@ -19,7 +18,7 @@ public class HollowCubeDetector extends CubeDetector {
 	 * @param allowedBlocks The blocks that are allowed in this cube.
 	 * @param listeners Listeners for detections. 
 	 */
-	public HollowCubeDetector(Block[] allowedBlocks, List<? extends IDetectionListener> listeners) {
+	public HollowCubeDetector(AllowedBlock[] allowedBlocks, List<? extends IDetectionListener> listeners) {
 		super(allowedBlocks, listeners);
 	}
 	

@@ -2,16 +2,19 @@ package evilcraft.api.block;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import scala.actors.threadpool.Arrays;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import evilcraft.api.algorithms.Dimension;
 import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.algorithms.Location;
+import evilcraft.api.algorithms.Locations;
 import evilcraft.api.algorithms.Size;
 
 /**
@@ -23,16 +26,19 @@ public class CubeDetector {
 	
 	private static Size NULL_SIZE = new Size(new int[]{0, 0, 0});
 	
-	private Collection<Block> allowedBlocks = Sets.newHashSet();
+	private Collection<AllowedBlock> allowedBlocks = Sets.newHashSet();
+	private Map<Block, AllowedBlock> blockInfo = Maps.newHashMap();
 	private List<? extends IDetectionListener> listeners;
 	private Size minimumSize = NULL_SIZE;
+	
+	private Map<Block, Integer> blockOccurences;
 
 	/**
 	 * Make a new instance.
 	 * @param allowedBlocks The blocks that are allowed in this cube.
 	 * @param listeners Listeners for detections. 
 	 */
-	public CubeDetector(Block[] allowedBlocks, List<? extends IDetectionListener> listeners) {
+	public CubeDetector(AllowedBlock[] allowedBlocks, List<? extends IDetectionListener> listeners) {
 		addAllowedBlocks(allowedBlocks);
 		this.listeners = listeners;
 	}
@@ -40,15 +46,16 @@ public class CubeDetector {
 	/**
 	 * @return the allowed blocks
 	 */
-	public Collection<Block> getAllowedBlocks() {
+	public Collection<AllowedBlock> getAllowedBlocks() {
 		return allowedBlocks;
 	}
 
 	/**
 	 * @param allowedBlocks The allowed blocks
 	 */
-	public void addAllowedBlocks(Block[] allowedBlocks) {
-		for(Block block : allowedBlocks) {
+	public void addAllowedBlocks(AllowedBlock[] allowedBlocks) {
+		for(AllowedBlock block : allowedBlocks) {
+			blockInfo.put(block.getBlock(), block);
 			this.allowedBlocks.add(block);
 		}
 	}
@@ -85,7 +92,7 @@ public class CubeDetector {
 	protected boolean isValidLocation(World world, ILocation location) {
 		Block block = world.getBlock(location.getCoordinates()[0], location.getCoordinates()[1],
 				location.getCoordinates()[2]);
-		return getAllowedBlocks().contains(block);
+		return blockInfo.containsKey(block);
 	}
 	
 	protected boolean isAir(World world, ILocation location) {
@@ -214,6 +221,30 @@ public class CubeDetector {
 	}
 	
 	/**
+	 * Validate if the block at the given location conforms with the {@link AllowedBlock}
+	 * conditions.
+	 * @param world The world.
+	 * @param location The location.
+	 * @return If it conforms.
+	 */
+	protected boolean validateAllowedBlockConditions(World world, ILocation location) {
+		Block block = Locations.getBlock(world, location);
+		if(blockInfo.containsKey(block)) {
+			int occurences = blockOccurences.get(block);
+			AllowedBlock allowed = blockInfo.get(block);
+			
+			if(allowed.getMaxOccurences() >= 0) {
+				if(occurences >= allowed.getMaxOccurences()) {
+					return false;
+				}
+			}
+			
+			blockOccurences.put(block, occurences + 1);
+		}
+		return true;
+	}
+	
+	/**
 	 * This will validate if the given structure has full borders and is hollow at the middle.
 	 * To initiate the recursion, call this with an empty accumulatedCoordinates array, it will
 	 * then simulate for loop for every dimension between the start and stop coordinate for that
@@ -221,13 +252,28 @@ public class CubeDetector {
 	 * this recursion will enter a leaf and check the conditions for that location.
 	 * @param world The world.
 	 * @param dimensionEgdes The edges per dimension. [dimension][start=0 | stop=1]
+	 * @param valid True if the structure should be validated, false if it should be invalidated.
 	 * @return If the structure is valid for the given edges.
 	 */
-	protected boolean validateDimensionEdges(World world, final int[][] dimensionEgdes) {
+	protected boolean validateDimensionEdges(World world, final int[][] dimensionEgdes,
+			final boolean valid) {
+		// Init the block occurences counter on zero for all blocks.
+		blockOccurences = Maps.newHashMap();
+		for(AllowedBlock block : allowedBlocks) {
+			blockOccurences.put(block.getBlock(), 0);
+		}
+		
+		// Loop over all dimensions
 		return coordinateRecursion(world, dimensionEgdes, new ILocationAction() {
 
 			@Override
 			public boolean run(World world, ILocation location) {
+				// Only check the allowed block conditions if in validation mode,
+				// normally this 'valid' check is not needed, but bugs are always possible...
+				if(valid && !validateAllowedBlockConditions(world, location)) {
+					//System.out.println("Validate condition failed.");
+					return false;
+				}
 				return validateLocationInStructure(world, dimensionEgdes, location);
 			}
 			
@@ -294,7 +340,7 @@ public class CubeDetector {
 		}
 		
 		// Loop over each block of the cube and check if they have valid blocks or are air.
-		if(!validateDimensionEdges(world, dimensionEgdes)) {
+		if(!validateDimensionEdges(world, dimensionEgdes, valid)) {
 			return NULL_SIZE.copy();
 		}
 		

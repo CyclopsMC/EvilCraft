@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -16,6 +15,7 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import com.google.common.collect.Lists;
 
 import evilcraft.api.algorithms.Size;
+import evilcraft.api.block.AllowedBlock;
 import evilcraft.api.block.CubeDetector;
 import evilcraft.api.block.HollowCubeDetector;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
@@ -75,7 +75,10 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
      */
     @SuppressWarnings("unchecked")
 	public static CubeDetector detector = new HollowCubeDetector(
-    			new Block[]{DarkBloodBrick.getInstance(), SpiritFurnace.getInstance()},
+    			new AllowedBlock[]{
+    					new AllowedBlock(DarkBloodBrick.getInstance()),
+    					new AllowedBlock(SpiritFurnace.getInstance()).setMaxOccurences(1)
+    					},
     			Lists.newArrayList(SpiritFurnace.getInstance(), DarkBloodBrick.getInstance())
     		).setMinimumSize(new Size(new int[]{2, 2, 2}));
     

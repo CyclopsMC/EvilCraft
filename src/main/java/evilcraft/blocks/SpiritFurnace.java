@@ -7,9 +7,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Helpers;
@@ -73,16 +71,8 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     
     @SideOnly(Side.CLIENT)
     @Override
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-    	TileSpiritFurnace tile = (TileSpiritFurnace) world.getTileEntity(x, y, z);
-        ForgeDirection rotatedDirection = Helpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
-        return getIcon(rotatedDirection.ordinal(), tile.isBlockCooking()?1:0);
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == ForgeDirection.SOUTH.ordinal() && meta == 0) {
+        if (meta == 1) {
             return this.blockIcon;
         } else {
             return DarkBloodBrick.getInstance().getIcon(side, meta);
