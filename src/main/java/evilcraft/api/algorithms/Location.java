@@ -1,5 +1,6 @@
 package evilcraft.api.algorithms;
 
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * Location class.
@@ -8,21 +9,19 @@ package evilcraft.api.algorithms;
  */
 public class Location implements ILocation {
 
-    private int dimensions;
     private int[] coordinates;
     
     /**
      * Make a new instance.
      * @param coordinates The coordinates.
      */
-    public Location(int[] coordinates) {
-        this.dimensions = coordinates.length;
+    public Location(int... coordinates) {
         this.coordinates = coordinates;
     }
     
     @Override
     public int getDimensions() {
-        return this.dimensions;
+        return this.coordinates.length;
     }
 
     @Override
@@ -96,6 +95,18 @@ public class Location implements ILocation {
 			i++;
 		}
 		return 0;
+	}
+
+	@Override
+	public NBTTagCompound toNBT() {
+		NBTTagCompound tag = new NBTTagCompound();
+		tag.setIntArray("coordinates", getCoordinates());
+		return tag;
+	}
+
+	@Override
+	public void fromNBT(NBTTagCompound tag) {
+		setCoordinates(tag.getIntArray("coordinates"));
 	}
 
 }

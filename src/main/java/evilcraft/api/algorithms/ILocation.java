@@ -1,11 +1,13 @@
 package evilcraft.api.algorithms;
 
+import evilcraft.api.INBTSerializable;
+
 /**
  * Location interface.
  * @author rubensworks
  *
  */
-public interface ILocation extends Comparable<ILocation>{
+public interface ILocation extends Comparable<ILocation>, INBTSerializable {
 
     /**
      * Get the amount of dimensions this location is defined in.

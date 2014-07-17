@@ -96,7 +96,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
 	public void onDetect(World world, ILocation location, Size size, boolean valid) {
 		Block block = Locations.getBlock(world, location);
 		if(block == this) {
-			SpiritFurnace.detectStructure(world, location, size, valid);
+			TileSpiritFurnace.detectStructure(world, location, size, valid);
 		}
 	}
 

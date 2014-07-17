@@ -4,6 +4,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -22,8 +23,6 @@ import evilcraft.api.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 import evilcraft.gui.client.GuiSpiritFurnace;
 import evilcraft.gui.container.ContainerSpiritFurnace;
-import evilcraft.network.PacketHandler;
-import evilcraft.network.packets.DetectionListenerPacket;
 
 /**
  * A machine that can infuse stuff with blood.
@@ -61,6 +60,14 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
         if (Helpers.isClientSide())
             setGUI(GuiSpiritFurnace.class);
         setContainer(ContainerSpiritFurnace.class);
+    }
+    
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
+        if(!TileSpiritFurnace.isValid(world, new Location(x, y, z))) {
+        	return true;
+        }
+    	return super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
     }
     
     @Override
@@ -120,31 +127,16 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     	triggerDetector(world, x, y, z, false);
     	super.onBlockPreDestroy(world, x, y, z, meta);
     }
-    
-    /**
-     * Callback for when a structure has been detected for a spirit furnace block.
-     * @param world The world.
-     * @param location The location of one block of the structure.
-     * @param size The size of the structure.
-     * @param valid If the structure is being validated(/created), otherwise invalidated.
-     */
-    public static void detectStructure(World world, ILocation location, Size size, boolean valid) {
-    	int newMeta = valid ? 1 : 0;
-		boolean change = Locations.getBlockMeta(world, location) != newMeta;
-		Locations.setBlockMetadata(world, location, newMeta, Helpers.BLOCK_NOTIFY_CLIENT);
-		TileEntity tile = Locations.getTile(world, location);
-		if(change) {
-			PacketHandler.sendToServer(new DetectionListenerPacket(location, valid));
-		}
-    }
 
 	@Override
 	public void onDetect(World world, ILocation location, Size size, boolean valid) {
 		Block block = Locations.getBlock(world, location);
 		if(block == this) {
-			detectStructure(world, location, size, valid);
-			// TODO: notify TE.
-			System.out.println("Found a furnace!:" + location + "; valid?"+valid);
+			TileSpiritFurnace.detectStructure(world, location, size, valid);
+			TileEntity tile = Locations.getTile(world, location);
+			if(tile != null) {
+				((TileSpiritFurnace) tile).setSize(valid ? size : Size.NULL_SIZE);
+			}
 		}
 	}
 

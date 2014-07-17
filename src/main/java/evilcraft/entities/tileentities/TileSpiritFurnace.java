@@ -7,6 +7,8 @@ import java.util.Map;
 
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -14,6 +16,9 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 
 import com.google.common.collect.Lists;
 
+import evilcraft.api.Helpers;
+import evilcraft.api.algorithms.ILocation;
+import evilcraft.api.algorithms.Locations;
 import evilcraft.api.algorithms.Size;
 import evilcraft.api.block.AllowedBlock;
 import evilcraft.api.block.CubeDetector;
@@ -28,6 +33,8 @@ import evilcraft.entities.tileentities.tickaction.EmptyItemBucketInTankTickActio
 import evilcraft.entities.tileentities.tickaction.spiritfurnace.BoxCookTickAction;
 import evilcraft.fluids.Blood;
 import evilcraft.gui.slot.SlotFluidContainer;
+import evilcraft.network.PacketHandler;
+import evilcraft.network.packets.DetectionListenerPacket;
 
 /**
  * A furnace that is able to cook spirits for their inner entity drops.
@@ -95,6 +102,9 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
         EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileSpiritFurnace>());
     }
     
+    @NBTPersist
+    private Size size = Size.NULL_SIZE.copy();
+    
     /**
      * Make a new instance.
      */
@@ -130,6 +140,37 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
         addSlotsToSide(ForgeDirection.DOWN, outSlots);
         addSlotsToSide(ForgeDirection.SOUTH, outSlots);
         addSlotsToSide(ForgeDirection.WEST, outSlots);
+    }
+    
+    /**
+     * Check if the spirit furnace on the given location is valid and can start working.
+     * @param world The world.
+     * @param location The location.
+     * @return If it is valid.
+     */
+    public static boolean isValid(World world, ILocation location) {
+    	TileEntity tile = Locations.getTile(world, location);
+		if(tile != null) {
+			Size size = ((TileSpiritFurnace) tile).getSize();
+			return size.compareTo(TileSpiritFurnace.detector.getMinimumSize()) >= 0;
+		}
+		return false;
+    }
+    
+    /**
+     * Callback for when a structure has been detected for a spirit furnace block.
+     * @param world The world.
+     * @param location The location of one block of the structure.
+     * @param size The size of the structure.
+     * @param valid If the structure is being validated(/created), otherwise invalidated.
+     */
+    public static void detectStructure(World world, ILocation location, Size size, boolean valid) {
+    	int newMeta = valid ? 1 : 0;
+		boolean change = Locations.getBlockMeta(world, location) != newMeta;
+		Locations.setBlockMetadata(world, location, newMeta, Helpers.BLOCK_NOTIFY_CLIENT);
+		if(change) {
+			PacketHandler.sendToServer(new DetectionListenerPacket(location, valid));
+		}
     }
     
     /**
@@ -214,10 +255,26 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
     public int getNewState() {
         return this.isCooking()?1:0;
     }
+    
 
     @Override
     public void onStateChanged() {
         sendUpdate();
     }
+
+	/**
+	 * @return the size
+	 */
+	public Size getSize() {
+		return size;
+	}
+
+	/**
+	 * @param size the size to set
+	 */
+	public void setSize(Size size) {
+		this.size = size;
+		sendUpdate();
+	}
 
 }

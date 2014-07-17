@@ -24,7 +24,7 @@ import evilcraft.api.algorithms.Size;
  */
 public class CubeDetector {
 	
-	private static Size NULL_SIZE = new Size(new int[]{0, 0, 0});
+	private static Size NULL_SIZE = Size.NULL_SIZE.copy();
 	
 	private Collection<AllowedBlock> allowedBlocks = Sets.newHashSet();
 	private Map<Block, AllowedBlock> blockInfo = Maps.newHashMap();
