@@ -12,8 +12,6 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
-import evilcraft.entities.tileentities.NBTClassType;
-import evilcraft.entities.tileentities.NBTPersist;
 
 /**
  * A base class for all the tile entities that are used inside this mod.

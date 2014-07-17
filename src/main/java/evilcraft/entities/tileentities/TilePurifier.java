@@ -19,6 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.configurable.ConfigurableEnchantment;
+import evilcraft.api.entities.tileentitites.NBTPersist;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.blocks.Purifier;
 import evilcraft.blocks.PurifierConfig;

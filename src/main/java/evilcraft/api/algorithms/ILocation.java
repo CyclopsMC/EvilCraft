@@ -1,6 +1,6 @@
 package evilcraft.api.algorithms;
 
-import evilcraft.api.INBTSerializable;
+import evilcraft.api.entities.tileentitites.INBTSerializable;
 
 /**
  * Location interface.

@@ -1,4 +1,4 @@
-package evilcraft.api;
+package evilcraft.api.entities.tileentitites;
 
 import net.minecraft.nbt.NBTTagCompound;
 

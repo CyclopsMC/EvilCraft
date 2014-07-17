@@ -1,12 +1,10 @@
-package evilcraft.entities.tileentities;
+package evilcraft.api.entities.tileentitites;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import evilcraft.api.INBTSerializable;
-import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 /**
  * If this field should be persisted in Tile Entities.

@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import evilcraft.api.EntityHelpers;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.api.entities.tileentitites.NBTPersist;
 import evilcraft.entities.monster.VengeanceSpirit;
 
 /**

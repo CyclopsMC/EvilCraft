@@ -23,6 +23,7 @@ import evilcraft.api.algorithms.Size;
 import evilcraft.api.block.AllowedBlock;
 import evilcraft.api.block.CubeDetector;
 import evilcraft.api.block.HollowCubeDetector;
+import evilcraft.api.entities.tileentitites.NBTPersist;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
