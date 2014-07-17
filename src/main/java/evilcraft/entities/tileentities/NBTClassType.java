@@ -1,10 +1,14 @@
 package evilcraft.entities.tileentities;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import evilcraft.api.INBTSerializable;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 
 /**
@@ -74,6 +78,15 @@ public abstract class NBTClassType<T> {
         });
     }
     
+    private static boolean isImplementsInterface(Class<?> clazz, Class<?> interfaceClazz) {
+    	try {
+    		clazz.asSubclass(interfaceClazz);
+    	} catch (ClassCastException e) {
+    		return false;
+    	}
+    	return true;
+    }
+    
     /**
      * Perform a field persist action.
      * @param tile The tile entity that has the field.
@@ -83,21 +96,44 @@ public abstract class NBTClassType<T> {
      */
     public static void performActionForField(EvilCraftTileEntity tile, Field field, NBTTagCompound tag, boolean write) {
         Class<?> type = field.getType();
+        String fieldName = field.getName();
         
         // Make editable, will set back to the original at the end of this call.
         boolean wasAccessible = field.isAccessible();
         field.setAccessible(true);
         
-        NBTClassType<?> action = NBTClassType.NBTYPES.get(type);
-        if(action != null) {
-            try {
-                action.persistedFieldAction(tile, field, tag, write);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException("Could not access field " + field.getName() + " in " + tile.getClass());
-            }
+        // Add special logic for INBTSerializable's
+        if(isImplementsInterface(type, INBTSerializable.class)) {
+        	try {
+	        	if(write) {
+	        		Method method = type.getMethod("toNBT");
+	        		tag.setTag(fieldName, (NBTBase) method.invoke(field.get(tile)));
+	        	} else {
+	        		Method method = type.getMethod("fromNBT", NBTTagCompound.class);
+	        		method.invoke(field.get(tile), tag.getTag(fieldName));
+	        	}
+        	} catch (NoSuchMethodException e) {
+        		throw new RuntimeException("No such method for field " + fieldName + " of class " + type + " in " + tile.getClass() + " was found. Write: " + write);
+        	} catch (IllegalAccessException e) {
+        		throw new RuntimeException("Could not access field " + fieldName + " in " + tile.getClass() + " Write: " + write);
+			} catch (IllegalArgumentException e) {
+				throw new RuntimeException("Invalid argument in field " + fieldName + " in " + tile.getClass() + " Write: " + write);
+			} catch (InvocationTargetException e) {
+				throw new RuntimeException("Could not invocate a method for field " + fieldName + " in " + tile.getClass() + " Write: " + write);
+			}
         } else {
-            throw new RuntimeException("No NBT persist action found for field " + field.getName() + " of class " + type + " in " + tile.getClass());
+	        NBTClassType<?> action = NBTClassType.NBTYPES.get(type);
+	        if(action != null) {
+	            try {
+	                action.persistedFieldAction(tile, field, tag, write);
+	            } catch (IllegalAccessException e) {
+	                throw new RuntimeException("Could not access field " + fieldName + " in " + tile.getClass());
+	            }
+	        } else {
+	            throw new RuntimeException("No NBT persist action found for field " + fieldName + " of class " + type + " in " + tile.getClass());
+	        }
         }
+        
         field.setAccessible(wasAccessible);
     }
     
