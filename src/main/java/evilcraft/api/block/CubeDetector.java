@@ -312,12 +312,15 @@ public class CubeDetector {
 		}
 		
 		// Find a corner that can be used as an origin for the structure.
-		ILocation originCorner = navigateToCorner(world, startLocation, new int[]{0, 1, 2}, false);
+		// We use a temp origin corner to first go to the completely opposite direction
+		// in each dimension to ensure we eventually find the actual origin.
+		ILocation tempOriginCorner = navigateToCorner(world, startLocation, new int[]{2, 1, 0}, true);
+		ILocation originCorner = navigateToCorner(world, tempOriginCorner, new int[]{0, 1, 2}, false);
 		
 		// Find corners in each dimension starting from the origin.
 		ILocation[] corners = new ILocation[Dimension.DIMENSIONS.length];
 		for(int i = 0; i < corners.length; i++) {
-			corners[i] = navigateToCorner(world, startLocation, new int[]{i}, true);
+			corners[i] = navigateToCorner(world, originCorner, new int[]{i}, true);
 		}
 		
 		// Measure the size of the cube with the found corners.
