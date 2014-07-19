@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -16,6 +18,7 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 
 import com.google.common.collect.Lists;
 
+import evilcraft.Configs;
 import evilcraft.api.Helpers;
 import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.algorithms.Locations;
@@ -27,6 +30,9 @@ import evilcraft.api.entities.tileentitites.NBTPersist;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
+import evilcraft.api.world.FakeWorldItemDelegator.IItemDropListener;
+import evilcraft.blocks.BoxOfEternalClosure;
+import evilcraft.blocks.BoxOfEternalClosureConfig;
 import evilcraft.blocks.DarkBloodBrick;
 import evilcraft.blocks.SpiritFurnace;
 import evilcraft.entities.tileentities.tickaction.EmptyFluidContainerInTankTickAction;
@@ -42,7 +48,7 @@ import evilcraft.network.packets.DetectionListenerPacket;
  * @author rubensworks
  *
  */
-public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpiritFurnace> {
+public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpiritFurnace> implements IItemDropListener {
     
     /**
      * The total amount of slots in this machine.
@@ -94,7 +100,7 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
     
     private static final Map<Class<?>, ITickAction<TileSpiritFurnace>> BOX_COOK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSpiritFurnace>>();
     static {
-    	BOX_COOK_TICK_ACTIONS.put(ItemBucket.class, new BoxCookTickAction());
+    	BOX_COOK_TICK_ACTIONS.put(BoxOfEternalClosure.class, new BoxCookTickAction());
     }
     
     private static final Map<Class<?>, ITickAction<TileSpiritFurnace>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSpiritFurnace>>();
@@ -144,18 +150,38 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
     }
     
     /**
+     * Check if this spirit furnace is valid and can start working.
+     * @return If it is valid.
+     */
+    public boolean canWork() {
+    	Size size = getSize();
+		return size.compareTo(TileSpiritFurnace.detector.getMinimumSize()) >= 0;
+    }
+    
+    /**
      * Check if the spirit furnace on the given location is valid and can start working.
      * @param world The world.
      * @param location The location.
      * @return If it is valid.
      */
-    public static boolean isValid(World world, ILocation location) {
+    public static boolean canWork(World world, ILocation location) {
     	TileEntity tile = Locations.getTile(world, location);
 		if(tile != null) {
-			Size size = ((TileSpiritFurnace) tile).getSize();
-			return size.compareTo(TileSpiritFurnace.detector.getMinimumSize()) >= 0;
+			return ((TileSpiritFurnace) tile).canWork();
 		}
 		return false;
+    }
+    
+    /**
+     * Get the allowed cooking item for this furnace.
+     * @return The allowed item.
+     */
+    public static Item getAllowedCookItem() {
+    	Item allowedItem = Items.apple;
+        if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
+        	allowedItem = Item.getItemFromBlock(BoxOfEternalClosure.getInstance());
+        }
+        return allowedItem;
     }
     
     /**
@@ -175,15 +201,12 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
     }
     
     /**
-     * Check if the given item can be infused.
+     * Check if the given item can be cooked.
      * @param itemStack The item to check.
-     * @return If it can be infused.
+     * @return If it can be cooked.
      */
     public boolean canConsume(ItemStack itemStack) {
-        // TODO
-        
-        // In all other cases: false
-        return false;
+        return itemStack != null && getAllowedCookItem() == itemStack.getItem();
     }
     
     /**
@@ -276,6 +299,22 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
 	public void setSize(Size size) {
 		this.size = size;
 		sendUpdate();
+	}
+
+	@Override
+	public void onItemDrop(ItemStack itemStack) {
+		// TODO: add support for multiple output slots.
+		ItemStack produceStack = getInventory().getStackInSlot(getProduceSlot());
+        if(produceStack == null) {
+            getInventory().setInventorySlotContents(getProduceSlot(), itemStack);
+        } else {
+            if(produceStack.getItem() == itemStack.getItem()
+               && produceStack.getMaxStackSize() >= produceStack.stackSize + itemStack.stackSize) {
+                produceStack.stackSize += itemStack.stackSize;
+            } else {
+            	System.out.println("TODO: full");
+            }
+        }
 	}
 
 }

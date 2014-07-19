@@ -22,7 +22,8 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	/**
 	 * The name of the NBT tag that will hold spirit entity data.
 	 */
-	public static final String SPIRIT_TAG_NAME = "spiritTag";
+	public static final String NBTKEY_SPIRIT = "spiritTag";
+	
 	@NBTPersist
 	private NBTTagCompound spiritTag = new NBTTagCompound();
 	

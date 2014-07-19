@@ -2,16 +2,17 @@ package evilcraft.blocks;
 import java.util.List;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
-import evilcraft.api.EntityHelpers;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
+import evilcraft.entities.monster.VengeanceSpirit;
 import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
 
 /**
@@ -65,17 +66,37 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     public boolean renderAsNormalBlock() {
     	return false;
     }
+    
+    /**
+     * Get the ID of an inner spirit, can be null.
+     * @param itemStack The item stack.
+     * @return The ID.
+     */
+    public String getSpiritId(ItemStack itemStack) {
+    	NBTTagCompound tag = itemStack.getTagCompound();
+		if(tag != null) {
+			NBTTagCompound spiritTag = tag.getCompoundTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT);
+			if(spiritTag != null) {
+				String innerEntity = spiritTag.getString(VengeanceSpirit.NBTKEY_INNER_SPIRIT);
+				if(innerEntity != null && !innerEntity.isEmpty()) {
+					try {
+						Class<?> clazz = Class.forName(innerEntity);
+						return (String) EntityList.classToStringMapping.get(clazz);
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return null;
+    }
 
 	@Override
 	public String getInfo(ItemStack itemStack) {
 		String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty");
-		NBTTagCompound tag = itemStack.getTagCompound();
-		if(tag != null) {
-			NBTTagCompound spiritTag = tag.getCompoundTag(TileBoxOfEternalClosure.SPIRIT_TAG_NAME);
-			if(spiritTag != null) {
-				content = L10NHelpers.getLocalizedEntityName(spiritTag
-						.getString(EntityHelpers.NBTTAG_ID));
-			}
+		String id = getSpiritId(itemStack);
+		if(id != null) {
+			content = L10NHelpers.getLocalizedEntityName(id);
 		}
 		return EnumChatFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
 				new Object[]{EnumChatFormatting.RESET + content});

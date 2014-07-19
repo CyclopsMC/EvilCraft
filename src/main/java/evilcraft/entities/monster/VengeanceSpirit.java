@@ -76,6 +76,11 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     private static final int WATCHERID_VENGEANCEPLAYERS = 24;
     private static final int WATCHERID_ISSWARM = 25;
     private static final int WATCHERID_SWARMTIER = 26;
+    
+    /**
+     * The NBT key used to store the inner entity name.
+     */
+    public static final String NBTKEY_INNER_SPIRIT = "innerEntity";
 
 	private EntityLivingBase innerEntity = null;
 
@@ -155,7 +160,7 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     @Override
 	public void readEntityFromNBT(NBTTagCompound tag) {
     	super.readEntityFromNBT(tag);
-    	String name = tag.getString("innerEntity");
+    	String name = tag.getString(NBTKEY_INNER_SPIRIT);
     	if(name != null)
     		this.dataWatcher.updateObject(WATCHERID_INNER, name);
     	setRemainingLife(tag.getInteger("remainingLife"));

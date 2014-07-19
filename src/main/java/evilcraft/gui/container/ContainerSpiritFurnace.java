@@ -1,7 +1,6 @@
 package evilcraft.gui.container;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import evilcraft.api.gui.container.TickingTankInventoryContainer;
 import evilcraft.api.gui.slot.SlotRemoveOnly;
 import evilcraft.blocks.SpiritFurnace;
@@ -56,7 +55,7 @@ public class ContainerSpiritFurnace extends TickingTankInventoryContainer<TileSp
 
         // Adding inventory
         addSlotToContainer(new SlotFluidContainer(tile, TileSpiritFurnace.SLOT_CONTAINER, SLOT_CONTAINER_X, SLOT_CONTAINER_Y, TileSpiritFurnace.ACCEPTED_FLUID)); // Container emptier
-        addSlotToContainer(new SlotSingleItem(tile, TileSpiritFurnace.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, Items.apple)); // Box slot
+        addSlotToContainer(new SlotSingleItem(tile, TileSpiritFurnace.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, TileSpiritFurnace.getAllowedCookItem())); // Box slot
         addSlotToContainer(new SlotRemoveOnly(tile, TileSpiritFurnace.SLOT_DROP, SLOT_DROP_X, SLOT_DROP_Y)); // Drop slot
 
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
