@@ -3,10 +3,10 @@ package evilcraft.gui.container;
 import net.minecraft.entity.player.InventoryPlayer;
 import evilcraft.api.gui.container.TickingTankInventoryContainer;
 import evilcraft.api.gui.slot.SlotRemoveOnly;
+import evilcraft.api.gui.slot.SlotSingleItem;
 import evilcraft.blocks.SpiritFurnace;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 import evilcraft.gui.slot.SlotFluidContainer;
-import evilcraft.gui.slot.SlotSingleItem;
 
 /**
  * Container for the {@link SpiritFurnace}.
@@ -36,14 +36,20 @@ public class ContainerSpiritFurnace extends TickingTankInventoryContainer<TileSp
      */
     public static final int SLOT_BOX_Y = 36;
     
+    private static final int SLOTS_X = 2;
+    private static final int SLOTS_Y = 2;
+    /**
+     * The amount of drop slots.
+     */
+    public static final int SLOTS_DROP = SLOTS_X * SLOTS_Y;
     /**
      * Drop slot X coordinate.
      */
-    public static final int SLOT_DROP_X = 133;
+    public static final int SLOT_DROP_X = 134;
     /**
      * Drop slot Y coordinate.
      */
-    public static final int SLOT_DROP_Y = 36;
+    public static final int SLOT_DROP_Y = 28;
 
     /**
      * Make a new instance.
@@ -54,9 +60,20 @@ public class ContainerSpiritFurnace extends TickingTankInventoryContainer<TileSp
         super(inventory, tile);
 
         // Adding inventory
-        addSlotToContainer(new SlotFluidContainer(tile, TileSpiritFurnace.SLOT_CONTAINER, SLOT_CONTAINER_X, SLOT_CONTAINER_Y, TileSpiritFurnace.ACCEPTED_FLUID)); // Container emptier
-        addSlotToContainer(new SlotSingleItem(tile, TileSpiritFurnace.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, TileSpiritFurnace.getAllowedCookItem())); // Box slot
-        addSlotToContainer(new SlotRemoveOnly(tile, TileSpiritFurnace.SLOT_DROP, SLOT_DROP_X, SLOT_DROP_Y)); // Drop slot
+        addSlotToContainer(new SlotFluidContainer(tile, TileSpiritFurnace.SLOT_CONTAINER,
+        		SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
+        		TileSpiritFurnace.ACCEPTED_FLUID)); // Container emptier
+        addSlotToContainer(new SlotSingleItem(tile, TileSpiritFurnace.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y,
+            			TileSpiritFurnace.getAllowedCookItem())); // Box slot
+        
+        int i = 0;
+        for (int y = 0; y < SLOTS_X; y++) {
+            for (int x = 0; x < SLOTS_Y; x++) {
+            	addSlotToContainer(new SlotRemoveOnly(tile, TileSpiritFurnace.SLOTS_DROP[i],
+            			SLOT_DROP_X + x * ITEMBOX, SLOT_DROP_Y + y * ITEMBOX)); // Drop slot
+            	i++;
+            }
+        }
 
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }

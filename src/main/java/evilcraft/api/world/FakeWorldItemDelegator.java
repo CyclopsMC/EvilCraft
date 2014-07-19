@@ -25,7 +25,7 @@ public class FakeWorldItemDelegator extends FakeWorld {
 	public boolean spawnEntityInWorld(Entity entity) {
 		if(entity != null && entity instanceof EntityItem) {
 			ItemStack itemStack = ((EntityItem) entity).getEntityItem();
-			itemDropListener.onItemDrop(itemStack);System.out.println(itemStack.getItem());
+			itemDropListener.onItemDrop(itemStack);
 		}
 		return true;
 	}

@@ -25,8 +25,10 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     	// Only allow ticking if production slot is empty or if the producing item is the same and
         // there is at least one spot left in the stack.
         if(tile.canWork() && !tile.getTank().isEmpty() && getCookStack(tile) != null && tile.canConsume(getCookStack(tile))) {
-            ItemStack production = tile.getInventory().getStackInSlot(tile.getProduceSlot());
-            return production == null || production.stackSize < production.getMaxStackSize();
+            for(int slotId : tile.getProduceSlots()) {
+	        	ItemStack production = tile.getInventory().getStackInSlot(slotId);
+	            return production == null || production.stackSize < production.getMaxStackSize();
+            }
         }
         return false;
     }

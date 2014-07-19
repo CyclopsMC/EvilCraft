@@ -22,7 +22,7 @@ public class SpiritFurnaceConfig extends BlockConfig {
      * How much mB per tick this furnace should consume.
      */
     @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "How much mB per tick this furnace should consume.")
-    public static int mBPerTick = 100;
+    public static int mBPerTick = 5;
     
     /**
      * The required amount of ticks for each HP for cooking an entity.

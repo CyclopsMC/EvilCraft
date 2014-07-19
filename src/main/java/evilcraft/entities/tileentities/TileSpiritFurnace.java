@@ -51,10 +51,6 @@ import evilcraft.network.packets.DetectionListenerPacket;
 public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpiritFurnace> implements IItemDropListener {
     
     /**
-     * The total amount of slots in this machine.
-     */
-    public static final int SLOTS = 3;
-    /**
      * The id of the fluid container drainer slot.
      */
     public static final int SLOT_CONTAINER = 0;
@@ -65,7 +61,12 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
     /**
      * The id of the drops slot.
      */
-    public static final int SLOT_DROP = 2;
+    public static final int[] SLOTS_DROP = new int[]{2, 3, 4, 5};
+    
+    /**
+     * The total amount of slots in this machine.
+     */
+    public static final int SLOTS = 2 + SLOTS_DROP.length;
     
     /**
      * The name of the tank, used for NBT storage.
@@ -141,7 +142,9 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
         List<Integer> inSlotsTank = new LinkedList<Integer>();
         inSlotsTank.add(SLOT_CONTAINER);
         List<Integer> outSlots = new LinkedList<Integer>();
-        outSlots.add(SLOT_DROP);
+        for(int slot : SLOTS_DROP) {
+        	outSlots.add(slot);
+        }
         addSlotsToSide(ForgeDirection.EAST, inSlotsTank);
         addSlotsToSide(ForgeDirection.UP, inSlots);
         addSlotsToSide(ForgeDirection.DOWN, outSlots);
@@ -218,11 +221,11 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
     }
 
     /**
-     * Get the id of the result slot.
-     * @return id of the result slot.
+     * Get the ids of the result slots.
+     * @return ids of the result slots.
      */
-    public int getProduceSlot() {
-        return SLOT_DROP;
+    public int[] getProduceSlots() {
+        return SLOTS_DROP;
     }
     
     @Override
@@ -270,7 +273,7 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
     /**
      * Resets the ticks of the infusion.
      */
-    public void resetInfusion() {
+    public void resetCooking() {
         getTickers().get(cookTicker).setTick(0);
         getTickers().get(cookTicker).setRequiredTicks(0);
     }
@@ -303,18 +306,23 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
 
 	@Override
 	public void onItemDrop(ItemStack itemStack) {
-		// TODO: add support for multiple output slots.
-		ItemStack produceStack = getInventory().getStackInSlot(getProduceSlot());
-        if(produceStack == null) {
-            getInventory().setInventorySlotContents(getProduceSlot(), itemStack);
-        } else {
-            if(produceStack.getItem() == itemStack.getItem()
-               && produceStack.getMaxStackSize() >= produceStack.stackSize + itemStack.stackSize) {
-                produceStack.stackSize += itemStack.stackSize;
-            } else {
-            	System.out.println("TODO: full");
-            }
-        }
+		boolean placed = false;
+		int[] slots = getProduceSlots();
+		int i = 0;
+		while(!placed && i < slots.length) {
+			ItemStack produceStack = getInventory().getStackInSlot(slots[i]);
+	        if(produceStack == null) {
+	            getInventory().setInventorySlotContents(slots[i], itemStack);
+	            placed = true;
+	        } else {
+	            if(produceStack.getItem() == itemStack.getItem()
+	               && produceStack.getMaxStackSize() >= produceStack.stackSize + itemStack.stackSize) {
+	                produceStack.stackSize += itemStack.stackSize;
+	                placed = true;
+	            }
+	        }
+	        i++;
+		}
 	}
 
 }
