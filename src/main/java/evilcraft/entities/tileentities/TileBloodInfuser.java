@@ -17,6 +17,7 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.api.entities.tileentitites.WorkingTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
+import evilcraft.api.gui.slot.SlotFluidContainer;
 import evilcraft.api.recipes.CustomRecipe;
 import evilcraft.api.recipes.CustomRecipeRegistry;
 import evilcraft.api.recipes.CustomRecipeResult;
@@ -27,7 +28,6 @@ import evilcraft.entities.tileentities.tickaction.bloodinfuser.FluidContainerIte
 import evilcraft.entities.tileentities.tickaction.bloodinfuser.InfuseItemTickAction;
 import evilcraft.entities.tileentities.tickaction.bloodinfuser.ItemBucketTickAction;
 import evilcraft.fluids.Blood;
-import evilcraft.gui.slot.SlotFluidContainer;
 
 /**
  * A machine that can infuse things with blood.

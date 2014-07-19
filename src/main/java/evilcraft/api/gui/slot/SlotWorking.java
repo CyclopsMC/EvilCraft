@@ -37,5 +37,10 @@ public class SlotWorking<T extends WorkingTileEntity<?>> extends Slot {
     public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
         tile.resetWork();
     }
+    
+    @Override
+    public void onSlotChanged() {
+    	tile.resetWork();
+    }
 	
 }

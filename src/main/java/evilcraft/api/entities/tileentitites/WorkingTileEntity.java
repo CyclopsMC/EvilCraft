@@ -34,6 +34,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> exten
     
     /**
      * Check if this tile is valid and can start working.
+     * Mostly defined by environmental parameters.
      * @return If it is valid and can work.
      */
     public abstract boolean canWork();

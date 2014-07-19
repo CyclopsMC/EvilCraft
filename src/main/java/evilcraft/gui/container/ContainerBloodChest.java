@@ -5,10 +5,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import evilcraft.api.gui.container.TickingChestContainer;
+import evilcraft.api.gui.slot.SlotFluidContainer;
 import evilcraft.blocks.BloodChest;
 import evilcraft.entities.tileentities.TileBloodChest;
 import evilcraft.entities.tileentities.TileBloodInfuser;
-import evilcraft.gui.slot.SlotFluidContainer;
 import evilcraft.gui.slot.SlotRepairable;
 
 /**

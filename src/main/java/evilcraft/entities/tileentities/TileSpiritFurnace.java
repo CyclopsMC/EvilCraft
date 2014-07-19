@@ -30,6 +30,7 @@ import evilcraft.api.entities.tileentitites.NBTPersist;
 import evilcraft.api.entities.tileentitites.WorkingTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
+import evilcraft.api.gui.slot.SlotFluidContainer;
 import evilcraft.api.world.FakeWorldItemDelegator.IItemDropListener;
 import evilcraft.blocks.BoxOfEternalClosure;
 import evilcraft.blocks.BoxOfEternalClosureConfig;
@@ -39,7 +40,6 @@ import evilcraft.entities.tileentities.tickaction.EmptyFluidContainerInTankTickA
 import evilcraft.entities.tileentities.tickaction.EmptyItemBucketInTankTickAction;
 import evilcraft.entities.tileentities.tickaction.spiritfurnace.BoxCookTickAction;
 import evilcraft.fluids.Blood;
-import evilcraft.gui.slot.SlotFluidContainer;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packets.DetectionListenerPacket;
 

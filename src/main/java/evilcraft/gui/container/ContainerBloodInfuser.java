@@ -2,11 +2,11 @@ package evilcraft.gui.container;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import evilcraft.api.gui.container.ContainerWorking;
+import evilcraft.api.gui.slot.SlotFluidContainer;
 import evilcraft.api.gui.slot.SlotRemoveOnly;
 import evilcraft.api.gui.slot.SlotWorking;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.entities.tileentities.TileBloodInfuser;
-import evilcraft.gui.slot.SlotFluidContainer;
 
 /**
  * Container for the {@link BloodInfuser}.

@@ -1,4 +1,4 @@
-package evilcraft.gui.slot;
+package evilcraft.api.gui.slot;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
