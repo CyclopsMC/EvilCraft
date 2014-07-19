@@ -1,7 +1,7 @@
 package evilcraft.gui.client;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import evilcraft.api.gui.client.GuiContainerTankInventory;
+import evilcraft.api.gui.client.GuiWorking;
 import evilcraft.blocks.SpiritFurnace;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 import evilcraft.gui.container.ContainerSpiritFurnace;
@@ -11,7 +11,7 @@ import evilcraft.gui.container.ContainerSpiritFurnace;
  * @author rubensworks
  *
  */
-public class GuiSpiritFurnace extends GuiContainerTankInventory<TileSpiritFurnace> {
+public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
     
     /**
      * Texture width.
@@ -83,13 +83,4 @@ public class GuiSpiritFurnace extends GuiContainerTankInventory<TileSpiritFurnac
         this.setProgress(PROGRESSWIDTH, PROGRESSHEIGHT, PROGRESSX, PROGRESSY, PROGRESSTARGETX, PROGRESSTARGETY);
     }
     
-    @Override
-    protected boolean isShowProgress() {
-        return this.tile.isCooking();
-    }
-    
-    @Override
-    protected int getProgressScaled(int scale) {
-        return this.tile.getCookTickScaled(24);
-    }
 }

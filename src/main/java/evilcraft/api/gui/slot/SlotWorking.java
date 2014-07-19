@@ -1,31 +1,30 @@
-package evilcraft.gui.slot;
+package evilcraft.api.gui.slot;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import evilcraft.entities.tileentities.TileBloodInfuser;
+import evilcraft.api.entities.tileentitites.WorkingTileEntity;
 
 /**
- * Slot that is used for only accepting infusable items.
+ * Slot that is used for only accepting workable items.
  * @author rubensworks
+ * @param <T> 
  *
  */
-public class SlotInfuse extends Slot {
-    
-    private TileBloodInfuser tile;
+public class SlotWorking<T extends WorkingTileEntity<?>> extends Slot {
+
+	private T tile;
     
     /**
      * Make a new instance.
-     * @param inventory The inventory this slot will be in.
      * @param index The index of this slot.
      * @param x X coordinate.
      * @param y Y coordinate.
      * @param tile The tile this slot is in.
      */
-    public SlotInfuse(IInventory inventory, int index, int x,
-            int y, TileBloodInfuser tile) {
-        super(inventory, index, x, y);
+    public SlotWorking(int index, int x,
+            int y, T tile) {
+        super(tile, index, x, y);
         this.tile = tile;
     }
     
@@ -36,7 +35,7 @@ public class SlotInfuse extends Slot {
     
     @Override
     public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
-        tile.resetInfusion();
+        tile.resetWork();
     }
-    
+	
 }

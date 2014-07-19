@@ -1,19 +1,19 @@
 package evilcraft.gui.container;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import evilcraft.api.gui.container.TickingTankInventoryContainer;
+import evilcraft.api.gui.container.ContainerWorking;
 import evilcraft.api.gui.slot.SlotRemoveOnly;
+import evilcraft.api.gui.slot.SlotWorking;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.slot.SlotFluidContainer;
-import evilcraft.gui.slot.SlotInfuse;
 
 /**
  * Container for the {@link BloodInfuser}.
  * @author rubensworks
  *
  */
-public class ContainerBloodInfuser extends TickingTankInventoryContainer<TileBloodInfuser> {
+public class ContainerBloodInfuser extends ContainerWorking<TileBloodInfuser> {
     
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;
@@ -55,7 +55,7 @@ public class ContainerBloodInfuser extends TickingTankInventoryContainer<TileBlo
 
         // Adding inventory
         addSlotToContainer(new SlotFluidContainer(tile, TileBloodInfuser.SLOT_CONTAINER, SLOT_CONTAINER_X, SLOT_CONTAINER_Y, TileBloodInfuser.ACCEPTED_FLUID)); // Container emptier
-        addSlotToContainer(new SlotInfuse(tile, TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, tile)); // Infuse slot
+        addSlotToContainer(new SlotWorking<TileBloodInfuser>(TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, tile)); // Infuse slot
         addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y)); // Infuse result slot
 
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);

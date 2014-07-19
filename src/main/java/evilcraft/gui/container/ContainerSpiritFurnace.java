@@ -1,9 +1,9 @@
 package evilcraft.gui.container;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import evilcraft.api.gui.container.TickingTankInventoryContainer;
+import evilcraft.api.gui.container.ContainerWorking;
 import evilcraft.api.gui.slot.SlotRemoveOnly;
-import evilcraft.api.gui.slot.SlotSingleItem;
+import evilcraft.api.gui.slot.SlotWorking;
 import evilcraft.blocks.SpiritFurnace;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 import evilcraft.gui.slot.SlotFluidContainer;
@@ -13,7 +13,7 @@ import evilcraft.gui.slot.SlotFluidContainer;
  * @author rubensworks
  *
  */
-public class ContainerSpiritFurnace extends TickingTankInventoryContainer<TileSpiritFurnace> {
+public class ContainerSpiritFurnace extends ContainerWorking<TileSpiritFurnace> {
     
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;
@@ -63,8 +63,7 @@ public class ContainerSpiritFurnace extends TickingTankInventoryContainer<TileSp
         addSlotToContainer(new SlotFluidContainer(tile, TileSpiritFurnace.SLOT_CONTAINER,
         		SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
         		TileSpiritFurnace.ACCEPTED_FLUID)); // Container emptier
-        addSlotToContainer(new SlotSingleItem(tile, TileSpiritFurnace.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y,
-            			TileSpiritFurnace.getAllowedCookItem())); // Box slot
+        addSlotToContainer(new SlotWorking<TileSpiritFurnace>(TileSpiritFurnace.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, tile)); // Box slot
         
         int i = 0;
         for (int y = 0; y < SLOTS_X; y++) {

@@ -75,7 +75,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
         TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
         ForgeDirection rotatedDirection = Helpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
-        return getIcon(rotatedDirection.ordinal(), tile.isBlockInfusing()?1:0);
+        return getIcon(rotatedDirection.ordinal(), tile.isVisuallyWorking()?1:0);
     }
     
     @SideOnly(Side.CLIENT)

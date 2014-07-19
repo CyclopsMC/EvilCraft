@@ -27,7 +27,7 @@ import evilcraft.api.block.AllowedBlock;
 import evilcraft.api.block.CubeDetector;
 import evilcraft.api.block.HollowCubeDetector;
 import evilcraft.api.entities.tileentitites.NBTPersist;
-import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
+import evilcraft.api.entities.tileentitites.WorkingTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
 import evilcraft.api.world.FakeWorldItemDelegator.IItemDropListener;
@@ -48,7 +48,7 @@ import evilcraft.network.packets.DetectionListenerPacket;
  * @author rubensworks
  *
  */
-public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpiritFurnace> implements IItemDropListener {
+public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> implements IItemDropListener {
     
     /**
      * The id of the fluid container drainer slot.
@@ -152,10 +152,12 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
         addSlotsToSide(ForgeDirection.WEST, outSlots);
     }
     
-    /**
-     * Check if this spirit furnace is valid and can start working.
-     * @return If it is valid.
-     */
+    @Override
+	protected int getWorkTicker() {
+		return cookTicker;
+	}
+    
+    @Override
     public boolean canWork() {
     	Size size = getSize();
 		return size.compareTo(TileSpiritFurnace.detector.getMinimumSize()) >= 0;
@@ -203,11 +205,7 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
 		}
     }
     
-    /**
-     * Check if the given item can be cooked.
-     * @param itemStack The item to check.
-     * @return If it can be cooked.
-     */
+    @Override
     public boolean canConsume(ItemStack itemStack) {
         return itemStack != null && getAllowedCookItem() == itemStack.getItem();
     }
@@ -235,58 +233,6 @@ public class TileSpiritFurnace extends TickingTankInventoryTileEntity<TileSpirit
         if(slot == SLOT_CONTAINER)
             return SlotFluidContainer.checkIsItemValid(itemStack, ACCEPTED_FLUID);
         return false;
-    }
-    
-    /**
-     * If this tile is cooking.
-     * @return If it is infusing.
-     */
-    public boolean isCooking() {
-        return getCookTick() > 0;
-    }
-    
-    /**
-     * If the furnace should visually (block icon) show it is cooking, should only be called client-side.
-     * @return If the state is cooking.
-     */
-    public boolean isBlockCooking() {
-        return getCurrentState() == 1;
-    }
-
-    /**
-     * Get the cooking progress scaled, to be used in GUI's.
-     * @param scale The scale this progress should be applied to.
-     * @return The scaled cooking progress.
-     */
-    public int getCookTickScaled(int scale) {
-        return (int) ((float)getCookTick() / (float)getRequiredTicks() * (float)scale);
-    }
-    
-    private int getCookTick() {
-        return getTickers().get(cookTicker).getTick();
-    }
-    
-    private int getRequiredTicks() {
-        return getTickers().get(cookTicker).getRequiredTicks();
-    }
-    
-    /**
-     * Resets the ticks of the infusion.
-     */
-    public void resetCooking() {
-        getTickers().get(cookTicker).setTick(0);
-        getTickers().get(cookTicker).setRequiredTicks(0);
-    }
-
-    @Override
-    public int getNewState() {
-        return this.isCooking()?1:0;
-    }
-    
-
-    @Override
-    public void onStateChanged() {
-        sendUpdate();
     }
 
 	/**

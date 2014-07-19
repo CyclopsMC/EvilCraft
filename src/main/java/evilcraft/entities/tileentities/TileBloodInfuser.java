@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
+import evilcraft.api.entities.tileentitites.WorkingTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
 import evilcraft.api.recipes.CustomRecipe;
@@ -34,7 +34,7 @@ import evilcraft.gui.slot.SlotFluidContainer;
  * @author rubensworks
  *
  */
-public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodInfuser> {
+public class TileBloodInfuser extends WorkingTileEntity<TileBloodInfuser> {
     
     /**
      * The total amount of slots in this machine.
@@ -122,11 +122,7 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodIn
         addSlotsToSide(ForgeDirection.WEST, outSlots);
     }
     
-    /**
-     * Check if the given item can be infused.
-     * @param itemStack The item to check.
-     * @return If it can be infused.
-     */
+    @Override
     public boolean canConsume(ItemStack itemStack) {
         // Empty bucket
         if(itemStack.getItem() == Items.bucket
@@ -181,56 +177,20 @@ public class TileBloodInfuser extends TickingTankInventoryTileEntity<TileBloodIn
             return SlotFluidContainer.checkIsItemValid(itemStack, ACCEPTED_FLUID);
         return false;
     }
-    
-    /**
-     * If the blood infuser is running an infusion.
-     * @return If it is infusing.
-     */
-    public boolean isInfusing() {
-        return getInfuseTick() > 0;
-    }
-    
-    /**
-     * If the blood infuser should visually (block icon) show it is infusing, should only be called client-side.
-     * @return If the state is infusing.
-     */
-    public boolean isBlockInfusing() {
-        return getCurrentState() == 1;
-    }
-
-    /**
-     * Get the infuse progress scaled, to be used in GUI's.
-     * @param scale The scale this progress should be applied to.
-     * @return The scaled infusion progress.
-     */
-    public int getInfuseTickScaled(int scale) {
-        return (int) ((float)getInfuseTick() / (float)getRequiredTicks() * (float)scale);
-    }
-    
-    private int getInfuseTick() {
-        return getTickers().get(infuseTicker).getTick();
-    }
-    
-    private int getRequiredTicks() {
-        return getTickers().get(infuseTicker).getRequiredTicks();
-    }
-    
-    /**
-     * Resets the ticks of the infusion.
-     */
-    public void resetInfusion() {
-        getTickers().get(infuseTicker).setTick(0);
-        getTickers().get(infuseTicker).setRequiredTicks(0);
-    }
-
-    @Override
-    public int getNewState() {
-        return this.isInfusing()?1:0;
-    }
 
     @Override
     public void onStateChanged() {
         sendUpdate();
     }
+
+	@Override
+	public boolean canWork() {
+		return true;
+	}
+
+	@Override
+	protected int getWorkTicker() {
+		return infuseTicker;
+	}
 
 }

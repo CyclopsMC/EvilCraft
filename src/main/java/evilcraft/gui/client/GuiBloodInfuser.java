@@ -1,7 +1,7 @@
 package evilcraft.gui.client;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import evilcraft.api.gui.client.GuiContainerTankInventory;
+import evilcraft.api.gui.client.GuiWorking;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.container.ContainerBloodInfuser;
@@ -11,7 +11,7 @@ import evilcraft.gui.container.ContainerBloodInfuser;
  * @author rubensworks
  *
  */
-public class GuiBloodInfuser extends GuiContainerTankInventory<TileBloodInfuser> {
+public class GuiBloodInfuser extends GuiWorking<TileBloodInfuser> {
     
     /**
      * Texture width.
@@ -83,13 +83,4 @@ public class GuiBloodInfuser extends GuiContainerTankInventory<TileBloodInfuser>
         this.setProgress(PROGRESSWIDTH, PROGRESSHEIGHT, PROGRESSX, PROGRESSY, PROGRESSTARGETX, PROGRESSTARGETY);
     }
     
-    @Override
-    protected boolean isShowProgress() {
-        return this.tile.isInfusing();
-    }
-    
-    @Override
-    protected int getProgressScaled(int scale) {
-        return this.tile.getInfuseTickScaled(24);
-    }
 }
