@@ -32,6 +32,10 @@ tile.blocks.purifier.name=Purifier
 tile.blocks.darkBrick.name=Dark Brick
 tile.blocks.darkBloodBrick.name=Dark Blood Brick
 tile.blocks.spiritFurnace.name=Spirit Furnace
+tile.blocks.spiritFurnace.help.invalid=Unable to cook
+tile.blocks.spiritFurnace.help.invalid.noEntity=Empty or no box
+tile.blocks.spiritFurnace.help.invalid.contentSize=Content size: %s
+tile.blocks.spiritFurnace.help.invalid.requiredSize=Required size: %s
 tile.blocks.boxOfEternalClosure.name=Box of Eternal Closure
 tile.blocks.boxOfEternalClosure.info.content=Contents: %s
 

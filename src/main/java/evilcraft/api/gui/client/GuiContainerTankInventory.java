@@ -113,7 +113,12 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
             int tankSize = tank.getFluidAmount() * tankHeight / tank.getCapacity();
             drawTank(tankTargetX, tankTargetY, tank.getAcceptedFluid().getID(), tankSize);
         }
+        drawAdditionalForeground(mouseX, mouseY);
         GL11.glDisable(GL11.GL_BLEND);
+    }
+    
+    protected void drawAdditionalForeground(int mouseX, int mouseY) {
+    	
     }
     
     @Override
@@ -158,17 +163,21 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         }
     }
     
-    protected void drawTooltips(int mouseX, int mouseY) {
+    protected boolean isPointInRegion(int x, int y, int width, int height, int mouseX, int mouseY) {
     	// MCP isPointInRegion
-        if(func_146978_c(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
+    	return func_146978_c(x, y, width, height, mouseX, mouseY);
+    }
+    
+    protected void drawTooltips(int mouseX, int mouseY) {
+        if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
             SingleUseTank tank = tile.getTank();
             String fluidName = L10NHelpers.localize("fluid.fluids."
             		+ FluidRegistry.getFluidName(tank.getFluid()));
-            drawBarTooltip(fluidName, "mB", tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
+            drawBarTooltipTank(fluidName, "mB", tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
         }
     }
     
-    protected void drawBarTooltip(String name, String unit, int value, int max, int x, int y) {
+    protected void drawBarTooltipTank(String name, String unit, int value, int max, int x, int y) {
         List<String> lines = new ArrayList<String>();
         lines.add(name);
         lines.add(value + " / " + max + " " + unit);

@@ -109,4 +109,21 @@ public class Location implements ILocation {
 		setCoordinates(tag.getIntArray("coordinates"));
 	}
 
+	@Override
+	public ILocation subtract(ILocation location) {
+		if(getDimensions() != location.getDimensions()) {
+			throw new IllegalArgumentException("The dimensions differ: this: ["
+		+ getDimensions() + "] subtractor [" + location.getDimensions() + "]");
+		}
+		
+		int[] result = new int[getDimensions()];
+		for(int i = 0; i < getDimensions(); i++) {
+			result[i] = getCoordinates()[i] - location.getCoordinates()[i];
+		}
+		
+		ILocation ret = copy();
+		ret.setCoordinates(result);
+		return ret;
+	}
+
 }

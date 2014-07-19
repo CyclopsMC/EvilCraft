@@ -1,6 +1,11 @@
 package evilcraft.gui.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.player.InventoryPlayer;
+import evilcraft.api.L10NHelpers;
+import evilcraft.api.algorithms.Size;
 import evilcraft.api.gui.client.GuiWorking;
 import evilcraft.blocks.SpiritFurnace;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
@@ -73,6 +78,15 @@ public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
     public static final int PROGRESSTARGETY = 36;
     
     /**
+     * Progress target X.
+     */
+    public static final int PROGRESS_INVALIDX = 192;
+    /**
+     * Progress target Y.
+     */
+    public static final int PROGRESS_INVALIDY = 18;
+    
+    /**
      * Make a new instance.
      * @param inventory The inventory of the player.
      * @param tile The tile entity that calls the GUI.
@@ -81,6 +95,33 @@ public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
         super(new ContainerSpiritFurnace(inventory, tile), tile);
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
         this.setProgress(PROGRESSWIDTH, PROGRESSHEIGHT, PROGRESSX, PROGRESSY, PROGRESSTARGETX, PROGRESSTARGETY);
+    }
+    
+    private String prettyPrintSize(Size size) {
+    	int[] c = size.getCoordinates();
+    	return c[0] + "x" + c[1] + "x" + c[2];
+    }
+    
+    @Override
+	protected void drawAdditionalForeground(int mouseX, int mouseY) {
+    	String prefix = SpiritFurnace.getInstance().getUnlocalizedName() + ".help.invalid";
+    	List<String> lines = new ArrayList<String>();
+    	lines.add(L10NHelpers.localize(prefix));
+        if(tile.getEntity() == null) {
+        	lines.add(L10NHelpers.localize(prefix + ".noEntity"));
+        } else if(!tile.isSizeValidForEntity()) {
+        	lines.add(L10NHelpers.localize(prefix + ".contentSize", prettyPrintSize(tile.getInnerSize())));
+        	lines.add(L10NHelpers.localize(prefix + ".requiredSize", prettyPrintSize(tile.getEntitySize())));
+        }
+        if(lines.size() > 1) {
+        	this.drawTexturedModalRect(PROGRESSTARGETX, PROGRESSTARGETY, PROGRESS_INVALIDX,
+            		PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
+	    	if(isPointInRegion(PROGRESSTARGETX, PROGRESSTARGETY, PROGRESSWIDTH, PROGRESSHEIGHT, mouseX, mouseY)) {
+	    		mouseX -= guiLeft;
+	        	mouseY -= guiTop;
+	            drawTooltip(lines, mouseX, mouseY);
+	        }
+        }
     }
     
 }

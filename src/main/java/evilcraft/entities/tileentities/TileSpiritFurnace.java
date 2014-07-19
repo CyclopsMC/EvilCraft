@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
@@ -23,6 +26,7 @@ import evilcraft.api.Helpers;
 import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.algorithms.Locations;
 import evilcraft.api.algorithms.Size;
+import evilcraft.api.algorithms.Sizes;
 import evilcraft.api.block.AllowedBlock;
 import evilcraft.api.block.CubeDetector;
 import evilcraft.api.block.HollowCubeDetector;
@@ -31,6 +35,8 @@ import evilcraft.api.entities.tileentitites.WorkingTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
 import evilcraft.api.gui.slot.SlotFluidContainer;
+import evilcraft.api.world.FakeWorld;
+import evilcraft.api.world.FakeWorldItemDelegator;
 import evilcraft.api.world.FakeWorldItemDelegator.IItemDropListener;
 import evilcraft.blocks.BoxOfEternalClosure;
 import evilcraft.blocks.BoxOfEternalClosureConfig;
@@ -157,6 +163,55 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
 		return cookTicker;
 	}
     
+    /**
+     * Get the entity that is contained in a box.
+     * @return The entity or null if no box or invalid box.
+     */
+    public EntityLiving getEntity() {
+    	ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
+    	if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
+    		String id = BoxOfEternalClosure.getInstance().getSpiritId(boxStack);
+    		if(id != null) {
+    			@SuppressWarnings("unchecked")
+				Class<? extends EntityLivingBase> entityClass =
+					(Class<? extends EntityLivingBase>) EntityList.stringToClassMapping.get(id);
+    			if(entityClass != null) {
+    				// TODO: profile this and maybe optimise, cache this entity?
+    				FakeWorld world = new FakeWorldItemDelegator(this);
+    				EntityLiving entity = (EntityLiving) EntityList.createEntityByName(id, world);
+    				return entity;
+    			}
+    		}
+    	}
+    	return null;
+    }
+    
+    /**
+     * Get the size of the box entity.
+     * @return The box entity size.
+     */
+    public Size getEntitySize() {
+    	EntityLiving entity = getEntity();
+    	if(entity == null) {
+    		return Size.NULL_SIZE;
+    	}
+    	return Sizes.getEntitySize(entity);
+    }
+    
+    /**
+     * If the size is valid for the contained entity to cook.
+     * It will check the inner size of the furnace and the size of the entity.
+     * @return If it is valid.
+     */
+    public boolean isSizeValidForEntity() {
+    	EntityLiving entity = getEntity();
+    	if(entity == null) {
+    		return false;
+    	}
+    	Size requiredSize = getEntitySize();
+    	return getInnerSize().compareTo(requiredSize) >= 0;
+    }
+    
     @Override
     public boolean canWork() {
     	Size size = getSize();
@@ -240,6 +295,13 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
 	 */
 	public Size getSize() {
 		return size;
+	}
+	
+	/**
+	 * @return the actual inner size.
+	 */
+	public Size getInnerSize() {
+		return (Size) getSize().subtract(new Size(1, 1, 1));
 	}
 
 	/**

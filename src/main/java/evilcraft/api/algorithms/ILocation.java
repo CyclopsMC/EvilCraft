@@ -42,6 +42,15 @@ public interface ILocation extends Comparable<ILocation>, INBTSerializable {
     public int getDistance(ILocation location);
     
     /**
+     * Subtract this location with a given location.
+     * This will not change this location, it will create a new location object.
+     * @param location The location to subtract with.
+     * @return The subtraction result.
+     * @throws IllegalArgumentException If the dimensions differ.
+     */
+    public ILocation subtract(ILocation location);
+    
+    /**
      * Copy this location.
      * @return A deep copy.
      */

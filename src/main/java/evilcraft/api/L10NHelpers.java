@@ -32,7 +32,7 @@ public final class L10NHelpers {
 	 * @param params The parameters of the formatting
 	 * @return The localized string.
 	 */
-	public static String localize(String key, Object[] params) {
+	public static String localize(String key, Object... params) {
 		return StatCollector.translateToLocalFormatted(key, params);
 	}
 

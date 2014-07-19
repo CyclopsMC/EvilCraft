@@ -16,7 +16,7 @@ public class Size extends Location {
 	 * Make a new instance.
 	 * @param sizes The sizes.
 	 */
-	public Size(int[] sizes) {
+	public Size(int... sizes) {
 		super(sizes);
 	}
 	
