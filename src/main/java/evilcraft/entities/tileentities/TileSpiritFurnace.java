@@ -35,7 +35,6 @@ import evilcraft.api.entities.tileentitites.WorkingTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
 import evilcraft.api.gui.slot.SlotFluidContainer;
-import evilcraft.api.world.FakeWorld;
 import evilcraft.api.world.FakeWorldItemDelegator;
 import evilcraft.api.world.FakeWorldItemDelegator.IItemDropListener;
 import evilcraft.blocks.BoxOfEternalClosure;
@@ -103,8 +102,6 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
     			Lists.newArrayList(SpiritFurnace.getInstance(), DarkBloodBrick.getInstance())
     		).setMinimumSize(new Size(new int[]{2, 2, 2}));
     
-    private int cookTicker;
-    
     private static final Map<Class<?>, ITickAction<TileSpiritFurnace>> BOX_COOK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSpiritFurnace>>();
     static {
     	BOX_COOK_TICK_ACTIONS.put(BoxOfEternalClosure.class, new BoxCookTickAction());
@@ -118,6 +115,10 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
     
     @NBTPersist
     private Size size = Size.NULL_SIZE.copy();
+    
+    private int cookTicker;
+    
+    private EntityLiving boxEntityCache = null;
     
     /**
      * Make a new instance.
@@ -172,15 +173,21 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
     	if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
     		String id = BoxOfEternalClosure.getInstance().getSpiritId(boxStack);
     		if(id != null) {
-    			@SuppressWarnings("unchecked")
-				Class<? extends EntityLivingBase> entityClass =
-					(Class<? extends EntityLivingBase>) EntityList.stringToClassMapping.get(id);
-    			if(entityClass != null) {
-    				// TODO: profile this and maybe optimise, cache this entity?
-    				FakeWorld world = new FakeWorldItemDelegator(this);
-    				EntityLiving entity = (EntityLiving) EntityList.createEntityByName(id, world);
-    				return entity;
-    			}
+    			// We cache the entity inside 'boxEntityCache' for obvious efficiency reasons.
+    			if(boxEntityCache != null && id.equals(EntityList.getEntityString(boxEntityCache))) {
+        			return boxEntityCache;
+        		} else {
+	    			@SuppressWarnings("unchecked")
+					Class<? extends EntityLivingBase> entityClass =
+						(Class<? extends EntityLivingBase>) EntityList.stringToClassMapping.get(id);
+	    			if(entityClass != null) {
+	    				FakeWorldItemDelegator world = FakeWorldItemDelegator.getInstance();
+	    				world.setItemDropListener(this);
+	    				EntityLiving entity = (EntityLiving) EntityList.createEntityByName(id, world);
+	    				boxEntityCache = entity;
+	    				return entity;
+	    			}
+        		}
     		}
     	}
     	return null;

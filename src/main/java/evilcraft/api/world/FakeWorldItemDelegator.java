@@ -11,19 +11,36 @@ import net.minecraft.item.ItemStack;
  */
 public class FakeWorldItemDelegator extends FakeWorld {
 	
+	private static FakeWorldItemDelegator _instance = null;
+	
 	private IItemDropListener itemDropListener;
-
+	
+	private FakeWorldItemDelegator() {
+		
+	}
+	
 	/**
-	 * Make a new instance.
-	 * @param itemDropListener The item drops listener.
+	 * Get the unique instance.
+	 * @return The unique instance.
 	 */
-	public FakeWorldItemDelegator(IItemDropListener itemDropListener) {
+	public static FakeWorldItemDelegator getInstance() {
+		if(_instance == null) {
+			_instance = new FakeWorldItemDelegator();
+		}
+		return _instance;
+	}
+	
+	/**
+	 * Set the item drop listener.
+	 * @param itemDropListener The item drop listener.
+	 */
+	public void setItemDropListener(IItemDropListener itemDropListener) {
 		this.itemDropListener = itemDropListener;
 	}
 	
 	@Override
 	public boolean spawnEntityInWorld(Entity entity) {
-		if(entity != null && entity instanceof EntityItem) {
+		if(entity != null && entity instanceof EntityItem && itemDropListener != null) {
 			ItemStack itemStack = ((EntityItem) entity).getEntityItem();
 			itemDropListener.onItemDrop(itemStack);
 		}
