@@ -18,9 +18,8 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     
     @Override
     public boolean canTick(TileSpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
-    	// Only allow ticking if production slot is empty or if the producing item is the same and
-        // there is at least one spot left in the stack.
-        if(tile.canWork() && !tile.getTank().isEmpty() && getCookStack(tile) != null && tile.canConsume(getCookStack(tile))) {
+        if(!tile.isForceHalt() && tile.canWork() && !tile.getTank().isEmpty()
+        		&& getCookStack(tile) != null && tile.canConsume(getCookStack(tile))) {
         	EntityLiving entity = null;
         	for(int slotId : tile.getProduceSlots()) {
 	        	ItemStack production = tile.getInventory().getStackInSlot(slotId);

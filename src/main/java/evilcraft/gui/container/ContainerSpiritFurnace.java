@@ -3,8 +3,8 @@ package evilcraft.gui.container;
 import net.minecraft.entity.player.InventoryPlayer;
 import evilcraft.api.gui.container.ContainerWorking;
 import evilcraft.api.gui.slot.SlotFluidContainer;
-import evilcraft.api.gui.slot.SlotRemoveOnly;
 import evilcraft.api.gui.slot.SlotWorking;
+import evilcraft.api.gui.slot.SlotWorkingRemoveOnly;
 import evilcraft.blocks.SpiritFurnace;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 
@@ -68,8 +68,9 @@ public class ContainerSpiritFurnace extends ContainerWorking<TileSpiritFurnace> 
         int i = 0;
         for (int y = 0; y < SLOTS_X; y++) {
             for (int x = 0; x < SLOTS_Y; x++) {
-            	addSlotToContainer(new SlotRemoveOnly(tile, TileSpiritFurnace.SLOTS_DROP[i],
-            			SLOT_DROP_X + x * ITEMBOX, SLOT_DROP_Y + y * ITEMBOX)); // Drop slot
+            	addSlotToContainer(new SlotWorkingRemoveOnly<TileSpiritFurnace>(
+            			TileSpiritFurnace.SLOTS_DROP[i], SLOT_DROP_X + x * ITEMBOX,
+            			SLOT_DROP_Y + y * ITEMBOX, tile)); // Drop slot
             	i++;
             }
         }

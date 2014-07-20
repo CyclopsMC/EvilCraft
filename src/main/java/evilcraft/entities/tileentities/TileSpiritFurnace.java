@@ -115,9 +115,9 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
     
     @NBTPersist
     private Size size = Size.NULL_SIZE.copy();
-    
+    @NBTPersist
+    private Boolean forceHalt = false;
     private int cookTicker;
-    
     private EntityLiving boxEntityCache = null;
     
     /**
@@ -324,6 +324,8 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
 		boolean placed = false;
 		int[] slots = getProduceSlots();
 		int i = 0;
+		
+		// Try placing the item inside the inventory slots.
 		while(!placed && i < slots.length) {
 			ItemStack produceStack = getInventory().getStackInSlot(slots[i]);
 	        if(produceStack == null) {
@@ -338,6 +340,23 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
 	        }
 	        i++;
 		}
+		
+		// Halt the cooking if the item couldn't be placed
+		forceHalt = !placed;
+	}
+	
+	@Override
+	public void resetWork() {
+		forceHalt = false;
+		super.resetWork();
+	}
+
+	/**
+	 * If the cooking is being halted because the inventory is full.
+	 * @return the forceHalt
+	 */
+	public boolean isForceHalt() {
+		return forceHalt;
 	}
 
 }

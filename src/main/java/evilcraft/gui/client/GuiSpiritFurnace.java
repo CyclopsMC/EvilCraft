@@ -112,6 +112,8 @@ public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
         } else if(!tile.isSizeValidForEntity()) {
         	lines.add(L10NHelpers.localize(prefix + ".contentSize", prettyPrintSize(tile.getInnerSize())));
         	lines.add(L10NHelpers.localize(prefix + ".requiredSize", prettyPrintSize(tile.getEntitySize())));
+        } else if(tile.isForceHalt()) {
+        	lines.add(L10NHelpers.localize(prefix + ".forceHalt"));
         }
         if(lines.size() > 1) {
         	this.drawTexturedModalRect(PROGRESSTARGETX, PROGRESSTARGETY, PROGRESS_INVALIDX,
