@@ -33,6 +33,8 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     
     private static SpiritFurnace _instance = null;
     
+    private IIcon blockIconInactive;
+    
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -73,7 +75,10 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
+    	super.registerBlockIcons(iconRegister);
         blockIcon = iconRegister.registerIcon(getTextureName());
+        blockIconInactive = iconRegister.registerIcon(getTextureName() + "_inactive");
+        
     }
     
     @SideOnly(Side.CLIENT)
@@ -81,9 +86,8 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     public IIcon getIcon(int side, int meta) {
         if (meta == 1) {
             return this.blockIcon;
-        } else {
-            return DarkBloodBrick.getInstance().getIcon(side, meta);
         }
+        return this.blockIconInactive;
     }
     
     @Override

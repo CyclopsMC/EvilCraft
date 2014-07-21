@@ -1,11 +1,10 @@
 package evilcraft.network.packets;
 
-import java.util.Random;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Helpers;
@@ -13,7 +12,7 @@ import evilcraft.api.algorithms.ILocation;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;
-import evilcraft.render.particle.EntityBlurFX;
+import evilcraft.render.particle.EntityBloodBrickFX;
 
 /**
  * Packet for telling clients if a structure has been formed for a block location.
@@ -23,7 +22,6 @@ import evilcraft.render.particle.EntityBlurFX;
 public class DetectionListenerPacket extends PacketCodec {
 
 	private static final int RANGE = 100;
-	private static final int PARTICLE_COUNT = 10;
 	
 	@CodecField
 	private int x = 0;
@@ -68,37 +66,18 @@ public class DetectionListenerPacket extends PacketCodec {
 	}
     
     @SideOnly(Side.CLIENT)
-    private void showActivatedParticle(World world, int x, int y, int z) {
-    	Random rand = world.rand;
-    	float posX = x + rand.nextFloat();
-    	float posY = y + rand.nextFloat();
-    	float posZ = z + rand.nextFloat();
-    	float motionX = rand.nextFloat() * 0.1F - 0.05F;
-    	float motionY = rand.nextFloat() * 0.1F - 0.05F;
-    	float motionZ = rand.nextFloat() * 0.1F - 0.05F;
-    	float scale = 0.1F + rand.nextFloat() * 0.1F;
-    	float red, green, blue;
-    	if(activation) {
-	    	red = rand.nextFloat() * 0.4F + 0.4F;
-	        green = rand.nextFloat() * 0.05F;
-	        blue = rand.nextFloat() * 0.05F;
-    	} else {
-    		red = rand.nextFloat() * 0.1F;
-	        green = rand.nextFloat() * 0.1F;
-	        blue = rand.nextFloat() * 0.1F;
-    	}
-        float ageMultiplier = (float) (rand.nextDouble() * 5D + 20D); 
-        
-		EntityBlurFX square = new EntityBlurFX(world, posX, posY, posZ, scale, motionX, motionY, motionZ,
-				red, green, blue, ageMultiplier);
-		Minecraft.getMinecraft().effectRenderer.addEffect(square);
+    private void showActivatedParticle(World world, int x, int y, int z, ForgeDirection side) {
+        EntityBloodBrickFX burst = new EntityBloodBrickFX(world, x, y, z, side);
+		Minecraft.getMinecraft().effectRenderer.addEffect(burst);
 	}
     
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void actionClient(World world, EntityPlayer player) {
-		for(int i = 0; i < PARTICLE_COUNT; i++) {
-			showActivatedParticle(world, x, y, z);
+		if(activation) {// new ForgeDirection[]{ForgeDirection.UP, ForgeDirection.SOUTH, ForgeDirection.EAST}
+			for(ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
+				showActivatedParticle(world, x, y, z, side);
+			}
 		}
 	}
 	@Override
