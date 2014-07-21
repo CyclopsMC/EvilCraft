@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.obfuscation.ObfuscationHelper;
+import evilcraft.api.world.FakeWorldItemDelegator;
 import evilcraft.blocks.SpiritFurnaceConfig;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 
@@ -38,6 +39,8 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     protected void doNextDrop(TileSpiritFurnace tile) {
     	EntityLiving entity = tile.getEntity();
     	if(entity != null) {
+    		FakeWorldItemDelegator world = FakeWorldItemDelegator.getInstance();
+			world.setItemDropListener(tile);
 			// To make sure the entity actually will drop something.
 			ObfuscationHelper.setRecentlyHit(entity, 100);
 			entity.onDeath(DamageSource.generic);

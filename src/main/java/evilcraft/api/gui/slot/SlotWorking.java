@@ -13,7 +13,7 @@ import evilcraft.api.entities.tileentitites.WorkingTileEntity;
  */
 public class SlotWorking<T extends WorkingTileEntity<?>> extends Slot {
 
-	private T tile;
+	protected T tile;
     
     /**
      * Make a new instance.
@@ -35,12 +35,12 @@ public class SlotWorking<T extends WorkingTileEntity<?>> extends Slot {
     
     @Override
     public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
-        tile.resetWork();
+        tile.resetWork(true);
     }
     
     @Override
     public void onSlotChanged() {
-    	tile.resetWork();
+    	tile.resetWork(true);
     }
 	
 }

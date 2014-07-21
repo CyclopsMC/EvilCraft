@@ -182,7 +182,6 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
 						(Class<? extends EntityLivingBase>) EntityList.stringToClassMapping.get(id);
 	    			if(entityClass != null) {
 	    				FakeWorldItemDelegator world = FakeWorldItemDelegator.getInstance();
-	    				world.setItemDropListener(this);
 	    				EntityLiving entity = (EntityLiving) EntityList.createEntityByName(id, world);
 	    				boxEntityCache = entity;
 	    				return entity;
@@ -346,9 +345,9 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
 	}
 	
 	@Override
-	public void resetWork() {
+	public void resetWork(boolean hardReset) {
 		forceHalt = false;
-		super.resetWork();
+		super.resetWork(hardReset);
 	}
 
 	/**

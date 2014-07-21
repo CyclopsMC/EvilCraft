@@ -79,8 +79,18 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> exten
      * Resets the ticks of the work.
      */
     public void resetWork() {
-        getTickers().get(getWorkTicker()).setTick(0);
-        getTickers().get(getWorkTicker()).setRequiredTicks(0);
+    	resetWork(true);
+    }
+    
+    /**
+     * Resets the ticks of the work.
+     * @param hardReset If the tick and required tick should also be set to zero.
+     */
+    public void resetWork(boolean hardReset) {
+    	if(hardReset) {
+	        getTickers().get(getWorkTicker()).setTick(0);
+	        getTickers().get(getWorkTicker()).setRequiredTicks(0);
+    	}
     }
 
     @Override

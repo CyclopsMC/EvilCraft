@@ -70,7 +70,7 @@ public class ContainerSpiritFurnace extends ContainerWorking<TileSpiritFurnace> 
             for (int x = 0; x < SLOTS_Y; x++) {
             	addSlotToContainer(new SlotWorkingRemoveOnly<TileSpiritFurnace>(
             			TileSpiritFurnace.SLOTS_DROP[i], SLOT_DROP_X + x * ITEMBOX,
-            			SLOT_DROP_Y + y * ITEMBOX, tile)); // Drop slot
+            			SLOT_DROP_Y + y * ITEMBOX, tile, false)); // Drop slot
             	i++;
             }
         }
