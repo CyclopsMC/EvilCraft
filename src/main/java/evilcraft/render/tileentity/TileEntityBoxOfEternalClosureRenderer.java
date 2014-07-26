@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 import evilcraft.api.render.TileEntityModelRenderer;
 import evilcraft.blocks.BoxOfEternalClosure;
+import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
 import evilcraft.render.models.BoxOfEternalClosureModel;
 
 /**
@@ -25,6 +26,11 @@ public class TileEntityBoxOfEternalClosureRenderer extends TileEntityModelRender
 
     @Override
     protected void renderModel(EvilCraftTileEntity tile, ModelBase model, float partialTick) {
+    	TileBoxOfEternalClosure box = (TileBoxOfEternalClosure) tile;
+    	BoxOfEternalClosureModel boxModel = (BoxOfEternalClosureModel)model;
+    	float angle = box.getPreviousLidAngle()
+    			+ (box.getLidAngle() - box.getPreviousLidAngle()) * partialTick;
+    	boxModel.setCoverAngle(angle);
     	((BoxOfEternalClosureModel)model).renderAll();
     }
 }

@@ -18,6 +18,8 @@ public class RenderItemModel implements IItemRenderer {
 	
 	private final ModelBase model;
 	private final ResourceLocation texture;
+	
+	protected ItemStack currentItemStack;
 
 	/**
      * Make a new instance.
@@ -50,6 +52,7 @@ public class RenderItemModel implements IItemRenderer {
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+    	this.currentItemStack = item;
         switch (type) {
             case ENTITY: {
                 renderModel(0.5F, 0.5F, 0.5F);

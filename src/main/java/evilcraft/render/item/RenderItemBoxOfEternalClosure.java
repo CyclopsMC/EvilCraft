@@ -4,6 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
 import evilcraft.api.render.RenderItemModel;
 import evilcraft.blocks.BoxOfEternalClosure;
+import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
 import evilcraft.render.models.BoxOfEternalClosureModel;
 
 /**
@@ -24,7 +25,13 @@ public class RenderItemBoxOfEternalClosure extends RenderItemModel {
     
     @Override
     protected void renderModel(ModelBase model) {
-    	((BoxOfEternalClosureModel)model).renderAll();
+    	float angle = TileBoxOfEternalClosure.START_LID_ANGLE;
+    	if(BoxOfEternalClosure.getInstance().getSpiritId(currentItemStack) != null) {
+    		angle = 0;
+    	}
+    	BoxOfEternalClosureModel box = ((BoxOfEternalClosureModel)model);
+    	box.setCoverAngle(angle);
+    	box.renderAll();
     }
 
 }
