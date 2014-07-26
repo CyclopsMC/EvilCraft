@@ -7,8 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -115,5 +117,13 @@ public class RenderHelpers {
         } catch (IllegalArgumentException e4) {
         	e4.printStackTrace();
         }
+    }
+    
+    /**
+     * Bind a texture to the rendering engine.
+     * @param texture The texture to bind.
+     */
+    public static void bindTexture(ResourceLocation texture) {
+    	Minecraft.getMinecraft().renderEngine.bindTexture(texture);
     }
 }
