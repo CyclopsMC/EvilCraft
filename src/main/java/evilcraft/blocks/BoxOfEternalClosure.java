@@ -4,9 +4,11 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
@@ -16,12 +18,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.EntityHelpers;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.api.world.FakeWorld;
 import evilcraft.entities.monster.VengeanceSpirit;
 import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
 
@@ -117,10 +121,31 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}
+				} else {
+					return "vengeanceSpirit";
 				}
 			}
 		}
 		return null;
+    }
+    
+    /**
+     * Put a vengeance swarm inside the given box.
+     * @param itemStack The box.
+     */
+    public static void setVengeanceSwarmContent(ItemStack itemStack) {
+    	NBTTagCompound tag = new NBTTagCompound();
+    	NBTTagCompound spiritTag = new NBTTagCompound();
+    	
+    	VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
+    	spirit.setGlobalVengeance(true);
+    	spirit.setIsSwarm(true);
+    	spirit.writeToNBT(spiritTag);
+    	String entityId = EntityList.getEntityString(spirit);
+    	
+		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
+		tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
+		itemStack.setTagCompound(tag);
     }
 
 	@Override
@@ -164,6 +189,15 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 	    	}
     	}
     	return super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
+    }
+    
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+        list.add(new ItemStack(item));
+        ItemStack swarmStack = new ItemStack(item);
+        setVengeanceSwarmContent(swarmStack);
+        list.add(swarmStack);
     }
 
 }

@@ -12,6 +12,19 @@ import net.minecraft.world.chunk.IChunkProvider;
  *
  */
 public class FakeWorld extends World {
+	
+	private static FakeWorld _instance = null;
+	
+	/**
+	 * Get the unique instance.
+	 * @return The unique instance.
+	 */
+	public static FakeWorld getInstance() {
+		if(_instance == null) {
+			_instance = new FakeWorld();
+		}
+		return _instance;
+	}
 
 	/**
 	 * Make a new instance.

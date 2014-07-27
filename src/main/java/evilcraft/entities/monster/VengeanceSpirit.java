@@ -409,7 +409,7 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 			this.setSize(innerEntity.width, innerEntity.height);
 			return innerEntity;
     	} catch (ClassNotFoundException e) {
-    		this.worldObj.removeEntity(this);
+    		// In this case it is a vengeance swarm.
 		} catch (NullPointerException e) {
 			EvilCraft.log("Tried to spirit invalid entity, removing it now.", Level.ERROR);
      		this.worldObj.removeEntity(this);

@@ -172,7 +172,6 @@ public class Configs {
         configs.add(new DarkBrickConfig());
         configs.add(new DarkBloodBrickConfig());
         configs.add(new SpiritFurnaceConfig());
-        configs.add(new BoxOfEternalClosureConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -218,6 +217,7 @@ public class Configs {
         configs.add(new NetherfishConfig());
         configs.add(new PoisonousLibelleConfig());
         configs.add(new VengeanceSpiritConfig());
+        configs.add(new BoxOfEternalClosureConfig()); // This is a block, but depends on vengeance spirit.
         // Villager
         configs.add(new WerewolfVillagerConfig());
         // Other

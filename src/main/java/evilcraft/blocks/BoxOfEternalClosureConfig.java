@@ -3,7 +3,10 @@ package evilcraft.blocks;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraftforge.common.ChestGenHooks;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
@@ -52,6 +55,13 @@ public class BoxOfEternalClosureConfig extends BlockConfig {
             		new TileEntityBoxOfEternalClosureRenderer(model, texture));
             ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()),
             		new RenderItemBoxOfEternalClosure(model, texture));
+        }
+        
+        ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()));
+        BoxOfEternalClosure.setVengeanceSwarmContent(spiritStack);
+        for(String chestCategory : Helpers.CHESTGENCATEGORIES) {
+            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
+            		spiritStack, 1, 5, 5));
         }
     }
     
