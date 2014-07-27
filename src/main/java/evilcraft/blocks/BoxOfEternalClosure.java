@@ -3,14 +3,19 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.BlockConfig;
@@ -54,6 +59,19 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
         this.setHardness(2.5F);
         this.setStepSound(soundTypePiston);
         this.setRotatable(true);
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        
+    }
+    
+    @Override
+    public IIcon getIcon(int side, int meta) {
+        // This is ONLY used for the block breaking/broken particles
+        // Since the ender chest looks very similar, we use that icon.
+        return Blocks.ender_chest.getIcon(0, 0);
     }
     
     @Override
