@@ -117,6 +117,8 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
     private Size size = Size.NULL_SIZE.copy();
     @NBTPersist
     private Boolean forceHalt = false;
+    @NBTPersist
+    private Boolean caughtError = false;
     private int cookTicker;
     private EntityLiving boxEntityCache = null;
     
@@ -347,6 +349,7 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
 	@Override
 	public void resetWork(boolean hardReset) {
 		forceHalt = false;
+		caughtError = false;
 		super.resetWork(hardReset);
 	}
 
@@ -356,6 +359,20 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
 	 */
 	public boolean isForceHalt() {
 		return forceHalt;
+	}
+
+	/**
+	 * @return the caughtError
+	 */
+	public boolean isCaughtError() {
+		return caughtError;
+	}
+
+	/**
+	 * If an error was caught while killing a spirit.
+	 */
+	public void caughtError() {
+		this.caughtError = true;
 	}
 
 }

@@ -19,7 +19,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     
     @Override
     public boolean canTick(TileSpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
-        if(!tile.isForceHalt() && tile.canWork() && !tile.getTank().isEmpty()
+        if(!tile.isForceHalt() && !tile.isCaughtError() && tile.canWork() && !tile.getTank().isEmpty()
         		&& getCookStack(tile) != null && tile.canConsume(getCookStack(tile))) {
         	EntityLiving entity = null;
         	for(int slotId : tile.getProduceSlots()) {
@@ -43,7 +43,11 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 			world.setItemDropListener(tile);
 			// To make sure the entity actually will drop something.
 			ObfuscationHelper.setRecentlyHit(entity, 100);
-			entity.onDeath(DamageSource.generic);
+			try {
+				entity.onDeath(DamageSource.generic);
+			} catch (Exception e) { // Gotta catch 'em all
+				tile.caughtError();
+			}
 		}
     }
 

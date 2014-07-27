@@ -37,6 +37,7 @@ tile.blocks.spiritFurnace.help.invalid.noEntity=Empty or no box
 tile.blocks.spiritFurnace.help.invalid.contentSize=Content size: %s
 tile.blocks.spiritFurnace.help.invalid.requiredSize=Required size: %s
 tile.blocks.spiritFurnace.help.invalid.forceHalt=No more space for drops
+tile.blocks.spiritFurnace.help.invalid.caughtError=Invalid mob spirit. Contact mod dev(s).
 tile.blocks.boxOfEternalClosure.name=Box of Eternal Closure
 tile.blocks.boxOfEternalClosure.info.content=Contents: %s
 

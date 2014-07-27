@@ -115,6 +115,9 @@ public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
         } else if(tile.isForceHalt()) {
         	lines.add(L10NHelpers.localize(prefix + ".forceHalt"));
         }
+        else if(tile.isCaughtError()) {
+        	lines.add(L10NHelpers.localize(prefix + ".caughtError"));
+        }
         if(lines.size() > 1) {
         	this.drawTexturedModalRect(PROGRESSTARGETX, PROGRESSTARGETY, PROGRESS_INVALIDX,
             		PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
