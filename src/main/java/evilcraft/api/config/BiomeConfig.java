@@ -45,5 +45,10 @@ public abstract class BiomeConfig extends ExtendedConfig<BiomeConfig>{
     public void registerBiomeDictionary() {
         BiomeDictionary.makeBestGuess(getBiome());
     }
+    
+    @Override
+    public boolean isEnabled() {
+    	return this.ID != 0;
+    }
 
 }

@@ -43,7 +43,14 @@ public class WerewolfVillagerConfig extends VillagerConfig {
     
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return super.isEnabled() && isEnabled;
+    }
+    
+    @Override
+    public void save() {
+    	// Make sure the configured ID is set before we need it.
+    	this.ID = villagerID;
+    	super.save();
     }
     
 }
