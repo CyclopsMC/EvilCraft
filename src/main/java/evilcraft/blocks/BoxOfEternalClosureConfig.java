@@ -50,7 +50,7 @@ public class BoxOfEternalClosureConfig extends BlockConfig {
     public void onRegistered() {
         if (Helpers.isClientSide()) {
         	ModelBase model = new BoxOfEternalClosureModel();
-        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "boxOfEternalClosure.png");
+        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "box.png");
             ClientProxy.TILE_ENTITY_RENDERERS.put(TileBoxOfEternalClosure.class,
             		new TileEntityBoxOfEternalClosureRenderer(model, texture));
             ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()),

@@ -48,7 +48,7 @@ import evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
 import evilcraft.entities.block.EntityLightningBombPrimedConfig;
-import evilcraft.entities.effect.EntityNeutronBeamConfig;
+import evilcraft.entities.effect.EntityAntiVengeanceBeamConfig;
 import evilcraft.entities.item.EntityBloodPearlConfig;
 import evilcraft.entities.item.EntityBroomConfig;
 import evilcraft.entities.item.EntityLightningGrenadeConfig;
@@ -221,7 +221,7 @@ public class Configs {
         // Villager
         configs.add(new WerewolfVillagerConfig());
         // Other
-        configs.add(new EntityNeutronBeamConfig());
+        configs.add(new EntityAntiVengeanceBeamConfig());
         
         // Enchantments
         configs.add(new EnchantmentUnusingConfig());

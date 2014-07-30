@@ -20,5 +20,5 @@ public class ObfuscationData {
 	 * Field from net.minecraft.entity.EntityLivingBase.
 	 */
 	public static final String[] ENTITYLIVINGBASE_RECENTLYHIT = new String[] { "recentlyHit", "field_70718_bc", "bc" };
-		
+	
 }

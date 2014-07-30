@@ -21,11 +21,11 @@ import evilcraft.entities.monster.VengeanceSpirit;
 import evilcraft.render.particle.EntityBlurFX;
 
 /**
- * Entity for the Neutron beams.
+ * Entity for the anti-vengeance beams.
  * @author rubensworks
  *
  */
-public class EntityNeutronBeam extends EntityThrowable implements Configurable{
+public class EntityAntiVengeanceBeam extends EntityThrowable implements Configurable{
 	
 	private static final int MAX_AGE = 20 * 20;
     
@@ -47,7 +47,7 @@ public class EntityNeutronBeam extends EntityThrowable implements Configurable{
      * Make a new instance in the given world.
      * @param world The world to make it in.
      */
-    public EntityNeutronBeam(World world) {
+    public EntityAntiVengeanceBeam(World world) {
         super(world);
     }
 
@@ -56,8 +56,11 @@ public class EntityNeutronBeam extends EntityThrowable implements Configurable{
      * @param world The world.
      * @param entity The {@link EntityLivingBase} that placed this {@link Entity}.
      */
-    public EntityNeutronBeam(World world, EntityLivingBase entity) {
+    public EntityAntiVengeanceBeam(World world, EntityLivingBase entity) {
         super(world, entity);
+        this.motionX /= 4;
+        this.motionY /= 4;
+        this.motionZ /= 4;
     }
     
     /**
@@ -68,7 +71,7 @@ public class EntityNeutronBeam extends EntityThrowable implements Configurable{
      * @param z Z coordinate.
      */
     @SideOnly(Side.CLIENT)
-    public EntityNeutronBeam(World world, double x, double y, double z) {
+    public EntityAntiVengeanceBeam(World world, double x, double y, double z) {
         super(world, x, y, z);
     }
     
@@ -90,7 +93,6 @@ public class EntityNeutronBeam extends EntityThrowable implements Configurable{
     @SuppressWarnings("rawtypes")
 	@Override
     public void onUpdate() {
-    	super.onUpdate();
     	Vec3 vec3 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
         Vec3 vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
@@ -142,6 +144,8 @@ public class EntityNeutronBeam extends EntityThrowable implements Configurable{
     	if(age++ > MAX_AGE) {
     		this.setDead();
     	}
+    	
+    	super.onUpdate();
     }
 
     @SideOnly(Side.CLIENT)
