@@ -26,7 +26,6 @@ public class EvilCraftTileEntity extends TileEntity{
     
     @NBTPersist
     private boolean rotatable = false;
-    @NBTPersist
     private ForgeDirection rotation = ForgeDirection.NORTH;
     
     /**
@@ -94,6 +93,9 @@ public class EvilCraftTileEntity extends TileEntity{
         super.writeToNBT(NBTTagCompound);
         for(Field field : nbtPersistedFields)
             writePersistedField(field, NBTTagCompound);
+        
+        // Separate action for direction
+        NBTTagCompound.setInteger("rotation", rotation.ordinal());
     }
     
     @Override
@@ -101,6 +103,13 @@ public class EvilCraftTileEntity extends TileEntity{
         super.readFromNBT(NBTTagCompound);
         for(Field field : nbtPersistedFields)
             readPersistedField(field, NBTTagCompound);
+        
+        // Separate action for direction
+        ForgeDirection foundRotation = ForgeDirection
+        		.getOrientation(NBTTagCompound.getInteger("rotation"));
+        if(foundRotation != ForgeDirection.UNKNOWN) {
+        	rotation = foundRotation;
+        }
     }
     
     /**
