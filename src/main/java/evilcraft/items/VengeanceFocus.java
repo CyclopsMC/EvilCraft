@@ -10,6 +10,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.Helpers;
 import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
@@ -22,6 +23,8 @@ import evilcraft.entities.effect.EntityAntiVengeanceBeam;
  *
  */
 public class VengeanceFocus extends ConfigurableItem {
+	
+	private static final int TICK_MODULUS = 3;
     
     private static VengeanceFocus _instance = null;
     
@@ -74,14 +77,12 @@ public class VengeanceFocus extends ConfigurableItem {
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-    	if (player.capabilities.isCreativeMode || true) {// TODO: if has power
-    		// TODO: nice start animation & sound
-			if(player.getItemInUseDuration() > 0) {
-				player.clearItemInUse();
-			} else {
-				player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
-			}
-        }
+		// TODO: nice start sound
+		if(player.getItemInUseDuration() > 0) {
+			player.clearItemInUse();
+		} else {
+			player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
+		}
         return itemStack;
     }
     
@@ -92,21 +93,23 @@ public class VengeanceFocus extends ConfigurableItem {
     
     @Override
     public int getMaxItemUseDuration(ItemStack itemStack) {
-        return Integer.MAX_VALUE; // TODO: base on remaining charge? (run on lightning containers?)
+        return Integer.MAX_VALUE;
     }
     
     @Override
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityPlayer player, int duration) {
-    	// TODO: nice stop sound & animation
+    	// TODO: nice stop sound
     }
     
     @Override
     public void onUsingTick(ItemStack itemStack, EntityPlayer player, int duration) {
     	if(player.getItemInUseDuration() > 6) {
-	    	EntityAntiVengeanceBeam beam = new EntityAntiVengeanceBeam(player.worldObj, player);
-	    	if(!player.worldObj.isRemote) {
-	    		player.worldObj.spawnEntityInWorld(beam);
-	        }
+    		if(Helpers.efficientTick(player.worldObj, TICK_MODULUS)) {
+		    	EntityAntiVengeanceBeam beam = new EntityAntiVengeanceBeam(player.worldObj, player);
+		    	if(!player.worldObj.isRemote) {
+		    		player.worldObj.spawnEntityInWorld(beam);
+		        }
+    		}
     	}
     }
     
