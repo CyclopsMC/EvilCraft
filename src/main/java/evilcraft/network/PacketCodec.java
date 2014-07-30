@@ -6,7 +6,6 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
-import com.sun.xml.internal.ws.api.pipe.Codec;
 
 /**
  * Packet with automatic coding and decoding of basic fields annotated with {@link CodecField}.
@@ -123,7 +122,7 @@ public abstract class PacketCodec extends PacketBase {
 		
 		/**
 		 * Run a type of codec.
-		 * @param field The field annotated with {@link Codec}.
+		 * @param field The field annotated with {@link CodecField}.
 		 * @param action The action that must be applied to the field.
 		 */
 		public void run(Field field, ICodecAction action);

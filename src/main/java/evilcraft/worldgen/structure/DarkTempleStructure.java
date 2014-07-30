@@ -2,9 +2,11 @@ package evilcraft.worldgen.structure;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import evilcraft.GeneralConfig;
 import evilcraft.api.Helpers;
 import evilcraft.api.StairSlabMetadataHelper;
 import evilcraft.api.StairSlabMetadataHelper.SlabType;
@@ -18,10 +20,7 @@ import evilcraft.blocks.EnvironmentalAccumulator;
  *
  */
 public class DarkTempleStructure extends QuarterSymmetricalStructure {
-    
 	private static final int STRUCTURE_HEIGHT = 9;
-	private static final int MAX_BUILD_HEIGHT = 256 - STRUCTURE_HEIGHT;
-	private static final int MIN_BUILD_HEIGHT = 90;
 	
 	private static DarkTempleStructure _instance = null;
 	
@@ -40,32 +39,65 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 		super(6, 6);
 	}
 	
-	private int findGround(World world, int x, int z) {
-		int height = MAX_BUILD_HEIGHT;
-		
-		while (height >= MIN_BUILD_HEIGHT && world.isAirBlock(x, height, z)) {
-			height--;
+	/**
+	 * Finds the y coordinate of a block that is at ground-level
+	 * given its x and z coordinates, between yMin and yMax
+	 * (borders included) and that is a valid block to place a
+	 * dark temple on.
+	 * 
+	 * @param world The world.
+	 * @param x x-coordinate.
+	 * @param z y-coordinate.
+	 * @return The y-coordinate of a block on the ground, or -1 if no y was found
+	 *         in the range yMin to yMax (borders included).
+	 */
+	private int findGround(World world, int x, int z, int yMin, int yMax) {
+		if (yMin <= yMax) {
+			int height = yMax;
+			
+			// Try all possible y-coordinates from yMax to yMin
+			while (height >= yMin) {
+				// Look for the first block that is not an air block and has an air block above it
+				while (height >= yMin && (world.isAirBlock(x, height, z) || !world.isAirBlock(x, height+1, z))) {
+					height--;
+				}
+				
+				// Is it a valid spot to place the center of a dark temple on?
+				if (height >= yMin && isValidSpot(world, x, height, z))
+					return height;
+				
+				height--;
+			}
 		}
-		
-		if (!world.isAirBlock(x, height, z))
-			return height;
 		
 		return -1;
 	}
 	
 	private boolean canPlaceStructure(World world, int x, int y, int z) {
-		for (int xr = x - 2; xr < x + 2; xr++) {
-			for (int zr = z - 2; zr < z + 2; zr++) {
-				if (!world.isAirBlock(xr, y, zr))
-					return false;
+		for (int xr = x - 3; xr <= x + 3; xr++) {
+			for (int yr = y; yr <= y + 9; yr++) {
+				for (int zr = z - 3; zr <= z + 3; zr++) {
+					if (!world.isAirBlock(xr, yr, zr)) {
+						return false;
+					}
+				}
 			}
 		}
 		
 		return true;
 	}
 	
+	private boolean isValidSpot(World world, int x, int y, int z) {
+		Block block = world.getBlock(x, y, z);
+		return isSolidBlock(block) || block == Blocks.snow_layer;
+	}
+	
 	private boolean isSolidBlock(World world, int x, int y, int z) {
-	    Material material =  world.getBlock(x, y, z).getMaterial();
+		return isSolidBlock(world.getBlock(x, y, z));
+	}
+	
+	private boolean isSolidBlock(Block block) {
+	    Material material =  block.getMaterial();
 		return material.isSolid() && material.isOpaque();
 	}
 	
@@ -194,18 +226,29 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	
 	@Override
     public boolean generate(World world, Random random, int x, int y, int z) {
-		int groundHeight = findGround(world, x, z);
+		int groundHeight = findGround(world, x, z, getMinBuildHeight(), getMaxBuildHeight());
 		
-		if (groundHeight == -1)
-			return false;
+		while (groundHeight != -1) {
+			// Check if we have room to place the structure here
+			if (canPlaceStructure(world, x, groundHeight+1, z)) {
+				super.generate(world, random, x, groundHeight, z);
+				// TODO: save position of the dark temple in NBT
+				return true;
+			}
+			
+			groundHeight = findGround(world, x, z, getMinBuildHeight(), groundHeight-1);
+		}
 		
-		// Check if it is a valid spot
-		if (!canPlaceStructure(world, x, groundHeight+1, z))
-			return false;
-		
-		// It's a valid spot, now spawn it
-		super.generate(world, random, x, groundHeight, z);
-		
-		return true;
+		return false;
 	}
+	
+	private static int getMinBuildHeight() {
+		return GeneralConfig.darkTempleMinHeight;
+	}
+	
+	private static int getMaxBuildHeight() {
+		return GeneralConfig.darkTempleMaxHeight - STRUCTURE_HEIGHT;
+	}
+	
+	// Good seed for testing: -8353386167196066531
 }

@@ -33,6 +33,10 @@ public enum ElementTypeCategory {
      */
     OREGENERATION("oregeneration"),
     /**
+     * World generation category.
+     */
+    WORLDGENERATION("worldgeneration"),
+    /**
      * Enchantment category.
      */
     ENCHANTMENT("enchantment"),
