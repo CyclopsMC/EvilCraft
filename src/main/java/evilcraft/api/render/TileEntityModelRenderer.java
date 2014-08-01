@@ -48,7 +48,7 @@ public class TileEntityModelRenderer extends TileEntitySpecialRenderer {
 		return texture;
 	}
     
-    private void renderTileEntityAt(EvilCraftTileEntity tile, double x, double y, double z, float partialTick) {
+    protected void renderTileEntityAt(EvilCraftTileEntity tile, double x, double y, double z, float partialTick) {
         ForgeDirection direction = tile.getRotation();
         this.bindTexture(getTexture());
 

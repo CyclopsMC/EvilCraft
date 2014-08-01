@@ -7,9 +7,12 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.EntityHelpers;
 import evilcraft.api.Helpers;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
@@ -32,6 +35,7 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	private static final int TICK_MODULUS = 10;
 	private static final int TARGET_RADIUS = 10;
 	private static final double ABSORB_RADIUS = 1D;
+	private static final int NO_TARGET = -1;
 	/**
 	 * The lid angle for when this box is open.
 	 */
@@ -46,26 +50,31 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	private VengeanceSpirit targetSpirit = null;
 	
 	@NBTPersist
+	private Integer targetSpiritId = -1;
+	
+	@NBTPersist
 	private Float lidAngle = START_LID_ANGLE;
 	@NBTPersist
 	private Boolean closing = true;
 	private float previousLidAngle = 65F;
 	
+	/**
+	 * Inner rotation of a beam.
+	 */
+	public int innerRotation;
+	
     /**
      * Make a new instance.
      */
     public TileBoxOfEternalClosure() {
-        
+    	innerRotation = new Random().nextInt(100000);
     }
     
     @Override
     public void updateEntity() {
         super.updateEntity();
         
-        // TMP:
-        /*if(getSpiritInstance() == null) {
-        	setSpiritInstance(new VengeanceSpirit(getWorldObj()));
-        }*/
+        innerRotation++;
         
         if(getSpiritInstance() == null && !worldObj.isRemote) {
 	        if(targetSpirit != null
@@ -93,28 +102,32 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	    		}
     		}
     	}
-    	targetSpirit = closest;
+    	setTargetSpirit(closest);
     	return targetSpirit != null;
     }
     
     private void pullEntity() {
-    	if(targetSpirit != null) {
+    	if(getTargetSpirit() != null) {
     		double dx = targetSpirit.posX - xCoord - 0.5D;
     		double dy = targetSpirit.posY - yCoord - 0.5D;
     		double dz = targetSpirit.posZ - zCoord - 0.5D;
     		double distance = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
     		
-    		if(distance <= ABSORB_RADIUS) {
-    			closing = true;
-    			close(true);
-    			setSpiritInstance(targetSpirit);
-    			worldObj.removeEntity(targetSpirit);
-    			targetSpirit = null;
+    		if(getTargetSpirit().isDead || !getTargetSpirit().isFrozen()) {
+    			setTargetSpirit(null);
     		} else {
-	    		double strength = (1D / (distance)) / 50D + 0.01D;
-	    		targetSpirit.motionX -= dx * strength;
-	    		targetSpirit.motionY -= dy * strength;
-	    		targetSpirit.motionZ -= dz * strength;
+	    		if(distance <= ABSORB_RADIUS) {
+	    			closing = true;
+	    			close(true);
+	    			setSpiritInstance(targetSpirit);
+	    			worldObj.removeEntity(targetSpirit);
+	    			setTargetSpirit(null);
+	    		} else {
+		    		double strength = (1D / (distance)) / 50D + 0.01D;
+		    		targetSpirit.motionX -= dx * strength;
+		    		targetSpirit.motionY -= dy * strength;
+		    		targetSpirit.motionZ -= dz * strength;
+	    		}
     		}
     	}
     }
@@ -166,19 +179,27 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     }
     
     protected void setSpiritInstance(EntityLivingBase spiritInstance) {
+    	EntityLivingBase old = this.spiritInstance;
     	this.spiritInstance = spiritInstance;
     	if(spiritInstance != null) {
     		spiritInstance.writeToNBT(spiritTag);
     		String entityId = EntityList.getEntityString(spiritInstance);
     		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
     	}
-    	sendUpdate();
+    	
+    	if(old != spiritInstance) {
+    		sendUpdate();
+    	}
     }
     
     protected void clearSpiritInstance() {
+    	EntityLivingBase old = this.spiritInstance;
     	this.spiritInstance = null;
     	spiritTag = new NBTTagCompound();
-    	sendUpdate();
+    	
+    	if(old != null) {
+    		sendUpdate();
+    	}
     }
     
     /**
@@ -204,6 +225,40 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	 */
 	public float getPreviousLidAngle() {
 		return previousLidAngle;
+	}
+	
+	/**
+	 * Get the target spirit.
+	 * @return The target spirit.
+	 */
+	public VengeanceSpirit getTargetSpirit() {
+		// Make sure our target spirit is up-to-date with the server-synced target spirit ID.
+		if(getWorldObj().isRemote && targetSpiritId == NO_TARGET) {
+			targetSpirit = null;
+		} else if(targetSpirit == null && targetSpiritId != NO_TARGET) {
+			setTargetSpirit((VengeanceSpirit)getWorldObj().getEntityByID(targetSpiritId));
+		}
+		return targetSpirit;
+	}
+
+	protected void setTargetSpirit(VengeanceSpirit targetSpirit) {
+		VengeanceSpirit old = this.targetSpirit;
+		this.targetSpirit = targetSpirit;
+    	if(targetSpirit != null) {
+    		targetSpiritId = targetSpirit.getEntityId();
+    	} else {
+    		targetSpiritId = NO_TARGET;
+    	}
+    	
+    	if(old != targetSpirit) {
+    		sendUpdate();
+    	}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+    public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
 	}
 
 }

@@ -559,7 +559,7 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	 */
 	public void onHit(double hitX, double hitY, double hitZ,
 			double impactMotionX, double impactMotionY, double impactMotionZ) {
-		addFrozenDuration(worldObj.rand.nextInt(2) + 1);
+		addFrozenDuration(worldObj.rand.nextInt(4) + 3);
 		showBurstParticles(hitX, hitY, hitZ, impactMotionX, impactMotionY, impactMotionZ);
 	}
 
