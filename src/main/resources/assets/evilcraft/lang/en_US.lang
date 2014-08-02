@@ -92,6 +92,7 @@ item.items.vengeanceFocus.name=Vengeance Focus
 item.items.vengeanceFocus.info.main=Right click to accept sun-rays.
 item.items.vengeancePickaxe.name=Vengeance Pickaxe
 item.items.burningGemStone.name=Burning GemStone
+item.items.darkGemCrushed.name=Crushed Dark Gem
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

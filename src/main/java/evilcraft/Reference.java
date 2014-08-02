@@ -57,6 +57,7 @@ public class Reference {
     public static final String DICT_SAPLINGTREE = "treeSapling";
     public static final String DICT_GEMDARK = "gemDark";
     public static final String DICT_DYERED = "dyeRed";
+    public static final String DICT_GEMDARKCRUSHED = "gemDarkCrushed";
     
     // MOD ID's
     public static final String MOD_FORGE = "Forge";

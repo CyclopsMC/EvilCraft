@@ -21,6 +21,11 @@ import evilcraft.api.config.configurable.ConfigurableItemPickaxe;
  *
  */
 public class VengeancePickaxe extends ConfigurableItemPickaxe {
+	
+	/**
+	 * The fortune level of this pickaxe.
+	 */
+	public static final int FORTUNE_LEVEL = 10;
     
     private static VengeancePickaxe _instance = null;
     
@@ -76,7 +81,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
      */
     public static ItemStack createCraftingResult() {
     	ItemStack pickaxe = new ItemStack(VengeancePickaxe.getInstance());
-        Helpers.setEnchantmentLevel(pickaxe, Enchantment.fortune, 10);
+        Helpers.setEnchantmentLevel(pickaxe, Enchantment.fortune, FORTUNE_LEVEL);
         return pickaxe;
     }
     

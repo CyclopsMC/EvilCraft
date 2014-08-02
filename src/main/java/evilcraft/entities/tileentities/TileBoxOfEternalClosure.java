@@ -153,6 +153,7 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     	spirit.setPosition(xCoord + rand.nextDouble(), yCoord + rand.nextDouble(),
     			zCoord + rand.nextDouble());
     	spirit.setFrozenDuration(0);
+    	spirit.setGlobalVengeance(true);
     	spirit.setRemainingLife(MathHelper.getRandomIntegerInRange(worldObj.rand,
     			VengeanceSpirit.REMAININGLIFE_MIN, VengeanceSpirit.REMAININGLIFE_MAX));
     	

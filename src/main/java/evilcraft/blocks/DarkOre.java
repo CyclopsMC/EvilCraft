@@ -1,4 +1,5 @@
 package evilcraft.blocks;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -19,6 +20,8 @@ import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
 import evilcraft.items.DarkGem;
 import evilcraft.items.DarkGemConfig;
+import evilcraft.items.DarkGemCrushed;
+import evilcraft.items.DarkGemCrushedConfig;
 
 /**
  * Ore that drops {@link DarkGem}.
@@ -31,6 +34,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     private static final int MINIMUM_DROPS = 1; // Minimum amount of drops when mining this block
     private static final int INCREASE_DROPS = 3; // Amount that can be increased at random for drops
     private static final int INCREASE_XP = 5; // Amount of XP that can be gained from mining this block
+    private static final int CRUSHEDCHANCE = 4; // The chance on a crushed dark gem with no fortune.
     
     private static final int GLOWINGMETA = 1;
     
@@ -71,7 +75,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     
     @Override
     public int quantityDroppedWithBonus(int amount, Random random) {
-        return this.quantityDropped(random) + random.nextInt(amount + 1);
+        return this.quantityDropped(random) + random.nextInt(amount / 4 + 1);
     }
 
     @Override
@@ -87,6 +91,17 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
             int xp = 1 + world.rand.nextInt(INCREASE_XP);
             this.dropXpOnBlockBreak(world, x, y, z, xp);
         }
+    }
+    
+    @Override
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+    	ArrayList<ItemStack> drops = super.getDrops(world, x, y, z, metadata, fortune);
+    	if((fortune > 0 || world.rand.nextInt(CRUSHEDCHANCE) == 0)
+    			&& Configs.isEnabled(DarkGemCrushedConfig.class)) {
+    		drops.add(new ItemStack(DarkGemCrushed.getInstance(),
+    				world.rand.nextInt(fortune / 3 + 1) + 1));
+    	}
+        return drops;
     }
     
     @Override

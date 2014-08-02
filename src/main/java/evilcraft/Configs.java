@@ -72,6 +72,7 @@ import evilcraft.items.BucketPoisonConfig;
 import evilcraft.items.BurningGemStoneConfig;
 import evilcraft.items.ContainedFluxConfig;
 import evilcraft.items.DarkGemConfig;
+import evilcraft.items.DarkGemCrushedConfig;
 import evilcraft.items.DarkPowerGemConfig;
 import evilcraft.items.DarkStickConfig;
 import evilcraft.items.HardenedBloodShardConfig;
@@ -202,6 +203,7 @@ public class Configs {
         configs.add(new VengeanceFocusConfig());
         configs.add(new VengeancePickaxeConfig());
         configs.add(new BurningGemStoneConfig());
+        configs.add(new DarkGemCrushedConfig());
         
         // Entities
         // Item
