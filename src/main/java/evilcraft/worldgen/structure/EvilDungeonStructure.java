@@ -41,6 +41,12 @@ public class EvilDungeonStructure extends WorldGenDungeons {
         for (int xr = x - radiusX - 1; xr <= x + radiusX + 1; ++xr) {
             for (int yr = y - 1; yr <= y + height + 1; ++yr) {
                 for (int zr = z - radiusZ - 1; zr <= z + radiusZ + 1; ++zr) {
+                	
+                	// Skip invalid chunk generation positions.
+                	if(!world.getChunkProvider().chunkExists(xr / 16, yr / 16)) {
+                		return false;
+                	}
+                	
                     Material material = world.getBlock(xr, yr, zr).getMaterial();
                     if (yr == y - 1 && !material.isSolid())
                         return false;
