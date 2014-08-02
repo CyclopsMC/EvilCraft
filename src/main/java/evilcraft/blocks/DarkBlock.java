@@ -3,6 +3,7 @@ import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
+import net.minecraft.world.IBlockAccess;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockConnectedTexture;
@@ -41,6 +42,11 @@ public class DarkBlock extends ConfigurableBlockConnectedTexture {
         this.setHardness(5.0F);
         this.setStepSound(soundTypeMetal);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
+    }
+    
+    @Override
+    public boolean isBeaconBase(IBlockAccess worldObj, int x, int y, int z, int beaconX, int beaconY, int beaconZ) {
+    	return true;
     }
     
     @Override
