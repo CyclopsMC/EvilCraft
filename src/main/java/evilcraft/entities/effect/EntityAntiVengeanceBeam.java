@@ -95,11 +95,11 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements Configur
     @SuppressWarnings("rawtypes")
 	@Override
     public void onUpdate() {
-    	Vec3 vec3 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
-        Vec3 vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+    	Vec3 vec3 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+        Vec3 vec31 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
-        vec3 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
-        vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+        vec3 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+        vec31 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         
         soundTick++;
         if(soundTick > 3 && this.getEntityId() % 10 == 0) {

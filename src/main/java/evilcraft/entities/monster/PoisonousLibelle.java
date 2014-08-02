@@ -256,8 +256,8 @@ public class PoisonousLibelle extends EntityFlying implements Configurable, IMob
                 differenceYaw = -limitDifferenceYaw;
             }
 
-            Vec3 distanceVector = this.worldObj.getWorldVec3Pool().getVecFromPool(this.targetX - this.posX, this.targetY - this.posY, this.targetZ - this.posZ).normalize();
-            Vec3 rotationVector = this.worldObj.getWorldVec3Pool().getVecFromPool((double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F), this.motionY, (double)(-MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F))).normalize();
+            Vec3 distanceVector = Vec3.createVectorHelper(this.targetX - this.posX, this.targetY - this.posY, this.targetZ - this.posZ).normalize();
+            Vec3 rotationVector = Vec3.createVectorHelper((double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F), this.motionY, (double)(-MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F))).normalize();
             float dynamicMotionMultiplier = (float)(rotationVector.dotProduct(distanceVector) + 0.5D) / 1.5F;
 
             if (dynamicMotionMultiplier < 0.0F) {
@@ -280,7 +280,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable, IMob
 
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
-            Vec3 motionVector = this.worldObj.getWorldVec3Pool().getVecFromPool(this.motionX, this.motionY, this.motionZ).normalize();
+            Vec3 motionVector = Vec3.createVectorHelper(this.motionX, this.motionY, this.motionZ).normalize();
             float motionRotation = (float)(motionVector.dotProduct(rotationVector) + 1.0D) / 2.0F;
             motionRotation = 0.8F + 0.15F * motionRotation;
             this.motionX *= (double)motionRotation;

@@ -100,7 +100,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     
     @Override
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
-        return AxisAlignedBB.getAABBPool().getAABB(0, 0, 0, 0, 0, 0);
+        return AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0);
     }
     
     @Override

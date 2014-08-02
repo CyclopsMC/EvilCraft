@@ -89,7 +89,7 @@ item.items.vengeanceRing.name=Vengeance Ring
 item.items.vengeanceRing.info.main=Shift + Right click to toggle.
 item.items.vengeanceRing.info.status=Status: %s
 item.items.vengeanceFocus.name=Vengeance Focus
-item.items.vengeanceFocus.info.main=Right click to accept sun-rays.
+item.items.vengeanceFocus.info.main=Right click to enable beam.
 item.items.vengeancePickaxe.name=Vengeance Pickaxe
 item.items.burningGemStone.name=Burning GemStone
 item.items.darkGemCrushed.name=Crushed Dark Gem
@@ -133,3 +133,7 @@ chat.command.updatedValue=Updated %s to: %s (not updated in config file)
 chat.command.fartingEnabled=Farting enabled
 chat.command.fartingDisabled=Farting disabled
 chat.bossDisplay.charge=%s Charge
+
+# Death messages
+death.attack.dieWithoutAnyReason=%1$s dies without any apparent reason!
+death.attack.distorted=%1$s couldn't handle the amount of distortion anymore.

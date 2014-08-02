@@ -30,7 +30,7 @@ compileJava {
 
 minecraft {
     version = "${config.minecraft_version}-${config.forge_version}"
-    assetDir = "eclipse/assets"
+    runDir = "eclipse/assets"
     
     replaceIn "Reference.java"
     replace "@VERSION@", project.version

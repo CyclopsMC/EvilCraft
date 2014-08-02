@@ -74,8 +74,7 @@ public class EntityBloodBrickFX extends EntityFX {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 		
 		// Flipping to make sure the particle lines match the block lines.
-		boolean flip = side == ForgeDirection.NORTH || side == ForgeDirection.EAST
-				|| side == ForgeDirection.DOWN;
+		boolean flip = side == ForgeDirection.DOWN;
 		Minecraft.getMinecraft().renderEngine.bindTexture(flip ? TEXTURE_FLIPPED : TEXTURE);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);

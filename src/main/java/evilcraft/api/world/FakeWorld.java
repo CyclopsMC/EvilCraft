@@ -44,4 +44,9 @@ public class FakeWorld extends World {
 		return null;
 	}
 
+	@Override
+	protected int func_152379_p() {
+		return 0;
+	}
+
 }

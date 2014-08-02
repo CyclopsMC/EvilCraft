@@ -4,6 +4,7 @@
 	<slogan>An evil mod for Minecraft</slogan>
 	<download for="1.6.4" version="0.4.1b">http://bit.ly/1lJiaBX</download>
 	<download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
+	<download for="1.7.10" version="0.4.2b">http://bit.ly/1pozwYk</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
 	
 	<description>
@@ -510,6 +511,7 @@
 		We do however ask that you notify us if you would use it in a public pack, just so we know.
 	</element>
 	<element name="Download and Install">
+[mod="1.7.10"]evilcraft[/mod]
 [mod="1.7.2"]evilcraft[/mod]
 [mod="1.6.4"]evilcraft[/mod]
 Source code: https://github.com/rubensworks/EvilCraft

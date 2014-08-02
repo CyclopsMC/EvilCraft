@@ -154,7 +154,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
             @SuppressWarnings("unchecked")
             List<EntityPlayer> entities = this.worldObj.getEntitiesWithinAABB(
                     EntityPlayer.class,
-                    AxisAlignedBB.getAABBPool().getAABB(
+                    AxisAlignedBB.getBoundingBox(
                             (double)((float)this.xCoord - range),
                             (double)((float)this.yCoord - range),
                             (double)((float)this.zCoord - range),
