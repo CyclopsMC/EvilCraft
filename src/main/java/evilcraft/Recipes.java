@@ -23,8 +23,14 @@ import evilcraft.blocks.BloodChest;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.BloodInfuserConfig;
+import evilcraft.blocks.BoxOfEternalClosure;
+import evilcraft.blocks.BoxOfEternalClosureConfig;
 import evilcraft.blocks.DarkBlock;
 import evilcraft.blocks.DarkBlockConfig;
+import evilcraft.blocks.DarkBloodBrick;
+import evilcraft.blocks.DarkBloodBrickConfig;
+import evilcraft.blocks.DarkBrick;
+import evilcraft.blocks.DarkBrickConfig;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.blocks.LightningBomb;
 import evilcraft.blocks.LightningBombConfig;
@@ -32,6 +38,8 @@ import evilcraft.blocks.ObscuredGlass;
 import evilcraft.blocks.ObscuredGlassConfig;
 import evilcraft.blocks.Purifier;
 import evilcraft.blocks.PurifierConfig;
+import evilcraft.blocks.SpiritFurnace;
+import evilcraft.blocks.SpiritFurnaceConfig;
 import evilcraft.blocks.UndeadLog;
 import evilcraft.blocks.UndeadLogConfig;
 import evilcraft.blocks.UndeadPlank;
@@ -58,6 +66,8 @@ import evilcraft.items.BurningGemStone;
 import evilcraft.items.BurningGemStoneConfig;
 import evilcraft.items.DarkGem;
 import evilcraft.items.DarkGemConfig;
+import evilcraft.items.DarkGemCrushed;
+import evilcraft.items.DarkGemCrushedConfig;
 import evilcraft.items.DarkPowerGem;
 import evilcraft.items.DarkPowerGemConfig;
 import evilcraft.items.DarkStick;
@@ -74,8 +84,12 @@ import evilcraft.items.MaceOfDistortion;
 import evilcraft.items.MaceOfDistortionConfig;
 import evilcraft.items.PotentiaSphere;
 import evilcraft.items.PotentiaSphereConfig;
+import evilcraft.items.VengeanceFocus;
+import evilcraft.items.VengeanceFocusConfig;
 import evilcraft.items.VengeancePickaxe;
 import evilcraft.items.VengeancePickaxeConfig;
+import evilcraft.items.VengeanceRing;
+import evilcraft.items.VengeanceRingConfig;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 import evilcraft.items.WeatherContainerConfig;
@@ -385,12 +399,79 @@ public class Recipes {
         	GameRegistry.addSmelting(DarkBlock.getInstance(),
         			new ItemStack(BurningGemStone.getInstance()), 50);
         }
+        // Dark Brick
+        if(Configs.isEnabled(DarkBrickConfig.class) && Configs.isEnabled(DarkBlockConfig.class)) {
+        	GameRegistry.addRecipe(new ShapelessOreRecipe(DarkBrick.getInstance(),
+        			new Object[] {
+        		DarkBlock.getInstance(), DarkBlock.getInstance(),
+        		DarkBlock.getInstance(), DarkBlock.getInstance()
+        	}
+        			));
+        }
+        // Spirit furnace
+        if(Configs.isEnabled(DarkBloodBrickConfig.class) && Configs.isEnabled(SpiritFurnaceConfig.class)) {
+        	GameRegistry.addRecipe(new ShapedOreRecipe(SpiritFurnace.getInstance(), true,
+                    new Object[]{
+                " B ",
+                "BFB",
+                " B ",
+                'F', new ItemStack(Blocks.furnace),
+                'B', new ItemStack(DarkBloodBrick.getInstance())
+            }
+                    ));
+        }
+        // Vengeance ring
+        if(Configs.isEnabled(VengeanceRingConfig.class)
+        		&& Configs.isEnabled(DarkGemCrushedConfig.class)) {
+        	GameRegistry.addRecipe(new ShapedOreRecipe(VengeanceRing.getInstance(), true,
+                    new Object[]{
+                "DID",
+                "I I",
+                "DID",
+                'I', new ItemStack(Items.iron_ingot),
+                'D', new ItemStack(DarkGemCrushed.getInstance())
+            }
+                    ));
+        }
+        // Vengeance focus
+        if(Configs.isEnabled(VengeanceRingConfig.class)
+        		&& Configs.isEnabled(DarkGemCrushedConfig.class)
+        		&& Configs.isEnabled(VengeanceFocusConfig.class)) {
+        	GameRegistry.addRecipe(new ShapedOreRecipe(VengeanceFocus.getInstance(), true,
+                    new Object[]{
+        		"DID",
+                "IRI",
+                "DID",
+                'I', new ItemStack(Items.iron_ingot),
+                'D', new ItemStack(DarkGemCrushed.getInstance()),
+                'R', new ItemStack(VengeanceRing.getInstance())
+            }
+                    ));
+        }
+        // Box of eternal closure
+        if(Configs.isEnabled(BoxOfEternalClosureConfig.class)
+        		&& Configs.isEnabled(DarkGemCrushedConfig.class)) {
+        	ItemStack potion = new ItemStack(Items.potionitem, 1, 8264);
+        	ItemStack box = new ItemStack(BoxOfEternalClosure.getInstance());
+        	BoxOfEternalClosure.setVengeanceSwarmContent(box);
+        	GameRegistry.addRecipe(new ShapedOreRecipe(box, true,
+                    new Object[]{
+        		"DDD",
+                "PCP",
+                "DDD",
+                'C', new ItemStack(Blocks.ender_chest),
+                'D', new ItemStack(DarkGemCrushed.getInstance()),
+                'P', potion
+            }
+                    ));
+        }
 
         registerCustomRecipes();
     }
 
     private static void registerCustomRecipes() {
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
+        	// Dark power gem
         	if(Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkPowerGemConfig.class) && Configs.isEnabled(BloodConfig.class)) {
                 CustomRecipeRegistry.put(new CustomRecipe(
                         new ItemStack(DarkGem.getInstance()),
@@ -401,7 +482,7 @@ public class Recipes {
                         new ItemStack(DarkPowerGem.getInstance()
                                 ));
             }
-
+        	// Undead sapling
             if(Configs.isEnabled(UndeadSaplingConfig.class)) {
                 CustomRecipeRegistry.put(new CustomRecipe(
                         new ItemStack(Blocks.deadbush),
@@ -412,7 +493,7 @@ public class Recipes {
                         new ItemStack(UndeadSapling.getInstance()
                                 ));
             }
-            
+            // Blook
             if(Configs.isEnabled(BlookConfig.class)) {
                 CustomRecipeRegistry.put(new CustomRecipe(
                         new ItemStack(Items.book),
@@ -423,7 +504,7 @@ public class Recipes {
                         new ItemStack(Blook.getInstance()
                                 ));
             }
-            
+            // Ender pearl
             if(Configs.isEnabled(PotentiaSphereConfig.class) && PotentiaSphereConfig.enderPearlRecipe) {
                 CustomRecipeRegistry.put(new CustomRecipe(
                         new ItemStack(PotentiaSphere.getInstance()),
@@ -432,6 +513,17 @@ public class Recipes {
                         1000
                         ),
                         new ItemStack(Items.ender_pearl
+                                ));
+            }
+            // Dark blood brick
+            if(Configs.isEnabled(DarkBrickConfig.class) && Configs.isEnabled(DarkBloodBrickConfig.class)) {
+                CustomRecipeRegistry.put(new CustomRecipe(
+                        new ItemStack(DarkBrick.getInstance()),
+                        new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 2),
+                        BloodInfuser.getInstance(),
+                        750
+                        ),
+                        new ItemStack(DarkBloodBrick.getInstance()
                                 ));
             }
         }
