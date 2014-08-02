@@ -68,6 +68,19 @@ public abstract class PacketCodec extends PacketBase {
 				return input.readBoolean();
 			}
 		});
+		
+		codecActions.put(float.class, new ICodecAction() {
+
+			@Override
+			public void encode(Object object, ByteArrayDataOutput output) {
+				output.writeFloat((Float) object);
+			}
+
+			@Override
+			public Object decode(ByteArrayDataInput input) {
+				return input.readFloat();
+			}
+		});
 	}
 	
 	private void loopCodecFields(ICodecRunnable runnable) {

@@ -21,4 +21,14 @@ public class ObfuscationData {
 	 */
 	public static final String[] ENTITYLIVINGBASE_RECENTLYHIT = new String[] { "recentlyHit", "field_70718_bc", "bc" };
 	
+	/**
+	 * Method from net.minecraft.entity.EntityLivingBase.
+	 */
+	public static final String[] ENTITYLIVINGBASE_GETDEATHSOUND = new String[] { "getDeathSound", "func_70673_aS", "aS" };
+	
+	/**
+	 * Method from net.minecraft.entity.EntityLiving.
+	 */
+	public static final String[] ENTITYLIVING_GETLIVINGSOUND = new String[] { "getLivingSound", "func_70639_aQ", "aQ" };
+	
 }

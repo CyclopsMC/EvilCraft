@@ -14,6 +14,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.EvilCraft;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
@@ -31,6 +32,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements Configur
     
     protected ExtendedConfig<?> eConfig = null;
     private int age = 0;
+    private int soundTick = 0;
     
     /**
      * The type for this {@link Configurable}.
@@ -99,6 +101,11 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements Configur
         vec3 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
         vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         
+        soundTick++;
+        if(soundTick > 3 && this.getEntityId() % 10 == 0) {
+        	soundTick = 0;
+        }
+        
     	if (!this.worldObj.isRemote) {
             Entity entity = null;
             List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
@@ -130,6 +137,11 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements Configur
         } else {
         	for(int i = 0; i < worldObj.rand.nextInt(5) + 5; i++) {
         		showNewBlurParticle();
+        	}
+        	if(soundTick == 1) {
+	        	// Play beam sound
+	        	EvilCraft.proxy.playSound(posX, posY, posZ,
+	        			"vengeanceBeam", 0.5F + worldObj.rand.nextFloat() * 0.2F, 1.0F);
         	}
         }
     	

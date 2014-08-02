@@ -6,6 +6,7 @@ import java.util.Collection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
@@ -37,6 +38,7 @@ import evilcraft.EvilCraft;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.api.obfuscation.ObfuscationHelper;
 import evilcraft.items.BurningGemStone;
 import evilcraft.items.BurningGemStoneConfig;
 import evilcraft.render.particle.EntityBlurFX;
@@ -180,7 +182,7 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     
     @Override
     protected float getSoundPitch() {
-        return super.getSoundPitch() * 2.0F;
+        return super.getSoundPitch() / 3.0F;
     }
 
     @Override
@@ -227,6 +229,8 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     	super.setDead();
     	if(worldObj.isRemote) {
     		spawnSmoke();
+    		playSound(getDeathSound(), 0.1F + worldObj.rand.nextFloat() * 0.9F,
+    				0.1F + worldObj.rand.nextFloat() * 0.9F);
     	}
     }
     
@@ -615,5 +619,33 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 		}
 		return null;
 	}
+	
+	@Override
+	protected String getDeathSound() {
+		if(getInnerEntity() != null) {
+			return ObfuscationHelper.getDeathSound(getInnerEntity());
+		}
+		return "vengeanceSpiritDeath";
+	}
+	
+	@Override
+	protected String getLivingSound() {
+		EntityLivingBase entity = getInnerEntity();
+		if(entity != null && entity instanceof EntityLiving) {
+			return ObfuscationHelper.getLivingSound((EntityLiving) getInnerEntity());
+		}
+		return "vengeanceSpirit";
+	}
+	
+	@Override
+	public void playSound(String sound, float volume, float frequency) {
+		if(isVisible() && sound != null) {
+			if(isSwarm()) {
+				EvilCraft.proxy.playSound(posX, posY, posZ, sound, volume, frequency);
+			} else {
+				EvilCraft.proxy.playSoundMinecraft(posX, posY, posZ, sound, volume, frequency);
+			}
+		}
+    }
     
 }

@@ -10,6 +10,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.EvilCraft;
 import evilcraft.api.Helpers;
 import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
@@ -77,7 +78,6 @@ public class VengeanceFocus extends ConfigurableItem {
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-		// TODO: nice start sound
 		if(player.getItemInUseDuration() > 0) {
 			player.clearItemInUse();
 		} else {
@@ -98,7 +98,11 @@ public class VengeanceFocus extends ConfigurableItem {
     
     @Override
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityPlayer player, int duration) {
-    	// TODO: nice stop sound
+    	if(player.worldObj.isRemote && player.getItemInUseDuration() > 6) {
+	    	// Play stop sound
+	    	EvilCraft.proxy.playSound(player.posX, player.posY, player.posZ,
+	    			"vengeanceBeamStop", 0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
+    	}
     }
     
     @Override
@@ -109,6 +113,12 @@ public class VengeanceFocus extends ConfigurableItem {
 		    	if(!player.worldObj.isRemote) {
 		    		player.worldObj.spawnEntityInWorld(beam);
 		        }
+    		}
+    	} else {
+    		if(player.getItemInUseDuration() == 3 && player.worldObj.isRemote) {
+			// Play start sound
+    		EvilCraft.proxy.playSound(player.posX, player.posY, player.posZ,
+        			"vengeanceBeamStart", 0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
     		}
     	}
     }

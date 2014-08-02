@@ -13,6 +13,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.EvilCraft;
 import evilcraft.api.EntityHelpers;
 import evilcraft.api.Helpers;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
@@ -40,7 +41,7 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	 * The lid angle for when this box is open.
 	 */
 	public static final float START_LID_ANGLE = 65F;
-	private static final float LID_STEP = 2.5F;
+	private static final float LID_STEP = 11.5F;
 	
 	private EntityLivingBase spiritInstance = null;
 	
@@ -81,6 +82,12 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	        		|| (Helpers.efficientTick(getWorldObj(), TICK_MODULUS) && findNextEntity())) {
 	        	pullEntity();
 	        }
+        }
+        
+        if(worldObj.isRemote && getTargetSpirit() != null) {
+        	EvilCraft.proxy.playSound(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
+        			"boxBeam", 0.1F + worldObj.rand.nextFloat() * 0.9F,
+        			0.1F + worldObj.rand.nextFloat() * 0.9F);
         }
         
         close(false);
@@ -141,6 +148,9 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     			lidAngle += LID_STEP;
     		}
     	}
+    	
+    	if(lidAngle < 0) lidAngle = 0F;
+    	if(lidAngle > START_LID_ANGLE) lidAngle = START_LID_ANGLE;
     }
     
     /**
@@ -189,6 +199,10 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     	}
     	
     	if(old != spiritInstance) {
+    		if(old == null) {
+    			getWorldObj().playSoundEffect(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
+    					"random.chestclosed", 0.5F, getWorldObj().rand.nextFloat() * 0.1F + 0.9F);
+    		}
     		sendUpdate();
     	}
     }

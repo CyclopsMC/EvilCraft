@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import evilcraft.EvilCraft;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.obfuscation.ObfuscationHelper;
 import evilcraft.api.world.FakeWorldItemDelegator;
@@ -41,9 +42,17 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     	if(entity != null) {
     		FakeWorldItemDelegator world = FakeWorldItemDelegator.getInstance();
 			world.setItemDropListener(tile);
+			
 			// To make sure the entity actually will drop something.
 			ObfuscationHelper.setRecentlyHit(entity, 100);
+			
+			// Send sound to client
+			String deathSound = ObfuscationHelper.getDeathSound(entity);
+			EvilCraft.proxy.sendSoundMinecraft(tile.xCoord + 0.5D, tile.yCoord + 0.5D,
+					tile.zCoord + 0.5D, deathSound, 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
+			
 			try {
+				// Kill the entity to get the drops
 				entity.onDeath(DamageSource.generic);
 			} catch (Exception e) { // Gotta catch 'em all
 				tile.caughtError();

@@ -181,10 +181,14 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
-    	if(!world.isRemote && world.getTileEntity(x, y, z) != null) {
+    	if(world.getTileEntity(x, y, z) != null) {
 	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(x, y, z);
 	    	if(tile.getSpiritInstance() != null) {
-	    		tile.releaseSpirit();
+	    		world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, "random.chestopen",
+	    				0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+	    		if(!world.isRemote) {
+	    			tile.releaseSpirit();
+	    		}
 	    		return true;
 	    	}
     	}

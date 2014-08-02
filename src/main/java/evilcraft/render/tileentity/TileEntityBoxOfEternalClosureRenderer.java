@@ -56,7 +56,7 @@ public class TileEntityBoxOfEternalClosureRenderer extends TileEntityModelRender
             
             // Calculate the coordinates of the end of the beam
             float rotateX = -(target.width / 2) -(float)(box.xCoord - target.posX - (target.prevPosX - target.posX) * (double)(1.0F - partialTick));
-            float rotateY = (target.height / 2) + (float)((double)yOffset + box.yCoord - target.posY - (target.prevPosY - target.posY) * (double)(1.0F - partialTick));
+            float rotateY = (target.height / 2) - (float)((double)yOffset + box.yCoord - target.posY - (target.prevPosY - target.posY) * (double)(1.0F - partialTick));
             float rotateZ = -(target.width / 2) -(float)(box.zCoord - target.posZ - (target.prevPosZ - target.posZ) * (double)(1.0F - partialTick));
             float distance = MathHelper.sqrt_float(rotateX * rotateX + rotateZ * rotateZ);
             
