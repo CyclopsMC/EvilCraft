@@ -26,5 +26,10 @@ public abstract class EnchantmentConfig extends ExtendedConfig<EnchantmentConfig
         super(defaultId != 0, namedId, comment, element);
         this.ID = defaultId;
     }
+    
+    @Override
+    public boolean isEnabled() {
+    	return this.ID != 0;
+    }
 
 }

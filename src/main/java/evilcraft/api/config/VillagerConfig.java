@@ -28,5 +28,9 @@ public abstract class VillagerConfig extends ExtendedConfig<VillagerConfig> {
         this.ID = defaultId;
     }
     
+    @Override
+    public boolean isEnabled() {
+    	return this.ID != 0;
+    }
 
 }

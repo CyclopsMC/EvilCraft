@@ -38,15 +38,12 @@ public class GeneralConfig extends DummyConfig {
     public static boolean versionChecker = true;
     
     /**
-<<<<<<< HEAD:src/main/java/evilcraft/GeneralConfig.java
-=======
      * Server-side: If farting is enabled on this server; Client-side: If farting can be seen at your client.
      */
     @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "Server-side: If farting is enabled on this server; Client-side: If farting can be seen at your client.", isCommandable = true)
     public static boolean farting = true;
     
     /**
->>>>>>> origin/master:common/evilcraft/GeneralConfig.java
      * The type of this config.
      */
     public static ElementType TYPE = ElementType.DUMMY;
@@ -56,6 +53,25 @@ public class GeneralConfig extends DummyConfig {
      */
     @ConfigurableProperty(category = ElementTypeCategory.OREGENERATION, comment = "Spawn extra netherfish blocks in all biomes.")
     public static boolean extraSilverfish = false;
+    
+    /**
+     * Rarity of a dark temple spawning.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.WORLDGENERATION, comment = "Chance of a dark temple spawning is equal to 1 divided by this number (the higher this number, the lower the spawn chance).")
+    public static int darkTempleRarity = 1000;
+    
+    /**
+     * Minimum height at which a dark temple can spawn.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.WORLDGENERATION, comment = "Minimum block height at which a dark temple can spawn.")
+    public static int darkTempleMinHeight = 90;
+    
+    /**
+     * Maximum height at which a dark temple can spawn.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.WORLDGENERATION, comment = "Maximum block height at which a dark temple can spawn.")
+    public static int darkTempleMaxHeight = 256;
+    
     /**
      * The amount of blocks per vein there should be.
      */

@@ -1,12 +1,13 @@
 package evilcraft.network;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
-import com.sun.xml.internal.ws.api.pipe.Codec;
 
 /**
  * Packet with automatic coding and decoding of basic fields annotated with {@link CodecField}.
@@ -84,7 +85,21 @@ public abstract class PacketCodec extends PacketBase {
 	}
 	
 	private void loopCodecFields(ICodecRunnable runnable) {
-		for(final Field field : this.getClass().getDeclaredFields()) {
+		Field[] fields = this.getClass().getDeclaredFields();
+		
+		// Sort this because the Java API tells us that getDeclaredFields()
+		// does not deterministically define the order of the fields in the array.
+		// Otherwise we might get nasty class cast exceptions when running in SMP.
+		Arrays.sort(fields, new Comparator<Field>() {
+
+			@Override
+			public int compare(Field o1, Field o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+			
+		});
+		
+		for(final Field field : fields) {
 			if(field.isAnnotationPresent(CodecField.class)) {
 				Class<?> clazz = field.getType();
 				ICodecAction action = codecActions.get(clazz);
@@ -162,7 +177,7 @@ public abstract class PacketCodec extends PacketBase {
 		
 		/**
 		 * Run a type of codec.
-		 * @param field The field annotated with {@link Codec}.
+		 * @param field The field annotated with {@link CodecField}.
 		 * @param action The action that must be applied to the field.
 		 */
 		public void run(Field field, ICodecAction action);
