@@ -114,8 +114,18 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
             if(this.getHolderType().hasUniqueInstance())
                 this.ELEMENT.getMethod("initInstance", ExtendedConfig.class).invoke(null, this);
         } catch (InvocationTargetException e) {
+        	EvilCraft.log("Registering " + this.NAMEDID + " caused the issue "
+        			+ "(skipping registration): " + e.getCause().getMessage(), Level.ERROR);
             e.getCause().printStackTrace();
-            throw new EvilCraftConfigException("Registering " + this.NAMEDID + " caused the issue: " + e.getCause().getMessage());
+            
+            // Disable this configurable.
+            if(!this.isDisableable()) {
+            	throw new EvilCraftConfigException("Registering " + this.NAMEDID
+            			+ " caused the issue: " + e.getCause().getMessage()
+            			+ ". Since this is a required element of this mod, we can not continue, "
+            			+ "there might be ID conflicts with other mods.");
+            }
+            this.setEnabled(false);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             throw new EvilCraftConfigException(errorMessage);

@@ -29,7 +29,7 @@ public abstract class EnchantmentConfig extends ExtendedConfig<EnchantmentConfig
     
     @Override
     public boolean isEnabled() {
-    	return this.ID != 0;
+    	return super.isEnabled() && this.ID != 0;
     }
 
 }
