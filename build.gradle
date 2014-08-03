@@ -36,6 +36,8 @@ def loadProperties() {
     ext.buildnumber = "DEV" // this will be referenced as simply project.buildnumber from now on.
     if (System.getenv().BUILD_NUMBER)
         project.buildnumber = System.getenv().BUILD_NUMBER
+    if (System.getenv().CI)
+        project.buildnumber += "-DEV"
     logger.lifecycle "BUILDING VERSION: " + project.buildnumber
 }
 
