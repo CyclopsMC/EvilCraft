@@ -19,12 +19,13 @@ compileJava {
     }
     
     dependencies {
-        compile "mantle:Mantle:${config.minecraft_version}-${config.mantle_version}:deobf"
-        compile files("${project.libs_path}/TConstruct-${config.minecraft_version}-${config.tconstruct_version}.jar")
+        compile "tconstruct:TConstruct:${config.minecraft_version}-${config.tconstruct_version}:deobf"
         compile "mcp.mobius.waila:Waila:${config.waila_version}"
         compile "codechicken:ForgeMultipart:${config.minecraft_version}-${config.FMP_version}:dev"
         compile files("${project.libs_path}/forestry_${config.minecraft_version}-${config.forestry_version}-dev.jar")
-        compile files("${project.libs_path}/Baubles-deobf-${config.minecraft_version}-${config.baubles_version}.jar")
+        
+        // Enable to test these inside your dev environment.
+        //compile files("${project.libs_path}/Baubles-deobf-${config.minecraft_version}-${config.baubles_version}.jar")
     }
 }
 
