@@ -152,7 +152,7 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
                                 block.isLeaves(world, x, y + yOffset, z) ||
                                 block.isReplaceable(world, x, y + yOffset, z)) {
                             this.setBlockAndNotifyAdequately(world, x, y + yOffset, z,
-                                    logs, 1);
+                                    logs, 0);
                         }
                     }
                     return true;
