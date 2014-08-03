@@ -75,7 +75,6 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-    	super.registerBlockIcons(iconRegister);
         blockIcon = iconRegister.registerIcon(getTextureName());
         blockIconInactive = iconRegister.registerIcon(getTextureName() + "_inactive");
         
