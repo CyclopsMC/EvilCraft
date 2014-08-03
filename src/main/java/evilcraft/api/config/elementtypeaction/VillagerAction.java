@@ -16,8 +16,8 @@ import evilcraft.api.config.configurable.ConfigurableVillager;
 public class VillagerAction extends IElementTypeAction<VillagerConfig>{
 
     @Override
-    public void preRun(VillagerConfig eConfig, Configuration config) {
-        if(!eConfig.isEnabled()) eConfig.ID = 0;
+    public void preRun(VillagerConfig eConfig, Configuration config, boolean startup) {
+        if(startup && !eConfig.isEnabled()) eConfig.ID = 0;
     }
 
     @Override

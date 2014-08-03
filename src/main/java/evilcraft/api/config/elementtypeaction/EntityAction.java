@@ -15,7 +15,7 @@ import evilcraft.api.config.EntityConfig;
 public class EntityAction extends IElementTypeAction<EntityConfig>{
 
     @Override
-    public void preRun(EntityConfig eConfig, Configuration config) {
+    public void preRun(EntityConfig eConfig, Configuration config, boolean startup) {
         
     }
 

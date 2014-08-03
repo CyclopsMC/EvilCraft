@@ -25,6 +25,8 @@ public class ConfigProperty {
     private ConfigPropertyCallback callback;
     private boolean isCommandable;
     private Field field;
+    private boolean requiresWorldRestart;
+    private boolean requiresMcRestart;
     
     /**
      * Define a new configurable property.
@@ -174,7 +176,7 @@ public class ConfigProperty {
     /**
      * Save this property in the given config file.
      * @param config The config file to save to.
-     * @param forceUpdate If the value in the config has to be overwritten.
+     * @param forceUpdate If the value in the config file has to be overwritten.
      */
     public void save(Configuration config, boolean forceUpdate) {
         // Sorry, no cleaner solution for this...
@@ -190,6 +192,9 @@ public class ConfigProperty {
                 name,
                 (Integer)value
                 );
+            if(forceUpdate) {
+            	additionalProperty.setValue((Integer)value);
+            }
             additionalProperty.comment = getComment();
             if(forceUpdate) {
                 getCallback().run((Integer)value);
@@ -202,6 +207,9 @@ public class ConfigProperty {
                 name,
                 (Boolean)value
                 );
+            if(forceUpdate) {
+            	additionalProperty.setValue((Boolean)value);
+            }
             additionalProperty.comment = getComment();
             if(forceUpdate) {
                 getCallback().run((Boolean)value);
@@ -215,18 +223,24 @@ public class ConfigProperty {
                     name,
                     (Double)value
                     );
-                additionalProperty.comment = getComment();
-                if(forceUpdate) {
-                    getCallback().run((Double)value);
-                } else {
-                    getCallback().run(additionalProperty.getDouble((Double)value));
-                } 
+            if(forceUpdate) {
+            	additionalProperty.setValue((Double)value);
+            }
+            additionalProperty.comment = getComment();
+            if(forceUpdate) {
+                getCallback().run((Double)value);
+            } else {
+                getCallback().run(additionalProperty.getDouble((Double)value));
+            } 
         } else if(value instanceof String) {
             additionalProperty = config.get(
                 category,
                 name,
                 (String)value
                 );
+            if(forceUpdate) {
+            	additionalProperty.setValue((String)value);
+            }
             additionalProperty.comment = getComment();
             if(forceUpdate) {
                 getCallback().run((String)value);
@@ -237,5 +251,40 @@ public class ConfigProperty {
             EvilCraft.log("Invalid config property class. No match found for '"
             		+ name + "': '" + value + "'", Level.ERROR);
         }
+        additionalProperty.setRequiresWorldRestart(isRequiresWorldRestart());
+        additionalProperty.setRequiresMcRestart(isRequiresMcRestart());
+        
+        // Save to config file.
+        if(forceUpdate) {
+        	config.save();
+        }
     }
+
+	/**
+	 * @return the requiresWorldRestart
+	 */
+	public boolean isRequiresWorldRestart() {
+		return requiresWorldRestart;
+	}
+
+	/**
+	 * @param requiresWorldRestart the requiresWorldRestart to set
+	 */
+	public void setRequiresWorldRestart(boolean requiresWorldRestart) {
+		this.requiresWorldRestart = requiresWorldRestart;
+	}
+
+	/**
+	 * @return the requiresMcRestart
+	 */
+	public boolean isRequiresMcRestart() {
+		return requiresMcRestart;
+	}
+
+	/**
+	 * @param requiresMcRestart the requiresMcRestart to set
+	 */
+	public void setRequiresMcRestart(boolean requiresMcRestart) {
+		this.requiresMcRestart = requiresMcRestart;
+	}
 }

@@ -58,6 +58,13 @@ public enum ElementTypeCategory {
      */
     CORE("core");
     
+    /**
+     * All the categories.
+     */
+    public static ElementTypeCategory[] CATEGORIES = new ElementTypeCategory[]{ITEM, BLOCK,
+    	FLUID, ENTITY, GENERAL, OREGENERATION, WORLDGENERATION, ENCHANTMENT, MOB, BIOME,
+    	DEGRADATIONEFFECT};
+    
     private String name;
     
     private ElementTypeCategory(String name) {
@@ -68,4 +75,13 @@ public enum ElementTypeCategory {
     public String toString() {
         return name;
     }
+    
+    /**
+     * Get the original to string.
+     * @return The enum name.
+     */
+    public String rawToString() {
+        return super.toString();
+    }
+    
 }

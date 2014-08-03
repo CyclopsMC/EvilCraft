@@ -1,6 +1,8 @@
 package evilcraft.items;
 
+import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.ItemConfig;
+import evilcraft.api.config.configurable.ConfigurableProperty;
 
 /**
  * Config for the {@link VengeancePickaxe}.
@@ -17,11 +19,13 @@ public class VengeancePickaxeConfig extends ItemConfig {
     /**
      * The area of effect in blocks in which this tool could enable vengeance spirits.
      */
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The area of effect in blocks in which this tool could enable vengeance spirits.")
     public static int areaOfEffect = 5;
     
     /**
-     * The ^-1 chance on which vengeance spirits could be toggled.
+     * The ^-1 chance for which vengeance spirits could be toggled.
      */
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The ^-1 chance for which vengeance spirits could be toggled.")
     public static int vengeanceChance = 1;
 
     /**

@@ -17,7 +17,7 @@ import evilcraft.proxies.ClientProxy;
 public class MobAction extends IElementTypeAction<MobConfig>{
 
     @Override
-    public void preRun(MobConfig eConfig, Configuration config) {
+    public void preRun(MobConfig eConfig, Configuration config, boolean startup) {
         
     }
 

@@ -12,13 +12,16 @@ import evilcraft.api.config.EnchantmentConfig;
 public class EnchantmentAction extends IElementTypeAction<EnchantmentConfig>{
 
     @Override
-    public void preRun(EnchantmentConfig eConfig, Configuration config) {
+    public void preRun(EnchantmentConfig eConfig, Configuration config, boolean startup) {
         // Get property in config file and set comment
         Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID, eConfig.ID);
+        property.setRequiresMcRestart(true);
         property.comment = eConfig.COMMENT;
         
-        // Update the ID, it could've changed
-        eConfig.ID = property.getInt();
+        if(startup) {
+	        // Update the ID, it could've changed
+	        eConfig.ID = property.getInt();
+        }
     }
 
     @Override

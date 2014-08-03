@@ -200,7 +200,7 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
         if(isCreativeItem(itemStack)) {
             return 0;
         }
-        return super.getDisplayDamage(itemStack);
+        return super.getDamage(itemStack);
     }
 
 }

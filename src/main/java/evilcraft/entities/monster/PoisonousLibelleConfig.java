@@ -28,7 +28,7 @@ public class PoisonousLibelleConfig extends MobConfig {
     /**
      * Should the PoisonousLibelle be enabled?
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Poisonous Libelle be enabled?")
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Poisonous Libelle be enabled?", requiresMcRestart = true)
     public static boolean isEnabled = true;
     
     /**

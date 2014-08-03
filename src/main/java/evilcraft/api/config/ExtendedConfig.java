@@ -77,7 +77,7 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
 
                 ConfigProperty configProperty = new ConfigProperty(
                         field.getAnnotation(ConfigurableProperty.class).category(),
-                        this.NAMEDID + "." + field.getName(),
+                        getConfigPropertyPrefix() + "." + field.getName(),
                         field.get(null),
                         field.getAnnotation(ConfigurableProperty.class).comment(),
                         new ConfigPropertyCallback() {
@@ -95,12 +95,23 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
                         },
                         field.getAnnotation(ConfigurableProperty.class).isCommandable(),
                         field);
+                configProperty.setRequiresWorldRestart(
+                		field.getAnnotation(ConfigurableProperty.class).requiresWorldRestart());
+                configProperty.setRequiresMcRestart(
+                		field.getAnnotation(ConfigurableProperty.class).requiresMcRestart());
                 configProperties.add(configProperty);
             }
         }
     }
     
     /**
+     * @return The prefix that will be used inside the config file for {@link ConfigurableProperty}'s.
+     */
+    protected String getConfigPropertyPrefix() {
+		return this.NAMEDID;
+	}
+
+	/**
      * Save this config inside the correct element and inside the implementation if itself.
      */
     @SuppressWarnings("unchecked")

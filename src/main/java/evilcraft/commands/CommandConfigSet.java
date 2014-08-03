@@ -11,6 +11,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.config.Configuration;
 import evilcraft.api.Helpers;
 import evilcraft.api.L10NHelpers;
+import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ConfigProperty;
 
 /**
@@ -22,10 +23,6 @@ public class CommandConfigSet extends CommandEvilCraft {
     
     private ConfigProperty config;
     private String name;
-    /**
-     * The configuration file that is used in this mod.
-     */
-    public static Configuration CONFIGURATION;
 
     /**
      * Make a new command for a {@link ConfigProperty}.
@@ -57,10 +54,11 @@ public class CommandConfigSet extends CommandEvilCraft {
         } else {
             Object newValue = Helpers.tryParse(astring[0], config.getValue());
             if(newValue != null) {
-                CONFIGURATION.load();
+            	Configuration configuration = ConfigHandler.getInstance().getConfig();
+            	configuration.load();
                 config.setValue(newValue);
-                config.save(CONFIGURATION, true);
-                CONFIGURATION.save();
+                config.save(configuration, true);
+                configuration.save();
                 icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.updatedValue", new Object[]{name, newValue.toString()})));
                 // TODO: Why not updated in config? Config not changeable at runtime?
             } else {

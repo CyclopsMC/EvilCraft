@@ -30,4 +30,14 @@ public @interface ConfigurableProperty {
      * @return If it is commandable.
      */
     boolean isCommandable() default false;
+    
+    /**
+     * @return If this configurable requires worlds to regenerate.
+     */
+    boolean requiresWorldRestart() default false;
+    
+    /**
+     * @return If this configurables requires minecraft to restart.
+     */
+    boolean requiresMcRestart() default false;
 }

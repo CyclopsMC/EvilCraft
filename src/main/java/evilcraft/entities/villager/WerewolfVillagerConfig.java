@@ -20,13 +20,13 @@ public class WerewolfVillagerConfig extends VillagerConfig {
     /**
      * Should the Netherfish be enabled?
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Werewolf villager be enabled?")
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Werewolf villager be enabled?", requiresMcRestart = true)
     public static boolean isEnabled = true;
     
     /**
      * The id of the Werewolf villager
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "The id of the Werewolf villager.")
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "The id of the Werewolf villager.", requiresWorldRestart = true, requiresMcRestart = true)
     public static int villagerID = Reference.VILLAGER_WEREWOLF;
 
     /**

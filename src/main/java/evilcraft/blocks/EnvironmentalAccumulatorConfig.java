@@ -60,5 +60,10 @@ public class EnvironmentalAccumulatorConfig extends BlockConfig {
 	        ClientProxy.TILE_ENTITY_RENDERERS.put(TileEnvironmentalAccumulator.class, new TileEntityEnvironmentalAccumulatorRenderer());
 	    }
 	}
+	
+	@Override
+	protected String getConfigPropertyPrefix() {
+		return "envirAcc";
+	}
 
 }

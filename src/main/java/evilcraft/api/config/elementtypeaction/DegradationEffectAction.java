@@ -13,13 +13,16 @@ import evilcraft.api.degradation.DegradationRegistry;
 public class DegradationEffectAction extends IElementTypeAction<DegradationEffectConfig>{
 
     @Override
-    public void preRun(DegradationEffectConfig eConfig, Configuration config) {
+    public void preRun(DegradationEffectConfig eConfig, Configuration config, boolean startup) {
         // Get property in config file and set comment
         Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID, eConfig.isEnabled());
+        property.setRequiresMcRestart(true);
         property.comment = eConfig.COMMENT;
         
-        // Update the ID, it could've changed
-        eConfig.setEnabled(property.getBoolean(false));
+        if(startup) {
+	        // Update the ID, it could've changed
+	        eConfig.setEnabled(property.getBoolean(false));
+        }
     }
 
     @Override

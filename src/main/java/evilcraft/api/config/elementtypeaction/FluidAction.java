@@ -13,7 +13,7 @@ import evilcraft.api.config.FluidConfig;
 public class FluidAction extends IElementTypeAction<FluidConfig>{
 
     @Override
-    public void preRun(FluidConfig eConfig, Configuration config) {
+    public void preRun(FluidConfig eConfig, Configuration config, boolean startup) {
         
     }
 

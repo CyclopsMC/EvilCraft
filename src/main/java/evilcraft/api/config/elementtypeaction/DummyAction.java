@@ -11,7 +11,7 @@ import evilcraft.api.config.DummyConfig;
 public class DummyAction extends IElementTypeAction<DummyConfig> {
 
     @Override
-    public void preRun(DummyConfig eConfig, Configuration config) {
+    public void preRun(DummyConfig eConfig, Configuration config, boolean startup) {
         
     }
 

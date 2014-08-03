@@ -19,7 +19,7 @@ public class PotentiaSphereConfig extends ItemConfig {
     /**
      * If crafting of the ender pearl should be enabled.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If crafting of the ender pearl should be enabled.")
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If crafting of the ender pearl should be enabled.", requiresMcRestart = true)
     public static boolean enderPearlRecipe = true;
 
     /**

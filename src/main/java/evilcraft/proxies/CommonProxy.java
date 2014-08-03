@@ -9,6 +9,7 @@ import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.BucketHandler;
 import evilcraft.events.BonemealEventHook;
+import evilcraft.events.ConfigChangedEventHook;
 import evilcraft.events.EntityStruckByLightningEventHook;
 import evilcraft.events.ItemCraftedEventHook;
 import evilcraft.events.LivingAttackEventHook;
@@ -77,6 +78,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new ItemCraftedEventHook());
         MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
         
+        FMLCommonHandler.instance().bus().register(new ConfigChangedEventHook());
         FMLCommonHandler.instance().bus().register(new PlayerRingOfFire());
     }
     

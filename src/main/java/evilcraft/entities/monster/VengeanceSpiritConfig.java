@@ -24,7 +24,7 @@ public class VengeanceSpiritConfig extends MobConfig {
     /**
      * Should the Vengeance Spirit be enabled?
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Vengeance Spirit be enabled?")
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Vengeance Spirit be enabled?", requiresMcRestart = true)
     public static boolean isEnabled = true;    
 
     /**

@@ -20,7 +20,9 @@ public abstract class IElementTypeAction<C extends ExtendedConfig<C>> {
      * @param config The config file reference.
      */
     public void commonRun(ExtendedConfig<C> eConfig, Configuration config) {
-        preRun(eConfig.downCast(), config);
+    	if(eConfig.isDisableable()) {
+    		preRun(eConfig.downCast(), config, true);
+    	}
         if(eConfig.isEnabled()) {
             postRun(eConfig.downCast(), config);
         } else if(!eConfig.isDisableable()) {
@@ -38,8 +40,9 @@ public abstract class IElementTypeAction<C extends ExtendedConfig<C>> {
      * Logic that constructs the eConfig from for example a config file.
      * @param eConfig configuration holder.
      * @param config configuration from the config file.
+     * @param startup If this is currently being run at the mod startup.
      */
-    public abstract void preRun(C eConfig, Configuration config);
+    public abstract void preRun(C eConfig, Configuration config, boolean startup);
     /**
      * Logic to register the eConfig target.
      * @param eConfig configuration holder.

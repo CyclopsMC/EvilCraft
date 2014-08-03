@@ -24,7 +24,7 @@ public class NetherfishConfig extends MobConfig {
     /**
      * Should the Netherfish be enabled?
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Netherfish be enabled?")
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Netherfish be enabled?", requiresMcRestart = true)
     public static boolean isEnabled = true;    
 
     /**

@@ -23,7 +23,7 @@ public class BloodContainerConfig extends ItemConfig {
     /**
      * Base container size in mB that will be multiplied every tier.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The base amount of blood (mB) this container can hold * the level of container.")
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The base amount of blood (mB) this container can hold * the level of container.", requiresMcRestart = true)
     public static int containerSizeBase = 5000;
     
     /**

@@ -35,7 +35,8 @@ import evilcraft.worldgen.EvilWorldGenerator;
     name = Reference.MOD_NAME,
     useMetadata = true,
     version = Reference.MOD_VERSION,
-    dependencies = Reference.MOD_DEPENDENCIES
+    dependencies = Reference.MOD_DEPENDENCIES,
+    guiFactory = "evilcraft.api.config.gui.ExtendedConfigGuiFactory"
     )
 public class EvilCraft {
     

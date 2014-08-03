@@ -43,7 +43,7 @@ public class BloodExtractorConfig extends ItemConfig {
     /**
      * The amount of blood (mB) this container can hold.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The amount of blood (mB) this container can hold.")
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The amount of blood (mB) this container can hold.", requiresMcRestart = true)
     public static int containerSize = 5000;
 
     /**

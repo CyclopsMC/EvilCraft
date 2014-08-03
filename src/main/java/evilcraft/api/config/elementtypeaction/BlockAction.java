@@ -24,14 +24,17 @@ import evilcraft.modcompat.fmp.ForgeMultipartHelper;
 public class BlockAction extends IElementTypeAction<BlockConfig> {
 
     @Override
-    public void preRun(BlockConfig eConfig, Configuration config) {
+    public void preRun(BlockConfig eConfig, Configuration config, boolean startup) {
         // Get property in config file and set comment
         Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID,
         		eConfig.isEnabled());
+        property.setRequiresMcRestart(true);
         property.comment = eConfig.COMMENT;
         
-        // Update the ID, it could've changed
-        eConfig.setEnabled(property.getBoolean(true));
+        if(startup) {
+	        // Update the ID, it could've changed
+	        eConfig.setEnabled(property.getBoolean(true));
+        }
     }
 
     @Override

@@ -13,13 +13,17 @@ import evilcraft.api.config.BiomeConfig;
 public class BiomeAction extends IElementTypeAction<BiomeConfig>{
 
     @Override
-    public void preRun(BiomeConfig eConfig, Configuration config) {
+    public void preRun(BiomeConfig eConfig, Configuration config, boolean startup) {
         // Get property in config file and set comment
         Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.NAMEDID, eConfig.ID);
+        property.setRequiresWorldRestart(true);
+        property.setRequiresMcRestart(true);
         property.comment = eConfig.COMMENT;
         
-        // Update the ID, it could've changed
-        eConfig.ID = property.getInt();
+        if(startup) {
+        	// Update the ID, it could've changed
+        	eConfig.ID = property.getInt();
+        }
     }
 
     @Override

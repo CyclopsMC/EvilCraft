@@ -22,7 +22,7 @@ public class GeneralConfig extends DummyConfig {
     /**
      * If the debug mode should be enabled. @see Debug
      */
-    @ConfigurableProperty(category = ElementTypeCategory.CORE, comment = "Set 'true' to enable development debug mode. This will result in a lower performance!")
+    @ConfigurableProperty(category = ElementTypeCategory.CORE, comment = "Set 'true' to enable development debug mode. This will result in a lower performance!", requiresMcRestart = true)
     public static boolean debug = false;
     
     /**

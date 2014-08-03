@@ -25,7 +25,7 @@ public class WerewolfConfig extends MobConfig {
     /**
      * Should the Werewolf be enabled?
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Werewolf be enabled?")
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Werewolf be enabled?", requiresMcRestart = true)
     public static boolean isEnabled = true;    
 
     /**
