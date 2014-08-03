@@ -1,7 +1,6 @@
 package evilcraft.render.entity;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.MobConfig;
@@ -33,11 +32,6 @@ public class RenderWerewolf extends ModelRenderLiving<ModelBase> {
 	@Override
     public void doRender(EntityLiving par1EntityLiving, double x, double y, double z, float yaw, float partialTickTime) {
         this.renderWerewolf((Werewolf)par1EntityLiving, x, y, z, yaw, partialTickTime);
-    }
-
-	@Override
-	public void doRender(Entity par1Entity, double x, double y, double z, float yaw, float partialTickTime) {
-        this.renderWerewolf((Werewolf)par1Entity, x, y, z, yaw, partialTickTime);
     }
 
 }

@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderTNTPrimed;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -72,12 +72,12 @@ public class RenderBombPrimed extends RenderTNTPrimed{
     }
     
     @Override
-    protected ResourceLocation getEntityTexture(Entity par1Entity) {
+    protected ResourceLocation getEntityTexture(EntityTNTPrimed par1Entity) {
         return TextureMap.locationBlocksTexture;
     }
     
     @Override
-    public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
+    public void doRender(EntityTNTPrimed entity, double x, double y, double z, float yaw, float partialTickTime) {
         this.renderPrimedBomb((EntityLightningBombPrimed)entity, x, y, z, yaw, partialTickTime);
     }
     
