@@ -1,6 +1,8 @@
 ## EvilCraft
 
-Master: EvilCraft 0.4.0 for Minecraft 1.7.2 (Forge 10.12.1.1060)
+[![Build Status](https://drone.io/github.com/rubensworks/EvilCraft/status.png)](https://drone.io/github.com/rubensworks/EvilCraft/latest)
+Dev builds: https://drone.io/github.com/rubensworks/EvilCraft/files
+Master: EvilCraft 0.4.0 for Minecraft 1.7.10 (Forge 10.13.0.1180)
 The Minecraft 1.6.4 version can be found in branch 'version-1.6-0.4.0'
 
 The master branch will always contain the latest released version with possibly some bug fixes for that version that will eventually be released.
