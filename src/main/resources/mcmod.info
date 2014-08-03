@@ -8,12 +8,13 @@
   "logoFile": "/mods/evilcraft/textures/logo.png",
   "url": "https://github.com/rubensworks/EvilCraft",
   "updateUrl": "http://www.minecraftforum.net/topic/2403603-164forge-evilcraft-open-source/",
-  "authors": [
+  "authorList": [
     "rubensworks (aka kroeserr)",
     "immortaleeb (aka _EeB_)"
   ],
   "credits": "kroeserr, _EeB_, Davivs69",
   "parent":"",
-  "screenshots": []
+  "screenshots": [],
+  "dependencies": []
 }
 ]
