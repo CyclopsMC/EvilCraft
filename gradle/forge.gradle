@@ -1,10 +1,6 @@
 compileJava {
     repositories {
         maven {
-            name 'forge'
-            url 'http://files.minecraftforge.net/maven'
-        }
-        maven {
             name "Mobius Repo"
             url "http://mobiusstrip.eu/maven"
         }

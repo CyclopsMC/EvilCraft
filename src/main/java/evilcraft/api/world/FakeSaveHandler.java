@@ -3,7 +3,6 @@ package evilcraft.api.world;
 import java.io.File;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.MinecraftException;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.storage.IChunkLoader;
 import net.minecraft.world.storage.IPlayerFileData;
@@ -23,7 +22,7 @@ public class FakeSaveHandler implements ISaveHandler {
 	}
 
 	@Override
-	public void checkSessionLock() throws MinecraftException {
+	public void checkSessionLock() {
 		
 	}
 
