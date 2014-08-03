@@ -30,7 +30,7 @@ public class ConfigurableVillager implements Configurable, IVillageTradeHandler 
     // The weights of the output - inputs must be less than than maxWeightDifference
     protected List<WeightedItemStack> allowedTradeInputs = new ArrayList<WeightedItemStack>();
     protected List<WeightedItemStack> allowedTradeOutputs = new ArrayList<WeightedItemStack>();
-    protected int maxWeightDifference = 5;
+    protected int maxWeightDifference = 25;
     protected int inputMinStackSize = 1;
     protected int inputMaxStackSize = 64;
     protected int addedRecipes = 0;
@@ -67,6 +67,8 @@ public class ConfigurableVillager implements Configurable, IVillageTradeHandler 
     public void manipulateTradesForVillager(EntityVillager villager,
             MerchantRecipeList recipeList, Random random) {
         if (villager.getProfession() == eConfig.downCast().ID) {
+        	addedRecipes = 0;
+        	attemptAddRecipe = 0;
             while(addedRecipes < requiredAddedRecipes && attemptAddRecipe < attemptAddRecipeUpperbound) {                
                 WeightedItemStack outputWeighted = getRandomOutput(random);
                 WeightedItemStack inputAWeighted = getRandomInput(random);
@@ -92,11 +94,23 @@ public class ConfigurableVillager implements Configurable, IVillageTradeHandler 
      */
     private boolean tryAddingRecipe(MerchantRecipeList recipeList, Random random, WeightedItemStack inputAWeighted, WeightedItemStack inputBWeighted, WeightedItemStack outputWeighted) {
         attemptAddRecipe++;
-        int inputWeight = inputAWeighted.getWeight();
-        if(inputBWeighted != null)
-            inputWeight += inputBWeighted.getWeight();
-        if(outputWeighted.getWeight() - inputWeight >= maxWeightDifference)
-            return false;
+        int inputWeight = inputAWeighted.getWeight() * 64;
+        if(inputBWeighted != null) {
+            inputWeight += inputBWeighted.getWeight() * 64;
+        } else {
+        	inputWeight *= 2;
+        }
+        
+        if(outputWeighted.getWeight() - inputWeight >= maxWeightDifference) {
+        	if(inputBWeighted == null) {
+        		return false;
+        	}
+        	inputWeight -= inputBWeighted.getWeight() * 64;
+        	inputBWeighted = null;
+        	if(Math.abs(outputWeighted.getWeight() - inputWeight) >= maxWeightDifference) {
+        		return false;
+        	}
+        }
         
         ItemStack inputA;
         ItemStack inputB;
@@ -105,27 +119,38 @@ public class ConfigurableVillager implements Configurable, IVillageTradeHandler 
         int totalInputWeight = 0;
         
         inputA = inputAWeighted.getItemStack().copy();
-        inputA.stackSize = Math.min(inputA.stackSize, getRandomBetween(random, inputMinStackSize, inputMaxStackSize));
-        totalInputWeight += inputA.stackSize * inputAWeighted.getItemStack().stackSize / inputAWeighted.getWeight();
+        inputA.stackSize = getRandomBetween(random, inputA.stackSize, getRandomBetween(random, inputMinStackSize, inputMaxStackSize));
+        if(inputA.stackSize > inputA.getMaxStackSize()) {
+        	inputA.stackSize = inputA.getMaxStackSize();
+        }
+        totalInputWeight += inputA.stackSize * inputAWeighted.getWeight() / inputAWeighted.getItemStack().stackSize;
         
         if(inputBWeighted != null) {
             inputB = inputAWeighted.getItemStack().copy();
-            inputB.stackSize = Math.min(inputB.stackSize, getRandomBetween(random, inputMinStackSize, inputMaxStackSize));
-            totalInputWeight += inputB.stackSize * inputBWeighted.getItemStack().stackSize / inputBWeighted.getWeight();
+            inputB.stackSize = getRandomBetween(random, inputB.stackSize, getRandomBetween(random, inputMinStackSize, inputMaxStackSize));
+            if(inputB.stackSize > inputB.getMaxStackSize()) {
+            	inputB.stackSize = inputB.getMaxStackSize();
+            }
+            totalInputWeight += inputB.stackSize * inputBWeighted.getWeight() / inputBWeighted.getItemStack().stackSize;
         } else {
             inputB = null;
         }
         
         output = outputWeighted.getItemStack().copy();
-        output.stackSize = Math.min(64, Math.max(1, safeDivide(totalInputWeight, (safeDivide(outputWeighted.getItemStack().stackSize, outputWeighted.getWeight())))));
+        output.stackSize = Math.min(64, outputWeighted.getItemStack().stackSize * (int) safeDivide(totalInputWeight, outputWeighted.getWeight()));
+        if(output.stackSize == 0) {
+        	return false;
+        } else if(output.stackSize > output.getMaxStackSize()) {
+        	output.stackSize = output.getMaxStackSize();
+        }
         
         recipeList.addToListWithCheck(new MerchantRecipe(inputA, inputB, output));
         addedRecipes++;
         return true;
     }
     
-    protected int safeDivide(int i, int j) {
-        return i / Math.max(1, j);
+    protected float safeDivide(int i, float j) {
+        return (float) i / (float) Math.max(1, j);
     }
     
     protected WeightedItemStack getRandomWeightedItemStack(List<WeightedItemStack> trades, Random random) {
@@ -141,7 +166,7 @@ public class ConfigurableVillager implements Configurable, IVillageTradeHandler 
     }
     
     protected int getRandomBetween(Random random, int min, int max) {
-        return min + random.nextInt(max - min);
+        return min + random.nextInt(max - min + 1);
     }
     
     /**
@@ -177,6 +202,11 @@ public class ConfigurableVillager implements Configurable, IVillageTradeHandler 
          */
         public int getWeight() {
             return weight;
+        }
+        
+        @Override
+        public String toString() {
+        	return "{ItemStack: " + itemStack + "; Weight: " + weight + "}";
         }
     }
 

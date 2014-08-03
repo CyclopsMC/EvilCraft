@@ -7,12 +7,26 @@ import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.VillagerConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.api.config.configurable.ConfigurableVillager;
+import evilcraft.blocks.BoxOfEternalClosure;
+import evilcraft.blocks.BoxOfEternalClosureConfig;
+import evilcraft.blocks.UndeadSapling;
+import evilcraft.blocks.UndeadSaplingConfig;
 import evilcraft.items.BloodInfusionCore;
 import evilcraft.items.BloodInfusionCoreConfig;
+import evilcraft.items.Blook;
+import evilcraft.items.BlookConfig;
 import evilcraft.items.DarkGem;
 import evilcraft.items.DarkGemConfig;
+import evilcraft.items.DarkGemCrushed;
+import evilcraft.items.DarkGemCrushedConfig;
 import evilcraft.items.HardenedBloodShard;
 import evilcraft.items.HardenedBloodShardConfig;
+import evilcraft.items.InvertedPotentia;
+import evilcraft.items.InvertedPotentiaConfig;
+import evilcraft.items.PoisonSac;
+import evilcraft.items.PoisonSacConfig;
+import evilcraft.items.VengeanceFocus;
+import evilcraft.items.VengeanceFocusConfig;
 import evilcraft.items.WerewolfBone;
 import evilcraft.items.WerewolfBoneConfig;
 import evilcraft.items.WerewolfFur;
@@ -61,21 +75,44 @@ public class WerewolfVillager extends ConfigurableVillager{
     public WerewolfVillager(ExtendedConfig<VillagerConfig> eConfig) {
         super(eConfig);
         
+        // Input
         if(Configs.isEnabled(DarkGemConfig.class)) {
-            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(DarkGem.getInstance(), 64), 128));
+            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(DarkGem.getInstance(), 1), 1));
         }
         if(Configs.isEnabled(HardenedBloodShardConfig.class)) {
-            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(HardenedBloodShard.getInstance(), 64), 320));
+            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(HardenedBloodShard.getInstance(), 1), 2));
+        }
+        if(Configs.isEnabled(BlookConfig.class)) {
+            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(Blook.getInstance(), 1), 5));
+        }
+        if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
+            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(InvertedPotentia.getInstance(), 1, 1), 10));
+        }
+        if(Configs.isEnabled(PoisonSacConfig.class)) {
+            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(PoisonSac.getInstance(), 1, 1), 3));
         }
         
+        // Output
         if(Configs.isEnabled(WerewolfBoneConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(WerewolfBone.getInstance(), 1), 50));
+            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(WerewolfBone.getInstance(), 1), 10));
         }
         if(Configs.isEnabled(WerewolfFurConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(WerewolfFur.getInstance(), 1), 100));
+            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(WerewolfFur.getInstance(), 1), 10));
         }
         if(Configs.isEnabled(BloodInfusionCoreConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(BloodInfusionCore.getInstance(), 1), 100));
+            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(BloodInfusionCore.getInstance(), 1), 15));
+        }
+        if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
+            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(BoxOfEternalClosure.getInstance(), 1), 75));
+        }
+        if(Configs.isEnabled(DarkGemCrushedConfig.class)) {
+            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(DarkGemCrushed.getInstance(), 1), 3));
+        }
+        if(Configs.isEnabled(VengeanceFocusConfig.class)) {
+            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(VengeanceFocus.getInstance(), 1), 30));
+        }
+        if(Configs.isEnabled(UndeadSaplingConfig.class)) {
+            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(UndeadSapling.getInstance(), 1), 25));
         }
     }
 }
