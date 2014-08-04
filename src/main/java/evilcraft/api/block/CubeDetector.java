@@ -1,12 +1,12 @@
 package evilcraft.api.block;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
