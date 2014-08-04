@@ -1,9 +1,6 @@
 package evilcraft.proxies;
 
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
@@ -109,10 +106,7 @@ public class CommonProxy {
      */
     public void playSound(double x, double y, double z, String sound, float volume, float frequency,
     		String mod) {
-    	ResourceLocation soundLocation = new ResourceLocation(mod, sound);
-    	FMLClientHandler.instance().getClient().getSoundHandler()
-    		.playSound(new PositionedSoundRecord(soundLocation,
-    				volume, frequency, (float) x, (float) y, (float) z));
+    	// No implementation server-side.
     }
     
     /**

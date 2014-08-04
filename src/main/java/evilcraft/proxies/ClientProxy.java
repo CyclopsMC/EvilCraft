@@ -8,15 +8,18 @@ import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -120,4 +123,14 @@ public class ClientProxy extends CommonProxy {
 		FMLCommonHandler.instance().bus().register(KeyInputEventHook.getInstance());
 		FMLCommonHandler.instance().bus().register(new PlayerTickEventHook());
 	}
+    
+    @Override
+    public void playSound(double x, double y, double z, String sound, float volume, float frequency,
+    		String mod) {
+    	ResourceLocation soundLocation = new ResourceLocation(mod, sound);
+    	FMLClientHandler.instance().getClient().getSoundHandler()
+    		.playSound(new PositionedSoundRecord(soundLocation,
+    				volume, frequency, (float) x, (float) y, (float) z));
+    }
+    
 }
