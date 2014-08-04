@@ -5,6 +5,8 @@ import net.minecraft.client.model.ModelChest;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
@@ -72,11 +74,16 @@ public class BloodChestConfig extends BlockConfig {
     @Override
     public void onRegistered() {
         if (Helpers.isClientSide()) {
-        	ModelBase model = new ModelChest();
-        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "bloodChest.png");
-            ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new TileEntityBloodChestRenderer(model, texture));
-            ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BloodChest.getInstance()), new RenderItemBloodChest(model, texture));
+        	registerClientSide();
         }
+    }
+    
+    @SideOnly(Side.CLIENT)
+    private void registerClientSide() {
+    	ModelBase model = new ModelChest();
+    	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "bloodChest.png");
+        ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new TileEntityBloodChestRenderer(model, texture));
+        ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BloodChest.getInstance()), new RenderItemBloodChest(model, texture));
     }
     
 }

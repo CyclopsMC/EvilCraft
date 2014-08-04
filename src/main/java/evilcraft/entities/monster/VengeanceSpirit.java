@@ -338,7 +338,12 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
      */
     public boolean isVisible() {
     	return worldObj.isRemote &&
-    			(isAlternativelyVisible() || isEnabledVengeance(Minecraft.getMinecraft().thePlayer));
+    			(isAlternativelyVisible() || isClientVisible());
+    }
+    
+    @SideOnly(Side.CLIENT)
+    private boolean isClientVisible() {
+    	return isEnabledVengeance(Minecraft.getMinecraft().thePlayer);
     }
     
     private boolean isAlternativelyVisible() {
@@ -564,9 +569,12 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	public void onHit(double hitX, double hitY, double hitZ,
 			double impactMotionX, double impactMotionY, double impactMotionZ) {
 		addFrozenDuration(worldObj.rand.nextInt(4) + 3);
-		showBurstParticles(hitX, hitY, hitZ, impactMotionX, impactMotionY, impactMotionZ);
+		if(worldObj.isRemote) {
+			showBurstParticles(hitX, hitY, hitZ, impactMotionX, impactMotionY, impactMotionZ);
+		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	private void showBurstParticles(double hitX, double hitY, double hitZ, 
 			double impactMotionX, double impactMotionY, double impactMotionZ) {
 		for(int i = 0; i < worldObj.rand.nextInt(5); i++) {

@@ -30,7 +30,7 @@ public class FakeWorld extends World {
 	 * Make a new instance.
 	 */
 	public FakeWorld() {
-		super(new FakeSaveHandler(), "FakeWorld", new FakeWorldProvider(), new WorldSettings(new FakeWorldInfo()), new Profiler());
+		super(new FakeSaveHandler(), "FakeWorld", new WorldSettings(new FakeWorldInfo()), new FakeWorldProvider(), new Profiler());
 		this.isRemote = false;
 	}
 
