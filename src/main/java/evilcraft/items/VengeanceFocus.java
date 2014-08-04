@@ -84,13 +84,11 @@ public class VengeanceFocus extends ConfigurableItem {
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-    	if(world.isRemote) {
-			if(getItemInUseDuration(player) > 0) {
-				player.clearItemInUse();
-			} else {
-				player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
-			}
-    	}
+		if(getItemInUseDuration(player) > 0) {
+			player.clearItemInUse();
+		} else {
+			player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
+		}
         return itemStack;
     }
     
