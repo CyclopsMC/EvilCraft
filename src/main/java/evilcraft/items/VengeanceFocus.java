@@ -16,6 +16,7 @@ import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
+import evilcraft.api.obfuscation.ObfuscationHelper;
 import evilcraft.entities.effect.EntityAntiVengeanceBeam;
 
 /**
@@ -69,20 +70,27 @@ public class VengeanceFocus extends ConfigurableItem {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
-    	if(player.getItemInUseDuration() == getMaxItemUseDuration(usingItem)) {
+    	if(getItemInUseDuration(player) == getMaxItemUseDuration(usingItem)) {
         	return getIcon(stack, renderPass);
         }
     	return iconArray[Math.min(this.iconArray.length - 1,
     			(player.getItemInUseDuration() / 3))];
     }
     
+    private int getItemInUseDuration(EntityPlayer player) {
+    	return player.isUsingItem() ? ObfuscationHelper.getItemInUse(player).getMaxItemUseDuration()
+    			- ObfuscationHelper.getItemInUseCount(player) : 0;
+    }
+    
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-		if(player.getItemInUseDuration() > 0) {
-			player.clearItemInUse();
-		} else {
-			player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
-		}
+    	if(world.isRemote) {
+			if(getItemInUseDuration(player) > 0) {
+				player.clearItemInUse();
+			} else {
+				player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
+			}
+    	}
         return itemStack;
     }
     
@@ -98,7 +106,7 @@ public class VengeanceFocus extends ConfigurableItem {
     
     @Override
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityPlayer player, int duration) {
-    	if(player.worldObj.isRemote && player.getItemInUseDuration() > 6) {
+    	if(player.worldObj.isRemote && getItemInUseDuration(player) > 6) {
 	    	// Play stop sound
 	    	EvilCraft.proxy.playSound(player.posX, player.posY, player.posZ,
 	    			"vengeanceBeamStop", 0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
@@ -107,7 +115,7 @@ public class VengeanceFocus extends ConfigurableItem {
     
     @Override
     public void onUsingTick(ItemStack itemStack, EntityPlayer player, int duration) {
-    	if(player.getItemInUseDuration() > 6) {
+    	if(getItemInUseDuration(player) > 6) {
     		if(Helpers.efficientTick(player.worldObj, TICK_MODULUS)) {
 		    	EntityAntiVengeanceBeam beam = new EntityAntiVengeanceBeam(player.worldObj, player);
 		    	if(!player.worldObj.isRemote) {
@@ -115,7 +123,7 @@ public class VengeanceFocus extends ConfigurableItem {
 		        }
     		}
     	} else {
-    		if(player.getItemInUseDuration() == 3 && player.worldObj.isRemote) {
+    		if(getItemInUseDuration(player) == 3 && player.worldObj.isRemote) {
 			// Play start sound
     		EvilCraft.proxy.playSound(player.posX, player.posY, player.posZ,
         			"vengeanceBeamStart", 0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);

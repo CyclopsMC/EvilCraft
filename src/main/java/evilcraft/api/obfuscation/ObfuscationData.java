@@ -31,4 +31,14 @@ public class ObfuscationData {
 	 */
 	public static final String[] ENTITYLIVING_GETLIVINGSOUND = new String[] { "getLivingSound", "func_70639_aQ", "aQ" };
 	
+	/**
+	 * Field from net.minecraft.entity.player.EntityPlayer.
+	 */
+	public static final String[] ENTITYPLAYER_ITEMINUSECOUNT = new String[] { "itemInUseCount", "field_71072_f", "f" };
+	
+	/**
+	 * Field from net.minecraft.entity.player.EntityPlayer.
+	 */
+	public static final String[] ENTITYPLAYER_ITEMINUSE = new String[] { "itemInUse", "field_71074_e", "e" };
+	
 }

@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
@@ -69,6 +71,24 @@ public class ObfuscationHelper {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * Set the private 'itemInUseCount' field from {@link net.minecraft.entity.player.EntityPlayer}.
+	 * @param player The player.
+	 * @return itemInUseCount
+	 */
+	public static int getItemInUseCount(EntityPlayer player) {
+		return ReflectionHelper.getPrivateValue(EntityPlayer.class, player, ObfuscationData.ENTITYPLAYER_ITEMINUSECOUNT);
+	}
+	
+	/**
+	 * Set the private 'itemInUse' field from {@link net.minecraft.entity.player.EntityPlayer}.
+	 * @param player The player.
+	 * @return itemInUse
+	 */
+	public static ItemStack getItemInUse(EntityPlayer player) {
+		return ReflectionHelper.getPrivateValue(EntityPlayer.class, player, ObfuscationData.ENTITYPLAYER_ITEMINUSE);
 	}
 	
 }
