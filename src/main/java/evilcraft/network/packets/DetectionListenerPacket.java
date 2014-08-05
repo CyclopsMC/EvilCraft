@@ -74,7 +74,7 @@ public class DetectionListenerPacket extends PacketCodec {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void actionClient(World world, EntityPlayer player) {
-		if(activation) {// new ForgeDirection[]{ForgeDirection.UP, ForgeDirection.SOUTH, ForgeDirection.EAST}
+		if(activation) {
 			for(ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
 				showActivatedParticle(world, x, y, z, side);
 			}

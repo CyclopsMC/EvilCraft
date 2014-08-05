@@ -35,6 +35,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
+import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 import evilcraft.api.item.TileEntityNBTStorage;
@@ -545,6 +546,21 @@ public class Helpers {
      */
     public static TargetPoint createTargetPointFromEntityPosition(Entity entity, int range) {
     	return new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, range);
+    }
+    
+    /**
+     * Creates a {@link TargetPoint} for the dimension of the given world and the
+     * given {@link ILocation}.
+     * 
+     * @param world The world from which the dimension will be used.
+     * @param location The location for the target.
+     * @param range The range of the {@link TargetPoint}.
+     * @return A {@link TargetPoint} with the position and dimension of the entity and the given range.
+     */
+    public static TargetPoint createTargetPointFromLocation(World world, ILocation location,
+    		int range) {
+    	int[] c = location.getCoordinates();
+    	return new TargetPoint(world.provider.dimensionId, c[0], c[1], c[2], range);
     }
     
 	/**

@@ -264,7 +264,9 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
 		boolean change = Locations.getBlockMeta(world, location) != newMeta;
 		Locations.setBlockMetadata(world, location, newMeta, Helpers.BLOCK_NOTIFY_CLIENT);
 		if(change) {
-			PacketHandler.sendToServer(new DetectionListenerPacket(location, valid));
+			int[] c = location.getCoordinates();
+			PacketHandler.sendToAllAround(new DetectionListenerPacket(location, valid),
+					Helpers.createTargetPointFromLocation(world, location, 50));
 		}
     }
     
