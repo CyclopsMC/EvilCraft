@@ -45,7 +45,7 @@ public class RenderVengeanceSpirit extends Render {
 				//GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_CONSTANT_COLOR);
 				//GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_DST_COLOR);
 				
-				render.doRender(innerEntity, x, y, z, yaw, partialTickTime);
+				render.doRender(innerEntity, x, y, z, yaw, 0);
 				GL11.glDisable(GL11.GL_BLEND);
 			}
 		}
