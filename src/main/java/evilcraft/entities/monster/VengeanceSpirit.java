@@ -2,6 +2,7 @@ package evilcraft.entities.monster;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -17,6 +18,7 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,7 +57,12 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	private static final int SWARM_TIERS = 5;
 	private static final int SWARM_CHANCE = 25;
 	
-    protected ExtendedConfig<?> eConfig = null;
+    private static final List<Class<? extends EntityLivingBase>> BLACKLIST = Lists.newLinkedList();
+    static {
+    	addToBlacklist(VengeanceSpirit.class);
+    	addToBlacklist(EntityPlayer.class);
+    	addToBlacklist(EntityDragon.class);
+    }
 
     /**
      * The type for this {@link Configurable}.
@@ -84,6 +91,8 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
      */
     public static final String NBTKEY_INNER_SPIRIT = "innerEntity";
 
+    protected ExtendedConfig<?> eConfig = null;
+    
 	private EntityLivingBase innerEntity = null;
 
 	@SuppressWarnings("rawtypes")
@@ -537,8 +546,12 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
      * @return If it can become a spirit.
      */
 	public static boolean canSustain(EntityLivingBase entityLiving) {
-		// TODO: make better, with blacklist & stuff?
-		return !(entityLiving instanceof VengeanceSpirit);
+		for(Class<? extends EntityLivingBase> clazz : BLACKLIST) {
+			if(clazz.isInstance(entityLiving)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -626,6 +639,15 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 			attempts--;
 		}
 		return null;
+	}
+	
+	/**
+	 * Add an entity class to the blacklist, every subinstance of this class will not
+	 * be spirited anymore.
+	 * @param clazz The root class that will be blocked from spiritation.
+	 */
+	public static void addToBlacklist(Class<? extends EntityLivingBase> clazz) {
+		BLACKLIST.add(clazz);
 	}
 	
 	@Override

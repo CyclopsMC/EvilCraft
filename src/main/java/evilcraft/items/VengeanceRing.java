@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
@@ -119,44 +120,46 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
     @SuppressWarnings("unchecked")
 	public static void toggleVengeanceArea(World world, Entity entity, int area,
 			boolean enableVengeance, boolean spawnRandom, boolean forceGlobal) {
-    	double x = entity.posX;
-    	double y = entity.posY;
-    	double z = entity.posZ;
-    	
-    	// Look for spirits in an area.
-    	AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
-    	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABBExcludingEntity(entity, box,
-    			new IEntitySelector() {
-
-			@Override
-			public boolean isEntityApplicable(Entity entity) {
-				return entity instanceof VengeanceSpirit;
-			}
-        	
-        });
-    	
-    	// Vengeance all the spirits in the neighbourhood
-    	for(VengeanceSpirit spirit : spirits) {
-    		spirit.setEnabledVengeance((EntityPlayer) entity, enableVengeance);
-    		if(enableVengeance) {
-    			spirit.setTarget(entity);
-    		} else if(spirit.getEntityToAttack() == entity) {
-    			spirit.setTarget(null);
-    		}
-    	}
-    	
-    	// If no spirits were found in an area, we spawn a new one and make him angry.
-    	if(spirits.size() == 0 && enableVengeance) {
-    		VengeanceSpirit spirit = VengeanceSpirit.spawnRandom(world, (int) Math.round(x),
-    				(int) Math.round(y) , (int) Math.round(z), area / 4);
-    		if(spirit != null) {
-    			if(forceGlobal) {
-    				spirit.setGlobalVengeance(true);
-    			} else {
-    				spirit.setEnabledVengeance((EntityPlayer) entity, enableVengeance);
-    			}
-    			spirit.setTarget(entity);
-    		}
+    	if(world.difficultySetting != EnumDifficulty.PEACEFUL) {
+	    	double x = entity.posX;
+	    	double y = entity.posY;
+	    	double z = entity.posZ;
+	    	
+	    	// Look for spirits in an area.
+	    	AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
+	    	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABBExcludingEntity(entity, box,
+	    			new IEntitySelector() {
+	
+				@Override
+				public boolean isEntityApplicable(Entity entity) {
+					return entity instanceof VengeanceSpirit;
+				}
+	        	
+	        });
+	    	
+	    	// Vengeance all the spirits in the neighbourhood
+	    	for(VengeanceSpirit spirit : spirits) {
+	    		spirit.setEnabledVengeance((EntityPlayer) entity, enableVengeance);
+	    		if(enableVengeance) {
+	    			spirit.setTarget(entity);
+	    		} else if(spirit.getEntityToAttack() == entity) {
+	    			spirit.setTarget(null);
+	    		}
+	    	}
+	    	
+	    	// If no spirits were found in an area, we spawn a new one and make him angry.
+	    	if(spirits.size() == 0 && enableVengeance) {
+	    		VengeanceSpirit spirit = VengeanceSpirit.spawnRandom(world, (int) Math.round(x),
+	    				(int) Math.round(y) , (int) Math.round(z), area / 4);
+	    		if(spirit != null) {
+	    			if(forceGlobal) {
+	    				spirit.setGlobalVengeance(true);
+	    			} else {
+	    				spirit.setEnabledVengeance((EntityPlayer) entity, enableVengeance);
+	    			}
+	    			spirit.setTarget(entity);
+	    		}
+	    	}
     	}
     }
     

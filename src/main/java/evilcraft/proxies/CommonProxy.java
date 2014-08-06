@@ -26,7 +26,7 @@ import evilcraft.network.packets.SoundPacket;
  */
 public class CommonProxy {
 	
-	private static final String DEFAULT_RESOURCELOCATION_MOD = "minecraft";
+	protected static final String DEFAULT_RESOURCELOCATION_MOD = "minecraft";
     
     /**
      * Register renderers.

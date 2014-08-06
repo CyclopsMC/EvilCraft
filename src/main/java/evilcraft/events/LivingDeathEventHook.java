@@ -8,11 +8,13 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
+import evilcraft.api.world.FakeWorld;
 import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.BloodStainedBlockConfig;
 import evilcraft.entities.monster.VengeanceSpirit;
@@ -78,7 +80,9 @@ public class LivingDeathEventHook {
 	private void vengeanceEvent(LivingDeathEvent event) {
 		if(event.entityLiving != null) {
 			World world = event.entityLiving.worldObj;
-			if(!world.isRemote && VengeanceSpirit.canSustain(event.entityLiving)) {
+			if(!world.isRemote && !(world instanceof FakeWorld)
+					&& world.difficultySetting != EnumDifficulty.PEACEFUL
+					&& VengeanceSpirit.canSustain(event.entityLiving)) {
 				VengeanceSpirit spirit = new VengeanceSpirit(world);
 				spirit.setInnerEntity(event.entityLiving);
 				spirit.copyLocationAndAnglesFrom(event.entityLiving);

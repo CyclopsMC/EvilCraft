@@ -128,9 +128,17 @@ public class ClientProxy extends CommonProxy {
     public void playSound(double x, double y, double z, String sound, float volume, float frequency,
     		String mod) {
     	ResourceLocation soundLocation = new ResourceLocation(mod, sound);
-    	FMLClientHandler.instance().getClient().getSoundHandler()
-    		.playSound(new PositionedSoundRecord(soundLocation,
-    				volume, frequency, (float) x, (float) y, (float) z));
+    	PositionedSoundRecord record = new PositionedSoundRecord(soundLocation,
+				volume, frequency, (float) x, (float) y, (float) z);
+    	
+    	// If we notice this sound is no mod sound, relay it to the default MC sound system.
+    	if(!mod.equals(DEFAULT_RESOURCELOCATION_MOD) && FMLClientHandler.instance().getClient()
+    			.getSoundHandler().getSound(record.getPositionedSoundLocation()) == null) {
+    		playSoundMinecraft(x, y, z, sound, volume, frequency);
+    	} else {
+	    	FMLClientHandler.instance().getClient().getSoundHandler()
+	    		.playSound(record);
+    	}
     }
     
 }
