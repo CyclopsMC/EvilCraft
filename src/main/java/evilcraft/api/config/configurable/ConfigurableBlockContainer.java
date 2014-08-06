@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -160,10 +161,26 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         return true;
     }
     
+    protected void onPreBlockDestroyed(World world, int x, int y, int z) {
+    	Helpers.preDestroyBlock(world, x, y, z, saveNBTToDroppedItem());
+    }
+    
+    protected void onPostBlockDestroyed(World world, int x, int y, int z) {
+    	
+    }
+    
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-        Helpers.preDestroyBlock(world, x, y, z, saveNBTToDroppedItem());
+    	onPreBlockDestroyed(world, x, y, z);
         super.breakBlock(world, x, y, z, block, meta);
+        onPostBlockDestroyed(world, x, y, z);
+    }
+    
+    @Override
+    public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion explosion) {
+    	onPreBlockDestroyed(world, x, y, z);
+    	super.onBlockDestroyedByExplosion(world, x, y, z, explosion);
+    	onPostBlockDestroyed(world, x, y, z);
     }
     
     @Override

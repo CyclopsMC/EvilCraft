@@ -1,6 +1,7 @@
 package evilcraft.api.config.configurable;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -12,6 +13,8 @@ import evilcraft.api.Helpers;
 import evilcraft.api.Helpers.IDType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.api.entities.tileentitites.InventoryTileEntity;
+import evilcraft.api.gui.container.InventoryContainer;
 
 /**
  * Block with a tile entity with a GUI that can hold ExtendedConfigs.
@@ -95,5 +98,28 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
 
         return true;
     }
+    
+    @Override
+    protected void onPostBlockDestroyed(World world, int x, int y, int z) {
+    	super.onPostBlockDestroyed(world, x, y, z);
+    	
+    	// Close the GUI if it is open
+    	if(world.isRemote) {
+    		tryCloseClientGui(world);
+    	}
+    }
+
+    @SuppressWarnings("unchecked")
+	@SideOnly(Side.CLIENT)
+	private void tryCloseClientGui(World world) {
+    	if(Minecraft.getMinecraft().thePlayer.openContainer instanceof InventoryContainer<?>) {
+    		InventoryContainer<? extends InventoryTileEntity> container =
+    				(InventoryContainer<? extends InventoryTileEntity>) Minecraft.getMinecraft()
+    				.thePlayer.openContainer;
+    		if(container.getTile() == null || container.getTile().isInvalid()) {
+    			Minecraft.getMinecraft().thePlayer.closeScreen();
+    		}
+    	}
+	}
 
 }

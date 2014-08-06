@@ -1,12 +1,12 @@
 package evilcraft.api.gui.container;
 
-import evilcraft.api.entities.tileentitites.InventoryTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import evilcraft.api.entities.tileentitites.InventoryTileEntity;
 
 /**
  * A container for a tile entity with inventory.
@@ -172,6 +172,13 @@ public class InventoryContainer<T extends InventoryTileEntity> extends Container
      */
     public IInventory getPlayerIInventory() {
         return playerIInventory;
+    }
+    
+    /**
+     * @return The tile entity.
+     */
+    public T getTile() {
+    	return tile;
     }
     
 }

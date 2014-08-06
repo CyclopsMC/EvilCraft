@@ -24,7 +24,9 @@ public class RenderItemBloodChest extends RenderItemModel {
     
     @Override
     protected void renderModel(ModelBase model) {
-    	((ModelChest)model).renderAll();
+    	ModelChest chest = (ModelChest)model;
+    	chest.chestLid.rotateAngleX = 0F;
+    	chest.renderAll();
     }
 
 }
