@@ -523,7 +523,7 @@ public class Recipes {
                         new ItemStack(DarkBrick.getInstance()),
                         new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 2),
                         BloodInfuser.getInstance(),
-                        750
+                        250
                         ),
                         new ItemStack(DarkBloodBrick.getInstance()
                                 ));

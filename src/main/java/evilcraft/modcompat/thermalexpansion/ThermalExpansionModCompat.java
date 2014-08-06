@@ -88,7 +88,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             pulverizerDarkOre.setTag("primaryOutput", new NBTTagCompound());
             if(crushedEnabled) {
 	            pulverizerDarkOre.setTag("secondaryOutput", new NBTTagCompound());
-	            pulverizerDarkOre.setInteger("chance", 30);
+	            pulverizerDarkOre.setInteger("secondaryChance", 30);
             }
     
             new ItemStack(DarkOre.getInstance()).writeToNBT(pulverizerDarkOre.getCompoundTag("input"));

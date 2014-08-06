@@ -48,11 +48,15 @@ public class TickComponent<C extends EvilCraftTileEntity, T extends ITickAction<
     protected T getTickAction(Item item) {
         for(Entry<Class<?>, T> entry : tickActions.entrySet()) {
         	Object instance = item;
-        	if(item instanceof ItemBlock) {
-        		instance = ((ItemBlock) item).field_150939_a;
-        	}
             if(entry.getKey().isInstance(instance)) {
                 return entry.getValue();
+            } else {
+            	if(item instanceof ItemBlock) {
+            		instance = ((ItemBlock) item).field_150939_a;
+            		if(entry.getKey().isInstance(instance)) {
+                        return entry.getValue();
+            		}
+            	}
             }
         }
         return null;
