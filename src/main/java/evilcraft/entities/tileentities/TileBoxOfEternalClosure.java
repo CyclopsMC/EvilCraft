@@ -59,6 +59,8 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	private Boolean closing = true;
 	private float previousLidAngle = 65F;
 	
+	private boolean initial = false;
+	
 	/**
 	 * Inner rotation of a beam.
 	 */
@@ -149,8 +151,14 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     		}
     	}
     	
-    	if(lidAngle < 0) lidAngle = 0F;
-    	if(lidAngle > START_LID_ANGLE) lidAngle = START_LID_ANGLE;
+    	if(lidAngle < 0) {
+    		lidAngle = 0F;
+    		updateLight();
+    	}
+    	if(lidAngle > START_LID_ANGLE) {
+    		lidAngle = START_LID_ANGLE;
+    		updateLight();
+    	}
     }
     
     /**
@@ -200,11 +208,18 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     	
     	if(old != spiritInstance) {
     		if(old == null) {
-    			getWorldObj().playSoundEffect(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
-    					"random.chestclosed", 0.5F, getWorldObj().rand.nextFloat() * 0.1F + 0.9F);
+    			if(!initial) {
+	    			getWorldObj().playSoundEffect(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
+	    					"random.chestclosed", 0.5F, getWorldObj().rand.nextFloat() * 0.1F + 0.9F);
+    			}
     		}
     		sendUpdate();
     	}
+    	initial = true;
+    }
+    
+    protected void updateLight() {
+    	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
     
     protected void clearSpiritInstance() {

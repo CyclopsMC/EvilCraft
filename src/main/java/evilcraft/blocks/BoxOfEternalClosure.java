@@ -35,7 +35,9 @@ import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
  *
  */
 public class BoxOfEternalClosure extends ConfigurableBlockContainer implements IInformationProvider {
-    
+	
+	private static final int LIGHT_LEVEL = 6;
+	
     private static BoxOfEternalClosure _instance = null;
     
     /**
@@ -193,6 +195,17 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 	    	}
     	}
     	return super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
+    }
+    
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z) {
+    	if(world.getTileEntity(x, y, z) != null) {
+	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(x, y, z);
+	    	if(tile.getLidAngle() > 0) {
+	    		return LIGHT_LEVEL;
+	    	}
+    	}
+        return super.getLightValue(world, x, y, z);
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })

@@ -192,6 +192,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
                     stack.getTagCompound().setInteger("x", x);
                     stack.getTagCompound().setInteger("y", y);
                     stack.getTagCompound().setInteger("z", z);
+                    stack.getTagCompound().setInteger("rotation", ForgeDirection.UNKNOWN.ordinal());
                     tile.readFromNBT(stack.getTagCompound());
             }
             
