@@ -33,6 +33,8 @@ import evilcraft.fluids.Poison;
 import evilcraft.items.BloodExtractorConfig;
 import evilcraft.items.DarkGem;
 import evilcraft.items.DarkGemConfig;
+import evilcraft.items.DarkGemCrushed;
+import evilcraft.items.DarkGemCrushedConfig;
 import evilcraft.modcompat.IModCompat;
 
 /**
@@ -79,13 +81,33 @@ public class ThermalExpansionModCompat implements IModCompat {
 
         // Pulverizer dark ore
         if(Configs.isEnabled(DarkOreConfig.class) && Configs.isEnabled(DarkGemConfig.class)) {
+        	boolean crushedEnabled = Configs.isEnabled(DarkGemCrushedConfig.class);
             NBTTagCompound pulverizerDarkOre = new NBTTagCompound();
             pulverizerDarkOre.setInteger("energy", 2000);
             pulverizerDarkOre.setTag("input", new NBTTagCompound());
             pulverizerDarkOre.setTag("primaryOutput", new NBTTagCompound());
+            if(crushedEnabled) {
+	            pulverizerDarkOre.setTag("secondaryOutput", new NBTTagCompound());
+	            pulverizerDarkOre.setInteger("chance", 30);
+            }
     
             new ItemStack(DarkOre.getInstance()).writeToNBT(pulverizerDarkOre.getCompoundTag("input"));
             new ItemStack(DarkGem.getInstance(), 2).writeToNBT(pulverizerDarkOre.getCompoundTag("primaryOutput"));
+            if(crushedEnabled) {
+            	new ItemStack(DarkGemCrushed.getInstance(), 1).writeToNBT(pulverizerDarkOre.getCompoundTag("secondaryOutput"));
+            }
+            FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
+        }
+        
+        // Pulverizer dark ore -> crushed
+        if(Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkGemCrushedConfig.class)) {
+            NBTTagCompound pulverizerDarkOre = new NBTTagCompound();
+            pulverizerDarkOre.setInteger("energy", 4000);
+            pulverizerDarkOre.setTag("input", new NBTTagCompound());
+            pulverizerDarkOre.setTag("primaryOutput", new NBTTagCompound());
+    
+            new ItemStack(DarkGem.getInstance()).writeToNBT(pulverizerDarkOre.getCompoundTag("input"));
+            new ItemStack(DarkGemCrushed.getInstance(), 1).writeToNBT(pulverizerDarkOre.getCompoundTag("primaryOutput"));
             FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
         }
 
