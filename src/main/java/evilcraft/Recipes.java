@@ -409,13 +409,15 @@ public class Recipes {
         			));
         }
         // Spirit furnace
-        if(Configs.isEnabled(DarkBloodBrickConfig.class) && Configs.isEnabled(SpiritFurnaceConfig.class)) {
+        if(Configs.isEnabled(DarkBloodBrickConfig.class)
+        		&& Configs.isEnabled(SpiritFurnaceConfig.class)
+        		&& Configs.isEnabled(BloodInfuserConfig.class)) {
         	GameRegistry.addRecipe(new ShapedOreRecipe(SpiritFurnace.getInstance(), true,
                     new Object[]{
-                " B ",
-                "BFB",
-                " B ",
-                'F', new ItemStack(Blocks.furnace),
+                "BBB",
+                "BIB",
+                "BBB",
+                'I', new ItemStack(BloodInfusionCore.getInstance()),
                 'B', new ItemStack(DarkBloodBrick.getInstance())
             }
                     ));
