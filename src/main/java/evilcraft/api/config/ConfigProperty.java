@@ -247,6 +247,21 @@ public class ConfigProperty {
             } else {
                 getCallback().run(additionalProperty.getString());
             }
+        } else if(value instanceof String[]) {
+        	additionalProperty = config.get(
+                    category,
+                    name,
+                    (String[])value
+                    );
+                if(forceUpdate) {
+                	additionalProperty.setValues((String[])value);
+                }
+                additionalProperty.comment = getComment();
+                if(forceUpdate) {
+                    getCallback().run((String[])value);
+                } else {
+                    getCallback().run(additionalProperty.getStringList());
+                }
         } else {
             EvilCraft.log("Invalid config property class. No match found for '"
             		+ name + "': '" + value + "'", Level.ERROR);

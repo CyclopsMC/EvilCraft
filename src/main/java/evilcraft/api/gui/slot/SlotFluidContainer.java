@@ -3,10 +3,10 @@ package evilcraft.api.gui.slot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import evilcraft.api.fluids.SingleUseTank;
 
 /**
  * Slots that will accept buckets and {@link IFluidContainerItem}.
@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.IFluidContainerItem;
  */
 public class SlotFluidContainer extends Slot {
     
-    private Fluid acceptedFluid = null;
+    private SingleUseTank tank = null;
     
     /**
      * Make a new instance that accepts containers for all fluids.
@@ -35,31 +35,31 @@ public class SlotFluidContainer extends Slot {
      * @param index The index of this slot.
      * @param x X coordinate.
      * @param y Y coordinate.
-     * @param acceptedFluid The accepted fluid.
+     * @param tank The accepting tank.
      */
     public SlotFluidContainer(IInventory inventory, int index, int x,
-            int y, Fluid acceptedFluid) {
+            int y, SingleUseTank tank) {
         this(inventory, index, x, y);
-        this.acceptedFluid = acceptedFluid;
+        this.tank = tank;
     }
     
     @Override
     public boolean isItemValid(ItemStack itemStack) {
-        return checkIsItemValid(itemStack, acceptedFluid);
+        return checkIsItemValid(itemStack, tank);
     }
     
     /**
      * Check if the given item is valid and the fluid equals the fluid inside the
      * container (or the fluid in the container is null).
      * @param itemStack The item that will be checked.
-     * @param acceptedFluid The fluid that must be matched.
+     * @param tank The accepting tank.
      * @return If the given item is valid.
      */
-    public static boolean checkIsItemValid(ItemStack itemStack, Fluid acceptedFluid) {
+    public static boolean checkIsItemValid(ItemStack itemStack, SingleUseTank tank) {
         if(itemStack != null && itemStack.stackSize == 1) {
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
-            if(acceptedFluid != null && fluidStack != null) {
-                return acceptedFluid.equals(fluidStack.getFluid());
+            if(tank.getAcceptedFluid() != null && fluidStack != null) {
+                return tank.canTankAccept(fluidStack.getFluid());
             }
         }
         return false;

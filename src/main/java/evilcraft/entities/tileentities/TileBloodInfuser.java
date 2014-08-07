@@ -17,6 +17,9 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.api.entities.tileentitites.WorkingTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
+import evilcraft.api.fluids.BloodFluidConverter;
+import evilcraft.api.fluids.ImplicitFluidConversionTank;
+import evilcraft.api.fluids.SingleUseTank;
 import evilcraft.api.gui.slot.SlotFluidContainer;
 import evilcraft.api.recipes.CustomRecipe;
 import evilcraft.api.recipes.CustomRecipeRegistry;
@@ -123,6 +126,11 @@ public class TileBloodInfuser extends WorkingTileEntity<TileBloodInfuser> {
     }
     
     @Override
+    protected SingleUseTank newTank(String tankName, int tankSize) {
+    	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
+    }
+    
+    @Override
     public boolean canConsume(ItemStack itemStack) {
         // Empty bucket
         if(itemStack.getItem() == Items.bucket
@@ -136,7 +144,7 @@ public class TileBloodInfuser extends WorkingTileEntity<TileBloodInfuser> {
             if(fluidStack == null) {
                 return true;
             } else {
-                if(fluidStack.getFluid() == tank.getAcceptedFluid()
+                if(getTank().canTankAccept(fluidStack.getFluid())
                         && fluidStack.amount < container.getCapacity(itemStack)) {
                     return true;
                 }
@@ -144,7 +152,7 @@ public class TileBloodInfuser extends WorkingTileEntity<TileBloodInfuser> {
         }
         
         // Valid custom recipe
-        CustomRecipe customRecipeKey = new CustomRecipe(itemStack, tank.getFluid(), BloodInfuser.getInstance());
+        CustomRecipe customRecipeKey = new CustomRecipe(itemStack, getTank().getFluid(), BloodInfuser.getInstance());
         CustomRecipeResult result = CustomRecipeRegistry.get(customRecipeKey);
         if(result != null)
             return true;
@@ -174,7 +182,7 @@ public class TileBloodInfuser extends WorkingTileEntity<TileBloodInfuser> {
         if(slot == SLOT_INFUSE)
             return canConsume(itemStack);
         if(slot == SLOT_CONTAINER)
-            return SlotFluidContainer.checkIsItemValid(itemStack, ACCEPTED_FLUID);
+            return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
         return false;
     }
 

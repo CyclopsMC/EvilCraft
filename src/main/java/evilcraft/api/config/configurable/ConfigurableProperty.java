@@ -6,6 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import evilcraft.api.config.ElementTypeCategory;
+import evilcraft.api.config.configurable.propertycallback.IChangedCallback;
 
 /**
  * Property inside configs that can be configured in the config file.
@@ -40,4 +41,9 @@ public @interface ConfigurableProperty {
      * @return If this configurables requires minecraft to restart.
      */
     boolean requiresMcRestart() default false;
+    
+    /**
+     * @return The optional callback when the property has been changed.
+     */
+    Class<? extends IChangedCallback> changedCallback() default IChangedCallback.class;
 }

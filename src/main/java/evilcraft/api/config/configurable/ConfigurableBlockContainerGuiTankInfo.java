@@ -14,7 +14,6 @@ import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.api.item.DamageIndicatedItemComponent;
-import evilcraft.fluids.Blood;
 import evilcraft.items.BucketBlood;
 
 /**
@@ -57,12 +56,10 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
             if(tile != null) {
                 if(itemStack != null && itemStack.getItem() instanceof ItemBucket) {
                     FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
-                    // TODO: Remove the line below once Forge has fixed it's hashcode bug for FluidContainers.
-                    fluidStack = new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME);
                     if(fluidStack != null &&
-                            (fluidStack.getFluid() == tile.getTank().getFluidType()
-                            || tile.getTank().getFluidType() == null) && tile.getTank().getFluidAmount() + FluidContainerRegistry.BUCKET_VOLUME <= tile.getTank().getCapacity()) {
-                        tile.getTank().fill(new FluidStack(fluidStack.getFluid(), FluidContainerRegistry.BUCKET_VOLUME), true);
+                            (tile.getTank().canTankAccept(fluidStack.getFluid())
+                            || tile.getTank().getFluidType() == null) && tile.getTank().canCompletelyFill(fluidStack)) {
+                        tile.getTank().fill(fluidStack, true);
                         if (!player.capabilities.isCreativeMode) {
                             player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.bucket));
                         }

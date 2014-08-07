@@ -22,8 +22,8 @@ public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileE
             ItemStack infuseStack = itemStack;
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(infuseStack);
             SingleUseTank tank = tile.getTank();
-            if(tank.getCapacity() - tank.getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME
-                    && fluidStack != null && tank.getAcceptedFluid().equals(fluidStack.getFluid())) {
+            if(fluidStack != null && tank.canTankAccept(fluidStack.getFluid())
+            		&& tank.canCompletelyFill(fluidStack)) {
                 tank.fill(fluidStack, true);
                 tile.getInventory().setInventorySlotContents(slot, FluidContainerRegistry.EMPTY_BUCKET.copy());
             }

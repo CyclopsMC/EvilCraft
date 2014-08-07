@@ -18,6 +18,9 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
+import evilcraft.api.fluids.BloodFluidConverter;
+import evilcraft.api.fluids.ImplicitFluidConversionTank;
+import evilcraft.api.fluids.SingleUseTank;
 import evilcraft.blocks.BloodChest;
 import evilcraft.entities.tileentities.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.entities.tileentities.tickaction.EmptyItemBucketInTankTickAction;
@@ -123,6 +126,11 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         addSlotsToSide(ForgeDirection.DOWN, inSlotsInventory);
         addSlotsToSide(ForgeDirection.SOUTH, inSlotsInventory);
         addSlotsToSide(ForgeDirection.WEST, inSlotsInventory);
+    }
+    
+    @Override
+    protected SingleUseTank newTank(String tankName, int tankSize) {
+    	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
     }
     
     @Override

@@ -21,6 +21,9 @@ import evilcraft.api.Helpers;
 import evilcraft.api.config.configurable.ConfigurableEnchantment;
 import evilcraft.api.entities.tileentitites.NBTPersist;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
+import evilcraft.api.fluids.BloodFluidConverter;
+import evilcraft.api.fluids.ImplicitFluidConversionTank;
+import evilcraft.api.fluids.SingleUseTank;
 import evilcraft.blocks.Purifier;
 import evilcraft.blocks.PurifierConfig;
 import evilcraft.entities.tileentities.tickaction.bloodchest.DamageableItemRepairAction;
@@ -111,6 +114,11 @@ public class TilePurifier extends TankInventoryTileEntity {
         
         this.setSendUpdateOnInventoryChanged(true);
         this.setSendUpdateOnTankChanged(true);
+    }
+    
+    @Override
+    protected SingleUseTank newTank(String tankName, int tankSize) {
+    	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
     }
     
     @Override
