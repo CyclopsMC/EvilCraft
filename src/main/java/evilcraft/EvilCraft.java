@@ -17,6 +17,7 @@ import cpw.mods.fml.relauncher.Side;
 import evilcraft.api.Debug;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
+import evilcraft.api.fluids.BloodFluidConverter;
 import evilcraft.commands.CommandEvilCraft;
 import evilcraft.gui.GuiHandler;
 import evilcraft.gui.client.GuiMainMenuEvilifier;
@@ -141,6 +142,9 @@ public class EvilCraft {
         
         // Mod compatibility loading.
         ModCompatLoader.postInit();
+        
+        // Load blood converters
+        new BloodFluidConverter.BloodConvertersChanged().onChanged(GeneralConfig.bloodConverters);
     }
     
     /**

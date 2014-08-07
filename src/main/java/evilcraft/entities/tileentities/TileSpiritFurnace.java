@@ -34,6 +34,9 @@ import evilcraft.api.entities.tileentitites.NBTPersist;
 import evilcraft.api.entities.tileentitites.WorkingTileEntity;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
+import evilcraft.api.fluids.BloodFluidConverter;
+import evilcraft.api.fluids.ImplicitFluidConversionTank;
+import evilcraft.api.fluids.SingleUseTank;
 import evilcraft.api.gui.slot.SlotFluidContainer;
 import evilcraft.api.world.FakeWorldItemDelegator;
 import evilcraft.api.world.FakeWorldItemDelegator.IItemDropListener;
@@ -159,6 +162,11 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
         addSlotsToSide(ForgeDirection.DOWN, outSlots);
         addSlotsToSide(ForgeDirection.SOUTH, outSlots);
         addSlotsToSide(ForgeDirection.WEST, outSlots);
+    }
+    
+    @Override
+    protected SingleUseTank newTank(String tankName, int tankSize) {
+    	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
     }
     
     @Override
@@ -296,7 +304,7 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
         if(slot == SLOT_BOX)
             return canConsume(itemStack);
         if(slot == SLOT_CONTAINER)
-            return SlotFluidContainer.checkIsItemValid(itemStack, ACCEPTED_FLUID);
+            return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
         return false;
     }
 

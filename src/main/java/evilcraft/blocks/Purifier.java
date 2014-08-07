@@ -19,7 +19,6 @@ import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.entities.tileentities.TilePurifier;
-import evilcraft.fluids.Blood;
 import evilcraft.items.BucketBlood;
 import evilcraft.render.block.RenderPurifier;
 
@@ -78,21 +77,16 @@ public class Purifier extends ConfigurableBlockContainer {
                     tile.setBookItem(null);
                 } else if(itemStack != null && itemStack.getItem() instanceof ItemBucket) {
                     FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
-                    // TODO: Remove the line below once Forge has fixed it's hashcode bug for FluidContainers.
-                    // Also use FluidContainerRegistry.isBucket for checking if it's a bucket here and in
-                    // ConfigurableBlockContainerGuiTankInfo.
-                    fluidStack = new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME);
-                    // TODO: remove last condition once that bug is fixed.
-                    if(fluidStack != null && fluidStack.getFluid() == TilePurifier.FLUID && itemStack.getItem() != Items.bucket) {
-                        int buckets = tile.getBucketsFloored();
-                        if (buckets < tile.getMaxBuckets()) {
-                            if (!player.capabilities.isCreativeMode) {
-                                player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.bucket));
-                            }
-                            tile.setBuckets(buckets + 1, tile.getBucketsRest());
+                    if(fluidStack != null && tile.getTank().canTankAccept(fluidStack.getFluid())
+                    		&& tile.getTank().canCompletelyFill(fluidStack)
+                    		&& itemStack.getItem() != Items.bucket) {
+                    	tile.getTank().fill(fluidStack, true);
+                    	tile.sendUpdate();
+                    	if (!player.capabilities.isCreativeMode) {
+                            player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.bucket));
                         }
                         return true;
-                    } else if(itemStack.getItem() instanceof ItemBucket) {
+                    } else if(itemStack.getItem() == Items.bucket) {
                         int buckets = tile.getBucketsFloored();
                         if (buckets > 0) {
                             if (!player.capabilities.isCreativeMode) {

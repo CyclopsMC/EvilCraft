@@ -15,7 +15,7 @@ import evilcraft.api.fluids.SingleUseTank;
  */
 public abstract class TankInventoryTileEntity extends InventoryTileEntity implements IFluidHandler {
     
-    protected SingleUseTank tank;
+    private SingleUseTank tank;
     protected boolean sendUpdateOnTankChanged = false;
 
     /**
@@ -27,7 +27,11 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      */
     public TankInventoryTileEntity(int inventorySize, String inventoryName, int tankSize, String tankName) {
         super(inventorySize, inventoryName);
-        tank = new SingleUseTank(tankName, tankSize, this);
+        tank = newTank(tankName, tankSize);
+    }
+    
+    protected SingleUseTank newTank(String tankName, int tankSize) {
+    	return new SingleUseTank(tankName, tankSize, this);
     }
     
     /**
@@ -40,7 +44,7 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      */
     public TankInventoryTileEntity(int inventorySize, String inventoryName, int stackSize, int tankSize, String tankName) {
         super(inventorySize, inventoryName, stackSize);
-        tank = new SingleUseTank(tankName, tankSize, this);
+        tank = newTank(tankName, tankSize);
     }
     
     /**
@@ -119,12 +123,12 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return tank.getAcceptedFluid() == null || tank.getAcceptedFluid().equals(fluid);
+        return tank.getAcceptedFluid() == null || tank.canTankAccept(fluid);
     }
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return tank.getAcceptedFluid() == null || tank.getAcceptedFluid().equals(fluid);
+        return tank.getAcceptedFluid() == null || tank.canTankAccept(fluid);
     }
 
     @Override

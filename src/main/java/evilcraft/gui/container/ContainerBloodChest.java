@@ -8,7 +8,6 @@ import evilcraft.api.gui.container.TickingChestContainer;
 import evilcraft.api.gui.slot.SlotFluidContainer;
 import evilcraft.blocks.BloodChest;
 import evilcraft.entities.tileentities.TileBloodChest;
-import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.slot.SlotRepairable;
 
 /**
@@ -40,7 +39,7 @@ public class ContainerBloodChest extends TickingChestContainer<TileBloodChest> {
     public ContainerBloodChest(InventoryPlayer inventory, TileBloodChest tile) {
         super(inventory, tile, CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y);
         tile.openInventory();
-        addSlotToContainer(new SlotFluidContainer(tile, TileBloodChest.SLOT_CONTAINER, 8, 36, TileBloodInfuser.ACCEPTED_FLUID)); // Container emptier
+        addSlotToContainer(new SlotFluidContainer(tile, TileBloodChest.SLOT_CONTAINER, 8, 36, tile.getTank())); // Container emptier
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
 

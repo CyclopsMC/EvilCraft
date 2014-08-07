@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Level;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.api.config.configurable.propertycallback.IChangedCallback;
 
 /**
  * A config that refers to a {@link Configurable}. Every unique {@link Configurable} must have one
@@ -72,33 +73,27 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
      * @throws IllegalAccessException
      */
     private void generateConfigProperties() throws IllegalArgumentException, IllegalAccessException {
-        for(final Field field : this.getClass().getDeclaredFields()) {
+        for(Field field : this.getClass().getDeclaredFields()) {
             if(field.isAnnotationPresent(ConfigurableProperty.class)) {
-
+            	ConfigurableProperty annotation = field.getAnnotation(ConfigurableProperty.class);
+            	IChangedCallback changedCallback = null;
+            	if(annotation.changedCallback() != IChangedCallback.class) {
+            		try {
+						changedCallback = annotation.changedCallback().newInstance();
+					} catch (InstantiationException e) {
+						e.printStackTrace();
+					}
+            	}
                 ConfigProperty configProperty = new ConfigProperty(
-                        field.getAnnotation(ConfigurableProperty.class).category(),
+                		annotation.category(),
                         getConfigPropertyPrefix() + "." + field.getName(),
                         field.get(null),
-                        field.getAnnotation(ConfigurableProperty.class).comment(),
-                        new ConfigPropertyCallback() {
-                            @Override
-                            public void run(Object newValue) {
-                                try {
-                                    field.set(null, newValue);
-                                } catch (IllegalArgumentException e1) {
-                                    // Shouldn't be possible
-                                    e1.printStackTrace();
-                                } catch (IllegalAccessException e2) {
-                                	e2.printStackTrace();
-                                }
-                            }
-                        },
-                        field.getAnnotation(ConfigurableProperty.class).isCommandable(),
+                        annotation.comment(),
+                        new ConfigPropertyCallback(changedCallback, field),
+                        annotation.isCommandable(),
                         field);
-                configProperty.setRequiresWorldRestart(
-                		field.getAnnotation(ConfigurableProperty.class).requiresWorldRestart());
-                configProperty.setRequiresMcRestart(
-                		field.getAnnotation(ConfigurableProperty.class).requiresMcRestart());
+                configProperty.setRequiresWorldRestart(annotation.requiresWorldRestart());
+                configProperty.setRequiresMcRestart(annotation.requiresMcRestart());
                 configProperties.add(configProperty);
             }
         }

@@ -62,7 +62,7 @@ public class ContainerSpiritFurnace extends ContainerWorking<TileSpiritFurnace> 
         // Adding inventory
         addSlotToContainer(new SlotFluidContainer(tile, TileSpiritFurnace.SLOT_CONTAINER,
         		SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
-        		TileSpiritFurnace.ACCEPTED_FLUID)); // Container emptier
+        		tile.getTank())); // Container emptier
         addSlotToContainer(new SlotWorking<TileSpiritFurnace>(TileSpiritFurnace.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, tile)); // Box slot
         
         int i = 0;

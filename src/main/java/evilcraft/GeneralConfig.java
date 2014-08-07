@@ -4,6 +4,7 @@ import evilcraft.api.config.DummyConfig;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.api.fluids.BloodFluidConverter.BloodConvertersChanged;
 
 /**
  * A config with general options for this mod.
@@ -42,6 +43,18 @@ public class GeneralConfig extends DummyConfig {
      */
     @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "Server-side: If farting is enabled on this server; Client-side: If farting can be seen at your client.", isCommandable = true)
     public static boolean farting = true;
+    
+    /**
+     * The allowed blood conversions with their ratio.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.FLUID,
+    		comment = "The allowed blood conversions with their ratio. (ratio 2 means that this "
+    				+ "fluid is 1mB of this fluid can be converted into 2mB of EvilCraft Blood.",
+    		changedCallback = BloodConvertersChanged.class)
+    public static String[] bloodConverters = new String[]{
+    	"blood:1.0",
+    	"life essence:1.0",
+    };
     
     /**
      * The type of this config.
