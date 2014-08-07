@@ -9,10 +9,14 @@ import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.BloodStainedBlockConfig;
+import evilcraft.blocks.BoxOfEternalClosure;
+import evilcraft.blocks.BoxOfEternalClosureConfig;
 import evilcraft.blocks.NetherfishSpawn;
 import evilcraft.blocks.NetherfishSpawnConfig;
 import evilcraft.blocks.Purifier;
 import evilcraft.blocks.PurifierConfig;
+import evilcraft.entities.monster.VengeanceSpirit;
+import evilcraft.entities.monster.VengeanceSpiritConfig;
 
 /**
  * Waila support class.
@@ -42,6 +46,14 @@ public class Waila {
             registrar.registerStackProvider(new InnerBlockDataProvider(), BloodStainedBlock.class);
         if(Configs.isEnabled(NetherfishSpawnConfig.class))
             registrar.registerStackProvider(new InnerBlockDataProvider(), NetherfishSpawn.class);
+        
+        // Other blocks
+        if(Configs.isEnabled(BoxOfEternalClosureConfig.class))
+            registrar.registerBodyProvider(new BoxOfEternalClosureDataProvider(), BoxOfEternalClosure.class);
+        
+        // Entities
+        if(Configs.isEnabled(VengeanceSpiritConfig.class))
+        	registrar.registerOverrideEntityProvider(new VengeanceSpiritDataProvider(), VengeanceSpirit.class);
     }
     
     /**
@@ -58,6 +70,22 @@ public class Waila {
      */
     public static String getInnerBlockConfigID() {
         return Reference.MOD_NAME + ".innerBlock";
+    }
+    
+    /**
+     * Config ID.
+     * @return The config ID.
+     */
+    public static String getBoxOfEternalClosureConfigID() {
+        return Reference.MOD_NAME + ".boxOfEternalClosure";
+    }
+    
+    /**
+     * Config ID.
+     * @return The config ID.
+     */
+    public static String getVengeanceSpiritConfigID() {
+        return Reference.MOD_NAME + ".vengeanceSpirit";
     }
     
 }

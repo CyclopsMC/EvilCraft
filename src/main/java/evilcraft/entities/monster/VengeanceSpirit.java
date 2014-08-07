@@ -37,6 +37,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.EvilCraft;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
@@ -53,6 +54,11 @@ import evilcraft.render.particle.EntityDegradeFX;
  *
  */
 public class VengeanceSpirit extends EntityMob implements Configurable {
+	
+	/**
+	 * The default I18N key for when no inner entity exists.
+	 */
+	public static final String DEFAULT_L10N_KEY = "vengeanceSpirit";
 	
 	private static final int SWARM_TIERS = 5;
 	private static final int SWARM_CHANCE = 25;
@@ -639,6 +645,18 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 			attempts--;
 		}
 		return null;
+	}
+	
+	/**
+	 * Get the localized name of the inner entity.
+	 * @return The L10N name.
+	 */
+	public String getLocalizedInnerEntityName() {
+		String key = DEFAULT_L10N_KEY;
+		if(getInnerEntity() != null) {
+			key = (String) EntityList.classToStringMapping.get(getInnerEntity().getClass()); 
+		}
+		return L10NHelpers.getLocalizedEntityName(key);
 	}
 	
 	/**

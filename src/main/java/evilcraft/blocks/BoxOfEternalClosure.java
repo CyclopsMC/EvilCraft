@@ -124,7 +124,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 						e.printStackTrace();
 					}
 				} else {
-					return "vengeanceSpirit";
+					return VengeanceSpirit.DEFAULT_L10N_KEY;
 				}
 			}
 		}

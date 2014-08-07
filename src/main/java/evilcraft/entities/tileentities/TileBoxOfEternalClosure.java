@@ -35,7 +35,7 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	
 	private static final int TICK_MODULUS = 10;
 	private static final int TARGET_RADIUS = 10;
-	private static final double ABSORB_RADIUS = 1D;
+	private static final double ABSORB_RADIUS = 1.5D;
 	private static final int NO_TARGET = -1;
 	/**
 	 * The lid angle for when this box is open.
