@@ -3,7 +3,6 @@ package evilcraft.api.fluids;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.EvilCraft;
 
 /**
  * A single use tank that can accept multiple types of fluids.
@@ -35,7 +34,6 @@ public class ImplicitFluidConversionTank extends SingleUseTank {
     
     @Override
     public boolean canTankAccept(Fluid fluid) {
-    	EvilCraft.log("FILL" + fluid.getName() + " ? " + converter.canConvert(fluid));
     	return super.canTankAccept(fluid) || converter.canConvert(fluid);
     }
     
