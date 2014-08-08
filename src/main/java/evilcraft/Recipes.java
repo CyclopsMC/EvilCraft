@@ -546,30 +546,32 @@ public class Recipes {
             }
         }
         
-        if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class) && Configs.isEnabled(WeatherContainerConfig.class)) {
+        if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
             EnvironmentalAccumulatorRecipe recipe = null;
             EnvironmentalAccumulatorResult result = null;
             
             // Add the different weather container recipes
-            ItemStack emptyContainer = WeatherContainer.createItemStack(WeatherContainerTypes.EMPTY, 1);
-            WeatherType[] inputs = {WeatherType.CLEAR, WeatherType.RAIN, WeatherType.LIGHTNING};
-            WeatherType[] outputs = {WeatherType.RAIN, WeatherType.CLEAR, WeatherType.RAIN};
-            
-            for (int i=0; i < inputs.length; ++i) {
-                recipe = new EnvironmentalAccumulatorRecipe(
-                        "WeatherContainer" + inputs[i].getClass().getSimpleName(),
-                        emptyContainer,
-                        inputs[i]
-                );
-                
-                result = new EnvironmentalAccumulatorResult(
-                        recipe,
-                        WeatherContainer.createItemStack(
-                                WeatherContainerTypes.getWeatherContainerType(inputs[i]), 1
-                        ),
-                        outputs[i]
-                );
-                CustomRecipeRegistry.put(recipe, result);
+            if (Configs.isEnabled(WeatherContainerConfig.class)) {
+	            ItemStack emptyContainer = WeatherContainer.createItemStack(WeatherContainerTypes.EMPTY, 1);
+	            WeatherType[] inputs = {WeatherType.CLEAR, WeatherType.RAIN, WeatherType.LIGHTNING};
+	            WeatherType[] outputs = {WeatherType.RAIN, WeatherType.CLEAR, WeatherType.RAIN};
+	            
+	            for (int i=0; i < inputs.length; ++i) {
+	                recipe = new EnvironmentalAccumulatorRecipe(
+	                        "WeatherContainer" + inputs[i].getClass().getSimpleName(),
+	                        emptyContainer,
+	                        inputs[i]
+	                );
+	                
+	                result = new EnvironmentalAccumulatorResult(
+	                        recipe,
+	                        WeatherContainer.createItemStack(
+	                                WeatherContainerTypes.getWeatherContainerType(inputs[i]), 1
+	                        ),
+	                        outputs[i]
+	                );
+	                CustomRecipeRegistry.put(recipe, result);
+	            }
             }
             
             // Add Empowered Inverted Potentia recipe.
