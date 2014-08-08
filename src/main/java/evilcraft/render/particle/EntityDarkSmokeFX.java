@@ -79,13 +79,14 @@ public class EntityDarkSmokeFX extends EntityFX {
 	 * If the particles for this should be shown as death particles.
 	 */
 	public void setDeathParticles() {
-		motionX *= 10;
-        motionY *= 10;
-        motionZ *= 10;
+		motionX *= 2;
+        motionY *= 2;
+        motionZ *= 2;
+        particleGravity = 0.5F;
         
-        particleRed = rand.nextFloat() * 0.53125F;
-        particleGreen = rand.nextFloat() * 0.42187F;
-        particleBlue = rand.nextFloat() * 0.8945F;
+        particleRed = rand.nextFloat() * 0.33125F;
+        particleGreen = rand.nextFloat() * 0.022187F;
+        particleBlue = rand.nextFloat() * 0.3945F;
 	}
 
 }
