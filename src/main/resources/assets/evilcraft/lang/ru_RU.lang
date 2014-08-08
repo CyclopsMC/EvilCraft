@@ -1,0 +1,139 @@
+# General
+itemGroup.EvilCraft=EvilCraft
+general.info.enabled=Включено
+general.info.disabled=Выключено
+general.info.empty=Пусто
+
+# Blocks
+tile.blocks.blockBlood.name=Кровь
+tile.blocks.blockPoison.name=Яд
+tile.blocks.bloodChest.name=Кровавый сундук
+tile.blocks.bloodInfuser.name=Наполнитель кровью
+tile.blocks.darkOre.name=Тёмная руда
+tile.blocks.darkBlock.name=Тёмный блок
+tile.blocks.bloodStainedBlock.name=Окрашенный кровью блок
+tile.blocks.bloodStainedBlock.info=Создаётся, когда сущность умирает.
+tile.blocks.lightningBomb.name=Бомба молний
+tile.blocks.bloodyCobblestone.name=Кровавый булыжник
+tile.blocks.netherMonsterBlock.name=Яйцо монстра Нижнего мира
+tile.blocks.excrementPile.name=Кучка экскрементов
+tile.blocks.hardenedBlood.name=Затвердевшая кровь
+tile.blocks.hardenedBlood.info=Высушенная кровь. Превращается в жидкость от дождя.
+tile.blocks.obscuredGlass.name=Затемнённое стекло
+tile.blocks.environmentalAccumulator.name=Погодный собиратель
+tile.blocks.environmentalAccumulator.info=Можно найти в тёмных храмах, чаще в горах.
+tile.blocks.undeadLeaves.name=Мёртвая листва
+tile.blocks.undeadLog.name=Мёртвая древесина
+tile.blocks.undeadSapling.name=Мёртвый саженец
+tile.blocks.undeadSapling.info=Наполняет мёртвый куст кровью.
+tile.blocks.undeadPlank.name=Мёртвые доски
+tile.blocks.invisibleRedstoneBlock.name=Невидимый красный блок
+tile.blocks.purifier.name=Очиститель
+tile.blocks.darkBrick.name=Тёмный кирпич
+tile.blocks.darkBloodBrick.name=Тёмный кровавый кирпич
+tile.blocks.spiritFurnace.name=Духовная печь
+tile.blocks.spiritFurnace.help.invalid=Нельзя готовить
+tile.blocks.spiritFurnace.help.invalid.noEntity=Пустая или нет коробки
+tile.blocks.spiritFurnace.help.invalid.contentSize=Размер содержимого: %s
+tile.blocks.spiritFurnace.help.invalid.requiredSize=Требуется размер: %s
+tile.blocks.spiritFurnace.help.invalid.forceHalt=Нет места для предметов
+tile.blocks.spiritFurnace.help.invalid.caughtError=Неверный дух моба. Сообщите разработчику(-ам) модификации.
+tile.blocks.boxOfEternalClosure.name=Коробка вечного закрытия
+tile.blocks.boxOfEternalClosure.info.content=Содержит: %s
+
+# Items
+item.items.werewolfBone.name=Кость оборотня
+item.items.werewolfFlesh.name=Плоть оборотня
+item.items.lightningGrenade.name=Граната молний
+item.items.redstoneGrenade.name=Красная граната
+item.items.bucketBlood.name=Ведро крови
+item.items.bucketPoison.name=Ведро яда
+item.items.bloodExtractor.name=Экстрактор крови
+item.items.bloodExtractor.info.main=Shift-ПКМ, чтобы переключить авто-подачу.
+item.items.bloodExtractor.info.autoSupply=Авто-подача: %s
+item.items.darkGem.name=Тёмный камень
+item.items.darkStick.name=Тёмная палка
+item.items.weatherContainer.name=Погодный контейнер
+item.items.bloodPearlOfTeleportation.name=Кровавый жемчуг телепортации
+item.items.broom.name=Метла
+item.items.hardenedBloodShard.name=Затвердевший кровавый осколок
+item.items.hardenedBloodShard.info=Используйте огниво на затвердевшей крови.
+item.items.bloodInfusionCore.name=Ядро наполнения кровью
+item.items.darkPowerGem.name=Камень тёмной энергии
+item.items.darkPowerGem.info.0=Бросьте тёмный камень в бассейн с
+item.items.darkPowerGem.info.1=как минимум пятью жидкими блоками крови.
+item.items.darkPowerGem.info.2=Или наполните тёмный камень кровью.
+item.items.bloodContainer.bloodCell.name=Кровавая капсула
+item.items.bloodContainer.bloodCan.name=Кровавая банка
+item.items.bloodContainer.bloodBasin.name=Кровавый резервуар
+item.items.bloodContainer.creativeBloodContainer.name=Творческий кровавый контейнер
+item.items.bloodContainer.info.main=Shift-ПКМ, чтобы переключить авто-подачу.
+item.items.bloodContainer.info.autoSupply=Авто-подача: %s
+item.items.poisonSac.name=Ядовитый мешочек
+item.items.werewolfFur.name=Мех оборотня
+item.items.blook.name=Кровавая книга
+item.items.potentiaSphere.name=Сфера силы
+item.items.invertedPotentia.name=Инвертированная сила
+item.items.maceOfDistortion.name=Жезл искажения
+item.items.maceOfDistortion.setPower=Сила установлена на %s
+item.items.maceOfDistortion.info.main.1=Shift-ПКМ, чтобы
+item.items.maceOfDistortion.info.main.2=изменить уровень силы.
+item.items.maceOfDistortion.info.power=Сила: %s
+item.items.kineticator.name=Kineticator
+item.items.kineticator.setPower=Сила установлена на %s
+item.items.kineticator.info.main.1=Shift-ПКМ, чтобы переключить притяжение.
+item.items.kineticator.info.main.2=ПКМ, чтобы изменить территорию.
+item.items.kineticator.info.attraction=Притяжение: %s
+item.items.kineticator.info.area=Территория: %s
+item.items.vengeanceRing.name=Кольцо мщения
+item.items.vengeanceRing.info.main=Shift-ПКМ, чтобы переключить.
+item.items.vengeanceRing.info.status=Статус: %s
+item.items.vengeanceFocus.name=Фокус мщения
+item.items.vengeanceFocus.info.main=ПКМ, чтобы включить луч.
+item.items.vengeancePickaxe.name=Кирка мщения
+item.items.burningGemStone.name=Горящий камень
+item.items.darkGemCrushed.name=Измельчённый тёмный камень
+
+# Fluids
+fluid.fluids.evilcraftblood=Кровь
+fluid.fluids.evilcraftpoison=Яд
+
+# Weather container info
+weatherContainer.empty=Пустой
+weatherContainer.clear=Моё единственное солнце
+weatherContainer.rain=Когда дождь начинается
+weatherContainer.lightning=Шторм
+
+# Controls
+key.categories.evilcraft=EvilCraft
+key.fart=Переключить пукание
+
+# Entities
+entity.evilcraft.werewolf.name=Оборотень
+entity.evilcraft.poisonousLibelle.name=Ядовитая стрекоза
+entity.evilcraft.netherfish.name=Рыба Нижнего мира
+entity.evilcraft.vengeanceSpirit.name=Дух мщения
+entity.werewolf.name=Оборотень
+entity.poisonousLibelle.name=Ядовитая стрекоза
+entity.netherfish.name=Рыба Нижнего мира
+entity.vengeanceSpirit.name=Дух мщения
+
+# Enchantments
+enchantment.breaking=Разрушение
+enchantment.lifeStealing=Вампиризм
+enchantment.unusing=Непригодность
+enchantment.poisonTip=Ядовитый наконечник
+
+# Chat messages
+chat.command.invalidArguments=Неверные аргументы
+chat.command.invalidSubcommand=Неверная подкоманда
+chat.command.onlyOneValue=Пожалуйста, определите одно новое значение
+chat.command.invalidNewValue=Неверное новое значение
+chat.command.updatedValue=Обновлено %s на: %s (не обновлено в конфиге)
+chat.command.fartingEnabled=Пукание включено
+chat.command.fartingDisabled=Пукание отключено
+chat.bossDisplay.charge=Заряжание: %s
+
+# Death messages
+death.attack.dieWithoutAnyReason=%1$s умер без всякой видимой причины!
+death.attack.distorted=%1$s не смог справиться с большим количеством искажений.
