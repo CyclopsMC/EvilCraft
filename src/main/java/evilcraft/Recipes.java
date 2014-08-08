@@ -93,6 +93,10 @@ import evilcraft.items.VengeanceRingConfig;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 import evilcraft.items.WeatherContainerConfig;
+import evilcraft.items.WerewolfBone;
+import evilcraft.items.WerewolfBoneConfig;
+import evilcraft.items.WerewolfFur;
+import evilcraft.items.WerewolfFurConfig;
 
 /**
  * Holder class of all the recipes.
@@ -465,6 +469,18 @@ public class Recipes {
                 'D', new ItemStack(DarkGemCrushed.getInstance()),
                 'P', potion
             }
+                    ));
+        }
+        // Werewolf fur -> leather
+        if(Configs.isEnabled(WerewolfFurConfig.class)) {
+        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.leather, 5),
+                    WerewolfFur.getInstance()
+                    ));
+        }
+        // Werewolf bone -> bonemeal
+        if(Configs.isEnabled(WerewolfBoneConfig.class)) {
+        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.dye, 15, 15),
+                    WerewolfBone.getInstance()
                     ));
         }
 

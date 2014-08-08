@@ -1,5 +1,6 @@
 package evilcraft.items;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.Reference;
 import evilcraft.api.config.ItemConfig;
 
@@ -30,6 +31,11 @@ public class DarkGemCrushedConfig extends ItemConfig {
     @Override
     public String getOreDictionaryId() {
         return Reference.DICT_GEMDARKCRUSHED;
+    }
+    
+    @Override
+    public void onRegistered() {
+    	GameRegistry.registerFuelHandler((DarkGemCrushed) getItemInstance());
     }
     
 }

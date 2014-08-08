@@ -1,4 +1,6 @@
 package evilcraft.items;
+import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.IFuelHandler;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
@@ -8,7 +10,7 @@ import evilcraft.api.config.configurable.ConfigurableItem;
  * @author rubensworks
  *
  */
-public class DarkGemCrushed extends ConfigurableItem {
+public class DarkGemCrushed extends ConfigurableItem implements IFuelHandler {
     
     private static DarkGemCrushed _instance = null;
     
@@ -34,5 +36,10 @@ public class DarkGemCrushed extends ConfigurableItem {
     private DarkGemCrushed(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
+
+	@Override
+	public int getBurnTime(ItemStack fuel) {
+		return 16000;
+	}
 
 }
