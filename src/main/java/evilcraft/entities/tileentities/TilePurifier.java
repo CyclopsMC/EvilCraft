@@ -238,8 +238,7 @@ public class TilePurifier extends TankInventoryTileEntity {
     @Override
     public void sendUpdate() {
         super.sendUpdate();
-        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBucketsFloored(), 2);
-        //worldObj.setBlock(xCoord, yCoord, zCoord, Purifier.getInstance());
+        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBucketsFloored(), Helpers.BLOCK_NOTIFY_CLIENT);
     }
     
     private void updateBook() {

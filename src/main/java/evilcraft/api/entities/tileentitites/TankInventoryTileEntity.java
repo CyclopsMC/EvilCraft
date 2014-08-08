@@ -28,6 +28,7 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
     public TankInventoryTileEntity(int inventorySize, String inventoryName, int tankSize, String tankName) {
         super(inventorySize, inventoryName);
         tank = newTank(tankName, tankSize);
+        this.setSendUpdateOnTankChanged(true);
     }
     
     protected SingleUseTank newTank(String tankName, int tankSize) {

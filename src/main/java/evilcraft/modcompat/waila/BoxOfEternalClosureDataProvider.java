@@ -11,7 +11,7 @@ import evilcraft.entities.monster.VengeanceSpirit;
 import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
 
 /**
- * Waila data provider for tanks.
+ * Waila data provider for the BOEC.
  * @author rubensworks
  *
  */

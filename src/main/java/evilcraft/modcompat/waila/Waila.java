@@ -3,20 +3,18 @@ package evilcraft.modcompat.waila;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import evilcraft.Configs;
 import evilcraft.Reference;
-import evilcraft.blocks.BloodChest;
 import evilcraft.blocks.BloodChestConfig;
-import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.BloodStainedBlockConfig;
-import evilcraft.blocks.BoxOfEternalClosure;
 import evilcraft.blocks.BoxOfEternalClosureConfig;
 import evilcraft.blocks.NetherfishSpawn;
 import evilcraft.blocks.NetherfishSpawnConfig;
 import evilcraft.blocks.Purifier;
 import evilcraft.blocks.PurifierConfig;
-import evilcraft.entities.monster.VengeanceSpirit;
-import evilcraft.entities.monster.VengeanceSpiritConfig;
+import evilcraft.entities.tileentities.TileBloodChest;
+import evilcraft.entities.tileentities.TileBloodInfuser;
+import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
 
 /**
  * Waila support class.
@@ -34,10 +32,14 @@ public class Waila {
         registrar.addConfig(Reference.MOD_NAME, getInnerBlockConfigID(), "Actual inner blocks");
         
         // Tanks
-        if(Configs.isEnabled(BloodInfuserConfig.class))
-            registrar.registerBodyProvider(new TankDataProvider(), BloodInfuser.class);
-        if(Configs.isEnabled(BloodChestConfig.class))
-            registrar.registerBodyProvider(new TankDataProvider(), BloodChest.class);
+        if(Configs.isEnabled(BloodInfuserConfig.class)) {
+        	registrar.registerSyncedNBTKey("*", TileBloodInfuser.class);
+            registrar.registerBodyProvider(new TankDataProvider(), TileBloodInfuser.class);
+        }
+        if(Configs.isEnabled(BloodChestConfig.class)) {
+        	registrar.registerSyncedNBTKey("*", TileBloodChest.class);
+            registrar.registerBodyProvider(new TankDataProvider(), TileBloodChest.class);
+        }
         if(Configs.isEnabled(PurifierConfig.class))
             registrar.registerBodyProvider(new TankDataProvider(), Purifier.class);
         
@@ -48,12 +50,10 @@ public class Waila {
             registrar.registerStackProvider(new InnerBlockDataProvider(), NetherfishSpawn.class);
         
         // Other blocks
-        if(Configs.isEnabled(BoxOfEternalClosureConfig.class))
-            registrar.registerBodyProvider(new BoxOfEternalClosureDataProvider(), BoxOfEternalClosure.class);
-        
-        // Entities
-        if(Configs.isEnabled(VengeanceSpiritConfig.class))
-        	registrar.registerOverrideEntityProvider(new VengeanceSpiritDataProvider(), VengeanceSpirit.class);
+        if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
+        	registrar.registerSyncedNBTKey(TileBoxOfEternalClosure.NBTKEY_SPIRIT, TileBoxOfEternalClosure.class);
+            registrar.registerBodyProvider(new BoxOfEternalClosureDataProvider(), TileBoxOfEternalClosure.class);
+        }
     }
     
     /**
