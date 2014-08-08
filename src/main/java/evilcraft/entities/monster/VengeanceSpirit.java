@@ -2,7 +2,7 @@ package evilcraft.entities.monster;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -32,6 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -41,6 +42,7 @@ import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.api.config.configurable.propertycallback.IChangedCallback;
 import evilcraft.api.obfuscation.ObfuscationHelper;
 import evilcraft.items.BurningGemStone;
 import evilcraft.items.BurningGemStoneConfig;
@@ -63,12 +65,7 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	private static final int SWARM_TIERS = 5;
 	private static final int SWARM_CHANCE = 25;
 	
-    private static final List<Class<? extends EntityLivingBase>> BLACKLIST = Lists.newLinkedList();
-    static {
-    	addToBlacklist(VengeanceSpirit.class);
-    	addToBlacklist(EntityPlayer.class);
-    	addToBlacklist(EntityDragon.class);
-    }
+    private static final Set<Class<? extends EntityLivingBase>> BLACKLIST = Sets.newHashSet();
 
     /**
      * The type for this {@link Configurable}.
@@ -659,15 +656,6 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 		return L10NHelpers.getLocalizedEntityName(key);
 	}
 	
-	/**
-	 * Add an entity class to the blacklist, every subinstance of this class will not
-	 * be spirited anymore.
-	 * @param clazz The root class that will be blocked from spiritation.
-	 */
-	public static void addToBlacklist(Class<? extends EntityLivingBase> clazz) {
-		BLACKLIST.add(clazz);
-	}
-	
 	@Override
 	protected String getDeathSound() {
 		if(getInnerEntity() != null) {
@@ -695,5 +683,58 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 			}
 		}
     }
+	
+	/**
+	 * Add an entity class to the blacklist, every subinstance of this class will not
+	 * be spirited anymore.
+	 * @param clazz The root class that will be blocked from spiritation.
+	 */
+	public static void addToBlacklist(Class<? extends EntityLivingBase> clazz) {
+		if(BLACKLIST.add(clazz));
+			EvilCraft.log("Added entity class " + clazz.getCanonicalName()
+					+ " to the spirit blacklist.");
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected static void setBlacklist(String[] blacklist) {
+		for(String entity : blacklist) {
+			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) EntityList.stringToClassMapping.get(entity);
+			if(clazz == null) {
+				EvilCraft.log("Could not find entity by name '" + entity
+						+ "' for spirit blacklist.", Level.ERROR);
+			} else {
+				addToBlacklist(clazz);
+			}
+		}
+		
+		// Hard-code some entities
+		addToBlacklist(VengeanceSpirit.class);
+    	addToBlacklist(EntityPlayer.class);
+    	addToBlacklist(EntityDragon.class);
+	}
+	
+	/**
+	 * The changed callback for the spirit blacklist.
+	 * @author rubensworks
+	 *
+	 */
+	public static class SpiritBlacklistChanged implements IChangedCallback {
+
+		private static boolean calledOnce = false;
+		
+		@Override
+		public void onChanged(Object value) {
+			if(calledOnce) {
+				setBlacklist((String[]) value);
+			}
+			calledOnce = true;
+		}
+		
+		@Override
+		public void onRegisteredPostInit(Object value) {
+			onChanged(value);
+		}
+		
+	}
     
 }

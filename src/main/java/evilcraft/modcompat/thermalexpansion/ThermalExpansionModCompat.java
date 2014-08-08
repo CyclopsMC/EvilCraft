@@ -13,6 +13,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import evilcraft.Configs;
 import evilcraft.EvilCraft;
+import evilcraft.IInitListener;
 import evilcraft.Recipes;
 import evilcraft.Reference;
 import evilcraft.api.recipes.CustomRecipe;
@@ -50,18 +51,10 @@ public class ThermalExpansionModCompat implements IModCompat {
     }
 
     @Override
-    public void preInit() {
-
-    }
-
-    @Override
-    public void init() {
-        registerThermalExpansionRecipes();
-    }
-
-    @Override
-    public void postInit() {
-
+    public void onInit(IInitListener.Step step) {
+    	if(step == IInitListener.Step.INIT) {
+    		registerThermalExpansionRecipes();
+    	}
     }
 
     private void registerThermalExpansionRecipes() {

@@ -5,6 +5,8 @@ import java.util.LinkedHashSet;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import evilcraft.EvilCraft;
+import evilcraft.IInitListener;
+import evilcraft.api.config.configurable.propertycallback.IChangedCallback;
 import evilcraft.commands.CommandConfig;
 
 /**
@@ -76,6 +78,9 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
 
                 EvilCraft.log("Registered "+eConfig.NAMEDID);
                 processedConfigs.add(eConfig);
+                
+                // Register as init listener.
+                EvilCraft.addInitListeners(new ConfigInitListener(eConfig));
             }
         }
         
@@ -119,6 +124,38 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
 	 */
 	public void setConfig(Configuration config) {
 		this.config = config;
+	}
+	
+	/**
+	 * Init listener for configs.
+	 * @author rubensworks
+	 *
+	 */
+	public static class ConfigInitListener implements IInitListener {
+
+		private ExtendedConfig<?> config;
+		
+		/**
+		 * Make a new instance.
+		 * @param config The config.
+		 */
+		public ConfigInitListener(ExtendedConfig<?> config) {
+			this.config = config;
+		}
+		
+		@Override
+		public void onInit(IInitListener.Step step) {
+			config.onInit(step);
+			if(step == IInitListener.Step.POSTINIT) {
+				for(ConfigProperty property : config.configProperties) {
+					IChangedCallback changedCallback = property.getCallback().getChangedCallback();
+					if(changedCallback != null) {
+						changedCallback.onRegisteredPostInit(property.getValue());
+					}
+				}
+			}
+		}
+		
 	}
     
 }

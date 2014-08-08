@@ -4,9 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import evilcraft.IInitListener;
 import evilcraft.modcompat.fmp.ForgeMultipartModCompat;
 import evilcraft.modcompat.forestry.ForestryModCompat;
 import evilcraft.modcompat.tconstruct.TConstructModCompat;
@@ -18,7 +16,7 @@ import evilcraft.modcompat.waila.WailaModCompat;
  * @author rubensworks
  *
  */
-public class ModCompatLoader {
+public class ModCompatLoader implements IInitListener {
 
     /**
      * The list of mod compatibilities.
@@ -32,35 +30,11 @@ public class ModCompatLoader {
         MODCOMPATS.add(new ForgeMultipartModCompat());
     }
     
-    /**
-     * This will be called in the {@link FMLPreInitializationEvent}.
-     */
-    public static void preInit() {
+    @Override
+    public void onInit(IInitListener.Step step) {
         for(IModCompat modCompat : MODCOMPATS) {
             if(isModLoaded(modCompat)) {
-                modCompat.preInit();
-            }
-        }
-    }
-    
-    /**
-     * This will be called in the {@link FMLInitializationEvent}.
-     */
-    public static void init() {
-        for(IModCompat modCompat : MODCOMPATS) {
-            if(isModLoaded(modCompat)) {
-                modCompat.init();
-            }
-        }
-    }
-    
-    /**
-     * This will be called in the {@link FMLPostInitializationEvent}.
-     */
-    public static void postInit() {
-        for(IModCompat modCompat : MODCOMPATS) {
-            if(isModLoaded(modCompat)) {
-                modCompat.postInit();
+                modCompat.onInit(step);
             }
         }
     }

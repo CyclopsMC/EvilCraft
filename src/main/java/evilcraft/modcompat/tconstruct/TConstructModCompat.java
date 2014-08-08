@@ -1,5 +1,6 @@
 package evilcraft.modcompat.tconstruct;
 
+import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.entities.tileentities.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import evilcraft.modcompat.IModCompat;
@@ -17,18 +18,10 @@ public class TConstructModCompat implements IModCompat {
     }
 
     @Override
-    public void preInit() {
-        
-    }
-
-    @Override
-    public void init() {
-        
-    }
-
-    @Override
-    public void postInit() {
-        BloodChestRepairActionRegistry.register(new TConstructToolRepairTickAction());
+    public void onInit(IInitListener.Step step) {
+    	if(step == IInitListener.Step.POSTINIT) {
+    		BloodChestRepairActionRegistry.register(new TConstructToolRepairTickAction());
+    	}
     }
 
 }

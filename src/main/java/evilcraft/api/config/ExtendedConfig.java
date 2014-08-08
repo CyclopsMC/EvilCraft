@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.logging.log4j.Level;
 
 import evilcraft.EvilCraft;
+import evilcraft.IInitListener;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.api.config.configurable.ConfigurableProperty;
 import evilcraft.api.config.configurable.propertycallback.IChangedCallback;
@@ -20,7 +21,8 @@ import evilcraft.api.config.configurable.propertycallback.IChangedCallback;
  * @param <C> Class of the extension of ExtendedConfig
  *
  */
-public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Comparable<ExtendedConfig<C>>{
+public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements
+	Comparable<ExtendedConfig<C>>, IInitListener{
     
 	private boolean enabled;
 
@@ -205,10 +207,15 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements Com
     }
     
     /**
-     * Overridable method that is called after the element of this config is registered.
+     * Overridable method that is immediately called after the element of this config is registered.
      */
     public void onRegistered() {
         
+    }
+    
+    @Override
+    public void onInit(IInitListener.Step step) {
+    	
     }
     
     @Override

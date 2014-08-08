@@ -1,8 +1,6 @@
 package evilcraft.modcompat;
 
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import evilcraft.IInitListener;
 
 /**
  * Interface for external mod compatibilities.
@@ -15,27 +13,12 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
  * @author rubensworks
  *
  */
-public interface IModCompat {
+public interface IModCompat extends IInitListener {
 
     /**
      * Get the unique mod ID.
      * @return The mod ID.
      */
     public String getModID();
-    
-    /**
-     * This will be called in the {@link FMLPreInitializationEvent}.
-     */
-    public void preInit();
-    
-    /**
-     * This will be called in the {@link FMLInitializationEvent}.
-     */
-    public void init();
-    
-    /**
-     * This will be called in the {@link FMLPostInitializationEvent}.
-     */
-    public void postInit();
     
 }

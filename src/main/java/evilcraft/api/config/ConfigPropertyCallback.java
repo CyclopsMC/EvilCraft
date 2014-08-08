@@ -42,4 +42,11 @@ public class ConfigPropertyCallback {
         	changedCallback.onChanged(newValue);
         }
     }
+
+	/**
+	 * @return the changedCallback
+	 */
+	protected IChangedCallback getChangedCallback() {
+		return changedCallback;
+	}
 }

@@ -41,9 +41,19 @@ public class BloodFluidConverter extends ImplicitFluidConverter {
 	 */
 	public static class BloodConvertersChanged implements IChangedCallback {
 
+		private static boolean calledOnce = false;
+		
 		@Override
 		public void onChanged(Object value) {
-			BloodFluidConverter.getInstance().registerFromConfig((String[]) value);
+			if(calledOnce) {
+				BloodFluidConverter.getInstance().registerFromConfig((String[]) value);
+			}
+			calledOnce = true;
+		}
+
+		@Override
+		public void onRegisteredPostInit(Object value) {
+			onChanged(value);
 		}
 		
 	}

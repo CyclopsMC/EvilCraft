@@ -15,4 +15,10 @@ public interface IChangedCallback {
 	 */
 	public void onChanged(Object value);
 	
+	/**
+	 * Called at post-init when this property is active.
+	 * @param value The property value.
+	 */
+	public void onRegisteredPostInit(Object value);
+	
 }

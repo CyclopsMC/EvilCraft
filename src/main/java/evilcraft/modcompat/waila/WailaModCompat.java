@@ -1,6 +1,7 @@
 package evilcraft.modcompat.waila;
 
 import cpw.mods.fml.common.event.FMLInterModComms;
+import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
 
@@ -17,18 +18,10 @@ public class WailaModCompat implements IModCompat {
     }
 
     @Override
-    public void preInit() {
-        
-    }
-
-    @Override
-    public void init() {
-        FMLInterModComms.sendMessage(getModID(), "register", Waila.class.getName() + ".callbackRegister");
-    }
-
-    @Override
-    public void postInit() {
-        
+    public void onInit(IInitListener.Step step) {
+    	if(step == IInitListener.Step.INIT) {
+    		FMLInterModComms.sendMessage(getModID(), "register", Waila.class.getName() + ".callbackRegister");
+    	}
     }
 
 }

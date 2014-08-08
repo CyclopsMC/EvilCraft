@@ -1,6 +1,10 @@
 package evilcraft;
 
+import java.util.Set;
+
 import org.apache.logging.log4j.Level;
+
+import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -17,7 +21,6 @@ import cpw.mods.fml.relauncher.Side;
 import evilcraft.api.Debug;
 import evilcraft.api.LoggerHelper;
 import evilcraft.api.config.ConfigHandler;
-import evilcraft.api.fluids.BloodFluidConverter;
 import evilcraft.commands.CommandEvilCraft;
 import evilcraft.gui.GuiHandler;
 import evilcraft.gui.client.GuiMainMenuEvilifier;
@@ -60,6 +63,11 @@ public class EvilCraft {
      */
     public static FMLEventChannel channel;
     
+    private static Set<IInitListener> initListeners = Sets.newHashSet();
+    static {
+    	addInitListeners(new ModCompatLoader());
+    }
+    
     /**
      * The pre-initialization, will register required configs.
      * @param event The Forge event required for this.
@@ -91,8 +99,8 @@ public class EvilCraft {
         // Register events
         proxy.registerEventHooks();
         
-        // Mod compatibility loading.
-        ModCompatLoader.preInit();
+        // Call init listeners
+        callInitStepListeners(IInitListener.Step.PREINIT);
         
         // Start fetching the version info
         VersionStats.load();
@@ -128,8 +136,8 @@ public class EvilCraft {
         // Register recipes
         Recipes.registerRecipes();
         
-        // Mod compatibility loading.
-        ModCompatLoader.init();
+        // Call init listeners
+        callInitStepListeners(IInitListener.Step.INIT);
     }
     
     /**
@@ -140,11 +148,8 @@ public class EvilCraft {
     public void postInit(FMLPostInitializationEvent event) {
         LoggerHelper.log(Level.INFO, "postInit()");
         
-        // Mod compatibility loading.
-        ModCompatLoader.postInit();
-        
-        // Load blood converters
-        new BloodFluidConverter.BloodConvertersChanged().onChanged(GeneralConfig.bloodConverters);
+        // Call init listeners
+        callInitStepListeners(IInitListener.Step.POSTINIT);
     }
     
     /**
@@ -171,6 +176,34 @@ public class EvilCraft {
      */
     public static void log(String message, Level level) {
         LoggerHelper.log(level, message);
+    }
+    
+    /**
+     * Register a new init listener.
+     * @param initListener The init listener.
+     */
+    public static void addInitListeners(IInitListener initListener) {
+    	synchronized(initListeners) {
+    		initListeners.add(initListener);
+    	}
+    }
+    
+    /**
+     * Get the init-listeners on a thread-safe way;
+     * @return A copy of the init listeners list.
+     */
+    private static Set<IInitListener> getSafeInitListeners() {
+    	Set<IInitListener> clonedInitListeners;
+        synchronized(initListeners) {
+        	clonedInitListeners = Sets.newHashSet(initListeners);
+        }
+        return clonedInitListeners;
+    }
+    
+    private static void callInitStepListeners(IInitListener.Step step) {
+    	for(IInitListener initListener : getSafeInitListeners()) {
+        	initListener.onInit(step);
+        }
     }
     
 }

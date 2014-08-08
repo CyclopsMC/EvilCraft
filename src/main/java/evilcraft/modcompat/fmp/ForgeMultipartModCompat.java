@@ -1,5 +1,6 @@
 package evilcraft.modcompat.fmp;
 
+import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
 
@@ -16,18 +17,10 @@ public class ForgeMultipartModCompat implements IModCompat {
     }
 
     @Override
-    public void preInit() {
-        
-    }
-
-    @Override
-    public void init() {
-        ForgeMultipart.actualRegisterBlocks();
-    }
-
-    @Override
-    public void postInit() {
-        
+    public void onInit(IInitListener.Step step) {
+        if(step == IInitListener.Step.INIT) {
+        	ForgeMultipart.actualRegisterBlocks();
+        }
     }
 
 }

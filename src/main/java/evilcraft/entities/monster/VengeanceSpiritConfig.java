@@ -7,6 +7,7 @@ import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.entities.monster.VengeanceSpirit.SpiritBlacklistChanged;
 import evilcraft.render.entity.RenderVengeanceSpirit;
 
 /**
@@ -26,6 +27,16 @@ public class VengeanceSpiritConfig extends MobConfig {
      */
     @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Vengeance Spirit be enabled?", requiresMcRestart = true)
     public static boolean isEnabled = true;    
+    
+    /**
+     * The blacklisted entity spirits, by entity name.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.MOB,
+    		comment = "The blacklisted entity spirits, by entity name.",
+    		changedCallback = SpiritBlacklistChanged.class)
+    public static String[] entityBlacklist = new String[]{
+    	"werewolf",
+    };
 
     /**
      * Make a new instance.
