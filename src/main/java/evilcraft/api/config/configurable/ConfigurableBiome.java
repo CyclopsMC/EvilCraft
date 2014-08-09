@@ -1,6 +1,7 @@
 package evilcraft.api.config.configurable;
 
 import net.minecraft.world.biome.BiomeGenBase;
+import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.BiomeConfig;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
@@ -26,7 +27,7 @@ public class ConfigurableBiome extends BiomeGenBase implements Configurable {
     protected ConfigurableBiome(BiomeConfig eConfig) {
         super(eConfig.ID);
         this.setConfig(eConfig);
-        this.setBiomeName(getTranslatedName());
+        this.setBiomeName(getLocalizedName());
         
     }
     
@@ -42,11 +43,11 @@ public class ConfigurableBiome extends BiomeGenBase implements Configurable {
     }
     
     /**
-     * Get translated name of this biome.
+     * Get localized name of this biome.
      * @return Localized name.
      */
-    public String getTranslatedName() {
-        return eConfig.NAMEDID;
+    public String getLocalizedName() {
+        return L10NHelpers.localize("biomes." + eConfig.NAMEDID);
     }
     
     @Override

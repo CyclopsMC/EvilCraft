@@ -21,7 +21,6 @@ public class BiomeDegradedConfig extends BiomeConfig {
     public BiomeDegradedConfig() {
         super(
             Reference.BIOME_DEGRADED,
-            "Degraded",
             "biomeDegraded",
             null,
             BiomeDegraded.class

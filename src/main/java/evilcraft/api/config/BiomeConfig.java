@@ -19,12 +19,11 @@ public abstract class BiomeConfig extends ExtendedConfig<BiomeConfig>{
     /**
      * Make a new instance.
      * @param defaultId The default ID for the configurable.
-     * @param name The name for the configurable.
      * @param namedId The unique name ID for the configurable.
      * @param comment The comment to add in the config file for this configurable.
      * @param element The class of this configurable.
      */
-    public BiomeConfig(int defaultId, String name, String namedId,
+    public BiomeConfig(int defaultId, String namedId,
             String comment, Class<? extends BiomeGenBase> element) {
         super(defaultId > 0, namedId, comment, element);
         this.ID = defaultId;
