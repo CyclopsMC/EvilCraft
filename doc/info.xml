@@ -6,7 +6,7 @@
 	<download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
 	<download for="1.7.10" version="0.4.2b">http://bit.ly/1pozwYk</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
-	
+
 	<description>
 		EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding.
  		This mod basically adds various evil things to Minecraft, from everything such as little flying
@@ -18,13 +18,13 @@
  		the last 1.6.4 supported update because maintaining a mod for two Minecraft versions is very
 		time-consuming. But of course, we will keep fixing bugs in that version as they are discovered.
  	</additionalInformation>
- 	
+
  	<featuresRemark>NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATION FILE</featuresRemark>
- 	
+
  	<additionalInformation>
  		NOTE2: In [b]MC 1.6[/b] there is a [b]Blood conflict[/b] if you use [b]Tinkers' Construct[/b], you can solve it by setting the following line in [b]forge.cfg[/b] to false: "B:forceDuplicateFluidBlockCrash=false".
  	</additionalInformation>
- 	
+
  	<elements>
  	<element name="Spotlights">
  		<element name="General">
@@ -45,10 +45,10 @@
  	</element>
 	<element name="Machines">
 		<element name="Blood Chest" img="bFE65ei" recipe="b3kMa0n">
-            Ever had to repair that precious enchanted diamond sword, only to find out 
-            that your limited supply of diamonds has run out? Then you may find the [u]blood 
-            chest[/u] a very handy addition ! 
-            Just put in whatever tool you want and the blood chest will gradually repair 
+            Ever had to repair that precious enchanted diamond sword, only to find out
+            that your limited supply of diamonds has run out? Then you may find the [u]blood
+            chest[/u] a very handy addition !
+            Just put in whatever tool you want and the blood chest will gradually repair
             it at only the expense of some [u]blood[/u]. To fill the blood chest, just insert
             any item containing blood into the very left slot and watch how the internal
             blood buffer fills up. But beware ... this chest might add some nasty effects
@@ -86,7 +86,7 @@
 		    fluid pipes. You just right click with your cursed tool, and for each bucket that is inside
 		    the Purifier, one level of bad enchantment will go off the tool. Right click with an empty
 		    hand to get back your tool.
-		    
+
 		    But hold on, that is not all! The Purifier can also be used to remove random enchantments
 		    from tools and move them to books. Since regular books are not 'spongy' enough, you will
 		    have to infuse a book with blood to make a [u]Blook[/u], you can insert that inside the
@@ -130,8 +130,8 @@
 		</element>
 		<element name="Dark Temple" img="iQm7o6j">
 			When exploring, you might come across some weird-looking structures called [u]dark temples[/u].
-            You can find them at higher places (above Y-level 90) and they should be easy 
-            to spot because of the brown beacon beam that is emitted by the environmental accumulator 
+            You can find them at higher places (above Y-level 90) and they should be easy
+            to spot because of the brown beacon beam that is emitted by the environmental accumulator
             at the centre of the structure.
             Also note that dark temples are the only places where you can find [u]environmental accumulators[/u].
             [img]ef99MJV[/img]
@@ -172,7 +172,7 @@
 			configuration file).
 		</element>
 		<element name="Hardened Blood" img="rXYjG07">
-			When you place liquid [u]blood[/u] into the world when no rain is falling on it, 
+			When you place liquid [u]blood[/u] into the world when no rain is falling on it,
 			it will	change into [u]hardened blood[/u] after a small time.
 			These blocks will drop [u]hardened blood shards[/u], when a flint and steel
 			is used on them and will turn back into liquid blood when rain falls on them.
@@ -200,7 +200,7 @@
 			Who said only zombies can come back from the dead? Just put a dead bush, found
 			in deserts into a [u]blood infuser[/u] and you will get an [u]undead sapling[/u],
 			which will grow [u]undead trees[/u]. These trees look just like any other tree,
-			except that they have [u]undead wood[/u] for their trunk and branches and that 
+			except that they have [u]undead wood[/u] for their trunk and branches and that
 			the [u]undead leaves[/u] spawned by this tree drip with blood.
 		</element>
 	</element>
@@ -213,7 +213,7 @@
 			can be used as infinite source and drain for blood.
 			When you shift-right click a blood container, you will activate auto-refill mode,
 			which will automatically refill an item you hold in your hand with blood, given
-			that item can contain blood. 
+			that item can contain blood.
 			This can prove useful when using the [u]blood pearl of teleportation[/u].
 			If you activate multiple blood containers, the rate at which the held item is
 			refilled will be proportional to the number of activated containers.
@@ -239,8 +239,8 @@
 			the [u]blood infuser[/u] and [u]blood chest[/u].
 		</element>
 		<element name="Blood Pearl of Teleportation" recipe="3CDA3vt">
-			The [u]blood pearl of teleportation[/u] gives you the powers of an enderman! 
-			Or at least... sort of. This pearl actually has the same functionality as an 
+			The [u]blood pearl of teleportation[/u] gives you the powers of an enderman!
+			Or at least... sort of. This pearl actually has the same functionality as an
 			ender pearl: when thrown it will teleport you to blood the pearl has fallen on,
 			except that this pearl will not be used up when thrown, instead it uses up a small
 			amount of blood stored inside of it when thrown.
@@ -262,7 +262,7 @@
 			maybe just a little more than this basic broom...
 		</element>
 		<element name="Dark Gem" recipe="gJdVlaA">
-			Dark gems are dropped when mining a [u]dark ore[/u], which is added to the 
+			Dark gems are dropped when mining a [u]dark ore[/u], which is added to the
 			world generation just like any ore and can be crafted into storage blocks, called
 			[u]dark blocks[/u].
 		</element>
@@ -324,7 +324,7 @@
 		<element name="Poison Sac">
 			It looks like an ink sac and it's filled with poison!
 			These items can only be obtained by killing a [u]Poisonous Libelle[/u].
-			This item acts as poisoned item besides poisoned potatoes and can thus be 
+			This item acts as poisoned item besides poisoned potatoes and can thus be
 			used in recipes that require poisoned items.
 		</element>
 		<element name="Potentia Sphere" recipe="dzmhUQu">
@@ -346,7 +346,7 @@
 			The only way to fill an empty weather container is by throwing it in the
 			beam of an [u]environmental accumulator[/u], after which the current weather
 			(one of lightning, rain or sunshine) will be bottled into the weather container.
-			Also note that some items such as lightning pearls require specific 
+			Also note that some items such as lightning pearls require specific
 			weather containers in order to be crafted.
 		</element>
 		<element name="Werewolf Bone">
@@ -368,7 +368,7 @@
 		<element name="Werewolf" img="iRZPHUd">
 			Beware of these beasts, if you're not well-prepared they might just single-hit you
 			(literally)!
-			You shouldn't be able to encounter these at daytime, but look out at night, 
+			You shouldn't be able to encounter these at daytime, but look out at night,
 			especially when there is a [u]werewolf villager[/u] standing near you...
 		</element>
 		<element name="Werewolf Villager" img="JINHxDi">
@@ -404,7 +404,7 @@
 		pretty ... evil ... But don't worry: you can disable every single enchant in
 		the configuration file.
 		</element>
-		
+
 		<element name="Breaking (I,II and III)">
 		This is a very evil enchant, which does the exact opposite of the
 		unbreaking enchant: it has a random chance of increasing the damage an
@@ -412,26 +412,26 @@
 		(NOTE: again, if you find this an annoying feature, you can simply disable
 		it in the configuration file)
 		</element>
-		
+
 		<element name="Life Stealing (I, II and III)">
 		As its name implies, this item allows you to steal life from a mob and add it
 		to your own. The more damage you deal with a hit and the higher the level
 		of the enchant, the higher the amount of life added to the player.
 		</element>
-		
+
 		<element name="Poison Tip (I, II, and III)">
 		Just as the flame enchant allows you to put mobs on fire, this enchant allows
 		you to poison mobs. This enchant can be put on any weapon (including bows) and
 		the poison effect caused by the enchant will last longer with an increasing level
 		of the poison tip enchant.
 		</element>
-		
+
 		<element name="Unusing (I)">
 		Have you ever broken your favourite enchanted pickaxe by accident because you didn't
 		pay notice to the amount of damage it had taken?
 		The unusing enchant tries to solve exactly this problem!
 		When an item is enchanted with the unusing enchant, you will not be able to use
-		the item when it is about to break and you will only be able to use that item again when 
+		the item when it is about to break and you will only be able to use that item again when
 		it has been (partially) repaired.
 		</element>
 	</element>
@@ -465,37 +465,37 @@
 			This mod is able to communicate with several other mods.
 			NOTE: these mods are [b]NOT required[/b], they will only be used when they are available.
 		</element>
-	
+
 		<element name="Thermal Expansion">
 			[b]Minecraft 1.6.4 only:[/b]
 			This mod is compatible with various Thermal Expansion machines, like for example
 			the use of the Fluid Transposer that will work exactly the same as the Blood Infuser
 			but it will use 1.5X the amount of Blood instead.
 		</element>
-		
+
 		<element name="BuildCraft">
 			We also provide some facades when BuildCraft is installed.
 		</element>
-		
+
 		<element name="NEI">
 			Obviously all of the recipes are also available in the NEI plugin.
 			Blood Infuser and Environmental Accumulator recipes are also visible.
 		</element>
-		
+
 		<element name="Waila">
 			Machines status and minor block display improvements.
 		</element>
-		
+
 		<element name="Forge Multipart">
 			[b]Minecraft 1.6.4 only:[/b] Regular blocks have microblock support.
 		</element>
-		
+
 		<element name="Forestry">
 			Several items can be placed in the Forestry backpacks. Undead logs and leaves can
 			be placed in the squeezer to recieve blood and sometimes even a Hardened Blood Shard.
 			Undead Sapplings also have Multifarm support.
 		</element>
-		
+
 		<element name="Tinkers' Construct">
 			All Tinkers' Construct tools can be repaired in the Blood Chest.
 			This behavior can be disabled in the config file.
