@@ -36,7 +36,10 @@ minecraft {
     replace "@BUILD_NUMBER@", project.buildnumber
 }
 
-version = "${config.minecraft_version}-${config.mod_version}-${buildnumber}"
+if (System.getenv().RELEASE)
+    version = "${config.minecraft_version}-${config.mod_version}"
+else
+    version = "${config.minecraft_version}-${config.mod_version}-${buildnumber}"
 
 processResources {
     // replace stuff in mcmod.info, nothing else

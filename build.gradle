@@ -38,6 +38,8 @@ def loadProperties() {
         project.buildnumber = System.getenv().BUILD_NUMBER
     if (System.getenv().CI)
         project.buildnumber += "-DEV"
+    if (System.getenv().RELEASE)
+        project.buildnumber = "RELEASE"
     logger.lifecycle "BUILDING VERSION: " + project.buildnumber
 }
 
