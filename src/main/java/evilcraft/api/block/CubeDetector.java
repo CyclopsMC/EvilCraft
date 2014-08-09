@@ -68,6 +68,8 @@ public class CubeDetector {
 	}
 
 	/**
+	 * The size is the inner size -1 on each dimension, so 2x2x2 is one block in the middle open,
+	 * with edge blocks on the side forming a 3x3x3.
 	 * @param minimumSize the minimumSize to set
 	 * @return this instance.
 	 */
