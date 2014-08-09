@@ -8,9 +8,11 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -270,6 +272,23 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
      */
     public String getGuiTexture(String suffix) {
         return Reference.TEXTURE_PATH_GUI + eConfig.NAMEDID + "_gui" + suffix + ".png";
+    }
+    
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
+    	Item item = getItem(world, x, y, z);
+
+        if (item == null) {
+            return null;
+        }
+
+        ItemStack itemStack = new ItemStack(item, 1, getDamageValue(world, x, y, z));
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile instanceof EvilCraftTileEntity && isKeepNBTOnDrop()) {
+            EvilCraftTileEntity ecTile = ((EvilCraftTileEntity) tile);
+            itemStack.setTagCompound(ecTile.getNBTTagCompound());
+        }
+        return itemStack;
     }
 
 }
