@@ -39,7 +39,10 @@ public class DarkGemCrushed extends ConfigurableItem implements IFuelHandler {
 
 	@Override
 	public int getBurnTime(ItemStack fuel) {
-		return 16000;
+		if(this == fuel.getItem()) {
+			return 16000;
+		}
+		return 0;
 	}
 
 }
