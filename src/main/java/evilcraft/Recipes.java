@@ -553,8 +553,8 @@ public class Recipes {
             // Add the different weather container recipes
             if (Configs.isEnabled(WeatherContainerConfig.class)) {
 	            ItemStack emptyContainer = WeatherContainer.createItemStack(WeatherContainerTypes.EMPTY, 1);
-	            WeatherType[] inputs = {WeatherType.CLEAR, WeatherType.RAIN, WeatherType.LIGHTNING};
-	            WeatherType[] outputs = {WeatherType.RAIN, WeatherType.CLEAR, WeatherType.RAIN};
+	            WeatherType[] inputs = {WeatherType.CLEAR, WeatherType.LIGHTNING, WeatherType.RAIN};
+	            WeatherType[] outputs = {WeatherType.RAIN, WeatherType.RAIN, WeatherType.CLEAR};
 	            
 	            for (int i=0; i < inputs.length; ++i) {
 	                recipe = new EnvironmentalAccumulatorRecipe(

@@ -267,9 +267,13 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	            entity.setEntityItemStack(result.getItemResult().copy());
 	            
 	            // Change the weather to the resulting weather
-	            WeatherType weatherResult = result.getWeatherResult();
-	            if (weatherResult != null)
-	                weatherResult.activate(worldObj);
+	            WeatherType weatherSource = recipe.getWeatherType();
+                if (weatherSource != null)
+                    weatherSource.deactivate(worldObj);
+
+                WeatherType weatherResult = result.getWeatherResult();
+                if (weatherResult != null)
+                    weatherResult.activate(worldObj);
 	        }
 	        
     	    // Drop the items on the ground
