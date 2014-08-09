@@ -88,13 +88,21 @@ public class Location implements ILocation {
 			return getDimensions() - o.getDimensions();
 		}
 		int i = 0;
+		boolean validBuffer = false;
+		int buffer = Integer.MAX_VALUE; // This is used to store the minimum compared value > 0
 		while(i < getDimensions()) {
 			if(getCoordinates()[i] != o.getCoordinates()[i]) {
-				return getCoordinates()[i] - o.getCoordinates()[i];
+				int comp =  getCoordinates()[i] - o.getCoordinates()[i];
+				if(comp < 0) {
+					return comp;
+				} else {
+					validBuffer = true;
+					buffer = Math.min(buffer, comp);
+				}
 			}
 			i++;
 		}
-		return 0;
+		return validBuffer ? 0 : buffer;
 	}
 
 	@Override
