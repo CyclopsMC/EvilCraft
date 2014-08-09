@@ -2,21 +2,23 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.6.4" version="0.4.1b">http://bit.ly/1lJiaBX</download>
-	<download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
-	<download for="1.7.10" version="0.4.2b">http://bit.ly/1pozwYk</download>
+	<download for="1.7.10" version="0.5.0b">http://bit.ly/1uaaFsH</download>
+    <download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
+    <download for="1.6.4" version="0.4.1b">http://bit.ly/1lJiaBX</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
 
 	<description>
 		EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding.
  		This mod basically adds various evil things to Minecraft, from everything such as little flying
- 		monster that will follow you around and try to poison you, to bottles that allow you to store and
+ 		monsters that will follow you around and try to poison you, to bottles that allow you to store and
  		control the weather.
  	</description>
  	<additionalInformation>
- 		With our latest release, we provide support for both Minecraft 1.6.4 and 1.7.X. This will however be
- 		the last 1.6.4 supported update because maintaining a mod for two Minecraft versions is very
-		time-consuming. But of course, we will keep fixing bugs in that version as they are discovered.
+        As of 0.5.0 we provide full support for Minecraft version 1.7.10 only. Should there however be some
+        game-breaking bugs or things we can fix that aren't too time-consuming, we might provide a bug-fix
+        release for older minecraft versions.New features will only be supported for the 1.7.10 though.
+        You are of course more than welcome to download an older version if you wish to play this mod with an older
+        Minecraft version.
  	</additionalInformation>
 
  	<featuresRemark>NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATION FILE</featuresRemark>
@@ -66,6 +68,13 @@
             The blood infuser is also the only way to gain [u]dark power gems[/u] and [u]undead saplings[/u].
             [img]Wdivmxk[/img]
 		</element>
+        <element name="Box of Eternal Closure" img="9QDMDcJ" recipe="K2ZxZU5">
+            Simply put, this box allows you to capture [u]Vengeance Spirits[/u] using a [u]Vengeance Focus[/u].
+            Once you have filled this box, you can go ahead and use it inside a [u]Spirit Furnace[/u], which will
+            then work as a basic mob drop generator.
+            These boxes can be crafted aswel as found in dungeon chests. Note however, when crafting or finding one,
+            they might already contain something...
+        </element>
         <element name="Environmental Accumulator" img="J5FLxFO">
             The [u]environmental accumulator[/u] allows you to fill [u]weather containers[/u] with the weather that is currently
             active. You do this by throwing an [u]empty weather container[/u] into the brown beam emitted by the accumulator.
@@ -97,6 +106,18 @@
 		    [u]blood[/u], the process will begin.
             [img]I3fcQc4[/img]
 		</element>
+        <element name="Spirit Furnace" img="UMk389B" recipe="OAsd6wJ">
+            EvilCraft's first multi-block structure! The Spirit Furnace works like a basic mob drop generator;
+            As long as you supply it with [u]blood[/u] and put a [u]Box of Eternal Closure[/u] that contains a
+            [u]Vengeance Spirit[/u] in its left inventory slot, it will cook that captured mob over and over and collect
+            the drops in the four inventory slot to the right.
+            In order to build a [u]Spirit Furnace[/u], you simply need to build a rectangle shape of [u]Dark Blood Bricks[/u]
+            that is hollow inside, at least of size 1x1x1 INSIDE (this means 3x3x3 on the OUTSIDE) and has EXACTLY one
+            [u]Spirit Furnace[/u] (more will NOT work) block inside of one of its walls.
+            Note that depending on the size of the spirit you want to cook, you might have to increase the size of this multi-block
+            so the mob actually has to the space to spawn inside of it.
+            [img]iSY49qr[/img]
+        </element>
 	</element>
 	<element name="Fluids">
 		<element name="Blood" img="vuVQhag">
@@ -120,8 +141,8 @@
 		<element name="Dark Ore" img="Vmh5tj9">
 			For now, EvilCraft adds only one new ore to the world generation, called [u]dark ore[/u].
 			This ore spawns from Y-levels 6 to 66 (see what we did there) and drops [u]dark
-			gems[/u] upon breaking. You will at least need an iron tier pickaxe to mine it
-			and fortune does have an effect on the drop rate.
+			gems[/u] and [u]crushed dark gems[/u] upon breaking. You will at least need an iron tier
+            pickaxe to mine it and fortune does have an effect on the drop rate of the crushed gems.
 		</element>
 		<element name="Silverfish Spawn">
 			Silverfish spawn blocks can now spawn in any biome!
@@ -163,6 +184,16 @@
 			They're pretty dark and have connected textures by default, so they
 			might be useful for building.
 		</element>
+        <element name="Dark Brick" recipe="lhZdnHb">
+            Just like vanilla stone bricks, you can craft this block by putting four [u]Dark Blocks[/u]
+            inside a crafting table. Besides looking like a darker version of stone bricks, this
+            block does nothing special on its own.
+        </element>
+        <element name="Dark Blood Brick" recipe="HMd8Jsl">
+            In order to craft this block, you have to put a [u]Dark Brick[/u] inside a [u]Blood Infuser[/u] or,
+            if you have Thermal Expansion installed, you can also use a Fluid Transposer.
+            These blocks are the building blocks that are used to make [u]Spirit Furnaces[/u].
+        </element>
 		<element name="Excrement Pile" img="BUivWbp">
 			The whole digestion cycle in Minecraft has finally been completed !
 			Animals will drop excrement piles, which act as bonemeal after a while when placed on the ground.
@@ -264,6 +295,23 @@
 			we've got some great plans for the future which might allow you to craft
 			maybe just a little more than this basic broom...
 		</element>
+        <element name="Burning GemStone" recipe="5vQbABS">
+            If you ever have to deal with [u]Vengeance Spirit[/u], you might want to craft this
+            little item. To craft it, simply put a [u]Dark Block[/u] inside a furnace.
+            But what does it actually do? Well, whenever a [u]Vengeance Spirit[/u] attacks you,
+            you tend to take damage. However, if you have this item on your hotbar, that damage
+            will get converted into hunger! Nifty, isn't it?
+            Just remember that you might get hungry very fast when fighting a lot of
+            [u]Vengeance Spirits[/u], so be sure to pack a stack of your favourite food
+            (tasty chicken omnomnom)!
+        </element>
+        <element name="Crushed Dark Gem">
+            Crushed Dark Gems can be found as a drop from [u]Dark Ores[/u] or they can be made by
+            putting [u]Dark Gems/Ores[/u] inside a Thermal Expansion Pulverizer.
+            You will need these items to craft various [u]Vengeance items[/u], as well as the
+            [u]Box of Eternal Closure[/u]. Next to that it can also be used as fuel inside a furnace,
+            where it can burn for quite a while.
+        </element>
 		<element name="Dark Gem" recipe="gJdVlaA">
 			Dark gems are dropped when mining a [u]dark ore[/u], which is added to the
 			world generation just like any ore and can be crafted into storage blocks, called
@@ -341,6 +389,27 @@
 			to the side of the block it has fallen on.
 			Might be useful to light up tnt from a distance...
 		</element> -->
+        <element name="Vengeance Focus" img="e15RghZ" recipe="ljDRXJS">
+            It's purple, round and has a hole in the middle. Oh yeah, you can also use this nifty item
+            to temporarely paralyse [u]Vengeance Spirits[/u] and force them into a [u]Box of Eternal Closure[/u].
+            To do that simply point the focus at a [u]Vengeance Spirit[/u] while holding right-click. If there is a
+            [u]Box of Eternal Closure[/u] nearby the spirit should be weakened by the beam and after a couple of
+            seconds it should be sucked into the box.
+        </element>
+        <element name="Vengeance Pickaxe" img="qMkwD6m" recipe="DjyqbYy">
+            Don't let this pickaxe fool you, it has an awesome fortune X (!) enchant, but that
+            doesn't mean you can use without consequences. Without spoiling too much: make sure
+            you're armored up when using this tool, because you might attract quite a horde of
+            certain mobs when mining. If armor doesn't do the job, maybe consider putting a
+            [u]Burning Gemstone[/u] into your inventory, just to be on the safe side...
+        </element>
+        <element name="Vengeance Ring" img="kndPmzD" recipe="c9rf40j">
+            The vengeance ring allows you to step into the part of the overworld where [u]Vengeance Spirits[/u]
+            live. If you activate this ring, you will get a few boosts and all [u]Vengeance Spirits[/u] around you
+            will become visible. It's also worth mentioning that [u]Vengeance Spirits[/u] don't like unexpected
+            visitors, so don't expect a warm welcome though...
+            Note that if you have Baubles installed, you can also equip this item into the ring slot.
+        </element>
 		<element name="Weather Container" img="gc6YNru" recipe="xsNlsee">
 			Control the weather with weather containers and the environmental accumulator!
 			When a weather container is filled with a specific weather type, you can change
@@ -353,18 +422,19 @@
 			weather containers in order to be crafted.
 		</element>
 		<element name="Werewolf Bone">
-			An item dropped by [u]werewolfs[/u].
-			It might have some fun uses in the near future, but for now it has completely
-			no use.
+			An item dropped by [u]werewolves[/u].
+			It might have some fun uses in the near future, but for now it can at least be used
+            to make 15 bonemeal by putting it in a crafting grid.
 		</element>
 		<element name="Werewolf Flesh">
-			[u]Werewolf flesh[/u] is a rare drop which can be obtained from [u]werewolfs[/u].
+			[u]Werewolf flesh[/u] is a rare drop which can be obtained from [u]werewolves[/u].
 			Don't eat it when it is day, you'll just get a stomach ache, at night however...
 			this flesh will start to glow and might provide some rather useful effects when eaten.
 		</element>
 		<element name="Werewolf Fur">
 			Another item dropped by [u]werewolves[/u].
-			This item has no real other purpose for now, though it might have in the near future.
+			This item has no real other purpose for now, except that it can be converted into
+            5 leather by putting it in a crafting grid.
 		</element>
 	</element>
 	<element name="Entities">
@@ -399,6 +469,20 @@
 			monster egg blocks in the nether, which are added to the nether world generation.
 			Oh yeah, did I also mention they can set you on fire?
 		</element>
+        <element name="Vengeance Spirits" img="yKuQfga">
+            Like their name suggsests, these mobs for the very essence of what was once a living entity.
+            When a mob dies, its spirit is released as a [u]Vengeance Spirit[/u] into the world and
+            will keep on roaming the world for a short amount of time before disappearing. There are even
+            some nasty degraded spirits, that are more powerfull than the average spirit. Under normal
+            conditions these spirits should not bother you and you should not even be able to see them.
+            Be carefull when using one of the Vengeance tools such as the [u]Vengeance Ring[/u] or
+            [u]Vengeance Pickaxe[/u], because these spirits will come after you! If you need extra protection
+            against these creatures, consider crafting a [u]Burning Gemstone[/u].
+            So is there any use for them besides annoying you? I'm glad you asked! You can actually capture
+            these mobs inside a [u]Box of Eternal Closure[/u] using a [u]Vengeance Focus[/u]. Once captured,
+            you can put the box inside a [u]Spirit Furnace[/u], which will then function as a basic mob drop
+            generator, giving you those precious mob drops you so desire.
+        </element>
 	</element>
 	<element name="Enchantments">
 		<element name="General">
@@ -470,7 +554,6 @@
 		</element>
 
 		<element name="Thermal Expansion">
-			[b]Minecraft 1.6.4 only:[/b]
 			This mod is compatible with various Thermal Expansion machines, like for example
 			the use of the Fluid Transposer that will work exactly the same as the Blood Infuser
 			but it will use 1.5X the amount of Blood instead.
@@ -490,7 +573,7 @@
 		</element>
 
 		<element name="Forge Multipart">
-			[b]Minecraft 1.6.4 only:[/b] Regular blocks have microblock support.
+			Regular blocks have microblock support.
 		</element>
 
 		<element name="Forestry">
@@ -503,11 +586,22 @@
 			All Tinkers' Construct tools can be repaired in the Blood Chest.
 			This behavior can be disabled in the config file.
 		</element>
+
+        <element name="Version Checker">
+            EvilCraft versions will be checked and can be updated through the Version Checker GUI.
+        </element>
+
+        <element name="Baubles">
+            The vengeance ring can be placed in a ring slot.
+        </element>
 	</element>
 	<element name="Configuration">
 		Almost every feature can be disabled and changed in the config file (config/evilcraft.cfg).
 		It is however mandatory that config files at server and client side are identical,
 		otherwise you might encounter ID conflicts.
+
+        If you want EvilCraft to work with Blood variants from other mods (like Tinkers' Construct and Blood Magic),
+        you can set this in the configuration file.
 	</element>
 	<element name="Modpacks">
 		Regarding modpacks, anyone is more than welcome to use this mod in any modpack, both public and private.
