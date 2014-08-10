@@ -7,10 +7,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
+import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.item.ItemBlockNBT;
+import evilcraft.entities.monster.VengeanceSpiritConfig;
 import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
 import evilcraft.proxies.ClientProxy;
 import evilcraft.render.item.RenderItemBoxOfEternalClosure;
@@ -65,4 +67,10 @@ public class BoxOfEternalClosureConfig extends BlockConfig {
         }
     }
     
+    @Override
+    public boolean isHardDisabled() {
+        // Hard dependency on vengeance spirits.
+        return !Configs.isEnabled(VengeanceSpiritConfig.class);
+    }
+
 }
