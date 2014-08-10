@@ -137,3 +137,6 @@ chat.bossDisplay.charge=Заряжание: %s
 # Death messages
 death.attack.dieWithoutAnyReason=%1$s умер без всякой видимой причины!
 death.attack.distorted=%1$s не смог справиться с большим количеством искажений.
+
+# Biomes
+biomes.biomeDegraded=Деградированный
