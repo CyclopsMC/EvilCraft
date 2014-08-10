@@ -56,8 +56,7 @@ public class LivingDeathEventHook {
     private void bloodStainedBlockEvent(LivingDeathEvent event) {
         if(event.source.damageType == DamageSource.fall.damageType
                 && Configs.isEnabled(BloodStainedBlockConfig.class)
-                && (!Configs.isEnabled(VengeanceSpiritConfig.class)
-                		|| event.entity instanceof VengeanceSpirit)) {
+                && !(event.entity instanceof VengeanceSpirit)) {
             int x = MathHelper.floor_double(event.entity.posX);
             int y = MathHelper.floor_double(event.entity.posY - event.entity.getYOffset() - 1);
             int z = MathHelper.floor_double(event.entity.posZ);
@@ -82,6 +81,7 @@ public class LivingDeathEventHook {
 			World world = event.entityLiving.worldObj;
 			if(!world.isRemote && !(world instanceof FakeWorld)
 					&& world.difficultySetting != EnumDifficulty.PEACEFUL
+					&& Configs.isEnabled(VengeanceSpiritConfig.class)
 					&& VengeanceSpirit.canSustain(event.entityLiving)) {
 				VengeanceSpirit spirit = new VengeanceSpirit(world);
 				spirit.setInnerEntity(event.entityLiving);
