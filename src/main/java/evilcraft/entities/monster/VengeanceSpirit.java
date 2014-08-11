@@ -2,6 +2,7 @@ package evilcraft.entities.monster;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import net.minecraft.client.Minecraft;
@@ -23,6 +24,7 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -555,6 +557,24 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 			}
 		}
 		return true;
+	}
+	
+	/**
+     * Check if we can spawn a new vengeance spirit in the given location.
+     * It will check if the amount of spirits in an area is below a certain threshold.
+	 * @param world The world.
+	 * @param x X coordinate.
+	 * @param y Y coordinate.
+	 * @param z Z Coordinate.
+     * @return If we are allowed to spawn a spirit.
+     */
+	@SuppressWarnings("unchecked")
+	public static boolean canSpawnNew(World world, double x, double y, double z) {
+		int area = VengeanceSpiritConfig.spawnLimitArea;
+		int threshold = VengeanceSpiritConfig.spawnLimit;
+		AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
+    	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABB(VengeanceSpirit.class, box);
+		return spirits.size() < threshold;
 	}
 
 	/**

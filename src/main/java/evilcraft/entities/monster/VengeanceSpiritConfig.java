@@ -26,7 +26,19 @@ public class VengeanceSpiritConfig extends MobConfig {
      * Should the Vengeance Spirit be enabled?
      */
     @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Vengeance Spirit be enabled?", requiresMcRestart = true)
-    public static boolean isEnabled = true;    
+    public static boolean isEnabled = true;
+    
+    /**
+     * The maximum amount of vengeance spirits naturally spawnable in the spawnLimitArea.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "The maximum amount of vengeance spirits naturally spawnable in the spawnLimitArea.")
+    public static int spawnLimit = 5;
+    
+    /**
+     * The area in which the spawn limit will be checked on each spawn attempt.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "The area in which the spawn limit will be checked on each spawn attempt.")
+    public static int spawnLimitArea = 5;
     
     /**
      * The blacklisted entity spirits, by entity name.

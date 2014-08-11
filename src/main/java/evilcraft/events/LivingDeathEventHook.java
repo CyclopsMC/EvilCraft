@@ -77,12 +77,16 @@ public class LivingDeathEventHook {
     }
     
 	private void vengeanceEvent(LivingDeathEvent event) {
+		double x = event.entityLiving.posX;
+		double y = event.entityLiving.posY;
+		double z = event.entityLiving.posZ;
 		if(event.entityLiving != null) {
 			World world = event.entityLiving.worldObj;
 			if(!world.isRemote && !(world instanceof FakeWorld)
 					&& world.difficultySetting != EnumDifficulty.PEACEFUL
 					&& Configs.isEnabled(VengeanceSpiritConfig.class)
-					&& VengeanceSpirit.canSustain(event.entityLiving)) {
+					&& VengeanceSpirit.canSustain(event.entityLiving)
+					&& VengeanceSpirit.canSpawnNew(world, x, y, z)) {
 				VengeanceSpirit spirit = new VengeanceSpirit(world);
 				spirit.setInnerEntity(event.entityLiving);
 				spirit.copyLocationAndAnglesFrom(event.entityLiving);
