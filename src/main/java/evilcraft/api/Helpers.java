@@ -25,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.server.management.UserListOpsEntry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -406,12 +407,14 @@ public class Helpers {
      * @return If this sender is an OP.
      */
     public static boolean isOp(ICommandSender sender) {
+    	if(!sender.getEntityWorld().isRemote) {
+    		return true;
+    	}
     	int op_level = 4;
-    	EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager()
-    			.func_152612_a(sender.getCommandSenderName());
-    	if (player.mcServer.getConfigurationManager().func_152596_g(player.getGameProfile())) {
-            UserListOpsEntry userlistopsentry = (UserListOpsEntry) player.mcServer
-            		.getConfigurationManager().func_152603_m()
+    	ServerConfigurationManager configManager = MinecraftServer.getServer().getConfigurationManager();
+    	EntityPlayerMP player = configManager.func_152612_a(sender.getCommandSenderName());
+    	if (configManager.func_152596_g(player.getGameProfile())) {
+            UserListOpsEntry userlistopsentry = (UserListOpsEntry) configManager.func_152603_m()
             		.func_152683_b(player.getGameProfile());
             return userlistopsentry != null ? userlistopsentry.func_152644_a() >= op_level
             		: player.mcServer.getOpPermissionLevel() >= op_level;
