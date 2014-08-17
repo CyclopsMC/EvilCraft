@@ -18,7 +18,7 @@ import evilcraft.worldgen.structure.DarkTempleStructure;
  */
 public class DarkTempleGenerator implements IWorldGenerator {
 
-	public DarkTempleData darkTempleData = null;
+	private DarkTempleData darkTempleData = null;
 	private static final String DARK_TEMPLE_MAP_NAME = "DarkTemple";
 
 	@Override

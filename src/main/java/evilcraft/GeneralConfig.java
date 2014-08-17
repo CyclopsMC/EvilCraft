@@ -71,13 +71,13 @@ public class GeneralConfig extends DummyConfig {
      * Rarity of a dark temple spawning.
      */
     @ConfigurableProperty(category = ElementTypeCategory.WORLDGENERATION, comment = "Chance of a dark temple spawning is equal to 1 divided by this number (the higher this number, the lower the spawn chance).")
-    public static int darkTempleRarity = 1000;
+    public static int darkTempleRarity = 100;
     
     /**
      * Minimum height at which a dark temple can spawn.
      */
     @ConfigurableProperty(category = ElementTypeCategory.WORLDGENERATION, comment = "Minimum block height at which a dark temple can spawn.")
-    public static int darkTempleMinHeight = 90;
+    public static int darkTempleMinHeight = 75;
     
     /**
      * Maximum height at which a dark temple can spawn.
@@ -89,7 +89,7 @@ public class GeneralConfig extends DummyConfig {
      * Minimal distance between two dark temples.
      */
     @ConfigurableProperty(category = ElementTypeCategory.WORLDGENERATION, comment = "Minimal distance between two dark temples.")
-    public static int darkTempleMinDistance = 200;
+    public static int darkTempleMinDistance = 300;
 
     /**
      * The amount of blocks per vein there should be.

@@ -12,7 +12,6 @@ import evilcraft.api.StairSlabMetadataHelper;
 import evilcraft.api.StairSlabMetadataHelper.SlabType;
 import evilcraft.api.StairSlabMetadataHelper.StoneBrickType;
 import evilcraft.blocks.EnvironmentalAccumulator;
-import evilcraft.worldgen.DarkTempleGenerator;
 import evilcraft.worldgen.nbt.DarkTempleData;
 
 /**
@@ -30,6 +29,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 
 	/**
 	 * Get the unique instance.
+	 * @param darkTempleData The data of the temple.
 	 * @return Unique instance.
 	 */
 	public static DarkTempleStructure getInstance(DarkTempleData darkTempleData) {
@@ -94,7 +94,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	
 	private boolean isValidSpot(World world, int x, int y, int z) {
 		Block block = world.getBlock(x, y, z);
-		return isSolidBlock(block) || block == Blocks.snow_layer || block == Blocks.grass;
+		return isSolidBlock(block) || block.isReplaceable(world, x, y, z);
 	}
 	
 	private boolean isSolidBlock(World world, int x, int y, int z) {
