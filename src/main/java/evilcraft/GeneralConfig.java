@@ -86,6 +86,12 @@ public class GeneralConfig extends DummyConfig {
     public static int darkTempleMaxHeight = 256;
     
     /**
+     * Minimal distance between two dark temples.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.WORLDGENERATION, comment = "Minimal distance between two dark temples.")
+    public static int darkTempleMinDistance = 200;
+
+    /**
      * The amount of blocks per vein there should be.
      */
     public static int silverfish_BlocksPerVein = 4;

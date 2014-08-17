@@ -12,6 +12,8 @@ import evilcraft.api.StairSlabMetadataHelper;
 import evilcraft.api.StairSlabMetadataHelper.SlabType;
 import evilcraft.api.StairSlabMetadataHelper.StoneBrickType;
 import evilcraft.blocks.EnvironmentalAccumulator;
+import evilcraft.worldgen.DarkTempleGenerator;
+import evilcraft.worldgen.nbt.DarkTempleData;
 
 /**
  * Structure which generates Dark Temples.
@@ -24,19 +26,22 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	
 	private static DarkTempleStructure _instance = null;
 	
+	private DarkTempleData darkTempleData;
+
 	/**
 	 * Get the unique instance.
 	 * @return Unique instance.
 	 */
-	public static DarkTempleStructure getInstance() {
+	public static DarkTempleStructure getInstance(DarkTempleData darkTempleData) {
 		if (_instance == null)
-			_instance = new DarkTempleStructure();
+			_instance = new DarkTempleStructure(darkTempleData);
 		
 		return _instance;
 	}
 	
-	private DarkTempleStructure() {
+	private DarkTempleStructure(DarkTempleData darkTempleData) {
 		super(6, 6);
+		this.darkTempleData = darkTempleData;
 	}
 	
 	/**
@@ -77,7 +82,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 		for (int xr = x - 3; xr <= x + 3; xr++) {
 			for (int yr = y; yr <= y + 9; yr++) {
 				for (int zr = z - 3; zr <= z + 3; zr++) {
-					if (!world.isAirBlock(xr, yr, zr)) {
+					if (isSolidBlock(world, xr, yr, zr)) {
 						return false;
 					}
 				}
@@ -89,7 +94,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	
 	private boolean isValidSpot(World world, int x, int y, int z) {
 		Block block = world.getBlock(x, y, z);
-		return isSolidBlock(block) || block == Blocks.snow_layer;
+		return isSolidBlock(block) || block == Blocks.snow_layer || block == Blocks.grass;
 	}
 	
 	private boolean isSolidBlock(World world, int x, int y, int z) {
@@ -232,7 +237,10 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 			// Check if we have room to place the structure here
 			if (canPlaceStructure(world, x, groundHeight+1, z)) {
 				super.generate(world, random, x, groundHeight, z);
-				// TODO: save position of the dark temple in NBT
+
+				// save position of the dark temple in NBT
+				darkTempleData.addStructureLocation(x, groundHeight, z);
+
 				return true;
 			}
 			
