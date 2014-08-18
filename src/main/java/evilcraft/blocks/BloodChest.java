@@ -8,10 +8,10 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainerGuiTankInfo;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.entities.tileentities.TileBloodChest;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.client.GuiBloodChest;
@@ -53,7 +53,7 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
         this.setRotatable(true);
         setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
         
-        if (Helpers.isClientSide())
+        if (MinecraftHelpers.isClientSide())
             setGUI(GuiBloodChest.class);
         
         setContainer(ContainerBloodChest.class);
@@ -91,7 +91,7 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
     public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
         TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
-        return (int)Math.ceil(Helpers.COMPARATOR_MULTIPLIER * output);
+        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
 
     @Override

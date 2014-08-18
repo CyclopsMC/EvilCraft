@@ -7,7 +7,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ChatComponentText;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.L10NHelpers;
+import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packets.FartPacket;
 

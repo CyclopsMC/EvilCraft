@@ -6,12 +6,12 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.blockcomponents.EntityDropParticleFXBlockComponent;
 import evilcraft.api.blockcomponents.IEntityDropParticleFXBlock;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockLeaves;
+import evilcraft.api.helpers.MinecraftHelpers;
 
 /**
  * Leaves for the Undead Tree.
@@ -50,7 +50,7 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
         setLightOpacity(1);
         setStepSound(soundTypeGrass);
         
-        if (Helpers.isClientSide()) {
+        if (MinecraftHelpers.isClientSide()) {
             entityDropParticleFXBlockComponent = new EntityDropParticleFXBlockComponent(1.0F, 0.0F, 0.0F);
             entityDropParticleFXBlockComponent.setOffset(0);
             entityDropParticleFXBlockComponent.setChance(50);

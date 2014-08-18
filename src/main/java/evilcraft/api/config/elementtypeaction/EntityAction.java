@@ -3,9 +3,9 @@ package evilcraft.api.config.elementtypeaction;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import evilcraft.EvilCraft;
-import evilcraft.api.Helpers;
-import evilcraft.api.Helpers.IDType;
 import evilcraft.api.config.EntityConfig;
+import evilcraft.api.helpers.Helpers;
+import evilcraft.api.helpers.Helpers.IDType;
 
 /**
  * The action used for {@link EntityConfig}.

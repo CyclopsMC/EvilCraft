@@ -12,11 +12,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
-import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
+import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.api.helpers.RenderHelpers;
 import evilcraft.api.weather.WeatherType;
 import evilcraft.entities.item.EntityWeatherContainer;
 
@@ -213,19 +213,19 @@ public class WeatherContainer extends ConfigurableItem {
         /**
          * Empty weather container.
          */
-        EMPTY(null, "empty", EnumChatFormatting.GRAY, Helpers.RGBToInt(125, 125, 125)),
+        EMPTY(null, "empty", EnumChatFormatting.GRAY, RenderHelpers.RGBToInt(125, 125, 125)),
         /**
          * Clear weather container.
          */
-        CLEAR(WeatherType.CLEAR, "clear", EnumChatFormatting.AQUA, Helpers.RGBToInt(30, 150, 230)),  
+        CLEAR(WeatherType.CLEAR, "clear", EnumChatFormatting.AQUA, RenderHelpers.RGBToInt(30, 150, 230)),  
         /**
          * Rain weather container.
          */
-        RAIN(WeatherType.RAIN, "rain", EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(0, 0, 255)),
+        RAIN(WeatherType.RAIN, "rain", EnumChatFormatting.DARK_BLUE, RenderHelpers.RGBToInt(0, 0, 255)),
         /**
          * Lightning weather container.
          */
-        LIGHTNING(WeatherType.LIGHTNING, "lightning", EnumChatFormatting.GOLD, Helpers.RGBToInt(255, 215, 0));
+        LIGHTNING(WeatherType.LIGHTNING, "lightning", EnumChatFormatting.GOLD, RenderHelpers.RGBToInt(255, 215, 0));
         
         private final WeatherType type;
         

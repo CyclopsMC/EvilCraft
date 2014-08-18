@@ -21,10 +21,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import evilcraft.Configs;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.entities.villager.WerewolfVillagerConfig;
 import evilcraft.items.WerewolfBone;
 import evilcraft.items.WerewolfBoneConfig;
@@ -116,7 +116,7 @@ public class Werewolf extends EntityMob implements Configurable{
      */
     public static boolean isWerewolfTime(World world) {
         return world.getCurrentMoonPhaseFactor() == 1.0
-                && !Helpers.isDay(world)
+                && !MinecraftHelpers.isDay(world)
                 && world.difficultySetting != EnumDifficulty.PEACEFUL;
     }
     

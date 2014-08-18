@@ -1,4 +1,4 @@
-package evilcraft.api.obfuscation;
+package evilcraft.api.helpers.obfuscation;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 

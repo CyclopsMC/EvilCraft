@@ -7,7 +7,7 @@ import java.util.Random;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.util.ResourceLocation;
 import evilcraft.Reference;
-import evilcraft.api.Helpers;
+import evilcraft.api.helpers.obfuscation.ObfuscationHelpers;
 
 /**
  * This can add an evil surrounding to the main menu.
@@ -19,7 +19,7 @@ public class GuiMainMenuEvilifier {
     private static int EVIL_MAINMENU_CHANCE = 2;
 
     private static final String getPanoramaFieldName() {
-        if(Helpers.isObfusicated()) {
+        if(ObfuscationHelpers.isObfusicated()) {
             return "field_73978_o";
         } else {
             return "titlePanoramaPaths";

@@ -9,12 +9,12 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.api.Helpers;
-import evilcraft.api.Helpers.IDType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 import evilcraft.api.entities.tileentitites.InventoryTileEntity;
 import evilcraft.api.gui.container.InventoryContainer;
+import evilcraft.api.helpers.Helpers;
+import evilcraft.api.helpers.Helpers.IDType;
 
 /**
  * Block with a tile entity with a GUI that can hold ExtendedConfigs.

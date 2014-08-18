@@ -10,10 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItemPickaxe;
+import evilcraft.api.helpers.EnchantmentHelpers;
 
 /**
  * A strong pickaxe that may call up spirits.
@@ -81,7 +81,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
      */
     public static ItemStack createCraftingResult() {
     	ItemStack pickaxe = new ItemStack(VengeancePickaxe.getInstance());
-        Helpers.setEnchantmentLevel(pickaxe, Enchantment.fortune, FORTUNE_LEVEL);
+        EnchantmentHelpers.setEnchantmentLevel(pickaxe, Enchantment.fortune, FORTUNE_LEVEL);
         return pickaxe;
     }
     

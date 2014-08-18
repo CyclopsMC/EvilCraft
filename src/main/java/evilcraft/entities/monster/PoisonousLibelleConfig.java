@@ -6,10 +6,10 @@ import net.minecraft.world.biome.BiomeGenBase;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.api.helpers.RenderHelpers;
 import evilcraft.render.entity.RenderPoisonousLibelle;
 import evilcraft.render.models.PoisonousLibelleModel;
 
@@ -56,12 +56,12 @@ public class PoisonousLibelleConfig extends MobConfig {
     
     @Override
     public int getBackgroundEggColor() {
-        return Helpers.RGBToInt(57, 125, 27);
+        return RenderHelpers.RGBToInt(57, 125, 27);
     }
 
     @Override
     public int getForegroundEggColor() {
-        return Helpers.RGBToInt(196, 213, 57);
+        return RenderHelpers.RGBToInt(196, 213, 57);
     }
 
     @SideOnly(Side.CLIENT)

@@ -5,10 +5,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import evilcraft.api.IInformationProvider;
-import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockSapling;
+import evilcraft.api.helpers.L10NHelpers;
 
 /**
  * Sapling for the Undead Tree.

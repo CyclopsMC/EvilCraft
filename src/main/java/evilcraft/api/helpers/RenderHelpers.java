@@ -1,4 +1,4 @@
-package evilcraft.api;
+package evilcraft.api.helpers;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
+import evilcraft.api.helpers.obfuscation.ObfuscationHelpers;
 
 /**
  * A helper for rendering.
@@ -77,7 +78,7 @@ public class RenderHelpers {
             RenderBlocks renderer, Block block, double x, double y, double z,
             IIcon blockIconFromSideAndMetadata) {
         try {
-            String methodName = Helpers.isObfusicated()?METHODS_RENDERFACE_OBFUSICATED.get(renderDirection):METHODS_RENDERFACE.get(renderDirection);
+            String methodName = ObfuscationHelpers.isObfusicated()?METHODS_RENDERFACE_OBFUSICATED.get(renderDirection):METHODS_RENDERFACE.get(renderDirection);
             Method method = renderer.getClass().getMethod(methodName, Block.class, double.class, double.class, double.class, IIcon.class);
             method.invoke(renderer, block, x, y, z, blockIconFromSideAndMetadata);
         } catch (NoSuchMethodException e1) {
@@ -104,7 +105,7 @@ public class RenderHelpers {
      */
     public static void setRenderBlocksUVRotation(RenderBlocks renderer, ForgeDirection side, int rotation) {
         try {
-            String fieldName = Helpers.isObfusicated()?FIELDS_UVROTATE_OBFUSICATED.get(side):FIELDS_UVROTATE.get(side);
+            String fieldName = ObfuscationHelpers.isObfusicated()?FIELDS_UVROTATE_OBFUSICATED.get(side):FIELDS_UVROTATE.get(side);
             Field field = renderer.getClass().getField(fieldName);
             field.set(renderer, ROTATE_UV_ROTATE[rotation]);
         } catch (NoSuchFieldException e1) {
@@ -126,4 +127,15 @@ public class RenderHelpers {
     public static void bindTexture(ResourceLocation texture) {
     	Minecraft.getMinecraft().renderEngine.bindTexture(texture);
     }
+
+	/**
+	 * Convert r, g and b colors to an integer representation.
+	 * @param r red
+	 * @param g green
+	 * @param b blue
+	 * @return integer representation of the color.
+	 */
+	public static int RGBToInt(int r, int g, int b) {
+	    return (int)r << 16 | (int)g << 8 | (int)b;
+	}
 }

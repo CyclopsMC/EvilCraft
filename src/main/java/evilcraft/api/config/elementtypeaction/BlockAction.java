@@ -7,11 +7,11 @@ import net.minecraftforge.common.config.Property;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.EvilCraftTab;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
 import evilcraft.api.config.configurable.ConfigurableBlockContainerGui;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.gui.GuiHandler;
 import evilcraft.modcompat.buildcraft.BuildcraftHelper;
 import evilcraft.modcompat.fmp.ForgeMultipartHelper;
@@ -63,7 +63,7 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
             if(container.hasGui()) {
                 ConfigurableBlockContainerGui gui = (ConfigurableBlockContainerGui) container;
                 
-                if (Helpers.isClientSide())
+                if (MinecraftHelpers.isClientSide())
                     GuiHandler.GUIS.put(gui.getGuiID(), gui.getGUI());
                 GuiHandler.CONTAINERS.put(gui.getGuiID(), gui.getContainer());
             }

@@ -2,7 +2,6 @@ package evilcraft.api.degradation.effects;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import evilcraft.api.WorldHelpers;
 import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.algorithms.Location;
 import evilcraft.api.algorithms.OrganicSpread;
@@ -11,6 +10,7 @@ import evilcraft.api.config.DegradationEffectConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.api.degradation.IDegradable;
+import evilcraft.api.helpers.WorldHelpers;
 import evilcraft.biomes.BiomeDegraded;
 
 /**

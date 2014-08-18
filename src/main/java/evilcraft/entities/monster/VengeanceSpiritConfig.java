@@ -3,10 +3,10 @@ package evilcraft.entities.monster;
 import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.api.helpers.RenderHelpers;
 import evilcraft.entities.monster.VengeanceSpirit.SpiritBlacklistChanged;
 import evilcraft.render.entity.RenderVengeanceSpirit;
 
@@ -69,12 +69,12 @@ public class VengeanceSpiritConfig extends MobConfig {
 
     @Override
     public int getBackgroundEggColor() {
-        return Helpers.RGBToInt(64, 16, 93);
+        return RenderHelpers.RGBToInt(64, 16, 93);
     }
 
     @Override
     public int getForegroundEggColor() {
-        return Helpers.RGBToInt(134, 60, 169);
+        return RenderHelpers.RGBToInt(134, 60, 169);
     }
     
     @SideOnly(Side.CLIENT)

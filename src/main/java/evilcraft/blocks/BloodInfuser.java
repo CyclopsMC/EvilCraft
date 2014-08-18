@@ -10,10 +10,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainerGuiTankInfo;
+import evilcraft.api.helpers.DirectionHelpers;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.client.GuiBloodInfuser;
 import evilcraft.gui.container.ContainerBloodInfuser;
@@ -56,7 +57,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
         this.setStepSound(soundTypeStone);
         this.setRotatable(true);
         
-        if (Helpers.isClientSide())
+        if (MinecraftHelpers.isClientSide())
             setGUI(GuiBloodInfuser.class);
         setContainer(ContainerBloodInfuser.class);
     }
@@ -74,7 +75,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
     @Override
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
         TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
-        ForgeDirection rotatedDirection = Helpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
+        ForgeDirection rotatedDirection = DirectionHelpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
         return getIcon(rotatedDirection.ordinal(), tile.isVisuallyWorking()?1:0);
     }
     
@@ -108,7 +109,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
     public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
         TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
-        return (int)Math.ceil(Helpers.COMPARATOR_MULTIPLIER * output);
+        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
 
     @Override

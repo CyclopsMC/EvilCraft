@@ -5,7 +5,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import evilcraft.api.Helpers;
+import evilcraft.api.helpers.MinecraftHelpers;
 
 /**
  * A basic inventory implementation.
@@ -110,7 +110,7 @@ public class SimpleInventory implements IInventory {
      * @param tag The NBT tag name where the info is located.
      */
     public void readFromNBT(NBTTagCompound data, String tag) {
-        NBTTagList nbttaglist = data.getTagList(tag, Helpers.NBTTag_Types.NBTTagCompound.ordinal());
+        NBTTagList nbttaglist = data.getTagList(tag, MinecraftHelpers.NBTTag_Types.NBTTagCompound.ordinal());
         
         for (int j = 0; j < _contents.length; ++j)
             _contents[j] = null;

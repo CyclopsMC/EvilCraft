@@ -15,9 +15,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import evilcraft.Reference;
-import evilcraft.api.L10NHelpers;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.api.fluids.SingleUseTank;
+import evilcraft.api.helpers.L10NHelpers;
 
 /**
  * A GUI container that has support for the display of inventories and a tank.

@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import evilcraft.api.Helpers;
-import evilcraft.api.RenderHelpers;
+import evilcraft.api.helpers.DirectionHelpers;
+import evilcraft.api.helpers.RenderHelpers;
 
 
 /**
@@ -98,7 +98,7 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
             for (int pass = 0; pass < blockToRender.getRenderPasses(); pass++) {
                 blockToRender.setRenderPass(pass);
                 // Loop over sides and render them relative to the given direction.
-                for(ForgeDirection renderDirection : Helpers.DIRECTIONS) {
+                for(ForgeDirection renderDirection : DirectionHelpers.DIRECTIONS) {
                     tessellator.startDrawingQuads();
                     tessellator.setNormal(
                             renderDirection.offsetX,

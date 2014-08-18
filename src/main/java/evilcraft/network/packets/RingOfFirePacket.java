@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
+import evilcraft.api.helpers.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;
@@ -114,6 +114,6 @@ public class RingOfFirePacket extends PacketCodec {
 	@Override
 	public void actionServer(World world, EntityPlayerMP player) {
 		PacketHandler.sendToAllAround(new RingOfFirePacket(player),
-				Helpers.createTargetPointFromEntityPosition(player, RANGE));
+				LocationHelpers.createTargetPointFromEntityPosition(player, RANGE));
 	}
 }

@@ -21,10 +21,11 @@ import org.lwjgl.util.vector.Vector4f;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.Coordinate;
-import evilcraft.api.Helpers;
-import evilcraft.api.L10NHelpers;
 import evilcraft.api.degradation.DegradationExecutor;
 import evilcraft.api.degradation.IDegradable;
+import evilcraft.api.helpers.EntityHelpers;
+import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.api.inventory.SimpleInventory;
 import evilcraft.api.recipes.CustomRecipe;
 import evilcraft.api.recipes.CustomRecipeRegistry;
@@ -84,7 +85,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    
 	    inventory = new SimpleInventory(1, EnvironmentalAccumulatorConfig._instance.NAMEDID, 64);
 	    
-	    if (Helpers.isClientSide()) {
+	    if (MinecraftHelpers.isClientSide()) {
 	        setBeamInnerColor(getInnerColorByState(state));
 	        setBeamOuterColor(getOuterColorByState(state));
 	    }
@@ -424,7 +425,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
     @Override
     public List<Entity> getAreaEntities() {
-        return Helpers.getEntitiesInArea(getWorld(), xCoord, yCoord, zCoord, getRadius());
+        return EntityHelpers.getEntitiesInArea(getWorld(), xCoord, yCoord, zCoord, getRadius());
     }
 
     @Override

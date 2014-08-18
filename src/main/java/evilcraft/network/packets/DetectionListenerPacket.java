@@ -7,8 +7,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.algorithms.ILocation;
+import evilcraft.api.helpers.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;
@@ -83,7 +83,7 @@ public class DetectionListenerPacket extends PacketCodec {
 	@Override
 	public void actionServer(World world, EntityPlayerMP player) {
 		PacketHandler.sendToAllAround(new DetectionListenerPacket(x, y, z, activation),
-				Helpers.createTargetPointFromEntityPosition(player, RANGE));
+				LocationHelpers.createTargetPointFromEntityPosition(player, RANGE));
 	}
 	
 }

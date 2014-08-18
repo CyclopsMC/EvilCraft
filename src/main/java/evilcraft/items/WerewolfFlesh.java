@@ -8,10 +8,10 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItemFood;
+import evilcraft.api.helpers.MinecraftHelpers;
 
 /**
  * Random flesh drop from werewolves, gives some fine boosts at night.
@@ -68,7 +68,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity player, int par4, boolean par5) {
-        power = !Helpers.isDay(world);
+        power = !MinecraftHelpers.isDay(world);
     }
     
     @Override

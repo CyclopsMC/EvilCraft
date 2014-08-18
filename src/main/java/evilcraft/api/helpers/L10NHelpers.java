@@ -1,7 +1,8 @@
-package evilcraft.api;
+package evilcraft.api.helpers;
 
 import java.util.List;
 
+import evilcraft.api.IInformationProvider;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumChatFormatting;

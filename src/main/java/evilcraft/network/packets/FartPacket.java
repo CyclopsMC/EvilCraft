@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.GeneralConfig;
-import evilcraft.api.Helpers;
+import evilcraft.api.helpers.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;
@@ -135,7 +135,7 @@ public class FartPacket extends PacketCodec {
 	public void actionServer(World world, EntityPlayerMP player) {
 		if(GeneralConfig.farting) {
 			PacketHandler.sendToAllAround(new FartPacket(player),
-					Helpers.createTargetPointFromEntityPosition(player, FART_RANGE));
+					LocationHelpers.createTargetPointFromEntityPosition(player, FART_RANGE));
 		}
 	}
 }

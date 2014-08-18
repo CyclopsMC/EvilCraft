@@ -20,10 +20,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.api.helpers.DirectionHelpers;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.api.item.TileEntityNBTStorage;
 
 /**
@@ -47,7 +48,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     protected boolean hasGui = false;
     
     private boolean rotatable;
-    protected IIcon[] sideIcons = new IIcon[Helpers.DIRECTIONS.size()];
+    protected IIcon[] sideIcons = new IIcon[DirectionHelpers.DIRECTIONS.size()];
     
     /**
      * Make a new block instance.
@@ -97,7 +98,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         if(isRotatable()) {
-            for(ForgeDirection direction : Helpers.DIRECTIONS) {
+            for(ForgeDirection direction : DirectionHelpers.DIRECTIONS) {
                 sideIcons[direction.ordinal()] = iconRegister.registerIcon(getTextureName() + "_" + direction.name());
             }
         } else {
@@ -110,7 +111,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         if(isRotatable()) {
             int meta = world.getBlockMetadata(x, y, z);
             EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
-            ForgeDirection rotatedDirection = Helpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
+            ForgeDirection rotatedDirection = DirectionHelpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
             return this.getIcon(rotatedDirection.ordinal(), meta);
         } else {
             return super.getIcon(world, x, y, z, side);
@@ -164,7 +165,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     }
     
     protected void onPreBlockDestroyed(World world, int x, int y, int z) {
-    	Helpers.preDestroyBlock(world, x, y, z, saveNBTToDroppedItem());
+    	MinecraftHelpers.preDestroyBlock(world, x, y, z, saveNBTToDroppedItem());
     }
     
     protected void onPostBlockDestroyed(World world, int x, int y, int z) {
@@ -199,7 +200,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
             }
             
             if(tile.isRotatable()) {
-                ForgeDirection facing = Helpers.getEntityFacingDirection(entity);
+                ForgeDirection facing = DirectionHelpers.getEntityFacingDirection(entity);
                 tile.setRotation(facing);
             }
             
@@ -228,7 +229,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
 		    itemStack.setTagCompound(TileEntityNBTStorage.TAG);
 		drops.add(itemStack);
         
-        Helpers.postDestroyBlock(world, x, y, z);
+        MinecraftHelpers.postDestroyBlock(world, x, y, z);
         return drops;
     }
 

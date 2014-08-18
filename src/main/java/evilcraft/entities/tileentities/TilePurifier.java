@@ -17,13 +17,15 @@ import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.configurable.ConfigurableEnchantment;
 import evilcraft.api.entities.tileentitites.NBTPersist;
 import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.api.fluids.BloodFluidConverter;
 import evilcraft.api.fluids.ImplicitFluidConversionTank;
 import evilcraft.api.fluids.SingleUseTank;
+import evilcraft.api.helpers.DirectionHelpers;
+import evilcraft.api.helpers.EnchantmentHelpers;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.blocks.Purifier;
 import evilcraft.blocks.PurifierConfig;
 import evilcraft.entities.tileentities.tickaction.bloodchest.DamageableItemRepairAction;
@@ -109,7 +111,7 @@ public class TilePurifier extends TankInventoryTileEntity {
         List<Integer> slots = new LinkedList<Integer>();
         slots.add(SLOT_BOOK);
         slots.add(SLOT_PURIFY);
-        for(ForgeDirection direction : Helpers.DIRECTIONS)
+        for(ForgeDirection direction : DirectionHelpers.DIRECTIONS)
             addSlotsToSide(direction, slots);
         
         this.setSendUpdateOnInventoryChanged(true);
@@ -131,12 +133,12 @@ public class TilePurifier extends TankInventoryTileEntity {
             // Try removing bad enchants.
             for(ConfigurableEnchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
                 if(!done) {
-                    int enchantmentListID = Helpers.doesEnchantApply(getPurifyItem(), enchant.effectId);
+                    int enchantmentListID = EnchantmentHelpers.doesEnchantApply(getPurifyItem(), enchant.effectId);
                     if(enchantmentListID > -1) {
                         if(tick >= PURIFY_DURATION) {
                             if(!worldObj.isRemote) {
-                                int level = Helpers.getEnchantmentLevel(getPurifyItem(), enchantmentListID);
-                                Helpers.setEnchantmentLevel(getPurifyItem(), enchantmentListID, level - 1);
+                                int level = EnchantmentHelpers.getEnchantmentLevel(getPurifyItem(), enchantmentListID);
+                                EnchantmentHelpers.setEnchantmentLevel(getPurifyItem(), enchantmentListID, level - 1);
                             }
                             setBuckets(buckets - 1, getBucketsRest());
                             finishedAnimation = ANIMATION_FINISHED_DURATION;
@@ -157,8 +159,8 @@ public class TilePurifier extends TankInventoryTileEntity {
                         if(!worldObj.isRemote) {
                             // Init enchantment data.
                             int enchantmentListID = worldObj.rand.nextInt(enchantmentList.tagCount());
-                            int level = Helpers.getEnchantmentLevel(getPurifyItem(), enchantmentListID);
-                            int id = Helpers.getEnchantmentID(getPurifyItem(), enchantmentListID);
+                            int level = EnchantmentHelpers.getEnchantmentLevel(getPurifyItem(), enchantmentListID);
+                            int id = EnchantmentHelpers.getEnchantmentID(getPurifyItem(), enchantmentListID);
                             ItemStack enchantedItem = new ItemStack(Items.enchanted_book, 1);
                             
                             // Set the enchantment book.
@@ -167,7 +169,7 @@ public class TilePurifier extends TankInventoryTileEntity {
                             EnchantmentHelper.setEnchantments(enchantments, enchantedItem);
                             
                             // Define the enchanted book level.
-                            Helpers.setEnchantmentLevel(getPurifyItem(), enchantmentListID, 0);
+                            EnchantmentHelpers.setEnchantmentLevel(getPurifyItem(), enchantmentListID, 0);
                             
                             // Put the enchanted book in the book slot.
                             setBookItem(enchantedItem);
@@ -238,7 +240,7 @@ public class TilePurifier extends TankInventoryTileEntity {
     @Override
     public void sendUpdate() {
         super.sendUpdate();
-        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBucketsFloored(), Helpers.BLOCK_NOTIFY_CLIENT);
+        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBucketsFloored(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     }
     
     private void updateBook() {

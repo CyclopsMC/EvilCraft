@@ -8,7 +8,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
-import evilcraft.api.Helpers;
+import evilcraft.api.helpers.EnchantmentHelpers;
 import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentUnusing;
@@ -53,7 +53,7 @@ public class PlayerInteractEventHook {
         if(event.action.equals(PlayerInteractEvent.Action.LEFT_CLICK_BLOCK)) {
             if(event.entityPlayer instanceof EntityPlayer) {
                 ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
-                return Helpers.doesEnchantApply(itemStack, enchantID);
+                return EnchantmentHelpers.doesEnchantApply(itemStack, enchantID);
             }
         }
         return -1;

@@ -11,12 +11,12 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.api.Helpers;
-import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
-import evilcraft.api.obfuscation.ObfuscationHelper;
+import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.api.helpers.WorldHelpers;
+import evilcraft.api.helpers.obfuscation.ObfuscationHelpers;
 import evilcraft.entities.effect.EntityAntiVengeanceBeam;
 
 /**
@@ -78,8 +78,8 @@ public class VengeanceFocus extends ConfigurableItem {
     }
     
     private int getItemInUseDuration(EntityPlayer player) {
-    	return player.isUsingItem() ? ObfuscationHelper.getItemInUse(player).getMaxItemUseDuration()
-    			- ObfuscationHelper.getItemInUseCount(player) : 0;
+    	return player.isUsingItem() ? ObfuscationHelpers.getItemInUse(player).getMaxItemUseDuration()
+    			- ObfuscationHelpers.getItemInUseCount(player) : 0;
     }
     
     @Override
@@ -114,7 +114,7 @@ public class VengeanceFocus extends ConfigurableItem {
     @Override
     public void onUsingTick(ItemStack itemStack, EntityPlayer player, int duration) {
     	if(getItemInUseDuration(player) > 6) {
-    		if(Helpers.efficientTick(player.worldObj, TICK_MODULUS)) {
+    		if(WorldHelpers.efficientTick(player.worldObj, TICK_MODULUS)) {
 		    	EntityAntiVengeanceBeam beam = new EntityAntiVengeanceBeam(player.worldObj, player);
 		    	if(!player.worldObj.isRemote) {
 		    		player.worldObj.spawnEntityInWorld(beam);

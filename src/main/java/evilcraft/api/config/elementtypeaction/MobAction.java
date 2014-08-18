@@ -4,9 +4,10 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import evilcraft.EvilCraft;
-import evilcraft.api.Helpers;
-import evilcraft.api.Helpers.IDType;
 import evilcraft.api.config.MobConfig;
+import evilcraft.api.helpers.Helpers;
+import evilcraft.api.helpers.MinecraftHelpers;
+import evilcraft.api.helpers.Helpers.IDType;
 import evilcraft.proxies.ClientProxy;
 
 /**
@@ -29,7 +30,7 @@ public class MobAction extends IElementTypeAction<MobConfig>{
         
         // Register mob
         Class<? extends EntityLiving> clazz = (Class<? extends EntityLiving>) eConfig.ELEMENT;
-        if (Helpers.isClientSide())
+        if (MinecraftHelpers.isClientSide())
             ClientProxy.ENTITY_RENDERERS.put(clazz, eConfig.getRender());
         EntityRegistry.registerGlobalEntityID(clazz, eConfig.NAMEDID, EntityRegistry.findGlobalUniqueEntityId(), eConfig.getBackgroundEggColor(), eConfig.getForegroundEggColor());
 		EntityRegistry.registerModEntity(clazz, eConfig.NAMEDID, Helpers.getNewId(IDType.ENTITY), EvilCraft._instance, 80, 3, true);

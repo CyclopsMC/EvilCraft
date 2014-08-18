@@ -6,8 +6,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.DirectionCorner;
-import evilcraft.api.Helpers;
-import evilcraft.api.RenderHelpers;
+import evilcraft.api.helpers.DirectionHelpers;
+import evilcraft.api.helpers.RenderHelpers;
 
 /**
  * A virtual {@link IIcon} that has several icons and needs multiple render passes for
@@ -30,7 +30,7 @@ public class ConnectableIcon implements IIcon{
     
     protected static final int LAYERS = 4;
     protected static final int EDGES = 4;
-    protected static final int SIDES = Helpers.DIRECTIONS.size();
+    protected static final int SIDES = DirectionHelpers.DIRECTIONS.size();
     protected IIcon[] icons = new IIcon[LAYERS];// background; borders; corners; innerCorners
     protected IIcon inventoryBlockIcon; // Icon for inventoryBlock
     
@@ -60,9 +60,9 @@ public class ConnectableIcon implements IIcon{
     
     // Temporary connection booleans, these will update every render call.
     // Which directions relative to this block should connect (have same ID for example)
-    protected boolean[] connectWithSides = new boolean[Helpers.DIRECTIONS.size()];
+    protected boolean[] connectWithSides = new boolean[DirectionHelpers.DIRECTIONS.size()];
     // Which directions relative to this block (with corner) should connect (have same ID for example)
-    protected boolean[] connectWithSidesCorner = new boolean[Helpers.DIRECTIONS_CORNERS.size()];
+    protected boolean[] connectWithSidesCorner = new boolean[DirectionHelpers.DIRECTIONS_CORNERS.size()];
     
     /**
      * Make a new instance.

@@ -4,10 +4,10 @@ import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.ColorizerGrass;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.BiomeConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBiome;
+import evilcraft.api.helpers.RenderHelpers;
 
 /**
  * Enchantment for letting tools break tools faster.
@@ -41,9 +41,9 @@ public class BiomeDegraded extends ConfigurableBiome {
         super(eConfig.downCast());
         this.setHeight(height_MidPlains);
         this.setTemperatureRainfall(0.8F, 0.9F);
-        this.setColor(Helpers.RGBToInt(0, 30, 20));
-        this.func_76733_a(Helpers.RGBToInt(20, 50, 30));
-        this.waterColorMultiplier = Helpers.RGBToInt(60, 50, 20);
+        this.setColor(RenderHelpers.RGBToInt(0, 30, 20));
+        this.func_76733_a(RenderHelpers.RGBToInt(20, 50, 30));
+        this.waterColorMultiplier = RenderHelpers.RGBToInt(60, 50, 20);
     }
     
     @SideOnly(Side.CLIENT)
@@ -51,7 +51,7 @@ public class BiomeDegraded extends ConfigurableBiome {
     public int getBiomeGrassColor(int x, int y, int z) {
         double d0 = (double)this.getFloatTemperature(x, y, z);
         double d1 = (double)this.getFloatRainfall();
-        return ((ColorizerGrass.getGrassColor(d0, d1) & Helpers.RGBToInt(10, 20, 5)) + 5115470) / 2;
+        return ((ColorizerGrass.getGrassColor(d0, d1) & RenderHelpers.RGBToInt(10, 20, 5)) + 5115470) / 2;
     }
 
     @SideOnly(Side.CLIENT)
@@ -59,7 +59,7 @@ public class BiomeDegraded extends ConfigurableBiome {
     public int getBiomeFoliageColor(int x, int y, int z) {
         double d0 = (double)this.getFloatTemperature(x, y, z);
         double d1 = (double)this.getFloatRainfall();
-        return ((ColorizerFoliage.getFoliageColor(d0, d1) & Helpers.RGBToInt(10, 20, 50)) + 5115470) / 2;
+        return ((ColorizerFoliage.getFoliageColor(d0, d1) & RenderHelpers.RGBToInt(10, 20, 50)) + 5115470) / 2;
     }
 
 }

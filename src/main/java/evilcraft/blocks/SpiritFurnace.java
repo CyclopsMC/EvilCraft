@@ -11,15 +11,15 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.algorithms.Location;
-import evilcraft.api.algorithms.Locations;
 import evilcraft.api.algorithms.Size;
 import evilcraft.api.block.CubeDetector.IDetectionListener;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainerGuiTankInfo;
+import evilcraft.api.helpers.LocationHelpers;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 import evilcraft.gui.client.GuiSpiritFurnace;
 import evilcraft.gui.container.ContainerSpiritFurnace;
@@ -61,7 +61,7 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
         this.setHarvestLevel("pickaxe", 2); // Iron tier
         this.setRotatable(true);
         
-        if (Helpers.isClientSide())
+        if (MinecraftHelpers.isClientSide())
             setGUI(GuiSpiritFurnace.class);
         setContainer(ContainerSpiritFurnace.class);
     }
@@ -105,7 +105,7 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
     	TileSpiritFurnace tile = (TileSpiritFurnace) world.getTileEntity(x, y, z);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
-        return (int)Math.ceil(Helpers.COMPARATOR_MULTIPLIER * output);
+        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
 
     @Override
@@ -135,10 +135,10 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
 
 	@Override
 	public void onDetect(World world, ILocation location, Size size, boolean valid) {
-		Block block = Locations.getBlock(world, location);
+		Block block = LocationHelpers.getBlock(world, location);
 		if(block == this) {
 			TileSpiritFurnace.detectStructure(world, location, size, valid);
-			TileEntity tile = Locations.getTile(world, location);
+			TileEntity tile = LocationHelpers.getTile(world, location);
 			if(tile != null) {
 				((TileSpiritFurnace) tile).setSize(valid ? size : Size.NULL_SIZE);
 			}

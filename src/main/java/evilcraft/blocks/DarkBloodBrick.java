@@ -10,12 +10,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.algorithms.Location;
-import evilcraft.api.algorithms.Locations;
 import evilcraft.api.algorithms.Size;
 import evilcraft.api.block.CubeDetector.IDetectionListener;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
+import evilcraft.api.helpers.LocationHelpers;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 import evilcraft.items.DarkGem;
 
@@ -94,7 +94,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
     
     @Override
 	public void onDetect(World world, ILocation location, Size size, boolean valid) {
-		Block block = Locations.getBlock(world, location);
+		Block block = LocationHelpers.getBlock(world, location);
 		if(block == this) {
 			TileSpiritFurnace.detectStructure(world, location, size, valid);
 		}

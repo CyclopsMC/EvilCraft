@@ -27,8 +27,8 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
-import evilcraft.api.Helpers;
-import evilcraft.api.Helpers.IDType;
+import evilcraft.api.helpers.Helpers;
+import evilcraft.api.helpers.Helpers.IDType;
 
 /**
  * Advanced packet handler of {@link PacketBase} instances.

@@ -14,8 +14,8 @@ import com.google.common.collect.Sets;
 import evilcraft.api.algorithms.Dimension;
 import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.algorithms.Location;
-import evilcraft.api.algorithms.Locations;
 import evilcraft.api.algorithms.Size;
+import evilcraft.api.helpers.LocationHelpers;
 
 /**
  * Detector of cubes in a world.
@@ -230,7 +230,7 @@ public class CubeDetector {
 	 * @return If it conforms.
 	 */
 	protected boolean validateAllowedBlockConditions(World world, ILocation location) {
-		Block block = Locations.getBlock(world, location);
+		Block block = LocationHelpers.getBlock(world, location);
 		if(blockInfo.containsKey(block)) {
 			int occurences = blockOccurences.get(block);
 			AllowedBlock allowed = blockInfo.get(block);

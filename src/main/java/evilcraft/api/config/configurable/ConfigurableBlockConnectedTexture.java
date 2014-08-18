@@ -9,9 +9,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.DirectionCorner;
-import evilcraft.api.Helpers;
-import evilcraft.api.RenderHelpers;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.helpers.DirectionHelpers;
+import evilcraft.api.helpers.RenderHelpers;
 import evilcraft.api.render.ConnectableIcon;
 import evilcraft.api.render.CustomRenderBlocks;
 import evilcraft.api.render.MultiPassBlockRenderer;
@@ -201,12 +201,12 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     
     private void updateConnections(IBlockAccess world, int x, int y, int z) {
     	// Regular sides
-        for(ForgeDirection direction : Helpers.DIRECTIONS) {
+        for(ForgeDirection direction : DirectionHelpers.DIRECTIONS) {
             boolean connect = shouldConnectDirection(world, direction, x, y, z);
             connectableIcon.connect(direction, connect);
         }
         // Corner sides
-        for(DirectionCorner direction : Helpers.DIRECTIONS_CORNERS) {
+        for(DirectionCorner direction : DirectionHelpers.DIRECTIONS_CORNERS) {
             boolean connect = shouldConnectDirection(world, direction, x, y, z);
             connectableIcon.connectCorner(direction, connect);
         }

@@ -4,7 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
-import evilcraft.api.Helpers;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.api.render.AlphaItemRenderer;
 
 /**
@@ -51,7 +51,7 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     
     @Override
     public void onRegistered() {
-        if(blendAlpha() && Helpers.isClientSide())
+        if(blendAlpha() && MinecraftHelpers.isClientSide())
             MinecraftForgeClient.registerItemRenderer(this.getItemInstance(), new AlphaItemRenderer());
         
         if(getOreDictionaryId() != null) {

@@ -8,8 +8,8 @@ import java.util.Map;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
-import evilcraft.api.Helpers;
-import evilcraft.api.L10NHelpers;
+import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.api.helpers.ServerHelpers;
 
 /**
  * The EvilCraft command.
@@ -96,7 +96,7 @@ public class CommandEvilCraft implements ICommand {
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
-        return Helpers.isOp(icommandsender);
+        return ServerHelpers.isOp(icommandsender);
     }
 
     @SuppressWarnings("rawtypes")

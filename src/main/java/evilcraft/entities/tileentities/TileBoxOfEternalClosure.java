@@ -14,10 +14,10 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.api.EntityHelpers;
-import evilcraft.api.Helpers;
 import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 import evilcraft.api.entities.tileentitites.NBTPersist;
+import evilcraft.api.helpers.EntityHelpers;
+import evilcraft.api.helpers.WorldHelpers;
 import evilcraft.entities.monster.VengeanceSpirit;
 
 /**
@@ -81,7 +81,7 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
         
         if(getSpiritInstance() == null && !worldObj.isRemote) {
 	        if(targetSpirit != null
-	        		|| (Helpers.efficientTick(getWorldObj(), TICK_MODULUS) && findNextEntity())) {
+	        		|| (WorldHelpers.efficientTick(getWorldObj(), TICK_MODULUS) && findNextEntity())) {
 	        	pullEntity();
 	        }
         }

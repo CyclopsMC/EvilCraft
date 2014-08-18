@@ -6,8 +6,8 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
-import evilcraft.api.Helpers;
 import evilcraft.api.algorithms.Location;
+import evilcraft.api.helpers.LocationHelpers;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packets.RingOfFirePacket;
 
@@ -48,7 +48,7 @@ public class PlayerRingOfFire {
     	if(!player.worldObj.isRemote
     			&& ALLOW_RING.contains(player.getDisplayName())) {
     		PacketHandler.sendToAllAround(new RingOfFirePacket(player),
-    				Helpers.createTargetPointFromLocation(player.worldObj,
+    				LocationHelpers.createTargetPointFromLocation(player.worldObj,
     						new Location((int) player.posX, (int) player.posY, (int) player.posZ), 50));
     	}
     }

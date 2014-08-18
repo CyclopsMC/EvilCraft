@@ -7,10 +7,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import evilcraft.GeneralConfig;
-import evilcraft.api.Helpers;
-import evilcraft.api.StairSlabMetadataHelper;
-import evilcraft.api.StairSlabMetadataHelper.SlabType;
-import evilcraft.api.StairSlabMetadataHelper.StoneBrickType;
+import evilcraft.api.helpers.DirectionHelpers;
+import evilcraft.api.helpers.StairSlabMetadataHelper;
+import evilcraft.api.helpers.StairSlabMetadataHelper.SlabType;
+import evilcraft.api.helpers.StairSlabMetadataHelper.StoneBrickType;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.worldgen.nbt.DarkTempleData;
 
@@ -213,8 +213,8 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 		// z+ south
 		// x- west
 		// z- west
-		int metadata1 = StairSlabMetadataHelper.getStairMetadata(Helpers.getForgeDirectionFromXSign(incX), true);	// metadata for stair 1
-		int metadata2 = StairSlabMetadataHelper.getStairMetadata(Helpers.getForgeDirectionFromZSing(incZ), true);	// metadata for stair 2
+		int metadata1 = StairSlabMetadataHelper.getStairMetadata(DirectionHelpers.getForgeDirectionFromXSign(incX), true);	// metadata for stair 1
+		int metadata2 = StairSlabMetadataHelper.getStairMetadata(DirectionHelpers.getForgeDirectionFromZSing(incZ), true);	// metadata for stair 2
 
 		world.setBlock(x + 3*incX, y + 5, z + 4*incZ, Blocks.stone_stairs, metadata1, 2);
 		world.setBlock(x + 4*incX, y + 5, z + 3*incZ, Blocks.stone_stairs, metadata2, 2);

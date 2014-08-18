@@ -22,9 +22,7 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import com.google.common.collect.Lists;
 
 import evilcraft.Configs;
-import evilcraft.api.Helpers;
 import evilcraft.api.algorithms.ILocation;
-import evilcraft.api.algorithms.Locations;
 import evilcraft.api.algorithms.Size;
 import evilcraft.api.algorithms.Sizes;
 import evilcraft.api.block.AllowedBlock;
@@ -38,6 +36,8 @@ import evilcraft.api.fluids.BloodFluidConverter;
 import evilcraft.api.fluids.ImplicitFluidConversionTank;
 import evilcraft.api.fluids.SingleUseTank;
 import evilcraft.api.gui.slot.SlotFluidContainer;
+import evilcraft.api.helpers.LocationHelpers;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.api.world.FakeWorldItemDelegator;
 import evilcraft.api.world.FakeWorldItemDelegator.IItemDropListener;
 import evilcraft.blocks.BoxOfEternalClosure;
@@ -241,7 +241,7 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
      * @return If it is valid.
      */
     public static boolean canWork(World world, ILocation location) {
-    	TileEntity tile = Locations.getTile(world, location);
+    	TileEntity tile = LocationHelpers.getTile(world, location);
 		if(tile != null) {
 			return ((TileSpiritFurnace) tile).canWork();
 		}
@@ -269,12 +269,12 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
      */
     public static void detectStructure(World world, ILocation location, Size size, boolean valid) {
     	int newMeta = valid ? 1 : 0;
-		boolean change = Locations.getBlockMeta(world, location) != newMeta;
-		Locations.setBlockMetadata(world, location, newMeta, Helpers.BLOCK_NOTIFY_CLIENT);
+		boolean change = LocationHelpers.getBlockMeta(world, location) != newMeta;
+		LocationHelpers.setBlockMetadata(world, location, newMeta, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
 		if(change) {
 			int[] c = location.getCoordinates();
 			PacketHandler.sendToAllAround(new DetectionListenerPacket(location, valid),
-					Helpers.createTargetPointFromLocation(world, location, 50));
+					LocationHelpers.createTargetPointFromLocation(world, location, 50));
 		}
     }
     

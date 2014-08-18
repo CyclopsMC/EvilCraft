@@ -1,17 +1,46 @@
-package evilcraft.api.algorithms;
+package evilcraft.api.helpers;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import evilcraft.api.Helpers;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import evilcraft.api.algorithms.ILocation;
 
 /**
- * Helper methods for locations.
- * @author rubensworks
+ * Helper methods involving {@link ILocation}S and {@link TargetPoint}S.
+ * @author immortaleeb
  *
  */
-public class Locations {
-	
+public class LocationHelpers {
+
+	/**
+	 * Creates a {@link TargetPoint} for the dimension and position of the given {@link Entity}
+	 * and a given range.
+	 * 
+	 * @param entity Entity who's dimension and position will be used to create the {@link TargetPoint}. 
+	 * @param range The range of the {@link TargetPoint}.
+	 * @return A {@link TargetPoint} with the position and dimension of the entity and the given range.
+	 */
+	public static TargetPoint createTargetPointFromEntityPosition(Entity entity, int range) {
+		return new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, range);
+	}
+
+	/**
+	 * Creates a {@link TargetPoint} for the dimension of the given world and the
+	 * given {@link ILocation}.
+	 * 
+	 * @param world The world from which the dimension will be used.
+	 * @param location The location for the target.
+	 * @param range The range of the {@link TargetPoint}.
+	 * @return A {@link TargetPoint} with the position and dimension of the entity and the given range.
+	 */
+	public static TargetPoint createTargetPointFromLocation(World world, ILocation location,
+			int range) {
+		int[] c = location.getCoordinates();
+		return new TargetPoint(world.provider.dimensionId, c[0], c[1], c[2], range);
+	}
+
 	private static int[] validateLocation(ILocation location) throws LocationException {
 		if(location == null || location.getDimensions() != 3) {
 			throw new LocationException("The location '" + location
@@ -31,7 +60,7 @@ public class Locations {
 		int[] c = validateLocation(location);
 		return world.getBlock(c[0], c[1], c[2]);
 	}
-	
+
 	/**
 	 * Get the block metadata from a location in a world.
 	 * @param world The world.
@@ -43,7 +72,7 @@ public class Locations {
 		int[] c = validateLocation(location);
 		return world.getBlockMetadata(c[0], c[1], c[2]);
 	}
-	
+
 	/**
 	 * Get the tile entity from a location in a world.
 	 * @param world The world.
@@ -67,7 +96,7 @@ public class Locations {
 	 */
 	public static void setBlockMetadata(World world, ILocation location, int meta,
 			int notifyFlag) throws LocationException {
-		int[] c = validateLocation(location);
+		int[] c = LocationHelpers.validateLocation(location);
 		world.setBlockMetadataWithNotify(c[0], c[1], c[2], meta, notifyFlag);
 	}
 	
@@ -87,5 +116,5 @@ public class Locations {
 		}
 		
 	}
-	
+
 }

@@ -1,8 +1,9 @@
-package evilcraft.api.obfuscation;
+package evilcraft.api.helpers.obfuscation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,7 +17,33 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
  * @author rubensworks
  *
  */
-public class ObfuscationHelper {
+public class ObfuscationHelpers {
+	
+	// TODO refactor to use the other methods in ObfuscationHelper
+	@Deprecated
+	private static boolean ISOBFUSICATED_CHECKED = false;
+	// TODO refactor to use the other methods in ObfuscationHelper
+	@Deprecated
+    private static boolean ISOBFUSICATED;
+	
+	/**
+     * Check if Minecraft is currently running in an obfusicated environment.
+     * TODO refactor to use the other methods in ObfuscationHelper
+     * @return If we run obfusicated.
+     */
+	@Deprecated
+    public static boolean isObfusicated() {
+        if(!ISOBFUSICATED_CHECKED) {
+            ISOBFUSICATED_CHECKED = true;
+            ISOBFUSICATED = false;
+            try {
+                Minecraft.getMinecraft().getClass().getField("currentScreen");
+            } catch (NoSuchFieldException e) {
+                ISOBFUSICATED = true;
+            } catch (SecurityException e) {}
+        }
+        return ISOBFUSICATED;
+    }
 
 	/**
 	 * Get the private 'particleTextures' field from {@link net.minecraft.client.particle.EffectRenderer}.

@@ -3,10 +3,10 @@ import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockFluidClassic;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.fluids.Blood;
 
 /**
@@ -42,7 +42,7 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     private FluidBlockBlood(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Blood.getInstance(), Material.water);
         
-        if (Helpers.isClientSide())
+        if (MinecraftHelpers.isClientSide())
             this.setParticleColor(1.0F, 0.0F, 0.0F);
         this.setTickRandomly(true);
     }

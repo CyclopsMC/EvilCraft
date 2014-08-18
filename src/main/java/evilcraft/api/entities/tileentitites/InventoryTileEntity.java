@@ -9,7 +9,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import evilcraft.api.Helpers;
+import evilcraft.api.helpers.DirectionHelpers;
 import evilcraft.api.inventory.SimpleInventory;
 
 /**
@@ -34,7 +34,7 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
         inventory = new SimpleInventory(inventorySize , inventoryName, stackSize);
         slotSides = new HashMap<ForgeDirection, int[]>();
         slotSidesSize = new HashMap<ForgeDirection, Integer>();
-        for(ForgeDirection side : Helpers.DIRECTIONS) {
+        for(ForgeDirection side : DirectionHelpers.DIRECTIONS) {
             // Init each side to it can theoretically hold all possible slots,
             // Integer lists are not option because Java allows to autoboxing
             // and that would be required in the getter methods below.

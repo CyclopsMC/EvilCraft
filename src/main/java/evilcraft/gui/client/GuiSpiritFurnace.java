@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import evilcraft.api.L10NHelpers;
 import evilcraft.api.algorithms.Size;
 import evilcraft.api.gui.client.GuiWorking;
+import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.blocks.SpiritFurnace;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 import evilcraft.gui.container.ContainerSpiritFurnace;

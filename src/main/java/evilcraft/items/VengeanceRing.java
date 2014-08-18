@@ -21,13 +21,13 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
-import evilcraft.api.Helpers;
 import evilcraft.api.IInformationProvider;
-import evilcraft.api.ItemHelpers;
-import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
+import evilcraft.api.helpers.ItemHelpers;
+import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.api.helpers.WorldHelpers;
 import evilcraft.entities.monster.VengeanceSpirit;
 
 /**
@@ -176,7 +176,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	@Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
         if(entity instanceof EntityPlayer && !world.isRemote
-        		&& Helpers.efficientTick(world, BONUS_TICK_MODULUS)) {
+        		&& WorldHelpers.efficientTick(world, BONUS_TICK_MODULUS)) {
         	int area = VengeanceRingConfig.areaOfEffect;
         	toggleVengeanceArea(world, entity, area, ItemHelpers.isActivated(itemStack), true, false);
         	if(ItemHelpers.isActivated(itemStack)) {

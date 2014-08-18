@@ -2,10 +2,10 @@ package evilcraft.api.config.configurable;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
-import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.EnchantmentConfig;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.helpers.L10NHelpers;
 
 /**
  * A simple configurable for Enchantments, will auto-register itself after construction.

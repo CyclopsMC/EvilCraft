@@ -9,10 +9,10 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.config.Configuration;
-import evilcraft.api.Helpers;
-import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.config.ConfigProperty;
+import evilcraft.api.helpers.Helpers;
+import evilcraft.api.helpers.L10NHelpers;
 
 /**
  * Command that can define {@link ConfigProperty}.

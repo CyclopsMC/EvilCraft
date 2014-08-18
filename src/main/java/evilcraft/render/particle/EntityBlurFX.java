@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.Reference;
-import evilcraft.api.obfuscation.ObfuscationHelper;
+import evilcraft.api.helpers.obfuscation.ObfuscationHelpers;
 
 /**
  * A blurred static fading particle with any possible color.
@@ -127,7 +127,7 @@ public class EntityBlurFX extends EntityFX {
 		GL11.glDepthMask(true);
 
 		GL11.glPopMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(ObfuscationHelper.getParticleTexture());
+		Minecraft.getMinecraft().renderEngine.bindTexture(ObfuscationHelpers.getParticleTexture());
 		tessellator.startDrawingQuads();
 	}
 	

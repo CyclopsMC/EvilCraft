@@ -1,7 +1,7 @@
 package evilcraft.blocks;
 
-import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.entities.tileentities.TilePurifier;
 import evilcraft.proxies.ClientProxy;
 import evilcraft.render.block.RenderPurifier;
@@ -33,7 +33,7 @@ public class PurifierConfig extends BlockConfig {
     
     @Override
     public void onRegistered() {
-        if(Helpers.isClientSide()) {
+        if(MinecraftHelpers.isClientSide()) {
             ClientProxy.BLOCK_RENDERERS.add(new RenderPurifier());
             ClientProxy.TILE_ENTITY_RENDERERS.put(TilePurifier.class, new TileEntityPurifierItemRenderer());
         }

@@ -1,9 +1,9 @@
 package evilcraft.blocks;
 
-import evilcraft.api.Helpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 import evilcraft.proxies.ClientProxy;
 import evilcraft.render.block.RenderEnvironmentalAccumulator;
@@ -25,7 +25,7 @@ public class EnvironmentalAccumulatorConfig extends BlockConfig {
 	 * The cooldown tick for accumulating the weather.
 	 */
 	@ConfigurableProperty(category = ElementTypeCategory.GENERAL, isCommandable = true, comment = "Sets the default amount of ticks the environmental accumulator takes to cool down")
-	public static int defaultTickCooldown = Helpers.MINECRAFT_DAY / 2;
+	public static int defaultTickCooldown = MinecraftHelpers.MINECRAFT_DAY / 2;
 	
 	/**
 	 * The default number of ticks it takes to process
@@ -55,7 +55,7 @@ public class EnvironmentalAccumulatorConfig extends BlockConfig {
 	
 	@Override
 	public void onRegistered() {
-	    if(Helpers.isClientSide()) {
+	    if(MinecraftHelpers.isClientSide()) {
 	        ClientProxy.BLOCK_RENDERERS.add(new RenderEnvironmentalAccumulator());
 	        ClientProxy.TILE_ENTITY_RENDERERS.put(TileEnvironmentalAccumulator.class, new TileEntityEnvironmentalAccumulatorRenderer());
 	    }

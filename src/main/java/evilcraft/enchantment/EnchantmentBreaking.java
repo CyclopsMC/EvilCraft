@@ -5,10 +5,10 @@ import java.util.Random;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.EnchantmentConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableEnchantment;
+import evilcraft.api.helpers.EnchantmentHelpers;
 
 /**
  * Enchantment for letting tools break tools faster.
@@ -72,7 +72,7 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
      */
     public static void amplifyDamage(ItemStack itemStack, int enchantmentListID, Random random) {
         if(enchantmentListID > -1) {
-            int level = Helpers.getEnchantmentLevel(itemStack, enchantmentListID);
+            int level = EnchantmentHelpers.getEnchantmentLevel(itemStack, enchantmentListID);
             int newDamage = itemStack.getItemDamage() + 2;
             if(itemStack.getItem() instanceof ItemArmor
                     && random.nextFloat() < 0.6F ? false : random.nextInt(level + 1) > 0

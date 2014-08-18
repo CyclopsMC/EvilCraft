@@ -8,11 +8,11 @@ import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 import net.minecraftforge.event.ForgeEventFactory;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import evilcraft.api.Coordinate;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.DegradationEffectConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.StochasticDegradationEffect;
+import evilcraft.api.helpers.MathHelpers;
 
 /**
  * Degradation that will eventually spawn mobs in the area.
@@ -58,7 +58,7 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
     public void runServerSide(IDegradable degradable) {
         WorldServer world = (WorldServer) degradable.getWorld();
         Coordinate spawn =
-                Helpers.getRandomPointInSphere(degradable.getLocation(), degradable.getRadius());
+                MathHelpers.getRandomPointInSphere(degradable.getLocation(), degradable.getRadius());
         float x = spawn.x + 0.5F;
         float y = spawn.y;
         float z = spawn.z + 0.5F;

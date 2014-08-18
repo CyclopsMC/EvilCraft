@@ -1,4 +1,4 @@
-package evilcraft.api;
+package evilcraft.api.helpers;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

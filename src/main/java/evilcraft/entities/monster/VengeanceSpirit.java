@@ -40,12 +40,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.EvilCraft;
-import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.api.config.configurable.propertycallback.IChangedCallback;
-import evilcraft.api.obfuscation.ObfuscationHelper;
+import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.api.helpers.obfuscation.ObfuscationHelpers;
 import evilcraft.items.BurningGemStone;
 import evilcraft.items.BurningGemStoneConfig;
 import evilcraft.render.particle.EntityBlurFX;
@@ -679,7 +679,7 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	@Override
 	protected String getDeathSound() {
 		if(getInnerEntity() != null) {
-			return ObfuscationHelper.getDeathSound(getInnerEntity());
+			return ObfuscationHelpers.getDeathSound(getInnerEntity());
 		}
 		return "vengeanceSpiritDeath";
 	}
@@ -688,7 +688,7 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	protected String getLivingSound() {
 		EntityLivingBase entity = getInnerEntity();
 		if(entity != null && entity instanceof EntityLiving) {
-			return ObfuscationHelper.getLivingSound((EntityLiving) getInnerEntity());
+			return ObfuscationHelpers.getLivingSound((EntityLiving) getInnerEntity());
 		}
 		return "vengeanceSpirit";
 	}

@@ -12,10 +12,11 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
+import evilcraft.api.helpers.MathHelpers;
+import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.items.Broom;
 import evilcraft.items.BroomConfig;
 
@@ -214,7 +215,7 @@ public class EntityBroom extends Entity implements Configurable{
     		// The player dismounted, give him his broom back if he's not in creative mode
     		if (!lastMounted.capabilities.isCreativeMode && Configs.isEnabled(BroomConfig.class)) {
     		    // Return to inventory if we have space, otherwise drop it on the ground
-    		    if (!Helpers.isPlayerInventoryFull(lastMounted))
+    		    if (!MinecraftHelpers.isPlayerInventoryFull(lastMounted))
     		        lastMounted.inventory.addItemStackToInventory(new ItemStack(Broom.getInstance(), 1));
     		    else
     		        dropItem(Broom.getInstance(), 1);
@@ -257,7 +258,7 @@ public class EntityBroom extends Entity implements Configurable{
             double y = posY + (newPosY - posY) / newPosRotationIncrements;
             double z = posZ + (newPosZ - posZ) / newPosRotationIncrements;
             
-            float yaw = Helpers.normalizeAngle_180((float)(newRotationYaw - rotationYaw));
+            float yaw = MathHelpers.normalizeAngle_180((float)(newRotationYaw - rotationYaw));
             rotationYaw += yaw / newPosRotationIncrements;
             rotationPitch += (newRotationPitch - rotationPitch) / newPosRotationIncrements;
             
@@ -277,8 +278,8 @@ public class EntityBroom extends Entity implements Configurable{
      */
     protected void updateMountedServer() {
         // Rotate broom
-        rotationPitch = Helpers.normalizeAngle_180(lastMounted.rotationPitch);
-        rotationYaw = Helpers.normalizeAngle_180(lastMounted.rotationYaw);
+        rotationPitch = MathHelpers.normalizeAngle_180(lastMounted.rotationPitch);
+        rotationYaw = MathHelpers.normalizeAngle_180(lastMounted.rotationYaw);
         
         // Limit the angle under which the player can move up or down
         if (rotationPitch > MAX_ANGLE)

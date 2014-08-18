@@ -12,10 +12,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
-import evilcraft.api.L10NHelpers;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
+import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 import evilcraft.render.block.RenderEnvironmentalAccumulator;
 

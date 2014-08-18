@@ -1,4 +1,4 @@
-package evilcraft.api;
+package evilcraft.api.helpers;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

@@ -3,10 +3,10 @@ package evilcraft.entities.monster;
 import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Helpers;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.MobConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.api.helpers.RenderHelpers;
 import evilcraft.render.entity.RenderWerewolf;
 import evilcraft.render.models.WerewolfModel;
 
@@ -47,12 +47,12 @@ public class WerewolfConfig extends MobConfig {
     
     @Override
     public int getBackgroundEggColor() {
-        return Helpers.RGBToInt(105, 67, 18);
+        return RenderHelpers.RGBToInt(105, 67, 18);
     }
 
     @Override
     public int getForegroundEggColor() {
-        return Helpers.RGBToInt(57, 25, 10);
+        return RenderHelpers.RGBToInt(57, 25, 10);
     }
 
     @SideOnly(Side.CLIENT)
