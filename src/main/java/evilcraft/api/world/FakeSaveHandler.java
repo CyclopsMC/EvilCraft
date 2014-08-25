@@ -16,6 +16,8 @@ import net.minecraft.world.storage.WorldInfo;
  *
  */
 public class FakeSaveHandler implements ISaveHandler {
+	
+	private static final UUID uuid = UUID.randomUUID();
 
 	@Override
 	public WorldInfo loadWorldInfo() {
@@ -71,7 +73,7 @@ public class FakeSaveHandler implements ISaveHandler {
 	 * @return A UUID for the fake world.
 	 */
 	public UUID getUUID() {
-		return UUID.fromString("FakeWorld");
+		return uuid;
 	}
 
 }
