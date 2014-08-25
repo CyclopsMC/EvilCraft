@@ -68,23 +68,22 @@ public class VersionStats {
 	 * @param event The tick event.
 	 */
 	public static synchronized void check(final PlayerTickEvent event) {
-		new Thread(new Runnable() {
-	
-	        @Override
-	        public void run() {
-	
-			if(!CHECKED) {
-				CHECKED = true;
-				EntityPlayer player = event.player;
-				
-				VersionStats versionStats = getVersionStats();
-				if(GeneralConfig.versionChecker && needsUpdate(versionStats)) {
-					sendMessage(player, "Update " + versionStats.mod_version + " of "+Reference.MOD_NAME+"(" + Reference.MOD_VERSION + "): " + versionStats.update_link);
-				}
+		if(!CHECKED) {
+			CHECKED = true;
+			new Thread(new Runnable() {
+		
+		        @Override
+		        public void run() {
+					EntityPlayer player = event.player;
+					
+					VersionStats versionStats = getVersionStats();
+					if(GeneralConfig.versionChecker && needsUpdate(versionStats)) {
+						sendMessage(player, "Update " + versionStats.mod_version + " of "+Reference.MOD_NAME+"(" + Reference.MOD_VERSION + "): " + versionStats.update_link);
+					}
 			}
+		    
+			}).start();
 		}
-	    
-		}).start();
 	}
 	
 	/**
