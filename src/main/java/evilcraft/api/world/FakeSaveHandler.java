@@ -1,6 +1,7 @@
 package evilcraft.api.world;
 
 import java.io.File;
+import java.util.UUID;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldProvider;
@@ -63,6 +64,14 @@ public class FakeSaveHandler implements ISaveHandler {
 	@Override
 	public String getWorldDirectoryName() {
 		return null;
+	}
+	
+	/**
+	 * Overrides the getUUID method for Cauldron instances.
+	 * @return A UUID for the fake world.
+	 */
+	public UUID getUUID() {
+		return UUID.fromString("FakeWorld");
 	}
 
 }
