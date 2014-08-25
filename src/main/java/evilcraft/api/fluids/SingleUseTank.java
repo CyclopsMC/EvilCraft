@@ -94,6 +94,7 @@ public class SingleUseTank extends Tank {
      * @return If this tank can completely contain the given fluid.
      */
     public boolean canCompletelyFill(FluidStack fluidStack) {
-    	return getFluidAmount() + fluidStack.amount <= getCapacity();
+    	int amount = (fluidStack != null) ? fluidStack.amount : 0;
+    	return getFluidAmount() + amount <= getCapacity();
     }
 }
