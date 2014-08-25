@@ -8,7 +8,11 @@ import net.minecraft.world.World;
  *
  */
 public abstract class WeatherType {
-    
+
+    /**
+     * Any weather type.
+     */
+    public static final WeatherType ANY = new WeatherTypeAny();
     /**
      * Clear weather.
      */
