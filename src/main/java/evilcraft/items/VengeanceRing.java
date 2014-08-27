@@ -176,7 +176,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	@Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
         if(entity instanceof EntityPlayer && !world.isRemote
-        		&& WorldHelpers.efficientTick(world, BONUS_TICK_MODULUS)) {
+        		&& WorldHelpers.efficientTick(world, BONUS_TICK_MODULUS, entity.getEntityId())) {
         	int area = VengeanceRingConfig.areaOfEffect;
         	toggleVengeanceArea(world, entity, area, ItemHelpers.isActivated(itemStack), true, false);
         	if(ItemHelpers.isActivated(itemStack)) {

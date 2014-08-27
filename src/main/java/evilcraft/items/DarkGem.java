@@ -8,6 +8,7 @@ import evilcraft.Configs;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
+import evilcraft.api.helpers.WorldHelpers;
 import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.DarkOre;
 import evilcraft.blocks.FluidBlockBlood;
@@ -21,6 +22,7 @@ public class DarkGem extends ConfigurableItem {
     
     private static DarkGem _instance = null;
     private static final int REQUIRED_BLOOD_BLOCKS = 5;
+    private static final int TICK_MODULUS = 5;
     
     /**
      * Initialise the configurable.
@@ -49,7 +51,9 @@ public class DarkGem extends ConfigurableItem {
     public boolean onEntityItemUpdate(EntityItem entityItem) {
         // This will transform a dark gem into a blood infusion core when it finds 
         // REQUIRED_BLOOD_BLOCKS blood fluid blocks in the neighbourhood.
-        if(Configs.isEnabled(BloodInfusionCoreConfig.class) && !entityItem.worldObj.isRemote) {
+        if(Configs.isEnabled(BloodInfusionCoreConfig.class) && !entityItem.worldObj.isRemote
+        		&& WorldHelpers.efficientTick(entityItem.worldObj, TICK_MODULUS, 
+        				(int) entityItem.posX, (int) entityItem.posY, (int) entityItem.posZ)) {
             int x = MathHelper.floor_double(entityItem.posX);
             int y = MathHelper.floor_double(entityItem.posY);
             int z = MathHelper.floor_double(entityItem.posZ);

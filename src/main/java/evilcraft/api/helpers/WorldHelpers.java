@@ -53,12 +53,15 @@ public class WorldHelpers {
 	 * This is useful for opererations that should happen frequently, but not strictly every tick.
 	 * @param world The world to tick in.
 	 * @param baseModulus The amount of ticks that could be skipped.
+	 * @param params Optional parameters to further vary the tick occurences.
 	 * @return If a tick of some operation can occur.
 	 */
-	public static boolean efficientTick(World world, int baseModulus) {
+	public static boolean efficientTick(World world, int baseModulus, int... params) {
 		int mod = (int) (baseModulus * TICK_LAG_REDUCTION_MODULUS_MODIFIER);
 		if(mod == 0) mod = 1;
-		return world.rand.nextInt(mod) == 0;
+		int offset = 0;
+		for(int param : params) offset += param;
+		return world.rand.nextInt(mod) == offset % mod;
 	}
     
 }

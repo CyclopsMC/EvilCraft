@@ -114,7 +114,7 @@ public class VengeanceFocus extends ConfigurableItem {
     @Override
     public void onUsingTick(ItemStack itemStack, EntityPlayer player, int duration) {
     	if(getItemInUseDuration(player) > 6) {
-    		if(WorldHelpers.efficientTick(player.worldObj, TICK_MODULUS)) {
+    		if(WorldHelpers.efficientTick(player.worldObj, TICK_MODULUS, player.getEntityId())) {
 		    	EntityAntiVengeanceBeam beam = new EntityAntiVengeanceBeam(player.worldObj, player);
 		    	if(!player.worldObj.isRemote) {
 		    		player.worldObj.spawnEntityInWorld(beam);

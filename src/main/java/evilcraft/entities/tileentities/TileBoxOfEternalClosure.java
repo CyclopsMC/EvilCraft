@@ -81,7 +81,8 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
         
         if(getSpiritInstance() == null && !worldObj.isRemote) {
 	        if(targetSpirit != null
-	        		|| (WorldHelpers.efficientTick(getWorldObj(), TICK_MODULUS) && findNextEntity())) {
+	        		|| (WorldHelpers.efficientTick(getWorldObj(), TICK_MODULUS, 
+	        				xCoord, yCoord, zCoord) && findNextEntity())) {
 	        	pullEntity();
 	        }
         }

@@ -21,6 +21,7 @@ import evilcraft.api.entities.tileentitites.tickaction.TickComponent;
 import evilcraft.api.fluids.BloodFluidConverter;
 import evilcraft.api.fluids.ImplicitFluidConversionTank;
 import evilcraft.api.fluids.SingleUseTank;
+import evilcraft.api.helpers.WorldHelpers;
 import evilcraft.blocks.BloodChest;
 import evilcraft.entities.tileentities.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.entities.tileentities.tickaction.EmptyItemBucketInTankTickAction;
@@ -36,6 +37,8 @@ import evilcraft.gui.slot.SlotRepairable;
  *
  */
 public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChest> {
+	
+	private static final int TICK_MODULUS = 200;
     
     /**
      * The amount of slots in the chest.
@@ -66,8 +69,6 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
      * The fluid that is accepted in the tank.
      */
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
-    
-    private int ticksSinceSync = -1;
     /**
      * The previous angle of the lid.
      */
@@ -156,7 +157,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         if(worldObj != null
                 && !this.worldObj.isRemote
                 && this.playersUsing != 0
-                && (this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0) {
+                && WorldHelpers.efficientTick(worldObj, TICK_MODULUS, this.xCoord, this.yCoord, this.zCoord)/*(this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0*/) {
             this.playersUsing = 0;
             float range = 5.0F;
             @SuppressWarnings("unchecked")
@@ -177,13 +178,10 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
                     ++this.playersUsing;
                 }
             }
-        }
-
-        if (worldObj != null && !worldObj.isRemote && ticksSinceSync < 0) {
+            
             worldObj.addBlockEvent(xCoord, yCoord, zCoord, block, 1, playersUsing);
         }
 
-        this.ticksSinceSync++;
         prevLidAngle = lidAngle;
         float increaseAngle = 0.1F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
