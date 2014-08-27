@@ -1,6 +1,5 @@
 package evilcraft.api.helpers;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -78,12 +77,10 @@ public class RenderHelpers {
             RenderBlocks renderer, Block block, double x, double y, double z,
             IIcon blockIconFromSideAndMetadata) {
         try {
-            String methodName = ObfuscationHelpers.isObfusicated()?METHODS_RENDERFACE_OBFUSICATED.get(renderDirection):METHODS_RENDERFACE.get(renderDirection);
-            Method method = renderer.getClass().getMethod(methodName, Block.class, double.class, double.class, double.class, IIcon.class);
+        	Method method = ObfuscationHelpers.getRenderFaceMethod(renderer, renderDirection);
+            //String methodName = ObfuscationHelpers.isObfusicated()?METHODS_RENDERFACE_OBFUSICATED.get(renderDirection):METHODS_RENDERFACE.get(renderDirection);
+            //Method method = renderer.getClass().getMethod(methodName, Block.class, double.class, double.class, double.class, IIcon.class);
             method.invoke(renderer, block, x, y, z, blockIconFromSideAndMetadata);
-        } catch (NoSuchMethodException e1) {
-            // Impossible to go wrong, unless this code changes or those of Minecraft...
-            e1.printStackTrace();
         } catch (SecurityException e2) {
         	e2.printStackTrace();
         } catch (IllegalAccessException e3) {
@@ -104,7 +101,8 @@ public class RenderHelpers {
      * @see RenderBlocks
      */
     public static void setRenderBlocksUVRotation(RenderBlocks renderer, ForgeDirection side, int rotation) {
-        try {
+    	ObfuscationHelpers.setUVRotate(renderer, side, ROTATE_UV_ROTATE[rotation]);
+    	/*try {
             String fieldName = ObfuscationHelpers.isObfusicated()?FIELDS_UVROTATE_OBFUSICATED.get(side):FIELDS_UVROTATE.get(side);
             Field field = renderer.getClass().getField(fieldName);
             field.set(renderer, ROTATE_UV_ROTATE[rotation]);
@@ -117,7 +115,7 @@ public class RenderHelpers {
         	e3.printStackTrace();
         } catch (IllegalArgumentException e4) {
         	e4.printStackTrace();
-        }
+        }*/
     }
     
     /**
