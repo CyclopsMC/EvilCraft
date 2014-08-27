@@ -7,12 +7,12 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 import net.minecraftforge.event.ForgeEventFactory;
 import cpw.mods.fml.common.eventhandler.Event.Result;
-import evilcraft.api.Coordinate;
+import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.config.DegradationEffectConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.StochasticDegradationEffect;
-import evilcraft.api.helpers.MathHelpers;
+import evilcraft.api.helpers.LocationHelpers;
 
 /**
  * Degradation that will eventually spawn mobs in the area.
@@ -57,12 +57,12 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
     @Override
     public void runServerSide(IDegradable degradable) {
         WorldServer world = (WorldServer) degradable.getWorld();
-        Coordinate spawn =
-                MathHelpers.getRandomPointInSphere(degradable.getLocation(), degradable.getRadius());
-        float x = spawn.x + 0.5F;
-        float y = spawn.y;
-        float z = spawn.z + 0.5F;
-        SpawnListEntry spawnlistentry = world.spawnRandomCreature(EnumCreatureType.monster, spawn.x, spawn.y, spawn.z);
+        ILocation spawn = LocationHelpers.getRandomPointInSphere(degradable.getLocation(), degradable.getRadius());
+        float x = spawn.getCoordinates()[0] + 0.5F;
+        float y = spawn.getCoordinates()[1];
+        float z = spawn.getCoordinates()[2] + 0.5F;
+        SpawnListEntry spawnlistentry = world.spawnRandomCreature(EnumCreatureType.monster,
+        		spawn.getCoordinates()[0], spawn.getCoordinates()[1], spawn.getCoordinates()[2]);
         EntityLiving entityliving;
 
         try {

@@ -1,11 +1,14 @@
 package evilcraft.api.helpers;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import evilcraft.api.algorithms.ILocation;
+import evilcraft.api.algorithms.Location;
 
 /**
  * Helper methods involving {@link ILocation}S and {@link TargetPoint}S.
@@ -13,6 +16,8 @@ import evilcraft.api.algorithms.ILocation;
  *
  */
 public class LocationHelpers {
+	
+	private static final Random random = new Random();
 
 	/**
 	 * Creates a {@link TargetPoint} for the dimension and position of the given {@link Entity}
@@ -98,6 +103,29 @@ public class LocationHelpers {
 			int notifyFlag) throws LocationException {
 		int[] c = LocationHelpers.validateLocation(location);
 		world.setBlockMetadataWithNotify(c[0], c[1], c[2], meta, notifyFlag);
+	}
+	
+	/**
+	 * Get a random point inside a sphere in an efficient way.
+	 * @param center The center coordinates of the sphere.
+	 * @param radius The radius of the sphere.
+	 * @return The coordinates of the random point.
+	 */
+	public static ILocation getRandomPointInSphere(ILocation center, int radius) {
+		ILocation randomPoint = null;
+	    while(randomPoint == null) {
+	    	int totalDistance = 0;
+	    	int[] coordinates = new int[center.getDimensions()];
+	    	for(int i = 0; i < center.getDimensions(); i++) {
+	    		coordinates[i] = center.getCoordinates()[i] - radius + random.nextInt(2 * radius);
+	    		int d = center.getCoordinates()[i] - coordinates[i];
+	    		totalDistance += d * d;
+	    	}
+	    	if((int) Math.sqrt(totalDistance) <= radius) {
+	    		randomPoint = new Location(coordinates);
+	    	}
+	    }
+	    return randomPoint;
 	}
 	
 	/**

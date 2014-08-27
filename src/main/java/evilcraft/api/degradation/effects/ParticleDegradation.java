@@ -4,7 +4,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Coordinate;
+import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.config.DegradationEffectConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableDegradationEffect;
@@ -51,13 +51,13 @@ public class ParticleDegradation extends ConfigurableDegradationEffect {
     @Override
     @SideOnly(Side.CLIENT)
     public void runClientSide(IDegradable degradable) {
-        Coordinate center = degradable.getLocation();
+        ILocation center = degradable.getLocation();
         World world = degradable.getWorld();
         int radius = degradable.getRadius();
         
-        double xCoord = center.x - radius + 2 * radius * world.rand.nextFloat();
-        double yCoord = center.y - radius + 2 * radius * world.rand.nextFloat();
-        double zCoord = center.z - radius + 2 * radius * world.rand.nextFloat();
+        double xCoord = center.getCoordinates()[0] - radius + 2 * radius * world.rand.nextFloat();
+        double yCoord = center.getCoordinates()[1] - radius + 2 * radius * world.rand.nextFloat();
+        double zCoord = center.getCoordinates()[2] - radius + 2 * radius * world.rand.nextFloat();
         
         double particleX = xCoord;
         double particleY = yCoord;

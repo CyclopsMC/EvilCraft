@@ -20,7 +20,8 @@ import org.lwjgl.util.vector.Vector4f;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.Coordinate;
+import evilcraft.api.algorithms.ILocation;
+import evilcraft.api.algorithms.Location;
 import evilcraft.api.degradation.DegradationExecutor;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.helpers.EntityHelpers;
@@ -60,6 +61,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     private DegradationExecutor degradationExecutor;
     // This number rises with the number of uses of the env. accum.
     private int degradation = 0;
+    private ILocation location = null;
     
     /**
      * Holds the state of the environmental accumulator.
@@ -414,8 +416,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	}
 
     @Override
-    public Coordinate getLocation() {
-        return new Coordinate(xCoord, yCoord, zCoord);
+    public ILocation getLocation() {
+    	if(location == null) location = new Location(xCoord, yCoord, zCoord);
+    	return location;
     }
 
     @Override

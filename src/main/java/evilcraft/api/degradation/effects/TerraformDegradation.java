@@ -8,13 +8,13 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import evilcraft.Configs;
-import evilcraft.api.Coordinate;
+import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.block.BlockTypeHolder;
 import evilcraft.api.config.DegradationEffectConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.StochasticDegradationEffect;
-import evilcraft.api.helpers.MathHelpers;
+import evilcraft.api.helpers.LocationHelpers;
 import evilcraft.blocks.NetherfishSpawn;
 import evilcraft.blocks.NetherfishSpawnConfig;
 
@@ -128,11 +128,11 @@ private static TerraformDegradation _instance = null;
     public void runServerSide(IDegradable degradable) {
         World world = degradable.getWorld();
         
-        Coordinate blockPoint = MathHelpers.getRandomPointInSphere(
+        ILocation blockPoint = LocationHelpers.getRandomPointInSphere(
                 degradable.getLocation(), degradable.getRadius());
-        int x = blockPoint.x;
-        int y = blockPoint.y;
-        int z = blockPoint.z;
+        int x = blockPoint.getCoordinates()[0];
+        int y = blockPoint.getCoordinates()[1];
+        int z = blockPoint.getCoordinates()[2];
         
         Block block = world.getBlock(x, y, z);
         BlockTypeHolder replace = getReplacement(block);

@@ -3,7 +3,7 @@ package evilcraft.api.degradation.effects;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import evilcraft.api.Coordinate;
+import evilcraft.api.algorithms.ILocation;
 import evilcraft.api.config.DegradationEffectConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableDegradationEffect;
@@ -58,10 +58,10 @@ public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
     @Override
     public void runServerSide(IDegradable degradable) {
         List<Entity> entities = degradable.getAreaEntities();
-        Coordinate center = degradable.getLocation();
-        double x = center.x;
-        double y = center.y;
-        double z = center.z;
+        ILocation center = degradable.getLocation();
+        double x = center.getCoordinates()[0];
+        double y = center.getCoordinates()[1];
+        double z = center.getCoordinates()[2];
         for(Entity entity : entities) {
             MaceOfDistortion.distortEntity(
                     degradable.getWorld(),

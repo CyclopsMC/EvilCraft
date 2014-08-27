@@ -80,8 +80,9 @@ public class OrganicSpread {
      */
     public void spreadTick(ILocation startLocation) {
         if(startLocation.getDimensions() != getDimensions()) {
-            throw new RuntimeException("The dimensions of the given location do not equal "
-                    + "this spreading dimensions.");
+            throw new RuntimeException("The dimensions of the given location("
+            		+ startLocation.getDimensions() + ") do not equal " + "this spreading dimensions("
+            		+ getDimensions() + ").");
         }
         ILocation newLocation = startLocation.copy();
         

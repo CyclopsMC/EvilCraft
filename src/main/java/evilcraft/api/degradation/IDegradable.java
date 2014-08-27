@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import evilcraft.api.Coordinate;
+import evilcraft.api.algorithms.ILocation;
 
 /**
  * Objects that can execute {@link IDegradationEffect} should implement this.
@@ -17,7 +17,7 @@ public interface IDegradable {
      * Get the center location of this degradable instance.
      * @return The center coordinates.
      */
-    public Coordinate getLocation();
+    public ILocation getLocation();
     /**
      * Get the radius of the area.
      * @return The radius.
