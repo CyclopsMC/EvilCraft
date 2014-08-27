@@ -14,7 +14,7 @@ import evilcraft.gui.container.ContainerBloodChest;
 public class GuiBloodChest extends GuiContainerTankInventory<TileBloodChest> {
 
     private static final int TEXTUREWIDTH = 176;
-	private static final int TEXTUREHEIGHT = 166;
+	//private static final int TEXTUREHEIGHT = 166;
     
     private static final int TANKWIDTH = 16;
     private static final int TANKHEIGHT = 58;

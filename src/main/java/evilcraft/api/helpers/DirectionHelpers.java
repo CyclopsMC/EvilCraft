@@ -25,7 +25,7 @@ public class DirectionHelpers {
      */
     public static List<DirectionCorner> DIRECTIONS_CORNERS = Arrays.asList(DirectionCorner.VALID_DIRECTIONS);
     /**
-     * The facing directions of an entity, used in {@link Helpers#getEntityFacingDirection(EntityLivingBase)}.
+     * The facing directions of an entity, used in {@link DirectionHelpers#getEntityFacingDirection(EntityLivingBase)}.
      */
     public static final ForgeDirection[] ENTITYFACING =
         {ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.NORTH, ForgeDirection.EAST};
@@ -45,7 +45,7 @@ public class DirectionHelpers {
     /**
      * Get an iterator for all the {@link ForgeDirection}.
      * @return The {@link ForgeDirection} iterator
-     * @see Helpers#DIRECTIONS
+     * @see DirectionHelpers#DIRECTIONS
      * @see ForgeDirection
      */
     public static Iterator<ForgeDirection> getDirectionIterator() {

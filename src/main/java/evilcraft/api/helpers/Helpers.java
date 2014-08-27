@@ -2,7 +2,6 @@ package evilcraft.api.helpers;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import evilcraft.api.config.configurable.Configurable;
 
@@ -12,8 +11,6 @@ import evilcraft.api.config.configurable.Configurable;
  *
  */
 public class Helpers {
-    
-    private static final Random random = new Random();
     
     private static Map<IDType, Integer> ID_COUNTER = new HashMap<IDType, Integer>();
     
