@@ -1,5 +1,8 @@
 package evilcraft.render.tileentity;
 
+import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeComponent;
+import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeProperties;
+import evilcraft.api.recipes.IRecipe;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.boss.BossStatus;
@@ -10,7 +13,6 @@ import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
-import evilcraft.api.recipes.EnvironmentalAccumulatorRecipe;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.entities.tileentities.EvilCraftBeaconTileEntity;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
@@ -44,11 +46,14 @@ public class TileEntityEnvironmentalAccumulatorRenderer extends TileEntityBeacon
         }
     }
     
-    private void renderProcessingItem(EnvironmentalAccumulatorRecipe recipe, World world, float partialTickTime) {
+    private void renderProcessingItem(
+            IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe,
+            World world, float partialTickTime) {
+
         if (recipe == null)
             return;
         
-        ItemStack stack = recipe.getItemStack();
+        ItemStack stack = recipe.getInput().getItemStack();
         if (stack == null)
             return;
         

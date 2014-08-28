@@ -3,6 +3,8 @@ package evilcraft;
 import java.util.HashMap;
 import java.util.Map;
 
+import evilcraft.api.recipes.*;
+import evilcraft.blocks.*;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Blocks;
@@ -14,38 +16,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
-import evilcraft.api.recipes.CustomRecipe;
-import evilcraft.api.recipes.CustomRecipeRegistry;
-import evilcraft.api.recipes.EnvironmentalAccumulatorRecipe;
-import evilcraft.api.recipes.EnvironmentalAccumulatorResult;
 import evilcraft.api.weather.WeatherType;
-import evilcraft.blocks.BloodChest;
-import evilcraft.blocks.BloodChestConfig;
-import evilcraft.blocks.BloodInfuser;
-import evilcraft.blocks.BloodInfuserConfig;
-import evilcraft.blocks.BoxOfEternalClosure;
-import evilcraft.blocks.BoxOfEternalClosureConfig;
-import evilcraft.blocks.DarkBlock;
-import evilcraft.blocks.DarkBlockConfig;
-import evilcraft.blocks.DarkBloodBrick;
-import evilcraft.blocks.DarkBloodBrickConfig;
-import evilcraft.blocks.DarkBrick;
-import evilcraft.blocks.DarkBrickConfig;
-import evilcraft.blocks.EnvironmentalAccumulatorConfig;
-import evilcraft.blocks.LightningBomb;
-import evilcraft.blocks.LightningBombConfig;
-import evilcraft.blocks.ObscuredGlass;
-import evilcraft.blocks.ObscuredGlassConfig;
-import evilcraft.blocks.Purifier;
-import evilcraft.blocks.PurifierConfig;
-import evilcraft.blocks.SpiritFurnace;
-import evilcraft.blocks.SpiritFurnaceConfig;
-import evilcraft.blocks.UndeadLog;
-import evilcraft.blocks.UndeadLogConfig;
-import evilcraft.blocks.UndeadPlank;
-import evilcraft.blocks.UndeadPlankConfig;
-import evilcraft.blocks.UndeadSapling;
-import evilcraft.blocks.UndeadSaplingConfig;
 import evilcraft.enchantment.EnchantmentPoisonTip;
 import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.fluids.Blood;
@@ -491,105 +462,108 @@ public class Recipes {
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
         	// Dark power gem
         	if(Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkPowerGemConfig.class) && Configs.isEnabled(BloodConfig.class)) {
-                CustomRecipeRegistry.put(new CustomRecipe(
-                        new ItemStack(DarkGem.getInstance()),
-                        new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 4),
-                        BloodInfuser.getInstance(),
-                        200
+                BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
+                        new ItemAndFluidStackRecipeComponent(
+                                new ItemStack(DarkGem.getInstance()),
+                                new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 4)
                         ),
-                        new ItemStack(DarkPowerGem.getInstance()
-                                ));
+                        new ItemStackRecipeComponent(new ItemStack(DarkPowerGem.getInstance())),
+                        new DurationRecipeProperties(200)
+                );
             }
         	// Undead sapling
             if(Configs.isEnabled(UndeadSaplingConfig.class)) {
-                CustomRecipeRegistry.put(new CustomRecipe(
-                        new ItemStack(Blocks.deadbush),
-                        new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2),
-                        BloodInfuser.getInstance(),
-                        200
+                BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
+                        new ItemAndFluidStackRecipeComponent(
+                                new ItemStack(Blocks.deadbush),
+                                new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2)
                         ),
-                        new ItemStack(UndeadSapling.getInstance()
-                                ));
+                        new ItemStackRecipeComponent(new ItemStack(UndeadSapling.getInstance())),
+                        new DurationRecipeProperties(200)
+                );
             }
             // Blook
             if(Configs.isEnabled(BlookConfig.class)) {
-                CustomRecipeRegistry.put(new CustomRecipe(
-                        new ItemStack(Items.book),
-                        new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 2),
-                        BloodInfuser.getInstance(),
-                        500
+                BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
+                        new ItemAndFluidStackRecipeComponent(
+                                new ItemStack(Items.book),
+                                new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 2)
                         ),
-                        new ItemStack(Blook.getInstance()
-                                ));
+                        new ItemStackRecipeComponent(new ItemStack(Blook.getInstance())),
+                        new DurationRecipeProperties(500)
+                );
             }
             // Ender pearl
             if(Configs.isEnabled(PotentiaSphereConfig.class) && PotentiaSphereConfig.enderPearlRecipe) {
-                CustomRecipeRegistry.put(new CustomRecipe(
-                        new ItemStack(PotentiaSphere.getInstance()),
-                        new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2),
-                        BloodInfuser.getInstance(),
-                        1000
+                BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
+                        new ItemAndFluidStackRecipeComponent(
+                                new ItemStack(PotentiaSphere.getInstance()),
+                                new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2)
                         ),
-                        new ItemStack(Items.ender_pearl
-                                ));
+                        new ItemStackRecipeComponent(new ItemStack(Items.ender_pearl)),
+                        new DurationRecipeProperties(1000)
+                );
             }
             // Dark blood brick
             if(Configs.isEnabled(DarkBrickConfig.class) && Configs.isEnabled(DarkBloodBrickConfig.class)) {
-                CustomRecipeRegistry.put(new CustomRecipe(
-                        new ItemStack(DarkBrick.getInstance()),
-                        new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 2),
-                        BloodInfuser.getInstance(),
-                        250
+                BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
+                        new ItemAndFluidStackRecipeComponent(
+                                new ItemStack(DarkBrick.getInstance()),
+                                new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 2)
                         ),
-                        new ItemStack(DarkBloodBrick.getInstance()
-                                ));
+                        new ItemStackRecipeComponent(new ItemStack(DarkBloodBrick.getInstance())),
+                        new DurationRecipeProperties(250)
+                );
             }
         }
         
         if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
-            EnvironmentalAccumulatorRecipe recipe = null;
-            EnvironmentalAccumulatorResult result = null;
+            ItemStack outputStack = null;
+            String recipeName = null;
             
             // Add the different weather container recipes
             if (Configs.isEnabled(WeatherContainerConfig.class)) {
 	            ItemStack emptyContainer = WeatherContainer.createItemStack(WeatherContainerTypes.EMPTY, 1);
-	            WeatherType[] inputs = {WeatherType.CLEAR, WeatherType.LIGHTNING, WeatherType.RAIN};
-	            WeatherType[] outputs = {WeatherType.RAIN, WeatherType.RAIN, WeatherType.CLEAR};
+	            WeatherType[] weatherInputs = {WeatherType.CLEAR, WeatherType.LIGHTNING, WeatherType.RAIN};
+	            WeatherType[] weatherOutputs = {WeatherType.RAIN, WeatherType.RAIN, WeatherType.CLEAR};
 	            
-	            for (int i=0; i < inputs.length; ++i) {
-	                recipe = new EnvironmentalAccumulatorRecipe(
-	                        "WeatherContainer" + inputs[i].getClass().getSimpleName(),
-	                        emptyContainer,
-	                        inputs[i]
-	                );
-	                
-	                result = new EnvironmentalAccumulatorResult(
-	                        recipe,
-	                        WeatherContainer.createItemStack(
-	                                WeatherContainerTypes.getWeatherContainerType(inputs[i]), 1
-	                        ),
-	                        outputs[i]
-	                );
-	                CustomRecipeRegistry.put(recipe, result);
+	            for (int i=0; i < weatherInputs.length; ++i) {
+                    recipeName = "WeatherContainer" + weatherInputs[i].getClass().getSimpleName();
+                    outputStack = WeatherContainer.createItemStack(
+                            WeatherContainerTypes.getWeatherContainerType(weatherInputs[i]), 1);
+
+                    EnvironmentalAccumulator.getInstance().getRecipeRegistry().registerRecipe(
+                            recipeName,
+                            new EnvironmentalAccumulatorRecipeComponent(
+                                    emptyContainer,
+                                    weatherInputs[i]
+                            ),
+                            new EnvironmentalAccumulatorRecipeComponent(
+                                    outputStack,
+                                    weatherOutputs[i]
+                            ),
+                            new EnvironmentalAccumulatorRecipeProperties()
+                    );
 	            }
             }
             
             // Add Empowered Inverted Potentia recipe.
             if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
-                recipe = new EnvironmentalAccumulatorRecipe(
-                        "EAInvertedPotentia",
-                        new ItemStack(InvertedPotentia.getInstance()),
-                        WeatherType.LIGHTNING
-                );
-                
                 ItemStack out = new ItemStack(InvertedPotentia.getInstance());
                 InvertedPotentia.empower(out);
-                result = new EnvironmentalAccumulatorResult(
-                        recipe,
-                        out,
-                        WeatherType.RAIN
+
+                EnvironmentalAccumulator.getInstance().getRecipeRegistry().registerRecipe(
+                        "EAInvertedPotentia",
+                        new EnvironmentalAccumulatorRecipeComponent(
+                                new ItemStack(InvertedPotentia.getInstance()),
+                                WeatherType.LIGHTNING
+                        ),
+                        new EnvironmentalAccumulatorRecipeComponent(
+                                out,
+                                WeatherType.RAIN
+                        ),
+                        new EnvironmentalAccumulatorRecipeProperties()
                 );
-                CustomRecipeRegistry.put(recipe, result);
             }
         }
     }
