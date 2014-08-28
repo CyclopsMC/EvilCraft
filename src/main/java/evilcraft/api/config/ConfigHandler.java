@@ -1,8 +1,12 @@
 package evilcraft.api.config;
 
 import java.util.LinkedHashSet;
+import java.util.Map;
 
 import net.minecraftforge.common.config.Configuration;
+
+import com.google.common.collect.Maps;
+
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import evilcraft.EvilCraft;
 import evilcraft.IInitListener;
@@ -26,6 +30,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
     
     private Configuration config;
     private LinkedHashSet<ExtendedConfig> processedConfigs = new LinkedHashSet<ExtendedConfig>();
+    private Map<String, ExtendedConfig> configDictionary = Maps.newHashMap();
     
     /**
      * Get the unique instance.
@@ -35,6 +40,12 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         if(_instance == null)
             _instance = new ConfigHandler();
         return _instance;
+    }
+    
+    @Override
+    public boolean add(ExtendedConfig e) {
+    	configDictionary.put(e.NAMEDID, e);
+    	return super.add(e);
     }
     
     /**
@@ -124,6 +135,14 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
 	 */
 	public void setConfig(Configuration config) {
 		this.config = config;
+	}
+	
+	/**
+	 * Get the map of config nameid to config.
+	 * @return The dictionary.
+	 */
+	public Map<String, ExtendedConfig> getDictionary() {
+		return configDictionary;
 	}
 	
 	/**

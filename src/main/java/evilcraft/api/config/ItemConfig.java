@@ -51,12 +51,14 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     
     @Override
     public void onRegistered() {
-        if(blendAlpha() && MinecraftHelpers.isClientSide())
-            MinecraftForgeClient.registerItemRenderer(this.getItemInstance(), new AlphaItemRenderer());
-        
-        if(getOreDictionaryId() != null) {
-            OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(this.getItemInstance()));
-        }
+    	if(isEnabled()) {
+	        if(blendAlpha() && MinecraftHelpers.isClientSide())
+	            MinecraftForgeClient.registerItemRenderer(this.getItemInstance(), new AlphaItemRenderer());
+	        
+	        if(getOreDictionaryId() != null) {
+	            OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(this.getItemInstance()));
+	        }
+    	}
     }
 
 }
