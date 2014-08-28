@@ -1,11 +1,12 @@
 package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 
+import evilcraft.api.recipes.DurationRecipeProperties;
+import evilcraft.api.recipes.IRecipe;
+import evilcraft.api.recipes.ItemAndFluidStackRecipeComponent;
+import evilcraft.api.recipes.ItemStackRecipeComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
-import evilcraft.api.recipes.CustomRecipe;
-import evilcraft.api.recipes.CustomRecipeRegistry;
-import evilcraft.api.recipes.CustomRecipeResult;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 
@@ -18,38 +19,37 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
 
     @Override
     public void onTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
-        CustomRecipeResult result = getResult(tile);
-        if(tick >= getRequiredTicks(tile, result.getRecipe())) {
-            if(result != null) {
-                if(addToProduceSlot(tile, result.getResult().copy())) {
+        IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = getRecipe(tile);
+        if(tick >= getRequiredTicks(tile, recipe)) {
+            if(recipe != null) {
+                if(addToProduceSlot(tile, recipe.getOutput().getItemStack().copy())) {
                     tile.getInventory().decrStackSize(tile.getConsumeSlot(), 1);
-                    tile.getTank().drain(result.getRecipe().getFluidStack().amount, true);
+                    tile.getTank().drain(recipe.getInput().getFluidStack().amount, true);
                 }
             }
         }
     }
     
-    private CustomRecipeResult getResult(TileBloodInfuser tile) {
-        ItemStack infuseStack = getInfuseStack(tile);
-        CustomRecipe customRecipeKey = new CustomRecipe(infuseStack, tile.getTank().getFluid(), BloodInfuser.getInstance());
-        CustomRecipeResult result = CustomRecipeRegistry.get(customRecipeKey);
-        return result;
+    private IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>
+        getRecipe(TileBloodInfuser tile) {
+
+        return BloodInfuser.getInstance().getRecipeRegistry().findRecipeByInput(
+                new ItemAndFluidStackRecipeComponent(getInfuseStack(tile), tile.getTank().getFluid()));
     }
     
     @Override
     public int getRequiredTicks(TileBloodInfuser tile, int slot) {
-        CustomRecipeResult result = getResult(tile);
-        return getRequiredTicks(tile, result.getRecipe());
+        return getRequiredTicks(tile, getRecipe(tile));
     }
     
-    private int getRequiredTicks(TileBloodInfuser tile, CustomRecipe customRecipe) {
-        return customRecipe.getDuration();
+    private int getRequiredTicks(TileBloodInfuser tile,
+                                 IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
+        return recipe.getProperties().getDuration();
     }
     
     @Override
     public Item willProduceItem(TileBloodInfuser tile) {
-        CustomRecipeResult result = getResult(tile);
-        return result.getResult().getItem();
+        return getRecipe(tile).getOutput().getItemStack().getItem();
     }
     
 }

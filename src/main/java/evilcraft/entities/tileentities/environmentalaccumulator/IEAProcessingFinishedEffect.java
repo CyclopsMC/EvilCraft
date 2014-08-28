@@ -1,7 +1,6 @@
 package evilcraft.entities.tileentities.environmentalaccumulator;
 
-import evilcraft.api.recipes.EnvironmentalAccumulatorRecipe;
-import evilcraft.api.recipes.EnvironmentalAccumulatorResult;
+import evilcraft.api.recipes.IRecipe;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 
@@ -21,7 +20,6 @@ public interface IEAProcessingFinishedEffect {
      * 
      * @param tile The tile entity that called this function.
      * @param recipe The recipe that caused this effect to be executed.
-     * @param result The result belong to the given recipe.
      */
-    public void executeEffect(TileEnvironmentalAccumulator tile, EnvironmentalAccumulatorRecipe recipe, EnvironmentalAccumulatorResult result);
+    public void executeEffect(TileEnvironmentalAccumulator tile, IRecipe recipe);
 }

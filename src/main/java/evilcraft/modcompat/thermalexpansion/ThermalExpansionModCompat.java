@@ -1,9 +1,9 @@
 package evilcraft.modcompat.thermalexpansion;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Map.Entry;
 
+import evilcraft.api.recipes.*;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,9 +16,6 @@ import evilcraft.EvilCraft;
 import evilcraft.IInitListener;
 import evilcraft.Recipes;
 import evilcraft.Reference;
-import evilcraft.api.recipes.CustomRecipe;
-import evilcraft.api.recipes.CustomRecipeRegistry;
-import evilcraft.api.recipes.CustomRecipeResult;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlock;
@@ -134,18 +131,18 @@ public class ThermalExpansionModCompat implements IModCompat {
 
         // Fluid Transposer: blood infuse
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
-            Map<CustomRecipe, CustomRecipeResult> bloodInfuseRecipes = CustomRecipeRegistry.getRecipesForFactory(BloodInfuser.getInstance());
-            for(Entry<CustomRecipe, CustomRecipeResult> entry : bloodInfuseRecipes.entrySet()) {
+            for (IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe :
+                    BloodInfuser.getInstance().getRecipeRegistry().allRecipes()) {
                 NBTTagCompound bloodInfuse = new NBTTagCompound();
-                bloodInfuse.setInteger("energy", entry.getKey().getDuration() * 100);
+                bloodInfuse.setInteger("energy", recipe.getProperties().getDuration() * 100);
                 bloodInfuse.setTag("input", new NBTTagCompound());
                 bloodInfuse.setTag("output", new NBTTagCompound());
                 bloodInfuse.setTag("fluid", new NBTTagCompound());
-    
-                entry.getKey().getItemStack().writeToNBT(bloodInfuse.getCompoundTag("input"));
-                entry.getValue().getResult().writeToNBT(bloodInfuse.getCompoundTag("output"));
+
+                recipe.getInput().getItemStack().writeToNBT(bloodInfuse.getCompoundTag("input"));
+                recipe.getOutput().getItemStack().writeToNBT(bloodInfuse.getCompoundTag("output"));
                 bloodInfuse.setBoolean("reversible", false);
-                FluidStack fluid = entry.getKey().getFluidStack().copy();
+                FluidStack fluid = recipe.getInput().getFluidStack().copy();
                 fluid.amount *= 1.5;
                 fluid.writeToNBT(bloodInfuse.getCompoundTag("fluid"));
                 FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", bloodInfuse);

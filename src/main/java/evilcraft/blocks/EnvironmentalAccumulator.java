@@ -2,6 +2,10 @@ package evilcraft.blocks;
 
 import java.util.List;
 
+import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeComponent;
+import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeProperties;
+import evilcraft.api.recipes.IMachine;
+import evilcraft.api.recipes.SuperRecipeRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +28,9 @@ import evilcraft.render.block.RenderEnvironmentalAccumulator;
  * @author immortaleeb
  *
  */
-public class EnvironmentalAccumulator extends ConfigurableBlockContainer implements IInformationProvider {
+public class EnvironmentalAccumulator
+        extends ConfigurableBlockContainer
+        implements IInformationProvider, IMachine<EnvironmentalAccumulator, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> {
 	
 	private static EnvironmentalAccumulator _instance = null;
 	
@@ -133,4 +139,9 @@ public class EnvironmentalAccumulator extends ConfigurableBlockContainer impleme
     @Override
     public void provideInformation(ItemStack itemStack,
             EntityPlayer entityPlayer, List list, boolean par4) {}
+
+    @Override
+    public SuperRecipeRegistry.RecipeRegistry<EnvironmentalAccumulator, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> getRecipeRegistry() {
+        return SuperRecipeRegistry.getRecipeRegistry(this);
+    }
 }

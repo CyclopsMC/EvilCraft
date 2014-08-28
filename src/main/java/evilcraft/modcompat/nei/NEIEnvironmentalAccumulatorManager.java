@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import evilcraft.api.recipes.*;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
@@ -16,11 +17,6 @@ import org.lwjgl.opengl.GL11;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import evilcraft.Reference;
-import evilcraft.api.recipes.CustomRecipe;
-import evilcraft.api.recipes.CustomRecipeRegistry;
-import evilcraft.api.recipes.CustomRecipeResult;
-import evilcraft.api.recipes.EnvironmentalAccumulatorRecipe;
-import evilcraft.api.recipes.EnvironmentalAccumulatorResult;
 import evilcraft.api.weather.WeatherType;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
@@ -54,6 +50,15 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
         private PositionedStack outputStack;
         private WeatherType outputWeather;
         private int duration;
+
+        public CachedEnvironmentalAccumulatorRecipe(
+                EnvironmentalAccumulatorRecipeComponent input,
+                EnvironmentalAccumulatorRecipeComponent output,
+                EnvironmentalAccumulatorRecipeProperties properties) {
+            this(input.getItemStack(), input.getWeatherType(),
+                 output.getItemStack(), output.getWeatherType(),
+                 properties.getDuration());
+        }
         
         public CachedEnvironmentalAccumulatorRecipe(
                 ItemStack inputStack, WeatherType inputWeather,
@@ -181,18 +186,12 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
     
     private List<CachedEnvironmentalAccumulatorRecipe> getRecipes() {
         List<CachedEnvironmentalAccumulatorRecipe> recipes = new LinkedList<CachedEnvironmentalAccumulatorRecipe>();
-        for(CustomRecipeResult recipeResult : CustomRecipeRegistry.getRecipesForFactory(EnvironmentalAccumulator.getInstance()).values()) {
-            EnvironmentalAccumulatorRecipe eaRecipe = (EnvironmentalAccumulatorRecipe) recipeResult.getRecipe();
-            EnvironmentalAccumulatorResult eaResult = (EnvironmentalAccumulatorResult) recipeResult;
-            recipes.add(
-                    new CachedEnvironmentalAccumulatorRecipe(
-                            recipeResult.getRecipe().getItemStack(),
-                            eaRecipe.getWeatherType(),
-                            recipeResult.getResult(),
-                            eaResult.getWeatherResult(),
-                            recipeResult.getRecipe().getDuration()
-                            )
-                    );
+        for (IRecipe recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry().allRecipes()) {
+            EnvironmentalAccumulatorRecipeComponent input = (EnvironmentalAccumulatorRecipeComponent)recipe.getInput();
+            EnvironmentalAccumulatorRecipeComponent output = (EnvironmentalAccumulatorRecipeComponent)recipe.getOutput();
+            EnvironmentalAccumulatorRecipeProperties props = (EnvironmentalAccumulatorRecipeProperties)recipe.getProperties();
+
+            recipes.add(new CachedEnvironmentalAccumulatorRecipe(input, output, props));
         }
         return recipes;
     }
@@ -214,44 +213,29 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
     }
     
     @Override
-    public void loadCraftingRecipes(ItemStack result) {
-        CustomRecipe recipe = CustomRecipeRegistry.get(result);
-        if(recipe != null && recipe.getFactory() == EnvironmentalAccumulator.getInstance()) {
-            EnvironmentalAccumulatorRecipe eaRecipe = (EnvironmentalAccumulatorRecipe)recipe;
-            EnvironmentalAccumulatorResult eaResult = (EnvironmentalAccumulatorResult) CustomRecipeRegistry.get(eaRecipe);
-            
-            arecipes.add(
-                    new CachedEnvironmentalAccumulatorRecipe(
-                            eaRecipe.getItemStack(),
-                            eaRecipe.getWeatherType(),
-                            eaResult.getItemResult(),
-                            eaResult.getWeatherResult(),
-                            eaRecipe.getDuration()
-                            )
-                    );
+    public void loadCraftingRecipes(final ItemStack result) {
+        IRecipe recipe = EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipeByOutput(
+                new EnvironmentalAccumulatorRecipeComponent(result, WeatherType.ANY)
+        );
+
+        if (recipe != null) {
+            arecipes.add(new CachedEnvironmentalAccumulatorRecipe(
+                    (EnvironmentalAccumulatorRecipeComponent) recipe.getInput(),
+                    (EnvironmentalAccumulatorRecipeComponent) recipe.getOutput(),
+                    (EnvironmentalAccumulatorRecipeProperties) recipe.getProperties()
+            ));
         }
     }
     
     @Override
-    public void loadUsageRecipes(ItemStack ingredient) {
-        CustomRecipe customRecipeKey =
-                new EnvironmentalAccumulatorRecipe(
-                        null,
-                        ingredient
-                );
-        EnvironmentalAccumulatorResult eaResult = (EnvironmentalAccumulatorResult) CustomRecipeRegistry.get(customRecipeKey);
-        if(eaResult != null) {
-            EnvironmentalAccumulatorRecipe eaRecipe = (EnvironmentalAccumulatorRecipe) CustomRecipeRegistry.get(eaResult.getItemResult());
-            
-            arecipes.add(
-                    new CachedEnvironmentalAccumulatorRecipe(
-                            eaRecipe.getItemStack(),
-                            eaRecipe.getWeatherType(),
-                            eaResult.getItemResult(),
-                            eaResult.getWeatherResult(),
-                            eaRecipe.getDuration()
-                            )
-                    );
+    public void loadUsageRecipes(final ItemStack ingredient) {
+        for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe :
+                EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipesByInput(new EnvironmentalAccumulatorRecipeComponent(ingredient, WeatherType.ANY))) {
+            arecipes.add(new CachedEnvironmentalAccumulatorRecipe(
+                    recipe.getInput(),
+                    recipe.getOutput(),
+                    recipe.getProperties()
+            ));
         }
     }
     

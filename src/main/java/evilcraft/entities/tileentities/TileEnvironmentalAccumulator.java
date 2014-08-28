@@ -1,9 +1,10 @@
 package evilcraft.entities.tileentities;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
+import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeComponent;
+import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeProperties;
+import evilcraft.api.recipes.IRecipe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
@@ -28,11 +29,6 @@ import evilcraft.api.helpers.EntityHelpers;
 import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.api.helpers.MinecraftHelpers;
 import evilcraft.api.inventory.SimpleInventory;
-import evilcraft.api.recipes.CustomRecipe;
-import evilcraft.api.recipes.CustomRecipeRegistry;
-import evilcraft.api.recipes.CustomRecipeResult;
-import evilcraft.api.recipes.EnvironmentalAccumulatorRecipe;
-import evilcraft.api.recipes.EnvironmentalAccumulatorResult;
 import evilcraft.api.weather.WeatherType;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
@@ -75,7 +71,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     private SimpleInventory inventory;
     
     // The recipe we're currently working on
-    private EnvironmentalAccumulatorRecipe recipe;
+    private IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe;
     
     /**
      * Make a new instance.
@@ -117,8 +113,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	 * @return The maximum cooldown tick.
 	 */
 	public int getMaxCooldownTick() {
-	    EnvironmentalAccumulatorResult result = (recipe == null) ? 
-	            null : (EnvironmentalAccumulatorResult)CustomRecipeRegistry.get(recipe);
+	    EnvironmentalAccumulatorRecipeProperties result = (recipe == null) ? null : recipe.getProperties();
 	    
 	    if (result == null)
 	        return EnvironmentalAccumulatorConfig.defaultTickCooldown;
@@ -143,7 +138,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	 * @return Returns the recipe being processed, or null in case we're
 	 *         not processing anything at the moment.
 	 */
-	public EnvironmentalAccumulatorRecipe getRecipe() {
+	public IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> getRecipe() {
 	    return recipe;
 	}
 	
@@ -151,14 +146,14 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    if (recipe == null)
 	        return EnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
 	    else
-	        return recipe.getDuration();
+	        return recipe.getProperties().getDuration();
 	}
 	
 	private float getItemMoveSpeed() {
 	    if (recipe == null)
 	        return (float) EnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
 	    else
-	        return (float) recipe.getProcessingSpeed();
+	        return (float) recipe.getProperties().getProcessingSpeed();
 	}
 	
 	@Override
@@ -208,42 +203,42 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
                         this.xCoord, this.yCoord + WEATHER_CONTAINER_MIN_DROP_HEIGHT, this.zCoord, 
                         this.xCoord + 1.0, this.yCoord + WEATHER_CONTAINER_MAX_DROP_HEIGHT, this.zCoord + 1.0)
                 );
-        
-        // Get all environmental accumulator recipes
-        Map<CustomRecipe, CustomRecipeResult> recipes = CustomRecipeRegistry.getRecipesForFactory(EnvironmentalAccumulator.getInstance());
-        
+
         // Loop over all recipes until we find an item dropped in the accumulator that matches a recipe
-        for (Entry<CustomRecipe, CustomRecipeResult> entry : recipes.entrySet()) {
-            EnvironmentalAccumulatorRecipe recipe = (EnvironmentalAccumulatorRecipe) entry.getKey();
-            ItemStack recipeStack = recipe.getItemStack();
-            WeatherType weatherType = recipe.getWeatherType();
-            
+        for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe :
+                EnvironmentalAccumulator.getInstance().getRecipeRegistry().allRecipes()) {
+            EnvironmentalAccumulatorRecipeComponent input = recipe.getInput();
+            EnvironmentalAccumulatorRecipeComponent output = recipe.getOutput();
+
+            ItemStack recipeStack = input.getItemStack();
+            WeatherType weatherType = input.getWeatherType();
+
             // Loop over all dropped items
             for (Object obj : entityItems) {
                 EntityItem entityItem = (EntityItem) obj;
                 ItemStack stack = entityItem.getEntityItem();
-                
-                if (recipeStack.getItem() == stack.getItem() 
-                        && recipeStack.getItemDamage() == stack.getItemDamage() 
+
+                if (recipeStack.getItem() == stack.getItem()
+                        && recipeStack.getItemDamage() == stack.getItemDamage()
                         && recipeStack.stackSize <= stack.stackSize
                         && (weatherType == null || weatherType.isActive(worldObj))) {
-                    
+
                     // Save the required input items in the inventory
                     ItemStack inputStack = recipeStack.copy();
                     this.setInventorySlotContents(0, inputStack);
-                    
+
                     // Save the recipe
                     this.recipe = recipe;
-                    
+
                     if (!worldObj.isRemote) {
                         decreaseStackSize(entityItem, recipeStack);
                     }
-                    
+
                     activateProcessingItemState();
-                    
+
                     return;
                 }
-                
+
             }
         }
 	}
@@ -266,15 +261,14 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	            entity.setEntityItemStack(this.getStackInSlot(0));
 	        } else {
 	            // Recipe found, throw back the result
-	            EnvironmentalAccumulatorResult result = (EnvironmentalAccumulatorResult)CustomRecipeRegistry.get(recipe);
-	            entity.setEntityItemStack(result.getItemResult().copy());
+	            entity.setEntityItemStack(recipe.getOutput().getItemStack().copy());
 	            
 	            // Change the weather to the resulting weather
-	            WeatherType weatherSource = recipe.getWeatherType();
+	            WeatherType weatherSource = recipe.getInput().getWeatherType();
                 if (weatherSource != null)
                     weatherSource.deactivate(worldObj);
 
-                WeatherType weatherResult = result.getWeatherResult();
+                WeatherType weatherResult = recipe.getOutput().getWeatherType();
                 if (weatherResult != null)
                     weatherResult.activate(worldObj);
 	        }
@@ -297,7 +291,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    if (recipe == null)
 	        tick = EnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
 	    else
-	        tick = recipe.getDuration();
+	        tick = recipe.getProperties().getDuration();
 	    
 	    state = EnvironmentalAccumulator.STATE_PROCESSING_ITEM;
 	    
@@ -329,15 +323,13 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    // If we receive an update from the server and our new state is the
 	    // finished processing item state, show the corresponding effect
 	    if (worldObj.isRemote && state == EnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
-	        EnvironmentalAccumulatorResult result = (recipe == null) ? null : (EnvironmentalAccumulatorResult)CustomRecipeRegistry.get(recipe);
-	        
 	        // Show an effect indicating the item finished processing.
-	        IEAProcessingFinishedEffect effect = (result == null) ? null : result.getFinishedProcessingEffect();
+	        IEAProcessingFinishedEffect effect = (recipe == null) ? null : recipe.getProperties().getFinishedProcessingEffect();
 	        
 	        if (effect == null)    // fall back to default case
 	            this.worldObj.playAuxSFX(2002, (int)Math.round(xCoord), (int)Math.round(yCoord + WEATHER_CONTAINER_SPAWN_HEIGHT), (int)Math.round(zCoord), 16428);
 	        else
-	            effect.executeEffect(this, recipe, result);
+	            effect.executeEffect(this, recipe);
 	    }
 	    
 	    // Change the beam colors if we receive an update
@@ -365,7 +357,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    
 	    String recipeId = compound.getString("recipe");
 	    if (recipeId != null)
-	        recipe = (EnvironmentalAccumulatorRecipe) CustomRecipeRegistry.get(recipeId);
+	        recipe = EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipeByNamedId(recipeId);
 	    
 	    degradationExecutor.readFromNBT(compound);
 	}

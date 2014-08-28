@@ -1,6 +1,7 @@
 package evilcraft.blocks;
 import java.util.Random;
 
+import evilcraft.api.recipes.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
@@ -24,7 +25,7 @@ import evilcraft.gui.container.ContainerBloodInfuser;
  * @author rubensworks
  *
  */
-public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
+public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implements IMachine<BloodInfuser, ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> {
     
     private static BloodInfuser _instance = null;
     
@@ -122,4 +123,8 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo {
         return TileBloodInfuser.LIQUID_PER_SLOT;
     }
 
+    @Override
+    public SuperRecipeRegistry.RecipeRegistry<BloodInfuser, ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> getRecipeRegistry() {
+        return SuperRecipeRegistry.getRecipeRegistry(this);
+    }
 }

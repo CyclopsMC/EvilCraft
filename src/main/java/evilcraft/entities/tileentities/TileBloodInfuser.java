@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import evilcraft.api.recipes.IRecipe;
+import evilcraft.api.recipes.ItemAndFluidStackRecipeComponent;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
@@ -21,9 +23,6 @@ import evilcraft.api.fluids.BloodFluidConverter;
 import evilcraft.api.fluids.ImplicitFluidConversionTank;
 import evilcraft.api.fluids.SingleUseTank;
 import evilcraft.api.gui.slot.SlotFluidContainer;
-import evilcraft.api.recipes.CustomRecipe;
-import evilcraft.api.recipes.CustomRecipeRegistry;
-import evilcraft.api.recipes.CustomRecipeResult;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.entities.tileentities.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.entities.tileentities.tickaction.EmptyItemBucketInTankTickAction;
@@ -152,9 +151,9 @@ public class TileBloodInfuser extends WorkingTileEntity<TileBloodInfuser> {
         }
         
         // Valid custom recipe
-        CustomRecipe customRecipeKey = new CustomRecipe(itemStack, getTank().getFluid(), BloodInfuser.getInstance());
-        CustomRecipeResult result = CustomRecipeRegistry.get(customRecipeKey);
-        if(result != null)
+        ItemAndFluidStackRecipeComponent recipeInput = new ItemAndFluidStackRecipeComponent(itemStack, getTank().getFluid());
+        IRecipe recipe = BloodInfuser.getInstance().getRecipeRegistry().findRecipeByInput(recipeInput);
+        if(recipe != null)
             return true;
         
         // In all other cases: false
