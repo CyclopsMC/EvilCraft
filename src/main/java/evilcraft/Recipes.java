@@ -19,8 +19,8 @@ import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.api.recipes.ItemAndFluidStackRecipeComponent;
 import evilcraft.api.recipes.ItemStackRecipeComponent;
+import evilcraft.api.recipes.xml.XmlRecipeLoader;
 import evilcraft.api.weather.WeatherType;
-import evilcraft.api.xml.XmlRecipeLoader;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BoxOfEternalClosure;
@@ -59,8 +59,13 @@ import evilcraft.items.WeatherContainerConfig;
  */
 public class Recipes {
 	
-	private static final String RECIPES_PATH = "/assets/" + Reference.MOD_ID + "/recipes.xml";
-	private static final String RECIPES_XSD_PATH = "/assets/" + Reference.MOD_ID + "/recipes.xsd";
+	private static final String[] RECIPES_FILES = {
+		"shaped.xml",
+		"shapeless.xml",
+		"smelting.xml"
+	};
+	private static final String RECIPES_BASE_PATH = "/assets/" + Reference.MOD_ID + "/recipes/";
+	private static final String RECIPES_XSD_PATH = RECIPES_BASE_PATH + "recipes.xsd";
 
     /**
      * The extra buckets that are added with this mod.
@@ -101,11 +106,13 @@ public class Recipes {
     	loadPredefinedItems();
     	
     	// Load the recipes stored in XML.
-    	InputStream is = Recipes.class.getResourceAsStream(RECIPES_PATH);
-    	InputStream xsdIs = Recipes.class.getResourceAsStream(RECIPES_XSD_PATH);
-    	XmlRecipeLoader loader = new XmlRecipeLoader(is);
-    	loader.setValidator(xsdIs);
-    	loader.loadRecipes();
+    	for(String file : RECIPES_FILES) {
+	    	InputStream is = Recipes.class.getResourceAsStream(RECIPES_BASE_PATH + file);
+	    	InputStream xsdIs = Recipes.class.getResourceAsStream(RECIPES_XSD_PATH);
+	    	XmlRecipeLoader loader = new XmlRecipeLoader(is);
+	    	loader.setValidator(xsdIs);
+	    	loader.loadRecipes();
+    	}
     	
         // Blood Containers
         if(Configs.isEnabled(BloodContainerConfig.class)) {

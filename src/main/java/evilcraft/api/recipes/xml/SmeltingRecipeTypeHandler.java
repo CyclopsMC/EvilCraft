@@ -1,4 +1,4 @@
-package evilcraft.api.xml;
+package evilcraft.api.recipes.xml;
 
 import net.minecraft.item.ItemStack;
 

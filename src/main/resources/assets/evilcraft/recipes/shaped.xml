@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?>
+<recipes>
+
+	<recipe type="shaped">
+		<condition type="config">darkBlock</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:darkBlock</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">weatherContainer</condition>
+		<condition type="config">darkPowerGem</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item type="oredict">gemDark</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>minecraft:glass_bottle</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>minecraft:sugar</item>
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:weatherContainer</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">bloodPearlOfTeleportation</condition>
+		<condition type="config">darkPowerGem</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>minecraft:ender_pearl</item>
+					<item>evilcraft:darkPowerGem</item>
+					<item>minecraft:ender_pearl</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:darkPowerGem</item>
+					<item>minecraft:ender_pearl</item>
+					<item>evilcraft:darkPowerGem</item>
+				</gridrow>
+				<gridrow>
+					<item>minecraft:ender_pearl</item>
+					<item>evilcraft:darkPowerGem</item>
+					<item>minecraft:ender_pearl</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:bloodPearlOfTeleportation</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">bloodInfusionCore</condition>
+		<condition type="config">hardenedBloodShard</condition>
+		<condition type="config">darkPowerGem</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>evilcraft:hardenedBloodShard</item>
+					<item>evilcraft:hardenedBloodShard</item>
+					<item>evilcraft:hardenedBloodShard</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:hardenedBloodShard</item>
+					<item>evilcraft:darkPowerGem</item>
+					<item>evilcraft:hardenedBloodShard</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:hardenedBloodShard</item>
+					<item>evilcraft:hardenedBloodShard</item>
+					<item>evilcraft:hardenedBloodShard</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:bloodInfusionCore</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">bloodInfusionCore</condition>
+		<condition type="config">bloodInfuser</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item type="oredict">cobblestone</item>
+					<item type="oredict">cobblestone</item>
+					<item type="oredict">cobblestone</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">cobblestone</item>
+					<item>evilcraft:bloodInfusionCore</item>
+					<item type="oredict">cobblestone</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">cobblestone</item>
+					<item type="oredict">cobblestone</item>
+					<item type="oredict">cobblestone</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:bloodInfuser</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">bloodInfusionCore</condition>
+		<condition type="config">bloodChest</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item type="oredict">plankWood</item>
+					<item type="oredict">plankWood</item>
+					<item type="oredict">plankWood</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">plankWood</item>
+					<item>evilcraft:bloodInfusionCore</item>
+					<item type="oredict">plankWood</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">plankWood</item>
+					<item type="oredict">plankWood</item>
+					<item type="oredict">plankWood</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:bloodChest</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">undeadPlank</condition>
+		<condition type="config">darkStick</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item type="oredict">gemDark</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>evilcraft:undeadPlank</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>evilcraft:undeadPlank</item>
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item amount="4">evilcraft:darkStick</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">obscuredGlass</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">blockGlass</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item amount="8">evilcraft:obscuredGlass</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">lightningGrenade</condition>
+		<condition type="config">weatherContainer</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>minecraft:ender_pearl</item>
+					<item>minecraft:ender_pearl</item>
+					<item>minecraft:ender_pearl</item>
+				</gridrow>
+				<gridrow>
+					<item>minecraft:ender_pearl</item>
+					<item type="predefined">evilcraft:lightningWeatherContainer</item>
+					<item>minecraft:ender_pearl</item>
+				</gridrow>
+				<gridrow>
+					<item>minecraft:ender_pearl</item>
+					<item>minecraft:ender_pearl</item>
+					<item>minecraft:ender_pearl</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item amount="8">evilcraft:lightningGrenade</item>
+		</output>
+	</recipe>
+
+	<recipe type="shapeless">
+		<condition type="config">lightningBomb</condition>
+		<condition type="config">lightningGrenade</condition>
+		<input>
+			<item>evilcraft:lightningGrenade</item>
+			<item>minecraft:tnt</item>
+		</input>
+		<output>
+			<item>evilcraft:lightningBomb</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">bloodContainer</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">gemDark</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:bloodContainer</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">bloodContainer</condition>
+		<condition type="config">bloodExtractor</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item>minecraft:iron_ingot</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>minecraft:reeds</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>evilcraft:bloodContainer</item>
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:bloodExtractor</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">potentiaSphere</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>minecraft:redstone</item>
+					<item>minecraft:glowstone_dust</item>
+					<item>minecraft:redstone</item>
+				</gridrow>
+				<gridrow>
+					<item>minecraft:glowstone_dust</item>
+					<item>minecraft:slime_ball</item>
+					<item>minecraft:glowstone_dust</item>
+				</gridrow>
+				<gridrow>
+					<item meta="4">minecraft:dye</item>
+					<item>minecraft:glowstone_dust</item>
+					<item meta="4">minecraft:dye</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:potentiaSphere</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">purifier</condition>
+		<condition type="config">hardenedBloodShard</condition>
+		<condition type="config">bloodInfusionCore</condition>
+		<condition type="config">darkBlock</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>evilcraft:hardenedBloodShard</item>
+					<item />
+					<item>evilcraft:hardenedBloodShard</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">gemDark</item>
+					<item>evilcraft:bloodInfusionCore</item>
+					<item type="oredict">gemDark</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">gemDark</item>
+					<item>evilcraft:darkBlock</item>
+					<item type="oredict">gemDark</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:purifier</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">potentiaSphere</condition>
+		<condition type="config">invertedPotentia</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item type="oredict">gemDark</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item type="oredict">gemDark</item>
+					<item>evilcraft:potentiaSphere</item>
+					<item type="oredict">gemDark</item>
+				</gridrow>
+				<gridrow>
+					<item />
+					<item type="oredict">gemDark</item>
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:invertedPotentia</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">maceOfDistortion</condition>
+		<condition type="config">darkStick</condition>
+		<condition type="config">darkPowerGem</condition>
+		<condition type="config">invertedPotentia</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item>evilcraft:darkPowerGem</item>
+					<item type="predefined">evilcraft:invertedPotentiaEmpowered</item>
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>evilcraft:darkStick</item>
+					<item>evilcraft:darkPowerGem</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:darkStick</item>
+					<item />
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:maceOfDistortion</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">kineticator</condition>
+		<condition type="config">darkStick</condition>
+		<condition type="config">bloodInfusionCore</condition>
+		<condition type="config">invertedPotentia</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item>evilcraft:bloodInfusionCore</item>
+					<item>evilcraft:darkStick</item>
+				</gridrow>
+				<gridrow>
+					<item>minecraft:gold_ingot</item>
+					<item type="predefined">evilcraft:invertedPotentiaEmpowered</item>
+					<item>minecraft:gold_ingot</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:darkStick</item>
+					<item>minecraft:diamond</item>
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:kineticator</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">darkStick</condition>
+		<condition type="config">vengeancePickaxe</condition>
+		<condition type="config">hardenedBloodShard</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>evilcraft:hardenedBloodShard</item>
+					<item>minecraft:diamond</item>
+					<item>evilcraft:hardenedBloodShard</item>
+				</gridrow>
+				<gridrow>
+					<item>minecraft:diamond</item>
+					<item>evilcraft:darkStick</item>
+					<item>minecraft:diamond</item>
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>evilcraft:darkStick</item>
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item type="predefined">evilcraft:vengeancePickaxeFortune</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">darkBloodBrick</condition>
+		<condition type="config">spiritFurnace</condition>
+		<condition type="config">bloodInfusionCore</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>evilcraft:darkBloodBrick</item>
+					<item>evilcraft:darkBloodBrick</item>
+					<item>evilcraft:darkBloodBrick</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:darkBloodBrick</item>
+					<item>evilcraft:bloodInfusionCore</item>
+					<item>evilcraft:darkBloodBrick</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:darkBloodBrick</item>
+					<item>evilcraft:darkBloodBrick</item>
+					<item>evilcraft:darkBloodBrick</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:spiritFurnace</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">vengeanceRing</condition>
+		<condition type="config">darkGemCrushed</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>evilcraft:darkGemCrushed</item>
+					<item>minecraft:iron_ingot</item>
+					<item>evilcraft:darkGemCrushed</item>
+				</gridrow>
+				<gridrow>
+					<item>minecraft:iron_ingot</item>
+					<item />
+					<item>minecraft:iron_ingot</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:darkGemCrushed</item>
+					<item>minecraft:iron_ingot</item>
+					<item>evilcraft:darkGemCrushed</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:vengeanceRing</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">vengeanceRing</condition>
+		<condition type="config">darkGemCrushed</condition>
+		<condition type="config">vengeanceFocus</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>evilcraft:darkGemCrushed</item>
+					<item>minecraft:iron_ingot</item>
+					<item>evilcraft:darkGemCrushed</item>
+				</gridrow>
+				<gridrow>
+					<item>minecraft:iron_ingot</item>
+					<item>evilcraft:vengeanceRing</item>
+					<item>minecraft:iron_ingot</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:darkGemCrushed</item>
+					<item>minecraft:iron_ingot</item>
+					<item>evilcraft:darkGemCrushed</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:vengeanceFocus</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">boxOfEternalClosure</condition>
+		<condition type="config">darkGemCrushed</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>evilcraft:darkGemCrushed</item>
+					<item>evilcraft:darkGemCrushed</item>
+					<item>evilcraft:darkGemCrushed</item>
+				</gridrow>
+				<gridrow>
+					<item meta="8264">minecraft:potion</item>
+					<item>minecraft:ender_chest</item>
+					<item meta="8264">minecraft:potion</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:darkGemCrushed</item>
+					<item>evilcraft:darkGemCrushed</item>
+					<item>evilcraft:darkGemCrushed</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item type="predefined">evilcraft:boxOfEternalClosureFilled</item>
+		</output>
+	</recipe>
+
+</recipes>

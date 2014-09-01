@@ -1,4 +1,4 @@
-package evilcraft.api.xml;
+package evilcraft.api.recipes.xml;
 
 /**
  * Handler to check a type of recipe condition.

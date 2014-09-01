@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<recipes>
+    
+    <recipe type="smelting">
+        <condition type="config">burningGemStone</condition>
+        <condition type="config">darkBlock</condition>
+        <input>
+            <item>evilcraft:darkBlock</item>
+        </input>
+        <output>
+            <item>evilcraft:burningGemStone</item>
+            <xp>50</xp>
+        </output>
+    </recipe>
+    
+</recipes>

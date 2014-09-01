@@ -1,4 +1,4 @@
-package evilcraft.api.xml;
+package evilcraft.api.recipes.xml;
 
 /**
  * Item type handler for ore dictionary keys.

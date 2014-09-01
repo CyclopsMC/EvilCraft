@@ -1,11 +1,11 @@
-package evilcraft.api.xml;
+package evilcraft.api.recipes.xml;
 
 import net.minecraft.item.ItemStack;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import evilcraft.api.xml.XmlRecipeLoader.XmlRecipeException;
+import evilcraft.api.recipes.xml.XmlRecipeLoader.XmlRecipeException;
 
 /**
  * Common handler for both shaped and shapeless recipes.

@@ -1,11 +1,11 @@
-package evilcraft.api.xml;
+package evilcraft.api.recipes.xml;
 
 import net.minecraft.item.ItemStack;
 
 import org.w3c.dom.Node;
 
 import cpw.mods.fml.common.registry.GameData;
-import evilcraft.api.xml.XmlRecipeLoader.XmlRecipeException;
+import evilcraft.api.recipes.xml.XmlRecipeLoader.XmlRecipeException;
 
 /**
  * Default item type handler for text nodes of the form evilcraft:darkGem"

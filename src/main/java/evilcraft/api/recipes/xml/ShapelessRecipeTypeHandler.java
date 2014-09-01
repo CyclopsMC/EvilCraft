@@ -1,4 +1,4 @@
-package evilcraft.api.xml;
+package evilcraft.api.recipes.xml;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import evilcraft.api.xml.XmlRecipeLoader.XmlRecipeException;
+import evilcraft.api.recipes.xml.XmlRecipeLoader.XmlRecipeException;
 
 /**
  * Handler for shapeless recipes.

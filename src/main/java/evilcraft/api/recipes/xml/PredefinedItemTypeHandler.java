@@ -1,7 +1,7 @@
-package evilcraft.api.xml;
+package evilcraft.api.recipes.xml;
 
 import net.minecraft.item.ItemStack;
-import evilcraft.api.xml.XmlRecipeLoader.XmlRecipeException;
+import evilcraft.api.recipes.xml.XmlRecipeLoader.XmlRecipeException;
 
 /**
  * Item type handler for ore dictionary keys.

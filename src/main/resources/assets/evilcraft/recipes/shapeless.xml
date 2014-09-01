@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<recipes>
+
+	<recipe type="shapeless">
+		<condition type="config">darkGem</condition>
+		<condition type="config">darkBlock</condition>
+		<input>
+			<item>evilcraft:darkBlock</item>
+		</input>
+		<output>
+			<item amount="9">evilcraft:darkGem</item>
+		</output>
+	</recipe>
+
+	<recipe type="shapeless">
+		<condition type="config">undeadLog</condition>
+		<condition type="config">undeadPlank</condition>
+		<input>
+			<item>evilcraft:undeadLog</item>
+		</input>
+		<output>
+			<item amount="4">evilcraft:undeadPlank</item>
+		</output>
+	</recipe>
+
+	<recipe type="shapeless">
+		<condition type="config">bucketPoison</condition>
+		<input>
+			<item type="oredict">materialPoisonous</item>
+			<item type="oredict">materialPoisonous</item>
+			<item type="oredict">materialPoisonous</item>
+			<item type="oredict">materialPoisonous</item>
+			<item>minecraft:water_bucket</item>
+			<item>minecraft:bucket</item>
+		</input>
+		<output>
+			<item>evilcraft:bucketPoison</item>
+		</output>
+	</recipe>
+
+	<recipe type="shapeless">
+		<condition type="config">bucketPoison</condition>
+		<input>
+			<item>minecraft:potato</item>
+			<item>evilcraft:bucketPoison</item>
+		</input>
+		<output>
+			<item>minecraft:poisonous_potato</item>
+		</output>
+	</recipe>
+
+	<recipe type="shapeless">
+		<condition type="config">bucketPoison</condition>
+		<condition type="config">poisonTip</condition>
+		<input>
+			<item>evilcraft:bucketPoison</item>
+			<item>minecraft:book</item>
+		</input>
+		<output>
+			<item type="predefined">evilcraft:enchanted_book_poisonTip</item>
+		</output>
+	</recipe>
+
+	<recipe type="shapeless">
+		<condition type="config">bucketPoison</condition>
+		<input>
+			<item>evilcraft:bucketPoison</item>
+			<item>minecraft:glass_bottle</item>
+		</input>
+		<output>
+			<item amount="1" meta="8196">minecraft:potion</item>
+		</output>
+	</recipe>
+
+	<recipe type="shapeless">
+		<condition type="config">darkBrick</condition>
+		<condition type="config">darkBlock</condition>
+		<input>
+			<item>evilcraft:darkBlock</item>
+			<item>evilcraft:darkBlock</item>
+			<item>evilcraft:darkBlock</item>
+			<item>evilcraft:darkBlock</item>
+		</input>
+		<output>
+			<item>evilcraft:darkBrick</item>
+		</output>
+	</recipe>
+
+	<recipe type="shapeless">
+		<condition type="config">werewolfFur</condition>
+		<input>
+			<item>evilcraft:werewolfFur</item>
+		</input>
+		<output>
+			<item amount="5">minecraft:leather</item>
+		</output>
+	</recipe>
+
+	<recipe type="shapeless">
+		<condition type="config">werewolfBone</condition>
+		<input>
+			<item>evilcraft:werewolfBone</item>
+		</input>
+		<output>
+			<item amount="15" meta="15">minecraft:dye</item>
+		</output>
+	</recipe>
+
+</recipes>

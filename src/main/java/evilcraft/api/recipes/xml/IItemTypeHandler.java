@@ -1,8 +1,8 @@
-package evilcraft.api.xml;
+package evilcraft.api.recipes.xml;
 
 import org.w3c.dom.Node;
 
-import evilcraft.api.xml.XmlRecipeLoader.XmlRecipeException;
+import evilcraft.api.recipes.xml.XmlRecipeLoader.XmlRecipeException;
 
 /**
  * Handler for different types of item declaration inside the xml recipe file.
