@@ -10,46 +10,24 @@ import java.util.regex.Pattern;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
-import evilcraft.api.recipes.DurationRecipeProperties;
 import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeProperties;
-import evilcraft.api.recipes.ItemAndFluidStackRecipeComponent;
-import evilcraft.api.recipes.ItemStackRecipeComponent;
 import evilcraft.api.recipes.xml.XmlRecipeLoader;
 import evilcraft.api.weather.WeatherType;
-import evilcraft.blocks.BloodInfuser;
-import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BoxOfEternalClosure;
-import evilcraft.blocks.DarkBloodBrick;
-import evilcraft.blocks.DarkBloodBrickConfig;
-import evilcraft.blocks.DarkBrick;
-import evilcraft.blocks.DarkBrickConfig;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
-import evilcraft.blocks.UndeadSapling;
-import evilcraft.blocks.UndeadSaplingConfig;
 import evilcraft.enchantment.EnchantmentPoisonTip;
-import evilcraft.fluids.Blood;
-import evilcraft.fluids.BloodConfig;
 import evilcraft.items.BloodContainer;
 import evilcraft.items.BloodContainerConfig;
-import evilcraft.items.Blook;
-import evilcraft.items.BlookConfig;
-import evilcraft.items.DarkGem;
-import evilcraft.items.DarkGemConfig;
-import evilcraft.items.DarkPowerGem;
-import evilcraft.items.DarkPowerGemConfig;
 import evilcraft.items.InvertedPotentia;
 import evilcraft.items.InvertedPotentiaConfig;
-import evilcraft.items.PotentiaSphere;
 import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.VengeancePickaxe;
 import evilcraft.items.WeatherContainer;
@@ -66,7 +44,8 @@ public class Recipes {
 	private static final String[] RECIPES_FILES = {
 		"shaped.xml",
 		"shapeless.xml",
-		"smelting.xml"
+		"smelting.xml",
+		"bloodinfuser.xml"
 	};
 	private static final String RECIPES_BASE_PATH = "/assets/" + Reference.MOD_ID + "/recipes/";
 	private static final String RECIPES_XSD_PATH = RECIPES_BASE_PATH + "recipes.xsd";
@@ -77,7 +56,7 @@ public class Recipes {
      */
     public static Map<Item, FluidStack> BUCKETS = new HashMap<Item, FluidStack>();
     
-    private static void loadPredefinedItems() {
+    private static void loadPredefineds() {
     	ItemStack poisonTipEnchant = new ItemStack(Items.enchanted_book);
         Enchantment enchant = EnchantmentPoisonTip.getInstance();
         Items.enchanted_book.addEnchantment(poisonTipEnchant, new EnchantmentData(enchant,
@@ -102,6 +81,10 @@ public class Recipes {
     	BoxOfEternalClosure.setVengeanceSwarmContent(boxOfEternalClosureFilled);
     	XmlRecipeLoader.registerPredefinedItem("evilcraft:boxOfEternalClosureFilled",
     			vengeancePickaxeFortune);
+    	
+    	if(PotentiaSphereConfig.enderPearlRecipe) {
+    		XmlRecipeLoader.registerPredefinedValue("evilcraft:enderPearlRecipe");
+    	}
     }
     
     private static void registerRecipesForFile(InputStream is) {
@@ -131,7 +114,7 @@ public class Recipes {
      * specific configuration stuff.
      */
     public static void registerRecipes(File rootConfigFolder) {
-    	loadPredefinedItems();
+    	loadPredefineds();
     	
     	// Load the recipes stored in XML.
     	for(String file : RECIPES_FILES) {
@@ -158,65 +141,7 @@ public class Recipes {
         registerCustomRecipes();
     }
 
-    private static void registerCustomRecipes() {
-        if(Configs.isEnabled(BloodInfuserConfig.class)) {
-        	// Dark power gem
-        	if(Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkPowerGemConfig.class) && Configs.isEnabled(BloodConfig.class)) {
-                BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
-                        new ItemAndFluidStackRecipeComponent(
-                                new ItemStack(DarkGem.getInstance()),
-                                new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 4)
-                        ),
-                        new ItemStackRecipeComponent(new ItemStack(DarkPowerGem.getInstance())),
-                        new DurationRecipeProperties(200)
-                );
-            }
-        	// Undead sapling
-            if(Configs.isEnabled(UndeadSaplingConfig.class)) {
-                BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
-                        new ItemAndFluidStackRecipeComponent(
-                                new ItemStack(Blocks.deadbush),
-                                new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2)
-                        ),
-                        new ItemStackRecipeComponent(new ItemStack(UndeadSapling.getInstance())),
-                        new DurationRecipeProperties(200)
-                );
-            }
-            // Blook
-            if(Configs.isEnabled(BlookConfig.class)) {
-                BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
-                        new ItemAndFluidStackRecipeComponent(
-                                new ItemStack(Items.book),
-                                new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 2)
-                        ),
-                        new ItemStackRecipeComponent(new ItemStack(Blook.getInstance())),
-                        new DurationRecipeProperties(500)
-                );
-            }
-            // Ender pearl
-            if(Configs.isEnabled(PotentiaSphereConfig.class) && PotentiaSphereConfig.enderPearlRecipe) {
-                BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
-                        new ItemAndFluidStackRecipeComponent(
-                                new ItemStack(PotentiaSphere.getInstance()),
-                                new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME * 2)
-                        ),
-                        new ItemStackRecipeComponent(new ItemStack(Items.ender_pearl)),
-                        new DurationRecipeProperties(1000)
-                );
-            }
-            // Dark blood brick
-            if(Configs.isEnabled(DarkBrickConfig.class) && Configs.isEnabled(DarkBloodBrickConfig.class)) {
-                BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
-                        new ItemAndFluidStackRecipeComponent(
-                                new ItemStack(DarkBrick.getInstance()),
-                                new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME / 2)
-                        ),
-                        new ItemStackRecipeComponent(new ItemStack(DarkBloodBrick.getInstance())),
-                        new DurationRecipeProperties(250)
-                );
-            }
-        }
-        
+    private static void registerCustomRecipes() {        
         if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
             ItemStack outputStack = null;
             String recipeName = null;

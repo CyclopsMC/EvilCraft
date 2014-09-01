@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<recipes>
+    
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">darkGem</condition>
+        <condition type="config">darkPowerGem</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>evilcraft:darkGem</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>250</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:darkPowerGem</item>
+        </output>
+        <properties>
+            <duration>200</duration>
+        </properties>
+    </recipe>
+    
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">undeadSapling</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:deadbush</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>2000</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:undeadSapling</item>
+        </output>
+        <properties>
+            <duration>200</duration>
+        </properties>
+    </recipe>
+    
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blook</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:book</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>500</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:blook</item>
+        </output>
+        <properties>
+            <duration>500</duration>
+        </properties>
+    </recipe>
+    
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">potentiaSphere</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="predefined">evilcraft:enderPearlRecipe</condition>
+        <input>
+            <item>evilcraft:potentiaSphere</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>2000</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:ender_pearl</item>
+        </output>
+        <properties>
+            <duration>1000</duration>
+        </properties>
+    </recipe>
+    
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">darkBrick</condition>
+        <condition type="config">darkBloodBrick</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>evilcraft:darkBrick</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>500</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:darkBloodBrick</item>
+        </output>
+        <properties>
+            <duration>250</duration>
+        </properties>
+    </recipe>
+    
+</recipes>

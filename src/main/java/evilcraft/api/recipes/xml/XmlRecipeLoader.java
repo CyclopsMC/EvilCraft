@@ -3,6 +3,7 @@ package evilcraft.api.recipes.xml;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -21,6 +22,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * An XML Recipe loader.
@@ -33,15 +35,18 @@ public class XmlRecipeLoader {
 		RECIPE_TYPE_HANDLERS.put("shaped", new ShapedRecipeTypeHandler());
 		RECIPE_TYPE_HANDLERS.put("shapeless", new ShapelessRecipeTypeHandler());
 		RECIPE_TYPE_HANDLERS.put("smelting", new SmeltingRecipeTypeHandler());
+		RECIPE_TYPE_HANDLERS.put("evilcraft:bloodinfuser", new BloodInfuserRecipeTypeHandler());
 	}
 	
 	private static final Map<String, IRecipeConditionHandler> RECIPE_CONDITION_HANDLERS =
 			Maps.newHashMap();
 	static {
 		RECIPE_CONDITION_HANDLERS.put("config", new ConfigRecipeConditionHandler());
+		RECIPE_CONDITION_HANDLERS.put("predefined", new PredefinedRecipeConditionHandler());
 	}
 	
 	private static final Map<String, ItemStack> PREDEFINED_ITEMS = Maps.newHashMap();
+	private static final Set<String> PREDEFINED_VALUES = Sets.newHashSet();
 	
 	private StreamSource stream;
 	private InputStream xsdIs = null;
@@ -81,6 +86,23 @@ public class XmlRecipeLoader {
 	 */
 	public static ItemStack getPredefinedItem(String key) {
 		return PREDEFINED_ITEMS.get(key);
+	}
+	
+	/**
+	 * Register a new predefined value that can be used in {@link PredefinedRecipeConditionHandler}.
+	 * @param value The key to register.
+	 */
+	public static void registerPredefinedValue(String value) {
+		PREDEFINED_VALUES.add(value);
+	}
+	
+	/**
+	 * Check if a value has been predefined.
+	 * @param value The key to check.
+	 * @return If it was predefined.
+	 */
+	public static boolean isPredefinedValue(String value) {
+		return PREDEFINED_VALUES.contains(value);
 	}
 	
 	/**
