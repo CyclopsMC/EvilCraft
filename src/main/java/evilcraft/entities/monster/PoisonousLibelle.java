@@ -38,7 +38,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable, IMob
      */
     public static ElementType TYPE = ElementType.MOB;
     
-    private static final int POISON_DURATION = 3;
+    private static final int POISON_DURATION = 2;
 
     /**
      * Target X.
@@ -162,7 +162,7 @@ public class PoisonousLibelle extends EntityFlying implements Configurable, IMob
             f = MathHelper.cos(this.animTime * (float)Math.PI * 2.0F);
             f1 = MathHelper.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
 
-            if (f1 <= -0.3F && f >= -0.3F) {
+            if (f1 <= -0.3F && f >= -0.3F && this.rand.nextInt(45) == 0) {
                 this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.bat.idle", 0.1F, 0.8F + this.rand.nextFloat() * 0.3F, false);
             }
         }
@@ -286,6 +286,10 @@ public class PoisonousLibelle extends EntityFlying implements Configurable, IMob
             this.motionX *= (double)motionRotation;
             this.motionZ *= (double)motionRotation;
             this.motionY *= 0.9D;
+            
+            this.motionX /= 1.5;
+            this.motionY /= 1.2;
+            this.motionZ /= 1.5;
         }
 
         this.renderYawOffset = this.rotationYaw;
