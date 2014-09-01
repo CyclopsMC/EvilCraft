@@ -6,9 +6,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import evilcraft.Achievements;
 import evilcraft.Configs;
+import evilcraft.blocks.SpiritFurnace;
+import evilcraft.blocks.SpiritFurnaceConfig;
 import evilcraft.items.BloodContainer;
 import evilcraft.items.BloodContainerConfig;
+import evilcraft.items.BloodExtractor;
+import evilcraft.items.BloodExtractorConfig;
 
 /**
  * Event hook for {@link ItemCraftedEvent}.
@@ -22,8 +27,10 @@ public class ItemCraftedEventHook {
      * @param event The received event.
      */
 	@SubscribeEvent
-    public void onPlayerInteract(ItemCraftedEvent event) {
+    public void onCraft(ItemCraftedEvent event) {
         craftBloodContainer(event);
+        craftBloodExtractor(event);
+        craftSpiritFurnace(event);
     }
     
     private void craftBloodContainer(ItemCraftedEvent event) {
@@ -40,6 +47,25 @@ public class ItemCraftedEventHook {
 	                    }
 	                }  
 	            }
+	        }
+    	}
+    }
+    
+    private void craftBloodExtractor(ItemCraftedEvent event) {
+    	if(Configs.isEnabled(BloodExtractorConfig.class)) {
+	    	Item item = event.crafting.getItem();
+	    	if(event.player != null && item != null && item == BloodExtractor.getInstance()) {
+	    		event.player.addStat(Achievements.SECOND_AGE, 1);
+	        }
+    	}
+    }
+    
+    private void craftSpiritFurnace(ItemCraftedEvent event) {
+    	if(Configs.isEnabled(SpiritFurnaceConfig.class)) {
+	    	Item item = event.crafting.getItem();
+	    	if(event.player != null && item != null &&
+	    			item == Item.getItemFromBlock(SpiritFurnace.getInstance())) {
+	    		event.player.addStat(Achievements.SPIRIT_COOKER, 1);
 	        }
     	}
     }

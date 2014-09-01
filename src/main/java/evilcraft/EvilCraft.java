@@ -150,6 +150,9 @@ public class EvilCraft {
         // Register recipes
         Recipes.registerRecipes(CONFIG_FOLDER);
         
+        // Register achievements
+        Achievements.registerAchievements();
+        
         // Call init listeners
         callInitStepListeners(IInitListener.Step.INIT);
     }

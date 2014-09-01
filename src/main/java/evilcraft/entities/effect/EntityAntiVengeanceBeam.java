@@ -14,6 +14,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Achievements;
 import evilcraft.EvilCraft;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
@@ -183,6 +184,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements Configur
         if (!this.worldObj.isRemote) {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {
             	if(position.entityHit != null && position.entityHit instanceof VengeanceSpirit) {
+            		((EntityPlayerMP) this.getThrower()).addStat(Achievements.CLOSURE, 1);
             		VengeanceSpirit spirit = (VengeanceSpirit) position.entityHit;
             		spirit.onHit(posX, posY, posZ, motionX, motionY, motionZ);
             	}

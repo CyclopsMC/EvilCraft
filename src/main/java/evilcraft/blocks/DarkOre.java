@@ -13,6 +13,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Achievements;
 import evilcraft.Configs;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
@@ -112,6 +113,11 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     @Override
     public int tickRate(World world) {
         return 30;
+    }
+    
+    @Override
+	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
+    	player.addStat(Achievements.FIRST_AGE, 1);
     }
     
     @Override

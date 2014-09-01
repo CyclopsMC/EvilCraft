@@ -140,3 +140,19 @@ death.attack.distorted=%1$s couldn't handle the amount of distortion anymore.
 
 # Biomes
 biomes.biomeDegraded=Degraded
+
+# Achievements
+achievement.evilcraft.fart=Learn to Fart
+achievement.evilcraft.fart.desc=Finally release all of those nasty gases.
+achievement.evilcraft.firstAge=First Age
+achievement.evilcraft.firstAge.desc=Discover the origins of the first evil age.
+achievement.evilcraft.secondAge=Second Age
+achievement.evilcraft.secondAge.desc=Initiate the second evil age.
+achievement.evilcraft.masterDistorter=Master Distorter
+achievement.evilcraft.masterDistorter.desc=Distort over ten mobs at once with the Mace of Distortion.
+achievement.evilcraft.spiritCooker=Mob Chef
+achievement.evilcraft.spiritCooker.desc=Make a spirit furnace.
+achievement.evilcraft.closure=Eternal Closure
+achievement.evilcraft.closure.desc=Use the Vengeance Focus to entangle a Vengeance Spirit.
+achievement.evilcraft.tidy=Tidy Up!
+achievement.evilcraft.tidy.desc=Clean up an excrement pile with a broom.

@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Achievements;
 import evilcraft.GeneralConfig;
 import evilcraft.api.helpers.LocationHelpers;
 import evilcraft.network.CodecField;
@@ -134,6 +135,7 @@ public class FartPacket extends PacketCodec {
 	@Override
 	public void actionServer(World world, EntityPlayerMP player) {
 		if(GeneralConfig.farting) {
+			player.addStat(Achievements.FART, 1);
 			PacketHandler.sendToAllAround(new FartPacket(player),
 					LocationHelpers.createTargetPointFromEntityPosition(player, FART_RANGE));
 		}

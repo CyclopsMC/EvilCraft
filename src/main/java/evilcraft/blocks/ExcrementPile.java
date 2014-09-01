@@ -20,6 +20,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Achievements;
 import evilcraft.Configs;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
@@ -123,6 +124,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     @Override
     public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
         super.harvestBlock(world, player, x, y, z, meta);
+        player.addStat(Achievements.TIDY, 1);
         world.setBlockToAir(x, y, z);
     }
 

@@ -72,11 +72,11 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
         MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
-        MinecraftForge.EVENT_BUS.register(new ItemCraftedEventHook());
         MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
         
         FMLCommonHandler.instance().bus().register(new ConfigChangedEventHook());
         FMLCommonHandler.instance().bus().register(new PlayerRingOfFire());
+        FMLCommonHandler.instance().bus().register(new ItemCraftedEventHook());
     }
     
     /**

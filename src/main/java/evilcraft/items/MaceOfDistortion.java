@@ -24,6 +24,7 @@ import com.google.common.collect.Multimap;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Achievements;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
@@ -247,9 +248,12 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
         });
         
         // Do knockback and damage to the list of entities
-        
         for(Entity entity : entities) {
             distortEntity(world, player, entity, x, y, z, itemUsedCount, power);
+        }
+        
+        if(player != null && entities.size() >= 10) {
+        	player.addStat(Achievements.DISTORTER, 1);
         }
     }
     
@@ -295,6 +299,9 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
             }
             if(entity instanceof VengeanceSpirit) {
             	((VengeanceSpirit) entity).setIsSwarm(true);
+            }
+            if(entity instanceof EntityPlayer) {
+            	player.addStat(Achievements.SPIRIT_COOKER, 1);
             }
             strength /= 2;
             entity.motionX += dx * strength;
