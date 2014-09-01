@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<recipes>
+    
+    <recipe type="evilcraft:environmentalaccumulator">
+        <condition type="config">environmentalAccumulator</condition>
+        <condition type="config">invertedPotentia</condition>
+        <input>
+            <item>evilcraft:invertedPotentia</item>
+            <weather>LIGHTNING</weather>
+        </input>
+        <output>
+            <item type="predefined">evilcraft:empoweredInvertedPotentia</item>
+            <weather>RAIN</weather>
+        </output>
+        <properties>
+            <duration>-1</duration>
+            <processingspeed>-1.0</processingspeed>
+        </properties>
+    </recipe>
+    
+</recipes>

@@ -1,5 +1,7 @@
 package evilcraft.api.weather;
 
+import java.lang.reflect.Field;
+
 import net.minecraft.world.World;
 
 /**
@@ -77,4 +79,27 @@ public abstract class WeatherType {
         
         return null;
     }
+
+    /**
+     * Get a weather type by name.
+     * @param type The type name.
+     * @return The weather type.
+     */
+	public static WeatherType valueOf(String type) {
+		Field field;
+		try {
+			field = WeatherType.class.getField(type);
+		} catch (NoSuchFieldException e) {
+			return null;
+		} catch (SecurityException e) {
+			return null;
+		}
+		try {
+			return (WeatherType) field.get(null);
+		} catch (IllegalArgumentException e) {
+			return null;
+		} catch (IllegalAccessException e) {
+			return null;
+		}
+	}
 }

@@ -27,7 +27,6 @@ import evilcraft.enchantment.EnchantmentPoisonTip;
 import evilcraft.items.BloodContainer;
 import evilcraft.items.BloodContainerConfig;
 import evilcraft.items.InvertedPotentia;
-import evilcraft.items.InvertedPotentiaConfig;
 import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.VengeancePickaxe;
 import evilcraft.items.WeatherContainer;
@@ -45,7 +44,8 @@ public class Recipes {
 		"shaped.xml",
 		"shapeless.xml",
 		"smelting.xml",
-		"bloodinfuser.xml"
+		"bloodinfuser.xml",
+		"environmentalaccumulator.xml"
 	};
 	private static final String RECIPES_BASE_PATH = "/assets/" + Reference.MOD_ID + "/recipes/";
 	private static final String RECIPES_XSD_PATH = RECIPES_BASE_PATH + "recipes.xsd";
@@ -81,6 +81,11 @@ public class Recipes {
     	BoxOfEternalClosure.setVengeanceSwarmContent(boxOfEternalClosureFilled);
     	XmlRecipeLoader.registerPredefinedItem("evilcraft:boxOfEternalClosureFilled",
     			vengeancePickaxeFortune);
+    	
+    	ItemStack empoweredInvertedPotentia = new ItemStack(InvertedPotentia.getInstance());
+        InvertedPotentia.empower(empoweredInvertedPotentia);
+        XmlRecipeLoader.registerPredefinedItem("evilcraft:empoweredInvertedPotentia",
+        		empoweredInvertedPotentia);
     	
     	if(PotentiaSphereConfig.enderPearlRecipe) {
     		XmlRecipeLoader.registerPredefinedValue("evilcraft:enderPearlRecipe");
@@ -124,8 +129,13 @@ public class Recipes {
     	
     	// Load all the externally defined recipes.
     	registerRecipesForFiles(rootConfigFolder);
-    	
-        // Blood Containers
+
+    	// Register remaining recipes that are too complex to declare in xml files.
+        registerCustomRecipes();
+    }
+
+    private static void registerCustomRecipes() {
+    	// Blood Containers
         if(Configs.isEnabled(BloodContainerConfig.class)) {
             for(int i = 1; i < BloodContainerConfig.getContainerLevels(); i++) {
                 ItemStack result = new ItemStack(BloodContainer.getInstance(), 1, i);
@@ -137,11 +147,7 @@ public class Recipes {
                 }
             }
         }
-
-        registerCustomRecipes();
-    }
-
-    private static void registerCustomRecipes() {        
+    	
         if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
             ItemStack outputStack = null;
             String recipeName = null;
@@ -170,25 +176,6 @@ public class Recipes {
                             new EnvironmentalAccumulatorRecipeProperties()
                     );
 	            }
-            }
-            
-            // Add Empowered Inverted Potentia recipe.
-            if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
-                ItemStack out = new ItemStack(InvertedPotentia.getInstance());
-                InvertedPotentia.empower(out);
-
-                EnvironmentalAccumulator.getInstance().getRecipeRegistry().registerRecipe(
-                        "EAInvertedPotentia",
-                        new EnvironmentalAccumulatorRecipeComponent(
-                                new ItemStack(InvertedPotentia.getInstance()),
-                                WeatherType.LIGHTNING
-                        ),
-                        new EnvironmentalAccumulatorRecipeComponent(
-                                out,
-                                WeatherType.RAIN
-                        ),
-                        new EnvironmentalAccumulatorRecipeProperties()
-                );
             }
         }
     }

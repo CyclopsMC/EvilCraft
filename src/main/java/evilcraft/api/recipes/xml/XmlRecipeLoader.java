@@ -36,6 +36,8 @@ public class XmlRecipeLoader {
 		RECIPE_TYPE_HANDLERS.put("shapeless", new ShapelessRecipeTypeHandler());
 		RECIPE_TYPE_HANDLERS.put("smelting", new SmeltingRecipeTypeHandler());
 		RECIPE_TYPE_HANDLERS.put("evilcraft:bloodinfuser", new BloodInfuserRecipeTypeHandler());
+		RECIPE_TYPE_HANDLERS.put("evilcraft:environmentalaccumulator",
+				new EnvironmentalAccumulatorRecipeTypeHandler());
 	}
 	
 	private static final Map<String, IRecipeConditionHandler> RECIPE_CONDITION_HANDLERS =
