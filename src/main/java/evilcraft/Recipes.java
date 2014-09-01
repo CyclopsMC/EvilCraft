@@ -1,8 +1,12 @@
 package evilcraft;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
@@ -66,6 +70,7 @@ public class Recipes {
 	};
 	private static final String RECIPES_BASE_PATH = "/assets/" + Reference.MOD_ID + "/recipes/";
 	private static final String RECIPES_XSD_PATH = RECIPES_BASE_PATH + "recipes.xsd";
+	private static final Pattern EXTERNAL_RECIPES_PATTERN = Pattern.compile("^[^_].*\\.xml");
 
     /**
      * The extra buckets that are added with this mod.
@@ -98,21 +103,44 @@ public class Recipes {
     	XmlRecipeLoader.registerPredefinedItem("evilcraft:boxOfEternalClosureFilled",
     			vengeancePickaxeFortune);
     }
+    
+    private static void registerRecipesForFile(InputStream is) {
+    	InputStream xsdIs = Recipes.class.getResourceAsStream(RECIPES_XSD_PATH);
+    	XmlRecipeLoader loader = new XmlRecipeLoader(is);
+    	loader.setValidator(xsdIs);
+    	loader.loadRecipes();
+    }
+    
+    private static void registerRecipesForFiles(File file) {
+    	if(file.isFile() && EXTERNAL_RECIPES_PATTERN.matcher(file.getName()).matches()) {
+    		try {
+				registerRecipesForFile(new FileInputStream(file));
+			} catch (FileNotFoundException e) {
+				
+			}
+    	} else if(file.isDirectory()) {
+    		for(File childFile : file.listFiles()) {
+    			registerRecipesForFiles(childFile);
+    		}
+    	}
+    }
 
     /**
      * Register all the recipes of this mod.
+     * @param rootConfigFolder The root config folder for this mod, containing any
+     * specific configuration stuff.
      */
-    public static void registerRecipes() {
+    public static void registerRecipes(File rootConfigFolder) {
     	loadPredefinedItems();
     	
     	// Load the recipes stored in XML.
     	for(String file : RECIPES_FILES) {
 	    	InputStream is = Recipes.class.getResourceAsStream(RECIPES_BASE_PATH + file);
-	    	InputStream xsdIs = Recipes.class.getResourceAsStream(RECIPES_XSD_PATH);
-	    	XmlRecipeLoader loader = new XmlRecipeLoader(is);
-	    	loader.setValidator(xsdIs);
-	    	loader.loadRecipes();
+	    	registerRecipesForFile(is);
     	}
+    	
+    	// Load all the externally defined recipes.
+    	registerRecipesForFiles(rootConfigFolder);
     	
         // Blood Containers
         if(Configs.isEnabled(BloodContainerConfig.class)) {

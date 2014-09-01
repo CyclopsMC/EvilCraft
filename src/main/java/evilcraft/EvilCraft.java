@@ -1,5 +1,6 @@
 package evilcraft;
 
+import java.io.File;
 import java.util.Set;
 
 import org.apache.logging.log4j.Level;
@@ -58,6 +59,11 @@ public class EvilCraft {
     public static EvilCraft _instance;
     
     /**
+     * Root evilcraft config folder.
+     */
+    public static File CONFIG_FOLDER = null;
+    
+    /**
      * Unique instance of the FMLEventChannel that is used to send EvilCraft messages between
      * clients and server
      */
@@ -76,6 +82,14 @@ public class EvilCraft {
     public void preInit(FMLPreInitializationEvent event) {
         LoggerHelper.init();
         LoggerHelper.log(Level.INFO, "preInit()");
+        
+        // Determine evilcraft config folder.
+        String rootFolderName = event.getModConfigurationDirectory()
+                + "/" + Reference.MOD_ID;
+        CONFIG_FOLDER = new File(rootFolderName);
+        if(!CONFIG_FOLDER.exists()) {
+        	CONFIG_FOLDER.mkdir();
+        }
         
         // Register configs and start with loading the general configs
         Configs.getInstance().registerGeneralConfigs();
@@ -134,7 +148,7 @@ public class EvilCraft {
         proxy.registerTickHandlers();
         
         // Register recipes
-        Recipes.registerRecipes();
+        Recipes.registerRecipes(CONFIG_FOLDER);
         
         // Call init listeners
         callInitStepListeners(IInitListener.Step.INIT);
