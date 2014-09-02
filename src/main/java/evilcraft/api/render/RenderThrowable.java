@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -40,11 +41,13 @@ public class RenderThrowable extends Render {
     
     private void renderThrowable(EntityThrowable entity, double x, double y, double z, float yaw, float partialTickTime) {
         ItemStack stack = entity.getItemStack();
-        int damage = (stack != null) ? stack.getItemDamage() : 0;
+        if (stack == null)
+        	stack = new ItemStack(item, 1);
+        int damage = stack.getItemDamage();
         
         int renderPass = 0;
         int numberOfPasses = item.getRenderPasses(damage);
-        IIcon icon = item.getIconFromDamageForRenderPass(damage, renderPass);
+        IIcon icon = item.getIcon(stack, renderPass, (EntityPlayer)entity.getThrower(), null, 0);//FromDamageForRenderPass(damage, renderPass);
 
         if (icon != null) {
             GL11.glPushMatrix();
@@ -61,7 +64,7 @@ public class RenderThrowable extends Render {
             
             renderPass++;
             
-            while (renderPass < numberOfPasses && (icon = item.getIconFromDamageForRenderPass(damage, renderPass)) != null) {
+            while (renderPass < numberOfPasses && (icon = item.getIcon(stack, renderPass, (EntityPlayer)entity.getThrower(), null, 0)) != null) {
                 setColor(stack, renderPass);
                 GL11.glPushMatrix();
                 this.renderIcon(tessellator, icon);

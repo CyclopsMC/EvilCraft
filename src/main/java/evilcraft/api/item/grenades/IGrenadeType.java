@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import evilcraft.entities.item.EntityGrenade;
 import evilcraft.items.Grenade;
@@ -47,6 +48,11 @@ public interface IGrenadeType {
      * @return The texture name for the current grenade type.
      */
     public String getTextureName();
+    
+    /**
+     * @return Returns the location of the texture of this grenade type.
+     */
+    public ResourceLocation getTextureLocation();
 
     /**
      * Returns a unique numeric id for the current grenade type.

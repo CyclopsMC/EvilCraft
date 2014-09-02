@@ -1,14 +1,16 @@
 package evilcraft.entities.item;
 
+import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.config.EntityConfig;
+import evilcraft.api.render.RenderThrowable;
 import evilcraft.items.Grenade;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderSnowball;
 
 /**
- * Created by enver on 28/08/14.
+ * Configuration for {@link EntityGrenade}.
+ * @author immortaleeb
+ *
  */
 public class EntityGrenadeConfig extends EntityConfig {
     /**
@@ -31,7 +33,7 @@ public class EntityGrenadeConfig extends EntityConfig {
     @SideOnly(Side.CLIENT)
     @Override
     protected Render getRender() {
-        return new RenderSnowball(Grenade.getInstance());
+        return new RenderThrowable(Grenade.getInstance());
     }
 
     @Override

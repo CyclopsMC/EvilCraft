@@ -4,7 +4,8 @@ import java.util.List;
 
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.item.ItemStack;
+import evilcraft.api.entities.item.EntityThrowable;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -101,4 +102,12 @@ public class EntityGrenade extends EntityThrowable implements Configurable {
 
         this.setDead();
     }
+
+	@Override
+	public ItemStack getItemStack() {
+		ItemStack itemStack = new ItemStack(Grenade.getInstance(), 1);
+		// FIXME this can be more efficient; We can immediately set the intteger from the datawatchter in the NBT
+		Grenade.serializeGrenadeTypes(getGrenadeTypes(), itemStack);
+		return itemStack;
+	}
 }

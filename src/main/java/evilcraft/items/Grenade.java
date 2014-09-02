@@ -12,9 +12,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
@@ -35,6 +37,7 @@ public class Grenade extends ConfigurableItem {
 	 */
 	public static final int DATA_WATCHER_TYPES_ID = 22;
 	private static final String NBT_TYPE_TAG = "grenadeTypes";
+	private static final ResourceLocation defaultTextureLocation = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ITEMS + "grenade.png");
 	
     private static final IGrenadeType[] GRENADE_TYPES = {
             RedstoneGrenadeType.getInstance(),
@@ -122,18 +125,43 @@ public class Grenade extends ConfigurableItem {
     
     @Override
     public void registerIcons(IIconRegister iconRegister) {
+    	super.registerIcons(iconRegister);
+    	
     	for (IGrenadeType grenadeType : GRENADE_TYPES)
     		grenadeType.registerIcons(iconRegister);
     }
     
+    /**
+     * Returns the texture location for the texture of this grenade.
+     * @param stack An item stack that contains the grenade for which we need the texture.
+     * @return The location of the texture for the given item stack.
+     */
+    public ResourceLocation getTextureLocation(ItemStack stack) {
+    	IGrenadeType grenadeType = getLastGrenadeType(stack);
+    	
+    	return grenadeType == null ? defaultTextureLocation : grenadeType.getTextureLocation();
+    }
+    
     @Override
     public IIcon getIcon(ItemStack stack, int pass) {
+    	IGrenadeType grenadeType = getLastGrenadeType(stack);
+    	
+    	return grenadeType == null ? super.getIcon(stack, pass) : grenadeType.getIcon();
+    }
+    
+    @Override
+    public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player,
+    		ItemStack usingItem, int useRemaining) {
+    	return getIcon(stack, renderPass);
+    }
+    
+    private IGrenadeType getLastGrenadeType(ItemStack stack) {
     	List<IGrenadeType> grenadeTypes = deserializeGrenadeTypes(stack);
     	
     	if (!grenadeTypes.isEmpty())
-    		return grenadeTypes.get(grenadeTypes.size()-1).getIcon();
-    		
-    	return super.getIcon(stack, pass);
+    		return grenadeTypes.get(grenadeTypes.size()-1);
+    	
+    	return null;
     }
     
     /**
