@@ -99,7 +99,7 @@ public class Grenade extends ConfigurableItem {
 
         List<IGrenadeType> grenadeTypes = deserializeGrenadeTypes(itemStack);
         for (IGrenadeType type : grenadeTypes) {
-            list.add(type.getName());
+            type.addInformation(list);
         }
     }
 

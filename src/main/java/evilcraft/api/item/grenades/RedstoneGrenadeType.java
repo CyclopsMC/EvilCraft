@@ -87,6 +87,7 @@ public class RedstoneGrenadeType extends AbstractGrenadeType {
 
 	@Override
 	public void addInformation(List list) {
-		list.add(EnumChatFormatting.RED + "Sends redstone pulse to the side of a block it hits.");
+		list.add(EnumChatFormatting.RED + "Sends redstone pulse to the side");
+		list.add(EnumChatFormatting.RED + "of a block it hits.");
 	}
 }
