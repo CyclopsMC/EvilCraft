@@ -51,8 +51,7 @@ import evilcraft.entities.block.EntityLightningBombPrimedConfig;
 import evilcraft.entities.effect.EntityAntiVengeanceBeamConfig;
 import evilcraft.entities.item.EntityBloodPearlConfig;
 import evilcraft.entities.item.EntityBroomConfig;
-import evilcraft.entities.item.EntityLightningGrenadeConfig;
-import evilcraft.entities.item.EntityRedstoneGrenadeConfig;
+import evilcraft.entities.item.EntityGrenadeConfig;
 import evilcraft.entities.item.EntityWeatherContainerConfig;
 import evilcraft.entities.monster.NetherfishConfig;
 import evilcraft.entities.monster.PoisonousLibelleConfig;
@@ -75,15 +74,14 @@ import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkGemCrushedConfig;
 import evilcraft.items.DarkPowerGemConfig;
 import evilcraft.items.DarkStickConfig;
+import evilcraft.items.GrenadeConfig;
 import evilcraft.items.HardenedBloodShardConfig;
 import evilcraft.items.InvertedPotentiaConfig;
 import evilcraft.items.KineticatorConfig;
 import evilcraft.items.LargeDoorItemConfig;
-import evilcraft.items.LightningGrenadeConfig;
 import evilcraft.items.MaceOfDistortionConfig;
 import evilcraft.items.PoisonSacConfig;
 import evilcraft.items.PotentiaSphereConfig;
-import evilcraft.items.RedstoneGrenadeConfig;
 import evilcraft.items.VengeanceFocusConfig;
 import evilcraft.items.VengeancePickaxeConfig;
 import evilcraft.items.VengeanceRingConfig;
@@ -177,8 +175,9 @@ public class Configs {
         // Items
         configs.add(new WerewolfBoneConfig());
         configs.add(new WerewolfFleshConfig());
-        configs.add(new LightningGrenadeConfig());
-        configs.add(new RedstoneGrenadeConfig());
+        configs.add(new GrenadeConfig());
+        //configs.add(new LightningGrenadeConfig());
+        //configs.add(new RedstoneGrenadeConfig());
         configs.add(new BucketBloodConfig());
         configs.add(new BloodExtractorConfig());
         configs.add(new DarkGemConfig());
@@ -207,8 +206,9 @@ public class Configs {
         
         // Entities
         // Item
-        configs.add(new EntityLightningGrenadeConfig());
-        configs.add(new EntityRedstoneGrenadeConfig());
+        configs.add(new EntityGrenadeConfig());
+        //configs.add(new EntityLightningGrenadeConfig());
+        //configs.add(new EntityRedstoneGrenadeConfig());
         configs.add(new EntityBloodPearlConfig());
         configs.add(new EntityBroomConfig());
         configs.add(new EntityWeatherContainerConfig());
