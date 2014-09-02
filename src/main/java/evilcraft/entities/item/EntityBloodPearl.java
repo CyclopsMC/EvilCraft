@@ -17,6 +17,7 @@ import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.Configurable;
 import evilcraft.items.BloodPearlOfTeleportation;
+import evilcraft.items.BloodPearlOfTeleportationConfig;
 
 /**
  * Entity for the {@link BloodPearlOfTeleportation}.
@@ -31,8 +32,6 @@ public class EntityBloodPearl extends EntityThrowable implements Configurable{
      * The type for this {@link Configurable}.
      */
     public static ElementType TYPE = ElementType.ENTITY;
-    
-    private static final int SLOW_DURATION = 5;
 
     @Override
     @SuppressWarnings("rawtypes")
@@ -103,7 +102,8 @@ public class EntityBloodPearl extends EntityThrowable implements Configurable{
                         this.getThrower().setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);
                         this.getThrower().fallDistance = 0.0F;
                         this.getThrower().attackEntityFrom(DamageSource.fall, event.attackDamage);
-                        this.getThrower().addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, SLOW_DURATION * 20, 2));
+                        this.getThrower().addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,
+                        		BloodPearlOfTeleportationConfig.slownessDuration * 20, 2));
                     }
                 }
             }

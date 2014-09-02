@@ -53,7 +53,11 @@ public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFl
             world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             
             if (!world.isRemote) {
-                world.spawnEntityInWorld(new EntityBloodPearl(world, player));
+            	EntityBloodPearl pearl = new EntityBloodPearl(world, player);
+            	pearl.motionX *= 3;
+            	pearl.motionY *= 3;
+            	pearl.motionZ *= 3;
+                world.spawnEntityInWorld(pearl);
             }
 
             return itemStack;
