@@ -170,25 +170,38 @@ public class Grenade extends ConfigurableItem {
      * Serializes the given grenade type by saving it in NBT into the given item stack.
      * @param type The grenade type that should be serialized.
      * @param itemStack The item stack in which we should save the grenade type.
+     * @return Returns the new item stack.
      */
-    public static void serializeGrenadeType(IGrenadeType type, ItemStack itemStack) {
+    public static ItemStack serializeGrenadeType(IGrenadeType type, ItemStack itemStack) {
     	List<IGrenadeType> list = new LinkedList<IGrenadeType>();
     	list.add(type);
-    	serializeGrenadeTypes(list, itemStack);
+    	return serializeGrenadeTypes(list, itemStack);
+    }
+    
+    /**
+     * Serializes the grenade type for the given unique name by saving it in NBT into the given item stack.
+     * @param name The unique name for the grenade type.
+     * @param itemStack The item stack in which we should save the grenade type.
+     * @return Returns the new item stack.
+     */
+    public static ItemStack serializeGrenadeType(String name, ItemStack itemStack) {
+    	return serializeGrenadeType(GrenadeTypeRegistry.getInstance().getGrenadeType(name), itemStack);
     }
     
     /**
      * Serializes the given list of grenade types into the given item stack through NBT.
      * @param types A list of grenade types that should be serialized.
      * @param itemStack The item stack in which we should save the grenade types.
+     * @return Returns the new item stack.
      */
-    public static void serializeGrenadeTypes(List<IGrenadeType> types, ItemStack itemStack) {
+    public static ItemStack serializeGrenadeTypes(List<IGrenadeType> types, ItemStack itemStack) {
     	NBTTagCompound compound = itemStack.stackTagCompound;
     	if (compound == null) {
     		compound = new NBTTagCompound();
     		itemStack.setTagCompound(compound);
     	}
     	serializeGrenadeTypes(types, compound);
+    	return itemStack;
     }
     
     /**

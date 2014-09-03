@@ -30,7 +30,8 @@ public class GrenadeTypeLoader implements IInitListener {
 	}
 	
 	private void onPostInit() {
-		GrenadeTypeRegistry.getInstance().afterRegistration();
+		GrenadeTypeRegistry registry = GrenadeTypeRegistry.getInstance();
+		registry.afterRegistration();
 	}
 
 }

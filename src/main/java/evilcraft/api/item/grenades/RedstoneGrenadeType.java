@@ -4,16 +4,18 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.Configs;
 import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.blocks.InvisibleRedstoneBlock;
 import evilcraft.blocks.InvisibleRedstoneBlockConfig;
 import evilcraft.entities.item.EntityGrenade;
+import evilcraft.items.Grenade;
 
 /**
  * Implements functionality for a redstone grenade; When it hits a block
@@ -90,7 +92,11 @@ public class RedstoneGrenadeType extends AbstractGrenadeType {
 	}
 
 	@Override
-	public ItemStack getCraftingItem() {
-		return new ItemStack(Blocks.redstone_block);
+	public void registerCraftingRecipes() {
+		ItemStack grenade = new ItemStack(Grenade.getInstance());
+		ItemStack redstoneGrenade = Grenade.serializeGrenadeType(UNIQUE_NAME, new ItemStack(Grenade.getInstance(), 1));
+		ItemStack redstone = new ItemStack(Items.redstone);
+		
+		GameRegistry.addShapelessRecipe(redstoneGrenade, redstone, grenade);
 	}
 }

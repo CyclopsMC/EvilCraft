@@ -586,4 +586,31 @@
 		</output>
 	</recipe>
 
+	<recipe type="shaped">
+        <condition type="config">darkGem</condition>
+        <condition type="config">grenade</condition>
+        <input>
+            <grid>
+                <gridrow>
+                    <item>minecraft:ender_pearl</item>
+                    <item>minecraft:ender_pearl</item>
+                    <item>minecraft:ender_pearl</item>
+                </gridrow>
+                <gridrow>
+                    <item>minecraft:ender_pearl</item>
+                    <item>evilcraft:darkGem</item>
+                    <item>minecraft:ender_pearl</item>
+                </gridrow>
+                <gridrow>
+                    <item>minecraft:ender_pearl</item>
+                    <item>minecraft:ender_pearl</item>
+                    <item>minecraft:ender_pearl</item>
+                </gridrow>
+            </grid>
+        </input>
+        <output>
+            <item amount="8">evilcraft:grenade</item>
+        </output>
+    </recipe>
+
 </recipes>

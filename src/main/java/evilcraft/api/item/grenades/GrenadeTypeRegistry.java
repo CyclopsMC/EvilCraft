@@ -103,18 +103,22 @@ public class GrenadeTypeRegistry {
 		}
 		
 		// Create a new instance of the grenade type and give it its id.
+		IGrenadeType grenadeType = null;
 		Constructor<? extends IGrenadeType> constructor;
 		try {
 			constructor = type.getConstructor(int.class);
 			constructor.setAccessible(true);
-			IGrenadeType grenadeType = constructor.newInstance(id);
+			grenadeType = constructor.newInstance(id);
 			grenadeTypes.put(uniqueName, grenadeType);
-			
-			return grenadeType;
 		} catch (Exception e) {
 			throw new RuntimeException("Could not register a grenade type of type " + type + ", make sure it has a constructor that takes an id"
 					+ "and that the constructor is accesible"); 
 		}
+		
+		// Register all recipes
+		grenadeType.registerCraftingRecipes();
+		
+		return grenadeType;
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package evilcraft.events;
 
+import java.util.List;
+
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -8,12 +10,15 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import evilcraft.Achievements;
 import evilcraft.Configs;
+import evilcraft.api.item.grenades.IGrenadeType;
 import evilcraft.blocks.SpiritFurnace;
 import evilcraft.blocks.SpiritFurnaceConfig;
 import evilcraft.items.BloodContainer;
 import evilcraft.items.BloodContainerConfig;
 import evilcraft.items.BloodExtractor;
 import evilcraft.items.BloodExtractorConfig;
+import evilcraft.items.Grenade;
+import evilcraft.items.GrenadeConfig;
 
 /**
  * Event hook for {@link ItemCraftedEvent}.
@@ -31,7 +36,31 @@ public class ItemCraftedEventHook {
         craftBloodContainer(event);
         craftBloodExtractor(event);
         craftSpiritFurnace(event);
+        craftGrenades(event);
     }
+
+	private void craftGrenades(ItemCraftedEvent event) {
+		if (Configs.isEnabled(GrenadeConfig.class)) {
+			Item item = event.crafting.getItem();
+			if (item != null && item == Grenade.getInstance()) {
+				for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++) {
+					ItemStack input = event.craftMatrix.getStackInSlot(i);
+					if (input != null && input.getItem() == Grenade.getInstance()) {
+						List<IGrenadeType> craftedGrenadeTypes = Grenade.deserializeGrenadeTypes(event.crafting);
+						List<IGrenadeType> oldGrenadeTypes = Grenade.deserializeGrenadeTypes(input);
+
+						// Add all new grenade types to the old grenade types
+						for (IGrenadeType type : craftedGrenadeTypes) {
+							oldGrenadeTypes.add(type);
+						}
+
+						Grenade.serializeGrenadeTypes(oldGrenadeTypes, event.crafting);
+						return;
+					}
+				}
+			}
+		}
+	}
     
     private void craftBloodContainer(ItemCraftedEvent event) {
     	if(Configs.isEnabled(BloodContainerConfig.class)) {

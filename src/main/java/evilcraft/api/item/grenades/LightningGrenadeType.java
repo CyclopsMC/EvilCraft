@@ -1,10 +1,8 @@
 package evilcraft.api.item.grenades;
 
-import evilcraft.api.helpers.EntityHelpers;
-import evilcraft.api.helpers.L10NHelpers;
-import evilcraft.entities.item.EntityGrenade;
-import evilcraft.items.WeatherContainer;
-import evilcraft.items.WeatherContainer.WeatherContainerTypes;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,9 +11,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-
-import java.util.List;
-import java.util.Random;
+import cpw.mods.fml.common.registry.GameRegistry;
+import evilcraft.api.helpers.EntityHelpers;
+import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.entities.item.EntityGrenade;
+import evilcraft.items.Grenade;
+import evilcraft.items.WeatherContainer;
+import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 
 /**
  * Implements the functionality of a lightning grenade; When it hits the
@@ -74,7 +76,12 @@ public class LightningGrenadeType extends AbstractGrenadeType {
 	}
 
 	@Override
-	public ItemStack getCraftingItem() {
-		return WeatherContainer.createItemStack(WeatherContainerTypes.LIGHTNING, 1);
+	public void registerCraftingRecipes() {
+		ItemStack lightning = WeatherContainer.createItemStack(WeatherContainerTypes.LIGHTNING, 1);
+		ItemStack grenade = new ItemStack(Grenade.getInstance());
+		ItemStack lightningGrenade = Grenade.serializeGrenadeType(UNIQUE_NAME, new ItemStack(Grenade.getInstance(), 1));
+		
+		// TODO change this recipe
+		GameRegistry.addShapelessRecipe(lightningGrenade, grenade, lightning);
 	}
 }
