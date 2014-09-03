@@ -3,9 +3,12 @@ package evilcraft.api.item.grenades;
 import evilcraft.api.helpers.EntityHelpers;
 import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.entities.item.EntityGrenade;
+import evilcraft.items.WeatherContainer;
+import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
@@ -68,5 +71,10 @@ public class LightningGrenadeType extends AbstractGrenadeType {
     @Override
 	public void addInformation(List list) {
 		list.add(EnumChatFormatting.YELLOW + L10NHelpers.localize("grenade.types.lightning.info"));
+	}
+
+	@Override
+	public ItemStack getCraftingItem() {
+		return WeatherContainer.createItemStack(WeatherContainerTypes.LIGHTNING, 1);
 	}
 }

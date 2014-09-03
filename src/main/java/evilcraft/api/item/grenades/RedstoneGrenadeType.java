@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -85,5 +87,10 @@ public class RedstoneGrenadeType extends AbstractGrenadeType {
 	@Override
 	public void addInformation(List list) {
 		list.add(EnumChatFormatting.RED + L10NHelpers.localize("grenade.types.redstone.info"));
+	}
+
+	@Override
+	public ItemStack getCraftingItem() {
+		return new ItemStack(Blocks.redstone_block);
 	}
 }

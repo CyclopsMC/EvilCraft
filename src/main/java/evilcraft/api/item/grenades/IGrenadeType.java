@@ -5,6 +5,7 @@ import java.util.Random;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
@@ -74,4 +75,10 @@ public interface IGrenadeType {
      * @param iconRegister An icon register that can be used to register the icons.
      */
     public void registerIcons(IIconRegister iconRegister);
+    
+    /**
+     * @return Returns the unique item that is used in the crafting recipe to craft this item.
+     *         The crafting recipe consists of this block surrounded by {@link Grenade}S.
+     */
+    public ItemStack getCraftingItem();
 }
