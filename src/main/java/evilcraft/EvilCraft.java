@@ -22,6 +22,7 @@ import cpw.mods.fml.relauncher.Side;
 import evilcraft.api.Debug;
 import evilcraft.api.config.ConfigHandler;
 import evilcraft.api.helpers.LoggerHelper;
+import evilcraft.api.item.grenades.GrenadeTypeLoader;
 import evilcraft.commands.CommandEvilCraft;
 import evilcraft.gui.GuiHandler;
 import evilcraft.gui.client.GuiMainMenuEvilifier;
@@ -72,6 +73,7 @@ public class EvilCraft {
     private static Set<IInitListener> initListeners = Sets.newHashSet();
     static {
     	addInitListeners(new ModCompatLoader());
+    	addInitListeners(new GrenadeTypeLoader());
     }
     
     /**
