@@ -11,6 +11,7 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -20,6 +21,7 @@ import evilcraft.Reference;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
+import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.api.item.grenades.IGrenadeType;
 import evilcraft.api.item.grenades.LightningGrenadeType;
 import evilcraft.api.item.grenades.RedstoneGrenadeType;
@@ -101,8 +103,12 @@ public class Grenade extends ConfigurableItem {
         super.addInformation(itemStack, entityPlayer, list, par4);
 
         List<IGrenadeType> grenadeTypes = deserializeGrenadeTypes(itemStack);
-        for (IGrenadeType type : grenadeTypes) {
-            type.addInformation(list);
+        if (!grenadeTypes.isEmpty()) {
+	        for (IGrenadeType type : grenadeTypes) {
+	            type.addInformation(list);
+	        }
+        } else {
+        	list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("grenade.types.empty.info"));
         }
     }
 

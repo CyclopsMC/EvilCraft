@@ -8,6 +8,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import evilcraft.Configs;
+import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.blocks.InvisibleRedstoneBlock;
 import evilcraft.blocks.InvisibleRedstoneBlockConfig;
 import evilcraft.entities.item.EntityGrenade;
@@ -87,7 +88,6 @@ public class RedstoneGrenadeType extends AbstractGrenadeType {
 
 	@Override
 	public void addInformation(List list) {
-		list.add(EnumChatFormatting.RED + "Sends redstone pulse to the side");
-		list.add(EnumChatFormatting.RED + "of a block it hits.");
+		list.add(EnumChatFormatting.RED + L10NHelpers.localize("grenade.types.redstone.info"));
 	}
 }

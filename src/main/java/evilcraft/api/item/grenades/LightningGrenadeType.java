@@ -1,6 +1,7 @@
 package evilcraft.api.item.grenades;
 
 import evilcraft.api.helpers.EntityHelpers;
+import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.entities.item.EntityGrenade;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -69,6 +70,6 @@ public class LightningGrenadeType extends AbstractGrenadeType {
     
     @Override
 	public void addInformation(List list) {
-		list.add(EnumChatFormatting.YELLOW + "Creates a lightning strike when thrown.");
+		list.add(EnumChatFormatting.YELLOW + L10NHelpers.localize("grenade.types.lightning.info"));
 	}
 }

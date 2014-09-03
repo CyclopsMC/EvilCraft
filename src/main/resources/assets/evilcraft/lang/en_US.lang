@@ -44,8 +44,7 @@ tile.blocks.boxOfEternalClosure.info.content=Contents: %s
 # Items
 item.items.werewolfBone.name=Werewolf Bone
 item.items.werewolfFlesh.name=Werewolf Flesh
-item.items.lightningGrenade.name=Lightning Grenade
-item.items.redstoneGrenade.name=Redstone Grenade
+item.items.grenade.name=Grenade
 item.items.bucketBlood.name=Blood Bucket
 item.items.bucketPoison.name=Poison Bucket
 item.items.bloodExtractor.name=Blood Extractor
@@ -158,3 +157,8 @@ achievement.evilcraft.tidy=Tidy Up!
 achievement.evilcraft.tidy.desc=Clean up an excrement pile with a broom.
 achievement.evilcraft.playerDistorter=Player Distorter
 achievement.evilcraft.playerDistorter.desc=Distort a player with the Mace of Distortion.
+
+# Grenade types
+grenade.types.empty.info=This grenade contains no effects.
+grenade.types.lightning.info=Creates a lightning strike when thrown.
+grenade.types.redstone.info=Emits a redstone pulse on impact.
