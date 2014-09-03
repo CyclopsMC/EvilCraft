@@ -1,6 +1,7 @@
 package evilcraft.render.item;
 
 import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
@@ -10,7 +11,6 @@ import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.items.Grenade;
 
 /**
@@ -30,34 +30,41 @@ public class RenderItemGrenade implements IItemRenderer {
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item,
 			ItemRendererHelper helper) {
-		return false;
+		return type.equals(ItemRenderType.ENTITY);
 	}
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		Grenade grenade = Grenade.getInstance();
 		
+		GL11.glPushMatrix();
+
 		switch(type) {
 	        case INVENTORY: {
 	        	renderInventory(grenade.getIcon(item, 0));
 	            break;
 	        }
 	        case ENTITY: {
-	        	renderEntity(grenade.getTextureLocation(item));
+	        	renderEntity(grenade.getIcon(item, 0), grenade.getTextureLocation(item));
 	        	break;
 	        }
 	        default:
 		}
+
+		GL11.glPopMatrix();
 	}
 	
-	private void renderEntity(ResourceLocation textureLocation) {
-		// FIXME when an item is dropped, it does not rotate like the other dropped items...
-		FMLClientHandler.instance().getClient().renderEngine.bindTexture(textureLocation);
-		ItemRenderer.renderItemIn2D(Tessellator.instance, 0f, 0f, 1f, 1f, 0, 0, 0.05f);
+	private void renderEntity(IIcon icon, ResourceLocation textureLocation) {
+		GL11.glTranslatef(-0.5f, 0f, 0f);
+		ItemRenderer.renderItemIn2D(Tessellator.instance,
+				icon.getMaxU(), icon.getMinV(), icon.getMinU(), icon.getMaxV(),
+				icon.getIconWidth(), icon.getIconHeight(), 0.0625f);
 	}
 	
 	private void renderInventory(IIcon icon) {
 		GL11.glEnable(GL11.GL_BLEND);
+		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+
 		renderItem.renderIcon(0, 0, icon, 16, 16);
 		GL11.glDisable(GL11.GL_BLEND);
 	}
