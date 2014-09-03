@@ -37,12 +37,6 @@ public interface IGrenadeType {
             MovingObjectPosition pos, Random random);
     
     /**
-     * Returns a unique name for this grenade type.
-     * @return The unique name for this grenade type.
-     */
-    public String getName();
-    
-    /**
      * Returns the texture name (e.g. evilcraft:lightningGrenade) for the texture that represents
      * the current grenade type. 
      * @return The texture name for the current grenade type.

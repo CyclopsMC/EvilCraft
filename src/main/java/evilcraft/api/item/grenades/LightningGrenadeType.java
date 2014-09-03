@@ -21,19 +21,21 @@ import java.util.Random;
  *
  */
 public class LightningGrenadeType extends AbstractGrenadeType {
-    private static LightningGrenadeType _instance;
+	
+	/**
+	 * The unique name used to register this grenade type and find its icon location.
+	 */
+	public static final String UNIQUE_NAME = "lightningGrenade";
 
-    /**
-     * @return Returns the unique instance of this class.
-     */
-    public static LightningGrenadeType getInstance() {
-        if (_instance == null)
-            _instance = new LightningGrenadeType();
-
-        return _instance;
+	/**
+	 * Creates a new lightning grenade type. You should NEVER call this constructor unless you know what you're doing!!
+	 * Call {@link GrenadeTypeRegistry#registerGrenadeType(String, Class)} and {@link GrenadeTypeRegistry#getGrenadeType(String)}
+	 * instead.
+	 * @param id The unique id for this grenade type.
+	 */
+	public LightningGrenadeType(int id) { 
+		super(id);
     }
-
-    private LightningGrenadeType() { }
 
     @Override
     public boolean onImpact(World world, EntityLivingBase thrower, EntityGrenade grenade,
@@ -60,12 +62,7 @@ public class LightningGrenadeType extends AbstractGrenadeType {
 
     @Override
     public String getName() {
-        return "lightningGrenade";
-    }
-
-    @Override
-    public int getId() {
-        return 1;
+        return UNIQUE_NAME;
     }
     
     @Override

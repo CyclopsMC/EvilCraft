@@ -1,5 +1,6 @@
 package evilcraft.items;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,9 +23,8 @@ import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
 import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.api.item.grenades.GrenadeTypeRegistry;
 import evilcraft.api.item.grenades.IGrenadeType;
-import evilcraft.api.item.grenades.LightningGrenadeType;
-import evilcraft.api.item.grenades.RedstoneGrenadeType;
 import evilcraft.entities.item.EntityGrenade;
 
 /**
@@ -40,11 +40,6 @@ public class Grenade extends ConfigurableItem {
 	public static final int DATA_WATCHER_TYPES_ID = 22;
 	private static final String NBT_TYPE_TAG = "grenadeTypes";
 	private static final ResourceLocation defaultTextureLocation = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ITEMS + "grenade.png");
-	
-    private static final IGrenadeType[] GRENADE_TYPES = {
-            RedstoneGrenadeType.getInstance(),
-            LightningGrenadeType.getInstance()
-    };
 
     private static Grenade _instance = null;
 
@@ -120,20 +115,21 @@ public class Grenade extends ConfigurableItem {
     	itemList.add(new ItemStack(item, 1));
     	
     	// Each of the different grenade types
-        for (int i = 0; i < GRENADE_TYPES.length; ++i) {
-        	IGrenadeType grenadeType = GRENADE_TYPES[i];
-        	ItemStack itemStack = new ItemStack(item, 1);
+    	Collection<IGrenadeType> grenadeTypes = GrenadeTypeRegistry.getInstance().getGrenadeTypes();
+    	for (IGrenadeType grenadeType : grenadeTypes) {
+    		ItemStack itemStack = new ItemStack(item, 1);
             
         	serializeGrenadeType(grenadeType, itemStack);
         	itemList.add(itemStack);
-        }
+    	}
     }
     
     @Override
     public void registerIcons(IIconRegister iconRegister) {
     	super.registerIcons(iconRegister);
     	
-    	for (IGrenadeType grenadeType : GRENADE_TYPES)
+    	Collection<IGrenadeType> grenadeTypes = GrenadeTypeRegistry.getInstance().getGrenadeTypes();
+    	for (IGrenadeType grenadeType : grenadeTypes)
     		grenadeType.registerIcons(iconRegister);
     }
     
@@ -257,7 +253,8 @@ public class Grenade extends ConfigurableItem {
         if (serializedTypes == 0) 
         	return types;
 
-        for (IGrenadeType type : GRENADE_TYPES) {
+        Collection<IGrenadeType> grenadeTypes = GrenadeTypeRegistry.getInstance().getGrenadeTypes();
+        for (IGrenadeType type : grenadeTypes) {
             if ((serializedTypes & type.getId()) != 0)
                 types.add(type);
         }

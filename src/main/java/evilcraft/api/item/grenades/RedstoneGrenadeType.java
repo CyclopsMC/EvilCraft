@@ -20,20 +20,21 @@ import evilcraft.entities.item.EntityGrenade;
  *
  */
 public class RedstoneGrenadeType extends AbstractGrenadeType {
+	
+	/**
+	 * The unique name used to register this grenade type and find its icon location.
+	 */
+	public static final String UNIQUE_NAME = "redstoneGrenade";
 
-    private static RedstoneGrenadeType _instance = null;
-
-    /**
-     * @return Returns the unique instance of this class.
-     */
-    public static RedstoneGrenadeType getInstance() {
-        if (_instance == null)
-            _instance = new RedstoneGrenadeType();
-
-        return _instance;
+	/**
+	 * Creates a new redstone grenade type. You should NEVER call this constructor unless you know what you're doing!!
+	 * Call {@link GrenadeTypeRegistry#registerGrenadeType(String, Class)} and {@link GrenadeTypeRegistry#getGrenadeType(String)}
+	 * instead.
+	 * @param id The unique id for this grenade type.
+	 */
+    public RedstoneGrenadeType(int id) {
+    	super(id);
     }
-
-    private RedstoneGrenadeType() { }
 
     /**
      * Maps a side number to the offset of the X, Y and Z coordinates where the
@@ -78,12 +79,7 @@ public class RedstoneGrenadeType extends AbstractGrenadeType {
 
     @Override
     public String getName() {
-        return "redstoneGrenade";
-    }
-
-    @Override
-    public int getId() {
-        return 2;
+        return UNIQUE_NAME;
     }
 
 	@Override

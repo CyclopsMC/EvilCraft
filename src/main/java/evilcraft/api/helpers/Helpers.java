@@ -66,6 +66,10 @@ public class Helpers {
     	/**
     	 * Packet ID.
     	 */
-    	PACKET;
+    	PACKET,
+    	/**
+    	 * Grenade Type
+    	 */
+    	GRENADE_TYPE;
     }
 }

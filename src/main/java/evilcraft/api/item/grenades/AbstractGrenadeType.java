@@ -14,6 +14,15 @@ import net.minecraft.util.ResourceLocation;
 public abstract class AbstractGrenadeType implements IGrenadeType {
 	
 	private IIcon icon = null;
+	private final int id;
+	
+	/**
+	 * Creates a new instance of this class.
+	 * @param id The unique id for this grenade.
+	 */
+	public AbstractGrenadeType(int id) {
+		this.id = id;
+	}
 	
 	@Override
 	public String getTextureName() {
@@ -34,4 +43,16 @@ public abstract class AbstractGrenadeType implements IGrenadeType {
 	public IIcon getIcon() {
 		return icon;
 	}
+	
+	@Override
+	public final int getId() {
+		return id;
+	}
+	
+	/**
+     * Returns the name of this grenade type. This function is used to
+     * locate the icon of the current grenade type.
+     * @return The name of this grenade type.
+     */
+	public abstract String getName();
 }
