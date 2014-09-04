@@ -21,15 +21,20 @@ import evilcraft.api.recipes.events.ObservableShapelessRecipe;
 import evilcraft.api.recipes.xml.XmlRecipeLoader;
 import evilcraft.api.weather.WeatherType;
 import evilcraft.blocks.BoxOfEternalClosure;
+import evilcraft.blocks.BoxOfEternalClosureConfig;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.enchantment.EnchantmentPoisonTip;
+import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.items.BloodContainer;
 import evilcraft.items.BloodContainerConfig;
 import evilcraft.items.InvertedPotentia;
+import evilcraft.items.InvertedPotentiaConfig;
 import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.VeinSword;
+import evilcraft.items.VeinSwordConfig;
 import evilcraft.items.VengeancePickaxe;
+import evilcraft.items.VengeancePickaxeConfig;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
 import evilcraft.items.WeatherContainerConfig;
@@ -58,43 +63,57 @@ public class Recipes {
     public static Map<Item, FluidStack> BUCKETS = new HashMap<Item, FluidStack>();
     
     private static void loadPredefineds() {
-    	ItemStack poisonTipEnchant = new ItemStack(Items.enchanted_book);
-        Enchantment enchant = EnchantmentPoisonTip.getInstance();
-        Items.enchanted_book.addEnchantment(poisonTipEnchant, new EnchantmentData(enchant,
-        		enchant.getMinLevel()));
-    	XmlRecipeLoader.registerPredefinedItem("evilcraft:enchanted_book_poisonTip", poisonTipEnchant);
+    	if(Configs.isEnabled(EnchantmentPoisonTipConfig.class)) {
+	    	ItemStack poisonTipEnchant = new ItemStack(Items.enchanted_book);
+	        Enchantment enchant = EnchantmentPoisonTip.getInstance();
+	        Items.enchanted_book.addEnchantment(poisonTipEnchant, new EnchantmentData(enchant,
+	        		enchant.getMinLevel()));
+	    	XmlRecipeLoader.registerPredefinedItem("evilcraft:enchanted_book_poisonTip", poisonTipEnchant);
+    	}
     
-    	ItemStack lightningWeatherContainer = new ItemStack(WeatherContainer.getInstance(), 1,
-    			WeatherContainerTypes.LIGHTNING.ordinal());
-    	XmlRecipeLoader.registerPredefinedItem("evilcraft:lightningWeatherContainer",
-    			lightningWeatherContainer);
+    	if(Configs.isEnabled(WeatherContainerConfig.class)) {
+	    	ItemStack lightningWeatherContainer = new ItemStack(WeatherContainer.getInstance(), 1,
+	    			WeatherContainerTypes.LIGHTNING.ordinal());
+	    	XmlRecipeLoader.registerPredefinedItem("evilcraft:lightningWeatherContainer",
+	    			lightningWeatherContainer);
+    	}
     	
-    	ItemStack invertedPotentiaEmpowered = new ItemStack(InvertedPotentia.getInstance(),
-    			1, InvertedPotentia.EMPOWERED_META);
-    	XmlRecipeLoader.registerPredefinedItem("evilcraft:invertedPotentiaEmpowered",
-    			invertedPotentiaEmpowered);
+    	if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
+	    	ItemStack invertedPotentiaEmpowered = new ItemStack(InvertedPotentia.getInstance(),
+	    			1, InvertedPotentia.EMPOWERED_META);
+	    	XmlRecipeLoader.registerPredefinedItem("evilcraft:invertedPotentiaEmpowered",
+	    			invertedPotentiaEmpowered);
+    	}
     	
-    	ItemStack vengeancePickaxeFortune = VengeancePickaxe.createCraftingResult();
-    	XmlRecipeLoader.registerPredefinedItem("evilcraft:vengeancePickaxeFortune",
-    			vengeancePickaxeFortune);
+    	if(Configs.isEnabled(VengeancePickaxeConfig.class)) {
+	    	ItemStack vengeancePickaxeFortune = VengeancePickaxe.createCraftingResult();
+	    	XmlRecipeLoader.registerPredefinedItem("evilcraft:vengeancePickaxeFortune",
+	    			vengeancePickaxeFortune);
+    	}
     	
-    	ItemStack boxOfEternalClosureFilled = new ItemStack(BoxOfEternalClosure.getInstance());
-    	BoxOfEternalClosure.setVengeanceSwarmContent(boxOfEternalClosureFilled);
-    	XmlRecipeLoader.registerPredefinedItem("evilcraft:boxOfEternalClosureFilled",
-    			vengeancePickaxeFortune);
+    	if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
+	    	ItemStack boxOfEternalClosureFilled = new ItemStack(BoxOfEternalClosure.getInstance());
+	    	BoxOfEternalClosure.setVengeanceSwarmContent(boxOfEternalClosureFilled);
+	    	XmlRecipeLoader.registerPredefinedItem("evilcraft:boxOfEternalClosureFilled",
+	    			boxOfEternalClosureFilled);
+    	}
     	
-    	ItemStack empoweredInvertedPotentia = new ItemStack(InvertedPotentia.getInstance());
-        InvertedPotentia.empower(empoweredInvertedPotentia);
-        XmlRecipeLoader.registerPredefinedItem("evilcraft:empoweredInvertedPotentia",
-        		empoweredInvertedPotentia);
+    	if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
+	    	ItemStack empoweredInvertedPotentia = new ItemStack(InvertedPotentia.getInstance());
+	        InvertedPotentia.empower(empoweredInvertedPotentia);
+	        XmlRecipeLoader.registerPredefinedItem("evilcraft:empoweredInvertedPotentia",
+	        		empoweredInvertedPotentia);
+    	}
     	
     	if(PotentiaSphereConfig.enderPearlRecipe) {
     		XmlRecipeLoader.registerPredefinedValue("evilcraft:enderPearlRecipe");
     	}
     	
-    	ItemStack veinSwordLooting = VeinSword.createCraftingResult();
-    	XmlRecipeLoader.registerPredefinedItem("evilcraft:veinSwordLooting",
-    			veinSwordLooting);
+    	if(Configs.isEnabled(VeinSwordConfig.class)) {
+	    	ItemStack veinSwordLooting = VeinSword.createCraftingResult();
+	    	XmlRecipeLoader.registerPredefinedItem("evilcraft:veinSwordLooting",
+	    			veinSwordLooting);
+    	}
     }
     
     private static void registerRecipesForFile(InputStream is, String fileName) {
