@@ -1,13 +1,18 @@
 package evilcraft.api.config.configurable;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemReed;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.helpers.L10NHelpers;
 
 /**
  * Item that can hold ExtendedConfigs which places blocks on use.
@@ -61,6 +66,14 @@ public abstract class ConfigurableItemForBlock extends ItemReed implements Confi
     @Override
     public boolean isEntity() {
         return false;
+    }
+    
+    @SuppressWarnings("rawtypes")
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+        super.addInformation(itemStack, entityPlayer, list, par4);
+        L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
     }
 
 }

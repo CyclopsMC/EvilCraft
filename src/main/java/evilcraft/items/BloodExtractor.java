@@ -13,7 +13,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.api.PlayerInventoryIterator;
-import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -98,7 +97,6 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(IInformationProvider.INFO_PREFIX + L10NHelpers.getLocalizedInfo(this, ".main"));
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
         		getUnlocalizedName() + ".info.autoSupply");
     }

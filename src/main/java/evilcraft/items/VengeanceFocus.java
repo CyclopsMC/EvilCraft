@@ -1,7 +1,5 @@
 package evilcraft.items;
 
-import java.util.List;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -14,7 +12,6 @@ import evilcraft.EvilCraft;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableItem;
-import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.api.helpers.WorldHelpers;
 import evilcraft.api.helpers.obfuscation.ObfuscationHelpers;
 import evilcraft.entities.effect.EntityAntiVengeanceBeam;
@@ -127,14 +124,6 @@ public class VengeanceFocus extends ConfigurableItem {
         			"vengeanceBeamStart", 0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
     		}
     	}
-    }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(L10NHelpers.getLocalizedInfo(this, ".main"));
     }
 
 }

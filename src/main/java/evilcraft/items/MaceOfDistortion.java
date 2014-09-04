@@ -26,7 +26,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.ExtendedDamageSource;
-import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -360,8 +359,6 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(IInformationProvider.INFO_PREFIX + L10NHelpers.getLocalizedInfo(this, ".main.1"));
-        list.add(IInformationProvider.INFO_PREFIX + L10NHelpers.getLocalizedInfo(this, ".main.2"));
         list.add(EnumChatFormatting.BOLD
         		+ L10NHelpers.localize(getUnlocalizedName() + ".info.power",
         				new Object[]{getPower(itemStack)}));

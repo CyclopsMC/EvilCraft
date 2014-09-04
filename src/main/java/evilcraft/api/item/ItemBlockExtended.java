@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.IInformationProvider;
+import evilcraft.api.helpers.L10NHelpers;
 
 /**
  * An extended {@link ItemBlock} that will automatically add information to the block
@@ -34,6 +35,7 @@ public class ItemBlockExtended extends ItemBlock {
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
+        L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
         informationProvider.addInformation(itemStack, entityPlayer, list, par4);
     }
     

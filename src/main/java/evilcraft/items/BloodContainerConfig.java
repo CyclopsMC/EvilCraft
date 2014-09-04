@@ -1,10 +1,8 @@
 package evilcraft.items;
 
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import evilcraft.api.config.ElementTypeCategory;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableProperty;

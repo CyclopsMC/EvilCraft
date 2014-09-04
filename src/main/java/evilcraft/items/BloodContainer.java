@@ -16,7 +16,6 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -118,7 +117,6 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(IInformationProvider.INFO_PREFIX + L10NHelpers.getLocalizedInfo(this, ".main"));
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
         		getUnlocalizedName() + ".info.autoSupply");
     }

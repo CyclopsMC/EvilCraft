@@ -1,21 +1,15 @@
 package evilcraft.blocks;
-import java.util.List;
-
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockSapling;
-import evilcraft.api.helpers.L10NHelpers;
 
 /**
  * Sapling for the Undead Tree.
  * @author rubensworks
  *
  */
-public class UndeadSapling extends ConfigurableBlockSapling implements IInformationProvider {
+public class UndeadSapling extends ConfigurableBlockSapling {
     
     private static UndeadSapling _instance = null;
     
@@ -41,15 +35,5 @@ public class UndeadSapling extends ConfigurableBlockSapling implements IInformat
     private UndeadSapling(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.plants);
     }
-    
-    @Override
-    public String getInfo(ItemStack itemStack) {
-    	return L10NHelpers.getLocalizedInfo(this);
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void provideInformation(ItemStack itemStack,
-            EntityPlayer entityPlayer, List list, boolean par4) {}
 
 }

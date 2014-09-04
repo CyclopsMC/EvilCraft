@@ -1,25 +1,20 @@
 package evilcraft.blocks;
 
-import java.util.List;
-
-import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeComponent;
-import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeProperties;
-import evilcraft.api.recipes.IMachine;
-import evilcraft.api.recipes.SuperRecipeRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockContainer;
-import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeComponent;
+import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeProperties;
+import evilcraft.api.recipes.IMachine;
+import evilcraft.api.recipes.SuperRecipeRegistry;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 import evilcraft.render.block.RenderEnvironmentalAccumulator;
 
@@ -30,7 +25,7 @@ import evilcraft.render.block.RenderEnvironmentalAccumulator;
  */
 public class EnvironmentalAccumulator
         extends ConfigurableBlockContainer
-        implements IInformationProvider, IMachine<EnvironmentalAccumulator, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> {
+        implements IMachine<EnvironmentalAccumulator, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> {
 	
 	private static EnvironmentalAccumulator _instance = null;
 	
@@ -129,16 +124,6 @@ public class EnvironmentalAccumulator
 	    // Environmental Accumulators should not drop upon breaking
 	    world.setBlockToAir(x, y, z);
 	}
-	
-	@Override
-    public String getInfo(ItemStack itemStack) {
-		return L10NHelpers.getLocalizedInfo(this);
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void provideInformation(ItemStack itemStack,
-            EntityPlayer entityPlayer, List list, boolean par4) {}
 
     @Override
     public SuperRecipeRegistry.RecipeRegistry<EnvironmentalAccumulator, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> getRecipeRegistry() {

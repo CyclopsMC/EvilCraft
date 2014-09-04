@@ -1,5 +1,7 @@
 package evilcraft.api.config.configurable;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -16,6 +18,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.api.config.ElementType;
 import evilcraft.api.config.ExtendedConfig;
+import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.api.item.DamageIndicatedItemFluidContainer;
 
 /**
@@ -188,6 +191,14 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         return world.getTileEntity(x, y, z) != null;
+    }
+    
+    @SuppressWarnings("rawtypes")
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+        super.addInformation(itemStack, entityPlayer, list, par4);
+        L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
     }
 
 }

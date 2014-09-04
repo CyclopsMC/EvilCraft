@@ -1,6 +1,4 @@
 package evilcraft.blocks;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,7 +16,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockWithInnerBlocks;
-import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.api.helpers.RenderHelpers;
 import evilcraft.api.render.AlternatingBlockIconComponent;
 import evilcraft.render.particle.EntityBloodSplashFX;
@@ -158,12 +155,6 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocks {
     @Override
     public String getInfo(ItemStack itemStack) {
         return "Block: "+EnumChatFormatting.ITALIC+getBlockFromMetadata(itemStack.getItemDamage()).getLocalizedName();
-    }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        list.add(L10NHelpers.getLocalizedInfo(this));
     }
 
 }

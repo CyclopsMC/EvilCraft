@@ -2,11 +2,12 @@ package evilcraft.api.helpers;
 
 import java.util.List;
 
-import evilcraft.api.IInformationProvider;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+
+import org.lwjgl.input.Keyboard;
+
+import evilcraft.api.IInformationProvider;
 
 /**
  * A set of localization helpers.
@@ -15,6 +16,7 @@ import net.minecraft.util.StatCollector;
  */
 public final class L10NHelpers {
 	
+	private static final int MAX_TOOLTIP_LINE_LENGTH = 25;
 	private static final String KEY_ENABLED = "general.info.enabled";
 	private static final String KEY_DISABLED = "general.info.disabled";
 	
@@ -52,54 +54,6 @@ public final class L10NHelpers {
         infoLines.add(EnumChatFormatting.BOLD
         		+ localize(statusPrefixKey, new Object[]{autoSupply}));
 	}
-
-	/**
-	 * Get localized info for the given block for display in tooltips.
-	 * @param block The block.
-	 * @return Localized info.
-	 */
-	public static String getLocalizedInfo(Block block) {
-		return IInformationProvider.INFO_PREFIX + localize(block.getUnlocalizedName() + ".info");
-	}
-
-	/**
-	 * Get localized info for the given item for display in tooltips.
-	 * @param item The item.
-	 * @return Localized info.
-	 */
-	public static String getLocalizedInfo(Item item) {
-		return getLocalizedInfo(item, "");
-	}
-
-	/**
-	 * Get localized info for the given item for display in tooltips.
-	 * @param item The item.
-	 * @param suffix The suffix to add to the unlocalized name.
-	 * @return Localized info.
-	 */
-	public static String getLocalizedInfo(Item item, String suffix) {
-		return getLocalizedInfo(item.getUnlocalizedName(), suffix);
-	}
-	
-	/**
-	 * Get localized info for the given block for display in tooltips.
-	 * @param block The block.
-	 * @param suffix The suffix to add to the unlocalized name.
-	 * @return Localized info.
-	 */
-	public static String getLocalizedInfo(Block block, String suffix) {
-		return getLocalizedInfo(block.getUnlocalizedName(), suffix);
-	}
-	
-	/**
-	 * Get localized info for the given unlocalized name for display in tooltips.
-	 * @param unlocalizedName The unlocalized name.
-	 * @param suffix The suffix to add to the unlocalized name.
-	 * @return Localized info.
-	 */
-	public static String getLocalizedInfo(String unlocalizedName, String suffix) {
-		return IInformationProvider.INFO_PREFIX + localize(unlocalizedName + ".info" + suffix);
-	}
 	
 	/**
 	 * Localize a given entity id.
@@ -108,6 +62,27 @@ public final class L10NHelpers {
 	 */
 	public static String getLocalizedEntityName(String entityId) {
 		return L10NHelpers.localize("entity." + entityId + ".name");
+	}
+	
+	/**
+	 * Add the optional info lines to the item tooltip.
+	 * @param list The list to add the lines to.
+	 * @param prefix The I18N key prefix, being the unlocalized name of blocks or items.
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static void addOptionalInfo(List list, String prefix) {
+		String key = prefix + ".info";
+		if(StatCollector.canTranslate(key)) {
+			if(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+				String localized = localize(key);
+				list.addAll(StringHelpers.splitLines(localized, MAX_TOOLTIP_LINE_LENGTH,
+						IInformationProvider.INFO_PREFIX));
+			} else {
+				list.add(localize(EnumChatFormatting.GRAY.toString()
+						+ EnumChatFormatting.ITALIC.toString()
+						+ localize("general.tooltip.info")));
+			}
+		}
 	}
 	
 }

@@ -1,5 +1,4 @@
 package evilcraft.blocks;
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -12,11 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlockConnectedTexture;
-import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.fluids.Blood;
 import evilcraft.items.HardenedBloodShard;
 
@@ -25,7 +22,7 @@ import evilcraft.items.HardenedBloodShard;
  * @author rubensworks
  *
  */
-public class HardenedBlood extends ConfigurableBlockConnectedTexture implements IInformationProvider {
+public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     
     private static HardenedBlood _instance = null;
     
@@ -113,16 +110,6 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture implements 
         dropBlockAsItem(world, x, y, z, itemStack);
         world.setBlockToAir(x, y, z);
     }
-    
-    @Override
-    public String getInfo(ItemStack itemStack) {
-    	return L10NHelpers.getLocalizedInfo(this);
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void provideInformation(ItemStack itemStack,
-            EntityPlayer entityPlayer, List list, boolean par4) {}
     
     @Override
     public boolean isNormalCube(IBlockAccess world, int x, int y, int z) {

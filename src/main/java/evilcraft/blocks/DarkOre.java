@@ -19,6 +19,7 @@ import evilcraft.api.IInformationProvider;
 import evilcraft.api.config.BlockConfig;
 import evilcraft.api.config.ExtendedConfig;
 import evilcraft.api.config.configurable.ConfigurableBlock;
+import evilcraft.api.helpers.L10NHelpers;
 import evilcraft.items.DarkGem;
 import evilcraft.items.DarkGemConfig;
 import evilcraft.items.DarkGemCrushed;
@@ -237,7 +238,8 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
 
     @Override
     public String getInfo(ItemStack itemStack) {
-        return IInformationProvider.INFO_PREFIX + "Found between levels "+DarkOreConfig.startY+" and "+DarkOreConfig.endY;
+    	return IInformationProvider.INFO_PREFIX + L10NHelpers.localize(this.getUnlocalizedName()
+    			+ ".info.custom", DarkOreConfig.startY, DarkOreConfig.endY);
     }
 
     @SuppressWarnings("rawtypes")
