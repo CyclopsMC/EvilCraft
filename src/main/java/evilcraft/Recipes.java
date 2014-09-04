@@ -28,6 +28,7 @@ import evilcraft.items.BloodContainer;
 import evilcraft.items.BloodContainerConfig;
 import evilcraft.items.InvertedPotentia;
 import evilcraft.items.PotentiaSphereConfig;
+import evilcraft.items.VeinSword;
 import evilcraft.items.VengeancePickaxe;
 import evilcraft.items.WeatherContainer;
 import evilcraft.items.WeatherContainer.WeatherContainerTypes;
@@ -90,6 +91,10 @@ public class Recipes {
     	if(PotentiaSphereConfig.enderPearlRecipe) {
     		XmlRecipeLoader.registerPredefinedValue("evilcraft:enderPearlRecipe");
     	}
+    	
+    	ItemStack veinSwordLooting = VeinSword.createCraftingResult();
+    	XmlRecipeLoader.registerPredefinedItem("evilcraft:veinSwordLooting",
+    			veinSwordLooting);
     }
     
     private static void registerRecipesForFile(InputStream is, String fileName) {

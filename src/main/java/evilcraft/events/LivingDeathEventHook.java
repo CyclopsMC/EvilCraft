@@ -25,6 +25,8 @@ import evilcraft.entities.monster.VengeanceSpirit;
 import evilcraft.entities.monster.VengeanceSpiritConfig;
 import evilcraft.items.BloodExtractor;
 import evilcraft.items.BloodExtractorConfig;
+import evilcraft.items.VeinSword;
+import evilcraft.items.VeinSwordConfig;
 import evilcraft.items.WerewolfFlesh;
 import evilcraft.items.WerewolfFleshConfig;
 import evilcraft.render.particle.EntityBloodSplashFX;
@@ -52,10 +54,15 @@ public class LivingDeathEventHook {
         Entity e = event.source.getEntity();
         if(e != null && e instanceof EntityPlayerMP && !e.worldObj.isRemote
                 && event.entityLiving != null && Configs.isEnabled(BloodExtractorConfig.class)) {
+        	float boost = 1.0F;
             EntityPlayerMP player = (EntityPlayerMP) e;
+            if(Configs.isEnabled(VeinSwordConfig.class) && player.getHeldItem() != null
+            		&& player.getHeldItem().getItem() == VeinSword.getInstance()) {
+            	boost = (float) VeinSwordConfig.extractionBoost;
+            }
             float health = event.entityLiving.getMaxHealth();
-            int minimumMB = MathHelper.floor_float(health * (float) BloodExtractorConfig.minimumMobMultiplier);
-            int maximumMB = MathHelper.floor_float(health * (float) BloodExtractorConfig.maximumMobMultiplier);
+            int minimumMB = MathHelper.floor_float(health * (float) BloodExtractorConfig.minimumMobMultiplier * boost);
+            int maximumMB = MathHelper.floor_float(health * (float) BloodExtractorConfig.maximumMobMultiplier * boost);
             BloodExtractor.getInstance().fillForAllBloodExtractors(player, minimumMB, maximumMB);
         }
     }

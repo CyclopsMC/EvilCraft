@@ -84,6 +84,7 @@ import evilcraft.items.MaceOfDistortionConfig;
 import evilcraft.items.PoisonSacConfig;
 import evilcraft.items.PotentiaSphereConfig;
 import evilcraft.items.RedstoneGrenadeConfig;
+import evilcraft.items.VeinSwordConfig;
 import evilcraft.items.VengeanceFocusConfig;
 import evilcraft.items.VengeancePickaxeConfig;
 import evilcraft.items.VengeanceRingConfig;
@@ -204,6 +205,7 @@ public class Configs {
         configs.add(new VengeancePickaxeConfig());
         configs.add(new BurningGemStoneConfig());
         configs.add(new DarkGemCrushedConfig());
+        configs.add(new VeinSwordConfig());
         
         // Entities
         // Item

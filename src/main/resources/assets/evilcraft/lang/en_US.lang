@@ -93,6 +93,7 @@ item.items.vengeanceFocus.info=Right click to enable beam.
 item.items.vengeancePickaxe.name=Vengeance Pickaxe
 item.items.burningGemStone.name=Burning GemStone
 item.items.darkGemCrushed.name=Crushed Dark Gem
+item.items.veinSword.name=Vein Sword
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
