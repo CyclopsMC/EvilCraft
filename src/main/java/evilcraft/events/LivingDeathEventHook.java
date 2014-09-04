@@ -5,7 +5,11 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
@@ -21,6 +25,8 @@ import evilcraft.entities.monster.VengeanceSpirit;
 import evilcraft.entities.monster.VengeanceSpiritConfig;
 import evilcraft.items.BloodExtractor;
 import evilcraft.items.BloodExtractorConfig;
+import evilcraft.items.WerewolfFlesh;
+import evilcraft.items.WerewolfFleshConfig;
 import evilcraft.render.particle.EntityBloodSplashFX;
 
 /**
@@ -39,6 +45,7 @@ public class LivingDeathEventHook {
         bloodObtainEvent(event);
         bloodStainedBlockEvent(event);
         vengeanceEvent(event);
+        dropHumanoidFleshEvent(event);
     }
 
 	private void bloodObtainEvent(LivingDeathEvent event) {
@@ -93,6 +100,26 @@ public class LivingDeathEventHook {
 				spirit.onSpawnWithEgg((IEntityLivingData)null);
 				world.spawnEntityInWorld(spirit);
 			}
+		}
+	}
+	
+	private void dropHumanoidFleshEvent(LivingDeathEvent event) {
+		if(event.entityLiving instanceof EntityPlayerMP
+				&& Configs.isEnabled(WerewolfFleshConfig.class)
+				&& !event.entityLiving.worldObj.isRemote) {
+			EntityPlayerMP player = (EntityPlayerMP) event.entityLiving;
+			ItemStack itemStack = new ItemStack(WerewolfFlesh.getInstance(), 1, 1);
+			NBTTagCompound tag = itemStack.getTagCompound();
+			if(tag == null) {
+				tag = new NBTTagCompound();
+				itemStack.setTagCompound(tag);
+			}
+			NBTUtil.func_152460_a(tag, player.getGameProfile());
+			double x = player.posX;
+			double y = player.posY;
+			double z = player.posZ;
+			EntityItem entity = new EntityItem(player.worldObj, x, y, z, itemStack);
+			player.worldObj.spawnEntityInWorld(entity);
 		}
 	}
     

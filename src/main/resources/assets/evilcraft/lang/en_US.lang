@@ -46,6 +46,7 @@ tile.blocks.boxOfEternalClosure.info.content=Contents: %s
 # Items
 item.items.werewolfBone.name=Werewolf Bone
 item.items.werewolfFlesh.name=Werewolf Flesh
+item.items.humanFlesh.name=Humanoid Flesh
 item.items.lightningGrenade.name=Lightning Grenade
 item.items.redstoneGrenade.name=Redstone Grenade
 item.items.bucketBlood.name=Blood Bucket
