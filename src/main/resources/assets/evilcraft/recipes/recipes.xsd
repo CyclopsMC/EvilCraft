@@ -4,7 +4,8 @@
 	<xs:element name="recipes">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="recipe" type="recipeType" />
+				<xs:element name="recipe" type="recipeType" minOccurs="0"
+                maxOccurs="unbounded" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -15,6 +16,7 @@
 				maxOccurs="unbounded" />
 			<xs:element name="input" />
 			<xs:element name="output" />
+			<xs:element name="properties" minOccurs="0" maxOccurs="1" />
 		</xs:sequence>
 		<xs:attribute name="type" type="xs:string" use="required" />
 	</xs:complexType>

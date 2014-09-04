@@ -15,14 +15,19 @@ import javax.xml.validation.SchemaFactory;
 
 import net.minecraft.item.ItemStack;
 
+import org.apache.logging.log4j.Level;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
+import evilcraft.EvilCraft;
 
 /**
  * An XML Recipe loader.
@@ -51,6 +56,7 @@ public class XmlRecipeLoader {
 	private static final Set<String> PREDEFINED_VALUES = Sets.newHashSet();
 	
 	private StreamSource stream;
+	private String fileName;
 	private InputStream xsdIs = null;
 	private Document doc = null;
 	
@@ -110,9 +116,11 @@ public class XmlRecipeLoader {
 	/**
 	 * Make a new loader for the given file.
 	 * @param is The stream containing xml recipes.
+	 * @param fileName The file name, used for debugging.
 	 */
-	public XmlRecipeLoader(InputStream is) {
+	public XmlRecipeLoader(InputStream is, String fileName) {
 		this.stream = new StreamSource(is);
+		this.fileName = fileName;
 	}
 	
 	/**
@@ -132,6 +140,23 @@ public class XmlRecipeLoader {
 		try {
 			if(xsdIs != null) {
 				SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+				factory.setErrorHandler(new ErrorHandler() {
+					
+					@Override
+					public void warning(SAXParseException exception) throws SAXException {
+						EvilCraft.log("[" + fileName + "]: " + exception.getMessage(), Level.WARN);
+					}
+					
+					@Override
+					public void fatalError(SAXParseException exception) throws SAXException {
+						EvilCraft.log("[" + fileName + "]: " + exception.getMessage(), Level.FATAL);
+					}
+					
+					@Override
+					public void error(SAXParseException exception) throws SAXException {
+						EvilCraft.log("[" + fileName + "]: " + exception.getMessage(), Level.ERROR);
+					}
+				});
 		        Schema schema = factory.newSchema(new StreamSource(xsdIs));
 				dbFactory.setSchema(schema);
 			}

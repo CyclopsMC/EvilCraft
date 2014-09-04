@@ -92,9 +92,9 @@ public class Recipes {
     	}
     }
     
-    private static void registerRecipesForFile(InputStream is) {
+    private static void registerRecipesForFile(InputStream is, String fileName) {
     	InputStream xsdIs = Recipes.class.getResourceAsStream(RECIPES_XSD_PATH);
-    	XmlRecipeLoader loader = new XmlRecipeLoader(is);
+    	XmlRecipeLoader loader = new XmlRecipeLoader(is, fileName);
     	loader.setValidator(xsdIs);
     	loader.loadRecipes();
     }
@@ -102,7 +102,7 @@ public class Recipes {
     private static void registerRecipesForFiles(File file) {
     	if(file.isFile() && EXTERNAL_RECIPES_PATTERN.matcher(file.getName()).matches()) {
     		try {
-				registerRecipesForFile(new FileInputStream(file));
+				registerRecipesForFile(new FileInputStream(file), file.getName());
 			} catch (FileNotFoundException e) {
 				
 			}
@@ -124,7 +124,7 @@ public class Recipes {
     	// Load the recipes stored in XML.
     	for(String file : RECIPES_FILES) {
 	    	InputStream is = Recipes.class.getResourceAsStream(RECIPES_BASE_PATH + file);
-	    	registerRecipesForFile(is);
+	    	registerRecipesForFile(is, file);
     	}
     	
     	// Load all the externally defined recipes.
