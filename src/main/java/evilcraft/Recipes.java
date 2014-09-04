@@ -14,10 +14,10 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeProperties;
+import evilcraft.api.recipes.events.ObservableShapelessRecipe;
 import evilcraft.api.recipes.xml.XmlRecipeLoader;
 import evilcraft.api.weather.WeatherType;
 import evilcraft.blocks.BoxOfEternalClosure;
@@ -140,9 +140,12 @@ public class Recipes {
             for(int i = 1; i < BloodContainerConfig.getContainerLevels(); i++) {
                 ItemStack result = new ItemStack(BloodContainer.getInstance(), 1, i);
                 if(!BloodContainer.getInstance().isCreativeItem(result)) {
-                    GameRegistry.addRecipe(new ShapelessOreRecipe(result,
-                            new ItemStack(BloodContainer.getInstance(), 1, i - 1),
-                            new ItemStack(BloodContainer.getInstance(), 1, i - 1)
+                    GameRegistry.addRecipe(new ObservableShapelessRecipe(result,
+                            new Object[]{
+                    			new ItemStack(BloodContainer.getInstance(), 1, i - 1),
+                    			new ItemStack(BloodContainer.getInstance(), 1, i - 1)
+                    		},
+                            BloodContainer.getInstance()
                             ));
                 }
             }

@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -21,6 +22,7 @@ import evilcraft.api.config.ItemConfig;
 import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.api.helpers.ItemHelpers;
 import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.api.recipes.events.IRecipeOutputObserver;
 import evilcraft.fluids.Blood;
 
 /**
@@ -28,7 +30,7 @@ import evilcraft.fluids.Blood;
  * @author rubensworks
  *
  */
-public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContainer {
+public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContainer implements IRecipeOutputObserver {
     
     private static BloodContainer _instance = null;
     
@@ -202,5 +204,20 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
         }
         return super.getDamage(itemStack);
     }
+    
+    @Override
+	public ItemStack getRecipeOutput(InventoryCrafting craftingGrid,
+			ItemStack output) {
+		for(int i = 0; i < craftingGrid.getSizeInventory(); i++) {           
+            if(craftingGrid.getStackInSlot(i) != null) {
+                ItemStack input = craftingGrid.getStackInSlot(i);
+                if(input.getItem() != null && input.getItem() == BloodContainer.getInstance()) {
+                    FluidStack inputFluid = BloodContainer.getInstance().getFluid(input);
+                    BloodContainer.getInstance().fill(output, inputFluid, true);
+                }
+            }  
+        }
+		return output;
+	}
 
 }
