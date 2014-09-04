@@ -84,14 +84,16 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                 ElementType type = eConfig.getHolderType();
                 type.getElementTypeAction().commonRun(eConfig, config);
                 
-                // Call the listener
-                eConfig.onRegistered();
-
-                EvilCraft.log("Registered "+eConfig.NAMEDID);
-                processedConfigs.add(eConfig);
-                
-                // Register as init listener.
-                EvilCraft.addInitListeners(new ConfigInitListener(eConfig));
+                if(eConfig.isEnabled()) {
+	                // Call the listener
+	                eConfig.onRegistered();
+	
+	                EvilCraft.log("Registered "+eConfig.NAMEDID);
+	                processedConfigs.add(eConfig);
+	                
+	                // Register as init listener.
+	                EvilCraft.addInitListeners(new ConfigInitListener(eConfig));
+                }
             }
         }
         
