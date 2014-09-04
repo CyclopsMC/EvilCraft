@@ -69,6 +69,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
         super(eConfig, -5, 0, false);
         setHasSubtypes(true);
         setAlwaysEdible();
+        this.setMaxStackSize(1);
     }
     
     private boolean isPower() {
