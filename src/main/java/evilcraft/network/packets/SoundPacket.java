@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.core.algorithms.ILocation;
+import evilcraft.api.ILocation;
 import evilcraft.core.helpers.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;

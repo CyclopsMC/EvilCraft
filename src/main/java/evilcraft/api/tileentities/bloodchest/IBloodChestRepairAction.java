@@ -1,4 +1,4 @@
-package evilcraft.entities.tileentities.tickaction.bloodchest;
+package evilcraft.api.tileentities.bloodchest;
 
 import java.util.Random;
 

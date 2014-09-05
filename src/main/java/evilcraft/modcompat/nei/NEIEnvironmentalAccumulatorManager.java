@@ -16,6 +16,7 @@ import org.lwjgl.opengl.GL11;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import evilcraft.Reference;
+import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.core.recipes.*;

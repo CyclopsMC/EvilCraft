@@ -3,11 +3,11 @@ package evilcraft.core.degradation.effects;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import evilcraft.core.algorithms.ILocation;
+import evilcraft.api.ILocation;
+import evilcraft.api.degradation.IDegradable;
 import evilcraft.core.config.DegradationEffectConfig;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
-import evilcraft.core.degradation.IDegradable;
 import evilcraft.items.MaceOfDistortion;
 
 /**

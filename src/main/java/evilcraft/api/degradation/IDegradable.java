@@ -1,15 +1,15 @@
-package evilcraft.core.degradation;
+package evilcraft.api.degradation;
 
 import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import evilcraft.core.algorithms.ILocation;
+import evilcraft.api.ILocation;
 
 /**
  * Objects that can execute {@link IDegradationEffect} should implement this.
  * @author rubensworks
- * @see DegradationRegistry
+ * @see IDegradationRegistry
  */
 public interface IDegradable {
     

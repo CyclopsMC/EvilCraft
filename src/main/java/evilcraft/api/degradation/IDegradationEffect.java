@@ -1,9 +1,10 @@
-package evilcraft.core.degradation;
+package evilcraft.api.degradation;
+
 
 /**
  * A set of actions that can apply to {@link IDegradable}.
  * @author rubensworks
- * @see DegradationRegistry
+ * @see IDegradationRegistry
  */
 public interface IDegradationEffect {
 

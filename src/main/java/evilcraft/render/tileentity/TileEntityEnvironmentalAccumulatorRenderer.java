@@ -10,10 +10,10 @@ import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
+import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.core.recipes.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipes.EnvironmentalAccumulatorRecipeProperties;
-import evilcraft.core.recipes.IRecipe;
 import evilcraft.entities.tileentities.EvilCraftBeaconTileEntity;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 

@@ -1,6 +1,8 @@
 package evilcraft.entities.tileentities.tickaction.bloodchest;
 
 import net.minecraft.item.ItemStack;
+import evilcraft.api.RegistryManager;
+import evilcraft.api.tileentities.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.core.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.entities.tileentities.TileBloodChest;
@@ -30,10 +32,12 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
                     && itemStack != null
                     ) {
                 // Call handlers registered via API.
-                int actionID = BloodChestRepairActionRegistry.canRepair(itemStack, tick);
+            	IBloodChestRepairActionRegistry actions = RegistryManager.
+            			getRegistry(IBloodChestRepairActionRegistry.class);
+                int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {
                     drainTank(tile);
-                    BloodChestRepairActionRegistry.repair(itemStack, tile.getWorldObj().rand, actionID);
+                    actions.repair(itemStack, tile.getWorldObj().rand, actionID);
                 }
                 
             }

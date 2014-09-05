@@ -8,13 +8,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.RegistryManager;
+import evilcraft.api.recipes.custom.IMachine;
+import evilcraft.api.recipes.custom.IRecipeRegistry;
+import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
 import evilcraft.core.config.BlockConfig;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.recipes.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipes.EnvironmentalAccumulatorRecipeProperties;
-import evilcraft.core.recipes.IMachine;
-import evilcraft.core.recipes.SuperRecipeRegistry;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 import evilcraft.render.block.RenderEnvironmentalAccumulator;
 
@@ -126,7 +128,7 @@ public class EnvironmentalAccumulator
 	}
 
     @Override
-    public SuperRecipeRegistry.RecipeRegistry<EnvironmentalAccumulator, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> getRecipeRegistry() {
-        return SuperRecipeRegistry.getRecipeRegistry(this);
+    public IRecipeRegistry<EnvironmentalAccumulator, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> getRecipeRegistry() {
+        return RegistryManager.getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
     }
 }

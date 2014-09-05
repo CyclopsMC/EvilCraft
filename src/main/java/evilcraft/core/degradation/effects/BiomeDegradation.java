@@ -2,15 +2,15 @@ package evilcraft.core.degradation.effects;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import evilcraft.api.ILocation;
+import evilcraft.api.degradation.IDegradable;
 import evilcraft.biomes.BiomeDegraded;
-import evilcraft.core.algorithms.ILocation;
 import evilcraft.core.algorithms.Location;
 import evilcraft.core.algorithms.OrganicSpread;
 import evilcraft.core.algorithms.OrganicSpread.IOrganicSpreadable;
 import evilcraft.core.config.DegradationEffectConfig;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
-import evilcraft.core.degradation.IDegradable;
 import evilcraft.core.helpers.WorldHelpers;
 
 /**

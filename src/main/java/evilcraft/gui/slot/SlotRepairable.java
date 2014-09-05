@@ -1,9 +1,10 @@
 package evilcraft.gui.slot;
 
-import evilcraft.entities.tileentities.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import evilcraft.api.RegistryManager;
+import evilcraft.api.tileentities.bloodchest.IBloodChestRepairActionRegistry;
 
 /**
  * A slot that only accepts repairable items.
@@ -35,7 +36,8 @@ public class SlotRepairable extends Slot {
      * @return If the given item is valid.
      */
     public static boolean checkIsItemValid(ItemStack itemStack) {
-        return itemStack != null && BloodChestRepairActionRegistry.isItemValidForSlot(itemStack);
+        return itemStack != null && RegistryManager.getRegistry(IBloodChestRepairActionRegistry.class).
+        		isItemValidForSlot(itemStack);
     }
 
 }

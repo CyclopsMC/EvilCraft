@@ -1,11 +1,13 @@
 package evilcraft.core.recipes;
 
+import evilcraft.api.recipes.custom.IRecipeInput;
+import evilcraft.api.recipes.custom.IRecipeOutput;
 import evilcraft.core.weather.WeatherType;
 import lombok.Data;
 import net.minecraft.item.ItemStack;
 
 /**
- * A recipe component that can be used in {@link evilcraft.core.recipes.IRecipe}S for the
+ * A recipe component that can be used in {@link evilcraft.api.recipes.custom.IRecipe}S for the
  * {@link evilcraft.blocks.EnvironmentalAccumulator}.
  * @author immortaleeb
  */

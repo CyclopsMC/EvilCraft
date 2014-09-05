@@ -1,6 +1,6 @@
-package evilcraft.core.algorithms;
+package evilcraft.api;
 
-import evilcraft.core.entities.tileentitites.INBTSerializable;
+import evilcraft.api.tileentities.INBTSerializable;
 
 /**
  * Location interface.
@@ -32,7 +32,7 @@ public interface ILocation extends Comparable<ILocation>, INBTSerializable {
      * @param location The location to calculate the difference with.
      * @return The difference.
      */
-    public Size getDifference(ILocation location);
+    public ISize getDifference(ILocation location);
     
     /**
      * Get the distance between this and the given location.

@@ -1,8 +1,8 @@
 package evilcraft.core.config.configurable;
 
+import evilcraft.api.degradation.IDegradationEffect;
 import evilcraft.core.config.ElementType;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.degradation.IDegradationEffect;
 
 /**
  * Group interface of {@link Configurable} and {@link IDegradationEffect}.

@@ -1,5 +1,9 @@
 package evilcraft.core.recipes;
 
+import evilcraft.api.recipes.custom.IRecipe;
+import evilcraft.api.recipes.custom.IRecipeInput;
+import evilcraft.api.recipes.custom.IRecipeOutput;
+import evilcraft.api.recipes.custom.IRecipeProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

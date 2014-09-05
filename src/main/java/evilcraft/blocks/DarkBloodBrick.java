@@ -8,7 +8,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.algorithms.ILocation;
+import evilcraft.api.ILocation;
 import evilcraft.core.algorithms.Location;
 import evilcraft.core.algorithms.Size;
 import evilcraft.core.block.CubeDetector.IDetectionListener;

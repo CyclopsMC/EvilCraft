@@ -1,8 +1,9 @@
-package evilcraft.core.recipes;
+package evilcraft.api.recipes.custom;
+
 
 /**
  * Interface for additional properties (e.g. duration, energy usage) for recipes that can be registered with
- * {@link SuperRecipeRegistry}.
+ * {@link ISuperRecipeRegistry}.
  *
  * @author immortaleeb
  */

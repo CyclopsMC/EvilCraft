@@ -15,6 +15,7 @@ import evilcraft.EvilCraft;
 import evilcraft.IInitListener;
 import evilcraft.Recipes;
 import evilcraft.Reference;
+import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.blocks.BloodInfuser;
 import evilcraft.blocks.BloodInfuserConfig;
 import evilcraft.blocks.BloodStainedBlock;

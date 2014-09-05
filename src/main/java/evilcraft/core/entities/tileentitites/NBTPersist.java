@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import evilcraft.api.tileentities.INBTSerializable;
+
 
 /**
  * If this field should be persisted in Tile Entities.

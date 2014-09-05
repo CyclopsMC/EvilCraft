@@ -8,13 +8,13 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import evilcraft.Configs;
+import evilcraft.api.ILocation;
+import evilcraft.api.degradation.IDegradable;
 import evilcraft.blocks.NetherfishSpawn;
 import evilcraft.blocks.NetherfishSpawnConfig;
-import evilcraft.core.algorithms.ILocation;
 import evilcraft.core.block.BlockTypeHolder;
 import evilcraft.core.config.DegradationEffectConfig;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.degradation.IDegradable;
 import evilcraft.core.degradation.StochasticDegradationEffect;
 import evilcraft.core.helpers.LocationHelpers;
 

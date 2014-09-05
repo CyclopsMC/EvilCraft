@@ -1,11 +1,12 @@
 package evilcraft.core.recipes;
 
+import evilcraft.api.recipes.custom.IRecipeProperties;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
 import evilcraft.entities.tileentities.environmentalaccumulator.IEAProcessingFinishedEffect;
 import lombok.*;
 
 /**
- * Additional properties that are used to process {@link evilcraft.core.recipes.IRecipe}S for the
+ * Additional properties that are used to process {@link evilcraft.api.recipes.custom.IRecipe}S for the
  * {@link evilcraft.blocks.EnvironmentalAccumulator}.
  * @author immortaleeb
  */

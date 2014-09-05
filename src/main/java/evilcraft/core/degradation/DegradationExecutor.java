@@ -1,6 +1,10 @@
 package evilcraft.core.degradation;
 
 import net.minecraft.nbt.NBTTagCompound;
+import evilcraft.api.RegistryManager;
+import evilcraft.api.degradation.IDegradable;
+import evilcraft.api.degradation.IDegradationEffect;
+import evilcraft.api.degradation.IDegradationRegistry;
 
 /**
  * An executor component to be used by {@link IDegradable}.
@@ -37,7 +41,7 @@ public class DegradationExecutor {
         currentTick++;
         if(currentTick >= tickInterval) {
             currentTick = 0;
-            IDegradationEffect effect = DegradationRegistry.getRandomDegradationEffect();
+            IDegradationEffect effect = RegistryManager.getRegistry(IDegradationRegistry.class).getRandomDegradationEffect();
             if(effect.canRun(degradable)) {
                 if(isRemote) {
                     effect.runClientSide(degradable);

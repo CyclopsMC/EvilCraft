@@ -3,7 +3,7 @@ package evilcraft.core.block;
 import java.util.List;
 
 import net.minecraft.world.World;
-import evilcraft.core.algorithms.ILocation;
+import evilcraft.api.ILocation;
 import evilcraft.core.algorithms.Size;
 
 /**

@@ -2,8 +2,9 @@ package evilcraft.core.config.elementtypeaction;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import evilcraft.api.RegistryManager;
+import evilcraft.api.degradation.IDegradationRegistry;
 import evilcraft.core.config.DegradationEffectConfig;
-import evilcraft.core.degradation.DegradationRegistry;
 
 /**
  * The action used for {@link DegradationEffectConfig}.
@@ -31,7 +32,7 @@ public class DegradationEffectAction extends IElementTypeAction<DegradationEffec
         eConfig.save();
         
         // Register effect
-        DegradationRegistry.registerDegradationEffect(
+        RegistryManager.getRegistry(IDegradationRegistry.class).registerDegradationEffect(
                 eConfig.NAMEDID, eConfig.getDegradationEffect(), eConfig.getWeight());
     }
 

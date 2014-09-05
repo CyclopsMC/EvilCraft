@@ -1,5 +1,6 @@
 package evilcraft.core.algorithms;
 
+import evilcraft.api.ILocation;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**

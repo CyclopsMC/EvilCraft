@@ -10,12 +10,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.RegistryManager;
+import evilcraft.api.recipes.custom.IMachine;
+import evilcraft.api.recipes.custom.IRecipeRegistry;
+import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
 import evilcraft.core.config.BlockConfig;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import evilcraft.core.helpers.DirectionHelpers;
 import evilcraft.core.helpers.MinecraftHelpers;
-import evilcraft.core.recipes.*;
+import evilcraft.core.recipes.DurationRecipeProperties;
+import evilcraft.core.recipes.ItemAndFluidStackRecipeComponent;
+import evilcraft.core.recipes.ItemStackRecipeComponent;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.client.GuiBloodInfuser;
 import evilcraft.gui.container.ContainerBloodInfuser;
@@ -124,7 +130,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     }
 
     @Override
-    public SuperRecipeRegistry.RecipeRegistry<BloodInfuser, ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> getRecipeRegistry() {
-        return SuperRecipeRegistry.getRecipeRegistry(this);
+    public IRecipeRegistry<BloodInfuser, ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> getRecipeRegistry() {
+        return RegistryManager.getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
     }
 }

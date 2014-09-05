@@ -7,10 +7,10 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 import net.minecraftforge.event.ForgeEventFactory;
 import cpw.mods.fml.common.eventhandler.Event.Result;
-import evilcraft.core.algorithms.ILocation;
+import evilcraft.api.ILocation;
+import evilcraft.api.degradation.IDegradable;
 import evilcraft.core.config.DegradationEffectConfig;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.degradation.IDegradable;
 import evilcraft.core.degradation.StochasticDegradationEffect;
 import evilcraft.core.helpers.LocationHelpers;
 

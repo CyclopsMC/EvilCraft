@@ -18,19 +18,19 @@ import org.lwjgl.util.vector.Vector4f;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.ILocation;
+import evilcraft.api.degradation.IDegradable;
+import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
-import evilcraft.core.algorithms.ILocation;
 import evilcraft.core.algorithms.Location;
 import evilcraft.core.degradation.DegradationExecutor;
-import evilcraft.core.degradation.IDegradable;
 import evilcraft.core.helpers.EntityHelpers;
 import evilcraft.core.helpers.L10NHelpers;
 import evilcraft.core.helpers.MinecraftHelpers;
 import evilcraft.core.inventory.SimpleInventory;
 import evilcraft.core.recipes.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipes.EnvironmentalAccumulatorRecipeProperties;
-import evilcraft.core.recipes.IRecipe;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.entities.tileentities.environmentalaccumulator.IEAProcessingFinishedEffect;
 

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import evilcraft.Configs;
+import evilcraft.api.tileentities.bloodchest.IBloodChestRepairAction;
 import evilcraft.blocks.BloodChestConfig;
 import evilcraft.core.config.configurable.ConfigurableEnchantment;
 import evilcraft.enchantment.EnchantmentBreaking;

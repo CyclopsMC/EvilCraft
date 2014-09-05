@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import evilcraft.core.algorithms.ILocation;
+import evilcraft.api.ILocation;
 import evilcraft.core.algorithms.Location;
 
 /**

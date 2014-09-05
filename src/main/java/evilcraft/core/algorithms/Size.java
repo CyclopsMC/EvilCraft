@@ -1,11 +1,13 @@
 package evilcraft.core.algorithms;
 
+import evilcraft.api.ISize;
+
 /**
  * Sizes class.
  * @author rubensworks
  *
  */
-public class Size extends Location {
+public class Size extends Location implements ISize {
 	
 	/**
 	 * A null size in three dimensions.
@@ -20,18 +22,12 @@ public class Size extends Location {
 		super(sizes);
 	}
 	
-	/**
-     * Get the sizes for this size.
-     * @return An array of sizes of the dimension for this size.
-     */
+	@Override
     public int[] getSizes() {
         return super.getCoordinates();
     }
 
-	/**
-     * Set the sizes for this size.
-     * @param sizes The sizes.
-     */
+	@Override
     public void setSizes(int[] sizes) {
         super.setCoordinates(sizes);
     }

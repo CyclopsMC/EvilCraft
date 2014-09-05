@@ -22,11 +22,11 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import com.google.common.collect.Lists;
 
 import evilcraft.Configs;
+import evilcraft.api.ILocation;
 import evilcraft.blocks.BoxOfEternalClosure;
 import evilcraft.blocks.BoxOfEternalClosureConfig;
 import evilcraft.blocks.DarkBloodBrick;
 import evilcraft.blocks.SpiritFurnace;
-import evilcraft.core.algorithms.ILocation;
 import evilcraft.core.algorithms.Size;
 import evilcraft.core.algorithms.Sizes;
 import evilcraft.core.block.AllowedBlock;

@@ -1,10 +1,13 @@
 package evilcraft.core.recipes;
 
+import evilcraft.api.recipes.custom.IRecipeInput;
+import evilcraft.api.recipes.custom.IRecipeOutput;
+import evilcraft.api.recipes.custom.IRecipeProperties;
 import lombok.Data;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
- * A {@link evilcraft.core.recipes.IRecipe} component (input, output or properties) that holds an
+ * A {@link evilcraft.api.recipes.custom.IRecipe} component (input, output or properties) that holds an
  * {@link net.minecraftforge.fluids.FluidStack}.
  *
  * @author immortaleeb

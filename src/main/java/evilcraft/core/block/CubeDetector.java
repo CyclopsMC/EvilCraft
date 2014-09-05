@@ -11,8 +11,9 @@ import net.minecraft.world.World;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import evilcraft.api.ILocation;
+import evilcraft.api.ISize;
 import evilcraft.core.algorithms.Dimension;
-import evilcraft.core.algorithms.ILocation;
 import evilcraft.core.algorithms.Location;
 import evilcraft.core.algorithms.Size;
 import evilcraft.core.helpers.LocationHelpers;
@@ -332,7 +333,7 @@ public class CubeDetector {
 		int[][] dimensionEgdes = new int[corners.length][2]; // [dimension][start | stop]
 		for(int i = 0; i < corners.length; i++) {
 			// Distance measurement
-			Size sizeDifference = corners[i].getDifference(originCorner);
+			ISize sizeDifference = corners[i].getDifference(originCorner);
 			distances[i] = sizeDifference.getCoordinates()[i];
 			
 			// Start and stop coordinate measurement.

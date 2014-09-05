@@ -1,10 +1,13 @@
 package evilcraft.core.recipes;
 
+import evilcraft.api.recipes.custom.IRecipeInput;
+import evilcraft.api.recipes.custom.IRecipeOutput;
+import evilcraft.api.recipes.custom.IRecipeProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
- * A {@link evilcraft.core.recipes.IRecipe} component that holds an {@link net.minecraft.item.ItemStack}
+ * A {@link evilcraft.api.recipes.custom.IRecipe} component that holds an {@link net.minecraft.item.ItemStack}
  * and a {@link net.minecraftforge.fluids.FluidStack}.
  * @author immortaleeb
  */

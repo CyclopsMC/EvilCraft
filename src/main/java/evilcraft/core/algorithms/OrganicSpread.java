@@ -2,6 +2,8 @@ package evilcraft.core.algorithms;
 
 import java.util.Random;
 
+import evilcraft.api.ILocation;
+
 import net.minecraft.world.World;
 
 /**

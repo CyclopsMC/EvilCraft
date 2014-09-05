@@ -5,9 +5,9 @@ import java.util.Random;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import evilcraft.api.degradation.IDegradable;
 import evilcraft.core.config.DegradationEffectConfig;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.degradation.IDegradable;
 import evilcraft.core.degradation.StochasticDegradationEffect;
 
 /**

@@ -4,11 +4,11 @@ import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.algorithms.ILocation;
+import evilcraft.api.ILocation;
+import evilcraft.api.degradation.IDegradable;
 import evilcraft.core.config.DegradationEffectConfig;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
-import evilcraft.core.degradation.IDegradable;
 import evilcraft.render.particle.EntityDegradeFX;
 
 /**
