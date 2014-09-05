@@ -1,9 +1,9 @@
 package evilcraft.entities.villager;
 
 import evilcraft.Reference;
-import evilcraft.api.config.ElementTypeCategory;
-import evilcraft.api.config.VillagerConfig;
-import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ElementTypeCategory;
+import evilcraft.core.config.VillagerConfig;
+import evilcraft.core.config.configurable.ConfigurableProperty;
 
 /**
  * Config for the {@link WerewolfVillager}.

@@ -2,7 +2,7 @@ package evilcraft.items;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.Reference;
-import evilcraft.api.config.ItemConfig;
+import evilcraft.core.config.ItemConfig;
 
 /**
  * Config for the {@link DarkGemCrushed}.

@@ -1,10 +1,10 @@
 package evilcraft.blocks;
 
 import net.minecraft.item.ItemBlock;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ElementTypeCategory;
-import evilcraft.api.config.configurable.ConfigurableProperty;
-import evilcraft.api.item.ItemBlockMetadata;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ElementTypeCategory;
+import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.item.ItemBlockMetadata;
 
 /**
  * Config for the {@link NetherfishSpawn}.

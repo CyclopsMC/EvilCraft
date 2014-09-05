@@ -9,11 +9,11 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.ItemConfig;
-import evilcraft.api.config.configurable.ConfigurableItem;
-import evilcraft.api.helpers.WorldHelpers;
-import evilcraft.api.helpers.obfuscation.ObfuscationHelpers;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.ItemConfig;
+import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.helpers.WorldHelpers;
+import evilcraft.core.helpers.obfuscation.ObfuscationHelpers;
 import evilcraft.entities.effect.EntityAntiVengeanceBeam;
 
 /**

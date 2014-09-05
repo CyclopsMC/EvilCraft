@@ -9,7 +9,7 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import evilcraft.VersionStats;
-import evilcraft.api.config.ConfigProperty;
+import evilcraft.core.config.ConfigProperty;
 
 /**
  * Command for showing current version.

@@ -4,9 +4,9 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlockConnectedTexture;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableBlockConnectedTexture;
 
 /**
  * A test block that is only used for testing stuff in development.

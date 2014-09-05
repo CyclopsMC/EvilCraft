@@ -1,8 +1,8 @@
 package evilcraft.entities.tileentities.tickaction.bloodchest;
 
 import net.minecraft.item.ItemStack;
-import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.blocks.BloodChestConfig;
+import evilcraft.core.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.entities.tileentities.TileBloodChest;
 
 /**

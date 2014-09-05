@@ -3,10 +3,10 @@ import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlockFluidClassic;
-import evilcraft.api.helpers.MinecraftHelpers;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
+import evilcraft.core.helpers.MinecraftHelpers;
 import evilcraft.fluids.Blood;
 
 /**

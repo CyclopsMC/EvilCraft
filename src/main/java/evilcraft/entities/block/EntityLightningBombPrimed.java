@@ -7,10 +7,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.world.World;
-import evilcraft.api.config.ElementType;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.Configurable;
 import evilcraft.blocks.LightningBomb;
+import evilcraft.core.config.ElementType;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.Configurable;
 
 /**
  * Entity for primed {@link LightningBomb}.

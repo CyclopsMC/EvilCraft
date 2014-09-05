@@ -1,8 +1,8 @@
 package evilcraft.blocks;
 import net.minecraft.block.material.Material;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlock;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableBlock;
 
 /**
  * Planks of the {@link UndeadLog}.

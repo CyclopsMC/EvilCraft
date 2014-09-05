@@ -3,7 +3,7 @@ package evilcraft.events;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Reference;
-import evilcraft.api.config.ConfigHandler;
+import evilcraft.core.config.ConfigHandler;
 
 /**
  * Event hook for {@link ConfigChangedEvent}.

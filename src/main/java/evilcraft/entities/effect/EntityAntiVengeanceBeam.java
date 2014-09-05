@@ -16,9 +16,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.EvilCraft;
-import evilcraft.api.config.ElementType;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.Configurable;
+import evilcraft.core.config.ElementType;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.Configurable;
 import evilcraft.entities.monster.VengeanceSpirit;
 import evilcraft.render.particle.EntityBlurFX;
 

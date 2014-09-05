@@ -7,11 +7,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import evilcraft.GeneralConfig;
-import evilcraft.api.helpers.DirectionHelpers;
-import evilcraft.api.helpers.StairSlabMetadataHelper;
-import evilcraft.api.helpers.StairSlabMetadataHelper.SlabType;
-import evilcraft.api.helpers.StairSlabMetadataHelper.StoneBrickType;
 import evilcraft.blocks.EnvironmentalAccumulator;
+import evilcraft.core.helpers.DirectionHelpers;
+import evilcraft.core.helpers.StairSlabMetadataHelper;
+import evilcraft.core.helpers.StairSlabMetadataHelper.SlabType;
+import evilcraft.core.helpers.StairSlabMetadataHelper.StoneBrickType;
 import evilcraft.worldgen.nbt.DarkTempleData;
 
 /**

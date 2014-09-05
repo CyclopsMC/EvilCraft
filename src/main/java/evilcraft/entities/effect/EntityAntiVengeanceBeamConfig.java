@@ -3,8 +3,8 @@ package evilcraft.entities.effect;
 import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.EntityConfig;
-import evilcraft.api.render.RenderNull;
+import evilcraft.core.config.EntityConfig;
+import evilcraft.core.render.RenderNull;
 
 /**
  * Config for the {@link EntityAntiVengeanceBeam}.

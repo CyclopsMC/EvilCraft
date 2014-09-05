@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.command.ICommand;
-import evilcraft.api.config.ConfigProperty;
+import evilcraft.core.config.ConfigProperty;
 
 /**
  * Command for selecting {@link ConfigProperty}.

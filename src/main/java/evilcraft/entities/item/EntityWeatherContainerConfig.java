@@ -3,8 +3,8 @@ package evilcraft.entities.item;
 import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.EntityConfig;
-import evilcraft.api.render.RenderThrowable;
+import evilcraft.core.config.EntityConfig;
+import evilcraft.core.render.RenderThrowable;
 import evilcraft.items.WeatherContainer;
 
 /**

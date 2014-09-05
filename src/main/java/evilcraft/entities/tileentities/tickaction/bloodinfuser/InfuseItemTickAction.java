@@ -1,13 +1,13 @@
 package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 
-import evilcraft.api.recipes.DurationRecipeProperties;
-import evilcraft.api.recipes.IRecipe;
-import evilcraft.api.recipes.ItemAndFluidStackRecipeComponent;
-import evilcraft.api.recipes.ItemStackRecipeComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.blocks.BloodInfuser;
+import evilcraft.core.entities.tileentitites.tickaction.ITickAction;
+import evilcraft.core.recipes.DurationRecipeProperties;
+import evilcraft.core.recipes.IRecipe;
+import evilcraft.core.recipes.ItemAndFluidStackRecipeComponent;
+import evilcraft.core.recipes.ItemStackRecipeComponent;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 
 /**

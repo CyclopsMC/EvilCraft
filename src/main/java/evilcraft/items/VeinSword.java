@@ -7,10 +7,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.ItemConfig;
-import evilcraft.api.config.configurable.ConfigurableItemSword;
-import evilcraft.api.helpers.EnchantmentHelpers;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.ItemConfig;
+import evilcraft.core.config.configurable.ConfigurableItemSword;
+import evilcraft.core.helpers.EnchantmentHelpers;
 
 /**
  * A strong pickaxe that may call up spirits.

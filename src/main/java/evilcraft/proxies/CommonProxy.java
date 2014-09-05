@@ -4,7 +4,7 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.api.BucketHandler;
+import evilcraft.core.BucketHandler;
 import evilcraft.events.BonemealEventHook;
 import evilcraft.events.ConfigChangedEventHook;
 import evilcraft.events.EntityStruckByLightningEventHook;

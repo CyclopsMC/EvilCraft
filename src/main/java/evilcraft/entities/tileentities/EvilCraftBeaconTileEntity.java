@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector4f;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.core.entities.tileentitites.EvilCraftTileEntity;
 
 /**
  * Base tile entity for beacons.

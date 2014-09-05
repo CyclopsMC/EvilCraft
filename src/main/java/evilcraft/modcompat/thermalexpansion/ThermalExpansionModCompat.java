@@ -3,7 +3,6 @@ package evilcraft.modcompat.thermalexpansion;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import evilcraft.api.recipes.*;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,6 +25,7 @@ import evilcraft.blocks.UndeadLog;
 import evilcraft.blocks.UndeadLogConfig;
 import evilcraft.blocks.UndeadPlank;
 import evilcraft.blocks.UndeadPlankConfig;
+import evilcraft.core.recipes.*;
 import evilcraft.fluids.Blood;
 import evilcraft.fluids.Poison;
 import evilcraft.items.BloodExtractorConfig;

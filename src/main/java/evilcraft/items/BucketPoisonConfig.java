@@ -1,9 +1,9 @@
 package evilcraft.items;
 
-import evilcraft.api.config.ItemBucketConfig;
-import evilcraft.api.config.configurable.ConfigurableBlockFluidClassic;
-import evilcraft.api.config.configurable.ConfigurableFluid;
 import evilcraft.blocks.FluidBlockPoison;
+import evilcraft.core.config.ItemBucketConfig;
+import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
+import evilcraft.core.config.configurable.ConfigurableFluid;
 import evilcraft.fluids.Poison;
 
 /**

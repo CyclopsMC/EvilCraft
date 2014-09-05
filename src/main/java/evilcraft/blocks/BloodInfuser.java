@@ -1,7 +1,6 @@
 package evilcraft.blocks;
 import java.util.Random;
 
-import evilcraft.api.recipes.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
@@ -11,11 +10,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlockContainerGuiTankInfo;
-import evilcraft.api.helpers.DirectionHelpers;
-import evilcraft.api.helpers.MinecraftHelpers;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
+import evilcraft.core.helpers.DirectionHelpers;
+import evilcraft.core.helpers.MinecraftHelpers;
+import evilcraft.core.recipes.*;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.client.GuiBloodInfuser;
 import evilcraft.gui.container.ContainerBloodInfuser;

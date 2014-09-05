@@ -2,9 +2,9 @@ package evilcraft.render.entity;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.EntityLiving;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.MobConfig;
-import evilcraft.api.render.ModelRenderLiving;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.MobConfig;
+import evilcraft.core.render.ModelRenderLiving;
 import evilcraft.entities.monster.Werewolf;
 
 /**

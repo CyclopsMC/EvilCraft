@@ -6,12 +6,12 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.blockcomponents.EntityDropParticleFXBlockComponent;
-import evilcraft.api.blockcomponents.IEntityDropParticleFXBlock;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlockLeaves;
-import evilcraft.api.helpers.MinecraftHelpers;
+import evilcraft.core.blockcomponents.EntityDropParticleFXBlockComponent;
+import evilcraft.core.blockcomponents.IEntityDropParticleFXBlock;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableBlockLeaves;
+import evilcraft.core.helpers.MinecraftHelpers;
 
 /**
  * Leaves for the Undead Tree.

@@ -2,10 +2,10 @@ package evilcraft.items;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import evilcraft.api.PlayerInventoryIterator;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.ItemConfig;
-import evilcraft.api.config.configurable.ConfigurableItem;
+import evilcraft.core.PlayerInventoryIterator;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.ItemConfig;
+import evilcraft.core.config.configurable.ConfigurableItem;
 
 /**
  * A dark gem that somehow caught fire.

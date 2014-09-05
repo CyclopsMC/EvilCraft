@@ -13,11 +13,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlockWithInnerBlocks;
-import evilcraft.api.helpers.RenderHelpers;
-import evilcraft.api.render.AlternatingBlockIconComponent;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
+import evilcraft.core.helpers.RenderHelpers;
+import evilcraft.core.render.AlternatingBlockIconComponent;
 import evilcraft.render.particle.EntityBloodSplashFX;
 
 /**

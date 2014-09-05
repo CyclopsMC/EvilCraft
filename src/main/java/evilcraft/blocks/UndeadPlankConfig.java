@@ -2,7 +2,7 @@ package evilcraft.blocks;
 
 import net.minecraft.init.Blocks;
 import evilcraft.Reference;
-import evilcraft.api.config.BlockConfig;
+import evilcraft.core.config.BlockConfig;
 
 /**
  * Config for the {@link UndeadPlank}.

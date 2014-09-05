@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlockConnectedTexture;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableBlockConnectedTexture;
 import evilcraft.fluids.Blood;
 import evilcraft.items.HardenedBloodShard;
 

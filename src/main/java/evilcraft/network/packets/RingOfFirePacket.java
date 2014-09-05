@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.helpers.LocationHelpers;
+import evilcraft.core.helpers.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;

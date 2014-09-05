@@ -1,7 +1,7 @@
 package evilcraft.entities.tileentities.environmentalaccumulator;
 
-import evilcraft.api.recipes.IRecipe;
 import evilcraft.blocks.EnvironmentalAccumulator;
+import evilcraft.core.recipes.IRecipe;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 
 /**

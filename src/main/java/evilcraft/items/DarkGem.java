@@ -5,13 +5,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import evilcraft.Configs;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.ItemConfig;
-import evilcraft.api.config.configurable.ConfigurableItem;
-import evilcraft.api.helpers.WorldHelpers;
 import evilcraft.blocks.BloodStainedBlock;
 import evilcraft.blocks.DarkOre;
 import evilcraft.blocks.FluidBlockBlood;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.ItemConfig;
+import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.helpers.WorldHelpers;
 
 /**
  * Gem that drops from {@link DarkOre}.

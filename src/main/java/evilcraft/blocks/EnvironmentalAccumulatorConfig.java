@@ -1,9 +1,9 @@
 package evilcraft.blocks;
 
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ElementTypeCategory;
-import evilcraft.api.config.configurable.ConfigurableProperty;
-import evilcraft.api.helpers.MinecraftHelpers;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ElementTypeCategory;
+import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.helpers.MinecraftHelpers;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 import evilcraft.proxies.ClientProxy;
 import evilcraft.render.block.RenderEnvironmentalAccumulator;

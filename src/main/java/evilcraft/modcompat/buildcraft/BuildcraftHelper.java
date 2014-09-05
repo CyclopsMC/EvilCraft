@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import evilcraft.Reference;
-import evilcraft.api.config.BlockConfig;
+import evilcraft.core.config.BlockConfig;
 
 /**
  * Buildcraft helper class for registering facade blocks.

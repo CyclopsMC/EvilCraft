@@ -1,7 +1,7 @@
 package evilcraft.biomes;
 
 import evilcraft.Reference;
-import evilcraft.api.config.BiomeConfig;
+import evilcraft.core.config.BiomeConfig;
 
 /**
  * Config for {@link BiomeDegraded}.

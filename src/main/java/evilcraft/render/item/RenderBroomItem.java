@@ -7,9 +7,9 @@ import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.ItemConfig;
-import evilcraft.api.render.ModelRender;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.ItemConfig;
+import evilcraft.core.render.ModelRender;
 import evilcraft.items.Broom;
 import evilcraft.render.models.BroomModel;
 

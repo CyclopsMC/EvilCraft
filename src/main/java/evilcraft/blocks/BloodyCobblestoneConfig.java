@@ -1,7 +1,7 @@
 package evilcraft.blocks;
 
 import evilcraft.Reference;
-import evilcraft.api.config.BlockConfig;
+import evilcraft.core.config.BlockConfig;
 
 /**
  * Config for the {@link BloodyCobblestone}.

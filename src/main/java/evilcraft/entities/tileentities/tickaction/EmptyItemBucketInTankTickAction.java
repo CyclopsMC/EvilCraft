@@ -4,9 +4,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
-import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
-import evilcraft.api.fluids.SingleUseTank;
+import evilcraft.core.entities.tileentitites.TickingTankInventoryTileEntity;
+import evilcraft.core.entities.tileentitites.tickaction.ITickAction;
+import evilcraft.core.fluids.SingleUseTank;
 
 /**
  * {@link ITickAction} that can empty buckets in tanks.

@@ -1,6 +1,6 @@
 package evilcraft.blocks;
 
-import evilcraft.api.config.BlockConfig;
+import evilcraft.core.config.BlockConfig;
 
 /**
  * Config for {@link FluidBlockPoison}.

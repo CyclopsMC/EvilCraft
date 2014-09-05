@@ -2,7 +2,7 @@ package evilcraft.entities.tileentities.tickaction.bloodinfuser;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
+import evilcraft.core.entities.tileentitites.tickaction.ITickAction;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 
 /**

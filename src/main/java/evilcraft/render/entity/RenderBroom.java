@@ -4,9 +4,9 @@ import net.minecraft.entity.Entity;
 
 import org.lwjgl.opengl.GL11;
 
-import evilcraft.api.config.EntityConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.render.ModelRender;
+import evilcraft.core.config.EntityConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.render.ModelRender;
 import evilcraft.render.models.BroomModel;
 
 /**

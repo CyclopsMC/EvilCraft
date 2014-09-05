@@ -1,9 +1,9 @@
 package evilcraft.fluids;
 
 import net.minecraftforge.fluids.Fluid;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.FluidConfig;
-import evilcraft.api.config.configurable.ConfigurableFluid;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.FluidConfig;
+import evilcraft.core.config.configurable.ConfigurableFluid;
 
 /**
  * The poisonous {@link Fluid}.

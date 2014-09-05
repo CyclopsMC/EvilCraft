@@ -9,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import evilcraft.Reference;
-import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
-import evilcraft.api.render.TileEntityModelRenderer;
 import evilcraft.blocks.BoxOfEternalClosure;
+import evilcraft.core.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.core.render.TileEntityModelRenderer;
 import evilcraft.entities.monster.VengeanceSpirit;
 import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
 import evilcraft.render.models.BoxOfEternalClosureModel;

@@ -4,9 +4,9 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import evilcraft.api.config.EnchantmentConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableEnchantment;
+import evilcraft.core.config.EnchantmentConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableEnchantment;
 
 /**
  * Enchantment that poisons the attacked entity.

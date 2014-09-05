@@ -14,10 +14,10 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
-import evilcraft.api.entities.tileentitites.NBTPersist;
-import evilcraft.api.helpers.EntityHelpers;
-import evilcraft.api.helpers.WorldHelpers;
+import evilcraft.core.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.core.entities.tileentitites.NBTPersist;
+import evilcraft.core.helpers.EntityHelpers;
+import evilcraft.core.helpers.WorldHelpers;
 import evilcraft.entities.monster.VengeanceSpirit;
 
 /**

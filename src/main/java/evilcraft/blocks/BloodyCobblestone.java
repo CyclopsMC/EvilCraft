@@ -3,9 +3,9 @@ import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlock;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableBlock;
 
 /**
  * Cobblestone that is a bit bloody.

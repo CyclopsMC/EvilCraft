@@ -3,8 +3,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.ItemConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.ItemConfig;
 import evilcraft.entities.item.EntityLightningGrenade;
 
 /**

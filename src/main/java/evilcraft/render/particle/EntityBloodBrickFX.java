@@ -10,7 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import evilcraft.Reference;
-import evilcraft.api.helpers.obfuscation.ObfuscationHelpers;
+import evilcraft.core.helpers.obfuscation.ObfuscationHelpers;
 
 /**
  * A blurred static fading particle with any possible color.

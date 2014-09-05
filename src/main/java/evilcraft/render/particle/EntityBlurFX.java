@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.Reference;
-import evilcraft.api.helpers.obfuscation.ObfuscationHelpers;
+import evilcraft.core.helpers.obfuscation.ObfuscationHelpers;
 
 /**
  * A blurred static fading particle with any possible color.

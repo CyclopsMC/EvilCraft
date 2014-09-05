@@ -16,11 +16,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.ItemConfig;
-import evilcraft.api.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
-import evilcraft.api.helpers.ItemHelpers;
-import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.ItemConfig;
+import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
+import evilcraft.core.helpers.ItemHelpers;
+import evilcraft.core.helpers.L10NHelpers;
 import evilcraft.fluids.Blood;
 
 /**

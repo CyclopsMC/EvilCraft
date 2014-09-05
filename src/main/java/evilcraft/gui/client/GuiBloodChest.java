@@ -1,8 +1,8 @@
 package evilcraft.gui.client;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import evilcraft.api.gui.client.GuiContainerTankInventory;
 import evilcraft.blocks.BloodChest;
+import evilcraft.core.gui.client.GuiContainerTankInventory;
 import evilcraft.entities.tileentities.TileBloodChest;
 import evilcraft.gui.container.ContainerBloodChest;
 

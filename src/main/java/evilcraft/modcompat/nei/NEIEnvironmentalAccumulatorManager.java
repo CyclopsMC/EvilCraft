@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import evilcraft.api.recipes.*;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
@@ -17,9 +16,10 @@ import org.lwjgl.opengl.GL11;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import evilcraft.Reference;
-import evilcraft.api.weather.WeatherType;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
+import evilcraft.core.recipes.*;
+import evilcraft.core.weather.WeatherType;
 
 /**
  * Manager for the recipes in {@link EnvironmentalAccumulator}.

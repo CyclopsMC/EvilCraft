@@ -3,8 +3,8 @@ package evilcraft.render.item;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.util.ResourceLocation;
-import evilcraft.api.render.RenderItemModel;
 import evilcraft.blocks.BloodChest;
+import evilcraft.core.render.RenderItemModel;
 
 /**
  * Item renderer for the {@link BloodChest}.

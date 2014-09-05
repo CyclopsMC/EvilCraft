@@ -8,8 +8,8 @@ import java.util.Map;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
-import evilcraft.api.helpers.L10NHelpers;
-import evilcraft.api.helpers.ServerHelpers;
+import evilcraft.core.helpers.L10NHelpers;
+import evilcraft.core.helpers.ServerHelpers;
 
 /**
  * The EvilCraft command.

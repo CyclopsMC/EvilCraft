@@ -22,10 +22,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.Configs;
-import evilcraft.api.IInformationProvider;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlock;
+import evilcraft.core.IInformationProvider;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableBlock;
 import evilcraft.items.Broom;
 import evilcraft.items.BroomConfig;
 

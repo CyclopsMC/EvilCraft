@@ -1,7 +1,7 @@
 package evilcraft.blocks;
 
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.helpers.MinecraftHelpers;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.helpers.MinecraftHelpers;
 import evilcraft.entities.tileentities.TilePurifier;
 import evilcraft.proxies.ClientProxy;
 import evilcraft.render.block.RenderPurifier;

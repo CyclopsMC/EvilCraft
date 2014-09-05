@@ -3,7 +3,7 @@ package evilcraft.blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.Reference;
-import evilcraft.api.config.BlockConfig;
+import evilcraft.core.config.BlockConfig;
 
 /**
  * Config for the {@link UndeadSapling}.

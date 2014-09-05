@@ -1,9 +1,9 @@
 package evilcraft.blocks;
 
 import evilcraft.Reference;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ElementTypeCategory;
-import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ElementTypeCategory;
+import evilcraft.core.config.configurable.ConfigurableProperty;
 
 /**
  * Config for the {@link DarkOre}.

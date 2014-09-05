@@ -1,8 +1,8 @@
 package evilcraft.gui.client;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import evilcraft.api.gui.client.GuiWorking;
 import evilcraft.blocks.BloodInfuser;
+import evilcraft.core.gui.client.GuiWorking;
 import evilcraft.entities.tileentities.TileBloodInfuser;
 import evilcraft.gui.container.ContainerBloodInfuser;
 

@@ -1,6 +1,6 @@
 package evilcraft.fluids;
 
-import evilcraft.api.config.FluidConfig;
+import evilcraft.core.config.FluidConfig;
 
 /**
  * Config for {@link Blood}.

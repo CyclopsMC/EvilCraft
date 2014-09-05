@@ -2,9 +2,6 @@ package evilcraft.entities.tileentities;
 
 import java.util.List;
 
-import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeComponent;
-import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeProperties;
-import evilcraft.api.recipes.IRecipe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
@@ -21,17 +18,20 @@ import org.lwjgl.util.vector.Vector4f;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.algorithms.ILocation;
-import evilcraft.api.algorithms.Location;
-import evilcraft.api.degradation.DegradationExecutor;
-import evilcraft.api.degradation.IDegradable;
-import evilcraft.api.helpers.EntityHelpers;
-import evilcraft.api.helpers.L10NHelpers;
-import evilcraft.api.helpers.MinecraftHelpers;
-import evilcraft.api.inventory.SimpleInventory;
-import evilcraft.api.weather.WeatherType;
 import evilcraft.blocks.EnvironmentalAccumulator;
 import evilcraft.blocks.EnvironmentalAccumulatorConfig;
+import evilcraft.core.algorithms.ILocation;
+import evilcraft.core.algorithms.Location;
+import evilcraft.core.degradation.DegradationExecutor;
+import evilcraft.core.degradation.IDegradable;
+import evilcraft.core.helpers.EntityHelpers;
+import evilcraft.core.helpers.L10NHelpers;
+import evilcraft.core.helpers.MinecraftHelpers;
+import evilcraft.core.inventory.SimpleInventory;
+import evilcraft.core.recipes.EnvironmentalAccumulatorRecipeComponent;
+import evilcraft.core.recipes.EnvironmentalAccumulatorRecipeProperties;
+import evilcraft.core.recipes.IRecipe;
+import evilcraft.core.weather.WeatherType;
 import evilcraft.entities.tileentities.environmentalaccumulator.IEAProcessingFinishedEffect;
 
 /**

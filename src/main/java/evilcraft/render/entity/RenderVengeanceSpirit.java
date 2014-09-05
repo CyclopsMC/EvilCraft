@@ -8,8 +8,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.MobConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.MobConfig;
 import evilcraft.entities.monster.VengeanceSpirit;
 
 /**

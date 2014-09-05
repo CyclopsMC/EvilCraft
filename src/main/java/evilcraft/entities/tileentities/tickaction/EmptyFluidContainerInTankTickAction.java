@@ -5,9 +5,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
-import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
-import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
+import evilcraft.core.entities.tileentitites.TankInventoryTileEntity;
+import evilcraft.core.entities.tileentitites.TickingTankInventoryTileEntity;
+import evilcraft.core.entities.tileentitites.tickaction.ITickAction;
 
 /**
  * {@link ITickAction} for emptying fluid containers in a tank.

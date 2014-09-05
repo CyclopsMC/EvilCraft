@@ -5,10 +5,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import evilcraft.EvilCraft;
-import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
-import evilcraft.api.helpers.obfuscation.ObfuscationHelpers;
-import evilcraft.api.world.FakeWorldItemDelegator;
 import evilcraft.blocks.SpiritFurnaceConfig;
+import evilcraft.core.entities.tileentitites.tickaction.ITickAction;
+import evilcraft.core.helpers.obfuscation.ObfuscationHelpers;
+import evilcraft.core.world.FakeWorldItemDelegator;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 
 /**

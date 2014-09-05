@@ -1,8 +1,8 @@
 package evilcraft.entities.tileentities.tickaction;
 
 import net.minecraft.item.ItemStack;
-import evilcraft.api.entities.tileentitites.TickingTankInventoryTileEntity;
-import evilcraft.api.entities.tileentitites.tickaction.ITickAction;
+import evilcraft.core.entities.tileentitites.TickingTankInventoryTileEntity;
+import evilcraft.core.entities.tileentitites.tickaction.ITickAction;
 
 /**
  * Abstract {@link ITickAction} for emptying items in tanks.

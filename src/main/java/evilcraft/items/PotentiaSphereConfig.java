@@ -1,8 +1,8 @@
 package evilcraft.items;
 
-import evilcraft.api.config.ElementTypeCategory;
-import evilcraft.api.config.ItemConfig;
-import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ElementTypeCategory;
+import evilcraft.core.config.ItemConfig;
+import evilcraft.core.config.configurable.ConfigurableProperty;
 
 /**
  * Config for the {@link PotentiaSphere}.

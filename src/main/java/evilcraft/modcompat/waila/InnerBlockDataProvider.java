@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.item.ItemStack;
-import evilcraft.api.config.configurable.ConfigurableBlockWithInnerBlocks;
+import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
 
 /**
  * Waila data provider for blocks with inner blocks.

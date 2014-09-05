@@ -5,10 +5,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-import evilcraft.api.config.BlockConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBlockFluidClassic;
-import evilcraft.api.helpers.MinecraftHelpers;
+import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
+import evilcraft.core.helpers.MinecraftHelpers;
 import evilcraft.fluids.Poison;
 
 /**

@@ -2,8 +2,8 @@ package evilcraft.render.item;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
-import evilcraft.api.render.RenderItemModel;
 import evilcraft.blocks.BoxOfEternalClosure;
+import evilcraft.core.render.RenderItemModel;
 import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
 import evilcraft.render.models.BoxOfEternalClosureModel;
 

@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.EntityConfig;
+import evilcraft.core.config.EntityConfig;
 import evilcraft.items.BloodPearlOfTeleportation;
 
 /**

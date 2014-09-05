@@ -13,9 +13,9 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import evilcraft.api.helpers.DirectionHelpers;
-import evilcraft.api.helpers.RenderHelpers;
 import evilcraft.blocks.Purifier;
+import evilcraft.core.helpers.DirectionHelpers;
+import evilcraft.core.helpers.RenderHelpers;
 import evilcraft.fluids.Blood;
 
 

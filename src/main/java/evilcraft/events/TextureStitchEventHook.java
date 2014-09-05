@@ -12,7 +12,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
-import evilcraft.api.helpers.RenderHelpers;
+import evilcraft.core.helpers.RenderHelpers;
 
 /**
  * Event hook for {@link TextureStitchEventHook}.

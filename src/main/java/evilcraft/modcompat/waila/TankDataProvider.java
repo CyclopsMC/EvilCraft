@@ -9,8 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.api.entities.tileentitites.TankInventoryTileEntity;
-import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.core.entities.tileentitites.TankInventoryTileEntity;
+import evilcraft.core.helpers.L10NHelpers;
 
 /**
  * Waila data provider for tanks.

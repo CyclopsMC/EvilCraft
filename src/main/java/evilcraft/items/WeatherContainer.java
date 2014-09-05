@@ -12,12 +12,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.ItemConfig;
-import evilcraft.api.config.configurable.ConfigurableItem;
-import evilcraft.api.helpers.L10NHelpers;
-import evilcraft.api.helpers.RenderHelpers;
-import evilcraft.api.weather.WeatherType;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.ItemConfig;
+import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.helpers.L10NHelpers;
+import evilcraft.core.helpers.RenderHelpers;
+import evilcraft.core.weather.WeatherType;
 import evilcraft.entities.item.EntityWeatherContainer;
 
 /**

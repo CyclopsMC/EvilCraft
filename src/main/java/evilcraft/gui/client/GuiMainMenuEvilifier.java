@@ -4,7 +4,7 @@ import java.util.Random;
 
 import net.minecraft.util.ResourceLocation;
 import evilcraft.Reference;
-import evilcraft.api.helpers.obfuscation.ObfuscationHelpers;
+import evilcraft.core.helpers.obfuscation.ObfuscationHelpers;
 
 /**
  * This can add an evil surrounding to the main menu.

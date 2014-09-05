@@ -1,8 +1,5 @@
 package evilcraft.render.tileentity;
 
-import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeComponent;
-import evilcraft.api.recipes.EnvironmentalAccumulatorRecipeProperties;
-import evilcraft.api.recipes.IRecipe;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.boss.BossStatus;
@@ -14,6 +11,9 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import evilcraft.blocks.EnvironmentalAccumulator;
+import evilcraft.core.recipes.EnvironmentalAccumulatorRecipeComponent;
+import evilcraft.core.recipes.EnvironmentalAccumulatorRecipeProperties;
+import evilcraft.core.recipes.IRecipe;
 import evilcraft.entities.tileentities.EvilCraftBeaconTileEntity;
 import evilcraft.entities.tileentities.TileEnvironmentalAccumulator;
 

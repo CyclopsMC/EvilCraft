@@ -13,9 +13,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.ElementType;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.Configurable;
+import evilcraft.core.config.ElementType;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.Configurable;
 import evilcraft.items.BloodPearlOfTeleportation;
 import evilcraft.items.BloodPearlOfTeleportationConfig;
 

@@ -5,10 +5,10 @@ import java.util.Random;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import evilcraft.api.config.EnchantmentConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableEnchantment;
-import evilcraft.api.helpers.EnchantmentHelpers;
+import evilcraft.core.config.EnchantmentConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableEnchantment;
+import evilcraft.core.helpers.EnchantmentHelpers;
 
 /**
  * Enchantment for letting tools break tools faster.

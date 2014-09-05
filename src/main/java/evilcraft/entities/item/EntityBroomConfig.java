@@ -3,9 +3,9 @@ package evilcraft.entities.item;
 import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.ElementTypeCategory;
-import evilcraft.api.config.EntityConfig;
-import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ElementTypeCategory;
+import evilcraft.core.config.EntityConfig;
+import evilcraft.core.config.configurable.ConfigurableProperty;
 import evilcraft.render.entity.RenderBroom;
 
 /**

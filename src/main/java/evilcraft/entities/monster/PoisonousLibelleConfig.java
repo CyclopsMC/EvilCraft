@@ -6,10 +6,10 @@ import net.minecraft.world.biome.BiomeGenBase;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.ElementTypeCategory;
-import evilcraft.api.config.MobConfig;
-import evilcraft.api.config.configurable.ConfigurableProperty;
-import evilcraft.api.helpers.RenderHelpers;
+import evilcraft.core.config.ElementTypeCategory;
+import evilcraft.core.config.MobConfig;
+import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.helpers.RenderHelpers;
 import evilcraft.render.entity.RenderPoisonousLibelle;
 import evilcraft.render.models.PoisonousLibelleModel;
 

@@ -1,10 +1,10 @@
 package evilcraft;
 
-import evilcraft.api.config.DummyConfig;
-import evilcraft.api.config.ElementType;
-import evilcraft.api.config.ElementTypeCategory;
-import evilcraft.api.config.configurable.ConfigurableProperty;
-import evilcraft.api.fluids.BloodFluidConverter.BloodConvertersChanged;
+import evilcraft.core.config.DummyConfig;
+import evilcraft.core.config.ElementType;
+import evilcraft.core.config.ElementTypeCategory;
+import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.fluids.BloodFluidConverter.BloodConvertersChanged;
 
 /**
  * A config with general options for this mod.

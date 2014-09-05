@@ -3,8 +3,8 @@ package evilcraft.items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
-import evilcraft.api.config.ItemConfig;
-import evilcraft.api.helpers.MinecraftHelpers;
+import evilcraft.core.config.ItemConfig;
+import evilcraft.core.helpers.MinecraftHelpers;
 import evilcraft.proxies.ClientProxy;
 import evilcraft.render.item.RenderBroomItem;
 

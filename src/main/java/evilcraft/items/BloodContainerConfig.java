@@ -3,9 +3,9 @@ package evilcraft.items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-import evilcraft.api.config.ElementTypeCategory;
-import evilcraft.api.config.ItemConfig;
-import evilcraft.api.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ElementTypeCategory;
+import evilcraft.core.config.ItemConfig;
+import evilcraft.core.config.configurable.ConfigurableProperty;
 import evilcraft.fluids.Blood;
 
 /**

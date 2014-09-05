@@ -1,6 +1,6 @@
 package evilcraft.items;
 
-import evilcraft.api.config.ItemConfig;
+import evilcraft.core.config.ItemConfig;
 
 /**
  * Config for the {@link LightningGrenade}.

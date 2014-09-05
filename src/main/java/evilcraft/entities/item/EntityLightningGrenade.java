@@ -10,10 +10,10 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.ElementType;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.Configurable;
-import evilcraft.api.helpers.EntityHelpers;
+import evilcraft.core.config.ElementType;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.helpers.EntityHelpers;
 import evilcraft.items.LightningGrenade;
 
 /**

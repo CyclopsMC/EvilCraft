@@ -17,11 +17,11 @@ import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.ItemConfig;
-import evilcraft.api.config.configurable.ConfigurableItemFood;
-import evilcraft.api.helpers.MinecraftHelpers;
-import evilcraft.api.helpers.RenderHelpers;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.ItemConfig;
+import evilcraft.core.config.configurable.ConfigurableItemFood;
+import evilcraft.core.helpers.MinecraftHelpers;
+import evilcraft.core.helpers.RenderHelpers;
 
 /**
  * Random flesh drop from werewolves, gives some fine boosts at night.

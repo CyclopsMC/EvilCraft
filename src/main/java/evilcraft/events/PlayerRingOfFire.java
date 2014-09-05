@@ -6,8 +6,8 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
-import evilcraft.api.algorithms.Location;
-import evilcraft.api.helpers.LocationHelpers;
+import evilcraft.core.algorithms.Location;
+import evilcraft.core.helpers.LocationHelpers;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packets.RingOfFirePacket;
 

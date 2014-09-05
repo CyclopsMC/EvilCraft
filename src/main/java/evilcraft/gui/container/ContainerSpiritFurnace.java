@@ -1,11 +1,11 @@
 package evilcraft.gui.container;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import evilcraft.api.gui.container.ContainerWorking;
-import evilcraft.api.gui.slot.SlotFluidContainer;
-import evilcraft.api.gui.slot.SlotWorking;
-import evilcraft.api.gui.slot.SlotWorkingRemoveOnly;
 import evilcraft.blocks.SpiritFurnace;
+import evilcraft.core.gui.container.ContainerWorking;
+import evilcraft.core.gui.slot.SlotFluidContainer;
+import evilcraft.core.gui.slot.SlotWorking;
+import evilcraft.core.gui.slot.SlotWorkingRemoveOnly;
 import evilcraft.entities.tileentities.TileSpiritFurnace;
 
 /**

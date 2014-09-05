@@ -4,7 +4,7 @@ import net.minecraft.client.settings.KeyBinding;
 
 import org.lwjgl.input.Keyboard;
 
-import evilcraft.api.helpers.L10NHelpers;
+import evilcraft.core.helpers.L10NHelpers;
 import evilcraft.events.KeyInputEventHook;
 
 /**

@@ -18,9 +18,9 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import evilcraft.Configs;
-import evilcraft.api.config.ElementType;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.Configurable;
+import evilcraft.core.config.ElementType;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.Configurable;
 import evilcraft.items.PoisonSac;
 import evilcraft.items.PoisonSacConfig;
 

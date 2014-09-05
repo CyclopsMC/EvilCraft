@@ -20,7 +20,7 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
 import org.lwjgl.opengl.GL11;
 
 import evilcraft.Reference;
-import evilcraft.api.helpers.RenderHelpers;
+import evilcraft.core.helpers.RenderHelpers;
 
 /**
  * Model for the Box of Eternal Closure

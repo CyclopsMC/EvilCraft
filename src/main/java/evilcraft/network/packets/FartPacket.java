@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.GeneralConfig;
-import evilcraft.api.helpers.LocationHelpers;
+import evilcraft.core.helpers.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;

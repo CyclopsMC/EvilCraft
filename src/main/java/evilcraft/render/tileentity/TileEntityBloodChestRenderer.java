@@ -3,9 +3,9 @@ package evilcraft.render.tileentity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.util.ResourceLocation;
-import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
-import evilcraft.api.render.TileEntityModelRenderer;
 import evilcraft.blocks.BloodChest;
+import evilcraft.core.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.core.render.TileEntityModelRenderer;
 import evilcraft.entities.tileentities.TileBloodChest;
 
 /**

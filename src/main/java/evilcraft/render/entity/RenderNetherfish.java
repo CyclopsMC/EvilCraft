@@ -4,8 +4,8 @@ import net.minecraft.client.renderer.entity.RenderSilverfish;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.util.ResourceLocation;
 import evilcraft.Reference;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.MobConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.MobConfig;
 
 /**
  * Renderer for a netherfish

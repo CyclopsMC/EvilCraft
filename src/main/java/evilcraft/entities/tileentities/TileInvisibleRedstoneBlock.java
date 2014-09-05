@@ -1,8 +1,8 @@
 package evilcraft.entities.tileentities;
 
 import net.minecraft.world.World;
-import evilcraft.api.entities.tileentitites.EvilCraftTileEntity;
 import evilcraft.blocks.InvisibleRedstoneBlock;
+import evilcraft.core.entities.tileentitites.EvilCraftTileEntity;
 import evilcraft.items.RedstoneGrenadeConfig;
 
 /**

@@ -1,7 +1,7 @@
 package evilcraft.enchantment;
 
 import evilcraft.Reference;
-import evilcraft.api.config.EnchantmentConfig;
+import evilcraft.core.config.EnchantmentConfig;
 
 /**
  * Config for {@link EnchantmentPoisonTip}.

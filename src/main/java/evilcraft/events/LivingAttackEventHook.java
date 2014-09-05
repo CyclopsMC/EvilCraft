@@ -9,7 +9,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
-import evilcraft.api.helpers.EnchantmentHelpers;
+import evilcraft.core.helpers.EnchantmentHelpers;
 import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentLifeStealing;

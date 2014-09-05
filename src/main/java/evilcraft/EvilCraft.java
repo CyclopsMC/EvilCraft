@@ -19,10 +19,10 @@ import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import evilcraft.api.Debug;
-import evilcraft.api.config.ConfigHandler;
-import evilcraft.api.helpers.LoggerHelper;
 import evilcraft.commands.CommandEvilCraft;
+import evilcraft.core.Debug;
+import evilcraft.core.config.ConfigHandler;
+import evilcraft.core.helpers.LoggerHelper;
 import evilcraft.gui.GuiHandler;
 import evilcraft.gui.client.GuiMainMenuEvilifier;
 import evilcraft.modcompat.ModCompatLoader;
@@ -41,7 +41,7 @@ import evilcraft.worldgen.EvilWorldGenerator;
     useMetadata = true,
     version = Reference.MOD_VERSION,
     dependencies = Reference.MOD_DEPENDENCIES,
-    guiFactory = "evilcraft.api.config.gui.ExtendedConfigGuiFactory"
+    guiFactory = "evilcraft.core.config.gui.ExtendedConfigGuiFactory"
     )
 public class EvilCraft {
     

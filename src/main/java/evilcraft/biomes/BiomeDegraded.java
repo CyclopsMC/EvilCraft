@@ -4,10 +4,10 @@ import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.ColorizerGrass;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.config.BiomeConfig;
-import evilcraft.api.config.ExtendedConfig;
-import evilcraft.api.config.configurable.ConfigurableBiome;
-import evilcraft.api.helpers.RenderHelpers;
+import evilcraft.core.config.BiomeConfig;
+import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.configurable.ConfigurableBiome;
+import evilcraft.core.helpers.RenderHelpers;
 
 /**
  * Enchantment for letting tools break tools faster.
