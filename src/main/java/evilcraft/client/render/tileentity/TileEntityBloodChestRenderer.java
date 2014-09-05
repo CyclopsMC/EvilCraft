@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.util.ResourceLocation;
 import evilcraft.block.BloodChest;
-import evilcraft.core.render.TileEntityModelRenderer;
+import evilcraft.core.client.render.TileEntityModelRenderer;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.tileentity.TileBloodChest;
 

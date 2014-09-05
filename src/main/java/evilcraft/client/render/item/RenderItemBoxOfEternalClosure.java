@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
 import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.client.render.model.BoxOfEternalClosureModel;
-import evilcraft.core.render.RenderItemModel;
+import evilcraft.core.client.render.RenderItemModel;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
 
 /**

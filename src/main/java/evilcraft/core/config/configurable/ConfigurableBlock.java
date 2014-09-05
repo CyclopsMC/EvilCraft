@@ -8,11 +8,11 @@ import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
+import evilcraft.core.client.render.CustomRenderBlocks;
+import evilcraft.core.client.render.IMultiRenderPassBlock;
+import evilcraft.core.client.render.MultiPassBlockRenderer;
 import evilcraft.core.config.ElementType;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.render.CustomRenderBlocks;
-import evilcraft.core.render.IMultiRenderPassBlock;
-import evilcraft.core.render.MultiPassBlockRenderer;
 
 /**
  * Block that can hold ExtendedConfigs

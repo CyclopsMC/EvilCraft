@@ -1,4 +1,4 @@
-package evilcraft.core.render;
+package evilcraft.core.client.render;
 
 import java.util.Random;
 

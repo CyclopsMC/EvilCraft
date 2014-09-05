@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 import evilcraft.Reference;
 import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.client.render.model.BoxOfEternalClosureModel;
-import evilcraft.core.render.TileEntityModelRenderer;
+import evilcraft.core.client.render.TileEntityModelRenderer;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.tileentity.TileBoxOfEternalClosure;

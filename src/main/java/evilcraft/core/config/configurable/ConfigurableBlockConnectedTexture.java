@@ -9,12 +9,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.DirectionCorner;
+import evilcraft.core.client.render.ConnectableIcon;
+import evilcraft.core.client.render.CustomRenderBlocks;
+import evilcraft.core.client.render.MultiPassBlockRenderer;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.RenderHelpers;
-import evilcraft.core.render.ConnectableIcon;
-import evilcraft.core.render.CustomRenderBlocks;
-import evilcraft.core.render.MultiPassBlockRenderer;
 
 /**
  * Block that can hold ExtendedConfigs with connected textures.

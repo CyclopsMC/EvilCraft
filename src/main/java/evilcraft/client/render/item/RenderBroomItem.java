@@ -8,9 +8,9 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.client.render.model.BroomModel;
+import evilcraft.core.client.render.ModelRender;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.ItemConfig;
-import evilcraft.core.render.ModelRender;
 import evilcraft.item.Broom;
 
 /**

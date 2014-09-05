@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.util.ResourceLocation;
 import evilcraft.block.BloodChest;
-import evilcraft.core.render.RenderItemModel;
+import evilcraft.core.client.render.RenderItemModel;
 
 /**
  * Item renderer for the {@link BloodChest}.

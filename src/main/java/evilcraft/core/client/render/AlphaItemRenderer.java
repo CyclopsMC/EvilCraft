@@ -1,4 +1,4 @@
-package evilcraft.core.render;
+package evilcraft.core.client.render;
 
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;

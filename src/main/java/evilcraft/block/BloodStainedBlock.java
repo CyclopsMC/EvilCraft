@@ -14,11 +14,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.particle.EntityBloodSplashFX;
+import evilcraft.core.client.render.AlternatingBlockIconComponent;
 import evilcraft.core.config.BlockConfig;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
 import evilcraft.core.helper.RenderHelpers;
-import evilcraft.core.render.AlternatingBlockIconComponent;
 
 /**
  * Multiple block types (defined by metadata) that have blood stains.

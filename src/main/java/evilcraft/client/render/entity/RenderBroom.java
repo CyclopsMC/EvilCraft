@@ -5,9 +5,9 @@ import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.GL11;
 
 import evilcraft.client.render.model.BroomModel;
+import evilcraft.core.client.render.ModelRender;
 import evilcraft.core.config.EntityConfig;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.render.ModelRender;
 
 /**
  * Renderer for a broom

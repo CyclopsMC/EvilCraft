@@ -1,4 +1,4 @@
-package evilcraft.core.render;
+package evilcraft.core.client.render;
 
 import evilcraft.Reference;
 import evilcraft.core.config.ExtendedConfig;

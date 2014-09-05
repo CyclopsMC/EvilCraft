@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import evilcraft.core.render.ModelRender;
+import evilcraft.core.client.render.ModelRender;
 
 /**
  * Config for Entities with a custom Model.
