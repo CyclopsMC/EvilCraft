@@ -1,6 +1,6 @@
 package evilcraft.core.item;
 
-import evilcraft.core.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.core.tileentity.EvilCraftTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**

@@ -6,8 +6,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.DirectionCorner;
-import evilcraft.core.helpers.DirectionHelpers;
-import evilcraft.core.helpers.RenderHelpers;
+import evilcraft.core.helper.DirectionHelpers;
+import evilcraft.core.helper.RenderHelpers;
 
 /**
  * A virtual {@link IIcon} that has several icons and needs multiple render passes for

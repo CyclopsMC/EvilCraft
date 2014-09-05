@@ -23,14 +23,14 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
-import evilcraft.blocks.BloodInfuser;
-import evilcraft.blocks.BloodInfuserConfig;
-import evilcraft.core.recipes.DurationRecipeProperties;
-import evilcraft.core.recipes.ItemAndFluidStackRecipeComponent;
-import evilcraft.core.recipes.ItemStackRecipeComponent;
-import evilcraft.entities.tileentities.TileBloodInfuser;
-import evilcraft.gui.client.GuiBloodInfuser;
-import evilcraft.gui.container.ContainerBloodInfuser;
+import evilcraft.block.BloodInfuser;
+import evilcraft.block.BloodInfuserConfig;
+import evilcraft.client.gui.container.GuiBloodInfuser;
+import evilcraft.core.recipe.custom.DurationRecipeProperties;
+import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
+import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
+import evilcraft.inventory.container.ContainerBloodInfuser;
+import evilcraft.tileentity.TileBloodInfuser;
 
 /**
  * Manager for the recipes in the {@link BloodInfuser}.

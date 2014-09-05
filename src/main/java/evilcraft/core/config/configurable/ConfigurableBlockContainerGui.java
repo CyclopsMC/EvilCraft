@@ -10,11 +10,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.entities.tileentitites.EvilCraftTileEntity;
-import evilcraft.core.entities.tileentitites.InventoryTileEntity;
-import evilcraft.core.gui.container.InventoryContainer;
-import evilcraft.core.helpers.Helpers;
-import evilcraft.core.helpers.Helpers.IDType;
+import evilcraft.core.helper.Helpers;
+import evilcraft.core.helper.Helpers.IDType;
+import evilcraft.core.inventory.container.InventoryContainer;
+import evilcraft.core.tileentity.EvilCraftTileEntity;
+import evilcraft.core.tileentity.InventoryTileEntity;
 
 /**
  * Block with a tile entity with a GUI that can hold ExtendedConfigs.

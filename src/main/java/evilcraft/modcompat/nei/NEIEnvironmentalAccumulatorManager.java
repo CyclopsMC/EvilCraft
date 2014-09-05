@@ -17,9 +17,10 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
-import evilcraft.blocks.EnvironmentalAccumulator;
-import evilcraft.blocks.EnvironmentalAccumulatorConfig;
-import evilcraft.core.recipes.*;
+import evilcraft.block.EnvironmentalAccumulator;
+import evilcraft.block.EnvironmentalAccumulatorConfig;
+import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
+import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
 
 /**

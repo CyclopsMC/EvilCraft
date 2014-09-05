@@ -7,12 +7,12 @@ import net.minecraftforge.common.config.Property;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.EvilCraftTab;
+import evilcraft.client.gui.GuiHandler;
 import evilcraft.core.config.BlockConfig;
 import evilcraft.core.config.ElementType;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGui;
-import evilcraft.core.helpers.MinecraftHelpers;
-import evilcraft.gui.GuiHandler;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.modcompat.buildcraft.BuildcraftHelper;
 import evilcraft.modcompat.fmp.ForgeMultipartHelper;
 

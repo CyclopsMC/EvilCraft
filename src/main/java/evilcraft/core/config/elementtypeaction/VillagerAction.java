@@ -6,7 +6,7 @@ import cpw.mods.fml.common.registry.VillagerRegistry;
 import evilcraft.Reference;
 import evilcraft.core.config.VillagerConfig;
 import evilcraft.core.config.configurable.ConfigurableVillager;
-import evilcraft.core.helpers.MinecraftHelpers;
+import evilcraft.core.helper.MinecraftHelpers;
 
 /**
  * The action used for {@link VillagerConfig}.

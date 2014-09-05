@@ -4,8 +4,8 @@ import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.core.config.EntityConfig;
-import evilcraft.core.helpers.Helpers;
-import evilcraft.core.helpers.Helpers.IDType;
+import evilcraft.core.helper.Helpers;
+import evilcraft.core.helper.Helpers.IDType;
 
 /**
  * The action used for {@link EntityConfig}.

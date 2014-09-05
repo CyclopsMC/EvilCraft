@@ -4,7 +4,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import evilcraft.core.config.BiomeConfig;
 import evilcraft.core.config.ElementType;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.helpers.L10NHelpers;
+import evilcraft.core.helper.L10NHelpers;
 
 /**
  * A simple configurable for Biomes, will auto-register itself after construction.

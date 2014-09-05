@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import evilcraft.core.config.EnchantmentConfig;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableEnchantment;
-import evilcraft.core.helpers.EnchantmentHelpers;
+import evilcraft.core.helper.EnchantmentHelpers;
 
 /**
  * Enchantment for letting tools break tools faster.

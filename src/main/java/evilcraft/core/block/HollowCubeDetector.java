@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.minecraft.world.World;
 import evilcraft.api.ILocation;
-import evilcraft.core.algorithms.Size;
+import evilcraft.core.algorithm.Size;
 
 /**
  * Detector of hollow cubes in a world.

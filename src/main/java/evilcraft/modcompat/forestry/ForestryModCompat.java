@@ -6,14 +6,14 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import evilcraft.Configs;
 import evilcraft.IInitListener;
 import evilcraft.Reference;
-import evilcraft.blocks.UndeadLog;
-import evilcraft.blocks.UndeadLogConfig;
-import evilcraft.blocks.UndeadSapling;
-import evilcraft.blocks.UndeadSaplingConfig;
-import evilcraft.items.DarkGem;
-import evilcraft.items.DarkGemConfig;
-import evilcraft.items.PoisonSac;
-import evilcraft.items.PoisonSacConfig;
+import evilcraft.block.UndeadLog;
+import evilcraft.block.UndeadLogConfig;
+import evilcraft.block.UndeadSapling;
+import evilcraft.block.UndeadSaplingConfig;
+import evilcraft.item.DarkGem;
+import evilcraft.item.DarkGemConfig;
+import evilcraft.item.PoisonSac;
+import evilcraft.item.PoisonSacConfig;
 import evilcraft.modcompat.IModCompat;
 
 /**

@@ -7,9 +7,9 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ChatComponentText;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.helpers.L10NHelpers;
+import evilcraft.core.helper.L10NHelpers;
 import evilcraft.network.PacketHandler;
-import evilcraft.network.packets.FartPacket;
+import evilcraft.network.packet.FartPacket;
 
 /**
  * A {@link KeyHandler} which handles farts.

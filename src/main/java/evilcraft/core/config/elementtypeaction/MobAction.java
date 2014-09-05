@@ -5,10 +5,10 @@ import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.core.config.MobConfig;
-import evilcraft.core.helpers.Helpers;
-import evilcraft.core.helpers.MinecraftHelpers;
-import evilcraft.core.helpers.Helpers.IDType;
-import evilcraft.proxies.ClientProxy;
+import evilcraft.core.helper.Helpers;
+import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.helper.Helpers.IDType;
+import evilcraft.proxy.ClientProxy;
 
 /**
  * The action used for {@link MobConfig}.

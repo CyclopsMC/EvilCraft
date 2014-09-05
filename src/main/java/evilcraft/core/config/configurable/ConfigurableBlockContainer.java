@@ -22,10 +22,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.config.ElementType;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.entities.tileentitites.EvilCraftTileEntity;
-import evilcraft.core.helpers.DirectionHelpers;
-import evilcraft.core.helpers.MinecraftHelpers;
+import evilcraft.core.helper.DirectionHelpers;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.item.TileEntityNBTStorage;
+import evilcraft.core.tileentity.EvilCraftTileEntity;
 
 /**
  * Block with a tile entity that can hold ExtendedConfigs.

@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.proxies.ClientProxy;
+import evilcraft.proxy.ClientProxy;
 
 /**
  * Config for entities.

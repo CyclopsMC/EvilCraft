@@ -7,8 +7,8 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import evilcraft.entities.monster.VengeanceSpirit;
-import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
+import evilcraft.entity.monster.VengeanceSpirit;
+import evilcraft.tileentity.TileBoxOfEternalClosure;
 
 /**
  * Waila data provider for the BOEC.

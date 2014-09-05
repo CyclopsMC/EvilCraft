@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.config.ElementType;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.worldgen.WorldGeneratorUndeadTree;
+import evilcraft.world.gen.WorldGeneratorUndeadTree;
 
 /**
  * Block extending from a sapling that can hold ExtendedConfigs

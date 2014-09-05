@@ -10,7 +10,7 @@ import com.google.common.collect.Maps;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import evilcraft.EvilCraft;
 import evilcraft.IInitListener;
-import evilcraft.commands.CommandConfig;
+import evilcraft.command.CommandConfig;
 import evilcraft.core.config.configurable.propertycallback.IChangedCallback;
 
 /**

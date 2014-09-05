@@ -3,18 +3,18 @@ package evilcraft.modcompat.waila;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import evilcraft.Configs;
 import evilcraft.Reference;
-import evilcraft.blocks.BloodChestConfig;
-import evilcraft.blocks.BloodInfuserConfig;
-import evilcraft.blocks.BloodStainedBlock;
-import evilcraft.blocks.BloodStainedBlockConfig;
-import evilcraft.blocks.BoxOfEternalClosureConfig;
-import evilcraft.blocks.NetherfishSpawn;
-import evilcraft.blocks.NetherfishSpawnConfig;
-import evilcraft.blocks.Purifier;
-import evilcraft.blocks.PurifierConfig;
-import evilcraft.entities.tileentities.TileBloodChest;
-import evilcraft.entities.tileentities.TileBloodInfuser;
-import evilcraft.entities.tileentities.TileBoxOfEternalClosure;
+import evilcraft.block.BloodChestConfig;
+import evilcraft.block.BloodInfuserConfig;
+import evilcraft.block.BloodStainedBlock;
+import evilcraft.block.BloodStainedBlockConfig;
+import evilcraft.block.BoxOfEternalClosureConfig;
+import evilcraft.block.NetherfishSpawn;
+import evilcraft.block.NetherfishSpawnConfig;
+import evilcraft.block.Purifier;
+import evilcraft.block.PurifierConfig;
+import evilcraft.tileentity.TileBloodChest;
+import evilcraft.tileentity.TileBloodInfuser;
+import evilcraft.tileentity.TileBoxOfEternalClosure;
 
 /**
  * Waila support class.

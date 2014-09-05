@@ -11,7 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.config.ElementType;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.helpers.L10NHelpers;
+import evilcraft.core.helper.L10NHelpers;
 
 /**
  * Item food that can hold ExtendedConfigs

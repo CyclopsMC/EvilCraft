@@ -5,7 +5,7 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import evilcraft.core.config.ElementType;
 import evilcraft.core.config.EnchantmentConfig;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.helpers.L10NHelpers;
+import evilcraft.core.helper.L10NHelpers;
 
 /**
  * A simple configurable for Enchantments, will auto-register itself after construction.

@@ -4,8 +4,8 @@ import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import evilcraft.Configs;
 import evilcraft.Reference;
-import evilcraft.blocks.BloodInfuserConfig;
-import evilcraft.blocks.EnvironmentalAccumulatorConfig;
+import evilcraft.block.BloodInfuserConfig;
+import evilcraft.block.EnvironmentalAccumulatorConfig;
 
 /**
  * Config for the NEI integration of this mod.

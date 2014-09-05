@@ -19,17 +19,17 @@ import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import evilcraft.commands.CommandEvilCraft;
+import evilcraft.client.gui.GuiHandler;
+import evilcraft.client.gui.container.GuiMainMenuEvilifier;
+import evilcraft.command.CommandEvilCraft;
 import evilcraft.core.Debug;
 import evilcraft.core.config.ConfigHandler;
-import evilcraft.core.helpers.LoggerHelper;
-import evilcraft.gui.GuiHandler;
-import evilcraft.gui.client.GuiMainMenuEvilifier;
+import evilcraft.core.helper.LoggerHelper;
 import evilcraft.modcompat.ModCompatLoader;
-import evilcraft.proxies.CommonProxy;
-import evilcraft.worldgen.DarkTempleGenerator;
-import evilcraft.worldgen.EvilDungeonGenerator;
-import evilcraft.worldgen.EvilWorldGenerator;
+import evilcraft.proxy.CommonProxy;
+import evilcraft.world.gen.DarkTempleGenerator;
+import evilcraft.world.gen.EvilDungeonGenerator;
+import evilcraft.world.gen.EvilWorldGenerator;
 
 /**
  * The main mod class of EvilCraft.
@@ -41,7 +41,7 @@ import evilcraft.worldgen.EvilWorldGenerator;
     useMetadata = true,
     version = Reference.MOD_VERSION,
     dependencies = Reference.MOD_DEPENDENCIES,
-    guiFactory = "evilcraft.core.config.gui.ExtendedConfigGuiFactory"
+    guiFactory = "evilcraft.core.client.gui.container.config.ExtendedConfigGuiFactory"
     )
 public class EvilCraft {
     
@@ -49,7 +49,7 @@ public class EvilCraft {
      * The proxy of this mod, depending on 'side' a different proxy will be inside this field.
      * @see cpw.mods.fml.common.SidedProxy
      */
-    @SidedProxy(clientSide = "evilcraft.proxies.ClientProxy", serverSide = "evilcraft.proxies.CommonProxy")
+    @SidedProxy(clientSide = "evilcraft.proxy.ClientProxy", serverSide = "evilcraft.proxy.CommonProxy")
     public static CommonProxy proxy;
     
     /**

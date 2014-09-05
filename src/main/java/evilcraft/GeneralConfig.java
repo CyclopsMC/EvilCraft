@@ -4,7 +4,7 @@ import evilcraft.core.config.DummyConfig;
 import evilcraft.core.config.ElementType;
 import evilcraft.core.config.ElementTypeCategory;
 import evilcraft.core.config.configurable.ConfigurableProperty;
-import evilcraft.core.fluids.BloodFluidConverter.BloodConvertersChanged;
+import evilcraft.core.fluid.BloodFluidConverter.BloodConvertersChanged;
 
 /**
  * A config with general options for this mod.

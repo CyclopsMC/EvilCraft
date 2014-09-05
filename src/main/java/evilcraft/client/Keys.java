@@ -4,8 +4,8 @@ import net.minecraft.client.settings.KeyBinding;
 
 import org.lwjgl.input.Keyboard;
 
-import evilcraft.core.helpers.L10NHelpers;
-import evilcraft.events.KeyInputEventHook;
+import evilcraft.core.helper.L10NHelpers;
+import evilcraft.event.KeyInputEventHook;
 
 /**
  * Enum that contains all custom hotkeys that

@@ -4,7 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
-import evilcraft.core.helpers.MinecraftHelpers;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.render.AlphaItemRenderer;
 
 /**

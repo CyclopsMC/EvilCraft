@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.entities.item.EntityThrowable;
+import evilcraft.core.entity.item.EntityThrowable;
 
 /**
  * A renderer for a throwable item.

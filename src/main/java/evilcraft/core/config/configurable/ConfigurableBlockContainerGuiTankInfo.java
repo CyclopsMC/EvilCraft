@@ -12,9 +12,9 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.entities.tileentitites.TankInventoryTileEntity;
 import evilcraft.core.item.DamageIndicatedItemComponent;
-import evilcraft.items.BucketBlood;
+import evilcraft.core.tileentity.TankInventoryTileEntity;
+import evilcraft.item.BucketBlood;
 
 /**
  * Block that can hold ExtendedConfigs

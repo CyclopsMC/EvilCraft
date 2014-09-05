@@ -3,7 +3,7 @@ package evilcraft.modcompat.tconstruct;
 import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.api.RegistryManager;
-import evilcraft.api.tileentities.bloodchest.IBloodChestRepairActionRegistry;
+import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.modcompat.IModCompat;
 
 /**

@@ -5,18 +5,18 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
-import evilcraft.blocks.BoxOfEternalClosure;
-import evilcraft.blocks.BoxOfEternalClosureConfig;
-import evilcraft.blocks.SpiritFurnace;
-import evilcraft.blocks.SpiritFurnaceConfig;
-import evilcraft.items.BloodExtractor;
-import evilcraft.items.BloodExtractorConfig;
-import evilcraft.items.Broom;
-import evilcraft.items.BroomConfig;
-import evilcraft.items.DarkGem;
-import evilcraft.items.DarkGemConfig;
-import evilcraft.items.MaceOfDistortion;
-import evilcraft.items.MaceOfDistortionConfig;
+import evilcraft.block.BoxOfEternalClosure;
+import evilcraft.block.BoxOfEternalClosureConfig;
+import evilcraft.block.SpiritFurnace;
+import evilcraft.block.SpiritFurnaceConfig;
+import evilcraft.item.BloodExtractor;
+import evilcraft.item.BloodExtractorConfig;
+import evilcraft.item.Broom;
+import evilcraft.item.BroomConfig;
+import evilcraft.item.DarkGem;
+import evilcraft.item.DarkGemConfig;
+import evilcraft.item.MaceOfDistortion;
+import evilcraft.item.MaceOfDistortionConfig;
 
 /**
  * Obtainable achievements in this mod.

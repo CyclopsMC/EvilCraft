@@ -13,10 +13,10 @@ import com.google.common.collect.Sets;
 
 import evilcraft.api.ILocation;
 import evilcraft.api.ISize;
-import evilcraft.core.algorithms.Dimension;
-import evilcraft.core.algorithms.Location;
-import evilcraft.core.algorithms.Size;
-import evilcraft.core.helpers.LocationHelpers;
+import evilcraft.core.algorithm.Dimension;
+import evilcraft.core.algorithm.Location;
+import evilcraft.core.algorithm.Size;
+import evilcraft.core.helper.LocationHelpers;
 
 /**
  * Detector of cubes in a world.

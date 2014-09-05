@@ -4,14 +4,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import evilcraft.Configs;
-import evilcraft.blocks.UndeadLeaves;
-import evilcraft.blocks.UndeadLeavesConfig;
-import evilcraft.blocks.UndeadLog;
-import evilcraft.blocks.UndeadLogConfig;
-import evilcraft.fluids.Blood;
-import evilcraft.fluids.BloodConfig;
-import evilcraft.items.HardenedBloodShard;
-import evilcraft.items.HardenedBloodShardConfig;
+import evilcraft.block.UndeadLeaves;
+import evilcraft.block.UndeadLeavesConfig;
+import evilcraft.block.UndeadLog;
+import evilcraft.block.UndeadLogConfig;
+import evilcraft.fluid.Blood;
+import evilcraft.fluid.BloodConfig;
+import evilcraft.item.HardenedBloodShard;
+import evilcraft.item.HardenedBloodShardConfig;
 import forestry.api.recipes.RecipeManagers;
 
 /**

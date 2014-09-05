@@ -5,8 +5,8 @@ import java.util.Random;
 import net.minecraft.item.ItemStack;
 import tconstruct.library.tools.AbilityHelper;
 import tconstruct.library.tools.ToolCore;
-import evilcraft.api.tileentities.bloodchest.IBloodChestRepairAction;
-import evilcraft.blocks.BloodChestConfig;
+import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
+import evilcraft.block.BloodChestConfig;
 
 /**
  * A Blood Chest repair action for Tinkers' Construct tools.

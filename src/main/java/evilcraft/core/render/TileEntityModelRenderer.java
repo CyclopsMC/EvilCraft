@@ -9,7 +9,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import evilcraft.core.entities.tileentitites.EvilCraftTileEntity;
+import evilcraft.core.tileentity.EvilCraftTileEntity;
 
 /**
  * General renderer for {@link EvilCraftTileEntity} with models.

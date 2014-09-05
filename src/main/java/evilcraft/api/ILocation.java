@@ -1,6 +1,6 @@
 package evilcraft.api;
 
-import evilcraft.api.tileentities.INBTSerializable;
+import evilcraft.api.tileentity.INBTSerializable;
 
 /**
  * Location interface.

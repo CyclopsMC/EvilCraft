@@ -6,10 +6,10 @@ import com.google.common.collect.Maps;
 
 import evilcraft.api.degradation.IDegradationRegistry;
 import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
-import evilcraft.api.tileentities.bloodchest.IBloodChestRepairActionRegistry;
+import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.core.degradation.DegradationRegistry;
-import evilcraft.core.recipes.SuperRecipeRegistry;
-import evilcraft.entities.tileentities.tickaction.bloodchest.BloodChestRepairActionRegistry;
+import evilcraft.core.recipe.custom.SuperRecipeRegistry;
+import evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 
 /**
  * Manager for all the registries in this mod.

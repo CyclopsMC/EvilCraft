@@ -5,7 +5,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import evilcraft.core.helpers.MinecraftHelpers;
+import evilcraft.core.helper.MinecraftHelpers;
 
 /**
  * A basic inventory implementation.

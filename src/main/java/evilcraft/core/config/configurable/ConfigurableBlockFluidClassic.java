@@ -11,11 +11,11 @@ import net.minecraftforge.fluids.Fluid;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
-import evilcraft.core.blockcomponents.EntityDropParticleFXBlockComponent;
-import evilcraft.core.blockcomponents.IEntityDropParticleFXBlock;
+import evilcraft.core.block.component.EntityDropParticleFXBlockComponent;
+import evilcraft.core.block.component.IEntityDropParticleFXBlock;
 import evilcraft.core.config.ElementType;
 import evilcraft.core.config.ExtendedConfig;
-import evilcraft.events.TextureStitchEventHook;
+import evilcraft.event.TextureStitchEventHook;
 
 /**
  * Block that represents an in-world fluid that can hold ExtendedConfigs
