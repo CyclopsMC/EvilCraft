@@ -7,9 +7,7 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 
 /**
@@ -43,7 +41,7 @@ public class TankDataProvider implements IWailaDataProvider {
                 currenttip.add(EnumChatFormatting.ITALIC + "Empty");
             } else {
                 FluidStack fluidStack = tile.getTank().getFluid();
-                String name = L10NHelpers.localize("fluid.fluids." + FluidRegistry.getFluidName(fluidStack));
+                String name = fluidStack.getFluid().getLocalizedName(fluidStack);
                 currenttip.add(name + ": " + fluidStack.amount + " / " + tile.getTank().getCapacity());
             }
         }

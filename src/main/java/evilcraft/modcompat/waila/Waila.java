@@ -8,6 +8,8 @@ import evilcraft.block.BloodInfuserConfig;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.BloodStainedBlockConfig;
 import evilcraft.block.BoxOfEternalClosureConfig;
+import evilcraft.block.DarkTank;
+import evilcraft.block.DarkTankConfig;
 import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
 import evilcraft.block.Purifier;
@@ -42,6 +44,8 @@ public class Waila {
         }
         if(Configs.isEnabled(PurifierConfig.class))
             registrar.registerBodyProvider(new TankDataProvider(), Purifier.class);
+        if(Configs.isEnabled(DarkTankConfig.class))
+            registrar.registerBodyProvider(new TankDataProvider(), DarkTank.class);
         
         // Inner blocks
         if(Configs.isEnabled(BloodStainedBlockConfig.class))

@@ -15,6 +15,7 @@ import evilcraft.block.DarkBlockConfig;
 import evilcraft.block.DarkBloodBrickConfig;
 import evilcraft.block.DarkBrickConfig;
 import evilcraft.block.DarkOreConfig;
+import evilcraft.block.DarkTankConfig;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
 import evilcraft.block.EvilBlockConfig;
 import evilcraft.block.ExcrementPileConfig;
@@ -174,6 +175,7 @@ public class Configs {
         configs.add(new DarkBrickConfig());
         configs.add(new DarkBloodBrickConfig());
         configs.add(new SpiritFurnaceConfig());
+        configs.add(new DarkTankConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

@@ -64,7 +64,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         this.random = new Random();
         this.tileEntity = tileEntity;
         setHardness(5F);
-        setStepSound(Block.soundTypeAnvil);
+        setStepSound(Block.soundTypePiston);
     }
     
     /**
