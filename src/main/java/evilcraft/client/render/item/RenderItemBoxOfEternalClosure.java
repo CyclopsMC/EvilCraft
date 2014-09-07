@@ -3,8 +3,8 @@ package evilcraft.client.render.item;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
 import evilcraft.block.BoxOfEternalClosure;
-import evilcraft.client.render.model.BoxOfEternalClosureModel;
-import evilcraft.core.client.render.RenderItemModel;
+import evilcraft.client.render.model.ModelBoxOfEternalClosure;
+import evilcraft.core.client.render.item.RenderModelItem;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
 
 /**
@@ -12,7 +12,7 @@ import evilcraft.tileentity.TileBoxOfEternalClosure;
  * @author rubensworks
  *
  */
-public class RenderItemBoxOfEternalClosure extends RenderItemModel {
+public class RenderItemBoxOfEternalClosure extends RenderModelItem {
     
 	/**
      * Make a new instance.
@@ -29,7 +29,7 @@ public class RenderItemBoxOfEternalClosure extends RenderItemModel {
     	if(BoxOfEternalClosure.getInstance().getSpiritId(currentItemStack) != null) {
     		angle = 0;
     	}
-    	BoxOfEternalClosureModel box = ((BoxOfEternalClosureModel)model);
+    	ModelBoxOfEternalClosure box = ((ModelBoxOfEternalClosure)model);
     	box.setCoverAngle(angle);
     	box.renderAll();
     }

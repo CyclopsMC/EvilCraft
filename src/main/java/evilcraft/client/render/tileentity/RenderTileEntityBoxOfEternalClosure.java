@@ -10,8 +10,8 @@ import org.lwjgl.opengl.GL11;
 
 import evilcraft.Reference;
 import evilcraft.block.BoxOfEternalClosure;
-import evilcraft.client.render.model.BoxOfEternalClosureModel;
-import evilcraft.core.client.render.TileEntityModelRenderer;
+import evilcraft.client.render.model.ModelBoxOfEternalClosure;
+import evilcraft.core.client.render.tileentity.RenderTileEntityModel;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
@@ -21,7 +21,7 @@ import evilcraft.tileentity.TileBoxOfEternalClosure;
  * @author rubensworks
  *
  */
-public class TileEntityBoxOfEternalClosureRenderer extends TileEntityModelRenderer {
+public class RenderTileEntityBoxOfEternalClosure extends RenderTileEntityModel {
 
 	private static final ResourceLocation beamTexture =
 			new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
@@ -31,7 +31,7 @@ public class TileEntityBoxOfEternalClosureRenderer extends TileEntityModelRender
      * @param model The model to render.
      * @param texture The texture to render the model with.
      */
-    public TileEntityBoxOfEternalClosureRenderer(ModelBase model, ResourceLocation texture) {
+    public RenderTileEntityBoxOfEternalClosure(ModelBase model, ResourceLocation texture) {
         super(model, texture);
     }
     
@@ -45,7 +45,7 @@ public class TileEntityBoxOfEternalClosureRenderer extends TileEntityModelRender
     	z += 0.5D;
     	
     	// Optionally render beam
-    	BoxOfEternalClosureModel boxModel = (BoxOfEternalClosureModel)getModel();
+    	ModelBoxOfEternalClosure boxModel = (ModelBoxOfEternalClosure)getModel();
     	TileBoxOfEternalClosure box = (TileBoxOfEternalClosure) tile;
     	VengeanceSpirit target = box.getTargetSpirit();
     	if(target != null) {
@@ -107,11 +107,11 @@ public class TileEntityBoxOfEternalClosureRenderer extends TileEntityModelRender
     	TileBoxOfEternalClosure box = (TileBoxOfEternalClosure) tile;
     	
     	// Render box
-    	BoxOfEternalClosureModel boxModel = (BoxOfEternalClosureModel)model;
+    	ModelBoxOfEternalClosure boxModel = (ModelBoxOfEternalClosure)model;
     	float angle = box.getPreviousLidAngle()
     			+ (box.getLidAngle() - box.getPreviousLidAngle()) * partialTick;
     	boxModel.setCoverAngle(angle);
-    	((BoxOfEternalClosureModel)model).renderAll();
+    	((ModelBoxOfEternalClosure)model).renderAll();
     }
     
 }

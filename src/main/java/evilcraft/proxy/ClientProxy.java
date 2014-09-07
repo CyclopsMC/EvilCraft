@@ -28,7 +28,7 @@ import evilcraft.EvilCraft;
 import evilcraft.client.FartKeyHandler;
 import evilcraft.client.KeyHandler;
 import evilcraft.client.Keys;
-import evilcraft.core.client.render.MultiPassBlockRenderer;
+import evilcraft.core.client.render.block.MultiPassBlockRenderer;
 import evilcraft.event.KeyInputEventHook;
 import evilcraft.event.PlaySoundAtEntityEventHook;
 import evilcraft.event.PlayerTickEventHook;

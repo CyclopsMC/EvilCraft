@@ -7,8 +7,8 @@ import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
-import evilcraft.client.render.model.BroomModel;
-import evilcraft.core.client.render.ModelRender;
+import evilcraft.client.render.model.ModelBroom;
+import evilcraft.core.client.render.model.RenderModel;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.ItemConfig;
 import evilcraft.item.Broom;
@@ -18,13 +18,13 @@ import evilcraft.item.Broom;
  * @author rubensworks
  *
  */
-public class RenderBroomItem extends ModelRender<BroomModel> implements IItemRenderer {
+public class RenderItemBroom extends RenderModel<ModelBroom> implements IItemRenderer {
 
     /**
      * Make a new instance.
      * @param config The config instance.
      */
-    public RenderBroomItem(ExtendedConfig<ItemConfig> config) {
+    public RenderItemBroom(ExtendedConfig<ItemConfig> config) {
         super(config);
     }
 
@@ -40,8 +40,8 @@ public class RenderBroomItem extends ModelRender<BroomModel> implements IItemRen
     }
     
     @Override
-    protected BroomModel constructModel() {
-        return new BroomModel();
+    protected ModelBroom constructModel() {
+        return new ModelBroom();
     }
 
     @Override

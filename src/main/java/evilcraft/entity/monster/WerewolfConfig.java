@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.render.entity.RenderWerewolf;
-import evilcraft.client.render.model.WerewolfModel;
+import evilcraft.client.render.model.ModelWerewolf;
 import evilcraft.core.config.ElementTypeCategory;
 import evilcraft.core.config.MobConfig;
 import evilcraft.core.config.configurable.ConfigurableProperty;
@@ -58,7 +58,7 @@ public class WerewolfConfig extends MobConfig {
     @SideOnly(Side.CLIENT)
     @Override
     public Render getRender() {
-        return new RenderWerewolf(this, new WerewolfModel(), 0.5F);
+        return new RenderWerewolf(this, new ModelWerewolf(), 0.5F);
     }
     
 }

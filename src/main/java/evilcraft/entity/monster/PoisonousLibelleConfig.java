@@ -7,7 +7,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.render.entity.RenderPoisonousLibelle;
-import evilcraft.client.render.model.PoisonousLibelleModel;
+import evilcraft.client.render.model.ModelPoisonousLibelle;
 import evilcraft.core.config.ElementTypeCategory;
 import evilcraft.core.config.MobConfig;
 import evilcraft.core.config.configurable.ConfigurableProperty;
@@ -67,7 +67,7 @@ public class PoisonousLibelleConfig extends MobConfig {
     @SideOnly(Side.CLIENT)
     @Override
     public Render getRender() {
-        return new RenderPoisonousLibelle(this, new PoisonousLibelleModel(), 0.5F);
+        return new RenderPoisonousLibelle(this, new ModelPoisonousLibelle(), 0.5F);
     }
     
     @Override

@@ -2,7 +2,7 @@ package evilcraft.client.render.entity;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.EntityLiving;
-import evilcraft.core.client.render.ModelRenderLiving;
+import evilcraft.core.client.render.entity.RenderModelLiving;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.MobConfig;
 import evilcraft.entity.monster.PoisonousLibelle;
@@ -13,7 +13,7 @@ import evilcraft.entity.monster.PoisonousLibelle;
  * @author rubensworks
  *
  */
-public class RenderPoisonousLibelle extends ModelRenderLiving<ModelBase> {
+public class RenderPoisonousLibelle extends RenderModelLiving<ModelBase> {
     
     /**
      * Make a new instance

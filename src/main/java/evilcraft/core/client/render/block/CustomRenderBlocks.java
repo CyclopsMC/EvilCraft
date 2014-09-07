@@ -1,4 +1,4 @@
-package evilcraft.core.client.render;
+package evilcraft.core.client.render.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;

@@ -10,8 +10,8 @@ import net.minecraftforge.common.ChestGenHooks;
 import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.client.render.item.RenderItemBoxOfEternalClosure;
-import evilcraft.client.render.model.BoxOfEternalClosureModel;
-import evilcraft.client.render.tileentity.TileEntityBoxOfEternalClosureRenderer;
+import evilcraft.client.render.model.ModelBoxOfEternalClosure;
+import evilcraft.client.render.tileentity.RenderTileEntityBoxOfEternalClosure;
 import evilcraft.core.config.BlockConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.item.ItemBlockNBT;
@@ -51,10 +51,10 @@ public class BoxOfEternalClosureConfig extends BlockConfig {
     @Override
     public void onRegistered() {
         if (MinecraftHelpers.isClientSide()) {
-        	ModelBase model = new BoxOfEternalClosureModel();
+        	ModelBase model = new ModelBoxOfEternalClosure();
         	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "box.png");
             ClientProxy.TILE_ENTITY_RENDERERS.put(TileBoxOfEternalClosure.class,
-            		new TileEntityBoxOfEternalClosureRenderer(model, texture));
+            		new RenderTileEntityBoxOfEternalClosure(model, texture));
             ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()),
             		new RenderItemBoxOfEternalClosure(model, texture));
         }

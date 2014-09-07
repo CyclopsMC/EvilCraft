@@ -1,4 +1,4 @@
-package evilcraft.core.client.render;
+package evilcraft.core.client.render.item;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.item.ItemStack;
@@ -14,7 +14,7 @@ import cpw.mods.fml.client.FMLClientHandler;
  * @author rubensworks
  *
  */
-public class RenderItemModel implements IItemRenderer {
+public class RenderModelItem implements IItemRenderer {
 	
 	private final ModelBase model;
 	private final ResourceLocation texture;
@@ -26,7 +26,7 @@ public class RenderItemModel implements IItemRenderer {
      * @param model The model to render.
      * @param texture The texture to render the model with.
      */
-    public RenderItemModel(ModelBase model, ResourceLocation texture) {
+    public RenderModelItem(ModelBase model, ResourceLocation texture) {
         this.model = model;
         this.texture = texture;
     }

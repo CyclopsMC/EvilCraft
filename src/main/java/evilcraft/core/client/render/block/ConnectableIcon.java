@@ -1,4 +1,4 @@
-package evilcraft.core.client.render;
+package evilcraft.core.client.render.block;
 
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.IIcon;

@@ -16,7 +16,7 @@ import evilcraft.entity.monster.PoisonousLibelle;
 /**
  * @author Davivs69
  */
-public class PoisonousLibelleModel extends ModelBase {
+public class ModelPoisonousLibelle extends ModelBase {
     //fields
     ModelRenderer head;
     ModelRenderer body;
@@ -32,7 +32,7 @@ public class PoisonousLibelleModel extends ModelBase {
     /**
      * Make a new instance.
      */
-    public PoisonousLibelleModel() {
+    public ModelPoisonousLibelle() {
         this.textureWidth = 64;
         this.textureHeight = 32;
 

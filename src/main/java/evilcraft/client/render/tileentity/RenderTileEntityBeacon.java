@@ -19,7 +19,7 @@ import evilcraft.tileentity.EvilCraftBeaconTileEntity;
  * @author immortaleeb
  *
  */
-public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer {
+public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
 	
 	private static final ResourceLocation BEACON_TEXTURE = new ResourceLocation("textures/entity/beacon_beam.png");
 	

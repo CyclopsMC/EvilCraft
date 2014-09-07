@@ -4,8 +4,8 @@ import net.minecraft.entity.Entity;
 
 import org.lwjgl.opengl.GL11;
 
-import evilcraft.client.render.model.BroomModel;
-import evilcraft.core.client.render.ModelRender;
+import evilcraft.client.render.model.ModelBroom;
+import evilcraft.core.client.render.model.RenderModel;
 import evilcraft.core.config.EntityConfig;
 import evilcraft.core.config.ExtendedConfig;
 
@@ -15,7 +15,7 @@ import evilcraft.core.config.ExtendedConfig;
  * @author immortaleeb
  *
  */
-public class RenderBroom extends ModelRender<BroomModel> {
+public class RenderBroom extends RenderModel<ModelBroom> {
 	
     /**
      * Make a new instance.
@@ -43,8 +43,8 @@ public class RenderBroom extends ModelRender<BroomModel> {
 	}
 
     @Override
-    protected BroomModel constructModel() {
-        return new BroomModel();
+    protected ModelBroom constructModel() {
+        return new ModelBroom();
     }
 
 }

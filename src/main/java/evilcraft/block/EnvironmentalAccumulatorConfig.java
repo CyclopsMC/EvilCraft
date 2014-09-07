@@ -1,7 +1,7 @@
 package evilcraft.block;
 
 import evilcraft.client.render.block.RenderEnvironmentalAccumulator;
-import evilcraft.client.render.tileentity.TileEntityEnvironmentalAccumulatorRenderer;
+import evilcraft.client.render.tileentity.RenderTileEntityEnvironmentalAccumulator;
 import evilcraft.core.config.BlockConfig;
 import evilcraft.core.config.ElementTypeCategory;
 import evilcraft.core.config.configurable.ConfigurableProperty;
@@ -57,7 +57,7 @@ public class EnvironmentalAccumulatorConfig extends BlockConfig {
 	public void onRegistered() {
 	    if(MinecraftHelpers.isClientSide()) {
 	        ClientProxy.BLOCK_RENDERERS.add(new RenderEnvironmentalAccumulator());
-	        ClientProxy.TILE_ENTITY_RENDERERS.put(TileEnvironmentalAccumulator.class, new TileEntityEnvironmentalAccumulatorRenderer());
+	        ClientProxy.TILE_ENTITY_RENDERERS.put(TileEnvironmentalAccumulator.class, new RenderTileEntityEnvironmentalAccumulator());
 	    }
 	}
 	

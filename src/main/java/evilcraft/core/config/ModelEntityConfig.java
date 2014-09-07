@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import evilcraft.core.client.render.ModelRender;
+import evilcraft.core.client.render.model.RenderModel;
 
 /**
  * Config for Entities with a custom Model.
@@ -49,8 +49,8 @@ public abstract class ModelEntityConfig extends EntityConfig{
     }
     
     /**
-     * Get the {@link ModelRender} class for the configurable.
+     * Get the {@link RenderModel} class for the configurable.
      * @return The class for the model of the configurable.
      */
-    public abstract Class<? extends ModelRender<?>> getRenderClass();
+    public abstract Class<? extends RenderModel<?>> getRenderClass();
 }

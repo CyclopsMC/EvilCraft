@@ -13,7 +13,7 @@ import evilcraft.entity.monster.Werewolf;
 /**
  * @author Davivs69
  */
-public class WerewolfModel extends ModelBiped {
+public class ModelWerewolf extends ModelBiped {
     //fields
     ModelRenderer bipedEar1;
     ModelRenderer bipedEar2;
@@ -23,7 +23,7 @@ public class WerewolfModel extends ModelBiped {
     /**
      * Make a new instance.
      */
-    public WerewolfModel() {
+    public ModelWerewolf() {
         this.textureWidth = 64;
         this.textureHeight = 135;
         bipedHead = new ModelRenderer(this, 24, 0);

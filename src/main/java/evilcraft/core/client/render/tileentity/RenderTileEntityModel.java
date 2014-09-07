@@ -1,4 +1,4 @@
-package evilcraft.core.client.render;
+package evilcraft.core.client.render.tileentity;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -16,7 +16,7 @@ import evilcraft.core.tileentity.EvilCraftTileEntity;
  * @author rubensworks
  *
  */
-public class TileEntityModelRenderer extends TileEntitySpecialRenderer {
+public class RenderTileEntityModel extends TileEntitySpecialRenderer {
 
     private ModelBase model;
 
@@ -27,7 +27,7 @@ public class TileEntityModelRenderer extends TileEntitySpecialRenderer {
      * @param model The model to render.
      * @param texture The texture to render the model with.
      */
-    public TileEntityModelRenderer(ModelBase model, ResourceLocation texture) {
+    public RenderTileEntityModel(ModelBase model, ResourceLocation texture) {
         this.model = model;
         this.texture = texture;
     }

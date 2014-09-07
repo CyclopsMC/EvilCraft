@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.particle.EntityBloodSplashFX;
-import evilcraft.core.client.render.AlternatingBlockIconComponent;
+import evilcraft.core.client.render.block.AlternatingBlockIconComponent;
 import evilcraft.core.config.BlockConfig;
 import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;

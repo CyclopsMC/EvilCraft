@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.util.ResourceLocation;
 import evilcraft.block.BloodChest;
-import evilcraft.core.client.render.TileEntityModelRenderer;
+import evilcraft.core.client.render.tileentity.RenderTileEntityModel;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.tileentity.TileBloodChest;
 
@@ -13,14 +13,14 @@ import evilcraft.tileentity.TileBloodChest;
  * @author rubensworks
  *
  */
-public class TileEntityBloodChestRenderer extends TileEntityModelRenderer {
+public class RenderTileEntityBloodChest extends RenderTileEntityModel {
 	
 	/**
      * Make a new instance.
      * @param model The model to render.
      * @param texture The texture to render the model with.
      */
-    public TileEntityBloodChestRenderer(ModelBase model, ResourceLocation texture) {
+    public RenderTileEntityBloodChest(ModelBase model, ResourceLocation texture) {
         super(model, texture);
     }
     
