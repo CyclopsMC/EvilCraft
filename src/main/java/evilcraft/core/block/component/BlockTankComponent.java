@@ -48,24 +48,25 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 			EntityPlayer player, int side, float motionX, float motionY,
 			float motionZ) {
 		if(world.isRemote) {
-            return false;
+            return true;
         } else {
             ItemStack itemStack = player.inventory.getCurrentItem();
             TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(x, y, z);
             if(tile != null) {
                 if(itemStack != null && itemStack.getItem() instanceof ItemBucket) {
-                    FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
+                	FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
+                	
                     if(fluidStack != null &&
                             (tile.getTank().getAcceptedFluid() == null
                             || tile.getTank().canTankAccept(fluidStack.getFluid())
                             || tile.getTank().getFluidType() == null) && tile.getTank().canCompletelyFill(fluidStack)) {
-                        tile.getTank().fill(fluidStack, true);
+                        tile.fill(fluidStack, true);
                         if (!player.capabilities.isCreativeMode) {
                             player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.bucket));
                         }
                         return true;
                     } else if(itemStack.getItem() == Items.bucket && tile.getTank().getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME) {
-                        tile.getTank().drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+                        tile.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                         if (!player.capabilities.isCreativeMode) {
                             player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(BucketBlood.getInstance()));
                         }
@@ -84,12 +85,13 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
      */
 	public String getInfoTank(ItemStack itemStack) {
 		int amount = 0;
+		FluidStack fluidStack = null;
         if(itemStack.getTagCompound() != null) {
-            FluidStack fluid = FluidStack.loadFluidStackFromNBT(itemStack.getTagCompound().getCompoundTag(tank.getTankNBTName()));
-            if(fluid != null)
-                amount = fluid.amount;
+            fluidStack = FluidStack.loadFluidStackFromNBT(itemStack.getTagCompound().getCompoundTag(tank.getTankNBTName()));
+            if(fluidStack != null)
+                amount = fluidStack.amount;
         }
-        return DamageIndicatedItemComponent.getInfo(amount, tank.getTankCapacity(itemStack));
+        return DamageIndicatedItemComponent.getInfo(fluidStack, amount, tank.getTankCapacity(itemStack));
 	}
 
 }

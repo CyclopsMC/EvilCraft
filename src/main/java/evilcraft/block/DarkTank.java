@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.client.render.block.RenderDarkTank;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.block.component.BlockTankComponent;
@@ -86,6 +87,22 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     public boolean renderAsNormalBlock() {
     	return false;
     }
+    
+    @Override
+    public int getRenderBlockPass() {
+    	return 1;
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+    	return true;
+    }
+    
+    @Override
+    public int getRenderType() {
+        return RenderDarkTank.ID;
+    }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float motionX, float motionY, float motionZ) {
@@ -122,11 +139,9 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if(tile != null && tile instanceof TileDarkTank) {
 			TileDarkTank tank = (TileDarkTank) tile;
-			double level = tank.getFillRatio() * 16;
 			if(tank.getTank().getFluidType() != null) {
-				level *= tank.getTank().getFluidType().getLuminosity();
+				return (int) Math.min(15, tank.getFillRatio() * tank.getTank().getFluidType().getLuminosity() * 15);
 			}
-			return (int) level;
 		}
 		return 0;
 	}

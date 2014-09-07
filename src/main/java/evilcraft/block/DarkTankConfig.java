@@ -1,10 +1,13 @@
 package evilcraft.block;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import evilcraft.client.render.block.RenderDarkTank;
+import evilcraft.client.render.item.RenderItemDarkTank;
 import evilcraft.client.render.tileentity.TileEntityDarkTankRenderer;
 import evilcraft.core.config.BlockConfig;
 import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.item.ItemBlockNBT;
+import evilcraft.core.item.ItemBlockFluidContainer;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileDarkTank;
 
@@ -34,16 +37,17 @@ public class DarkTankConfig extends BlockConfig {
     
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockNBT.class;
+        return ItemBlockFluidContainer.class;
     }
     
     @Override
     public void onRegistered() {
         if (MinecraftHelpers.isClientSide()) {
+        	ClientProxy.BLOCK_RENDERERS.add(new RenderDarkTank());
             ClientProxy.TILE_ENTITY_RENDERERS.put(TileDarkTank.class,
             		new TileEntityDarkTankRenderer());
-            /*ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()),
-            		new RenderItemBoxOfEternalClosure(model, texture));*/
+            ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(DarkTank.getInstance()),
+            		new RenderItemDarkTank());
         }
     }
 

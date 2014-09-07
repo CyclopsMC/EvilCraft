@@ -1,10 +1,11 @@
 package evilcraft.core.fluid;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import evilcraft.core.tileentity.EvilCraftTileEntity;
+import evilcraft.core.tileentity.TankInventoryTileEntity;
 
 /**
  * A simple tank that can accept and drain fluids until the capacity is reached.
@@ -21,6 +22,7 @@ public class SingleUseTank extends Tank {
     public static final String NBT_ACCEPTED_FLUID = "acceptedFluid";
     
     private Fluid acceptedFluid;
+    protected EvilCraftTileEntity tile;
 
     /**
      * Make a new tank instance.
@@ -28,19 +30,44 @@ public class SingleUseTank extends Tank {
      * @param capacity The capacity (mB) for the tank.
      * @param tile The TileEntity that uses this tank.
      */
-    public SingleUseTank(String name, int capacity, TileEntity tile) {
+    public SingleUseTank(String name, int capacity, EvilCraftTileEntity tile) {
         super(name, capacity, tile);
+        this.tile = tile;
     }
 
     @Override
     public int fill(FluidStack resource, boolean doFill) {
-        if (resource == null)
-            return 0;
-        if (doFill && acceptedFluid == null)
-            acceptedFluid = resource.getFluid();
-        if (acceptedFluid == null || acceptedFluid == resource.getFluid())
-            return super.fill(resource, doFill);
-        return 0;
+    	int filled = 0;
+        if (resource == null) {
+        	filled = 0;
+        } else {
+        	if (doFill && acceptedFluid == null) {
+        		acceptedFluid = resource.getFluid();
+        	}
+        	if (acceptedFluid == null || acceptedFluid == resource.getFluid()) {
+                filled = super.fill(resource, doFill);
+            }
+        }
+        if(filled > 0) {
+        	sendUpdate();
+        }
+        return filled;
+    }
+    
+    @Override
+    public FluidStack drain(int maxDrain, boolean doDrain) {
+    	FluidStack drained = super.drain(maxDrain, doDrain);
+    	if(drained != null) {
+    		sendUpdate();
+    	}
+    	return drained;
+    }
+    
+    protected void sendUpdate() {
+    	// TODO: generalize this to accept ITankUpdateListeners if this would be necessary later.
+    	if(!(tile instanceof TankInventoryTileEntity) || ((TankInventoryTileEntity) tile).isSendUpdateOnTankChanged()) {
+    		tile.sendUpdate();
+    	}
     }
 
     /**
@@ -97,4 +124,5 @@ public class SingleUseTank extends Tank {
     	int amount = (fluidStack != null) ? fluidStack.amount : 0;
     	return getFluidAmount() + amount <= getCapacity();
     }
+    
 }

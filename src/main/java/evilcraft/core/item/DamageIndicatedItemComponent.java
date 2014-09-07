@@ -73,17 +73,22 @@ public class DamageIndicatedItemComponent{
         int amount = 0;
         if(item.getFluid(itemStack) != null)
             amount = item.getFluid(itemStack).amount;
-        return getInfo(amount, item.getCapacity(itemStack));
+        return getInfo(item.getFluid(itemStack), amount, item.getCapacity(itemStack));
     }
     
     /**
      * Get hovering info for the given amount and capacity.
+     * @param fluidStack The fluid stack for this container, can be null.
      * @param amount The amount to show.
      * @param capacity The capacity to show.
      * @return The info generated from the given parameters.
      */
-    public static String getInfo(int amount, int capacity) {
-        return "" + amount + " / " + capacity + " mB";
+    public static String getInfo(FluidStack fluidStack, int amount, int capacity) {
+    	String prefix = "";
+    	if(fluidStack != null) {
+    		prefix = fluidStack.getFluid().getLocalizedName(fluidStack) + ": ";
+    	}
+        return prefix + amount + " / " + capacity + " mB";
     }
     
     /**

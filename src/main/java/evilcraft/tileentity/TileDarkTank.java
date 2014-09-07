@@ -13,7 +13,7 @@ public class TileDarkTank extends TankInventoryTileEntity {
 	/**
 	 * The base capacity of the tank.
 	 */
-	public static final int BASE_CAPACITY = 4000;
+	public static final int BASE_CAPACITY = 16000;
 	/**
 	 * The NBT tag name of the tank.
 	 */
@@ -24,6 +24,7 @@ public class TileDarkTank extends TankInventoryTileEntity {
 	 */
 	public TileDarkTank() {
 		super(0, "inventory", BASE_CAPACITY, NBT_TAG_TANK);
+		this.setSendUpdateOnTankChanged(true);
 	}
 	
 	@Override

@@ -98,9 +98,17 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
         int filled = tank.fill(resource, doFill);
-        if(isSendUpdateOnTankChanged())
-            sendUpdate();
         return filled;
+    }
+    
+    /**
+     * Fills fluid into internal tanks.
+     * @param resource FluidStack representing the Fluid and maximum amount of fluid to be filled.
+     * @param doFill If false, fill will only be simulated.
+     * @return Amount of resource that was (or would have been, if simulated) filled.
+     */
+    public int fill(FluidStack resource, boolean doFill) {
+        return fill(ForgeDirection.UP, resource, doFill);
     }
 
     @Override
@@ -109,17 +117,35 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
         if (resource == null || !resource.isFluidEqual(tank.getFluid()))
             return null;
         FluidStack drained = drain(from, resource.amount, doDrain);
-        if(isSendUpdateOnTankChanged())
-            sendUpdate();
         return drained;
+    }
+    
+    /**
+     * Drains fluid out of internal tanks.
+     * @param resource FluidStack representing the Fluid and maximum amount of fluid to be drained.
+     * @param doDrain If false, drain will only be simulated.
+     * @return FluidStack representing the Fluid and amount that was (or would have been, if
+     *         simulated) drained.
+     */
+    public FluidStack drain(FluidStack resource, boolean doDrain) {
+        return drain(ForgeDirection.DOWN, resource, doDrain);
     }
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
         FluidStack drained = tank.drain(maxDrain, doDrain);
-        if(isSendUpdateOnTankChanged())
-            sendUpdate();
         return drained;
+    }
+    
+    /**
+     * Drains fluid out of internal tanks.
+     * @param maxDrain Maximum amount of fluid to drain.
+     * @param doDrain If false, drain will only be simulated.
+     * @return FluidStack representing the Fluid and amount that was (or would have been, if
+     *         simulated) drained.
+     */
+    public FluidStack drain(int maxDrain, boolean doDrain) {
+        return drain(ForgeDirection.DOWN, maxDrain, doDrain);
     }
 
     @Override

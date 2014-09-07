@@ -42,6 +42,7 @@ tile.blocks.spiritFurnace.help.invalid.forceHalt=No more space for drops
 tile.blocks.spiritFurnace.help.invalid.caughtError=Invalid mob spirit. Contact mod dev(s).
 tile.blocks.boxOfEternalClosure.name=Box of Eternal Closure
 tile.blocks.boxOfEternalClosure.info.content=Contents: %s
+tile.blocks.darkTank.name=Dark Tank
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone

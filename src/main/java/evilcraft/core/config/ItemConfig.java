@@ -34,7 +34,7 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     }
     
     /**
-     * If this item should be rendered with a blended alpha channel, thereby using the AlphaItemRenderer.
+     * If this item should be rendered with a blended alpha channel, thereby using the RenderItemDarkTank.
      * @return If it should be alpha blended.
      */
     public boolean blendAlpha() {

@@ -2,7 +2,6 @@ package evilcraft.tileentity.tickaction;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
@@ -20,9 +19,9 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
     @Override
     public void onTick(T tile, ItemStack itemStack, int slot, int tick) {
         ItemStack containerStack = tile.getInventory().getStackInSlot(slot);
-        FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(containerStack);
-        if(fluidStack != null) {
-        	IFluidContainerItem container = (IFluidContainerItem) containerStack.getItem();
+        IFluidContainerItem container = (IFluidContainerItem) containerStack.getItem();
+        if(container.getFluid(containerStack) != null) {
+            FluidStack fluidStack = container.getFluid(containerStack);
             fluidStack.amount = Math.min(MB_PER_TICK, fluidStack.amount);
             int filled = tile.getTank().fill(fluidStack, true);
             container.drain(containerStack, filled, true);

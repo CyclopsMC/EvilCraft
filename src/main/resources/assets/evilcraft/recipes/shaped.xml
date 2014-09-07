@@ -613,5 +613,31 @@
             <item type="predefined">evilcraft:veinSwordLooting</item>
         </output>
     </recipe>
+    
+	<recipe type="shaped">
+        <condition type="config">darkTank</condition>
+        <input>
+            <grid>
+                <gridrow>
+                    <item />
+                    <item type="oredict">gemDark</item>
+                    <item />
+                </gridrow>
+                <gridrow>
+                    <item type="oredict">gemDark</item>
+                    <item type="oredict">blockGlass</item>
+                    <item type="oredict">gemDark</item>
+                </gridrow>
+                <gridrow>
+                    <item />
+                    <item type="oredict">gemDark</item>
+                    <item />
+                </gridrow>
+            </grid>
+        </input>
+        <output>
+            <item>evilcraft:darkTank</item>
+        </output>
+    </recipe>
 
 </recipes>
