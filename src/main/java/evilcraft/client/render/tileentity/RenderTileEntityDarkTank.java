@@ -22,7 +22,7 @@ import evilcraft.tileentity.TileDarkTank;
  * @author rubensworks
  *
  */
-public class TileEntityDarkTankRenderer extends TileEntitySpecialRenderer{
+public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
 	
 	private static final double OFFSET = 0.001D;
 	private static final double MINY = 0.001D;

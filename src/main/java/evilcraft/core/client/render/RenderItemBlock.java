@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
  * @author rubensworks
  *
  */
-public abstract class ItemBlockRenderer implements IItemRenderer {
+public abstract class RenderItemBlock implements IItemRenderer {
 
 	@Override
     public boolean handleRenderType(ItemStack itemStack, ItemRenderType type) {

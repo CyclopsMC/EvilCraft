@@ -7,9 +7,9 @@ import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import evilcraft.client.render.tileentity.TileEntityDarkTankRenderer;
+import evilcraft.client.render.tileentity.RenderTileEntityDarkTank;
 import evilcraft.core.block.IBlockTank;
-import evilcraft.core.client.render.ItemBlockRenderer;
+import evilcraft.core.client.render.item.RenderItemBlock;
 
 
 /**
@@ -17,7 +17,7 @@ import evilcraft.core.client.render.ItemBlockRenderer;
  * @author rubensworks
  *
  */
-public class RenderItemDarkTank extends ItemBlockRenderer {
+public class RenderItemDarkTank extends RenderItemBlock {
 
     /**
      * The ID for this renderer.
@@ -44,7 +44,7 @@ public class RenderItemDarkTank extends ItemBlockRenderer {
             if(fluidStack != null) {
             	int capacity = tank.getTankCapacity(itemStack);
             	double height = ((double) fluidStack.amount / (double) capacity) / 1.01D;
-            	TileEntityDarkTankRenderer.renderFluidSides(height, fluidStack);
+            	RenderTileEntityDarkTank.renderFluidSides(height, fluidStack);
             }
         }
         

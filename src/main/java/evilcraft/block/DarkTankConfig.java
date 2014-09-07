@@ -4,7 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import evilcraft.client.render.block.RenderDarkTank;
 import evilcraft.client.render.item.RenderItemDarkTank;
-import evilcraft.client.render.tileentity.TileEntityDarkTankRenderer;
+import evilcraft.client.render.tileentity.RenderTileEntityDarkTank;
 import evilcraft.core.config.BlockConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.item.ItemBlockFluidContainer;
@@ -45,7 +45,7 @@ public class DarkTankConfig extends BlockConfig {
         if (MinecraftHelpers.isClientSide()) {
         	ClientProxy.BLOCK_RENDERERS.add(new RenderDarkTank());
             ClientProxy.TILE_ENTITY_RENDERERS.put(TileDarkTank.class,
-            		new TileEntityDarkTankRenderer());
+            		new RenderTileEntityDarkTank());
             ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(DarkTank.getInstance()),
             		new RenderItemDarkTank());
         }
