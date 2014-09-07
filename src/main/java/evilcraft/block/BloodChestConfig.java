@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.client.render.item.RenderItemBloodChest;
-import evilcraft.client.render.tileentity.TileEntityBloodChestRenderer;
+import evilcraft.client.render.tileentity.RenderTileEntityBloodChest;
 import evilcraft.core.config.BlockConfig;
 import evilcraft.core.config.ElementTypeCategory;
 import evilcraft.core.config.configurable.ConfigurableProperty;
@@ -82,7 +82,7 @@ public class BloodChestConfig extends BlockConfig {
     private void registerClientSide() {
     	ModelBase model = new ModelChest();
     	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "bloodChest.png");
-        ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new TileEntityBloodChestRenderer(model, texture));
+        ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new RenderTileEntityBloodChest(model, texture));
         ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BloodChest.getInstance()), new RenderItemBloodChest(model, texture));
     }
     

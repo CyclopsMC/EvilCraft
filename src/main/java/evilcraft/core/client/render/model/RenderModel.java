@@ -1,4 +1,4 @@
-package evilcraft.core.client.render;
+package evilcraft.core.client.render.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
@@ -14,7 +14,7 @@ import evilcraft.core.config.ExtendedConfig;
  *
  * @param <M> The model that will be rendered.
  */
-public abstract class ModelRender<M extends ModelBase> extends Render {
+public abstract class RenderModel<M extends ModelBase> extends Render {
     
     private ResourceLocation texture;
 
@@ -25,7 +25,7 @@ public abstract class ModelRender<M extends ModelBase> extends Render {
      * @param config The config.
      */
     @SuppressWarnings("rawtypes")
-    public ModelRender(ExtendedConfig config) {
+    public RenderModel(ExtendedConfig config) {
         texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + config.NAMEDID + ".png");
         model = constructModel();
     }

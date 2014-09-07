@@ -27,7 +27,7 @@ import evilcraft.core.helper.RenderHelpers;
  * @author rubensworks
  *
  */
-public class BoxOfEternalClosureModel extends ModelBase {
+public class ModelBoxOfEternalClosure extends ModelBase {
 	
 	private static WavefrontObject mainModel = new WavefrontObject(
 			new ResourceLocation(Reference.MOD_ID, Reference.MODEL_PATH + "box.obj"));
@@ -54,7 +54,7 @@ public class BoxOfEternalClosureModel extends ModelBase {
 	/**
 	 * Make a new instance.
 	 */
-	public BoxOfEternalClosureModel() {
+	public ModelBoxOfEternalClosure() {
 		
 	}
 	

@@ -22,7 +22,7 @@ import evilcraft.tileentity.TileEnvironmentalAccumulator;
  * @author rubensworks
  *
  */
-public class TileEntityEnvironmentalAccumulatorRenderer extends TileEntityBeaconRenderer {
+public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBeacon {
     
     // Speed at which the item should spin in the animation
     private static final int ITEM_SPIN_SPEED = 3;

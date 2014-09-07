@@ -8,9 +8,9 @@ import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
-import evilcraft.core.client.render.CustomRenderBlocks;
-import evilcraft.core.client.render.IMultiRenderPassBlock;
-import evilcraft.core.client.render.MultiPassBlockRenderer;
+import evilcraft.core.client.render.block.CustomRenderBlocks;
+import evilcraft.core.client.render.block.IMultiRenderPassBlock;
+import evilcraft.core.client.render.block.MultiPassBlockRenderer;
 import evilcraft.core.config.ElementType;
 import evilcraft.core.config.ExtendedConfig;
 

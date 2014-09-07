@@ -4,7 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
-import evilcraft.core.client.render.AlphaItemRenderer;
+import evilcraft.core.client.render.item.AlphaRenderItem;
 import evilcraft.core.helper.MinecraftHelpers;
 
 /**
@@ -34,7 +34,7 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     }
     
     /**
-     * If this item should be rendered with a blended alpha channel, thereby using the RenderItemDarkTank.
+     * If this item should be rendered with a blended alpha channel, thereby using the AlphaRenderItem.
      * @return If it should be alpha blended.
      */
     public boolean blendAlpha() {
@@ -53,7 +53,7 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     public void onRegistered() {
     	if(isEnabled()) {
 	        if(blendAlpha() && MinecraftHelpers.isClientSide())
-	            MinecraftForgeClient.registerItemRenderer(this.getItemInstance(), new AlphaItemRenderer());
+	            MinecraftForgeClient.registerItemRenderer(this.getItemInstance(), new AlphaRenderItem());
 	        
 	        if(getOreDictionaryId() != null) {
 	            OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(this.getItemInstance()));

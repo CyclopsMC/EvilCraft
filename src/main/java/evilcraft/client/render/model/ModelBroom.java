@@ -13,7 +13,7 @@ import net.minecraft.entity.Entity;
 /**
  * @author Davivs69
  */
-public class BroomModel extends ModelBase {
+public class ModelBroom extends ModelBase {
 	// This offset places the player on the correct mounting point on the broom
 	private static final float Z_OFFSET = 5.0f;
 	
@@ -25,7 +25,7 @@ public class BroomModel extends ModelBase {
 	/**
 	 * Make a new instance.
 	 */
-	public BroomModel() {
+	public ModelBroom() {
 		textureWidth = 64;
 		textureHeight = 32;
 

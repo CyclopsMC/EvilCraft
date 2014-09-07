@@ -1,4 +1,4 @@
-package evilcraft.core.client.render;
+package evilcraft.core.client.render.item;
 
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
@@ -15,7 +15,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
  * @author rubensworks
  *
  */
-public class AlphaItemRenderer implements IItemRenderer{
+public class AlphaRenderItem implements IItemRenderer{
 
     /**
      * The ID for this renderer.

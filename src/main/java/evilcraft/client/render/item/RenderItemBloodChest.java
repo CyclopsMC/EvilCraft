@@ -4,14 +4,14 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.util.ResourceLocation;
 import evilcraft.block.BloodChest;
-import evilcraft.core.client.render.RenderItemModel;
+import evilcraft.core.client.render.item.RenderModelItem;
 
 /**
  * Item renderer for the {@link BloodChest}.
  * @author rubensworks
  *
  */
-public class RenderItemBloodChest extends RenderItemModel {
+public class RenderItemBloodChest extends RenderModelItem {
 
     /**
      * Make a new instance.
