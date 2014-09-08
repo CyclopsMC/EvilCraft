@@ -43,7 +43,7 @@ public class RenderItemDarkTank extends RenderItemBlock {
         	FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(itemStack.getTagCompound().getCompoundTag(tank.getTankNBTName()));
             if(fluidStack != null) {
             	int capacity = tank.getTankCapacity(itemStack);
-            	double height = ((double) fluidStack.amount / (double) capacity) / 1.01D;
+            	double height = Math.min(1.0D, ((double) fluidStack.amount / (double) capacity)) / 1.01D;
             	RenderTileEntityDarkTank.renderFluidSides(height, fluidStack);
             }
         }

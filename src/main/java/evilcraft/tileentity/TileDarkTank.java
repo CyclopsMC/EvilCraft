@@ -42,7 +42,7 @@ public class TileDarkTank extends TankInventoryTileEntity {
 	 * @return The ratio.
 	 */
 	public double getFillRatio() {
-		return ((double) getTank().getFluidAmount()) / (double) getTank().getCapacity();
+		return Math.min(1.0D, ((double) getTank().getFluidAmount()) / (double) getTank().getCapacity());
 	}
 
 }
