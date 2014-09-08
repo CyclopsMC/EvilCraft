@@ -43,6 +43,7 @@ tile.blocks.spiritFurnace.help.invalid.caughtError=Invalid mob spirit. Contact m
 tile.blocks.boxOfEternalClosure.name=Box of Eternal Closure
 tile.blocks.boxOfEternalClosure.info.content=Contents: %s
 tile.blocks.darkTank.name=Dark Tank
+tile.blocks.darkTank.info=Place in crafting grid with other tanks to increase capacity.
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone
@@ -95,6 +96,9 @@ item.items.vengeancePickaxe.name=Vengeance Pickaxe
 item.items.burningGemStone.name=Burning GemStone
 item.items.darkGemCrushed.name=Crushed Dark Gem
 item.items.veinSword.name=Vein Sword
+item.items.creativeBloodDrop.name=Creative Blood Drop
+item.items.creativeBloodDrop.info=Creative mode only item to drain and fill infinite amounts of Blood.
+item.items.creativeBloodDrop.info.autoSupply=Auto-supply: %s
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

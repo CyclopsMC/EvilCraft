@@ -71,6 +71,7 @@ import evilcraft.item.BucketBloodConfig;
 import evilcraft.item.BucketPoisonConfig;
 import evilcraft.item.BurningGemStoneConfig;
 import evilcraft.item.ContainedFluxConfig;
+import evilcraft.item.CreativeBloodDropConfig;
 import evilcraft.item.DarkGemConfig;
 import evilcraft.item.DarkGemCrushedConfig;
 import evilcraft.item.DarkPowerGemConfig;
@@ -208,6 +209,7 @@ public class Configs {
         configs.add(new BurningGemStoneConfig());
         configs.add(new DarkGemCrushedConfig());
         configs.add(new VeinSwordConfig());
+        configs.add(new CreativeBloodDropConfig());
         
         // Entities
         // Item
