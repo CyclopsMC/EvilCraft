@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockTank;
@@ -52,5 +53,20 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
     public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         
     }
+    
+    @Override
+	public void setTankCapacity(ItemStack itemStack, int capacity) {
+		// Does nothing
+	}
+
+	@Override
+	public void setTankCapacity(NBTTagCompound tag, int capacity) {
+		// Does nothing
+	}
+	
+	@Override
+    public int getTankCapacity(ItemStack itemStack) {
+		return getMaxCapacity();
+	}
 
 }

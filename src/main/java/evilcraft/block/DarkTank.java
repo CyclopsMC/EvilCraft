@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -27,6 +28,8 @@ import evilcraft.tileentity.TileDarkTank;
  *
  */
 public class DarkTank extends ConfigurableBlockContainer implements IInformationProvider, IBlockTank {
+	
+	private static final String NBT_TAG_CAPACITY = "tankCapacity";
 	
     private static DarkTank _instance = null;
     
@@ -131,8 +134,33 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 
 	@Override
 	public int getTankCapacity(ItemStack itemStack) {
-		return TileDarkTank.BASE_CAPACITY << itemStack.getItemDamage();
+		NBTTagCompound tag = itemStack.getTagCompound();
+		if(tag == null || !tag.hasKey(NBT_TAG_CAPACITY)) {
+			return TileDarkTank.BASE_CAPACITY;
+		}
+		return tag.getInteger(NBT_TAG_CAPACITY);
 	}
+	
+	@Override
+	public void setTankCapacity(ItemStack itemStack, int capacity) {
+		NBTTagCompound tag = itemStack.getTagCompound();
+		if(tag == null) {
+			tag = new NBTTagCompound();
+			itemStack.setTagCompound(tag);
+		}
+		setTankCapacity(tag, capacity);
+	}
+	
+	@Override
+	public void setTankCapacity(NBTTagCompound tag, int capacity) {
+		tag.setInteger(NBT_TAG_CAPACITY, capacity);
+	}
+	
+	@Override
+	public void writeAdditionalInfo(TileEntity tile, NBTTagCompound tag) {
+    	super.writeAdditionalInfo(tile, tag);
+    	tankComponent.writeAdditionalInfo(tile, tag);
+    }
 	
 	@Override
 	public int getLightValue(IBlockAccess world, int x, int y, int z) {
@@ -144,6 +172,11 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public int getMaxCapacity() {
+		return DarkTankConfig.maxTankSize;
 	}
 
 }

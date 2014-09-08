@@ -17,8 +17,12 @@ import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.block.BoxOfEternalClosureConfig;
+import evilcraft.block.DarkTank;
+import evilcraft.block.DarkTankConfig;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
+import evilcraft.core.item.ItemBlockFluidContainer;
+import evilcraft.core.recipe.ItemBlockFluidContainerCombinationRecipe;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.recipe.event.ObservableShapelessRecipe;
@@ -36,8 +40,8 @@ import evilcraft.item.VeinSwordConfig;
 import evilcraft.item.VengeancePickaxe;
 import evilcraft.item.VengeancePickaxeConfig;
 import evilcraft.item.WeatherContainer;
-import evilcraft.item.WeatherContainerConfig;
 import evilcraft.item.WeatherContainer.WeatherContainerTypes;
+import evilcraft.item.WeatherContainerConfig;
 
 /**
  * Holder class of all the recipes.
@@ -173,6 +177,14 @@ public class Recipes {
                             ));
                 }
             }
+        }
+        
+        // Dark tank
+        if(Configs.isEnabled(DarkTankConfig.class)) {
+        	for(int i = 1; i < 9; i++) {
+        		ItemBlockFluidContainer tankItem = (ItemBlockFluidContainer) Item.getItemFromBlock(DarkTank.getInstance());
+	        	GameRegistry.addRecipe(new ItemBlockFluidContainerCombinationRecipe(i, tankItem));
+        	}
         }
     	
         if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {

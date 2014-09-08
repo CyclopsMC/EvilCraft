@@ -34,12 +34,22 @@ public class ItemBlockNBT extends ItemBlockExtended {
 
             if (tile != null && stack.stackTagCompound != null) {
                 tile.readFromNBT(stack.stackTagCompound);
+                readAdditionalInfo(tile, stack);
             }
 
             return true;
         }
 
         return false;
+    }
+    
+    /**
+     * Read additional info about the item into the tile.
+     * @param tile The tile that is being created.
+     * @param itemStack The item that is placed.
+     */
+    protected void readAdditionalInfo(TileEntity tile, ItemStack itemStack) {
+    	
     }
 
 }

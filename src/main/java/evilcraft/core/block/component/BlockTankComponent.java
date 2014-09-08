@@ -5,6 +5,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -93,5 +95,17 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
         }
         return DamageIndicatedItemComponent.getInfo(fluidStack, amount, tank.getTankCapacity(itemStack));
 	}
+	
+	/**
+     * Write additional info about the tile into the item.
+     * @param tile The tile that is being broken.
+     * @param tag The tag that will be added to the dropped item.
+     */
+    public void writeAdditionalInfo(TileEntity tile, NBTTagCompound tag) {
+    	if(tile instanceof TankInventoryTileEntity) {
+			TankInventoryTileEntity tankTile = (TankInventoryTileEntity) tile;
+			tank.setTankCapacity(tag, tankTile.getTank().getCapacity());
+		}
+    }
 
 }

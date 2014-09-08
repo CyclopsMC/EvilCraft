@@ -74,12 +74,18 @@ public class Tank extends FluidTank {
      * Write the tank contents to NBT.
      * @param nbt The NBT tag to write to.
      */
-    public void writeTankToNBT(NBTTagCompound nbt) {}
+    public void writeTankToNBT(NBTTagCompound nbt) {
+    	nbt.setInteger("capacity", getCapacity());
+    }
 
     /**
      * Read the tank contents from NBT.
      * @param nbt The NBT tag to write from.
      */
-    public void readTankFromNBT(NBTTagCompound nbt) {}
+    public void readTankFromNBT(NBTTagCompound nbt) {
+    	if(nbt.hasKey("capacity")) { // Backwards compatibility.
+    		setCapacity(nbt.getInteger("capacity"));
+    	}
+    }
 
 }

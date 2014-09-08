@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
@@ -165,7 +166,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     }
     
     protected void onPreBlockDestroyed(World world, int x, int y, int z) {
-    	MinecraftHelpers.preDestroyBlock(world, x, y, z, saveNBTToDroppedItem());
+    	MinecraftHelpers.preDestroyBlock(this, world, x, y, z, saveNBTToDroppedItem());
     }
     
     protected void onPostBlockDestroyed(World world, int x, int y, int z) {
@@ -209,6 +210,15 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
         super.onBlockPlacedBy(world, x, y, z, entity, stack);
     }
     
+    /**
+     * Write additional info about the tile into the item.
+     * @param tile The tile that is being broken.
+     * @param tag The tag that will be added to the dropped item.
+     */
+    public void writeAdditionalInfo(TileEntity tile, NBTTagCompound tag) {
+    	
+    }
+    
     @Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         if(!world.isRemote) {
@@ -225,8 +235,9 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
         ItemStack itemStack = new ItemStack(getItemDropped(metadata, world.rand, fortune), 1, damageDropped(metadata));
-		if(TileEntityNBTStorage.TAG != null)
+		if(TileEntityNBTStorage.TAG != null) {
 		    itemStack.setTagCompound(TileEntityNBTStorage.TAG);
+		}
 		drops.add(itemStack);
         
         MinecraftHelpers.postDestroyBlock(world, x, y, z);

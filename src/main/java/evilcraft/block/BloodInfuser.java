@@ -4,7 +4,6 @@ import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -126,7 +125,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     }
 
     @Override
-    public int getTankCapacity(ItemStack itemStack) {
+    public int getMaxCapacity() {
         return TileBloodInfuser.LIQUID_PER_SLOT;
     }
 

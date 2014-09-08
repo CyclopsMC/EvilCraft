@@ -4,13 +4,16 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.core.block.IBlockTank;
+import evilcraft.core.tileentity.TankInventoryTileEntity;
 
 /**
  * {@link ItemBlock} that can be used for blocks that have a tile entity with a fluid container.
  * The block must implement {@link IBlockTank}.
+ * Instances of this will also keep it's tank capacity next to the contents.
  * @author rubensworks
  *
  */
@@ -27,6 +30,13 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
         // Will crash if no valid instance of.
         this.block = (IBlockTank) block;
     }
+    
+    /**
+     * @return The block tank.
+     */
+    public IBlockTank getBlockTank() {
+    	return block;
+    }
 
 	@Override
 	public FluidStack getFluid(ItemStack container) {
@@ -40,6 +50,24 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
 	@Override
 	public int getCapacity(ItemStack container) {
 		return block.getTankCapacity(container);
+	}
+	
+	/**
+     * Set the maximal tank capacity.
+     * @param container The item stack.
+     * @param capacity The maximal tank capacity in mB.
+     */
+	public void setCapacity(ItemStack container, int capacity) {
+		block.setTankCapacity(container, capacity);
+	}
+	
+	@Override
+	protected void readAdditionalInfo(TileEntity tile, ItemStack itemStack) {
+		super.readAdditionalInfo(tile, itemStack);
+		if(tile instanceof TankInventoryTileEntity) {
+			TankInventoryTileEntity tankTile = (TankInventoryTileEntity) tile;
+			tankTile.getTank().setCapacity(getCapacity(itemStack));
+		}
 	}
 
 	@Override

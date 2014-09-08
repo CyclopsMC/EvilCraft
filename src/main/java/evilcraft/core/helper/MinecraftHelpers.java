@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
+import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.item.TileEntityNBTStorage;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 
@@ -133,13 +134,14 @@ public class MinecraftHelpers {
     
     /**
      * This method should be called when a BlockContainer is destroyed
+     * @param block The block.
      * @param world world
      * @param x x coordinate
      * @param y y coordinate
      * @param z z coordinate
      * @param saveNBT If the NBT data should be saved to the dropped item.
      */
-    public static void preDestroyBlock(World world, int x, int y, int z, boolean saveNBT) {
+    public static void preDestroyBlock(ConfigurableBlockContainer block, World world, int x, int y, int z, boolean saveNBT) {
         TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof IInventory && !world.isRemote) {
@@ -151,6 +153,7 @@ public class MinecraftHelpers {
             // Cache 
             EvilCraftTileEntity ecTile = ((EvilCraftTileEntity) tile);
             TileEntityNBTStorage.TAG = ecTile.getNBTTagCompound();
+            block.writeAdditionalInfo(tile, TileEntityNBTStorage.TAG);
             
             ecTile.destroy();
         } else {
