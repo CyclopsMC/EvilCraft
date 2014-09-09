@@ -1,11 +1,13 @@
 apply plugin: "curseforge"
 apply plugin: 'maven'
 
-curse {
-    apiKey = project.curseforge_key
-    projectId = "74610" // my project url is http://minecraft.curseforge.com/mc-mods/74610-evilcraft/
-    changelog = new File(project.changelog).text
-    releaseType = "beta"
+if(project.hasProperty("curseforge_key") && project.hasProperty("changelog")) {
+    curse {
+        apiKey = project.curseforge_key
+        projectId = "74610" // my project url is http://minecraft.curseforge.com/mc-mods/74610-evilcraft/
+        changelog = new File(project.changelog).text
+        releaseType = "beta"
+    }
 }
 
 configurations {
