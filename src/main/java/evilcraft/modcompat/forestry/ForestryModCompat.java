@@ -58,5 +58,15 @@ public class ForestryModCompat implements IModCompat {
 	        ForestryRecipeManager.register();
     	}
     }
+    
+    @Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	@Override
+	public String getComment() {
+		return "Multifarm, squeezer and backpack support.";
+	}
 
 }

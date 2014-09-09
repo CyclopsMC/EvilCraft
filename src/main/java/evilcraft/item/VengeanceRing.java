@@ -28,6 +28,7 @@ import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.entity.monster.VengeanceSpirit;
+import evilcraft.modcompat.baubles.BaublesModCompat;
 
 /**
  * Ring that can enable sight into the vengeance spirit realm.
@@ -197,7 +198,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	@Optional.Method(modid = Reference.MOD_BAUBLES)
 	@Override
 	public boolean canEquip(ItemStack itemStack, EntityLivingBase entity) {
-		return true;
+		return BaublesModCompat.canUse();
 	}
 
 	@Optional.Method(modid = Reference.MOD_BAUBLES)
@@ -227,7 +228,9 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	@Optional.Method(modid = Reference.MOD_BAUBLES)
 	@Override
 	public void onWornTick(ItemStack itemStack, EntityLivingBase entity) {
-		this.onUpdate(itemStack, entity.worldObj, entity, 0, false);
+		if(BaublesModCompat.canUse()) {
+			this.onUpdate(itemStack, entity.worldObj, entity, 0, false);
+		}
 	}
 
 }

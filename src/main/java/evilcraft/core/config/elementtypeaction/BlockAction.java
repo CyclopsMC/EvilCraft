@@ -13,7 +13,6 @@ import evilcraft.core.config.ElementType;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGui;
 import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.modcompat.buildcraft.BuildcraftHelper;
 import evilcraft.modcompat.fmp.ForgeMultipartHelper;
 
 /**
@@ -76,7 +75,6 @@ public class BlockAction extends IElementTypeAction<BlockConfig> {
         
         // Register third-party mod block parts.
         if(eConfig.isMultipartEnabled()) {
-            BuildcraftHelper.registerFacade(eConfig);
             ForgeMultipartHelper.registerMicroblock(eConfig);
         }
     }

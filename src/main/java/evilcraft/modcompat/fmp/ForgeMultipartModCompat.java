@@ -22,5 +22,15 @@ public class ForgeMultipartModCompat implements IModCompat {
         	ForgeMultipart.actualRegisterBlocks();
         }
     }
+    
+    @Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	@Override
+	public String getComment() {
+		return "Multipart and microblock support.";
+	}
 
 }

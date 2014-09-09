@@ -24,4 +24,14 @@ public class WailaModCompat implements IModCompat {
     	}
     }
 
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	@Override
+	public String getComment() {
+		return "WAILA tooltips on machines.";
+	}
+
 }

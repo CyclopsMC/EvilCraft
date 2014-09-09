@@ -25,5 +25,15 @@ public class TConstructModCompat implements IModCompat {
     			register(new TConstructToolRepairTickAction());
     	}
     }
+    
+    @Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	@Override
+	public String getComment() {
+		return "Blood chest repair support for tinker tools.";
+	}
 
 }

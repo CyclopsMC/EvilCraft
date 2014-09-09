@@ -167,5 +167,15 @@ public class ThermalExpansionModCompat implements IModCompat {
             FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", fill);
         }
     }
+    
+    @Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	@Override
+	public String getComment() {
+		return "Sawmill, Pulverizer, Magma Crucible and Fluid Transposer recipes.";
+	}
 
 }

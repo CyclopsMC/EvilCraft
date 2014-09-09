@@ -21,4 +21,14 @@ public interface IModCompat extends IInitListener {
      */
     public String getModID();
     
+    /**
+     * @return If this mod compat is enabled by default.
+     */
+    public boolean isEnabled();
+    
+    /**
+     * @return The comment of this mod compat in the config file.
+     */
+    public String getComment();
+    
 }
