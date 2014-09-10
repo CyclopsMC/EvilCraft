@@ -34,7 +34,7 @@ public abstract class ConfigurableItemPickaxe extends ItemPickaxe implements Con
     /**
      * Make a new bucket instance.
      * @param eConfig Config for this block.
-     * @param blockID The fluid block ID it can pick up.
+     * @param material The material of the tool.
      */
     @SuppressWarnings({ "rawtypes" })
     protected ConfigurableItemPickaxe(ExtendedConfig eConfig, Item.ToolMaterial material) {

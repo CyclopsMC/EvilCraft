@@ -34,7 +34,7 @@ public abstract class ConfigurableItemSword extends ItemSword implements Configu
     /**
      * Make a new bucket instance.
      * @param eConfig Config for this block.
-     * @param blockID The fluid block ID it can pick up.
+     * @param material The material of the tool.
      */
     @SuppressWarnings({ "rawtypes" })
     protected ConfigurableItemSword(ExtendedConfig eConfig, Item.ToolMaterial material) {

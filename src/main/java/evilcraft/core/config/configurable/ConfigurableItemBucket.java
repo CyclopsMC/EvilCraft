@@ -35,7 +35,7 @@ public abstract class ConfigurableItemBucket extends ItemBucket implements Confi
     /**
      * Make a new bucket instance.
      * @param eConfig Config for this block.
-     * @param blockID The fluid block ID it can pick up.
+     * @param block The fluid block it can pick up.
      */
     @SuppressWarnings({ "rawtypes" })
     protected ConfigurableItemBucket(ExtendedConfig eConfig, Block block) {
