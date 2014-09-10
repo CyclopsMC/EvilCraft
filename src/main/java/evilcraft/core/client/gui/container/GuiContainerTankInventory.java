@@ -8,7 +8,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.lwjgl.opengl.GL11;
@@ -16,7 +15,6 @@ import org.lwjgl.opengl.GL12;
 
 import evilcraft.Reference;
 import evilcraft.core.fluid.SingleUseTank;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 
 /**
@@ -171,8 +169,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     protected void drawTooltips(int mouseX, int mouseY) {
         if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
             SingleUseTank tank = tile.getTank();
-            String fluidName = L10NHelpers.localize("fluid.fluids."
-            		+ FluidRegistry.getFluidName(tank.getFluid()));
+            String fluidName = tank.getFluid().getLocalizedName();
             drawBarTooltipTank(fluidName, "mB", tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
         }
     }

@@ -23,6 +23,8 @@ import evilcraft.event.TextureStitchEventHook;
  */
 public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic implements IConfigurable, IEntityDropParticleFXBlock{
     
+	private Fluid fluid;
+	
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
     
@@ -45,6 +47,7 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
         this.setBlockName(eConfig.getUnlocalizedName());
         fluid.setBlock(this);
         TextureStitchEventHook.fluidMap.put(fluid, this);
+        this.fluid = fluid;
     }
 
     private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
@@ -60,6 +63,7 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         this.icon = new IIcon[] { iconRegister.registerIcon(getTextureName()+"_still"), iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.getNamedId()+"_flow") };
+        fluid.setIcons(icon[0], icon[1]);
     }
     
     @Override

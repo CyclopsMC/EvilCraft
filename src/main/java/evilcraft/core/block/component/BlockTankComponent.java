@@ -52,15 +52,16 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
         if(tile != null) {
             if(itemStack != null) {
             	FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
-                if(fluidStack != null &&
-                        (tile.getTank().getAcceptedFluid() == null
+                if(fluidStack != null) { // Fill the tank.
+                	if((tile.getTank().getAcceptedFluid() == null
                         || tile.getTank().canTankAccept(fluidStack.getFluid())
-                        || tile.getTank().getFluidType() == null) && tile.getTank().canCompletelyFill(fluidStack)) { // Fill the tank.
-                    tile.fill(fluidStack, true);
-                    if(!player.capabilities.isCreativeMode) {
-                    	ItemStack drainedItem = FluidContainerRegistry.drainFluidContainer(itemStack);
-                    	InventoryHelpers.tryReAddToStack(player, itemStack, drainedItem);
-                    }
+                        || tile.getTank().getFluidType() == null) && tile.getTank().canCompletelyFill(fluidStack)) {
+	                    tile.fill(fluidStack, true);
+	                    if(!player.capabilities.isCreativeMode) {
+	                    	ItemStack drainedItem = FluidContainerRegistry.drainFluidContainer(itemStack);
+	                    	InventoryHelpers.tryReAddToStack(player, itemStack, drainedItem);
+	                    }
+                	}
                     return true;
                 } else if(tile.getTank().getFluidAmount() > 0) { // Drain the tank.
                 	ItemStack filledItem = FluidContainerRegistry.fillFluidContainer(tile.getTank().getFluid(), itemStack);
@@ -70,8 +71,8 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
                         if(!player.capabilities.isCreativeMode) {
                         	InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
                         }
+                        return true;
                 	}
-                	return true;
                 }
             }
         }
