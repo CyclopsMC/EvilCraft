@@ -73,8 +73,8 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
     }
     
     @Override
-    public void updateEntity() {
-        super.updateEntity();
+    public void updateTileEntity() {
+        super.updateTileEntity();
         
         // Update tickers.
         if(!worldObj.isRemote) {

@@ -26,7 +26,9 @@ public class TileInvisibleRedstoneBlock extends EvilCraftTileEntity {
     }
     
     @Override
-    public void updateEntity() {
+    public void updateTileEntity() {
+    	super.updateTileEntity();
+    	
         if (worldObj.getTotalWorldTime() - tickCreated >= TICK_DESTRUCTION_THRESHOLD) {
         	worldObj.setBlockToAir(xCoord, yCoord, zCoord);
         	if(RedstoneGrenadeConfig.dropAfterUsage) {

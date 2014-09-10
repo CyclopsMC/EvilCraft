@@ -150,8 +150,8 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     }
     
     @Override
-    public void updateEntity() {
-        super.updateEntity();
+    public void updateTileEntity() {
+        super.updateTileEntity();
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.
         if(worldObj != null

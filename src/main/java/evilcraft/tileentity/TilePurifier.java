@@ -124,7 +124,9 @@ public class TilePurifier extends TankInventoryTileEntity {
     }
     
     @Override
-    public void updateEntity() {
+    public void updateTileEntity() {
+    	super.updateTileEntity();
+    	
         int buckets = getBucketsFloored();
         if(getPurifyItem() != null && buckets > 0) {
             tick++;
@@ -238,8 +240,8 @@ public class TilePurifier extends TankInventoryTileEntity {
     }
     
     @Override
-    public void sendUpdate() {
-        super.sendUpdate();
+    protected void onSendUpdate() {
+        super.onSendUpdate();
         worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBucketsFloored(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     }
     

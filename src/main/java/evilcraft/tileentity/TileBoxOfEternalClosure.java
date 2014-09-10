@@ -74,20 +74,22 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     }
     
     @Override
-    public void updateEntity() {
-        super.updateEntity();
+    public void updateTileEntity() {
+        super.updateTileEntity();
         
         innerRotation++;
         
-        if(getSpiritInstance() == null && !worldObj.isRemote) {
-	        if(targetSpirit != null
+        EntityLivingBase spirit = getSpiritInstance();
+        VengeanceSpirit target = getTargetSpirit();
+        if(spirit == null && !worldObj.isRemote) {
+	        if(target != null
 	        		|| (WorldHelpers.efficientTick(getWorldObj(), TICK_MODULUS, 
 	        				xCoord, yCoord, zCoord) && findNextEntity())) {
 	        	pullEntity();
 	        }
         }
         
-        if(worldObj.isRemote && getTargetSpirit() != null) {
+        if(worldObj.isRemote && target != null) {
         	EvilCraft.proxy.playSound(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
         			"boxBeam", 0.1F + worldObj.rand.nextFloat() * 0.9F,
         			0.1F + worldObj.rand.nextFloat() * 0.9F);
@@ -117,13 +119,14 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     }
     
     private void pullEntity() {
-    	if(getTargetSpirit() != null) {
+    	VengeanceSpirit target = getTargetSpirit();
+    	if(target != null) {
     		double dx = targetSpirit.posX - xCoord - 0.5D;
     		double dy = targetSpirit.posY - yCoord - 0.5D;
     		double dz = targetSpirit.posZ - zCoord - 0.5D;
     		double distance = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
     		
-    		if(getTargetSpirit().isDead || !getTargetSpirit().isFrozen()) {
+    		if(target.isDead || !target.isFrozen()) {
     			setTargetSpirit(null);
     		} else {
 	    		if(distance <= ABSORB_RADIUS) {
@@ -134,9 +137,9 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	    			setTargetSpirit(null);
 	    		} else {
 		    		double strength = (1D / (distance)) / 50D + 0.01D;
-		    		targetSpirit.motionX -= dx * strength;
-		    		targetSpirit.motionY -= dy * strength;
-		    		targetSpirit.motionZ -= dz * strength;
+		    		target.motionX -= dx * strength;
+		    		target.motionY -= dy * strength;
+		    		target.motionZ -= dz * strength;
 	    		}
     		}
     	}

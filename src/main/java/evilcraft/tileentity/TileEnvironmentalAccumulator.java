@@ -157,7 +157,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	}
 	
 	@Override
-	public void updateEntity() {
+	public void updateTileEntity() {
+		super.updateTileEntity();
+		
 	    // Keep ticking if necessary
 	    if (tick > 0)
 	        tick--;
