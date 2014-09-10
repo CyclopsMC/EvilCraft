@@ -57,6 +57,12 @@ public class GeneralConfig extends DummyConfig {
     };
     
     /**
+     * If retro-generation of ores should be enabled. WARNING: This could cause lag if permanently enabled.
+     */
+    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If retro-generation of ores should be enabled. WARNING: This could cause lag if permanently enabled.", isCommandable = true)
+    public static boolean retrogen = false;
+    
+    /**
      * The type of this config.
      */
     public static ElementType TYPE = ElementType.DUMMY;
