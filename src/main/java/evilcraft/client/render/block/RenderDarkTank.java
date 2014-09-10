@@ -82,8 +82,19 @@ public class RenderDarkTank implements ISimpleBlockRenderingHandler {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
             Block block, int modelId, RenderBlocks renderer) {
-    	// TODO: disable culling
+    	// We render the block two times, but with swapped render block bounds, so it will render the backside as well.
+    	// Disabling CULL_FACE does not work since the renderer doesn't render immediately, because of that other renderers might
+    	// disable CULL_FACE again later.
+    	
+    	// Render like normal
+    	block.setBlockBoundsForItemRender();
+        renderer.setRenderBoundsFromBlock(block);
     	renderer.renderStandardBlock(block, x, y, z);
+    	
+    	// Render opposite sides
+    	RenderHelpers.setInvertedRenderBounds(renderer, block);
+		renderer.renderStandardBlock(block, x, y, z);
+		
         return true;
     }
     

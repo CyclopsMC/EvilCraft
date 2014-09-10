@@ -62,7 +62,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGlass);
-        this.setBlockBounds(0.125F, 0F, 0.125F, 0.875F, 1F, 0.875F);
+        this.setBlockBounds(0.125F, 0.001F, 0.125F, 0.875F, 0.999F, 0.875F);
     }
     
     @Override

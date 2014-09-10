@@ -136,4 +136,23 @@ public class RenderHelpers {
 	public static int RGBToInt(int r, int g, int b) {
 	    return (int)r << 16 | (int)g << 8 | (int)b;
 	}
+	
+	/**
+	 * Inverts the block bounds for the given block inside the given renderer.
+	 * Useful for rendering the inverted sides of a block (which are normally not rendered) after the normal sides.
+	 * @param renderer The renderer.
+	 * @param block The block.
+	 */
+	public static void setInvertedRenderBounds(RenderBlocks renderer, Block block) {
+		block.setBlockBoundsForItemRender();
+		if(!renderer.lockBlockBounds) { // Code based on RenderBlocks#setRenderBoundsFromBlock
+			renderer.renderMinX = block.getBlockBoundsMaxX();
+			renderer.renderMaxX = block.getBlockBoundsMinX();
+			renderer.renderMinY = block.getBlockBoundsMaxY();
+			renderer.renderMaxY = block.getBlockBoundsMinY();
+			renderer.renderMinZ = block.getBlockBoundsMaxZ();
+			renderer.renderMaxZ = block.getBlockBoundsMinZ();
+			renderer.partialRenderBounds = renderer.minecraftRB.gameSettings.ambientOcclusion >= 2 && (renderer.renderMinX > 0.0D || renderer.renderMaxX < 1.0D || renderer.renderMinY > 0.0D || renderer.renderMaxY < 1.0D || renderer.renderMinZ > 0.0D || renderer.renderMaxZ < 1.0D);
+        }
+	}
 }
