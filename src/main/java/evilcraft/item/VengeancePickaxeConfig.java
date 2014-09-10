@@ -19,13 +19,13 @@ public class VengeancePickaxeConfig extends ItemConfig {
     /**
      * The area of effect in blocks in which this tool could enable vengeance spirits.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The area of effect in blocks in which this tool could enable vengeance spirits.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The area of effect in blocks in which this tool could enable vengeance spirits.", isCommandable = true)
     public static int areaOfEffect = 5;
     
     /**
      * The ^-1 chance for which vengeance spirits could be toggled.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The ^-1 chance for which vengeance spirits could be toggled.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The ^-1 chance for which vengeance spirits could be toggled.", isCommandable = true)
     public static int vengeanceChance = 1;
 
     /**

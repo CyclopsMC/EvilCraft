@@ -21,13 +21,13 @@ public class SpiritFurnaceConfig extends BlockContainerConfig {
     /**
      * How much mB per tick this furnace should consume.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "How much mB per tick this furnace should consume.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "How much mB per tick this furnace should consume.")
     public static int mBPerTick = 5;
     
     /**
      * The required amount of ticks for each HP for cooking an entity.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The required amount of ticks for each HP for cooking an entity.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The required amount of ticks for each HP for cooking an entity.")
     public static int requiredTicksPerHp = 10;
 
     /**

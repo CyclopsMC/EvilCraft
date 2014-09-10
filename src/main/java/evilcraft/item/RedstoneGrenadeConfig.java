@@ -19,7 +19,7 @@ public class RedstoneGrenadeConfig extends ItemConfig {
     /**
      * If the redstone grenade should drop again as an item after it is being thrown.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If the redstone grenade should drop again as an item after it is being thrown.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "If the redstone grenade should drop again as an item after it is being thrown.", isCommandable = true)
     public static boolean dropAfterUsage = false;
     
     /**

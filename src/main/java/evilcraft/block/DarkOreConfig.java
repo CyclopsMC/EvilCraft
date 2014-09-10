@@ -20,22 +20,22 @@ public class DarkOreConfig extends BlockConfig {
     /**
      * The amount of blocks per vein.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "How much ores per vein.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "How much ores per vein.")
     public static int blocksPerVein = 4;
     /**
      * The amount of veins per chunk.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "How many veins per chunk.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "How many veins per chunk.")
     public static int veinsPerChunk = 10;
     /**
      * The start Y for ore spawning.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "Generation starts from this level.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Generation starts from this level.")
     public static int startY = 6;
     /**
      * The end Y for ore spawning.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "Generation ends of this level.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Generation ends of this level.")
     public static int endY = 66;
 
     /**

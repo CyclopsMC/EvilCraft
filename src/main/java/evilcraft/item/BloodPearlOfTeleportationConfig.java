@@ -19,7 +19,7 @@ public class BloodPearlOfTeleportationConfig extends ItemConfig {
     /**
      * The amount of second slowness should be applied after each teleport.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The amount of second slowness should be applied after each teleport.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The amount of second slowness should be applied after each teleport.", isCommandable = true)
     public static int slownessDuration = 0;
 
     /**

@@ -21,7 +21,7 @@ public class NetherfishSpawnConfig extends BlockConfig {
     /**
      * The amount of veins per chunk.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "How many veins per chunk.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "How many veins per chunk.")
     public static int veinsPerChunk = 250;
 
     /**

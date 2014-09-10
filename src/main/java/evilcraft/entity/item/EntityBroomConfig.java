@@ -27,7 +27,7 @@ public class EntityBroomConfig extends EntityConfig {
      * because the code does not handle that. So the position sent by the
      * server will always be an "old" position).
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, isCommandable = true, comment = "Defines the maximum number of blocks the client's broom position can be out of sync with the position sent by the server.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ENTITY, isCommandable = true, comment = "Defines the maximum number of blocks the client's broom position can be out of sync with the position sent by the server.")
     public static double desyncThreshold = 1.0;
     
     /**
@@ -35,7 +35,7 @@ public class EntityBroomConfig extends EntityConfig {
      * the broom at a time once we notice there is a desync between the
      * position on the client and server.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, isCommandable = true, comment = "Defines the maximum number of blocks the client's broom should move when we notice there is a desync between the client's and server's position.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ENTITY, isCommandable = true, comment = "Defines the maximum number of blocks the client's broom should move when we notice there is a desync between the client's and server's position.")
     public static double desyncCorrectionValue = 0.4;
 
     /**

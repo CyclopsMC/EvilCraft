@@ -35,7 +35,7 @@ public class GeneralConfig extends DummyConfig {
     /**
      * If the version checker should be enabled.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If the version checker should be enabled.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "If the version checker should be enabled.")
     public static boolean versionChecker = true;
     
     /**
@@ -70,7 +70,7 @@ public class GeneralConfig extends DummyConfig {
     /**
      * If silverfish should spawn in all biomes.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "Spawn extra netherfish blocks in all biomes.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Spawn extra netherfish blocks in all biomes.")
     public static boolean extraSilverfish = false;
     
     /**
@@ -118,7 +118,7 @@ public class GeneralConfig extends DummyConfig {
      * Create a new instance.
      */
     public GeneralConfig() {
-        super(true, "info", null, GeneralConfig.class);
+        super(true, "general", null, GeneralConfig.class);
     }
     
     @Override

@@ -29,10 +29,6 @@ public enum ConfigurableTypeCategory {
      */
     GENERAL("general"),
     /**
-     * Ore generation category.
-     */
-    OREGENERATION("oregeneration"),
-    /**
      * World generation category.
      */
     WORLDGENERATION("worldgeneration"),
@@ -52,6 +48,10 @@ public enum ConfigurableTypeCategory {
      * Degradation Effect category.
      */
     DEGRADATIONEFFECT("degradation effect"),
+    /**
+     * Machine category.
+     */
+    MACHINE("machine"),
     
     /**
      * Category with core settings.
@@ -62,8 +62,8 @@ public enum ConfigurableTypeCategory {
      * All the categories.
      */
     public static ConfigurableTypeCategory[] CATEGORIES = new ConfigurableTypeCategory[]{ITEM, BLOCK,
-    	FLUID, ENTITY, GENERAL, OREGENERATION, WORLDGENERATION, ENCHANTMENT, MOB, BIOME,
-    	DEGRADATIONEFFECT};
+    	FLUID, ENTITY, GENERAL, WORLDGENERATION, ENCHANTMENT, MOB, BIOME,
+    	DEGRADATIONEFFECT, MACHINE};
     
     private String name;
     

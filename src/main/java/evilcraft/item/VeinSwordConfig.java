@@ -19,7 +19,7 @@ public class VeinSwordConfig extends ItemConfig {
     /**
      * The multiply boost this sword has on the blood that is obtained.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The multiply boost this sword has on the blood that is obtained.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The multiply boost this sword has on the blood that is obtained.", isCommandable = true)
     public static double extractionBoost = 2.0;
 
     /**

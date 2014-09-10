@@ -33,25 +33,25 @@ public class BloodChestConfig extends BlockContainerConfig {
     /**
      * If the Blood Chest should add random bad enchants.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If the Blood Chest should add random bad enchants with a small chance to repairing items.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "If the Blood Chest should add random bad enchants with a small chance to repairing items.", isCommandable = true)
     public static boolean addRandomBadEnchants = true;
     
     /**
      * The amount Blood mB required for repairing one damage value.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The amount Blood mB required for repairing one damage value.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The amount Blood mB required for repairing one damage value.", isCommandable = true)
     public static int mBPerDamage = 5;
     
     /**
      * The amount of ticks required for repairing one damage value.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The amount of ticks required for repairing one damage value.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The amount of ticks required for repairing one damage value.", isCommandable = true)
     public static int ticksPerDamage = 2;
     
     /**
      * If the Blood Chest should be able to repair tools from Tinkers' Construct (if that mod is available).
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If the Blood Chest should be able to repair tools from Tinkers' Construct", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "If the Blood Chest should be able to repair tools from Tinkers' Construct", isCommandable = true)
     public static boolean repairTConstructTools = true;
 
     /**

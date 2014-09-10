@@ -19,7 +19,7 @@ public class KineticatorConfig extends ItemConfig {
     /**
      * If the Kineticator should also attract XP orbs.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If the Kineticator should also attract XP orbs.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "If the Kineticator should also attract XP orbs.", isCommandable = true)
     public static boolean moveXP = true;
 
     /**

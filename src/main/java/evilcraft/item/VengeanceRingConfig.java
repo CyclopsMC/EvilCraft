@@ -19,7 +19,7 @@ public class VengeanceRingConfig extends ItemConfig {
     /**
      * The area of effect in # blocks of this ring.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The area of effect in # blocks of this ring.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The area of effect in # blocks of this ring.", isCommandable = true)
     public static int areaOfEffect = 10;
 
     /**
