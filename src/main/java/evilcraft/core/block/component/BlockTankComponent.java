@@ -2,8 +2,6 @@ package evilcraft.core.block.component;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -11,9 +9,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import evilcraft.core.block.IBlockTank;
+import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.item.DamageIndicatedItemComponent;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
-import evilcraft.item.BucketBlood;
 
 /**
  * Component for block tanks.
@@ -49,31 +47,31 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 	public boolean onBlockActivatedTank(World world, int x, int y, int z,
 			EntityPlayer player, int side, float motionX, float motionY,
 			float motionZ) {
-		if(world.isRemote) {
-            return true;
-        } else {
-            ItemStack itemStack = player.inventory.getCurrentItem();
-            TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(x, y, z);
-            if(tile != null) {
-                if(itemStack != null && itemStack.getItem() instanceof ItemBucket) {
-                	FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
-                	
-                    if(fluidStack != null &&
-                            (tile.getTank().getAcceptedFluid() == null
-                            || tile.getTank().canTankAccept(fluidStack.getFluid())
-                            || tile.getTank().getFluidType() == null) && tile.getTank().canCompletelyFill(fluidStack)) {
-                        tile.fill(fluidStack, true);
-                        if (!player.capabilities.isCreativeMode) {
-                            player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.bucket));
-                        }
-                        return true;
-                    } else if(itemStack.getItem() == Items.bucket && tile.getTank().getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME) {
-                        tile.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                        if (!player.capabilities.isCreativeMode) {
-                            player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(BucketBlood.getInstance()));
-                        }
-                        return true;
+        ItemStack itemStack = player.inventory.getCurrentItem();
+        TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(x, y, z);
+        if(tile != null) {
+            if(itemStack != null) {
+            	FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
+                if(fluidStack != null &&
+                        (tile.getTank().getAcceptedFluid() == null
+                        || tile.getTank().canTankAccept(fluidStack.getFluid())
+                        || tile.getTank().getFluidType() == null) && tile.getTank().canCompletelyFill(fluidStack)) { // Fill the tank.
+                    tile.fill(fluidStack, true);
+                    if(!player.capabilities.isCreativeMode) {
+                    	ItemStack drainedItem = FluidContainerRegistry.drainFluidContainer(itemStack);
+                    	InventoryHelpers.tryReAddToStack(player, itemStack, drainedItem);
                     }
+                    return true;
+                } else if(tile.getTank().getFluidAmount() > 0) { // Drain the tank.
+                	ItemStack filledItem = FluidContainerRegistry.fillFluidContainer(tile.getTank().getFluid(), itemStack);
+                	FluidStack filledAmount = FluidContainerRegistry.getFluidForFilledItem(filledItem);
+                	if(filledAmount != null) {
+                		tile.drain(filledAmount, true);
+                        if(!player.capabilities.isCreativeMode) {
+                        	InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
+                        }
+                	}
+                	return true;
                 }
             }
         }

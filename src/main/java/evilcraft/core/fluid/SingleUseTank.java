@@ -37,6 +37,9 @@ public class SingleUseTank extends Tank {
 
     @Override
     public int fill(FluidStack resource, boolean doFill) {
+    	if(getFluid() == null && acceptedFluid != null) {
+    		acceptedFluid = null;
+    	}    	
     	int filled = 0;
         if (resource == null) {
         	filled = 0;

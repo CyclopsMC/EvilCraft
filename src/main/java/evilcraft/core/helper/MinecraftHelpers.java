@@ -146,7 +146,7 @@ public class MinecraftHelpers {
 
         if (tile instanceof IInventory && !world.isRemote) {
             dropItems(world, (IInventory) tile, x, y, z);
-            InventorHelpers.clearInventory((IInventory) tile);
+            InventoryHelpers.clearInventory((IInventory) tile);
         }
         
         if (tile instanceof EvilCraftTileEntity && saveNBT) {
