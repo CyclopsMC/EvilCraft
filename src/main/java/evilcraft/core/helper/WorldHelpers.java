@@ -67,7 +67,7 @@ public class WorldHelpers {
 		if(mod == 0) mod = 1;
 		int offset = 0;
 		for(int param : params) offset += param;
-		return world.rand.nextInt(mod) == offset % mod;
+		return world.rand.nextInt(mod) == Math.abs(offset) % mod;
 	}
 	
 	/**
