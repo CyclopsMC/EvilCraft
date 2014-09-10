@@ -1,8 +1,8 @@
 package evilcraft.block;
 import net.minecraft.block.material.Material;
-import evilcraft.core.config.BlockConfig;
-import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableBlockSapling;
+import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * Sapling for the Undead Tree.

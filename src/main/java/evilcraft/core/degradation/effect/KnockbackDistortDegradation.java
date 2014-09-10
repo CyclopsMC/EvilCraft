@@ -5,9 +5,9 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import evilcraft.api.ILocation;
 import evilcraft.api.degradation.IDegradable;
-import evilcraft.core.config.DegradationEffectConfig;
-import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
+import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.MaceOfDistortion;
 
 /**

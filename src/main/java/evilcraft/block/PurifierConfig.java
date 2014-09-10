@@ -2,7 +2,7 @@ package evilcraft.block;
 
 import evilcraft.client.render.block.RenderPurifier;
 import evilcraft.client.render.tileentity.RenderTileEntityPurifier;
-import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TilePurifier;
@@ -12,7 +12,7 @@ import evilcraft.tileentity.TilePurifier;
  * @author rubensworks
  *
  */
-public class PurifierConfig extends BlockConfig {
+public class PurifierConfig extends BlockContainerConfig {
     
     /**
      * The unique instance.

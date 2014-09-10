@@ -1,9 +1,9 @@
 package evilcraft.fluid;
 
 import net.minecraftforge.fluids.Fluid;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.FluidConfig;
 import evilcraft.core.config.configurable.ConfigurableFluid;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.FluidConfig;
 
 /**
  * The blood {@link Fluid}.

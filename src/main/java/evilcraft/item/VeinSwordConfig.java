@@ -1,8 +1,8 @@
 package evilcraft.item;
 
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.ItemConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link VeinSword}.
@@ -19,7 +19,7 @@ public class VeinSwordConfig extends ItemConfig {
     /**
      * The multiply boost this sword has on the blood that is obtained.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The multiply boost this sword has on the blood that is obtained.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The multiply boost this sword has on the blood that is obtained.", isCommandable = true)
     public static double extractionBoost = 2.0;
 
     /**

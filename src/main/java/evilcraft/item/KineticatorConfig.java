@@ -1,8 +1,8 @@
 package evilcraft.item;
 
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.ItemConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link Kineticator}.
@@ -19,7 +19,7 @@ public class KineticatorConfig extends ItemConfig {
     /**
      * If the Kineticator should also attract XP orbs.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If the Kineticator should also attract XP orbs.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If the Kineticator should also attract XP orbs.")
     public static boolean moveXP = true;
 
     /**

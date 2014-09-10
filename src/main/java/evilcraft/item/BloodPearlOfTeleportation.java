@@ -3,9 +3,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.ItemConfig;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.entity.item.EntityBloodPearl;
 import evilcraft.fluid.Blood;
 

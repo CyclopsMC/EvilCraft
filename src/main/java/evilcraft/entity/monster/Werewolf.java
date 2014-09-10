@@ -21,9 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import evilcraft.Configs;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.entity.villager.WerewolfVillagerConfig;
 import evilcraft.item.WerewolfBone;
@@ -36,14 +34,7 @@ import evilcraft.item.WerewolfFurConfig;
  * @author rubensworks
  *
  */
-public class Werewolf extends EntityMob implements Configurable{
-    
-    protected ExtendedConfig<?> eConfig = null;
-    
-    /**
-     * The type for this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.MOB;
+public class Werewolf extends EntityMob implements IConfigurable{
     
     private NBTTagCompound villagerNBTTagCompound = new NBTTagCompound();
     private boolean fromVillager = false;
@@ -51,12 +42,6 @@ public class Werewolf extends EntityMob implements Configurable{
     private static int BARKCHANCE = 1000;
     private static int BARKLENGTH = 40;
     private static int barkprogress = -1;
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
-        this.eConfig = eConfig;
-    }
 
     /**
      * Make a new instance.
@@ -79,7 +64,7 @@ public class Werewolf extends EntityMob implements Configurable{
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
     
         // This sets the default villager profession ID.
-        this.villagerNBTTagCompound.setInteger("Profession", WerewolfVillagerConfig._instance.ID);
+        this.villagerNBTTagCompound.setInteger("Profession", WerewolfVillagerConfig._instance.getId());
     }
     
     @Override
@@ -136,7 +121,7 @@ public class Werewolf extends EntityMob implements Configurable{
      */
     public void replaceWithVillager() {
         if(Configs.isEnabled(WerewolfVillagerConfig.class)) {
-            EntityVillager villager = new EntityVillager(this.worldObj, WerewolfVillagerConfig._instance.ID);
+            EntityVillager villager = new EntityVillager(this.worldObj, WerewolfVillagerConfig._instance.getId());
             replaceEntity(this, villager, this.worldObj);
             villager.readEntityFromNBT(villagerNBTTagCompound);
         }
@@ -255,16 +240,6 @@ public class Werewolf extends EntityMob implements Configurable{
      */
     public void setFromVillager(boolean fromVillager) {
         this.fromVillager = fromVillager;
-    }
-
-    @Override
-    public String getUniqueName() {
-        return "entity."+eConfig.NAMEDID+".name";
-    }
-
-    @Override
-    public boolean isEntity() {
-        return true;
     }
 
 }

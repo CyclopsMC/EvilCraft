@@ -12,32 +12,17 @@ import net.minecraft.world.World;
 import evilcraft.Configs;
 import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
 
 /**
  * A silverfish for the nether.
  * @author rubensworks
  *
  */
-public class Netherfish extends EntitySilverfish implements Configurable{
-    
-    protected ExtendedConfig<?> eConfig = null;
-    
-    /**
-     * The type for this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.MOB;
+public class Netherfish extends EntitySilverfish implements IConfigurable{
     
     private static final int MAX_FIRE_DURATION = 3;
     private static final double FIRE_CHANCE = 0.5;
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
-        this.eConfig = eConfig;
-    }
 
     /**
      * Make a new instance.
@@ -52,16 +37,6 @@ public class Netherfish extends EntitySilverfish implements Configurable{
     @Override
     protected Item getDropItem() {
         return Items.gunpowder;
-    }
-
-    @Override
-    public String getUniqueName() {
-        return "entity."+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return true;
     }
     
     @Override

@@ -4,9 +4,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.ItemConfig;
 import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * Abstract grenade class.

@@ -13,9 +13,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.item.BloodPearlOfTeleportation;
 import evilcraft.item.BloodPearlOfTeleportationConfig;
 
@@ -24,20 +22,7 @@ import evilcraft.item.BloodPearlOfTeleportationConfig;
  * @author rubensworks
  *
  */
-public class EntityBloodPearl extends EntityThrowable implements Configurable{
-    
-    protected ExtendedConfig<?> eConfig = null;
-    
-    /**
-     * The type for this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.ENTITY;
-
-    @Override
-    @SuppressWarnings("rawtypes")
-    public void setConfig(ExtendedConfig eConfig) {
-        this.eConfig = eConfig;
-    }
+public class EntityBloodPearl extends EntityThrowable implements IConfigurable{
     
     /**
      * Make a new instance in the given world.
@@ -66,16 +51,6 @@ public class EntityBloodPearl extends EntityThrowable implements Configurable{
     @SideOnly(Side.CLIENT)
     public EntityBloodPearl(World world, double x, double y, double z) {
         super(world, x, y, z);
-    }
-
-    @Override
-    public String getUniqueName() {
-        return "entities.item."+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return true;
     }
 
     @Override

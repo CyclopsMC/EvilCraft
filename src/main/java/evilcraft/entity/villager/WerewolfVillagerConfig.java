@@ -1,9 +1,9 @@
 package evilcraft.entity.villager;
 
 import evilcraft.Reference;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.VillagerConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.VillagerConfig;
 
 /**
  * Config for the {@link WerewolfVillager}.
@@ -20,13 +20,13 @@ public class WerewolfVillagerConfig extends VillagerConfig {
     /**
      * Should the Netherfish be enabled?
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Werewolf villager be enabled?", requiresMcRestart = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "Should the Werewolf villager be enabled?", requiresMcRestart = true)
     public static boolean isEnabled = true;
     
     /**
      * The id of the Werewolf villager
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "The id of the Werewolf villager.", requiresWorldRestart = true, requiresMcRestart = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "The id of the Werewolf villager.", requiresWorldRestart = true, requiresMcRestart = true)
     public static int villagerID = Reference.VILLAGER_WEREWOLF;
 
     /**
@@ -49,7 +49,7 @@ public class WerewolfVillagerConfig extends VillagerConfig {
     @Override
     public void save() {
     	// Make sure the configured ID is set before we need it.
-    	this.ID = villagerID;
+    	this.setId(villagerID);
     	super.save();
     }
     

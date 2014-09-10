@@ -1,9 +1,9 @@
 package evilcraft.block;
 
 import net.minecraft.item.ItemBlock;
-import evilcraft.core.config.BlockConfig;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.item.ExcrementPileItemBlock;
 
 /**
@@ -21,13 +21,13 @@ public class ExcrementPileConfig extends BlockConfig {
     /**
      * If Excrement can also poison any mob next to players.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If Excrement can also poison any mob next to players.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If Excrement can also poison any mob next to players.", isCommandable = true)
     public static boolean poisonEntities = false;
     
     /**
      * The relative effectiveness when compared to bonemeal if shift right click using.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The relative effectiveness when compared to bonemeal if shift right click using.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The relative effectiveness when compared to bonemeal if shift right click using.", isCommandable = true)
     public static int effectiveness = 3;
 
     /**

@@ -166,7 +166,7 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
     
     @Override
     public String getOverlayIdentifier() {
-        return EnvironmentalAccumulatorConfig._instance.NAMEDID;
+        return EnvironmentalAccumulatorConfig._instance.getNamedId();
     }
 
     @Override

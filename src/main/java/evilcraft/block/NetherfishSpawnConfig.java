@@ -1,9 +1,9 @@
 package evilcraft.block;
 
 import net.minecraft.item.ItemBlock;
-import evilcraft.core.config.BlockConfig;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.item.ItemBlockMetadata;
 
 /**
@@ -21,7 +21,7 @@ public class NetherfishSpawnConfig extends BlockConfig {
     /**
      * The amount of veins per chunk.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.OREGENERATION, comment = "How many veins per chunk.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "How many veins per chunk.")
     public static int veinsPerChunk = 250;
 
     /**

@@ -12,7 +12,7 @@ import evilcraft.core.DirectionCorner;
 import evilcraft.core.client.render.block.ConnectableIcon;
 import evilcraft.core.client.render.block.CustomRenderBlocks;
 import evilcraft.core.client.render.block.MultiPassBlockRenderer;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.RenderHelpers;
 

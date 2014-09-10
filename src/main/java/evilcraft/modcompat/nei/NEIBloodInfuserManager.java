@@ -140,7 +140,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     
     @Override
     public String getOverlayIdentifier() {
-        return BloodInfuserConfig._instance.NAMEDID;
+        return BloodInfuserConfig._instance.getNamedId();
     }
     
     @Override

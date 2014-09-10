@@ -12,7 +12,7 @@ import evilcraft.Reference;
 import evilcraft.client.render.item.RenderItemBoxOfEternalClosure;
 import evilcraft.client.render.model.ModelBoxOfEternalClosure;
 import evilcraft.client.render.tileentity.RenderTileEntityBoxOfEternalClosure;
-import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
@@ -24,7 +24,7 @@ import evilcraft.tileentity.TileBoxOfEternalClosure;
  * @author rubensworks
  *
  */
-public class BoxOfEternalClosureConfig extends BlockConfig {
+public class BoxOfEternalClosureConfig extends BlockContainerConfig {
     
     /**
      * The unique instance.

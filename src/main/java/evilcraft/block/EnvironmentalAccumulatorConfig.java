@@ -2,9 +2,9 @@ package evilcraft.block;
 
 import evilcraft.client.render.block.RenderEnvironmentalAccumulator;
 import evilcraft.client.render.tileentity.RenderTileEntityEnvironmentalAccumulator;
-import evilcraft.core.config.BlockConfig;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileEnvironmentalAccumulator;
@@ -14,7 +14,7 @@ import evilcraft.tileentity.TileEnvironmentalAccumulator;
  * @author rubensworks
  *
  */
-public class EnvironmentalAccumulatorConfig extends BlockConfig {
+public class EnvironmentalAccumulatorConfig extends BlockContainerConfig {
 
     /**
      * The unique instance.
@@ -24,21 +24,21 @@ public class EnvironmentalAccumulatorConfig extends BlockConfig {
 	/**
 	 * The cooldown tick for accumulating the weather.
 	 */
-	@ConfigurableProperty(category = ElementTypeCategory.GENERAL, isCommandable = true, comment = "Sets the default amount of ticks the environmental accumulator takes to cool down")
+	@ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, isCommandable = true, comment = "Sets the default amount of ticks the environmental accumulator takes to cool down")
 	public static int defaultTickCooldown = MinecraftHelpers.MINECRAFT_DAY / 2;
 	
 	/**
 	 * The default number of ticks it takes to process
 	 * an item.
 	 */
-	@ConfigurableProperty(category = ElementTypeCategory.GENERAL, isCommandable = true, comment = "Sets the default amount of ticks the environmental accumulator takes to process an item.")
+	@ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, isCommandable = true, comment = "Sets the default amount of ticks the environmental accumulator takes to process an item.")
 	public static int defaultProcessItemTickCount = 100;
 	
 	/**
 	 * Default speed with which an item will move
 	 * when being processed by an environmental accumulator.
 	 */
-	@ConfigurableProperty(category = ElementTypeCategory.GENERAL, isCommandable = true, comment = "Sets the default default speed in increments per tick with which an item will move when being process by an environmental accumulator.")
+	@ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, isCommandable = true, comment = "Sets the default default speed in increments per tick with which an item will move when being process by an environmental accumulator.")
 	public static double defaultProcessItemSpeed = 0.3d / 20;
 	
 	/**

@@ -14,8 +14,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.world.gen.WorldGeneratorUndeadTree;
 
 /**
@@ -23,15 +22,10 @@ import evilcraft.world.gen.WorldGeneratorUndeadTree;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockSapling extends BlockSapling implements Configurable{
+public abstract class ConfigurableBlockSapling extends BlockSapling implements IConfigurable{
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.BLOCK;
 
     private WorldGeneratorUndeadTree treeGenerator;
 
@@ -43,28 +37,17 @@ public abstract class ConfigurableBlockSapling extends BlockSapling implements C
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockSapling(ExtendedConfig eConfig, Material material) {
         this.setConfig(eConfig);
-        this.setBlockName(this.getUniqueName());
+        this.setBlockName(eConfig.getUnlocalizedName());
         treeGenerator = new WorldGeneratorUndeadTree(true, this);
     }
 
-    @Override
-    public void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
+    private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
     @Override
-    public String getUniqueName() {
-        return "blocks."+eConfig.NAMEDID;
-    }
-
-    @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return false;
+        return Reference.MOD_ID+":"+eConfig.getNamedId();
     }
 
     @Override

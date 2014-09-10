@@ -4,9 +4,9 @@ import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.render.entity.RenderVengeanceSpirit;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.MobConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChanged;
 
@@ -25,25 +25,25 @@ public class VengeanceSpiritConfig extends MobConfig {
     /**
      * Should the Vengeance Spirit be enabled?
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Vengeance Spirit be enabled?", requiresMcRestart = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "Should the Vengeance Spirit be enabled?", requiresMcRestart = true)
     public static boolean isEnabled = true;
     
     /**
      * The maximum amount of vengeance spirits naturally spawnable in the spawnLimitArea.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "The maximum amount of vengeance spirits naturally spawnable in the spawnLimitArea.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "The maximum amount of vengeance spirits naturally spawnable in the spawnLimitArea.")
     public static int spawnLimit = 5;
     
     /**
      * The area in which the spawn limit will be checked on each spawn attempt.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "The area in which the spawn limit will be checked on each spawn attempt.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "The area in which the spawn limit will be checked on each spawn attempt.")
     public static int spawnLimitArea = 5;
     
     /**
      * The blacklisted entity spirits, by entity name.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB,
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB,
     		comment = "The blacklisted entity spirits, by entity name.",
     		changedCallback = SpiritBlacklistChanged.class)
     public static String[] entityBlacklist = new String[]{

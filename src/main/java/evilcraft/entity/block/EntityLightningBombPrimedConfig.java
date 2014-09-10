@@ -5,9 +5,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.block.LightningBomb;
 import evilcraft.client.render.block.RenderBombPrimed;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.EntityConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.EntityConfig;
 
 /**
  * Config for {@link EntityLightningBombPrimed}.
@@ -24,7 +24,7 @@ public class EntityLightningBombPrimedConfig extends EntityConfig {
     /**
      * The amount of ticks (on average), this bomb should tick before explosion.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.ENTITY, comment = "The amount of ticks (on average), this bomb should tick before explosion.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ENTITY, comment = "The amount of ticks (on average), this bomb should tick before explosion.")
     public static int fuse = 100;    
 
     /**

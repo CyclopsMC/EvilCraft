@@ -4,9 +4,9 @@ import java.util.Random;
 
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.IDegradationEffect;
-import evilcraft.core.config.DegradationEffectConfig;
-import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
+import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * A {@link IDegradationEffect} that can be executed with a certain chance.

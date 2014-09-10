@@ -1,9 +1,9 @@
 package evilcraft.item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.IFuelHandler;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.ItemConfig;
 import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * A crushed dark gem, apparently the dark gem is purple on the inside!

@@ -1,9 +1,9 @@
 package evilcraft.block;
 
 import evilcraft.Reference;
-import evilcraft.core.config.BlockConfig;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the {@link DarkOre}.
@@ -20,22 +20,22 @@ public class DarkOreConfig extends BlockConfig {
     /**
      * The amount of blocks per vein.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.OREGENERATION, comment = "How much ores per vein.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "How much ores per vein.")
     public static int blocksPerVein = 4;
     /**
      * The amount of veins per chunk.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.OREGENERATION, comment = "How many veins per chunk.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "How many veins per chunk.")
     public static int veinsPerChunk = 10;
     /**
      * The start Y for ore spawning.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.OREGENERATION, comment = "Generation starts from this level.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "Generation starts from this level.")
     public static int startY = 6;
     /**
      * The end Y for ore spawning.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.OREGENERATION, comment = "Generation ends of this level.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "Generation ends of this level.")
     public static int endY = 66;
 
     /**

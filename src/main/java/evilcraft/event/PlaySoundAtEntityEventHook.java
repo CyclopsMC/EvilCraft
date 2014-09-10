@@ -68,7 +68,7 @@ public class PlaySoundAtEntityEventHook {
             EntityVillager villager = (EntityVillager) event.entity;
             if(!world.isRemote
                     && Werewolf.isWerewolfTime(world)
-                    && villager.getProfession() == WerewolfVillagerConfig._instance.ID) {
+                    && villager.getProfession() == WerewolfVillagerConfig._instance.getId()) {
                 Werewolf.replaceVillager(villager);
             }
         }

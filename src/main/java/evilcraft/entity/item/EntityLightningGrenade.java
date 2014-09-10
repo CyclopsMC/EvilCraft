@@ -10,9 +10,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.item.LightningGrenade;
 
@@ -21,20 +19,7 @@ import evilcraft.item.LightningGrenade;
  * @author rubensworks
  *
  */
-public class EntityLightningGrenade extends EntityThrowable implements Configurable{
-    
-    protected ExtendedConfig<?> eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.ENTITY;
-
-    @Override
-    @SuppressWarnings("rawtypes")
-    public void setConfig(ExtendedConfig eConfig) {
-        this.eConfig = eConfig;
-    }
+public class EntityLightningGrenade extends EntityThrowable implements IConfigurable{
     
     /**
      * Make a new instance in the given world.
@@ -63,16 +48,6 @@ public class EntityLightningGrenade extends EntityThrowable implements Configura
     @SideOnly(Side.CLIENT)
     public EntityLightningGrenade(World world, double x, double y, double z) {
         super(world, x, y, z);
-    }
-
-    @Override
-    public String getUniqueName() {
-        return "entities.item."+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return true;
     }
 
     @Override

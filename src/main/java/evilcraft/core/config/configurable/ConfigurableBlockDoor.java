@@ -3,23 +3,17 @@ package evilcraft.core.config.configurable;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
 import evilcraft.Reference;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * Door block that can hold ExtendedConfigs
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockDoor extends BlockDoor implements Configurable{
+public abstract class ConfigurableBlockDoor extends BlockDoor implements IConfigurable{
     
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.BLOCK;
     
     /**
      * Make a new block instance.
@@ -30,28 +24,17 @@ public abstract class ConfigurableBlockDoor extends BlockDoor implements Configu
     public ConfigurableBlockDoor(ExtendedConfig eConfig, Material material) {
         super(material);
         this.setConfig(eConfig);
-        this.setBlockName(this.getUniqueName());
+        this.setBlockName(eConfig.getUnlocalizedName());
     }
 
     @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
     @Override
-    public String getUniqueName() {
-        return "blocks."+eConfig.NAMEDID;
-    }
-    
-    @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.NAMEDID;
-    }
-    
-    @Override
-    public boolean isEntity() {
-        return false;
+        return Reference.MOD_ID+":"+eConfig.getNamedId();
     }
 
 }

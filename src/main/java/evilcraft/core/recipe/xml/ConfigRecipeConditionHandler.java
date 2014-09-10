@@ -1,7 +1,7 @@
 package evilcraft.core.recipe.xml;
 
 import evilcraft.core.config.ConfigHandler;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * Condition handler for checking if configs are enabled.

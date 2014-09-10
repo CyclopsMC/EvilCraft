@@ -1,6 +1,6 @@
 package evilcraft.core.fluid;
 
-import evilcraft.core.config.configurable.propertycallback.IChangedCallback;
+import evilcraft.core.config.IChangedCallback;
 import evilcraft.fluid.Blood;
 
 /**

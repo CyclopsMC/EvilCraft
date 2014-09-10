@@ -1,9 +1,9 @@
 package evilcraft.item;
 
 import evilcraft.block.FluidBlockPoison;
-import evilcraft.core.config.ItemBucketConfig;
 import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.core.config.configurable.ConfigurableFluid;
+import evilcraft.core.config.extendedconfig.ItemBucketConfig;
 import evilcraft.fluid.Poison;
 
 /**

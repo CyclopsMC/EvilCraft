@@ -8,33 +8,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import evilcraft.Configs;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.entity.item.EntityThrowable;
 import evilcraft.item.WeatherContainer;
-import evilcraft.item.WeatherContainerConfig;
 import evilcraft.item.WeatherContainer.WeatherContainerTypes;
+import evilcraft.item.WeatherContainerConfig;
 
 /**
  * Entity for the {@link WeatherContainer}.
  * @author rubensworks
  *
  */
-public class EntityWeatherContainer extends EntityThrowable implements Configurable {
-    
-    protected ExtendedConfig<?> eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.ENTITY;
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
-        this.eConfig = eConfig;
-    }
+public class EntityWeatherContainer extends EntityThrowable implements IConfigurable {
     
     private static final int ITEMSTACK_INDEX = 15;
     
@@ -106,16 +91,6 @@ public class EntityWeatherContainer extends EntityThrowable implements Configura
     protected float func_70183_g() {
         // Offset for the start height at which the entity is thrown
         return 0.0F;
-    }
-
-    @Override
-    public String getUniqueName() {
-        return "entities.item."+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return true;
     }
 
     @Override

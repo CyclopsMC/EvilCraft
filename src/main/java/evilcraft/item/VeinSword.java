@@ -7,9 +7,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.ItemConfig;
 import evilcraft.core.config.configurable.ConfigurableItemSword;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.EnchantmentHelpers;
 
 /**

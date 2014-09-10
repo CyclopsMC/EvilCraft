@@ -6,11 +6,9 @@ import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.block.BoxOfEternalClosureConfig;
 import evilcraft.block.UndeadSapling;
 import evilcraft.block.UndeadSaplingConfig;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.VillagerConfig;
-import evilcraft.core.config.configurable.Configurable;
 import evilcraft.core.config.configurable.ConfigurableVillager;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.VillagerConfig;
 import evilcraft.item.BloodInfusionCore;
 import evilcraft.item.BloodInfusionCoreConfig;
 import evilcraft.item.Blook;
@@ -38,11 +36,6 @@ import evilcraft.item.WerewolfFurConfig;
  *
  */
 public class WerewolfVillager extends ConfigurableVillager{
-    
-    /**
-     * The type for this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.VILLAGER;
     
     /**
      * The unique instance.

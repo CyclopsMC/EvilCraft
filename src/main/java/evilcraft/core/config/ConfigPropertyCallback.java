@@ -2,15 +2,13 @@ package evilcraft.core.config;
 
 import java.lang.reflect.Field;
 
-import evilcraft.core.config.configurable.propertycallback.IChangedCallback;
-
 /**
  * A helper class to contain callbacks for when the config file has been read
  * so that set values can be updated in the config objects.
  * @author rubensworks
  *
  */
-public class ConfigPropertyCallback {
+public final class ConfigPropertyCallback {
 	
 	protected IChangedCallback changedCallback;
 	protected Field field;

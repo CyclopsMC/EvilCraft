@@ -9,8 +9,8 @@ import net.minecraftforge.event.ForgeEventFactory;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import evilcraft.api.ILocation;
 import evilcraft.api.degradation.IDegradable;
-import evilcraft.core.config.DegradationEffectConfig;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.degradation.StochasticDegradationEffect;
 import evilcraft.core.helper.LocationHelpers;
 

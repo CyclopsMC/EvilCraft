@@ -106,7 +106,7 @@ public class TilePurifier extends TankInventoryTileEntity {
      * Make a new instance.
      */
     public TilePurifier() {
-        super(SLOTS, PurifierConfig._instance.NAMEDID, 1, FluidContainerRegistry.BUCKET_VOLUME * MAX_BUCKETS, PurifierConfig._instance.NAMEDID + "tank", FLUID);
+        super(SLOTS, PurifierConfig._instance.getNamedId(), 1, FluidContainerRegistry.BUCKET_VOLUME * MAX_BUCKETS, PurifierConfig._instance.getNamedId() + "tank", FLUID);
         
         List<Integer> slots = new LinkedList<Integer>();
         slots.add(SLOT_BOOK);

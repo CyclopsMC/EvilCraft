@@ -18,9 +18,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import evilcraft.Configs;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.item.PoisonSac;
 import evilcraft.item.PoisonSacConfig;
 
@@ -29,14 +27,7 @@ import evilcraft.item.PoisonSacConfig;
  * @author rubensworks
  *
  */
-public class PoisonousLibelle extends EntityFlying implements Configurable, IMob {
-
-    protected ExtendedConfig<?> eConfig = null;
-
-    /**
-     * The type for this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.MOB;
+public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMob {
     
     private static final int POISON_DURATION = 2;
 
@@ -72,12 +63,6 @@ public class PoisonousLibelle extends EntityFlying implements Configurable, IMob
     private boolean wingGoUp = true;
     
     private static final int MAXHEIGHT = 80;
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
-        this.eConfig = eConfig;
-    }
 
     /**
      * Make a new instance.
@@ -135,16 +120,6 @@ public class PoisonousLibelle extends EntityFlying implements Configurable, IMob
     @Override
     public EnumCreatureAttribute getCreatureAttribute() {
         return EnumCreatureAttribute.ARTHROPOD;
-    }
-
-    @Override
-    public String getUniqueName() {
-        return "entities.monster."+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return true;
     }
 
     @Override

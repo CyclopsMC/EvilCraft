@@ -1,9 +1,9 @@
 package evilcraft;
 
-import evilcraft.core.config.DummyConfig;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableType;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.DummyConfig;
 import evilcraft.core.fluid.BloodFluidConverter.BloodConvertersChanged;
 
 /**
@@ -17,37 +17,37 @@ public class GeneralConfig extends DummyConfig {
      * The current mod version, will be used to check if the player's config isn't out of date and
      * warn the player accordingly.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.CORE, comment = "Config version for " + Reference.MOD_NAME +".\nDO NOT EDIT MANUALLY!")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "Config version for " + Reference.MOD_NAME +".\nDO NOT EDIT MANUALLY!")
     public static String version = Reference.MOD_VERSION;
     
     /**
      * If the debug mode should be enabled. @see Debug
      */
-    @ConfigurableProperty(category = ElementTypeCategory.CORE, comment = "Set 'true' to enable development debug mode. This will result in a lower performance!", requiresMcRestart = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "Set 'true' to enable development debug mode. This will result in a lower performance!", requiresMcRestart = true)
     public static boolean debug = false;
     
     /**
      * If players are able to die without any reason.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "Evil stuff...", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "Evil stuff...", isCommandable = true)
     public static boolean dieWithoutAnyReason = false;
     
     /**
      * If the version checker should be enabled.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If the version checker should be enabled.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If the version checker should be enabled.")
     public static boolean versionChecker = true;
     
     /**
      * Server-side: If farting is enabled on this server; Client-side: If farting can be seen at your client.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "Server-side: If farting is enabled on this server; Client-side: If farting can be seen at your client.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "Server-side: If farting is enabled on this server; Client-side: If farting can be seen at your client.", isCommandable = true)
     public static boolean farting = true;
     
     /**
      * The allowed blood conversions with their ratio.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.FLUID,
+    @ConfigurableProperty(category = ConfigurableTypeCategory.FLUID,
     		comment = "The allowed blood conversions with their ratio. (ratio 2 means that this "
     				+ "fluid is 1mB of this fluid can be converted into 2mB of EvilCraft Blood.",
     		changedCallback = BloodConvertersChanged.class)
@@ -59,42 +59,42 @@ public class GeneralConfig extends DummyConfig {
     /**
      * If retro-generation of ores should be enabled. WARNING: This could cause lag if permanently enabled.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If retro-generation of ores should be enabled. WARNING: This could cause lag if permanently enabled.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If retro-generation of ores should be enabled. WARNING: This could cause lag if permanently enabled.", isCommandable = true)
     public static boolean retrogen = false;
     
     /**
      * The type of this config.
      */
-    public static ElementType TYPE = ElementType.DUMMY;
+    public static ConfigurableType TYPE = ConfigurableType.DUMMY;
     
     /**
      * If silverfish should spawn in all biomes.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.OREGENERATION, comment = "Spawn extra netherfish blocks in all biomes.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.OREGENERATION, comment = "Spawn extra netherfish blocks in all biomes.")
     public static boolean extraSilverfish = false;
     
     /**
      * Rarity of a dark temple spawning.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.WORLDGENERATION, comment = "Chance of a dark temple spawning is equal to 1 divided by this number (the higher this number, the lower the spawn chance).")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Chance of a dark temple spawning is equal to 1 divided by this number (the higher this number, the lower the spawn chance).")
     public static int darkTempleRarity = 100;
     
     /**
      * Minimum height at which a dark temple can spawn.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.WORLDGENERATION, comment = "Minimum block height at which a dark temple can spawn.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Minimum block height at which a dark temple can spawn.")
     public static int darkTempleMinHeight = 75;
     
     /**
      * Maximum height at which a dark temple can spawn.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.WORLDGENERATION, comment = "Maximum block height at which a dark temple can spawn.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Maximum block height at which a dark temple can spawn.")
     public static int darkTempleMaxHeight = 256;
     
     /**
      * Minimal distance between two dark temples.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.WORLDGENERATION, comment = "Minimal distance between two dark temples.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Minimal distance between two dark temples.")
     public static int darkTempleMinDistance = 300;
 
     /**

@@ -3,9 +3,9 @@ package evilcraft.item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.ItemConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.fluid.Blood;
 
 /**
@@ -23,27 +23,27 @@ public class BloodExtractorConfig extends ItemConfig {
     /**
      * The minimum amount of blood (mB) that can be extracted from this block.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The minimum amount of blood (mB) that can be extracted from this block.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The minimum amount of blood (mB) that can be extracted from this block.")
     public static int minMB = 250;
     /**
      * The maximum amount of blood (mB) that can be extracted from this block.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The maximum amount of blood (mB) that can be extracted from this block. IMPORTANT: must be larger than minMB!")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The maximum amount of blood (mB) that can be extracted from this block. IMPORTANT: must be larger than minMB!")
     public static int maxMB = 750;
     /**
      * The minimum multiplier for amount of mB to receive per mob HP.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The minimum multiplier for amount of mB to receive per mob HP.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The minimum multiplier for amount of mB to receive per mob HP.")
     public static double minimumMobMultiplier = 5;
     /**
      * The minimum multiplier for amount of mB to receive per mob HP.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The maximum multiplier for amount of mB to receive per mob HP. IMPORTANT: must be larger than maximumMobMultiplier!")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The maximum multiplier for amount of mB to receive per mob HP. IMPORTANT: must be larger than maximumMobMultiplier!")
     public static double maximumMobMultiplier = 40;
     /**
      * The amount of blood (mB) this container can hold.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The amount of blood (mB) this container can hold.", requiresMcRestart = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The amount of blood (mB) this container can hold.", requiresMcRestart = true)
     public static int containerSize = 5000;
 
     /**

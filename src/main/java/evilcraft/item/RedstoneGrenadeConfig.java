@@ -1,8 +1,8 @@
 package evilcraft.item;
 
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.ItemConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link RedstoneGrenade}.
@@ -19,7 +19,7 @@ public class RedstoneGrenadeConfig extends ItemConfig {
     /**
      * If the redstone grenade should drop again as an item after it is being thrown.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "If the redstone grenade should drop again as an item after it is being thrown.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If the redstone grenade should drop again as an item after it is being thrown.", isCommandable = true)
     public static boolean dropAfterUsage = false;
     
     /**

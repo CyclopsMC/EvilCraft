@@ -1,9 +1,9 @@
 package evilcraft.block;
 
 import net.minecraft.item.ItemBlock;
-import evilcraft.core.config.BlockConfig;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.item.ItemBlockNBT;
 
 /**
@@ -11,7 +11,7 @@ import evilcraft.core.item.ItemBlockNBT;
  * @author rubensworks
  *
  */
-public class SpiritFurnaceConfig extends BlockConfig {
+public class SpiritFurnaceConfig extends BlockContainerConfig {
     
     /**
      * The unique instance.
@@ -21,13 +21,13 @@ public class SpiritFurnaceConfig extends BlockConfig {
     /**
      * How much mB per tick this furnace should consume.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "How much mB per tick this furnace should consume.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "How much mB per tick this furnace should consume.")
     public static int mBPerTick = 5;
     
     /**
      * The required amount of ticks for each HP for cooking an entity.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The required amount of ticks for each HP for cooking an entity.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The required amount of ticks for each HP for cooking an entity.")
     public static int requiredTicksPerHp = 10;
 
     /**

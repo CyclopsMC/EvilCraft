@@ -81,7 +81,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    
 	    degradationExecutor = new DegradationExecutor(this);
 	    
-	    inventory = new SimpleInventory(1, EnvironmentalAccumulatorConfig._instance.NAMEDID, 64);
+	    inventory = new SimpleInventory(1, EnvironmentalAccumulatorConfig._instance.getNamedId(), 64);
 	    
 	    if (MinecraftHelpers.isClientSide()) {
 	        setBeamInnerColor(getInnerColorByState(state));

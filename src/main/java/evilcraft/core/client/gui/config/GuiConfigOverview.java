@@ -13,7 +13,7 @@ import cpw.mods.fml.client.config.GuiConfigEntries.CategoryEntry;
 import cpw.mods.fml.client.config.IConfigElement;
 import evilcraft.Reference;
 import evilcraft.core.config.ConfigHandler;
-import evilcraft.core.config.ElementTypeCategory;
+import evilcraft.core.config.ConfigurableTypeCategory;
 
 /**
  * Overview config screen.
@@ -34,7 +34,7 @@ public class GuiConfigOverview extends GuiConfig {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static List<IConfigElement> getConfigElements() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		for(ElementTypeCategory category : ElementTypeCategory.CATEGORIES) {
+		for(ConfigurableTypeCategory category : ConfigurableTypeCategory.CATEGORIES) {
 			list.add(new DummyCategoryElement(category.toString(),
 					category.toString(), ExtendedCategoryEntry.class));
 		}
@@ -42,13 +42,13 @@ public class GuiConfigOverview extends GuiConfig {
 	}
 	
 	/**
-	 * A category entry for {@link ElementTypeCategory}.
+	 * A category entry for {@link ConfigurableTypeCategory}.
 	 * @author rubensworks
 	 *
 	 */
 	public static class ExtendedCategoryEntry extends CategoryEntry {
 
-		private ElementTypeCategory category;
+		private ConfigurableTypeCategory category;
 		
 		/**
 		 * Make a new instance.
@@ -65,8 +65,8 @@ public class GuiConfigOverview extends GuiConfig {
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
         protected GuiScreen buildChildScreen() {
-			// Cheaty way of getting the current ElementTypeCategory.
-			this.category = ElementTypeCategory.valueOf(configElement
+			// Cheaty way of getting the current ConfigurableTypeCategory.
+			this.category = ConfigurableTypeCategory.valueOf(configElement
 					.getName().replaceAll(" ", "").toUpperCase(Locale.ENGLISH));
 			
 			// Get all the elements inside this category

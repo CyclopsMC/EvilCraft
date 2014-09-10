@@ -8,31 +8,16 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.world.World;
 import evilcraft.block.LightningBomb;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
 
 /**
  * Entity for primed {@link LightningBomb}.
  * @author rubensworks
  *
  */
-public class EntityLightningBombPrimed extends EntityTNTPrimed implements Configurable{
-    
-    protected ExtendedConfig<?> eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.ENTITY;
+public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfigurable{
     
     private static final float EXPLOSION_STRENGTH = 1.0f;
-
-    @Override
-    @SuppressWarnings({ "rawtypes" })
-    public void setConfig(ExtendedConfig eConfig) {
-        this.eConfig = eConfig;
-    }
 
     /**
      * Make a new instance in the given world.
@@ -58,16 +43,6 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements Config
     
     protected void setFuse() {
         this.fuse = EntityLightningBombPrimedConfig.fuse;
-    }
-
-    @Override
-    public String getUniqueName() {
-        return "entities.block."+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return true;
     }
     
     @Override

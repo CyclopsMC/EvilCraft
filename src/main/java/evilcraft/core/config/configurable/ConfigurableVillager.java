@@ -9,23 +9,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.VillagerConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.VillagerConfig;
 
 /**
  * Villager that can hold ExtendedConfigs
  * @author rubensworks
  *
  */
-public class ConfigurableVillager implements Configurable, IVillageTradeHandler {
+public class ConfigurableVillager implements IConfigurable, IVillageTradeHandler {
 
     protected ExtendedConfig<VillagerConfig> eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.VILLAGER;
     
     // The weights of the output - inputs must be less than than maxWeightDifference
     protected List<WeightedItemStack> allowedTradeInputs = new ArrayList<WeightedItemStack>();
@@ -48,25 +42,14 @@ public class ConfigurableVillager implements Configurable, IVillageTradeHandler 
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
-    }
-    
-    @Override
-    public String getUniqueName() {
-        return "villager."+eConfig.NAMEDID;
-    }
-    
-    @Override
-    public boolean isEntity() {
-        return true;
     }
 
     @Override
     public void manipulateTradesForVillager(EntityVillager villager,
             MerchantRecipeList recipeList, Random random) {
-        if (villager.getProfession() == eConfig.downCast().ID) {
+        if (villager.getProfession() == eConfig.downCast().getId()) {
         	addedRecipes = 0;
         	attemptAddRecipe = 0;
             while(addedRecipes < requiredAddedRecipes && attemptAddRecipe < attemptAddRecipeUpperbound) {                

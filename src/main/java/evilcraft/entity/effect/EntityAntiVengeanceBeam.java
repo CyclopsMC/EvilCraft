@@ -17,9 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.EvilCraft;
 import evilcraft.client.particle.EntityBlurFX;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.entity.monster.VengeanceSpirit;
 
 /**
@@ -27,24 +25,12 @@ import evilcraft.entity.monster.VengeanceSpirit;
  * @author rubensworks
  *
  */
-public class EntityAntiVengeanceBeam extends EntityThrowable implements Configurable{
+public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigurable{
 	
 	private static final int MAX_AGE = 20 * 20;
     
-    protected ExtendedConfig<?> eConfig = null;
     private int age = 0;
     private int soundTick = 0;
-    
-    /**
-     * The type for this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.ENTITY;
-
-    @Override
-    @SuppressWarnings("rawtypes")
-    public void setConfig(ExtendedConfig eConfig) {
-        this.eConfig = eConfig;
-    }
     
     /**
      * Make a new instance in the given world.
@@ -81,16 +67,6 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements Configur
     @Override
     protected float getGravityVelocity() {
         return 0.0F;
-    }
-
-    @Override
-    public String getUniqueName() {
-        return "entities.item."+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return true;
     }
     
     @SuppressWarnings("rawtypes")

@@ -9,9 +9,9 @@ import net.minecraft.util.EnumChatFormatting;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.IInformationProvider;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.ItemConfig;
 import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * An inverted {@link PotentiaSphere}.

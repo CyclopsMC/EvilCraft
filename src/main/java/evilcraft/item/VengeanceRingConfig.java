@@ -1,8 +1,8 @@
 package evilcraft.item;
 
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.ItemConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link VengeanceRing}.
@@ -19,7 +19,7 @@ public class VengeanceRingConfig extends ItemConfig {
     /**
      * The area of effect in # blocks of this ring.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The area of effect in # blocks of this ring.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The area of effect in # blocks of this ring.")
     public static int areaOfEffect = 10;
 
     /**

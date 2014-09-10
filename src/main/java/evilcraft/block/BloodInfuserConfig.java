@@ -1,7 +1,7 @@
 package evilcraft.block;
 
 import net.minecraft.item.ItemBlock;
-import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.item.ItemBlockNBT;
 
 /**
@@ -9,7 +9,7 @@ import evilcraft.core.item.ItemBlockNBT;
  * @author rubensworks
  *
  */
-public class BloodInfuserConfig extends BlockConfig {
+public class BloodInfuserConfig extends BlockContainerConfig {
     
     /**
      * The unique instance.
