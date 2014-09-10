@@ -7,7 +7,6 @@ import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
@@ -59,8 +58,6 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     private final int progressHeight = GuiBloodInfuser.PROGRESSHEIGHT;
     
     private float zLevel = 200.0F;
-    
-    private Block factoryBlock = BloodInfuser.getInstance();
     
     private class CachedBloodInfuserRecipe extends CachedRecipe {
         
@@ -140,7 +137,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     
     @Override
     public String getOverlayIdentifier() {
-        return BloodInfuserConfig._instance.NAMEDID;
+        return BloodInfuserConfig._instance.getNamedId();
     }
     
     @Override
@@ -156,7 +153,8 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     private List<CachedBloodInfuserRecipe> getRecipes() {
         List<CachedBloodInfuserRecipe> recipes = new LinkedList<CachedBloodInfuserRecipe>();
 
-        for (IRecipe recipe : BloodInfuser.getInstance().getRecipeRegistry().allRecipes())
+        for (IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe : 
+        	BloodInfuser.getInstance().getRecipeRegistry().allRecipes())
             recipes.add(new CachedBloodInfuserRecipe(recipe));
 
         return recipes;
@@ -190,7 +188,8 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        IRecipe recipe = BloodInfuser.getInstance().getRecipeRegistry().findRecipeByInput(
+        IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = BloodInfuser
+        		.getInstance().getRecipeRegistry().findRecipeByInput(
                 new ItemAndFluidStackRecipeComponent(
                         ingredient,
                         new FluidStack(TileBloodInfuser.ACCEPTED_FLUID, TileBloodInfuser.LIQUID_PER_SLOT))

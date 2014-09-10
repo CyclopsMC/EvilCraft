@@ -6,8 +6,8 @@ import org.lwjgl.opengl.GL11;
 
 import evilcraft.client.render.model.ModelBroom;
 import evilcraft.core.client.render.model.RenderModel;
-import evilcraft.core.config.EntityConfig;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.EntityConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * Renderer for a broom

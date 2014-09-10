@@ -2,9 +2,8 @@ package evilcraft.core.config.configurable;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.EnchantmentConfig;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.EnchantmentConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 
 /**
@@ -12,14 +11,9 @@ import evilcraft.core.helper.L10NHelpers;
  * @author rubensworks
  *
  */
-public class ConfigurableEnchantment extends Enchantment implements Configurable {
+public class ConfigurableEnchantment extends Enchantment implements IConfigurable {
 
     protected ExtendedConfig<EnchantmentConfig> eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.ENCHANTMENT;
     
     /**
      * Make a new Enchantment instance
@@ -31,29 +25,18 @@ public class ConfigurableEnchantment extends Enchantment implements Configurable
             EnumEnchantmentType type) {
         super(eConfig.downCast().ID, weight, type);
         this.setConfig(eConfig);
-        this.setName(this.getUniqueName());
+        this.setName(eConfig.getUnlocalizedName());
         
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
     @Override
-    public String getUniqueName() {
-        return "enchantments."+eConfig.NAMEDID;
-    }
-    
-    @Override
-    public boolean isEntity() {
-        return false;
-    }
-    
-    @Override
     public String getTranslatedName(int level) {
-        String enchantmentName = L10NHelpers.localize("enchantment." + eConfig.downCast().NAMEDID);
+        String enchantmentName = L10NHelpers.localize("enchantment." + eConfig.downCast().getNamedId());
         return enchantmentName + " " + L10NHelpers.localize("enchantment.level." + level);
     }
 

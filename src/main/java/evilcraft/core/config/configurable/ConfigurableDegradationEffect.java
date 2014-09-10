@@ -1,23 +1,17 @@
 package evilcraft.core.config.configurable;
 
 import evilcraft.api.degradation.IDegradationEffect;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
- * Group interface of {@link Configurable} and {@link IDegradationEffect}.
+ * Group interface of {@link IConfigurable} and {@link IDegradationEffect}.
  * @author rubensworks
  *
  */
-public abstract class ConfigurableDegradationEffect implements Configurable, IDegradationEffect {
+public abstract class ConfigurableDegradationEffect implements IConfigurable, IDegradationEffect {
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.DEGRADATIONEFFECT;
 
     /**
      * Make a new Degradation Effect instance
@@ -30,19 +24,8 @@ public abstract class ConfigurableDegradationEffect implements Configurable, IDe
     }
     
     @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
-    }
-    
-    @Override
-    public String getUniqueName() {
-        return "degradationeffects."+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return false;
     }
 
 }

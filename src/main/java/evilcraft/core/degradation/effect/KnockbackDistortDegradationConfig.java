@@ -1,6 +1,6 @@
 package evilcraft.core.degradation.effect;
 
-import evilcraft.core.config.DegradationEffectConfig;
+import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 
 /**
  * Config for {@link KnockbackDistortDegradation}.

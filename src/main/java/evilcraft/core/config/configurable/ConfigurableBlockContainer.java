@@ -21,8 +21,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.item.TileEntityNBTStorage;
@@ -33,15 +32,10 @@ import evilcraft.core.tileentity.EvilCraftTileEntity;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockContainer extends BlockContainer implements Configurable{
+public abstract class ConfigurableBlockContainer extends BlockContainer implements IConfigurable{
     
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.BLOCKCONTAINER;
     
     protected Random random;
     private Class<? extends EvilCraftTileEntity> tileEntity;
@@ -61,7 +55,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     public ConfigurableBlockContainer(ExtendedConfig eConfig, Material material, Class<? extends EvilCraftTileEntity> tileEntity) {
         super(material);
         this.setConfig(eConfig);
-        this.setBlockName(this.getUniqueName());
+        this.setBlockName(eConfig.getUnlocalizedName());
         this.random = new Random();
         this.tileEntity = tileEntity;
         setHardness(5F);
@@ -77,14 +71,8 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     }
 
     @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
-    }
-    
-    @Override
-    public String getUniqueName() {
-        return "blocks."+eConfig.NAMEDID;
     }
     
     /**
@@ -130,12 +118,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     
     @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.NAMEDID;
-    }
-    
-    @Override
-    public boolean isEntity() {
-        return false;
+        return Reference.MOD_ID+":"+eConfig.getNamedId();
     }
     
     @Override
@@ -283,7 +266,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
      * @return The path of the GUI for this block.
      */
     public String getGuiTexture(String suffix) {
-        return Reference.TEXTURE_PATH_GUI + eConfig.NAMEDID + "_gui" + suffix + ".png";
+        return Reference.TEXTURE_PATH_GUI + eConfig.getNamedId() + "_gui" + suffix + ".png";
     }
     
     @Override

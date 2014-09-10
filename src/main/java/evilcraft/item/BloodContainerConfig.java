@@ -3,9 +3,9 @@ package evilcraft.item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.ItemConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.fluid.Blood;
 
 /**
@@ -23,7 +23,7 @@ public class BloodContainerConfig extends ItemConfig {
     /**
      * Base container size in mB that will be multiplied every tier.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The base amount of blood (mB) this container can hold * the level of container.", requiresMcRestart = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The base amount of blood (mB) this container can hold * the level of container.", requiresMcRestart = true)
     public static int containerSizeBase = 5000;
     
     /**

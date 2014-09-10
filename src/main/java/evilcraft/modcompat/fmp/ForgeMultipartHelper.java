@@ -3,7 +3,7 @@ package evilcraft.modcompat.fmp;
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.Loader;
 import evilcraft.Reference;
-import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.extendedconfig.BlockConfig;
 
 /**
  * FMP helper class for registering microblock.

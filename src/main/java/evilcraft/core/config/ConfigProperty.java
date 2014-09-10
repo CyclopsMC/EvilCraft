@@ -8,17 +8,20 @@ import net.minecraftforge.common.config.Property;
 import org.apache.logging.log4j.Level;
 
 import evilcraft.EvilCraft;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * A holder class for properties that go inside the config file.
- * Used inside the {@link ConfigHandler} for configuring the settings of the {@link Configurable}.
+ * Used inside the {@link ConfigHandler} for configuring the settings of the {@link IConfigurable}.
+ * Do no confuse with {@link ConfigurableProperty} which is an annotation an is internally used to
+ * make new instances of {@link ConfigProperty}.
  * @author rubensworks
  *
  */
-public class ConfigProperty {
+public final class ConfigProperty {
     
-    private ElementTypeCategory category;
+    private String category;
     private String name;
     private Object value;
     private String comment;
@@ -38,7 +41,7 @@ public class ConfigProperty {
      * @param isCommandable If this property should be able to be changed at runtime via commands.
      * @param field The field of the {@link ExtendedConfig} this property refers to.
      */
-    public ConfigProperty(ElementTypeCategory category, String name, Object value, String comment, ConfigPropertyCallback callback, boolean isCommandable, Field field) {
+    public ConfigProperty(String category, String name, Object value, String comment, ConfigPropertyCallback callback, boolean isCommandable, Field field) {
         this.category = category;
         this.name = name;
         this.value = value;
@@ -57,7 +60,7 @@ public class ConfigProperty {
      * @param isCommandable If this property should be able to be changed at runtime via commands.
      * @param field The field of the {@link ExtendedConfig} this property refers to.
      */
-    public ConfigProperty(ElementTypeCategory category, String name, Object value, ConfigPropertyCallback callback, boolean isCommandable, Field field) {
+    public ConfigProperty(String category, String name, Object value, ConfigPropertyCallback callback, boolean isCommandable, Field field) {
         this(category, name, value, null, callback, isCommandable, field);
     }
 
@@ -65,7 +68,7 @@ public class ConfigProperty {
      * Get the category.
      * @return The category.
      */
-    public ElementTypeCategory getCategory() {
+    public String getCategory() {
         return category;
     }
 
@@ -73,7 +76,7 @@ public class ConfigProperty {
      * Set the category.
      * @param category The category to set.
      */
-    public void setCategory(ElementTypeCategory category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

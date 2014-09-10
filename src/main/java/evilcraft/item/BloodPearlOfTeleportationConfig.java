@@ -1,8 +1,8 @@
 package evilcraft.item;
 
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.ItemConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link BloodPearlOfTeleportation}.
@@ -19,7 +19,7 @@ public class BloodPearlOfTeleportationConfig extends ItemConfig {
     /**
      * The amount of second slowness should be applied after each teleport.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The amount of second slowness should be applied after each teleport.", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The amount of second slowness should be applied after each teleport.", isCommandable = true)
     public static int slownessDuration = 0;
 
     /**

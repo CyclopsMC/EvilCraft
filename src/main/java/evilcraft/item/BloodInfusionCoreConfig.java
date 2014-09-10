@@ -1,6 +1,6 @@
 package evilcraft.item;
 
-import evilcraft.core.config.ItemConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link BloodInfusionCore}.

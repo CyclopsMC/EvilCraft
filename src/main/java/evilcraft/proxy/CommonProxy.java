@@ -5,6 +5,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.core.BucketHandler;
+import evilcraft.core.world.gen.RetroGenRegistry;
 import evilcraft.event.BonemealEventHook;
 import evilcraft.event.ConfigChangedEventHook;
 import evilcraft.event.EntityStruckByLightningEventHook;
@@ -68,6 +69,7 @@ public class CommonProxy {
      */
     public void registerEventHooks() {
     	MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());
+    	MinecraftForge.EVENT_BUS.register(RetroGenRegistry.getInstance());
         MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());

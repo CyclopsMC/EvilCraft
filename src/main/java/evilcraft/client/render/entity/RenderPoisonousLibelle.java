@@ -3,8 +3,8 @@ package evilcraft.client.render.entity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.EntityLiving;
 import evilcraft.core.client.render.entity.RenderModelLiving;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.MobConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.entity.monster.PoisonousLibelle;
 
 /**

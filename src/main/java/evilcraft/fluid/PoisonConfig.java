@@ -1,6 +1,6 @@
 package evilcraft.fluid;
 
-import evilcraft.core.config.FluidConfig;
+import evilcraft.core.config.extendedconfig.FluidConfig;
 
 /**
  * Config for {@link Poison}.

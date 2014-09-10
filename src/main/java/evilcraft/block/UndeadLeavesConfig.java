@@ -1,7 +1,7 @@
 package evilcraft.block;
 
 import net.minecraft.init.Blocks;
-import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the {@link UndeadLeaves}.

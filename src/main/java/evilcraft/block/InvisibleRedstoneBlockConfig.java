@@ -1,13 +1,13 @@
 package evilcraft.block;
 
-import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 
 /**
  * A config for {@link InvisibleRedstoneBlock}.
  * @author rubensworks
  *
  */
-public class InvisibleRedstoneBlockConfig extends BlockConfig {
+public class InvisibleRedstoneBlockConfig extends BlockContainerConfig {
     
     /**
      * The unique instance.

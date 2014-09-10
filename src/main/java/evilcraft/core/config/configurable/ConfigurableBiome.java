@@ -1,9 +1,8 @@
 package evilcraft.core.config.configurable;
 
 import net.minecraft.world.biome.BiomeGenBase;
-import evilcraft.core.config.BiomeConfig;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.BiomeConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 
 /**
@@ -11,35 +10,24 @@ import evilcraft.core.helper.L10NHelpers;
  * @author rubensworks
  *
  */
-public class ConfigurableBiome extends BiomeGenBase implements Configurable {
+public class ConfigurableBiome extends BiomeGenBase implements IConfigurable {
 
     protected BiomeConfig eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.BIOME;
     
     /**
      * Make a new Biome instance
      * @param eConfig Config for this enchantment.
      */
     protected ConfigurableBiome(BiomeConfig eConfig) {
-        super(eConfig.ID);
+        super(eConfig.getId());
         this.setConfig(eConfig);
         this.setBiomeName(getLocalizedName());
         
     }
     
     @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = (BiomeConfig)eConfig;
-    }
-    
-    @Override
-    public String getUniqueName() {
-        return "biomes."+eConfig.NAMEDID;
     }
     
     /**
@@ -47,12 +35,7 @@ public class ConfigurableBiome extends BiomeGenBase implements Configurable {
      * @return Localized name.
      */
     public String getLocalizedName() {
-        return L10NHelpers.localize("biomes." + eConfig.NAMEDID);
-    }
-    
-    @Override
-    public boolean isEntity() {
-        return false;
+        return L10NHelpers.localize(eConfig.getUnlocalizedName());
     }
 
 }

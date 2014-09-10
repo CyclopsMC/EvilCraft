@@ -62,16 +62,15 @@ public class Reference {
     // MOD ID's
     public static final String MOD_FORGE = "Forge";
     public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
-    public static final String MOD_BUILDCRAFT_TRANSPORT = "BuildCraft|Transport";
     public static final String MOD_WAILA = "Waila";
     public static final String MOD_FMP = "ForgeMultipart";
     public static final String MOD_FORESTRY = "Forestry";
     public static final String MOD_TCONSTRUCT = "TConstruct";
     public static final String MOD_VERSION_CHECKER = "VersionChecker";
     public static final String MOD_BAUBLES = "Baubles";
+    public static final String MOD_NEI = "NotEnoughItems";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "" // This is not required anymore (and never was?) "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"
-            + "after:"+MOD_BUILDCRAFT_TRANSPORT
-            + ";after:"+Reference.MOD_THERMALEXPANSION;
+            + "after:"+Reference.MOD_THERMALEXPANSION;
 }

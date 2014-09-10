@@ -8,9 +8,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.render.entity.RenderPoisonousLibelle;
 import evilcraft.client.render.model.ModelPoisonousLibelle;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.MobConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.RenderHelpers;
 
 /**
@@ -28,13 +28,13 @@ public class PoisonousLibelleConfig extends MobConfig {
     /**
      * Should the PoisonousLibelle be enabled?
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Poisonous Libelle be enabled?", requiresMcRestart = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "Should the Poisonous Libelle be enabled?", requiresMcRestart = true)
     public static boolean isEnabled = true;
     
     /**
      * Should the Poisonous Libelle do damage, next to poisoning?
      */
-    @ConfigurableProperty(category = ElementTypeCategory.MOB, comment = "Should the Poisonous Libelle do damage, next to poisoning?", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "Should the Poisonous Libelle do damage, next to poisoning?", isCommandable = true)
     public static boolean hasAttackDamage = false;
 
     /**

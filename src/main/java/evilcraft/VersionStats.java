@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -13,9 +12,8 @@ import org.apache.commons.io.IOUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import evilcraft.modcompat.versionchecker.VersionCheckerModCompat;
 
 /**
  * This will execute the version checker.
@@ -58,7 +56,9 @@ public class VersionStats {
 	        @Override
 	        public void run() {
 	        	VersionStats versionStats = getVersionStats();
-	        	sendIMCOutdatedMessage(versionStats);
+	        	if(needsUpdate(versionStats)) {
+	        		VersionCheckerModCompat.sendIMCOutdatedMessage(versionStats);
+	        	}
 			}
 		}).start();
 	}
@@ -83,28 +83,6 @@ public class VersionStats {
 			}
 		    
 			}).start();
-		}
-	}
-	
-	/**
-	 * Send a message to the Version Checker mod with the update info.
-	 * This is an integration with Dynious Version Checker See
-	 * http://www.minecraftforum.net/topic/2721902-
-	 * @param versionStats The version info holder.
-	 */
-	public static synchronized void sendIMCOutdatedMessage(VersionStats versionStats) {
-		if(needsUpdate(versionStats) && Loader.isModLoaded(Reference.MOD_VERSION_CHECKER)) {
-			NBTTagCompound compound = new NBTTagCompound();
-			compound.setString("modDisplayName", Reference.MOD_NAME);
-			compound.setString("oldVersion", Reference.MOD_VERSION);
-			compound.setString("newVersion", versionStats.mod_version);
-
-			compound.setString("updateUrl", versionStats.update_link);
-			compound.setBoolean("isDirectLink", true);
-			compound.setString("changeLog", "");
-
-			FMLInterModComms.sendRuntimeMessage(Reference.MOD_ID, 
-					Reference.MOD_VERSION_CHECKER, "addUpdate", compound);
 		}
 	}
 	

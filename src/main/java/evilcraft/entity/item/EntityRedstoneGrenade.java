@@ -10,9 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.block.InvisibleRedstoneBlock;
 import evilcraft.block.InvisibleRedstoneBlockConfig;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.item.RedstoneGrenade;
 
 /**
@@ -20,14 +18,7 @@ import evilcraft.item.RedstoneGrenade;
  * @author immortaleeb
  *
  */
-public class EntityRedstoneGrenade extends EntityThrowable implements Configurable {
-    
-    protected ExtendedConfig<?> eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.ENTITY;
+public class EntityRedstoneGrenade extends EntityThrowable implements IConfigurable {
     
     /**
      * Maps a side number to the offset of the X, Y and Z coordinates where the
@@ -65,22 +56,6 @@ public class EntityRedstoneGrenade extends EntityThrowable implements Configurab
     @SideOnly(Side.CLIENT)
     public EntityRedstoneGrenade(World world, double x, double y, double z) {
         super(world, x, y, z);
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
-        this.eConfig = eConfig;
-    }
-
-    @Override
-    public String getUniqueName() {
-        return "entities.item."+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return true;
     }
 
     @Override

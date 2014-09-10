@@ -17,9 +17,9 @@ import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.ItemConfig;
 import evilcraft.core.config.configurable.ConfigurableItemFood;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.RenderHelpers;
 
@@ -54,7 +54,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     	if(isHumanFlesh(itemStack)) {
     		return "item.items.humanFlesh";
     	}
-        return "item.items." + eConfig.NAMEDID;
+        return "item.items." + eConfig.getNamedId();
     }
     
     /**

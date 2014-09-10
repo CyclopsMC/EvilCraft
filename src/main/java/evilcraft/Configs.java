@@ -34,8 +34,8 @@ import evilcraft.block.UndeadLogConfig;
 import evilcraft.block.UndeadPlankConfig;
 import evilcraft.block.UndeadSaplingConfig;
 import evilcraft.core.config.ConfigHandler;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.degradation.effect.BiomeDegradationConfig;
 import evilcraft.core.degradation.effect.KnockbackDistortDegradationConfig;
 import evilcraft.core.degradation.effect.MobSpawnDegradationConfig;
@@ -251,7 +251,7 @@ public class Configs {
     }
 
     /**
-     * A safe way to check if a {@link Configurable} is enabled. @see ExtendedConfig#isEnabled()
+     * A safe way to check if a {@link IConfigurable} is enabled. @see ExtendedConfig#isEnabled()
      * @param config The config to check.
      * @return If the given config is enabled.
      */

@@ -10,8 +10,7 @@ import net.minecraft.item.ItemSword;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 
 /**
@@ -19,55 +18,39 @@ import evilcraft.core.helper.L10NHelpers;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableItemSword extends ItemSword implements Configurable{
+public abstract class ConfigurableItemSword extends ItemSword implements IConfigurable{
     
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.ITEM;
     
     protected boolean canPickUp = true;
     
     /**
      * Make a new bucket instance.
      * @param eConfig Config for this block.
-     * @param blockID The fluid block ID it can pick up.
+     * @param material The material of the tool.
      */
     @SuppressWarnings({ "rawtypes" })
     protected ConfigurableItemSword(ExtendedConfig eConfig, Item.ToolMaterial material) {
         super(material);
         this.setConfig(eConfig);
-        this.setUnlocalizedName(this.getUniqueName());
+        this.setUnlocalizedName(eConfig.getUnlocalizedName());
     }
 
     @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
     @Override
-    public String getUniqueName() {
-        return "items."+eConfig.NAMEDID;
-    }
-    
-    @Override
     public String getIconString() {
-        return Reference.MOD_ID+":"+eConfig.NAMEDID;
+        return Reference.MOD_ID+":"+eConfig.getNamedId();
     }
     
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
         itemIcon = iconRegister.registerIcon(getIconString());
-    }
-    
-    @Override
-    public boolean isEntity() {
-        return false;
     }
     
     @SuppressWarnings("rawtypes")

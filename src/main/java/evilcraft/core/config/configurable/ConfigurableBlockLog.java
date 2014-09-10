@@ -13,23 +13,17 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * Block that extends from a log that can hold ExtendedConfigs
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockLog extends BlockLog implements Configurable{
+public abstract class ConfigurableBlockLog extends BlockLog implements IConfigurable{
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.BLOCK;
 
     private IIcon iconTop;
     private IIcon iconSide;
@@ -41,28 +35,17 @@ public abstract class ConfigurableBlockLog extends BlockLog implements Configura
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockLog(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
-        this.setBlockName(this.getUniqueName());
+        this.setBlockName(eConfig.getUnlocalizedName());
     }
 
     @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
     @Override
-    public String getUniqueName() {
-        return "blocks."+eConfig.NAMEDID;
-    }
-
-    @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return false;
+        return Reference.MOD_ID+":"+eConfig.getNamedId();
     }
 
     @Override

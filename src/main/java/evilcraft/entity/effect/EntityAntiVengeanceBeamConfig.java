@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.client.render.RenderNull;
-import evilcraft.core.config.EntityConfig;
+import evilcraft.core.config.extendedconfig.EntityConfig;
 
 /**
  * Config for the {@link EntityAntiVengeanceBeam}.

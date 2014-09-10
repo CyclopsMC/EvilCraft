@@ -1,8 +1,8 @@
 package evilcraft.item;
 
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.ItemConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link BurningGemStone}.
@@ -19,7 +19,7 @@ public class BurningGemStoneConfig extends ItemConfig {
     /**
      * How much damage this item can take.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.ITEM, comment = "How much damage this item can take.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "How much damage this item can take.")
     public static int maxDamage = 128;
 
     /**

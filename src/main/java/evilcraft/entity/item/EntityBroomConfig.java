@@ -4,9 +4,9 @@ import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.render.entity.RenderBroom;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.EntityConfig;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.EntityConfig;
 
 /**
  * Config for the {@link EntityBroom}.
@@ -27,7 +27,7 @@ public class EntityBroomConfig extends EntityConfig {
      * because the code does not handle that. So the position sent by the
      * server will always be an "old" position).
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, isCommandable = true, comment = "Defines the maximum number of blocks the client's broom position can be out of sync with the position sent by the server.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ENTITY, isCommandable = true, comment = "Defines the maximum number of blocks the client's broom position can be out of sync with the position sent by the server.")
     public static double desyncThreshold = 1.0;
     
     /**
@@ -35,7 +35,7 @@ public class EntityBroomConfig extends EntityConfig {
      * the broom at a time once we notice there is a desync between the
      * position on the client and server.
      */
-    @ConfigurableProperty(category = ElementTypeCategory.GENERAL, isCommandable = true, comment = "Defines the maximum number of blocks the client's broom should move when we notice there is a desync between the client's and server's position.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ENTITY, isCommandable = true, comment = "Defines the maximum number of blocks the client's broom should move when we notice there is a desync between the client's and server's position.")
     public static double desyncCorrectionValue = 0.4;
 
     /**

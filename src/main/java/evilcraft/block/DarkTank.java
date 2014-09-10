@@ -17,9 +17,9 @@ import evilcraft.client.render.block.RenderDarkTank;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.block.component.BlockTankComponent;
-import evilcraft.core.config.BlockConfig;
-import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
+import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.tileentity.TileDarkTank;
 
 /**

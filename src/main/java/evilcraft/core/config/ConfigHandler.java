@@ -11,7 +11,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import evilcraft.EvilCraft;
 import evilcraft.IInitListener;
 import evilcraft.command.CommandConfig;
-import evilcraft.core.config.configurable.propertycallback.IChangedCallback;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * Create config file and register items & blocks from the given ExtendedConfigs
@@ -44,7 +44,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
     
     @Override
     public boolean add(ExtendedConfig e) {
-    	configDictionary.put(e.NAMEDID, e);
+    	configDictionary.put(e.getNamedId(), e);
     	return super.add(e);
     }
     
@@ -81,14 +81,14 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
                 }
                 
                 // Register the element depending on the type.
-                ElementType type = eConfig.getHolderType();
+                ConfigurableType type = eConfig.getHolderType();
                 type.getElementTypeAction().commonRun(eConfig, config);
                 
                 if(eConfig.isEnabled()) {
 	                // Call the listener
 	                eConfig.onRegistered();
 	
-	                EvilCraft.log("Registered "+eConfig.NAMEDID);
+	                EvilCraft.log("Registered "+eConfig.getNamedId());
 	                processedConfigs.add(eConfig);
 	                
 	                // Register as init listener.
@@ -117,7 +117,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
             }
             
             // Register the element depending on the type.
-            ElementType type = eConfig.getHolderType();
+            ConfigurableType type = eConfig.getHolderType();
             type.getElementTypeAction().preRun(eConfig, config, false);
             
             // Update the config file.

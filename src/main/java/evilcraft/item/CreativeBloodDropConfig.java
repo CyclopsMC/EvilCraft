@@ -3,7 +3,7 @@ package evilcraft.item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-import evilcraft.core.config.ItemConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.fluid.Blood;
 
 /**

@@ -3,7 +3,7 @@ package evilcraft.core.helper;
 import java.util.HashMap;
 import java.util.Map;
 
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
 
 /**
  * A collection of helper methods and fields.
@@ -39,7 +39,7 @@ public class Helpers {
     
     /**
      * Get a new ID for the given type.
-     * @param type Type for a {@link Configurable}.
+     * @param type Type for a {@link IConfigurable}.
      * @return The incremented ID.
      */
     public static int getNewId(IDType type) {

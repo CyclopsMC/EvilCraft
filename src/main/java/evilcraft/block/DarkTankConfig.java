@@ -5,9 +5,9 @@ import net.minecraft.item.ItemBlock;
 import evilcraft.client.render.block.RenderDarkTank;
 import evilcraft.client.render.item.RenderItemDarkTank;
 import evilcraft.client.render.tileentity.RenderTileEntityDarkTank;
-import evilcraft.core.config.BlockConfig;
-import evilcraft.core.config.ElementTypeCategory;
-import evilcraft.core.config.configurable.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.item.ItemBlockFluidContainer;
 import evilcraft.proxy.ClientProxy;
@@ -18,7 +18,7 @@ import evilcraft.tileentity.TileDarkTank;
  * @author rubensworks
  *
  */
-public class DarkTankConfig extends BlockConfig {
+public class DarkTankConfig extends BlockContainerConfig {
     
     /**
      * The unique instance.
@@ -28,7 +28,7 @@ public class DarkTankConfig extends BlockConfig {
     /**
 	 * The maximum tank size possible by combining tanks.
 	 */
-	@ConfigurableProperty(category = ElementTypeCategory.GENERAL, comment = "The maximum tank size possible by combining tanks. (Make sure that you do not cross the max int size.)")
+	@ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The maximum tank size possible by combining tanks. (Make sure that you do not cross the max int size.)")
 	public static int maxTankSize = 4096000;
 
     /**

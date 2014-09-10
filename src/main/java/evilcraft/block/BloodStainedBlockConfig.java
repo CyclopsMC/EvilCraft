@@ -1,7 +1,7 @@
 package evilcraft.block;
 
 import net.minecraft.item.ItemBlock;
-import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.item.ItemBlockMetadata;
 
 /**

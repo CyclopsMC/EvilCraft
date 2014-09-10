@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.block.component.BlockTankComponent;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 
 /**

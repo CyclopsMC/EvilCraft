@@ -11,6 +11,7 @@ doc/info.txt
 .pydevproject
 eclipse/*
 .gradle/*
+repo/*
 
 # Ignore mac-specific file(s)
 .DS_Store
@@ -18,3 +19,4 @@ eclipse/*
 # Ignore files specific to dev environments
 gradle.properties
 build_number.properties
+changelog.txt

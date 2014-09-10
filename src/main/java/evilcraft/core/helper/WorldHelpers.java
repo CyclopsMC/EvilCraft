@@ -8,6 +8,8 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
+import evilcraft.api.ILocation;
+import evilcraft.core.algorithm.Location;
 
 /**
  * Helpers for world related logic.
@@ -16,7 +18,10 @@ import net.minecraft.world.chunk.Chunk;
  */
 public class WorldHelpers {
    
-    private static final int CHUNK_SIZE = 16;
+	/**
+	 * The maximum chunk size for X and Z axis.
+	 */
+    public static final int CHUNK_SIZE = 16;
     
     private static final double TICK_LAG_REDUCTION_MODULUS_MODIFIER = 1.0D;
 
@@ -33,8 +38,9 @@ public class WorldHelpers {
     public static void setBiome(World world, int x, int z, BiomeGenBase biome) {
         Chunk chunk = world.getChunkFromBlockCoords(x, z);
         if(chunk != null) {
-            int rx = x & (CHUNK_SIZE - 1);
-            int rz = z & (CHUNK_SIZE - 1);
+        	int[] c = getChunkLocationFromWorldLocation(x, 0, z).getCoordinates();
+            int rx = c[0];
+            int rz = c[2];
             byte[] biomeArray = chunk.getBiomeArray();
             biomeArray[rz << 4 | rx] = (byte)(biome.biomeID & 255);
             chunk.setChunkModified();
@@ -61,7 +67,18 @@ public class WorldHelpers {
 		if(mod == 0) mod = 1;
 		int offset = 0;
 		for(int param : params) offset += param;
-		return world.rand.nextInt(mod) == offset % mod;
+		return world.rand.nextInt(mod) == Math.abs(offset) % mod;
+	}
+	
+	/**
+	 * Get the chunk location (coordinates within one chunk.) from a world location.
+	 * @param x The world X.
+	 * @param y The world Y.
+	 * @param z The world Z.
+	 * @return The chunk location.
+	 */
+	public static ILocation getChunkLocationFromWorldLocation(int x, int y, int z) {
+		return new Location(x & (CHUNK_SIZE - 1), y, z & (CHUNK_SIZE - 1));
 	}
     
 }

@@ -11,23 +11,17 @@ import evilcraft.Reference;
 import evilcraft.core.client.render.block.CustomRenderBlocks;
 import evilcraft.core.client.render.block.IMultiRenderPassBlock;
 import evilcraft.core.client.render.block.MultiPassBlockRenderer;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * Block that can hold ExtendedConfigs
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlock extends Block implements Configurable, IMultiRenderPassBlock{
+public abstract class ConfigurableBlock extends Block implements IConfigurable, IMultiRenderPassBlock{
     
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.BLOCK;
     
     protected int pass = 0;
     protected CustomRenderBlocks renderer;
@@ -42,17 +36,11 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
     public ConfigurableBlock(ExtendedConfig eConfig, Material material) {
         super(material);
         this.setConfig(eConfig);
-        this.setBlockName(this.getUniqueName());
+        this.setBlockName(eConfig.getUnlocalizedName());
     }
 
-    @Override
-    public void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
+    private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
         this.eConfig = eConfig;
-    }
-    
-    @Override
-    public String getUniqueName() {
-        return "blocks."+eConfig.NAMEDID;
     }
     
     @Override
@@ -63,12 +51,7 @@ public abstract class ConfigurableBlock extends Block implements Configurable, I
     
     @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.NAMEDID;
-    }
-    
-    @Override
-    public boolean isEntity() {
-        return false;
+        return Reference.MOD_ID+":"+eConfig.getNamedId();
     }
     
     @Override

@@ -13,8 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.block.component.EntityDropParticleFXBlockComponent;
 import evilcraft.core.block.component.IEntityDropParticleFXBlock;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.event.TextureStitchEventHook;
 
 /**
@@ -22,15 +21,10 @@ import evilcraft.event.TextureStitchEventHook;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic implements Configurable, IEntityDropParticleFXBlock{
+public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic implements IConfigurable, IEntityDropParticleFXBlock{
     
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.BLOCK;
     
     @SideOnly(Side.CLIENT)
     protected IIcon[] icon;
@@ -48,30 +42,24 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     public ConfigurableBlockFluidClassic(ExtendedConfig eConfig, Fluid fluid, Material material) {
         super(fluid, material);
         this.setConfig(eConfig);
-        this.setBlockName(this.getUniqueName());
+        this.setBlockName(eConfig.getUnlocalizedName());
         fluid.setBlock(this);
         TextureStitchEventHook.fluidMap.put(fluid, this);
     }
 
-    @Override
-    public void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
+    private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
     
     @Override
-    public String getUniqueName() {
-        return "blocks."+eConfig.NAMEDID;
-    }
-    
-    @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.NAMEDID;
+        return Reference.MOD_ID+":"+eConfig.getNamedId();
     }
     
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        this.icon = new IIcon[] { iconRegister.registerIcon(getTextureName()+"_still"), iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.NAMEDID+"_flow") };
+        this.icon = new IIcon[] { iconRegister.registerIcon(getTextureName()+"_still"), iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.getNamedId()+"_flow") };
     }
     
     @Override
@@ -101,11 +89,6 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
         super.randomDisplayTick(world, x, y, z, rand);
         if(entityDropParticleFXBlockComponent != null)
             entityDropParticleFXBlockComponent.randomDisplayTick(world, x, y, z, rand);
-    }
-    
-    @Override
-    public boolean isEntity() {
-        return false;
     }
 
 }

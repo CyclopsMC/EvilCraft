@@ -1,7 +1,7 @@
 package evilcraft.core.degradation.effect;
 
 import evilcraft.Configs;
-import evilcraft.core.config.DegradationEffectConfig;
+import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import evilcraft.world.biome.BiomeDegradedConfig;
 
 /**

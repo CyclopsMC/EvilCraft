@@ -145,7 +145,7 @@ public class CubeDetector {
 	 * @param startLocation The location to start looking from.
 	 * @param dimensions The dimension to navigate in.
 	 * @param max If the maximum distance from the startLocation should be looked for.
-	 * @return
+	 * @return The corner location.
 	 */
 	protected ILocation navigateToCorner(World world, ILocation startLocation, int[] dimensions, boolean max) {
 		ILocation navigateLocation = startLocation.copy();

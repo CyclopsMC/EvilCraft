@@ -1,8 +1,8 @@
 package evilcraft.item;
 import evilcraft.block.FluidBlockBlood;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.ItemConfig;
 import evilcraft.core.config.configurable.ConfigurableItemBucket;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.fluid.Blood;
 
 /**

@@ -8,9 +8,9 @@ import evilcraft.Configs;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.DarkOre;
 import evilcraft.block.FluidBlockBlood;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.ItemConfig;
 import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.WorldHelpers;
 
 /**

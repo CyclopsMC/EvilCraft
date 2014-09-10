@@ -43,10 +43,8 @@ import evilcraft.EvilCraft;
 import evilcraft.client.particle.EntityBlurFX;
 import evilcraft.client.particle.EntityDarkSmokeFX;
 import evilcraft.client.particle.EntityDegradeFX;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
-import evilcraft.core.config.configurable.propertycallback.IChangedCallback;
+import evilcraft.core.config.IChangedCallback;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.item.BurningGemStone;
@@ -57,7 +55,7 @@ import evilcraft.item.BurningGemStoneConfig;
  * @author rubensworks
  *
  */
-public class VengeanceSpirit extends EntityMob implements Configurable {
+public class VengeanceSpirit extends EntityMob implements IConfigurable {
 	
 	/**
 	 * The default I18N key for when no inner entity exists.
@@ -68,11 +66,6 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
 	private static final int SWARM_CHANCE = 25;
 	
     private static final Set<Class<? extends EntityLivingBase>> BLACKLIST = Sets.newHashSet();
-
-    /**
-     * The type for this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.MOB;
     
     /**
      * The minimum life duration in ticks the spirits should have.
@@ -95,16 +88,8 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
      * The NBT key used to store the inner entity name.
      */
     public static final String NBTKEY_INNER_SPIRIT = "innerEntity";
-
-    protected ExtendedConfig<?> eConfig = null;
     
 	private EntityLivingBase innerEntity = null;
-
-	@SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
-        this.eConfig = eConfig;
-    }
 
     /**
      * Make a new instance.
@@ -202,16 +187,6 @@ public class VengeanceSpirit extends EntityMob implements Configurable {
     @Override
     public EnumCreatureAttribute getCreatureAttribute() {
         return EnumCreatureAttribute.UNDEAD;
-    }
-
-    @Override
-    public String getUniqueName() {
-        return "entities.monster."+eConfig.NAMEDID;
-    }
-
-    @Override
-    public boolean isEntity() {
-        return true;
     }
     
     @Override

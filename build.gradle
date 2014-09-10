@@ -46,3 +46,4 @@ def loadProperties() {
 apply from: 'gradle/forge.gradle'
 apply from: 'gradle/dev.gradle'
 apply from: 'gradle/chicken.gradle'
+apply from: 'gradle/deploy.gradle'

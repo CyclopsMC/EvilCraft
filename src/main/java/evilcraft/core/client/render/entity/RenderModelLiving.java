@@ -1,7 +1,7 @@
 package evilcraft.core.client.render.entity;
 
 import evilcraft.Reference;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
@@ -27,7 +27,7 @@ public abstract class RenderModelLiving<M extends ModelBase> extends RenderLivin
     @SuppressWarnings("rawtypes")
     public RenderModelLiving(ExtendedConfig config, ModelBase model, float par2) {
         super(model, par2);
-        texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.NAMEDID + ".png");
+        texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }
 
     @Override

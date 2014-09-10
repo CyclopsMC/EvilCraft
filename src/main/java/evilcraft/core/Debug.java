@@ -6,7 +6,7 @@ import java.util.Set;
 import org.apache.logging.log4j.Level;
 
 import evilcraft.EvilCraft;
-import evilcraft.core.config.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * Helps with code debugging.
@@ -51,25 +51,25 @@ public class Debug {
             if(config.getHolderType().hasUniqueInstance() && config.isEnabled()) {
                 // The sub-instance of ExtendedConfig (can be in a higher class hierarchy, bit of a hack...
                 if(config.getSubInstance() == null) {
-                    log(config.ELEMENT+" has no sub-instance, even though it is enabled.");
+                    log(config.getElement()+" has no sub-instance, even though it is enabled.");
                 }
                 
                 // initInstance(ExtendedConfig eConfig) in the sub-instance of ExtendedConfig
                 try {
-                    config.ELEMENT.getMethod("initInstance", ExtendedConfig.class);
+                    config.getElement().getMethod("initInstance", ExtendedConfig.class);
                 } catch (NoSuchMethodException e) {
-                    log(config.ELEMENT+" has no static 'initInstance(ExtendedConfig eConfig)' method.");
+                    log(config.getElement()+" has no static 'initInstance(ExtendedConfig eConfig)' method.");
                 } catch (SecurityException e) {
-                    log(config.ELEMENT+" has a non-public static 'initInstance(ExtendedConfig eConfig)' method, make it public.");
+                    log(config.getElement()+" has a non-public static 'initInstance(ExtendedConfig eConfig)' method, make it public.");
                 }
                 
                 // getInstance() in the sub-instance of ExtendedConfig
                 try {
-                    config.ELEMENT.getMethod("getInstance");
+                    config.getElement().getMethod("getInstance");
                 } catch (NoSuchMethodException e) {
-                    log(config.ELEMENT+" has no static 'getInstance()' method.");
+                    log(config.getElement()+" has no static 'getInstance()' method.");
                 } catch (SecurityException e) {
-                    log(config.ELEMENT+" has a non-public static 'getInstance()' method, make it public.");
+                    log(config.getElement()+" has a non-public static 'getInstance()' method, make it public.");
                 }
             }
         }

@@ -1,6 +1,6 @@
 package evilcraft.block;
 
-import evilcraft.core.config.BlockConfig;
+import evilcraft.core.config.extendedconfig.BlockConfig;
 
 /**
  * Config for {@link ObscuredGlass}.

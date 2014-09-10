@@ -12,9 +12,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
-import evilcraft.core.config.ElementType;
-import evilcraft.core.config.ExtendedConfig;
-import evilcraft.core.config.configurable.Configurable;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.helper.MathHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.item.Broom;
@@ -26,14 +24,7 @@ import evilcraft.item.BroomConfig;
  * @author immortaleeb
  *
  */
-public class EntityBroom extends Entity implements Configurable{
-    
-    protected ExtendedConfig<?> eConfig = null;
-    
-    /**
-     * The type of this {@link Configurable}.
-     */
-    public static ElementType TYPE = ElementType.ENTITY;
+public class EntityBroom extends Entity implements IConfigurable{
     
     /**
      * Speed for the broom (in all directions)
@@ -81,12 +72,6 @@ public class EntityBroom extends Entity implements Configurable{
      */
     @SideOnly(Side.CLIENT)
     private double oldHoverOffset;
-    
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void setConfig(ExtendedConfig eConfig) {
-        this.eConfig = eConfig;
-    }
 
     /**
      * Make a new instance in the given world.
@@ -124,16 +109,6 @@ public class EntityBroom extends Entity implements Configurable{
     @Override
     public double getMountedYOffset() {
         return 0.0;
-    }
-
-    @Override
-    public String getUniqueName() {
-        return "entities.item."+eConfig.NAMEDID;
-    }
-    
-    @Override
-    public boolean isEntity() {
-        return true;
     }
     
     @Override

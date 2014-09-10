@@ -5,9 +5,9 @@ import java.util.Random;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import evilcraft.core.config.EnchantmentConfig;
-import evilcraft.core.config.ExtendedConfig;
 import evilcraft.core.config.configurable.ConfigurableEnchantment;
+import evilcraft.core.config.extendedconfig.EnchantmentConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.EnchantmentHelpers;
 
 /**

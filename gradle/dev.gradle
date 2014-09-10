@@ -1,17 +1,22 @@
-// because the normal output has been made to be obfuscated
 task deobfJar(type: Jar) {
     from sourceSets.main.output
-    classifier = 'dev'
+    classifier = 'deobf'
 }
 
-// add a source jar
-task sourceJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
+task apiJar(type: Jar) {
+    from sourceSets.main.output
+    from sourceSets.main.java
+    classifier = 'api'
+    include 'evilcraft/api/**'
 }
 
-// add a javadoc jar
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
     from 'build/docs/javadoc'
+    classifier 'javadoc'
+}
+
+artifacts {
+    archives deobfJar
+    //archives apiJar
+    archives javadocJar
 }
