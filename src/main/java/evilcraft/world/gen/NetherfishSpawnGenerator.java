@@ -7,13 +7,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
+import evilcraft.core.world.gen.WorldGenMinableExtended;
 
 /**
  * WorldGenerator for netherfish spawn blocks.
  * @author rubensworks
  *
  */
-public class NetherfishSpawnGenerator extends WorldGenMinableConfigurable{
+public class NetherfishSpawnGenerator extends WorldGenMinableExtended{
     
     /**
      * Make a new instance.

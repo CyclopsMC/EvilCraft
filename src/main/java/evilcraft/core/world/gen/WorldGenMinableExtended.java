@@ -1,4 +1,4 @@
-package evilcraft.world.gen;
+package evilcraft.core.world.gen;
 
 import java.util.Random;
 
@@ -11,14 +11,13 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import evilcraft.core.helper.WorldHelpers;
-import evilcraft.core.world.gen.IRetroGen;
 
 /**
  * WorldGenerator for mineable blocks.
  * @author rubensworks
  *
  */
-public class WorldGenMinableConfigurable extends WorldGenMinable implements IRetroGen {
+public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGen {
     
 	private static final int NO_META = 0;
 	
@@ -41,7 +40,7 @@ public class WorldGenMinableConfigurable extends WorldGenMinable implements IRet
      * @param replaceTarget The replace target block. Stone for overworld, netherrack for nether.
      * @param dimensionId The dimension Id;
      */
-    public WorldGenMinableConfigurable(Block block, int blocksPerVein, int veinsPerChunk, int startY, int endY, Block replaceTarget, int dimensionId) {
+    public WorldGenMinableExtended(Block block, int blocksPerVein, int veinsPerChunk, int startY, int endY, Block replaceTarget, int dimensionId) {
         super(block, blocksPerVein, replaceTarget);
         this.block = block;
         this.blocksPerVein = blocksPerVein;
@@ -63,7 +62,7 @@ public class WorldGenMinableConfigurable extends WorldGenMinable implements IRet
      * @param replaceTarget The replace target block. Stone for overworld, netherrack for nether.
      * @param dimensionId The dimension Id;
      */
-    public WorldGenMinableConfigurable(Block block, int meta, int blocksPerVein, int veinsPerChunk, int startY, int endY, Block replaceTarget, int dimensionId) {
+    public WorldGenMinableExtended(Block block, int meta, int blocksPerVein, int veinsPerChunk, int startY, int endY, Block replaceTarget, int dimensionId) {
         super(block, meta, blocksPerVein, Blocks.stone);
         this.block = block;
         this.blocksPerVein = blocksPerVein;
@@ -191,7 +190,7 @@ public class WorldGenMinableConfigurable extends WorldGenMinable implements IRet
 	/**
 	 * @return the dimensionId
 	 */
-	protected int getDimensionId() {
+	public int getDimensionId() {
 		return dimensionId;
 	}
 }

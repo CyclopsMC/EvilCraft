@@ -83,6 +83,7 @@ public class DarkTempleData extends WorldSavedData {
 
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
+		// TODO: this can be rewritten using an ILocation instance and using NBTTagList.
 		ByteBuffer buffer = ByteBuffer.allocate(4 + structureLocations.size() * Position.SIZE_IN_BYTES);
 		
 		// Write the number of elements in the list

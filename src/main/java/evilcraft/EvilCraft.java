@@ -29,7 +29,7 @@ import evilcraft.modcompat.ModCompatLoader;
 import evilcraft.proxy.CommonProxy;
 import evilcraft.world.gen.DarkTempleGenerator;
 import evilcraft.world.gen.EvilDungeonGenerator;
-import evilcraft.world.gen.EvilWorldGenerator;
+import evilcraft.world.gen.OreGenerator;
 
 /**
  * The main mod class of EvilCraft.
@@ -129,7 +129,7 @@ public class EvilCraft {
         LoggerHelper.log(Level.INFO, "init()");
         
         // Register world generation
-        GameRegistry.registerWorldGenerator(new EvilWorldGenerator(), 5);
+        GameRegistry.registerWorldGenerator(new OreGenerator(), 5);
         GameRegistry.registerWorldGenerator(new EvilDungeonGenerator(), 2);
         GameRegistry.registerWorldGenerator(new DarkTempleGenerator(), 1);
         
