@@ -71,6 +71,6 @@ public class Reference {
     public static final String MOD_NEI = "NotEnoughItems";
     
     // Dependencies
-    public static final String MOD_DEPENDENCIES = "" // This is not required anymore (and never was?) "required-after:" + MOD_FORGE + "@[@FORGE_VERSION@,)"
+    public static final String MOD_DEPENDENCIES = "required-after:Forge@[10.13.0.1200,);" // See the Forge changelog
             + "after:"+Reference.MOD_THERMALEXPANSION;
 }
