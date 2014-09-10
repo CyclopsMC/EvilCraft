@@ -120,9 +120,15 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
 		}
 		
 		for(ForgeDirection side : DirectionHelpers.DIRECTIONS) {
-			IIcon icon = block.getIcon(side.ordinal(), 0);
+			IIcon icon = fluid.getFluid().getFlowingIcon();
+			if(icon == null || (side == ForgeDirection.UP || side == ForgeDirection.DOWN)) {
+				icon = fluid.getFluid().getStillIcon();
+			}
 			if(icon == null) {
-				icon = defaultBlock.getIcon(side.ordinal(), 0);
+				icon = block.getIcon(side.ordinal(), 0);
+				if(icon == null) {
+					icon = defaultBlock.getIcon(side.ordinal(), 0);
+				}
 			}
 			
 			Tessellator t = Tessellator.instance;
