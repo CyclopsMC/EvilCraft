@@ -20,7 +20,9 @@ import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
+import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
+import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
@@ -152,7 +154,8 @@ public class TileBloodInfuser extends WorkingTileEntity<TileBloodInfuser> {
         
         // Valid custom recipe
         ItemAndFluidStackRecipeComponent recipeInput = new ItemAndFluidStackRecipeComponent(itemStack, getTank().getFluid());
-        IRecipe recipe = BloodInfuser.getInstance().getRecipeRegistry().findRecipeByInput(recipeInput);
+        IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = 
+        		BloodInfuser.getInstance().getRecipeRegistry().findRecipeByInput(recipeInput);
         if(recipe != null)
             return true;
         

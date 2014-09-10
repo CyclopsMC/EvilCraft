@@ -188,7 +188,9 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
     
     private List<CachedEnvironmentalAccumulatorRecipe> getRecipes() {
         List<CachedEnvironmentalAccumulatorRecipe> recipes = new LinkedList<CachedEnvironmentalAccumulatorRecipe>();
-        for (IRecipe recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry().allRecipes()) {
+        for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, 
+        		EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry()
+        		.allRecipes()) {
             EnvironmentalAccumulatorRecipeComponent input = (EnvironmentalAccumulatorRecipeComponent)recipe.getInput();
             EnvironmentalAccumulatorRecipeComponent output = (EnvironmentalAccumulatorRecipeComponent)recipe.getOutput();
             EnvironmentalAccumulatorRecipeProperties props = (EnvironmentalAccumulatorRecipeProperties)recipe.getProperties();
@@ -216,7 +218,9 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
     
     @Override
     public void loadCraftingRecipes(final ItemStack result) {
-        IRecipe recipe = EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipeByOutput(
+        IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, 
+        	EnvironmentalAccumulatorRecipeProperties> recipe = EnvironmentalAccumulator.getInstance().getRecipeRegistry()
+        	.findRecipeByOutput(
                 new EnvironmentalAccumulatorRecipeComponent(result, WeatherType.ANY)
         );
 
