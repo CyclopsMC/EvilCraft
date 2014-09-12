@@ -31,7 +31,9 @@ public abstract class RenderItemBlock implements IItemRenderer {
     	Block block = Block.getBlockFromItem(itemStack.getItem());
     	
     	GL11.glPushMatrix();
-        GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+    	if(type != ItemRenderType.ENTITY) {
+    		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+    	}
     	
     	preRenderAdditional(type, itemStack, block);
 
