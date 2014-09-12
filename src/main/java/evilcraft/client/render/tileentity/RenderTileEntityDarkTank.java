@@ -25,7 +25,7 @@ import evilcraft.tileentity.TileDarkTank;
 public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
 	
 	private static final double OFFSET = 0.001D;
-	private static final double MINY = 0.001D;
+	private static final double MINY = 0.002D;
 	private static final double MIN = 0.125D + OFFSET;
 	private static final double MAX = 0.875D - OFFSET;
 	private static double[][][] coordinates = {
@@ -96,7 +96,7 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
 	        Block block = tileEntity.getWorldObj().getBlock((int) x, (int) y, (int) z);
 	        Tessellator.instance.setBrightness(2 * block.getMixedBrightnessForBlock(tileEntity.getWorldObj(), (int) x, (int) y, (int) z));
 	        
-	        double height = tank.getFillRatio() / 1.01D;
+	        double height = tank.getFillRatio() * 0.99D;
 	        renderFluidSides(height, fluid);
 	        
 	        //GL11.glEnable(GL11.GL_CULL_FACE);

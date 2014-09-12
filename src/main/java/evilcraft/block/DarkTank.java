@@ -20,6 +20,7 @@ import evilcraft.core.block.component.BlockTankComponent;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.tileentity.TileDarkTank;
 
 /**
@@ -31,12 +32,19 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	
 	private static final String NBT_TAG_CAPACITY = "tankCapacity";
 	
+	/**
+	 * Meta data for draining.
+	 */
+	public static final int META_DRAINING = 1;
+	
     private static DarkTank _instance = null;
     
     private BlockTankComponent<DarkTank> tankComponent = new BlockTankComponent<DarkTank>(this); 
     
     protected IIcon sideIcon;
     protected IIcon topIcon;
+    protected IIcon sideIconActive;
+    protected IIcon topIconActive;
     
     /**
      * Initialise the configurable.
@@ -70,15 +78,17 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     public void registerBlockIcons(IIconRegister iconRegister) {
     	sideIcon = iconRegister.registerIcon(getTextureName() + "_side");
     	topIcon = iconRegister.registerIcon(getTextureName() + "_top");
+    	sideIconActive = iconRegister.registerIcon(getTextureName() + "_side_active");
+    	topIconActive = iconRegister.registerIcon(getTextureName() + "_top_active");
     }
     
     @Override
     public IIcon getIcon(int side, int meta) {
     	ForgeDirection direction = ForgeDirection.getOrientation(side);
         if(direction == ForgeDirection.UP || direction == ForgeDirection.DOWN) {
-        	return topIcon;
+        	return meta == META_DRAINING ? topIconActive : topIcon;
         }
-        return sideIcon;
+        return meta == META_DRAINING ? sideIconActive : sideIcon;
     }
     
     @Override
@@ -111,8 +121,11 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float motionX, float motionY, float motionZ) {
     	if(tankComponent.onBlockActivatedTank(world, x, y, z, player, side, motionX, motionY, motionZ)) {
         	return true;
+        } else {
+        	int meta = world.getBlockMetadata(x, y, z);
+        	world.setBlockMetadataWithNotify(x, y, z, 1 - meta, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+        	return true;
         }
-    	return super.onBlockActivated(world, x, y, z, player, side, motionX, motionY, motionZ);
     }
     
     @Override
