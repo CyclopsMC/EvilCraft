@@ -3,6 +3,7 @@ package evilcraft.core.config.configurable;
 import java.util.List;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -67,6 +68,21 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
 	@Override
     public int getTankCapacity(ItemStack itemStack) {
 		return getMaxCapacity();
+	}
+	
+	@Override
+	public boolean isActivatable() {
+		return false;
+	}
+    
+    @Override
+	public ItemStack toggleActivation(ItemStack itemStack, World world, EntityPlayer player) {
+		return itemStack;
+	}
+
+	@Override
+	public boolean isActivated(ItemStack itemStack, World world, Entity entity) {
+		return false;
 	}
 
 }

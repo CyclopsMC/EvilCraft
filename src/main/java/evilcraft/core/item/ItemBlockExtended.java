@@ -1,15 +1,8 @@
 package evilcraft.core.item;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.IInformationProvider;
-import evilcraft.core.helper.L10NHelpers;
 
 /**
  * An extended {@link ItemBlock} that will automatically add information to the block
@@ -17,9 +10,7 @@ import evilcraft.core.helper.L10NHelpers;
  * @author rubensworks
  *
  */
-public class ItemBlockExtended extends ItemBlock {
-
-    protected InformationProviderComponent informationProvider;
+public class ItemBlockExtended extends ItemBlockMetadata {
 
     /**
      * Make a new instance.
@@ -27,16 +18,6 @@ public class ItemBlockExtended extends ItemBlock {
      */
     public ItemBlockExtended(Block block) {
     	super(block);
-        informationProvider = new InformationProviderComponent(block);
-    }
-    
-    @SuppressWarnings("rawtypes")
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
-        L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
-        informationProvider.addInformation(itemStack, entityPlayer, list, par4);
     }
     
 }

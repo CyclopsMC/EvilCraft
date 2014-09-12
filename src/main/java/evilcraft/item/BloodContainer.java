@@ -13,7 +13,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -123,7 +122,9 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-    	updateAutoFill(this, itemStack, world, entity);
+    	if(ItemHelpers.isActivated(itemStack)) {
+    		updateAutoFill(this, itemStack, world, entity);
+    	}
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
     
@@ -134,8 +135,8 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
      * @param world The world.
      * @param entity The entity that holds this item.
      */
-    public static void updateAutoFill(ItemFluidContainer item, ItemStack itemStack, World world, Entity entity) {
-    	if(entity instanceof EntityPlayer && !world.isRemote && ItemHelpers.isActivated(itemStack)) {
+    public static void updateAutoFill(IFluidContainerItem item, ItemStack itemStack, World world, Entity entity) {
+    	if(entity instanceof EntityPlayer && !world.isRemote) {
             FluidStack tickFluid = item.getFluid(itemStack);
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;

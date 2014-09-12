@@ -43,7 +43,8 @@ tile.blocks.spiritFurnace.help.invalid.caughtError=Invalid mob spirit. Contact m
 tile.blocks.boxOfEternalClosure.name=Box of Eternal Closure
 tile.blocks.boxOfEternalClosure.info.content=Contents: %s
 tile.blocks.darkTank.name=Dark Tank
-tile.blocks.darkTank.info=Place in crafting grid with other tanks to increase capacity.
+tile.blocks.darkTank.info=Place in crafting grid with other tanks to increase capacity. Shift + Right click to auto-supply.
+tile.blocks.darkTank.info.autoSupply=Auto-supply: %s
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone

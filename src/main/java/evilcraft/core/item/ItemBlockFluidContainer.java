@@ -1,14 +1,23 @@
 package evilcraft.core.item;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.block.IBlockTank;
+import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
+import evilcraft.item.BloodContainer;
 
 /**
  * {@link ItemBlock} that can be used for blocks that have a tile entity with a fluid container.
@@ -182,5 +191,32 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
         }
         return stack;
 	}
+	
+	@Override
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+        if(block.isActivatable()) {
+        	return block.toggleActivation(itemStack, world, player);
+        }
+        return super.onItemRightClick(itemStack, world, player);
+    }
+	
+	@Override
+    public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
+    	if(block.isActivatable() && block.isActivated(itemStack, world, entity)) {
+    		BloodContainer.updateAutoFill(this, itemStack, world, entity);
+    	}
+        super.onUpdate(itemStack, world, entity, par4, par5);
+    }
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+        super.addInformation(itemStack, entityPlayer, list, par4);
+        if(block.isActivatable()) {
+	        L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, entityPlayer.worldObj, entityPlayer),
+	        		getUnlocalizedName() + ".info.autoSupply");
+        }
+    }
 
 }

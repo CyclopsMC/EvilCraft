@@ -146,7 +146,9 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-    	BloodContainer.updateAutoFill(this, itemStack, world, entity);
+    	if(ItemHelpers.isActivated(itemStack)) {
+    		BloodContainer.updateAutoFill(this, itemStack, world, entity);
+    	}
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
 

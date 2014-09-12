@@ -3,6 +3,7 @@ import java.util.List;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -191,5 +192,33 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	public int getMaxCapacity() {
 		return DarkTankConfig.maxTankSize;
 	}
+	
+	@Override
+	public boolean isActivatable() {
+		return true;
+	}
+	
+	@Override
+	public ItemStack toggleActivation(ItemStack itemStack, World world, EntityPlayer player) {
+		if(player.isSneaking()) {
+            if(!world.isRemote) {
+            	ItemStack activated = itemStack.copy();
+            	activated.setItemDamage(DarkTank.META_DRAINING - activated.getItemDamage());
+            	return activated;
+            }
+            return itemStack;
+		}
+		return itemStack;
+	}
+
+	@Override
+	public boolean isActivated(ItemStack itemStack, World world, Entity entity) {
+		return itemStack.getItemDamage() == DarkTank.META_DRAINING;
+	}
+	
+	@Override
+	public int damageDropped(int meta) {
+		return meta;
+    }
 
 }
