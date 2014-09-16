@@ -6,10 +6,9 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import evilcraft.api.tileentity.INBTSerializable;
-
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import evilcraft.api.tileentity.INBTSerializable;
 
 /**
  * Types of NBT field classes used for persistence of fields in {@link EvilCraftTileEntity}.
@@ -110,7 +109,9 @@ public abstract class NBTClassType<T> {
 	        		tag.setTag(fieldName, (NBTBase) method.invoke(field.get(tile)));
 	        	} else {
 	        		Method method = type.getMethod("fromNBT", NBTTagCompound.class);
-	        		method.invoke(field.get(tile), tag.getTag(fieldName));
+	        		if(tag.hasKey(fieldName)) {
+	        			method.invoke(field.get(tile), tag.getTag(fieldName));
+	        		}
 	        	}
         	} catch (NoSuchMethodException e) {
         		throw new RuntimeException("No such method for field " + fieldName + " of class " + type + " in " + tile.getClass() + " was found. Write: " + write);
@@ -119,7 +120,7 @@ public abstract class NBTClassType<T> {
 			} catch (IllegalArgumentException e) {
 				throw new RuntimeException("Invalid argument in field " + fieldName + " in " + tile.getClass() + " Write: " + write);
 			} catch (InvocationTargetException e) {
-				throw new RuntimeException("Could not invocate a method for field " + fieldName + " in " + tile.getClass() + " Write: " + write);
+				throw new RuntimeException("Could not invocate a method for field " + fieldName + " in " + tile.getClass() + " Write: " + write + "; Error: " + e.getTargetException().getMessage());
 			}
         } else {
 	        NBTClassType<?> action = NBTClassType.NBTYPES.get(type);

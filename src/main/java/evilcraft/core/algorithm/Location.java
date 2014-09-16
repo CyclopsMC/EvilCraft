@@ -1,7 +1,7 @@
 package evilcraft.core.algorithm;
 
-import evilcraft.api.ILocation;
 import net.minecraft.nbt.NBTTagCompound;
+import evilcraft.api.ILocation;
 
 /**
  * Location class.

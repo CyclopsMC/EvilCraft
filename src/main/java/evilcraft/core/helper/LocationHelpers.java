@@ -91,6 +91,18 @@ public class LocationHelpers {
 	}
 	
 	/**
+	 * Set the block.
+	 * @param world The world.
+	 * @param location The location.
+	 * @param block The block to set.
+	 * @throws LocationException If the given location does not have exactly three dimensions.
+	 */
+	public static void setBlock(World world, ILocation location, Block block) throws LocationException {
+		int[] c = LocationHelpers.validateLocation(location);
+		world.setBlock(c[0], c[1], c[2], block);
+	}
+	
+	/**
 	 * Set the block metadata.
 	 * @param world The world.
 	 * @param location The location.

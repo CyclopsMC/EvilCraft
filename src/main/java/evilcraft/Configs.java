@@ -28,6 +28,7 @@ import evilcraft.block.LightningBombConfig;
 import evilcraft.block.NetherfishSpawnConfig;
 import evilcraft.block.ObscuredGlassConfig;
 import evilcraft.block.PurifierConfig;
+import evilcraft.block.SanguinaryPedestalConfig;
 import evilcraft.block.SpiritFurnaceConfig;
 import evilcraft.block.UndeadLeavesConfig;
 import evilcraft.block.UndeadLogConfig;
@@ -177,6 +178,7 @@ public class Configs {
         configs.add(new DarkBloodBrickConfig());
         configs.add(new SpiritFurnaceConfig());
         configs.add(new DarkTankConfig());
+        configs.add(new SanguinaryPedestalConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
