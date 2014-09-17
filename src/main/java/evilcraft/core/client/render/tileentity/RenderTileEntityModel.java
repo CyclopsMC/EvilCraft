@@ -18,7 +18,7 @@ import evilcraft.core.tileentity.EvilCraftTileEntity;
  */
 public class RenderTileEntityModel extends TileEntitySpecialRenderer {
 
-    private ModelBase model;
+    protected ModelBase model;
 
 	private ResourceLocation texture;
 

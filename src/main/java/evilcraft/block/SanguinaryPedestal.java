@@ -1,6 +1,10 @@
 package evilcraft.block;
 import net.minecraft.block.material.Material;
-import evilcraft.client.render.block.RenderSanguinaryPedestal;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.IIcon;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -37,28 +41,20 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer {
 
     private SanguinaryPedestal(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileSanguinaryPedestal.class);
+        setBlockBounds(0.02F, 0F, 0.02F, 0.98F, 0.98F, 0.98F);
     }
-
-    /*@SuppressWarnings("rawtypes")
-    @Override
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB area, List collisionBoxes, Entity entity) {
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.3125F, 1.0F);
-        super.addCollisionBoxesToList(world, x, y, z, area, collisionBoxes, entity);
-        float f = 0.125F;
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
-        super.addCollisionBoxesToList(world, x, y, z, area, collisionBoxes, entity);
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
-        super.addCollisionBoxesToList(world, x, y, z, area, collisionBoxes, entity);
-        this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-        super.addCollisionBoxesToList(world, x, y, z, area, collisionBoxes, entity);
-        this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
-        super.addCollisionBoxesToList(world, x, y, z, area, collisionBoxes, entity);
-        this.setBlockBoundsForItemRender();
-    }*/
     
     @Override
-    public void setBlockBoundsForItemRender() {
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        
+    }
+    
+    @Override
+    public IIcon getIcon(int side, int meta) {
+        // This is ONLY used for the block breaking/broken particles
+        // Since the anvil looks very similar, we use that icon.
+        return Blocks.anvil.getIcon(0, 0);
     }
     
     @Override
@@ -68,7 +64,7 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer {
 
     @Override
     public int getRenderType() {
-        return RenderSanguinaryPedestal.ID;
+        return -1;
     }
 
     @Override

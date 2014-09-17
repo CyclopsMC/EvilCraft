@@ -42,7 +42,8 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
      * Make a new instance.
      */
     public TileSanguinaryPedestal() {
-        super(0, PurifierConfig._instance.getNamedId(), 1, FluidContainerRegistry.BUCKET_VOLUME * BloodExtractorConfig.maxMB * TANK_MULTIPLIER, SanguinaryPedestalConfig._instance.getNamedId() + "tank", FLUID);
+        super(0, PurifierConfig._instance.getNamedId(), 1, FluidContainerRegistry.BUCKET_VOLUME * BloodExtractorConfig.maxMB 
+        		* TANK_MULTIPLIER, SanguinaryPedestalConfig._instance.getNamedId() + "tank", FLUID);
     }
     
     @Override
