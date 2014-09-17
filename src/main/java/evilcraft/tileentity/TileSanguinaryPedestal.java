@@ -19,7 +19,6 @@ import evilcraft.core.algorithm.RegionIterator;
 import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
-import evilcraft.item.BloodExtractorConfig;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
 
@@ -36,7 +35,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
     public static final Fluid FLUID = Blood.getInstance();
     
     private static final int MB_RATE = 10;
-    private static final int TANK_MULTIPLIER = 10;
+    private static final int TANK_BUCKETS = 10;
     private static final int OFFSET = 2;
     
     private RegionIterator regionIterator;
@@ -45,8 +44,8 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
      * Make a new instance.
      */
     public TileSanguinaryPedestal() {
-        super(0, PurifierConfig._instance.getNamedId(), 1, FluidContainerRegistry.BUCKET_VOLUME * BloodExtractorConfig.maxMB 
-        		* TANK_MULTIPLIER, SanguinaryPedestalConfig._instance.getNamedId() + "tank", FLUID);
+        super(0, PurifierConfig._instance.getNamedId(), 1, FluidContainerRegistry.BUCKET_VOLUME * TANK_BUCKETS,
+        		SanguinaryPedestalConfig._instance.getNamedId() + "tank", FLUID);
     }
     
     protected void afterBlockReplace(World world, ILocation location, Block block) {

@@ -23,22 +23,22 @@ public class BloodExtractorConfig extends ItemConfig {
     /**
      * The minimum amount of blood (mB) that can be extracted from this block.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The minimum amount of blood (mB) that can be extracted from this block.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The minimum amount of blood (mB) that can be extracted from this block.", isCommandable = true)
     public static int minMB = 250;
     /**
      * The maximum amount of blood (mB) that can be extracted from this block.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The maximum amount of blood (mB) that can be extracted from this block. IMPORTANT: must be larger than minMB!")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The maximum amount of blood (mB) that can be extracted from this block. IMPORTANT: must be larger than minMB!", isCommandable = true)
     public static int maxMB = 500;
     /**
      * The minimum multiplier for amount of mB to receive per mob HP.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The minimum multiplier for amount of mB to receive per mob HP.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The minimum multiplier for amount of mB to receive per mob HP.", isCommandable = true)
     public static double minimumMobMultiplier = 5;
     /**
-     * The minimum multiplier for amount of mB to receive per mob HP.
+     * The maximum multiplier for amount of mB to receive per mob HP.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The maximum multiplier for amount of mB to receive per mob HP. IMPORTANT: must be larger than maximumMobMultiplier!")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The maximum multiplier for amount of mB to receive per mob HP. IMPORTANT: must be larger than maximumMobMultiplier!", isCommandable = true)
     public static double maximumMobMultiplier = 40;
     /**
      * The amount of blood (mB) this container can hold.

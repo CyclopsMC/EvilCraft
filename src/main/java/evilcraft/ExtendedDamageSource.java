@@ -10,13 +10,17 @@ import net.minecraft.util.DamageSource;
 public class ExtendedDamageSource extends DamageSource{
     
     /**
-     * DamageSource for when players die without any apparent reason.
+     * DamageSource for when entities die without any apparent reason.
      */
     public static ExtendedDamageSource dieWithoutAnyReason = (ExtendedDamageSource)((new ExtendedDamageSource("dieWithoutAnyReason")).setDamageBypassesArmor());
     /**
-     * DamageSource for when players die from distortion not caused by another player.
+     * DamageSource for when entities die from distortion not caused by another player.
      */
     public static ExtendedDamageSource distorted = (ExtendedDamageSource)((new ExtendedDamageSource("distored")));
+    /**
+     * DamageSource for when entities die from a spiked plate.
+     */
+    public static ExtendedDamageSource spiked = (ExtendedDamageSource)((new ExtendedDamageSource("spiked")));
 
     protected ExtendedDamageSource(String par1Str) {
         super(par1Str);

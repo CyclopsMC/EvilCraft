@@ -29,6 +29,7 @@ import evilcraft.block.NetherfishSpawnConfig;
 import evilcraft.block.ObscuredGlassConfig;
 import evilcraft.block.PurifierConfig;
 import evilcraft.block.SanguinaryPedestalConfig;
+import evilcraft.block.SpikedPlateConfig;
 import evilcraft.block.SpiritFurnaceConfig;
 import evilcraft.block.UndeadLeavesConfig;
 import evilcraft.block.UndeadLogConfig;
@@ -179,6 +180,7 @@ public class Configs {
         configs.add(new SpiritFurnaceConfig());
         configs.add(new DarkTankConfig());
         configs.add(new SanguinaryPedestalConfig());
+        configs.add(new SpikedPlateConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
