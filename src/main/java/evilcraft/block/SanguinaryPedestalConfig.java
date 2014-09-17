@@ -30,7 +30,7 @@ public class SanguinaryPedestalConfig extends BlockContainerConfig {
      * The amount of blood (mB) that will be gained as a result from extraction.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The amount of blood (mB) that will be gained as a result from extraction.")
-    public static int extractMB = 750;
+    public static int extractMB = 500;
 
     /**
      * Make a new instance.

@@ -29,7 +29,7 @@ public class BloodExtractorConfig extends ItemConfig {
      * The maximum amount of blood (mB) that can be extracted from this block.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The maximum amount of blood (mB) that can be extracted from this block. IMPORTANT: must be larger than minMB!")
-    public static int maxMB = 750;
+    public static int maxMB = 500;
     /**
      * The minimum multiplier for amount of mB to receive per mob HP.
      */
