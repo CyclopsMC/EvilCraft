@@ -77,6 +77,7 @@ import evilcraft.item.CreativeBloodDropConfig;
 import evilcraft.item.DarkGemConfig;
 import evilcraft.item.DarkGemCrushedConfig;
 import evilcraft.item.DarkPowerGemConfig;
+import evilcraft.item.DarkSpikeConfig;
 import evilcraft.item.DarkStickConfig;
 import evilcraft.item.HardenedBloodShardConfig;
 import evilcraft.item.InvertedPotentiaConfig;
@@ -214,6 +215,7 @@ public class Configs {
         configs.add(new DarkGemCrushedConfig());
         configs.add(new VeinSwordConfig());
         configs.add(new CreativeBloodDropConfig());
+        configs.add(new DarkSpikeConfig());
         
         // Entities
         // Item

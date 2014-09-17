@@ -58,6 +58,7 @@ public class Reference {
     public static final String DICT_GEMDARK = "gemDark";
     public static final String DICT_DYERED = "dyeRed";
     public static final String DICT_GEMDARKCRUSHED = "gemDarkCrushed";
+    public static final String DICT_MATERIALSPIKE = "materialSpike";
     
     // MOD ID's
     public static final String MOD_FORGE = "Forge";

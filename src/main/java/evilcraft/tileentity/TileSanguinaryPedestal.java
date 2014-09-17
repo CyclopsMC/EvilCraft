@@ -63,16 +63,18 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
     public void updateTileEntity() {
     	super.updateTileEntity();
     	
-    	if(!getWorldObj().isRemote && !getTank().isFull()) {
+    	if(!getWorldObj().isRemote) {
 	    	// Drain next block in tick
-	    	ILocation location = getNextLocation();
-	    	Block block = LocationHelpers.getBlock(getWorldObj(), location);
-	    	if(block == BloodStainedBlock.getInstance()) {
-	    		int metaData = LocationHelpers.getBlockMeta(getWorldObj(), location);
-	    		Block replace = BloodStainedBlock.getInstance().getBlockFromMetadata(metaData);
-	    		LocationHelpers.setBlock(getWorldObj(), location, replace);
-	    		afterBlockReplace(getWorldObj(), location, replace);
-	    	}
+    		if(!getTank().isFull()) {
+		    	ILocation location = getNextLocation();
+		    	Block block = LocationHelpers.getBlock(getWorldObj(), location);
+		    	if(block == BloodStainedBlock.getInstance()) {
+		    		int metaData = LocationHelpers.getBlockMeta(getWorldObj(), location);
+		    		Block replace = BloodStainedBlock.getInstance().getBlockFromMetadata(metaData);
+		    		LocationHelpers.setBlock(getWorldObj(), location, replace);
+		    		afterBlockReplace(getWorldObj(), location, replace);
+		    	}
+    		}
 	    	
 	    	// Auto-drain the inner tank
 	    	if(!getTank().isEmpty()) {
