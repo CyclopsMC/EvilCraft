@@ -4,6 +4,7 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
+import evilcraft.api.ILocation;
 import evilcraft.core.BucketHandler;
 import evilcraft.core.world.gen.RetroGenRegistry;
 import evilcraft.event.BonemealEventHook;
@@ -18,6 +19,7 @@ import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.DetectionListenerPacket;
 import evilcraft.network.packet.FartPacket;
 import evilcraft.network.packet.RingOfFirePacket;
+import evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
 import evilcraft.network.packet.SoundPacket;
 
 /**
@@ -53,6 +55,7 @@ public class CommonProxy {
     	PacketHandler.register(RingOfFirePacket.class);
     	PacketHandler.register(DetectionListenerPacket.class);
     	PacketHandler.register(SoundPacket.class);
+    	PacketHandler.register(SanguinaryPedestalBlockReplacePacket.class);
     	
         EvilCraft.log("Registered packet handler.");
     }
@@ -79,6 +82,19 @@ public class CommonProxy {
         FMLCommonHandler.instance().bus().register(new ConfigChangedEventHook());
         FMLCommonHandler.instance().bus().register(new PlayerRingOfFire());
         FMLCommonHandler.instance().bus().register(new ItemCraftedEventHook());
+    }
+    
+    /**
+     * Play a minecraft sound, will do nothing serverside, use {@link CommonProxy#sendSound(double,
+     * double, double, String, float, float, String)} for this.
+     * @param location The location.
+     * @param sound The sound name to play.
+     * @param volume The volume of the sound.
+     * @param frequency The pitch of the sound.
+     */
+    public void playSoundMinecraft(ILocation location, String sound, float volume, float frequency) {
+    	int[] c = location.getCoordinates();
+    	playSoundMinecraft(c[0], c[1], c[2], sound, volume, frequency);
     }
     
     /**
@@ -123,6 +139,18 @@ public class CommonProxy {
      */
     public void playSound(double x, double y, double z, String sound, float volume, float frequency) {
     	playSound(x, y, z, sound, volume, frequency, Reference.MOD_ID);
+    }
+    
+    /**
+     * Send a minecraft sound packet.
+     * @param location The location.
+     * @param sound The sound name to play.
+     * @param volume The volume of the sound.
+     * @param frequency The pitch of the sound.
+     */
+    public void sendSoundMinecraft(ILocation location, String sound, float volume, float frequency) {
+    	int[] c = location.getCoordinates();
+		sendSound(c[0], c[1], c[2], sound, volume, frequency, DEFAULT_RESOURCELOCATION_MOD);
     }
     
     /**

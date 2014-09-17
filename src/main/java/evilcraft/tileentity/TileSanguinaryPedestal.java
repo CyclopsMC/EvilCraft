@@ -3,6 +3,7 @@ package evilcraft.tileentity;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -19,6 +20,8 @@ import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.item.BloodExtractorConfig;
+import evilcraft.network.PacketHandler;
+import evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
 
 /**
  * Tile for the {@link SanguinaryPedestal}.
@@ -46,6 +49,17 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
         		* TANK_MULTIPLIER, SanguinaryPedestalConfig._instance.getNamedId() + "tank", FLUID);
     }
     
+    protected void afterBlockReplace(World world, ILocation location, Block block) {
+    	// NOTE: this is only called server-side, so make sure to send packets where needed.
+    	
+    	// Fill tank
+    	if(!getTank().isFull()) {
+			fill(new FluidStack(FLUID, SanguinaryPedestalConfig.extractMB), true);
+		}
+    	
+    	PacketHandler.sendToServer(new SanguinaryPedestalBlockReplacePacket(location, block));
+    }
+    
     @Override
     public void updateTileEntity() {
     	super.updateTileEntity();
@@ -56,10 +70,9 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
 	    	Block block = LocationHelpers.getBlock(getWorldObj(), location);
 	    	if(block == BloodStainedBlock.getInstance()) {
 	    		int metaData = LocationHelpers.getBlockMeta(getWorldObj(), location);
-	    		LocationHelpers.setBlock(getWorldObj(), location, BloodStainedBlock.getInstance().getBlockFromMetadata(metaData));
-	    		if(!getTank().isFull()) {
-	    			fill(new FluidStack(FLUID, SanguinaryPedestalConfig.extractMB), true);
-	    		}
+	    		Block replace = BloodStainedBlock.getInstance().getBlockFromMetadata(metaData);
+	    		LocationHelpers.setBlock(getWorldObj(), location, replace);
+	    		afterBlockReplace(getWorldObj(), location, replace);
 	    	}
 	    	
 	    	// Auto-drain the inner tank
