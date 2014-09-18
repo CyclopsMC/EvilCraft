@@ -1,7 +1,12 @@
 package evilcraft.core.helper;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
 
 /**
  * Helpers for items.
@@ -9,6 +14,8 @@ import net.minecraft.nbt.NBTTagCompound;
  *
  */
 public class ItemHelpers {
+	
+	private static final int MB_FILL_PERTICK = 10;
 	
 	/**
      * Check if the given item is activated.
@@ -58,6 +65,37 @@ public class ItemHelpers {
             itemStack.setTagCompound(tagCompound);
         }
         tagCompound.setInteger(tag, integer);
+    }
+    
+    /**
+     * Run an auto-fill tick for filling currently held container items from this item.
+     * @param item The item type to fill from.
+     * @param itemStack The item stack to fill from.
+     * @param world The world.
+     * @param entity The entity that holds this item.
+     */
+    public static void updateAutoFill(IFluidContainerItem item, ItemStack itemStack, World world, Entity entity) {
+    	if(entity instanceof EntityPlayer && !world.isRemote) {
+            FluidStack tickFluid = item.getFluid(itemStack);
+            if(tickFluid != null && tickFluid.amount > 0) {
+                EntityPlayer player = (EntityPlayer) entity;
+                ItemStack held = player.getCurrentEquippedItem();
+                if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
+                    IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
+                    FluidStack heldFluid = fluidContainer.getFluid(held);
+                    if(tickFluid.amount >= MB_FILL_PERTICK
+                            && (heldFluid == null || (heldFluid != null
+                                                    && heldFluid.isFluidEqual(tickFluid)
+                                                    && heldFluid.amount < fluidContainer.getCapacity(held)
+                                                    )
+                               )
+                            ) {
+                        int filled = fluidContainer.fill(held, new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), true);
+                        item.drain(itemStack, filled, true);
+                    }
+                }
+            }
+        }
     }
 	
 }

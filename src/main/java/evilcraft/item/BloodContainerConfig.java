@@ -13,6 +13,7 @@ import evilcraft.fluid.Blood;
  * @author rubensworks
  *
  */
+@Deprecated
 public class BloodContainerConfig extends ItemConfig {
     
     /**

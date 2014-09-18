@@ -257,32 +257,6 @@
 
 	<recipe type="shaped">
 		<condition type="config">bloodContainer</condition>
-		<input>
-			<grid>
-				<gridrow>
-					<item type="oredict">gemDark</item>
-					<item type="oredict">gemDark</item>
-					<item type="oredict">gemDark</item>
-				</gridrow>
-				<gridrow>
-					<item type="oredict">gemDark</item>
-					<item type="oredict">blockGlass</item>
-					<item type="oredict">gemDark</item>
-				</gridrow>
-				<gridrow>
-					<item type="oredict">gemDark</item>
-					<item type="oredict">gemDark</item>
-					<item type="oredict">gemDark</item>
-				</gridrow>
-			</grid>
-		</input>
-		<output>
-			<item>evilcraft:bloodContainer</item>
-		</output>
-	</recipe>
-
-	<recipe type="shaped">
-		<condition type="config">bloodContainer</condition>
 		<condition type="config">darkSpike</condition>
 		<condition type="config">bloodExtractor</condition>
 		<input>

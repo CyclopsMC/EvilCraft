@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -25,6 +26,7 @@ import evilcraft.core.item.ItemBlockFluidContainer;
 import evilcraft.core.recipe.ItemBlockFluidContainerCombinationRecipe;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
+import evilcraft.core.recipe.event.IRecipeOutputObserver;
 import evilcraft.core.recipe.event.ObservableShapelessRecipe;
 import evilcraft.core.recipe.xml.XmlRecipeLoader;
 import evilcraft.core.weather.WeatherType;
@@ -163,23 +165,50 @@ public class Recipes {
     }
 
     private static void registerCustomRecipes() {
-    	// Blood Containers
-        if(Configs.isEnabled(BloodContainerConfig.class)) {
-            for(int i = 1; i < BloodContainerConfig.getContainerLevels(); i++) {
-                ItemStack result = new ItemStack(BloodContainer.getInstance(), 1, i);
-                if(!BloodContainer.getInstance().isCreativeItem(result)) {
+    	// Blood Containers to Dark Tank
+    	// TODO: remove this conversion and the blood container item in the next EC update.
+        if(Configs.isEnabled(BloodContainerConfig.class) && Configs.isEnabled(DarkTankConfig.class)) {
+            for(int i = 0; i < BloodContainerConfig.getContainerLevels(); i++) {
+            	ItemStack input = new ItemStack(BloodContainer.getInstance(), 1, i);
+                if(!BloodContainer.getInstance().isCreativeItem(input)) {
+                	final int capacity = BloodContainer.getInstance().getCapacity(input);
+                	ItemStack result = new ItemStack(DarkTank.getInstance());
                     GameRegistry.addRecipe(new ObservableShapelessRecipe(result,
                             new Object[]{
-                    			new ItemStack(BloodContainer.getInstance(), 1, i - 1),
-                    			new ItemStack(BloodContainer.getInstance(), 1, i - 1)
+                    			input,
                     		},
-                            BloodContainer.getInstance()
+                            new IRecipeOutputObserver() {
+
+								@Override
+								public ItemStack getRecipeOutput(
+										InventoryCrafting grid,
+										ItemStack output) {
+									ItemBlockFluidContainer container = (ItemBlockFluidContainer) output.getItem();
+				                	container.setCapacity(output, capacity);
+				                	ItemStack input = null;
+				                	for(int j = 0; j < grid.getSizeInventory(); j++) {
+				            			ItemStack element = grid.getStackInSlot(j);
+				            			if(element != null && element.getItem() == BloodContainer.getInstance()) {
+				            				input = element;
+				            			}
+				                	}
+				                	if(input == null) {
+				                		return null;
+				                	}
+				                	FluidStack resource = BloodContainer.getInstance().getFluid(input);
+				                	if(resource != null && resource.amount > 0) {
+				                		container.fill(output, resource, true);
+				                	}
+									return output;
+								}
+                    	
+                    }
                             ));
                 }
             }
         }
         
-        // Dark tank
+        // Dark tank upgrades
         if(Configs.isEnabled(DarkTankConfig.class)) {
         	for(int i = 1; i < 9; i++) {
         		ItemBlockFluidContainer tankItem = (ItemBlockFluidContainer) Item.getItemFromBlock(DarkTank.getInstance());

@@ -147,7 +147,7 @@ public class Configs {
     /**
      * Register all the configs.
      */
-    public void registerConfigs() {        
+	public void registerConfigs() {        
         // Fluids
         configs.add(new BloodConfig());
         configs.add(new PoisonConfig());

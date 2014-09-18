@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -28,13 +27,12 @@ import evilcraft.fluid.Blood;
  * @author rubensworks
  *
  */
+@Deprecated
 public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContainer implements IRecipeOutputObserver {
     
     private static BloodContainer _instance = null;
     
     private IIcon[] icons = new IIcon[BloodContainerConfig.getContainerLevels()];
-    
-    private static final int MB_FILL_PERTICK = 10;
     
     /**
      * Initialise the configurable.
@@ -123,40 +121,9 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
     	if(ItemHelpers.isActivated(itemStack)) {
-    		updateAutoFill(this, itemStack, world, entity);
+    		ItemHelpers.updateAutoFill(this, itemStack, world, entity);
     	}
         super.onUpdate(itemStack, world, entity, par4, par5);
-    }
-    
-    /**
-     * Run an auto-fill tick for filling currently held container items from this item.
-     * @param item The item type to fill from.
-     * @param itemStack The item stack to fill from.
-     * @param world The world.
-     * @param entity The entity that holds this item.
-     */
-    public static void updateAutoFill(IFluidContainerItem item, ItemStack itemStack, World world, Entity entity) {
-    	if(entity instanceof EntityPlayer && !world.isRemote) {
-            FluidStack tickFluid = item.getFluid(itemStack);
-            if(tickFluid != null && tickFluid.amount > 0) {
-                EntityPlayer player = (EntityPlayer) entity;
-                ItemStack held = player.getCurrentEquippedItem();
-                if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
-                    IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
-                    FluidStack heldFluid = fluidContainer.getFluid(held);
-                    if(tickFluid.amount >= MB_FILL_PERTICK
-                            && (heldFluid == null || (heldFluid != null
-                                                    && heldFluid.isFluidEqual(tickFluid)
-                                                    && heldFluid.amount < fluidContainer.getCapacity(held)
-                                                    )
-                               )
-                            ) {
-                        int filled = fluidContainer.fill(held, new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), true);
-                        item.drain(itemStack, filled, true);
-                    }
-                }
-            }
-        }
     }
     
     /**
