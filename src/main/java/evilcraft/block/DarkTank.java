@@ -3,8 +3,10 @@ import java.util.List;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -12,8 +14,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
 import evilcraft.client.render.block.RenderDarkTank;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockTank;
@@ -22,6 +27,8 @@ import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.fluid.Blood;
+import evilcraft.fluid.BloodConfig;
 import evilcraft.tileentity.TileDarkTank;
 
 /**
@@ -219,6 +226,24 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	@Override
 	public int damageDropped(int meta) {
 		return meta;
+    }
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+		int capacity = TileDarkTank.BASE_CAPACITY;
+		do{
+		    ItemStack itemStack = new ItemStack(item);
+            setTankCapacity(itemStack, capacity);
+        	list.add(itemStack);
+        	if(Configs.isEnabled(BloodConfig.class)) {
+        		ItemStack itemStackFilled = itemStack.copy();
+        		IFluidContainerItem container = (IFluidContainerItem) itemStackFilled.getItem();
+        		container.fill(itemStackFilled, new FluidStack(Blood.getInstance(), capacity), true);
+        		list.add(itemStackFilled);
+        	}
+        	capacity = capacity << 2;
+        } while(capacity < DarkTankConfig.maxTankSize);
     }
 
 }

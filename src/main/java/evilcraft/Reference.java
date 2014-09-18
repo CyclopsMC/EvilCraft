@@ -45,7 +45,7 @@ public class Reference {
     
     // OREDICT NAMES
     public static final String DICT_MATERIALPOISONOUS = "materialPoisonous";
-    public static final String DICT_MATERIALGLASS = "materialGlass";
+    public static final String DICT_BLOCKGLASS = "blockGlass";
     public static final String DICT_MATERIALLEATHER = "materialLeather";
     public static final String DICT_MATERIALBONE = "materialBone";
     public static final String DICT_COBBLESTONE = "cobblestone";

@@ -139,7 +139,7 @@ public class Configs {
      * Register ore dictionary keys for vanilla items/blocks.
      */
     public void registerVanillaDictionary() {
-        OreDictionary.registerOre(Reference.DICT_MATERIALGLASS, new ItemStack(Blocks.glass));
+        OreDictionary.registerOre(Reference.DICT_BLOCKGLASS, new ItemStack(Blocks.glass));
         OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Items.poisonous_potato));
         OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Items.bone));
     }

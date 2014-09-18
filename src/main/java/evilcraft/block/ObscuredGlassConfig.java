@@ -1,5 +1,6 @@
 package evilcraft.block;
 
+import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 
 /**
@@ -28,7 +29,7 @@ public class ObscuredGlassConfig extends BlockConfig {
     
     @Override
     public String getOreDictionaryId() {
-        return "materialGlass";
+        return Reference.DICT_BLOCKGLASS;
     }
     
     @Override
