@@ -21,6 +21,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
+import evilcraft.core.client.render.block.CustomRenderBlocks;
+import evilcraft.core.client.render.block.IMultiRenderPassBlock;
+import evilcraft.core.client.render.block.MultiPassBlockRenderer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
@@ -32,7 +35,7 @@ import evilcraft.core.tileentity.EvilCraftTileEntity;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockContainer extends BlockContainer implements IConfigurable{
+public abstract class ConfigurableBlockContainer extends BlockContainer implements IConfigurable, IMultiRenderPassBlock {
     
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
@@ -44,6 +47,10 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     
     private boolean rotatable;
     protected IIcon[] sideIcons = new IIcon[DirectionHelpers.DIRECTIONS.size()];
+    
+    protected int pass = 0;
+    protected CustomRenderBlocks renderer;
+    protected boolean isInventoryBlock = false;
     
     /**
      * Make a new block instance.
@@ -109,11 +116,62 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     
     @Override
     public IIcon getIcon(int side, int meta) {
+    	return getIcon(side, meta, pass);
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int meta, int renderPass) {
+        if(renderPass < 0) return null;
         if(isRotatable()) {
             return sideIcons[side];
         } else {
             return super.getIcon(side, meta);
         }
+    }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getRenderType() {
+        return getRenderPasses() == 1? super.getRenderType() : MultiPassBlockRenderer.ID;
+    }
+    
+    @Override
+    public int getRenderPasses() {
+        return 1;
+    }
+    
+    @Override
+    public void setRenderPass(int pass) {
+        if(pass < getRenderPasses())
+            this.pass = pass;
+        else
+            this.pass = getRenderPasses() - 1;
+    }
+    
+    @Override
+    public boolean shouldRender(int pass) {
+    	return true;
+    }
+    
+    @Override
+    public void setRenderBlocks(CustomRenderBlocks renderer) {
+        this.renderer = renderer;
+    }
+    
+    @Override
+    public CustomRenderBlocks getRenderBlocks() {
+        return this.renderer;
+    }
+    
+    @Override
+    public void updateTileEntity(IBlockAccess world, int x, int y, int z) {
+        // There was absolutely nothing here...
+    }
+    
+    @Override
+    public void setInventoryBlock(boolean isInventoryBlock) {
+        this.isInventoryBlock = isInventoryBlock;
     }
     
     @Override

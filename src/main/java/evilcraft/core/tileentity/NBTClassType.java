@@ -63,6 +63,21 @@ public abstract class NBTClassType<T> {
             }
         });
         
+        NBTYPES.put(String.class, new NBTClassType<String>() {
+
+            @Override
+            protected void writePersistedField(String name, String object, NBTTagCompound tag) {
+            	if(object != null && !object.isEmpty()) {
+            		tag.setString(name, object);
+            	}
+            }
+
+            @Override
+            protected String readPersistedField(String name, NBTTagCompound tag) {
+                return tag.getString(name);
+            }
+        });
+        
         NBTYPES.put(NBTTagCompound.class, new NBTClassType<NBTTagCompound>() {
 
             @Override
@@ -150,20 +165,25 @@ public abstract class NBTClassType<T> {
     @SuppressWarnings("unchecked")
     public void persistedFieldAction(EvilCraftTileEntity tile, Field field, NBTTagCompound tag, boolean write) throws IllegalAccessException {
         String name = field.getName();
+        Object castTile = field.getDeclaringClass().cast(tile);
         if(write) {
             try {
-                T object = (T) field.get(tile);
-                writePersistedField(name, object, tag);
+                T object = (T) field.get(castTile);
+                try {
+                	writePersistedField(name, object, tag);
+                } catch (Exception e) {
+                	throw new RuntimeException("Something went from with field " + field.getName() + " in " + castTile + ": " + e.getMessage());
+                }
             } catch (IllegalArgumentException e) {
-                throw new RuntimeException("Can not write the field " + field.getName() + " in " + tile + " since it does not exist.");
+                throw new RuntimeException("Can not write the field " + field.getName() + " in " + castTile + " since it does not exist.");
             }
         } else {
             T object = null;
             try {
                 object = readPersistedField(name, tag);
-                field.set(tile, object);
+                field.set(castTile, object);
             }  catch (IllegalArgumentException e) {
-                throw new RuntimeException("Can not read the field " + field.getName() + " as " + object + " in " + tile + " since it does not exist OR there is a class mismatch.");
+                throw new RuntimeException("Can not read the field " + field.getName() + " as " + object + " in " + castTile + " since it does not exist OR there is a class mismatch.");
             }
         }
     }

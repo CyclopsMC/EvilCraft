@@ -18,8 +18,6 @@ import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
 import evilcraft.block.BloodInfuserConfig;
-import evilcraft.block.BloodStainedBlock;
-import evilcraft.block.BloodStainedBlockConfig;
 import evilcraft.block.DarkOre;
 import evilcraft.block.DarkOreConfig;
 import evilcraft.block.UndeadLog;
@@ -29,9 +27,7 @@ import evilcraft.block.UndeadPlankConfig;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
-import evilcraft.fluid.Blood;
 import evilcraft.fluid.Poison;
-import evilcraft.item.BloodExtractorConfig;
 import evilcraft.item.DarkGem;
 import evilcraft.item.DarkGemConfig;
 import evilcraft.item.DarkGemCrushed;
@@ -115,21 +111,6 @@ public class ThermalExpansionModCompat implements IModCompat {
             materialPoisonous.writeToNBT(cruciblePoison.getCompoundTag("input"));
             new FluidStack(Poison.getInstance(), 250).writeToNBT(cruciblePoison.getCompoundTag("output"));
             FMLInterModComms.sendMessage(TE, "CrucibleRecipe", cruciblePoison);
-        }
-
-        // Crucible blood
-        if(Configs.isEnabled(BloodStainedBlockConfig.class)) {
-            for(int i = 0; i < BloodStainedBlock.getInstance().getInnerBlocks(); i++) {
-                ItemStack materialPoisonous = new ItemStack(BloodStainedBlock.getInstance(), 1, i);
-                NBTTagCompound crucibleBlood = new NBTTagCompound();
-                crucibleBlood.setInteger("energy", 2000);
-                crucibleBlood.setTag("input", new NBTTagCompound());
-                crucibleBlood.setTag("output", new NBTTagCompound());
-    
-                materialPoisonous.writeToNBT(crucibleBlood.getCompoundTag("input"));
-                new FluidStack(Blood.getInstance(), BloodExtractorConfig.maxMB).writeToNBT(crucibleBlood.getCompoundTag("output"));
-                FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleBlood);
-            }
         }
 
         // Fluid Transposer: blood infuse

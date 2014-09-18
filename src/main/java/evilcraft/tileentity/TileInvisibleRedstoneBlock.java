@@ -7,6 +7,7 @@ import evilcraft.item.RedstoneGrenadeConfig;
 
 /**
  * Tile for the {@link InvisibleRedstoneBlock}.
+ * TODO: remove TE and implement with metadata with altered block ticktime (see pressure plate)
  * @author rubensworks
  *
  */

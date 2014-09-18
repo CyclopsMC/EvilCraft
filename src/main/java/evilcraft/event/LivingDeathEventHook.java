@@ -21,6 +21,7 @@ import evilcraft.Configs;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.BloodStainedBlockConfig;
 import evilcraft.client.particle.EntityBloodSplashFX;
+import evilcraft.core.algorithm.Location;
 import evilcraft.core.world.FakeWorld;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
@@ -75,12 +76,12 @@ public class LivingDeathEventHook {
             int y = MathHelper.floor_double(event.entity.posY - event.entity.getYOffset() - 1);
             int z = MathHelper.floor_double(event.entity.posZ);
             Block block = event.entity.worldObj.getBlock(x, y, z);
-            int meta = BloodStainedBlock.getInstance().getMetadataFromBlock(block);
-            if(meta > -1) {
+            if(BloodStainedBlock.getInstance().canSetInnerBlock(block, event.entity.worldObj, x, y, z)
+            		|| block == BloodStainedBlock.getInstance()) {
                 if (!event.entity.worldObj.isRemote) {
                     // Transform block into blood stained version
-                    event.entity.worldObj.setBlock(x, y, z, BloodStainedBlock.getInstance());
-                    event.entity.worldObj.setBlockMetadataWithNotify(x, y, z, meta, 2);
+                	BloodStainedBlock.getInstance().stainBlock(event.entity.worldObj, new Location(x, y, z),
+                			(int) (BloodStainedBlockConfig.bloodMBPerHP * event.entityLiving.getMaxHealth()));
                 } else {
                     // Init particles
                     Random random = new Random();

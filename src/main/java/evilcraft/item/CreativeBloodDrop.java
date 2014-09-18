@@ -2,17 +2,26 @@ package evilcraft.item;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Configs;
+import evilcraft.block.BloodStainedBlock;
+import evilcraft.block.BloodStainedBlockConfig;
+import evilcraft.client.particle.EntityBloodSplashFX;
+import evilcraft.core.algorithm.Location;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -58,16 +67,6 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
     @Override
     public int getCapacity(ItemStack container) {
         return MB_FILL_PERTICK;
-    }
-    
-    @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-        if(player.isSneaking()) {
-            if(!world.isRemote)
-            	ItemHelpers.toggleActivation(itemStack);
-            return itemStack;
-        }
-        return super.onItemRightClick(itemStack, world, player);
     }
     
     @Override
@@ -150,6 +149,37 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List itemList) {
     	itemList.add(new ItemStack(this));
+    }
+    
+    @Override
+    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+        Block block = world.getBlock(x, y, z);
+        if(player.isSneaking()) {
+	        if(Configs.isEnabled(BloodStainedBlockConfig.class)
+	        		&& (BloodStainedBlock.getInstance().canSetInnerBlock(block, world, x, y, z) || block == BloodStainedBlock.getInstance())) {
+	        	BloodStainedBlock.getInstance().stainBlock(world, new Location(x, y, z), FluidContainerRegistry.BUCKET_VOLUME);
+		        if(world.isRemote) {
+		        	EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + world.rand.nextInt(2));
+		        }
+		        return false;
+	        }
+	    }
+        return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+    }
+    
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+        if(!player.isSneaking()) {
+            return super.onItemRightClick(itemStack, world, player);
+        } else {
+        	MovingObjectPosition target = this.getMovingObjectPositionFromPlayer(world, player, false);
+        	if(target == null || target.typeOfHit == MovingObjectType.MISS) {
+        		if(!world.isRemote) {
+		            ItemHelpers.toggleActivation(itemStack);
+		    	}
+        	}
+        }
+        return itemStack;
     }
 
 }

@@ -7,11 +7,8 @@ import evilcraft.client.render.model.ModelPedestal;
 import evilcraft.core.client.render.item.RenderModelWavefrontItem;
 import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.client.render.tileentity.RenderTileEntityModelWavefront;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.item.BloodExtractorConfig;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileSanguinaryPedestal;
 
@@ -26,12 +23,6 @@ public class SanguinaryPedestalConfig extends BlockContainerConfig {
      * The unique instance.
      */
     public static SanguinaryPedestalConfig _instance;
-    
-    /**
-     * The amount of blood (mB) that will be gained as a result from extraction.
-     */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The amount of blood (mB) that will be gained as a result from extraction.")
-    public static int extractMB = BloodExtractorConfig.maxMB;
 
     /**
      * Make a new instance.

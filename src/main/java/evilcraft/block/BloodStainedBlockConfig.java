@@ -1,20 +1,26 @@
 package evilcraft.block;
 
-import net.minecraft.item.ItemBlock;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.item.ItemBlockMetadata;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 
 /**
  * Config for the {@link BloodStainedBlock}.
  * @author rubensworks
  *
  */
-public class BloodStainedBlockConfig extends BlockConfig {
+public class BloodStainedBlockConfig extends BlockContainerConfig {
     
     /**
      * The unique instance.
      */
     public static BloodStainedBlockConfig _instance;
+    
+    /**
+     * The amount of blood per HP (2HP = 1 heart) of the max mob health that will be added to this block when a mob dies from fall damage.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.BLOCK, comment = "The amount of blood per HP (2HP = 1 heart) of the max mob health that will be added to this block when a mob dies from fall damage.", isCommandable = true)
+    public static int bloodMBPerHP = 20;
 
     /**
      * Make a new instance.
@@ -26,11 +32,6 @@ public class BloodStainedBlockConfig extends BlockConfig {
             null,
             BloodStainedBlock.class
         );
-    }
-    
-    @Override
-    public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockMetadata.class;
     }
     
 }

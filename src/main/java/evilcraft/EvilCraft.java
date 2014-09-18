@@ -41,7 +41,7 @@ import evilcraft.world.gen.OreGenerator;
     useMetadata = true,
     version = Reference.MOD_VERSION,
     dependencies = Reference.MOD_DEPENDENCIES,
-    guiFactory = "evilcraft.core.client.gui.container.config.ExtendedConfigGuiFactory"
+    guiFactory = "evilcraft.core.client.gui.config.ExtendedConfigGuiFactory"
     )
 public class EvilCraft {
     

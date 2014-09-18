@@ -1,9 +1,11 @@
 package evilcraft.block;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -111,5 +113,11 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     @Override
     public IIcon getIcon(int side, int meta) {
         return RenderHelpers.EMPTYICON;
+    }
+    
+    @SuppressWarnings("rawtypes")
+    @Override
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+        // Do not appear in creative tab
     }
 }

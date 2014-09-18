@@ -19,17 +19,6 @@ public class BloodExtractorConfig extends ItemConfig {
      * The unique instance.
      */
     public static BloodExtractorConfig _instance;
-    
-    /**
-     * The minimum amount of blood (mB) that can be extracted from this block.
-     */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The minimum amount of blood (mB) that can be extracted from this block.", isCommandable = true)
-    public static int minMB = 250;
-    /**
-     * The maximum amount of blood (mB) that can be extracted from this block.
-     */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The maximum amount of blood (mB) that can be extracted from this block. IMPORTANT: must be larger than minMB!", isCommandable = true)
-    public static int maxMB = 500;
     /**
      * The minimum multiplier for amount of mB to receive per mob HP.
      */

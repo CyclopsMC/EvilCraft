@@ -34,7 +34,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
      */
     public static final Fluid FLUID = Blood.getInstance();
     
-    private static final int MB_RATE = 10;
+    private static final int MB_RATE = 100;
     private static final int TANK_BUCKETS = 10;
     private static final int OFFSET = 2;
     
@@ -48,12 +48,12 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
         		SanguinaryPedestalConfig._instance.getNamedId() + "tank", FLUID);
     }
     
-    protected void afterBlockReplace(World world, ILocation location, Block block) {
+    protected void afterBlockReplace(World world, ILocation location, Block block, int amount) {
     	// NOTE: this is only called server-side, so make sure to send packets where needed.
     	
     	// Fill tank
     	if(!getTank().isFull()) {
-			fill(new FluidStack(FLUID, SanguinaryPedestalConfig.extractMB), true);
+			fill(new FluidStack(FLUID, amount), true);
 		}
     	
     	PacketHandler.sendToServer(new SanguinaryPedestalBlockReplacePacket(location, block));
@@ -69,10 +69,11 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
 		    	ILocation location = getNextLocation();
 		    	Block block = LocationHelpers.getBlock(getWorldObj(), location);
 		    	if(block == BloodStainedBlock.getInstance()) {
-		    		int metaData = LocationHelpers.getBlockMeta(getWorldObj(), location);
-		    		Block replace = BloodStainedBlock.getInstance().getBlockFromMetadata(metaData);
-		    		LocationHelpers.setBlock(getWorldObj(), location, replace);
-		    		afterBlockReplace(getWorldObj(), location, replace);
+		    		BloodStainedBlock.UnstainResult result = BloodStainedBlock.getInstance().unstainBlock(getWorldObj(),
+		    				location, getTank().getCapacity() - getTank().getFluidAmount());
+		    		if(result.amount > 0) {
+		    			afterBlockReplace(getWorldObj(), location, result.block, result.amount);
+		    		}
 		    	}
     		}
 	    	
