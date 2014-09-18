@@ -31,7 +31,7 @@ public class EvilCraftTileEntity extends TileEntity {
     private List<Field> nbtPersistedFields = null;
     
     @NBTPersist
-    private boolean rotatable = false;
+    private Boolean rotatable = false;
     private ForgeDirection rotation = ForgeDirection.NORTH;
     private boolean shouldSendUpdate = false;
     private int sendUpdateBackoff = 0;
@@ -151,10 +151,12 @@ public class EvilCraftTileEntity extends TileEntity {
     
     private void generateNBTPersistedFields() {
         nbtPersistedFields = new LinkedList<Field>();
-        for(Field field : this.getClass().getDeclaredFields()) {
-            if(field.isAnnotationPresent(NBTPersist.class)) {         
-                nbtPersistedFields.add(field);
-            }
+        for(Class<?> clazz = this.getClass(); clazz != null; clazz = clazz.getSuperclass()) {
+	        for(Field field : clazz.getDeclaredFields()) {
+	            if(field.isAnnotationPresent(NBTPersist.class)) {         
+	                nbtPersistedFields.add(field);
+	            }
+	        }
         }
     }
     
