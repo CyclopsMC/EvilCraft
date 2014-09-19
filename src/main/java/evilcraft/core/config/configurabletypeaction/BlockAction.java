@@ -8,11 +8,11 @@ import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.EvilCraftTab;
 import evilcraft.client.gui.GuiHandler;
+import evilcraft.client.gui.GuiHandler.GuiType;
 import evilcraft.core.config.ConfigurableType;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGui;
 import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.modcompat.fmp.ForgeMultipartHelper;
 
 /**
@@ -61,10 +61,7 @@ public class BlockAction extends ConfigurableTypeAction<BlockConfig> {
             // If the block has a GUI, go ahead and register that.
             if(container.hasGui()) {
                 ConfigurableBlockContainerGui gui = (ConfigurableBlockContainerGui) container;
-                
-                if (MinecraftHelpers.isClientSide())
-                    GuiHandler.GUIS.put(gui.getGuiID(), gui.getGUI());
-                GuiHandler.CONTAINERS.put(gui.getGuiID(), gui.getContainer());
+                GuiHandler.registerGUI(gui, GuiType.BLOCK);
             }
         }
         

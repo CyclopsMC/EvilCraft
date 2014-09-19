@@ -6,34 +6,32 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import evilcraft.core.tileentity.InventoryTileEntity;
 
 /**
- * A container for a tile entity with inventory.
+ * A container with inventory.
  * @author rubensworks
- *
- * @param <T>
  */
-public class InventoryContainer<T extends InventoryTileEntity> extends Container{
+public abstract class InventoryContainer extends Container{
     
     protected static final int ITEMBOX = 18;
     
     private IInventory playerIInventory;
-    protected T tile;
 
     /**
-     * Make a new InventoryContainer.
+     * Make a new TileInventoryContainer.
      * @param inventory The player inventory.
-     * @param tile The TileEntity for this container.
      */
-    public InventoryContainer(InventoryPlayer inventory, T tile) {
+    public InventoryContainer(InventoryPlayer inventory) {
         this.playerIInventory = inventory;
-        this.tile = tile;
     }
-
-    @Override
-    public boolean canInteractWith(EntityPlayer entityPlayer) {
-        return tile.canInteractWith(entityPlayer);
+    
+    protected void addInventory(IInventory inventory, int indexOffset, int offsetX, int offsetY, int rows, int cols) {
+    	for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+                // Slot params: id, x-coord, y-coord (coords are relative to gui box)
+                addSlotToContainer(new Slot(inventory, x + y * cols + indexOffset, offsetX + x * ITEMBOX, offsetY + y * ITEMBOX));
+            }
+        }
     }
     
     /**
@@ -46,25 +44,20 @@ public class InventoryContainer<T extends InventoryTileEntity> extends Container
         // Player inventory
         int rows = 3;
         int cols = 9;
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < cols; x++) {
-                // Slot params: id, x-coord, y-coord (coords are relative to gui box)
-                addSlotToContainer(new Slot(inventory, x + (y + 1) * cols, offsetX + x * ITEMBOX, offsetY + y * ITEMBOX));
-            }
-        }
+        addInventory(inventory, cols, offsetX, offsetY, rows, cols);
         
         // Player hotbar
         offsetY += 58;
-        for (int x = 0; x < cols; x++) {
-            addSlotToContainer(new Slot(inventory, x, offsetX + x * ITEMBOX, offsetY));
-        }
+        addInventory(inventory, 0, offsetX, offsetY, 1, cols);
     }
+    
+    protected abstract int getSizeInventory();
     
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
         ItemStack stack = null;
         Slot slot = (Slot) inventorySlots.get(slotID);
-        int slots = tile.getSizeInventory();
+        int slots = getSizeInventory();
         
         if(slot != null && slot.getHasStack()) {
             ItemStack stackInSlot = slot.getStack();
@@ -98,7 +91,7 @@ public class InventoryContainer<T extends InventoryTileEntity> extends Container
     protected boolean mergeItemStack(ItemStack stack, int slotStart, int slotRange, boolean reverse) {
             boolean successful = false;
             int slotIndex = slotStart;
-            int maxStack = Math.min(stack.getMaxStackSize(), tile.getSizeInventory());
+            int maxStack = Math.min(stack.getMaxStackSize(), getSizeInventory());
             
             if(reverse) {
                     slotIndex = slotRange - 1;
@@ -172,13 +165,6 @@ public class InventoryContainer<T extends InventoryTileEntity> extends Container
      */
     public IInventory getPlayerIInventory() {
         return playerIInventory;
-    }
-    
-    /**
-     * @return The tile entity.
-     */
-    public T getTile() {
-    	return tile;
     }
     
 }

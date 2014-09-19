@@ -1,6 +1,6 @@
 package evilcraft.core.client.gui.container;
 
-import net.minecraft.inventory.Container;
+import evilcraft.core.inventory.container.ExtendedInventoryContainer;
 import evilcraft.core.tileentity.WorkingTileEntity;
 
 /**
@@ -16,7 +16,7 @@ public class GuiWorking<T extends WorkingTileEntity<?>> extends GuiContainerTank
      * @param container The container to make the GUI for.
      * @param tile The tile entity to make the GUI for.
      */
-	public GuiWorking(Container container, T tile) {
+	public GuiWorking(ExtendedInventoryContainer container, T tile) {
 		super(container, tile);
 	}
 	

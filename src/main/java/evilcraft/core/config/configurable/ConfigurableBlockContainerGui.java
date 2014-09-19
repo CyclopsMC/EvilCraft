@@ -12,7 +12,8 @@ import evilcraft.EvilCraft;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.Helpers;
 import evilcraft.core.helper.Helpers.IDType;
-import evilcraft.core.inventory.container.InventoryContainer;
+import evilcraft.core.inventory.IGuiContainerProvider;
+import evilcraft.core.inventory.container.TileInventoryContainer;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.tileentity.InventoryTileEntity;
 
@@ -22,7 +23,7 @@ import evilcraft.core.tileentity.InventoryTileEntity;
  * @author rubensworks
  *
  */
-public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
+public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer implements IGuiContainerProvider {
     
     private int guiID;
 
@@ -44,36 +45,29 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
         this.hasGui = true;
     }
     
-    /**
-     * Get the unique ID for the GUI this block has.
-     * @return the GUI ID.
-     */
+    @Override
     public int getGuiID() {
         return this.guiID;
     }
     
+    @Override
     @SideOnly(Side.CLIENT)
-    protected void setGUI(Class<? extends GuiContainer> gui) {
+    public void setGUI(Class<? extends GuiContainer> gui) {
         this.gui = gui;
     }
     
-    protected void setContainer(Class<? extends Container> container) {
+    @Override
+    public void setContainer(Class<? extends Container> container) {
         this.container = container;
     }
     
-    /**
-     * Get the container for this block.
-     * @return The container class.
-     */
-    public Class<? extends Container> getContainer() {
+    @Override
+	public Class<? extends Container> getContainer() {
         return container;
     }
     
-    /**
-     * Get the GUI for this block.
-     * @return The GUI class.
-     */
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public Class<? extends GuiContainer> getGUI() {
         return gui;
     }
@@ -109,12 +103,16 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer {
     	}
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * Try to close the gui at client side.
+     * @param world The world.
+     */
+	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
-	private void tryCloseClientGui(World world) {
-    	if(Minecraft.getMinecraft().thePlayer.openContainer instanceof InventoryContainer<?>) {
-    		InventoryContainer<? extends InventoryTileEntity> container =
-    				(InventoryContainer<? extends InventoryTileEntity>) Minecraft.getMinecraft()
+	public void tryCloseClientGui(World world) {
+    	if(Minecraft.getMinecraft().thePlayer.openContainer instanceof TileInventoryContainer<?>) {
+    		TileInventoryContainer<? extends InventoryTileEntity> container =
+    				(TileInventoryContainer<? extends InventoryTileEntity>) Minecraft.getMinecraft()
     				.thePlayer.openContainer;
     		if(container.getTile() == null || container.getTile().isInvalid()) {
     			Minecraft.getMinecraft().thePlayer.closeScreen();

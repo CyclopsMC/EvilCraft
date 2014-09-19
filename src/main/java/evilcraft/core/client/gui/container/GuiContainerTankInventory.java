@@ -3,18 +3,14 @@ package evilcraft.core.client.gui.container;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-import evilcraft.Reference;
 import evilcraft.core.fluid.SingleUseTank;
+import evilcraft.core.inventory.container.ExtendedInventoryContainer;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 
 /**
@@ -23,7 +19,7 @@ import evilcraft.core.tileentity.TankInventoryTileEntity;
  *
  * @param <T> The {@link TankInventoryTileEntity} class, mostly just the extension class.
  */
-public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extends GuiContainer {
+public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extends GuiContainerExtended {
 
     private boolean showTank = false;
     private int tankWidth;
@@ -42,20 +38,18 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     private int progressTargetY;
     
     protected T tile;
-    private ResourceLocation texture;
 
     /**
      * Make a new instance.
      * @param container The container to make the GUI for.
      * @param tile The tile entity to make the GUI for.
      */
-    public GuiContainerTankInventory(Container container, T tile) {
+    public GuiContainerTankInventory(ExtendedInventoryContainer container, T tile) {
         super(container);
         this.tile = tile;
-        this.texture = new ResourceLocation(Reference.MOD_ID, tile.getBlock().getGuiTexture());
     }
     
-    protected void setTank(int tankWidth, int tankHeight, int tankX, int tankY, int tankTargetX, int tankTargetY) {
+	protected void setTank(int tankWidth, int tankHeight, int tankX, int tankY, int tankTargetX, int tankTargetY) {
         this.showTank = true;
         this.tankWidth = tankWidth;
         this.tankHeight = tankHeight;
@@ -64,8 +58,8 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         this.tankTargetX = tankTargetX;
         this.tankTargetY = tankTargetY;
     }
-    
-    protected void setProgress(int progressWidth, int progressHeight, int progressX, int progressY, int progressTargetX, int progressTargetY) {
+
+	protected void setProgress(int progressWidth, int progressHeight, int progressX, int progressY, int progressTargetX, int progressTargetY) {
         this.showProgress = true;
         this.progressWidth = progressWidth;
         this.progressHeight = progressHeight;
@@ -75,29 +69,26 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         this.progressTargetY = progressTargetY;
     }
     
-    protected boolean isShowProgress() {
+	protected boolean isShowProgress() {
         return showProgress;
     }
     
-    protected int getProgressScaled(int scale) {
+	protected int getProgressScaled(int scale) {
         return 0;
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture(texture);
+        super.drawGuiContainerBackgroundLayer(f, x, y);
         int j = (width - xSize) / 2;
         int k = (height - ySize) / 2;
-        drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
-        
         if (isShowProgress()) {
             int progressScaled = getProgressScaled(progressWidth);
             this.drawTexturedModalRect(j + progressTargetX, k + progressTargetY, progressX, progressY, progressScaled, progressHeight);
         }
     }
     
-    protected void drawForgegroundString() {
+	protected void drawForgegroundString() {
     	fontRendererObj.drawString(tile.getInventoryName(), 8, 4, 4210752);
     }
     
@@ -115,7 +106,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         GL11.glDisable(GL11.GL_BLEND);
     }
     
-    protected void drawAdditionalForeground(int mouseX, int mouseY) {
+	protected void drawAdditionalForeground(int mouseX, int mouseY) {
     	
     }
     
@@ -125,14 +116,14 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         drawTooltips(mouseX, mouseY);
     }
     
-    protected boolean shouldRenderTank() {
+	protected boolean shouldRenderTank() {
         if(!showTank)
             return false;
         SingleUseTank tank = tile.getTank();
         return tank != null && tank.getAcceptedFluid() != null && tank.getFluidAmount() > 0;
     }
     
-    protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
+	protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
         FluidStack stack = new FluidStack(fluidID, 1);
         if(fluidID > 0 && stack != null) {
             IIcon icon = stack.getFluid().getIcon();
@@ -161,12 +152,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         }
     }
     
-    protected boolean isPointInRegion(int x, int y, int width, int height, int mouseX, int mouseY) {
-    	// MCP isPointInRegion
-    	return func_146978_c(x, y, width, height, mouseX, mouseY);
-    }
-    
-    protected void drawTooltips(int mouseX, int mouseY) {
+	protected void drawTooltips(int mouseX, int mouseY) {
         if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
             SingleUseTank tank = tile.getTank();
             String fluidName = tank.getFluid().getLocalizedName();
@@ -174,82 +160,11 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         }
     }
     
-    protected void drawBarTooltipTank(String name, String unit, int value, int max, int x, int y) {
+	protected void drawBarTooltipTank(String name, String unit, int value, int max, int x, int y) {
         List<String> lines = new ArrayList<String>();
         lines.add(name);
         lines.add(value + " / " + max + " " + unit);
         drawTooltip(lines, x, y);
-    }
-    
-    protected void drawTooltip(List<String> lines, int x, int y) {
-        GL11.glPushMatrix();
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        
-        int tooltipWidth = 0;
-        int tempWidth;
-        int xStart;
-        int yStart;
-        
-        for(int i = 0; i < lines.size(); i++) {
-            tempWidth = this.fontRendererObj.getStringWidth(lines.get(i));
-            
-            if(tempWidth > tooltipWidth) {
-                tooltipWidth = tempWidth;
-            }
-        }
-        
-        xStart = x + 12;
-        yStart = y - 12;
-        int tooltipHeight = 8;
-        
-        if(lines.size() > 1) {
-            tooltipHeight += 2 + (lines.size() - 1) * 10;
-        }
-        
-        if(this.guiTop + yStart + tooltipHeight + 6 > this.height) {
-            yStart = this.height - tooltipHeight - this.guiTop - 6;
-        }
-        
-        this.zLevel = 300.0F;
-        itemRender.zLevel = 300.0F;
-        int color1 = -267386864;
-        this.drawGradientRect(xStart - 3, yStart - 4, xStart + tooltipWidth + 3, yStart - 3, color1, color1);
-        this.drawGradientRect(xStart - 3, yStart + tooltipHeight + 3, xStart + tooltipWidth + 3, yStart + tooltipHeight + 4, color1, color1);
-        this.drawGradientRect(xStart - 3, yStart - 3, xStart + tooltipWidth + 3, yStart + tooltipHeight + 3, color1, color1);
-        this.drawGradientRect(xStart - 4, yStart - 3, xStart - 3, yStart + tooltipHeight + 3, color1, color1);
-        this.drawGradientRect(xStart + tooltipWidth + 3, yStart - 3, xStart + tooltipWidth + 4, yStart + tooltipHeight + 3, color1, color1);
-        int color2 = 1347420415;
-        int color3 = (color2 & 16711422) >> 1 | color2 & -16777216;
-        this.drawGradientRect(xStart - 3, yStart - 3 + 1, xStart - 3 + 1, yStart + tooltipHeight + 3 - 1, color2, color3);
-        this.drawGradientRect(xStart + tooltipWidth + 2, yStart - 3 + 1, xStart + tooltipWidth + 3, yStart + tooltipHeight + 3 - 1, color2, color3);
-        this.drawGradientRect(xStart - 3, yStart - 3, xStart + tooltipWidth + 3, yStart - 3 + 1, color2, color2);
-        this.drawGradientRect(xStart - 3, yStart + tooltipHeight + 2, xStart + tooltipWidth + 3, yStart + tooltipHeight + 3, color3, color3);
-        
-        for(int stringIndex = 0; stringIndex < lines.size(); ++stringIndex) {
-            String line = lines.get(stringIndex);
-            
-            if(stringIndex == 0) {
-                line = "\u00a7" + Integer.toHexString(15) + line;
-            } else {
-                line = "\u00a77" + line;
-            }
-            
-            this.fontRendererObj.drawStringWithShadow(line, xStart, yStart, -1);
-            
-            if(stringIndex == 0) {
-                yStart += 2;
-            }
-            
-            yStart += 10;
-        }
-        
-        GL11.glPopMatrix();
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        
-        this.zLevel = 0.0F;
-        itemRender.zLevel = 0.0F;
     }
 
 }

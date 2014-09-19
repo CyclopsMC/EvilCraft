@@ -24,6 +24,7 @@ compileJava {
         compile "mcp.mobius.waila:Waila:${config.waila_version}"
         compile "codechicken:ForgeMultipart:${config.minecraft_version}-${config.FMP_version}:dev"
         compile "net.sengir.forestry:forestry_${config.minecraft_version}:${config.forestry_version}:dev"
+        //compile "codechicken:NotEnoughItems:${config.minecraft_version}-${config.NEI_version}:dev"
         
         // Enable to test these inside your dev environment.
         //compile files("${project.libs_path}/Baubles-deobf-${config.minecraft_version}-${config.baubles_version}.jar")

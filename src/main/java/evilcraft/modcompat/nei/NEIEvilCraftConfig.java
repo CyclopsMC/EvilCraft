@@ -6,6 +6,8 @@ import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.block.BloodInfuserConfig;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
+import evilcraft.client.gui.container.GuiExaltedCrafter;
+import evilcraft.item.ExaltedCrafterConfig;
 import evilcraft.modcompat.IModCompat;
 import evilcraft.modcompat.ModCompatLoader;
 
@@ -36,9 +38,14 @@ public class NEIEvilCraftConfig implements IConfigureNEI, IModCompat {
 	            API.registerUsageHandler(new NEIBloodInfuserManager());
 	        }
 	        
-	        if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
+	        if(Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
 	            API.registerRecipeHandler(new NEIEnvironmentalAccumulatorManager());
 	            API.registerUsageHandler(new NEIEnvironmentalAccumulatorManager());
+	        }
+	        
+	        if(Configs.isEnabled(ExaltedCrafterConfig.class)) {
+	        	API.registerGuiOverlay(GuiExaltedCrafter.class, "crafting");
+	            API.registerGuiOverlayHandler(GuiExaltedCrafter.class, new ExaltedCrafterOverlayHandler(), "crafting");
 	        }
     	}
     }

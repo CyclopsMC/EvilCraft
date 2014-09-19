@@ -5,7 +5,10 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.EvilCraftTab;
+import evilcraft.client.gui.GuiHandler;
+import evilcraft.client.gui.GuiHandler.GuiType;
 import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.core.inventory.IGuiContainerProvider;
 
 /**
  * The action used for {@link ItemConfig}.
@@ -43,6 +46,12 @@ public class ItemAction extends ConfigurableTypeAction<ItemConfig>{
         
         // Set creative tab
         item.setCreativeTab(EvilCraftTab.getInstance());
+        
+        // Optionally register gui
+        if(item instanceof IGuiContainerProvider) {
+        	IGuiContainerProvider gui = (IGuiContainerProvider) item;
+        	GuiHandler.registerGUI(gui, GuiType.ITEM);
+        }
     }
 
 }

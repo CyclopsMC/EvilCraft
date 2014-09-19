@@ -18,7 +18,7 @@ import evilcraft.core.tileentity.tickaction.TickComponent;
  *
  * @param <T> The TickingTankInventoryTileEntity class.
  */
-public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEntity<T>> extends InventoryContainer<T>{
+public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEntity<T>> extends TileInventoryContainer<T>{
 
     private Map<TickComponent<T, ITickAction<T>>, Integer> previousTicks;
     private int lastTankAmount;

@@ -105,6 +105,7 @@ item.items.creativeBloodDrop.name=Creative Blood Drop
 item.items.creativeBloodDrop.info=Creative mode only item to drain and fill infinite amounts of Blood.
 item.items.creativeBloodDrop.info.autoSupply=Auto-supply: %s
 item.items.darkSpike.name=Spike
+item.items.exaltedCrafter.name=Exalted Crafter
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
@@ -170,3 +171,6 @@ achievement.evilcraft.tidy=Tidy Up!
 achievement.evilcraft.tidy.desc=Clean up an excrement pile with a broom.
 achievement.evilcraft.playerDistorter=Player Distorter
 achievement.evilcraft.playerDistorter.desc=Distort a player with the Mace of Distortion.
+
+# Gui
+gui.exaltedCrafting=Exalted Crafting
