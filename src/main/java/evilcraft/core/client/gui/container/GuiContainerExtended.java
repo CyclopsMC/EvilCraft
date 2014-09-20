@@ -1,5 +1,7 @@
 package evilcraft.core.client.gui.container;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.List;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -17,6 +19,9 @@ import evilcraft.core.inventory.container.ExtendedInventoryContainer;
  */
 public class GuiContainerExtended extends GuiContainer {
     
+	protected static final int BUTTON_LEFT = 0;
+	protected static final int BUTTON_RIGHT = 1;
+	
     protected ResourceLocation texture;
 
     /**
@@ -35,6 +40,10 @@ public class GuiContainerExtended extends GuiContainer {
         int j = (width - xSize) / 2;
         int k = (height - ySize) / 2;
         drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
+    }
+    
+    protected boolean isPointInRegion(Rectangle region, Point mouse) {
+    	return isPointInRegion(region.x, region.y, region.width, region.height, mouse.x, mouse.y);
     }
     
     protected boolean isPointInRegion(int x, int y, int width, int height, int mouseX, int mouseY) {

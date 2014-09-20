@@ -10,6 +10,8 @@ import evilcraft.block.BloodChest;
 import evilcraft.core.inventory.NBTCraftingGrid;
 import evilcraft.core.inventory.container.ItemInventoryContainer;
 import evilcraft.item.ExaltedCrafter;
+import evilcraft.network.PacketHandler;
+import evilcraft.network.packet.ExaltedCrafterClearPacket;
 
 /**
  * Container for the {@link BloodChest}.
@@ -32,6 +34,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     private static final int INVENTORY_OFFSET_Y = 143;
     
     private World world;
+    private EntityPlayer player;
     private NBTCraftingGrid craftingGrid;
     private InventoryCraftResult result;
     private boolean initialized;
@@ -44,14 +47,34 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         super(player.inventory, ExaltedCrafter.getInstance());
         initialized = false;
         this.world = player.worldObj;
+        this.player = player;
         this.result = new InventoryCraftResult();
         this.craftingGrid = new NBTCraftingGrid(player, player.getCurrentEquippedItem(), this);
+        
         this.addCraftingGrid(player, craftingGrid);
         this.addInventory(player.getInventoryEnderChest(), 0, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y,
         		CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
         this.addPlayerInventory(player.inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
+        
         initialized = true;
         this.onCraftMatrixChanged(craftingGrid);
+    }
+    
+    /**
+     * Send a packet to the server for clearing the grid.
+     */
+    public void sendClearGrid() {
+    	clearGrid();
+    	PacketHandler.sendToServer(new ExaltedCrafterClearPacket());
+    }
+    
+    /**
+     * Clear the crafting grid.
+     */
+    public void clearGrid() {
+    	for(int i = 0; i < craftingGrid.getSizeInventory(); i++) {
+    		transferStackInSlot(player, i);
+    	}
     }
     
     protected void addCraftingGrid(EntityPlayer player, NBTCraftingGrid grid) {
