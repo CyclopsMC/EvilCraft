@@ -2,23 +2,27 @@ package evilcraft.item;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.entity.item.EntityItemEmpowerable;
 
 /**
  * An inverted {@link PotentiaSphere}.
  * @author rubensworks
  *
  */
-public class InvertedPotentia extends ConfigurableItem {
+public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerable {
     
     private static InvertedPotentia _instance = null;
     
@@ -56,23 +60,16 @@ public class InvertedPotentia extends ConfigurableItem {
         return isEmpowered(itemStack);
     }
     
-    /**
-     * Set the given ItemStack as an empowered {@link InvertedPotentia}.
-     * @param itemStack The ItemStack to check.
-     */
-    public static void empower(ItemStack itemStack) {
+    @Override
+	public void empower(ItemStack itemStack) {
         if(itemStack.getItem() == InvertedPotentia.getInstance()) {
             itemStack.setItemDamage(EMPOWERED_META);
         }
     }
     
-    /**
-     * If the given ItemStack is an empowered {@link InvertedPotentia}.
-     * @param itemStack The ItemStack to check.
-     * @return If it is an empowered {@link InvertedPotentia}.
-     */
-    public static boolean isEmpowered(ItemStack itemStack) {
-        if(itemStack.getItem() == InvertedPotentia.getInstance()) {
+    @Override
+	public boolean isEmpowered(ItemStack itemStack) {
+        if(itemStack.getItem() == this) {
             return itemStack.getItemDamage() == EMPOWERED_META;
         }
         return false;
@@ -95,6 +92,18 @@ public class InvertedPotentia extends ConfigurableItem {
         for(int i = 0; i < 2; i++) {
             list.add(new ItemStack(item, 1, i));
         }
+    }
+    
+    @Override
+    public boolean hasCustomEntity(ItemStack itemStack) {
+    	return true;
+    }
+    
+    @Override
+    public Entity createEntity(World world, Entity location, ItemStack itemStack) {
+    	Entity entity = new EntityItemEmpowerable(world, location.posX, location.posY - 1, location.posZ, ((EntityItem) location).getEntityItem());
+    	entity.copyLocationAndAnglesFrom(location);
+    	return entity;
     }
 
 }

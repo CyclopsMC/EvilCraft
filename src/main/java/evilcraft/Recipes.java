@@ -106,7 +106,7 @@ public class Recipes {
     	
     	if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
 	    	ItemStack empoweredInvertedPotentia = new ItemStack(InvertedPotentia.getInstance());
-	        InvertedPotentia.empower(empoweredInvertedPotentia);
+	        InvertedPotentia.getInstance().empower(empoweredInvertedPotentia);
 	        XmlRecipeLoader.registerPredefinedItem("evilcraft:empoweredInvertedPotentia",
 	        		empoweredInvertedPotentia);
     	}

@@ -18,4 +18,38 @@
         </properties>
     </recipe>
     
+    <recipe type="evilcraft:environmentalaccumulator">
+        <condition type="config">environmentalAccumulator</condition>
+        <condition type="config">exaltedCrafter</condition>
+        <input>
+            <item meta="0">evilcraft:exaltedCrafter</item>
+            <weather>LIGHTNING</weather>
+        </input>
+        <output>
+            <item meta="2">evilcraft:exaltedCrafter</item>
+            <weather>RAIN</weather>
+        </output>
+        <properties>
+            <duration>-1</duration>
+            <processingspeed>-1.0</processingspeed>
+        </properties>
+    </recipe>
+    
+    <recipe type="evilcraft:environmentalaccumulator">
+        <condition type="config">environmentalAccumulator</condition>
+        <condition type="config">exaltedCrafter</condition>
+        <input>
+            <item meta="1">evilcraft:exaltedCrafter</item>
+            <weather>LIGHTNING</weather>
+        </input>
+        <output>
+            <item meta="3">evilcraft:exaltedCrafter</item>
+            <weather>RAIN</weather>
+        </output>
+        <properties>
+            <duration>-1</duration>
+            <processingspeed>-1.0</processingspeed>
+        </properties>
+    </recipe>
+    
 </recipes>
