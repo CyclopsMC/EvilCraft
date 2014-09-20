@@ -3,6 +3,7 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -13,6 +14,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -42,6 +44,9 @@ public class ExaltedCrafter extends ItemGui implements KeyHandler, IItemEmpowera
     
     private static ExaltedCrafter _instance = null;
     
+    @SideOnly(Side.CLIENT)
+    private IIcon woodenIcon;
+    
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -69,6 +74,21 @@ public class ExaltedCrafter extends ItemGui implements KeyHandler, IItemEmpowera
             setGUI(GuiExaltedCrafter.class);
         
         setContainer(ContainerExaltedCrafter.class);
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iconRegister) {
+        woodenIcon = iconRegister.registerIcon(getIconString() + "_wooden");
+        super.registerIcons(iconRegister);
+    }
+    
+    @Override
+    public IIcon getIconFromDamage(int damage) {
+    	if((damage & 1) == 1) {
+    		return woodenIcon;
+    	}
+    	return super.getIconFromDamage(damage);
     }
     
     @Override
