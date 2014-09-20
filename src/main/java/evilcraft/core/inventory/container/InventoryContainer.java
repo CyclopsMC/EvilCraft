@@ -25,11 +25,15 @@ public abstract class InventoryContainer extends Container{
         this.playerIInventory = inventory;
     }
     
+    protected Slot createNewSlot(IInventory inventory, int index, int x, int y) {
+    	return new Slot(inventory, index, x, y);
+    }
+    
     protected void addInventory(IInventory inventory, int indexOffset, int offsetX, int offsetY, int rows, int cols) {
     	for (int y = 0; y < rows; y++) {
             for (int x = 0; x < cols; x++) {
                 // Slot params: id, x-coord, y-coord (coords are relative to gui box)
-                addSlotToContainer(new Slot(inventory, x + y * cols + indexOffset, offsetX + x * ITEMBOX, offsetY + y * ITEMBOX));
+                addSlotToContainer(createNewSlot(inventory, x + y * cols + indexOffset, offsetX + x * ITEMBOX, offsetY + y * ITEMBOX));
             }
         }
     }
@@ -53,6 +57,14 @@ public abstract class InventoryContainer extends Container{
     
     protected abstract int getSizeInventory();
     
+    protected int getSlotStart(int originSlot, int slotStart, boolean reverse) {
+    	return slotStart;
+    }
+    
+    protected int getSlotRange(int originSlot, int slotRange, boolean reverse) {
+    	return slotRange;
+    }
+    
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
         ItemStack stack = null;
@@ -64,10 +76,10 @@ public abstract class InventoryContainer extends Container{
             stack = stackInSlot.copy();
 
             if(slotID < slots) { // Click in tile -> player inventory
-                if(!mergeItemStack(stackInSlot, slots, inventorySlots.size(), true)) {
+                if(!mergeItemStack(stackInSlot, getSlotStart(slotID, slots, true), getSlotRange(slotID, inventorySlots.size(), true), true)) {
                     return null;
                 }
-            } else if(!mergeItemStack(stackInSlot, 0, slots, false)) { // Click in player inventory -> tile
+            } else if(!mergeItemStack(stackInSlot, getSlotStart(slotID, 0, false), getSlotRange(slotID, slots, false), false)) { // Click in player inventory -> tile
                 return null;
             }
             

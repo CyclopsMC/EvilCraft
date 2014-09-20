@@ -2,6 +2,8 @@ package evilcraft.core.inventory.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import evilcraft.core.item.ItemGui;
 
 /**
@@ -36,5 +38,17 @@ public abstract class ItemInventoryContainer<I extends ItemGui> extends Extended
 	public boolean canInteractWith(EntityPlayer player) {
 		return player.getHeldItem() != null && player.getHeldItem().getItem() == getItem();
 	}
+	
+	@Override
+	protected Slot createNewSlot(IInventory inventory, int index, int x, int y) {
+    	return new Slot(inventory, index, x, y) {
+    		
+    		@Override
+    		public boolean canTakeStack(EntityPlayer player) {
+    			return this.getStack() != player.getCurrentEquippedItem();
+    	    }
+    		
+    	};
+    }
 	
 }

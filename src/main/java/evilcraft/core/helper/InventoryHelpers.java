@@ -3,6 +3,8 @@ package evilcraft.core.helper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 /**
  * Contains helper methods involving {@link IInventory}S.
@@ -40,5 +42,71 @@ public class InventoryHelpers {
         	}
         }
 	}
+	
+	/**
+	 * Validate the NBT storage of the given inventory in the given item.
+	 * Should be called in constructors of inventories.
+	 * @param inventory The inventory.
+	 * @param itemStack The item stack to read/write.
+	 * @param tagName The tag name to read from.
+	 */
+	public static void validateNBTStorage(IInventory inventory, ItemStack itemStack, String tagName) {
+		NBTTagCompound tag = itemStack.getTagCompound();
+		if(tag == null) {
+			tag = new NBTTagCompound();
+			itemStack.setTagCompound(tag);
+		}
+		if(!tag.hasKey(tagName)) {
+			tag.setTag(tagName, new NBTTagList());
+		}
+		readFromNBT(inventory, tag, tagName);
+	}
+	
+	/**
+	 * Read an inventory from NBT.
+	 * @param inventory The inventory.
+	 * @param data The tag to read from.
+	 * @param tagName The tag name to read from.
+	 */
+	public static void readFromNBT(IInventory inventory, NBTTagCompound data, String tagName) {
+        NBTTagList nbttaglist = data.getTagList(tagName, MinecraftHelpers.NBTTag_Types.NBTTagCompound.ordinal());
+        
+        for(int j = 0; j < inventory.getSizeInventory(); j++) {
+        	inventory.setInventorySlotContents(j, null);
+        }
+
+        for(int j = 0; j < nbttaglist.tagCount(); j++) {
+            NBTTagCompound slot = (NBTTagCompound) nbttaglist.getCompoundTagAt(j);
+            int index;
+            if(slot.hasKey("index")) {
+                index = slot.getInteger("index");
+            } else {
+                index = slot.getByte("Slot");
+            }
+            if(index >= 0 && index < inventory.getSizeInventory()) {
+            	inventory.setInventorySlotContents(index, ItemStack.loadItemStackFromNBT(slot));
+            }
+        }
+    }
+	
+	/**
+	 * Write the given inventory to NBT.
+	 * @param inventory The inventory.
+	 * @param data The tag to write to.
+	 * @param tagName The tag name to write into.
+	 */
+	public static void writeToNBT(IInventory inventory, NBTTagCompound data, String tagName) {
+        NBTTagList slots = new NBTTagList();
+        for(byte index = 0; index < inventory.getSizeInventory(); ++index) {
+        	ItemStack itemStack = inventory.getStackInSlot(index);
+            if(itemStack != null && itemStack.stackSize > 0) {
+                NBTTagCompound slot = new NBTTagCompound();
+                slot.setInteger("index", index);
+                slots.appendTag(slot);
+                itemStack.writeToNBT(slot);
+            }
+        }
+        data.setTag(tagName, slots);
+    }
 
 }

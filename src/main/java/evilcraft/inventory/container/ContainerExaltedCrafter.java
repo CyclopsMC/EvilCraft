@@ -52,7 +52,8 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         this.craftingGrid = new NBTCraftingGrid(player, player.getCurrentEquippedItem(), this);
         
         this.addCraftingGrid(player, craftingGrid);
-        this.addInventory(player.getInventoryEnderChest(), 0, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y,
+        this.addInventory(getItem().getSupplementaryInventory(player, player.getCurrentEquippedItem()),
+        		0, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y,
         		CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
         this.addPlayerInventory(player.inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
         
@@ -75,6 +76,24 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     	for(int i = 0; i < craftingGrid.getSizeInventory(); i++) {
     		transferStackInSlot(player, i);
     	}
+    }
+    
+    @Override
+    protected int getSlotStart(int originSlot, int slotStart, boolean reverse) {System.out.println("A:" + originSlot + " rev: " + reverse);
+    	if(!reverse) { // Avoid shift clicking with as target the crafting grid (+ result).
+    		return 10;
+    	} else if(reverse && originSlot < 10) { // Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
+    		return 1 + GRID_ROWS * GRID_COLUMNS;
+    	}
+    	return super.getSlotStart(originSlot, slotStart, reverse);
+    }
+    
+    @Override
+    protected int getSlotRange(int originSlot, int slotRange, boolean reverse) {
+    	if(reverse && originSlot < 10) { // Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
+    		return getSizeInventory();
+    	}
+    	return slotRange;
     }
     
     protected void addCraftingGrid(EntityPlayer player, NBTCraftingGrid grid) {

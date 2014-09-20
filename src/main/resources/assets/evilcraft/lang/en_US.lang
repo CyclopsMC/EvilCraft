@@ -106,6 +106,7 @@ item.items.creativeBloodDrop.info=Creative mode only item to drain and fill infi
 item.items.creativeBloodDrop.info.autoSupply=Auto-supply: %s
 item.items.darkSpike.name=Spike
 item.items.exaltedCrafter.name=Exalted Crafter
+item.items.exaltedCrafter.wood.name=Wooden Exalted Crafter
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

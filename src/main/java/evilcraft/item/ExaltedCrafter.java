@@ -1,8 +1,18 @@
 package evilcraft.item;
+import java.util.List;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.gui.container.GuiExaltedCrafter;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.inventory.NBTSimpleInventory;
 import evilcraft.core.item.ItemGui;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
 
@@ -42,6 +52,32 @@ public class ExaltedCrafter extends ItemGui {
             setGUI(GuiExaltedCrafter.class);
         
         setContainer(ContainerExaltedCrafter.class);
+    }
+    
+    @Override
+    public String getUnlocalizedName(ItemStack itemStack) {
+        return super.getUnlocalizedName() + ((itemStack.getItemDamage() == 1) ? ".wood" : "");
+    }
+    
+    @SuppressWarnings({ "rawtypes", "unchecked"})
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item item, CreativeTabs tab, List itemList) {
+    	itemList.add(new ItemStack(item));
+    	itemList.add(new ItemStack(item, 1, 1));
+    }
+    
+    /**
+     * Get the supplementary inventory of the given crafter.
+     * @param player The player using the crafter.
+     * @param itemStack The item stack.
+     * @return The inventory.
+     */
+    public IInventory getSupplementaryInventory(EntityPlayer player, ItemStack itemStack) {
+    	if(itemStack.getItemDamage() == 1) {
+    		return new NBTSimpleInventory(player, 27, 64);
+    	}
+    	return player.getInventoryEnderChest();
     }
 
 }
