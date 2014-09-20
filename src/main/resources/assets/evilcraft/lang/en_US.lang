@@ -121,6 +121,7 @@ weatherContainer.lightning=Thunderstruck
 # Controls
 key.categories.evilcraft=EvilCraft
 key.fart=Toggle Farting
+key.exaltedCrafting=Open Exalted Crafter
 
 # Entities
 entity.evilcraft.werewolf.name=Werewolf

@@ -16,10 +16,16 @@ import evilcraft.event.KeyInputEventHook;
  *
  */
 public enum Keys {
+	
 	/**
 	 * Fart key.
 	 */
-	FART("fart", Keyboard.KEY_P);
+	FART("fart", Keyboard.KEY_P),
+	
+	/**
+	 * Exalted Crafting key.
+	 */
+	EXALTEDCRAFTING("exaltedCrafting", Keyboard.KEY_C);
 	
 	/**
 	 * Prefix in the i18n file for keys.
@@ -59,4 +65,5 @@ public enum Keys {
 	public void addKeyHandler(KeyHandler handler) {
 		KeyInputEventHook.getInstance().addKeyHandler(this.keyBinding, handler);
 	}
+	
 }

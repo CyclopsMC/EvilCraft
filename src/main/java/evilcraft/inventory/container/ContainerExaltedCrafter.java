@@ -6,7 +6,7 @@ import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.world.World;
-import evilcraft.block.BloodChest;
+import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.inventory.NBTCraftingGrid;
 import evilcraft.core.inventory.container.ItemInventoryContainer;
 import evilcraft.item.ExaltedCrafter;
@@ -14,7 +14,7 @@ import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.ExaltedCrafterClearPacket;
 
 /**
- * Container for the {@link BloodChest}.
+ * Container for the {@link ExaltedCrafter}.
  * @author rubensworks
  *
  */
@@ -42,17 +42,18 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     /**
      * Make a new instance.
      * @param player The player.
+     * @param itemIndex The index of the item in use inside the player inventory.
      */
-    public ContainerExaltedCrafter(EntityPlayer player) {
-        super(player.inventory, ExaltedCrafter.getInstance());
+    public ContainerExaltedCrafter(EntityPlayer player, int itemIndex) {
+        super(player.inventory, ExaltedCrafter.getInstance(), itemIndex);
         initialized = false;
         this.world = player.worldObj;
         this.player = player;
         this.result = new InventoryCraftResult();
-        this.craftingGrid = new NBTCraftingGrid(player, player.getCurrentEquippedItem(), this);
+        this.craftingGrid = new NBTCraftingGrid(player, itemIndex, this);
         
         this.addCraftingGrid(player, craftingGrid);
-        this.addInventory(getItem().getSupplementaryInventory(player, player.getCurrentEquippedItem()),
+        this.addInventory(getItem().getSupplementaryInventory(player, InventoryHelpers.getItemFromIndex(player, itemIndex), itemIndex),
         		0, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y,
         		CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
         this.addPlayerInventory(player.inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
@@ -79,7 +80,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     }
     
     @Override
-    protected int getSlotStart(int originSlot, int slotStart, boolean reverse) {System.out.println("A:" + originSlot + " rev: " + reverse);
+    protected int getSlotStart(int originSlot, int slotStart, boolean reverse) {
     	if(!reverse) { // Avoid shift clicking with as target the crafting grid (+ result).
     		return 10;
     	} else if(reverse && originSlot < 10) { // Shift clicking from the crafting grid (+ result) should first go to the inner inventory.

@@ -16,28 +16,30 @@ public class NBTCraftingGrid extends InventoryCrafting {
 	
 	private static final String NBT_TAG_ROOT = "CraftingGridInventory";
 	
-	protected NBTTagCompound tag;
 	protected EntityPlayer player;
+	protected int itemIndex;
 	
 	/**
 	 * Make a new instance.
 	 * @param player The player using the grid.
-	 * @param itemStack The item stack to use for storage.
+	 * @param itemIndex The index of the item in the player inventory.
 	 * @param eventHandler The event handler if the grid changes.
 	 */
-	public NBTCraftingGrid(EntityPlayer player, ItemStack itemStack, Container eventHandler) {
+	public NBTCraftingGrid(EntityPlayer player, int itemIndex, Container eventHandler) {
 		super(eventHandler, 3, 3);
+		ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex);
 		this.player = player;
+		this.itemIndex = itemIndex;
 		InventoryHelpers.validateNBTStorage(this, itemStack, NBT_TAG_ROOT);
-		this.tag = itemStack.getTagCompound();
 	}
 	
 	/**
 	 * Save the grid state to NBT.
 	 */
 	public void save() {
+		NBTTagCompound tag = InventoryHelpers.getItemFromIndex(player, itemIndex).getTagCompound();
 		writeToNBT(tag, NBT_TAG_ROOT);
-		player.getCurrentEquippedItem().setTagCompound(tag);
+		InventoryHelpers.getItemFromIndex(player, itemIndex).setTagCompound(tag);
 	}
 	
 	protected void readFromNBT(NBTTagCompound data, String tagName) {

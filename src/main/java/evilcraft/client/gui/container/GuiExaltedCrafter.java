@@ -20,9 +20,10 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     /**
      * Make a new instance.
      * @param player The player.
+     * @param itemIndex The index of the item in use inside the player inventory.
      */
-    public GuiExaltedCrafter(EntityPlayer player) {
-        super(new ContainerExaltedCrafter(player));
+    public GuiExaltedCrafter(EntityPlayer player, int itemIndex) {
+        super(new ContainerExaltedCrafter(player, itemIndex));
         this.ySize = 225;
     }
     

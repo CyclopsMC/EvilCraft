@@ -30,6 +30,10 @@ public class GuiHandler implements IGuiHandler {
     private static Map<Integer, Class<? extends GuiContainer>> GUIS = Maps.newHashMap();
     private static Map<Integer, GuiType> TYPES = Maps.newHashMap();
     
+    // Two variables to avoid collisions in singleplayer worlds
+    private static int TEMP_ITEM_GUI_INDEX_OVERRIDE_CLIENT = -1;
+    private static int TEMP_ITEM_GUI_INDEX_OVERRIDE_SERVER = -1;
+    
     /**
      * Register a new GUI.
      * @param guiProvider A provider of GUI data.
@@ -42,6 +46,35 @@ public class GuiHandler implements IGuiHandler {
     	}
     	TYPES.put(guiProvider.getGuiID(), type);
     }
+    
+    /**
+     * Set a temporary index in the player inventory for showing gui's for items.
+     * This temporary index will be removed once a gui/container is opened once.
+     * @param index The index.
+     */
+    public static void setTemporaryItemIndex(int index) {
+    	if(MinecraftHelpers.isClientSide()) {
+    		TEMP_ITEM_GUI_INDEX_OVERRIDE_CLIENT = index;
+    	} else {
+    		TEMP_ITEM_GUI_INDEX_OVERRIDE_SERVER = index;
+    	}
+    }
+    
+    /**
+     * Clear the temporary item index for item containers.
+     */
+    private static void clearTemporaryItemIndex() {
+    	setTemporaryItemIndex(-1);
+    }
+    
+    private static int getItemIndex(EntityPlayer player) {
+    	int index = MinecraftHelpers.isClientSide() ? TEMP_ITEM_GUI_INDEX_OVERRIDE_CLIENT : TEMP_ITEM_GUI_INDEX_OVERRIDE_SERVER;
+    	if(index == -1) {
+    		index = player.inventory.currentItem;
+    	}
+    	clearTemporaryItemIndex();
+    	return index;
+    }
 
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
@@ -52,8 +85,8 @@ public class GuiHandler implements IGuiHandler {
     			Constructor<? extends Container> containerConstructor = containerClass.getConstructor(InventoryPlayer.class, tileEntity.getClass());
     			return containerConstructor.newInstance(player.inventory, tileEntity);
     		} else {
-    			Constructor<? extends Container> containerConstructor = containerClass.getConstructor(EntityPlayer.class);
-    			return containerConstructor.newInstance(player);
+    			Constructor<? extends Container> containerConstructor = containerClass.getConstructor(EntityPlayer.class, int.class);
+    			return containerConstructor.newInstance(player, getItemIndex(player));
     		}
     	} catch (NoSuchMethodException e) {
     		e.printStackTrace();
@@ -81,8 +114,8 @@ public class GuiHandler implements IGuiHandler {
 	            Constructor<? extends GuiContainer> guiConstructor = guiClass.getConstructor(InventoryPlayer.class, tileEntity.getClass());
 	            return guiConstructor.newInstance(player.inventory, tileEntity);
     		} else {
-	            Constructor<? extends GuiContainer> guiConstructor = guiClass.getConstructor(EntityPlayer.class);
-	            return guiConstructor.newInstance(player);
+	            Constructor<? extends GuiContainer> guiConstructor = guiClass.getConstructor(EntityPlayer.class, int.class);
+	            return guiConstructor.newInstance(player, getItemIndex(player));
     		}
     	} catch (NoSuchMethodException e) {
             e.printStackTrace();

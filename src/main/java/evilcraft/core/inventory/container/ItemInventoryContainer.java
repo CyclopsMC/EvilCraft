@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.item.ItemGui;
 
 /**
@@ -15,15 +17,18 @@ import evilcraft.core.item.ItemGui;
 public abstract class ItemInventoryContainer<I extends ItemGui> extends ExtendedInventoryContainer {
 	
 	protected I item;
+	protected int itemIndex;
 
 	/**
 	 * Make a new instance.
 	 * @param inventory The player inventory.
 	 * @param item The item.
+	 * @param itemIndex The index of the item in use inside the player inventory.
 	 */
-	public ItemInventoryContainer(InventoryPlayer inventory, I item) {
+	public ItemInventoryContainer(InventoryPlayer inventory, I item, int itemIndex) {
 		super(inventory, item);
 		this.item = item;
+		this.itemIndex = itemIndex;
 	}
 
 	/**
@@ -36,7 +41,8 @@ public abstract class ItemInventoryContainer<I extends ItemGui> extends Extended
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return player.getHeldItem() != null && player.getHeldItem().getItem() == getItem();
+		ItemStack item = InventoryHelpers.getItemFromIndex(player, itemIndex);
+		return item != null && item.getItem() == getItem();
 	}
 	
 	@Override
@@ -45,7 +51,7 @@ public abstract class ItemInventoryContainer<I extends ItemGui> extends Extended
     		
     		@Override
     		public boolean canTakeStack(EntityPlayer player) {
-    			return this.getStack() != player.getCurrentEquippedItem();
+    			return this.getStack() != InventoryHelpers.getItemFromIndex(player, itemIndex);
     	    }
     		
     	};

@@ -108,5 +108,15 @@ public class InventoryHelpers {
         }
         data.setTag(tagName, slots);
     }
+	
+	/**
+	 * Get the item stack from the given index in the player inventory.
+	 * @param player The player.
+	 * @param itemIndex The index of the item in the inventory.
+	 * @return The item stack.
+	 */
+	public static ItemStack getItemFromIndex(EntityPlayer player, int itemIndex) {
+		return player.inventory.mainInventory[itemIndex];
+	}
 
 }

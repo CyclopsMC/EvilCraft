@@ -18,6 +18,7 @@ import evilcraft.event.PlayerRingOfFire;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.DetectionListenerPacket;
 import evilcraft.network.packet.ExaltedCrafterClearPacket;
+import evilcraft.network.packet.ExaltedCrafterOpenPacket;
 import evilcraft.network.packet.FartPacket;
 import evilcraft.network.packet.RingOfFirePacket;
 import evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
@@ -58,6 +59,7 @@ public class CommonProxy {
     	PacketHandler.register(SoundPacket.class);
     	PacketHandler.register(SanguinaryPedestalBlockReplacePacket.class);
     	PacketHandler.register(ExaltedCrafterClearPacket.class);
+    	PacketHandler.register(ExaltedCrafterOpenPacket.class);
     	
         EvilCraft.log("Registered packet handler.");
     }

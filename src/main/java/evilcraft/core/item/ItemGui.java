@@ -10,6 +10,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
+import evilcraft.client.gui.GuiHandler;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.Helpers;
@@ -87,9 +88,22 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
         return Reference.TEXTURE_PATH_GUI + eConfig.getNamedId() + "_gui" + suffix + ".png";
     }
     
+    /**
+     * Open the gui for a certain item index in the player inventory.
+     * @param world The world.
+     * @param player The player.
+     * @param itemIndex The item index in the player inventory.
+     */
+    public void openGuiForItemIndex(World world, EntityPlayer player, int itemIndex) {
+    	GuiHandler.setTemporaryItemIndex(itemIndex);
+    	if(!world.isRemote) {
+    		player.openGui(EvilCraft._instance, getGuiID(), world, (int) player.posX, (int) player.posY, (int) player.posZ);
+    	}
+    }
+    
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-    	player.openGui(EvilCraft._instance, getGuiID(), world, (int) player.posX, (int) player.posY, (int) player.posZ);
+    	openGuiForItemIndex(world, player, player.inventory.currentItem);
     	return itemStack;
     }
 

@@ -5,6 +5,8 @@ import java.util.Iterator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 /**
  * Iterate over a player's inventory.
  * @author rubensworks
@@ -31,6 +33,14 @@ public class PlayerInventoryIterator implements Iterator<ItemStack>{
     @Override
     public ItemStack next() {
         return player.inventory.mainInventory[i++];
+    }
+    
+    /**
+     * Get the next item indexed.
+     * @return The indexed item.
+     */
+    public Pair<Integer, ItemStack> nextIndexed() {
+    	return Pair.of(i, player.inventory.mainInventory[i++]);
     }
 
     @Override
