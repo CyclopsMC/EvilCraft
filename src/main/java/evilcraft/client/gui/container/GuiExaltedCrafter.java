@@ -3,6 +3,7 @@ package evilcraft.client.gui.container;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import evilcraft.client.Keys;
 import evilcraft.core.client.gui.GuiButtonExtended;
 import evilcraft.core.client.gui.container.GuiContainerExtended;
 import evilcraft.core.helper.InventoryHelpers;
@@ -30,7 +31,21 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
         super(new ContainerExaltedCrafter(player, itemIndex));
         this.player = player;
         this.itemIndex = itemIndex;
+        
         this.ySize = 225;
+        this.allowUserInput = true;
+    }
+    
+    protected void clearGrid() {
+    	((ContainerExaltedCrafter) inventorySlots).sendClearGrid();;
+    }
+    
+    @Override
+    protected void keyTyped(char key, int code) {
+    	if(code == Keys.EXALTEDCRAFTING.keyBinding.getKeyCode()) {
+    		clearGrid();
+    	}
+    	super.keyTyped(key, code);
     }
     
     @SuppressWarnings("unchecked")
@@ -43,7 +58,7 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     @Override
     protected void actionPerformed(GuiButton guibutton) {
     	if(guibutton.id == BUTTON_CLEAR) {
-    		((ContainerExaltedCrafter) this.inventorySlots).sendClearGrid();
+    		clearGrid();
     	}
     }
     
