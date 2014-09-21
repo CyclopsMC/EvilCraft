@@ -10,6 +10,7 @@ import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.inventory.NBTCraftingGrid;
 import evilcraft.core.inventory.container.ItemInventoryContainer;
 import evilcraft.item.ExaltedCrafter;
+import evilcraft.item.ExaltedCrafterConfig;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.ExaltedCrafterClearPacket;
 
@@ -81,9 +82,11 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     
     @Override
     protected int getSlotStart(int originSlot, int slotStart, boolean reverse) {
-    	if(!reverse) { // Avoid shift clicking with as target the crafting grid (+ result).
+    	if(!reverse && !ExaltedCrafterConfig.shiftClickToCraftingGrid) {
+    		// Avoid shift clicking with as target the crafting grid (+ result).
     		return 10;
-    	} else if(reverse && originSlot < 10) { // Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
+    	} else if(reverse && originSlot < 10) {
+    		// Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
     		return 1 + GRID_ROWS * GRID_COLUMNS;
     	}
     	return super.getSlotStart(originSlot, slotStart, reverse);
@@ -91,7 +94,8 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     
     @Override
     protected int getSlotRange(int originSlot, int slotRange, boolean reverse) {
-    	if(reverse && originSlot < 10) { // Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
+    	if(reverse && originSlot < 10) {
+    		// Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
     		return getSizeInventory();
     	}
     	return slotRange;
