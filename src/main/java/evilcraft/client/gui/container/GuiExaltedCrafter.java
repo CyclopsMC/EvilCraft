@@ -2,8 +2,10 @@ package evilcraft.client.gui.container;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import evilcraft.core.client.gui.GuiButtonExtended;
 import evilcraft.core.client.gui.container.GuiContainerExtended;
+import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
 import evilcraft.item.ExaltedCrafter;
@@ -16,6 +18,8 @@ import evilcraft.item.ExaltedCrafter;
 public class GuiExaltedCrafter extends GuiContainerExtended {
 	
 	private static final int BUTTON_CLEAR = 1;
+	private EntityPlayer player;
+	private int itemIndex;
 	
     /**
      * Make a new instance.
@@ -24,6 +28,8 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
      */
     public GuiExaltedCrafter(EntityPlayer player, int itemIndex) {
         super(new ContainerExaltedCrafter(player, itemIndex));
+        this.player = player;
+        this.itemIndex = itemIndex;
         this.ySize = 225;
     }
     
@@ -44,7 +50,12 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     @Override
     protected void drawGuiContainerForegroundLayer(int x, int y) {
     	super.drawGuiContainerForegroundLayer(x, y);
-        this.fontRendererObj.drawString(L10NHelpers.localize("gui.exaltedCrafting"), 28, 6, 4210752);
+    	ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex);
+    	String name = L10NHelpers.localize("gui.exaltedCrafting");
+    	if(itemStack.hasDisplayName()) {
+    		name = itemStack.getDisplayName();
+    	}
+        this.fontRendererObj.drawString(name, 28, 6, 4210752);
     }
     
 }
