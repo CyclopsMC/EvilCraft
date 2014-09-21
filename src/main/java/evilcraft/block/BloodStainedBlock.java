@@ -171,6 +171,19 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     	return result;
     }
     
+    protected boolean isBlacklisted(Block block) {
+    	String name = Block.blockRegistry.getNameForObject(block);
+    	for(String blacklisted : BloodStainedBlockConfig.blockBlacklist) {
+    		return blacklisted.equals(name);
+    	}
+    	return false;
+    }
+    
+    @Override
+    public boolean canSetInnerBlock(Block block, IBlockAccess world, int x, int y, int z) {
+    	return super.canSetInnerBlock(block, world, x, y, z) && !isBlacklisted(block);
+    }
+    
     /**
      * A result from unstaining a block.
      * @author rubensworks
