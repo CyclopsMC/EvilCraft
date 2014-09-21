@@ -101,9 +101,7 @@ public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerab
     
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemStack) {
-    	Entity entity = new EntityItemEmpowerable(world, location.posX, location.posY - 1, location.posZ, ((EntityItem) location).getEntityItem());
-    	entity.copyLocationAndAnglesFrom(location);
-    	return entity;
+    	return new EntityItemEmpowerable(world, (EntityItem) location);
     }
 
 }

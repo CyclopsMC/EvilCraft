@@ -182,7 +182,7 @@ public class ExaltedCrafter extends ItemGui implements KeyHandler, IItemEmpowera
     
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemStack) {
-    	return new EntityItemEmpowerable(world, location.posX, location.posY, location.posZ, ((EntityItem) location).getEntityItem());
+    	return new EntityItemEmpowerable(world, (EntityItem) location);
     }
 
 }

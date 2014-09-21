@@ -1,7 +1,6 @@
 package evilcraft.core.entity.item;
 
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 /**
@@ -14,14 +13,14 @@ public abstract class EntityItemIndestructable extends EntityItem {
     /**
      * New instance.
      * @param world The world.
-     * @param x X
-     * @param y Y
-     * @param z Z
-     * @param itemStack The item stack to set.
+     * @param original The original entity item/
      */
-	public EntityItemIndestructable(World world, double x, double y, double z, ItemStack itemStack) {
-        super(world, x, y, z, itemStack);
+	public EntityItemIndestructable(World world, EntityItem original) {
+        super(world, original.posX, original.posY, original.posZ, original.getEntityItem());
         delayBeforeCanPickup = 40;
+        motionX = original.motionX;
+        motionY = original.motionY;
+        motionZ = original.motionZ;
     }
 	
 	protected boolean isIndestructable() {
