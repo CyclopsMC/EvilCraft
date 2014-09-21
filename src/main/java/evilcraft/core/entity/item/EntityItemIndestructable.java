@@ -27,10 +27,14 @@ public abstract class EntityItemIndestructable extends EntityItem {
 		return true;
 	}
 	
+	protected boolean isUndespawnable() {
+		return isIndestructable();
+	}
+	
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if(isIndestructable()) {
+		if(isUndespawnable()) {
 			this.age--;
 		}
 	}
