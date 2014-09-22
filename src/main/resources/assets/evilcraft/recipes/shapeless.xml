@@ -105,5 +105,31 @@
 			<item amount="15" meta="15">minecraft:dye</item>
 		</output>
 	</recipe>
+	
+	<recipe type="shapeless">
+        <condition type="config">weatherContainer</condition>
+        <condition type="predefined">evilcraft:shapelessWeatherContainerRecipes</condition>
+        <input>
+            <item meta="1">evilcraft:weatherContainer</item>
+            <item>minecraft:water_bucket</item>
+            <item>minecraft:water_bucket</item>
+        </input>
+        <output>
+            <item meta="2">evilcraft:weatherContainer</item>
+        </output>
+    </recipe>
+    
+	<recipe type="shapeless">
+        <condition type="config">weatherContainer</condition>
+        <condition type="predefined">evilcraft:shapelessWeatherContainerRecipes</condition>
+        <input>
+            <item meta="2">evilcraft:weatherContainer</item>
+            <item>minecraft:glowstone</item>
+            <item>minecraft:glowstone</item>
+        </input>
+        <output>
+            <item meta="3">evilcraft:weatherContainer</item>
+        </output>
+    </recipe>
 
 </recipes>

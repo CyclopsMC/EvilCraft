@@ -120,6 +120,10 @@ public class Recipes {
 	    	XmlRecipeLoader.registerPredefinedItem("evilcraft:veinSwordLooting",
 	    			veinSwordLooting);
     	}
+    	
+    	if(WeatherContainerConfig.shapelessWeatherContainerRecipes) {
+    		XmlRecipeLoader.registerPredefinedValue("evilcraft:shapelessWeatherContainerRecipes");
+    	}
     }
     
     private static void registerRecipesForFile(InputStream is, String fileName) {
