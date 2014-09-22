@@ -5,13 +5,12 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
-import net.minecraftforge.event.ForgeEventFactory;
-import cpw.mods.fml.common.eventhandler.Event.Result;
 import evilcraft.api.ILocation;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.degradation.StochasticDegradationEffect;
+import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.LocationHelpers;
 
 /**
@@ -73,14 +72,7 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
         }
 
         entityliving.setLocationAndAngles((double)x, (double)y, (double)z, world.rand.nextFloat() * 360.0F, 0.0F);
-
-        Result canSpawn = ForgeEventFactory.canEntitySpawn(entityliving, world, x, y, z);
-        if (canSpawn == Result.ALLOW || (canSpawn == Result.DEFAULT)) { //  && entityliving.getCanSpawnHere()
-            world.spawnEntityInWorld(entityliving);
-            if (!ForgeEventFactory.doSpecialSpawn(entityliving, world, x, y, z)) {
-                entityliving.onSpawnWithEgg(null);
-            }
-        }
+        EntityHelpers.spawnEntity(world, entityliving);
     }
 
 }

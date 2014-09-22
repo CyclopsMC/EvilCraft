@@ -1,11 +1,4 @@
 package evilcraft.item;
-import java.util.List;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.IInformationProvider;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -40,14 +33,6 @@ public class PotentiaSphere extends ConfigurableItem {
 
     private PotentiaSphere(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
-    }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(IInformationProvider.INFO_PREFIX + "Infuse with blood to make an Ender Pearl.");
     }
 
 }

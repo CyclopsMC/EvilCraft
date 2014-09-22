@@ -51,6 +51,7 @@ import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
 import evilcraft.entity.block.EntityLightningBombPrimedConfig;
 import evilcraft.entity.effect.EntityAntiVengeanceBeamConfig;
+import evilcraft.entity.effect.EntityNecromancersHeadConfig;
 import evilcraft.entity.item.EntityBloodPearlConfig;
 import evilcraft.entity.item.EntityBroomConfig;
 import evilcraft.entity.item.EntityLightningGrenadeConfig;
@@ -86,6 +87,7 @@ import evilcraft.item.KineticatorConfig;
 import evilcraft.item.LargeDoorItemConfig;
 import evilcraft.item.LightningGrenadeConfig;
 import evilcraft.item.MaceOfDistortionConfig;
+import evilcraft.item.NecromancerStaffConfig;
 import evilcraft.item.PoisonSacConfig;
 import evilcraft.item.PotentiaSphereConfig;
 import evilcraft.item.RedstoneGrenadeConfig;
@@ -143,6 +145,7 @@ public class Configs {
         OreDictionary.registerOre(Reference.DICT_BLOCKGLASS, new ItemStack(Blocks.glass));
         OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Items.poisonous_potato));
         OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Items.bone));
+        OreDictionary.registerOre(Reference.DICT_ITEMSKULL, new ItemStack(Items.skull, 1, OreDictionary.WILDCARD_VALUE));
     }
     
     /**
@@ -218,6 +221,7 @@ public class Configs {
         configs.add(new CreativeBloodDropConfig());
         configs.add(new DarkSpikeConfig());
         configs.add(new ExaltedCrafterConfig());
+        configs.add(new NecromancerStaffConfig());
         
         // Entities
         // Item
@@ -238,6 +242,7 @@ public class Configs {
         configs.add(new WerewolfVillagerConfig());
         // Other
         configs.add(new EntityAntiVengeanceBeamConfig());
+        configs.add(new EntityNecromancersHeadConfig());
         
         // Enchantments
         configs.add(new EnchantmentUnusingConfig());

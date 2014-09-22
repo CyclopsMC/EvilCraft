@@ -4,8 +4,11 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 
 /**
  * Helpers for entities.
@@ -48,6 +51,26 @@ public class EntityHelpers {
 	    @SuppressWarnings("unchecked")
 	    List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, box);
 	    return entities;
+	}
+	
+	/**
+	 * Spawn the entity in the world.
+	 * @param world The world.
+	 * @param entityLiving The entity to spawn.
+	 * @return If the entity was spawned.
+	 */
+	public static boolean spawnEntity(World world, EntityLiving entityLiving) {
+		Result canSpawn = ForgeEventFactory.canEntitySpawn(entityLiving, world, (float) entityLiving.posX,
+				(float) entityLiving.posY, (float) entityLiving.posZ);
+        if (canSpawn == Result.ALLOW || (canSpawn == Result.DEFAULT)) { //  && entityliving.getCanSpawnHere()
+            if (!ForgeEventFactory.doSpecialSpawn(entityLiving, world, (float) entityLiving.posX,
+            		(float) entityLiving.posY, (float) entityLiving.posZ)) {
+            	world.spawnEntityInWorld(entityLiving);
+            	entityLiving.onSpawnWithEgg(null);
+                return true;
+            }
+        }
+        return false;
 	}
 	
 }

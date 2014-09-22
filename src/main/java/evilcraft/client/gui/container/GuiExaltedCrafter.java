@@ -37,7 +37,7 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     }
     
     protected void clearGrid() {
-    	((ContainerExaltedCrafter) inventorySlots).sendClearGrid();;
+    	((ContainerExaltedCrafter) inventorySlots).sendClearGrid();
     }
     
     @Override

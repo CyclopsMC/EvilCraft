@@ -82,7 +82,9 @@ item.items.werewolfFur.name=Werewolf Fur
 item.items.blook.name=Blook
 item.items.blook.info=Infuse a Book with blood.
 item.items.potentiaSphere.name=Potentia Sphere
+item.items.potentiaSphere.info=Infuse with blood to make an Ender Pearl.
 item.items.invertedPotentia.name=Inverted Potentia
+item.items.invertedPotentia.info=Strike with lightning to empower.
 item.items.maceOfDistortion.name=Mace of Distortion
 item.items.maceOfDistortion.setPower=Set power to %s
 item.items.maceOfDistortion.info=Shift + Right click to change power level.
@@ -109,6 +111,7 @@ item.items.creativeBloodDrop.info.autoSupply=Auto-supply: %s
 item.items.darkSpike.name=Spike
 item.items.exaltedCrafter.name=Exalted Crafter
 item.items.exaltedCrafter.wood.name=Wooden Exalted Crafter
+item.items.necromancerStaff.name=Necromancer Staff
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

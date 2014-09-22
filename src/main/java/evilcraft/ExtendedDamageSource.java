@@ -21,6 +21,10 @@ public class ExtendedDamageSource extends DamageSource{
      * DamageSource for when entities die from a spiked plate.
      */
     public static ExtendedDamageSource spiked = (ExtendedDamageSource)((new ExtendedDamageSource("spiked")));
+    /**
+     * DamageSource for when necromancer's entities that are automatically killed.
+     */
+    public static ExtendedDamageSource necromancerRecall = (ExtendedDamageSource)((new ExtendedDamageSource("necromancerRecall")));
 
     protected ExtendedDamageSource(String par1Str) {
         super(par1Str);

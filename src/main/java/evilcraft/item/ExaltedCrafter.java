@@ -149,7 +149,7 @@ public class ExaltedCrafter extends ItemGui implements KeyHandler, IItemEmpowera
     
     @Override
 	public void onKeyPressed(KeyBinding kb) {
-		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;System.out.println(kb);
+		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
 		if(kb == Keys.EXALTEDCRAFTING.keyBinding) {
 			Pair<Integer, ItemStack> found = null;
 			PlayerInventoryIterator it = new PlayerInventoryIterator(player);
