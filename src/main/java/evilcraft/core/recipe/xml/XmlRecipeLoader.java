@@ -50,6 +50,7 @@ public class XmlRecipeLoader {
 	static {
 		RECIPE_CONDITION_HANDLERS.put("config", new ConfigRecipeConditionHandler());
 		RECIPE_CONDITION_HANDLERS.put("predefined", new PredefinedRecipeConditionHandler());
+		RECIPE_CONDITION_HANDLERS.put("mod", new ModRecipeConditionHandler());
 	}
 	
 	private static final Map<String, ItemStack> PREDEFINED_ITEMS = Maps.newHashMap();

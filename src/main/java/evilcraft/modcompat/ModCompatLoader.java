@@ -9,6 +9,7 @@ import cpw.mods.fml.common.Loader;
 import evilcraft.IInitListener;
 import evilcraft.core.config.ConfigHandler;
 import evilcraft.modcompat.baubles.BaublesModCompat;
+import evilcraft.modcompat.bloodmagic.BloodMagicModCompat;
 import evilcraft.modcompat.fmp.ForgeMultipartModCompat;
 import evilcraft.modcompat.forestry.ForestryModCompat;
 import evilcraft.modcompat.nei.NEIEvilCraftConfig;
@@ -37,6 +38,7 @@ public class ModCompatLoader implements IInitListener {
         MODCOMPATS.add(new BaublesModCompat());
         MODCOMPATS.add(new NEIEvilCraftConfig());
         MODCOMPATS.add(new VersionCheckerModCompat());
+        MODCOMPATS.add(new BloodMagicModCompat());
     }
     
     @Override

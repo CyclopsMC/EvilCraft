@@ -72,20 +72,19 @@
     </recipe>
     
     <recipe type="evilcraft:bloodinfuser">
+        <condition type="mod">AWWayofTime</condition>
         <condition type="config">bloodInfuser</condition>
-        <condition type="config">darkBrick</condition>
-        <condition type="config">darkBloodBrick</condition>
-        <condition type="config">evilcraftblood</condition>
+        <condition type="config">boundBloodDrop</condition>
         <input>
-            <item>evilcraft:darkBrick</item>
+            <item>AWWayofTime:magicianBloodOrb</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>500</fluidamount>
+            <fluidamount>10000</fluidamount>
         </input>
         <output>
-            <item>evilcraft:darkBloodBrick</item>
+            <item>evilcraft:boundBloodDrop</item>
         </output>
         <properties>
-            <duration>250</duration>
+            <duration>1000</duration>
         </properties>
     </recipe>
     

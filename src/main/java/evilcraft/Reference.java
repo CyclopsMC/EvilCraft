@@ -71,6 +71,7 @@ public class Reference {
     public static final String MOD_VERSION_CHECKER = "VersionChecker";
     public static final String MOD_BAUBLES = "Baubles";
     public static final String MOD_NEI = "NotEnoughItems";
+    public static final String MOD_BLOODMAGIC = "AWWayofTime";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "required-after:Forge@[10.13.0.1200,);" // See the Forge changelog

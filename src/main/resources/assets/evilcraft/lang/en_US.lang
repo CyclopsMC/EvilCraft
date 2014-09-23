@@ -113,6 +113,11 @@ item.items.exaltedCrafter.name=Exalted Crafter
 item.items.exaltedCrafter.wood.name=Wooden Exalted Crafter
 item.items.necromancerStaff.name=Necromancer Staff
 item.items.invigoratingPendant.name=Invigorating Pendant
+item.items.boundBloodDrop.name=Bound Blood Drop
+item.items.boundBloodDrop.info=Right click to bind with your Blood Magic soul network.
+item.items.boundBloodDrop.info.autoSupply=Auto-supply: %s
+item.items.boundBloodDrop.info.currentOwner=Current owner: %s
+item.items.boundBloodDrop.info.currentOwner.none=None
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

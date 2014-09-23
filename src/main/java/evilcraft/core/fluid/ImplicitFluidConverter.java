@@ -86,6 +86,21 @@ public class ImplicitFluidConverter {
 	}
 	
 	/**
+	 * Convert the given fluid from target fluid to the given fluid.
+	 * @param target The fluid to convert to.
+	 * @param fluid The fluid stack to convert, it must be of the same fluid type of the main target of this converter instance.
+	 * @return The converted fluid stack.
+	 */
+	public FluidStack convertReverse(Fluid target, FluidStack fluid) {
+		if(canConvert(target) && fluid.getFluid() == this.target) {
+			FluidStack ret = fluid.copy();
+			return new FluidStack(target, (int) Math.floor(ret.amount
+					/ converters.get(target)));
+		}
+		return null;
+	}
+	
+	/**
 	 * Register the converters config from the given string array.
 	 * @param config The config where each element is in the form 'fluidname:ratio'.
 	 */

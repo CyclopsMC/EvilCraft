@@ -97,6 +97,9 @@ public class EvilCraft {
         Configs.getInstance().registerVanillaDictionary();
         Configs.getInstance().registerConfigs();
         
+        // Call init listeners
+        callInitStepListeners(IInitListener.Step.PREINIT);
+        
         // Run debugging tools
         if(GeneralConfig.debug) {
             Debug.checkPreConfigurables(Configs.getInstance().configs);
@@ -112,9 +115,6 @@ public class EvilCraft {
         
         // Register events
         proxy.registerEventHooks();
-        
-        // Call init listeners
-        callInitStepListeners(IInitListener.Step.PREINIT);
         
         // Start fetching the version info
         VersionStats.load();
