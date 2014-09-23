@@ -182,7 +182,7 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
     }
     
     @Override
-    public void onSendUpdate() {
+    protected void onSendUpdate() {
     	super.onSendUpdate();
     	if(getBlock().hasComparatorInputOverride()) {
     		worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, this.getBlock());
