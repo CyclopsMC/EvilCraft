@@ -180,5 +180,13 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
     public void setSendUpdateOnTankChanged(boolean sendUpdateOnTankChanged) {
         this.sendUpdateOnTankChanged = sendUpdateOnTankChanged;
     }
+    
+    @Override
+    public void onSendUpdate() {
+    	super.onSendUpdate();
+    	if(getBlock().hasComparatorInputOverride()) {
+    		worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, this.getBlock());
+    	}
+    }
 
 }

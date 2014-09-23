@@ -27,6 +27,7 @@ import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.fluid.BloodConfig;
 import evilcraft.tileentity.TileDarkTank;
@@ -79,6 +80,18 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGlass);
         this.setBlockBounds(0.125F, 0.001F, 0.125F, 0.875F, 0.999F, 0.875F);
+    }
+    
+    @Override
+    public boolean hasComparatorInputOverride() {
+            return true;
+    }
+
+    @Override
+    public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+    	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(x, y, z);
+        float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
+        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
     
     @Override

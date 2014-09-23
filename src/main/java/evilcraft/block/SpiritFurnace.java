@@ -95,18 +95,6 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     public Item getItemDropped(int par1, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
-    
-    @Override
-    public boolean hasComparatorInputOverride() {
-            return true;
-    }
-
-    @Override
-    public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-    	TileSpiritFurnace tile = (TileSpiritFurnace) world.getTileEntity(x, y, z);
-        float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
-        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
-    }
 
     @Override
     public String getTankNBTName() {

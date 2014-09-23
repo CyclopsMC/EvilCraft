@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -105,18 +104,6 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     @Override
     public Item getItemDropped(int par1, Random random, int zero) {
         return Item.getItemFromBlock(this);
-    }
-    
-    @Override
-    public boolean hasComparatorInputOverride() {
-            return true;
-    }
-
-    @Override
-    public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-        TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
-        float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
-        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
 
     @Override

@@ -12,6 +12,7 @@ import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.block.component.BlockTankComponent;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 
 /**
@@ -34,6 +35,18 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
     public ConfigurableBlockContainerGuiTankInfo(ExtendedConfig eConfig,
             Material material, Class<? extends TankInventoryTileEntity> tileEntity) {
         super(eConfig, material, tileEntity);
+    }
+    
+    @Override
+    public boolean hasComparatorInputOverride() {
+    	return true;
+    }
+
+    @Override
+    public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+    	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(x, y, z);
+        float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
+        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
     
     @Override

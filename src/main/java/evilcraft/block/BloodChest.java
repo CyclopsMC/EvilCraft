@@ -5,7 +5,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.gui.container.GuiBloodChest;
@@ -15,7 +14,6 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.inventory.container.ContainerBloodChest;
 import evilcraft.tileentity.TileBloodChest;
-import evilcraft.tileentity.TileBloodInfuser;
 
 /**
  * A chest that runs on blood and repairs tools.
@@ -80,18 +78,6 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
     @Override
     public Item getItemDropped(int par1, Random random, int zero) {
         return Item.getItemFromBlock(this);
-    }
-    
-    @Override
-    public boolean hasComparatorInputOverride() {
-            return true;
-    }
-
-    @Override
-    public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-        TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
-        float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
-        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
 
     @Override
