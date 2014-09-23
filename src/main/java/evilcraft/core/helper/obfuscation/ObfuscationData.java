@@ -78,4 +78,14 @@ public class ObfuscationData {
 		RENDERBLOCKS_UVROTATE.put(ForgeDirection.WEST, new String[] { "uvRotateNorth", "field_147869_t", "t" });
 	}
 	
+	/**
+	 * Field from net.minecraft.potion.PotionEffect.
+	 */
+	public static final String[] POTIONEFFECT_DURATION = new String[] { "duration", "field_76460_b", "b" };
+	
+	/**
+	 * Method from net.minecraft.entity.EntityLivingBase.
+	 */
+	public static final String[] ENTITYLIVINGBASE_ONCHANGEDPOTIONEFFECT = new String[] { "onChangedPotionEffect", "func_70695_b", "b" };
+	
 }

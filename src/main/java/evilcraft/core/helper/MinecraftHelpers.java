@@ -36,6 +36,10 @@ public class MinecraftHelpers {
      * The amount of steps there are in a vanilla comparator.
      */
     public static final int COMPARATOR_MULTIPLIER = 15;
+    /**
+     * The amount of ticks that go in one second.
+     */
+    public static final int SECOND_IN_TICKS = 20;
     
     /**
      * The types of NBT Tags, used for the second parameter in

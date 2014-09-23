@@ -83,6 +83,7 @@ import evilcraft.item.DarkStickConfig;
 import evilcraft.item.ExaltedCrafterConfig;
 import evilcraft.item.HardenedBloodShardConfig;
 import evilcraft.item.InvertedPotentiaConfig;
+import evilcraft.item.InvigoratingPendantConfig;
 import evilcraft.item.KineticatorConfig;
 import evilcraft.item.LargeDoorItemConfig;
 import evilcraft.item.LightningGrenadeConfig;
@@ -222,6 +223,7 @@ public class Configs {
         configs.add(new DarkSpikeConfig());
         configs.add(new ExaltedCrafterConfig());
         configs.add(new NecromancerStaffConfig());
+        configs.add(new InvigoratingPendantConfig());
         
         // Entities
         // Item

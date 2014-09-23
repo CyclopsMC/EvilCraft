@@ -112,6 +112,7 @@ item.items.darkSpike.name=Spike
 item.items.exaltedCrafter.name=Exalted Crafter
 item.items.exaltedCrafter.wood.name=Wooden Exalted Crafter
 item.items.necromancerStaff.name=Necromancer Staff
+item.items.invigoratingPendant.name=Invigorating Pendant
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

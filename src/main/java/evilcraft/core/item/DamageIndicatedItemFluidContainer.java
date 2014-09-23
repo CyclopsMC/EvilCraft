@@ -115,5 +115,16 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     public Fluid getFluid() {
         return this.fluid;
     }
+    
+    /**
+     * If the given amount can be drained. (Will drain in simulation mode)
+     * @param amount The amount to try to drain.
+     * @param itemStack The item stack to drain from.
+     * @return If it could be drained.
+     */
+    public boolean canDrain(int amount, ItemStack itemStack) {
+    	FluidStack simulatedDrain = drain(itemStack, amount, false);
+    	return simulatedDrain != null && simulatedDrain.amount == amount;
+    }
 
 }

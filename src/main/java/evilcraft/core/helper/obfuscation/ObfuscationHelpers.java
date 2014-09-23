@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -150,6 +151,35 @@ public class ObfuscationHelpers {
 	public static void setUVRotate(RenderBlocks renderer, ForgeDirection direction, int rotation) {
 		ReflectionHelper.setPrivateValue(RenderBlocks.class, renderer, rotation,
 				ObfuscationData.RENDERBLOCKS_UVROTATE.get(direction));
+	}
+	
+	/**
+	 * Set the private 'duration' field from {@link net.minecraft.potion.PotionEffect}.
+	 * @param potionEffect The potionEffect instance.
+	 * @param duration The duration value to set.
+	 */
+	public static void setPotionEffectDuration(PotionEffect potionEffect, int duration) {
+		ReflectionHelper.setPrivateValue(PotionEffect.class, potionEffect, duration, ObfuscationData.POTIONEFFECT_DURATION);
+	}
+	
+	/**
+	 * Call the protected method 'onChangedPotionEffect' {@link net.minecraft.entity.EntityLivingBase}.
+	 * @param entity The entity instance.
+	 * @param potionEffect The potion effect.
+	 * @param reapplyAttributes If the datawatcher attributes need to be updated.
+	 */
+	public static void onChangedPotionEffect(EntityLivingBase entity, PotionEffect potionEffect, boolean reapplyAttributes) {
+		Method method = ReflectionHelper.findMethod(EntityLivingBase.class, entity,
+				ObfuscationData.ENTITYLIVINGBASE_ONCHANGEDPOTIONEFFECT, PotionEffect.class, boolean.class);
+		try {
+			method.invoke(entity, potionEffect, reapplyAttributes);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

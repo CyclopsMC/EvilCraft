@@ -5,7 +5,6 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -66,10 +65,8 @@ public class NecromancerStaff extends ConfigurableDamageIndicatedItemFluidContai
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-    	int usage = NecromancerStaffConfig.usage;
-		FluidStack drained = drain(itemStack, usage, false);
-		if(drained != null && drained.amount == usage) {
-			drain(itemStack, usage, true);
+		if(canDrain(NecromancerStaffConfig.usage, itemStack)) {
+			drain(itemStack, NecromancerStaffConfig.usage, true);
 			Class<? extends EntityLiving> mobType = EntityZombie.class; // Other types might be allowed in the future.
 			throwNecromancersHead(player, mobType);
 			return itemStack;
