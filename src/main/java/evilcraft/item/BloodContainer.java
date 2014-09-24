@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
@@ -86,6 +87,11 @@ public class BloodContainer extends ConfigurableDamageIndicatedItemFluidContaine
             return Integer.MAX_VALUE;
         }
         return capacity << (container.getItemDamage() & 7);
+    }
+    
+    @Override
+    public String getItemStackDisplayName(ItemStack itemStack) {
+    	return EnumChatFormatting.STRIKETHROUGH + super.getItemStackDisplayName(itemStack) + EnumChatFormatting.RESET;
     }
     
     //getItemDisplayName
