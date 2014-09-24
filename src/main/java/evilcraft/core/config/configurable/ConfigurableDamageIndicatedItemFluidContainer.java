@@ -180,8 +180,8 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+    	L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
         super.addInformation(itemStack, entityPlayer, list, par4);
-        L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
     }
 
 }
