@@ -100,6 +100,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         drawForgegroundString();
         GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         SingleUseTank tank = tile.getTank();
         if(shouldRenderTank()) {
