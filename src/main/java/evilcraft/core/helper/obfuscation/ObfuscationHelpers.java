@@ -4,11 +4,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -180,6 +183,14 @@ public class ObfuscationHelpers {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Get the private 'classToIDMapping' field from {@link net.minecraft.entity.EntityList}.
+	 * @return classToIDMapping
+	 */
+	public static Map<Class<Entity>, Integer> getClassToID() {
+		return ReflectionHelper.getPrivateValue(EntityList.class, null, ObfuscationData.ENTITYLIST_CLASSTOID);
 	}
 	
 }

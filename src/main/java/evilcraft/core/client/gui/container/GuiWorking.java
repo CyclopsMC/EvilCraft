@@ -26,7 +26,7 @@ public class GuiWorking<T extends WorkingTileEntity<?>> extends GuiContainerTank
     }
     
     @Override
-    protected int getProgressScaled(int scale) {
+    protected int getProgressXScaled(int width) {
         return tile.getWorkTickScaled(24);
     }
 

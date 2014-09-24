@@ -20,7 +20,7 @@ import evilcraft.core.tileentity.TankInventoryTileEntity;
  * @param <T> The {@link TankInventoryTileEntity} class, mostly just the extension class.
  */
 public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extends GuiContainerExtended {
-
+	
     private boolean showTank = false;
     private int tankWidth;
     private int tankHeight;
@@ -73,8 +73,12 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         return showProgress;
     }
     
-	protected int getProgressScaled(int scale) {
-        return 0;
+	protected int getProgressXScaled(int width) {
+        return width;
+    }
+	
+	protected int getProgressYScaled(int height) {
+        return height;
     }
 
     @Override
@@ -82,9 +86,9 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         super.drawGuiContainerBackgroundLayer(f, x, y);
         int j = (width - xSize) / 2;
         int k = (height - ySize) / 2;
-        if (isShowProgress()) {
-            int progressScaled = getProgressScaled(progressWidth);
-            this.drawTexturedModalRect(j + progressTargetX, k + progressTargetY, progressX, progressY, progressScaled, progressHeight);
+        if(isShowProgress()) {
+            this.drawTexturedModalRect(j + progressTargetX, k + progressTargetY, progressX, progressY,
+            		getProgressXScaled(progressWidth), getProgressYScaled(progressHeight));
         }
     }
     

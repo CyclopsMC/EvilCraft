@@ -88,4 +88,9 @@ public class ObfuscationData {
 	 */
 	public static final String[] ENTITYLIVINGBASE_ONCHANGEDPOTIONEFFECT = new String[] { "onChangedPotionEffect", "func_70695_b", "b" };
 	
+	/**
+	 * Field from net.minecraft.entity.EntityList.
+	 */
+	public static final String[] ENTITYLIST_CLASSTOID = new String[] { "classToIDMapping", "field_75624_e", "e" };
+	
 }

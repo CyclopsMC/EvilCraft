@@ -181,7 +181,7 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
     public EntityLiving getEntity() {
     	ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
     	if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
-    		String id = BoxOfEternalClosure.getInstance().getSpiritId(boxStack);
+    		String id = BoxOfEternalClosure.getInstance().getSpiritName(boxStack);
     		if(id != null) {
     			// We cache the entity inside 'boxEntityCache' for obvious efficiency reasons.
     			if(boxEntityCache != null && id.equals(EntityList.getEntityString(boxEntityCache))) {

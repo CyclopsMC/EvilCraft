@@ -2,6 +2,7 @@ package evilcraft.tileentity.tickaction.bloodinfuser;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.tileentity.TileBloodInfuser;
 
@@ -53,18 +54,7 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
      * @return If the item could be added or joined in the production slot.
      */
     public boolean addToProduceSlot(TileBloodInfuser tile, ItemStack itemStack) {
-        ItemStack produceStack = tile.getInventory().getStackInSlot(tile.getProduceSlot());
-        if(produceStack == null) {
-            tile.getInventory().setInventorySlotContents(tile.getProduceSlot(), itemStack);
-            return true;
-        } else {
-            if(produceStack.getItem() == itemStack.getItem()
-               && produceStack.getMaxStackSize() >= produceStack.stackSize + itemStack.stackSize) {
-                produceStack.stackSize += itemStack.stackSize;
-                return true;
-            }
-        }
-        return false;
+    	return InventoryHelpers.addToSlot(tile.getInventory(), tile.getProduceSlot(), itemStack);
     }
     
 }

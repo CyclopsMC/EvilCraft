@@ -26,7 +26,7 @@ public class RenderItemBoxOfEternalClosure extends RenderModelItem {
     @Override
     protected void renderModel(ModelBase model) {
     	float angle = TileBoxOfEternalClosure.START_LID_ANGLE;
-    	if(BoxOfEternalClosure.getInstance().getSpiritId(currentItemStack) != null) {
+    	if(BoxOfEternalClosure.getInstance().getSpiritName(currentItemStack) != null) {
     		angle = 0;
     	}
     	ModelBoxOfEternalClosure box = ((ModelBoxOfEternalClosure)model);

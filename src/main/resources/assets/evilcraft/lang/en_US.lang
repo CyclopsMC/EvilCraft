@@ -49,6 +49,10 @@ tile.blocks.sanguinaryPedestal.name=Sanguinary Pedestal
 tile.blocks.sanguinaryPedestal.info=Drains blood stained blocks in the area.
 tile.blocks.spikedPlate.name=Spiked Plate
 tile.blocks.spikedPlate.info=Damages mobs, place on Pedestal to drain blood.
+tile.blocks.spiritReanimator.name=Spirit Reanimator
+tile.blocks.spiritReanimator.help.invalid.noEntity=Invalid, empty or no box
+tile.blocks.spiritReanimator.help.invalid.invalidEntity=No spawn egg available for mob
+tile.blocks.spiritReanimator.help.invalid.differentEgg=Remove the different mob eggs
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone
@@ -118,6 +122,8 @@ item.items.boundBloodDrop.info=Right click to bind with your Blood Magic soul ne
 item.items.boundBloodDrop.info.autoSupply=Auto-supply: %s
 item.items.boundBloodDrop.info.currentOwner=Current owner: %s
 item.items.boundBloodDrop.info.currentOwner.none=None
+item.items.resurgenceEgg.name=Resurgence Egg
+item.items.resurgenceEgg.info.content=Contents: %s
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

@@ -118,5 +118,27 @@ public class InventoryHelpers {
 	public static ItemStack getItemFromIndex(EntityPlayer player, int itemIndex) {
 		return player.inventory.mainInventory[itemIndex];
 	}
+	
+	/**
+     * Try to add the given item to the given slot.
+     * @param inventory The inventory.
+     * @param slot The slot to add to.
+     * @param itemStack The item to try to put in the production slot.
+     * @return If the item could be added or joined in the production slot.
+     */
+    public static boolean addToSlot(IInventory inventory, int slot, ItemStack itemStack) {
+        ItemStack produceStack = inventory.getStackInSlot(slot);
+        if(produceStack == null) {
+        	inventory.setInventorySlotContents(slot, itemStack);
+            return true;
+        } else {
+            if(produceStack.getItem() == itemStack.getItem()
+               && produceStack.getMaxStackSize() >= produceStack.stackSize + itemStack.stackSize) {
+                produceStack.stackSize += itemStack.stackSize;
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

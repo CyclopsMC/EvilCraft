@@ -31,6 +31,7 @@ import evilcraft.block.PurifierConfig;
 import evilcraft.block.SanguinaryPedestalConfig;
 import evilcraft.block.SpikedPlateConfig;
 import evilcraft.block.SpiritFurnaceConfig;
+import evilcraft.block.SpiritReanimatorConfig;
 import evilcraft.block.UndeadLeavesConfig;
 import evilcraft.block.UndeadLogConfig;
 import evilcraft.block.UndeadPlankConfig;
@@ -92,6 +93,7 @@ import evilcraft.item.NecromancerStaffConfig;
 import evilcraft.item.PoisonSacConfig;
 import evilcraft.item.PotentiaSphereConfig;
 import evilcraft.item.RedstoneGrenadeConfig;
+import evilcraft.item.ResurgenceEggConfig;
 import evilcraft.item.VeinSwordConfig;
 import evilcraft.item.VengeanceFocusConfig;
 import evilcraft.item.VengeancePickaxeConfig;
@@ -187,6 +189,7 @@ public class Configs {
         configs.add(new DarkTankConfig());
         configs.add(new SanguinaryPedestalConfig());
         configs.add(new SpikedPlateConfig());
+        configs.add(new SpiritReanimatorConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -224,6 +227,7 @@ public class Configs {
         configs.add(new ExaltedCrafterConfig());
         configs.add(new NecromancerStaffConfig());
         configs.add(new InvigoratingPendantConfig());
+        configs.add(new ResurgenceEggConfig());
         
         // Entities
         // Item
