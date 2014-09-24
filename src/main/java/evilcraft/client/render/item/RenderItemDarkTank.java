@@ -27,9 +27,7 @@ public class RenderItemDarkTank extends RenderItemBlock {
     @Override
 	protected void preRenderAdditional(ItemRenderType type, ItemStack itemStack, Block block) {
     	GL11.glPushMatrix();
-    	if(type != ItemRenderType.ENTITY) {
-    		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-    	}
+    	GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         GL11.glDepthMask(true);
         GL11.glDisable(GL11.GL_CULL_FACE);
         
