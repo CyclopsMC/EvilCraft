@@ -24,8 +24,8 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
-import evilcraft.Configs;
 import evilcraft.EvilCraft;
+import evilcraft.client.ExaltedCrafterKeyHandler;
 import evilcraft.client.FartKeyHandler;
 import evilcraft.client.KeyHandler;
 import evilcraft.client.Keys;
@@ -34,8 +34,6 @@ import evilcraft.event.KeyInputEventHook;
 import evilcraft.event.PlaySoundAtEntityEventHook;
 import evilcraft.event.PlayerTickEventHook;
 import evilcraft.event.TextureStitchEventHook;
-import evilcraft.item.ExaltedCrafter;
-import evilcraft.item.ExaltedCrafterConfig;
 
 /**
  * Proxy for the client side.
@@ -107,9 +105,7 @@ public class ClientProxy extends CommonProxy {
 		KeyHandler fartKeyHandler = new FartKeyHandler();
 
 		Keys.FART.addKeyHandler(fartKeyHandler);
-		if(Configs.isEnabled(ExaltedCrafterConfig.class)) {
-			Keys.EXALTEDCRAFTING.addKeyHandler(ExaltedCrafter.getInstance());
-		}
+		Keys.EXALTEDCRAFTING.addKeyHandler(new ExaltedCrafterKeyHandler());
 		KeyInputEventHook.getInstance().addKeyHandler(settings.keyBindSneak,
 				fartKeyHandler);
 

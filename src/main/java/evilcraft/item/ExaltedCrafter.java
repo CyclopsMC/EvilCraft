@@ -1,10 +1,7 @@
 package evilcraft.item;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -16,15 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.client.KeyHandler;
-import evilcraft.client.Keys;
 import evilcraft.client.gui.container.GuiExaltedCrafter;
-import evilcraft.core.PlayerInventoryIterator;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.MinecraftHelpers;
@@ -32,15 +23,13 @@ import evilcraft.core.inventory.NBTSimpleInventory;
 import evilcraft.core.item.ItemGui;
 import evilcraft.entity.item.EntityItemEmpowerable;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
-import evilcraft.network.PacketHandler;
-import evilcraft.network.packet.ExaltedCrafterOpenPacket;
 
 /**
  * A portable crafting table with a built-in ender chest.
  * @author rubensworks
  *
  */
-public class ExaltedCrafter extends ItemGui implements KeyHandler, IItemEmpowerable {
+public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     
     private static ExaltedCrafter _instance = null;
     
@@ -146,25 +135,6 @@ public class ExaltedCrafter extends ItemGui implements KeyHandler, IItemEmpowera
     	}
     	return player.getInventoryEnderChest();
     }
-    
-    @Override
-	public void onKeyPressed(KeyBinding kb) {
-		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
-		if(kb == Keys.EXALTEDCRAFTING.keyBinding) {
-			Pair<Integer, ItemStack> found = null;
-			PlayerInventoryIterator it = new PlayerInventoryIterator(player);
-			while(it.hasNext() && found == null) {
-				Pair<Integer, ItemStack> pair = it.nextIndexed();
-				if(pair.getRight() != null && pair.getRight().getItem() == this) {
-					found = pair;
-				}
-			}
-			if(found != null) {
-				openGuiForItemIndex(Minecraft.getMinecraft().theWorld, player, found.getLeft());
-				PacketHandler.sendToServer(new ExaltedCrafterOpenPacket(found.getLeft()));
-			}
-		}
-	}
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
