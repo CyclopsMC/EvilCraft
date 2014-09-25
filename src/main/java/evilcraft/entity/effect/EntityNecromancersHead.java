@@ -135,6 +135,7 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     				if(!target.isEntityAlive() || timeLeft <= 0) {
     					ObfuscationHelpers.setRecentlyHit(mob, 0);
     					mob.onDeath(ExtendedDamageSource.necromancerRecall);
+    					it.remove();
     				} else {
     					mob.setRevengeTarget(target);
     				}
