@@ -1,21 +1,21 @@
 package evilcraft.world.gen;
 
-import java.util.Map;
-import java.util.Random;
-
 import com.google.common.collect.Maps;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import evilcraft.core.helper.MinecraftHelpers;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.common.IWorldGenerator;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
 import evilcraft.GeneralConfig;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.world.gen.nbt.DarkTempleData;
 import evilcraft.world.gen.structure.DarkTempleStructure;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+
+import java.util.Map;
+import java.util.Random;
 
 /**
  * World generator for Dark Temples.
@@ -26,6 +26,7 @@ import net.minecraftforge.event.world.WorldEvent;
 public class DarkTempleGenerator implements IWorldGenerator {
 
 	private static Map<Integer, DarkTempleData> darkTemples = Maps.newHashMap();
+
 	private static final String DARK_TEMPLE_MAP_NAME = "DarkTemple";
 
 	public DarkTempleGenerator() {

@@ -42,8 +42,27 @@ public class LocationHelpers {
 	 */
 	public static TargetPoint createTargetPointFromLocation(World world, ILocation location,
 			int range) {
-		int[] c = location.getCoordinates();
+		int[] c = validateLocation(location);
 		return new TargetPoint(world.provider.dimensionId, c[0], c[1], c[2], range);
+	}
+	
+	/**
+	 * Get the distance between the two given locations.
+	 * @param first The first location.
+	 * @param second The second location.
+	 * @return The Euclidian distance.
+	 */
+	public static double getDistance(ILocation first, ILocation second) {
+		int[] c1 = first.getCoordinates();
+		int[] c2 = second.getCoordinates();
+		if(c1.length != c2.length) {
+			throw new LocationException("The locations {" + first + ", " + second + "} have different dimensions.");
+		}
+		int d = 0;
+		for(int i = 0; i < c1.length; i++) {
+			d += (c1[i] - c2[i]) * (c1[i] - c2[i]);
+		}
+		return Math.sqrt(d);
 	}
 
 	private static int[] validateLocation(ILocation location) throws LocationException {
