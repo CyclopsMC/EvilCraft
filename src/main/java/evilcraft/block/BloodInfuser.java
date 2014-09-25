@@ -34,9 +34,13 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     
     private static BloodInfuser _instance = null;
     
+    @SideOnly(Side.CLIENT)
     private IIcon sideIcon;
+    @SideOnly(Side.CLIENT)
     private IIcon topIcon;
+    @SideOnly(Side.CLIENT)
     private IIcon frontIconOn;
+    @SideOnly(Side.CLIENT)
     private IIcon frontIconOff;
     
     /**

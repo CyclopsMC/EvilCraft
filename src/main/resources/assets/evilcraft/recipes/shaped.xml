@@ -833,5 +833,32 @@
             <item>evilcraft:invigoratingPendant</item>
         </output>
     </recipe>
+    
+	<recipe type="shaped">
+        <condition type="config">bloodInfusionCore</condition>
+        <condition type="config">spiritReanimator</condition>
+        <input>
+            <grid>
+                <gridrow>
+                    <item type="oredict">cobblestone</item>
+                    <item>minecraft:iron_ingot</item>
+                    <item type="oredict">cobblestone</item>
+                </gridrow>
+                <gridrow>
+                    <item type="oredict">cobblestone</item>
+                    <item>evilcraft:bloodInfusionCore</item>
+                    <item type="oredict">cobblestone</item>
+                </gridrow>
+                <gridrow>
+                    <item type="oredict">cobblestone</item>
+                    <item>minecraft:iron_block</item>
+                    <item type="oredict">cobblestone</item>
+                </gridrow>
+            </grid>
+        </input>
+        <output>
+            <item>evilcraft:spiritReanimator</item>
+        </output>
+    </recipe>
 
 </recipes>

@@ -198,5 +198,10 @@ public class TileSpiritReanimator extends WorkingTileEntity<TileSpiritReanimator
 				&& (outputStack == null || (outputStack.getMaxStackSize() > outputStack.stackSize)
 					&& outputStack.getItemDamage() == getEntityID());
 	}
+	
+	@Override
+    public void onStateChanged() {
+        sendUpdate();
+    }
 
 }

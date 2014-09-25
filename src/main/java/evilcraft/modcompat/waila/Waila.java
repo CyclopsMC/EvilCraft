@@ -15,6 +15,8 @@ import evilcraft.block.Purifier;
 import evilcraft.block.PurifierConfig;
 import evilcraft.block.SpiritFurnace;
 import evilcraft.block.SpiritFurnaceConfig;
+import evilcraft.block.SpiritReanimator;
+import evilcraft.block.SpiritReanimatorConfig;
 import evilcraft.tileentity.TileBloodChest;
 import evilcraft.tileentity.TileBloodInfuser;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
@@ -52,6 +54,8 @@ public class Waila {
         }
         if(Configs.isEnabled(SpiritFurnaceConfig.class))
             registrar.registerBodyProvider(new TankDataProvider(), SpiritFurnace.class);
+        if(Configs.isEnabled(SpiritReanimatorConfig.class))
+            registrar.registerBodyProvider(new TankDataProvider(), SpiritReanimator.class);
         
         // Inner blocks
         if(Configs.isEnabled(BloodStainedBlockConfig.class))
