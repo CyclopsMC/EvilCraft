@@ -1,7 +1,12 @@
 package evilcraft.item;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.entity.item.EntityItemDarkStick;
 
 /**
  * A dark stick.
@@ -33,6 +38,16 @@ public class DarkStick extends ConfigurableItem {
 
     private DarkStick(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
+    }
+    
+    @Override
+    public boolean hasCustomEntity(ItemStack itemStack) {
+    	return true;
+    }
+    
+    @Override
+    public Entity createEntity(World world, Entity location, ItemStack itemStack) {
+    	return new EntityItemDarkStick(world, (EntityItem) location);
     }
 
 }

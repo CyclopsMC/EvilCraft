@@ -6,6 +6,8 @@ import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldSavedData;
+import evilcraft.api.ILocation;
+import evilcraft.core.algorithm.Location;
 
 /**
  * Responsible for saving all dark temple locations in NBT format.
@@ -61,12 +63,36 @@ public class DarkTempleData extends WorldSavedData {
 		return false;
 	}
 	
+	/**
+	 * Look for the closest dark temple.
+	 * @param x The X-coordinate of the given location.
+	 * @param y The Y-coordinate of the given location.
+	 * @param z The Z-coordinate of the given location.
+	 * @return true The location of the found structure, or null;
+	 */
+	public ILocation getClosestStructure(int x, int y, int z) {
+		Position found = null;
+		int distance = Integer.MAX_VALUE;
+		for(Position pos : structureLocations) {
+			int newDistance = getDistance(pos, x, y, z);
+			if(newDistance < distance) {
+				found = pos;
+			}
+		}
+		
+		return found == null ? null : found.toLocation();
+	}
+	
+	private int getDistance(Position pos, int x, int y, int z) {
+		return (pos.x - x) + (pos.z - z);
+	}
+	
 	private boolean inRange(Position pos, int x, int y, int z, int range) {
 		return (pos.x - x) * (pos.x - x) + (pos.z - z) * (pos.z - z) <= range * range;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
+	public void readFromNBT(NBTTagCompound compound) {System.out.println("READING");
 		if (!compound.hasKey("locations")) return;
 		
 		ByteBuffer buffer = ByteBuffer.wrap(compound.getByteArray("locations"));
@@ -76,7 +102,7 @@ public class DarkTempleData extends WorldSavedData {
 		int nelems = buffer.getInt();
 		
 		// Read the individual elements
-		for (int i=0; i < nelems; ++i) {
+		for (int i=0; i < nelems; ++i) {System.out.println("READ " + i);
 			structureLocations.add(Position.fromByteBuffer(buffer));
 		}
 	}
@@ -116,6 +142,10 @@ public class DarkTempleData extends WorldSavedData {
 		
 		public static Position fromByteBuffer(ByteBuffer buffer) {
 			return new Position(buffer.getInt(), buffer.getInt(), buffer.getInt());
+		}
+		
+		public ILocation toLocation() {
+			return new Location(x, y, z);
 		}
 	}
 }

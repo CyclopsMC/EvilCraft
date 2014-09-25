@@ -18,7 +18,7 @@ import evilcraft.world.gen.structure.DarkTempleStructure;
  */
 public class DarkTempleGenerator implements IWorldGenerator {
 
-	private DarkTempleData darkTempleData = null;
+	private static DarkTempleData darkTempleData = null;
 	private static final String DARK_TEMPLE_MAP_NAME = "DarkTemple";
 
 	@Override
@@ -43,14 +43,24 @@ public class DarkTempleGenerator implements IWorldGenerator {
 		}
     }
 
-	private void loadDarkTempleData(World world) {
+	private static void loadDarkTempleData(World world) {
 		if (darkTempleData == null) {
 			darkTempleData = (DarkTempleData) world.perWorldStorage.loadData(DarkTempleData.class, DARK_TEMPLE_MAP_NAME);
 
-			if (darkTempleData == null) {
+			if (darkTempleData == null) {System.out.println("nullnull");
 				darkTempleData = new DarkTempleData(DARK_TEMPLE_MAP_NAME);
 				world.perWorldStorage.setData(DARK_TEMPLE_MAP_NAME, darkTempleData);
 			}
 		}
+	}
+	
+	/**
+	 * Get the dark temple data.
+	 * @param world The world.
+	 * @return The data.
+	 */
+	public static DarkTempleData getDarkTempleData(World world) {
+		loadDarkTempleData(world);
+		return darkTempleData;
 	}
 }
