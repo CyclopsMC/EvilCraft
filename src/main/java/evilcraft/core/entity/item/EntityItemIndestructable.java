@@ -1,10 +1,12 @@
 package evilcraft.core.entity.item;
 
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 /**
  * An indestructible version of the {@link EntityItem}.
+ * Make sure to register sub-classes of this as a mod entity!
  * @author rubensworks
  *
  */
@@ -17,10 +19,48 @@ public abstract class EntityItemIndestructable extends EntityItem {
      */
 	public EntityItemIndestructable(World world, EntityItem original) {
         super(world, original.posX, original.posY, original.posZ, original.getEntityItem());
-        delayBeforeCanPickup = 40;
         motionX = original.motionX;
         motionY = original.motionY;
         motionZ = original.motionZ;
+        init();
+    }
+	
+	/**
+	 * Make a new instance.
+	 * @param world The world.
+	 */
+	public EntityItemIndestructable(World world) {
+        super(world);
+        init();
+    }
+
+	/**
+	 * Make a new instance.
+	 * @param world The world.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 */
+    public EntityItemIndestructable(World world, double x, double y, double z) {
+        super(world, x, y, z);
+        init();
+    }
+    
+    /**
+	 * Make a new instance.
+	 * @param world The world.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+     * @param itemStack The item stack.
+	 */
+    public EntityItemIndestructable(World world, double x, double y, double z, ItemStack itemStack) {
+        super(world, x, y, z, itemStack);
+        init();
+    }
+    
+    private void init() {
+    	delayBeforeCanPickup = 40;
     }
 	
 	protected boolean isIndestructable() {

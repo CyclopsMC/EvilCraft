@@ -28,8 +28,7 @@ public class EntityStruckByLightningEventHook {
             if(entity.getEntityItem().getItem() instanceof IItemEmpowerable) {
             	IItemEmpowerable empowerable = (IItemEmpowerable) entity.getEntityItem().getItem();
             	if(!empowerable.isEmpowered(entity.getEntityItem())) {
-            		empowerable.empower(entity.getEntityItem());
-
+            		entity.setEntityItemStack(empowerable.empower(entity.getEntityItem()));
             		event.setCanceled(true);
             		event.lightning.setDead();
             	}

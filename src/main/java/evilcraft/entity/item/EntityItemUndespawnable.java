@@ -1,6 +1,7 @@
 package evilcraft.entity.item;
 
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import evilcraft.core.entity.item.EntityItemIndestructable;
 
@@ -18,6 +19,37 @@ public class EntityItemUndespawnable extends EntityItemIndestructable {
      */
 	public EntityItemUndespawnable(World world, EntityItem original) {
         super(world, original);
+    }
+	
+	/**
+	 * Make a new instance.
+	 * @param world The world.
+	 */
+	public EntityItemUndespawnable(World world) {
+        super(world);
+    }
+
+	/**
+	 * Make a new instance.
+	 * @param world The world.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 */
+    public EntityItemUndespawnable(World world, double x, double y, double z) {
+        super(world, x, y, z);
+    }
+    
+    /**
+	 * Make a new instance.
+	 * @param world The world.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+     * @param itemStack The item stack.
+	 */
+    public EntityItemUndespawnable(World world, double x, double y, double z, ItemStack itemStack) {
+        super(world, x, y, z, itemStack);
     }
 	
 	@Override

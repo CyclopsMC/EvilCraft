@@ -97,10 +97,11 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     }
     
     @Override
-	public void empower(ItemStack itemStack) {
+	public ItemStack empower(ItemStack itemStack) {
         if(itemStack.getItem() == this) {
             itemStack.setItemDamage(itemStack.getItemDamage() | 2);
         }
+        return itemStack;
     }
     
     protected boolean isWooden(ItemStack itemStack) {

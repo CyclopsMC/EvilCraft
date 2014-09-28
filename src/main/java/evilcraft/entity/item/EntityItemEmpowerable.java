@@ -1,6 +1,7 @@
 package evilcraft.entity.item;
 
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import evilcraft.core.entity.item.EntityItemIndestructable;
 import evilcraft.item.IItemEmpowerable;
@@ -19,6 +20,37 @@ public class EntityItemEmpowerable extends EntityItemIndestructable {
      */
 	public EntityItemEmpowerable(World world, EntityItem original) {
         super(world, original);
+    }
+	
+	/**
+	 * Make a new instance.
+	 * @param world The world.
+	 */
+	public EntityItemEmpowerable(World world) {
+        super(world);
+    }
+
+	/**
+	 * Make a new instance.
+	 * @param world The world.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 */
+    public EntityItemEmpowerable(World world, double x, double y, double z) {
+        super(world, x, y, z);
+    }
+    
+    /**
+	 * Make a new instance.
+	 * @param world The world.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+     * @param itemStack The item stack.
+	 */
+    public EntityItemEmpowerable(World world, double x, double y, double z, ItemStack itemStack) {
+        super(world, x, y, z, itemStack);
     }
 	
 	@Override
