@@ -59,12 +59,12 @@ public class TileDarkTank extends TankInventoryTileEntity {
 	
 	@Override
 	protected void updateTileEntity() {
-		if(!getTank().isEmpty() && shouldAutoDrain()) {
+		if(!getTank().isEmpty() && shouldAutoDrain() && !getWorldObj().isRemote) {
 			ForgeDirection down = ForgeDirection.DOWN;
 			TileEntity tile = worldObj.getTileEntity(xCoord + down.offsetX, yCoord + down.offsetY, zCoord + down.offsetZ);
 			if(tile instanceof IFluidHandler) {
 				IFluidHandler handler = (IFluidHandler) tile;
-				FluidStack fluidStack = new FluidStack(getTank().getFluidType(), MB_RATE);
+				FluidStack fluidStack = new FluidStack(getTank().getFluidType(), Math.min(MB_RATE, getTank().getFluidAmount()));
 				if(handler.canFill(down.getOpposite(), getTank().getFluidType())
 						&& handler.fill(down.getOpposite(), fluidStack, false) > 0) {
 					int filled = handler.fill(down.getOpposite(), fluidStack, true);

@@ -83,7 +83,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
 					TileEntity tile = worldObj.getTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY, zCoord + direction.offsetZ);
 					if(!getTank().isEmpty() && tile instanceof IFluidHandler) {
 						IFluidHandler handler = (IFluidHandler) tile;
-						FluidStack fluidStack = new FluidStack(getTank().getFluidType(), MB_RATE);
+						FluidStack fluidStack = new FluidStack(getTank().getFluidType(), Math.min(MB_RATE, getTank().getFluidAmount()));
 						if(handler.canFill(direction.getOpposite(), getTank().getFluidType())
 								&& handler.fill(direction.getOpposite(), fluidStack, false) > 0) {
 							int filled = handler.fill(direction.getOpposite(), fluidStack, true);
