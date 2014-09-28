@@ -6,12 +6,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import WayofTime.alchemicalWizardry.AlchemicalWizardry;
-import WayofTime.alchemicalWizardry.common.items.EnergyItems;
+import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -56,6 +57,17 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
         setPlaceFluids(true);
     }
     
+    private static String getOwnerName(ItemStack item) {
+        if(item.stackTagCompound == null) {
+            item.setTagCompound(new NBTTagCompound());
+        }
+        return item.stackTagCompound.getString("ownerName");
+    }
+    
+    private static int getCurrentEssence(String owner) {
+    	return ClientSoulNetworkHandler.getInstance().getCurrentEssence(owner);
+    }
+    
     @Override
     public boolean hasEffect(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
@@ -76,7 +88,7 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
         		getUnlocalizedName() + ".info.autoSupply");
         if(itemStack.getTagCompound() != null) {
-        	String owner = EnergyItems.getOwnerName(itemStack);
+        	String owner = getOwnerName(itemStack);
         	if(owner == null || owner.isEmpty()) {
         		owner = EnumChatFormatting.ITALIC + L10NHelpers.localize(getUnlocalizedName() + ".info.currentOwner.none");
         	}
@@ -86,7 +98,7 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-    	EnergyItems.checkAndSetItemOwner(itemStack, player);
+    	SoulNetworkHandler.checkAndSetItemOwner(itemStack, player);
     	if(player.isSneaking()) {
             if(!world.isRemote)
             	ItemHelpers.toggleActivation(itemStack);
@@ -112,42 +124,42 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public FluidStack getFluid(ItemStack container) {
-    	String owner = EnergyItems.getOwnerName(container);
-    	if(owner == null || owner.isEmpty()) {
-    		return new FluidStack(AlchemicalWizardry.lifeEssenceFluid, 0);
+    	String owner = getOwnerName(container);
+    	int essence = 0;
+    	if(!(owner == null || owner.isEmpty())) {
+    		essence = getCurrentEssence(owner);
     	}
-    	int essence = EnergyItems.getCurrentEssence(owner);
     	FluidStack drainedEssence = new FluidStack(AlchemicalWizardry.lifeEssenceFluid, essence);
     	return BloodFluidConverter.getInstance().convert(drainedEssence);
     }
     
     @Override
     public int fill(ItemStack container, FluidStack resource, boolean doFill) {
-    	String owner = EnergyItems.getOwnerName(container);
+    	String owner = getOwnerName(container);
     	if(owner == null || owner.isEmpty()) {
     		return 0;
     	}
-    	int essence = EnergyItems.getCurrentEssence(owner);
+    	int essence = getCurrentEssence(owner);
     	FluidStack essenceFluid = BloodFluidConverter.getInstance().convertReverse(AlchemicalWizardry.lifeEssenceFluid, resource);
     	int filled = essenceFluid == null ? 0 : essenceFluid.amount;
     	if(doFill && !MinecraftHelpers.isClientSide()) {
-    		EnergyItems.setCurrentEssence(owner, essence + filled);
+    		SoulNetworkHandler.setCurrentEssence(owner, essence + filled);
     	}
     	return filled;
     }
     
     @Override
     public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
-    	String owner = EnergyItems.getOwnerName(container);
+    	String owner = getOwnerName(container);
     	if(owner == null || owner.isEmpty()) {
     		return null;
     	}
-    	int essence = EnergyItems.getCurrentEssence(owner);
+    	int essence = getCurrentEssence(owner);
     	FluidStack toDrain = new FluidStack(Blood.getInstance(), maxDrain);
     	FluidStack toDrainEssence = BloodFluidConverter.getInstance().convertReverse(AlchemicalWizardry.lifeEssenceFluid, toDrain);
     	int drainEssence = Math.min(essence, toDrainEssence == null ? 0 : toDrainEssence.amount);
     	if(doDrain && !MinecraftHelpers.isClientSide()) {
-    		EnergyItems.setCurrentEssence(owner, essence - drainEssence);
+    		SoulNetworkHandler.setCurrentEssence(owner, essence - drainEssence);
     	}
     	FluidStack drainedEssence = new FluidStack(AlchemicalWizardry.lifeEssenceFluid, drainEssence);
     	return BloodFluidConverter.getInstance().convert(drainedEssence);
