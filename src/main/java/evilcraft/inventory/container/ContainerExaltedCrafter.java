@@ -82,7 +82,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     
     @Override
     protected int getSlotStart(int originSlot, int slotStart, boolean reverse) {
-    	if(!reverse && !ExaltedCrafterConfig.shiftClickToCraftingGrid) {
+    	if(!reverse && !ExaltedCrafterConfig.shiftCraftingGrid) {
     		// Avoid shift clicking with as target the crafting grid (+ result).
     		return 10;
     	} else if(reverse && originSlot < 10) {
