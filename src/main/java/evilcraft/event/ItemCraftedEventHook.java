@@ -9,6 +9,8 @@ import evilcraft.block.SpiritFurnace;
 import evilcraft.block.SpiritFurnaceConfig;
 import evilcraft.item.BloodExtractor;
 import evilcraft.item.BloodExtractorConfig;
+import evilcraft.item.ExaltedCrafter;
+import evilcraft.item.ExaltedCrafterConfig;
 
 /**
  * Event hook for {@link ItemCraftedEvent}.
@@ -25,6 +27,7 @@ public class ItemCraftedEventHook {
     public void onCraft(ItemCraftedEvent event) {
         craftBloodExtractor(event);
         craftSpiritFurnace(event);
+        craftExaltedCrafter(event);
     }
     
     private void craftBloodExtractor(ItemCraftedEvent event) {
@@ -42,6 +45,16 @@ public class ItemCraftedEventHook {
 	    	if(event.player != null && item != null &&
 	    			item == Item.getItemFromBlock(SpiritFurnace.getInstance())) {
 	    		event.player.addStat(Achievements.SPIRIT_COOKER, 1);
+	        }
+    	}
+    }
+    
+    private void craftExaltedCrafter(ItemCraftedEvent event) {
+    	if(Configs.isEnabled(ExaltedCrafterConfig.class)) {
+	    	Item item = event.crafting.getItem();
+	    	if(event.player != null && item != null &&
+	    			item == ExaltedCrafter.getInstance()) {
+	    		event.player.addStat(Achievements.POWER_CRAFTING, 1);
 	        }
     	}
     }

@@ -190,6 +190,10 @@ achievement.evilcraft.tidy=Tidy Up!
 achievement.evilcraft.tidy.desc=Clean up an excrement pile with a broom.
 achievement.evilcraft.playerDistorter=Player Distorter
 achievement.evilcraft.playerDistorter.desc=Distort a player with the Mace of Distortion.
+achievement.evilcraft.playerDevastator=Player Devastator
+achievement.evilcraft.playerDevastator.desc=Attack a player using zombies spawned from a Necromancer Staff.
+achievement.evilcraft.powerCrafting=Power Crafting
+achievement.evilcraft.powerCrafting.desc=Craft an Exalted Crafter, craft-ception!
 
 # Gui
 gui.exaltedCrafting=Exalted Crafting

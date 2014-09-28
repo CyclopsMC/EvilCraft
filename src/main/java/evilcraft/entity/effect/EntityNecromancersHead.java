@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.potion.Potion;
@@ -21,6 +22,7 @@ import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Achievements;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.helper.EntityHelpers;
@@ -121,6 +123,9 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     	}
     	this.target = target;
     	setObserverMode();
+    	if(necromancer instanceof EntityPlayer && target instanceof EntityPlayer) {
+    		((EntityPlayer) necromancer).addStat(Achievements.PLAYER_DEVASTATOR, 1);
+    	}
     }
     
     @Override

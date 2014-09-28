@@ -247,12 +247,19 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
         });
         
         // Do knockback and damage to the list of entities
+        boolean onePlayer = false;
         for(Entity entity : entities) {
+        	if(entity instanceof EntityPlayer) {
+        		onePlayer = true;
+        	}
             distortEntity(world, player, entity, x, y, z, itemUsedCount, power);
         }
         
         if(player != null && entities.size() >= 10) {
         	player.addStat(Achievements.DISTORTER, 1);
+        	if(onePlayer) {
+        		player.addStat(Achievements.PLAYER_DISTORTER, 1);
+        	}
         }
     }
     

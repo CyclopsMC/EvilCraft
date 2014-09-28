@@ -15,8 +15,12 @@ import evilcraft.item.Broom;
 import evilcraft.item.BroomConfig;
 import evilcraft.item.DarkGem;
 import evilcraft.item.DarkGemConfig;
+import evilcraft.item.ExaltedCrafter;
+import evilcraft.item.ExaltedCrafterConfig;
 import evilcraft.item.MaceOfDistortion;
 import evilcraft.item.MaceOfDistortionConfig;
+import evilcraft.item.NecromancerStaff;
+import evilcraft.item.NecromancerStaffConfig;
 
 /**
  * Obtainable achievements in this mod.
@@ -48,7 +52,7 @@ public class Achievements {
 	/**
 	 * Send a beam to a spirit.
 	 */
-	public static final Achievement CLOSURE = new ExtendedAchievement("closure", 0, 4, new ItemStack(Configs.isEnabled(BoxOfEternalClosureConfig.class) ? BoxOfEternalClosure.getInstance() : Blocks.anvil), FIRST_AGE);
+	public static final Achievement CLOSURE = new ExtendedAchievement("closure", -2, 2, new ItemStack(Configs.isEnabled(BoxOfEternalClosureConfig.class) ? BoxOfEternalClosure.getInstance() : Blocks.anvil), FIRST_AGE);
 	/**
 	 * Tidy up excrement pile with a broom.
 	 */
@@ -57,6 +61,14 @@ public class Achievements {
 	 * Distort a player.
 	 */
 	public static final Achievement PLAYER_DISTORTER = new ExtendedAchievement("playerDistorter", 2, 6, new ItemStack(Items.skull, 1, 3), DISTORTER);
+	/**
+	 * Attack a player using the necromancer staff.
+	 */
+	public static final Achievement PLAYER_DEVASTATOR = new ExtendedAchievement("playerDevastator", 2, 8, new ItemStack(Configs.isEnabled(NecromancerStaffConfig.class) ? NecromancerStaff.getInstance() : Items.potato, 1, 3), PLAYER_DISTORTER);
+	/**
+	 * Make a spirit furnace.
+	 */
+	public static final Achievement POWER_CRAFTING = new ExtendedAchievement("powerCrafting", 2, 2, new ItemStack(Configs.isEnabled(ExaltedCrafterConfig.class) ? ExaltedCrafter.getInstance() : Items.potato), FIRST_AGE);
 	
 	private static final Achievement[] ACHIEVEMENTS = {
 		FART,
@@ -66,7 +78,9 @@ public class Achievements {
 		SPIRIT_COOKER,
 		CLOSURE,
 		TIDY,
-		PLAYER_DISTORTER
+		PLAYER_DISTORTER,
+		PLAYER_DEVASTATOR,
+		POWER_CRAFTING
 	};
 	
 	/**
@@ -82,6 +96,7 @@ public class Achievements {
 				int column, int row, ItemStack item,
 				Achievement parent) {
 			super(Reference.MOD_ID + "." + id, Reference.MOD_ID + "." + id, row, column, item, parent);
+			registerStat();
 		}
 		
 	}
