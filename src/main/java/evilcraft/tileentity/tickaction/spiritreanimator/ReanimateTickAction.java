@@ -31,10 +31,10 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 		// Drain the tank a bit.
 		tile.getTank().drain(SpiritReanimatorConfig.mBPerTick, true);
 		if(tick >= getRequiredTicks(tile, slot)) {
+			int entityID = tile.getEntityID();
 			if(SpiritReanimatorConfig.clearBoxContents) {
 				itemStack.setTagCompound(new NBTTagCompound());
 			}
-			int entityID = tile.getEntityID();
 			if(entityID > -1) {
 				ItemStack eggStack = new ItemStack((Item)Item.itemRegistry.getObject("spawn_egg"), 1, entityID);
 				if(addToProduceSlot(tile, eggStack)) {
