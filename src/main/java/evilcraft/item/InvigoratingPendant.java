@@ -102,7 +102,7 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
 	    		
 	    		boolean shouldClear = true;
 	    		if(potionID >= 0 && potionID < Potion.potionTypes.length) {
-	    			shouldClear = Potion.potionTypes[potionID].isBadEffect();
+	    			shouldClear = ObfuscationHelpers.isPotionBadEffect(Potion.potionTypes[potionID]);
 	    		}
 	    		
 	    		if(shouldClear) {	    			
