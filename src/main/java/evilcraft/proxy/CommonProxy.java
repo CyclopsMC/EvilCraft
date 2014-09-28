@@ -13,6 +13,7 @@ import evilcraft.event.EntityStruckByLightningEventHook;
 import evilcraft.event.ItemCraftedEventHook;
 import evilcraft.event.LivingAttackEventHook;
 import evilcraft.event.LivingDeathEventHook;
+import evilcraft.event.LivingUpdateEventHook;
 import evilcraft.event.PlayerInteractEventHook;
 import evilcraft.event.PlayerRingOfFire;
 import evilcraft.network.PacketHandler;
@@ -82,6 +83,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
         MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
         MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
+        MinecraftForge.EVENT_BUS.register(new LivingUpdateEventHook());
         
         FMLCommonHandler.instance().bus().register(new ConfigChangedEventHook());
         FMLCommonHandler.instance().bus().register(new PlayerRingOfFire());

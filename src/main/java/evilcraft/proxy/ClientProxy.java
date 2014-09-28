@@ -31,7 +31,6 @@ import evilcraft.client.KeyHandler;
 import evilcraft.client.Keys;
 import evilcraft.core.client.render.block.MultiPassBlockRenderer;
 import evilcraft.event.KeyInputEventHook;
-import evilcraft.event.PlaySoundAtEntityEventHook;
 import evilcraft.event.PlayerTickEventHook;
 import evilcraft.event.TextureStitchEventHook;
 
@@ -122,7 +121,6 @@ public class ClientProxy extends CommonProxy {
 		super.registerEventHooks();
 
 		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
-		MinecraftForge.EVENT_BUS.register(new PlaySoundAtEntityEventHook());
 
 		FMLCommonHandler.instance().bus().register(KeyInputEventHook.getInstance());
 		FMLCommonHandler.instance().bus().register(new PlayerTickEventHook());
