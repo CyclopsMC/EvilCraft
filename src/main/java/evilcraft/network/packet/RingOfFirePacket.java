@@ -33,6 +33,7 @@ public class RingOfFirePacket extends PacketCodec {
         ALLOW_RING.add("kroeserr");
         ALLOW_RING.add("_EeB_");
         ALLOW_RING.add("JonaBrackenwood");
+        ALLOW_RING.add("Davivs69");
     }
     private static double RING_AREA = 0.9F;
 	
