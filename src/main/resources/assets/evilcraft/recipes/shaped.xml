@@ -256,7 +256,6 @@
 	</recipe>
 
 	<recipe type="shaped">
-		<condition type="config">bloodContainer</condition>
 		<condition type="config">darkSpike</condition>
 		<condition type="config">bloodExtractor</condition>
 		<input>
@@ -268,12 +267,12 @@
 				</gridrow>
 				<gridrow>
 					<item />
-					<item>evilcraft:bloodContainer</item>
+					<item type="oredict">blockGlass</item>
 					<item />
 				</gridrow>
 				<gridrow>
 					<item />
-					<item />
+					<item type="oredict">gemDark</item>
 					<item />
 				</gridrow>
 			</grid>
