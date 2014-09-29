@@ -95,7 +95,7 @@ public class RetroGenRegistry {
 	 */
 	@SubscribeEvent
     public void retroGenSave(ChunkDataEvent.Save event) {
-		if(event.getData() != null) {
+		if(GeneralConfig.retrogen && event.getData() != null) {
 			NBTTagCompound tag = event.getData().getCompoundTag(NBT_TAG_RETROGENERATED);
 			if(tag == null) {
 				tag = new NBTTagCompound();
