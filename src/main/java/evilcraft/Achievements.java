@@ -32,19 +32,19 @@ public class Achievements {
 	/**
 	 * First farting achievement.
 	 */
-	public static final Achievement FART = new ExtendedAchievement("fart", 2, 0, new ItemStack(Items.fireworks), null);
+	public static final Achievement FART = new ExtendedAchievement("fart", 4, 1, new ItemStack(Items.fireworks), null);
 	/**
 	 * Discovering the first age.
 	 */
-	public static final Achievement FIRST_AGE = new ExtendedAchievement("firstAge", 0, 0, new ItemStack(Configs.isEnabled(DarkGemConfig.class) ? DarkGem.getInstance() : Items.potato), null);
+	public static final Achievement FIRST_AGE = new ExtendedAchievement("firstAge", 0, 4, new ItemStack(Configs.isEnabled(DarkGemConfig.class) ? DarkGem.getInstance() : Items.potato), null);
 	/**
 	 * Discovering the second age.
 	 */
-	public static final Achievement SECOND_AGE = new ExtendedAchievement("secondAge", 0, 2, new ItemStack(Configs.isEnabled(BloodExtractorConfig.class) ? BloodExtractor.getInstance() : Items.potato), FIRST_AGE);
+	public static final Achievement SECOND_AGE = new ExtendedAchievement("secondAge", 2, 4, new ItemStack(Configs.isEnabled(BloodExtractorConfig.class) ? BloodExtractor.getInstance() : Items.potato), FIRST_AGE);
 	/**
 	 * Distort a lot of entities at once.
 	 */
-	public static final Achievement DISTORTER = new ExtendedAchievement("masterDistorter", 2, 4, new ItemStack(Configs.isEnabled(MaceOfDistortionConfig.class) ? MaceOfDistortion.getInstance() : Items.potato), SECOND_AGE);
+	public static final Achievement DISTORTER = new ExtendedAchievement("masterDistorter", 2, 6, new ItemStack(Configs.isEnabled(MaceOfDistortionConfig.class) ? MaceOfDistortion.getInstance() : Items.potato), SECOND_AGE);
 	/**
 	 * Make a spirit furnace.
 	 */
@@ -60,15 +60,15 @@ public class Achievements {
 	/**
 	 * Distort a player.
 	 */
-	public static final Achievement PLAYER_DISTORTER = new ExtendedAchievement("playerDistorter", 2, 6, new ItemStack(Items.skull, 1, 3), DISTORTER);
+	public static final Achievement PLAYER_DISTORTER = new ExtendedAchievement("playerDistorter", 4, 6, new ItemStack(Items.skull, 1, 3), DISTORTER);
 	/**
 	 * Attack a player using the necromancer staff.
 	 */
-	public static final Achievement PLAYER_DEVASTATOR = new ExtendedAchievement("playerDevastator", 2, 8, new ItemStack(Configs.isEnabled(NecromancerStaffConfig.class) ? NecromancerStaff.getInstance() : Items.potato, 1, 3), PLAYER_DISTORTER);
+	public static final Achievement PLAYER_DEVASTATOR = new ExtendedAchievement("playerDevastator", 6, 6, new ItemStack(Configs.isEnabled(NecromancerStaffConfig.class) ? NecromancerStaff.getInstance() : Items.potato, 1, 3), PLAYER_DISTORTER);
 	/**
 	 * Make a spirit furnace.
 	 */
-	public static final Achievement POWER_CRAFTING = new ExtendedAchievement("powerCrafting", 2, 2, new ItemStack(Configs.isEnabled(ExaltedCrafterConfig.class) ? ExaltedCrafter.getInstance() : Items.potato), FIRST_AGE);
+	public static final Achievement POWER_CRAFTING = new ExtendedAchievement("powerCrafting", 0, 2, new ItemStack(Configs.isEnabled(ExaltedCrafterConfig.class) ? ExaltedCrafter.getInstance() : Items.potato), FIRST_AGE);
 	
 	private static final Achievement[] ACHIEVEMENTS = {
 		FART,
