@@ -1,6 +1,7 @@
 package evilcraft.entity.item;
 
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import evilcraft.api.ILocation;
 import evilcraft.core.algorithm.Location;
@@ -19,14 +20,48 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	protected float rotation = 0F;
 	
 	/**
+     * New instance.
+     * @param world The world.
+     * @param original The original item entity
+     */
+	public EntityItemDarkStick(World world, EntityItem original) {
+        super(world, original);
+        loadRotation();
+    }
+	
+	/**
 	 * Make a new instance.
 	 * @param world The world.
-	 * @param original The original entity item.
 	 */
-	public EntityItemDarkStick(World world, EntityItem original) {
-		super(world, original);
-		loadRotation();
-	}
+	public EntityItemDarkStick(World world) {
+        super(world);
+        loadRotation();
+    }
+
+	/**
+	 * Make a new instance.
+	 * @param world The world.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 */
+    public EntityItemDarkStick(World world, double x, double y, double z) {
+        super(world, x, y, z);
+        loadRotation();
+    }
+    
+    /**
+	 * Make a new instance.
+	 * @param world The world.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+     * @param itemStack The item stack.
+	 */
+    public EntityItemDarkStick(World world, double x, double y, double z, ItemStack itemStack) {
+        super(world, x, y, z, itemStack);
+        loadRotation();
+    }
 	
 	private void loadRotation() {
 		DarkTempleData data = DarkTempleGenerator.getDarkTempleData(worldObj);

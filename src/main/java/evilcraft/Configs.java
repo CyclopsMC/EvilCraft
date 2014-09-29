@@ -55,6 +55,9 @@ import evilcraft.entity.effect.EntityAntiVengeanceBeamConfig;
 import evilcraft.entity.effect.EntityNecromancersHeadConfig;
 import evilcraft.entity.item.EntityBloodPearlConfig;
 import evilcraft.entity.item.EntityBroomConfig;
+import evilcraft.entity.item.EntityItemDarkStickConfig;
+import evilcraft.entity.item.EntityItemEmpowerableConfig;
+import evilcraft.entity.item.EntityItemUndespawnableConfig;
 import evilcraft.entity.item.EntityLightningGrenadeConfig;
 import evilcraft.entity.item.EntityRedstoneGrenadeConfig;
 import evilcraft.entity.item.EntityWeatherContainerConfig;
@@ -236,6 +239,9 @@ public class Configs {
         configs.add(new EntityBloodPearlConfig());
         configs.add(new EntityBroomConfig());
         configs.add(new EntityWeatherContainerConfig());
+        configs.add(new EntityItemEmpowerableConfig());
+        configs.add(new EntityItemUndespawnableConfig());
+        configs.add(new EntityItemDarkStickConfig());
         // Block
         configs.add(new EntityLightningBombPrimedConfig());
         // Monster

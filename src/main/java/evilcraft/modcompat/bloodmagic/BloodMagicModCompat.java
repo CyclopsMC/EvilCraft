@@ -1,9 +1,12 @@
 package evilcraft.modcompat.bloodmagic;
 
+import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.Configs;
 import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
+import evilcraft.network.PacketHandler;
 
 /**
  * Compatibility plugin for Forestry.
@@ -20,7 +23,13 @@ public class BloodMagicModCompat implements IModCompat {
     @Override
     public void onInit(IInitListener.Step step) {
     	if(step == IInitListener.Step.PREINIT) {
+    		ClientSoulNetworkHandler.reset();
 	        Configs.getInstance().configs.add(new BoundBloodDropConfig());
+    	} else if(step == IInitListener.Step.INIT) {
+    		FMLCommonHandler.instance().bus().register(ClientSoulNetworkHandler.getInstance());
+    		MinecraftForge.EVENT_BUS.register(ClientSoulNetworkHandler.getInstance());
+	        PacketHandler.register(UpdateSoulNetworkCachePacket.class);
+	        PacketHandler.register(RequestSoulNetworkUpdatesPacket.class);
     	}
     }
     

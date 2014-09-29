@@ -40,9 +40,11 @@ public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
     @Override
     @SideOnly(Side.CLIENT)
     public void onRegistered() {
-        @SuppressWarnings("unchecked")
-        Class<? extends Entity> clazz = (Class<? extends Entity>) this.getElement();
-        ClientProxy.ENTITY_RENDERERS.put(clazz, getRender());
+        if(getRender() != null) {
+        	@SuppressWarnings("unchecked")
+            Class<? extends Entity> clazz = (Class<? extends Entity>) this.getElement();
+        	ClientProxy.ENTITY_RENDERERS.put(clazz, getRender());
+        }
     }
     
     /**

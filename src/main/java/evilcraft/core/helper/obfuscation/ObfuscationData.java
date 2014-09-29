@@ -93,4 +93,9 @@ public class ObfuscationData {
 	 */
 	public static final String[] ENTITYLIST_CLASSTOID = new String[] { "classToIDMapping", "field_75624_e", "e" };
 	
+	/**
+	 * Field from net.minecraft.potion.Potion.
+	 */
+	public static final String[] POTION_ISBADEFFECT = new String[] { "isBadEffect", "field_76418_K", "K" };
+	
 }

@@ -20,7 +20,7 @@ public class ExaltedCrafterConfig extends ItemConfig {
      * If shift clicking on an item should first try to go into the crafting grid.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "If shift clicking on an item should first try to go into the crafting grid.", isCommandable = true)
-    public static boolean shiftClickToCraftingGrid = false;
+    public static boolean shiftCraftingGrid = false;
 
     /**
      * Make a new instance.

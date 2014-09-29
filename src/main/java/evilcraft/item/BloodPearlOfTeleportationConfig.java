@@ -39,4 +39,9 @@ public class BloodPearlOfTeleportationConfig extends ItemConfig {
         return true;
     }
     
+    @Override
+	protected String getConfigPropertyPrefix() {
+		return "bloodPearl";
+	}
+    
 }

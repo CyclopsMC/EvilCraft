@@ -39,6 +39,7 @@ public abstract class ConfigurableBlockSapling extends BlockSapling implements I
         this.setConfig(eConfig);
         this.setBlockName(eConfig.getUnlocalizedName());
         treeGenerator = new WorldGeneratorUndeadTree(true, this);
+        setStepSound(soundTypeGrass);
     }
 
     private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {

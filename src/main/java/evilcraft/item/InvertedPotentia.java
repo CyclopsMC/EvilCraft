@@ -60,10 +60,11 @@ public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerab
     }
     
     @Override
-	public void empower(ItemStack itemStack) {
+	public ItemStack empower(ItemStack itemStack) {
         if(itemStack.getItem() == InvertedPotentia.getInstance()) {
             itemStack.setItemDamage(EMPOWERED_META);
         }
+        return itemStack;
     }
     
     @Override

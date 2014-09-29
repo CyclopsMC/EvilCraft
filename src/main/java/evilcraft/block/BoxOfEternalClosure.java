@@ -144,7 +144,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     	NBTTagCompound tag = itemStack.getTagCompound();
 		if(tag != null) {
 			NBTTagCompound spiritTag = tag.getCompoundTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT);
-			if(spiritTag != null) {
+			if(spiritTag != null && !spiritTag.hasNoTags()) {
 				String innerEntity = spiritTag.getString(VengeanceSpirit.NBTKEY_INNER_SPIRIT);
 				if(innerEntity != null && !innerEntity.isEmpty()) {
 					try {

@@ -27,7 +27,7 @@ import evilcraft.entity.monster.VengeanceSpirit;
  */
 public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigurable{
 	
-	private static final int MAX_AGE = 20 * 20;
+	private static final int MAX_AGE = 10 * 20;
     
     private int age = 0;
     private int soundTick = 0;

@@ -12,7 +12,7 @@ import evilcraft.modcompat.baubles.BaublesModCompat;
 import evilcraft.modcompat.bloodmagic.BloodMagicModCompat;
 import evilcraft.modcompat.fmp.ForgeMultipartModCompat;
 import evilcraft.modcompat.forestry.ForestryModCompat;
-import evilcraft.modcompat.nei.NEIEvilCraftConfig;
+import evilcraft.modcompat.nei.NEIModCompat;
 import evilcraft.modcompat.tconstruct.TConstructModCompat;
 import evilcraft.modcompat.thermalexpansion.ThermalExpansionModCompat;
 import evilcraft.modcompat.versionchecker.VersionCheckerModCompat;
@@ -36,7 +36,7 @@ public class ModCompatLoader implements IInitListener {
         MODCOMPATS.add(new WailaModCompat());
         MODCOMPATS.add(new ForgeMultipartModCompat());
         MODCOMPATS.add(new BaublesModCompat());
-        MODCOMPATS.add(new NEIEvilCraftConfig());
+        MODCOMPATS.add(new NEIModCompat());
         MODCOMPATS.add(new VersionCheckerModCompat());
         MODCOMPATS.add(new BloodMagicModCompat());
     }

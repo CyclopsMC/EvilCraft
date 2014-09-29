@@ -121,8 +121,8 @@ public class Recipes {
 	    			veinSwordLooting);
     	}
     	
-    	if(WeatherContainerConfig.shapelessWeatherContainerRecipes) {
-    		XmlRecipeLoader.registerPredefinedValue("evilcraft:shapelessWeatherContainerRecipes");
+    	if(WeatherContainerConfig.shapelessRecipes) {
+    		XmlRecipeLoader.registerPredefinedValue("evilcraft:shapelessRecipes");
     	}
     }
     

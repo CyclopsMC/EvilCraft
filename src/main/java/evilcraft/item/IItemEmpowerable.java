@@ -19,7 +19,8 @@ public interface IItemEmpowerable {
     /**
      * Set the given ItemStack as an empowered item.
      * @param itemStack The ItemStack to check.
+     * @return The empowered item.
      */
-    public void empower(ItemStack itemStack);
+    public ItemStack empower(ItemStack itemStack);
     
 }

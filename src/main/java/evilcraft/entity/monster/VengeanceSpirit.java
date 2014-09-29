@@ -216,7 +216,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     @Override
     public void setDead() {
     	super.setDead();
-    	if(worldObj.isRemote) {
+    	if(worldObj.isRemote && isVisible()) {
     		spawnSmoke();
     		playSound(getDeathSound(), 0.1F + worldObj.rand.nextFloat() * 0.9F,
     				0.1F + worldObj.rand.nextFloat() * 0.9F);

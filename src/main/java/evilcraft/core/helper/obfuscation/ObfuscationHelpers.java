@@ -16,6 +16,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
@@ -191,6 +192,15 @@ public class ObfuscationHelpers {
 	 */
 	public static Map<Class<Entity>, Integer> getClassToID() {
 		return ReflectionHelper.getPrivateValue(EntityList.class, null, ObfuscationData.ENTITYLIST_CLASSTOID);
+	}
+	
+	/**
+	 * Get the private 'isBadEffect' field from {@link net.minecraft.potion.Potion}.
+	 * @param potion The potion instance.
+	 * @return isBadEffect
+	 */
+	public static boolean isPotionBadEffect(Potion potion) {
+		return ReflectionHelper.getPrivateValue(Potion.class, potion, ObfuscationData.POTION_ISBADEFFECT);
 	}
 	
 }
