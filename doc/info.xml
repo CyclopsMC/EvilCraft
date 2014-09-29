@@ -2,7 +2,7 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.7.10" version="0.5.2b">http://bit.ly/1viAZRS</download>
+	<download for="1.7.10" version="0.6.0b">TODO</download>
     <download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
     <download for="1.6.4" version="0.4.1b">http://bit.ly/1lJiaBX</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
@@ -174,6 +174,8 @@
 			and then a mob might spill its blood on the block it has died upon.
 			These blocks are called [u]blood stained blocks[/u] and you can extract blood
 			from them by [b]shift + right clicking[/b] them with a [u]blood extractor[/u].
+            When in creative mod, these blocks can be created by simply shift-right clicking on any
+            block with a [u]Creative Blood Drop[/u].
 		</element>
 		<element name="Bloody Cobblestone" img="WaVac6Q">
 			These blocks can only be found in evil dungeons and serve the same functionality
@@ -193,6 +195,17 @@
             In order to craft this block, you have to put a [u]Dark Brick[/u] inside a [u]Blood Infuser[/u] or,
             if you have Thermal Expansion installed, you can also use a Fluid Transposer.
             These blocks are the building blocks that are used to make [u]Spirit Furnaces[/u].
+        </element>
+        <element name="Dark Tank" img="PzsYnXg" recipe="cdEYuE8">
+            Previously there were the [u]Blood Containers[/u] for [u]Blood[/u] storage, but now there are the [u]Dark Tanks[/u]!
+            
+            This block can story any type of fluid. It exists in both item and block form, it will keep it's internal Fluid contents when broken.
+            When right-clicking in the air with the block in item-mode, it will toggle auto-supply. When in auto-supply mode, it will fill your
+            currently held item (if it accepts [u]Blood[/u]).
+            When right-clicking the block when in the world, you can toggle auto-export to the bottom side if possible.
+            
+            When you still have old [u]Blood Containers[/u] in your world, you can simply place them in a crafting grid to receive
+            an equivalent Dark Tank while keeping their [u]Blood[/u] contents.
         </element>
 		<element name="Excrement Pile" img="BUivWbp">
 			The whole digestion cycle in Minecraft has finally been completed !
@@ -230,6 +243,25 @@
 			it has a connected texture (I think it's clear by now that we love connected
 			textures).
 		</element>
+		<element name="Sanguinary Pedestal" img="H5JZdKX" recipe="7gDDVlK">
+			It appears that mobs keep dropping from the skies forming [u]Blood Stained Blocks[/u].
+            Since it is quite tiring to manually extract this blood from these blocks, you can now
+            build a pedestal that will automatically extract all stained blocks in a 5x5 area and export
+            it to any fluid accepting pipe or block below or next to it.
+		</element>
+		<element name="Spiked Plate" recipe="eW19IfU">
+			There already exist all kinds of pressure plates, but now there are also pressure plates that
+            can only be activated when mobs walk on them. Unfortunately they also damage any mob that
+            is triggering them. Even worse, when places on a [u]Sanguinary Pedestal[/u], they will collect
+            [u]Blood[/u] from the damaged mob and send it to the pedestal below it. Nasty stuff...
+		</element>
+		<element name="Spirit Reanimator" img="4EqdJl9" recipe="TIxxEBP">
+			Spirits contained in a [u]Box of Eternal Closure[/u] seem to be forever lost, or are they?
+            When placing an egg and [u]Box of Eternal Closure[/u] inside this machine, the spirit inside
+            the given box can be revived at the cost of a large amount of [u]Blood[/u].
+            The spirit will return to the state before it's birth, when it was contained in a spawn egg.
+            Note that only mobs who have a spawn egg can be revived in this manner.
+		</element>
 		<element name="Undead Tree" img="AyrkMPV">
 			Who said only zombies can come back from the dead? Just put a dead bush, found
 			in deserts into a [u]blood infuser[/u] and you will get an [u]undead sapling[/u],
@@ -240,6 +272,7 @@
 	</element>
 	<element name="Items">
 		<element name="Blood Containers">
+            [b]As of version 0.6.0 these containers are not usable anymore, use Dark Tanks instead.[/b]
 			[u]Blood containers[/u] are storages for all your blood needs!
 			They come in three sizes: cell, can and basin, in increasing order
 			of size.
@@ -259,7 +292,7 @@
 [/center]
 
 		</element>
-		<element name="Blood Extractor" recipe="Wo2nvKG">
+		<element name="Blood Extractor" recipe="I1sR7e3">
 			Probably one of the first EvilCraft items you will craft, the [u]blood extractor[/u]
 			allows you to extract blood from [u]blood stained blocks[/u], which will provide
 			your main (and only) source of blood.
@@ -284,6 +317,16 @@
 		</element>
 		<element name="Blook">
 			This is just a Book infused with [u]blood[/u] so that it can be used in the [u]Purifier[/u].
+		</element>
+		<element name="Bound Blood Drop">
+			[b]Only available when Blood Magic is installed![/b]
+            An item that is, just like the Blood Magic items, bound to your Soul Network.
+            It allows for some deep interaction between EvilCraft and Blood Magic by allowing
+            you to access your Soul Network as a simple [u]Blood[/u] fluid container that
+            can be used in all EvilCraft machines. It even has auto-supply mode to
+            power all your EvilCraft tools and gadgets.
+            The conversion rate between Life Essence and Blood is equal to the one defined in
+            the config file for all Blood equivalents.
 		</element>
 		<element name="Broom" img="iyJ8d0c">
 			Let's see, what else is evil? Ah yes! Witches! They fly on brooms don't they?
@@ -329,10 +372,25 @@
 			which require vanilla sticks. We do however have some plans to use this item
 			in recipes in the future.
 		</element>
+		<element name="Exalted Crafter" img="caH2Mea" recipe="JsX3VDw">
+			A portable item crafter!
+            It has an inventory that is linked to your personal Ender Chest.
+            When the crafter is somewhere inside your inventory, you can press the [u]Exalted Crafter[/u]
+            hotkey (By default 'C') to open the first crafter in your inventory. Pressing that hotkey again
+            will clear the crafting grid.
+            When this item is empowered (struck by lightning), it can not despawn or be destroyed.
+            There also exists a wooden variant that has it's own inventory instead of connecting to
+            your Ender Chest.
+		</element>
 		<element name="Hardened Blood Shard">
 			This item is used in the recipes for several items and can be obtained by using
 			a flint and steel on a [u]hardened blood[/u] block.
 			It's red, so maybe you could use it as some kind of red dye?
+		</element>
+		<element name="Humanoid Flesh">
+			[u]Humanoid flesh[/u] will be dropped when players die.
+            They have similar, yet less powerful, abilities as [u]werewolf flesh[/u].
+            Make sure you don't eat your own flesh though, might cause a bad day...
 		</element>
 		<element name="Inverted Potentia" recipe="LyXJNQ1">
 			The mysterious power of [u]Potentia Spheres[/u] can be inverted to do even
@@ -342,13 +400,18 @@
 			Accumulator[/u] while there is thunder, or by somehow striking it with an actual
 			lightning strike (make sure it doesn't burn!).
 		</element>
+		<element name="Invigorating Pendant" recipe="IOU6ZSz">
+			The Minecraft world is filled of bad potion effects.
+            With this pendant, you can get rid of those bad effects on yourself at the cost of some
+            [u]Blood[/u] in this item. The worse the bad effect, the more [u]Blood[/u] will be drained.
+            This item can fit into your Baubles inventory.
+		</element>
 		<element name="Kineticator" recipe="s9zcw8h">
 			This item can move things towards you within a certain area, for example items and
 			experience orbs.
 			This item needs blood to function. It can be enabled by Shift-Right clicking and
 			it's range can be configured by right-clicking with the item.
-			Fun fact: This item will also function when dropped as item in the world, don't
-			let this expensive item despawn though!
+			Fun fact: This item will also function when dropped as item in the world, it doesn't even despawn!
 		</element>
 		<element name="Lightning Grenade" img="S2RVgWr" recipe="H9VNjnU">
 			Lightning is now completely under you control with the [u]lightning grenade[/u]!
@@ -372,6 +435,13 @@
 			hit weapon, but this does also drain some blood and will become unusable when ran out
 			of blood.
 		</element>
+		<element name="Necromancer Staff" recipe="1DPjCqr">
+			Ever wanted to use those nasty Zombies in your own advantage?
+            Well, no you can! Just aim at a player (or any other entity that is attackable by zombies) and right click.
+            This will drain some blood of your staff, and send a horde of zombies  (3 to 5) after that entity.
+            After a short period of time (or when the target entity dies), these zombies will die again.   
+            This item was suggested by [u]PhillipPriddy[/u] on Reddit!
+		</element>
 		<element name="Poison Sac">
 			It looks like an ink sac and it's filled with poison!
 			These items can only be obtained by killing a [u]Poisonous Libelle[/u].
@@ -389,6 +459,13 @@
 			to the side of the block it has fallen on.
 			Might be useful to light up tnt from a distance...
 		</element> -->
+		<element name="Repelling Kineticator" recipe="7vbIpJt">
+			Works just the same as the regular [u]Kineticator[\u], with the only difference
+            that it moves items and experience further away, instead of attracting it.
+		</element>
+		<element name="Spike" recipe="g0PQJxM">
+			Just a simple item used in various crafting recipes.
+		</element>
         <element name="Vengeance Focus" img="e15RghZ" recipe="ljDRXJS">
             It's purple, round and has a hole in the middle. Oh yeah, you can also use this nifty item
             to temporarely paralyse [u]Vengeance Spirits[/u] and force them into a [u]Box of Eternal Closure[/u].
@@ -402,6 +479,11 @@
             you're armored up when using this tool, because you might attract quite a horde of
             certain mobs when mining. If armor doesn't do the job, maybe consider putting a
             [u]Burning Gemstone[/u] into your inventory, just to be on the safe side...
+        </element>
+        <element name="Vein Sword" recipe="gF5OcK6">
+            A very simple early-game sword having the same durability as a gold sword.
+            But this sword has by default Looting II installed on it when crafted.
+            It also provides 2x multiplier for obtaining [u]Blood[/u].
         </element>
         <element name="Vengeance Ring" img="kndPmzD" recipe="c9rf40j">
             The vengeance ring allows you to step into the part of the overworld where [u]Vengeance Spirits[/u]
@@ -420,6 +502,8 @@
 			(one of lightning, rain or sunshine) will be bottled into the weather container.
 			Also note that some items such as lightning pearls require specific
 			weather containers in order to be crafted.
+            It appears there are also some secret recipes to craft certain Weather Container types, please refer to
+            NEI for these recipes.
 		</element>
 		<element name="Werewolf Bone">
 			An item dropped by [u]werewolves[/u].
@@ -436,6 +520,10 @@
 			This item has no real other purpose for now, except that it can be converted into
             5 leather by putting it in a crafting grid.
 		</element>
+		<element name="Wooden Exalted Crafter" recipe="9frdpul">
+			A portable item crafter!
+            More information at the [u]Exalted Crafter[/u], works just the same, just with an item-specific inventory.
+		</element>
 	</element>
 	<element name="Entities">
 		<element name="Werewolf" img="iRZPHUd">
@@ -449,6 +537,7 @@
 			at night, especially when it is full moon...
 			For now this villager adds some specific EvilCraft item trades, but there's
 			really nothing you can get exclusively through trading.
+            Rumor has it that villager who are struck by lightning might get werewolf-like traits...
 		</element>
 		<element name="Poisonous Libelle" img="UJaj0XW">
 			Although these little creatures look rather innocent at first sight, you will
@@ -551,36 +640,41 @@
 		<element name="General">
 			This mod is able to communicate with several other mods.
 			NOTE: these mods are [b]NOT required[/b], they will only be used when they are available.
+            As of version 0.6.0, all of these mod interactions can be disabled in the config file.
 		</element>
-
-		<element name="Thermal Expansion">
-			This mod is compatible with various Thermal Expansion machines, like for example
-			the use of the Fluid Transposer that will work exactly the same as the Blood Infuser
-			but it will use 1.5X the amount of Blood instead.
-		</element>
+        
+        <element name="Baubles">
+            The Vengeance Ring can be placed in a ring slot, and the Invigorating Pendant fits into the amulet slot.
+        </element>
+        
+        <element name="Blood Magic">
+            The [u]Bound Blood Drop[/u] items is automatically added when Blood Magic is loaded.
+        </element>
 
 		<element name="BuildCraft">
 			We also provide some facades when BuildCraft is installed.
 		</element>
-
-		<element name="NEI">
-			Obviously all of the recipes are also available in the NEI plugin.
-			Blood Infuser and Environmental Accumulator recipes are also visible.
-		</element>
-
-		<element name="Waila">
-			Machines status and minor block display improvements.
+        
+		<element name="Forestry">
+			Several items can be placed in the Forestry backpacks. Undead logs and leaves can
+			be placed in the squeezer to recieve blood and sometimes even a Hardened Blood Shard.
+			Undead Sapplings also have Multifarm support.
 		</element>
 
 		<element name="Forge Multipart">
 			Regular blocks have microblock support.
 		</element>
 
-		<element name="Forestry">
-			Several items can be placed in the Forestry backpacks. Undead logs and leaves can
-			be placed in the squeezer to recieve blood and sometimes even a Hardened Blood Shard.
-			Undead Sapplings also have Multifarm support.
+		<element name="NEI">
+			Obviously all of the recipes are also available in the NEI plugin.
+			Blood Infuser and Environmental Accumulator recipes are also visible.
 		</element>
+        
+		<element name="Thermal Expansion">
+			This mod is compatible with various Thermal Expansion machines, like for example
+			the use of the Fluid Transposer that will work exactly the same as the Blood Infuser
+			but it will use 1.5X the amount of Blood instead.
+		</element>	
 
 		<element name="Tinkers' Construct">
 			All Tinkers' Construct tools can be repaired in the Blood Chest.
@@ -590,22 +684,31 @@
         <element name="Version Checker">
             EvilCraft versions will be checked and can be updated through the Version Checker GUI.
         </element>
-
-        <element name="Baubles">
-            The vengeance ring can be placed in a ring slot.
-        </element>
+        
+		<element name="Waila">
+			Machines status and minor block display improvements.
+		</element>	
+        
 	</element>
 	<element name="Configuration">
 		Almost every feature can be disabled and changed in the config file (config/evilcraft.cfg).
 		It is however mandatory that config files at server and client side are identical,
-		otherwise you might encounter ID conflicts.
+		otherwise you might encounter ID and feature conflicts.
 
         If you want EvilCraft to work with Blood variants from other mods (like Tinkers' Construct and Blood Magic),
-        you can set this in the configuration file.
+        you can enable all of these in the configuration file.
+        
+        When you want to use this mod in an existing world, you can make use of the retrogen feature of EvilCraft.
+        To enable it, just start up the mod once until you are on the start screen of Minecraft so that the config file is fully generated.
+        After that you can open the config file, and under the 'general' category you should enable 'general.retrogen' by setting it's value to 'true'.
+        Even though this will not replace any non-world generated blocks, it is still advises to backup your world before using this feature.
+        
+        As of version 0.6.0, EvilCraft provides an extensive way for players and modpack creators to define their own recipes for both regular crafting and machine recipes.
+        More information about this can be found on the wiki: TODO
 	</element>
 	<element name="Modpacks">
 		Regarding modpacks, anyone is more than welcome to use this mod in any modpack, both public and private.
-		We do however ask that you notify us if you would use it in a public pack, just so we know.
+        There is no need to notify or ask us to use this in your pack, it is always nice to hear when someone decides to use this in their pack tough ;)
 	</element>
 	<element name="Download and Install">
 [mod="1.7.10"]evilcraft[/mod]

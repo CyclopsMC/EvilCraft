@@ -75,7 +75,7 @@ def parseCategory(category, imgPrefix, imgSuffix):
                 imgid = "recipes/" + nameid
                 if(element.attrib["recipe"] != "true"):
                     imgid = element.attrib["recipe"]
-                element.text += "\n[b]Recipe:[/b]\n[center][img]" + imgid + "[/img]\n\n[/center]\n"
+                element.text += "\n[b]Recipe:[/b]\ni[img]" + imgid + "[/img]\n\n"
             catInfo[element.attrib["name"]] = parseCategory(element, imgPrefix, imgSuffix)
     return catInfo
     
@@ -97,7 +97,7 @@ def generateBBCodeHelp(info):
             if(len(v) == 1):
                 code += "[u][b]" + k + "[/b][/u]" + "\n" + content + "\n"
             else:
-                code += r"[spoiler='" + k + r"']"  + content + r"[/spoiler]" + "\n"
+                code += "\n" + r"[spoiler='" + k + r"']"  + content + r"[/spoiler]" + "\n\n"
     return code
 
 # Removes newlines and tabs in the given string
