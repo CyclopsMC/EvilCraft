@@ -4,6 +4,9 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang3.ClassUtils;
 
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
@@ -82,6 +85,74 @@ public abstract class PacketCodec extends PacketBase {
 				return input.readFloat();
 			}
 		});
+		
+		codecActions.put(Map.class, new ICodecAction() {
+			
+			// Packet structure:
+			// Map length (int)
+			// --- end if length == 0
+			// Key class name (UTF)
+			// Value class name (UTF)
+			// for length
+			//   key
+			//   value
+
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void encode(Object object, ByteArrayDataOutput output) {
+				Map map = (Map) object;
+				output.writeInt(map.size());
+				Set<Map.Entry> entries = map.entrySet();
+				ICodecAction keyAction = null;
+				ICodecAction valueAction = null;
+				for(Map.Entry entry : entries) {
+					if(keyAction == null) {
+						keyAction = getAction(entry.getKey().getClass());
+						output.writeUTF(entry.getKey().getClass().getName());
+					}
+					if(valueAction == null) {
+						valueAction = getAction(entry.getValue().getClass());
+						output.writeUTF(entry.getValue().getClass().getName());
+					}
+					keyAction.encode(entry.getKey(), output);
+					valueAction.encode(entry.getValue(), output);
+				}
+			}
+
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public Object decode(ByteArrayDataInput input) {
+				Map map = Maps.newHashMap();
+				int size = input.readInt();
+				if(size == 0) {
+					return map;
+				}
+				try {
+					ICodecAction keyAction = getAction(Class.forName(input.readUTF()));
+					ICodecAction valueAction = getAction(Class.forName(input.readUTF()));
+					for(int i = 0; i < size; i++) {
+						Object key = keyAction.decode(input);
+						Object value = valueAction.decode(input);
+						map.put(key, value);
+					}
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				return map;
+			}
+		});
+	}
+	
+	protected static ICodecAction getAction(Class<?> clazz) {
+		if(ClassUtils.isPrimitiveWrapper(clazz)) {
+			clazz = ClassUtils.wrapperToPrimitive(clazz);
+		}
+		ICodecAction action = codecActions.get(clazz);
+		if(action == null) {
+			System.err.println("No ICodecAction was found for " + clazz
+					+ ". You should add one in PacketCodec.");
+		}
+		return action;
 	}
 	
 	private void loopCodecFields(ICodecRunnable runnable) {
@@ -102,11 +173,7 @@ public abstract class PacketCodec extends PacketBase {
 		for(final Field field : fields) {
 			if(field.isAnnotationPresent(CodecField.class)) {
 				Class<?> clazz = field.getType();
-				ICodecAction action = codecActions.get(clazz);
-				if(action == null) {
-					System.err.println("No ICodecAction was found for " + clazz
-							+ ". You should add one in PacketCodec.");
-				}
+				ICodecAction action = getAction(clazz);
 				
 				// Make private fields temporarily accessible.				
 				boolean accessible = field.isAccessible();

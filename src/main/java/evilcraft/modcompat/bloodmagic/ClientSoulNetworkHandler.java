@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.event.world.WorldEvent;
 import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 
 import com.google.common.collect.Maps;
@@ -35,7 +36,7 @@ public class ClientSoulNetworkHandler {
 	 * Reset the instance.
 	 */
 	public static void reset() {
-		_instance = null;
+		getInstance().PLAYER_CACHE = Maps.newHashMap();
 	}
 	
 	/**
@@ -108,10 +109,18 @@ public class ClientSoulNetworkHandler {
     }
     
     private void sendUpdates(Map<String, Integer> toSend) {
-		// TODO: This can be made more efficient by grouping packets.
-		for(Map.Entry<String, Integer> entry : toSend.entrySet()) {
-			PacketHandler.sendToAll(new UpdateSoulNetworkCachePacket(entry.getKey(), entry.getValue()));
-		}
+    	PacketHandler.sendToAll(new UpdateSoulNetworkCachePacket(toSend));
 	}
+	
+    /**
+     * When a world is loaded.
+     * @param event the event.
+     */
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public void onWorldLoad(WorldEvent.Load event) {
+        if(event.world.isRemote) {
+        	reset();
+        }
+    }
 	
 }

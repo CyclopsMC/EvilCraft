@@ -1,8 +1,13 @@
 package evilcraft.modcompat.bloodmagic;
 
+import java.util.Map;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
+
+import com.google.common.collect.Maps;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.network.CodecField;
@@ -16,10 +21,8 @@ import evilcraft.network.PacketCodec;
  */
 public class UpdateSoulNetworkCachePacket extends PacketCodec {
 	
-    @CodecField
-	private String player;
-    @CodecField
-	private int essence;
+	@CodecField
+	private Map<String, Integer> playerEssences = Maps.newHashMap();
 
 	/**
 	 * Creates a packet with no content
@@ -29,19 +32,19 @@ public class UpdateSoulNetworkCachePacket extends PacketCodec {
 	}
 	
 	/**
-	 * Creates a packet which contains the player name and amount of essence.
-	 * @param player The data name.
-	 * @param essence The amount of essence to update to.
+	 * Creates a packet which contains the player names and amount of essence.
+	 * @param playerEssences A map of players with their essence.
 	 */
-	public UpdateSoulNetworkCachePacket(String player, int essence) {
-		this.player = player;
-		this.essence = essence;
+	public UpdateSoulNetworkCachePacket(Map<String, Integer> playerEssences) {
+		this.playerEssences = playerEssences;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void actionClient(World world, EntityPlayer player) {
-		ClientSoulNetworkHandler.getInstance().setCurrentEssence(this.player, this.essence);
+		for(Map.Entry<String, Integer> entry : playerEssences.entrySet()) {
+			ClientSoulNetworkHandler.getInstance().setCurrentEssence(entry.getKey(), entry.getValue());
+		}
 	}    
 
 	@Override
