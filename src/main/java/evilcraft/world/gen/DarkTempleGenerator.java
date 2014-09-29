@@ -44,10 +44,10 @@ public class DarkTempleGenerator implements IWorldGenerator {
     }
 
 	private static void loadDarkTempleData(World world) {
-		if (darkTempleData == null) {
+		if (darkTempleData == null) {System.out.println("NULL");
 			darkTempleData = (DarkTempleData) world.perWorldStorage.loadData(DarkTempleData.class, DARK_TEMPLE_MAP_NAME);
 
-			if (darkTempleData == null) {System.out.println("nullnull");
+			if (darkTempleData == null) {System.out.println("NEW");
 				darkTempleData = new DarkTempleData(DARK_TEMPLE_MAP_NAME);
 				world.perWorldStorage.setData(DARK_TEMPLE_MAP_NAME, darkTempleData);
 			}
@@ -60,7 +60,10 @@ public class DarkTempleGenerator implements IWorldGenerator {
 	 * @return The data.
 	 */
 	public static DarkTempleData getDarkTempleData(World world) {
-		loadDarkTempleData(world);
-		return darkTempleData;
+		if(world.provider.dimensionId == 0) {
+			loadDarkTempleData(world);
+			return darkTempleData;
+		}
+		return null;
 	}
 }

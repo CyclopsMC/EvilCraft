@@ -30,6 +30,11 @@ public class EntityItemDarkStickConfig extends EntityConfig {
         );
     }
     
+    @Override
+    public boolean sendVelocityUpdates() {
+        return true;
+    }
+    
     @SideOnly(Side.CLIENT)
     @Override
     protected Render getRender() {

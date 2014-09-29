@@ -1,14 +1,8 @@
 package evilcraft.client.render.entity;
 
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
-import evilcraft.entity.item.EntityItemDefinedRotation;
 
 /**
  * Renderer for a dark stick entity item.
@@ -19,7 +13,7 @@ public class RenderEntityItemDarkStick extends Render {
 
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
-		EntityItemDefinedRotation item = (EntityItemDefinedRotation) entity;
+		/*EntityItemDefinedRotation item = (EntityItemDefinedRotation) entity;
 		
 		//GL11.glPushMatrix();
         //GL11.glTranslatef((float)x, (float)y, (float)z);
@@ -36,7 +30,7 @@ public class RenderEntityItemDarkStick extends Render {
         RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
         RenderItem.renderInFrame = false;
 
-        GL11.glPopMatrix();
+        GL11.glPopMatrix();*/
         
         //GL11.glPopMatrix();
 	}

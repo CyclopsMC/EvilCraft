@@ -16,8 +16,11 @@ import evilcraft.world.gen.nbt.DarkTempleData;
  */
 public class EntityItemDarkStick extends EntityItemDefinedRotation {
 
-	protected boolean isValid = false;
-	protected float rotation = 0F;
+	private static final int WATCHERID_ROTATION = 20;
+	private static final int WATCHERID_VALID = 21;
+	
+	//protected boolean isValid = false;
+	//protected float rotation = 0F;
 	
 	/**
      * New instance.
@@ -26,7 +29,6 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
      */
 	public EntityItemDarkStick(World world, EntityItem original) {
         super(world, original);
-        loadRotation();
     }
 	
 	/**
@@ -35,7 +37,6 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	 */
 	public EntityItemDarkStick(World world) {
         super(world);
-        loadRotation();
     }
 
 	/**
@@ -47,7 +48,6 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	 */
     public EntityItemDarkStick(World world, double x, double y, double z) {
         super(world, x, y, z);
-        loadRotation();
     }
     
     /**
@@ -60,7 +60,16 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	 */
     public EntityItemDarkStick(World world, double x, double y, double z, ItemStack itemStack) {
         super(world, x, y, z, itemStack);
-        loadRotation();
+    }
+    
+    @Override
+	public void entityInit() {
+        super.entityInit();
+        this.dataWatcher.addObject(WATCHERID_ROTATION, 0.0F);
+        this.dataWatcher.addObject(WATCHERID_VALID, 0);
+        if(!worldObj.isRemote) {
+        	loadRotation();
+        }
     }
 	
 	private void loadRotation() {
@@ -74,21 +83,21 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 						closest.getCoordinates()[2] - (int) posZ);
 				double angle = Math.acos(normalized.getCoordinates()[0] / d);
 				double angle2 = Math.asin(normalized.getCoordinates()[2] / d);
-				rotation = (float) angle;
-				isValid = true;
+				this.dataWatcher.updateObject(WATCHERID_VALID, 1);
+				this.dataWatcher.updateObject(WATCHERID_ROTATION, (float) angle);System.out.println("ANGLE: " + angle);
 			}
 		}
 	}
 	
 	@Override
 	protected boolean hasCustomRotation() {
-		return isValid && worldObj.provider.dimensionId == 0;
+		return this.dataWatcher.getWatchableObjectInt(WATCHERID_VALID) == 1 && worldObj.provider.dimensionId == 0;
 	}
 	
 	@Override
 	protected float getRotationYaw(World worldObj, double posX,
 			double posY, double posZ) {
-		return rotation;
+		return this.dataWatcher.getWatchableObjectFloat(WATCHERID_ROTATION);
 	}
 	
 }
