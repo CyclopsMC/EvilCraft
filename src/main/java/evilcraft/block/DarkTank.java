@@ -256,7 +256,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         		list.add(itemStackFilled);
         	}
         	capacity = capacity << 2;
-        } while(capacity < DarkTankConfig.maxTankSize);
+        } while(capacity << 2 < DarkTankConfig.maxTankSize);
     }
 
 }

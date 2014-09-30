@@ -29,7 +29,12 @@ public class DarkTankConfig extends BlockContainerConfig {
 	 * The maximum tank size possible by combining tanks.
 	 */
 	@ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The maximum tank size possible by combining tanks. (Make sure that you do not cross the max int size.)")
-	public static int maxTankSize = 4096000;
+	public static int maxTankSize = 65536000;
+	/**
+	 * The maximum tank size visible in the creative tabs.
+	 */
+	@ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The maximum tank size visible in the creative tabs. (Make sure that you do not cross the max int size.)")
+	public static int maxTankCreativeSize = 4096000;
 
     /**
      * Make a new instance.
