@@ -2,7 +2,7 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.7.10" version="0.6.0b">TODO</download>
+	<download for="1.7.10" version="0.6.0b">http://bit.ly/1ua8LHt</download>
     <download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
     <download for="1.6.4" version="0.4.1b">http://bit.ly/1lJiaBX</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
@@ -106,6 +106,12 @@
 		    [u]blood[/u], the process will begin.
             [img]I3fcQc4[/img]
 		</element>
+		<element name="Sanguinary Pedestal" img="H5JZdKX" recipe="7gDDVlK">
+			It appears that mobs keep dropping from the skies forming [u]Blood Stained Blocks[/u].
+            Since it is quite tiring to manually extract this blood from these blocks, you can now
+            build a pedestal that will automatically extract all stained blocks in a 5x5 area and export
+            it to any fluid accepting pipe or block below or next to it.
+		</element>
         <element name="Spirit Furnace" img="UMk389B" recipe="OAsd6wJ">
             EvilCraft's first multi-block structure! The Spirit Furnace works like a basic mob drop generator;
             As long as you supply it with [u]blood[/u] and put a [u]Box of Eternal Closure[/u] that contains a
@@ -118,6 +124,13 @@
             so the mob actually has to the space to spawn inside of it.
             [img]iSY49qr[/img]
         </element>
+		<element name="Spirit Reanimator" img="4EqdJl9" recipe="TIxxEBP">
+			Spirits contained in a [u]Box of Eternal Closure[/u] seem to be forever lost, or are they?
+            When placing an egg and [u]Box of Eternal Closure[/u] inside this machine, the spirit inside
+            the given box can be revived at the cost of a large amount of [u]Blood[/u].
+            The spirit will return to the state before it's birth, when it was contained in a spawn egg.
+            Note that only mobs who have a spawn egg can be revived in this manner.
+		</element>
 	</element>
 	<element name="Fluids">
 		<element name="Blood" img="vuVQhag">
@@ -206,6 +219,10 @@
             
             When you still have old [u]Blood Containers[/u] in your world, you can simply place them in a crafting grid to receive
             an equivalent Dark Tank while keeping their [u]Blood[/u] contents.
+            
+            When first crafted, it can store 16 buckets worth of liquids.
+            It can be expanded by combining tanks in a crafting grid up until 65536 buckets of storage. (This amount can even be further
+            increased by changing your config file.)
         </element>
 		<element name="Excrement Pile" img="BUivWbp">
 			The whole digestion cycle in Minecraft has finally been completed !
@@ -243,24 +260,11 @@
 			it has a connected texture (I think it's clear by now that we love connected
 			textures).
 		</element>
-		<element name="Sanguinary Pedestal" img="H5JZdKX" recipe="7gDDVlK">
-			It appears that mobs keep dropping from the skies forming [u]Blood Stained Blocks[/u].
-            Since it is quite tiring to manually extract this blood from these blocks, you can now
-            build a pedestal that will automatically extract all stained blocks in a 5x5 area and export
-            it to any fluid accepting pipe or block below or next to it.
-		</element>
 		<element name="Spiked Plate" recipe="eW19IfU">
 			There already exist all kinds of pressure plates, but now there are also pressure plates that
             can only be activated when mobs walk on them. Unfortunately they also damage any mob that
             is triggering them. Even worse, when places on a [u]Sanguinary Pedestal[/u], they will collect
             [u]Blood[/u] from the damaged mob and send it to the pedestal below it. Nasty stuff...
-		</element>
-		<element name="Spirit Reanimator" img="4EqdJl9" recipe="TIxxEBP">
-			Spirits contained in a [u]Box of Eternal Closure[/u] seem to be forever lost, or are they?
-            When placing an egg and [u]Box of Eternal Closure[/u] inside this machine, the spirit inside
-            the given box can be revived at the cost of a large amount of [u]Blood[/u].
-            The spirit will return to the state before it's birth, when it was contained in a spawn egg.
-            Note that only mobs who have a spawn egg can be revived in this manner.
 		</element>
 		<element name="Undead Tree" img="AyrkMPV">
 			Who said only zombies can come back from the dead? Just put a dead bush, found
@@ -420,7 +424,7 @@
 			Very useful when you want to burn down forests, create supercharged creepers or
 			kill your friends with lightning bolts.
 		</element>
-		<element name="Mace of Distortion" img="uuAo7Yl" recipe="tpjrwy0">
+		<element name="Mace of Distortion" img="uuAo7Yl" recipe="TB3A5Ck">
 			Why would you kill every mob in the area one by one?
 			With the [u]Mace of Distortion[/u], you can target all the mobs in a certain area
 			all at once. You can increase this area by clicking and holding right-click, from
@@ -435,7 +439,7 @@
 			hit weapon, but this does also drain some blood and will become unusable when ran out
 			of blood.
 		</element>
-		<element name="Necromancer Staff" recipe="1DPjCqr">
+		<element name="Necromancer Staff" recipe="McI3fM5">
 			Ever wanted to use those nasty Zombies in your own advantage?
             Well, no you can! Just aim at a player (or any other entity that is attackable by zombies) and right click.
             This will drain some blood of your staff, and send a horde of zombies  (3 to 5) after that entity.
@@ -480,7 +484,7 @@
             certain mobs when mining. If armor doesn't do the job, maybe consider putting a
             [u]Burning Gemstone[/u] into your inventory, just to be on the safe side...
         </element>
-        <element name="Vein Sword" recipe="gF5OcK6">
+        <element name="Vein Sword" recipe="Na5G9jf">
             A very simple early-game sword having the same durability as a gold sword.
             But this sword has by default Looting II installed on it when crafted.
             It also provides 2x multiplier for obtaining [u]Blood[/u].
@@ -694,17 +698,20 @@
 		Almost every feature can be disabled and changed in the config file (config/evilcraft.cfg).
 		It is however mandatory that config files at server and client side are identical,
 		otherwise you might encounter ID and feature conflicts.
+        
 
         If you want EvilCraft to work with Blood variants from other mods (like Tinkers' Construct and Blood Magic),
         you can enable all of these in the configuration file.
+        
         
         When you want to use this mod in an existing world, you can make use of the retrogen feature of EvilCraft.
         To enable it, just start up the mod once until you are on the start screen of Minecraft so that the config file is fully generated.
         After that you can open the config file, and under the 'general' category you should enable 'general.retrogen' by setting it's value to 'true'.
         Even though this will not replace any non-world generated blocks, it is still advises to backup your world before using this feature.
         
+        
         As of version 0.6.0, EvilCraft provides an extensive way for players and modpack creators to define their own recipes for both regular crafting and machine recipes.
-        More information about this can be found on the wiki: TODO
+        More information about this can be found on the wiki: https://github.com/rubensworks/EvilCraft/wiki/Recipe-XML
 	</element>
 	<element name="Modpacks">
 		Regarding modpacks, anyone is more than welcome to use this mod in any modpack, both public and private.
