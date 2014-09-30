@@ -26,4 +26,9 @@ public class DarkBloodBrickConfig extends BlockConfig {
         );
     }
     
+    @Override
+    public boolean isMultipartEnabled() {
+        return true;
+    }
+    
 }
