@@ -3,6 +3,7 @@ itemGroup.EvilCraft=EvilCraft
 general.info.enabled=Включено
 general.info.disabled=Выключено
 general.info.empty=Пусто
+general.tooltip.info=<Shift для информации>
 
 # Blocks
 tile.blocks.blockBlood.name=Кровь
@@ -10,6 +11,7 @@ tile.blocks.blockPoison.name=Яд
 tile.blocks.bloodChest.name=Кровавый сундук
 tile.blocks.bloodInfuser.name=Наполнитель кровью
 tile.blocks.darkOre.name=Тёмная руда
+tile.blocks.darkOre.info.custom=Можно найти между уровнями %s и %s.
 tile.blocks.darkBlock.name=Тёмный блок
 tile.blocks.bloodStainedBlock.name=Окрашенный кровью блок
 tile.blocks.bloodStainedBlock.info=Создаётся, когда сущность умирает.
@@ -31,7 +33,7 @@ tile.blocks.invisibleRedstoneBlock.name=Невидимый красный бло
 tile.blocks.purifier.name=Очиститель
 tile.blocks.darkBrick.name=Тёмный кирпич
 tile.blocks.darkBloodBrick.name=Тёмный кровавый кирпич
-tile.blocks.spiritFurnace.name=Духовная печь
+tile.blocks.spiritFurnace.name=Печь духов
 tile.blocks.spiritFurnace.help.invalid=Нельзя готовить
 tile.blocks.spiritFurnace.help.invalid.noEntity=Пустая или нет коробки
 tile.blocks.spiritFurnace.help.invalid.contentSize=Размер содержимого: %s
@@ -40,10 +42,22 @@ tile.blocks.spiritFurnace.help.invalid.forceHalt=Нет места для пре
 tile.blocks.spiritFurnace.help.invalid.caughtError=Неверный дух моба. Сообщите разработчику(-ам) модификации.
 tile.blocks.boxOfEternalClosure.name=Коробка вечного закрытия
 tile.blocks.boxOfEternalClosure.info.content=Содержит: %s
+tile.blocks.darkTank.name=Тёмный резервуар
+tile.blocks.darkTank.info=Положите в сетку создания рядом с другими резервуарами, чтобы увеличить ёмкость. Shift + ПКМ для авто-подачи.
+tile.blocks.darkTank.info.autoSupply=Авто-подача: %s
+tile.blocks.sanguinaryPedestal.name=Кровавый пьедестал
+tile.blocks.sanguinaryPedestal.info=Поглощает ближайшие блоки, окрашенные кровью.
+tile.blocks.spikedPlate.name=Шипованная пластина
+tile.blocks.spikedPlate.info=Убивает мобов, поставьте на пьедестал, чтобы забирать кровь.
+tile.blocks.spiritReanimator.name=Реаниматор духов
+tile.blocks.spiritReanimator.help.invalid.noEntity=Недоступен, пуст или нет коробки
+tile.blocks.spiritReanimator.help.invalid.invalidEntity=Яйцо призыва не доступно для этого моба
+tile.blocks.spiritReanimator.help.invalid.differentEgg=Уберите разные яйца призыва
 
 # Items
 item.items.werewolfBone.name=Кость оборотня
 item.items.werewolfFlesh.name=Плоть оборотня
+item.items.humanFlesh.name=Человеческая плоть
 item.items.lightningGrenade.name=Граната молний
 item.items.redstoneGrenade.name=Красная граната
 item.items.bucketBlood.name=Ведро крови
@@ -70,16 +84,21 @@ item.items.bloodContainer.info.autoSupply=Авто-подача: %s
 item.items.poisonSac.name=Ядовитый мешочек
 item.items.werewolfFur.name=Мех оборотня
 item.items.blook.name=Кровавая книга
+item.items.blook.info=Наполните книгу кровью.
 item.items.potentiaSphere.name=Сфера силы
+item.items.potentiaSphere.info=Наполните кровью, чтобы сделать жемчуг Края.
 item.items.invertedPotentia.name=Инвертированная сила
+item.items.invertedPotentia.info=Ударьте молнией, чтобы усилить.
 item.items.maceOfDistortion.name=Жезл искажения
 item.items.maceOfDistortion.setPower=Сила установлена на %s
 item.items.maceOfDistortion.info=Shift-ПКМ, чтобы изменить уровень силы.
 item.items.maceOfDistortion.info.power=Сила: %s
-item.items.kineticator.name=Kineticator
+item.items.kineticator.name=Кинетикатор
+item.items.kineticator.repelling.name=Отталкивающий кинетикатор
 item.items.kineticator.setPower=Сила установлена на %s
 item.items.kineticator.info=Shift-ПКМ, чтобы переключить притяжение.\nПКМ, чтобы изменить территорию.
 item.items.kineticator.info.attraction=Притяжение: %s
+item.items.kineticator.info.repelling.attraction=Отталкивание: %s
 item.items.kineticator.info.area=Территория: %s
 item.items.vengeanceRing.name=Кольцо мщения
 item.items.vengeanceRing.info=Shift-ПКМ, чтобы переключить.
@@ -89,6 +108,22 @@ item.items.vengeanceFocus.info=ПКМ, чтобы включить луч.
 item.items.vengeancePickaxe.name=Кирка мщения
 item.items.burningGemStone.name=Горящий камень
 item.items.darkGemCrushed.name=Измельчённый тёмный камень
+item.items.veinSword.name=Vein Sword
+item.items.creativeBloodDrop.name=Творческая капля крови
+item.items.creativeBloodDrop.info=Предмет только для творческого режима, для получения бесконечного количества крови.
+item.items.creativeBloodDrop.info.autoSupply=Авто-подача: %s
+item.items.darkSpike.name=Шип
+item.items.exaltedCrafter.name=Продвинутый верстак
+item.items.exaltedCrafter.wood.name=Деревянный продвинутый верстак
+item.items.necromancerStaff.name=Посох некроманта
+item.items.invigoratingPendant.name=Бодрящий кулон
+item.items.boundBloodDrop.name=Связанная кровавая капля
+item.items.boundBloodDrop.info=ПКМ, чтобы связать с Вашей сетью Blood Magic.
+item.items.boundBloodDrop.info.autoSupply=Авто-подача: %s
+item.items.boundBloodDrop.info.currentOwner=Текущий владелец: %s
+item.items.boundBloodDrop.info.currentOwner.none=Нет
+item.items.resurgenceEgg.name=Яйцо возрождения
+item.items.resurgenceEgg.info.content=Содержит: %s
 
 # Fluids
 fluid.fluids.evilcraftblood=Кровь
@@ -103,6 +138,7 @@ weatherContainer.lightning=Шторм
 # Controls
 key.categories.evilcraft=EvilCraft
 key.fart=Переключить пукание
+key.exaltedCrafting=Открыть продвинутый верстак
 
 # Entities
 entity.evilcraft.werewolf.name=Оборотень
@@ -136,3 +172,28 @@ death.attack.distorted=%1$s не смог справиться с большим
 
 # Biomes
 biomes.biomeDegraded=Деградированный
+
+# Achievements
+achievement.evilcraft.fart=Учимся пукать
+achievement.evilcraft.fart.desc=Наконец-то выпустите все эти неприятные газы.
+achievement.evilcraft.firstAge=Первая эпоха
+achievement.evilcraft.firstAge.desc=Откройте для себя истоки первой злой эпохи.
+achievement.evilcraft.secondAge=Вторая эпоха
+achievement.evilcraft.secondAge.desc=Начните вторую злую эпоху.
+achievement.evilcraft.masterDistorter=Мастер-искажатель
+achievement.evilcraft.masterDistorter.desc=Исказите более десяти мобов сразу с помощью жезла искажения.
+achievement.evilcraft.spiritCooker=Моб-повар
+achievement.evilcraft.spiritCooker.desc=Сделайте печь духов.
+achievement.evilcraft.closure=Вечное закрытие
+achievement.evilcraft.closure.desc=Используйте фокус мщения, чтобы запутать духа мщения.
+achievement.evilcraft.tidy=Прибираемся!
+achievement.evilcraft.tidy.desc=Уберите кучку экскрементов метлой.
+achievement.evilcraft.playerDistorter=Игрок-искажатель
+achievement.evilcraft.playerDistorter.desc=Исказите игрока с помощью жезла искажения.
+achievement.evilcraft.playerDevastator=Игрок-разрушитель
+achievement.evilcraft.playerDevastator.desc=Нападите на игрока, используя зомби, призванных с помощью посоха некроманта.
+achievement.evilcraft.powerCrafting=Могущественное создание
+achievement.evilcraft.powerCrafting.desc=Сделайте продвинутый верстак.
+
+# Gui
+gui.exaltedCrafting=Продвинутое создание
