@@ -77,8 +77,12 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        return this.getIcon(side, world.getBlockMetadata(x, y, z), pass,
-        		alternatingBlockIconComponent.getAlternateIcon(world, x, y, z, side), getTile(world, x, y, z).getInnerBlock());
+        try {
+			return this.getIcon(side, world.getBlockMetadata(x, y, z), pass,
+					alternatingBlockIconComponent.getAlternateIcon(world, x, y, z, side), getTile(world, x, y, z).getInnerBlock());
+		} catch (InvalidInnerBlocksTileException e) {
+			return super.getIcon(world, x, y, z, side);
+		}
     }
     
     /**
@@ -132,8 +136,12 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     @Override
     public void fillWithRain(World world, int x, int y, int z) {
         // Transform to regular block when it rains
-        world.setBlock(x, y, z, getTile(world, x, y, z).getInnerBlock());
-        world.removeTileEntity(x, y, z);
+        try {
+			world.setBlock(x, y, z, getTile(world, x, y, z).getInnerBlock());
+			world.removeTileEntity(x, y, z);
+		} catch (InvalidInnerBlocksTileException e) {
+			e.printStackTrace();
+		}
     }
     
     /**

@@ -1,14 +1,15 @@
 package evilcraft.core.config.configurable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
@@ -57,25 +58,24 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
      * @param y Y
      * @param z Z
      * @return The tile.
+     * @throws InvalidInnerBlocksTileException If the found tile was invalid or no {@link InnerBlocksTileEntity}.
      */
-    public InnerBlocksTileEntity getTile(IBlockAccess world, int x, int y, int z) {
-    	return (InnerBlocksTileEntity) world.getTileEntity(x, y, z);
+    public InnerBlocksTileEntity getTile(IBlockAccess world, int x, int y, int z) throws InvalidInnerBlocksTileException {
+    	TileEntity tile = world.getTileEntity(x, y, z);
+    	if(tile == null || !(tile instanceof InnerBlocksTileEntity)) {
+    		throw new InvalidInnerBlocksTileException();
+    	}
+    	return (InnerBlocksTileEntity) tile;
     }
     
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-    	return getTile(world, x, y, z).getInnerBlock().getIcon(side, world.getBlockMetadata(x, y, z));
-    }
-    
-    @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-    	InnerBlocksTileEntity tile = getTile(world, x, y, z);
-    	Block block = tile.getInnerBlock();
-    	ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-        ItemStack itemStack = new ItemStack(block.getItemDropped(metadata, world.rand, fortune), 1, block.damageDropped(metadata));
-		drops.add(itemStack);
-		return drops;
+    	try {
+			return getTile(world, x, y, z).getInnerBlock().getIcon(side, world.getBlockMetadata(x, y, z));
+		} catch (InvalidInnerBlocksTileException e) {
+			return Blocks.stone.getIcon(world, x, y, z, side);
+		}
     }
     
     @Override
@@ -87,12 +87,21 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     @Override
     @SideOnly(Side.CLIENT)
     public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
-        return getTile(world, x, y, z).getInnerBlock().colorMultiplier(world, x, y, z);
+        try {
+			return getTile(world, x, y, z).getInnerBlock().colorMultiplier(world, x, y, z);
+		} catch (InvalidInnerBlocksTileException e) {
+			return Blocks.stone.colorMultiplier(world, x, y, z);
+		}
     }
     
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
-    	Block block = getTile(world, x, y, z).getInnerBlock();
+    	Block block;
+		try {
+			block = getTile(world, x, y, z).getInnerBlock();
+		} catch (InvalidInnerBlocksTileException e) {
+			block = Blocks.stone;
+		}
     	return new ItemStack(block, 1, block.getDamageValue(world, x, y, z));
     }
     
@@ -120,7 +129,11 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     	if(canSetInnerBlock(block, world, x, y, z)) {
     		int meta = world.getBlockMetadata(x, y, z);
     		world.setBlock(x, y, z, this);
-    		getTile(world, x, y, z).setInnerBlock(block);
+    		try {
+				getTile(world, x, y, z).setInnerBlock(block);
+			} catch (InvalidInnerBlocksTileException e) {
+				e.printStackTrace();
+			}
     		world.setBlockMetadataWithNotify(x, y, z, meta, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     		return true;
     	}
@@ -148,7 +161,12 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
      * @return The newly set block or null.
      */
     public Block unwrapInnerBlock(World world, int x, int y, int z) {
-    	InnerBlocksTileEntity tile = getTile(world, x, y, z);
+    	InnerBlocksTileEntity tile = null;
+		try {
+			tile = getTile(world, x, y, z);
+		} catch (InvalidInnerBlocksTileException e) {
+			e.printStackTrace();
+		}
     	if(tile == null) return null;
     	Block block = tile.getInnerBlock();
     	if(block == null) return null;
@@ -172,6 +190,10 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     			&& !block.isAir(world, x, y, z)
     			&& block.isOpaqueCube()
     			&& !block.hasTileEntity(world.getBlockMetadata(x, y, z));
+    }
+    
+    protected class InvalidInnerBlocksTileException extends Exception {
+    	
     }
     
 }
