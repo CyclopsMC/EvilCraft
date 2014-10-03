@@ -3,14 +3,13 @@ package evilcraft.tileentity.tickaction.bloodchest;
 import java.util.LinkedList;
 import java.util.Random;
 
+import net.minecraft.item.ItemStack;
 import evilcraft.Configs;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 import evilcraft.block.BloodChestConfig;
 import evilcraft.core.config.configurable.ConfigurableEnchantment;
 import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
-
-import net.minecraft.item.ItemStack;
 
 /**
  * Repair action for damageable items.
@@ -48,7 +47,8 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
         itemStack.setItemDamage(newDamage);
         
         // Add bad enchant with a certain chance
-        if(BloodChestConfig.addRandomBadEnchants && random.nextInt(CHANCE_RANDOM_ENCHANT) == 0) {
+        if(BloodChestConfig.addRandomBadEnchants && random.nextInt(CHANCE_RANDOM_ENCHANT) == 0
+        		&& BAD_ENCHANTS.size() > 0) {
             ConfigurableEnchantment enchantment = BAD_ENCHANTS.get(random.nextInt(BAD_ENCHANTS.size()));
             itemStack.addEnchantment(
                     enchantment,
