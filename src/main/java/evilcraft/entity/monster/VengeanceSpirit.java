@@ -130,9 +130,16 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 	private String getRandomInnerEntity() {
     	Collection<EntityList.EntityEggInfo> eggs = EntityList.entityEggs.values();
     	ArrayList<EntityList.EntityEggInfo> eggList = Lists.newArrayList(eggs);
-    	EntityList.EntityEggInfo egg = eggList.get(rand.nextInt(eggList.size()));
-    	Class<Entity> clazz = (Class<Entity>) EntityList.IDtoClassMapping.get(egg.spawnedID);
-    	return clazz.getName();
+    	if(eggList.size() > 0) {
+	    	EntityList.EntityEggInfo egg = eggList.get(rand.nextInt(eggList.size()));
+	    	if(egg != null) {
+		    	Class<Entity> clazz = (Class<Entity>) EntityList.IDtoClassMapping.get(egg.spawnedID);
+		    	if(clazz != null) {
+		    		return clazz.getName();
+		    	}
+	    	}
+    	}
+    	return VengeanceSpirit.class.getName();
     }
     
     @Override
