@@ -19,6 +19,7 @@ import evilcraft.block.BloodStainedBlockConfig;
 import evilcraft.client.particle.EntityBloodSplashFX;
 import evilcraft.core.PlayerInventoryIterator;
 import evilcraft.core.algorithm.Location;
+import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended.InvalidInnerBlocksTileException;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -68,7 +69,12 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
 	            Random random = world.rand;
 	            
 	            // Fill the extractor a bit
-	            int amount = ((TileBloodStainedBlock) BloodStainedBlock.getInstance().getTile(world, x, y, z)).getAmount();
+	            int amount = 0;
+				try {
+					amount = ((TileBloodStainedBlock) BloodStainedBlock.getInstance().getTile(world, x, y, z)).getAmount();
+				} catch (InvalidInnerBlocksTileException e) {
+					e.printStackTrace();
+				}
 	            int filled = fillBloodExtractor(itemStack, amount, !world.isRemote);
 	            BloodStainedBlock.getInstance().unstainBlock(world, new Location(x, y, z), filled);
 	            

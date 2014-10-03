@@ -192,7 +192,11 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     			&& !block.hasTileEntity(world.getBlockMetadata(x, y, z));
     }
     
-    protected class InvalidInnerBlocksTileException extends Exception {
+    /**
+     * Exception that can occur when the tile is invalid.
+     * @author rubensworks
+     */
+    public static class InvalidInnerBlocksTileException extends Exception {
     	
     }
     
