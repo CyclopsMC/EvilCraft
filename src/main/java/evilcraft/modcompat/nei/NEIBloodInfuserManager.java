@@ -188,16 +188,18 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = BloodInfuser
-        		.getInstance().getRecipeRegistry().findRecipeByInput(
-                new ItemAndFluidStackRecipeComponent(
-                        ingredient,
-                        new FluidStack(TileBloodInfuser.ACCEPTED_FLUID, TileBloodInfuser.LIQUID_PER_SLOT))
-        );
-
-        if(recipe != null) {
-            arecipes.add(new CachedBloodInfuserRecipe(recipe));
-        }
+    	if(TileBloodInfuser.ACCEPTED_FLUID != null) {
+	        IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = BloodInfuser
+	        		.getInstance().getRecipeRegistry().findRecipeByInput(
+	                new ItemAndFluidStackRecipeComponent(
+	                        ingredient,
+	                        new FluidStack(TileBloodInfuser.ACCEPTED_FLUID, TileBloodInfuser.LIQUID_PER_SLOT))
+	        );
+	
+	        if(recipe != null) {
+	            arecipes.add(new CachedBloodInfuserRecipe(recipe));
+	        }
+    	}
     }
 
     @Override
