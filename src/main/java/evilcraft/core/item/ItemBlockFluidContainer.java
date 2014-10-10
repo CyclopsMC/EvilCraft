@@ -134,7 +134,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
         NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag(key);
         FluidStack stack = FluidStack.loadFluidStackFromNBT(fluidTag);
 
-        if (!stack.isFluidEqual(resource))
+        if (!resource.isFluidEqual(stack))
         {
             return 0;
         }
