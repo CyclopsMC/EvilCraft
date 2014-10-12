@@ -189,16 +189,20 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
     	if(TileBloodInfuser.ACCEPTED_FLUID != null) {
-	        IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = BloodInfuser
-	        		.getInstance().getRecipeRegistry().findRecipeByInput(
-	                new ItemAndFluidStackRecipeComponent(
-	                        ingredient,
-	                        new FluidStack(TileBloodInfuser.ACCEPTED_FLUID, TileBloodInfuser.LIQUID_PER_SLOT))
-	        );
-	
-	        if(recipe != null) {
-	            arecipes.add(new CachedBloodInfuserRecipe(recipe));
-	        }
+    		try {
+		        IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = BloodInfuser
+		        		.getInstance().getRecipeRegistry().findRecipeByInput(
+		                new ItemAndFluidStackRecipeComponent(
+		                        ingredient,
+		                        new FluidStack(TileBloodInfuser.ACCEPTED_FLUID, TileBloodInfuser.LIQUID_PER_SLOT))
+		        );
+		
+		        if(recipe != null) {
+		            arecipes.add(new CachedBloodInfuserRecipe(recipe));
+		        }
+    		} catch (NullPointerException e) {
+    			// In this case, the fluid was somehow incorrectly registered.
+    		}
     	}
     }
 
