@@ -83,14 +83,12 @@ public class ItemHelpers {
                 if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
                     IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
                     FluidStack heldFluid = fluidContainer.getFluid(held);
-                    if(tickFluid.amount >= MB_FILL_PERTICK
-                            && (heldFluid == null || (heldFluid != null
+                    if(heldFluid == null || (heldFluid != null
                                                     && heldFluid.isFluidEqual(tickFluid)
-                                                    && heldFluid.amount < fluidContainer.getCapacity(held)
-                                                    )
-                               )
+                                                    && heldFluid.amount < fluidContainer.getCapacity(held))
                             ) {
-                        int filled = fluidContainer.fill(held, new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), true);
+                        int filled = fluidContainer.fill(held, new FluidStack(tickFluid.getFluid(),
+                        		Math.min(tickFluid.amount, MB_FILL_PERTICK)), true);
                         item.drain(itemStack, filled, true);
                     }
                 }
