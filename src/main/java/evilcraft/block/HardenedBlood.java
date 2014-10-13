@@ -16,6 +16,7 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.fluid.Blood;
 import evilcraft.item.HardenedBloodShard;
+import evilcraft.item.HardenedBloodShardConfig;
 
 /**
  * A hardened version of {@link Blood}.
@@ -106,7 +107,8 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
 
     private void splitBlock(World world, int x, int y, int z) {
-        ItemStack itemStack = new ItemStack(HardenedBloodShard.getInstance(), 9);
+        ItemStack itemStack = new ItemStack(HardenedBloodShard.getInstance(), HardenedBloodShardConfig.minimumDropped
+        		+ (int) (Math.random() * (double) HardenedBloodShardConfig.additionalDropped));
         dropBlockAsItem(world, x, y, z, itemStack);
         world.setBlockToAir(x, y, z);
     }

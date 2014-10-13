@@ -13,4 +13,16 @@
         </output>
     </recipe>
     
+    <recipe type="smelting">
+        <condition type="config">hardenedBloodShard</condition>
+        <condition type="config">hardenedBlood</condition>
+        <input>
+            <item>evilcraft:hardenedBlood</item>
+        </input>
+        <output>
+            <item amount="9">evilcraft:hardenedBloodShard</item>
+            <xp>20</xp>
+        </output>
+    </recipe>
+    
 </recipes>
