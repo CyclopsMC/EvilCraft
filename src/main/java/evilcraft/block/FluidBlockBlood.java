@@ -60,6 +60,7 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
         } else {
             super.updateTick(world, x, y, z, random);
         }
+        world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
     }
 
 }
