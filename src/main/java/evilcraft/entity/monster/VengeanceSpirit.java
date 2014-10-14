@@ -101,6 +101,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
         this.stepHeight = 5.0F;
         this.isImmuneToFire = true;
         this.preventEntitySpawning = false;
+        this.setSize(1, 1); // Dummy size, to avoid rare bounding box crashes before inner entity is init.
         
         double speed = 0.5D;
         double damage = 0.5D;
