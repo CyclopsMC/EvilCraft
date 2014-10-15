@@ -3,24 +3,13 @@ package evilcraft.modcompat.waila;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import evilcraft.Configs;
 import evilcraft.Reference;
-import evilcraft.block.BloodChestConfig;
-import evilcraft.block.BloodInfuserConfig;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.BloodStainedBlockConfig;
 import evilcraft.block.BoxOfEternalClosureConfig;
-import evilcraft.block.DarkTankConfig;
 import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
-import evilcraft.block.Purifier;
-import evilcraft.block.PurifierConfig;
-import evilcraft.block.SpiritFurnace;
-import evilcraft.block.SpiritFurnaceConfig;
-import evilcraft.block.SpiritReanimator;
-import evilcraft.block.SpiritReanimatorConfig;
-import evilcraft.tileentity.TileBloodChest;
-import evilcraft.tileentity.TileBloodInfuser;
+import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
-import evilcraft.tileentity.TileDarkTank;
 
 /**
  * Waila support class.
@@ -38,24 +27,7 @@ public class Waila {
         registrar.addConfig(Reference.MOD_NAME, getInnerBlockConfigID(), "Actual inner blocks");
         
         // Tanks
-        if(Configs.isEnabled(BloodInfuserConfig.class)) {
-        	registrar.registerSyncedNBTKey("*", TileBloodInfuser.class);
-            registrar.registerBodyProvider(new TankDataProvider(), TileBloodInfuser.class);
-        }
-        if(Configs.isEnabled(BloodChestConfig.class)) {
-        	registrar.registerSyncedNBTKey("*", TileBloodChest.class);
-            registrar.registerBodyProvider(new TankDataProvider(), TileBloodChest.class);
-        }
-        if(Configs.isEnabled(PurifierConfig.class))
-            registrar.registerBodyProvider(new TankDataProvider(), Purifier.class);
-        if(Configs.isEnabled(DarkTankConfig.class)) {
-        	registrar.registerSyncedNBTKey("*", TileDarkTank.class);
-            registrar.registerBodyProvider(new TankDataProvider(), TileDarkTank.class);
-        }
-        if(Configs.isEnabled(SpiritFurnaceConfig.class))
-            registrar.registerBodyProvider(new TankDataProvider(), SpiritFurnace.class);
-        if(Configs.isEnabled(SpiritReanimatorConfig.class))
-            registrar.registerBodyProvider(new TankDataProvider(), SpiritReanimator.class);
+        registrar.registerBodyProvider(new TankDataProvider(), TankInventoryTileEntity.class);
         
         // Inner blocks
         if(Configs.isEnabled(BloodStainedBlockConfig.class))
