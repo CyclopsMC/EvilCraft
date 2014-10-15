@@ -8,9 +8,17 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+
+import org.lwjgl.opengl.GL11;
+
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 
 /**
@@ -154,5 +162,92 @@ public class RenderHelpers {
 			renderer.renderMaxZ = block.getBlockBoundsMinZ();
 			renderer.partialRenderBounds = renderer.minecraftRB.gameSettings.ambientOcclusion >= 2 && (renderer.renderMinX > 0.0D || renderer.renderMaxX < 1.0D || renderer.renderMinY > 0.0D || renderer.renderMaxY < 1.0D || renderer.renderMinZ > 0.0D || renderer.renderMaxZ < 1.0D);
         }
+	}
+	
+	/**
+	 * Get the icon of a fluid for a side in a safe way.
+	 * @param fluid The fluid stack.
+	 * @param side The side to get the icon from, UP if null.
+	 * @return The icon.
+	 */
+	public static IIcon getFluidIcon(FluidStack fluid, ForgeDirection side) {
+		Block defaultBlock = Blocks.water;
+		Block block = defaultBlock;
+		if(fluid.getFluid().getBlock() != null) {
+			block = fluid.getFluid().getBlock();
+		}
+		
+		if(side == null) side = ForgeDirection.UP;
+		
+		IIcon icon = fluid.getFluid().getFlowingIcon();
+		if(icon == null || (side == ForgeDirection.UP || side == ForgeDirection.DOWN)) {
+			icon = fluid.getFluid().getStillIcon();
+		}
+		if(icon == null) {
+			icon = block.getIcon(side.ordinal(), 0);
+			if(icon == null) {
+				icon = defaultBlock.getIcon(side.ordinal(), 0);
+			}
+		}
+		
+		return icon;
+	}
+	
+	/**
+	 * Prepare a GL context for rendering fluids.
+	 * @param fluid The fluid stack.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 * @param tile The tile.
+	 * @param render The actual fluid renderer.
+	 */
+	public static void renderFluidContext(FluidStack fluid, double x, double y, double z, TileEntity tile, IFluidContextRender render) {
+		if(fluid != null && fluid.amount > 0) {
+			GL11.glPushMatrix();
+
+	        // Make sure both sides are rendered
+	        GL11.glDepthMask(true);
+	        GL11.glDisable(GL11.GL_CULL_FACE);
+	        
+	        // Correct color & lighting
+	        GL11.glColor4f(1, 1, 1, 1);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+	        // Set to current relative player location
+	        GL11.glTranslated(x, y, z);
+
+	        // Set block textures
+	        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+	        
+	        // Make sure our lighting is correct, otherwise everything will be black -_-
+	        Block block = tile.getWorldObj().getBlock((int) x, (int) y, (int) z);
+	        Tessellator.instance.setBrightness(2 * block.getMixedBrightnessForBlock(tile.getWorldObj(), (int) x, (int) y, (int) z));
+	        
+	        render.renderFluid(tile, fluid);
+	        
+	        //GL11.glEnable(GL11.GL_CULL_FACE);
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        //GL11.glDepthMask(false);
+	        GL11.glPopMatrix();
+		}
+	}
+	
+	/**
+	 * Runnable for {@link RenderHelpers#renderFluidContext(FluidStack, double, double, double, TileEntity, IFluidContextRender)}.
+	 * @author rubensworks
+	 */
+	public static interface IFluidContextRender {
+		
+		/**
+		 * Render the fluid.
+		 * @param tile The tile.
+		 * @param fluid The fluid stack.
+		 */
+		public void renderFluid(TileEntity tile, FluidStack fluid);
+		
 	}
 }

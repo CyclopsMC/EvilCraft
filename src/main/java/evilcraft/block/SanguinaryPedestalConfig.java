@@ -39,7 +39,7 @@ public class SanguinaryPedestalConfig extends BlockContainerConfig {
     @Override
     public void onRegistered() {
         if(MinecraftHelpers.isClientSide()) {
-        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "pedestal.png"); // TODO
+        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "pedestal.png");
         	ModelWavefront model = new ModelPedestal(texture);
             ClientProxy.TILE_ENTITY_RENDERERS.put(TileSanguinaryPedestal.class,
             		new RenderTileEntityModelWavefront(model, texture));

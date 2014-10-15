@@ -16,6 +16,7 @@ import evilcraft.block.DarkBloodBrickConfig;
 import evilcraft.block.DarkBrickConfig;
 import evilcraft.block.DarkOreConfig;
 import evilcraft.block.DarkTankConfig;
+import evilcraft.block.EntangledChaliceConfig;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
 import evilcraft.block.EvilBlockConfig;
 import evilcraft.block.ExcrementPileConfig;
@@ -192,6 +193,7 @@ public class Configs {
         configs.add(new SanguinaryPedestalConfig());
         configs.add(new SpikedPlateConfig());
         configs.add(new SpiritReanimatorConfig());
+        configs.add(new EntangledChaliceConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

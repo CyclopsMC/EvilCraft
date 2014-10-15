@@ -6,6 +6,7 @@ import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.ILocation;
 import evilcraft.core.BucketHandler;
+import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.core.world.gen.RetroGenRegistry;
 import evilcraft.event.BonemealEventHook;
 import evilcraft.event.ConfigChangedEventHook;
@@ -16,6 +17,7 @@ import evilcraft.event.LivingDeathEventHook;
 import evilcraft.event.LivingUpdateEventHook;
 import evilcraft.event.PlayerInteractEventHook;
 import evilcraft.event.PlayerRingOfFire;
+import evilcraft.event.WorldLoadEventHook;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.DetectionListenerPacket;
 import evilcraft.network.packet.ExaltedCrafterClearPacket;
@@ -24,6 +26,7 @@ import evilcraft.network.packet.FartPacket;
 import evilcraft.network.packet.RingOfFirePacket;
 import evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
 import evilcraft.network.packet.SoundPacket;
+import evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
 
 /**
  * Proxy for server and client side.
@@ -61,6 +64,7 @@ public class CommonProxy {
     	PacketHandler.register(SanguinaryPedestalBlockReplacePacket.class);
     	PacketHandler.register(ExaltedCrafterClearPacket.class);
     	PacketHandler.register(ExaltedCrafterOpenPacket.class);
+    	PacketHandler.register(UpdateWorldSharedTankClientCachePacket.class);
     	
         EvilCraft.log("Registered packet handler.");
     }
@@ -84,10 +88,12 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
         MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingUpdateEventHook());
+        MinecraftForge.EVENT_BUS.register(new WorldLoadEventHook());
         
         FMLCommonHandler.instance().bus().register(new ConfigChangedEventHook());
         FMLCommonHandler.instance().bus().register(new PlayerRingOfFire());
         FMLCommonHandler.instance().bus().register(new ItemCraftedEventHook());
+        FMLCommonHandler.instance().bus().register(WorldSharedTankCache.getInstance());
     }
     
     /**

@@ -53,6 +53,9 @@ tile.blocks.spiritReanimator.name=Spirit Reanimator
 tile.blocks.spiritReanimator.help.invalid.noEntity=Invalid, empty or no box
 tile.blocks.spiritReanimator.help.invalid.invalidEntity=No spawn egg available for mob
 tile.blocks.spiritReanimator.help.invalid.differentEgg=Remove the different mob eggs
+tile.blocks.entangledChalice.name=Entangled Chalice
+tile.blocks.entangledChalice.info=Contents of entangled chalices are omnipresent. Shift + Right click to omni-supply.
+tile.blocks.entangledChalice.info.autoSupply=Omni-supply: %s
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone
