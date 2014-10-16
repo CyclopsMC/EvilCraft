@@ -17,6 +17,7 @@ import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtend
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.LocationHelpers;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.tileentity.TileBloodStainedBlock;
 
@@ -130,7 +131,9 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
      */
     @SideOnly(Side.CLIENT)
     public static void splash(World world, int x, int y, int z) {
-        EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 1, 1 + world.rand.nextInt(3));
+    	if(MinecraftHelpers.isClientSide()) {
+    		EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 1, 1 + world.rand.nextInt(3));
+    	}
     }
     
     @Override
