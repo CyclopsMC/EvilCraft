@@ -56,6 +56,20 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
         return FluidStack.loadFluidStackFromNBT(container.stackTagCompound.getCompoundTag(key));
 	}
 
+	protected void setFluid(ItemStack container, FluidStack fluidStack) {
+		String key = block.getTankNBTName();
+		if (fluidStack == null || fluidStack.amount <= 0) {
+            container.stackTagCompound.removeTag(key);
+            if (container.stackTagCompound.hasNoTags()) {
+                container.stackTagCompound = null;
+            }
+        } else {
+	        NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag(key);
+	        fluidStack.writeToNBT(fluidTag);
+	        container.stackTagCompound.setTag(key, fluidTag);
+        }
+	}
+	
 	@Override
 	public int getCapacity(ItemStack container) {
 		return block.getTankCapacity(container);
@@ -81,113 +95,62 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
 
 	@Override
 	public int fill(ItemStack container, FluidStack resource, boolean doFill) {
-		String key = block.getTankNBTName();
 		int capacity = getCapacity(container);
-		// Implementation from ItemFluidContainer
-		if (resource == null)
-        {
+		
+		if(resource == null) {
             return 0;
         }
+		
+		FluidStack stack = getFluid(container);
 
-        if (!doFill)
-        {
-            if (container.stackTagCompound == null || !container.stackTagCompound.hasKey(key))
-            {
+        if(!doFill) {
+            if(stack == null) {
                 return Math.min(capacity, resource.amount);
             }
 
-            FluidStack stack = FluidStack.loadFluidStackFromNBT(container.stackTagCompound.getCompoundTag(key));
-
-            if (stack == null)
-            {
-                return Math.min(capacity, resource.amount);
-            }
-
-            if (!stack.isFluidEqual(resource))
-            {
+            if(!stack.isFluidEqual(resource)) {
                 return 0;
             }
 
             return Math.min(capacity - stack.amount, resource.amount);
         }
-
-        if (container.stackTagCompound == null)
-        {
-            container.stackTagCompound = new NBTTagCompound();
+        
+        if(stack == null) {
+        	stack = resource.copy();
+        	stack.amount = 0;
         }
 
-        if (!container.stackTagCompound.hasKey(key))
-        {
-            NBTTagCompound fluidTag = resource.writeToNBT(new NBTTagCompound());
-
-            if (capacity < resource.amount)
-            {
-                fluidTag.setInteger("Amount", capacity);
-                container.stackTagCompound.setTag(key, fluidTag);
-                return capacity;
-            }
-
-            container.stackTagCompound.setTag(key, fluidTag);
-            return resource.amount;
-        }
-
-        NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag(key);
-        FluidStack stack = FluidStack.loadFluidStackFromNBT(fluidTag);
-
-        if (!resource.isFluidEqual(stack))
-        {
+        if(!resource.isFluidEqual(stack)) {
             return 0;
         }
 
         int filled = capacity - stack.amount;
-        if (resource.amount < filled)
-        {
+        if(resource.amount < filled) {
             stack.amount += resource.amount;
             filled = resource.amount;
-        }
-        else
-        {
+        } else {
             stack.amount = capacity;
         }
 
-        container.stackTagCompound.setTag(key, stack.writeToNBT(fluidTag));
+        setFluid(container, stack);
         return filled;
 	}
 
 	@Override
 	public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
-		String key = block.getTankNBTName();
 		int capacity = getCapacity(container);
-		// Implementation from ItemFluidContainer
-		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey(key))
-        {
-            return null;
-        }
-
-        FluidStack stack = FluidStack.loadFluidStackFromNBT(container.stackTagCompound.getCompoundTag(key));
-        if (stack == null)
-        {
-            return null;
-        }
+		FluidStack stack = getFluid(container);
+		
+		if(stack == null) {
+			return null;
+		}
 
         int currentAmount = stack.amount;
         stack.amount = Math.min(stack.amount, maxDrain);
-        if (doDrain)
-        {
-            if (currentAmount == stack.amount)
-            {
-                container.stackTagCompound.removeTag(key);
-
-                if (container.stackTagCompound.hasNoTags())
-                {
-                    container.stackTagCompound = null;
-                }
-                return stack;
-            }
-
-            NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag(key);
-            fluidTag.setInteger("Amount", currentAmount - stack.amount);
-            container.stackTagCompound.setTag(key, fluidTag);
+        if(doDrain) {
+        	FluidStack newStack = stack.copy();
+        	newStack.amount = currentAmount - stack.amount;
+            setFluid(container, newStack);
         }
         return stack;
 	}
