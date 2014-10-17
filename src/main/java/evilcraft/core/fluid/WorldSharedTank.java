@@ -19,7 +19,7 @@ public class WorldSharedTank extends SingleUseTank {
 	/**
      * The NBT name for the fluid tank.
      */
-    public static final String NBT_TANKID = "acceptedFluid";
+    public static final String NBT_TANKID = "tankID";
 	
 	protected String tankID;
 	private int previousAmount = 0;

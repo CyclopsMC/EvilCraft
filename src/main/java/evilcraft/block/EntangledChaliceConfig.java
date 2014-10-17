@@ -10,7 +10,6 @@ import evilcraft.core.client.render.item.RenderModelWavefrontItem;
 import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.item.ItemBlockFluidContainer;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileEntangledChalice;
 
@@ -40,7 +39,7 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
     
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockFluidContainer.class;
+        return EntangledChaliceItem.class;
     }
     
     @Override

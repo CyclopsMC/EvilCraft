@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.item.DamageIndicatedItemComponent;
@@ -87,11 +88,15 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 	public String getInfoTank(ItemStack itemStack) {
 		int amount = 0;
 		FluidStack fluidStack = null;
-        if(itemStack.getTagCompound() != null) {
+		if(itemStack.getItem() instanceof IFluidContainerItem) {
+			fluidStack = ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack);
+		} else if(itemStack.getTagCompound() != null) {
             fluidStack = FluidStack.loadFluidStackFromNBT(itemStack.getTagCompound().getCompoundTag(tank.getTankNBTName()));
-            if(fluidStack != null)
-                amount = fluidStack.amount;
+            
         }
+		if(fluidStack != null) {
+            amount = fluidStack.amount;
+		}
         return DamageIndicatedItemComponent.getInfo(fluidStack, amount, tank.getTankCapacity(itemStack));
 	}
 	
