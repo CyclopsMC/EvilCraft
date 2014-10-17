@@ -67,10 +67,10 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
 		if(tileEntity instanceof TileDarkTank) {
 			final TileDarkTank tank = ((TileDarkTank) tileEntity);
 			FluidStack fluid = tank.getTank().getFluid();
-			RenderHelpers.renderFluidContext(fluid, x, y, z, tileEntity, new IFluidContextRender() {
+			RenderHelpers.renderTileFluidContext(fluid, x, y, z, tileEntity, new IFluidContextRender() {
 
 				@Override
-				public void renderFluid(TileEntity tile, FluidStack fluid) {
+				public void renderFluid(FluidStack fluid) {
 					double height = tank.getFillRatio() * 0.99D;
 			        renderFluidSides(height, fluid);
 				}

@@ -199,10 +199,9 @@ public class RenderHelpers {
 	 * @param x X
 	 * @param y Y
 	 * @param z Z
-	 * @param tile The tile.
 	 * @param render The actual fluid renderer.
 	 */
-	public static void renderFluidContext(FluidStack fluid, double x, double y, double z, TileEntity tile, IFluidContextRender render) {
+	public static void renderFluidContext(FluidStack fluid, double x, double y, double z, IFluidContextRender render) {
 		if(fluid != null && fluid.amount > 0) {
 			GL11.glPushMatrix();
 
@@ -218,15 +217,11 @@ public class RenderHelpers {
 
 	        // Set to current relative player location
 	        GL11.glTranslated(x, y, z);
-
+	        
 	        // Set block textures
 	        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 	        
-	        // Make sure our lighting is correct, otherwise everything will be black -_-
-	        Block block = tile.getWorldObj().getBlock((int) x, (int) y, (int) z);
-	        Tessellator.instance.setBrightness(2 * block.getMixedBrightnessForBlock(tile.getWorldObj(), (int) x, (int) y, (int) z));
-	        
-	        render.renderFluid(tile, fluid);
+	        render.renderFluid(fluid);
 	        
 	        //GL11.glEnable(GL11.GL_CULL_FACE);
 	        GL11.glEnable(GL11.GL_LIGHTING);
@@ -237,17 +232,41 @@ public class RenderHelpers {
 	}
 	
 	/**
-	 * Runnable for {@link RenderHelpers#renderFluidContext(FluidStack, double, double, double, TileEntity, IFluidContextRender)}.
+	 * Prepare a GL context for rendering fluids for tile entities.
+	 * @param fluid The fluid stack.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 * @param tile The tile.
+	 * @param render The actual fluid renderer.
+	 */
+	public static void renderTileFluidContext(final FluidStack fluid, final double x, final double y,
+			final double z, final TileEntity tile, final IFluidContextRender render) {
+		renderFluidContext(fluid, x, y, z, new IFluidContextRender() {
+			
+			@Override
+			public void renderFluid(FluidStack fluid) {		        
+		        // Make sure our lighting is correct, otherwise everything will be black -_-
+		        Block block = tile.getWorldObj().getBlock((int) x, (int) y, (int) z);
+		        Tessellator.instance.setBrightness(2 * block.getMixedBrightnessForBlock(tile.getWorldObj(), (int) x, (int) y, (int) z));
+		        
+		        // Call the actual render.
+		        render.renderFluid(fluid);
+			}
+		});
+	}
+	
+	/**
+	 * Runnable for {@link RenderHelpers#renderFluidContext(FluidStack, double, double, double, IFluidContextRender)}.
 	 * @author rubensworks
 	 */
 	public static interface IFluidContextRender {
 		
 		/**
 		 * Render the fluid.
-		 * @param tile The tile.
 		 * @param fluid The fluid stack.
 		 */
-		public void renderFluid(TileEntity tile, FluidStack fluid);
+		public void renderFluid(FluidStack fluid);
 		
 	}
 }

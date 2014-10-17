@@ -40,13 +40,11 @@ public class RenderTileEntityEntangledChalice extends RenderTileEntityModelWavef
 			final TileEntangledChalice tank = ((TileEntangledChalice) tile);
 	
 			FluidStack fluid = tank.getTank().getFluid();
-			RenderHelpers.renderFluidContext(fluid, x, y, z, tile, new IFluidContextRender() {
+			RenderHelpers.renderTileFluidContext(fluid, x, y, z, tile, new IFluidContextRender() {
 
 				@Override
-				public void renderFluid(TileEntity tile, FluidStack fluid) {
-					double height = tank.getFillRatio() * 0.19D + 0.765F;
-					float vertexOffset = (MAX - MIN) / 2 * ((float) (1.0D - tank.getFillRatio()) * 0.9F + 0.1F);
-					renderFluidSide(height, fluid, MIN + vertexOffset, MAX - vertexOffset, (float) (1.0D - tank.getFillRatio()) / 2);
+				public void renderFluid(FluidStack fluid) {
+					renderFluidSide(fluid, tank.getFillRatio());
 				}
 				
 			});
@@ -55,13 +53,16 @@ public class RenderTileEntityEntangledChalice extends RenderTileEntityModelWavef
 	
 	/**
 	 * Render the fluid contents.
-	 * @param height The fluid level.
 	 * @param fluid The fluid.
-	 * @param min The minimum X and Z vertex.
-	 * @param max The maximum X and Z vertex.
-	 * @param iconScale The scale for the UV of the icon.
+	 * @param fillRatio The fill ratio of the tank.
 	 */
-	public static void renderFluidSide(double height, FluidStack fluid, float min, float max, float iconScale) {		
+	public static void renderFluidSide(FluidStack fluid, double fillRatio) {
+		double height = fillRatio * 0.19D + 0.765F;
+		float vertexOffset = (MAX - MIN) / 2 * ((float) (1.0D - fillRatio) * 0.9F + 0.1F);
+		float min = MIN + vertexOffset;
+		float max = MAX - vertexOffset;
+		float iconScale = (float) (1.0D - fillRatio) / 2;
+		
 		IIcon icon = RenderHelpers.getFluidIcon(fluid, ForgeDirection.UP);
 			
 		Tessellator t = Tessellator.instance;

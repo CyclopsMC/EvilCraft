@@ -4,9 +4,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import evilcraft.Reference;
+import evilcraft.client.render.item.RenderItemEntangledChalice;
 import evilcraft.client.render.model.ModelChalice;
 import evilcraft.client.render.tileentity.RenderTileEntityEntangledChalice;
-import evilcraft.core.client.render.item.RenderModelWavefrontItem;
 import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.helper.MinecraftHelpers;
@@ -50,7 +50,7 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
             ClientProxy.TILE_ENTITY_RENDERERS.put(TileEntangledChalice.class,
             		new RenderTileEntityEntangledChalice(model, texture));
             ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(EntangledChalice.getInstance()),
-            		new RenderModelWavefrontItem(model, texture)); // TODO: show fluid in render
+            		new RenderItemEntangledChalice(model, texture));
         }
     }
     
