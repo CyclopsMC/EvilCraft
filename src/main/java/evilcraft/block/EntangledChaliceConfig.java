@@ -6,8 +6,8 @@ import net.minecraft.util.ResourceLocation;
 import evilcraft.Reference;
 import evilcraft.client.render.item.RenderItemEntangledChalice;
 import evilcraft.client.render.model.ModelChalice;
+import evilcraft.client.render.model.ModelGem;
 import evilcraft.client.render.tileentity.RenderTileEntityEntangledChalice;
-import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.proxy.ClientProxy;
@@ -45,8 +45,10 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
     @Override
     public void onRegistered() {
         if(MinecraftHelpers.isClientSide()) {
-        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "pedestal.png"); // TODO
-        	ModelWavefront model = new ModelChalice(texture);
+        	ResourceLocation textureGem = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "gem.png");
+        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "chalice.png");
+        	ModelGem gem = new ModelGem(textureGem);
+        	ModelChalice model = new ModelChalice(texture, gem);
             ClientProxy.TILE_ENTITY_RENDERERS.put(TileEntangledChalice.class,
             		new RenderTileEntityEntangledChalice(model, texture));
             ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(EntangledChalice.getInstance()),
