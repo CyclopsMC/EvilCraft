@@ -2,7 +2,7 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.7.10" version="0.6.1b">http://bit.ly/1nYCDGl</download>
+	<download for="1.7.10" version="0.6.2b">http://bit.ly/1tlemdO</download>
     <download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
     <download for="1.6.4" version="0.4.1b">http://bit.ly/1lJiaBX</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
@@ -389,6 +389,7 @@
 		<element name="Hardened Blood Shard">
 			This item is used in the recipes for several items and can be obtained by using
 			a flint and steel on a [u]hardened blood[/u] block.
+			You can also silk touch a [u]hardened blood[/u] block and put in a furnace to get a higher amount of shards.
 			It's red, so maybe you could use it as some kind of red dye?
 		</element>
 		<element name="Humanoid Flesh">
@@ -597,6 +598,7 @@
 		As its name implies, this item allows you to steal life from a mob and add it
 		to your own. The more damage you deal with a hit and the higher the level
 		of the enchant, the higher the amount of life added to the player.
+		The amount of life being added can be changed in the config file.
 		</element>
 
 		<element name="Poison Tip (I, II, and III)">

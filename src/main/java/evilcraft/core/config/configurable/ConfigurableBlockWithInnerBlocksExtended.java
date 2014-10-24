@@ -189,7 +189,8 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     	return block != null
     			&& !block.isAir(world, x, y, z)
     			&& block.isOpaqueCube()
-    			&& !block.hasTileEntity(world.getBlockMetadata(x, y, z));
+    			&& !block.hasTileEntity(world.getBlockMetadata(x, y, z))
+    			&& block.getRenderType() == 0;
     }
     
     /**

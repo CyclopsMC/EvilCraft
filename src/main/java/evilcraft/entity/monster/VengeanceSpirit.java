@@ -410,11 +410,16 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     		return innerEntity;
     	try {
 			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(dataWatcher.getWatchableObjectString(WATCHERID_INNER));
-			String name = (String) EntityList.classToStringMapping.get(clazz);
-			Entity entity = EntityList.createEntityByName(name, worldObj);
-			innerEntity = (EntityLivingBase) entity;
-			this.setSize(innerEntity.width, innerEntity.height);
-			return innerEntity;
+			if(!clazz.equals(VengeanceSpirit.class)) {
+				String name = (String) EntityList.classToStringMapping.get(clazz);
+				Entity entity = EntityList.createEntityByName(name, worldObj);
+				innerEntity = (EntityLivingBase) entity;
+				this.setSize(innerEntity.width, innerEntity.height);
+				return innerEntity;
+			} else {
+				EvilCraft.log("Tried to recursively spirit a spirit, removing it now.", Level.ERROR);
+	     		this.worldObj.removeEntity(this);
+			}
     	} catch (ClassNotFoundException e) {
     		// In this case it is a vengeance swarm.
 		} catch (NullPointerException e) {

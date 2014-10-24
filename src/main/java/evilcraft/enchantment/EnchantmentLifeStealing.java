@@ -60,7 +60,8 @@ public class EnchantmentLifeStealing extends ConfigurableEnchantment {
      * @param level The level of the enchant.
      */
     public static void stealLife(EntityLivingBase entity, float damage, int level) {
-        entity.heal(damage / EnchantmentLifeStealing._instance.getMaxLevel() * (level + 1));
+        entity.heal(damage / EnchantmentLifeStealing._instance.getMaxLevel()
+        		* (level + 1) * (float) EnchantmentLifeStealingConfig.healModifier);
     }
 
 }

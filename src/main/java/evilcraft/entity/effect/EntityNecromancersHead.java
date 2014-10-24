@@ -137,15 +137,14 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     			Iterator<EntityLiving> it = observables.iterator();
     			while(it.hasNext()) {
     				EntityLiving mob = it.next();
-    				if(!target.isEntityAlive() || timeLeft <= 0) {
-    					ObfuscationHelpers.setRecentlyHit(mob, 0);
-    					mob.onDeath(ExtendedDamageSource.necromancerRecall);
+    				if(!mob.isEntityAlive() || !target.isEntityAlive() || timeLeft <= 0) {
+    					if(mob.isEntityAlive()) {
+	    					ObfuscationHelpers.setRecentlyHit(mob, 0);
+	    					mob.onDeath(ExtendedDamageSource.necromancerRecall);
+    					}
     					it.remove();
     				} else {
-    					mob.setRevengeTarget(target);
-    				}
-    				if(!mob.isEntityAlive()) {
-    					it.remove();
+	    				mob.setRevengeTarget(target);
     				}
     			}
     		}
