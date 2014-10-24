@@ -90,5 +90,12 @@ public class Tank extends FluidTank {
     		setCapacity(nbt.getInteger("capacity"));
     	}
     }
+    
+    /**
+     * @return The tank name.
+     */
+    public String getName() {
+    	return this.name;
+    }
 
 }

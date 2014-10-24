@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import evilcraft.block.EntangledChalice;
+import evilcraft.client.render.model.ModelChalice;
 import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.client.render.tileentity.RenderTileEntityModelWavefront;
 import evilcraft.core.helper.RenderHelpers;
@@ -35,9 +36,10 @@ public class RenderTileEntityEntangledChalice extends RenderTileEntityModelWavef
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
-		super.renderTileEntityAt(tile, x, y, z, f);
 		if(tile instanceof TileEntangledChalice) {
 			final TileEntangledChalice tank = ((TileEntangledChalice) tile);
+			ModelChalice.setColorSeed(tank.getTank().getName());
+			super.renderTileEntityAt(tile, x, y, z, f);
 	
 			FluidStack fluid = tank.getTank().getFluid();
 			RenderHelpers.renderTileFluidContext(fluid, x, y, z, tile, new IFluidContextRender() {

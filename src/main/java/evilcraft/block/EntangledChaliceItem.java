@@ -22,7 +22,12 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
         super(block);
     }
     
-    protected String getTankID(ItemStack container) {
+    /**
+     * Get the tank id from the container.
+     * @param container The chalice item container.
+     * @return The tank id.
+     */
+    public String getTankID(ItemStack container) {
     	String key = getBlockTank().getTankNBTName();
     	if(container.stackTagCompound == null || !container.stackTagCompound.hasKey(key)) {
     		// TODO: make a NEW ID!
