@@ -12,6 +12,10 @@ doc/info.txt
 eclipse/*
 .gradle/*
 repo/*
+*.iml
+*.ipr
+*.iws
+out/*
 
 # Ignore mac-specific file(s)
 .DS_Store
