@@ -16,6 +16,8 @@ import evilcraft.core.fluid.SingleUseTank;
 public abstract class TankInventoryTileEntity extends InventoryTileEntity implements IFluidHandler {
     
     private SingleUseTank tank;
+    private int tankSize;
+    private String tankName;
     protected boolean sendUpdateOnTankChanged = false;
 
     /**
@@ -27,7 +29,8 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      */
     public TankInventoryTileEntity(int inventorySize, String inventoryName, int tankSize, String tankName) {
         super(inventorySize, inventoryName);
-        tank = newTank(tankName, tankSize);
+        this.tankSize = tankSize;
+        this.tankName = tankName;
         this.setSendUpdateOnTankChanged(true);
     }
     
@@ -94,11 +97,16 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
         super.writeToNBT(data);
         tank.writeToNBT(data);
     }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        tank = newTank(tankName, tankSize);
+    }
     
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        int filled = tank.fill(resource, doFill);
-        return filled;
+        return tank.fill(resource, doFill);
     }
     
     /**
@@ -116,8 +124,7 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
             boolean doDrain) {
         if (resource == null || !resource.isFluidEqual(tank.getFluid()))
             return null;
-        FluidStack drained = drain(from, resource.amount, doDrain);
-        return drained;
+        return drain(from, resource.amount, doDrain);
     }
     
     /**
@@ -133,8 +140,7 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-        FluidStack drained = tank.drain(maxDrain, doDrain);
-        return drained;
+        return tank.drain(maxDrain, doDrain);
     }
     
     /**

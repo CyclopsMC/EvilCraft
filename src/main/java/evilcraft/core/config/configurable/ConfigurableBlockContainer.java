@@ -183,6 +183,7 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
     public TileEntity createNewTileEntity(World world, int meta) {
         try {
             EvilCraftTileEntity tile = tileEntity.newInstance();
+            tile.onLoad();
             tile.setRotatable(isRotatable());
             return tile;
         } catch (InstantiationException e1) {

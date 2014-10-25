@@ -1,5 +1,6 @@
 package evilcraft.tileentity;
 
+import evilcraft.core.tileentity.NBTPersist;
 import net.minecraft.item.ItemStack;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.fluid.WorldSharedTank;
@@ -22,6 +23,9 @@ public class TileEntangledChalice extends TankInventoryTileEntity {
 	 */
 	public static final String NBT_TAG_TANK = "entangledChalice";
 
+    @NBTPersist
+    private String tankID = "";
+
 	/**
 	 * Make a new instance.
 	 */
@@ -32,8 +36,7 @@ public class TileEntangledChalice extends TankInventoryTileEntity {
 	
 	@Override
 	protected SingleUseTank newTank(String tankName, int tankSize) {
-		// TODO: unique ID
-    	return new WorldSharedTank(tankName, tankSize, this, "entangledChalice0");
+    	return new WorldSharedTank(tankName, tankSize, this, this.tankID);
     }
 	
 	@Override
@@ -60,7 +63,7 @@ public class TileEntangledChalice extends TankInventoryTileEntity {
 	@Override
 	protected void updateTileEntity() {
 		super.updateTileEntity();
-		((WorldSharedTank) getTank()).resetPreviousFluid(); // Optimization for map look-ups in the shared tank.
+        ((WorldSharedTank) getTank()).resetPreviousFluid(); // Optimization for map look-ups in the shared tank.
 	}
 
 }

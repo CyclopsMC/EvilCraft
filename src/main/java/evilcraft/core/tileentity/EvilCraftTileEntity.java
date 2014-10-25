@@ -190,6 +190,14 @@ public class EvilCraftTileEntity extends TileEntity {
         if(foundRotation != ForgeDirection.UNKNOWN) {
         	rotation = foundRotation;
         }
+        onLoad();
+    }
+
+    /**
+     * When the tile is loaded or created.
+     */
+    public void onLoad() {
+
     }
     
     /**
