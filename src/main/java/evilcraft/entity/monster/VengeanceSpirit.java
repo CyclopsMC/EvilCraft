@@ -418,17 +418,17 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 				return innerEntity;
 			} else {
 				EvilCraft.log("Tried to recursively spirit a spirit, removing it now.", Level.ERROR);
-	     		this.worldObj.removeEntity(this);
 			}
     	} catch (ClassNotFoundException e) {
     		// In this case it is a vengeance swarm.
 		} catch (NullPointerException e) {
 			EvilCraft.log("Tried to spirit invalid entity, removing it now.", Level.ERROR);
-     		this.worldObj.removeEntity(this);
  		} catch (ClassCastException e) {
 			EvilCraft.log("Tried to spirit invalid entity, removing it now.", Level.ERROR);
-     		this.worldObj.removeEntity(this);
  		}
+        if(!this.worldObj.isRemote) {
+            this.worldObj.removeEntity(this);
+        }
     	return null;
     }
     
