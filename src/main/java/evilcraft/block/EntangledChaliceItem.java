@@ -1,5 +1,6 @@
 package evilcraft.block;
 
+import evilcraft.core.GlobalCounter;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,7 +22,7 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
     public EntangledChaliceItem(Block block) {
         super(block);
     }
-    
+
     /**
      * Get the tank id from the container.
      * @param container The chalice item container.
@@ -30,11 +31,36 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
     public String getTankID(ItemStack container) {
     	String key = getBlockTank().getTankNBTName();
     	if(container.stackTagCompound == null || !container.stackTagCompound.hasKey(key)) {
-    		// TODO: make a NEW ID!
+            // In this case, the tank is invalid!
     		container.stackTagCompound = new NBTTagCompound();
-    		container.stackTagCompound.setString(WorldSharedTank.NBT_TANKID, "TODO"); // TODO!
+            container.stackTagCompound.setTag(key, new NBTTagCompound());
+    		container.stackTagCompound.getCompoundTag(key).setString(WorldSharedTank.NBT_TANKID, "invalid");
     	}
-    	return container.stackTagCompound.getCompoundTag(key).getString(WorldSharedTank.NBT_TANKID);
+        return container.stackTagCompound.getCompoundTag(key).getString(WorldSharedTank.NBT_TANKID);
+    }
+
+    /**
+     * Set the tank id for the container.
+     * @param container The chalice item container.
+     * @param tankID The tank id.
+     */
+    public void setTankID(ItemStack container, String tankID) {
+        String key = getBlockTank().getTankNBTName();
+        if(container.stackTagCompound == null) {
+            container.stackTagCompound = new NBTTagCompound();
+        }
+        if(!container.stackTagCompound.hasKey(key)) {
+            container.stackTagCompound.setTag(key, new NBTTagCompound());
+        }
+        container.stackTagCompound.getCompoundTag(key).setString(WorldSharedTank.NBT_TANKID, tankID);
+    }
+
+    /**
+     * Set a new unique tank id for the container.
+     * @param container The chalice item container.
+     */
+    public void setNextTankID(ItemStack container) {
+        setTankID(container, Integer.toString(GlobalCounter.getInstance().getNext("EntangledChalice")));
     }
     
     @Override

@@ -1,13 +1,20 @@
 package evilcraft;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
+import cpw.mods.fml.common.registry.GameRegistry;
+import evilcraft.block.*;
+import evilcraft.core.item.ItemBlockFluidContainer;
+import evilcraft.core.recipe.ItemBlockFluidContainerCombinationRecipe;
+import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
+import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
+import evilcraft.core.recipe.event.IRecipeOutputObserver;
+import evilcraft.core.recipe.event.ObservableShapedRecipe;
+import evilcraft.core.recipe.event.ObservableShapelessRecipe;
+import evilcraft.core.recipe.xml.XmlRecipeLoader;
+import evilcraft.core.weather.WeatherType;
+import evilcraft.enchantment.EnchantmentPoisonTip;
+import evilcraft.enchantment.EnchantmentPoisonTipConfig;
+import evilcraft.item.*;
+import evilcraft.item.WeatherContainer.WeatherContainerTypes;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
@@ -15,35 +22,14 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import cpw.mods.fml.common.registry.GameRegistry;
-import evilcraft.block.BoxOfEternalClosure;
-import evilcraft.block.BoxOfEternalClosureConfig;
-import evilcraft.block.DarkTank;
-import evilcraft.block.DarkTankConfig;
-import evilcraft.block.EnvironmentalAccumulator;
-import evilcraft.block.EnvironmentalAccumulatorConfig;
-import evilcraft.core.item.ItemBlockFluidContainer;
-import evilcraft.core.recipe.ItemBlockFluidContainerCombinationRecipe;
-import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
-import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
-import evilcraft.core.recipe.event.IRecipeOutputObserver;
-import evilcraft.core.recipe.event.ObservableShapelessRecipe;
-import evilcraft.core.recipe.xml.XmlRecipeLoader;
-import evilcraft.core.weather.WeatherType;
-import evilcraft.enchantment.EnchantmentPoisonTip;
-import evilcraft.enchantment.EnchantmentPoisonTipConfig;
-import evilcraft.item.BloodContainer;
-import evilcraft.item.BloodContainerConfig;
-import evilcraft.item.InvertedPotentia;
-import evilcraft.item.InvertedPotentiaConfig;
-import evilcraft.item.PotentiaSphereConfig;
-import evilcraft.item.VeinSword;
-import evilcraft.item.VeinSwordConfig;
-import evilcraft.item.VengeancePickaxe;
-import evilcraft.item.VengeancePickaxeConfig;
-import evilcraft.item.WeatherContainer;
-import evilcraft.item.WeatherContainer.WeatherContainerTypes;
-import evilcraft.item.WeatherContainerConfig;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Holder class of all the recipes.
@@ -210,6 +196,21 @@ public class Recipes {
                             ));
                 }
             }
+        }
+
+        // Entangled Chalice unique id
+        if(Configs.isEnabled(EntangledChaliceConfig.class)) {
+            GameRegistry.addRecipe(new ObservableShapedRecipe(3, 1, new ItemStack[]{
+                    new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot)
+            }, new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance())), new IRecipeOutputObserver() {
+                @Override
+                public ItemStack getRecipeOutput(InventoryCrafting craftingGrid, ItemStack output) {
+                    ItemStack newStack = output.copy();
+                    EntangledChaliceItem item = (EntangledChaliceItem) Item.getItemFromBlock(EntangledChalice.getInstance());
+                    item.setNextTankID(newStack);
+                    return newStack;
+                }
+            }));
         }
         
         // Dark tank upgrades

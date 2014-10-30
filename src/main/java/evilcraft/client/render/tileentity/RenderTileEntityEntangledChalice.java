@@ -1,5 +1,6 @@
 package evilcraft.client.render.tileentity;
 
+import evilcraft.core.fluid.WorldSharedTank;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -37,16 +38,16 @@ public class RenderTileEntityEntangledChalice extends RenderTileEntityModelWavef
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
 		if(tile instanceof TileEntangledChalice) {
-			final TileEntangledChalice tank = ((TileEntangledChalice) tile);
-			ModelChalice.setColorSeed(tank.getTank().getName());
-			super.renderTileEntityAt(tile, x, y, z, f);
+			final TileEntangledChalice chalice = ((TileEntangledChalice) tile);
+			ModelChalice.setColorSeed(((WorldSharedTank) chalice.getTank()).getTankID());
+            super.renderTileEntityAt(tile, x, y, z, f);
 	
-			FluidStack fluid = tank.getTank().getFluid();
+			FluidStack fluid = chalice.getTank().getFluid();
 			RenderHelpers.renderTileFluidContext(fluid, x, y, z, tile, new IFluidContextRender() {
 
 				@Override
 				public void renderFluid(FluidStack fluid) {
-					renderFluidSide(fluid, tank.getFillRatio());
+					renderFluidSide(fluid, chalice.getFillRatio());
 				}
 				
 			});

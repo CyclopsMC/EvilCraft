@@ -1,11 +1,10 @@
 package evilcraft.tileentity;
 
-import evilcraft.core.tileentity.NBTPersist;
-import net.minecraft.item.ItemStack;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.fluid.WorldSharedTank;
 import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
+import net.minecraft.item.ItemStack;
 
 /**
  * Tile Entity for the entangled chalice.
@@ -23,9 +22,6 @@ public class TileEntangledChalice extends TankInventoryTileEntity {
 	 */
 	public static final String NBT_TAG_TANK = "entangledChalice";
 
-    @NBTPersist
-    private String tankID = "";
-
 	/**
 	 * Make a new instance.
 	 */
@@ -36,7 +32,7 @@ public class TileEntangledChalice extends TankInventoryTileEntity {
 	
 	@Override
 	protected SingleUseTank newTank(String tankName, int tankSize) {
-    	return new WorldSharedTank(tankName, tankSize, this, this.tankID);
+    	return new WorldSharedTank(tankName, tankSize, this);
     }
 	
 	@Override

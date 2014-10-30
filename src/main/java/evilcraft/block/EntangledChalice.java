@@ -110,7 +110,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 	@Override
 	public void provideInformation(ItemStack itemStack,
 			EntityPlayer entityPlayer, List list, boolean par4) {
-		
+
 	}
 
 	@Override
@@ -183,7 +183,8 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
     @Override
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         ItemStack itemStack = new ItemStack(item);
-        // TODO: create new ID.
+        EntangledChaliceItem chaliceItem = (EntangledChaliceItem) Item.getItemFromBlock(EntangledChalice.getInstance());
+        chaliceItem.setTankID(itemStack, "creativeTank0");
         list.add(itemStack);
     }
 

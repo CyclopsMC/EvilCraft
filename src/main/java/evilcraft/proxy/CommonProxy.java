@@ -1,5 +1,6 @@
 package evilcraft.proxy;
 
+import evilcraft.event.*;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.EvilCraft;
@@ -8,16 +9,7 @@ import evilcraft.api.ILocation;
 import evilcraft.core.BucketHandler;
 import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.core.world.gen.RetroGenRegistry;
-import evilcraft.event.BonemealEventHook;
-import evilcraft.event.ConfigChangedEventHook;
-import evilcraft.event.EntityStruckByLightningEventHook;
-import evilcraft.event.ItemCraftedEventHook;
-import evilcraft.event.LivingAttackEventHook;
-import evilcraft.event.LivingDeathEventHook;
-import evilcraft.event.LivingUpdateEventHook;
-import evilcraft.event.PlayerInteractEventHook;
-import evilcraft.event.PlayerRingOfFire;
-import evilcraft.event.WorldLoadEventHook;
+import evilcraft.event.WorldEventHook;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.DetectionListenerPacket;
 import evilcraft.network.packet.ExaltedCrafterClearPacket;
@@ -88,7 +80,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
         MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingUpdateEventHook());
-        MinecraftForge.EVENT_BUS.register(new WorldLoadEventHook());
+        MinecraftForge.EVENT_BUS.register(new WorldEventHook());
         
         FMLCommonHandler.instance().bus().register(new ConfigChangedEventHook());
         FMLCommonHandler.instance().bus().register(new PlayerRingOfFire());

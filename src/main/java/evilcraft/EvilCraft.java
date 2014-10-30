@@ -3,6 +3,8 @@ package evilcraft;
 import java.io.File;
 import java.util.Set;
 
+import cpw.mods.fml.common.event.*;
+import evilcraft.event.ServerStatusEventHook;
 import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.Sets;
@@ -11,10 +13,6 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -176,6 +174,24 @@ public class EvilCraft {
     @EventHandler
     public void onServerStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandEvilCraft());
+    }
+
+    /**
+     * Register the things that are related to server starting.
+     * @param event The Forge event required for this.
+     */
+    @EventHandler
+    public void onServerStarted(FMLServerStartedEvent event) {
+        ServerStatusEventHook.getInstance().onStartedEvent(event);
+    }
+
+    /**
+     * Register the things that are related to server stopping, like persistent storage.
+     * @param event The Forge event required for this.
+     */
+    @EventHandler
+    public void onServerStopping(FMLServerStoppingEvent event) {
+        ServerStatusEventHook.getInstance().onStoppingEvent(event);
     }
     
     /**
