@@ -61,9 +61,13 @@ public class ModelChalice extends ModelWavefront {
     public void renderAll() {
 		float r, g, b;
 		
-		r = (float)(chaliceColor >> 16 & 255) / 255.0F;
-        g = (float)(chaliceColor >> 8 & 255) / 255.0F;
-        b = (float)(chaliceColor & 255) / 255.0F;
+		r = (float)((chaliceColor) >> 16 & 255) / 255.0F;
+        g = (float)((chaliceColor) >> 8 & 255) / 255.0F;
+        b = (float)((chaliceColor) & 255) / 255.0F;
+        // Apply yellow variants
+        r = 0.95F - r / 5.0F;
+        g = 0.90F - g / 5.0F;
+        b = b / 5.0F;
     	GL11.glColor3f(r, g, b);
 		
     	GL11.glTranslatef(0.5F, 0.24F, 0.5F);
