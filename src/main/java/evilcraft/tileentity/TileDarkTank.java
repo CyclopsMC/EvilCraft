@@ -65,8 +65,7 @@ public class TileDarkTank extends TankInventoryTileEntity {
 			if(tile instanceof IFluidHandler) {
 				IFluidHandler handler = (IFluidHandler) tile;
 				FluidStack fluidStack = new FluidStack(getTank().getFluidType(), Math.min(MB_RATE, getTank().getFluidAmount()));
-				if(handler.canFill(down.getOpposite(), getTank().getFluidType())
-						&& handler.fill(down.getOpposite(), fluidStack, false) > 0) {
+				if(handler.fill(down.getOpposite(), fluidStack, false) > 0) {
 					int filled = handler.fill(down.getOpposite(), fluidStack, true);
 					drain(filled, true);
 				}
