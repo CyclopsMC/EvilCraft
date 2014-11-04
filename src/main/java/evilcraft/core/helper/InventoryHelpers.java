@@ -33,9 +33,10 @@ public class InventoryHelpers {
 	 */
 	public static void tryReAddToStack(EntityPlayer player, ItemStack originalStack, ItemStack newStackPart) {
 		if (!player.capabilities.isCreativeMode) {
-        	if(--originalStack.stackSize == 0) {
+        	if(--originalStack.copy().stackSize == 0) {
         		player.inventory.setInventorySlotContents(player.inventory.currentItem, newStackPart);
         	} else {
+                --originalStack.stackSize;
         		if(!player.inventory.addItemStackToInventory(newStackPart)) {
         			player.dropPlayerItemWithRandomChoice(newStackPart, false);
         		}
@@ -76,7 +77,7 @@ public class InventoryHelpers {
         }
 
         for(int j = 0; j < nbttaglist.tagCount(); j++) {
-            NBTTagCompound slot = (NBTTagCompound) nbttaglist.getCompoundTagAt(j);
+            NBTTagCompound slot = nbttaglist.getCompoundTagAt(j);
             int index;
             if(slot.hasKey("index")) {
                 index = slot.getInteger("index");
