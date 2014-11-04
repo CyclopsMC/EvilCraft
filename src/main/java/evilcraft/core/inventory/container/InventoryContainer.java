@@ -103,7 +103,7 @@ public abstract class InventoryContainer extends Container{
     protected boolean mergeItemStack(ItemStack stack, int slotStart, int slotRange, boolean reverse) {
             boolean successful = false;
             int slotIndex = slotStart;
-            int maxStack = Math.min(stack.getMaxStackSize(), getSizeInventory());
+            int maxStack = stack.getMaxStackSize();
             
             if(reverse) {
                     slotIndex = slotRange - 1;
