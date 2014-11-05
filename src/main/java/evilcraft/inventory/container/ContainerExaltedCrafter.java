@@ -1,8 +1,14 @@
 package evilcraft.inventory.container;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import invtweaks.api.container.ChestContainer;
+import invtweaks.api.container.ContainerSection;
+import invtweaks.api.container.ContainerSectionCallback;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
+import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.world.World;
@@ -14,11 +20,15 @@ import evilcraft.item.ExaltedCrafterConfig;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.ExaltedCrafterClearPacket;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Container for the {@link ExaltedCrafter}.
  * @author rubensworks
  *
  */
+@ChestContainer
 public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCrafter> {
     
 	private static final int GRID_OFFSET_X = 30;
@@ -117,6 +127,28 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
 			result.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(craftingGrid, world));
 			craftingGrid.save();
 		}
+    }
+
+    /**
+     * @return Container selection options for inventory tweaks.
+     */
+    @ContainerSectionCallback
+    public Map<ContainerSection, List<Slot>> getContainerSelection() {
+        Map<ContainerSection, List<Slot>> selection = Maps.newHashMap();
+        List<Slot> craftingInSlots = Lists.newLinkedList();
+        List<Slot> craftingOutSlots = Lists.newLinkedList();
+        List<Slot> craftingChest = Lists.newLinkedList();
+        for(int i = 0; i < 9; i++) {
+            craftingInSlots.add(this.getSlot(i));
+        }
+        for(int i = 10; i < 10 + CHEST_INVENTORY_ROWS * CHEST_INVENTORY_COLUMNS; i++) {
+            craftingChest.add(this.getSlot(i));
+        }
+        selection.put(ContainerSection.CRAFTING_IN_PERSISTENT, craftingInSlots);
+        selection.put(ContainerSection.CRAFTING_OUT, craftingOutSlots);
+        selection.put(ContainerSection.CHEST, craftingChest);
+        return selection;
+
     }
     
 }
