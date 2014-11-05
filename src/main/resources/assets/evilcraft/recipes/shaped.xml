@@ -451,6 +451,33 @@
         </output>
     </recipe>
 
+    <recipe type="shaped">
+        <condition type="config">darkBrick</condition>
+        <condition type="config">darkBlock</condition>
+        <input>
+            <grid>
+                <gridrow>
+                    <item/>
+                    <item>minecraft:stonebrick</item>
+                    <item/>
+                </gridrow>
+                <gridrow>
+                    <item>minecraft:stonebrick</item>
+                    <item>evilcraft:darkBlock</item>
+                    <item>minecraft:stonebrick</item>
+                </gridrow>
+                <gridrow>
+                    <item />
+                    <item>minecraft:stonebrick</item>
+                    <item />
+                </gridrow>
+            </grid>
+        </input>
+        <output>
+            <item amount="4">evilcraft:darkBrick</item>
+        </output>
+    </recipe>
+
 	<recipe type="shaped">
 		<condition type="config">darkStick</condition>
 		<condition type="config">vengeancePickaxe</condition>
@@ -486,9 +513,9 @@
 		<input>
 			<grid>
 				<gridrow>
+					<item/>
 					<item>evilcraft:darkBloodBrick</item>
-					<item>evilcraft:darkBloodBrick</item>
-					<item>evilcraft:darkBloodBrick</item>
+					<item/>
 				</gridrow>
 				<gridrow>
 					<item>evilcraft:darkBloodBrick</item>
@@ -496,9 +523,9 @@
 					<item>evilcraft:darkBloodBrick</item>
 				</gridrow>
 				<gridrow>
+					<item/>
 					<item>evilcraft:darkBloodBrick</item>
-					<item>evilcraft:darkBloodBrick</item>
-					<item>evilcraft:darkBloodBrick</item>
+					<item/>
 				</gridrow>
 			</grid>
 		</input>

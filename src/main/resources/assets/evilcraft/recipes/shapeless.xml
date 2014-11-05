@@ -73,20 +73,6 @@
 	</recipe>
 
 	<recipe type="shapeless">
-		<condition type="config">darkBrick</condition>
-		<condition type="config">darkBlock</condition>
-		<input>
-			<item>evilcraft:darkBlock</item>
-			<item>evilcraft:darkBlock</item>
-			<item>evilcraft:darkBlock</item>
-			<item>evilcraft:darkBlock</item>
-		</input>
-		<output>
-			<item>evilcraft:darkBrick</item>
-		</output>
-	</recipe>
-
-	<recipe type="shapeless">
 		<condition type="config">werewolfFur</condition>
 		<input>
 			<item>evilcraft:werewolfFur</item>
