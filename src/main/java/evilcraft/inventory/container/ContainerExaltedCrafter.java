@@ -97,17 +97,18 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     		return 10;
     	} else if(reverse && originSlot < 10) {
     		// Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
-    		return 1 + GRID_ROWS * GRID_COLUMNS;
+    		//return 1 + GRID_ROWS * GRID_COLUMNS;
+            return slotStart; // TODO: later on, make a toggle to control this behaviour
     	}
     	return super.getSlotStart(originSlot, slotStart, reverse);
     }
     
     @Override
     protected int getSlotRange(int originSlot, int slotRange, boolean reverse) {
-    	if(reverse && originSlot < 10) {
+    	/*if(reverse && originSlot < 10) {
     		// Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
     		return getSizeInventory();
-    	}
+    	}*/ // TODO: same as before
     	return slotRange;
     }
     
