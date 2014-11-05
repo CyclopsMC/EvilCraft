@@ -24,7 +24,8 @@ compileJava {
         compile "mcp.mobius.waila:Waila:${config.waila_version}"
         compile "codechicken:ForgeMultipart:${config.minecraft_version}-${config.FMP_version}:dev"
         compile "net.sengir.forestry:forestry_${config.minecraft_version}:${config.forestry_version}:dev"
-        //compile "codechicken:NotEnoughItems:${config.minecraft_version}-${config.NEI_version}:dev"
+        compile "codechicken:NotEnoughItems:${config.minecraft_version}-${config.NEI_version}:dev"
+        compile "codechicken:CodeChickenCore:${config.minecraft_version}-${config.CCC_version}:dev"
         compile files("${project.libs_path}/BloodMagic.jar")
         
         // Enable to test these inside your dev environment.
