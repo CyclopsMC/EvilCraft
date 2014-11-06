@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -44,6 +45,8 @@ import evilcraft.item.VengeancePickaxeConfig;
 import evilcraft.item.WeatherContainer;
 import evilcraft.item.WeatherContainer.WeatherContainerTypes;
 import evilcraft.item.WeatherContainerConfig;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 /**
  * Holder class of all the recipes.

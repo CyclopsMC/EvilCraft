@@ -2,6 +2,7 @@ package evilcraft.core.recipe.xml;
 
 import net.minecraft.item.ItemStack;
 
+import net.minecraftforge.oredict.OreDictionary;
 import org.w3c.dom.Node;
 
 import cpw.mods.fml.common.registry.GameData;
@@ -25,13 +26,17 @@ public class DefaultItemTypeHandler implements IItemTypeHandler {
 		int amount = 1;
 		Node amountNode = itemNode.getAttributes().getNamedItem("amount");
 		if(amountNode != null) {
-			amount = Integer.parseInt(amountNode.getTextContent());
+            amount = Integer.parseInt(amountNode.getTextContent());
 		}
 		
 		int meta = 0;
 		Node metaNode = itemNode.getAttributes().getNamedItem("meta");
 		if(metaNode != null) {
-			meta = Integer.parseInt(metaNode.getTextContent());
+            if("*".equals(metaNode.getTextContent())) {
+                meta = OreDictionary.WILDCARD_VALUE;
+            } else {
+                meta = Integer.parseInt(metaNode.getTextContent());
+            }
 		}
 		
 		return makeItemStack(element, amount, meta);

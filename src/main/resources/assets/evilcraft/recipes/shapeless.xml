@@ -118,4 +118,14 @@
         </output>
     </recipe>
 
+    <recipe type="shapeless">
+        <input>
+            <item meta="*">minecraft:shears</item>
+            <item type="oredict">treeSapling</item>
+        </input>
+        <output>
+            <item>minecraft:deadbush</item>
+        </output>
+    </recipe>
+
 </recipes>
