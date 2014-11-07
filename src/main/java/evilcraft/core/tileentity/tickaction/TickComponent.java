@@ -70,13 +70,15 @@ public class TickComponent<C extends EvilCraftTileEntity, T extends ITickAction<
     public void tick(ItemStack itemStack, int slot) {
         if(itemStack != null) {
             T action = getTickAction(itemStack.getItem());
-            if(action != null && action.canTick(tile, itemStack, slot, tick)){
-                if(tick == 0)
-                    requiredTicks = action.getRequiredTicks(tile, slot);
-                tick++;
-                if(tick > requiredTicks)
-                    tick = 0;
-                action.onTick(tile, itemStack, slot, tick);
+            if(action != null){
+                if(action.canTick(tile, itemStack, slot, tick)) {
+                    if (tick == 0)
+                        requiredTicks = action.getRequiredTicks(tile, slot);
+                    tick++;
+                    if (tick > requiredTicks)
+                        tick = 0;
+                    action.onTick(tile, itemStack, slot, tick);
+                }
             } else {
                 tick = 0;
             }
