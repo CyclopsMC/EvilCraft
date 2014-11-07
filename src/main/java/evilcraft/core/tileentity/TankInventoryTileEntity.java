@@ -32,6 +32,7 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
         this.tankSize = tankSize;
         this.tankName = tankName;
         this.setSendUpdateOnTankChanged(true);
+        tank = newTank(tankName, tankSize);
     }
     
     protected SingleUseTank newTank(String tankName, int tankSize) {
@@ -48,6 +49,7 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      */
     public TankInventoryTileEntity(int inventorySize, String inventoryName, int stackSize, int tankSize, String tankName) {
         super(inventorySize, inventoryName, stackSize);
+        this.setSendUpdateOnTankChanged(true);
         tank = newTank(tankName, tankSize);
     }
     

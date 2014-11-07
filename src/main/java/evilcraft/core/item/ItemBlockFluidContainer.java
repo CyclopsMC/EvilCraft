@@ -64,6 +64,9 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
                 container.stackTagCompound = null;
             }
         } else {
+            if(container.stackTagCompound == null) {
+                container.setTagCompound(new NBTTagCompound());
+            }
 	        NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag(key);
 	        fluidStack.writeToNBT(fluidTag);
 	        container.stackTagCompound.setTag(key, fluidTag);
