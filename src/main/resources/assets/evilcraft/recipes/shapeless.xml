@@ -73,20 +73,6 @@
 	</recipe>
 
 	<recipe type="shapeless">
-		<condition type="config">darkBrick</condition>
-		<condition type="config">darkBlock</condition>
-		<input>
-			<item>evilcraft:darkBlock</item>
-			<item>evilcraft:darkBlock</item>
-			<item>evilcraft:darkBlock</item>
-			<item>evilcraft:darkBlock</item>
-		</input>
-		<output>
-			<item>evilcraft:darkBrick</item>
-		</output>
-	</recipe>
-
-	<recipe type="shapeless">
 		<condition type="config">werewolfFur</condition>
 		<input>
 			<item>evilcraft:werewolfFur</item>
@@ -129,6 +115,16 @@
         </input>
         <output>
             <item meta="3">evilcraft:weatherContainer</item>
+        </output>
+    </recipe>
+
+    <recipe type="shapeless">
+        <input>
+            <item meta="*">minecraft:shears</item>
+            <item type="oredict">treeSapling</item>
+        </input>
+        <output>
+            <item>minecraft:deadbush</item>
         </output>
     </recipe>
 
