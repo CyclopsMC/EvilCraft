@@ -54,6 +54,7 @@ public class GeneralConfig extends DummyConfig {
     public static String[] bloodConverters = new String[]{
     	"blood:1.0",
     	"life essence:1.0",
+        "hell_blood:1.0",
     };
     
     /**
