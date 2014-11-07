@@ -27,6 +27,8 @@ public class TickComponent<C extends EvilCraftTileEntity, T extends ITickAction<
     private Map<Class<?>, T> tickActions;
     
     private C tile;
+
+    private boolean redstoneDisableable;
     private int tick = 0;
     
     private int requiredTicks = 0;
@@ -38,11 +40,24 @@ public class TickComponent<C extends EvilCraftTileEntity, T extends ITickAction<
      * @param tickActions The collection of actions this ticker can perform.
      * It must map the item class to an extension of {@link ITickAction}.
      * @param slot The inventory slot this ticker applies to.
+     * @param redstoneDisableable If this ticker can be disabled when given a redstone signal.
      */
-    public TickComponent(C tile, Map<Class<?>, T> tickActions, int slot) {
+    public TickComponent(C tile, Map<Class<?>, T> tickActions, int slot, boolean redstoneDisableable) {
         this.tile = tile;
         this.tickActions = tickActions;
         this.slot = slot;
+        this.redstoneDisableable = redstoneDisableable;
+    }
+
+    /**
+     * Make a new TickComponent that can be disabled with redstone.
+     * @param tile The IConsumeProduceTile reference in which this ticker runs.
+     * @param tickActions The collection of actions this ticker can perform.
+     * It must map the item class to an extension of {@link ITickAction}.
+     * @param slot The inventory slot this ticker applies to.
+     */
+    public TickComponent(C tile, Map<Class<?>, T> tickActions, int slot) {
+        this(tile, tickActions, slot, true);
     }
 
     protected T getTickAction(Item item) {
@@ -123,6 +138,13 @@ public class TickComponent<C extends EvilCraftTileEntity, T extends ITickAction<
      */
     public void setRequiredTicks(int requiredTicks) {
         this.requiredTicks = requiredTicks;
+    }
+
+    /**
+     * @return If this component is disableable with a redstone signal.
+     */
+    public boolean isRedstoneDisableable() {
+        return redstoneDisableable;
     }
     
 }

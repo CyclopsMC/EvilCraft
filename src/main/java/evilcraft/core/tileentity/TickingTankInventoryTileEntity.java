@@ -78,8 +78,11 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
         
         // Update tickers.
         if(!worldObj.isRemote) {
+            boolean redstone = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
             for(TickComponent<T, ITickAction<T>> ticker : getTickers()) {
-                ticker.tick(inventory.getStackInSlot(ticker.getSlot()), ticker.getSlot());
+                if(!(ticker.isRedstoneDisableable() && redstone)) {
+                    ticker.tick(inventory.getStackInSlot(ticker.getSlot()), ticker.getSlot());
+                }
             }
         }
         

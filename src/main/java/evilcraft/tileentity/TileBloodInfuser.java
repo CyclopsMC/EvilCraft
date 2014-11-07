@@ -109,7 +109,7 @@ public class TileBloodInfuser extends WorkingTileEntity<TileBloodInfuser> {
                 new TickComponent<
                     TileBloodInfuser,
                     ITickAction<TileBloodInfuser>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER)
+                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
                 );
         
         // The slots side mapping

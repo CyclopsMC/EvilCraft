@@ -145,7 +145,7 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
                 new TickComponent<
                     TileSpiritFurnace,
                     ITickAction<TileSpiritFurnace>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER)
+                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
                 );
         
         // The slots side mapping
