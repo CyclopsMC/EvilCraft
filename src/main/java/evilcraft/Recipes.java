@@ -199,15 +199,34 @@ public class Recipes {
         }
 
         // Entangled Chalice unique id
-        if(Configs.isEnabled(EntangledChaliceConfig.class)) {
-            GameRegistry.addRecipe(new ObservableShapedRecipe(3, 1, new ItemStack[]{
+        if(Configs.isEnabled(EntangledChaliceConfig.class)
+                && Configs.isEnabled(DarkGemConfig.class)
+                && Configs.isEnabled(CorruptedTearConfig.class)) {
+            GameRegistry.addRecipe(new ObservableShapedRecipe(3, 3, new ItemStack[]{
+                    new ItemStack(Items.gold_ingot), new ItemStack(CorruptedTear.getInstance()), new ItemStack(Items.gold_ingot),
+                    new ItemStack(DarkGem.getInstance()), new ItemStack(Items.gold_ingot), new ItemStack(DarkGem.getInstance()),
                     new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot)
-            }, new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance())), new IRecipeOutputObserver() {
+            }, new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 2), new IRecipeOutputObserver() {
                 @Override
                 public ItemStack getRecipeOutput(InventoryCrafting craftingGrid, ItemStack output) {
                     ItemStack newStack = output.copy();
                     EntangledChaliceItem item = (EntangledChaliceItem) Item.getItemFromBlock(EntangledChalice.getInstance());
                     item.setNextTankID(newStack);
+                    return newStack;
+                }
+            }));
+
+            GameRegistry.addRecipe(new ObservableShapedRecipe(3, 3, new ItemStack[]{
+                    new ItemStack(Items.gold_ingot), new ItemStack(CorruptedTear.getInstance()), new ItemStack(Items.gold_ingot),
+                    new ItemStack(DarkGem.getInstance()), new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance())), new ItemStack(DarkGem.getInstance()),
+                    new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot)
+            }, new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 2), new IRecipeOutputObserver() {
+                @Override
+                public ItemStack getRecipeOutput(InventoryCrafting craftingGrid, ItemStack output) {
+                    ItemStack newStack = output.copy();
+                    EntangledChaliceItem item = (EntangledChaliceItem) Item.getItemFromBlock(EntangledChalice.getInstance());
+                    String tankID = item.getTankID(craftingGrid.getStackInSlot(4));
+                    item.setTankID(newStack, tankID);
                     return newStack;
                 }
             }));

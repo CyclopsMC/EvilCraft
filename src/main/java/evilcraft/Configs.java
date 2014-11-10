@@ -2,6 +2,7 @@ package evilcraft;
 
 import java.util.Set;
 
+import evilcraft.item.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -68,43 +69,6 @@ import evilcraft.entity.monster.WerewolfConfig;
 import evilcraft.entity.villager.WerewolfVillagerConfig;
 import evilcraft.fluid.BloodConfig;
 import evilcraft.fluid.PoisonConfig;
-import evilcraft.item.BloodContainerConfig;
-import evilcraft.item.BloodExtractorConfig;
-import evilcraft.item.BloodInfusionCoreConfig;
-import evilcraft.item.BloodPearlOfTeleportationConfig;
-import evilcraft.item.BlookConfig;
-import evilcraft.item.BroomConfig;
-import evilcraft.item.BucketBloodConfig;
-import evilcraft.item.BucketPoisonConfig;
-import evilcraft.item.BurningGemStoneConfig;
-import evilcraft.item.ContainedFluxConfig;
-import evilcraft.item.CreativeBloodDropConfig;
-import evilcraft.item.DarkGemConfig;
-import evilcraft.item.DarkGemCrushedConfig;
-import evilcraft.item.DarkPowerGemConfig;
-import evilcraft.item.DarkSpikeConfig;
-import evilcraft.item.DarkStickConfig;
-import evilcraft.item.ExaltedCrafterConfig;
-import evilcraft.item.HardenedBloodShardConfig;
-import evilcraft.item.InvertedPotentiaConfig;
-import evilcraft.item.InvigoratingPendantConfig;
-import evilcraft.item.KineticatorConfig;
-import evilcraft.item.LargeDoorItemConfig;
-import evilcraft.item.LightningGrenadeConfig;
-import evilcraft.item.MaceOfDistortionConfig;
-import evilcraft.item.NecromancerStaffConfig;
-import evilcraft.item.PoisonSacConfig;
-import evilcraft.item.PotentiaSphereConfig;
-import evilcraft.item.RedstoneGrenadeConfig;
-import evilcraft.item.ResurgenceEggConfig;
-import evilcraft.item.VeinSwordConfig;
-import evilcraft.item.VengeanceFocusConfig;
-import evilcraft.item.VengeancePickaxeConfig;
-import evilcraft.item.VengeanceRingConfig;
-import evilcraft.item.WeatherContainerConfig;
-import evilcraft.item.WerewolfBoneConfig;
-import evilcraft.item.WerewolfFleshConfig;
-import evilcraft.item.WerewolfFurConfig;
 import evilcraft.world.biome.BiomeDegradedConfig;
 
 /**
@@ -232,6 +196,7 @@ public class Configs {
         configs.add(new NecromancerStaffConfig());
         configs.add(new InvigoratingPendantConfig());
         configs.add(new ResurgenceEggConfig());
+        configs.add(new CorruptedTearConfig());
         
         // Entities
         // Item
