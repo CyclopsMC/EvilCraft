@@ -60,11 +60,11 @@ public class RenderTileEntityEntangledChalice extends RenderTileEntityModelWavef
 	 * @param fillRatio The fill ratio of the tank.
 	 */
 	public static void renderFluidSide(FluidStack fluid, double fillRatio) {
-		double height = fillRatio * 0.19D + 0.765F;
-		float vertexOffset = (MAX - MIN) / 2 * ((float) (1.0D - fillRatio) * 0.9F + 0.1F);
+		double height = fillRatio * 0.17D + 0.765F;
+		float vertexOffset = Math.max(0.5F, Math.min(0.1F, (MAX - MIN) / 2 * ((float) (1.0D - fillRatio) * 0.9F + 0.005F)));
 		float min = MIN + vertexOffset;
 		float max = MAX - vertexOffset;
-		float iconScale = (float) (1.0D - fillRatio) / 2;
+		float iconScale = (float) (1.0D - fillRatio) / (4F);
 		
 		IIcon icon = RenderHelpers.getFluidIcon(fluid, ForgeDirection.UP);
 			
