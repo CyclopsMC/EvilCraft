@@ -21,6 +21,7 @@ import cpw.mods.fml.relauncher.Side;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.item.TileEntityNBTStorage;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
+import net.minecraftforge.fluids.FluidStack;
 
 /**
  * Contains helper methods for various minecraft specific things.
@@ -229,4 +230,20 @@ public class MinecraftHelpers {
 	public static boolean isClientSide() {
 	    return FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT;
 	}
+
+    /**
+     * Check if two fluid stacks contain the same fluid and have the same amount of that fluid.
+     * @param fluid1 A fluid stack.
+     * @param fluid2 A fluid stack.
+     * @return If they are equal.
+     */
+    public static boolean isFluidAndAmountEqual(FluidStack fluid1, FluidStack fluid2) {
+        if((fluid1 == null && fluid2 != null) || (fluid1 != null && fluid2 == null)) {
+            return false;
+        }
+        if(fluid1 == null && fluid2 == null) {
+            return true;
+        }
+        return fluid1.fluidID == fluid2.fluidID && fluid1.amount == fluid2.amount;
+    }
 }

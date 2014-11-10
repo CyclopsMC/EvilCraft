@@ -2,11 +2,14 @@ package evilcraft.event;
 
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import evilcraft.core.GlobalCounter;
+import evilcraft.core.world.GlobalCounter;
+import evilcraft.core.fluid.WorldSharedTank;
+import evilcraft.core.fluid.WorldSharedTankCache;
 import net.minecraft.server.MinecraftServer;
 
 /**
  * Event hook for server starting and stopping events.
+ * TODO: this can be abstracted quite a lot...
  * @author rubensworks
  *
  */
@@ -34,6 +37,7 @@ public class ServerStatusEventHook {
      */
     public void onStartedEvent(FMLServerStartedEvent event) {
         loadCounters();
+        loadTankData();
     }
 
     /**
@@ -42,6 +46,7 @@ public class ServerStatusEventHook {
      */
     public void onStoppingEvent(FMLServerStoppingEvent event) {
         saveCounters();
+        saveTankData();
     }
 
     private GlobalCounter.GlobalCounterData getCounterData() {
@@ -55,12 +60,34 @@ public class ServerStatusEventHook {
     }
     
     private void loadCounters() {
+        GlobalCounter.getInstance().reset();
         GlobalCounter.getInstance().readFromNBT(getCounterData().tag);
     }
 
     private void saveCounters() {
         GlobalCounter.GlobalCounterData data = getCounterData();
         GlobalCounter.getInstance().writeToNBT(data.tag);
+        data.setDirty(true);
+    }
+
+    private WorldSharedTank.TankData getTankData() {
+        WorldSharedTank.TankData data = (WorldSharedTank.TankData) MinecraftServer.getServer().worldServers[0]
+                .loadItemData(WorldSharedTank.TankData.class, WorldSharedTank.TankData.KEY);
+        if(data == null) {
+            data = new WorldSharedTank.TankData(WorldSharedTank.TankData.KEY);
+            MinecraftServer.getServer().worldServers[0].setItemData(WorldSharedTank.TankData.KEY, data);
+        }
+        return data;
+    }
+
+    private void loadTankData() {
+        WorldSharedTankCache.getInstance().reset();
+        WorldSharedTankCache.getInstance().readFromNBT(getTankData().getTankTag());
+    }
+
+    private void saveTankData() {
+        WorldSharedTank.TankData data = getTankData();
+        WorldSharedTankCache.getInstance().writeToNBT(data.getTankTag());
         data.setDirty(true);
     }
     

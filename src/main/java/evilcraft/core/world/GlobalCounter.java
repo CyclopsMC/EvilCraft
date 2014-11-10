@@ -1,4 +1,4 @@
-package evilcraft.core;
+package evilcraft.core.world;
 
 import com.google.common.collect.Maps;
 import net.minecraft.nbt.NBTTagCompound;

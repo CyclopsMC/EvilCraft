@@ -1,6 +1,6 @@
 package evilcraft.block;
 
-import evilcraft.core.GlobalCounter;
+import evilcraft.core.world.GlobalCounter;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

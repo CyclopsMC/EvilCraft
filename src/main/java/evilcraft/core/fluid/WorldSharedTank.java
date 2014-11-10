@@ -1,12 +1,11 @@
 package evilcraft.core.fluid;
 
+import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.tileentity.EvilCraftTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import evilcraft.core.tileentity.EvilCraftTileEntity;
 
 /**
  * A tank that has shared contents for a given ID.
@@ -15,15 +14,13 @@ import evilcraft.core.tileentity.EvilCraftTileEntity;
  *
  */
 public class WorldSharedTank extends SingleUseTank {
-	
-	/**
+
+/**
      * The NBT name for the fluid tank.
      */
     public static final String NBT_TANKID = "tankID";
-
-    private static final String NBT_KEY = "WorldSharedTanks";
 	
-	protected String tankID = null;
+	protected String tankID = "";
 	private int previousAmount = 0;
 	
 	/**
@@ -51,73 +48,6 @@ public class WorldSharedTank extends SingleUseTank {
     public int getPreviousAmount() {
     	return previousAmount;
     }
-
-    protected TankData getTankData(WorldServer world, String key) {
-        return (TankData) world.loadItemData(TankData.class, key);
-    }
-    
-    protected void writeToWorld() {
-    	String key = tankID;
-        WorldServer world = MinecraftServer.getServer().worldServers[0];
-    	TankData data = getTankData(world, NBT_KEY);
-    	
-    	NBTTagCompound rootTankTag = data.getTankTag();
-        if(rootTankTag == null) {
-            rootTankTag = new NBTTagCompound();
-        }
-
-        NBTTagCompound tankTag = rootTankTag.getCompoundTag(key);
-        if(tankTag == null) {
-            tankTag = new NBTTagCompound();
-        }
-    	writeTankToNBT(tankTag);
-        rootTankTag.setTag(key, tankTag);
-    	
-    	/*if(data == null) {
-    		data = new TankData(NBT_KEY);
-    		world.setItemData(NBT_KEY, data);
-    	}*/
-    	
-    	data.setTankTag(rootTankTag);
-        data.markDirty();
-    }
-    
-    protected void readFromWorld() {
-    	String key = tankID;
-        WorldServer world = MinecraftServer.getServer().worldServers[0];
-    	TankData data = getTankData(world, NBT_KEY);
-    	
-    	if(data == null) {
-    		data = new TankData(NBT_KEY);
-    		world.setItemData(NBT_KEY, data);
-    	}
-    	
-    	NBTTagCompound rootTankTag = data.getTankTag();
-    	if(rootTankTag != null) {
-            NBTTagCompound tankTag = rootTankTag.getCompoundTag(key);
-            if(tankTag != null) {
-                readTankFromNBT(tankTag);
-            }
-    	}
-    	
-    	WorldSharedTankCache.getInstance().setTankContent(tankID, fluid);
-    }
-    
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-    	if(MinecraftServer.getServer() != null) {
-    		writeToWorld();
-    	}
-    	return super.writeToNBT(nbt);
-    }
-    
-    @Override
-    public FluidTank readFromNBT(NBTTagCompound nbt) {
-    	if(MinecraftServer.getServer() != null) {
-    		readFromWorld();
-    	}
-    	return super.readFromNBT(nbt);
-    }
     
     @Override
     public void writeTankToNBT(NBTTagCompound nbt) {
@@ -136,7 +66,9 @@ public class WorldSharedTank extends SingleUseTank {
     }
     
     protected void writeWorldFluid() {
-    	WorldSharedTankCache.getInstance().setTankContent(tankID, this.fluid);
+        if(!MinecraftHelpers.isClientSide()) {
+            WorldSharedTankCache.getInstance().setTankContent(tankID, this.fluid);
+        }
     }
     
     @Override
@@ -161,7 +93,7 @@ public class WorldSharedTank extends SingleUseTank {
     public int fill(FluidStack resource, boolean doFill) {
     	readWorldFluid();
     	int ret = super.fill(resource, doFill);
-    	if(ret > 0) {
+    	if(ret > 0 && doFill) {
     		writeWorldFluid();
     	}
     	return ret;
@@ -171,7 +103,7 @@ public class WorldSharedTank extends SingleUseTank {
     public FluidStack drain(int maxDrain, boolean doDrain) {
     	readWorldFluid();
     	FluidStack ret = super.drain(maxDrain, doDrain);
-    	if(ret != null) {
+    	if(ret != null && doDrain) {
     		writeWorldFluid();
     	}
     	return ret;
@@ -184,12 +116,17 @@ public class WorldSharedTank extends SingleUseTank {
     public String getTankID() {
         return this.tankID;
     }
-    
+
     /**
      * Tank data stored in the world.
      * @author rubensworks
      */
     public static class TankData extends WorldSavedData {
+
+        /**
+         * NBT key.
+         */
+        public static final String KEY = "WorldSharedTanks";
     	
     	private NBTTagCompound tankTag = null;
     	
@@ -199,14 +136,7 @@ public class WorldSharedTank extends SingleUseTank {
     	 */
     	public TankData(String key) {
     		super(key);
-    	}
-    	
-    	/**
-    	 * Set the tank data.
-    	 * @param tankTag The tank data.
-    	 */
-    	public void setTankTag(NBTTagCompound tankTag) {
-    		this.tankTag = tankTag;
+            this.tankTag = new NBTTagCompound();
     	}
     	
     	/**

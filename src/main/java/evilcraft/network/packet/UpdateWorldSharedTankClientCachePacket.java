@@ -62,13 +62,5 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 	public void actionServer(World world, EntityPlayerMP player) {
 		// Do nothing
 	}
-	
-	@Override
-	public boolean equals(Object object) {
-		if(object == null || !(object instanceof UpdateWorldSharedTankClientCachePacket)) {
-			return false;
-		}
-		UpdateWorldSharedTankClientCachePacket packet = (UpdateWorldSharedTankClientCachePacket) object;
-		return tankID.equals(packet.tankID);
-	}
+
 }

@@ -1,16 +1,9 @@
 package evilcraft.core.fluid;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import net.minecraftforge.fluids.FluidStack;
-
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.Type;
@@ -18,6 +11,12 @@ import cpw.mods.fml.relauncher.Side;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.fluids.FluidStack;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * The cache for the shared tank contents.
@@ -33,7 +32,7 @@ public class WorldSharedTankCache {
 	private static WorldSharedTankCache _instance = null;
 	
 	private Map<String, FluidStack> tankCache = Maps.newHashMap();
-	private Set<UpdateWorldSharedTankClientCachePacket> packetBuffer = Sets.newHashSet();
+	private Map<String, UpdateWorldSharedTankClientCachePacket> packetBuffer = Maps.newHashMap();
 	private int tick = 0;
 	
 	private WorldSharedTankCache() {
@@ -45,7 +44,7 @@ public class WorldSharedTankCache {
 	 */
 	public void reset() {
 		tankCache = Maps.newHashMap();
-		packetBuffer = Sets.newHashSet();
+		packetBuffer = Maps.newHashMap();
 		tick = 0;
 	}
 	
@@ -63,6 +62,10 @@ public class WorldSharedTankCache {
 	protected String getMapID(String tankID) {
 		return tankID + (MinecraftHelpers.isClientSide() ? "C" : "S");
 	}
+
+    protected String removeMapID(String mapID) {
+        return mapID.substring(0, mapID.length() - 1);
+    }
 	
 	/**
 	 * Get a tank contents.
@@ -70,11 +73,12 @@ public class WorldSharedTankCache {
 	 * @return The contents.
 	 */
 	public FluidStack getTankContent(String tankID) {
-		return tankCache.get(getMapID(tankID));
+		FluidStack stack = tankCache.get(getMapID(tankID));
+        return (stack == null) ? null : stack.copy();
 	}
 	
 	protected static boolean shouldRefreshFluid(FluidStack old, FluidStack newF) {
-    	return (old == null && newF != null) || (old != null && !old.equals(newF));
+    	return !MinecraftHelpers.isFluidAndAmountEqual(old, newF);
     }
 	
 	/**
@@ -83,22 +87,20 @@ public class WorldSharedTankCache {
 	 * @param fluidStack The tank contents.
 	 */
 	public void setTankContent(String tankID, FluidStack fluidStack) {
-		boolean shouldRefresh = shouldRefreshFluid(tankCache.get(tankID), fluidStack);
+        String key = getMapID(tankID);
+		boolean shouldRefresh = shouldRefreshFluid(tankCache.get(key), fluidStack);
 		if(fluidStack == null) {
-			tankCache.remove(getMapID(tankID));
+			tankCache.remove(key);
 		} else if(shouldRefresh) {
-			tankCache.put(getMapID(tankID), fluidStack);
+            tankCache.put(key, fluidStack.copy());
 		}
 		if(!MinecraftHelpers.isClientSide() && shouldRefresh) {
-			bufferPacket(new UpdateWorldSharedTankClientCachePacket(tankID, fluidStack));
+            bufferPacket(tankID, new UpdateWorldSharedTankClientCachePacket(tankID, fluidStack));
 		}
 	}
 	
-	protected void bufferPacket(UpdateWorldSharedTankClientCachePacket packet) {
-		if(packetBuffer.contains(packet)) {
-			packetBuffer.remove(packet);
-		}
-		packetBuffer.add(packet);
+	protected void bufferPacket(String tankID, UpdateWorldSharedTankClientCachePacket packet) {
+		packetBuffer.put(tankID, packet);
 	}
 	
 	/**
@@ -116,15 +118,58 @@ public class WorldSharedTankCache {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onTick(TickEvent event) {
     	if(event.phase == Phase.START && (event.type == Type.CLIENT || event.type == Type.SERVER)) {
-	    	if(event.side == Side.SERVER && getTickOffset() % INTERPOLATION_TICK_OFFSET == 0) {
-		    	Iterator<UpdateWorldSharedTankClientCachePacket> it = packetBuffer.iterator();
+            tick++;
+	    	if(event.side == Side.SERVER && getTickOffset() > INTERPOLATION_TICK_OFFSET) {
+		    	Iterator<Map.Entry<String, UpdateWorldSharedTankClientCachePacket>> it = packetBuffer.entrySet().iterator();
 		    	while(it.hasNext()) {
-		    		PacketHandler.sendToAll(it.next());
+                    PacketHandler.sendToAll(it.next().getValue());
 		    		it.remove();
 		    	}
+                tick = 0;
 	    	}
-	    	tick = (tick + 1) % INTERPOLATION_TICK_OFFSET;
     	}
+    }
+
+    @SubscribeEvent
+    public void onLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        if(!MinecraftHelpers.isClientSide()) {
+            for(Map.Entry<String, FluidStack> entry: tankCache.entrySet()) {
+                PacketHandler.sendToPlayer(
+                        new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), event.player);
+            }
+        }
+    }
+
+    /**
+     * Read the cache.
+     * @param tag The tag to read from.
+     */
+    public void readFromNBT(NBTTagCompound tag) {
+        if(tag != null) {
+            NBTTagList list = tag.getTagList("tankCache", 10);
+            for (int i = 0; i < list.tagCount(); i++) {
+                NBTTagCompound subTag = list.getCompoundTagAt(i);
+                setTankContent(subTag.getString("key"),
+                        FluidStack.loadFluidStackFromNBT(subTag.getCompoundTag("value")));
+            }
+        }
+    }
+
+    /**
+     * Write the cache.
+     * @param tag The tag to write to.
+     */
+    public void writeToNBT(NBTTagCompound tag) {
+        NBTTagList list = new NBTTagList();
+        for(Map.Entry<String, FluidStack> entry : tankCache.entrySet()) {
+            NBTTagCompound subTag = new NBTTagCompound();
+            subTag.setString("key", removeMapID(entry.getKey()));
+            NBTTagCompound fluidTag = new NBTTagCompound();
+            entry.getValue().writeToNBT(fluidTag);
+            subTag.setTag("value", fluidTag);
+            list.appendTag(subTag);
+        }
+        tag.setTag("tankCache", list);
     }
 	
 }
