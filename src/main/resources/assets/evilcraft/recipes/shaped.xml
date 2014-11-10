@@ -696,6 +696,34 @@
             <item>evilcraft:sanguinaryPedestal</item>
         </output>
     </recipe>
+
+    <recipe type="shaped">
+        <condition type="config">darkPowerGem</condition>
+        <condition type="config">darkPowerGemBlock</condition>
+        <condition type="config">sanguinaryPedestal</condition>
+        <input>
+            <grid>
+                <gridrow>
+                    <item>evilcraft:darkPowerGem</item>
+                    <item>evilcraft:darkPowerGem</item>
+                    <item>evilcraft:darkPowerGem</item>
+                </gridrow>
+                <gridrow>
+                    <item />
+                    <item>evilcraft:darkPowerGemBlock</item>
+                    <item />
+                </gridrow>
+                <gridrow>
+                    <item>evilcraft:darkPowerGem</item>
+                    <item>evilcraft:sanguinaryPedestal</item>
+                    <item>evilcraft:darkPowerGem</item>
+                </gridrow>
+            </grid>
+        </input>
+        <output>
+            <item meta="1">evilcraft:sanguinaryPedestal</item>
+        </output>
+    </recipe>
     
 	<recipe type="shaped">
         <condition type="config">darkSpike</condition>
@@ -884,6 +912,33 @@
         </input>
         <output>
             <item>evilcraft:spiritReanimator</item>
+        </output>
+    </recipe>
+
+    <recipe type="shaped">
+        <condition type="config">darkPowerGemBlock</condition>
+        <condition type="config">darkPowerGem</condition>
+        <input>
+            <grid>
+                <gridrow>
+                    <item>evilcraft:darkPowerGem</item>
+                    <item>evilcraft:darkPowerGem</item>
+                    <item>evilcraft:darkPowerGem</item>
+                </gridrow>
+                <gridrow>
+                    <item>evilcraft:darkPowerGem</item>
+                    <item>evilcraft:darkPowerGem</item>
+                    <item>evilcraft:darkPowerGem</item>
+                </gridrow>
+                <gridrow>
+                    <item>evilcraft:darkPowerGem</item>
+                    <item>evilcraft:darkPowerGem</item>
+                    <item>evilcraft:darkPowerGem</item>
+                </gridrow>
+            </grid>
+        </input>
+        <output>
+            <item>evilcraft:darkPowerGemBlock</item>
         </output>
     </recipe>
 

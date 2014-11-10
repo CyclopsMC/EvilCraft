@@ -36,7 +36,7 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
     }
     
     protected SingleUseTank newTank(String tankName, int tankSize) {
-    	return new SingleUseTank(tankName, tankSize, this);
+        return new SingleUseTank(tankName, tankSize, this);
     }
     
     /**

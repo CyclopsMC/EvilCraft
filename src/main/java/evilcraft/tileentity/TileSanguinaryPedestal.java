@@ -37,6 +37,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
     private static final int MB_RATE = 100;
     private static final int TANK_BUCKETS = 10;
     private static final int OFFSET = 2;
+    private static final int OFFSET_EFFICIENCY = 4;
     
     private RegionIterator regionIterator;
     
@@ -58,12 +59,16 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
     	
     	PacketHandler.sendToServer(new SanguinaryPedestalBlockReplacePacket(location, block));
     }
+
+    protected boolean hasEfficiency() {
+        return getBlockMetadata() == 1;
+    }
     
     @Override
     public void updateTileEntity() {
     	super.updateTileEntity();
-    	
-    	if(!getWorldObj().isRemote) {
+
+        if(!getWorldObj().isRemote) {
 	    	// Drain next block in tick
     		if(!getTank().isFull()) {
 		    	ILocation location = getNextLocation();
@@ -72,6 +77,9 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
 		    		BloodStainedBlock.UnstainResult result = BloodStainedBlock.getInstance().unstainBlock(getWorldObj(),
 		    				location, getTank().getCapacity() - getTank().getFluidAmount());
 		    		if(result.amount > 0) {
+                        if(hasEfficiency()) {
+                            result.amount *= SanguinaryPedestalConfig.efficiencyBoost;
+                        }
 		    			afterBlockReplace(getWorldObj(), location, result.block, result.amount);
 		    		}
 		    	}
@@ -108,7 +116,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
 	
 	private ILocation getNextLocation() {
 		if(regionIterator == null) {
-			regionIterator = new RegionIterator(new Location(xCoord, yCoord, zCoord), OFFSET, true);
+			regionIterator = new RegionIterator(new Location(xCoord, yCoord, zCoord), (hasEfficiency() ? OFFSET_EFFICIENCY : OFFSET), true);
 		}
 		return regionIterator.next();
 	}

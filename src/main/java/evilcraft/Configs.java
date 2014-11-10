@@ -2,42 +2,12 @@ package evilcraft;
 
 import java.util.Set;
 
+import evilcraft.block.*;
 import evilcraft.item.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import evilcraft.block.BloodChestConfig;
-import evilcraft.block.BloodInfuserConfig;
-import evilcraft.block.BloodStainedBlockConfig;
-import evilcraft.block.BloodyCobblestoneConfig;
-import evilcraft.block.BoxOfEternalClosureConfig;
-import evilcraft.block.DarkBlockConfig;
-import evilcraft.block.DarkBloodBrickConfig;
-import evilcraft.block.DarkBrickConfig;
-import evilcraft.block.DarkOreConfig;
-import evilcraft.block.DarkTankConfig;
-import evilcraft.block.EntangledChaliceConfig;
-import evilcraft.block.EnvironmentalAccumulatorConfig;
-import evilcraft.block.EvilBlockConfig;
-import evilcraft.block.ExcrementPileConfig;
-import evilcraft.block.FluidBlockBloodConfig;
-import evilcraft.block.FluidBlockPoisonConfig;
-import evilcraft.block.HardenedBloodConfig;
-import evilcraft.block.InvisibleRedstoneBlockConfig;
-import evilcraft.block.LargeDoorConfig;
-import evilcraft.block.LightningBombConfig;
-import evilcraft.block.NetherfishSpawnConfig;
-import evilcraft.block.ObscuredGlassConfig;
-import evilcraft.block.PurifierConfig;
-import evilcraft.block.SanguinaryPedestalConfig;
-import evilcraft.block.SpikedPlateConfig;
-import evilcraft.block.SpiritFurnaceConfig;
-import evilcraft.block.SpiritReanimatorConfig;
-import evilcraft.block.UndeadLeavesConfig;
-import evilcraft.block.UndeadLogConfig;
-import evilcraft.block.UndeadPlankConfig;
-import evilcraft.block.UndeadSaplingConfig;
 import evilcraft.core.config.ConfigHandler;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -158,6 +128,7 @@ public class Configs {
         configs.add(new SpikedPlateConfig());
         configs.add(new SpiritReanimatorConfig());
         configs.add(new EntangledChaliceConfig());
+        configs.add(new DarkPowerGemBlockConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

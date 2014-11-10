@@ -1,7 +1,14 @@
 package evilcraft.block;
+import evilcraft.core.IInformationProvider;
+import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -10,13 +17,15 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.tileentity.TileSanguinaryPedestal;
 
+import java.util.List;
+
 /**
  * Pedestal that can obtain blood from blood stained blocks and can optionally extract blood from mobs
  * when a blood extractor is inserted.
  * @author rubensworks
  *
  */
-public class SanguinaryPedestal extends ConfigurableBlockContainer {
+public class SanguinaryPedestal extends ConfigurableBlockContainer implements IInformationProvider {
     
     private static SanguinaryPedestal _instance = null;
     
@@ -70,6 +79,34 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer {
     @Override
     public boolean renderAsNormalBlock() {
         return false;
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+        for (int j = 0; j <= 1; ++j) {
+            list.add(new ItemStack(item, 1, j));
+        }
+    }
+
+    @Override
+    public int damageDropped(int meta) {
+        return meta;
+    }
+
+    @Override
+    public String getInfo(ItemStack itemStack) {
+        if(itemStack.getItemDamage() == 1) {
+            return EnumChatFormatting.GRAY + L10NHelpers.localize(this.getUnlocalizedName() + ".boost");
+        }
+        return null;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public void provideInformation(ItemStack itemStack,
+                                   EntityPlayer entityPlayer, List list, boolean par4) {
+
     }
 
 }

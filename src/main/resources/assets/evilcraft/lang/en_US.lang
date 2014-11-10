@@ -47,6 +47,7 @@ tile.blocks.darkTank.info=Place in crafting grid with other tanks to increase ca
 tile.blocks.darkTank.info.autoSupply=Auto-supply: %s
 tile.blocks.sanguinaryPedestal.name=Sanguinary Pedestal
 tile.blocks.sanguinaryPedestal.info=Drains blood stained blocks in the area.
+tile.blocks.sanguinaryPedestal.boost=Efficiency
 tile.blocks.spikedPlate.name=Spiked Plate
 tile.blocks.spikedPlate.info=Damages mobs, place on Pedestal to drain blood.
 tile.blocks.spiritReanimator.name=Spirit Reanimator
@@ -56,6 +57,7 @@ tile.blocks.spiritReanimator.help.invalid.differentEgg=Remove the different mob 
 tile.blocks.entangledChalice.name=Entangled Chalice
 tile.blocks.entangledChalice.info=Contents of entangled chalices are omnipresent. Shift + Right click to omni-supply.
 tile.blocks.entangledChalice.info.autoSupply=Omni-supply: %s
+tile.blocks.darkPowerGemBlock.name=Dark Power Gem Block
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone
@@ -127,6 +129,7 @@ item.items.boundBloodDrop.info.currentOwner=Current owner: %s
 item.items.boundBloodDrop.info.currentOwner.none=None
 item.items.resurgenceEgg.name=Resurgence Egg
 item.items.resurgenceEgg.info.content=Contents: %s
+item.items.corruptedTear.name=Corrupted Tear
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

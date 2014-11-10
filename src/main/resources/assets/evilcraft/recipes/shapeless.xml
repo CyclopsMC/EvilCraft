@@ -128,4 +128,15 @@
         </output>
     </recipe>
 
+    <recipe type="shapeless">
+        <condition type="config">darkPowerGem</condition>
+        <condition type="config">darkPowerGemBlock</condition>
+        <input>
+            <item>evilcraft:darkPowerGemBlock</item>
+        </input>
+        <output>
+            <item amount="9">evilcraft:darkPowerGem</item>
+        </output>
+    </recipe>
+
 </recipes>

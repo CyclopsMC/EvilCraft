@@ -38,7 +38,9 @@ public class InformationProviderComponent {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         if(hasInfo) {
-            list.add(IInformationProvider.BLOCK_PREFIX+((IInformationProvider) block).getInfo(itemStack));
+            if(((IInformationProvider) block).getInfo(itemStack) != null) {
+                list.add(IInformationProvider.BLOCK_PREFIX + ((IInformationProvider) block).getInfo(itemStack));
+            }
             ((IInformationProvider) block).provideInformation(itemStack, entityPlayer, list, par4);
         }
     }
