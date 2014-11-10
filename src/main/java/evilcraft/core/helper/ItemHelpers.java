@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.IFluidContainerItem;
  *
  */
 public class ItemHelpers {
-	
+
 	private static final int MB_FILL_PERTICK = 10;
 	
 	/**
@@ -80,7 +80,8 @@ public class ItemHelpers {
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;
                 ItemStack held = player.getCurrentEquippedItem();
-                if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
+                tryFillContainerForPlayer(item, itemStack, held, tickFluid, player);
+                /*if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
                     IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
                     FluidStack heldFluid = fluidContainer.getFluid(held);
                     if(heldFluid == null || (heldFluid != null
@@ -91,7 +92,30 @@ public class ItemHelpers {
                         		Math.min(tickFluid.amount, MB_FILL_PERTICK)), true);
                         item.drain(itemStack, filled, true);
                     }
-                }
+                }*/
+            }
+        }
+    }
+
+    /**
+     * Tries to fill a container item in a player inventory.
+     * @param item The item container to drain from.
+     * @param itemStack The stack to drain from.
+     * @param toFill The container to try to fill.
+     * @param tickFluid The fluid to fill with.
+     * @param player The player that is the owner of toFill.
+     */
+    public static void tryFillContainerForPlayer(IFluidContainerItem item, ItemStack itemStack, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
+        if(toFill != null && toFill != itemStack && toFill.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
+            IFluidContainerItem fluidContainer = (IFluidContainerItem) toFill.getItem();
+            FluidStack heldFluid = fluidContainer.getFluid(toFill);
+            if(heldFluid == null ||
+                    (heldFluid.isFluidEqual(tickFluid)
+                    && heldFluid.amount < fluidContainer.getCapacity(toFill))
+                    ) {
+                int filled = fluidContainer.fill(toFill, new FluidStack(tickFluid.getFluid(),
+                        Math.min(tickFluid.amount, MB_FILL_PERTICK)), true);
+                item.drain(itemStack, filled, true);
             }
         }
     }

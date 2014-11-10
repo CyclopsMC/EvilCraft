@@ -141,7 +141,6 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
 
 	@Override
 	public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
-		int capacity = getCapacity(container);
 		FluidStack stack = getFluid(container);
 		
 		if(stack == null) {
@@ -165,11 +164,15 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
         }
         return super.onItemRightClick(itemStack, world, player);
     }
+
+    protected void autofill(IFluidContainerItem item, ItemStack itemStack, World world, Entity entity) {
+        ItemHelpers.updateAutoFill(this, itemStack, world, entity);
+    }
 	
 	@Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
     	if(block.isActivatable() && block.isActivated(itemStack, world, entity)) {
-    		ItemHelpers.updateAutoFill(this, itemStack, world, entity);
+            autofill(this, itemStack, world, entity);
     	}
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
