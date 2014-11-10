@@ -114,7 +114,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
                 new TickComponent<
                     TileBloodChest,
                     ITickAction<TileBloodChest>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER)
+                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
                 );
         
         // The slots side mapping

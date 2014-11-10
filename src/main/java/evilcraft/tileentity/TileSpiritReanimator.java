@@ -112,7 +112,7 @@ public class TileSpiritReanimator extends WorkingTileEntity<TileSpiritReanimator
                 new TickComponent<
                     TileSpiritReanimator,
                     ITickAction<TileSpiritReanimator>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER)
+                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
                 );
         
         // The slots side mapping

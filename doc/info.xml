@@ -2,7 +2,7 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-	<download for="1.7.10" version="0.6.2b">http://bit.ly/1tlemdO</download>
+    <download for="1.7.10" version="0.6.4b">http://bit.ly/1xyuIPQ</download>
     <download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
     <download for="1.6.4" version="0.4.1b">http://bit.ly/1lJiaBX</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
@@ -385,6 +385,7 @@
             When this item is empowered (struck by lightning), it can not despawn or be destroyed.
             There also exists a wooden variant that has it's own inventory instead of connecting to
             your Ender Chest.
+            Has optional support for Inventory Tweaks.
 		</element>
 		<element name="Hardened Blood Shard">
 			This item is used in the recipes for several items and can be obtained by using
