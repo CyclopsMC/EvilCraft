@@ -96,11 +96,11 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
     		// To make sure the entity actually will drop something.
     		ObfuscationHelpers.setRecentlyHit(((EntityLivingBase) entity), 100);
     		
-    		if(((EntityLivingBase) entity).attackEntityFrom(ExtendedDamageSource.spiked, damage)) {
+    		if(entity.attackEntityFrom(ExtendedDamageSource.spiked, damage)) {
 	    		TileEntity tile = world.getTileEntity(x, y - 1, z);
 	    		if(tile != null && tile instanceof TileSanguinaryPedestal) {
 	    			int amount = MathHelper.floor_float(damage * (float) SpikedPlateConfig.mobMultiplier);
-	    			((TileSanguinaryPedestal) tile).fill(new FluidStack(TileSanguinaryPedestal.FLUID, amount), true);
+	    			((TileSanguinaryPedestal) tile).fillWithPotentialBonus(new FluidStack(TileSanguinaryPedestal.FLUID, amount));
 	    		}
 	    		return true;
     		}
@@ -112,7 +112,7 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 	@Override
 	protected int func_150065_e(World world, int x,
 			int y, int z) {
-		List list = world.getEntitiesWithinAABBExcludingEntity((Entity)null, this.func_150061_a(x, y, z));
+		List list = world.getEntitiesWithinAABBExcludingEntity(null, this.func_150061_a(x, y, z));
 		
 		int ret = 0;
 		

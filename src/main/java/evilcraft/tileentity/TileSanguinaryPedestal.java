@@ -49,13 +49,20 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
         super(0, PurifierConfig._instance.getNamedId(), 1, FluidContainerRegistry.BUCKET_VOLUME * TANK_BUCKETS,
         		SanguinaryPedestalConfig._instance.getNamedId() + "tank", FLUID);
     }
+
+    public void fillWithPotentialBonus(FluidStack fluidStack) {
+        if(hasEfficiency() && fluidStack != null) {
+            fluidStack.amount *= SanguinaryPedestalConfig.efficiencyBoost;
+        }
+        fill(fluidStack, true);
+    }
     
     protected void afterBlockReplace(World world, ILocation location, Block block, int amount) {
     	// NOTE: this is only called server-side, so make sure to send packets where needed.
     	
     	// Fill tank
     	if(!getTank().isFull()) {
-			fill(new FluidStack(FLUID, amount), true);
+			fillWithPotentialBonus(new FluidStack(FLUID, amount));
 		}
     	
     	PacketHandler.sendToServer(new SanguinaryPedestalBlockReplacePacket(location, block));
@@ -79,9 +86,6 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
 		    		BloodStainedBlock.UnstainResult result = BloodStainedBlock.getInstance().unstainBlock(getWorldObj(),
 		    				location, getTank().getCapacity() - getTank().getFluidAmount());
 		    		if(result.amount > 0) {
-                        if(hasEfficiency()) {
-                            result.amount *= SanguinaryPedestalConfig.efficiencyBoost;
-                        }
 		    			afterBlockReplace(getWorldObj(), location, result.block, result.amount);
 		    		}
 		    	}
