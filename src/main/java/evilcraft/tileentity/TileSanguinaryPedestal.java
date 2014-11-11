@@ -38,6 +38,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
     private static final int TANK_BUCKETS = 10;
     private static final int OFFSET = 2;
     private static final int OFFSET_EFFICIENCY = 4;
+    private static final int ACTIONS_PER_TICK_EFFICIENCY = 5;
     
     private RegionIterator regionIterator;
     
@@ -69,8 +70,9 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
     	super.updateTileEntity();
 
         if(!getWorldObj().isRemote) {
+            int actions = hasEfficiency() ? ACTIONS_PER_TICK_EFFICIENCY : 1;
 	    	// Drain next block in tick
-    		if(!getTank().isFull()) {
+    		while(!getTank().isFull() && actions > 0) {
 		    	ILocation location = getNextLocation();
 		    	Block block = LocationHelpers.getBlock(getWorldObj(), location);
 		    	if(block == BloodStainedBlock.getInstance()) {
@@ -83,6 +85,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
 		    			afterBlockReplace(getWorldObj(), location, result.block, result.amount);
 		    		}
 		    	}
+                actions--;
     		}
 	    	
 	    	// Auto-drain the inner tank
