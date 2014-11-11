@@ -18,6 +18,7 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
     private SingleUseTank tank;
     private int tankSize;
     private String tankName;
+    private Fluid acceptedFluid = null;
     protected boolean sendUpdateOnTankChanged = false;
 
     /**
@@ -49,6 +50,8 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      */
     public TankInventoryTileEntity(int inventorySize, String inventoryName, int stackSize, int tankSize, String tankName) {
         super(inventorySize, inventoryName, stackSize);
+        this.tankSize = tankSize;
+        this.tankName = tankName;
         this.setSendUpdateOnTankChanged(true);
         tank = newTank(tankName, tankSize);
     }
@@ -63,6 +66,9 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      */
     public TankInventoryTileEntity(int inventorySize, String inventoryName, int tankSize, String tankName, Fluid acceptedFluid) {
         this(inventorySize, inventoryName, tankSize, tankName);
+        this.tankSize = tankSize;
+        this.tankName = tankName;
+        this.acceptedFluid = acceptedFluid;
         tank.setAcceptedFluid(acceptedFluid);
     }
     
@@ -77,6 +83,9 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      */
     public TankInventoryTileEntity(int inventorySize, String inventoryName, int stackSize, int tankSize, String tankName, Fluid acceptedFluid) {
         this(inventorySize, inventoryName, stackSize, tankSize, tankName);
+        this.tankSize = tankSize;
+        this.tankName = tankName;
+        this.acceptedFluid = acceptedFluid;
         tank.setAcceptedFluid(acceptedFluid);
     }
     
@@ -104,6 +113,9 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
     public void onLoad() {
         super.onLoad();
         tank = newTank(tankName, tankSize);
+        if(acceptedFluid != null) {
+            tank.setAcceptedFluid(acceptedFluid);
+        }
     }
     
     @Override
