@@ -112,7 +112,7 @@
             build a pedestal that will automatically extract all stained blocks in a 5x5 area and export
             it to any fluid accepting pipe or block below or next to it.
 		</element>
-        <element name="Spirit Furnace" img="UMk389B" recipe="OAsd6wJ">
+        <element name="Spirit Furnace" img="UMk389B" recipe="p2g6llQ">
             EvilCraft's first multi-block structure! The Spirit Furnace works like a basic mob drop generator;
             As long as you supply it with [u]blood[/u] and put a [u]Box of Eternal Closure[/u] that contains a
             [u]Vengeance Spirit[/u] in its left inventory slot, it will cook that captured mob over and over and collect
@@ -199,9 +199,8 @@
 			They're pretty dark and have connected textures by default, so they
 			might be useful for building.
 		</element>
-        <element name="Dark Brick" recipe="lhZdnHb">
-            Just like vanilla stone bricks, you can craft this block by putting four [u]Dark Blocks[/u]
-            inside a crafting table. Besides looking like a darker version of stone bricks, this
+        <element name="Dark Brick" recipe="qdjYY7v">
+            Besides looking like a darker version of stone bricks, this
             block does nothing special on its own.
         </element>
         <element name="Dark Blood Brick" recipe="HMd8Jsl">
