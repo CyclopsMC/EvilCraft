@@ -1,19 +1,18 @@
 package evilcraft.inventory.container;
 
-import net.minecraft.entity.player.InventoryPlayer;
 import evilcraft.block.BloodInfuser;
-import evilcraft.core.inventory.container.ContainerWorking;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.inventory.slot.SlotRemoveOnly;
 import evilcraft.core.inventory.slot.SlotWorking;
 import evilcraft.tileentity.TileBloodInfuser;
+import net.minecraft.entity.player.InventoryPlayer;
 
 /**
  * Container for the {@link BloodInfuser}.
  * @author rubensworks
  *
  */
-public class ContainerBloodInfuser extends ContainerWorking<TileBloodInfuser> {
+public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser> {
     
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;
@@ -57,6 +56,8 @@ public class ContainerBloodInfuser extends ContainerWorking<TileBloodInfuser> {
         addSlotToContainer(new SlotFluidContainer(tile, TileBloodInfuser.SLOT_CONTAINER, SLOT_CONTAINER_X, SLOT_CONTAINER_Y, tile.getTank())); // Container emptier
         addSlotToContainer(new SlotWorking<TileBloodInfuser>(TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, tile)); // Infuse slot
         addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y)); // Infuse result slot
+
+        this.addUpgradeInventory(INVENTORY_OFFSET_X, 0); // TODO: temporary positioning
 
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }

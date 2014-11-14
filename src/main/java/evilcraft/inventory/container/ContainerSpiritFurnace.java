@@ -1,19 +1,18 @@
 package evilcraft.inventory.container;
 
-import net.minecraft.entity.player.InventoryPlayer;
 import evilcraft.block.SpiritFurnace;
-import evilcraft.core.inventory.container.ContainerWorking;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.inventory.slot.SlotWorking;
 import evilcraft.core.inventory.slot.SlotWorkingRemoveOnly;
 import evilcraft.tileentity.TileSpiritFurnace;
+import net.minecraft.entity.player.InventoryPlayer;
 
 /**
  * Container for the {@link SpiritFurnace}.
  * @author rubensworks
  *
  */
-public class ContainerSpiritFurnace extends ContainerWorking<TileSpiritFurnace> {
+public class ContainerSpiritFurnace extends ContainerTileWorking<TileSpiritFurnace> {
     
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;

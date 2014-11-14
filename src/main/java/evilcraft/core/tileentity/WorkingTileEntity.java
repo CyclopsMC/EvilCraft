@@ -1,7 +1,17 @@
 package evilcraft.core.tileentity;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import evilcraft.core.tileentity.upgrade.IUpgradable;
+import evilcraft.core.tileentity.upgrade.IUpgradeBehaviour;
+import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
+import evilcraft.core.tileentity.upgrade.Upgrades;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+import org.apache.commons.lang3.mutable.MutableInt;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * A TileEntity with that processes items with inventory and tank.
@@ -10,8 +20,21 @@ import net.minecraftforge.fluids.Fluid;
  * most cases just the extension class.
  * @see TickingTankInventoryTileEntity
  */
-public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> extends TickingTankInventoryTileEntity<T>{
-	
+public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> extends TickingTankInventoryTileEntity<T>
+        implements IUpgradable {
+
+    /**
+     * Size of the upgrades inventory.
+     */
+    public static final int INVENTORY_SIZE_UPGRADES = 4;
+
+    public static final Upgrades.Upgrade UPGRADE_TIER = Upgrades.getUpgrade("tier");
+    public static final Upgrades.Upgrade UPGRADE_SPEED = Upgrades.getUpgrade("speed");
+    public static final Upgrades.Upgrade UPGRADE_EFFICIENCY = Upgrades.getUpgrade("efficiency");
+
+    private int basicInventorySize;
+    private Map<Upgrades.Upgrade, Integer> levels = null;
+
 	/**
      * Make a new instance.
      * @param inventorySize Amount of slots in the inventory.
@@ -22,7 +45,8 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> exten
      */
 	public WorkingTileEntity(int inventorySize, String inventoryName,
 			int tankSize, String tankName, Fluid acceptedFluid) {
-		super(inventorySize, inventoryName, tankSize, tankName, acceptedFluid);
+		super(inventorySize + INVENTORY_SIZE_UPGRADES, inventoryName, tankSize, tankName, acceptedFluid);
+        this.basicInventorySize = inventorySize;
 	}
 	
 	 /**
@@ -101,6 +125,94 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> exten
     @Override
     public void onStateChanged() {
         sendUpdate();
+    }
+
+    protected List<ItemStack> getUpgradeItems() {
+        List<ItemStack> itemStacks = Lists.newLinkedList();
+        for(int i = getBasicInventorySize(); i < getBasicInventorySize() + INVENTORY_SIZE_UPGRADES; i++) {
+            ItemStack itemStack = getStackInSlot(i);
+            if(itemStack != null) {
+                itemStacks.add(itemStack);
+            }
+        }
+        return itemStacks;
+    }
+
+    /**
+     * Get the type of upgrade corresponding to the given itemstack.
+     * @param itemStack The itemstack. Not null.
+     * @return The upgrade type.
+     */
+    public abstract Upgrades.Upgrade getUpgradeType(ItemStack itemStack);
+
+    /**
+     * Get the level of upgrade corresponding to the given itemstack.
+     * @param itemStack The itemstack. Not null.
+     * @return The upgrade level.
+     */
+    public abstract int getUpgradeLevel(ItemStack itemStack);
+
+    protected void resetUpgradeLevels() {
+        this.levels = null;
+    }
+
+    @Override
+    protected void onInventoryChanged() {
+        super.onInventoryChanged();
+        resetUpgradeLevels();
+    }
+
+    @Override
+    public void setInventorySlotContents(int slotId, ItemStack itemstack) {
+        super.setInventorySlotContents(slotId, itemstack);
+        if(slotId >= basicInventorySize && slotId < basicInventorySize + INVENTORY_SIZE_UPGRADES) {
+            resetWork();
+        }
+    }
+
+    public Map<Upgrades.Upgrade, Integer> getUpgradeLevels() {
+        if(levels == null) {
+            levels = Maps.newHashMap();
+            for (ItemStack itemStack : getUpgradeItems()) {
+                Upgrades.Upgrade upgrade = getUpgradeType(itemStack);
+                int level = getUpgradeLevel(itemStack);
+                if (levels.containsKey(upgrade)) {
+                    level += levels.get(upgrade);
+                }
+                levels.put(upgrade, level);
+            }
+        }
+        return levels;
+    }
+
+    @Override
+    public Map<Upgrades.Upgrade, IUpgradeBehaviour> getUpgrades() {
+        Map<Upgrades.Upgrade, IUpgradeBehaviour> upgrades = Maps.newHashMap();
+        upgrades.put(UPGRADE_SPEED, new IUpgradeBehaviour<WorkingTileEntity, MutableInt>() {
+
+            @Override
+            public int getUpgradeLevel(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade) {
+                Integer level = (Integer) upgradable.getUpgradeLevels().get(upgrade);
+                return (level == null) ? 0 : level;
+            }
+
+            @Override
+            public void applyUpgrade(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
+                                     IUpgradeSensitiveEvent<MutableInt> event) {
+                int duration = event.getObject().getValue();
+                duration /= (1 + upgradeLevel / (3.2));
+                event.getObject().setValue(duration);
+            }
+
+        });
+        return upgrades;
+    }
+
+    /**
+     * @return The inventory size without the upgrade slots taken into account.
+     */
+    public int getBasicInventorySize() {
+        return this.basicInventorySize;
     }
 
 }

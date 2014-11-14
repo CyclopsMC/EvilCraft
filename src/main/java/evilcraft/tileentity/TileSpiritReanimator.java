@@ -1,19 +1,6 @@
 package evilcraft.tileentity;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.entity.EntityList;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucket;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import com.google.common.collect.Sets;
 import evilcraft.Configs;
 import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.block.BoxOfEternalClosureConfig;
@@ -23,20 +10,33 @@ import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.NBTPersist;
-import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
 import evilcraft.fluid.Blood;
 import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
 import evilcraft.tileentity.tickaction.spiritreanimator.ReanimateTickAction;
+import net.minecraft.entity.EntityList;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.IFluidContainerItem;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A furnace that is able to cook spirits for their inner entity drops.
  * @author rubensworks
  *
  */
-public class TileSpiritReanimator extends WorkingTileEntity<TileSpiritReanimator> {
+public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator> {
     
     /**
      * The id of the fluid container drainer slot.
@@ -101,7 +101,8 @@ public class TileSpiritReanimator extends WorkingTileEntity<TileSpiritReanimator
                 SpiritReanimator.getInstance().getLocalizedName(),
                 LIQUID_PER_SLOT,
                 TANKNAME,
-                ACCEPTED_FLUID);
+                ACCEPTED_FLUID,
+                Sets.newHashSet(UPGRADE_EFFICIENCY, UPGRADE_SPEED));
         reanimateTicker = addTicker(
                 new TickComponent<
                     TileSpiritReanimator,

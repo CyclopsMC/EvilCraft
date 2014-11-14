@@ -1,14 +1,17 @@
 package evilcraft.tileentity.tickaction.bloodinfuser;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.core.tileentity.tickaction.ITickAction;
+import evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
+import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.tileentity.TileBloodInfuser;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import org.apache.commons.lang3.mutable.MutableInt;
 
 /**
  * {@link ITickAction} that can infuse items with blood.
@@ -44,7 +47,9 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
     
     private int getRequiredTicks(TileBloodInfuser tile,
                                  IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
-        return recipe.getProperties().getDuration();
+        MutableInt duration = new MutableInt(recipe.getProperties().getDuration());
+        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent(duration));
+        return duration.getValue();
     }
     
     @Override

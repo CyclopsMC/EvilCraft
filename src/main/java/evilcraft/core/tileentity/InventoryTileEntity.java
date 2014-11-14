@@ -91,8 +91,7 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     @Override
     public ItemStack decrStackSize(int slotId, int count) {
         ItemStack itemStack  = inventory.decrStackSize(slotId, count);
-        if(isSendUpdateOnInventoryChanged())
-            sendUpdate();
+        onInventoryChanged();
         return itemStack;
     }
 
@@ -104,6 +103,10 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     @Override
     public void setInventorySlotContents(int slotId, ItemStack itemstack) {
         inventory.setInventorySlotContents(slotId, itemstack);
+        onInventoryChanged();
+    }
+
+    protected void onInventoryChanged() {
         if(isSendUpdateOnInventoryChanged())
             sendUpdate();
     }

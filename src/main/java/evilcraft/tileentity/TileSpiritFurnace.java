@@ -1,26 +1,7 @@
 package evilcraft.tileentity;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucket;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.IFluidContainerItem;
-
 import com.google.common.collect.Lists;
-
+import com.google.common.collect.Sets;
 import evilcraft.Configs;
 import evilcraft.api.ILocation;
 import evilcraft.block.BoxOfEternalClosure;
@@ -39,7 +20,6 @@ import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.NBTPersist;
-import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
 import evilcraft.core.world.FakeWorldItemDelegator;
@@ -50,13 +30,31 @@ import evilcraft.network.packet.DetectionListenerPacket;
 import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
 import evilcraft.tileentity.tickaction.spiritfurnace.BoxCookTickAction;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.IFluidContainerItem;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A furnace that is able to cook spirits for their inner entity drops.
  * @author rubensworks
  *
  */
-public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> implements IItemDropListener {
+public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace> implements IItemDropListener {
     
     /**
      * The id of the fluid container drainer slot.
@@ -134,7 +132,8 @@ public class TileSpiritFurnace extends WorkingTileEntity<TileSpiritFurnace> impl
                 SpiritFurnace.getInstance().getLocalizedName(),
                 LIQUID_PER_SLOT,
                 TileSpiritFurnace.TANKNAME,
-                ACCEPTED_FLUID);
+                ACCEPTED_FLUID,
+                Sets.newHashSet(UPGRADE_EFFICIENCY, UPGRADE_SPEED));
         cookTicker = addTicker(
                 new TickComponent<
                     TileSpiritFurnace,

@@ -1,21 +1,20 @@
 package evilcraft.inventory.container;
 
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import evilcraft.block.SpiritReanimator;
-import evilcraft.core.inventory.container.ContainerWorking;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.inventory.slot.SlotRemoveOnly;
 import evilcraft.core.inventory.slot.SlotSingleItem;
 import evilcraft.core.inventory.slot.SlotWorking;
 import evilcraft.tileentity.TileSpiritReanimator;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
 
 /**
  * Container for the {@link SpiritReanimator}.
  * @author rubensworks
  *
  */
-public class ContainerSpiritReanimator extends ContainerWorking<TileSpiritReanimator> {
+public class ContainerSpiritReanimator extends ContainerTileWorking<TileSpiritReanimator> {
     
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;

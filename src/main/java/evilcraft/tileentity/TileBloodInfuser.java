@@ -1,19 +1,6 @@
 package evilcraft.tileentity;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucket;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import com.google.common.collect.Sets;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
 import evilcraft.core.fluid.BloodFluidConverter;
@@ -23,7 +10,6 @@ import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
-import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
 import evilcraft.fluid.Blood;
@@ -32,13 +18,27 @@ import evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
 import evilcraft.tileentity.tickaction.bloodinfuser.FluidContainerItemTickAction;
 import evilcraft.tileentity.tickaction.bloodinfuser.InfuseItemTickAction;
 import evilcraft.tileentity.tickaction.bloodinfuser.ItemBucketTickAction;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A machine that can infuse things with blood.
  * @author rubensworks
  *
  */
-public class TileBloodInfuser extends WorkingTileEntity<TileBloodInfuser> {
+public class TileBloodInfuser extends TileWorking<TileBloodInfuser> {
     
     /**
      * The total amount of slots in this machine.
@@ -98,7 +98,8 @@ public class TileBloodInfuser extends WorkingTileEntity<TileBloodInfuser> {
                 BloodInfuser.getInstance().getLocalizedName(),
                 LIQUID_PER_SLOT,
                 TileBloodInfuser.TANKNAME,
-                ACCEPTED_FLUID);
+                ACCEPTED_FLUID,
+                Sets.newHashSet(UPGRADE_EFFICIENCY, UPGRADE_SPEED, UPGRADE_TIER));
         infuseTicker = addTicker(
                 new TickComponent<
                     TileBloodInfuser,
