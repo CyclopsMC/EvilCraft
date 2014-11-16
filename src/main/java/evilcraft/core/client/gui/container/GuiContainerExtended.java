@@ -18,11 +18,10 @@ import evilcraft.core.inventory.container.ExtendedInventoryContainer;
  * @author rubensworks
  */
 public class GuiContainerExtended extends GuiContainer {
-    
-	protected static final int BUTTON_LEFT = 0;
-	protected static final int BUTTON_RIGHT = 1;
 	
     protected ResourceLocation texture;
+    protected int offsetX = 0;
+    protected int offsetY = 0;
 
     /**
      * Make a new instance.
@@ -34,12 +33,17 @@ public class GuiContainerExtended extends GuiContainer {
     }
 
     @Override
+    public void initGui() {
+        this.xSize = 176 + offsetX * 2;
+        this.ySize = 166 + offsetY * 2;
+        super.initGui();
+    }
+
+    @Override
     protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(texture);
-        int j = (width - xSize) / 2;
-        int k = (height - ySize) / 2;
-        drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
+        drawTexturedModalRect(guiLeft + offsetX, guiTop + offsetY, 0, 0, xSize - 2 * offsetX, ySize - 2 * offsetY);
     }
     
     protected boolean isPointInRegion(Rectangle region, Point mouse) {

@@ -1,5 +1,6 @@
 package evilcraft.core.client.gui.container;
 
+import evilcraft.client.gui.container.GuiUpgradeTab;
 import evilcraft.core.inventory.container.ExtendedInventoryContainer;
 import evilcraft.core.tileentity.WorkingTileEntity;
 
@@ -11,6 +12,10 @@ import evilcraft.core.tileentity.WorkingTileEntity;
  */
 public class GuiWorking<T extends WorkingTileEntity<?>> extends GuiContainerTankInventory<T> {
 
+    public static final int UPGRADES_OFFSET_X = 28;
+
+    private GuiUpgradeTab upgrades;
+
 	/**
      * Make a new instance.
      * @param container The container to make the GUI for.
@@ -18,6 +23,8 @@ public class GuiWorking<T extends WorkingTileEntity<?>> extends GuiContainerTank
      */
 	public GuiWorking(ExtendedInventoryContainer container, T tile) {
 		super(container, tile);
+        this.upgrades = new GuiUpgradeTab(this);
+        this.offsetX = UPGRADES_OFFSET_X;
 	}
 	
 	@Override
@@ -28,6 +35,12 @@ public class GuiWorking<T extends WorkingTileEntity<?>> extends GuiContainerTank
     @Override
     protected int getProgressXScaled(int width) {
         return tile.getWorkTickScaled(24);
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
+        super.drawGuiContainerBackgroundLayer(f, x, y);
+        upgrades.drawBackground(guiLeft, guiTop);
     }
 
 }

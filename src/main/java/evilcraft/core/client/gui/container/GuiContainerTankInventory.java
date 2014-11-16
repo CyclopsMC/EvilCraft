@@ -55,8 +55,8 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         this.tankHeight = tankHeight;
         this.tankX = tankX;
         this.tankY = tankY;
-        this.tankTargetX = tankTargetX;
-        this.tankTargetY = tankTargetY;
+        this.tankTargetX = tankTargetX + offsetX;
+        this.tankTargetY = tankTargetY + offsetY;
     }
 
 	protected void setProgress(int progressWidth, int progressHeight, int progressX, int progressY, int progressTargetX, int progressTargetY) {
@@ -65,8 +65,8 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         this.progressHeight = progressHeight;
         this.progressX = progressX;
         this.progressY = progressY;
-        this.progressTargetX = progressTargetX;
-        this.progressTargetY = progressTargetY;
+        this.progressTargetX = progressTargetX + offsetX;
+        this.progressTargetY = progressTargetY + offsetY;
     }
     
 	protected boolean isShowProgress() {
@@ -84,16 +84,14 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
         super.drawGuiContainerBackgroundLayer(f, x, y);
-        int j = (width - xSize) / 2;
-        int k = (height - ySize) / 2;
         if(isShowProgress()) {
-            this.drawTexturedModalRect(j + progressTargetX, k + progressTargetY, progressX, progressY,
+            this.drawTexturedModalRect(guiLeft + progressTargetX, guiTop + progressTargetY, progressX, progressY,
             		getProgressXScaled(progressWidth), getProgressYScaled(progressHeight));
         }
     }
     
 	protected void drawForgegroundString() {
-    	fontRendererObj.drawString(tile.getInventoryName(), 8, 4, 4210752);
+    	fontRendererObj.drawString(tile.getInventoryName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
     
     @Override

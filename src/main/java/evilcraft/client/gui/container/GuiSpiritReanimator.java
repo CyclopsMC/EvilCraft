@@ -72,7 +72,7 @@ public class GuiSpiritReanimator extends GuiWorking<TileSpiritReanimator> {
     /**
      * Progress target X.
      */
-    public static final int PROGRESSTARGETX = 119;
+    public static final int PROGRESSTARGETX = 119 + GuiWorking.UPGRADES_OFFSET_X;
     /**
      * Progress target Y.
      */

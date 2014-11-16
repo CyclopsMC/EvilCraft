@@ -44,6 +44,9 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
      */
     public static final int SLOT_INFUSE_RESULT_Y = 36;
 
+    private static final int UPGRADE_INVENTORY_OFFSET_X = -22;
+    private static final int UPGRADE_INVENTORY_OFFSET_Y = 6;
+
     /**
      * Make a new instance.
      * @param inventory The inventory of the player.
@@ -57,7 +60,7 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
         addSlotToContainer(new SlotWorking<TileBloodInfuser>(TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, tile)); // Infuse slot
         addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y)); // Infuse result slot
 
-        this.addUpgradeInventory(INVENTORY_OFFSET_X, 0); // TODO: temporary positioning
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y);
 
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }

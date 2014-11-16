@@ -50,6 +50,9 @@ public class ContainerSpiritFurnace extends ContainerTileWorking<TileSpiritFurna
      */
     public static final int SLOT_DROP_Y = 28;
 
+    private static final int UPGRADE_INVENTORY_OFFSET_X = -22;
+    private static final int UPGRADE_INVENTORY_OFFSET_Y = 6;
+
     /**
      * Make a new instance.
      * @param inventory The inventory of the player.
@@ -73,6 +76,8 @@ public class ContainerSpiritFurnace extends ContainerTileWorking<TileSpiritFurna
             	i++;
             }
         }
+
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y);
 
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }

@@ -1,22 +1,5 @@
 package evilcraft.modcompat.nei;
 
-import static codechicken.lib.gui.GuiDraw.changeTexture;
-import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
-
-import java.awt.Rectangle;
-import java.util.LinkedList;
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.fluids.FluidStack;
-
-import org.lwjgl.opengl.GL11;
-
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
@@ -25,11 +8,27 @@ import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
 import evilcraft.block.BloodInfuserConfig;
 import evilcraft.client.gui.container.GuiBloodInfuser;
+import evilcraft.core.client.gui.container.GuiWorking;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.inventory.container.ContainerBloodInfuser;
 import evilcraft.tileentity.TileBloodInfuser;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.fluids.FluidStack;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.LinkedList;
+import java.util.List;
+
+import static codechicken.lib.gui.GuiDraw.changeTexture;
+import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 /**
  * Manager for the recipes in the {@link BloodInfuser}.
@@ -123,11 +122,13 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     
     @Override
     public void loadTransferRects() {
+        boolean shouldOffset = Minecraft.getMinecraft().currentScreen == null;
+        transferRects.clear();
         transferRects.add(
                 new RecipeTransferRect(
                     new Rectangle(
-                            GuiBloodInfuser.PROGRESSTARGETX - 4,
-                            GuiBloodInfuser.PROGRESSTARGETY - 8,
+                            GuiBloodInfuser.PROGRESSTARGETX + (shouldOffset ? GuiWorking.UPGRADES_OFFSET_X - 7 : 0),
+                            GuiBloodInfuser.PROGRESSTARGETY - (shouldOffset ? 10 : 18),
                             progressWidth, progressHeight
                             ),
                     getOverlayIdentifier()

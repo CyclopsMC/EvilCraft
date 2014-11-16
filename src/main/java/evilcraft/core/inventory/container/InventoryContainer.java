@@ -16,6 +16,8 @@ public abstract class InventoryContainer extends Container{
     protected static final int ITEMBOX = 18;
     
     private IInventory playerIInventory;
+    protected int offsetX = 0;
+    protected int offsetY = 0;
 
     /**
      * Make a new TileInventoryContainer.
@@ -27,6 +29,12 @@ public abstract class InventoryContainer extends Container{
     
     protected Slot createNewSlot(IInventory inventory, int index, int x, int y) {
     	return new Slot(inventory, index, x, y);
+    }
+
+    protected Slot addSlotToContainer(Slot slot) {
+        slot.xDisplayPosition += offsetX;
+        slot.yDisplayPosition += offsetY;
+        return super.addSlotToContainer(slot);
     }
     
     protected void addInventory(IInventory inventory, int indexOffset, int offsetX, int offsetY, int rows, int cols) {

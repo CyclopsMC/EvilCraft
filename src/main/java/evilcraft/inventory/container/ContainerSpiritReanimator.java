@@ -55,6 +55,9 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<TileSpiritRe
      */
     public static final int SLOT_OUTPUT_Y = 52;
 
+    private static final int UPGRADE_INVENTORY_OFFSET_X = -22;
+    private static final int UPGRADE_INVENTORY_OFFSET_Y = 6;
+
     /**
      * Make a new instance.
      * @param inventory The inventory of the player.
@@ -70,6 +73,8 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<TileSpiritRe
         addSlotToContainer(new SlotWorking<TileSpiritReanimator>(TileSpiritReanimator.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, tile)); // Box slot
         addSlotToContainer(new SlotSingleItem(tile, TileSpiritReanimator.SLOT_EGG, SLOT_EGG_X, SLOT_EGG_Y, Items.egg));
         addSlotToContainer(new SlotRemoveOnly(tile, TileSpiritReanimator.SLOTS_OUTPUT, SLOT_OUTPUT_X, SLOT_OUTPUT_Y));
+
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y);
 
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
