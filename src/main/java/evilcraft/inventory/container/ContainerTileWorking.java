@@ -5,7 +5,9 @@ import evilcraft.core.inventory.container.ContainerWorking;
 import evilcraft.core.inventory.slot.SlotSingleItem;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.tileentity.TileWorking;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 
 /**
  * Container for TileWorking instances.
@@ -27,7 +29,20 @@ public class ContainerTileWorking<T extends TileWorking<T>> extends ContainerWor
         int upgradeSlots = WorkingTileEntity.INVENTORY_SIZE_UPGRADES;
         int amount = 0;
         for(int i = tile.getBasicInventorySize(); i < tile.getBasicInventorySize() + upgradeSlots; i++) {
-            addSlotToContainer(new SlotSingleItem(tile, i, offsetX, offsetY + amount * ITEMBOX, TileWorking.UPGRADE_ITEM));
+            addSlotToContainer(new SlotSingleItem(tile, i, offsetX, offsetY + amount * ITEMBOX, TileWorking.UPGRADE_ITEM) {
+
+                @Override
+                public boolean isItemValid(ItemStack itemStack) {
+                    return super.isItemValid(itemStack) && tile.canInsertItem(getSlotIndex(), itemStack);
+                }
+
+                @Override
+                public boolean canTakeStack(EntityPlayer player) {
+                    return super.canTakeStack(player) &&
+                            tile.canExtractItem(getSlotIndex(), getStack(), player.inventory.getItemStack());
+                }
+
+            });
             amount++;
         }
     }

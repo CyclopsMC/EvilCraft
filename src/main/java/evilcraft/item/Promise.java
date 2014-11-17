@@ -113,7 +113,7 @@ public class Promise extends ConfigurableItem {
     @Override
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
-        Upgrades.Upgrade upgrade = getUpgrade(itemStack.getItemDamage());
+        Upgrades.Upgrade upgrade = getUpgrade(itemStack);
         return renderPass == 0 ? SECONDARY_COLORS.get(upgrade) : MAIN_COLORS.get(upgrade);
     }
     
@@ -150,16 +150,24 @@ public class Promise extends ConfigurableItem {
 
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
-        return super.getUnlocalizedName(itemStack) + "." + getUpgrade(itemStack.getItemDamage()).getId();
+        return super.getUnlocalizedName(itemStack) + "." + getUpgrade(itemStack).getId();
     }
 
     /**
      * Get the upgrade for given damage.
-     * @param meta The damage value.
+     * @param itemStack The item.
      * @return The upgrade instance.
      */
-    public Upgrades.Upgrade getUpgrade(int meta) {
-        return UPGRADES[meta];
+    public Upgrades.Upgrade getUpgrade(ItemStack itemStack) {
+        return UPGRADES[Math.min(UPGRADES.length - 1, itemStack.getItemDamage())];
+    }
+
+    /**
+     * @param itemStack The item.
+     * @return If the upgrade is a tier upgrade.
+     */
+    public boolean isTierUpgrade(ItemStack itemStack) {
+        return itemStack != null && itemStack.getItemDamage() <= 2;
     }
 
 }

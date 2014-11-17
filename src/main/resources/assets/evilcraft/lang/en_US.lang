@@ -136,10 +136,10 @@ item.items.promise.tier2.name=Promise of Tenacity 2
 item.items.promise.tier2.info=Machine tier upgrade
 item.items.promise.tier3.name=Promise of Tenacity 3
 item.items.promise.tier3.info=Machine tier upgrade
-item.items.promise.speed.name=Promise of Velocity
-item.items.promise.speed.info=Machine speed upgrade
-item.items.promise.efficiency.name=Promise of Efficiency
-item.items.promise.efficiency.info=Machine efficiency upgrade
+item.items.promise.speed0.name=Promise of Velocity
+item.items.promise.speed0.info=Machine speed upgrade
+item.items.promise.efficiency0.name=Promise of Efficiency
+item.items.promise.efficiency0.info=Machine efficiency upgrade
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

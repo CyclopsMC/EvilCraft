@@ -11,11 +11,11 @@ public abstract class GuiTab {
 
     private int width;
     private int height;
-    private int posX;
-    private int posY;
+    protected int posX;
+    protected int posY;
     private int u;
     private int v;
-    private GuiContainerExtended gui;
+    protected GuiContainerExtended gui;
 
     public GuiTab(int width, int height, int posX, int posY, int u, int v, GuiContainerExtended gui) {
         this.width = width;

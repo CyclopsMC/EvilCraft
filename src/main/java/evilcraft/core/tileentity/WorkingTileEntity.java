@@ -28,9 +28,9 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> exten
      */
     public static final int INVENTORY_SIZE_UPGRADES = 4;
 
-    public static final Upgrades.Upgrade UPGRADE_TIER1 = Upgrades.getUpgrade("tier1");
-    public static final Upgrades.Upgrade UPGRADE_TIER2 = Upgrades.getUpgrade("tier2");
-    public static final Upgrades.Upgrade UPGRADE_TIER3 = Upgrades.getUpgrade("tier3");
+    public static final Upgrades.Upgrade UPGRADE_TIER1 = Upgrades.getUpgrade("tier", 1);
+    public static final Upgrades.Upgrade UPGRADE_TIER2 = Upgrades.getUpgrade("tier", 2);
+    public static final Upgrades.Upgrade UPGRADE_TIER3 = Upgrades.getUpgrade("tier", 3);
     public static final Upgrades.Upgrade UPGRADE_SPEED = Upgrades.getUpgrade("speed");
     public static final Upgrades.Upgrade UPGRADE_EFFICIENCY = Upgrades.getUpgrade("efficiency");
 
@@ -164,11 +164,30 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> exten
         resetUpgradeLevels();
     }
 
+    protected boolean isUpgradeSlot(int slotId) {
+        return slotId >= basicInventorySize && slotId < basicInventorySize + INVENTORY_SIZE_UPGRADES;
+    }
+
+    protected void onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
+        resetWork();
+    }
+
     @Override
-    public void setInventorySlotContents(int slotId, ItemStack itemstack) {
-        super.setInventorySlotContents(slotId, itemstack);
-        if(slotId >= basicInventorySize && slotId < basicInventorySize + INVENTORY_SIZE_UPGRADES) {
-            resetWork();
+    public ItemStack decrStackSize(int slotId, int count) {
+        ItemStack oldItemStack = getStackInSlot(slotId);
+        ItemStack itemStack = super.decrStackSize(slotId, count);
+        if(isUpgradeSlot(slotId)) {
+            onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
+        }
+        return itemStack;
+    }
+
+    @Override
+    public void setInventorySlotContents(int slotId, ItemStack itemStack) {
+        ItemStack oldItemStack = getStackInSlot(slotId);
+        super.setInventorySlotContents(slotId, itemStack);
+        if(isUpgradeSlot(slotId)) {
+            onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
         }
     }
 

@@ -16,15 +16,25 @@ public class Upgrades {
     /**
      * Get or create the unique upgrade instance
      * @param upgradeId The unique id of the upgrade.
+     * @param tier the upgrade tier.
+     * @return The upgrade instance.
+     */
+    public static Upgrade getUpgrade(String upgradeId, int tier) {
+        Upgrade upgrade = upgradeMap.get(upgradeId + tier);
+        if(upgrade == null) {
+            upgrade = new Upgrade(upgradeId, tier);
+            upgradeMap.put(upgradeId + tier, upgrade);
+        }
+        return upgrade;
+    }
+
+    /**
+     * Get or create the unique upgrade instance
+     * @param upgradeId The unique id of the upgrade.
      * @return The upgrade instance.
      */
     public static Upgrade getUpgrade(String upgradeId) {
-        Upgrade upgrade = upgradeMap.get(upgradeId);
-        if(upgrade == null) {
-            upgrade = new Upgrade(upgradeId);
-            upgradeMap.put(upgradeId, upgrade);
-        }
-        return upgrade;
+        return getUpgrade(upgradeId, 0);
     }
 
     /**
@@ -48,13 +58,19 @@ public class Upgrades {
     public static class Upgrade {
 
         private String id;
+        private int tier;
 
-        private Upgrade(String id) {
+        private Upgrade(String id, int tier) {
             this.id = id;
+            this.tier = tier;
         }
 
         public String getId() {
-            return this.id;
+            return this.id + tier;
+        }
+
+        public int getTier() {
+            return this.tier;
         }
 
     }
