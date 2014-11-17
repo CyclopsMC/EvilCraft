@@ -130,6 +130,16 @@ item.items.boundBloodDrop.info.currentOwner.none=None
 item.items.resurgenceEgg.name=Resurgence Egg
 item.items.resurgenceEgg.info.content=Contents: %s
 item.items.corruptedTear.name=Corrupted Tear
+item.items.promise.tier1.name=Promise of Tenacity 1
+item.items.promise.tier1.info=Machine tier upgrade
+item.items.promise.tier2.name=Promise of Tenacity 2
+item.items.promise.tier2.info=Machine tier upgrade
+item.items.promise.tier3.name=Promise of Tenacity 3
+item.items.promise.tier3.info=Machine tier upgrade
+item.items.promise.speed.name=Promise of Velocity
+item.items.promise.speed.info=Machine speed upgrade
+item.items.promise.efficiency.name=Promise of Efficiency
+item.items.promise.efficiency.info=Machine efficiency upgrade
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

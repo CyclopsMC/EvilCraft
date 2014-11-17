@@ -53,7 +53,7 @@ public abstract class ConfigurableItem extends Item implements IConfigurable{
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
+        L10NHelpers.addOptionalInfo(list, getUnlocalizedName(itemStack));
     }
 
 }

@@ -71,7 +71,7 @@ public final class L10NHelpers {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void addOptionalInfo(List list, String prefix) {
-		String key = prefix + ".info";
+        String key = prefix + ".info";
 		if(StatCollector.canTranslate(key)) {
 			if(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 				String localized = localize(key);

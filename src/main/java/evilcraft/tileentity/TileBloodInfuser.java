@@ -99,7 +99,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser> {
                 LIQUID_PER_SLOT,
                 TileBloodInfuser.TANKNAME,
                 ACCEPTED_FLUID,
-                Sets.newHashSet(UPGRADE_EFFICIENCY, UPGRADE_SPEED, UPGRADE_TIER));
+                Sets.newHashSet(UPGRADE_EFFICIENCY, UPGRADE_SPEED, UPGRADE_TIER1, UPGRADE_TIER2, UPGRADE_TIER3));
         infuseTicker = addTicker(
                 new TickComponent<
                     TileBloodInfuser,

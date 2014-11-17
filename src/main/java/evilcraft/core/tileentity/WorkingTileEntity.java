@@ -28,7 +28,9 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> exten
      */
     public static final int INVENTORY_SIZE_UPGRADES = 4;
 
-    public static final Upgrades.Upgrade UPGRADE_TIER = Upgrades.getUpgrade("tier");
+    public static final Upgrades.Upgrade UPGRADE_TIER1 = Upgrades.getUpgrade("tier1");
+    public static final Upgrades.Upgrade UPGRADE_TIER2 = Upgrades.getUpgrade("tier2");
+    public static final Upgrades.Upgrade UPGRADE_TIER3 = Upgrades.getUpgrade("tier3");
     public static final Upgrades.Upgrade UPGRADE_SPEED = Upgrades.getUpgrade("speed");
     public static final Upgrades.Upgrade UPGRADE_EFFICIENCY = Upgrades.getUpgrade("efficiency");
 

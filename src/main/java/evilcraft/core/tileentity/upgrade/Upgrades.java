@@ -21,7 +21,7 @@ public class Upgrades {
     public static Upgrade getUpgrade(String upgradeId) {
         Upgrade upgrade = upgradeMap.get(upgradeId);
         if(upgrade == null) {
-            upgrade = new Upgrade();
+            upgrade = new Upgrade(upgradeId);
             upgradeMap.put(upgradeId, upgrade);
         }
         return upgrade;
@@ -47,8 +47,14 @@ public class Upgrades {
 
     public static class Upgrade {
 
-        private Upgrade() {
+        private String id;
 
+        private Upgrade(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return this.id;
         }
 
     }

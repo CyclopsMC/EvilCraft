@@ -168,6 +168,7 @@ public class Configs {
         configs.add(new InvigoratingPendantConfig());
         configs.add(new ResurgenceEggConfig());
         configs.add(new CorruptedTearConfig());
+        configs.add(new PromiseConfig());
         
         // Entities
         // Item

@@ -3,7 +3,7 @@ package evilcraft.tileentity;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.upgrade.Upgrades;
-import net.minecraft.init.Items;
+import evilcraft.item.Promise;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -16,10 +16,7 @@ import java.util.Set;
  */
 public abstract class TileWorking<T extends TankInventoryTileEntity> extends WorkingTileEntity<T> {
 
-    private static final Upgrades.Upgrade[] METADATA_UPGRADES = new Upgrades.Upgrade[] {
-            UPGRADE_TIER, UPGRADE_SPEED, UPGRADE_EFFICIENCY
-    };
-    public static final Item UPGRADE_ITEM = Items.gold_ingot; // TODO
+    public static final Item UPGRADE_ITEM = Promise.getInstance();
 
     private Set<Upgrades.Upgrade> upgradeTypes;
 
@@ -41,8 +38,7 @@ public abstract class TileWorking<T extends TankInventoryTileEntity> extends Wor
 
     public Upgrades.Upgrade getUpgradeType(ItemStack itemStack) {
         if(itemStack.getItem() == UPGRADE_ITEM) {
-            // TODO: Upgrades.Upgrade upgrade = METADATA_UPGRADES[itemStack.getItemDamage()];
-            Upgrades.Upgrade upgrade = UPGRADE_SPEED;
+            Upgrades.Upgrade upgrade = Promise.getInstance().getUpgrade(itemStack.getItemDamage());
             if(upgradeTypes.contains(upgrade)) {
                 return upgrade;
             }
