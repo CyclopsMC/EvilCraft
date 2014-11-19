@@ -31,7 +31,7 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
     }
 
     @Override
-    public int getRequiredTicks(TileBloodInfuser tile, int slot) {
+    public int getUnmodifiedRequiredTicks(TileBloodInfuser tile, int slot) {
         return EmptyFluidContainerInTankTickAction.getRequiredTicks(tile, getInfuseStack(tile));
     }
 

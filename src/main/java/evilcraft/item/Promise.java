@@ -4,8 +4,10 @@ import com.google.common.collect.Maps;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.upgrade.Upgrades;
@@ -123,7 +125,10 @@ public class Promise extends ConfigurableItem {
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            list.add(EnumChatFormatting.DARK_GREEN + "Usable in: TODO");// TODO
+            list.add(EnumChatFormatting.DARK_GREEN + L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".useIn"));
+            for(BlockConfig upgradable : getUpgrade(itemStack).getUpgradables()) {
+                list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("tile." + upgradable.getUnlocalizedName() + ".name"));
+            }
         }
     }
     

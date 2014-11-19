@@ -11,4 +11,9 @@ public interface IUpgradeSensitiveEvent<O> {
      */
     public O getObject();
 
+    /**
+     * @return The type of this event.
+     */
+    public Upgrades.UpgradeEventType getType();
+
 }

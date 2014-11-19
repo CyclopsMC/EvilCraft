@@ -8,8 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 
-import java.util.Set;
-
 /**
  * Evilcraft working tile entity with upgrade declaration.
  * @author rubensworks
@@ -18,7 +16,6 @@ public abstract class TileWorking<T extends TankInventoryTileEntity> extends Wor
 
     public static final Item UPGRADE_ITEM = Promise.getInstance();
 
-    private Set<Upgrades.Upgrade> upgradeTypes;
     private int currentTier = -1;
 
     /**
@@ -28,19 +25,16 @@ public abstract class TileWorking<T extends TankInventoryTileEntity> extends Wor
      * @param tankSize Size (mB) of the tank.
      * @param tankName Internal name of the tank.
      * @param acceptedFluid Type of Fluid to accept.
-     * @param upgradeTypes The types of upgrade items.
      */
     public TileWorking(int inventorySize, String inventoryName,
-                       int tankSize, String tankName, Fluid acceptedFluid,
-                       Set<Upgrades.Upgrade> upgradeTypes) {
+                       int tankSize, String tankName, Fluid acceptedFluid) {
         super(inventorySize, inventoryName, tankSize, tankName, acceptedFluid);
-        this.upgradeTypes = upgradeTypes;
     }
 
     public Upgrades.Upgrade getUpgradeType(ItemStack itemStack) {
         if(itemStack.getItem() == UPGRADE_ITEM) {
             Upgrades.Upgrade upgrade = Promise.getInstance().getUpgrade(itemStack);
-            if(upgradeTypes.contains(upgrade)) {
+            if(getUpgrades().contains(upgrade)) {
                 return upgrade;
             }
         }
@@ -111,6 +105,7 @@ public abstract class TileWorking<T extends TankInventoryTileEntity> extends Wor
      */
     public boolean canInsertItem(int slot, ItemStack itemStack) {
         if(!isUpgradeSlot(slot)) return true;
+        if(!getUpgrades().contains(Promise.getInstance().getUpgrade(itemStack))) return false;
         if(Promise.getInstance().isTierUpgrade(itemStack) && Promise.getInstance().isTierUpgrade(getStackInSlot(slot))) {
             // Condition already checked in canExtractItem.
             return true;

@@ -1,7 +1,6 @@
 package evilcraft.tileentity;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import evilcraft.Configs;
 import evilcraft.api.ILocation;
 import evilcraft.block.BoxOfEternalClosure;
@@ -20,8 +19,11 @@ import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.NBTPersist;
+import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
+import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
+import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.core.world.FakeWorldItemDelegator;
 import evilcraft.core.world.FakeWorldItemDelegator.IItemDropListener;
 import evilcraft.fluid.Blood;
@@ -43,6 +45,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import org.apache.commons.lang3.mutable.MutableInt;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -113,6 +116,9 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace> implements
         EMPTY_IN_TANK_TICK_ACTIONS.put(ItemBucket.class, new EmptyItemBucketInTankTickAction<TileSpiritFurnace>());
         EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileSpiritFurnace>());
     }
+
+    public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();
+    public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
     
     @NBTPersist
     private Size size = Size.NULL_SIZE.copy();
@@ -132,8 +138,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace> implements
                 SpiritFurnace.getInstance().getLocalizedName(),
                 LIQUID_PER_SLOT,
                 TileSpiritFurnace.TANKNAME,
-                ACCEPTED_FLUID,
-                Sets.newHashSet(UPGRADE_EFFICIENCY, UPGRADE_SPEED));
+                ACCEPTED_FLUID);
         cookTicker = addTicker(
                 new TickComponent<
                     TileSpiritFurnace,
@@ -161,6 +166,34 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace> implements
         addSlotsToSide(ForgeDirection.DOWN, outSlots);
         addSlotsToSide(ForgeDirection.SOUTH, outSlots);
         addSlotsToSide(ForgeDirection.WEST, outSlots);
+
+        // Upgrade behaviour
+        upgradeBehaviour.put(UPGRADE_SPEED, new MutableIntUpgradeBehaviour(3.2) {
+            @Override
+            public void applyUpgrade(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
+                                     IUpgradeSensitiveEvent<MutableInt> event) {
+                if(event.getType() == UPGRADEEVENT_SPEED) {
+                    int val = event.getObject().getValue();
+                    val /= (1 + upgradeLevel / valueFactor);
+                    event.getObject().setValue(val);
+                }
+                if(event.getType() == UPGRADEEVENT_BLOODUSAGE) {
+                    int val = event.getObject().getValue();
+                    val *= (1 + upgradeLevel / valueFactor);
+                    event.getObject().setValue(val);
+                }
+            }
+        });
+        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new MutableIntUpgradeBehaviour(6.4) {
+            @Override
+            public void applyUpgrade(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade, int upgradeLevel, IUpgradeSensitiveEvent<MutableInt> event) {
+                if(event.getType() == UPGRADEEVENT_BLOODUSAGE) {
+                    int val = event.getObject().getValue();
+                    val /= (1 + upgradeLevel / valueFactor);
+                    event.getObject().setValue(val);
+                }
+            }
+        });
     }
     
     @Override

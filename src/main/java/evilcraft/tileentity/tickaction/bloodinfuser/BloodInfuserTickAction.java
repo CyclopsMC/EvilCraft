@@ -1,10 +1,13 @@
 package evilcraft.tileentity.tickaction.bloodinfuser;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.tileentity.tickaction.ITickAction;
+import evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
+import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.tileentity.TileBloodInfuser;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import org.apache.commons.lang3.mutable.MutableInt;
 
 /**
  * Abstract {@link ITickAction} that can infuse items with blood.
@@ -55,6 +58,21 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
      */
     public boolean addToProduceSlot(TileBloodInfuser tile, ItemStack itemStack) {
     	return InventoryHelpers.addToSlot(tile.getInventory(), tile.getProduceSlot(), itemStack);
+    }
+
+    /**
+     * Get the unmodified required conditions for the given conditions.
+     * @param tile The tile entity that ticks.
+     * @param slot The slot ID for the ticker.
+     * @return Get the required ticks for the given slot for the given tile.
+     */
+    public abstract int getUnmodifiedRequiredTicks(TileBloodInfuser tile, int slot);
+
+    @Override
+    public final int getRequiredTicks(TileBloodInfuser tile, int slot) {
+        MutableInt duration = new MutableInt(getUnmodifiedRequiredTicks(tile, slot));
+        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(duration, TileBloodInfuser.UPGRADEEVENT_SPEED));
+        return duration.getValue();
     }
     
 }

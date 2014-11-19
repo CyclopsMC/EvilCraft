@@ -3,6 +3,7 @@ package evilcraft.core.config.configurable;
 import java.util.ArrayList;
 import java.util.Random;
 
+import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -343,6 +344,13 @@ public abstract class ConfigurableBlockContainer extends BlockContainer implemen
             itemStack.setTagCompound(ecTile.getNBTTagCompound());
         }
         return itemStack;
+    }
+
+    /**
+     * @return The config instance.
+     */
+    public final BlockContainerConfig getConfig() {
+        return (BlockContainerConfig) this.eConfig;
     }
 
 }

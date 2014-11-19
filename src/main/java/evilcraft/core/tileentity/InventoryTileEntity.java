@@ -1,23 +1,23 @@
 package evilcraft.core.tileentity;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
+import evilcraft.core.helper.DirectionHelpers;
+import evilcraft.core.inventory.SimpleInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import evilcraft.core.helper.DirectionHelpers;
-import evilcraft.core.inventory.SimpleInventory;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A TileEntity with an internal inventory.
  * @author rubensworks
  *
  */
-public abstract class InventoryTileEntity extends EvilCraftTileEntity implements ISidedInventory{
+public abstract class InventoryTileEntity extends EvilCraftTileEntity implements ISidedInventory {
     
     protected SimpleInventory inventory;
     protected Map<ForgeDirection, int[]> slotSides;

@@ -4,14 +4,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import evilcraft.core.tileentity.upgrade.IUpgradable;
 import evilcraft.core.tileentity.upgrade.IUpgradeBehaviour;
-import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
-import org.apache.commons.lang3.mutable.MutableInt;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A TileEntity with that processes items with inventory and tank.
@@ -36,6 +35,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> exten
 
     private int basicInventorySize;
     private Map<Upgrades.Upgrade, Integer> levels = null;
+    protected Map<Upgrades.Upgrade, IUpgradeBehaviour> upgradeBehaviour = Maps.newHashMap();
 
 	/**
      * Make a new instance.
@@ -207,26 +207,12 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> exten
     }
 
     @Override
-    public Map<Upgrades.Upgrade, IUpgradeBehaviour> getUpgrades() {
-        Map<Upgrades.Upgrade, IUpgradeBehaviour> upgrades = Maps.newHashMap();
-        upgrades.put(UPGRADE_SPEED, new IUpgradeBehaviour<WorkingTileEntity, MutableInt>() {
+    public Map<Upgrades.Upgrade, IUpgradeBehaviour> getUpgradeBehaviour() {
+        return upgradeBehaviour;
+    }
 
-            @Override
-            public int getUpgradeLevel(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade) {
-                Integer level = (Integer) upgradable.getUpgradeLevels().get(upgrade);
-                return (level == null) ? 0 : level;
-            }
-
-            @Override
-            public void applyUpgrade(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
-                                     IUpgradeSensitiveEvent<MutableInt> event) {
-                int duration = event.getObject().getValue();
-                duration /= (1 + upgradeLevel / (3.2));
-                event.getObject().setValue(duration);
-            }
-
-        });
-        return upgrades;
+    public Set<Upgrades.Upgrade> getUpgrades() {
+        return this.getBlock().getConfig().getUpgrades();
     }
 
     /**

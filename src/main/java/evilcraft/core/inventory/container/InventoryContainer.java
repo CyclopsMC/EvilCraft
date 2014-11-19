@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
  * A container with inventory.
  * @author rubensworks
  */
-public abstract class InventoryContainer extends Container{
+public abstract class InventoryContainer extends Container {
     
     protected static final int ITEMBOX = 18;
     
@@ -185,6 +185,15 @@ public abstract class InventoryContainer extends Container{
      */
     public IInventory getPlayerIInventory() {
         return playerIInventory;
+    }
+
+    @Override
+    public ItemStack slotClick(int slotId, int arg, int function, EntityPlayer player) {
+        ItemStack itemStack = super.slotClick(slotId, arg, function, player);
+        if(arg == 0 && function == 0 && slotId >= 0) {
+            getSlot(slotId).putStack(getSlot(slotId).getStack());
+        }
+        return itemStack;
     }
     
 }

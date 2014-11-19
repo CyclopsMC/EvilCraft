@@ -71,7 +71,7 @@ public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
     /**
      * Progress target X.
      */
-    public static final int PROGRESSTARGETX = 102 + GuiWorking.UPGRADES_OFFSET_X;
+    public static final int PROGRESSTARGETX = 102;
     /**
      * Progress target Y.
      */

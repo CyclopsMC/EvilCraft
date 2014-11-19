@@ -11,6 +11,6 @@ public interface IUpgradable {
     /**
      * @return The possible upgrades.
      */
-    public Map<Upgrades.Upgrade, IUpgradeBehaviour> getUpgrades();
+    public Map<Upgrades.Upgrade, IUpgradeBehaviour> getUpgradeBehaviour();
 
 }

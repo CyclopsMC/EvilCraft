@@ -1,6 +1,5 @@
 package evilcraft.tileentity;
 
-import com.google.common.collect.Sets;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
 import evilcraft.core.fluid.BloodFluidConverter;
@@ -10,8 +9,11 @@ import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
+import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
+import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
+import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.fluid.Blood;
 import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
@@ -27,6 +29,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import org.apache.commons.lang3.mutable.MutableInt;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -88,6 +91,9 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser> {
         EMPTY_IN_TANK_TICK_ACTIONS.put(ItemBucket.class, new EmptyItemBucketInTankTickAction<TileBloodInfuser>());
         EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileBloodInfuser>());
     }
+
+    public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();
+    public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
     
     /**
      * Make a new instance.
@@ -98,8 +104,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser> {
                 BloodInfuser.getInstance().getLocalizedName(),
                 LIQUID_PER_SLOT,
                 TileBloodInfuser.TANKNAME,
-                ACCEPTED_FLUID,
-                Sets.newHashSet(UPGRADE_EFFICIENCY, UPGRADE_SPEED, UPGRADE_TIER1, UPGRADE_TIER2, UPGRADE_TIER3));
+                ACCEPTED_FLUID);
         infuseTicker = addTicker(
                 new TickComponent<
                     TileBloodInfuser,
@@ -125,6 +130,29 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser> {
         addSlotsToSide(ForgeDirection.DOWN, outSlots);
         addSlotsToSide(ForgeDirection.SOUTH, outSlots);
         addSlotsToSide(ForgeDirection.WEST, outSlots);
+
+        // Upgrade behaviour
+        upgradeBehaviour.put(UPGRADE_SPEED, new MutableIntUpgradeBehaviour(3.2) {
+            @Override
+            public void applyUpgrade(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
+                                     IUpgradeSensitiveEvent<MutableInt> event) {
+                if(event.getType() == UPGRADEEVENT_SPEED) {
+                    int val = event.getObject().getValue();
+                    val /= (1 + upgradeLevel / valueFactor);
+                    event.getObject().setValue(val);
+                }
+            }
+        });
+        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new MutableIntUpgradeBehaviour(6.4) {
+            @Override
+            public void applyUpgrade(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade, int upgradeLevel, IUpgradeSensitiveEvent<MutableInt> event) {
+                if(event.getType() == UPGRADEEVENT_BLOODUSAGE) {
+                    int val = event.getObject().getValue();
+                    val /= (1 + upgradeLevel / valueFactor);
+                    event.getObject().setValue(val);
+                }
+            }
+        });
     }
     
     @Override

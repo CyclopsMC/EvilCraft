@@ -130,6 +130,7 @@ item.items.boundBloodDrop.info.currentOwner.none=None
 item.items.resurgenceEgg.name=Resurgence Egg
 item.items.resurgenceEgg.info.content=Contents: %s
 item.items.corruptedTear.name=Corrupted Tear
+item.items.promise.useIn=Usable in:
 item.items.promise.tier1.name=Promise of Tenacity 1
 item.items.promise.tier1.info=Machine tier upgrade
 item.items.promise.tier2.name=Promise of Tenacity 2

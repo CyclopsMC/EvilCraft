@@ -1,6 +1,5 @@
 package evilcraft.tileentity;
 
-import com.google.common.collect.Sets;
 import evilcraft.Configs;
 import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.block.BoxOfEternalClosureConfig;
@@ -10,8 +9,11 @@ import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.NBTPersist;
+import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
+import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
+import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.fluid.Blood;
 import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
@@ -25,6 +27,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import org.apache.commons.lang3.mutable.MutableInt;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -88,6 +91,9 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator> {
         EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileSpiritReanimator>());
     }
 
+    public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();
+    public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
+
     private int reanimateTicker;
     @NBTPersist
     private Boolean caughtError = false;
@@ -101,8 +107,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator> {
                 SpiritReanimator.getInstance().getLocalizedName(),
                 LIQUID_PER_SLOT,
                 TANKNAME,
-                ACCEPTED_FLUID,
-                Sets.newHashSet(UPGRADE_EFFICIENCY, UPGRADE_SPEED));
+                ACCEPTED_FLUID);
         reanimateTicker = addTicker(
                 new TickComponent<
                     TileSpiritReanimator,
@@ -129,6 +134,34 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator> {
         addSlotsToSide(ForgeDirection.DOWN, outSlots);
         addSlotsToSide(ForgeDirection.SOUTH, outSlots);
         addSlotsToSide(ForgeDirection.WEST, outSlots);
+
+        // Upgrade behaviour
+        upgradeBehaviour.put(UPGRADE_SPEED, new MutableIntUpgradeBehaviour(3.2) {
+            @Override
+            public void applyUpgrade(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
+                                     IUpgradeSensitiveEvent<MutableInt> event) {
+                if(event.getType() == UPGRADEEVENT_SPEED) {
+                    int val = event.getObject().getValue();
+                    val /= (1 + upgradeLevel / valueFactor);
+                    event.getObject().setValue(val);
+                }
+                if(event.getType() == UPGRADEEVENT_BLOODUSAGE) {
+                    int val = event.getObject().getValue();
+                    val *= (1 + upgradeLevel / valueFactor);
+                    event.getObject().setValue(val);
+                }
+            }
+        });
+        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new MutableIntUpgradeBehaviour(6.4) {
+            @Override
+            public void applyUpgrade(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade, int upgradeLevel, IUpgradeSensitiveEvent<MutableInt> event) {
+                if(event.getType() == UPGRADEEVENT_BLOODUSAGE) {
+                    int val = event.getObject().getValue();
+                    val /= (1 + upgradeLevel / valueFactor);
+                    event.getObject().setValue(val);
+                }
+            }
+        });
     }
     
     @Override

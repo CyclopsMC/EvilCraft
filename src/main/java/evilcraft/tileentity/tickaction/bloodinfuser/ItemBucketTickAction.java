@@ -30,7 +30,7 @@ public class ItemBucketTickAction extends BloodInfuserTickAction{
     }
     
     @Override
-    public int getRequiredTicks(TileBloodInfuser tile, int slot) {
+    public int getUnmodifiedRequiredTicks(TileBloodInfuser tile, int slot) {
         return FluidContainerRegistry.BUCKET_VOLUME / MB_PER_TICK;
     }
 

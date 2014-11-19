@@ -1,10 +1,15 @@
 package evilcraft.block;
 
+import com.google.common.collect.Sets;
+import evilcraft.core.tileentity.upgrade.Upgrades;
+import evilcraft.tileentity.TileWorking;
 import net.minecraft.item.ItemBlock;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.item.ItemBlockNBT;
+
+import java.util.Set;
 
 /**
  * Config for the {@link SpiritReanimator}.
@@ -51,6 +56,13 @@ public class SpiritReanimatorConfig extends BlockContainerConfig {
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
         return ItemBlockNBT.class;
+    }
+
+    @Override
+    public Set<Upgrades.Upgrade> getUpgrades() {
+        return Sets.newHashSet(
+                TileWorking.UPGRADE_EFFICIENCY,
+                TileWorking.UPGRADE_SPEED);
     }
     
 }

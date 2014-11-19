@@ -1,7 +1,12 @@
 package evilcraft.core.config.extendedconfig;
 
+import com.google.common.collect.Sets;
 import evilcraft.core.config.ConfigurableType;
+import evilcraft.core.tileentity.upgrade.Upgrades;
 import net.minecraft.block.Block;
+
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * Config for blocks with tile entities.
@@ -26,5 +31,20 @@ public class BlockContainerConfig extends BlockConfig {
 	public ConfigurableType getHolderType() {
 		return ConfigurableType.BLOCKCONTAINER;
 	}
+
+    /**
+     * @return The set of upgrades that can be applied to this machine.
+     */
+    public Set<Upgrades.Upgrade> getUpgrades() {
+        return Sets.newHashSet();
+    }
+
+    @Override
+    public void onRegistered() {
+        super.onRegistered();
+        for(Upgrades.Upgrade upgrade : getUpgrades()) {
+            upgrade.addUpgradableInfo(this);
+        }
+    }
 
 }
