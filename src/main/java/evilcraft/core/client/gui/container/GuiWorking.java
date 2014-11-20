@@ -11,7 +11,7 @@ import evilcraft.tileentity.TileWorking;
  *
  * @param <T> The {@link WorkingTileEntity} class, mostly just the extension class.
  */
-public class GuiWorking<T extends TileWorking<?>> extends GuiContainerTankInventory<T>
+public class GuiWorking<T extends TileWorking<?, ?>> extends GuiContainerTankInventory<T>
         implements GuiUpgradeTab.SlotEnabledCallback {
 
     public static final int UPGRADES_OFFSET_X = 28;

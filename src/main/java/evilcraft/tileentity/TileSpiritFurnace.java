@@ -19,7 +19,6 @@ import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.NBTPersist;
-import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
 import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
@@ -57,7 +56,7 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace> implements IItemDropListener {
+public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableInt> implements IItemDropListener {
     
     /**
      * The id of the fluid container drainer slot.
@@ -168,9 +167,9 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace> implements
         addSlotsToSide(ForgeDirection.WEST, outSlots);
 
         // Upgrade behaviour
-        upgradeBehaviour.put(UPGRADE_SPEED, new MutableIntUpgradeBehaviour(3.2) {
+        upgradeBehaviour.put(UPGRADE_SPEED, new MutableIntUpgradeBehaviour<TileSpiritFurnace>(3.2) {
             @Override
-            public void applyUpgrade(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
+            public void applyUpgrade(TileSpiritFurnace upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableInt> event) {
                 if(event.getType() == UPGRADEEVENT_SPEED) {
                     int val = event.getObject().getValue();
@@ -184,9 +183,9 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace> implements
                 }
             }
         });
-        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new MutableIntUpgradeBehaviour(6.4) {
+        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new MutableIntUpgradeBehaviour<TileSpiritFurnace>(6.4) {
             @Override
-            public void applyUpgrade(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade, int upgradeLevel, IUpgradeSensitiveEvent<MutableInt> event) {
+            public void applyUpgrade(TileSpiritFurnace upgradable, Upgrades.Upgrade upgrade, int upgradeLevel, IUpgradeSensitiveEvent<MutableInt> event) {
                 if(event.getType() == UPGRADEEVENT_BLOODUSAGE) {
                     int val = event.getObject().getValue();
                     val /= (1 + upgradeLevel / valueFactor);

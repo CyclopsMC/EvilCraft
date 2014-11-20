@@ -10,7 +10,7 @@ import org.apache.commons.lang3.mutable.MutableInt;
  * Behaviour for upgrade events that have a simple integer value to change.
  * @author rubensworks
  */
-public abstract class MutableIntUpgradeBehaviour implements IUpgradeBehaviour<WorkingTileEntity, MutableInt> {
+public abstract class MutableIntUpgradeBehaviour<T extends WorkingTileEntity> implements IUpgradeBehaviour<T, MutableInt> {
 
     protected double valueFactor;
 
@@ -24,13 +24,13 @@ public abstract class MutableIntUpgradeBehaviour implements IUpgradeBehaviour<Wo
     }
 
     @Override
-    public int getUpgradeLevel(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade) {
+    public int getUpgradeLevel(T upgradable, Upgrades.Upgrade upgrade) {
         Integer level = (Integer) upgradable.getUpgradeLevels().get(upgrade);
         return (level == null) ? 0 : level;
     }
 
     @Override
-    public abstract void applyUpgrade(WorkingTileEntity upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
+    public abstract void applyUpgrade(T upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                              IUpgradeSensitiveEvent<MutableInt> event);
 
 }

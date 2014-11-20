@@ -10,9 +10,10 @@ import net.minecraftforge.fluids.Fluid;
 
 /**
  * Evilcraft working tile entity with upgrade declaration.
+ * @param <O> The type of upgrade behaviour object.
  * @author rubensworks
  */
-public abstract class TileWorking<T extends TankInventoryTileEntity> extends WorkingTileEntity<T> {
+public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends WorkingTileEntity<T, O> {
 
     public static final Item UPGRADE_ITEM = Promise.getInstance();
 

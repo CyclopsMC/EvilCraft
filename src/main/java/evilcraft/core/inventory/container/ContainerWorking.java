@@ -9,7 +9,7 @@ import evilcraft.core.tileentity.WorkingTileEntity;
  *
  * @param <T> The {@link WorkingTileEntity} class.
  */
-public abstract class ContainerWorking<T extends WorkingTileEntity<T>>
+public abstract class ContainerWorking<T extends WorkingTileEntity<T, ?>>
 	extends TickingTankInventoryContainer<T>{
 
     /**

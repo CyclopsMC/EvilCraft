@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
  * Container for TileWorking instances.
  * @author rubensworks
  */
-public class ContainerTileWorking<T extends TileWorking<T>> extends ContainerWorking<T> {
+public class ContainerTileWorking<T extends TileWorking<T, ?>> extends ContainerWorking<T> {
 
     /**
      * Make a new instance.

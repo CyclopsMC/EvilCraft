@@ -17,10 +17,11 @@ import java.util.Set;
  * @author rubensworks
  * @param <T> The subclass of {@link TankInventoryTileEntity}, will be in
  * most cases just the extension class.
+ * @param <O> The type of upgrade behaviour object.
  * @see TickingTankInventoryTileEntity
  */
-public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> extends TickingTankInventoryTileEntity<T>
-        implements IUpgradable {
+public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> extends TickingTankInventoryTileEntity<T>
+        implements IUpgradable<T, O> {
 
     /**
      * Size of the upgrades inventory.
@@ -35,7 +36,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> exten
 
     private int basicInventorySize;
     private Map<Upgrades.Upgrade, Integer> levels = null;
-    protected Map<Upgrades.Upgrade, IUpgradeBehaviour> upgradeBehaviour = Maps.newHashMap();
+    protected Map<Upgrades.Upgrade, IUpgradeBehaviour<T, O>> upgradeBehaviour = Maps.newHashMap();
 
 	/**
      * Make a new instance.
@@ -207,7 +208,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity> exten
     }
 
     @Override
-    public Map<Upgrades.Upgrade, IUpgradeBehaviour> getUpgradeBehaviour() {
+    public Map<Upgrades.Upgrade, IUpgradeBehaviour<T, O>> getUpgradeBehaviour() {
         return upgradeBehaviour;
     }
 

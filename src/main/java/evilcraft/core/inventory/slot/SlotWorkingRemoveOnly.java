@@ -10,7 +10,7 @@ import evilcraft.core.tileentity.WorkingTileEntity;
  * @param <T> 
  *
  */
-public class SlotWorkingRemoveOnly<T extends WorkingTileEntity<?>> extends SlotWorking<T> {
+public class SlotWorkingRemoveOnly<T extends WorkingTileEntity<?, ?>> extends SlotWorking<T> {
    
 	private boolean shouldHardReset;
 	

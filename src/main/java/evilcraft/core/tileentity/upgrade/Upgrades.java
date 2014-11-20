@@ -53,9 +53,10 @@ public class Upgrades {
      * Send an upgrade sensitive event over the event bus for all upgrades the upgradable has.
      * @param upgradable The upgradable instance.
      * @param event The event.
+     * @param <T> The type of upgradable.
      * @param <O> The type of event variable type.
      */
-    public static <O> void sendEvent(IUpgradable upgradable, IUpgradeSensitiveEvent<O> event) {
+    public static <T extends IUpgradable<T, O>, O> void sendEvent(T upgradable, IUpgradeSensitiveEvent<O> event) {
         sendEvent(upgradable, event, upgradable.getUpgradeBehaviour().keySet());
     }
 
@@ -64,9 +65,10 @@ public class Upgrades {
      * @param upgradable The upgradable instance.
      * @param event The event.
      * @param upgrade The types of upgrade this event should be sent to.
+     * @param <T> The type of upgradable.
      * @param <O> The type of event variable type.
      */
-    public static <O> void sendEvent(IUpgradable upgradable, IUpgradeSensitiveEvent<O> event, Upgrade upgrade) {
+    public static <T extends IUpgradable<T, O>, O> void sendEvent(T upgradable, IUpgradeSensitiveEvent<O> event, Upgrade upgrade) {
         sendEvent(upgradable, event, Lists.newArrayList(upgrade));
     }
 
@@ -75,9 +77,10 @@ public class Upgrades {
      * @param upgradable The upgradable instance.
      * @param event The event.
      * @param upgrades The types of upgrades this event should be sent to.
+     * @param <T> The type of upgradable.
      * @param <O> The type of event variable type.
      */
-    public static <O> void sendEvent(IUpgradable upgradable, IUpgradeSensitiveEvent<O> event, Upgrade... upgrades) {
+    public static <T extends IUpgradable<T, O>, O> void sendEvent(T upgradable, IUpgradeSensitiveEvent<O> event, Upgrade... upgrades) {
         sendEvent(upgradable, event, Lists.newArrayList(upgrades));
     }
 
@@ -86,11 +89,12 @@ public class Upgrades {
      * @param upgradable The upgradable instance.
      * @param event The event.
      * @param upgrades The types of upgrades this event should be sent to.
+     * @param <T> The type of upgradable.
      * @param <O> The type of event variable type.
      */
-    public static <O> void sendEvent(IUpgradable upgradable, IUpgradeSensitiveEvent<O> event, Collection<Upgrade> upgrades) {
+    public static <T extends IUpgradable<T, O>, O> void sendEvent(T upgradable, IUpgradeSensitiveEvent<O> event, Collection<Upgrade> upgrades) {
         for(Upgrades.Upgrade upgrade : upgrades) {
-            IUpgradeBehaviour behaviour = upgradable.getUpgradeBehaviour().get(upgrade);
+            IUpgradeBehaviour<T, O> behaviour = upgradable.getUpgradeBehaviour().get(upgrade);
             int upgradeLevel = behaviour.getUpgradeLevel(upgradable, upgrade);
             if(upgradeLevel > 0) {
                 behaviour.applyUpgrade(upgradable, upgrade, upgradeLevel, event);

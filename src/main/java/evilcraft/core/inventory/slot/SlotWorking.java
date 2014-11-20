@@ -11,7 +11,7 @@ import evilcraft.core.tileentity.WorkingTileEntity;
  * @param <T> 
  *
  */
-public class SlotWorking<T extends WorkingTileEntity<?>> extends Slot {
+public class SlotWorking<T extends WorkingTileEntity<?, ?>> extends Slot {
 
 	protected T tile;
     
