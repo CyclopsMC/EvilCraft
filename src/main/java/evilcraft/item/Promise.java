@@ -53,10 +53,10 @@ public class Promise extends ConfigurableItem {
         SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_TIER3, RenderHelpers.RGBToInt(150, 250, 200));
 
         MAIN_COLORS.put(WorkingTileEntity.UPGRADE_SPEED, RenderHelpers.RGBToInt(200, 90, 80));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_SPEED, RenderHelpers.RGBToInt(240, 150, 140));
+        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_SPEED, RenderHelpers.RGBToInt(240, 120, 110));
 
         MAIN_COLORS.put(WorkingTileEntity.UPGRADE_EFFICIENCY, RenderHelpers.RGBToInt(80, 70, 200));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_EFFICIENCY, RenderHelpers.RGBToInt(150, 140, 150));
+        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_EFFICIENCY, RenderHelpers.RGBToInt(120, 120, 210));
     }
 
     private IIcon overlay;
@@ -101,7 +101,7 @@ public class Promise extends ConfigurableItem {
         return pass == 0;
     }
 
-        @Override
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean requiresMultipleRenderPasses() {
         return true;

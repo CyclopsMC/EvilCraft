@@ -139,4 +139,79 @@
         </output>
     </recipe>
 
+    <recipe type="shapeless">
+        <condition type="config">bowlOfPromises</condition>
+        <condition type="config">darkGemCrushed</condition>
+        <input>
+            <item meta="1">evilcraft:bowlOfPromises</item>
+            <item>evilcraft:darkGemCrushed</item>
+            <item>evilcraft:darkGemCrushed</item>
+        </input>
+        <output>
+            <item meta="0">evilcraft:bowlOfPromises</item>
+        </output>
+    </recipe>
+
+    <recipe type="shapeless">
+        <condition type="config">bowlOfPromises</condition>
+        <condition type="config">promise</condition>
+        <input>
+            <item type="oredict">materialBowlOfPromises0</item>
+            <item>minecraft:iron_block</item>
+        </input>
+        <output>
+            <item meta="0">evilcraft:promise</item>
+        </output>
+    </recipe>
+
+    <recipe type="shapeless">
+        <condition type="config">bowlOfPromises</condition>
+        <condition type="config">promise</condition>
+        <input>
+            <item type="oredict">materialBowlOfPromises1</item>
+            <item>minecraft:gold_block</item>
+        </input>
+        <output>
+            <item meta="1">evilcraft:promise</item>
+        </output>
+    </recipe>
+
+    <recipe type="shapeless">
+        <condition type="config">bowlOfPromises</condition>
+        <condition type="config">promise</condition>
+        <input>
+            <item type="oredict">materialBowlOfPromises2</item>
+            <item>minecraft:diamond_block</item>
+        </input>
+        <output>
+            <item meta="2">evilcraft:promise</item>
+        </output>
+    </recipe>
+
+    <recipe type="shapeless">
+        <condition type="config">bowlOfPromises</condition>
+        <condition type="config">promise</condition>
+        <input>
+            <item type="oredict">materialBowlOfPromises1</item>
+            <item>minecraft:redstone</item>
+            <item>minecraft:redstone</item>
+        </input>
+        <output>
+            <item meta="3">evilcraft:promise</item>
+        </output>
+    </recipe>
+
+    <recipe type="shapeless">
+        <condition type="config">bowlOfPromises</condition>
+        <condition type="config">promise</condition>
+        <input>
+            <item type="oredict">materialBowlOfPromises1</item>
+            <item meta="4">minecraft:dye</item>
+            <item meta="4">minecraft:dye</item>
+        </input>
+        <output>
+            <item meta="4">evilcraft:promise</item>
+        </output>
+    </recipe>
+
 </recipes>

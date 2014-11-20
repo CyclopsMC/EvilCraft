@@ -31,9 +31,13 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
         super(new ContainerExaltedCrafter(player, itemIndex));
         this.player = player;
         this.itemIndex = itemIndex;
-        
-        this.ySize = 225;
+
         this.allowUserInput = true;
+    }
+
+    @Override
+    protected int getBaseYSize() {
+        return 225;
     }
     
     protected void clearGrid() {

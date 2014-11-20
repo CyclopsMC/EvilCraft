@@ -121,5 +121,21 @@
             <duration>500</duration>
         </properties>
     </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">bowlOfPromises</condition>
+        <input>
+            <item meta="0">evilcraft:bowlOfPromises</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>5000</fluidamount>
+        </input>
+        <output>
+            <item meta="2">evilcraft:bowlOfPromises</item>
+        </output>
+        <properties>
+            <duration>1000</duration>
+        </properties>
+    </recipe>
     
 </recipes>

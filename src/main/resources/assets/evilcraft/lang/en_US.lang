@@ -141,6 +141,11 @@ item.items.promise.speed0.name=Promise of Velocity
 item.items.promise.speed0.info=Machine speed upgrade
 item.items.promise.efficiency0.name=Promise of Efficiency
 item.items.promise.efficiency0.info=Machine efficiency upgrade
+item.items.bowlOfPromises.active.name=Bowl of Promises
+item.items.bowlOfPromises.active.name=Bowl of Promises
+item.items.bowlOfPromises.dusted.name=Filled Bowl of Empty Promises
+item.items.bowlOfPromises.empty.name=Bowl of Empty Promises
+item.items.bowlOfPromises.strength=Strength
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

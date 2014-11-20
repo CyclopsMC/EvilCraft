@@ -34,9 +34,17 @@ public class GuiContainerExtended extends GuiContainer {
 
     @Override
     public void initGui() {
-        this.xSize = 176 + offsetX * 2;
-        this.ySize = 166 + offsetY * 2;
+        this.xSize = getBaseXSize() + offsetX * 2;
+        this.ySize = getBaseYSize() + offsetY * 2;
         super.initGui();
+    }
+
+    protected int getBaseXSize() {
+        return 176;
+    }
+
+    protected int getBaseYSize() {
+        return 166;
     }
 
     @Override
