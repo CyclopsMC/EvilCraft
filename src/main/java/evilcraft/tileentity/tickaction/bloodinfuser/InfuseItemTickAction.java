@@ -44,7 +44,7 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
         MutableInt amount = new MutableInt(recipe.getInput().getFluidStack().amount);
         Upgrades.sendEvent(tile,
                 new UpgradeSensitiveEvent<MutableInt>(amount, TileBloodInfuser.UPGRADEEVENT_BLOODUSAGE));
-        return amount.getValue();
+        return Math.max(1, amount.getValue());
     }
     
     private IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>

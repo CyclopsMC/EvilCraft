@@ -115,9 +115,10 @@ public class GuiSpiritReanimator extends GuiWorking<TileSpiritReanimator> {
         	}
         }
         if(lines.size() > 1) {
-        	this.drawTexturedModalRect(PROGRESSTARGETX, PROGRESSTARGETY, PROGRESS_INVALIDX,
-            		PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
-	    	if(isPointInRegion(PROGRESSTARGETX, PROGRESSTARGETY, PROGRESSWIDTH, PROGRESSHEIGHT, mouseX, mouseY)) {
+            this.drawTexturedModalRect(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
+                    PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
+	    	if(isPointInRegion(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
+                    mouseX, mouseY)) {
 	    		mouseX -= guiLeft;
 	        	mouseY -= guiTop;
 	            drawTooltip(lines, mouseX, mouseY);

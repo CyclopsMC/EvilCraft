@@ -66,7 +66,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     protected int getRequiredMb(TileSpiritFurnace tile) {
         MutableInt drain = new MutableInt(SpiritFurnaceConfig.mBPerTick);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(drain, TileSpiritFurnace.UPGRADEEVENT_BLOODUSAGE));
-        return drain.getValue();
+        return Math.max(1, drain.getValue());
     }
 
 	@Override

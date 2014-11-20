@@ -119,9 +119,10 @@ public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
         	lines.add(L10NHelpers.localize(prefix + ".caughtError"));
         }
         if(lines.size() > 1) {
-        	this.drawTexturedModalRect(PROGRESSTARGETX, PROGRESSTARGETY, PROGRESS_INVALIDX,
+        	this.drawTexturedModalRect(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
             		PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
-	    	if(isPointInRegion(PROGRESSTARGETX, PROGRESSTARGETY, PROGRESSWIDTH, PROGRESSHEIGHT, mouseX, mouseY)) {
+            if(isPointInRegion(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
+                    mouseX, mouseY)) {
 	    		mouseX -= guiLeft;
 	        	mouseY -= guiTop;
 	            drawTooltip(lines, mouseX, mouseY);

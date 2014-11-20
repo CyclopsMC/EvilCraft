@@ -50,7 +50,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
     protected int getRequiredMb(TileSpiritReanimator tile) {
         MutableInt drain = new MutableInt(SpiritReanimatorConfig.mBPerTick);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(drain, TileSpiritReanimator.UPGRADEEVENT_BLOODUSAGE));
-        return drain.getValue();
+        return Math.max(1, drain.getValue());
     }
 
 	@Override

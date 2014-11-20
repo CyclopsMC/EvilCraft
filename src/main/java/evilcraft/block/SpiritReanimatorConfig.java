@@ -62,7 +62,10 @@ public class SpiritReanimatorConfig extends BlockContainerConfig {
     public Set<Upgrades.Upgrade> getUpgrades() {
         return Sets.newHashSet(
                 TileWorking.UPGRADE_EFFICIENCY,
-                TileWorking.UPGRADE_SPEED);
+                TileWorking.UPGRADE_SPEED,
+                TileWorking.UPGRADE_TIER1,
+                TileWorking.UPGRADE_TIER2,
+                TileWorking.UPGRADE_TIER3);
     }
     
 }
