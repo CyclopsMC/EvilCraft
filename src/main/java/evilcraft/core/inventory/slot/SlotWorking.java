@@ -14,6 +14,7 @@ import evilcraft.core.tileentity.WorkingTileEntity;
 public class SlotWorking<T extends WorkingTileEntity<?, ?>> extends Slot {
 
 	protected T tile;
+    private ItemStack lastSlotContents = null;
     
     /**
      * Make a new instance.
@@ -40,7 +41,10 @@ public class SlotWorking<T extends WorkingTileEntity<?, ?>> extends Slot {
     
     @Override
     public void onSlotChanged() {
-    	tile.resetWork(true);
+        if(lastSlotContents == null || this.getStack() == null || lastSlotContents.getItem() != this.getStack().getItem()) {
+            tile.resetWork(true);
+        }
+        lastSlotContents = this.getStack();
     }
 	
 }
