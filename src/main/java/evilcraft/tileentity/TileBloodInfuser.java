@@ -12,6 +12,7 @@ import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
 import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
+import evilcraft.core.tileentity.upgrade.UpgradeBehaviour;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.fluid.Blood;
 import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
@@ -131,7 +132,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         addSlotsToSide(ForgeDirection.WEST, outSlots);
 
         // Upgrade behaviour
-        upgradeBehaviour.put(UPGRADE_SPEED, new MutableIntUpgradeBehaviour<TileBloodInfuser>(3.2) {
+        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(3.2) {
             @Override
             public void applyUpgrade(TileBloodInfuser upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableInt> event) {
@@ -142,7 +143,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
                 }
             }
         });
-        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new MutableIntUpgradeBehaviour<TileBloodInfuser>(6.4) {
+        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(6.4) {
             @Override
             public void applyUpgrade(TileBloodInfuser upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableInt> event) {

@@ -25,4 +25,29 @@ public class MathHelpers {
 	    return angle;
 	}
 
+    /**
+     * Convert a double to a natural number taking into account a circular time counter
+     * that is able to offset factor values if required.
+     * It in fact converts a factor to bursts of natural numbers.
+     * For example:
+     *  value = 0,5; timing = 0 -> 1
+     *  value = 0,5; timing = 1 -> 0
+     *  value = 0,5; timing = 2 -> 1
+     *  ...
+     * @param value The input value.
+     * @param timing The timing value, should increment each time this is called for good results.
+     * @return
+     */
+    public static int factorToBursts(double value, int timing) {
+        boolean shouldHaveCost = true;
+        if(value < 1) {
+            int tickOffset = (int) Math.ceil(1 / value);
+            value = Math.ceil(1 / (double) tickOffset);
+            shouldHaveCost = timing % tickOffset == 0;
+        } else {
+            value = 1;
+        }
+        return shouldHaveCost ? (int) Math.ceil(value) : 0;
+    }
+
 }

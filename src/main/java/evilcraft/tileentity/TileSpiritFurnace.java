@@ -22,6 +22,7 @@ import evilcraft.core.tileentity.NBTPersist;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
 import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
+import evilcraft.core.tileentity.upgrade.UpgradeBehaviour;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.core.world.FakeWorldItemDelegator;
 import evilcraft.core.world.FakeWorldItemDelegator.IItemDropListener;
@@ -44,7 +45,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.mutable.MutableDouble;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -56,7 +57,7 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableInt> implements IItemDropListener {
+public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDouble> implements IItemDropListener {
     
     /**
      * The id of the fluid container drainer slot.
@@ -167,27 +168,28 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableInt
         addSlotsToSide(ForgeDirection.WEST, outSlots);
 
         // Upgrade behaviour
-        upgradeBehaviour.put(UPGRADE_SPEED, new MutableIntUpgradeBehaviour<TileSpiritFurnace>(3.2) {
+        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(3.2) {
             @Override
             public void applyUpgrade(TileSpiritFurnace upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
-                                     IUpgradeSensitiveEvent<MutableInt> event) {
+                                     IUpgradeSensitiveEvent<MutableDouble> event) {
                 if(event.getType() == UPGRADEEVENT_SPEED) {
-                    int val = event.getObject().getValue();
+                    double val = event.getObject().getValue();
                     val /= (1 + upgradeLevel / valueFactor);
                     event.getObject().setValue(val);
                 }
                 if(event.getType() == UPGRADEEVENT_BLOODUSAGE) {
-                    int val = event.getObject().getValue();
+                    double val = event.getObject().getValue();
                     val *= (1 + upgradeLevel / valueFactor);
                     event.getObject().setValue(val);
                 }
             }
         });
-        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new MutableIntUpgradeBehaviour<TileSpiritFurnace>(6.4) {
+        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(6.4) {
             @Override
-            public void applyUpgrade(TileSpiritFurnace upgradable, Upgrades.Upgrade upgrade, int upgradeLevel, IUpgradeSensitiveEvent<MutableInt> event) {
+            public void applyUpgrade(TileSpiritFurnace upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
+                                     IUpgradeSensitiveEvent<MutableDouble> event) {
                 if(event.getType() == UPGRADEEVENT_BLOODUSAGE) {
-                    int val = event.getObject().getValue();
+                    double val = event.getObject().getValue();
                     val /= (1 + upgradeLevel / valueFactor);
                     event.getObject().setValue(val);
                 }

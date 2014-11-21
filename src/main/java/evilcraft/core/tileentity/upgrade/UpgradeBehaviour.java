@@ -1,16 +1,12 @@
-package evilcraft.tileentity;
+package evilcraft.core.tileentity.upgrade;
 
 import evilcraft.core.tileentity.WorkingTileEntity;
-import evilcraft.core.tileentity.upgrade.IUpgradeBehaviour;
-import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
-import evilcraft.core.tileentity.upgrade.Upgrades;
-import org.apache.commons.lang3.mutable.MutableInt;
 
 /**
  * Behaviour for upgrade events that have a simple integer value to change.
  * @author rubensworks
  */
-public abstract class MutableIntUpgradeBehaviour<T extends WorkingTileEntity> implements IUpgradeBehaviour<T, MutableInt> {
+public abstract class UpgradeBehaviour<T extends WorkingTileEntity, O> implements IUpgradeBehaviour<T, O> {
 
     protected double valueFactor;
 
@@ -19,7 +15,7 @@ public abstract class MutableIntUpgradeBehaviour<T extends WorkingTileEntity> im
      * @param valueFactor The factor to remove from the resulting value per upgrade level.
      *                    Formula used: value /= (1 + upgradeLevel / valueFactor);
      */
-    public MutableIntUpgradeBehaviour(double valueFactor) {
+    public UpgradeBehaviour(double valueFactor) {
         this.valueFactor = valueFactor;
     }
 
@@ -31,6 +27,6 @@ public abstract class MutableIntUpgradeBehaviour<T extends WorkingTileEntity> im
 
     @Override
     public abstract void applyUpgrade(T upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
-                             IUpgradeSensitiveEvent<MutableInt> event);
+                             IUpgradeSensitiveEvent<O> event);
 
 }

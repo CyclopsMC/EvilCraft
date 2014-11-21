@@ -2,6 +2,7 @@ package evilcraft.tileentity.tickaction.spiritfurnace;
 
 import evilcraft.EvilCraft;
 import evilcraft.block.SpiritFurnaceConfig;
+import evilcraft.core.helper.MathHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
@@ -12,7 +13,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.mutable.MutableDouble;
 
 /**
  * {@link ITickAction} that is able to cook boxes with spirits.
@@ -24,7 +25,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     @Override
     public boolean canTick(TileSpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
         if(!tile.isForceHalt() && !tile.isCaughtError() && tile.canWork()
-                && tile.getTank().getFluidAmount() >= getRequiredMb(tile)
+                && tile.getTank().getFluidAmount() >= getRequiredMb(tile, 0)
         		&& getCookStack(tile) != null && tile.canConsume(getCookStack(tile))) {
         	for(int slotId : tile.getProduceSlots()) {
 	        	ItemStack production = tile.getInventory().getStackInSlot(slotId);
@@ -63,17 +64,17 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 		}
     }
 
-    protected int getRequiredMb(TileSpiritFurnace tile) {
-        MutableInt drain = new MutableInt(SpiritFurnaceConfig.mBPerTick);
-        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(drain, TileSpiritFurnace.UPGRADEEVENT_BLOODUSAGE));
-        return Math.max(1, drain.getValue());
+    protected int getRequiredMb(TileSpiritFurnace tile, int tick) {
+        MutableDouble drain = new MutableDouble(SpiritFurnaceConfig.mBPerTick);
+        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(drain, TileSpiritFurnace.UPGRADEEVENT_BLOODUSAGE));
+        return MathHelpers.factorToBursts(drain.getValue(), tick);
     }
 
 	@Override
 	public void onTick(TileSpiritFurnace tile, ItemStack itemStack, int slot,
 			int tick) {
 		// Drain the tank a bit.
-		tile.getTank().drain(getRequiredMb(tile), true);
+		tile.getTank().drain(getRequiredMb(tile, tick), true);
 		if(tick >= getRequiredTicks(tile, slot)) {
 			doNextDrop(tile);
 		}
@@ -88,9 +89,9 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 		} else {
             requiredTicksBase = (int) (entity.getHealth() * SpiritFurnaceConfig.requiredTicksPerHp);
         }
-        MutableInt duration = new MutableInt(requiredTicksBase);
-        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(duration, TileSpiritFurnace.UPGRADEEVENT_SPEED));
-        return duration.getValue();
+        MutableDouble duration = new MutableDouble(requiredTicksBase);
+        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(duration, TileSpiritFurnace.UPGRADEEVENT_SPEED));
+        return (int) (double) duration.getValue();
 	}
     
 }

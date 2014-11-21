@@ -2,6 +2,7 @@ package evilcraft.tileentity.tickaction.spiritreanimator;
 
 import evilcraft.block.SpiritReanimatorConfig;
 import evilcraft.core.helper.InventoryHelpers;
+import evilcraft.core.helper.MathHelpers;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
 import evilcraft.core.tileentity.upgrade.Upgrades;
@@ -10,7 +11,7 @@ import evilcraft.tileentity.TileSpiritReanimator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.mutable.MutableDouble;
 
 /**
  * {@link ITickAction} that is able to reanimate boxes with spirits.
@@ -21,7 +22,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
     
     @Override
     public boolean canTick(TileSpiritReanimator tile, ItemStack itemStack, int slot, int tick) {
-        return tile.getTank().getFluidAmount() >= getRequiredMb(tile) && tile.canWork();
+        return tile.getTank().getFluidAmount() >= getRequiredMb(tile, tick) && tile.canWork();
     }
     
     protected ItemStack getCookStack(TileSpiritFurnace tile) {
@@ -32,7 +33,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 	public void onTick(TileSpiritReanimator tile, ItemStack itemStack, int slot,
 			int tick) {
 		// Drain the tank a bit.
-		tile.getTank().drain(getRequiredMb(tile), true);
+		tile.getTank().drain(getRequiredMb(tile, tick), true);
 		if(tick >= getRequiredTicks(tile, slot)) {
 			int entityID = tile.getEntityID();
 			if(SpiritReanimatorConfig.clearBoxContents) {
@@ -47,17 +48,17 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 		}
 	}
 
-    protected int getRequiredMb(TileSpiritReanimator tile) {
-        MutableInt drain = new MutableInt(SpiritReanimatorConfig.mBPerTick);
-        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(drain, TileSpiritReanimator.UPGRADEEVENT_BLOODUSAGE));
-        return Math.max(1, drain.getValue());
+    protected int getRequiredMb(TileSpiritReanimator tile, int tick) {
+        MutableDouble drain = new MutableDouble(SpiritReanimatorConfig.mBPerTick);
+        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(drain, TileSpiritReanimator.UPGRADEEVENT_BLOODUSAGE));
+        return MathHelpers.factorToBursts(drain.getValue(), tick);
     }
 
 	@Override
 	public int getRequiredTicks(TileSpiritReanimator tile, int slot) {
-        MutableInt drain = new MutableInt(SpiritReanimatorConfig.requiredTicks);
-        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(drain, TileSpiritReanimator.UPGRADEEVENT_SPEED));
-        return drain.getValue();
+        MutableDouble drain = new MutableDouble(SpiritReanimatorConfig.requiredTicks);
+        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(drain, TileSpiritReanimator.UPGRADEEVENT_SPEED));
+        return (int) (double) drain.getValue();
 	}
 	
 	/**
