@@ -7,7 +7,7 @@ import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
-import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
+import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
@@ -160,6 +160,26 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     protected SingleUseTank newTank(String tankName, int tankSize) {
     	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
     }
+
+    /**
+     * Get the recipe for the maximum current tier available.
+     * @param itemStack The input item.
+     * @return The recipe.
+     */
+    public IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>
+        getRecipe(ItemStack itemStack) {
+        ItemFluidStackAndTierRecipeComponent recipeInput = new ItemFluidStackAndTierRecipeComponent(itemStack,
+                getTank().getFluid(), -1);
+        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> maxRecipe = null;
+        int maxRecipeTier = -1;
+        for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe :
+                BloodInfuser.getInstance().getRecipeRegistry().findRecipesByInput(recipeInput)) {
+            if(recipe.getInput().getTier() > maxRecipeTier && getTier() >= recipe.getInput().getTier()) {
+                maxRecipe = recipe;
+            }
+        }
+        return maxRecipe;
+    }
     
     @Override
     public boolean canConsume(ItemStack itemStack) {
@@ -183,9 +203,8 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         }
         
         // Valid custom recipe
-        ItemAndFluidStackRecipeComponent recipeInput = new ItemAndFluidStackRecipeComponent(itemStack, getTank().getFluid());
-        IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = 
-        		BloodInfuser.getInstance().getRecipeRegistry().findRecipeByInput(recipeInput);
+        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe =
+                getRecipe(itemStack);
         if(recipe != null)
             return true;
         

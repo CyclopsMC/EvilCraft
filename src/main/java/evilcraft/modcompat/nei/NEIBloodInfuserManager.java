@@ -10,9 +10,10 @@ import evilcraft.block.BloodInfuserConfig;
 import evilcraft.client.gui.container.GuiBloodInfuser;
 import evilcraft.core.client.gui.container.GuiWorking;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
-import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
+import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.inventory.container.ContainerBloodInfuser;
+import evilcraft.item.Promise;
 import evilcraft.tileentity.TileBloodInfuser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -63,15 +64,16 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         private int hashcode;
         private PositionedStack input;
         private PositionedStack output;
+        private PositionedStack upgrade = null;
         private FluidStack fluidStack;
         private int duration;
 
-        public CachedBloodInfuserRecipe(IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
+        public CachedBloodInfuserRecipe(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
             this(recipe.getInput().getItemStack(), recipe.getOutput().getItemStack(),
-                    recipe.getInput().getFluidStack(), recipe.getProperties().getDuration());
+                    recipe.getInput().getFluidStack(), recipe.getProperties().getDuration(), recipe.getInput().getTier());
         }
         
-        public CachedBloodInfuserRecipe(ItemStack inputStack, ItemStack outputStack, FluidStack fluidStack, int duration) {
+        public CachedBloodInfuserRecipe(ItemStack inputStack, ItemStack outputStack, FluidStack fluidStack, int duration, int tier) {
             this.input = 
                     new PositionedStack(
                             inputStack,
@@ -84,6 +86,9 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                             ContainerBloodInfuser.SLOT_INFUSE_RESULT_X + xOffset,
                             ContainerBloodInfuser.SLOT_INFUSE_RESULT_Y + yOffset
                             );
+            if(tier > 0) {
+                this.upgrade = new PositionedStack(new ItemStack(Promise.getInstance(), 1, tier - 1), 0, -11, true);
+            }
             this.fluidStack = fluidStack;
             this.duration = duration;
             calculateHashcode();
@@ -116,6 +121,13 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         @Override
         public PositionedStack getIngredient() {
             return input;
+        }
+
+        @Override
+        public List<PositionedStack> getIngredients() {
+            List<PositionedStack> ingredients = super.getIngredients();
+            if(upgrade != null) ingredients.add(upgrade);
+            return ingredients;
         }
         
     }
@@ -154,7 +166,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     private List<CachedBloodInfuserRecipe> getRecipes() {
         List<CachedBloodInfuserRecipe> recipes = new LinkedList<CachedBloodInfuserRecipe>();
 
-        for (IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe : 
+        for (IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe :
         	BloodInfuser.getInstance().getRecipeRegistry().allRecipes())
             recipes.add(new CachedBloodInfuserRecipe(recipe));
 
@@ -179,7 +191,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        List<IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> recipes =
+        List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> recipes =
                 BloodInfuser.getInstance().getRecipeRegistry().findRecipesByOutput(new ItemStackRecipeComponent(result));
 
         if(!recipes.isEmpty()) {
@@ -191,11 +203,11 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     public void loadUsageRecipes(ItemStack ingredient) {
     	if(TileBloodInfuser.ACCEPTED_FLUID != null) {
     		try {
-		        IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = BloodInfuser
+		        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = BloodInfuser
 		        		.getInstance().getRecipeRegistry().findRecipeByInput(
-		                new ItemAndFluidStackRecipeComponent(
+		                new ItemFluidStackAndTierRecipeComponent(
 		                        ingredient,
-		                        new FluidStack(TileBloodInfuser.ACCEPTED_FLUID, TileBloodInfuser.LIQUID_PER_SLOT))
+		                        new FluidStack(TileBloodInfuser.ACCEPTED_FLUID, TileBloodInfuser.LIQUID_PER_SLOT), -1)
 		        );
 		
 		        if(recipe != null) {

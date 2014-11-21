@@ -1,12 +1,5 @@
 package evilcraft.block;
-import java.util.Random;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.item.Item;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.RegistryManager;
@@ -20,17 +13,25 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
-import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
+import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.inventory.container.ContainerBloodInfuser;
 import evilcraft.tileentity.TileBloodInfuser;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.Random;
 
 /**
  * A machine that can infuse stuff with blood.
  * @author rubensworks
  *
  */
-public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implements IMachine<BloodInfuser, ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> {
+public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implements IMachine<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> {
     
     private static BloodInfuser _instance = null;
     
@@ -121,7 +122,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     }
 
     @Override
-    public IRecipeRegistry<BloodInfuser, ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> getRecipeRegistry() {
+    public IRecipeRegistry<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> getRecipeRegistry() {
         return RegistryManager.getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
     }
 }

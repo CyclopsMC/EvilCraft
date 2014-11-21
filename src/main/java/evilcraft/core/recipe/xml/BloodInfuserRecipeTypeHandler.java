@@ -1,18 +1,16 @@
 package evilcraft.core.recipe.xml;
 
+import evilcraft.block.BloodInfuser;
+import evilcraft.core.recipe.custom.DurationRecipeProperties;
+import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
+import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import evilcraft.block.BloodInfuser;
-import evilcraft.core.recipe.custom.DurationRecipeProperties;
-import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
-import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
-import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 
 /**
  * Handler for blood infuser recipes.
@@ -29,6 +27,10 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
 		int inputAmount = Integer.parseInt(input.getElementsByTagName("fluidamount").item(0).getTextContent());
 		Node outputItem = output.getElementsByTagName("item").item(0);
 		int duration = Integer.parseInt(properties.getElementsByTagName("duration").item(0).getTextContent());
+        int tier = 0;
+        if(properties.getElementsByTagName("tier").getLength() > 0) {
+            tier = Integer.parseInt(properties.getElementsByTagName("tier").item(0).getTextContent());
+        }
 		
 		Fluid fluid = FluidRegistry.getFluid(inputFluid);
 		if(fluid == null) {
@@ -36,9 +38,10 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
 		}
 		
 		BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
-                new ItemAndFluidStackRecipeComponent(
+                new ItemFluidStackAndTierRecipeComponent(
                         (ItemStack) getItem(inputItem),
-                        new FluidStack(fluid, inputAmount)
+                        new FluidStack(fluid, inputAmount),
+                        tier
                 ),
                 new ItemStackRecipeComponent((ItemStack) getItem(outputItem)),
                 new DurationRecipeProperties(duration)

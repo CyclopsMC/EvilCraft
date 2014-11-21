@@ -55,7 +55,10 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
         this.currentTier = -1;
     }
 
-    protected int getTier() {
+    /**
+     * @return The current tier of this machine.
+     */
+    public int getTier() {
         if(currentTier == -1) {
             for(int i = getBasicInventorySize(); i < getBasicInventorySize() + INVENTORY_SIZE_UPGRADES; i++) {
                 ItemStack itemStack = getStackInSlot(i);

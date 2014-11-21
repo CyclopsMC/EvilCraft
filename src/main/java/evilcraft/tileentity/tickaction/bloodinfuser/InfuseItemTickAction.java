@@ -1,9 +1,8 @@
 package evilcraft.tileentity.tickaction.bloodinfuser;
 
 import evilcraft.api.recipes.custom.IRecipe;
-import evilcraft.block.BloodInfuser;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
-import evilcraft.core.recipe.custom.ItemAndFluidStackRecipeComponent;
+import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
@@ -28,7 +27,7 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
 
     @Override
     public void onTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
-        IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = getRecipe(tile);
+        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe = getRecipe(tile);
         if(tick >= getRequiredTicks(tile, recipe)) {
             if(recipe != null) {
                 if(addToProduceSlot(tile, recipe.getOutput().getItemStack().copy())) {
@@ -39,7 +38,7 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
         }
     }
 
-    protected int getRequiredFluidAmount(TileBloodInfuser tile, IRecipe<ItemAndFluidStackRecipeComponent,
+    protected int getRequiredFluidAmount(TileBloodInfuser tile, IRecipe<ItemFluidStackAndTierRecipeComponent,
             ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
         MutableInt amount = new MutableInt(recipe.getInput().getFluidStack().amount);
         Upgrades.sendEvent(tile,
@@ -47,11 +46,9 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
         return Math.max(1, amount.getValue());
     }
     
-    private IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>
+    private IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>
         getRecipe(TileBloodInfuser tile) {
-
-        return BloodInfuser.getInstance().getRecipeRegistry().findRecipeByInput(
-                new ItemAndFluidStackRecipeComponent(getInfuseStack(tile), tile.getTank().getFluid()));
+        return tile.getRecipe(getInfuseStack(tile));
     }
     
     @Override
@@ -60,12 +57,12 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
     }
     
     private int getUnmodifiedRequiredTicks(TileBloodInfuser tile,
-                                 IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
+                                 IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
         return recipe.getProperties().getDuration();
     }
 
     private int getRequiredTicks(TileBloodInfuser tile,
-                                 IRecipe<ItemAndFluidStackRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
+                                 IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
         MutableInt duration = new MutableInt(getUnmodifiedRequiredTicks(tile, recipe));
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(duration, TileBloodInfuser.UPGRADEEVENT_SPEED));
         return duration.getValue();
