@@ -50,6 +50,7 @@
         </output>
         <properties>
             <duration>500</duration>
+            <tier>1</tier>
         </properties>
     </recipe>
     
@@ -68,6 +69,7 @@
         </output>
         <properties>
             <duration>1000</duration>
+            <tier>1</tier>
         </properties>
     </recipe>
     
@@ -86,6 +88,7 @@
         </output>
         <properties>
             <duration>250</duration>
+            <tier>2</tier>
         </properties>
     </recipe>
     
@@ -103,6 +106,7 @@
         </output>
         <properties>
             <duration>1000</duration>
+            <tier>2</tier>
         </properties>
     </recipe>
 
@@ -119,6 +123,7 @@
         </output>
         <properties>
             <duration>500</duration>
+            <tier>3</tier>
         </properties>
     </recipe>
 
