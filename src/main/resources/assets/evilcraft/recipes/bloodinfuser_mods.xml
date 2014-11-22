@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<recipes>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="mod">AWWayofTime</condition>
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">boundBloodDrop</condition>
+        <input>
+            <item>AWWayofTime:magicianBloodOrb</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>10000</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:boundBloodDrop</item>
+        </output>
+        <properties>
+            <duration>1000</duration>
+            <tier>2</tier>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="mod">TConstruct</condition>
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:blaze_rod</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>2000</fluidamount>
+        </input>
+        <output>
+            <item meta="8">TConstruct:materials</item>
+        </output>
+        <properties>
+            <tier>3</tier>
+            <duration>1000</duration>
+        </properties>
+    </recipe>
+    
+</recipes>

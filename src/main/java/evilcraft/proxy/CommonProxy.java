@@ -1,7 +1,5 @@
 package evilcraft.proxy;
 
-import evilcraft.event.*;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
@@ -9,16 +7,10 @@ import evilcraft.api.ILocation;
 import evilcraft.core.BucketHandler;
 import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.core.world.gen.RetroGenRegistry;
-import evilcraft.event.WorldEventHook;
+import evilcraft.event.*;
 import evilcraft.network.PacketHandler;
-import evilcraft.network.packet.DetectionListenerPacket;
-import evilcraft.network.packet.ExaltedCrafterClearPacket;
-import evilcraft.network.packet.ExaltedCrafterOpenPacket;
-import evilcraft.network.packet.FartPacket;
-import evilcraft.network.packet.RingOfFirePacket;
-import evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
-import evilcraft.network.packet.SoundPacket;
-import evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
+import evilcraft.network.packet.*;
+import net.minecraftforge.common.MinecraftForge;
 
 /**
  * Proxy for server and client side.
@@ -81,6 +73,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingUpdateEventHook());
         MinecraftForge.EVENT_BUS.register(new WorldEventHook());
+        MinecraftForge.EVENT_BUS.register(new LivingDropsEventHook());
         
         FMLCommonHandler.instance().bus().register(new ConfigChangedEventHook());
         FMLCommonHandler.instance().bus().register(new PlayerRingOfFire());

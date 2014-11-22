@@ -1,12 +1,11 @@
 package evilcraft.tileentity.tickaction.bloodinfuser;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.item.BucketBlood;
 import evilcraft.tileentity.TileBloodInfuser;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 /**
  * {@link ITickAction} that can fill empty buckets with blood.
@@ -35,8 +34,8 @@ public class ItemBucketTickAction extends BloodInfuserTickAction{
     }
 
     @Override
-    public Item willProduceItem(TileBloodInfuser tile) {
-        return BucketBlood.getInstance();
+    public ItemStack willProduceItem(TileBloodInfuser tile) {
+        return new ItemStack(BucketBlood.getInstance());
     }
 
 }

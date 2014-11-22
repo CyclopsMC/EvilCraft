@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<recipes>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">potentiaSphere</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="predefined">evilcraft:enderPearlRecipe</condition>
+        <input>
+            <item>evilcraft:potentiaSphere</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>2000</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:ender_pearl</item>
+        </output>
+        <properties>
+            <duration>1000</duration>
+            <tier>1</tier>
+        </properties>
+    </recipe>
+    
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:rotten_flesh</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>125</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:leather</item>
+        </output>
+        <properties>
+            <tier>1</tier>
+            <duration>200</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="config">werewolfFlesh</condition>
+        <input>
+            <item meta="1">evilcraft:werewolfFlesh</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>125</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:leather</item>
+        </output>
+        <properties>
+            <tier>1</tier>
+            <duration>200</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:ender_eye</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>1000</fluidamount>
+        </input>
+        <output>
+            <item amount="8">minecraft:spider_eye</item>
+        </output>
+        <properties>
+            <tier>2</tier>
+            <duration>500</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:spider_eye</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>500</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:fermented_spider_eye</item>
+        </output>
+        <properties>
+            <tier>2</tier>
+            <duration>500</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:brown_mushroom</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>100</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:red_mushroom</item>
+        </output>
+        <properties>
+            <tier>1</tier>
+            <duration>150</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:dirt</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>350</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:grass</item>
+        </output>
+        <properties>
+            <tier>1</tier>
+            <duration>300</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:bone</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>1000</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:blaze_rod</item>
+        </output>
+        <properties>
+            <tier>2</tier>
+            <duration>500</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:wheat_seeds</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>5000</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:nether_wart</item>
+        </output>
+        <properties>
+            <tier>3</tier>
+            <duration>1000</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:sand</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>2500</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:soul_sand</item>
+        </output>
+        <properties>
+            <tier>3</tier>
+            <duration>1000</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>minecraft:cobblestone</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>500</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:netherrack</item>
+        </output>
+        <properties>
+            <tier>2</tier>
+            <duration>500</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item meta="3">minecraft:skull</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>500</fluidamount>
+        </input>
+        <output>
+            <item meta="2">minecraft:skull</item>
+        </output>
+        <properties>
+            <tier>1</tier>
+            <duration>500</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item meta="2">minecraft:skull</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>1000</fluidamount>
+        </input>
+        <output>
+            <item meta="0">minecraft:skull</item>
+        </output>
+        <properties>
+            <tier>2</tier>
+            <duration>500</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item meta="0">minecraft:skull</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>5000</fluidamount>
+        </input>
+        <output>
+            <item meta="1">minecraft:skull</item>
+        </output>
+        <properties>
+            <tier>3</tier>
+            <duration>500</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="config">dullDust</condition>
+        <input>
+            <item>evilcraft:dullDust</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>250</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:redstone</item>
+        </output>
+        <properties>
+            <tier>2</tier>
+            <duration>100</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="config">bloodWaxedCoal</condition>
+        <input>
+            <item meta="0">minecraft:coal</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>200</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:bloodWaxedCoal</item>
+        </output>
+        <properties>
+            <tier>1</tier>
+            <duration>100</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="config">bloodWaxedCoal</condition>
+        <input>
+            <item meta="1">minecraft:coal</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>200</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:bloodWaxedCoal</item>
+        </output>
+        <properties>
+            <tier>1</tier>
+            <duration>100</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="config">enderTear</condition>
+        <input>
+            <item>evilcraft:enderTear</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>500</fluidamount>
+        </input>
+        <output>
+            <item>minecraft:ghast_tear</item>
+        </output>
+        <properties>
+            <tier>2</tier>
+            <duration>500</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="config">bloodPotash</condition>
+        <input>
+            <item meta="15">minecraft:dye</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>100</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:bloodPotash</item>
+        </output>
+        <properties>
+            <tier>1</tier>
+            <duration>50</duration>
+        </properties>
+    </recipe>
+    
+</recipes>

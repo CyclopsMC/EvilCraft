@@ -1,10 +1,16 @@
 package evilcraft.modcompat.tconstruct;
 
+import evilcraft.Configs;
 import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.api.RegistryManager;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
+import evilcraft.item.EnderTear;
+import evilcraft.item.EnderTearConfig;
 import evilcraft.modcompat.IModCompat;
+import net.minecraft.item.ItemStack;
+import tconstruct.library.crafting.FluidType;
+import tconstruct.library.crafting.Smeltery;
 
 /**
  * Compatibility plugin for Tinkers' Construct.
@@ -23,6 +29,10 @@ public class TConstructModCompat implements IModCompat {
     	if(step == IInitListener.Step.POSTINIT) {
     		RegistryManager.getRegistry(IBloodChestRepairActionRegistry.class).
     			register(new TConstructToolRepairTickAction());
+            if(Configs.isEnabled(EnderTearConfig.class)) {
+                Smeltery.addMelting(FluidType.getFluidType("Ender"), new ItemStack(EnderTear.getInstance()), 0,
+                        EnderTearConfig.mbLiquidEnder);
+            }
     	}
     }
     

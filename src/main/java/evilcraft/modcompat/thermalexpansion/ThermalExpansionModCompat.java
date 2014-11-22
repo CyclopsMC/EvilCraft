@@ -8,15 +8,14 @@ import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.fluid.Poison;
-import evilcraft.item.DarkGem;
-import evilcraft.item.DarkGemConfig;
-import evilcraft.item.DarkGemCrushed;
-import evilcraft.item.DarkGemCrushedConfig;
+import evilcraft.item.*;
 import evilcraft.modcompat.IModCompat;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -100,6 +99,21 @@ public class ThermalExpansionModCompat implements IModCompat {
             materialPoisonous.writeToNBT(cruciblePoison.getCompoundTag("input"));
             new FluidStack(Poison.getInstance(), 250).writeToNBT(cruciblePoison.getCompoundTag("output"));
             FMLInterModComms.sendMessage(TE, "CrucibleRecipe", cruciblePoison);
+        }
+
+        // Crucible ender
+        if(Configs.isEnabled(EnderTearConfig.class)) {
+            Fluid ender = FluidRegistry.getFluid("ender");
+            if(ender != null) {
+                NBTTagCompound crucibleEnder = new NBTTagCompound();
+                crucibleEnder.setInteger("energy", 2000);
+                crucibleEnder.setTag("input", new NBTTagCompound());
+                crucibleEnder.setTag("output", new NBTTagCompound());
+
+                new ItemStack(EnderTear.getInstance()).writeToNBT(crucibleEnder.getCompoundTag("input"));
+                new FluidStack(ender, EnderTearConfig.mbLiquidEnder).writeToNBT(crucibleEnder.getCompoundTag("output"));
+                FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleEnder);
+            }
         }
 
         // Fluid Transposer: blood infuse

@@ -964,4 +964,30 @@
         </output>
     </recipe>
 
+    <recipe type="shaped">
+        <condition type="config">dullDust</condition>
+        <input>
+            <grid>
+                <gridrow>
+                    <item>minecraft:sugar</item>
+                    <item>minecraft:sugar</item>
+                    <item>minecraft:sugar</item>
+                </gridrow>
+                <gridrow>
+                    <item>minecraft:gunpowder</item>
+                    <item>minecraft:sugar</item>
+                    <item>minecraft:gunpowder</item>
+                </gridrow>
+                <gridrow>
+                    <item>minecraft:sugar</item>
+                    <item>minecraft:sugar</item>
+                    <item>minecraft:sugar</item>
+                </gridrow>
+            </grid>
+        </input>
+        <output>
+            <item amount="4">evilcraft:dullDust</item>
+        </output>
+    </recipe>
+
 </recipes>

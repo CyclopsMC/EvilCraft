@@ -1,12 +1,11 @@
 package evilcraft.core.recipe.xml;
 
-import net.minecraft.item.ItemStack;
-
-import net.minecraftforge.oredict.OreDictionary;
-import org.w3c.dom.Node;
-
 import cpw.mods.fml.common.registry.GameData;
 import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+import org.w3c.dom.Node;
 
 /**
  * Default item type handler for text nodes of the form evilcraft:darkGem"
@@ -15,7 +14,11 @@ import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 public class DefaultItemTypeHandler implements IItemTypeHandler {
 	
 	protected Object makeItemStack(String key, int amount, int meta) throws XmlRecipeException {
-        return new ItemStack(GameData.getItemRegistry().getObject(key), amount, meta);
+        Item item = GameData.getItemRegistry().getObject(key);
+        if(item == null) {
+            throw new XmlRecipeException(String.format("Item by name '%s' has not been found.", key));
+        }
+        return new ItemStack(item, amount, meta);
     }
 	
 	@Override

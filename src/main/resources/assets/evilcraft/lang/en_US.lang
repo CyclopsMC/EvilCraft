@@ -146,6 +146,14 @@ item.items.bowlOfPromises.active.name=Bowl of Promises
 item.items.bowlOfPromises.dusted.name=Filled Bowl of Empty Promises
 item.items.bowlOfPromises.empty.name=Bowl of Empty Promises
 item.items.bowlOfPromises.strength=Strength
+item.items.dullDust.name=Dull Dust
+item.items.dullDust.info=Quite boring dust... Or is it?
+item.items.bloodWaxedCoal.name=Blood-Waxed Coal
+item.items.bloodWaxedCoal.info=Double your coal efficiency.
+item.items.enderTear.name=Ender Tear
+item.items.enderTear.info=Rare drop from Endermen.
+item.items.bloodPotash.name=Blood Potash
+item.items.bloodPotash.info=Double your bonemealing efficiency.
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

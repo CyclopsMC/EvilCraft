@@ -36,7 +36,7 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
 		if(fluid == null) {
 			throw new XmlRecipeException(String.format("Fluid by name '%s' has not been found.", inputFluid));
 		}
-		
+
 		BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
                 new ItemFluidStackAndTierRecipeComponent(
                         (ItemStack) getItem(inputItem),

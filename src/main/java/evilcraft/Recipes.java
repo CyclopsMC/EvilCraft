@@ -43,6 +43,8 @@ public class Recipes {
 		"shapeless.xml",
 		"smelting.xml",
 		"bloodinfuser.xml",
+        "bloodinfuser_convenience.xml",
+        "bloodinfuser_mods.xml",
 		"environmentalaccumulator.xml"
 	};
 	private static final String RECIPES_BASE_PATH = "/assets/" + Reference.MOD_ID + "/recipes/";

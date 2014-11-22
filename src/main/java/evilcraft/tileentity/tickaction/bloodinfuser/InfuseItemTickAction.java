@@ -8,7 +8,6 @@ import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.tileentity.TileBloodInfuser;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.mutable.MutableInt;
 
@@ -69,8 +68,8 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
     }
     
     @Override
-    public Item willProduceItem(TileBloodInfuser tile) {
-        return getRecipe(tile).getOutput().getItemStack().getItem();
+    public ItemStack willProduceItem(TileBloodInfuser tile) {
+        return getRecipe(tile).getOutput().getItemStack();
     }
     
 }

@@ -56,25 +56,7 @@
     
     <recipe type="evilcraft:bloodinfuser">
         <condition type="config">bloodInfuser</condition>
-        <condition type="config">potentiaSphere</condition>
         <condition type="config">evilcraftblood</condition>
-        <condition type="predefined">evilcraft:enderPearlRecipe</condition>
-        <input>
-            <item>evilcraft:potentiaSphere</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>2000</fluidamount>
-        </input>
-        <output>
-            <item>minecraft:ender_pearl</item>
-        </output>
-        <properties>
-            <duration>1000</duration>
-            <tier>1</tier>
-        </properties>
-    </recipe>
-    
-    <recipe type="evilcraft:bloodinfuser">
-        <condition type="config">bloodInfuser</condition>
         <condition type="config">darkBrick</condition>
         <condition type="config">darkBloodBrick</condition>
         <condition type="config">evilcraftblood</condition>
@@ -91,27 +73,10 @@
             <tier>2</tier>
         </properties>
     </recipe>
-    
-    <recipe type="evilcraft:bloodinfuser">
-        <condition type="mod">AWWayofTime</condition>
-        <condition type="config">bloodInfuser</condition>
-        <condition type="config">boundBloodDrop</condition>
-        <input>
-            <item>AWWayofTime:magicianBloodOrb</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>10000</fluidamount>
-        </input>
-        <output>
-            <item>evilcraft:boundBloodDrop</item>
-        </output>
-        <properties>
-            <duration>1000</duration>
-            <tier>2</tier>
-        </properties>
-    </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
         <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
         <condition type="config">corruptedTear</condition>
         <input>
             <item>minecraft:ghast_tear</item>
@@ -129,6 +94,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
         <condition type="config">bowlOfPromises</condition>
         <input>
             <item meta="0">evilcraft:bowlOfPromises</item>
@@ -146,6 +112,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
         <condition type="config">bowlOfPromises</condition>
         <input>
             <item meta="0">evilcraft:bowlOfPromises</item>
@@ -163,6 +130,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
         <condition type="config">bowlOfPromises</condition>
         <input>
             <item meta="0">evilcraft:bowlOfPromises</item>
@@ -180,6 +148,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
         <condition type="config">bowlOfPromises</condition>
         <input>
             <item meta="0">evilcraft:bowlOfPromises</item>
@@ -192,6 +161,23 @@
         <properties>
             <duration>1000</duration>
             <tier>3</tier>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="config">bloodyCobblestone</condition>
+        <input>
+            <item>minecraft:mossy_cobblestone</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>500</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:bloodyCobblestone</item>
+        </output>
+        <properties>
+            <duration>250</duration>
         </properties>
     </recipe>
     

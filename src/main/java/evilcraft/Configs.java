@@ -1,23 +1,10 @@
 package evilcraft;
 
-import java.util.Set;
-
 import evilcraft.block.*;
-import evilcraft.item.*;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.core.config.ConfigHandler;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.degradation.effect.BiomeDegradationConfig;
-import evilcraft.core.degradation.effect.KnockbackDistortDegradationConfig;
-import evilcraft.core.degradation.effect.MobSpawnDegradationConfig;
-import evilcraft.core.degradation.effect.NauseateDegradationConfig;
-import evilcraft.core.degradation.effect.ParticleDegradationConfig;
-import evilcraft.core.degradation.effect.SoundDegradationConfig;
-import evilcraft.core.degradation.effect.TerraformDegradationConfig;
+import evilcraft.core.degradation.effect.*;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import evilcraft.enchantment.EnchantmentPoisonTipConfig;
@@ -25,13 +12,7 @@ import evilcraft.enchantment.EnchantmentUnusingConfig;
 import evilcraft.entity.block.EntityLightningBombPrimedConfig;
 import evilcraft.entity.effect.EntityAntiVengeanceBeamConfig;
 import evilcraft.entity.effect.EntityNecromancersHeadConfig;
-import evilcraft.entity.item.EntityBloodPearlConfig;
-import evilcraft.entity.item.EntityBroomConfig;
-import evilcraft.entity.item.EntityItemEmpowerableConfig;
-import evilcraft.entity.item.EntityItemUndespawnableConfig;
-import evilcraft.entity.item.EntityLightningGrenadeConfig;
-import evilcraft.entity.item.EntityRedstoneGrenadeConfig;
-import evilcraft.entity.item.EntityWeatherContainerConfig;
+import evilcraft.entity.item.*;
 import evilcraft.entity.monster.NetherfishConfig;
 import evilcraft.entity.monster.PoisonousLibelleConfig;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
@@ -39,7 +20,14 @@ import evilcraft.entity.monster.WerewolfConfig;
 import evilcraft.entity.villager.WerewolfVillagerConfig;
 import evilcraft.fluid.BloodConfig;
 import evilcraft.fluid.PoisonConfig;
+import evilcraft.item.*;
 import evilcraft.world.biome.BiomeDegradedConfig;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.Set;
 
 /**
  * This class holds a set of all the configs that need to be registered.
@@ -170,6 +158,10 @@ public class Configs {
         configs.add(new CorruptedTearConfig());
         configs.add(new PromiseConfig());
         configs.add(new BowlOfPromisesConfig());
+        configs.add(new DullDustConfig());
+        configs.add(new BloodWaxedCoalConfig());
+        configs.add(new EnderTearConfig());
+        configs.add(new BloodPotashConfig());
         
         // Entities
         // Item
