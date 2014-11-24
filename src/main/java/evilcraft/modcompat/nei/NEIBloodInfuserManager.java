@@ -194,8 +194,8 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> recipes =
                 BloodInfuser.getInstance().getRecipeRegistry().findRecipesByOutput(new ItemStackRecipeComponent(result));
 
-        if(!recipes.isEmpty()) {
-            arecipes.add(new CachedBloodInfuserRecipe(recipes.get(0)));
+        for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe : recipes) {
+            arecipes.add(new CachedBloodInfuserRecipe(recipe));
         }
     }
     
