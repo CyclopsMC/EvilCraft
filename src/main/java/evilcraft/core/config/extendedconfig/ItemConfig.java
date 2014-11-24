@@ -1,12 +1,14 @@
 package evilcraft.core.config.extendedconfig;
 
+import evilcraft.core.client.render.item.AlphaRenderItem;
+import evilcraft.core.config.ConfigurableType;
+import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.helper.MinecraftHelpers;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
-import evilcraft.core.client.render.item.AlphaRenderItem;
-import evilcraft.core.config.ConfigurableType;
-import evilcraft.core.helper.MinecraftHelpers;
 
 /**
  * Config for items.
@@ -24,6 +26,11 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
      */
     public ItemConfig(boolean enabled, String namedId, String comment, Class<? extends Item> element) {
         super(enabled, namedId, comment, element);
+    }
+
+    @Override
+    protected IConfigurable initSubInstance() {
+        return this.getElement() == null ? new ConfigurableItem(this) : super.initSubInstance();
     }
     
     @Override

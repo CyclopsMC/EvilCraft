@@ -1,9 +1,11 @@
 package evilcraft.item;
 
+import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link DarkPowerGem}.
+ * Config for the Dark Power Gem.
  * @author rubensworks
  *
  */
@@ -22,8 +24,13 @@ public class DarkPowerGemConfig extends ItemConfig {
         	true,
             "darkPowerGem",
             null,
-            DarkPowerGem.class
+            null
         );
+    }
+
+    @Override
+    protected IConfigurable initSubInstance() {
+        return(ConfigurableItem) new ConfigurableItem(this).setMaxStackSize(16);
     }
     
     @Override

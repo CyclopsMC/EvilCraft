@@ -5,7 +5,7 @@ import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link PotentiaSphere}.
+ * Config for the Potentia Sphere.
  * @author rubensworks
  *
  */
@@ -30,7 +30,7 @@ public class PotentiaSphereConfig extends ItemConfig {
             true,
             "potentiaSphere",
             null,
-            PotentiaSphere.class
+            null
         );
     }
     

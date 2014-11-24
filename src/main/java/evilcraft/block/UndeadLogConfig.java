@@ -1,11 +1,14 @@
 package evilcraft.block;
 
-import net.minecraft.init.Blocks;
 import evilcraft.Reference;
+import evilcraft.core.config.configurable.ConfigurableBlockLog;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.BlockConfig;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 
 /**
- * Config for the {@link UndeadLog}.
+ * Config for the Undead Log.
  * @author rubensworks
  *
  */
@@ -24,8 +27,14 @@ public class UndeadLogConfig extends BlockConfig {
         	true,
             "undeadLog",
             null,
-            UndeadLog.class
+            null
         );
+    }
+
+    @Override
+    protected IConfigurable initSubInstance() {
+        return (ConfigurableBlockLog) new ConfigurableBlockLog(this).
+                setHardness(2.0F).setStepSound(Block.soundTypeWood);
     }
     
     @Override
@@ -40,7 +49,7 @@ public class UndeadLogConfig extends BlockConfig {
     
     @Override
     public void onRegistered() {
-    	Blocks.fire.setFireInfo(UndeadLog.getInstance(), 5, 20);
+    	Blocks.fire.setFireInfo(getBlockInstance(), 5, 20);
     }
     
     @Override

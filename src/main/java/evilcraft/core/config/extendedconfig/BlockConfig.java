@@ -1,9 +1,9 @@
 package evilcraft.core.config.extendedconfig;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
 import evilcraft.core.config.ConfigurableType;
 import evilcraft.core.item.ItemBlockExtended;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 
 /**
  * Config for blocks.
@@ -22,7 +22,7 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
     public BlockConfig(boolean enabled, String namedId, String comment, Class<? extends Block> element) {
         super(enabled, namedId, comment, element);
     }
-    
+
     @Override
 	public String getUnlocalizedName() {
 		return "blocks." + getNamedId();
@@ -55,6 +55,14 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
      */
     public boolean isMultipartEnabled() {
         return false;
+    }
+
+    /**
+     * Get the casted instance of the block.
+     * @return The block.
+     */
+    public Block getBlockInstance() {
+        return (Block) super.getSubInstance();
     }
 
 }

@@ -4,7 +4,7 @@ import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link PoisonSac}.
+ * Config for the Poison Sac.
  * @author rubensworks
  *
  */
@@ -23,7 +23,7 @@ public class PoisonSacConfig extends ItemConfig {
         	true,
             "poisonSac",
             null,
-            PoisonSac.class
+            null
         );
     }
     

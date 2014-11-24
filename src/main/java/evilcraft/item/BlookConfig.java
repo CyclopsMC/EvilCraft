@@ -3,7 +3,7 @@ package evilcraft.item;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link Blook}.
+ * Config for the Blook.
  * @author rubensworks
  *
  */
@@ -22,7 +22,7 @@ public class BlookConfig extends ItemConfig {
             true,
             "blook",
             null,
-            Blook.class
+            null
         );
     }
     

@@ -5,7 +5,6 @@ import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.api.RegistryManager;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
-import evilcraft.item.EnderTear;
 import evilcraft.item.EnderTearConfig;
 import evilcraft.modcompat.IModCompat;
 import net.minecraft.item.ItemStack;
@@ -30,7 +29,7 @@ public class TConstructModCompat implements IModCompat {
     		RegistryManager.getRegistry(IBloodChestRepairActionRegistry.class).
     			register(new TConstructToolRepairTickAction());
             if(Configs.isEnabled(EnderTearConfig.class)) {
-                Smeltery.addMelting(FluidType.getFluidType("Ender"), new ItemStack(EnderTear.getInstance()), 0,
+                Smeltery.addMelting(FluidType.getFluidType("Ender"), new ItemStack(EnderTearConfig._instance.getItemInstance()), 0,
                         EnderTearConfig.mbLiquidEnder);
             }
     	}

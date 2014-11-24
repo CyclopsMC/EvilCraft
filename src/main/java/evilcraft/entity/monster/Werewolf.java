@@ -1,18 +1,17 @@
 package evilcraft.entity.monster;
 
-import java.util.Random;
-
+import evilcraft.Configs;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.entity.villager.WerewolfVillagerConfig;
+import evilcraft.item.WerewolfBoneConfig;
+import evilcraft.item.WerewolfFurConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,14 +19,8 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import evilcraft.Configs;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.entity.villager.WerewolfVillagerConfig;
-import evilcraft.item.WerewolfBone;
-import evilcraft.item.WerewolfBoneConfig;
-import evilcraft.item.WerewolfFur;
-import evilcraft.item.WerewolfFurConfig;
+
+import java.util.Random;
 
 /**
  * A large werewolf, only appears at night by transforming from a werewolf villager.
@@ -176,7 +169,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
     @Override
     protected Item getDropItem() {
         if(Configs.isEnabled(WerewolfBoneConfig.class))
-            return WerewolfBone.getInstance();
+            return WerewolfBoneConfig._instance.getItemInstance();
         else
             return super.getDropItem();
     }
@@ -184,7 +177,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
     @Override
     protected void dropRareDrop(int chance) {
         if(Configs.isEnabled(WerewolfFurConfig.class))
-            this.dropItem(WerewolfFur.getInstance(), 1);
+            this.dropItem(WerewolfFurConfig._instance.getItemInstance(), 1);
     }
     
     @Override

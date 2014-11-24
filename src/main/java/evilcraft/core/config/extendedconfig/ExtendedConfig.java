@@ -1,21 +1,15 @@
 package evilcraft.core.config.extendedconfig;
 
+import evilcraft.EvilCraft;
+import evilcraft.IInitListener;
+import evilcraft.core.config.*;
+import evilcraft.core.config.configurable.IConfigurable;
+import org.apache.logging.log4j.Level;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.apache.logging.log4j.Level;
-
-import evilcraft.EvilCraft;
-import evilcraft.IInitListener;
-import evilcraft.core.config.ConfigProperty;
-import evilcraft.core.config.ConfigPropertyCallback;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableType;
-import evilcraft.core.config.EvilCraftConfigException;
-import evilcraft.core.config.IChangedCallback;
-import evilcraft.core.config.configurable.IConfigurable;
 
 /**
  * A config that refers to a {@link IConfigurable}. Every unique {@link IConfigurable} must have one
@@ -34,6 +28,8 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements
     private String comment;
     @SuppressWarnings("rawtypes")
 	private Class element;
+
+    private IConfigurable overriddenSubInstance;
     
     /**
      * A list of {@link ConfigProperty} that can contain additional settings for this configurable.
@@ -53,6 +49,7 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements
     	this.namedId = namedId;
     	this.comment = comment;
     	this.element = element;
+        this.overriddenSubInstance = initSubInstance();
         try {
             generateConfigProperties();
         } catch (IllegalArgumentException e1) {
@@ -135,21 +132,21 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements
         try {
             // Save inside the self-implementation
             this.getClass().getField("_instance").set(null, this);
-            
+
             // Save inside the unique instance this config refers to (only if such an instance exists!)
-            if(this.getHolderType().hasUniqueInstance())
+            if (getOverriddenSubInstance() == null && this.getHolderType().hasUniqueInstance())
                 this.getElement().getMethod("initInstance", ExtendedConfig.class).invoke(null, this);
         } catch (InvocationTargetException e) {
-        	EvilCraft.log("Registering " + this.getNamedId() + " caused the issue "
-        			+ "(skipping registration): " + e.getCause().getMessage(), Level.ERROR);
+            EvilCraft.log("Registering " + this.getNamedId() + " caused the issue "
+                    + "(skipping registration): " + e.getCause().getMessage(), Level.ERROR);
             e.getCause().printStackTrace();
-            
+
             // Disable this configurable.
-            if(!this.isDisableable()) {
-            	throw new EvilCraftConfigException("Registering " + this.getNamedId()
-            			+ " caused the issue: " + e.getCause().getMessage()
-            			+ ". Since this is a required element of this mod, we can not continue, "
-            			+ "there might be ID conflicts with other mods.");
+            if (!this.isDisableable()) {
+                throw new EvilCraftConfigException("Registering " + this.getNamedId()
+                        + " caused the issue: " + e.getCause().getMessage()
+                        + ". Since this is a required element of this mod, we can not continue, "
+                        + "there might be ID conflicts with other mods.");
             }
             this.setEnabled(false);
         } catch (IllegalAccessException e) {
@@ -159,14 +156,14 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements
             e.printStackTrace();
             throw new EvilCraftConfigException(errorMessage);
         } catch (NoSuchMethodException e) {
-        	e.printStackTrace();
-        	throw new EvilCraftConfigException(errorMessage);
+            e.printStackTrace();
+            throw new EvilCraftConfigException(errorMessage);
         } catch (SecurityException e) {
-        	e.printStackTrace();
-        	throw new EvilCraftConfigException(errorMessage); 
+            e.printStackTrace();
+            throw new EvilCraftConfigException(errorMessage);
         } catch (NoSuchFieldException e) {
-        	e.printStackTrace();
-        	throw new EvilCraftConfigException(errorMessage);
+            e.printStackTrace();
+            throw new EvilCraftConfigException(errorMessage);
         }
     }
     
@@ -181,13 +178,31 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements
      * @return The unlocalized name.
      */
     public abstract String getUnlocalizedName();
-    
+
+    /**
+     * This method will by default just return null.
+     * If it returns something else, this config will assume that the object that is returned is the unique sub-instance
+     * for the configurable.
+     * This is only called once.
+     * @return A sub-instance that will become a singleton.
+     */
+    protected IConfigurable initSubInstance() {
+        return null;
+    }
+
+    private IConfigurable getOverriddenSubInstance() {
+        return this.overriddenSubInstance;
+    }
+
     /**
      * Will return the instance of the object this config refers to
      * @return instance of sub object
      */
     @SuppressWarnings("unchecked")
     public IConfigurable getSubInstance() {
+        if(getOverriddenSubInstance() != null) {
+            return getOverriddenSubInstance();
+        }
         if(!this.getHolderType().hasUniqueInstance())
             throw new EvilCraftConfigException("There exists no unique instance for " + this);
         try {

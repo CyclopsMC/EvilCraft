@@ -2,10 +2,12 @@ package evilcraft.item;
 
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link evilcraft.item.EnderTear}.
+ * Config for the Ender Tear.
  * @author rubensworks
  *
  */
@@ -36,8 +38,13 @@ public class EnderTearConfig extends ItemConfig {
             true,
             "enderTear",
             null,
-            EnderTear.class
+            null
         );
+    }
+
+    @Override
+    protected IConfigurable initSubInstance() {
+        return(ConfigurableItem) new ConfigurableItem(this).setMaxStackSize(16);
     }
     
 }

@@ -1,9 +1,5 @@
 package evilcraft.item;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+
 import evilcraft.Configs;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.DarkOre;
@@ -12,6 +8,11 @@ import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.WorldHelpers;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 /**
  * Gem that drops from {@link DarkOre}.
@@ -87,7 +88,7 @@ public class DarkGem extends ConfigurableItem {
                                 if(amount == REQUIRED_BLOOD_BLOCKS) {
                                     // Spawn the new item
                                     entityItem.getEntityItem().stackSize--;
-                                    entityItem.dropItem(DarkPowerGem.getInstance(), 1);
+                                    entityItem.dropItem(DarkPowerGemConfig._instance.getItemInstance(), 1);
                                     
                                     // Retrace coordinate step and remove all those blocks + spawn particles
                                     for(int restep = 0; restep < amount; restep++) {

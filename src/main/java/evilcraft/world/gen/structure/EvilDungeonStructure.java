@@ -1,7 +1,7 @@
 package evilcraft.world.gen.structure;
 
-import java.util.Random;
-
+import evilcraft.Configs;
+import evilcraft.block.BloodyCobblestoneConfig;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
@@ -11,9 +11,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenDungeons;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.DungeonHooks;
-import evilcraft.Configs;
-import evilcraft.block.BloodyCobblestone;
-import evilcraft.block.BloodyCobblestoneConfig;
+
+import java.util.Random;
 
 /**
  * Evil Dungeon, based on vanilla dungeons
@@ -75,7 +74,7 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                         } else if (world.getBlock(xr, yr, zr).getMaterial().isSolid()) {
                             if (yr == y - 1 && random.nextInt(4) != 0) {
 								if(Configs.isEnabled(BloodyCobblestoneConfig.class)) {
-									world.setBlock(xr, yr, zr, BloodyCobblestone.getInstance(), 0, 2);
+									world.setBlock(xr, yr, zr, BloodyCobblestoneConfig._instance.getBlockInstance(), 0, 2);
 								}
                             } else {
                                 world.setBlock(xr, yr, zr, Blocks.cobblestone, 0, 2);

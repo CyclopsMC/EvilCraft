@@ -4,7 +4,7 @@ import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link evilcraft.item.DullDust}.
+ * Config for the Dull Dust.
  * @author rubensworks
  *
  */
@@ -23,7 +23,7 @@ public class DullDustConfig extends ItemConfig {
         	true,
             "dullDust",
             null,
-            DullDust.class
+            null
         );
     }
     

@@ -6,7 +6,7 @@ import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link HardenedBloodShard}.
+ * Config for the Hardened Blood Shard.
  * @author rubensworks
  *
  */
@@ -37,7 +37,7 @@ public class HardenedBloodShardConfig extends ItemConfig {
         	true,
             "hardenedBloodShard",
             null,
-            HardenedBloodShard.class
+            null
         );
     }
     

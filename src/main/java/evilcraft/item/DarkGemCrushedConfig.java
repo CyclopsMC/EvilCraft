@@ -1,15 +1,17 @@
 package evilcraft.item;
 
+import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ItemConfig;
+import net.minecraft.item.ItemStack;
 
 /**
- * Config for the {@link DarkGemCrushed}.
+ * Config for the Crushed Dark Gem.
  * @author rubensworks
  *
  */
-public class DarkGemCrushedConfig extends ItemConfig {
+public class DarkGemCrushedConfig extends ItemConfig implements IFuelHandler {
     
     /**
      * The unique instance.
@@ -24,7 +26,7 @@ public class DarkGemCrushedConfig extends ItemConfig {
         	true,
             "darkGemCrushed",
             null,
-            DarkGemCrushed.class
+            null
         );
     }
     
@@ -35,7 +37,15 @@ public class DarkGemCrushedConfig extends ItemConfig {
     
     @Override
     public void onRegistered() {
-    	GameRegistry.registerFuelHandler((DarkGemCrushed) getItemInstance());
+    	GameRegistry.registerFuelHandler(this);
+    }
+
+    @Override
+    public int getBurnTime(ItemStack fuel) {
+        if(getItemInstance() == fuel.getItem()) {
+            return 16000;
+        }
+        return 0;
     }
     
 }

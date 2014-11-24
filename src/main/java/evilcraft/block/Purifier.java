@@ -1,6 +1,13 @@
 package evilcraft.block;
-import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.client.render.block.RenderPurifier;
+import evilcraft.core.config.configurable.ConfigurableBlockContainer;
+import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.item.BucketBloodConfig;
+import evilcraft.tileentity.TilePurifier;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -13,14 +20,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.client.render.block.RenderPurifier;
-import evilcraft.core.config.configurable.ConfigurableBlockContainer;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.item.BucketBlood;
-import evilcraft.tileentity.TilePurifier;
+
+import java.util.List;
 
 /**
  * Block that can remove bad enchants from items.
@@ -90,13 +91,13 @@ public class Purifier extends ConfigurableBlockContainer {
                         int buckets = tile.getBucketsFloored();
                         if (buckets > 0) {
                             if (!player.capabilities.isCreativeMode) {
-                                player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(BucketBlood.getInstance()));
+                                player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(BucketBloodConfig._instance.getItemInstance()));
                             }
                             tile.setBuckets(buckets - 1, tile.getBucketsRest());
                         }
                         return true;
                     }
-                }  else if(itemStack != null && itemStack.getItem().getClass() == TilePurifier.ALLOWED_BOOK && tile.getBookItem() == null) {
+                }  else if(itemStack != null && itemStack.getItem() == TilePurifier.ALLOWED_BOOK && tile.getBookItem() == null) {
                     ItemStack copy = itemStack.copy();
                     copy.stackSize = 1;
                     tile.setBookItem(copy);

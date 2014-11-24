@@ -1,11 +1,15 @@
 package evilcraft.block;
 
-import net.minecraft.init.Blocks;
 import evilcraft.Reference;
+import evilcraft.core.config.configurable.ConfigurableBlock;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.BlockConfig;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 
 /**
- * Config for the {@link UndeadPlank}.
+ * Config for the Undead Plank.
  * @author rubensworks
  *
  */
@@ -24,8 +28,14 @@ public class UndeadPlankConfig extends BlockConfig {
         	true,
             "undeadPlank",
             null,
-            UndeadPlank.class
+            null
         );
+    }
+
+    @Override
+    protected IConfigurable initSubInstance() {
+        return (ConfigurableBlock) new ConfigurableBlock(this, Material.wood).
+                setHardness(2.0F).setStepSound(Block.soundTypeWood);
     }
     
     @Override
@@ -40,7 +50,7 @@ public class UndeadPlankConfig extends BlockConfig {
     
     @Override
     public void onRegistered() {
-    	Blocks.fire.setFireInfo(UndeadPlank.getInstance(), 5, 20);
+    	Blocks.fire.setFireInfo(getBlockInstance(), 5, 20);
     }
     
 }

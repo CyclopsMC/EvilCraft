@@ -1,15 +1,15 @@
 package evilcraft.world.gen;
 
-import java.util.Random;
-
+import evilcraft.block.UndeadLeaves;
+import evilcraft.block.UndeadLogConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.util.ForgeDirection;
-import evilcraft.block.UndeadLeaves;
-import evilcraft.block.UndeadLog;
+
+import java.util.Random;
 
 /**
  * WorldGenerator for Undead Trees.
@@ -21,7 +21,7 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
 
     private Block sapling = null;
     private Block leaves = UndeadLeaves.getInstance();
-    private Block logs = UndeadLog.getInstance();
+    private Block logs = UndeadLogConfig._instance.getBlockInstance();
 
     /**
      * Make a new instance.

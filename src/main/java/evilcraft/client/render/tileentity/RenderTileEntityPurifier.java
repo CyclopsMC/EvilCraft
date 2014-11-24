@@ -1,5 +1,8 @@
 package evilcraft.client.render.tileentity;
 
+import evilcraft.Reference;
+import evilcraft.block.Purifier;
+import evilcraft.tileentity.TilePurifier;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -12,12 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
 import org.lwjgl.opengl.GL11;
-
-import evilcraft.Reference;
-import evilcraft.block.Purifier;
-import evilcraft.tileentity.TilePurifier;
 
 /**
  * Renderer for the item inside the {@link Purifier}.
@@ -96,7 +94,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         GL11.glRotatef(-rotation * 180.0F / (float)Math.PI, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(80.0F, 0.0F, 0.0F, 1.0F);
         
-        if(itemStack.getItem().getClass() == TilePurifier.ALLOWED_BOOK)
+        if(itemStack.getItem() == TilePurifier.ALLOWED_BOOK)
             this.bindTexture(TEXTURE_BLOOK);
         else
             this.bindTexture(TEXTURE_ENCHANTEDBOOK);

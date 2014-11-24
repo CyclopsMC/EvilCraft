@@ -1,16 +1,5 @@
 package evilcraft.block;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
@@ -22,8 +11,19 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.item.DarkGem;
 import evilcraft.item.DarkGemConfig;
-import evilcraft.item.DarkGemCrushed;
 import evilcraft.item.DarkGemCrushedConfig;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Ore that drops {@link DarkGem}.
@@ -100,7 +100,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     	ArrayList<ItemStack> drops = super.getDrops(world, x, y, z, metadata, fortune);
     	if((fortune > 0 || world.rand.nextInt(CRUSHEDCHANCE) == 0)
     			&& Configs.isEnabled(DarkGemCrushedConfig.class)) {
-    		drops.add(new ItemStack(DarkGemCrushed.getInstance(),
+    		drops.add(new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(),
     				world.rand.nextInt(fortune / 3 + 1) + 1));
     	}
         return drops;

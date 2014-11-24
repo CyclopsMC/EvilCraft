@@ -3,11 +3,13 @@ package evilcraft.item;
 import evilcraft.block.FluidBlockPoison;
 import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.core.config.configurable.ConfigurableFluid;
+import evilcraft.core.config.configurable.ConfigurableItemBucket;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ItemBucketConfig;
 import evilcraft.fluid.Poison;
 
 /**
- * Config for the {@link BucketPoison}.
+ * Config for the Poison Bucket.
  * @author rubensworks
  *
  */
@@ -26,8 +28,13 @@ public class BucketPoisonConfig extends ItemBucketConfig {
         	true,
             "bucketPoison",
             null,
-            BucketPoison.class
+            null
         );
+    }
+
+    @Override
+    protected IConfigurable initSubInstance() {
+        return new ConfigurableItemBucket(this, FluidBlockPoison.getInstance());
     }
 
     @Override

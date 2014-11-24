@@ -1,12 +1,10 @@
 package evilcraft.block;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 
 /**
- * Config for the {@link UndeadSapling}.
+ * Config for the Undead Sapling.
  * @author rubensworks
  *
  */
@@ -27,11 +25,6 @@ public class UndeadSaplingConfig extends BlockConfig {
             null,
             UndeadSapling.class
         );
-    }
-    
-    @Override
-    public void onRegistered() {
-        OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(UndeadSapling.getInstance()));
     }
     
     @Override

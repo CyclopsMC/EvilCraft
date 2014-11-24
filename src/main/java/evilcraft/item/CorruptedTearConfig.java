@@ -3,7 +3,7 @@ package evilcraft.item;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link evilcraft.item.CorruptedTear}.
+ * Config for the Corrupted Tear.
  * @author rubensworks
  *
  */
@@ -22,7 +22,7 @@ public class CorruptedTearConfig extends ItemConfig {
             true,
             "corruptedTear",
             null,
-            CorruptedTear.class
+            null
         );
     }
     

@@ -8,7 +8,10 @@ import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.fluid.Poison;
-import evilcraft.item.*;
+import evilcraft.item.DarkGem;
+import evilcraft.item.DarkGemConfig;
+import evilcraft.item.DarkGemCrushedConfig;
+import evilcraft.item.EnderTearConfig;
 import evilcraft.modcompat.IModCompat;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -51,8 +54,8 @@ public class ThermalExpansionModCompat implements IModCompat {
             sawmillUndeadWood.setTag("input", new NBTTagCompound());
             sawmillUndeadWood.setTag("primaryOutput", new NBTTagCompound());
     
-            new ItemStack(UndeadLog.getInstance()).writeToNBT(sawmillUndeadWood.getCompoundTag("input"));
-            new ItemStack(UndeadPlank.getInstance(), 6).writeToNBT(sawmillUndeadWood.getCompoundTag("primaryOutput"));
+            new ItemStack(UndeadLogConfig._instance.getBlockInstance()).writeToNBT(sawmillUndeadWood.getCompoundTag("input"));
+            new ItemStack(UndeadPlankConfig._instance.getBlockInstance(), 6).writeToNBT(sawmillUndeadWood.getCompoundTag("primaryOutput"));
             FMLInterModComms.sendMessage(TE, "SawmillRecipe", sawmillUndeadWood);
         }
 
@@ -71,7 +74,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             new ItemStack(DarkOre.getInstance()).writeToNBT(pulverizerDarkOre.getCompoundTag("input"));
             new ItemStack(DarkGem.getInstance(), 2).writeToNBT(pulverizerDarkOre.getCompoundTag("primaryOutput"));
             if(crushedEnabled) {
-            	new ItemStack(DarkGemCrushed.getInstance(), 1).writeToNBT(pulverizerDarkOre.getCompoundTag("secondaryOutput"));
+            	new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1).writeToNBT(pulverizerDarkOre.getCompoundTag("secondaryOutput"));
             }
             FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
         }
@@ -84,7 +87,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             pulverizerDarkOre.setTag("primaryOutput", new NBTTagCompound());
     
             new ItemStack(DarkGem.getInstance()).writeToNBT(pulverizerDarkOre.getCompoundTag("input"));
-            new ItemStack(DarkGemCrushed.getInstance(), 1).writeToNBT(pulverizerDarkOre.getCompoundTag("primaryOutput"));
+            new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1).writeToNBT(pulverizerDarkOre.getCompoundTag("primaryOutput"));
             FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
         }
 
@@ -110,7 +113,7 @@ public class ThermalExpansionModCompat implements IModCompat {
                 crucibleEnder.setTag("input", new NBTTagCompound());
                 crucibleEnder.setTag("output", new NBTTagCompound());
 
-                new ItemStack(EnderTear.getInstance()).writeToNBT(crucibleEnder.getCompoundTag("input"));
+                new ItemStack(EnderTearConfig._instance.getItemInstance()).writeToNBT(crucibleEnder.getCompoundTag("input"));
                 new FluidStack(ender, EnderTearConfig.mbLiquidEnder).writeToNBT(crucibleEnder.getCompoundTag("output"));
                 FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleEnder);
             }

@@ -3,7 +3,7 @@ package evilcraft.item;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link BloodInfusionCore}.
+ * Config for the Blood Infusion Core.
  * @author rubensworks
  *
  */
@@ -22,7 +22,7 @@ public class BloodInfusionCoreConfig extends ItemConfig {
         	true,
             "bloodInfusionCore",
             null,
-            BloodInfusionCore.class
+            null
         );
     }
     

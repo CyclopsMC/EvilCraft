@@ -1,12 +1,9 @@
 package evilcraft.entity.monster;
 
-import java.util.List;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityFlying;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.SharedMonsterAttributes;
+import evilcraft.Configs;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.item.PoisonSacConfig;
+import net.minecraft.entity.*;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -17,10 +14,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import evilcraft.Configs;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.item.PoisonSac;
-import evilcraft.item.PoisonSacConfig;
+
+import java.util.List;
 
 /**
  * A libelle that poisons you.
@@ -92,7 +87,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
     @Override
     protected Item getDropItem() {
         if(Configs.isEnabled(PoisonSacConfig.class))
-            return PoisonSac.getInstance();
+            return PoisonSacConfig._instance.getItemInstance();
         else
             return super.getDropItem();
     }

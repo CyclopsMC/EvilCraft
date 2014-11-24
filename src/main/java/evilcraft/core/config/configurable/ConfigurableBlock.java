@@ -1,10 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
@@ -12,13 +7,18 @@ import evilcraft.core.client.render.block.CustomRenderBlocks;
 import evilcraft.core.client.render.block.IMultiRenderPassBlock;
 import evilcraft.core.client.render.block.MultiPassBlockRenderer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 
 /**
  * Block that can hold ExtendedConfigs
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlock extends Block implements IConfigurable, IMultiRenderPassBlock{
+public class ConfigurableBlock extends Block implements IConfigurable, IMultiRenderPassBlock{
     
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
@@ -109,6 +109,11 @@ public abstract class ConfigurableBlock extends Block implements IConfigurable, 
     @Override
     public void setInventoryBlock(boolean isInventoryBlock) {
         this.isInventoryBlock = isInventoryBlock;
+    }
+
+    public ConfigurableBlock setHarvestLevelDefined(String toolClass, int level) {
+        super.setHarvestLevel(toolClass, level);
+        return this;
     }
 
 }

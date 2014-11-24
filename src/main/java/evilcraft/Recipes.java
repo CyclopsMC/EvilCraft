@@ -204,8 +204,9 @@ public class Recipes {
         if(Configs.isEnabled(EntangledChaliceConfig.class)
                 && Configs.isEnabled(DarkGemConfig.class)
                 && Configs.isEnabled(CorruptedTearConfig.class)) {
+            Item tear = CorruptedTearConfig._instance.getItemInstance();
             GameRegistry.addRecipe(new ObservableShapedRecipe(3, 3, new ItemStack[]{
-                    new ItemStack(Items.gold_ingot), new ItemStack(CorruptedTear.getInstance()), new ItemStack(Items.gold_ingot),
+                    new ItemStack(Items.gold_ingot), new ItemStack(tear), new ItemStack(Items.gold_ingot),
                     new ItemStack(DarkGem.getInstance()), new ItemStack(Items.gold_ingot), new ItemStack(DarkGem.getInstance()),
                     new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot)
             }, new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 2), new IRecipeOutputObserver() {
@@ -219,7 +220,7 @@ public class Recipes {
             }));
 
             GameRegistry.addRecipe(new ObservableShapedRecipe(3, 3, new ItemStack[]{
-                    new ItemStack(Items.gold_ingot), new ItemStack(CorruptedTear.getInstance()), new ItemStack(Items.gold_ingot),
+                    new ItemStack(Items.gold_ingot), new ItemStack(tear), new ItemStack(Items.gold_ingot),
                     new ItemStack(DarkGem.getInstance()), new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance())), new ItemStack(DarkGem.getInstance()),
                     new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot)
             }, new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 2), new IRecipeOutputObserver() {

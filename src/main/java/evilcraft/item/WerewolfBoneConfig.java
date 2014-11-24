@@ -4,7 +4,7 @@ import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link WerewolfBone}.
+ * Config for the Werewolf Bone.
  * @author rubensworks
  *
  */
@@ -23,7 +23,7 @@ public class WerewolfBoneConfig extends ItemConfig {
         	true,
             "werewolfBone",
             null,
-            WerewolfBone.class
+            null
         );
     }
     

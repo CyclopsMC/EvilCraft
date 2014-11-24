@@ -1,8 +1,10 @@
 package evilcraft.core.config.configurable;
 
-import java.util.List;
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Reference;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.world.gen.WorldGeneratorUndeadTree;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -11,18 +13,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.world.gen.WorldGeneratorUndeadTree;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * Block extending from a sapling that can hold ExtendedConfigs
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockSapling extends BlockSapling implements IConfigurable{
+public class ConfigurableBlockSapling extends BlockSapling implements IConfigurable{
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;

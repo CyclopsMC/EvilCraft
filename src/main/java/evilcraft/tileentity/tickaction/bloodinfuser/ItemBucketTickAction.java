@@ -1,7 +1,7 @@
 package evilcraft.tileentity.tickaction.bloodinfuser;
 
 import evilcraft.core.tileentity.tickaction.ITickAction;
-import evilcraft.item.BucketBlood;
+import evilcraft.item.BucketBloodConfig;
 import evilcraft.tileentity.TileBloodInfuser;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -20,7 +20,7 @@ public class ItemBucketTickAction extends BloodInfuserTickAction{
             ItemStack infuseStack = getInfuseStack(tile);
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(infuseStack);
             if(tile.getTank().getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME && fluidStack == null) {
-                if(addToProduceSlot(tile, new ItemStack(BucketBlood.getInstance()))) {
+                if(addToProduceSlot(tile, new ItemStack(BucketBloodConfig._instance.getItemInstance()))) {
                     tile.getTank().drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                     tile.getInventory().decrStackSize(tile.getConsumeSlot(), 1);
                 }
@@ -35,7 +35,7 @@ public class ItemBucketTickAction extends BloodInfuserTickAction{
 
     @Override
     public ItemStack willProduceItem(TileBloodInfuser tile) {
-        return new ItemStack(BucketBlood.getInstance());
+        return new ItemStack(BucketBloodConfig._instance.getItemInstance());
     }
 
 }

@@ -3,7 +3,7 @@ package evilcraft.item;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link WerewolfFur}.
+ * Config for the Werewolf Fur.
  * @author rubensworks
  *
  */
@@ -22,7 +22,7 @@ public class WerewolfFurConfig extends ItemConfig {
         	true,
             "werewolfFur",
             null,
-            WerewolfFur.class
+            null
         );
     }
     

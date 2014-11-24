@@ -1,20 +1,17 @@
 package evilcraft.modcompat.forestry;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import evilcraft.Configs;
 import evilcraft.IInitListener;
 import evilcraft.Reference;
-import evilcraft.block.UndeadLog;
 import evilcraft.block.UndeadLogConfig;
-import evilcraft.block.UndeadSapling;
 import evilcraft.block.UndeadSaplingConfig;
 import evilcraft.item.DarkGem;
 import evilcraft.item.DarkGemConfig;
-import evilcraft.item.PoisonSac;
 import evilcraft.item.PoisonSacConfig;
 import evilcraft.modcompat.IModCompat;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 
 /**
  * Compatibility plugin for Forestry.
@@ -34,7 +31,7 @@ public class ForestryModCompat implements IModCompat {
 	        // Register the Undead Sapling.
 	        if(Configs.isEnabled(UndeadSaplingConfig.class)) {
 	            FMLInterModComms.sendMessage(getModID(), "add-farmable-sapling",
-	                    "farmArboreal@" + Block.blockRegistry.getNameForObject(UndeadSapling.getInstance()) + ".0");
+	                    "farmArboreal@" + Block.blockRegistry.getNameForObject(UndeadSaplingConfig._instance.getBlockInstance()) + ".0");
 	        }
 	        
 	        // Add dark gem to the miner backpack.
@@ -46,13 +43,13 @@ public class ForestryModCompat implements IModCompat {
 	        // Add poison sac to hunter backpack.
 	        if(Configs.isEnabled(PoisonSacConfig.class)) {
 	            FMLInterModComms.sendMessage(getModID(), "add-backpack-items",
-	                    "hunter@" + Item.itemRegistry.getNameForObject(PoisonSac.getInstance()) + ":*");
+	                    "hunter@" + Item.itemRegistry.getNameForObject(PoisonSacConfig._instance.getItemInstance()) + ":*");
 	        }
 	        
 	        // Add undead log to forester backpack.
 	        if(Configs.isEnabled(UndeadLogConfig.class)) {
 	            FMLInterModComms.sendMessage(getModID(), "add-backpack-items",
-	                    "forester@" + Block.blockRegistry.getNameForObject(UndeadLog.getInstance()) + ":*");
+	                    "forester@" + Block.blockRegistry.getNameForObject(UndeadLogConfig._instance.getBlockInstance()) + ":*");
 	        }
 	        
 	        ForestryRecipeManager.register();

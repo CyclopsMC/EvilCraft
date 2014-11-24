@@ -1,8 +1,9 @@
 package evilcraft.core.config.configurable;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Reference;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.BlockLog;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,17 +11,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Block that extends from a log that can hold ExtendedConfigs
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockLog extends BlockLog implements IConfigurable{
+public class ConfigurableBlockLog extends BlockLog implements IConfigurable{
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;

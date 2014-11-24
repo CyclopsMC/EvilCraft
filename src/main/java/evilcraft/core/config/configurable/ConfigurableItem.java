@@ -1,23 +1,23 @@
 package evilcraft.core.config.configurable;
 
-import java.util.List;
-
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 /**
  * Item that can hold ExtendedConfigs
  * @author rubensworks
  *
  */
-public abstract class ConfigurableItem extends Item implements IConfigurable{
+public class ConfigurableItem extends Item implements IConfigurable{
     
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
@@ -27,7 +27,7 @@ public abstract class ConfigurableItem extends Item implements IConfigurable{
      * @param eConfig Config for this block.
      */
     @SuppressWarnings({ "rawtypes" })
-    protected ConfigurableItem(ExtendedConfig eConfig) {
+    public ConfigurableItem(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
         this.setUnlocalizedName(eConfig.getUnlocalizedName());
     }

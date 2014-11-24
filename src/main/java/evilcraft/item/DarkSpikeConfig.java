@@ -4,7 +4,7 @@ import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link DarkSpike}.
+ * Config for the Dark Spike.
  * @author rubensworks
  *
  */
@@ -23,7 +23,7 @@ public class DarkSpikeConfig extends ItemConfig {
         	true,
             "darkSpike",
             null,
-            DarkSpike.class
+            null
         );
     }
     

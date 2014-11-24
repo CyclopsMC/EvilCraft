@@ -1,19 +1,5 @@
 package evilcraft.tileentity;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.client.particle.EntityEnchantmentTableParticleFX;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,8 +17,23 @@ import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.tileentity.NBTPersist;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
-import evilcraft.item.Blook;
+import evilcraft.item.BlookConfig;
 import evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
+import net.minecraft.client.particle.EntityEnchantmentTableParticleFX;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Tile for the {@link Purifier}..
@@ -67,9 +68,9 @@ public class TilePurifier extends TankInventoryTileEntity {
     private int tick = 0;
     
     /**
-     * The allowed book class.
+     * The allowed book instance.
      */
-    public static final Class<Blook> ALLOWED_BOOK = Blook.class;
+    public static final Item ALLOWED_BOOK = BlookConfig._instance.downCast().getItemInstance();
     
     /**
      * The fluid it uses.
@@ -154,7 +155,7 @@ public class TilePurifier extends TankInventoryTileEntity {
             
             // If no bad enchants were found/removed, try disenchanting.
             if(!done && buckets == getMaxBuckets()
-                    && getBookItem() != null && getBookItem().getItem().getClass() == ALLOWED_BOOK) {
+                    && getBookItem() != null && getBookItem().getItem() == ALLOWED_BOOK) {
                 NBTTagList enchantmentList = getPurifyItem().getEnchantmentTagList();
                 if(enchantmentList != null && enchantmentList.tagCount() > 0) {
                     if(tick >= PURIFY_DURATION) {
@@ -381,7 +382,7 @@ public class TilePurifier extends TankInventoryTileEntity {
         if(i == 0) {
             return itemStack.stackSize == 1;
         } else if(i == 1) {
-            return itemStack.stackSize == 1 && itemStack.getItem().getClass() == ALLOWED_BOOK;
+            return itemStack.stackSize == 1 && itemStack.getItem() == ALLOWED_BOOK;
         }
         return false;
     }
