@@ -1,7 +1,9 @@
 package evilcraft.modcompat.nei;
 
+import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
@@ -66,6 +68,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         private PositionedStack output;
         private PositionedStack upgrade = null;
         private FluidStack fluidStack;
+        private Rectangle tank;
         private int duration;
 
         public CachedBloodInfuserRecipe(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
@@ -87,9 +90,12 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                             ContainerBloodInfuser.SLOT_INFUSE_RESULT_Y + yOffset
                             );
             if(tier > 0) {
-                this.upgrade = new PositionedStack(new ItemStack(Promise.getInstance(), 1, tier - 1), 0, -11, true);
+                this.upgrade = new PositionedStack(new ItemStack(Promise.getInstance(), 1, tier - 1), 3, 0, true);
             }
             this.fluidStack = fluidStack;
+            if(this.fluidStack != null) {
+                tank = new Rectangle(tankTargetX, -1, tankWidth, tankHeight);
+            }
             this.duration = duration;
             calculateHashcode();
         }
@@ -175,7 +181,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     
     @Override
     public int recipiesPerPage() {
-        return 1;
+        return 2;
     }
     
     @Override
@@ -241,12 +247,20 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                 Math.max(2, bloodInfuserRecipe.duration / 10),
                 0);
     }
+
+    protected boolean isFirstOnPage(int recipe) {
+        return recipe % recipiesPerPage() == 0;
+    }
     
     @Override
     public void drawBackground(int recipe) {
         GL11.glColor4f(1, 1, 1, 1);
         changeTexture(getGuiTexture());
-        drawTexturedModalRect(xOffset, yOffset, 0, 0, width, height);
+        if(isFirstOnPage(recipe)) {
+            drawTexturedModalRect(xOffset, yOffset, 0, 0, width, height);
+        } else {
+            drawTexturedModalRect(0, -3, -xOffset, -yOffset - 3, 160, 60);
+        }
     }
     
     @Override
@@ -267,7 +281,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
         Minecraft mc = Minecraft.getMinecraft();
         FluidStack stack = new FluidStack(fluidID, 1);
-        if(fluidID > 0 && stack != null) {
+        if(fluidID > 0) {
             IIcon icon = stack.getFluid().getIcon();
             if (icon == null) icon = Blocks.water.getIcon(0, 0);
             
@@ -302,6 +316,24 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         tessellator.addVertexWithUV((double)(x + width), (double)(y + 0), (double)this.zLevel, (double)icon.getMaxU(), (double)icon.getMinV());
         tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)this.zLevel, (double)icon.getMinU(), (double)icon.getMinV());
         tessellator.draw();
+    }
+
+    @Override
+    public List<String> handleTooltip(GuiRecipe guiRecipe, List<String> currenttip, int recipe) {
+        super.handleTooltip(guiRecipe, currenttip, recipe);
+        CachedBloodInfuserRecipe bloodInfuserRecipe = getRecipe(recipe);
+        FluidStack fluid = bloodInfuserRecipe.fluidStack;
+        if(fluid != null) {
+            Point mouse = GuiDraw.getMousePosition();
+            Point offset = guiRecipe.getRecipePosition(recipe);
+            Point mouseRelative = new Point(mouse.x - ((guiRecipe.width - width) / 2) - offset.x,
+                    mouse.y - ((guiRecipe.height - height) / 2) - offset.y);
+            if (bloodInfuserRecipe.tank.contains(mouseRelative)) {
+                currenttip.add(fluid.getLocalizedName());
+                currenttip.add(fluid.amount + " / " + TileBloodInfuser.LIQUID_PER_SLOT + " mB");
+            }
+        }
+        return currenttip;
     }
 
 }
