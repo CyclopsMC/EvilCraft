@@ -25,6 +25,12 @@ public class GeneralConfig extends DummyConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "Set 'true' to enable development debug mode. This will result in a lower performance!", requiresMcRestart = true)
     public static boolean debug = false;
+
+    /**
+     * If the recipe loader should crash when finding invalid recipes.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "If the recipe loader should crash when finding invalid recipes.", requiresMcRestart = true)
+    public static boolean crashOnInvalidRecipe = false;
     
     /**
      * If players are able to die without any reason.

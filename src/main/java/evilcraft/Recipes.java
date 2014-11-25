@@ -114,14 +114,14 @@ public class Recipes {
     	}
     }
     
-    private static void registerRecipesForFile(InputStream is, String fileName) {
+    private static void registerRecipesForFile(InputStream is, String fileName) throws XmlRecipeLoader.XmlRecipeException {
     	InputStream xsdIs = Recipes.class.getResourceAsStream(RECIPES_XSD_PATH);
     	XmlRecipeLoader loader = new XmlRecipeLoader(is, fileName);
     	loader.setValidator(xsdIs);
-    	loader.loadRecipes();
+    	loader.loadRecipes(GeneralConfig.crashOnInvalidRecipe);
     }
     
-    private static void registerRecipesForFiles(File file) {
+    private static void registerRecipesForFiles(File file) throws XmlRecipeLoader.XmlRecipeException {
     	if(file.isFile() && EXTERNAL_RECIPES_PATTERN.matcher(file.getName()).matches()) {
     		try {
 				registerRecipesForFile(new FileInputStream(file), file.getName());
@@ -140,7 +140,7 @@ public class Recipes {
      * @param rootConfigFolder The root config folder for this mod, containing any
      * specific configuration stuff.
      */
-    public static void registerRecipes(File rootConfigFolder) {
+    public static void registerRecipes(File rootConfigFolder) throws XmlRecipeLoader.XmlRecipeException {
     	loadPredefineds();
     	
     	// Load the recipes stored in XML.

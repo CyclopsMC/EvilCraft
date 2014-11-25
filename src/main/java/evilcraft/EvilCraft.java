@@ -1,18 +1,11 @@
 package evilcraft;
 
-import java.io.File;
-import java.util.Set;
-
-import cpw.mods.fml.common.event.*;
-import evilcraft.event.ServerStatusEventHook;
-import org.apache.logging.log4j.Level;
-
 import com.google.common.collect.Sets;
-
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -23,11 +16,16 @@ import evilcraft.command.CommandEvilCraft;
 import evilcraft.core.Debug;
 import evilcraft.core.config.ConfigHandler;
 import evilcraft.core.helper.LoggerHelper;
+import evilcraft.event.ServerStatusEventHook;
 import evilcraft.modcompat.ModCompatLoader;
 import evilcraft.proxy.CommonProxy;
 import evilcraft.world.gen.DarkTempleGenerator;
 import evilcraft.world.gen.EvilDungeonGenerator;
 import evilcraft.world.gen.OreGenerator;
+import org.apache.logging.log4j.Level;
+
+import java.io.File;
+import java.util.Set;
 
 /**
  * The main mod class of EvilCraft.

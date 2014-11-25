@@ -1,20 +1,9 @@
 package evilcraft.core.recipe.xml;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import evilcraft.EvilCraft;
 import net.minecraft.item.ItemStack;
-
 import org.apache.logging.log4j.Level;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,10 +13,17 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
-import evilcraft.EvilCraft;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * An XML Recipe loader.
@@ -177,7 +173,7 @@ public class XmlRecipeLoader {
 	 * Load the recipes for this instance.
 	 * @throws XmlRecipeException If something went wrong.
 	 */
-	public void loadRecipes() throws XmlRecipeException {
+	public void loadRecipes(boolean crashOnInvalidRecipe) throws XmlRecipeException {
 		if(doc == null) {
 			validate();
 		}
@@ -186,7 +182,15 @@ public class XmlRecipeLoader {
 		for(int i = 0; i < recipes.getLength(); i++) {
 			Element recipe = (Element) recipes.item(i);
 			if(isRecipeEnabled(recipe)) {
-				handleRecipe(recipe);
+                try {
+                    handleRecipe(recipe);
+                } catch (XmlRecipeException e) {
+                    if(crashOnInvalidRecipe) {
+                        throw e;
+                    } else {
+                        System.err.print(e);
+                    }
+                }
 			}
 		}
 	}
