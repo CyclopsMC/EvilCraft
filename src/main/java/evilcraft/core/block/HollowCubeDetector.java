@@ -1,10 +1,10 @@
 package evilcraft.core.block;
 
-import java.util.List;
-
-import net.minecraft.world.World;
 import evilcraft.api.ILocation;
 import evilcraft.core.algorithm.Size;
+import net.minecraft.world.World;
+
+import java.util.List;
 
 /**
  * Detector of hollow cubes in a world.
@@ -38,10 +38,10 @@ public class HollowCubeDetector extends CubeDetector {
 	}
 	
 	@Override
-	protected boolean validateLocationInStructure(World world, int[][] dimensionEgdes, ILocation location) {
+	protected boolean validateLocationInStructure(World world, int[][] dimensionEgdes, ILocation location, IValidationAction action) {
 		// Validate edge or air.
 		if (isEdge(world, dimensionEgdes, location)) {
-			if (!isValidLocation(world, location)) {
+			if (!isValidLocation(world, location, action)) {
 				//System.out.println("No edge at " + location);
 				return false;
 			}

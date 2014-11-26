@@ -1,22 +1,20 @@
 package evilcraft.core.block;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.block.Block;
-import net.minecraft.world.World;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import evilcraft.api.ILocation;
 import evilcraft.api.ISize;
 import evilcraft.core.algorithm.Dimension;
 import evilcraft.core.algorithm.Location;
 import evilcraft.core.algorithm.Size;
 import evilcraft.core.helper.LocationHelpers;
+import net.minecraft.block.Block;
+import net.minecraft.world.World;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Detector of cubes in a world.
@@ -92,11 +90,17 @@ public class CubeDetector {
 		}
 	}
 	
-	protected boolean isValidLocation(World world, ILocation location) {
+	protected boolean isValidLocation(World world, ILocation location, IValidationAction action) {
 		Block block = world.getBlock(location.getCoordinates()[0], location.getCoordinates()[1],
 				location.getCoordinates()[2]);
-		return blockInfo.containsKey(block);
+		boolean contains = blockInfo.containsKey(block);
+        if(contains && action != null) action.onValidate(location, block);
+        return contains;
 	}
+
+    protected boolean isValidLocation(World world, ILocation location) {
+        return isValidLocation(world, location, null);
+    }
 	
 	protected boolean isAir(World world, ILocation location) {
 		return world.isAirBlock(location.getCoordinates()[0], location.getCoordinates()[1],
@@ -172,10 +176,12 @@ public class CubeDetector {
 	 * @param world The world.
 	 * @param dimensionEgdes The edges per dimension. [dimension][start=0 | stop=1]
 	 * @param location The location to check.
+     * @param action The action to execute when a location has been validated.
 	 * @return If the location was valid.
 	 */
-	protected boolean validateLocationInStructure(World world, int[][] dimensionEgdes, ILocation location) {		
-		if (!isValidLocation(world, location)) {
+	protected boolean validateLocationInStructure(World world, int[][] dimensionEgdes, ILocation location,
+                                                  IValidationAction action) {
+		if (!isValidLocation(world, location, action)) {
 			//System.out.println("No valid block at " + location);
 			return false;
 		}
@@ -203,7 +209,8 @@ public class CubeDetector {
 	 * @param locationAction The runnable that will be called for each location in the structure.
 	 * @return If the structure is valid for the given edges.
 	 */
-	protected boolean coordinateRecursion(World world, int[][] dimensionEgdes, int[] accumulatedCoordinates, ILocationAction locationAction) {
+	protected boolean coordinateRecursion(World world, int[][] dimensionEgdes, int[] accumulatedCoordinates,
+                                          ILocationAction locationAction) {
 		if(accumulatedCoordinates.length == dimensionEgdes.length) { // Leaf of recursion
 			ILocation location = new Location(accumulatedCoordinates);
 			if(!locationAction.run(world, location)) {
@@ -256,10 +263,11 @@ public class CubeDetector {
 	 * @param world The world.
 	 * @param dimensionEgdes The edges per dimension. [dimension][start=0 | stop=1]
 	 * @param valid True if the structure should be validated, false if it should be invalidated.
+     * @param action The action to execute when a location has been validated.
 	 * @return If the structure is valid for the given edges.
 	 */
 	protected boolean validateDimensionEdges(World world, final int[][] dimensionEgdes,
-			final boolean valid) {
+			final boolean valid, final IValidationAction action) {
 		// Init the block occurences counter on zero for all blocks.
 		blockOccurences = Maps.newHashMap();
 		for(AllowedBlock block : allowedBlocks) {
@@ -277,7 +285,7 @@ public class CubeDetector {
 					//System.out.println("Validate condition failed.");
 					return false;
 				}
-				return validateLocationInStructure(world, dimensionEgdes, location);
+				return validateLocationInStructure(world, dimensionEgdes, location, action);
 			}
 			
 		});
@@ -295,17 +303,31 @@ public class CubeDetector {
 			
 		});
 	}
+
+    /**
+     * Detect a structure at the given start location.
+     * @param world The world to look in.
+     * @param startLocation The starting location.
+     * @param valid True if the structure should be validated, false if it should be invalidated.
+     * @return The size of the found structure. Note that a size in a dimension
+     * here starts counting from 0, so a 1x1x1 structure (=1 block) will return a
+     * size of 0 in each dimension.
+     */
+    public Size detect(World world, ILocation startLocation, boolean valid) {
+        return detect(world, startLocation, valid, null);
+    }
 	
 	/**
 	 * Detect a structure at the given start location.
 	 * @param world The world to look in.
 	 * @param startLocation The starting location.
 	 * @param valid True if the structure should be validated, false if it should be invalidated.
+     * @param action The action to execute when a location has been validated.
 	 * @return The size of the found structure. Note that a size in a dimension
 	 * here starts counting from 0, so a 1x1x1 structure (=1 block) will return a
 	 * size of 0 in each dimension.
 	 */
-	public Size detect(World world, ILocation startLocation, boolean valid) {
+	public Size detect(World world, ILocation startLocation, boolean valid, IValidationAction action) {
 		// Next to the origin, we only need one corner for each dimension,
 		// we can easily derive if the structure is valid with these 4 corners.
 		
@@ -346,7 +368,7 @@ public class CubeDetector {
 		}
 		
 		// Loop over each block of the cube and check if they have valid blocks or are air.
-		if(!validateDimensionEdges(world, dimensionEgdes, valid)) {
+		if(!validateDimensionEdges(world, dimensionEgdes, valid, action)) {
 			return NULL_SIZE.copy();
 		}
 		
@@ -394,5 +416,16 @@ public class CubeDetector {
 		public boolean run(World world, ILocation location);
 		
 	}
+
+    public static interface IValidationAction {
+
+        /**
+         * An action to execute when a location has been validated.
+         * @param location The location that was successfully validated.
+         * @param block The block on that location.
+         */
+        public void onValidate(ILocation location, Block block);
+
+    }
 	
 }
