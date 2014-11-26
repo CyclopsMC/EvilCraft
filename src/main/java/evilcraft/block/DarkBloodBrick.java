@@ -82,7 +82,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
     }
     
     private void triggerDetector(World world, int x, int y, int z, boolean valid) {
-    	TileSpiritFurnace.detector.detect(world, new Location(new int[]{x, y, z}), valid);
+    	TileSpiritFurnace.detector.detect(world, new Location(new int[]{x, y, z}), valid, true);
     }
     
     @Override
@@ -119,7 +119,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
                     }
                 }
 
-            });
+            }, false);
             ILocation tileLocation = tileLocationWrapper.get();
             if(tileLocation != null) {
                 int[] c = tileLocation.getCoordinates();

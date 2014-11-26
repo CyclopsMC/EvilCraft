@@ -1,14 +1,5 @@
 package evilcraft.block;
-import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.ILocation;
@@ -23,6 +14,16 @@ import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.inventory.container.ContainerSpiritFurnace;
 import evilcraft.tileentity.TileSpiritFurnace;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * A machine that can infuse stuff with blood.
@@ -107,7 +108,7 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     }
     
     private void triggerDetector(World world, int x, int y, int z, boolean valid) {
-    	TileSpiritFurnace.detector.detect(world, new Location(new int[]{x, y, z}), valid);
+    	TileSpiritFurnace.detector.detect(world, new Location(new int[]{x, y, z}), valid, true);
     }
     
     @Override

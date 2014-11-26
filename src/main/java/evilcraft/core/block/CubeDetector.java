@@ -309,12 +309,14 @@ public class CubeDetector {
      * @param world The world to look in.
      * @param startLocation The starting location.
      * @param valid True if the structure should be validated, false if it should be invalidated.
+     * @param changeState If the post-validate actions should be called, and thus potentially change the world block
+     *                    states.
      * @return The size of the found structure. Note that a size in a dimension
      * here starts counting from 0, so a 1x1x1 structure (=1 block) will return a
      * size of 0 in each dimension.
      */
-    public Size detect(World world, ILocation startLocation, boolean valid) {
-        return detect(world, startLocation, valid, null);
+    public Size detect(World world, ILocation startLocation, boolean valid, boolean changeState) {
+        return detect(world, startLocation, valid, null, changeState);
     }
 	
 	/**
@@ -323,11 +325,13 @@ public class CubeDetector {
 	 * @param startLocation The starting location.
 	 * @param valid True if the structure should be validated, false if it should be invalidated.
      * @param action The action to execute when a location has been validated.
+     * @param changeState If the post-validate actions should be called, and thus potentially change the world block
+     *                    states.
 	 * @return The size of the found structure. Note that a size in a dimension
 	 * here starts counting from 0, so a 1x1x1 structure (=1 block) will return a
 	 * size of 0 in each dimension.
 	 */
-	public Size detect(World world, ILocation startLocation, boolean valid, IValidationAction action) {
+	public Size detect(World world, ILocation startLocation, boolean valid, IValidationAction action, boolean changeState) {
 		// Next to the origin, we only need one corner for each dimension,
 		// we can easily derive if the structure is valid with these 4 corners.
 		
