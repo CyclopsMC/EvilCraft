@@ -762,12 +762,7 @@
                 </gridrow>
                 <gridrow>
                     <item />
-                    <item>minecraft:stone_pressure_plate</item>
-                    <item />
-                </gridrow>
-                <gridrow>
-                    <item />
-                    <item />
+                    <item>minecraft:heavy_weighted_pressure_plate</item>
                     <item />
                 </gridrow>
             </grid>
