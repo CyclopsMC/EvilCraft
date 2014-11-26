@@ -1,15 +1,12 @@
 package evilcraft.modcompat.waila;
 
-import mcp.mobius.waila.api.IWailaRegistrar;
 import evilcraft.Configs;
 import evilcraft.Reference;
-import evilcraft.block.BloodStainedBlock;
-import evilcraft.block.BloodStainedBlockConfig;
-import evilcraft.block.BoxOfEternalClosureConfig;
-import evilcraft.block.NetherfishSpawn;
-import evilcraft.block.NetherfishSpawnConfig;
+import evilcraft.block.*;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
+import mcp.mobius.waila.api.IWailaRegistrar;
 
 /**
  * Waila support class.
@@ -40,6 +37,9 @@ public class Waila {
         	registrar.registerSyncedNBTKey(TileBoxOfEternalClosure.NBTKEY_SPIRIT, TileBoxOfEternalClosure.class);
             registrar.registerBodyProvider(new BoxOfEternalClosureDataProvider(), TileBoxOfEternalClosure.class);
         }
+
+        // Generic block info
+        registrar.registerBodyProvider(new GenericBlockInfoDataProvider(), IConfigurable.class);
     }
     
     /**
@@ -70,8 +70,8 @@ public class Waila {
      * Config ID.
      * @return The config ID.
      */
-    public static String getVengeanceSpiritConfigID() {
-        return Reference.MOD_NAME + ".vengeanceSpirit";
+    public static String getBlockInfoConfigID() {
+        return Reference.MOD_NAME + ".genericBlockInfo";
     }
     
 }
