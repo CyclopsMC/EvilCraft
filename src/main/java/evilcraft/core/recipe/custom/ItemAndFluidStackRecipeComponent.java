@@ -6,6 +6,8 @@ import evilcraft.api.recipes.custom.IRecipeProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.List;
+
 /**
  * A {@link evilcraft.api.recipes.custom.IRecipe} component that holds an {@link net.minecraft.item.ItemStack}
  * and a {@link net.minecraftforge.fluids.FluidStack}.
@@ -20,8 +22,17 @@ public class ItemAndFluidStackRecipeComponent implements IRecipeInput, IRecipeOu
         this.fluidStack = new FluidStackRecipeComponent(fluidStack);
     }
 
+    public ItemAndFluidStackRecipeComponent(String key, FluidStack fluidStack) {
+        this.itemStack = new OreDictItemStackRecipeComponent(key);
+        this.fluidStack = new FluidStackRecipeComponent(fluidStack);
+    }
+
     public ItemStack getItemStack() {
         return itemStack.getItemStack();
+    }
+
+    public List<ItemStack> getItemStacks() {
+        return itemStack.getItemStacks();
     }
 
     public FluidStack getFluidStack() {

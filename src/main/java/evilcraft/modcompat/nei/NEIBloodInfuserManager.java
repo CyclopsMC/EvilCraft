@@ -5,6 +5,7 @@ import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
@@ -64,7 +65,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     private class CachedBloodInfuserRecipe extends CachedRecipe {
         
         private int hashcode;
-        private PositionedStack input;
+        private List<PositionedStack> input;
         private PositionedStack output;
         private PositionedStack upgrade = null;
         private FluidStack fluidStack;
@@ -72,17 +73,19 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         private int duration;
 
         public CachedBloodInfuserRecipe(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
-            this(recipe.getInput().getItemStack(), recipe.getOutput().getItemStack(),
+            this(recipe.getInput().getItemStacks(), recipe.getOutput().getItemStack(),
                     recipe.getInput().getFluidStack(), recipe.getProperties().getDuration(), recipe.getInput().getTier());
         }
         
-        public CachedBloodInfuserRecipe(ItemStack inputStack, ItemStack outputStack, FluidStack fluidStack, int duration, int tier) {
-            this.input = 
-                    new PositionedStack(
-                            inputStack,
-                            ContainerBloodInfuser.SLOT_INFUSE_X + xOffset,
-                            ContainerBloodInfuser.SLOT_INFUSE_Y + yOffset
-                            );
+        public CachedBloodInfuserRecipe(List<ItemStack> inputStacks, ItemStack outputStack, FluidStack fluidStack, int duration, int tier) {
+            this.input = Lists.newArrayListWithCapacity(inputStacks.size());
+            for(ItemStack itemStack : inputStacks) {
+                input.add(new PositionedStack(
+                        inputStacks,
+                        ContainerBloodInfuser.SLOT_INFUSE_X + xOffset,
+                        ContainerBloodInfuser.SLOT_INFUSE_Y + yOffset
+                ));
+            }
             this.output =
                     new PositionedStack(
                             outputStack,
@@ -90,7 +93,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                             ContainerBloodInfuser.SLOT_INFUSE_RESULT_Y + yOffset
                             );
             if(tier > 0) {
-                this.upgrade = new PositionedStack(new ItemStack(Promise.getInstance(), 1, tier - 1), 3, 0, true);
+                this.upgrade = new PositionedStack(new ItemStack(Promise.getInstance(), 1, tier - 1), 3, 0);
             }
             this.fluidStack = fluidStack;
             if(this.fluidStack != null) {
@@ -101,8 +104,8 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         }
         
         private void calculateHashcode() {
-            hashcode = input.item.getItemDamage() << 16 + output.item.getItemDamage();
-            hashcode = 31 * hashcode + (input.item.hashCode() << 16 + output.item.hashCode());
+            hashcode = input.hashCode() << 16 + output.item.getItemDamage();
+            hashcode = 31 * hashcode + (input.hashCode() << 16 + output.item.hashCode());
         }
         
         @Override
@@ -110,8 +113,11 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
             if(!(obj instanceof CachedBloodInfuserRecipe))
                 return false;
             CachedBloodInfuserRecipe recipe2 = (CachedBloodInfuserRecipe)obj;
-            return output.item.getItemDamage() == recipe2.output.item.getItemDamage() && 
-                    NEIServerUtils.areStacksSameType(input.item, recipe2.input.item);
+            if(input.size() != recipe2.input.size()) return false;
+            for(int i = 0; i < input.size(); i++) {
+                if(!NEIServerUtils.areStacksSameType(input.get(i).item, recipe2.input.get(i).item)) return false;
+            }
+            return output.item.getItemDamage() == recipe2.output.item.getItemDamage();
         }
         
         @Override
@@ -126,14 +132,12 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         
         @Override
         public PositionedStack getIngredient() {
-            return input;
+            return input.get(0);
         }
 
         @Override
         public List<PositionedStack> getIngredients() {
-            List<PositionedStack> ingredients = super.getIngredients();
-            if(upgrade != null) ingredients.add(upgrade);
-            return ingredients;
+            return getCycledIngredients(cycleticks / 32, input);
         }
         
     }

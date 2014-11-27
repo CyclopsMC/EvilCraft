@@ -37,12 +37,24 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
 			throw new XmlRecipeException(String.format("Fluid by name '%s' has not been found.", inputFluid));
 		}
 
+        Object item = getItem(inputItem);
+        ItemFluidStackAndTierRecipeComponent recipeComponent;
+        if(item instanceof ItemStack) {
+            recipeComponent = new ItemFluidStackAndTierRecipeComponent(
+                    (ItemStack) item,
+                    new FluidStack(fluid, inputAmount),
+                    tier
+            );
+        } else {
+            recipeComponent = new ItemFluidStackAndTierRecipeComponent(
+                    (String) item,
+                    new FluidStack(fluid, inputAmount),
+                    tier
+            );
+        }
+
 		BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
-                new ItemFluidStackAndTierRecipeComponent(
-                        (ItemStack) getItem(inputItem),
-                        new FluidStack(fluid, inputAmount),
-                        tier
-                ),
+                recipeComponent,
                 new ItemStackRecipeComponent((ItemStack) getItem(outputItem)),
                 new DurationRecipeProperties(duration)
         );

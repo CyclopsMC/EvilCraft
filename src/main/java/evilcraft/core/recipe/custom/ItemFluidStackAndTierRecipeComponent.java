@@ -16,6 +16,11 @@ public class ItemFluidStackAndTierRecipeComponent extends ItemAndFluidStackRecip
         this.tier = tier;
     }
 
+    public ItemFluidStackAndTierRecipeComponent(String key, FluidStack fluidStack, int tier) {
+        super(key, fluidStack);
+        this.tier = tier;
+    }
+
     public int getTier() {
         return this.tier;
     }

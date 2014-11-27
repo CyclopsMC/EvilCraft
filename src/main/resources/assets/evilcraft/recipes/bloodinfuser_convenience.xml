@@ -247,7 +247,7 @@
         <condition type="config">evilcraftblood</condition>
         <condition type="config">dullDust</condition>
         <input>
-            <item>evilcraft:dullDust</item>
+            <item type="oredict">dustDull</item>
             <fluid>evilcraftblood</fluid>
             <fluidamount>250</fluidamount>
         </input>
@@ -265,25 +265,7 @@
         <condition type="config">evilcraftblood</condition>
         <condition type="config">bloodWaxedCoal</condition>
         <input>
-            <item meta="0">minecraft:coal</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>200</fluidamount>
-        </input>
-        <output>
-            <item>evilcraft:bloodWaxedCoal</item>
-        </output>
-        <properties>
-            <tier>1</tier>
-            <duration>100</duration>
-        </properties>
-    </recipe>
-
-    <recipe type="evilcraft:bloodinfuser">
-        <condition type="config">bloodInfuser</condition>
-        <condition type="config">evilcraftblood</condition>
-        <condition type="config">bloodWaxedCoal</condition>
-        <input>
-            <item meta="1">minecraft:coal</item>
+            <item meta="*">minecraft:coal</item>
             <fluid>evilcraftblood</fluid>
             <fluidamount>200</fluidamount>
         </input>
