@@ -137,7 +137,9 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
 
         @Override
         public List<PositionedStack> getIngredients() {
-            return getCycledIngredients(cycleticks / 32, input);
+            List<PositionedStack> ingredients = getCycledIngredients(cycleticks / 32, input);
+            if(upgrade != null) ingredients.add(upgrade);
+            return ingredients;
         }
         
     }

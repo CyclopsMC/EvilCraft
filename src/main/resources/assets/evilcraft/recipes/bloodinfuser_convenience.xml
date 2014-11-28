@@ -129,13 +129,13 @@
         <input>
             <item>minecraft:bone</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>1000</fluidamount>
+            <fluidamount>2500</fluidamount>
         </input>
         <output>
             <item>minecraft:blaze_rod</item>
         </output>
         <properties>
-            <tier>2</tier>
+            <tier>3</tier>
             <duration>500</duration>
         </properties>
     </recipe>
@@ -291,7 +291,7 @@
             <item>minecraft:ghast_tear</item>
         </output>
         <properties>
-            <tier>2</tier>
+            <tier>3</tier>
             <duration>500</duration>
         </properties>
     </recipe>
