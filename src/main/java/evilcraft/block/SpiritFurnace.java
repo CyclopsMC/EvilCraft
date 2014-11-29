@@ -35,6 +35,8 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     private static SpiritFurnace _instance = null;
     
     private IIcon blockIconInactive;
+    private IIcon blockIconUp;
+    private IIcon blockIconInactiveUp;
     
     /**
      * Initialise the configurable.
@@ -80,6 +82,8 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     public void registerBlockIcons(IIconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon(getTextureName());
         blockIconInactive = iconRegister.registerIcon(getTextureName() + "_inactive");
+        blockIconUp = iconRegister.registerIcon(getTextureName() + "_UP");
+        blockIconInactiveUp = iconRegister.registerIcon(getTextureName() + "_inactive_UP");
         
     }
     
@@ -87,9 +91,9 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     @Override
     public IIcon getIcon(int side, int meta) {
         if (meta == 1) {
-            return this.blockIcon;
+            return side < 2 ? this.blockIconUp : this.blockIcon;
         }
-        return this.blockIconInactive;
+        return side < 2 ? this.blockIconInactiveUp : this.blockIconInactive;
     }
     
     @Override

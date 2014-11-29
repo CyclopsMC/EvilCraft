@@ -6,6 +6,7 @@ import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.L10NHelpers;
+import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -99,6 +100,18 @@ public class BowlOfPromises extends ConfigurableItem {
         if(meta == 0) return dusted;
         if(meta == 1) return empty;
         return renderpass == 0 ? active_overlay : active;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
+        if(itemStack.getItemDamage() > 1 && renderPass == 0) {
+            float division = (((float) ((((BowlOfPromisesConfig) eConfig).getTiers() -
+                    (itemStack.getItemDamage() - 2)) - 1) / 3) + 1);
+            int channel = (int) (255 / division);
+            return RenderHelpers.RGBToInt(channel, channel, channel);
+        }
+        return super.getColorFromItemStack(itemStack, renderPass);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
