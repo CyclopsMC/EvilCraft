@@ -6,7 +6,6 @@ import cpw.mods.fml.common.Optional;
 import evilcraft.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Iterator;
 
@@ -68,7 +67,7 @@ public class PlayerExtendedInventoryIterator implements Iterator<ItemStack> {
 
     @Override
     public void remove() {
-        throw new NotImplementedException();
+        throw new RuntimeException("Not implemented.");
     }
 
 }

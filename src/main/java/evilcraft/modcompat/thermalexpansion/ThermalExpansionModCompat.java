@@ -7,11 +7,9 @@ import evilcraft.block.*;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
+import evilcraft.fluid.Blood;
 import evilcraft.fluid.Poison;
-import evilcraft.item.DarkGem;
-import evilcraft.item.DarkGemConfig;
-import evilcraft.item.DarkGemCrushedConfig;
-import evilcraft.item.EnderTearConfig;
+import evilcraft.item.*;
 import evilcraft.modcompat.IModCompat;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -117,6 +115,18 @@ public class ThermalExpansionModCompat implements IModCompat {
                 new FluidStack(ender, EnderTearConfig.mbLiquidEnder).writeToNBT(crucibleEnder.getCompoundTag("output"));
                 FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleEnder);
             }
+        }
+
+        // Crucible hardened blood shard
+        if(Configs.isEnabled(HardenedBloodShardConfig.class)) {
+            NBTTagCompound crucibleBloodShard = new NBTTagCompound();
+            crucibleBloodShard.setInteger("energy", 200);
+            crucibleBloodShard.setTag("input", new NBTTagCompound());
+            crucibleBloodShard.setTag("output", new NBTTagCompound());
+
+            new ItemStack(HardenedBloodShardConfig._instance.getItemInstance()).writeToNBT(crucibleBloodShard.getCompoundTag("input"));
+            new FluidStack(Blood.getInstance(), 100).writeToNBT(crucibleBloodShard.getCompoundTag("output"));
+            FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleBloodShard);
         }
 
         // Fluid Transposer: blood infuse
