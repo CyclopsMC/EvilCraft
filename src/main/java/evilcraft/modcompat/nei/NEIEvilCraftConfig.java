@@ -4,10 +4,10 @@ import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import evilcraft.Configs;
 import evilcraft.Reference;
-import evilcraft.block.BloodInfuserConfig;
-import evilcraft.block.EnvironmentalAccumulatorConfig;
+import evilcraft.block.*;
 import evilcraft.client.gui.container.GuiExaltedCrafter;
 import evilcraft.item.ExaltedCrafterConfig;
+import net.minecraft.item.ItemStack;
 
 /**
  * Helper for registering NEI manager.
@@ -42,6 +42,14 @@ public class NEIEvilCraftConfig implements IConfigureNEI {
             if(Configs.isEnabled(ExaltedCrafterConfig.class)) {
             	API.registerGuiOverlay(GuiExaltedCrafter.class, "crafting");
                 API.registerGuiOverlayHandler(GuiExaltedCrafter.class, new ExaltedCrafterOverlayHandler(), "crafting");
+            }
+
+            if(Configs.isEnabled(BloodStainedBlockConfig.class)) {
+                API.hideItem(new ItemStack(BloodStainedBlock.getInstance()));
+            }
+
+            if(Configs.isEnabled(InvisibleRedstoneBlockConfig.class)) {
+                API.hideItem(new ItemStack(InvisibleRedstoneBlock.getInstance()));
             }
     	}
     }
