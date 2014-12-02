@@ -1,11 +1,15 @@
 package evilcraft.inventory.container;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import evilcraft.api.gameevent.BloodInfuserRemoveEvent;
 import evilcraft.block.BloodInfuser;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.inventory.slot.SlotRemoveOnly;
 import evilcraft.core.inventory.slot.SlotWorking;
 import evilcraft.tileentity.TileBloodInfuser;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 
 /**
  * Container for the {@link BloodInfuser}.
@@ -58,7 +62,14 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
         // Adding inventory
         addSlotToContainer(new SlotFluidContainer(tile, TileBloodInfuser.SLOT_CONTAINER, SLOT_CONTAINER_X, SLOT_CONTAINER_Y, tile.getTank())); // Container emptier
         addSlotToContainer(new SlotWorking<TileBloodInfuser>(TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, tile)); // Infuse slot
-        addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y)); // Infuse result slot
+        addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y) {
+
+            public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
+                FMLCommonHandler.instance().bus().post(new BloodInfuserRemoveEvent(player, itemStack));
+                super.onPickupFromSlot(player, itemStack);
+            }
+
+        }); // Infuse result slot
 
         this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y);
 
