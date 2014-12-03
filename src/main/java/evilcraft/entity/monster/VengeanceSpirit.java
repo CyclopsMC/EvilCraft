@@ -1,41 +1,7 @@
 package evilcraft.entity.monster;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.Level;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
@@ -49,6 +15,26 @@ import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.item.BurningGemStone;
 import evilcraft.item.BurningGemStoneConfig;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.*;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Level;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A silverfish for the nether.
@@ -387,13 +373,13 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
      */
     public void setEnabledVengeance(EntityPlayer player, boolean enabled) {
     	String[] players = getVengeancePlayers();
-    	int index = ArrayUtils.indexOf(players, player.getDisplayName());
+        int index = ArrayUtils.indexOf(players, player.getDisplayName());
     	if(enabled && index == ArrayUtils.INDEX_NOT_FOUND)
     		players = ArrayUtils.add(players, player.getDisplayName());
     	else if(!enabled && index != ArrayUtils.INDEX_NOT_FOUND)
     		players = ArrayUtils.remove(players, index);
     	setVengeancePlayers(players);
-	}
+    }
 
 	/**
      * Get the inner entity.
@@ -414,10 +400,10 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 				String name = (String) EntityList.classToStringMapping.get(clazz);
 				Entity entity = EntityList.createEntityByName(name, worldObj);
 				innerEntity = (EntityLivingBase) entity;
-				this.setSize(innerEntity.width, innerEntity.height);
-				return innerEntity;
-			} else {
-				EvilCraft.log("Tried to recursively spirit a spirit, removing it now.", Level.ERROR);
+                if(canSustain(innerEntity)) {
+                    this.setSize(innerEntity.width, innerEntity.height);
+                    return innerEntity;
+                }
 			}
     	} catch (ClassNotFoundException e) {
     		// In this case it is a vengeance swarm.
@@ -526,7 +512,10 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 	 */
 	public String[] getVengeancePlayers() {
 		String encodedPlayers = dataWatcher.getWatchableObjectString(WATCHERID_VENGEANCEPLAYERS);
-		return encodedPlayers.split("&");
+        if(encodedPlayers.length() == 0) {
+            return new String[0];
+        }
+        return encodedPlayers.split("&");
 	}
 
 	/**
@@ -534,7 +523,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 	 * @param vengeancePlayers The vengeanced players by display name.
 	 */
 	public void setVengeancePlayers(String[] vengeancePlayers) {
-		this.dataWatcher.updateObject(WATCHERID_VENGEANCEPLAYERS, StringUtils.join(vengeancePlayers, "&"));
+        this.dataWatcher.updateObject(WATCHERID_VENGEANCEPLAYERS, StringUtils.join(vengeancePlayers, "&"));
 	}
 
 	/**

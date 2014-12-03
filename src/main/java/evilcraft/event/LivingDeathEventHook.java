@@ -1,11 +1,22 @@
 package evilcraft.event;
 
-import java.util.Random;
-
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import evilcraft.Configs;
+import evilcraft.block.BloodStainedBlock;
+import evilcraft.block.BloodStainedBlockConfig;
+import evilcraft.client.particle.EntityBloodSplashFX;
+import evilcraft.core.PlayerExtendedInventoryIterator;
+import evilcraft.core.algorithm.Location;
+import evilcraft.core.world.FakeWorld;
+import evilcraft.entity.monster.VengeanceSpirit;
+import evilcraft.entity.monster.VengeanceSpiritConfig;
+import evilcraft.item.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,22 +26,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import evilcraft.Configs;
-import evilcraft.block.BloodStainedBlock;
-import evilcraft.block.BloodStainedBlockConfig;
-import evilcraft.client.particle.EntityBloodSplashFX;
-import evilcraft.core.algorithm.Location;
-import evilcraft.core.world.FakeWorld;
-import evilcraft.entity.monster.VengeanceSpirit;
-import evilcraft.entity.monster.VengeanceSpiritConfig;
-import evilcraft.item.BloodExtractor;
-import evilcraft.item.BloodExtractorConfig;
-import evilcraft.item.VeinSword;
-import evilcraft.item.VeinSwordConfig;
-import evilcraft.item.WerewolfFlesh;
-import evilcraft.item.WerewolfFleshConfig;
+
+import java.util.Random;
 
 /**
  * Event for {@link LivingDeathEvent}.
@@ -92,24 +89,43 @@ public class LivingDeathEventHook {
     }
     
 	private void vengeanceEvent(LivingDeathEvent event) {
-		double x = event.entityLiving.posX;
-		double y = event.entityLiving.posY;
-		double z = event.entityLiving.posZ;
-		if(event.entityLiving != null) {
-			World world = event.entityLiving.worldObj;
-			if(!world.isRemote && !(world instanceof FakeWorld)
-					&& world.difficultySetting != EnumDifficulty.PEACEFUL
-					&& Configs.isEnabled(VengeanceSpiritConfig.class)
-					&& VengeanceSpirit.canSustain(event.entityLiving)
-					&& VengeanceSpirit.canSpawnNew(world, x, y, z)) {
-				VengeanceSpirit spirit = new VengeanceSpirit(world);
-				spirit.setInnerEntity(event.entityLiving);
-				spirit.copyLocationAndAnglesFrom(event.entityLiving);
-				spirit.onSpawnWithEgg((IEntityLivingData)null);
-				world.spawnEntityInWorld(spirit);
-			}
-		}
+        if (event.entityLiving != null) {
+            World world = event.entityLiving.worldObj;
+            double x = event.entityLiving.posX;
+            double y = event.entityLiving.posY;
+            double z = event.entityLiving.posZ;
+            boolean directToPlayer = shouldDirectSpiritToPlayer(event);
+            if (!world.isRemote && !(world instanceof FakeWorld)
+                    && world.difficultySetting != EnumDifficulty.PEACEFUL
+                    && Configs.isEnabled(VengeanceSpiritConfig.class)
+                    && VengeanceSpirit.canSustain(event.entityLiving)
+                    && (directToPlayer || VengeanceSpirit.canSpawnNew(world, x, y, z))) {
+                VengeanceSpirit spirit = new VengeanceSpirit(world);
+                spirit.setInnerEntity(event.entityLiving);
+                spirit.copyLocationAndAnglesFrom(event.entityLiving);
+                spirit.onSpawnWithEgg((IEntityLivingData) null);
+                world.spawnEntityInWorld(spirit);
+                if(directToPlayer) {
+                    EntityPlayer player = (EntityPlayer) event.source.getSourceOfDamage();
+                    spirit.setGlobalVengeance(true);
+                    spirit.setTarget(player);
+                }
+            }
+        }
 	}
+
+    private boolean shouldDirectSpiritToPlayer(LivingDeathEvent event) {
+        if(event.source.getSourceOfDamage() instanceof EntityPlayer && Configs.isEnabled(VengeanceRingConfig.class)) {
+            EntityPlayer player = (EntityPlayer) event.source.getSourceOfDamage();
+            for(PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player); it.hasNext();) {
+                ItemStack itemStack = it.next();
+                if(itemStack != null && itemStack.getItem() == VengeanceRing.getInstance()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 	
 	private void dropHumanoidFleshEvent(LivingDeathEvent event) {
 		if(event.entityLiving instanceof EntityPlayerMP
