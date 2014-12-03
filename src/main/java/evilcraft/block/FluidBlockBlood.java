@@ -1,13 +1,15 @@
 package evilcraft.block;
-import java.util.Random;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.world.World;
 import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.fluid.Blood;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * A block for the {@link Blood} fluid.
@@ -54,13 +56,28 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     
     @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
-        if(isSourceBlock(world, x, y, z) && !world.isRaining() && random.nextInt(CHANCE_HARDEN) == 0) {
+        if(random.nextInt(CHANCE_HARDEN) == 0 &&
+                isSourceBlock(world, x, y, z) && !world.isRaining() && !isWaterInArea(world, x, y, z)) {
             world.setBlock(x, y, z, HardenedBlood.getInstance());
             world.setBlockMetadataWithNotify(x, y, z, 0, 2);
         } else {
             super.updateTick(world, x, y, z, random);
         }
         world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+    }
+
+    protected boolean isWaterInArea(World world, int x, int y, int z) {
+        int area = 4;
+        for(int xc = x - area; xc <= x + area; xc++) {
+            for(int yc = y - area; yc <= y + area; yc++) {
+                for(int zc = z - area; zc <= z + area; zc++) {
+                    if(world.getBlock(xc, yc, zc) == Blocks.water) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 }
