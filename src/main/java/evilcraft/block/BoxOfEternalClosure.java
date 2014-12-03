@@ -1,24 +1,9 @@
 package evilcraft.block;
-import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.IInformationProvider;
+import evilcraft.core.block.IBlockRarityProvider;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -29,13 +14,31 @@ import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.world.FakeWorld;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.List;
 
 /**
  * A box that can hold beings from higher dimensions.
  * @author rubensworks
  *
  */
-public class BoxOfEternalClosure extends ConfigurableBlockContainer implements IInformationProvider {
+public class BoxOfEternalClosure extends ConfigurableBlockContainer implements IInformationProvider, IBlockRarityProvider {
 	
 	private static final int LIGHT_LEVEL = 6;
 	
@@ -247,4 +250,8 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
         list.add(swarmStack);
     }
 
+    @Override
+    public EnumRarity getRarity(ItemStack itemStack) {
+        return EnumRarity.uncommon;
+    }
 }

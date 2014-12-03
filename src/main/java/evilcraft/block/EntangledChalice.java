@@ -1,12 +1,22 @@
 package evilcraft.block;
-import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.IInformationProvider;
+import evilcraft.core.block.IBlockRarityProvider;
+import evilcraft.core.block.IBlockTank;
+import evilcraft.core.block.component.BlockTankComponent;
+import evilcraft.core.config.configurable.ConfigurableBlockContainer;
+import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.tileentity.TileEntangledChalice;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,15 +24,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.IInformationProvider;
-import evilcraft.core.block.IBlockTank;
-import evilcraft.core.block.component.BlockTankComponent;
-import evilcraft.core.config.configurable.ConfigurableBlockContainer;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.tileentity.TileEntangledChalice;
+
+import java.util.List;
 
 /**
  * Chalice that can be bound to other chalices which causes them to always share the same fluid amount.
@@ -30,7 +33,7 @@ import evilcraft.tileentity.TileEntangledChalice;
  * @author rubensworks
  *
  */
-public class EntangledChalice extends ConfigurableBlockContainer implements IInformationProvider, IBlockTank {
+public class EntangledChalice extends ConfigurableBlockContainer implements IInformationProvider, IBlockTank, IBlockRarityProvider {
     
 	/**
 	 * Meta data for supplying.
@@ -188,4 +191,8 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
         list.add(itemStack);
     }
 
+    @Override
+    public EnumRarity getRarity(ItemStack itemStack) {
+        return EnumRarity.rare;
+    }
 }

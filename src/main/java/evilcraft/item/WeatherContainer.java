@@ -1,15 +1,5 @@
 package evilcraft.item;
-import java.util.List;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItem;
@@ -19,6 +9,18 @@ import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.entity.item.EntityWeatherContainer;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
+
+import java.util.List;
 
 /**
  * Class for the WeatherContainer item. Each weather container has a specific
@@ -289,5 +291,11 @@ public class WeatherContainer extends ConfigurableItem {
             
             return null;
         }
+    }
+
+    @Override
+    public EnumRarity getRarity(ItemStack itemStack) {
+        return itemStack.getItemDamage() == 0 ? EnumRarity.common :
+                (itemStack.getItemDamage() > 2 ? EnumRarity.rare : EnumRarity.uncommon);
     }
 }

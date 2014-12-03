@@ -1,13 +1,15 @@
 package evilcraft.item;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
+
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.entity.item.EntityBloodPearl;
 import evilcraft.fluid.Blood;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 
 /**
  * Ender pearl that runs on blood.
@@ -63,6 +65,11 @@ public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFl
             return itemStack;
         }
         return itemStack;
+    }
+
+    @Override
+    public EnumRarity getRarity(ItemStack itemStack) {
+        return EnumRarity.uncommon;
     }
     
 }

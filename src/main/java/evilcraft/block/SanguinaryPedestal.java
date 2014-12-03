@@ -1,21 +1,24 @@
 package evilcraft.block;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.IInformationProvider;
+import evilcraft.core.block.IBlockRarityProvider;
+import evilcraft.core.config.configurable.ConfigurableBlockContainer;
+import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
+import evilcraft.tileentity.TileSanguinaryPedestal;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.configurable.ConfigurableBlockContainer;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.tileentity.TileSanguinaryPedestal;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class SanguinaryPedestal extends ConfigurableBlockContainer implements IInformationProvider {
+public class SanguinaryPedestal extends ConfigurableBlockContainer implements IInformationProvider, IBlockRarityProvider {
     
     private static SanguinaryPedestal _instance = null;
     
@@ -109,4 +112,8 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     }
 
+    @Override
+    public EnumRarity getRarity(ItemStack itemStack) {
+        return itemStack.getItemDamage() == 1 ? EnumRarity.uncommon : EnumRarity.common;
+    }
 }

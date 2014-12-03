@@ -1,14 +1,16 @@
 package evilcraft.item;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.entity.item.EntityBroom;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 /**
  * Item for the {@link EntityBroom}.
@@ -79,6 +81,11 @@ public class Broom extends ConfigurableItem {
     	}
     	
     	return false;
+    }
+
+    @Override
+    public EnumRarity getRarity(ItemStack itemStack) {
+        return EnumRarity.rare;
     }
     
 }
