@@ -623,14 +623,14 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 	public static VengeanceSpirit spawnRandom(World world, int x, int y, int z, int area) {
 		VengeanceSpirit spirit = new VengeanceSpirit(world);
 		int attempts = 50;
+        int baseDistance = 5;
 		while(attempts > 0) {
-			int posX = x + MathHelper.getRandomIntegerInRange(world.rand, 5, 15) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
+			int posX = x + MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
             int posY = y + MathHelper.getRandomIntegerInRange(world.rand, 0, 3) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
-            int posZ = z + MathHelper.getRandomIntegerInRange(world.rand, 5, 15) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
+            int posZ = z + MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
             
             if(World.doesBlockHaveSolidTopSurface(world, posX, posY - 1, posZ)) {
-            	spirit.setPosition((double)posX, (double)posY, (double)posZ);
-
+                spirit.setPosition((double) posX + 0.5, (double) posY + 0.5, (double) posZ + 0.5);
                 if(world.checkNoEntityCollision(spirit.boundingBox)
                 		&& world.getCollidingBoundingBoxes(spirit, spirit.boundingBox).isEmpty()
                 		&& !world.isAnyLiquid(spirit.boundingBox)) {

@@ -1,6 +1,11 @@
 package evilcraft.item;
-import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.config.configurable.ConfigurableItemPickaxe;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.core.helper.EnchantmentHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
@@ -8,12 +13,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.configurable.ConfigurableItemPickaxe;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.core.helper.EnchantmentHelpers;
+
+import java.util.List;
 
 /**
  * A strong pickaxe that may call up spirits.
@@ -50,6 +51,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
 
     private VengeancePickaxe(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, Item.ToolMaterial.EMERALD);
+        this.setMaxDamage(154);
         this.efficiencyOnProperMaterial *= 1.250F;
     }
     

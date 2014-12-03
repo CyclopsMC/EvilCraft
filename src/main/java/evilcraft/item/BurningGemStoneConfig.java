@@ -20,7 +20,7 @@ public class BurningGemStoneConfig extends ItemConfig {
      * How much damage this item can take.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "How much damage this item can take.")
-    public static int maxDamage = 128;
+    public static int maxDamage = 64;
 
     /**
      * Make a new instance.
