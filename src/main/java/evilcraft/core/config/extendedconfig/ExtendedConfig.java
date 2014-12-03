@@ -49,7 +49,6 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements
     	this.namedId = namedId;
     	this.comment = comment;
     	this.element = element;
-        this.overriddenSubInstance = initSubInstance();
         try {
             generateConfigProperties();
         } catch (IllegalArgumentException e1) {
@@ -133,9 +132,13 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements
             // Save inside the self-implementation
             this.getClass().getField("_instance").set(null, this);
 
+            // Try initalizing the override sub instance.
+            this.overriddenSubInstance = initSubInstance();
+
             // Save inside the unique instance this config refers to (only if such an instance exists!)
-            if (getOverriddenSubInstance() == null && this.getHolderType().hasUniqueInstance())
+            if (getOverriddenSubInstance() == null && this.getHolderType().hasUniqueInstance()) {
                 this.getElement().getMethod("initInstance", ExtendedConfig.class).invoke(null, this);
+            }
         } catch (InvocationTargetException e) {
             EvilCraft.log("Registering " + this.getNamedId() + " caused the issue "
                     + "(skipping registration): " + e.getCause().getMessage(), Level.ERROR);
