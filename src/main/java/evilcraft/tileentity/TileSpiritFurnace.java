@@ -253,7 +253,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * @return If it is valid.
      */
     public boolean isSizeValidForEntity() {
-    	EntityLiving entity = getEntity();
+        EntityLiving entity = getEntity();
     	if(entity == null) {
     		return false;
     	}
