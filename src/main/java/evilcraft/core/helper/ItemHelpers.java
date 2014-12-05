@@ -1,5 +1,6 @@
 package evilcraft.core.helper;
 
+import evilcraft.GeneralConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,7 +16,7 @@ import net.minecraftforge.fluids.IFluidContainerItem;
  */
 public class ItemHelpers {
 
-	private static final int MB_FILL_PERTICK = 10;
+	private static final int MB_FILL_PERTICK = GeneralConfig.mbFlowRate;
 	
 	/**
      * Check if the given item is activated.
@@ -81,18 +82,6 @@ public class ItemHelpers {
                 EntityPlayer player = (EntityPlayer) entity;
                 ItemStack held = player.getCurrentEquippedItem();
                 tryFillContainerForPlayer(item, itemStack, held, tickFluid, player);
-                /*if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
-                    IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
-                    FluidStack heldFluid = fluidContainer.getFluid(held);
-                    if(heldFluid == null || (heldFluid != null
-                                                    && heldFluid.isFluidEqual(tickFluid)
-                                                    && heldFluid.amount < fluidContainer.getCapacity(held))
-                            ) {
-                        int filled = fluidContainer.fill(held, new FluidStack(tickFluid.getFluid(),
-                        		Math.min(tickFluid.amount, MB_FILL_PERTICK)), true);
-                        item.drain(itemStack, filled, true);
-                    }
-                }*/
             }
         }
     }

@@ -105,6 +105,12 @@ public class GeneralConfig extends DummyConfig {
     public static int darkTempleMinDistance = 300;
 
     /**
+     * The amount of mB that can flow per tick.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The amount of mB that can flow per tick out of machines and items.", requiresMcRestart = true)
+    public static int mbFlowRate = 100;
+
+    /**
      * The amount of blocks per vein there should be.
      */
     public static int silverfish_BlocksPerVein = 4;

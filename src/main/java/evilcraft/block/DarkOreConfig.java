@@ -26,7 +26,7 @@ public class DarkOreConfig extends BlockConfig {
      * The amount of veins per chunk.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "How many veins per chunk.")
-    public static int veinsPerChunk = 10;
+    public static int veinsPerChunk = 7;
     /**
      * The start Y for ore spawning.
      */

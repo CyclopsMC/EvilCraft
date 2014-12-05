@@ -1,8 +1,9 @@
 package evilcraft.tileentity.tickaction;
 
-import net.minecraft.item.ItemStack;
+import evilcraft.GeneralConfig;
 import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
+import net.minecraft.item.ItemStack;
 
 /**
  * Abstract {@link ITickAction} for emptying items in tanks.
@@ -12,7 +13,7 @@ import evilcraft.core.tileentity.tickaction.ITickAction;
  */
 public abstract class EmptyInTankTickAction<T extends TickingTankInventoryTileEntity<T>> implements ITickAction<T> {
     
-    protected final static int MB_PER_TICK = 100;
+    protected final static int MB_PER_TICK = GeneralConfig.mbFlowRate;
     
     @Override
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick) {

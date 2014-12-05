@@ -1,13 +1,14 @@
 package evilcraft.tileentity;
 
+import evilcraft.GeneralConfig;
+import evilcraft.block.DarkTank;
+import evilcraft.core.tileentity.TankInventoryTileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
-import evilcraft.block.DarkTank;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
 
 /**
  * Tile Entity for the dark tank.
@@ -15,8 +16,6 @@ import evilcraft.core.tileentity.TankInventoryTileEntity;
  *
  */
 public class TileDarkTank extends TankInventoryTileEntity {
-	
-	private static final int MB_RATE = 10;
 	
 	/**
 	 * The base capacity of the tank.
@@ -64,7 +63,8 @@ public class TileDarkTank extends TankInventoryTileEntity {
 			TileEntity tile = worldObj.getTileEntity(xCoord + down.offsetX, yCoord + down.offsetY, zCoord + down.offsetZ);
 			if(tile instanceof IFluidHandler) {
 				IFluidHandler handler = (IFluidHandler) tile;
-				FluidStack fluidStack = new FluidStack(getTank().getFluidType(), Math.min(MB_RATE, getTank().getFluidAmount()));
+				FluidStack fluidStack = new FluidStack(getTank().getFluidType(),
+                        Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
 				if(handler.fill(down.getOpposite(), fluidStack, false) > 0) {
 					int filled = handler.fill(down.getOpposite(), fluidStack, true);
 					drain(filled, true);
