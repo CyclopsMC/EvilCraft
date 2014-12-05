@@ -6,12 +6,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.EvilCraft;
+import evilcraft.block.GemStoneTorchConfig;
 import evilcraft.client.particle.EntityBlurFX;
 import evilcraft.client.particle.EntityDarkSmokeFX;
 import evilcraft.client.particle.EntityDegradeFX;
 import evilcraft.core.config.IChangedCallback;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.helper.L10NHelpers;
+import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.item.BurningGemStone;
 import evilcraft.item.BurningGemStoneConfig;
@@ -31,6 +33,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -542,7 +545,8 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 	
 	/**
      * Check if we can spawn a new vengeance spirit in the given location.
-     * It will check if the amount of spirits in an area is below a certain threshold.
+     * It will check if the amount of spirits in an area is below a certain threshold and if there aren't any gemstone
+     * torches in the area
 	 * @param world The world.
 	 * @param x X coordinate.
 	 * @param y Y coordinate.
@@ -555,7 +559,22 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 		int threshold = VengeanceSpiritConfig.spawnLimit;
 		AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
     	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABB(VengeanceSpirit.class, box);
-		return spirits.size() < threshold;
+		if(spirits.size() >= threshold) {
+            return false;
+        }
+
+        if(!Configs.isEnabled(GemStoneTorchConfig.class)) return true;
+
+        return WorldHelpers.foldArea(world, GemStoneTorchConfig.area, (int) x, (int) y, (int) z,
+                new WorldHelpers.WorldFoldingFunction<Boolean, Boolean>() {
+
+            @Nullable
+            @Override
+            public Boolean apply(@Nullable Boolean input, World world, int x, int y, int z) {
+                return input && world.getBlock(x, y, z) != GemStoneTorchConfig._instance.getBlockInstance();
+            }
+
+        }, true);
 	}
 
 	/**
@@ -624,7 +643,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 		VengeanceSpirit spirit = new VengeanceSpirit(world);
 		int attempts = 50;
         int baseDistance = 5;
-		while(attempts > 0) {
+		while(canSpawnNew(world, x, y, z) && attempts > 0) {
 			int posX = x + MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
             int posY = y + MathHelper.getRandomIntegerInRange(world.rand, 0, 3) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
             int posZ = z + MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);

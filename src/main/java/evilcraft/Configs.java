@@ -117,6 +117,7 @@ public class Configs {
         configs.add(new SpiritReanimatorConfig());
         configs.add(new EntangledChaliceConfig());
         configs.add(new DarkPowerGemBlockConfig());
+        configs.add(new GemStoneTorchConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

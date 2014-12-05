@@ -1,15 +1,16 @@
 package evilcraft.core.helper;
 
-import java.util.List;
-
+import evilcraft.api.ILocation;
+import evilcraft.core.algorithm.Location;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
-import evilcraft.api.ILocation;
-import evilcraft.core.algorithm.Location;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Helpers for world related logic.
@@ -80,5 +81,35 @@ public class WorldHelpers {
 	public static ILocation getChunkLocationFromWorldLocation(int x, int y, int z) {
 		return new Location(x & (CHUNK_SIZE - 1), y, z & (CHUNK_SIZE - 1));
 	}
+
+    /**
+     * Loop over a 3D area while accumulating a value.
+     * @param world The world.
+     * @param area Radius.
+     * @param x X
+     * @param y Y
+     * @param z Z
+     * @param folder The folding function.
+     * @param value The start value.
+     * @param <T> The type of value to accumulate.
+     * @return The resulting value.
+     */
+    public static <T> T foldArea(World world, int area, int x, int y, int z, WorldFoldingFunction<T, T> folder, T value) {
+        for(int xc = x - area; xc <= x + area; xc++) {
+            for(int yc = y - area; yc <= y + area; yc++) {
+                for(int zc = z - area; zc <= z + area; zc++) {
+                    value = folder.apply(value, world, xc, yc, zc);
+                }
+            }
+        }
+        return value;
+    }
+
+    public static interface WorldFoldingFunction<F, T> {
+
+        @Nullable
+        public T apply(@Nullable F from, World world, int x, int y, int z);
+
+    }
     
 }

@@ -217,4 +217,17 @@
         </output>
     </recipe>
 
+    <recipe type="shapeless">
+        <condition type="config">burningGemStone</condition>
+        <condition type="config">darkStick</condition>
+        <condition type="config">gemStoneTorch</condition>
+        <input>
+            <item>evilcraft:burningGemStone</item>
+            <item>evilcraft:darkStick</item>
+        </input>
+        <output>
+            <item amount="4">evilcraft:gemStoneTorch</item>
+        </output>
+    </recipe>
+
 </recipes>

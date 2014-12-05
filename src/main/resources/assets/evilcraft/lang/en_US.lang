@@ -62,6 +62,8 @@ tile.blocks.entangledChalice.name=Entangled Chalice
 tile.blocks.entangledChalice.info=Contents of entangled chalices are omnipresent.\nShift + Right click to omni-supply.
 tile.blocks.entangledChalice.info.autoSupply=Omni-supply: %s
 tile.blocks.darkPowerGemBlock.name=Dark Power Gem Block
+tile.blocks.gemStoneTorch.name=GemStone Torch
+tile.blocks.gemStoneTorch.info=Blocks Vengeance Spirit spawning in a radius of 15 blocks.
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone

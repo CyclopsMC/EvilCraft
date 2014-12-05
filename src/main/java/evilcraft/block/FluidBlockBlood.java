@@ -4,11 +4,13 @@ import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.helper.WorldHelpers;
 import evilcraft.fluid.Blood;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -67,17 +69,15 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     }
 
     protected boolean isWaterInArea(World world, int x, int y, int z) {
-        int area = 4;
-        for(int xc = x - area; xc <= x + area; xc++) {
-            for(int yc = y - area; yc <= y + area; yc++) {
-                for(int zc = z - area; zc <= z + area; zc++) {
-                    if(world.getBlock(xc, yc, zc) == Blocks.water) {
-                        return true;
-                    }
-                }
+        return WorldHelpers.foldArea(world, 4, x, y, z, new WorldHelpers.WorldFoldingFunction<Boolean, Boolean>() {
+
+            @Nullable
+            @Override
+            public Boolean apply(@Nullable Boolean input, World world, int x, int y, int z) {
+                return input || world.getBlock(x, y, z) == Blocks.water;
             }
-        }
-        return false;
+
+        }, false);
     }
 
 }
