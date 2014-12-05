@@ -74,6 +74,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new LivingUpdateEventHook());
         MinecraftForge.EVENT_BUS.register(new WorldEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingDropsEventHook());
+        MinecraftForge.EVENT_BUS.register(new LivingSpawnEventHook());
         
         FMLCommonHandler.instance().bus().register(new ConfigChangedEventHook());
         FMLCommonHandler.instance().bus().register(new PlayerRingOfFire());

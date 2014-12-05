@@ -1,8 +1,5 @@
 package evilcraft.entity.monster;
 
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.world.biome.BiomeGenBase;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,6 +9,9 @@ import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.RenderHelpers;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.world.biome.BiomeGenBase;
 
 /**
  * Config for the {@link PoisonousLibelle}.
@@ -36,6 +36,12 @@ public class PoisonousLibelleConfig extends MobConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "Should the Poisonous Libelle do damage, next to poisoning?", isCommandable = true)
     public static boolean hasAttackDamage = false;
+
+    /**
+     * The minimum Y-level this mob can spawn at.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "The minimum Y-level this mob can spawn at.", isCommandable = true)
+    public static int minY = 55;
 
     /**
      * Make a new instance.
