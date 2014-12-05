@@ -1,7 +1,11 @@
 package evilcraft.core.config.configurable;
 
-import java.util.List;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Reference;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.helper.L10NHelpers;
+import evilcraft.core.item.DamageIndicatedItemFluidContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -13,12 +17,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.L10NHelpers;
-import evilcraft.core.item.DamageIndicatedItemFluidContainer;
+
+import java.util.List;
 
 /**
  * Item food that can hold ExtendedConfigs
@@ -173,7 +173,12 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-        return world.getTileEntity(x, y, z) != null;
+        return false;
+    }
+
+    @Override
+    public boolean doesSneakBypassUse(World world, int x, int y, int z, EntityPlayer player) {
+        return true;
     }
     
     @SuppressWarnings("rawtypes")

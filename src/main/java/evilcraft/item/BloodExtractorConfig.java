@@ -1,12 +1,8 @@
 package evilcraft.item;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.fluid.Blood;
 
 /**
  * Config for the {@link BloodExtractor}.
@@ -40,18 +36,10 @@ public class BloodExtractorConfig extends ItemConfig {
      */
     public BloodExtractorConfig() {
         super(
-        	true,
-            "bloodExtractor",
-            null,
-            BloodExtractor.class
-        );
-    }
-    
-    @Override
-    public void onRegistered() {
-        FluidContainerRegistry.registerFluidContainer(
-                FluidRegistry.getFluidStack(Blood.getInstance().getName(), containerSize),
-                new ItemStack(BloodExtractor.getInstance())
+                true,
+                "bloodExtractor",
+                null,
+                BloodExtractor.class
         );
     }
     

@@ -1,12 +1,8 @@
 package evilcraft.item;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.fluid.Blood;
 
 /**
  * Config for the {@link BloodContainer}.
@@ -50,17 +46,6 @@ public class BloodContainerConfig extends ItemConfig {
      */
     public static int getContainerLevels() {
         return containerLevelNames.length;
-    }
-    
-    @Override
-    public void onRegistered() {
-        for(int level = 0; level < getContainerLevels(); level ++) {
-            ItemStack itemStack = new ItemStack(BloodContainer.getInstance(), 1, level);
-            FluidContainerRegistry.registerFluidContainer(
-                    FluidRegistry.getFluidStack(Blood.getInstance().getName(), BloodContainer.getInstance().getCapacity(itemStack)),
-                    itemStack
-            );
-        }
     }
     
 }

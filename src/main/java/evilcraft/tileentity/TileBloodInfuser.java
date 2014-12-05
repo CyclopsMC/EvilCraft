@@ -94,6 +94,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
 
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
+    public static final Upgrades.UpgradeEventType UPGRADEEVENT_FILLBLOODPERTICK = Upgrades.newUpgradeEventType();
     
     /**
      * Make a new instance.
@@ -150,6 +151,17 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
                 if(event.getType() == UPGRADEEVENT_BLOODUSAGE) {
                     int val = event.getObject().getValue();
                     val /= (1 + upgradeLevel / valueFactor);
+                    event.getObject().setValue(val);
+                }
+            }
+        });
+        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(3.2) {
+            @Override
+            public void applyUpgrade(TileBloodInfuser upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
+                                     IUpgradeSensitiveEvent<MutableInt> event) {
+                if(event.getType() == UPGRADEEVENT_FILLBLOODPERTICK) {
+                    int val = event.getObject().getValue();
+                    val *= (1 + upgradeLevel / valueFactor);
                     event.getObject().setValue(val);
                 }
             }

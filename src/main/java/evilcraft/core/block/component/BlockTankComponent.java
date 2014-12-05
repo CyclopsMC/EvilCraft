@@ -1,5 +1,9 @@
 package evilcraft.core.block.component;
 
+import evilcraft.core.block.IBlockTank;
+import evilcraft.core.helper.InventoryHelpers;
+import evilcraft.core.item.DamageIndicatedItemComponent;
+import evilcraft.core.tileentity.TankInventoryTileEntity;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -9,10 +13,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import evilcraft.core.block.IBlockTank;
-import evilcraft.core.helper.InventoryHelpers;
-import evilcraft.core.item.DamageIndicatedItemComponent;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
 
 /**
  * Component for block tanks.
@@ -54,9 +54,7 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
             if(itemStack != null) {
             	FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
                 if(fluidStack != null) { // Fill the tank.
-                	if((tile.getTank().getAcceptedFluid() == null
-                        || tile.getTank().canTankAccept(fluidStack.getFluid())
-                        || tile.getTank().getFluidType() == null) && tile.getTank().canCompletelyFill(fluidStack)) {
+                	if(canTankBeFilled(tile, fluidStack) && tile.getTank().canCompletelyFill(fluidStack)) {
 	                    tile.fill(fluidStack, true);
 	                    if(!player.capabilities.isCreativeMode) {
 	                    	ItemStack drainedItem = FluidContainerRegistry.drainFluidContainer(itemStack);
@@ -75,10 +73,35 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
                         return true;
                 	}
                 }
+                if(itemStack.getItem() instanceof IFluidContainerItem) {
+                    IFluidContainerItem containerItem = ((IFluidContainerItem) itemStack.getItem());
+                    fluidStack = containerItem.getFluid(itemStack);
+                    if(player.isSneaking()) { // Drain from tank into item.
+                        if(tile.getTank().getFluidAmount() > 0) {
+                            if(containerItem.fill(itemStack, tile.getTank().getFluid(), false) > 0) {
+                                tile.getTank().drain(containerItem.fill(itemStack,
+                                        tile.getTank().getFluid(), true), true);
+                            }
+                        }
+
+                    } else { // Fill to tank from item.
+                        if(canTankBeFilled(tile, fluidStack) && tile.getTank().fill(fluidStack, false) > 0) {
+                            containerItem.drain(itemStack, tile.fill(fluidStack, true), true);
+                        }
+                    }
+                    return true;
+                }
             }
         }
         return false;
 	}
+
+    protected static boolean canTankBeFilled(TankInventoryTileEntity tile, FluidStack fluidStack) {
+        return tile.getTank().getAcceptedFluid() == null
+                || fluidStack == null
+                || tile.getTank().canTankAccept(fluidStack.getFluid())
+                || tile.getTank().getFluidType() == null;
+    }
 
 	/**
      * Get info for a given itemStack.

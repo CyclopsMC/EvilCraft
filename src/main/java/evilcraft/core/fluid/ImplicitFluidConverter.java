@@ -1,16 +1,13 @@
 package evilcraft.core.fluid;
 
-import java.util.Map;
-
+import com.google.common.collect.Maps;
+import evilcraft.EvilCraft;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-
 import org.apache.logging.log4j.Level;
 
-import com.google.common.collect.Maps;
-
-import evilcraft.EvilCraft;
+import java.util.Map;
 
 /**
  * An implicit converter for changing fluid types with a conversion rate. 
@@ -78,7 +75,7 @@ public class ImplicitFluidConverter {
 	 * @return The converted fluid stack.
 	 */
 	public FluidStack convert(FluidStack fluid) {
-		if(canConvert(fluid.getFluid())) {
+		if(fluid != null && canConvert(fluid.getFluid())) {
 			return new FluidStack(target, (int) Math.floor(fluid.amount
 					* converters.get(fluid.getFluid())));
 		}
