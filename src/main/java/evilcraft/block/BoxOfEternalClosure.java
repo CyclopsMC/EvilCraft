@@ -254,4 +254,21 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     public EnumRarity getRarity(ItemStack itemStack) {
         return EnumRarity.uncommon;
     }
+
+    @Override
+    public boolean hasComparatorInputOverride() {
+        return true;
+    }
+
+    @Override
+    public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+        if(world.getTileEntity(x, y, z) != null) {
+            TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(x, y, z);
+            if(tile.getSpiritInstance() != null) {
+                return 15;
+            }
+        }
+        return super.getComparatorInputOverride(world, x, y, z, side);
+    }
+
 }

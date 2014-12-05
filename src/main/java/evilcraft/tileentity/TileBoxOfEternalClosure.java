@@ -1,16 +1,5 @@
 package evilcraft.tileentity;
 
-import java.util.List;
-import java.util.Random;
-
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
@@ -19,6 +8,17 @@ import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.tileentity.NBTPersist;
 import evilcraft.entity.monster.VengeanceSpirit;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * A chest that is able to repair tools with the use of blood.
@@ -294,5 +294,12 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
+
+    @Override
+    protected void onSendUpdate() {
+        super.onSendUpdate();
+        // Trigger comparator update.
+        worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, this.getBlock());
+    }
 
 }
