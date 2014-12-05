@@ -1,7 +1,16 @@
 package evilcraft.item;
 
-import java.util.List;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.client.particle.EntityBlurFX;
+import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.core.helper.ItemHelpers;
+import evilcraft.core.helper.L10NHelpers;
+import evilcraft.entity.item.EntityItemUndespawnable;
+import evilcraft.fluid.Blood;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,22 +20,12 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.core.helper.ItemHelpers;
-import evilcraft.core.helper.L10NHelpers;
-import evilcraft.entity.item.EntityItemUndespawnable;
-import evilcraft.fluid.Blood;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * Item that can attract items and XP orbs.
@@ -37,11 +36,11 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     private static Kineticator _instance = null;
     
-    private static final int TICK_HOLDOFF = 10;
+    private static final int TICK_HOLDOFF = 1;
     private static final String NBT_KEY_POWER = "power";
     private static final int POWER_LEVELS = 5;
     private static final int RANGE_PER_LEVEL = 2;
-    private static final double USAGE_PER_D = 0.3;
+    private static final double USAGE_PER_D = 0.1;
     private static final int CONTAINER_SIZE = FluidContainerRegistry.BUCKET_VOLUME;
     
     @SideOnly(Side.CLIENT)
@@ -164,7 +163,8 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     @SuppressWarnings("unchecked")
     private void kineticate(ItemStack itemStack, World world, Entity entity) {
-        if(ItemHelpers.isActivated(itemStack) && getFluid(itemStack) != null) {
+        if(ItemHelpers.isActivated(itemStack) && getFluid(itemStack) != null &&
+                (entity == null || !entity.isSneaking())) {
         	boolean repelling = isRepelling(itemStack);
         	
             // Center of the attraction
@@ -173,7 +173,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
             double z = entity.posZ;
             
             // Not ticking every tick.
-            if(Math.abs(Math.round(x + y + z)) % TICK_HOLDOFF == world.getWorldTime() % TICK_HOLDOFF) {
+            if(0 == world.getWorldTime() % TICK_HOLDOFF) {
                 // Get items in calculated area.
                 int area = getArea(itemStack);
                 AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
@@ -189,32 +189,39 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                 
                 // Move all those items in the direction of the player.
                 for(Entity moveEntity : entities) {
-                    double dx = moveEntity.posX - x;
-                    double dy = moveEntity.posY - y;
-                    double dz = moveEntity.posZ - z;
-                    double strength = -0.1;
-                    if(entity instanceof EntityPlayer) {
-                        strength = -1;
-                    }
-                    if(repelling) {
-                    	strength /= -1;
-                    	if(entity instanceof EntityPlayer) {
-                    		strength = 0.3;
-                    	}
-                    }
-                    
-                    double d = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
-                    int usage = (int) Math.ceil(d * USAGE_PER_D);
-                    if((repelling || d > 0.5D) && this.drain(itemStack, usage, true) != null) {
-                        if(world.isRemote) {
-                            showEntityMoved(world, entity, moveEntity, dx, dy, dz);
-                        } else {
-                            if(moveEntity instanceof EntityItem && d < 5.0D) {
-                                ((EntityItem)moveEntity).delayBeforeCanPickup = repelling ? 5 : 0;
+                    if(repelling ||
+                            (moveEntity instanceof EntityItem && ((EntityItem) moveEntity).delayBeforeCanPickup == 0)) {
+                        double dx = moveEntity.posX - x;
+                        double dy = moveEntity.posY - (y + (world.isRemote ? -1 : 1));
+                        double dz = moveEntity.posZ - z;
+                        double strength = -0.1;
+                        if (entity instanceof EntityPlayer) {
+                            strength = -1;
+                        }
+                        if (repelling) {
+                            strength /= -1;
+                            if (entity instanceof EntityPlayer) {
+                                strength = 0.3;
                             }
-                            moveEntity.motionX += dx * strength;
-                            moveEntity.motionY += dy * strength;
-                            moveEntity.motionZ += dz * strength;
+                        }
+
+                        double d = (double) MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
+                        int usage = (int) Math.round(d * USAGE_PER_D);
+                        if ((repelling || d > 0.5D) && this.drain(itemStack, usage, !world.isRemote) != null) {
+                            double m = 1 / (2 * (Math.max(1, d)));
+                            dx *= m;
+                            dy *= m;
+                            dz *= m;
+                            if (world.isRemote) {
+                                showEntityMoved(world, entity, moveEntity, dx / 10, dy / 10, dz / 10);
+                            } else {
+                                if (moveEntity instanceof EntityItem && d < 5.0D) {
+                                    ((EntityItem) moveEntity).delayBeforeCanPickup = repelling ? 5 : 0;
+                                }
+                                moveEntity.motionX = dx * strength;
+                                moveEntity.motionY = dy * strength;
+                                moveEntity.motionZ = dz * strength;
+                            }
                         }
                     }
                 }
@@ -224,7 +231,17 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     @SideOnly(Side.CLIENT)
     protected void showEntityMoved(World world, Entity player, Entity entity, double dx, double dy, double dz) {
-        world.spawnParticle("instantSpell", entity.posX, entity.posY, entity.posZ, dx, dy, dz);
+        Random rand = world.rand;
+        float scale = 0.05F;
+        float red = rand.nextFloat() * 0.03F + 0.5F;
+        float green = rand.nextFloat() * 0.03F + (rand.nextBoolean() ? 0.5F : 0.3F);
+        float blue = rand.nextFloat() * 0.05F;
+        float ageMultiplier = (float) (rand.nextDouble() * 2.5D + 10D);
+
+        EntityBlurFX blur = new EntityBlurFX(world, entity.posX, entity.posY, entity.posZ, scale,
+                -dx, -dy, -dz,
+                red, green, blue, ageMultiplier);
+        Minecraft.getMinecraft().effectRenderer.addEffect(blur);
     }
     
     @Override
