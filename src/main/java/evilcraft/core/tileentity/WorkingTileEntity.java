@@ -89,7 +89,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
      * @return The scaled working progress.
      */
     public int getWorkTickScaled(int scale) {
-    	return (int) ((float)getWorkTick() / (float)getRequiredWorkTicks() * (float)scale);
+        return (int) ((float)getWorkTick() / (float)getRequiredWorkTicks() * (float)scale);
     }
     
     protected abstract int getWorkTicker();
@@ -106,7 +106,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
      * Resets the ticks of the work.
      */
     public void resetWork() {
-    	resetWork(true);
+        resetWork(true);
     }
     
     /**
@@ -114,8 +114,8 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
      * @param hardReset If the tick and required tick should also be set to zero.
      */
     public void resetWork(boolean hardReset) {
-    	if(hardReset) {
-	        getTickers().get(getWorkTicker()).setTick(0);
+        if(hardReset) {
+            getTickers().get(getWorkTicker()).setTick(0);
 	        getTickers().get(getWorkTicker()).setRequiredTicks(0);
     	}
     }
@@ -164,8 +164,10 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     }
 
     protected void onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
-        resetUpgradeLevels();
-        resetWork();
+        if(!ItemStack.areItemStackTagsEqual(oldItemStack, itemStack)) {
+            resetUpgradeLevels();
+            resetWork();
+        }
     }
 
     @Override

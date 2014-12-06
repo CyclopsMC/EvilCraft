@@ -1,11 +1,12 @@
 package evilcraft.core.tileentity;
 
-import java.util.LinkedList;
-
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.Fluid;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.fluids.Fluid;
+
+import java.util.LinkedList;
 
 /**
  * A TileEntity with Tank and Inventory that can tick.
@@ -64,12 +65,32 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
     public void readFromNBT(NBTTagCompound data) {
         super.readFromNBT(data);
         currentState = data.getInteger("currentState");
+        NBTTagList tickerList = data.getTagList("tickers", 10);
+        for(int i = 0; i < tickers.size(); i++) {
+            TickComponent<T, ITickAction<T>> ticker = tickers.get(i);
+            if(tickerList.tagCount() > i) {
+                NBTTagCompound tag = tickerList.getCompoundTagAt(i);
+                if(tag != null) {
+                    ticker.setTick(tag.getInteger("tick"));
+                    ticker.setRequiredTicks(tag.getInteger("requiredTicks"));
+                }
+            }
+        }
     }
 
     @Override
     public void writeToNBT(NBTTagCompound data) {
         super.writeToNBT(data);
         data.setInteger("currentState", currentState);
+        NBTTagList tickerList = new NBTTagList();
+        for(int i = 0; i < tickers.size(); i++) {
+            TickComponent<T, ITickAction<T>> ticker = tickers.get(i);
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setInteger("tick", ticker.getTick());
+            tag.setInteger("requiredTicks", ticker.getRequiredTicks());
+            tickerList.appendTag(tag);
+        }
+        data.setTag("tickers", tickerList);
     }
     
     @Override

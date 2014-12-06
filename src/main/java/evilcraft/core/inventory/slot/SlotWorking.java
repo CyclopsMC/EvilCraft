@@ -1,9 +1,9 @@
 package evilcraft.core.inventory.slot;
 
+import evilcraft.core.tileentity.WorkingTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import evilcraft.core.tileentity.WorkingTileEntity;
 
 /**
  * Slot that is used for only accepting workable items.
@@ -27,6 +27,7 @@ public class SlotWorking<T extends WorkingTileEntity<?, ?>> extends Slot {
             int y, T tile) {
         super(tile, index, x, y);
         this.tile = tile;
+        this.lastSlotContents = getStack();
     }
     
     @Override
@@ -41,7 +42,7 @@ public class SlotWorking<T extends WorkingTileEntity<?, ?>> extends Slot {
     
     @Override
     public void onSlotChanged() {
-        if(lastSlotContents == null || this.getStack() == null || lastSlotContents.getItem() != this.getStack().getItem()) {
+        if(!ItemStack.areItemStacksEqual(lastSlotContents, this.getStack())) {
             tile.resetWork(true);
         }
         lastSlotContents = this.getStack();
