@@ -1,14 +1,14 @@
 package evilcraft.enchantment;
 
-import java.util.Random;
-
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
 import evilcraft.core.config.configurable.ConfigurableEnchantment;
 import evilcraft.core.config.extendedconfig.EnchantmentConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.EnchantmentHelpers;
+import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
+
+import java.util.Random;
 
 /**
  * Enchantment for letting tools break tools faster.
@@ -58,8 +58,8 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
     }
     
     @Override
-    public boolean canApply(ItemStack par1ItemStack) {
-        return par1ItemStack.isItemStackDamageable() ? true : super.canApply(par1ItemStack);
+    public boolean canApply(ItemStack itemStack) {
+        return false;
     }
     
     /**
