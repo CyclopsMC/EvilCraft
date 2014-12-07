@@ -1,7 +1,11 @@
 package evilcraft.core.config.configurable;
 
-import java.util.List;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.ILocation;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.tileentity.InnerBlocksTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,12 +18,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.ILocation;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.tileentity.InnerBlocksTileEntity;
+
+import java.util.List;
 
 /**
  * A block that is based on inner blocks that are stored in a tile entity.
@@ -75,7 +75,9 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
 			return getTile(world, x, y, z).getInnerBlock().getIcon(side, world.getBlockMetadata(x, y, z));
 		} catch (InvalidInnerBlocksTileException e) {
 			return Blocks.stone.getIcon(world, x, y, z, side);
-		}
+		} catch (NullPointerException e) {
+            return Blocks.stone.getIcon(world, x, y, z, side);
+        }
     }
     
     @Override
@@ -91,7 +93,9 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
 			return getTile(world, x, y, z).getInnerBlock().colorMultiplier(world, x, y, z);
 		} catch (InvalidInnerBlocksTileException e) {
 			return Blocks.stone.colorMultiplier(world, x, y, z);
-		}
+		} catch (NullPointerException e) {
+            return Blocks.stone.colorMultiplier(world, x, y, z);
+        }
     }
     
     @Override
@@ -99,6 +103,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     	Block block;
 		try {
 			block = getTile(world, x, y, z).getInnerBlock();
+            if(block == null) block = Blocks.stone;
 		} catch (InvalidInnerBlocksTileException e) {
 			block = Blocks.stone;
 		}
