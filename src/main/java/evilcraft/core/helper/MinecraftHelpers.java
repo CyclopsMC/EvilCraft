@@ -1,8 +1,11 @@
 package evilcraft.core.helper;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.config.configurable.ConfigurableBlockContainer;
+import evilcraft.core.item.TileEntityNBTStorage;
+import evilcraft.core.tileentity.EvilCraftTileEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -16,11 +19,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import evilcraft.core.config.configurable.ConfigurableBlockContainer;
-import evilcraft.core.item.TileEntityNBTStorage;
-import evilcraft.core.tileentity.EvilCraftTileEntity;
+import org.lwjgl.input.Keyboard;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Contains helper methods for various minecraft specific things.
@@ -229,4 +231,12 @@ public class MinecraftHelpers {
 	public static boolean isClientSide() {
 	    return FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT;
 	}
+
+    /**
+     * @return If the user is shifted.
+     */
+    @SideOnly(Side.CLIENT)
+    public static boolean isShifted() {
+        return Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
+    }
 }

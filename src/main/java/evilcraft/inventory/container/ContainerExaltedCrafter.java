@@ -2,6 +2,14 @@ package evilcraft.inventory.container;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import evilcraft.client.gui.container.GuiExaltedCrafter;
+import evilcraft.core.helper.InventoryHelpers;
+import evilcraft.core.inventory.NBTCraftingGrid;
+import evilcraft.core.inventory.container.ItemInventoryContainer;
+import evilcraft.item.ExaltedCrafter;
+import evilcraft.item.ExaltedCrafterConfig;
+import evilcraft.network.PacketHandler;
+import evilcraft.network.packet.ExaltedCrafterButtonPacket;
 import invtweaks.api.container.ChestContainer;
 import invtweaks.api.container.ContainerSection;
 import invtweaks.api.container.ContainerSectionCallback;
@@ -10,15 +18,11 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.world.World;
-import evilcraft.core.helper.InventoryHelpers;
-import evilcraft.core.inventory.NBTCraftingGrid;
-import evilcraft.core.inventory.container.ItemInventoryContainer;
-import evilcraft.item.ExaltedCrafter;
-import evilcraft.item.ExaltedCrafterConfig;
-import evilcraft.network.PacketHandler;
-import evilcraft.network.packet.ExaltedCrafterClearPacket;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.Map;
@@ -50,6 +54,22 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     private InventoryCraftResult result;
     private boolean initialized;
 
+    private static final Map<Integer, IButtonAction> ACTIONS = Maps.newHashMap();
+    static {
+        ACTIONS.put(GuiExaltedCrafter.BUTTON_CLEAR, new IButtonAction() {
+            @Override
+            public void execute(ContainerExaltedCrafter container) {
+                container.clearGrid();
+            }
+        });
+        ACTIONS.put(GuiExaltedCrafter.BUTTON_BALANCE, new IButtonAction() {
+            @Override
+            public void execute(ContainerExaltedCrafter container) {
+                container.balanceGrid();
+            }
+        });
+    }
+
     /**
      * Make a new instance.
      * @param player The player.
@@ -72,13 +92,26 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         initialized = true;
         this.onCraftMatrixChanged(craftingGrid);
     }
-    
+
     /**
-     * Send a packet to the server for clearing the grid.
+     * Send a packet to the server for pressing a button.
+     * @param buttonId The id of the button.
      */
-    public void sendClearGrid() {
-    	clearGrid();
-    	PacketHandler.sendToServer(new ExaltedCrafterClearPacket());
+    public void sendPressButton(int buttonId) {
+        if(ACTIONS.containsKey(buttonId)) {
+            executePressButton(buttonId);
+            PacketHandler.sendToServer(new ExaltedCrafterButtonPacket(buttonId));
+        }
+    }
+
+    /**
+     * Send a packet to the server for pressing a button.
+     * @param buttonId The id of the button.
+     */
+    public void executePressButton(int buttonId) {
+        if(ACTIONS.containsKey(buttonId)) {
+            ACTIONS.get(buttonId).execute(this);
+        }
     }
     
     /**
@@ -88,6 +121,60 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     	for(int i = 0; i < craftingGrid.getSizeInventory(); i++) {
     		transferStackInSlot(player, i);
     	}
+    }
+
+    /**
+     * Balance the crafting grid.
+     */
+    public void balanceGrid() {
+        // Init bins
+        List<Pair<ItemStack, List<Pair<Integer, Integer>>>> bins = Lists.newArrayListWithExpectedSize(craftingGrid.getSizeInventory());
+        for(int slot = 0; slot < craftingGrid.getSizeInventory(); slot++) {
+            ItemStack itemStack = craftingGrid.getStackInSlot(slot);
+            if(itemStack != null) {
+                int amount = itemStack.stackSize;
+                itemStack = itemStack.copy();
+                itemStack.stackSize = 1;
+                int bin = 0;
+                boolean addedToBin = false;
+                while(bin < bins.size() && !addedToBin) {
+                    Pair<ItemStack, List<Pair<Integer, Integer>>> pair = bins.get(bin);
+                    ItemStack original = pair.getLeft().copy();
+                    original.stackSize = 1;
+                    if(ItemStack.areItemStacksEqual(original, itemStack)) {
+                        pair.getLeft().stackSize += amount;
+                        pair.getRight().add(new MutablePair<Integer, Integer>(slot, 0));
+                        addedToBin = true;
+                    }
+                    bin++;
+                }
+
+                if(!addedToBin) {
+                    itemStack.stackSize = amount;
+                    bins.add(new MutablePair<ItemStack, List<Pair<Integer, Integer>>>(itemStack,
+                            Lists.newArrayList((Pair<Integer, Integer>) new MutablePair<Integer, Integer>(slot, 0))));
+                }
+            }
+        }
+
+        // Balance bins
+        for(Pair<ItemStack, List<Pair<Integer, Integer>>> pair : bins) {
+            int division = pair.getLeft().stackSize / pair.getRight().size();
+            int modulus = pair.getLeft().stackSize % pair.getRight().size();
+            for(Pair<Integer, Integer> slot : pair.getRight()) {
+                slot.setValue(division + Math.max(0, Math.min(1, modulus--)));
+            }
+            System.out.println(pair);
+        }
+
+        // Set bins to slots
+        for(Pair<ItemStack, List<Pair<Integer, Integer>>> pair : bins) {
+            for(Pair<Integer, Integer> slot : pair.getRight()) {
+                ItemStack itemStack = pair.getKey().copy();
+                itemStack.stackSize = slot.getRight();
+                craftingGrid.setInventorySlotContents(slot.getKey(), itemStack);
+            }
+        }
     }
     
     @Override
@@ -149,6 +236,17 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         selection.put(ContainerSection.CRAFTING_OUT, craftingOutSlots);
         selection.put(ContainerSection.CHEST, craftingChest);
         return selection;
+
+    }
+
+    /**
+     * Action for pressing buttons.
+     * Easily expandable for more containers.
+     * Might want to further abstract Gui logic related to buttons in that case as well.
+     */
+    private static interface IButtonAction {
+
+        public void execute(ContainerExaltedCrafter container);
 
     }
     

@@ -1,29 +1,15 @@
 package evilcraft.proxy;
 
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.ILocation;
 import evilcraft.core.BucketHandler;
 import evilcraft.core.world.gen.RetroGenRegistry;
-import evilcraft.event.BonemealEventHook;
-import evilcraft.event.ConfigChangedEventHook;
-import evilcraft.event.EntityStruckByLightningEventHook;
-import evilcraft.event.ItemCraftedEventHook;
-import evilcraft.event.LivingAttackEventHook;
-import evilcraft.event.LivingDeathEventHook;
-import evilcraft.event.LivingUpdateEventHook;
-import evilcraft.event.PlayerInteractEventHook;
-import evilcraft.event.PlayerRingOfFire;
+import evilcraft.event.*;
 import evilcraft.network.PacketHandler;
-import evilcraft.network.packet.DetectionListenerPacket;
-import evilcraft.network.packet.ExaltedCrafterClearPacket;
-import evilcraft.network.packet.ExaltedCrafterOpenPacket;
-import evilcraft.network.packet.FartPacket;
-import evilcraft.network.packet.RingOfFirePacket;
-import evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
-import evilcraft.network.packet.SoundPacket;
+import evilcraft.network.packet.*;
+import net.minecraftforge.common.MinecraftForge;
 
 /**
  * Proxy for server and client side.
@@ -59,7 +45,7 @@ public class CommonProxy {
     	PacketHandler.register(DetectionListenerPacket.class);
     	PacketHandler.register(SoundPacket.class);
     	PacketHandler.register(SanguinaryPedestalBlockReplacePacket.class);
-    	PacketHandler.register(ExaltedCrafterClearPacket.class);
+    	PacketHandler.register(ExaltedCrafterButtonPacket.class);
     	PacketHandler.register(ExaltedCrafterOpenPacket.class);
     	
         EvilCraft.log("Registered packet handler.");
