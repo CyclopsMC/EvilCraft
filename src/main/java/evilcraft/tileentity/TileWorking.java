@@ -48,7 +48,17 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
 
     protected void onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
         resetTier();
+        getTank().setCapacity(getTankTierMultiplier(getTier()) * tankSize);
         super.onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
+    }
+
+    /**
+     * Get the tank capacity multiplier.
+     * @param tier The tier to multiply for.
+     * @return The multiplier.
+     */
+    public static int getTankTierMultiplier(int tier) {
+        return 1 << tier;
     }
 
     protected void resetTier() {

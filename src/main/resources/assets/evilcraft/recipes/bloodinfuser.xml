@@ -81,7 +81,7 @@
         <input>
             <item>minecraft:ghast_tear</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>1000</fluidamount>
+            <fluidamount>10000</fluidamount>
         </input>
         <output>
             <item>evilcraft:corruptedTear</item>

@@ -1,12 +1,12 @@
 package evilcraft.core.tileentity;
 
+import evilcraft.core.fluid.SingleUseTank;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import evilcraft.core.fluid.SingleUseTank;
 
 /**
  * A TileEntity that has an inventory and a tank that can accept fluids or only one type of fluid.
@@ -16,7 +16,7 @@ import evilcraft.core.fluid.SingleUseTank;
 public abstract class TankInventoryTileEntity extends InventoryTileEntity implements IFluidHandler {
     
     private SingleUseTank tank;
-    private int tankSize;
+    protected int tankSize;
     private String tankName;
     private Fluid acceptedFluid = null;
     protected boolean sendUpdateOnTankChanged = false;

@@ -26,7 +26,7 @@
         <input>
             <item>minecraft:rotten_flesh</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>125</fluidamount>
+            <fluidamount>375</fluidamount>
         </input>
         <output>
             <item>minecraft:leather</item>
@@ -44,7 +44,7 @@
         <input>
             <item meta="1">evilcraft:werewolfFlesh</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>125</fluidamount>
+            <fluidamount>375</fluidamount>
         </input>
         <output>
             <item>minecraft:leather</item>
@@ -61,7 +61,7 @@
         <input>
             <item>minecraft:ender_eye</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>1000</fluidamount>
+            <fluidamount>3000</fluidamount>
         </input>
         <output>
             <item amount="8">minecraft:spider_eye</item>
@@ -78,7 +78,7 @@
         <input>
             <item>minecraft:spider_eye</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>500</fluidamount>
+            <fluidamount>1500</fluidamount>
         </input>
         <output>
             <item>minecraft:fermented_spider_eye</item>
@@ -95,7 +95,7 @@
         <input>
             <item>minecraft:brown_mushroom</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>100</fluidamount>
+            <fluidamount>2000</fluidamount>
         </input>
         <output>
             <item>minecraft:red_mushroom</item>
@@ -197,14 +197,14 @@
         <input>
             <item meta="3">minecraft:skull</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>500</fluidamount>
+            <fluidamount>1000</fluidamount>
         </input>
         <output>
             <item meta="2">minecraft:skull</item>
         </output>
         <properties>
             <tier>1</tier>
-            <duration>500</duration>
+            <duration>5000</duration>
         </properties>
     </recipe>
 
@@ -214,7 +214,7 @@
         <input>
             <item meta="2">minecraft:skull</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>1000</fluidamount>
+            <fluidamount>5000</fluidamount>
         </input>
         <output>
             <item meta="0">minecraft:skull</item>
@@ -231,7 +231,7 @@
         <input>
             <item meta="0">minecraft:skull</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>5000</fluidamount>
+            <fluidamount>25000</fluidamount>
         </input>
         <output>
             <item meta="1">minecraft:skull</item>
@@ -249,7 +249,7 @@
         <input>
             <item type="oredict">dustDull</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>250</fluidamount>
+            <fluidamount>500</fluidamount>
         </input>
         <output>
             <item>minecraft:redstone</item>
@@ -267,7 +267,7 @@
         <input>
             <item meta="*">minecraft:coal</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>200</fluidamount>
+            <fluidamount>375</fluidamount>
         </input>
         <output>
             <item>evilcraft:bloodWaxedCoal</item>
@@ -285,7 +285,7 @@
         <input>
             <item>evilcraft:enderTear</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>500</fluidamount>
+            <fluidamount>3500</fluidamount>
         </input>
         <output>
             <item>minecraft:ghast_tear</item>
@@ -303,7 +303,7 @@
         <input>
             <item meta="15">minecraft:dye</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>100</fluidamount>
+            <fluidamount>800</fluidamount>
         </input>
         <output>
             <item>evilcraft:bloodPotash</item>

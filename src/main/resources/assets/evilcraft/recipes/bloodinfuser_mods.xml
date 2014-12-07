@@ -26,7 +26,7 @@
         <input>
             <item>minecraft:blaze_rod</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>2000</fluidamount>
+            <fluidamount>6500</fluidamount>
         </input>
         <output>
             <item meta="8">TConstruct:materials</item>

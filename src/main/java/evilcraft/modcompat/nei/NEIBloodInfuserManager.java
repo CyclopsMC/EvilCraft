@@ -18,6 +18,7 @@ import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.inventory.container.ContainerBloodInfuser;
 import evilcraft.item.Promise;
 import evilcraft.tileentity.TileBloodInfuser;
+import evilcraft.tileentity.TileWorking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
@@ -71,6 +72,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         private FluidStack fluidStack;
         private Rectangle tank;
         private int duration;
+        private int tier;
 
         public CachedBloodInfuserRecipe(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
             this(recipe.getInput().getItemStacks(), recipe.getOutput().getItemStack(),
@@ -92,6 +94,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                             ContainerBloodInfuser.SLOT_INFUSE_RESULT_X + xOffset,
                             ContainerBloodInfuser.SLOT_INFUSE_RESULT_Y + yOffset
                             );
+            this.tier = tier;
             if(tier > 0) {
                 this.upgrade = new PositionedStack(new ItemStack(Promise.getInstance(), 1, tier - 1), 3, 0);
             }
@@ -279,9 +282,13 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         CachedBloodInfuserRecipe bloodInfuserRecipe = getRecipe(recipe);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        int tankSize = bloodInfuserRecipe.fluidStack.amount * tankHeight / TileBloodInfuser.LIQUID_PER_SLOT;
+        int tankSize = bloodInfuserRecipe.fluidStack.amount * tankHeight / getMaxTankSize(bloodInfuserRecipe);
         drawTank(tankTargetX, tankTargetY, TileBloodInfuser.ACCEPTED_FLUID.getID(), tankSize);
         GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    protected int getMaxTankSize(CachedBloodInfuserRecipe bloodInfuserRecipe) {
+        return TileBloodInfuser.LIQUID_PER_SLOT * TileWorking.getTankTierMultiplier(bloodInfuserRecipe.tier);
     }
     
     protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
@@ -336,7 +343,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                     mouse.y - ((guiRecipe.height - height) / 2) - offset.y);
             if (bloodInfuserRecipe.tank.contains(mouseRelative)) {
                 currenttip.add(fluid.getLocalizedName());
-                currenttip.add(fluid.amount + " / " + TileBloodInfuser.LIQUID_PER_SLOT + " mB");
+                currenttip.add(fluid.amount + " / " + getMaxTankSize(bloodInfuserRecipe) + " mB");
             }
         }
         return currenttip;
