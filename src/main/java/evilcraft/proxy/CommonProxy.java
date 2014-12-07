@@ -46,7 +46,7 @@ public class CommonProxy {
     	PacketHandler.register(DetectionListenerPacket.class);
     	PacketHandler.register(SoundPacket.class);
     	PacketHandler.register(SanguinaryPedestalBlockReplacePacket.class);
-    	PacketHandler.register(ExaltedCrafterClearPacket.class);
+    	PacketHandler.register(ExaltedCrafterButtonPacket.class);
     	PacketHandler.register(ExaltedCrafterOpenPacket.class);
     	PacketHandler.register(UpdateWorldSharedTankClientCachePacket.class);
     	

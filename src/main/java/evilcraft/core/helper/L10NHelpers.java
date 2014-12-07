@@ -1,13 +1,10 @@
 package evilcraft.core.helper;
 
-import java.util.List;
-
+import evilcraft.core.IInformationProvider;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
-import org.lwjgl.input.Keyboard;
-
-import evilcraft.core.IInformationProvider;
+import java.util.List;
 
 /**
  * A set of localization helpers.
@@ -73,7 +70,7 @@ public final class L10NHelpers {
 	public static void addOptionalInfo(List list, String prefix) {
         String key = prefix + ".info";
 		if(StatCollector.canTranslate(key)) {
-			if(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+			if(MinecraftHelpers.isShifted()) {
 				String localized = localize(key);
 				list.addAll(StringHelpers.splitLines(localized, MAX_TOOLTIP_LINE_LENGTH,
 						IInformationProvider.INFO_PREFIX));

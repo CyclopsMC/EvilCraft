@@ -130,7 +130,8 @@ public class LivingDeathEventHook {
 	private void dropHumanoidFleshEvent(LivingDeathEvent event) {
 		if(event.entityLiving instanceof EntityPlayerMP
 				&& Configs.isEnabled(WerewolfFleshConfig.class)
-				&& !event.entityLiving.worldObj.isRemote) {
+				&& !event.entityLiving.worldObj.isRemote
+                && event.entityLiving.worldObj.rand.nextInt(WerewolfFleshConfig.humanoidFleshDropChance) == 0) {
 			EntityPlayerMP player = (EntityPlayerMP) event.entityLiving;
 			ItemStack itemStack = new ItemStack(WerewolfFlesh.getInstance(), 1, 1);
 			NBTTagCompound tag = itemStack.getTagCompound();

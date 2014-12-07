@@ -1,15 +1,16 @@
 package evilcraft.client.gui.container;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import evilcraft.client.Keys;
 import evilcraft.core.client.gui.GuiButtonExtended;
 import evilcraft.core.client.gui.container.GuiContainerExtended;
 import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.helper.L10NHelpers;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
 import evilcraft.item.ExaltedCrafter;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 /**
  * GUI for the {@link ExaltedCrafter}.
@@ -18,7 +19,8 @@ import evilcraft.item.ExaltedCrafter;
  */
 public class GuiExaltedCrafter extends GuiContainerExtended {
 	
-	private static final int BUTTON_CLEAR = 1;
+	public static final int BUTTON_CLEAR = 1;
+    public static final int BUTTON_BALANCE = 2;
 	private EntityPlayer player;
 	private int itemIndex;
 	
@@ -39,15 +41,15 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     protected int getBaseYSize() {
         return 225;
     }
-    
-    protected void clearGrid() {
-    	((ContainerExaltedCrafter) inventorySlots).sendClearGrid();
+
+    protected void pressButton(int buttonId) {
+        ((ContainerExaltedCrafter) inventorySlots).sendPressButton(buttonId);
     }
     
     @Override
     protected void keyTyped(char key, int code) {
     	if(code == Keys.EXALTEDCRAFTING.keyBinding.getKeyCode()) {
-    		clearGrid();
+            pressButton(MinecraftHelpers.isShifted() ? BUTTON_BALANCE : BUTTON_CLEAR);
     	}
     	super.keyTyped(key, code);
     }
@@ -56,14 +58,13 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
 	@Override
     public void initGui() {
     	super.initGui();
-    	buttonList.add(new GuiButtonExtended(BUTTON_CLEAR, this.guiLeft + 90, this.guiTop + 58, 13, 12, "C"));
+    	buttonList.add(new GuiButtonExtended(BUTTON_CLEAR,   this.guiLeft + 88,  this.guiTop + 58, 13, 12, "C"));
+        buttonList.add(new GuiButtonExtended(BUTTON_BALANCE, this.guiLeft + 103, this.guiTop + 58, 13, 12, "B"));
     }
     
     @Override
     protected void actionPerformed(GuiButton guibutton) {
-    	if(guibutton.id == BUTTON_CLEAR) {
-    		clearGrid();
-    	}
+        pressButton(guibutton.id);
     }
     
     @Override
