@@ -133,17 +133,6 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         addSlotsToSide(ForgeDirection.WEST, outSlots);
 
         // Upgrade behaviour
-        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(3.2) {
-            @Override
-            public void applyUpgrade(TileBloodInfuser upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
-                                     IUpgradeSensitiveEvent<MutableInt> event) {
-                if(event.getType() == UPGRADEEVENT_SPEED) {
-                    int val = event.getObject().getValue();
-                    val /= (1 + upgradeLevel / valueFactor);
-                    event.getObject().setValue(val);
-                }
-            }
-        });
         upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(6.4) {
             @Override
             public void applyUpgrade(TileBloodInfuser upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
@@ -162,6 +151,10 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
                 if(event.getType() == UPGRADEEVENT_FILLBLOODPERTICK) {
                     int val = event.getObject().getValue();
                     val *= (1 + upgradeLevel / valueFactor);
+                    event.getObject().setValue(val);
+                } else if(event.getType() == UPGRADEEVENT_SPEED) {
+                    int val = event.getObject().getValue();
+                    val /= (1 + upgradeLevel / valueFactor);
                     event.getObject().setValue(val);
                 }
             }
