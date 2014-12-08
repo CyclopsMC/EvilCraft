@@ -7,6 +7,7 @@ import evilcraft.api.recipes.custom.IMachine;
 import evilcraft.api.recipes.custom.IRecipeRegistry;
 import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
 import evilcraft.client.gui.container.GuiBloodInfuser;
+import evilcraft.client.particle.EntityBloodBubbleFX;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -15,6 +16,7 @@ import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
+import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.inventory.container.ContainerBloodInfuser;
 import evilcraft.tileentity.TileBloodInfuser;
 import net.minecraft.block.material.Material;
@@ -22,6 +24,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
@@ -124,5 +127,12 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     @Override
     public IRecipeRegistry<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> getRecipeRegistry() {
         return RegistryManager.getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(x, y, z), world, x, y, z, random);
+        super.randomDisplayTick(world, x, y, z, random);
     }
 }

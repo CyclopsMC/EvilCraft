@@ -1,9 +1,15 @@
 package evilcraft.client.particle;
 
-import net.minecraft.client.particle.EntitySplashFX;
-import net.minecraft.world.World;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.tileentity.WorkingTileEntity;
+import net.minecraft.client.particle.EntitySplashFX;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import javax.annotation.Nullable;
+import java.util.Random;
 
 
 /**
@@ -33,6 +39,10 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
         this.particleRed = 1.0F;
         this.particleGreen = 0.0F;
         this.particleBlue = 0.0F;
+
+        this.motionX = speedX;
+        this.motionY = speedY + 0.1D;
+        this.motionZ = speedZ;
     }
 
     @Override
@@ -42,11 +52,46 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
         this.prevPosZ = this.posZ;
         this.motionY += 0.002D;
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.8500000238418579D;
-        this.motionY *= 0.8500000238418579D;
-        this.motionZ *= 0.8500000238418579D;
+        this.motionX *= 0.85D;
+        this.motionY *= 0.85D;
+        this.motionZ *= 0.85D;
         if (this.particleMaxAge-- <= 0) {
             this.setDead();
+        }
+    }
+
+    /**
+     * Call this in machines that should display blood particles when working.
+     * @param world The world.
+     * @param x X
+     * @param y Y
+     * @param z Z
+     * @param random Random instance.
+     */
+    @SideOnly(Side.CLIENT)
+    public static void randomDisplayTick(@Nullable WorkingTileEntity tile, World world, int x, int y, int z, Random random) {
+        if(tile != null && random.nextInt(10) == 0) {
+            ForgeDirection rotatedDirection = tile.getRotation();
+            if (tile.isVisuallyWorking()) {
+                for(int i = 0; i < 1 + random.nextInt(5); i++) {
+                    double particleX = x - rotatedDirection.offsetX + (rotatedDirection == ForgeDirection.EAST ? 1 : 0)
+                            + (rotatedDirection == ForgeDirection.NORTH || rotatedDirection == ForgeDirection.SOUTH ?
+                            (0.3 + random.nextDouble() * 0.4) : 0);
+                    double particleY = y + 0.1 + random.nextDouble() * 0.5;
+                    double particleZ = z - rotatedDirection.offsetZ + (rotatedDirection == ForgeDirection.SOUTH ? 1 : 0)
+                            + (rotatedDirection == ForgeDirection.EAST || rotatedDirection == ForgeDirection.WEST ?
+                            (0.3 + random.nextDouble() * 0.4) : 0);
+
+                    float particleMotionX = -0.1F + random.nextFloat() * 0.2F;
+                    float particleMotionY = 0.01F;
+                    float particleMotionZ = -0.1F + random.nextFloat() * 0.2F;
+
+                    FMLClientHandler.instance().getClient().effectRenderer.addEffect(
+                            new EntityBloodBubbleFX(world, particleX, particleY, particleZ,
+                                    particleMotionX, particleMotionY, particleMotionZ)
+                    );
+                }
+            }
         }
     }
 }

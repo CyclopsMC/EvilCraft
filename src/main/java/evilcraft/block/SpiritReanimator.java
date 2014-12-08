@@ -1,19 +1,25 @@
 package evilcraft.block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.gui.container.GuiSpiritReanimator;
+import evilcraft.client.particle.EntityBloodBubbleFX;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.inventory.container.ContainerSpiritReanimator;
 import evilcraft.tileentity.TileSpiritReanimator;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.Random;
 
 /**
  * A machine that can reanimate spirits inside BOEC's.
@@ -101,6 +107,13 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
     @Override
     public int getMaxCapacity() {
         return TileSpiritReanimator.LIQUID_PER_SLOT;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(x, y, z), world, x, y, z, random);
+        super.randomDisplayTick(world, x, y, z, random);
     }
 
 }
