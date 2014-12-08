@@ -555,6 +555,8 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
      */
 	@SuppressWarnings("unchecked")
 	public static boolean canSpawnNew(World world, double x, double y, double z) {
+        if(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z)) return false;
+
 		int area = VengeanceSpiritConfig.spawnLimitArea;
 		int threshold = VengeanceSpiritConfig.spawnLimit;
 		AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
