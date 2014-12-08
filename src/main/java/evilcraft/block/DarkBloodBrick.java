@@ -88,11 +88,12 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
     @Override
     public void onBlockAdded(World world, int x, int y, int z) {
     	triggerDetector(world, x, y, z, true);
+        world.func_147453_f(x, y, z, this);
     }
     
     @Override
     public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
-    	triggerDetector(world, x, y, z, false);
+    	if(meta == 1) triggerDetector(world, x, y, z, false);
     	super.onBlockPreDestroy(world, x, y, z, meta);
     }
     
