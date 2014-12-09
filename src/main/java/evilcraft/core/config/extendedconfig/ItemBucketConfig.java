@@ -5,6 +5,7 @@ import evilcraft.core.BucketHandler;
 import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.core.config.configurable.ConfigurableFluid;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -50,14 +51,18 @@ public abstract class ItemBucketConfig extends ItemConfig {
     @Override
     public void onRegistered() {
         Item item = (Item) this.getSubInstance();
-        FluidStack fluidStack = FluidRegistry.getFluidStack(getFluidInstance().getName(), FluidContainerRegistry.BUCKET_VOLUME);
-        FluidContainerRegistry.registerFluidContainer(
-                fluidStack,
-                new ItemStack(item),
-                new ItemStack(item.getContainerItem())
-        );
-        BucketHandler.getInstance().buckets.put(getFluidBlockInstance(), item);
-        Recipes.BUCKETS.put(item, fluidStack);
+        if(getFluidInstance() != null) {
+            FluidStack fluidStack = FluidRegistry.getFluidStack(getFluidInstance().getName(), FluidContainerRegistry.BUCKET_VOLUME);
+            FluidContainerRegistry.registerFluidContainer(
+                    fluidStack,
+                    new ItemStack(item),
+                    new ItemStack(item.getContainerItem())
+            );
+            Recipes.BUCKETS.put(item, fluidStack);
+        }
+        if(getFluidBlockInstance() != Blocks.air) {
+            BucketHandler.getInstance().buckets.put(getFluidBlockInstance(), item);
+        }
     }
     
     @Override

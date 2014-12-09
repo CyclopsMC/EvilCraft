@@ -49,6 +49,7 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
 
         };
         bucket.setContainerItem(bucket);
+        bucket.setMaxStackSize(64);
         return bucket;
     }
 

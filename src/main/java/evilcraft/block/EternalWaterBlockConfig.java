@@ -8,8 +8,10 @@ import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.tileentity.TileEternalWaterBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -61,6 +63,11 @@ public class EternalWaterBlockConfig extends BlockContainerConfig {
             @Override
             public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
                 return false;
+            }
+
+            public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
+                                            float xp, float yp, float zp) {
+                return true;
             }
 
         };

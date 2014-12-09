@@ -1002,7 +1002,7 @@
             </grid>
         </input>
         <output>
-            <item amount="1">evilcraft:bucketEternalWater</item>
+            <item amount="4">evilcraft:bucketEternalWater</item>
         </output>
     </recipe>
 
@@ -1029,7 +1029,7 @@
             </grid>
         </input>
         <output>
-            <item amount="1">evilcraft:eternalWaterBlock</item>
+            <item amount="4">evilcraft:eternalWaterBlock</item>
         </output>
     </recipe>
 
