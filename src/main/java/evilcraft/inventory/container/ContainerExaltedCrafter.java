@@ -164,7 +164,6 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
             for(Pair<Integer, Integer> slot : pair.getRight()) {
                 slot.setValue(division + Math.max(0, Math.min(1, modulus--)));
             }
-            System.out.println(pair);
         }
 
         // Set bins to slots

@@ -64,6 +64,8 @@ tile.blocks.entangledChalice.info.autoSupply=Omni-supply: %s
 tile.blocks.darkPowerGemBlock.name=Dark Power Gem Block
 tile.blocks.gemStoneTorch.name=GemStone Torch
 tile.blocks.gemStoneTorch.info=Blocks Vengeance Spirit spawning in a radius of 15 blocks.
+tile.blocks.eternalWaterBlock.name=Eternal Water Block
+tile.blocks.eternalWaterBlock.info=An infinite source of water.
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone
@@ -165,6 +167,8 @@ item.items.enderTear.name=Ender Tear
 item.items.enderTear.info=Rare drop from Endermen.
 item.items.bloodPotash.name=Blood Potash
 item.items.bloodPotash.info=Double your bonemealing efficiency.
+item.items.bucketEternalWater.name=Eternal Water Bucket
+item.items.bucketEternalWater.info=An infinite source of water.
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

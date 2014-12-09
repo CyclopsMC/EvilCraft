@@ -118,6 +118,7 @@ public class Configs {
         configs.add(new EntangledChaliceConfig());
         configs.add(new DarkPowerGemBlockConfig());
         configs.add(new GemStoneTorchConfig());
+        configs.add(new EternalWaterBlockConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -163,6 +164,7 @@ public class Configs {
         configs.add(new BloodWaxedCoalConfig());
         configs.add(new EnderTearConfig());
         configs.add(new BloodPotashConfig());
+        configs.add(new BucketEternalWaterConfig());
         
         // Entities
         // Item

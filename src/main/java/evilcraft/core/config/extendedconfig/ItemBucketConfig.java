@@ -1,15 +1,16 @@
 package evilcraft.core.config.extendedconfig;
 
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import evilcraft.Recipes;
 import evilcraft.core.BucketHandler;
 import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.core.config.configurable.ConfigurableFluid;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 /**
  * Config for buckets, extension of {@link ItemConfig}.
@@ -39,12 +40,12 @@ public abstract class ItemBucketConfig extends ItemConfig {
      * Get the {@link ConfigurableFluid} this bucket can contain.
      * @return the fluid.
      */
-    public abstract ConfigurableFluid getFluidInstance();
+    public abstract Fluid getFluidInstance();
     /**
      * Get the {@link ConfigurableBlockFluidClassic} this bucket can place / pick up.
      * @return the fluid block.
      */
-    public abstract ConfigurableBlockFluidClassic getFluidBlockInstance();
+    public abstract Block getFluidBlockInstance();
     
     @Override
     public void onRegistered() {
@@ -53,7 +54,7 @@ public abstract class ItemBucketConfig extends ItemConfig {
         FluidContainerRegistry.registerFluidContainer(
                 fluidStack,
                 new ItemStack(item),
-                new ItemStack(Items.bucket)
+                new ItemStack(item.getContainerItem())
         );
         BucketHandler.getInstance().buckets.put(getFluidBlockInstance(), item);
         Recipes.BUCKETS.put(item, fluidStack);

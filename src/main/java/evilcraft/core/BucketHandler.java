@@ -1,8 +1,7 @@
 package evilcraft.core;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -10,8 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This will take care of the logic of custom buckets, so they can be filled like other buckets.
@@ -47,7 +47,7 @@ public class BucketHandler {
      */
     @SubscribeEvent
     public void onBucketFill(FillBucketEvent event) {
-        ItemStack result = fillCustomBucket(event.world, event.target);
+        ItemStack result = fillCustomBucket(event.world, event.target, event.current);
 
         if (result != null) {
             event.result = result;
@@ -55,11 +55,12 @@ public class BucketHandler {
         }
     }
 
-    private ItemStack fillCustomBucket(World world, MovingObjectPosition pos) {
+    private ItemStack fillCustomBucket(World world, MovingObjectPosition pos, ItemStack current) {
         Block block = world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
 
         Item bucket = buckets.get(block);
-        if (bucket != null && world.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ) == 0) {
+        if (bucket != null && world.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ) == 0 &&
+                ItemStack.areItemStacksEqual(current, bucket.getContainerItem(current))) {
             world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.air);
             return new ItemStack(bucket);
         } else {

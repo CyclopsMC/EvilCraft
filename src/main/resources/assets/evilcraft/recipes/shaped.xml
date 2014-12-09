@@ -985,4 +985,52 @@
         </output>
     </recipe>
 
+    <recipe type="shaped">
+        <condition type="config">bucketEternalWater</condition>
+        <input>
+            <grid>
+                <gridrow>
+                    <item type="oredict">gemDark</item>
+                    <item meta="2">evilcraft:weatherContainer</item>
+                    <item type="oredict">gemDark</item>
+                </gridrow>
+                <gridrow>
+                    <item />
+                    <item type="oredict">gemDark</item>
+                    <item />
+                </gridrow>
+            </grid>
+        </input>
+        <output>
+            <item amount="1">evilcraft:bucketEternalWater</item>
+        </output>
+    </recipe>
+
+    <recipe type="shaped">
+        <condition type="config">eternalWaterBlock</condition>
+        <condition type="config">darkBlock</condition>
+        <input>
+            <grid>
+                <gridrow>
+                    <item type="oredict">paneGlass</item>
+                    <item type="oredict">paneGlass</item>
+                    <item type="oredict">paneGlass</item>
+                </gridrow>
+                <gridrow>
+                    <item type="oredict">paneGlass</item>
+                    <item meta="2">evilcraft:weatherContainer</item>
+                    <item type="oredict">paneGlass</item>
+                </gridrow>
+                <gridrow>
+                    <item type="oredict">paneGlass</item>
+                    <item>evilcraft:darkBlock</item>
+                    <item type="oredict">paneGlass</item>
+                </gridrow>
+            </grid>
+        </input>
+        <output>
+            <item amount="1">evilcraft:eternalWaterBlock</item>
+        </output>
+    </recipe>
+
 </recipes>

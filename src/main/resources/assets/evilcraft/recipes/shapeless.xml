@@ -230,4 +230,15 @@
         </output>
     </recipe>
 
+    <recipe type="shapeless">
+        <condition type="config">bucketEternalWater</condition>
+        <input>
+            <item>evilcraft:bucketEternalWater</item>
+            <item>minecraft:bucket</item>
+        </input>
+        <output>
+            <item>minecraft:water_bucket</item>
+        </output>
+    </recipe>
+
 </recipes>

@@ -1,9 +1,17 @@
 package evilcraft.core.config.configurable;
 
-import java.util.ArrayList;
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Reference;
+import evilcraft.core.client.render.block.CustomRenderBlocks;
+import evilcraft.core.client.render.block.IMultiRenderPassBlock;
+import evilcraft.core.client.render.block.MultiPassBlockRenderer;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.helper.DirectionHelpers;
+import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.item.TileEntityNBTStorage;
+import evilcraft.core.tileentity.EvilCraftTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -19,24 +27,16 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
-import evilcraft.core.client.render.block.CustomRenderBlocks;
-import evilcraft.core.client.render.block.IMultiRenderPassBlock;
-import evilcraft.core.client.render.block.MultiPassBlockRenderer;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.DirectionHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.item.TileEntityNBTStorage;
-import evilcraft.core.tileentity.EvilCraftTileEntity;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Block with a tile entity that can hold ExtendedConfigs.
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockContainer extends BlockContainer implements IConfigurable, IMultiRenderPassBlock {
+public class ConfigurableBlockContainer extends BlockContainer implements IConfigurable, IMultiRenderPassBlock {
     
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
