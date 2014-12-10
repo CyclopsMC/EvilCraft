@@ -22,6 +22,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.RecipeSorter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -141,6 +142,14 @@ public class Recipes {
      * specific configuration stuff.
      */
     public static void registerRecipes(File rootConfigFolder) throws XmlRecipeLoader.XmlRecipeException {
+        // Register custom recipe classes
+        RecipeSorter.register(Reference.MOD_ID + "observableshapeless", ObservableShapelessRecipe.class,
+                RecipeSorter.Category.SHAPELESS, "after:forge:shapelessore");
+        RecipeSorter.register(Reference.MOD_ID + "observableshaped", ObservableShapedRecipe.class,
+                RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
+        RecipeSorter.register(Reference.MOD_ID + "containercombination", ItemBlockFluidContainerCombinationRecipe.class,
+                RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
+
     	loadPredefineds();
     	
     	// Load the recipes stored in XML.
