@@ -123,6 +123,12 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
 	    		}
 	    	}
     	}
+
+        if(InvigoratingPendantConfig.fireUsage >= 0 && player.isBurning() &&
+                canConsume(InvigoratingPendantConfig.fireUsage, itemStack, player)) {
+            player.extinguish();
+            consume(InvigoratingPendantConfig.fireUsage, itemStack, player);
+        }
 	}
     
 	@Override

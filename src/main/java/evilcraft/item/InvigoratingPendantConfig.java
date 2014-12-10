@@ -1,9 +1,9 @@
 package evilcraft.item;
 
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.ItemConfig;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 
 /**
  * Config for the {@link InvigoratingPendant}.
@@ -34,6 +34,12 @@ public class InvigoratingPendantConfig extends ItemConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The amount of seconds that will be reduced from the first found bad effect.", isCommandable = true)
     public static int reduceDuration = 30;
+
+    /**
+     * The amount of Blood to drain after one clearing of fire.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The amount of Blood to drain after one reduction/clearing of fire. -1 to disable fire extinguishing.", isCommandable = true)
+    public static int fireUsage = 500;
 
     /**
      * Make a new instance.
