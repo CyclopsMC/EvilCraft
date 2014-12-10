@@ -1,26 +1,6 @@
 package evilcraft.item;
-import java.util.List;
-
-import net.minecraft.client.particle.EntitySmokeFX;
-import net.minecraft.command.IEntitySelector;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 import com.google.common.collect.Multimap;
-
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,6 +14,21 @@ import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.fluid.Blood;
+import net.minecraft.client.particle.EntitySmokeFX;
+import net.minecraft.command.IEntitySelector;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.*;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 /**
  * A powerful magical mace.
@@ -93,13 +88,13 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
         return true;
     }
     
-    private boolean isUsable(ItemStack itemStack) {
-        return getFluid(itemStack) != null;
+    private boolean isUsable(ItemStack itemStack, EntityPlayer player) {
+        return canConsume(1, itemStack, player);
     }
     
     @Override
     public boolean hitEntity(ItemStack itemStack, EntityLivingBase attacked, EntityLivingBase attacker) {
-        if(isUsable(itemStack)) {
+        if(attacker instanceof EntityPlayer && isUsable(itemStack, (EntityPlayer) attacker)) {
             this.drain(itemStack, HIT_USAGE, true);
         }
         return true;
@@ -107,7 +102,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     
     @Override
     public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity) {
-        return !isUsable(itemStack);
+        return !isUsable(itemStack, player);
     }
     
     @Override
@@ -132,7 +127,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
             }
             return itemStack;
         } else {
-            if(isUsable(itemStack)) {
+            if(isUsable(itemStack, player)) {
                 player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
             } else {
                 if(world.isRemote) {
@@ -206,19 +201,14 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
         // Calculate how much blood to drain
         int toDrain = itemUsedCount * getCapacity(itemStack) * (getPower(itemStack) + 1)
                 / (getMaxItemUseDuration(itemStack) * POWER_LEVELS);
-        FluidStack fluidStack = getFluid(itemStack);
-        int amount = 0;
-        if(fluidStack != null) amount = fluidStack.amount;
-        toDrain = Math.min(toDrain, amount);
+        FluidStack consumed = consume(toDrain, itemStack, player);
+        int consumedAmount = consumed == null ? 0 : consumed.amount;
         
         // Recalculate the itemUsedCount depending on how much blood is available
-        itemUsedCount = toDrain * getMaxItemUseDuration(itemStack) / getCapacity(itemStack);
+        itemUsedCount = consumedAmount * getMaxItemUseDuration(itemStack) / getCapacity(itemStack);
         
         // Only do something if there is some blood left
-        if(toDrain > 0) {
-            // Drain the calculate blood
-            this.drain(itemStack, toDrain, true);
-            
+        if(consumedAmount > 0) {
             // This will perform a distortion effect to entities in a certain area,
             // depending on the itemUsedCount.
             distortEntities(world, player, itemUsedCount, getPower(itemStack));

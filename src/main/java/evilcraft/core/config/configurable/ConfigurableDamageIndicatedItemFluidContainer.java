@@ -3,6 +3,7 @@ package evilcraft.core.config.configurable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
+import evilcraft.core.PlayerExtendedInventoryIterator;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.item.DamageIndicatedItemFluidContainer;
@@ -17,6 +18,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
 
 import java.util.List;
 
@@ -187,6 +189,64 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
     	L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
         super.addInformation(itemStack, entityPlayer, list, par4);
+    }
+
+    protected FluidStack drainFromOthers(int amount, ItemStack itemStack, Fluid fluid, EntityPlayer player, boolean doDrain) {
+        PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
+        FluidStack drained = null;
+        while(it.hasNext() && amount > 0) {
+            ItemStack current = it.next();
+            if(current != null &&current != itemStack && current.getItem() instanceof IFluidContainerItem) {
+                FluidStack thisDrained = ((IFluidContainerItem) current.getItem()).drain(current, amount, doDrain);
+                if(thisDrained != null && thisDrained.getFluid() == fluid) {
+                    if(drained == null) {
+                        drained = thisDrained;
+                    } else {
+                        drained.amount += drained.amount;
+                    }
+                    amount -= drained.amount;
+                }
+            }
+        }
+        return drained;
+    }
+
+    /**
+     * If this container can consume a given fluid amount.
+     * Will also check other containers inside the player inventory.
+     * @param amount The amount to drain.
+     * @param itemStack The fluid container.
+     * @param player The player.
+     * @return If the given amount can be drained.
+     */
+    public boolean canConsume(int amount, ItemStack itemStack, EntityPlayer player) {
+        if(canDrain(amount, itemStack)) return true;
+        int availableAmount = 0;
+        if(getFluid(itemStack) != null) {
+            availableAmount = getFluid(itemStack).amount;
+        }
+        return drainFromOthers(amount - availableAmount, itemStack, getFluid(), player, false) != null;
+    }
+
+    /**
+     * Consume a given fluid amount.
+     * Will also check other containers inside the player inventory.
+     * @param amount The amount to drain.
+     * @param itemStack The fluid container.
+     * @param player The player.
+     * @return The fluid that was drained.
+     */
+    public FluidStack consume(int amount, ItemStack itemStack, EntityPlayer player) {
+        boolean doDrain = !player.capabilities.isCreativeMode && !player.worldObj.isRemote;
+        if (amount == 0) return null;
+        FluidStack drained = drain(itemStack, amount, doDrain);
+        if (drained != null && drained.amount == amount) return drained;
+        int drainedAmount = (drained == null ? 0 : drained.amount);
+        int toDrain = amount - drainedAmount;
+        FluidStack otherDrained = drainFromOthers(toDrain, itemStack, getFluid(), player, doDrain);
+        if (otherDrained == null) return drained;
+        otherDrained.amount += drainedAmount;
+        return otherDrained;
     }
 
 }

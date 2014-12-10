@@ -163,7 +163,8 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     @SuppressWarnings("unchecked")
     private void kineticate(ItemStack itemStack, World world, Entity entity) {
-        if(ItemHelpers.isActivated(itemStack) && getFluid(itemStack) != null &&
+        if(ItemHelpers.isActivated(itemStack) &&(getFluid(itemStack) != null ||
+                (entity instanceof EntityPlayer && canConsume(1, itemStack, (EntityPlayer) entity))) &&
                 (entity == null || !entity.isSneaking())) {
         	boolean repelling = isRepelling(itemStack);
         	
@@ -207,7 +208,8 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
 
                         double d = (double) MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
                         int usage = (int) Math.round(d * USAGE_PER_D);
-                        if ((repelling || d > 0.5D) && this.drain(itemStack, usage, !world.isRemote) != null) {
+                        if((repelling || d > 0.5D) && (usage == 0 || (this.drain(itemStack, usage, !world.isRemote) != null) ||
+                                (entity instanceof EntityPlayer && this.consume(usage, itemStack, (EntityPlayer) entity) != null))) {
                             double m = 1 / (2 * (Math.max(1, d)));
                             dx *= m;
                             dy *= m;

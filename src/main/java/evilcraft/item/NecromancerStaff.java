@@ -1,10 +1,5 @@
 package evilcraft.item;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -12,6 +7,12 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.entity.effect.EntityNecromancersHead;
 import evilcraft.fluid.Blood;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 /**
  * A staff that can summon evil creatures that will target another entity.
@@ -65,8 +66,8 @@ public class NecromancerStaff extends ConfigurableDamageIndicatedItemFluidContai
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-		if(canDrain(NecromancerStaffConfig.usage, itemStack)) {
-			drain(itemStack, NecromancerStaffConfig.usage, true);
+		if(canConsume(NecromancerStaffConfig.usage, itemStack, player)) {
+			consume(NecromancerStaffConfig.usage, itemStack, player);
 			Class<? extends EntityLiving> mobType = EntityZombie.class; // Other types might be allowed in the future.
 			throwNecromancersHead(player, mobType);
 			return itemStack;

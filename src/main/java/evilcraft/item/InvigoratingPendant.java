@@ -1,21 +1,9 @@
 package evilcraft.item;
 
-import java.util.Iterator;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.world.World;
 import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import baubles.api.IBauble;
-
 import com.google.common.collect.Lists;
-
 import cpw.mods.fml.common.Optional;
 import evilcraft.Reference;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -26,6 +14,16 @@ import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.fluid.Blood;
 import evilcraft.modcompat.baubles.BaublesModCompat;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
+
+import java.util.Iterator;
 
 /**
  * Ring that can enable sight into the vengeance spirit realm.
@@ -89,14 +87,14 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
      */
     public void clearBadEffects(ItemStack itemStack, EntityPlayer player) {
     	int amount = InvigoratingPendantConfig.usage;
-    	if(canDrain(amount, itemStack)) {
+    	if(canConsume(amount, itemStack, player)) {
     		
     		int originalReducableDuration = InvigoratingPendantConfig.reduceDuration * MinecraftHelpers.SECOND_IN_TICKS;
     		int reducableDuration = originalReducableDuration;
     		
 	    	@SuppressWarnings("unchecked")
 			Iterator<PotionEffect> it = Lists.newLinkedList(player.getActivePotionEffects()).iterator();
-	    	while(reducableDuration > 0 && it.hasNext() && canDrain(amount, itemStack)) {
+	    	while(reducableDuration > 0 && it.hasNext() && canConsume(amount, itemStack, player)) {
 	    		PotionEffect effect = it.next();
 	    		int potionID = effect.getPotionID();
 	    		
@@ -120,9 +118,7 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
 	    				toDrain = (int) Math.ceil((double) (reductionMultiplier * amount)
 	    						* ((double) toReduce / (double) originalReducableDuration));
 	    			}
-	    			if(!player.worldObj.isRemote) {
-	    				drain(itemStack, toDrain, true);
-	    			}
+	    			consume(toDrain, itemStack, player);
 	    			ObfuscationHelpers.onChangedPotionEffect(player, effect, true);
 	    		}
 	    	}

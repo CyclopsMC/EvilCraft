@@ -9,7 +9,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
 
 /**
  * Ender pearl that runs on blood.
@@ -45,13 +44,8 @@ public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFl
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-        FluidStack fluidStack = null;
-        if(itemStack != null && itemStack.stackTagCompound != null)
-            fluidStack = this.drain(itemStack, 100, false);
-        if(fluidStack != null && fluidStack.amount > 0) {
-            if (!player.capabilities.isCreativeMode) {
-                this.drain(itemStack, 100, true);
-            }
+        if(canConsume(100, itemStack, player)) {
+            this.consume(100, itemStack, player);
             world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             
             if (!world.isRemote) {
