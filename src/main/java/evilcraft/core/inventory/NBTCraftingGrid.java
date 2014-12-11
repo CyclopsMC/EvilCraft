@@ -1,11 +1,11 @@
 package evilcraft.core.inventory;
 
+import evilcraft.core.helper.InventoryHelpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import evilcraft.core.helper.InventoryHelpers;
 
 /**
  * A simple implementation of a crafting grid that stores it's inventory in NBT.
@@ -37,9 +37,13 @@ public class NBTCraftingGrid extends InventoryCrafting {
 	 * Save the grid state to NBT.
 	 */
 	public void save() {
-		NBTTagCompound tag = InventoryHelpers.getItemFromIndex(player, itemIndex).getTagCompound();
+        ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex);
+		NBTTagCompound tag = itemStack.getTagCompound();
+        if(tag == null) {
+            tag = new NBTTagCompound();
+        }
 		writeToNBT(tag, NBT_TAG_ROOT);
-		InventoryHelpers.getItemFromIndex(player, itemIndex).setTagCompound(tag);
+		itemStack.setTagCompound(tag);
 	}
 	
 	protected void readFromNBT(NBTTagCompound data, String tagName) {
