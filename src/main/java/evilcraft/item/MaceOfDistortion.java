@@ -296,8 +296,8 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
             if(entity instanceof VengeanceSpirit) {
             	((VengeanceSpirit) entity).setIsSwarm(true);
             }
-            if(entity instanceof EntityPlayer) {
-            	player.addStat(Achievements.SPIRIT_COOKER, 1);
+            if(player != null && entity instanceof EntityPlayer) {
+            	player.addStat(Achievements.PLAYER_DISTORTER, 1);
             }
             strength /= 2;
             entity.motionX += dx * strength;
