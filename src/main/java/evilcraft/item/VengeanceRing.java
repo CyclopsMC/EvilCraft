@@ -1,22 +1,8 @@
 package evilcraft.item;
 
-import java.util.List;
-
-import net.minecraft.command.IEntitySelector;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.World;
 import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import baubles.api.IBauble;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,6 +15,19 @@ import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.modcompat.baubles.BaublesModCompat;
+import net.minecraft.command.IEntitySelector;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.World;
+
+import java.util.List;
 
 /**
  * Ring that can enable sight into the vengeance spirit realm.
@@ -80,9 +79,6 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
             if(!world.isRemote)
             	ItemHelpers.toggleActivation(itemStack);
             return itemStack;
-        } else if(Loader.isModLoaded(Reference.MOD_BAUBLES) && !world.isRemote) {
-        	equipBauble(itemStack, player);
-        	return itemStack;
         }
         return super.onItemRightClick(itemStack, world, player);
     }
