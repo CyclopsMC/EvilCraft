@@ -35,7 +35,7 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	
 	private static final int TICK_MODULUS = 10;
 	private static final int TARGET_RADIUS = 10;
-	private static final double ABSORB_RADIUS = 1.5D;
+	private static final double ABSORB_RADIUS = 0.5D;
 	private static final int NO_TARGET = -1;
 	/**
 	 * The lid angle for when this box is open.
@@ -129,7 +129,8 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     		if(target.isDead || !target.isFrozen()) {
     			setTargetSpirit(null);
     		} else {
-	    		if(distance <= ABSORB_RADIUS) {
+                if(target.boundingBox.expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS).intersectsWith(getBlock().
+                        getCollisionBoundingBoxFromPool(worldObj, xCoord, yCoord, zCoord))) {
 	    			closing = true;
 	    			close(true);
 	    			setSpiritInstance(targetSpirit);
