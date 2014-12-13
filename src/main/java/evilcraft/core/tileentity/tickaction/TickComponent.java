@@ -1,13 +1,13 @@
 package evilcraft.core.tileentity.tickaction;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
+import evilcraft.core.tileentity.EvilCraftTileEntity;
+import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import evilcraft.core.tileentity.EvilCraftTileEntity;
-import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * A component used in {@link TickingTankInventoryTileEntity} to support handling of ITickActions.
@@ -90,9 +90,9 @@ public class TickComponent<C extends EvilCraftTileEntity, T extends ITickAction<
                     if (tick == 0)
                         requiredTicks = action.getRequiredTicks(tile, slot);
                     tick++;
-                    if (tick > requiredTicks)
-                        tick = 0;
                     action.onTick(tile, itemStack, slot, tick);
+                    if (tick >= requiredTicks)
+                        tick = 0;
                 }
             } else {
                 tick = 0;
