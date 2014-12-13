@@ -33,19 +33,13 @@
 		<input>
 			<grid>
 				<gridrow>
-					<item />
 					<item type="oredict">gemDark</item>
-					<item />
 				</gridrow>
 				<gridrow>
-					<item />
 					<item>minecraft:glass_bottle</item>
-					<item />
 				</gridrow>
 				<gridrow>
-					<item />
 					<item>minecraft:sugar</item>
-					<item />
 				</gridrow>
 			</grid>
 		</input>
@@ -169,19 +163,13 @@
 		<input>
 			<grid>
 				<gridrow>
-					<item />
 					<item type="oredict">gemDark</item>
-					<item />
 				</gridrow>
 				<gridrow>
-					<item />
 					<item>evilcraft:undeadPlank</item>
-					<item />
 				</gridrow>
 				<gridrow>
-					<item />
 					<item>evilcraft:undeadPlank</item>
-					<item />
 				</gridrow>
 			</grid>
 		</input>
@@ -730,19 +718,10 @@
         <input>
             <grid>
                 <gridrow>
-                    <item />
                     <item type="oredict">gemDark</item>
-                    <item />
                 </gridrow>
                 <gridrow>
-                    <item />
                     <item>minecraft:iron_ingot</item>
-                    <item />
-                </gridrow>
-                <gridrow>
-                    <item />
-                    <item />
-                    <item />
                 </gridrow>
             </grid>
         </input>
