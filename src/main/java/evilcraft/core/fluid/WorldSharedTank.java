@@ -4,7 +4,7 @@ import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldSavedData;
-import net.minecraft.world.WorldServer;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
@@ -115,6 +115,10 @@ public class WorldSharedTank extends SingleUseTank {
      */
     public String getTankID() {
         return this.tankID;
+    }
+
+    public Fluid getAcceptedFluid() {
+        return this.getFluidType();
     }
 
     /**

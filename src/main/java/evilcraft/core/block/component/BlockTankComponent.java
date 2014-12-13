@@ -99,8 +99,8 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
     protected static boolean canTankBeFilled(TankInventoryTileEntity tile, FluidStack fluidStack) {
         return tile.getTank().getAcceptedFluid() == null
                 || fluidStack == null
-                || tile.getTank().canTankAccept(fluidStack.getFluid())
-                || tile.getTank().getFluidType() == null;
+                || tile.getTank().getFluidType() == null
+                || tile.getTank().canTankAccept(fluidStack.getFluid());
     }
 
 	/**

@@ -1,11 +1,11 @@
 package evilcraft.core.fluid;
 
+import evilcraft.core.tileentity.EvilCraftTileEntity;
+import evilcraft.core.tileentity.TankInventoryTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.core.tileentity.EvilCraftTileEntity;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
 
 /**
  * A simple tank that can accept and drain fluids until the capacity is reached.
@@ -37,7 +37,8 @@ public class SingleUseTank extends Tank {
 
     @Override
     public int fill(FluidStack resource, boolean doFill) {
-    	if(getFluid() == null && acceptedFluid != null) {
+        Fluid acceptedFluid = getAcceptedFluid();
+        if(getFluid() == null && acceptedFluid != null) {
     		acceptedFluid = null;
     	}    	
     	int filled = 0;
