@@ -135,4 +135,10 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
         EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(x, y, z), world, x, y, z, random);
         super.randomDisplayTick(world, x, y, z, random);
     }
+
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z) {
+        TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
+        return tile.isVisuallyWorking() ? 4 : super.getLightValue(world, x, y, z);
+    }
 }

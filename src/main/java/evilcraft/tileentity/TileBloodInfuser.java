@@ -245,6 +245,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     @Override
     public void onStateChanged() {
         sendUpdate();
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord); // Update light
     }
 
 	@Override
