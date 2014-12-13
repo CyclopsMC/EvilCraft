@@ -146,21 +146,43 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         }
         
     }
+
+    public NEIBloodInfuserManager() {
+        LinkedList<RecipeTransferRect> guiTransferRects = new LinkedList<RecipeTransferRect>();
+        guiTransferRects.add(
+                new RecipeTransferRect(
+                        new Rectangle(
+                                GuiBloodInfuser.PROGRESSTARGETX + GuiWorking.UPGRADES_OFFSET_X - 6,
+                                GuiBloodInfuser.PROGRESSTARGETY - 10,
+                                progressWidth, progressHeight
+                        ),
+                        getOverlayIdentifier()
+                )
+        );
+
+        LinkedList<Class<? extends GuiContainer>> list = new LinkedList<Class<? extends GuiContainer>>();
+        list.add(getGuiClass());
+        RecipeTransferRectHandler.registerRectsToGuis(list, guiTransferRects);
+    }
     
     @Override
     public void loadTransferRects() {
-        boolean shouldOffset = Minecraft.getMinecraft().currentScreen == null;
         transferRects.clear();
         transferRects.add(
                 new RecipeTransferRect(
                     new Rectangle(
-                            GuiBloodInfuser.PROGRESSTARGETX + (shouldOffset ? GuiWorking.UPGRADES_OFFSET_X - 7 : 0),
-                            GuiBloodInfuser.PROGRESSTARGETY - (shouldOffset ? 10 : 18),
+                            GuiBloodInfuser.PROGRESSTARGETX - 5,
+                            GuiBloodInfuser.PROGRESSTARGETY - 15,
                             progressWidth, progressHeight
                             ),
                     getOverlayIdentifier()
                 )
         );
+    }
+
+    @Override
+    public List<Class<? extends GuiContainer>> getRecipeTransferRectGuis() {
+        return null; // We will do transfer rect registering ourselves.
     }
     
     @Override
