@@ -1,11 +1,5 @@
 package evilcraft.network.packet;
 
-import java.util.Random;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
@@ -15,6 +9,12 @@ import evilcraft.core.helper.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * Instances of this class are sent between client
@@ -34,7 +34,7 @@ public class FartPacket extends PacketCodec {
     private static final float REMOTE_PLAYER_Y_OFFSET = 0.65f;
 
     // List of players that have rainbow farts
-    private static final String[] ALLOW_RAINBOW_FARTS = { "kroeserr", "_EeB_" };
+    private static final String[] ALLOW_RAINBOW_FARTS = { "kroeserr", "_EeB_", "Davivs69" };
 	
     @CodecField
 	private String displayName;
