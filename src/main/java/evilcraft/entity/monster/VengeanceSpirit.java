@@ -402,8 +402,8 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 			if(!clazz.equals(VengeanceSpirit.class)) {
 				String name = (String) EntityList.classToStringMapping.get(clazz);
 				Entity entity = EntityList.createEntityByName(name, worldObj);
-				innerEntity = (EntityLivingBase) entity;
-                if(canSustain(innerEntity)) {
+                if(canSustain((EntityLivingBase) entity)) {
+                    innerEntity = (EntityLivingBase) entity;
                     this.setSize(innerEntity.width, innerEntity.height);
                     return innerEntity;
                 }
@@ -536,12 +536,26 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
      */
 	public static boolean canSustain(EntityLivingBase entityLiving) {
 		for(Class<? extends EntityLivingBase> clazz : BLACKLIST) {
-			if(clazz.isInstance(entityLiving)) {
+            if(clazz.isInstance(entityLiving)) {
 				return false;
 			}
 		}
 		return true;
 	}
+
+    /**
+     * If the given entity class can be 'spiritted'
+     * @param entityLivingClazz The entity class to check.
+     * @return If it can become a spirit.
+     */
+    public static boolean canSustainClass(Class<?> entityLivingClazz) {
+        for(Class<? extends EntityLivingBase> clazz : BLACKLIST) {
+            if(clazz.equals(entityLivingClazz)) {
+                return false;
+            }
+        }
+        return true;
+    }
 	
 	/**
      * Check if we can spawn a new vengeance spirit in the given location.
@@ -712,13 +726,14 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 	 * @param clazz The root class that will be blocked from spiritation.
 	 */
 	public static void addToBlacklist(Class<? extends EntityLivingBase> clazz) {
-		if(BLACKLIST.add(clazz));
+		if(BLACKLIST.add(clazz))
 			EvilCraft.log("Added entity class " + clazz.getCanonicalName()
 					+ " to the spirit blacklist.");
 	}
 	
 	@SuppressWarnings("unchecked")
 	protected static void setBlacklist(String[] blacklist) {
+        BLACKLIST.clear();
 		for(String entity : blacklist) {
 			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) EntityList.stringToClassMapping.get(entity);
 			if(clazz == null) {
@@ -746,7 +761,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 		
 		@Override
 		public void onChanged(Object value) {
-			if(calledOnce) {
+            if(calledOnce) {
 				setBlacklist((String[]) value);
 			}
 			calledOnce = true;

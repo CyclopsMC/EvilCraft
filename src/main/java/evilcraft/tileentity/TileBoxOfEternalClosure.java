@@ -196,7 +196,7 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
      */
     public static EntityLivingBase getEntityFromNBT(World world, NBTTagCompound tag) {
     	if(tag != null && tag.hasKey(EntityHelpers.NBTTAG_ID)) {
-			return (EntityLivingBase) EntityList
+            return (EntityLivingBase) EntityList
 					.createEntityFromNBT(tag, world);
 		}
     	return null;
@@ -243,7 +243,11 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
      */
     public EntityLivingBase getSpiritInstance() {
     	if(spiritInstance == null) {
-    		setSpiritInstance(getEntityFromNBT(getWorldObj(), spiritTag));
+            EntityLivingBase entity = getEntityFromNBT(getWorldObj(), spiritTag);
+            setSpiritInstance(entity);
+            if(!VengeanceSpirit.canSustain(entity) && entity != null && !(entity instanceof VengeanceSpirit)) {
+                releaseSpirit();
+            }
     	}
     	return spiritInstance;
     }

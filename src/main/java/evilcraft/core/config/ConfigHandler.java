@@ -1,17 +1,15 @@
 package evilcraft.core.config;
 
-import java.util.LinkedHashSet;
-import java.util.Map;
-
-import net.minecraftforge.common.config.Configuration;
-
 import com.google.common.collect.Maps;
-
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import evilcraft.EvilCraft;
 import evilcraft.IInitListener;
 import evilcraft.command.CommandConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraftforge.common.config.Configuration;
+
+import java.util.LinkedHashSet;
+import java.util.Map;
 
 /**
  * Create config file and register items & blocks from the given ExtendedConfigs
@@ -171,7 +169,7 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
 				for(ConfigProperty property : config.configProperties) {
 					IChangedCallback changedCallback = property.getCallback().getChangedCallback();
 					if(changedCallback != null) {
-						changedCallback.onRegisteredPostInit(property.getValue());
+                        changedCallback.onRegisteredPostInit(property.getValue());
 					}
 				}
 			}

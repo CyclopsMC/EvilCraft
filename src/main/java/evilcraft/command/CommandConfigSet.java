@@ -1,18 +1,18 @@
 package evilcraft.command;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.common.config.Configuration;
 import evilcraft.core.config.ConfigHandler;
 import evilcraft.core.config.ConfigProperty;
 import evilcraft.core.helper.Helpers;
 import evilcraft.core.helper.L10NHelpers;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.config.Configuration;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Command that can define {@link ConfigProperty}.
@@ -56,7 +56,7 @@ public class CommandConfigSet extends CommandEvilCraft {
             if(newValue != null) {
             	Configuration configuration = ConfigHandler.getInstance().getConfig();
             	configuration.load();
-                config.setValue(newValue);
+                config.getCallback().run(newValue);
                 config.save(configuration, true);
                 configuration.save();
                 icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.updatedValue", new Object[]{name, newValue.toString()})));

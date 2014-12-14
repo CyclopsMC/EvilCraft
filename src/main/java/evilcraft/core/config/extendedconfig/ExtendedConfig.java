@@ -105,7 +105,7 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements
                         getConfigPropertyPrefix() + "." + field.getName(),
                         field.get(null),
                         annotation.comment(),
-                        new ConfigPropertyCallback(changedCallback, field),
+                        new ConfigPropertyCallback(changedCallback),
                         annotation.isCommandable(),
                         field);
                 configProperty.setRequiresWorldRestart(annotation.requiresWorldRestart());

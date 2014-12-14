@@ -123,6 +123,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 				if(innerEntity != null && !innerEntity.isEmpty()) {
 					try {
 						Class<?> clazz = Class.forName(innerEntity);
+                        if(!VengeanceSpirit.canSustainClass(clazz)) return -1;
 						Integer ret = ObfuscationHelpers.getClassToID().get(clazz);
 						if(ret == null) {
 							return -1;
@@ -152,6 +153,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 				if(innerEntity != null && !innerEntity.isEmpty()) {
 					try {
 						Class<?> clazz = Class.forName(innerEntity);
+                        if(!VengeanceSpirit.canSustainClass(clazz)) return null;
 						return (String) EntityList.classToStringMapping.get(clazz);
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();

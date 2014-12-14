@@ -1,15 +1,13 @@
 package evilcraft.core.config;
 
-import java.lang.reflect.Field;
-
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-
-import org.apache.logging.log4j.Level;
-
 import evilcraft.EvilCraft;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
+import org.apache.logging.log4j.Level;
+
+import java.lang.reflect.Field;
 
 /**
  * A holder class for properties that go inside the config file.
@@ -49,6 +47,7 @@ public final class ConfigProperty {
         this.callback = callback;
         this.isCommandable = isCommandable;
         this.field = field;
+        callback.setConfigProperty(this);
     }
     
     /**
@@ -251,7 +250,7 @@ public final class ConfigProperty {
                 getCallback().run(additionalProperty.getString());
             }
         } else if(value instanceof String[]) {
-        	additionalProperty = config.get(
+            additionalProperty = config.get(
                     category,
                     name,
                     (String[])value
