@@ -33,9 +33,4 @@ public class DarkPowerGemConfig extends ItemConfig {
         return(ConfigurableItem) new ConfigurableItem(this).setMaxStackSize(16);
     }
     
-    @Override
-    public boolean blendAlpha() {
-        return true;
-    }
-    
 }

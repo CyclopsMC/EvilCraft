@@ -35,11 +35,6 @@ public class BloodPearlOfTeleportationConfig extends ItemConfig {
     }
     
     @Override
-    public boolean blendAlpha() {
-        return true;
-    }
-    
-    @Override
 	protected String getConfigPropertyPrefix() {
 		return "bloodPearl";
 	}

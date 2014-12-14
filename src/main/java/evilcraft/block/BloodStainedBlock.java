@@ -1,13 +1,5 @@
 package evilcraft.block;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.ILocation;
@@ -20,6 +12,15 @@ import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.tileentity.TileBloodStainedBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Multiple block types (defined by metadata) that have blood stains.
@@ -185,7 +186,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     protected boolean isBlacklisted(Block block) {
     	String name = Block.blockRegistry.getNameForObject(block);
     	for(String blacklisted : BloodStainedBlockConfig.blockBlacklist) {
-    		return blacklisted.equals(name);
+    		if(blacklisted.equals(name)) return true;
     	}
     	return false;
     }
