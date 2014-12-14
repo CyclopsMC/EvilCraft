@@ -1,13 +1,13 @@
 package evilcraft.block;
 
 import com.google.common.collect.Sets;
-import evilcraft.core.tileentity.upgrade.Upgrades;
-import evilcraft.tileentity.TileWorking;
-import net.minecraft.item.ItemBlock;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.item.ItemBlockNBT;
+import evilcraft.core.tileentity.upgrade.Upgrades;
+import evilcraft.tileentity.TileWorking;
+import net.minecraft.item.ItemBlock;
 
 import java.util.Set;
 
@@ -27,7 +27,7 @@ public class SpiritFurnaceConfig extends BlockContainerConfig {
      * How much mB per tick this furnace should consume.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "How much mB per tick this furnace should consume.")
-    public static int mBPerTick = 5;
+    public static int mBPerTick = 25;
     
     /**
      * The required amount of ticks for each HP for cooking an entity.

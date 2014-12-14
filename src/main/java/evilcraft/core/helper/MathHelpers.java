@@ -44,8 +44,6 @@ public class MathHelpers {
             int tickOffset = (int) Math.ceil(1 / value);
             value = Math.ceil(1 / (double) tickOffset);
             shouldHaveCost = timing % tickOffset == 0;
-        } else {
-            value = 1;
         }
         return shouldHaveCost ? (int) Math.ceil(value) : 0;
     }

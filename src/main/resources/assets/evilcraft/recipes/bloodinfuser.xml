@@ -63,7 +63,7 @@
         <input>
             <item>evilcraft:darkBrick</item>
             <fluid>evilcraftblood</fluid>
-            <fluidamount>250</fluidamount>
+            <fluidamount>1000</fluidamount>
         </input>
         <output>
             <item>evilcraft:darkBloodBrick</item>
