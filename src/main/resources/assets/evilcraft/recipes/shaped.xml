@@ -1012,4 +1012,31 @@
         </output>
     </recipe>
 
+    <recipe type="shaped">
+        <condition type="config">bloodWaxedCoal</condition>
+        <condition type="config">bloodWaxedCoalBlock</condition>
+        <input>
+            <grid>
+                <gridrow>
+                    <item>evilcraft:bloodWaxedCoal</item>
+                    <item>evilcraft:bloodWaxedCoal</item>
+                    <item>evilcraft:bloodWaxedCoal</item>
+                </gridrow>
+                <gridrow>
+                    <item>evilcraft:bloodWaxedCoal</item>
+                    <item>evilcraft:bloodWaxedCoal</item>
+                    <item>evilcraft:bloodWaxedCoal</item>
+                </gridrow>
+                <gridrow>
+                    <item>evilcraft:bloodWaxedCoal</item>
+                    <item>evilcraft:bloodWaxedCoal</item>
+                    <item>evilcraft:bloodWaxedCoal</item>
+                </gridrow>
+            </grid>
+        </input>
+        <output>
+            <item >evilcraft:bloodWaxedCoalBlock</item>
+        </output>
+    </recipe>
+
 </recipes>

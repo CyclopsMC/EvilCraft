@@ -119,6 +119,7 @@ public class Configs {
         configs.add(new DarkPowerGemBlockConfig());
         configs.add(new GemStoneTorchConfig());
         configs.add(new EternalWaterBlockConfig());
+        configs.add(new BloodWaxedCoalBlockConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

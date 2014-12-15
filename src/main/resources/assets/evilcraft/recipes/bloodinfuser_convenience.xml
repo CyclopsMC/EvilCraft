@@ -281,6 +281,24 @@
     <recipe type="evilcraft:bloodinfuser">
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
+        <condition type="config">bloodWaxedCoalBlock</condition>
+        <input>
+            <item>minecraft:coal_block</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>3375</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:bloodWaxedCoalBlock</item>
+        </output>
+        <properties>
+            <tier>1</tier>
+            <duration>900</duration>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
         <condition type="config">enderTear</condition>
         <input>
             <item>evilcraft:enderTear</item>

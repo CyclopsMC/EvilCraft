@@ -241,4 +241,15 @@
         </output>
     </recipe>
 
+    <recipe type="shapeless">
+        <condition type="config">bloodWaxedCoal</condition>
+        <condition type="config">bloodWaxedCoalBlock</condition>
+        <input>
+            <item>evilcraft:bloodWaxedCoalBlock</item>
+        </input>
+        <output>
+            <item amount="9">evilcraft:bloodWaxedCoal</item>
+        </output>
+    </recipe>
+
 </recipes>

@@ -66,6 +66,7 @@ tile.blocks.gemStoneTorch.name=GemStone Torch
 tile.blocks.gemStoneTorch.info=Blocks Vengeance Spirit spawning in a radius of 15 blocks.
 tile.blocks.eternalWaterBlock.name=Eternal Water Block
 tile.blocks.eternalWaterBlock.info=An infinite source of water.
+tile.blocks.bloodWaxedCoalBlock.name=Block of Blood-Waxed Coal
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone
