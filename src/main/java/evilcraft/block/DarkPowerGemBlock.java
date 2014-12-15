@@ -1,6 +1,6 @@
 package evilcraft.block;
 
-import evilcraft.core.config.configurable.ConfigurableBlock;
+import evilcraft.core.config.configurable.ConfigurableBlockConnectedTexture;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.material.Material;
@@ -14,7 +14,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class DarkPowerGemBlock extends ConfigurableBlock {
+public class DarkPowerGemBlock extends ConfigurableBlockConnectedTexture {
 
     private static DarkPowerGemBlock _instance = null;
 
@@ -52,6 +52,11 @@ public class DarkPowerGemBlock extends ConfigurableBlock {
     @Override
     public Item getItemDropped(int par1, Random random, int zero) {
         return Item.getItemFromBlock(this);
+    }
+
+    @Override
+    public boolean hasSeperateInventoryBlockIcon() {
+        return true;
     }
 
 }

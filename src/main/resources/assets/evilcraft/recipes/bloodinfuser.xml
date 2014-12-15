@@ -180,5 +180,23 @@
             <duration>250</duration>
         </properties>
     </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">darkBlock</condition>
+        <condition type="config">darkPowerGemBlock</condition>
+        <condition type="config">evilcraftblood</condition>
+        <input>
+            <item>evilcraft:darkBlock</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>2250</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:darkPowerGemBlock</item>
+        </output>
+        <properties>
+            <duration>1800</duration>
+        </properties>
+    </recipe>
     
 </recipes>
