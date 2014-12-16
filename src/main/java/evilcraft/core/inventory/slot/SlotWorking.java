@@ -37,15 +37,18 @@ public class SlotWorking<T extends WorkingTileEntity<?, ?>> extends Slot {
     
     @Override
     public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
-        tile.resetWork(true);
+        if(!ItemStack.areItemStackTagsEqual(itemStack, this.getStack())) {
+            tile.resetWork();
+        }
     }
     
     @Override
     public void onSlotChanged() {
-        if(!ItemStack.areItemStacksEqual(lastSlotContents, this.getStack())) {
-            tile.resetWork(true);
+        if(!ItemStack.areItemStackTagsEqual(lastSlotContents, this.getStack())) {
+            tile.resetWork();
         }
         lastSlotContents = this.getStack();
+        if(lastSlotContents != null) lastSlotContents = lastSlotContents.copy();
     }
 	
 }

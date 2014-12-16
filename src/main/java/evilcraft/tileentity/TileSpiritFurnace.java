@@ -168,7 +168,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
         addSlotsToSide(ForgeDirection.WEST, outSlots);
 
         // Upgrade behaviour
-        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(3.2) {
+        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(1) {
             @Override
             public void applyUpgrade(TileSpiritFurnace upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableDouble> event) {
@@ -184,7 +184,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
                 }
             }
         });
-        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(6.4) {
+        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(2) {
             @Override
             public void applyUpgrade(TileSpiritFurnace upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableDouble> event) {

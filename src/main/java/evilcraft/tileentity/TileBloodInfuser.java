@@ -133,7 +133,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         addSlotsToSide(ForgeDirection.WEST, outSlots);
 
         // Upgrade behaviour
-        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(6.4) {
+        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(2) {
             @Override
             public void applyUpgrade(TileBloodInfuser upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableInt> event) {
@@ -144,7 +144,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
                 }
             }
         });
-        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(3.2) {
+        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(1) {
             @Override
             public void applyUpgrade(TileBloodInfuser upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableInt> event) {

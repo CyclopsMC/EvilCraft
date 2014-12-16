@@ -136,7 +136,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
         addSlotsToSide(ForgeDirection.WEST, outSlots);
 
         // Upgrade behaviour
-        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(3.2) {
+        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(1) {
             @Override
             public void applyUpgrade(TileSpiritReanimator upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableDouble> event) {
@@ -152,7 +152,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
                 }
             }
         });
-        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(6.4) {
+        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(2) {
             @Override
             public void applyUpgrade(TileSpiritReanimator upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableDouble> event) {

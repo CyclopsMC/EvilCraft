@@ -31,6 +31,8 @@ public class ContainerTileWorking<T extends TileWorking<T, ?>> extends Container
         for(int i = tile.getBasicInventorySize(); i < tile.getBasicInventorySize() + upgradeSlots; i++) {
             addSlotToContainer(new SlotSingleItem(tile, i, offsetX, offsetY + amount * ITEMBOX, TileWorking.UPGRADE_ITEM) {
 
+                private ItemStack lastSlotContents = getStack();
+
                 @Override
                 public boolean isItemValid(ItemStack itemStack) {
                     return super.isItemValid(itemStack) && tile.canInsertItem(getSlotIndex(), itemStack);
@@ -40,6 +42,15 @@ public class ContainerTileWorking<T extends TileWorking<T, ?>> extends Container
                 public boolean canTakeStack(EntityPlayer player) {
                     return super.canTakeStack(player) &&
                             tile.canExtractItem(getSlotIndex(), getStack(), player.inventory.getItemStack());
+                }
+
+                @Override
+                public void onSlotChanged() {
+                    if(!ItemStack.areItemStacksEqual(lastSlotContents, this.getStack())) {
+                        tile.onUpgradeSlotChanged(getSlotIndex(),lastSlotContents, this.getStack());
+                    }
+                    lastSlotContents = this.getStack();
+                    if(lastSlotContents != null) lastSlotContents = lastSlotContents.copy();
                 }
 
             });

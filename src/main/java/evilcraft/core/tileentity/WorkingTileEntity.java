@@ -163,8 +163,8 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
         return slotId >= basicInventorySize && slotId < basicInventorySize + INVENTORY_SIZE_UPGRADES;
     }
 
-    protected void onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
-        if(!ItemStack.areItemStackTagsEqual(oldItemStack, itemStack)) {
+    public void onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
+        if(!ItemStack.areItemStacksEqual(oldItemStack, itemStack)) {
             resetUpgradeLevels();
             resetWork();
         }
@@ -172,9 +172,10 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
 
     @Override
     public ItemStack decrStackSize(int slotId, int count) {
-        ItemStack oldItemStack = getStackInSlot(slotId);
         ItemStack itemStack = super.decrStackSize(slotId, count);
         if(isUpgradeSlot(slotId)) {
+            ItemStack oldItemStack = itemStack.copy();
+            oldItemStack.stackSize += count;
             onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
         }
         return itemStack;
@@ -183,6 +184,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     @Override
     public void setInventorySlotContents(int slotId, ItemStack itemStack) {
         ItemStack oldItemStack = getStackInSlot(slotId);
+        if(oldItemStack != null) oldItemStack = oldItemStack.copy();
         super.setInventorySlotContents(slotId, itemStack);
         if(isUpgradeSlot(slotId)) {
             onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
