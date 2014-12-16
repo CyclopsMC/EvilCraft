@@ -157,7 +157,7 @@
         <condition type="config">promise</condition>
         <input>
             <item type="oredict">materialBowlOfPromises0</item>
-            <item>minecraft:iron_block</item>
+            <item meta="0">evilcraft:promiseAcceptor</item>
             <item>minecraft:spider_eye</item>
         </input>
         <output>
@@ -170,7 +170,7 @@
         <condition type="config">promise</condition>
         <input>
             <item type="oredict">materialBowlOfPromises1</item>
-            <item>minecraft:gold_block</item>
+            <item meta="1">evilcraft:promiseAcceptor</item>
             <item>minecraft:ender_pearl</item>
         </input>
         <output>
@@ -183,7 +183,7 @@
         <condition type="config">promise</condition>
         <input>
             <item type="oredict">materialBowlOfPromises2</item>
-            <item>minecraft:diamond_block</item>
+            <item meta="2">evilcraft:promiseAcceptor</item>
             <item>minecraft:ender_eye</item>
         </input>
         <output>
@@ -196,8 +196,8 @@
         <condition type="config">promise</condition>
         <input>
             <item type="oredict">materialBowlOfPromises1</item>
-            <item>minecraft:redstone</item>
-            <item>minecraft:redstone</item>
+            <item type="oredict">materialPromiseAcceptor</item>
+            <item>minecraft:redstone_block</item>
         </input>
         <output>
             <item meta="3">evilcraft:promise</item>
@@ -209,8 +209,8 @@
         <condition type="config">promise</condition>
         <input>
             <item type="oredict">materialBowlOfPromises1</item>
-            <item meta="4">minecraft:dye</item>
-            <item meta="4">minecraft:dye</item>
+            <item type="oredict">materialPromiseAcceptor</item>
+            <item>minecraft:lapis_block</item>
         </input>
         <output>
             <item meta="4">evilcraft:promise</item>

@@ -198,5 +198,56 @@
             <duration>1800</duration>
         </properties>
     </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">promiseAcceptor</condition>
+        <input>
+            <item>minecraft:iron_block</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>10000</fluidamount>
+        </input>
+        <output>
+            <item meta="0">evilcraft:promiseAcceptor</item>
+        </output>
+        <properties>
+            <duration>500</duration>
+            <tier>0</tier>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">promiseAcceptor</condition>
+        <input>
+            <item>minecraft:gold_block</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>40000</fluidamount>
+        </input>
+        <output>
+            <item meta="1">evilcraft:promiseAcceptor</item>
+        </output>
+        <properties>
+            <duration>2000</duration>
+            <tier>1</tier>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">promiseAcceptor</condition>
+        <input>
+            <item>minecraft:diamond_block</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>160000</fluidamount>
+        </input>
+        <output>
+            <item meta="2">evilcraft:promiseAcceptor</item>
+        </output>
+        <properties>
+            <duration>5000</duration>
+            <tier>2</tier>
+        </properties>
+    </recipe>
     
 </recipes>

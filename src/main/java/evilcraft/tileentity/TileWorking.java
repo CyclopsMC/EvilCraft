@@ -58,7 +58,7 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
      * @return The multiplier.
      */
     public static int getTankTierMultiplier(int tier) {
-        return 1 << tier;
+        return 1 << (tier * 2);
     }
 
     protected void resetTier() {

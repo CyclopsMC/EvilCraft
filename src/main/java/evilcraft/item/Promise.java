@@ -34,15 +34,15 @@ import java.util.Map;
 public class Promise extends ConfigurableItem {
 
     private static Promise _instance = null;
-    private static final Upgrades.Upgrade[] UPGRADES = new Upgrades.Upgrade[]{
+    public static final Upgrades.Upgrade[] UPGRADES = new Upgrades.Upgrade[]{
             WorkingTileEntity.UPGRADE_TIER1,
             WorkingTileEntity.UPGRADE_TIER2,
             WorkingTileEntity.UPGRADE_TIER3,
             WorkingTileEntity.UPGRADE_SPEED,
             WorkingTileEntity.UPGRADE_EFFICIENCY
     };
-    private static final Map<Upgrades.Upgrade, Integer> MAIN_COLORS = Maps.newHashMap();
-    private static final Map<Upgrades.Upgrade, Integer> SECONDARY_COLORS = Maps.newHashMap();
+    public static final Map<Upgrades.Upgrade, Integer> MAIN_COLORS = Maps.newHashMap();
+    public static final Map<Upgrades.Upgrade, Integer> SECONDARY_COLORS = Maps.newHashMap();
     static {
         MAIN_COLORS.put(WorkingTileEntity.UPGRADE_TIER1, RenderHelpers.RGBToInt(220, 220, 220));
         SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_TIER1, RenderHelpers.RGBToInt(255, 255, 255));
@@ -83,7 +83,7 @@ public class Promise extends ConfigurableItem {
 
     private Promise(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
-        this.setMaxStackSize(16);
+        this.setMaxStackSize(4);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
     }

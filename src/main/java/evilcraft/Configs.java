@@ -160,6 +160,7 @@ public class Configs {
         configs.add(new ResurgenceEggConfig());
         configs.add(new CorruptedTearConfig());
         configs.add(new PromiseConfig());
+        configs.add(new PromiseAcceptorConfig());
         configs.add(new BowlOfPromisesConfig());
         configs.add(new DullDustConfig());
         configs.add(new BloodWaxedCoalConfig());
