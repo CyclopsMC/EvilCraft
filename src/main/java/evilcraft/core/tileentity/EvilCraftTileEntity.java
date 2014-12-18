@@ -1,9 +1,6 @@
 package evilcraft.core.tileentity;
 
-import java.lang.reflect.Field;
-import java.util.LinkedList;
-import java.util.List;
-
+import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -11,7 +8,10 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import evilcraft.core.config.configurable.ConfigurableBlockContainer;
+
+import java.lang.reflect.Field;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A base class for all the tile entities that are used inside this mod.
@@ -26,7 +26,7 @@ import evilcraft.core.config.configurable.ConfigurableBlockContainer;
  */
 public class EvilCraftTileEntity extends TileEntity {
 	
-	private static final int UPDATE_BACKOFF_TICKS = 10;
+	private static final int UPDATE_BACKOFF_TICKS = 1;
     
     private List<Field> nbtPersistedFields = null;
     
@@ -40,7 +40,7 @@ public class EvilCraftTileEntity extends TileEntity {
      * Make a new instance.
      */
     public EvilCraftTileEntity() {
-    	sendUpdateBackoff = (int) (Math.random() * getUpdateBackoffTicks()); // Random backoff so not all TE's will be updated at once.
+    	sendUpdateBackoff = (int) Math.round(Math.random() * getUpdateBackoffTicks()); // Random backoff so not all TE's will be updated at once.
         generateNBTPersistedFields();
     }
     
@@ -101,11 +101,10 @@ public class EvilCraftTileEntity extends TileEntity {
     private void trySendActualUpdate() {
     	sendUpdateBackoff--;    		
 		if(sendUpdateBackoff <= 0) {
-			sendUpdateBackoff = getUpdateBackoffTicks();
+            sendUpdateBackoff = getUpdateBackoffTicks();
 			
 			if(shouldSendUpdate) {
     			shouldSendUpdate = false;
-        		sendUpdateBackoff = 0;
         		
 	    		beforeSendUpdate();
 	    		onSendUpdate();
