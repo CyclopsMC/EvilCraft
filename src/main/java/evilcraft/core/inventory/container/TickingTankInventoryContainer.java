@@ -1,16 +1,15 @@
 package evilcraft.core.inventory.container;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ICrafting;
-import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ICrafting;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A container for a ticking tile entity with inventory.
@@ -21,10 +20,8 @@ import evilcraft.core.tileentity.tickaction.TickComponent;
 public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEntity<T>> extends TileInventoryContainer<T>{
 
     private Map<TickComponent<T, ITickAction<T>>, Integer> previousTicks;
-    private int lastTankAmount;
     
     private static final int INDEX_OFFSET = 1;
-    private static final int INDEX_LIQUID_AMOUNT = 0;
     
     /**
      * Make a new TickingInventoryContainer.
@@ -37,22 +34,12 @@ public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEnt
         for(TickComponent<T, ITickAction<T>> ticker : tile.getTickers()) {
             previousTicks.put(ticker, ticker.getTick());
         }
-        lastTankAmount = -1;
     }
     
     @Override
     public void addCraftingToCrafters(ICrafting icrafting) {
         super.addCraftingToCrafters(icrafting);
-        sendTankUpdates(icrafting, true);
         sendTickersUpdates(icrafting, true);
-    }
-    
-    private void sendTankUpdates(ICrafting icrafting, boolean force) {
-        // Send tank content updates
-        if(tile.getTank() != null &&
-                (lastTankAmount != tile.getTank().getFluidAmount() || force)) {
-            icrafting.sendProgressBarUpdate(this, INDEX_LIQUID_AMOUNT, tile.getTank().getFluidAmount());
-        }
     }
     
     private void sendTickersUpdates(ICrafting icrafting, boolean force) {
@@ -71,13 +58,12 @@ public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEnt
             index++;
         }
     }
-    
+
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
         for (int i = 0; i < this.crafters.size(); ++i) {
             ICrafting icrafting = (ICrafting)this.crafters.get(i);
-            sendTankUpdates(icrafting, false);
             sendTickersUpdates(icrafting, false);
         }
     }
@@ -90,16 +76,6 @@ public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEnt
             tile.getTickers().get(index - tile.getTickers().size() - INDEX_OFFSET).setRequiredTicks(value);
         } else if(index >= INDEX_OFFSET) {
             tile.getTickers().get(index - INDEX_OFFSET).setTick(value);
-        } else {
-            if(tile.getTank() != null) {
-                if(index == INDEX_LIQUID_AMOUNT) {
-                    if(tile.getTank().getFluid() == null) {
-                        tile.getTank().setFluid(new FluidStack(tile.getTank().getAcceptedFluid(), value));
-                    } else {
-                        tile.getTank().getFluid().amount = value;
-                    }
-                }
-            }
         }
     }
 

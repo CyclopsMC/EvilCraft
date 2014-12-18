@@ -60,7 +60,7 @@ public class SingleUseTank extends Tank {
     
     @Override
     public FluidStack drain(int maxDrain, boolean doDrain) {
-    	FluidStack drained = super.drain(maxDrain, doDrain);
+        FluidStack drained = super.drain(maxDrain, doDrain);
     	if(drained != null) {
     		sendUpdate();
     	}

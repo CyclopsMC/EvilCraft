@@ -163,11 +163,13 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
         return slotId >= basicInventorySize && slotId < basicInventorySize + INVENTORY_SIZE_UPGRADES;
     }
 
-    public void onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
+    public boolean onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
         if(!ItemStack.areItemStacksEqual(oldItemStack, itemStack)) {
             resetUpgradeLevels();
             resetWork();
+            return true;
         }
+        return false;
     }
 
     @Override

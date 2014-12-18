@@ -46,10 +46,13 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
         return itemStack.stackSize;
     }
 
-    public void onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
-        resetTier();
-        getTank().setCapacity(getTankTierMultiplier(getTier()) * tankSize);
-        super.onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
+    public boolean onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
+        if(super.onUpgradeSlotChanged(slotId, oldItemStack, itemStack)) {
+            resetTier();
+            if(!worldObj.isRemote) getTank().setCapacity(getTankTierMultiplier(getTier()) * tankSize);
+            return true;
+        }
+        return false;
     }
 
     /**

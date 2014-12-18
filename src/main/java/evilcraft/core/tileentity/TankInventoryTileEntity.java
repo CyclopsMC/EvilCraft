@@ -108,15 +108,6 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
         super.writeToNBT(data);
         tank.writeToNBT(data);
     }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        tank = newTank(tankName, tankSize);
-        if(acceptedFluid != null) {
-            tank.setAcceptedFluid(acceptedFluid);
-        }
-    }
     
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
