@@ -1,16 +1,14 @@
 package evilcraft.network;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang3.ClassUtils;
-
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
+import evilcraft.core.algorithm.SingleCache;
+import org.apache.commons.lang3.ClassUtils;
+
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * Packet with automatic coding and decoding of basic fields annotated with {@link CodecField}.
@@ -142,6 +140,42 @@ public abstract class PacketCodec extends PacketBase {
 			}
 		});
 	}
+
+    private SingleCache<Void, List<Field>> fieldCache = new SingleCache<Void, List<Field>>(
+            new SingleCache.ICacheUpdater<Void, List<Field>>() {
+
+        @Override
+        public List<Field> getNewValue(Void key) {
+            Field[] fields = PacketCodec.this.getClass().getDeclaredFields();
+
+            // Sort this because the Java API tells us that getDeclaredFields()
+            // does not deterministically define the order of the fields in the array.
+            // Otherwise we might get nasty class cast exceptions when running in SMP.
+            Arrays.sort(fields, new Comparator<Field>() {
+
+                @Override
+                public int compare(Field o1, Field o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+
+            });
+
+            List<Field> fieldList = Lists.newLinkedList();
+            for(final Field field : fields) {
+                if(field.isAnnotationPresent(CodecField.class)) {
+                    fieldList.add(field);
+                }
+            }
+
+            return fieldList;
+        }
+
+        @Override
+        public boolean isKeyEqual(Void cacheKey, Void newKey) {
+            return true;
+        }
+
+    });
 	
 	protected static ICodecAction getAction(Class<?> clazz) {
 		if(ClassUtils.isPrimitiveWrapper(clazz)) {
@@ -156,7 +190,7 @@ public abstract class PacketCodec extends PacketBase {
 	}
 	
 	private void loopCodecFields(ICodecRunnable runnable) {
-		Field[] fields = this.getClass().getDeclaredFields();
+		/*Field[] fields = this.getClass().getDeclaredFields();
 		
 		// Sort this because the Java API tells us that getDeclaredFields()
 		// does not deterministically define the order of the fields in the array.
@@ -181,7 +215,17 @@ public abstract class PacketCodec extends PacketBase {
 				runnable.run(field, action);
 				field.setAccessible(accessible);
 			}
-		}
+		}*/
+        for(Field field : fieldCache.get(null)) {
+            Class<?> clazz = field.getType();
+            ICodecAction action = getAction(clazz);
+
+            // Make private fields temporarily accessible.
+            boolean accessible = field.isAccessible();
+            field.setAccessible(true);
+            runnable.run(field, action);
+            field.setAccessible(accessible);
+        }
 	}
 
 	@Override

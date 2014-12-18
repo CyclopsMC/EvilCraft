@@ -31,10 +31,13 @@ public class OreDictItemStackRecipeComponent extends ItemStackRecipeComponent {
         if (!(object instanceof ItemStackRecipeComponent)) return false;
         ItemStackRecipeComponent that = (ItemStackRecipeComponent)object;
 
-
-        for(ItemStack itemStack : getItemStacks()) {
-            if(equals(itemStack, that.getItemStack())) {
-                return true;
+        // To increase performance, first check if the comparing stack is not null before
+        // potentially matching it with the whole oredict.
+        if(that.getItemStack() != null) {
+            for (ItemStack itemStack : getItemStacks()) {
+                if (equals(itemStack, that.getItemStack())) {
+                    return true;
+                }
             }
         }
 

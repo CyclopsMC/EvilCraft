@@ -2,6 +2,7 @@ package evilcraft.tileentity;
 
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
+import evilcraft.core.algorithm.SingleCache;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import evilcraft.core.fluid.SingleUseTank;
@@ -30,6 +31,8 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -78,6 +81,8 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
     
     private int infuseTicker;
+    private SingleCache<Triple<ItemStack, FluidStack, Integer>,
+                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> recipeCache;
     
     private static final Map<Class<?>, ITickAction<TileBloodInfuser>> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
     static {
@@ -159,6 +164,35 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
                 }
             }
         });
+
+        // Efficient cache to retrieve the current craftable recipe.
+        recipeCache = new SingleCache<Triple<ItemStack, FluidStack, Integer>,
+                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>>(
+                new SingleCache.ICacheUpdater<Triple<ItemStack, FluidStack, Integer>,
+                        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>>() {
+            @Override
+            public IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> getNewValue(Triple<ItemStack, FluidStack, Integer> key) {
+                ItemFluidStackAndTierRecipeComponent recipeInput = new ItemFluidStackAndTierRecipeComponent(key.getLeft(),
+                        key.getMiddle(), -1);
+                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> maxRecipe = null;
+                int maxRecipeTier = -1;
+                for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe :
+                        BloodInfuser.getInstance().getRecipeRegistry().findRecipesByInput(recipeInput)) {
+                    if(recipe.getInput().getTier() > maxRecipeTier && key.getRight() >= recipe.getInput().getTier()) {
+                        maxRecipe = recipe;
+                    }
+                }
+                return maxRecipe;
+            }
+
+            @Override
+            public boolean isKeyEqual(Triple<ItemStack, FluidStack, Integer> cacheKey, Triple<ItemStack, FluidStack, Integer> newKey) {
+                return cacheKey == null || newKey == null ||
+                        (ItemStack.areItemStacksEqual(cacheKey.getLeft(), newKey.getLeft()) &&
+                        FluidStack.areFluidStackTagsEqual(cacheKey.getMiddle(), newKey.getMiddle()) &&
+                        cacheKey.getRight().equals(newKey.getRight()));
+            }
+        });
     }
     
     @Override
@@ -173,17 +207,10 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
      */
     public IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>
         getRecipe(ItemStack itemStack) {
-        ItemFluidStackAndTierRecipeComponent recipeInput = new ItemFluidStackAndTierRecipeComponent(itemStack,
-                getTank().getFluid(), -1);
-        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> maxRecipe = null;
-        int maxRecipeTier = -1;
-        for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe :
-                BloodInfuser.getInstance().getRecipeRegistry().findRecipesByInput(recipeInput)) {
-            if(recipe.getInput().getTier() > maxRecipeTier && getTier() >= recipe.getInput().getTier()) {
-                maxRecipe = recipe;
-            }
-        }
-        return maxRecipe;
+        return recipeCache.get(new ImmutableTriple<ItemStack, FluidStack, Integer>(
+                itemStack == null ? null : itemStack.copy(),
+                getTank().getFluid() == null ? null : getTank().getFluid().copy(),
+                getTier()));
     }
     
     @Override
