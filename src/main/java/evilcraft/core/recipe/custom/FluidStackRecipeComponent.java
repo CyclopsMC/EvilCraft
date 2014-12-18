@@ -22,7 +22,7 @@ public class FluidStackRecipeComponent implements IRecipeInput, IRecipeOutput, I
         FluidStackRecipeComponent that = (FluidStackRecipeComponent)object;
 
         if (this.fluidStack != null) {
-            return that.fluidStack != null && this.fluidStack.getFluid().equals(that.fluidStack.getFluid());
+            return this.fluidStack.getFluid() != null && this.fluidStack.getFluid().equals(that.fluidStack.getFluid());
         }
 
         return that.fluidStack == null;
