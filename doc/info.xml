@@ -2,23 +2,18 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-    <download for="1.7.10" version="0.6.4b">http://bit.ly/1xyuIPQ</download>
+    <download for="1.7.10" version="0.7.0b">http://bit.ly/1zIWMlQ</download>
     <download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
     <download for="1.6.4" version="0.4.1b">http://bit.ly/1lJiaBX</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
 
 	<description>
-		EvilCraft is a mod developed by two guys who wanted to get some experience in Minecraft modding.
- 		This mod basically adds various evil things to Minecraft, from everything such as little flying
- 		monsters that will follow you around and try to poison you, to bottles that allow you to store and
- 		control the weather.
+        EvilCraft is a magic/technical mod that is based on somewhat evil things.
+        Throughout the game you will discover an ancient source of evil.
+        These powers can be used in various technological advancements to initiate a second age of evilness.
  	</description>
  	<additionalInformation>
-        As of 0.5.0 we provide full support for Minecraft version 1.7.10 only. Should there however be some
-        game-breaking bugs or things we can fix that aren't too time-consuming, we might provide a bug-fix
-        release for older minecraft versions.New features will only be supported for the 1.7.10 though.
-        You are of course more than welcome to download an older version if you wish to play this mod with an older
-        Minecraft version.
+        We'll slowly start updating to MC 1.8, but don't expect a change too soon.
  	</additionalInformation>
 
  	<featuresRemark>NOTE: YOU CAN DISABLE ALMOST EVERY SINGLE FEATURE SEPARATELY IN THE CONFIGURATION FILE</featuresRemark>
@@ -49,6 +44,55 @@
  		</element>
  	</element>
 	<element name="Machines">
+ 		<element name="Promises">
+ 			Promises are items that allow you to upgrade your machines.
+            These can be inserted into the [u]Blood Infuser[/u], [u]Spirit Furnace[/u] and [u]Spirit Reanimator[/u].
+            
+            First, you will have to craft a [u]Bowl of Empty Promises[/u]:
+            [img]1NQOZqv[/img]
+            
+            You can fill the bowl by placing it inside a crafting grid together with two [u]Crushed Dark Gem[/u].
+            This [u]Filled Bowl of Empty Promises[/u] must then be infused with blood inside a [u]Blood Infuser[/u].
+            The current [b]tier[/b] of the [u]Blood Infuser[/u] will determine the Strength of the output [u]Bowl of Promises[/u].
+            
+            A [u]Promise of Tenacity[/u] can exist in three tiers, this promise will determine the [b]tier[/b] of the machine.
+            For example, a [u]Blood Infuser[/u] without a [u]Promise of Tenacity[/u] will be at [b]tier 0[/b]. When a [u]Promise of Tenacity III[/u] is inserted, the machine will be of [b]tier 3[/b].
+            
+            Crafting a promise requires three items: [u]Bowl of Promises[/u] of a certain tier, a [u]Promise Acceptor[/u] of a certain mineral and finally a certain reactant item. A [u]Promise Acceptor[/u] is crafted by infusing a mineral block with blood inside the [u]Blood Infuser[/u], for example infusing a [u]Block of Iron[/u] will result in an [u]Iron Promise Acceptor[/u]. The list belows shows all possible promises.
+            
+            [list]
+            [*] [b]Promise of Tenacity I[/b][hr][list]
+                [*] [b]Minimum Bowl of Promises Strength[/b]: Strength 0
+                [*] [b]Promise Acceptor[/b]: Iron Promise Acceptor
+                [*] [b]Reactant[/b]: Spider Eye
+                [*] [b]Effect[/b]: Machine tier 1, tank capacity x2
+                [/list]
+            [*] [b]Promise of Tenacity II[/b][hr][list]
+                [*] [b]Minimum Bowl of Promises Strength[/b]: Strength I
+                [*] [b]Promise Acceptor[/b]: Gold Promise Acceptor
+                [*] [b]Reactant[/b]: Ender Pearl
+                [*] [b]Effect[/b]: Machine tier 2, tank capacity x4
+                [/list]
+            [*] [b]Promise of Tenacity III[/b][hr][list]
+                [*] [b]Minimum Bowl of Promises Strength[/b]: Strength II
+                [*] [b]Promise Acceptor[/b]: Diamond Promise Acceptor
+                [*] [b]Reactant[/b]: Eye of Ender
+                [*] [b]Effect[/b]: Machine tier 3, tank capacity x8
+                [/list]
+            [*] [b]Promise of Velocity[/b][hr][list]
+                [*] [b]Minimum Bowl of Promises Strength[/b]: Strength I
+                [*] [b]Promise Acceptor[/b]: Diamond, Gold or Iron Promise Acceptor
+                [*] [b]Reactant[/b]: Block of Redstone
+                [*] [b]Effect[/b]: Machine speed x2
+                [/list]
+            [*] [b]Promise of Efficiency[/b][hr][list]
+                [*] [b]Minimum Bowl of Promises Strength[/b]: Strength I
+                [*] [b]Promise Acceptor[/b]: Diamond, Gold or Iron Promise Acceptor
+                [*] [b]Reactant[/b]: Lapis Lazuli Block
+                [*] [b]Effect[/b]: Blood usage efficiency x1.5
+                [/list]            
+            [/list]
+ 		</element>
 		<element name="Blood Chest" img="bFE65ei" recipe="b3kMa0n">
             Ever had to repair that precious enchanted diamond sword, only to find out
             that your limited supply of diamonds has run out? Then you may find the [u]blood
@@ -60,13 +104,14 @@
             to your repaired item (NOTE: this feature can be disabled in the configuration file).
             [img]UHh37KV[/img]
 		</element>
-		<element name="Blood Infuser" img="mH2YtNA" recipe="okFwJY4">
+		<element name="Blood Infuser" img="FUtDwy2" recipe="ymmdqkL">
 		    As its name suggests, the [u]blood infuser[/u] can infuse or fill items with [u]blood[/u].
             Simply put an item containing blood in the left slot to fill up the internal blood buffer and put an item
             in the slot directly to the right of the liquid meter to start infusing or filling items with blood.
             Some items that can be filled with blood are vanilla buckets, [u]blood containers[/u] and the [u]blood extractor[/u].
             The blood infuser is also the only way to gain [u]dark power gems[/u] and [u]undead saplings[/u].
             [img]Wdivmxk[/img]
+            When NEI is loaded, clicking the arrow inside the GUI will show a list of all items that can be crafted with this machine.
 		</element>
         <element name="Box of Eternal Closure" img="9QDMDcJ" recipe="K2ZxZU5">
             Simply put, this box allows you to capture [u]Vengeance Spirits[/u] using a [u]Vengeance Focus[/u].
@@ -74,6 +119,11 @@
             then work as a basic mob drop generator.
             These boxes can be crafted aswel as found in dungeon chests. Note however, when crafting or finding one,
             they might already contain something...
+        </element>
+        <element name="Entangled Chalice" img="HbFBaKZ" recipe="tyVenFI">
+            You will always get two chalices from the crafting recipe. These two chalices are then bound with each other.
+            When a fluid is inserted into one chalice, the content is shared across all bound chalices.
+            If you want to bind another chalice, just replace the middle gold ingot in the crafting recipe with a chalice you wish to bind with.
         </element>
         <element name="Environmental Accumulator" img="J5FLxFO">
             The [u]environmental accumulator[/u] allows you to fill [u]weather containers[/u] with the weather that is currently
@@ -111,6 +161,7 @@
             Since it is quite tiring to manually extract this blood from these blocks, you can now
             build a pedestal that will automatically extract all stained blocks in a 5x5 area and export
             it to any fluid accepting pipe or block below or next to it.
+            An upgraded version of the pedestal exists that boosts [u]Blood[/u] extraction output by 50%.
 		</element>
         <element name="Spirit Furnace" img="UMk389B" recipe="p2g6llQ">
             EvilCraft's first multi-block structure! The Spirit Furnace works like a basic mob drop generator;
@@ -194,10 +245,11 @@
 			These blocks can only be found in evil dungeons and serve the same functionality
 			as mossy cobblestone does for vanilla dungeons.
 		</element>
-		<element name="Dark Block" img="aEHs8tN" recipe="WA2PWqS">
+		<element name="Dark Block" recipe="tYTAeuB">
 			Acts as a storage block for dark gems.
 			They're pretty dark and have connected textures by default, so they
 			might be useful for building.
+            Can also be used as beacon bases.
 		</element>
         <element name="Dark Brick" recipe="qdjYY7v">
             Besides looking like a darker version of stone bricks, this
@@ -223,6 +275,14 @@
             It can be expanded by combining tanks in a crafting grid up until 65536 buckets of storage. (This amount can even be further
             increased by changing your config file.)
         </element>
+		<element name="Dark Power Gem Block" recipe="kuxhNBm">
+			Acts as a storage block for dark power gems.
+			They are similar to the [u]Dark Block[/u]
+		</element>
+		<element name="Eternal Water Block" img="E2QFyYc">
+			Placing a rainfall [u]Weather Container[/u] in the middle of a crafting grid above a [u]Dark Block[/u] and filling in the remaining with glass panes will
+            result in a infinite water source block.
+		</element>
 		<element name="Excrement Pile" img="BUivWbp">
 			The whole digestion cycle in Minecraft has finally been completed !
 			Animals will drop excrement piles, which act as bonemeal after a while when placed on the ground.
@@ -234,6 +294,9 @@
 			you walk through them (NOTE: for animals and entities this can be changed in the
 			configuration file).
 		</element>
+		<element name="GemStone Torch" recipe="tU5tFjS">
+			This torch will stop [u]Vengeance Spirit[/u] spawning in a 15 block radius.
+		</element>
 		<element name="Hardened Blood" img="rXYjG07">
 			When you place liquid [u]blood[/u] into the world when no rain is falling on it,
 			it will	change into [u]hardened blood[/u] after a small time.
@@ -242,6 +305,7 @@
 			Finally, these blocks have connected textures and might be useful when building,
 			just don't forget to put a roof above these blocks, or parts of your house might
 			literally wash away when it starts to rain...
+            Hardening of blood will not occur when there is a water source block in an area of four blocks.
 		</element>
 		<element name="Lightning Bomb" recipe="3DkYL7w">
 			If you ever wanted to lure mobs or players into a trap which killed them
@@ -308,15 +372,21 @@
 			blood infusion core, which is the main item used to craft EvilCraft machines such as
 			the [u]blood infuser[/u] and [u]blood chest[/u].
 		</element>
-		<element name="Blood Pearl of Teleportation" recipe="3CDA3vt">
+		<element name="Blood Pearl of Teleportation" recipe="LGOintg">
 			The [u]blood pearl of teleportation[/u] gives you the powers of an enderman!
 			Or at least... sort of. This pearl actually has the same functionality as an
 			ender pearl: when thrown it will teleport you to blood the pearl has fallen on,
 			except that this pearl will not be used up when thrown, instead it uses up a small
 			amount of blood stored inside of it when thrown.
 			To refill the pearl you can either infuse it with blood in a [u]blood infuser[/u]
-			or activate a [u]blood container[/u], after which it will refill whenever
+			or activate a blood container, after which it will refill whenever
 			you hold the pearl in your hand.
+		</element>
+		<element name="Blood Potash" recipe="lJLvE6M">
+			Infusing bonemeal with [u]Blood[/u] will result in an item that doubles the bonemeal efficiency.
+		</element>
+		<element name="Blood-Waxed Coal" recipe="tgyWKC9">
+			Infusing coal or charcoal with [u]Blood[/u] will result in an item that doubles the burntime.
 		</element>
 		<element name="Blook">
 			This is just a Book infused with [u]blood[/u] so that it can be used in the [u]Purifier[/u].
@@ -351,6 +421,9 @@
             [u]Vengeance Spirits[/u], so be sure to pack a stack of your favourite food
             (tasty chicken omnomnom)!
         </element>
+        <element name="Corrupted Tear" recipe="nESU986">
+            A crafting item that is created by infusing a [u]Ghast Tear[/u] with [u]Blood[/u].
+        </element>
         <element name="Crushed Dark Gem">
             Crushed Dark Gems can be found as a drop from [u]Dark Ores[/u] or they can be made by
             putting [u]Dark Gems/Ores[/u] inside a Thermal Expansion Pulverizer.
@@ -375,12 +448,22 @@
 			which require vanilla sticks. We do however have some plans to use this item
 			in recipes in the future.
 		</element>
+		<element name="Dull Dust" recipe="clhzUig">
+			Apparently, redstone can be recreated by infusing a very boring pile of dust with [u]Blood[/u].
+            You do need quite a lot of blood though, so don't expect to stop mining redstone any time soon.
+		</element>
+		<element name="Ender Tear">
+			A rare drop from the [u]Enderman[/u]. It can be infused with blood to get a [u]Ghast Tear[/u].
+		</element>
+		<element name="Eternal Water Bucket" recipe="5drsGsl">
+			Using the powers of rainfall, you can create a bucket that contains an infinite amount of water.
+		</element>
 		<element name="Exalted Crafter" img="caH2Mea" recipe="JsX3VDw">
 			A portable item crafter!
             It has an inventory that is linked to your personal Ender Chest.
             When the crafter is somewhere inside your inventory, you can press the [u]Exalted Crafter[/u]
             hotkey (By default 'C') to open the first crafter in your inventory. Pressing that hotkey again
-            will clear the crafting grid.
+            will clear the crafting grid. Pressing shift+hotkey will balance all items in the crafting grid, easy for crafting chests!
             When this item is empowered (struck by lightning), it can not despawn or be destroyed.
             There also exists a wooden variant that has it's own inventory instead of connecting to
             your Ender Chest.
