@@ -1,0 +1,248 @@
+# General
+itemGroup.EvilCraft=EvilCraft
+general.info.enabled=Enabled
+general.info.disabled=Disabled
+general.info.empty=Vacio
+general.tooltip.info=<Shift para mas info>
+
+# Blocks
+tile.blocks.blockBlood.name=Sangre
+tile.blocks.blockPoison.name=Veneno
+tile.blocks.bloodChest.name=Cofre de Sangre
+tile.blocks.bloodChest.info=Repara Items.
+tile.blocks.bloodInfuser.name=Infusor de sangre
+tile.blocks.darkOre.name=Mineral oscuro
+tile.blocks.darkOre.info.custom=Encontrado en niveles %s y %s.
+tile.blocks.darkBlock.name=Bloque Oscuro
+tile.blocks.bloodStainedBlock.name=Bloque manchado de sangre
+tile.blocks.bloodStainedBlock.info=Creado cuando la entidad muere.
+tile.blocks.lightningBomb.name=Bomba de relampagos
+tile.blocks.bloodyCobblestone.name=Bloody Cobblestone
+tile.blocks.netherMonsterBlock.name=Nether Monster Egg
+tile.blocks.excrementPile.name=Pila de excrementos
+tile.blocks.hardenedBlood.name=Sangre dura
+tile.blocks.hardenedBlood.info=Dried Blood. Liquidifies with rain or by breaking it.
+tile.blocks.obscuredGlass.name=Obscured Glass
+tile.blocks.environmentalAccumulator.name=Environmental Accumulator
+tile.blocks.environmentalAccumulator.info=Found at Dark Temples, not craftable.
+tile.blocks.undeadLeaves.name=Undead Leaves
+tile.blocks.undeadLog.name=Undead Log
+tile.blocks.undeadSapling.name=Undead Sapling
+tile.blocks.undeadSapling.info=Grows an Undead Tree.
+tile.blocks.undeadPlank.name=Undead Plank
+tile.blocks.invisibleRedstoneBlock.name=Invisible Redstone Block
+tile.blocks.purifier.name=Purifier
+tile.blocks.purifier.info=Disenchanter
+tile.blocks.darkBrick.name=Dark Brick
+tile.blocks.darkBloodBrick.name=Dark Blood Brick
+tile.blocks.spiritFurnace.name=Spirit Furnace
+tile.blocks.spiritFurnace.info=Cook Vengeance Spirits to obtain their drops.
+tile.blocks.spiritFurnace.help.invalid=Unable to cook
+tile.blocks.spiritFurnace.help.invalid.noEntity=Empty or no box
+tile.blocks.spiritFurnace.help.invalid.contentSize=Content size: %s
+tile.blocks.spiritFurnace.help.invalid.requiredSize=Required size: %s
+tile.blocks.spiritFurnace.help.invalid.forceHalt=No more space for drops
+tile.blocks.spiritFurnace.help.invalid.caughtError=Invalid mob spirit. Contact mod dev(s).
+tile.blocks.boxOfEternalClosure.name=Box of Eternal Closure
+tile.blocks.boxOfEternalClosure.info.content=Contents: %s
+tile.blocks.darkTank.name=Dark Tank
+tile.blocks.darkTank.info=Place in crafting grid with other tanks to increase capacity. Shift + Right click to auto-supply.
+tile.blocks.darkTank.info.autoSupply=Auto-supply: %s
+tile.blocks.sanguinaryPedestal.name=Sanguinary Pedestal
+tile.blocks.sanguinaryPedestal.info=Drains blood stained blocks in the area.
+tile.blocks.sanguinaryPedestal.boost=Efficiency I
+tile.blocks.spikedPlate.name=Spiked Plate
+tile.blocks.spikedPlate.info=Damages mobs, place on Pedestal to drain blood.
+tile.blocks.spiritReanimator.name=Spirit Reanimator
+tile.blocks.spiritReanimator.info=Revive Vengeance Spirits.
+tile.blocks.spiritReanimator.help.invalid.noEntity=Invalid, empty or no box
+tile.blocks.spiritReanimator.help.invalid.invalidEntity=No spawn egg available for mob
+tile.blocks.spiritReanimator.help.invalid.differentEgg=Remove the different mob eggs
+tile.blocks.entangledChalice.name=Entangled Chalice
+tile.blocks.entangledChalice.info=Contents of entangled chalices are omnipresent.\nShift + Right click to omni-supply.
+tile.blocks.entangledChalice.info.autoSupply=Omni-supply: %s
+tile.blocks.darkPowerGemBlock.name=Dark Power Gem Block
+tile.blocks.gemStoneTorch.name=GemStone Torch
+tile.blocks.gemStoneTorch.info=Blocks Vengeance Spirit spawning in a radius of 15 blocks.
+tile.blocks.eternalWaterBlock.name=Eternal Water Block
+tile.blocks.eternalWaterBlock.info=An infinite source of water.
+tile.blocks.bloodWaxedCoalBlock.name=Block of Blood-Waxed Coal
+
+# Items
+item.items.werewolfBone.name=Werewolf Bone
+item.items.werewolfFlesh.name=Werewolf Flesh
+item.items.humanFlesh.name=Humanoid Flesh
+item.items.lightningGrenade.name=Lightning Grenade
+item.items.redstoneGrenade.name=Redstone Grenade
+item.items.bucketBlood.name=Blood Bucket
+item.items.bucketPoison.name=Poison Bucket
+item.items.bloodExtractor.name=Blood Extractor
+item.items.bloodExtractor.info=Hold in inventory when slaying mobs.\nShift + Right click to extract or auto-supply.
+item.items.bloodExtractor.info.autoSupply=Auto-supply: %s
+item.items.darkGem.name=Dark Gem
+item.items.darkStick.name=Dark Stick
+item.items.weatherContainer.name=Weather Container
+item.items.bloodPearlOfTeleportation.name=Blood Pearl of Teleportation
+item.items.broom.name=Broom
+item.items.broom.info=I can fly!
+item.items.hardenedBloodShard.name=Hardened Blood Shard
+item.items.hardenedBloodShard.info=Use Flint and Steel on Hardened Blood.
+item.items.bloodInfusionCore.name=Blood Infusion Core
+item.items.darkPowerGem.name=Dark Power Gem
+item.items.darkPowerGem.info=Throw a Dark Gem in the middle of a pool with at least five non-hardened Blood blocks. Or infuse a Dark Gem with blood.
+item.items.bloodContainer.bloodCell.name=Blood Cell
+item.items.bloodContainer.bloodCan.name=Blood Can
+item.items.bloodContainer.bloodBasin.name=Blood Basin
+item.items.bloodContainer.creativeBloodContainer.name=Creative Blood Container
+item.items.bloodContainer.info=DEPRECATED! Place in crafting grid to convert to a Dark Tank.
+item.items.bloodContainer.info.autoSupply=Auto-supply: %s
+item.items.poisonSac.name=Poison Sac
+item.items.werewolfFur.name=Werewolf Fur
+item.items.blook.name=Blook
+item.items.blook.info=Can absorb item enchants when placed in the Purifier.
+item.items.potentiaSphere.name=Potentia Sphere
+item.items.potentiaSphere.info=Infuse with blood to make an Ender Pearl.
+item.items.invertedPotentia.name=Inverted Potentia
+item.items.invertedPotentia.info=Strike with lightning to empower.
+item.items.maceOfDistortion.name=Mace of Distortion
+item.items.maceOfDistortion.setPower=Set power to %s
+item.items.maceOfDistortion.info=Shift + Right click to change power level.
+item.items.maceOfDistortion.info.power=Power: %s
+item.items.kineticator.name=Kineticator
+item.items.kineticator.repelling.name=Repelling Kineticator
+item.items.kineticator.setPower=Set power to %s
+item.items.kineticator.info=Shift + Right click to toggle kinetication.\nRight click to change area.
+item.items.kineticator.info.attraction=Attraction: %s
+item.items.kineticator.info.repelling.attraction=Repelling: %s
+item.items.kineticator.info.area=Area: %s
+item.items.vengeanceRing.name=Vengeance Ring
+item.items.vengeanceRing.info=Might attract or summon Vengeance Spirits.\nShift + Right click to toggle boost.
+item.items.vengeanceRing.info.status=Status: %s
+item.items.vengeanceFocus.name=Vengeance Focus
+item.items.vengeanceFocus.info=Right click to enable beam.
+item.items.vengeancePickaxe.name=Vengeance Pickaxe
+item.items.vengeancePickaxe.info=Might summon Vengeance Spirits.
+item.items.burningGemStone.name=Burning GemStone
+item.items.burningGemStone.info=Passively converts Vengeance Spirit damage to hunger.
+item.items.darkGemCrushed.name=Crushed Dark Gem
+item.items.veinSword.name=Vein Sword
+item.items.creativeBloodDrop.name=Creative Blood Drop
+item.items.creativeBloodDrop.info=Creative mode only item to drain and fill infinite amounts of Blood.
+item.items.creativeBloodDrop.info.autoSupply=Auto-supply: %s
+item.items.darkSpike.name=Spike
+item.items.exaltedCrafter.name=Exalted Crafter
+item.items.exaltedCrafter.wood.name=Wooden Exalted Crafter
+item.items.necromancerStaff.name=Necromancer Staff
+item.items.necromancerStaff.info=Summon hordes of zombies.
+item.items.invigoratingPendant.name=Invigorating Pendant
+item.items.invigoratingPendant.info=Removes bad potion effects.
+item.items.boundBloodDrop.name=Bound Blood Drop
+item.items.boundBloodDrop.info=Right click to bind with your Blood Magic soul network.
+item.items.boundBloodDrop.info.autoSupply=Auto-supply: %s
+item.items.boundBloodDrop.info.currentOwner=Current owner: %s
+item.items.boundBloodDrop.info.currentOwner.none=None
+item.items.resurgenceEgg.name=Resurgence Egg
+item.items.resurgenceEgg.info.content=Contents: %s
+item.items.corruptedTear.name=Corrupted Tear
+item.items.promise.useIn=Usable in:
+item.items.promise.tier1.name=Promise of Tenacity I
+item.items.promise.tier1.info=Machine tier upgrade, also usable for lower tier recipes. Tank capacity x2.
+item.items.promise.tier2.name=Promise of Tenacity II
+item.items.promise.tier2.info=Machine tier upgrade, also usable for lower tier recipes. Tank capacity x4.
+item.items.promise.tier3.name=Promise of Tenacity III
+item.items.promise.tier3.info=Machine tier upgrade, also usable for lower tier recipes. Tank capacity x8.
+item.items.promise.speed0.name=Promise of Velocity
+item.items.promise.speed0.info=Machine speed x2
+item.items.promise.efficiency0.name=Promise of Efficiency
+item.items.promise.efficiency0.info=Machine Blood efficiency x1.5
+item.items.bowlOfPromises.active.name=Bowl of Promises
+item.items.bowlOfPromises.active.name=Bowl of Promises
+item.items.bowlOfPromises.dusted.name=Filled Bowl of Empty Promises
+item.items.bowlOfPromises.empty.name=Bowl of Empty Promises
+item.items.bowlOfPromises.strength=Strength
+item.items.dullDust.name=Dull Dust
+item.items.dullDust.info=Quite boring dust... Or is it?
+item.items.bloodWaxedCoal.name=Blood-Waxed Coal
+item.items.bloodWaxedCoal.info=Double your coal efficiency.
+item.items.enderTear.name=Ender Tear
+item.items.enderTear.info=Rare drop from Endermen.
+item.items.bloodPotash.name=Blood Potash
+item.items.bloodPotash.info=Double your bonemealing efficiency.
+item.items.bucketEternalWater.name=Eternal Water Bucket
+item.items.bucketEternalWater.info=An infinite source of water.
+item.items.promiseAcceptor.0.name=Iron Promise Acceptor
+item.items.promiseAcceptor.1.name=Gold Promise Acceptor
+item.items.promiseAcceptor.2.name=Diamond Promise Acceptor
+
+# Fluids
+fluid.fluids.evilcraftblood=Blood
+fluid.fluids.evilcraftpoison=Poison
+
+# Weather container info
+weatherContainer.empty=Empty
+weatherContainer.clear=My only sunshine
+weatherContainer.rain=When the rain begins to fall
+weatherContainer.lightning=Thunderstruck
+
+# Controls
+key.categories.evilcraft=EvilCraft
+key.fart=Toggle Farting
+key.exaltedCrafting=Open Exalted Crafter
+
+# Entities
+entity.evilcraft.werewolf.name=Werewolf
+entity.evilcraft.poisonousLibelle.name=Poisonous Libelle
+entity.evilcraft.netherfish.name=Nether Fish
+entity.evilcraft.vengeanceSpirit.name=Vengeance Spirit
+entity.werewolf.name=Werewolf
+entity.poisonousLibelle.name=Poisonous Libelle
+entity.netherfish.name=Nether Fish
+entity.vengeanceSpirit.name=Vengeance Spirit
+
+# Enchantments
+enchantment.breaking=Breaking
+enchantment.lifeStealing=Life Stealing
+enchantment.unusing=Unusing
+enchantment.poisonTip=Poison Tip
+
+# Chat messages
+chat.command.invalidArguments=Invalid Arguments
+chat.command.invalidSubcommand=Invalid Subcommand
+chat.command.onlyOneValue=Please define one new value
+chat.command.invalidNewValue=Invalid new value
+chat.command.updatedValue=Updated %s to: %s
+chat.command.fartingEnabled=Farting enabled
+chat.command.fartingDisabled=Farting disabled
+chat.bossDisplay.charge=%s Charge
+
+# Death messages
+death.attack.dieWithoutAnyReason=%1$s dies without any apparent reason!
+death.attack.distorted=%1$s couldn't handle the amount of distortion anymore.
+
+# Biomes
+biomes.biomeDegraded=Degradado
+
+# Achievements
+achievement.evilcraft.fart=Learn to Fart
+achievement.evilcraft.fart.desc=Finally release all of those nasty gases.
+achievement.evilcraft.firstAge=First Age
+achievement.evilcraft.firstAge.desc=Discover the origins of the first evil age.
+achievement.evilcraft.secondAge=Second Age
+achievement.evilcraft.secondAge.desc=Initiate the second evil age.
+achievement.evilcraft.masterDistorter=Master Distorter
+achievement.evilcraft.masterDistorter.desc=Distort over ten mobs at once with the Mace of Distortion.
+achievement.evilcraft.spiritCooker=Mob Chef
+achievement.evilcraft.spiritCooker.desc=Make a spirit furnace.
+achievement.evilcraft.closure=Eternal Closure
+achievement.evilcraft.closure.desc=Use the Vengeance Focus to entangle a Vengeance Spirit.
+achievement.evilcraft.tidy=Tidy Up!
+achievement.evilcraft.tidy.desc=Clean up an excrement pile with a broom.
+achievement.evilcraft.playerDistorter=Player Distorter
+achievement.evilcraft.playerDistorter.desc=Distort a player with the Mace of Distortion.
+achievement.evilcraft.playerDevastator=Player Devastator
+achievement.evilcraft.playerDevastator.desc=Attack a player using zombies spawned from a Necromancer Staff.
+achievement.evilcraft.powerCrafting=Power Crafting
+achievement.evilcraft.powerCrafting.desc=Craft an Exalted Crafter, craft-ception!
+
+# Gui
+gui.exaltedCrafting=Exalted Crafting
