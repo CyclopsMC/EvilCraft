@@ -223,16 +223,16 @@ death.attack.distorted=%1$s no pudo resistir la cantidad de distorsión más tie
 biomes.biomeDegraded=Degradado
 
 # Achievements
-achievement.evilcraft.fart=Learn to Fart
-achievement.evilcraft.fart.desc=Finally release all of those nasty gases.
-achievement.evilcraft.firstAge=First Age
-achievement.evilcraft.firstAge.desc=Discover the origins of the first evil age.
-achievement.evilcraft.secondAge=Second Age
-achievement.evilcraft.secondAge.desc=Initiate the second evil age.
-achievement.evilcraft.masterDistorter=Master Distorter
-achievement.evilcraft.masterDistorter.desc=Distort over ten mobs at once with the Mace of Distortion.
-achievement.evilcraft.spiritCooker=Mob Chef
-achievement.evilcraft.spiritCooker.desc=Make a spirit furnace.
+achievement.evilcraft.fart=Aprende a pedearte
+achievement.evilcraft.fart.desc=Finalmente se libró de todos esos malos gases.
+achievement.evilcraft.firstAge=Primera edad
+achievement.evilcraft.firstAge.desc=Descubre los orígenes de la primera edad del mal.
+achievement.evilcraft.secondAge=Segunda edad
+achievement.evilcraft.secondAge.desc=Inicia la segundad edad del mal.
+achievement.evilcraft.masterDistorter=Maestro distorsionador
+achievement.evilcraft.masterDistorter.desc=Distorsionar más de diez mobs a la vez con la maza de Distorsión.
+achievement.evilcraft.spiritCooker=Chef de mobs
+achievement.evilcraft.spiritCooker.desc=Haz un Horno de espirítus.
 achievement.evilcraft.closure=Eternal Closure
 achievement.evilcraft.closure.desc=Use the Vengeance Focus to entangle a Vengeance Spirit.
 achievement.evilcraft.tidy=Tidy Up!
