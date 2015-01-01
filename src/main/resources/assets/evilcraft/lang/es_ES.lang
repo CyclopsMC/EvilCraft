@@ -233,15 +233,15 @@ achievement.evilcraft.masterDistorter=Maestro distorsionador
 achievement.evilcraft.masterDistorter.desc=Distorsionar más de diez mobs a la vez con la maza de Distorsión.
 achievement.evilcraft.spiritCooker=Chef de mobs
 achievement.evilcraft.spiritCooker.desc=Haz un Horno de espirítus.
-achievement.evilcraft.closure=Eternal Closure
-achievement.evilcraft.closure.desc=Use the Vengeance Focus to entangle a Vengeance Spirit.
-achievement.evilcraft.tidy=Tidy Up!
-achievement.evilcraft.tidy.desc=Clean up an excrement pile with a broom.
-achievement.evilcraft.playerDistorter=Player Distorter
-achievement.evilcraft.playerDistorter.desc=Distort a player with the Mace of Distortion.
-achievement.evilcraft.playerDevastator=Player Devastator
+achievement.evilcraft.closure=Cierre eterno
+achievement.evilcraft.closure.desc=Utiliza el focus de venganza para enraizar a un Espíritu de Venganza.
+achievement.evilcraft.tidy=Hacer la limpieza!
+achievement.evilcraft.tidy.desc=Limpia un monton de excrementos con una escoba mágica.
+achievement.evilcraft.playerDistorter=Distorsionador de jugadores
+achievement.evilcraft.playerDistorter.desc=Distorsiona a un jugador con la Maza de Distorsion.
+achievement.evilcraft.playerDevastator=Devastador de jugadores
 achievement.evilcraft.playerDevastator.desc=Attack a player using zombies spawned from a Necromancer Staff.
-achievement.evilcraft.powerCrafting=Power Crafting
+achievement.evilcraft.powerCrafting=Poder del crafteo
 achievement.evilcraft.powerCrafting.desc=Craft an Exalted Crafter, craft-ception!
 
 # Gui
