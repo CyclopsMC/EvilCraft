@@ -16,7 +16,7 @@ tile.blocks.darkOre.info.custom=Encontrado en niveles %s y %s.
 tile.blocks.darkBlock.name=Bloque Oscuro
 tile.blocks.bloodStainedBlock.name=Bloque manchado de sangre
 tile.blocks.bloodStainedBlock.info=Creado cuando la entidad muere.
-tile.blocks.lightningBomb.name=Bomba de relampagos
+tile.blocks.lightningBomb.name=Bomba de relámpagos
 tile.blocks.bloodyCobblestone.name=Roca sangrada
 tile.blocks.netherMonsterBlock.name=Huevo de monstruo del Nether
 tile.blocks.excrementPile.name=Pila de excrementos
@@ -42,7 +42,7 @@ tile.blocks.spiritFurnace.help.invalid.noEntity=Vacio o no hay nada
 tile.blocks.spiritFurnace.help.invalid.contentSize=Tamaño del contenido: %s
 tile.blocks.spiritFurnace.help.invalid.requiredSize=Tamaño requerido: %s
 tile.blocks.spiritFurnace.help.invalid.forceHalt=No hay mas epsacio para objetos
-tile.blocks.spiritFurnace.help.invalid.caughtError=Espiritu de mob invalido. Contacta a los programadores.
+tile.blocks.spiritFurnace.help.invalid.caughtError=Espíritu de mob invalido. Contacta a los programadores.
 tile.blocks.boxOfEternalClosure.name=Caja de cierre eterno
 tile.blocks.boxOfEternalClosure.info.content=Contenidos: %s
 tile.blocks.darkTank.name=Tanque oscuro
@@ -179,45 +179,45 @@ fluid.fluids.evilcraftblood=Sangre
 fluid.fluids.evilcraftpoison=Veneno
 
 # Weather container info
-weatherContainer.empty=Empty
-weatherContainer.clear=My only sunshine
-weatherContainer.rain=When the rain begins to fall
+weatherContainer.empty=Vacío
+weatherContainer.clear=Mi único sol
+weatherContainer.rain=Cuando la lluvia empieza a caer
 weatherContainer.lightning=Thunderstruck
 
 # Controls
 key.categories.evilcraft=EvilCraft
-key.fart=Toggle Farting
-key.exaltedCrafting=Open Exalted Crafter
+key.fart=Activa los pedos
+key.exaltedCrafting=Abre la mesa de crafteo exaltada
 
 # Entities
-entity.evilcraft.werewolf.name=Werewolf
-entity.evilcraft.poisonousLibelle.name=Poisonous Libelle
-entity.evilcraft.netherfish.name=Nether Fish
-entity.evilcraft.vengeanceSpirit.name=Vengeance Spirit
-entity.werewolf.name=Werewolf
-entity.poisonousLibelle.name=Poisonous Libelle
-entity.netherfish.name=Nether Fish
-entity.vengeanceSpirit.name=Vengeance Spirit
+entity.evilcraft.werewolf.name=Hombre-Lobo
+entity.evilcraft.poisonousLibelle.name=Libélula venenosa
+entity.evilcraft.netherfish.name=Pez del nether
+entity.evilcraft.vengeanceSpirit.name=Espiritu de venganza
+entity.werewolf.name=Hombre-Lobo
+entity.poisonousLibelle.name=Libélula venenosa
+entity.netherfish.name=Pez del nether
+entity.vengeanceSpirit.name=Espiritu de venganza
 
 # Enchantments
 enchantment.breaking=Breaking
-enchantment.lifeStealing=Life Stealing
+enchantment.lifeStealing=Robar vida
 enchantment.unusing=Unusing
-enchantment.poisonTip=Poison Tip
+enchantment.poisonTip=Punta venenosa
 
 # Chat messages
-chat.command.invalidArguments=Invalid Arguments
-chat.command.invalidSubcommand=Invalid Subcommand
-chat.command.onlyOneValue=Please define one new value
-chat.command.invalidNewValue=Invalid new value
+chat.command.invalidArguments=Argumentos inválidos
+chat.command.invalidSubcommand=Subcomando Inválido
+chat.command.onlyOneValue=Porfavor especifíca un nuevo valor
+chat.command.invalidNewValue=Valor nuevo inválido
 chat.command.updatedValue=Updated %s to: %s
-chat.command.fartingEnabled=Farting enabled
-chat.command.fartingDisabled=Farting disabled
-chat.bossDisplay.charge=%s Charge
+chat.command.fartingEnabled=Pedos activados
+chat.command.fartingDisabled=Pedos descativados
+chat.bossDisplay.charge=%s Carga
 
 # Death messages
-death.attack.dieWithoutAnyReason=%1$s dies without any apparent reason!
-death.attack.distorted=%1$s couldn't handle the amount of distortion anymore.
+death.attack.dieWithoutAnyReason=%1$s murió por ninguna razón apariente!
+death.attack.distorted=%1$s no pudo resistir la cantidad de distorsión más tiempo.
 
 # Biomes
 biomes.biomeDegraded=Degradado
