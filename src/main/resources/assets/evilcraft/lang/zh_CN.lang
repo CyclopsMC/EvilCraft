@@ -215,7 +215,7 @@ chat.command.invalidNewValue=无效新数值
 chat.command.updatedValue=可用更新 %s to: %s 
 chat.command.fartingEnabled=开启放屁模式
 chat.command.fartingDisabled=关闭放屁模式
-chat.bossDisplay.charge=%s 收费
+chat.bossDisplay.charge=%s 充能
 
 # Death messages
 death.attack.dieWithoutAnyReason=%1$s 死的毫无缘由!
