@@ -1,7 +1,11 @@
 package evilcraft.core.item;
 
-import java.util.List;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.block.IBlockTank;
+import evilcraft.core.helper.ItemHelpers;
+import evilcraft.core.helper.L10NHelpers;
+import evilcraft.core.tileentity.TankInventoryTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,12 +16,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.block.IBlockTank;
-import evilcraft.core.helper.ItemHelpers;
-import evilcraft.core.helper.L10NHelpers;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
+
+import java.util.List;
 
 /**
  * {@link ItemBlock} that can be used for blocks that have a tile entity with a fluid container.
@@ -69,6 +69,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
             }
 	        NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag(key);
 	        fluidStack.writeToNBT(fluidTag);
+            fluidTag.removeTag("Empty"); // Make sure that after this block is placed the fluid inside is correctly recognised.
 	        container.stackTagCompound.setTag(key, fluidTag);
         }
 	}
