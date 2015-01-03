@@ -33,7 +33,7 @@ public class LivingDropsEventHook {
             if(event.lootingLevel > 0) {
                 chance /= event.lootingLevel + 1;
             }
-            if(e.worldObj.rand.nextInt(chance) == 0) {
+            if(chance > 0 && e.worldObj.rand.nextInt(chance) == 0) {
                 EntityItem entity = new EntityItem(e.worldObj, e.posX, e.posY, e.posZ, new ItemStack(EnderTearConfig._instance.getItemInstance()));
                 entity.delayBeforeCanPickup = 10;
                 event.drops.add(entity);
