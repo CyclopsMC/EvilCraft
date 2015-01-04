@@ -1,6 +1,7 @@
 package evilcraft.core.weather;
 
 import net.minecraft.world.World;
+import net.minecraft.world.storage.WorldInfo;
 
 /**
  * Lightning weather type.
@@ -16,15 +17,21 @@ public class WeatherTypeLightning extends WeatherType {
 
     @Override
     public void activate(World world) {
-        if (!RAIN.isActive(world)) 
-            RAIN.activate(world);
-        
-        world.getWorldInfo().setThundering(true);
+        activateThunder(world);
     }
 
     @Override
     public void deactivate(World world) {
         world.getWorldInfo().setThundering(false);
+    }
+
+    public static void activateThunder(World world) {
+        WorldInfo worldInfo = world.getWorldInfo();
+        int i = (300 + world.rand.nextInt(600)) * 20;
+        worldInfo.setRainTime(i);
+        worldInfo.setThunderTime(i);
+        worldInfo.setRaining(true);
+        worldInfo.setThundering(true);
     }
 
 }

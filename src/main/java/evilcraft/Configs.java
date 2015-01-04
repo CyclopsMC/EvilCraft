@@ -167,6 +167,8 @@ public class Configs {
         configs.add(new EnderTearConfig());
         configs.add(new BloodPotashConfig());
         configs.add(new BucketEternalWaterConfig());
+        configs.add(new BloodOrbConfig());
+        configs.add(new SceptreOfThunderConfig());
         
         // Entities
         // Item

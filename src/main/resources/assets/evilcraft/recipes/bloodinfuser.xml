@@ -249,5 +249,22 @@
             <tier>2</tier>
         </properties>
     </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">bloodOrb</condition>
+        <input>
+            <item meta="0">evilcraft:bloodOrb</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>3500</fluidamount>
+        </input>
+        <output>
+            <item meta="1">evilcraft:bloodOrb</item>
+        </output>
+        <properties>
+            <duration>3000</duration>
+            <tier>1</tier>
+        </properties>
+    </recipe>
     
 </recipes>

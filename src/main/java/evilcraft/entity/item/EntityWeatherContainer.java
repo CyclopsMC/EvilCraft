@@ -1,5 +1,11 @@
 package evilcraft.entity.item;
 
+import evilcraft.Configs;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.entity.item.EntityThrowable;
+import evilcraft.item.WeatherContainer;
+import evilcraft.item.WeatherContainer.WeatherContainerTypes;
+import evilcraft.item.WeatherContainerConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,12 +13,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import evilcraft.Configs;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.entity.item.EntityThrowable;
-import evilcraft.item.WeatherContainer;
-import evilcraft.item.WeatherContainer.WeatherContainerTypes;
-import evilcraft.item.WeatherContainerConfig;
 
 /**
  * Entity for the {@link WeatherContainer}.
@@ -52,21 +52,25 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
         setItemStack(stack);
     }
 
+    public static void playImpactSounds(World world) {
+        if (!world.isRemote) {
+            // Play evil sounds at the players in that world
+            for(Object o : world.playerEntities) {
+                EntityPlayer entityPlayer = (EntityPlayer) o;
+                world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+                world.playSoundAtEntity(entityPlayer, "mob.ghast.moan", 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+                world.playSoundAtEntity(entityPlayer, "mob.wither.death", 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+            }
+        }
+    }
+
     @Override
     protected void onImpact(MovingObjectPosition movingobjectposition) {
         ItemStack stack = getItemStack();
         WeatherContainerTypes containerType = WeatherContainer.getWeatherContainerType(stack);
         containerType.onUse(worldObj, stack);
-        
-        if (!worldObj.isRemote) {
-            // Play evil sounds at the players in that world
-            for(Object o : worldObj.playerEntities) {
-                EntityPlayer entityPlayer = (EntityPlayer) o;
-                worldObj.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 0.5F, 0.4F / (rand.nextFloat() * 0.4F + 0.8F));
-                worldObj.playSoundAtEntity(entityPlayer, "mob.ghast.moan", 0.5F, 0.4F / (rand.nextFloat() * 0.4F + 0.8F));
-                worldObj.playSoundAtEntity(entityPlayer, "mob.wither.death", 0.5F, 0.4F / (rand.nextFloat() * 0.4F + 0.8F));
-            }
-        }
+
+        playImpactSounds(worldObj);
         
         // Play sound and show particles of splash potion of harming
         // TODO: make custom particles for this

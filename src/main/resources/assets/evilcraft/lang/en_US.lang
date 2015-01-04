@@ -173,6 +173,10 @@ item.items.bucketEternalWater.info=An infinite source of water.
 item.items.promiseAcceptor.0.name=Iron Promise Acceptor
 item.items.promiseAcceptor.1.name=Gold Promise Acceptor
 item.items.promiseAcceptor.2.name=Diamond Promise Acceptor
+item.items.sceptreOfThunder.name=Sceptre of Thunder
+item.items.sceptreOfThunder.info=Spawns thunder when activated, single-use.
+item.items.bloodOrb.empty.name=Empty Orb
+item.items.bloodOrb.filled.name=Blood Orb
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
