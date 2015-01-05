@@ -44,6 +44,12 @@ public class PoisonousLibelleConfig extends MobConfig {
     public static int minY = 55;
 
     /**
+     * 1/X chance on getting poisoned when hit.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "1/X chance on getting poisoned when hit.", isCommandable = true)
+    public static int poisonChance = 20;
+
+    /**
      * Make a new instance.
      */
     public PoisonousLibelleConfig() {

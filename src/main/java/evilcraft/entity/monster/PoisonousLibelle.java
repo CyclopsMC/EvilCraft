@@ -264,7 +264,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
 
         this.renderYawOffset = this.rotationYaw;
         
-        if (!this.worldObj.isRemote && this.hurtTime == 0) {
+        if (!this.worldObj.isRemote && this.hurtTime == 0 && !this.isDead) {
             this.attackEntitiesInList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.0D, 0.0D, 1.0D)));
         }
         
@@ -285,20 +285,23 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
     }
 
     private void attackEntitiesInList(List<Entity> entities) {
+        int chance = PoisonousLibelleConfig.poisonChance;
         for (int i = 0; i < entities.size(); ++i) {
-            Entity entity = (Entity)entities.get(i);
-            if (entity instanceof EntityLivingBase) {
-                boolean shouldAttack = true;
-                if(entity instanceof EntityPlayer) {
-                    if(((EntityPlayer)entity).capabilities.isCreativeMode) {
-                        shouldAttack = false;
-                        setNewTarget();
+            if(chance > 0 && worldObj.rand.nextInt(chance) == 0) {
+                Entity entity = (Entity) entities.get(i);
+                if (entity instanceof EntityLivingBase) {
+                    boolean shouldAttack = true;
+                    if (entity instanceof EntityPlayer) {
+                        if (((EntityPlayer) entity).capabilities.isCreativeMode) {
+                            shouldAttack = false;
+                            setNewTarget();
+                        }
                     }
-                }
-                if(shouldAttack) {
-                    if(PoisonousLibelleConfig.hasAttackDamage)
-                        entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
-                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
+                    if (shouldAttack) {
+                        if (PoisonousLibelleConfig.hasAttackDamage)
+                            entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
+                        ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
+                    }
                 }
             }
         }
