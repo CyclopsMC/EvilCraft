@@ -1,14 +1,5 @@
 package evilcraft.entity.item;
 
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
@@ -17,6 +8,15 @@ import evilcraft.core.helper.MathHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.item.Broom;
 import evilcraft.item.BroomConfig;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+
+import java.util.List;
 
 /**
  * Entity for a broom
@@ -185,12 +185,12 @@ public class EntityBroom extends Entity implements IConfigurable{
     @Override
     public void onUpdate() {
     	super.onUpdate();
-    	
-    	if (!worldObj.isRemote && riddenByEntity == null && lastMounted != null) {
+
+        if (!worldObj.isRemote && riddenByEntity == null && lastMounted != null) {
     		// The player dismounted, give him his broom back if he's not in creative mode
     		if (!lastMounted.capabilities.isCreativeMode && Configs.isEnabled(BroomConfig.class)) {
-    		    // Return to inventory if we have space, otherwise drop it on the ground
-    		    if (!MinecraftHelpers.isPlayerInventoryFull(lastMounted))
+    		    // Return to inventory if we have space and the player is not dead, otherwise drop it on the ground
+                if (!lastMounted.isDead && !MinecraftHelpers.isPlayerInventoryFull(lastMounted))
     		        lastMounted.inventory.addItemStackToInventory(new ItemStack(Broom.getInstance(), 1));
     		    else
     		        dropItem(Broom.getInstance(), 1);
