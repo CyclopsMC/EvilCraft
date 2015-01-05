@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.*;
  */
 public class TileEternalWaterBlock extends EvilCraftTileEntity implements IFluidHandler {
 
-    private static final FluidStack WATER = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
+    public static final FluidStack WATER = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
 
 	@Override
 	protected void updateTileEntity() {

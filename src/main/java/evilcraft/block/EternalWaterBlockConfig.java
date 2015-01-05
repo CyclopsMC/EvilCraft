@@ -5,14 +5,19 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
+import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.tileentity.TileEternalWaterBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
 
 /**
  * Config for the {@link evilcraft.block.BloodChest}.
@@ -67,6 +72,20 @@ public class EternalWaterBlockConfig extends BlockContainerConfig {
 
             public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
                                             float xp, float yp, float zp) {
+                ItemStack itemStack = player.inventory.getCurrentItem();
+                if(itemStack != null) {
+                    FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
+                    if (fluidStack == null) {
+                        ItemStack filledItem = FluidContainerRegistry.fillFluidContainer(TileEternalWaterBlock.WATER, itemStack);
+                        if (filledItem != null && !player.capabilities.isCreativeMode) {
+                            InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
+                        }
+                    }
+                    if(itemStack.getItem() instanceof IFluidContainerItem) {
+                        IFluidContainerItem containerItem = ((IFluidContainerItem) itemStack.getItem());
+                        containerItem.fill(itemStack, TileEternalWaterBlock.WATER, true);
+                    }
+                }
                 return true;
             }
 
