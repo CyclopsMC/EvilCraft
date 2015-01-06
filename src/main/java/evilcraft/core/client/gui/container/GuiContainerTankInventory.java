@@ -1,17 +1,15 @@
 package evilcraft.core.client.gui.container;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.init.Blocks;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.fluids.FluidStack;
-
-import org.lwjgl.opengl.GL11;
-
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.inventory.container.ExtendedInventoryContainer;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.fluids.FluidStack;
+import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A GUI container that has support for the display of inventories and a tank.
@@ -103,7 +101,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         SingleUseTank tank = tile.getTank();
         if(shouldRenderTank()) {
-            int tankSize = tank.getFluidAmount() * tankHeight / tank.getCapacity();
+            int tankSize = Math.min(tank.getCapacity(), tank.getFluidAmount()) * tankHeight / tank.getCapacity();
             drawTank(tankTargetX, tankTargetY, tank.getAcceptedFluid().getID(), tankSize);
         }
         drawAdditionalForeground(mouseX, mouseY);

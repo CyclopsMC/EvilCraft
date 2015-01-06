@@ -98,12 +98,4 @@ public class Tank extends FluidTank {
     	return this.name;
     }
 
-    @Override
-    public void setCapacity(int capacity) {
-        super.setCapacity(capacity);
-        if(getFluidAmount() > getCapacity()) {
-            this.drain(getFluidAmount() - getCapacity(), true);
-        }
-    }
-
 }
