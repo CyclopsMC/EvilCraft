@@ -242,11 +242,15 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
      * @return The contained spirit.
      */
     public EntityLivingBase getSpiritInstance() {
-    	if(spiritInstance == null) {
+        if(spiritInstance == null) {
             EntityLivingBase entity = getEntityFromNBT(getWorldObj(), spiritTag);
             setSpiritInstance(entity);
             if(!VengeanceSpirit.canSustain(entity) && entity != null && !(entity instanceof VengeanceSpirit)) {
                 releaseSpirit();
+            }
+            if(spiritInstance == null) {
+                closing = false;
+                close(true);
             }
     	}
     	return spiritInstance;
