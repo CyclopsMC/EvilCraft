@@ -1,10 +1,13 @@
 package evilcraft.entity.effect;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Achievements;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.helper.EntityHelpers;
+import evilcraft.core.helper.WorldHelpers;
+import evilcraft.item.NecromancerStaff;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,17 +21,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-import com.google.common.collect.Lists;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Achievements;
-import evilcraft.ExtendedDamageSource;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.helper.EntityHelpers;
-import evilcraft.core.helper.WorldHelpers;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
-import evilcraft.item.NecromancerStaff;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Entity for the {@link NecromancerStaff}.
@@ -97,8 +93,13 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
 			    	mob.addPotionEffect(new PotionEffect(Potion.confusion.id, 2000, 0));
 			    	mob.captureDrops = true; // Don't drop loot on death
 	            	if(EntityHelpers.spawnEntity(world, mob)) {
-			    		observables.add(mob);
+                        observables.add(mob);
 			    	}
+                    mob.getNavigator().setAvoidsWater(false);
+                    boolean res = mob.getNavigator().tryMoveToEntityLiving(target, 1);
+                    if(!res) {
+                        mob.getNavigator().tryMoveToXYZ(target.posX, target.posY + 1, target.posZ, 1);
+                    }
 	    		}
 			} catch (NoSuchMethodException e) {
 				e.printStackTrace();
@@ -139,12 +140,12 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     				EntityLiving mob = it.next();
     				if(!mob.isEntityAlive() || !target.isEntityAlive() || timeLeft <= 0) {
     					if(mob.isEntityAlive()) {
-	    					ObfuscationHelpers.setRecentlyHit(mob, 0);
-	    					mob.onDeath(ExtendedDamageSource.necromancerRecall);
+                            mob.setDead();
     					}
     					it.remove();
     				} else {
-	    				mob.setRevengeTarget(target);
+                        mob.setLastAttacker(target);
+                        mob.setRevengeTarget(target);
     				}
     			}
     		}
