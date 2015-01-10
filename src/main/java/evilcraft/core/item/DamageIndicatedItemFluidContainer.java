@@ -1,7 +1,8 @@
 package evilcraft.core.item;
 
-import java.util.List;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.IInformationProvider;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -10,9 +11,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.IInformationProvider;
+
+import java.util.List;
 
 /**
  * This extension on {@link ItemFluidContainer} will show a damage indicator depending on how full
@@ -60,6 +60,10 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
             }
         }
         FluidStack fluidStack = super.drain(container, maxDrain, doDrain);
+        if(container != null &&
+                (container.stackTagCompound == null || container.stackTagCompound.getCompoundTag("Fluid") == null)) {
+            fill(container, new FluidStack(fluid, 0), true);
+        }
         return fluidStack;
     }
     
