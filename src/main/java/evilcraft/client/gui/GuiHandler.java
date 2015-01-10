@@ -1,9 +1,11 @@
 package evilcraft.client.gui;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
-
+import com.google.common.collect.Maps;
+import cpw.mods.fml.common.network.IGuiHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.inventory.IGuiContainerProvider;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,13 +13,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-import com.google.common.collect.Maps;
-
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.inventory.IGuiContainerProvider;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 /**
  * The handler class that will map Containers to GUI's.
@@ -67,12 +65,15 @@ public class GuiHandler implements IGuiHandler {
     	setTemporaryItemIndex(-1);
     }
     
-    private static int getItemIndex(EntityPlayer player) {
+    private static int getItemIndex(EntityPlayer player) throws IllegalArgumentException {
     	int index = MinecraftHelpers.isClientSide() ? TEMP_ITEM_GUI_INDEX_OVERRIDE_CLIENT : TEMP_ITEM_GUI_INDEX_OVERRIDE_SERVER;
     	if(index == -1) {
     		index = player.inventory.currentItem;
     	}
     	clearTemporaryItemIndex();
+        if(index == -1) {
+            throw new IllegalArgumentException("Invalid GUI item.");
+        }
     	return index;
     }
 
