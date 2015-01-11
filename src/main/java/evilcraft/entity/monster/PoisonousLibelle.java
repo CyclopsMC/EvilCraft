@@ -67,7 +67,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
         super(world);
 
         this.getNavigator().setAvoidsWater(true);
-        this.setSize(1.0F, 0.9F);
+        this.setSize(0.5F, 0.45F);
         this.isImmuneToFire = false;
     }
 
