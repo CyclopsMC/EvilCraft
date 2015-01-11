@@ -311,7 +311,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
         this.forceNewTarget = false;
 
         boolean targetSet = false;
-        if (this.rand.nextInt(2) == 0 && !this.worldObj.playerEntities.isEmpty()) {
+        if (this.rand.nextInt(2) == 0 && !this.worldObj.playerEntities.isEmpty() && !this.worldObj.isDaytime()) {
             this.target = (Entity)this.worldObj.playerEntities.get(this.rand.nextInt(this.worldObj.playerEntities.size()));
             targetSet = true;
             if(target instanceof EntityPlayer) {
