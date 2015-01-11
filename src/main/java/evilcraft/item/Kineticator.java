@@ -36,7 +36,6 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     private static Kineticator _instance = null;
     
-    private static final int TICK_HOLDOFF = 1;
     private static final String NBT_KEY_POWER = "power";
     private static final int POWER_LEVELS = 5;
     private static final int RANGE_PER_LEVEL = 2;
@@ -172,26 +171,27 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
             double x = entity.posX;
             double y = entity.posY;
             double z = entity.posZ;
-            
+
             // Not ticking every tick.
-            if(0 == world.getWorldTime() % TICK_HOLDOFF) {
+            if(0 == world.getWorldTime() % KineticatorConfig.tickHoldoff) {
                 // Get items in calculated area.
                 int area = getArea(itemStack);
                 AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
                 List<EntityItem> entities = world.getEntitiesWithinAABBExcludingEntity(entity, box, new IEntitySelector() {
-    
+
                     @Override
                     public boolean isEntityApplicable(Entity entity) {
                         return entity instanceof EntityItem
                                 || (KineticatorConfig.moveXP && entity instanceof EntityXPOrb);
                     }
-                    
+
                 });
-                
+
                 // Move all those items in the direction of the player.
                 for(Entity moveEntity : entities) {
                     if(repelling ||
-                            (moveEntity instanceof EntityItem && ((EntityItem) moveEntity).delayBeforeCanPickup == 0)) {
+                            (moveEntity instanceof EntityItem && ((EntityItem) moveEntity).delayBeforeCanPickup == 0) ||
+                            (moveEntity instanceof EntityXPOrb)) {
                         double dx = moveEntity.posX - x;
                         double dy = moveEntity.posY - (y + (world.isRemote ? -1 : 1));
                         double dz = moveEntity.posZ - z;
@@ -208,8 +208,8 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
 
                         double d = (double) MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
                         int usage = (int) Math.round(d * USAGE_PER_D);
-                        if((repelling || d > 0.5D) && (usage == 0 || (this.drain(itemStack, usage, !world.isRemote) != null) ||
-                                (entity instanceof EntityPlayer && this.consume(usage, itemStack, (EntityPlayer) entity) != null))) {
+                        if((repelling || d > 0.5D) && (usage == 0 || (this.drain(itemStack, usage, false) != null) ||
+                                (entity instanceof EntityPlayer && this.canConsume(usage, itemStack, (EntityPlayer) entity)))) {
                             double m = 1 / (2 * (Math.max(1, d)));
                             dx *= m;
                             dy *= m;
@@ -223,6 +223,14 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                                 moveEntity.motionX = dx * strength;
                                 moveEntity.motionY = dy * strength;
                                 moveEntity.motionZ = dz * strength;
+                            }
+                            // Not ticking every tick.
+                            if(0 == world.getWorldTime() % KineticatorConfig.consumeHoldoff) {
+                                if(entity instanceof EntityPlayer) {
+                                    this.consume(usage, itemStack, (EntityPlayer) entity);
+                                } else {
+                                    this.drain(itemStack, usage, true);
+                                }
                             }
                         }
                     }

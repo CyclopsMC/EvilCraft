@@ -23,6 +23,18 @@ public class KineticatorConfig extends ItemConfig {
     public static boolean moveXP = true;
 
     /**
+     * The amount of ticks in between each area checking for items.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The amount of ticks inbetween each area checking for items.", isCommandable = true)
+    public static int tickHoldoff = 1;
+
+    /**
+     * The amount of ticks in between each blood consumption when there are valid items in the area.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The amount of ticks in between each blood consumption when there are valid items in the area.", isCommandable = true)
+    public static int consumeHoldoff = 20;
+
+    /**
      * Make a new instance.
      */
     public KineticatorConfig() {
