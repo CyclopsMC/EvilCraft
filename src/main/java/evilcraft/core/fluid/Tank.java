@@ -51,10 +51,16 @@ public class Tank extends FluidTank {
         return getFluid() != null ? getFluid().getFluid() : null;
     }
 
+    protected boolean replaceInnerFluid() {
+        return true;
+    }
+
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         NBTTagCompound tankData = new NBTTagCompound();
-        super.writeToNBT(tankData);
+        if(replaceInnerFluid()) {
+            super.writeToNBT(tankData);
+        }
         writeTankToNBT(tankData);
         nbt.setTag(name, tankData);
         return nbt;
@@ -64,10 +70,12 @@ public class Tank extends FluidTank {
     public FluidTank readFromNBT(NBTTagCompound nbt) {
         if (nbt.hasKey(name)) {
             NBTTagCompound tankData = nbt.getCompoundTag(name);
-            if(tankData.hasKey("Empty")) {
-            	setFluid(null);
+            if(replaceInnerFluid()) {
+                if (tankData.hasKey("Empty")) {
+                    setFluid(null);
+                }
+                super.readFromNBT(tankData);
             }
-            super.readFromNBT(tankData);
             readTankFromNBT(tankData);
         }
         return this;

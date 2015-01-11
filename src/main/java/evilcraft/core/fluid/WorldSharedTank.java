@@ -121,6 +121,11 @@ public class WorldSharedTank extends SingleUseTank {
         return this.getFluidType();
     }
 
+    @Override
+    protected boolean replaceInnerFluid() {
+        return false;
+    }
+
     /**
      * Tank data stored in the world.
      * @author rubensworks
