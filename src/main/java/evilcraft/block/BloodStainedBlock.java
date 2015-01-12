@@ -97,7 +97,11 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
      * @return The icon.
      */
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta, int renderPass, IIcon defaultIcon, Block baseBlock) {
+    public IIcon getIcon(int side, int meta, int renderPass, IIcon defaultIcon, Block baseBlock)
+            throws InvalidInnerBlocksTileException {
+        if(baseBlock == null) {
+            throw new InvalidInnerBlocksTileException();
+        }
         if(renderPass < 0) {
             return RenderHelpers.EMPTYICON;
         } else if(renderPass == 1) {
