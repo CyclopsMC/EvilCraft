@@ -4,6 +4,7 @@ import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.block.*;
 import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
 import mcp.mobius.waila.api.IWailaRegistrar;
@@ -20,8 +21,8 @@ public class Waila {
      * @param registrar The Waila registrar.
      */
     public static void callbackRegister(IWailaRegistrar registrar){
-        registrar.addConfig(Reference.MOD_NAME, getTankConfigID(), "Tank contents");
-        registrar.addConfig(Reference.MOD_NAME, getInnerBlockConfigID(), "Actual inner blocks");
+        registrar.addConfig(Reference.MOD_NAME, getTankConfigID(), L10NHelpers.localize("gui.waila.tankConfig"));
+        registrar.addConfig(Reference.MOD_NAME, getInnerBlockConfigID(), L10NHelpers.localize("gui.waila.innerBlocksConfig"));
         
         // Tanks
         registrar.registerBodyProvider(new TankDataProvider(), TankInventoryTileEntity.class);

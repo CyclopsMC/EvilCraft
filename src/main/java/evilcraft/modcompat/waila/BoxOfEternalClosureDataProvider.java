@@ -1,14 +1,15 @@
 package evilcraft.modcompat.waila;
 
-import java.util.List;
-
+import evilcraft.core.helper.L10NHelpers;
+import evilcraft.entity.monster.VengeanceSpirit;
+import evilcraft.tileentity.TileBoxOfEternalClosure;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import evilcraft.entity.monster.VengeanceSpirit;
-import evilcraft.tileentity.TileBoxOfEternalClosure;
+
+import java.util.List;
 
 /**
  * Waila data provider for the BOEC.
@@ -38,7 +39,7 @@ public class BoxOfEternalClosureDataProvider implements IWailaDataProvider {
         		&& config.getConfig(Waila.getBoxOfEternalClosureConfigID(), true)) {
         	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) accessor.getTileEntity();
             if(tile.getSpiritInstance() == null) {
-                currenttip.add(EnumChatFormatting.ITALIC + "Empty");
+                currenttip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty"));
             } else {
                 String name = ((VengeanceSpirit) tile.getSpiritInstance()).getLocalizedInnerEntityName();
                 currenttip.add(name);

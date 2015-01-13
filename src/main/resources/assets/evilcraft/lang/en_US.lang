@@ -250,3 +250,5 @@ achievement.evilcraft.powerCrafting.desc=Craft an Exalted Crafter, craft-ception
 
 # Gui
 gui.exaltedCrafting=Exalted Crafting
+gui.waila.tankConfig=Tank contents
+gui.waila.innerBlocksConfig=Actual inner blocks
