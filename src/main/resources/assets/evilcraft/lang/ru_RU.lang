@@ -173,6 +173,10 @@ item.items.bucketEternalWater.info=Бесконечный источник во�
 item.items.promiseAcceptor.0.name=Железный акцептор обещаний
 item.items.promiseAcceptor.1.name=Золотой акцептор обещаний
 item.items.promiseAcceptor.2.name=Алмазный акцептор обещаний
+item.items.sceptreOfThunder.name=Скипетр грома
+item.items.sceptreOfThunder.info=Призывает гром при активации, одноразовый.
+item.items.bloodOrb.empty.name=Пустой шар
+item.items.bloodOrb.filled.name=Кровавый шар
 
 # Fluids
 fluid.fluids.evilcraftblood=Кровь
@@ -246,3 +250,5 @@ achievement.evilcraft.powerCrafting.desc=Сделайте продвинутый
 
 # Gui
 gui.exaltedCrafting=Продвинутое создание
+gui.waila.tankConfig=Содержимое резервуара
+gui.waila.innerBlocksConfig=Отображение скрытых блоков
