@@ -14,7 +14,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Instances of this class are sent between client
@@ -34,7 +37,12 @@ public class FartPacket extends PacketCodec {
     private static final float REMOTE_PLAYER_Y_OFFSET = 0.65f;
 
     // List of players that have rainbow farts
-    private static final String[] ALLOW_RAINBOW_FARTS = { "kroeserr", "_EeB_", "Davivs69" };
+    private static final List<UUID> ALLOW_RAINBOW_FARTS = new ArrayList<UUID>();
+    static {
+        ALLOW_RAINBOW_FARTS.add(UUID.fromString("068d4de0-3a75-4c6a-9f01-8c37e16a394c")); // kroeserr
+        ALLOW_RAINBOW_FARTS.add(UUID.fromString("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c")); // _EeB_
+        ALLOW_RAINBOW_FARTS.add(UUID.fromString("777e7aa3-9373-4511-8d75-f99d23ebe252")); // Davivs69
+    }
 	
     @CodecField
 	private String displayName;
@@ -124,12 +132,8 @@ public class FartPacket extends PacketCodec {
      * @return If that player has rainbow farts.
      */
     public boolean hasRainbowFart(EntityPlayer player) {
-        for (String name : ALLOW_RAINBOW_FARTS) {
-            if (name.equals(player.getCommandSenderName()))
-                return true;
-        }
-        
-        return false;
+        return player.getGameProfile() != null
+                && ALLOW_RAINBOW_FARTS.contains(player.getGameProfile().getId());
     }
 
 	@Override

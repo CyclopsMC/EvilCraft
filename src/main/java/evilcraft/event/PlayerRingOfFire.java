@@ -1,15 +1,16 @@
 package evilcraft.event;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import evilcraft.core.algorithm.Location;
 import evilcraft.core.helper.LocationHelpers;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.RingOfFirePacket;
+import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Event hook for showing the ring of fire.
@@ -17,13 +18,14 @@ import evilcraft.network.packet.RingOfFirePacket;
  *
  */
 public class PlayerRingOfFire {
-	
-	// List of players that have a ring of fire
-    private static final List<String> ALLOW_RING = new ArrayList<String>();
+
+    // List of players that have a ring of fire
+    private static final List<UUID> ALLOW_RING = new ArrayList<UUID>();
     static {
-        ALLOW_RING.add("kroeserr");
-        ALLOW_RING.add("_EeB_");
-        ALLOW_RING.add("JonaBrackenwood");
+        ALLOW_RING.add(UUID.fromString("068d4de0-3a75-4c6a-9f01-8c37e16a394c")); // kroeserr
+        ALLOW_RING.add(UUID.fromString("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c")); // _EeB_
+        ALLOW_RING.add(UUID.fromString("3e13f558-fb72-4949-a842-07879924bc49")); // JonaBrackenwood
+        ALLOW_RING.add(UUID.fromString("777e7aa3-9373-4511-8d75-f99d23ebe252")); // Davivs69
     }
 
     /**
@@ -45,8 +47,8 @@ public class PlayerRingOfFire {
     }
     
     private void spawnRing(EntityPlayer player) {
-    	if(!player.worldObj.isRemote
-    			&& ALLOW_RING.contains(player.getDisplayName())) {
+    	if(!player.worldObj.isRemote && player.getGameProfile() != null
+    			&& ALLOW_RING.contains(player.getGameProfile().getId())) {
     		PacketHandler.sendToAllAround(new RingOfFirePacket(player),
     				LocationHelpers.createTargetPointFromLocation(player.worldObj,
     						new Location((int) player.posX, (int) player.posY, (int) player.posZ), 50));

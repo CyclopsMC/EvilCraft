@@ -1,13 +1,5 @@
 package evilcraft.network.packet;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.client.particle.EntityFlameFX;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,6 +8,11 @@ import evilcraft.core.helper.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;
+import net.minecraft.client.particle.EntityFlameFX;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.World;
 
 /**
  * Packet for sending and showing the ring of fire.
@@ -27,14 +24,6 @@ public class RingOfFirePacket extends PacketCodec {
 	
 	private static final int RANGE = 3000;
 
-	// List of players that have a ring of fire
-    private static final List<String> ALLOW_RING = new ArrayList<String>();
-    static {
-        ALLOW_RING.add("kroeserr");
-        ALLOW_RING.add("_EeB_");
-        ALLOW_RING.add("JonaBrackenwood");
-        ALLOW_RING.add("Davivs69");
-    }
     private static double RING_AREA = 0.9F;
 	
     @CodecField
