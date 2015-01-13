@@ -38,7 +38,9 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
             // Init each side to it can theoretically hold all possible slots,
             // Integer lists are not option because Java allows to autoboxing
             // and that would be required in the getter methods below.
-            slotSides.put(side, new int[inventorySize]); 
+            int array[] = new int[inventorySize];
+            for(int i = 0; i < inventorySize; i++) array[i] = -1;
+            slotSides.put(side, array);
             slotSidesSize.put(side, 0); 
         }
     }
