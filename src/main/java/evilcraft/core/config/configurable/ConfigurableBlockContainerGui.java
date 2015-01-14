@@ -1,11 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
@@ -16,6 +10,12 @@ import evilcraft.core.inventory.IGuiContainerProvider;
 import evilcraft.core.inventory.container.TileInventoryContainer;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.tileentity.InventoryTileEntity;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.world.World;
 
 /**
  * Block with a tile entity with a GUI that can hold ExtendedConfigs.
@@ -29,7 +29,7 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer im
 
     private Class<? extends Container> container;
     @SideOnly(Side.CLIENT)
-    private Class<? extends GuiContainer> gui;
+    private Class<? extends GuiScreen> gui;
 
     /**
      * Make a new block instance.
@@ -52,7 +52,7 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer im
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void setGUI(Class<? extends GuiContainer> gui) {
+    public void setGUI(Class<? extends GuiScreen> gui) {
         this.gui = gui;
     }
     
@@ -68,7 +68,7 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer im
     
     @Override
 	@SideOnly(Side.CLIENT)
-    public Class<? extends GuiContainer> getGUI() {
+    public Class<? extends GuiScreen> getGUI() {
         return gui;
     }
     

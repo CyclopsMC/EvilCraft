@@ -1,9 +1,9 @@
 package evilcraft.core.inventory;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.inventory.Container;
 
 /**
  * Interface for object providing gui-containers.
@@ -17,7 +17,7 @@ public interface IGuiContainerProvider {
 	 * @param gui The gui.
 	 */
 	@SideOnly(Side.CLIENT)
-    public void setGUI(Class<? extends GuiContainer> gui);
+    public void setGUI(Class<? extends GuiScreen> gui);
 	/**
 	 * Set the container.
 	 * @param container The container.
@@ -38,7 +38,7 @@ public interface IGuiContainerProvider {
      * @return The GUI class.
      */
     @SideOnly(Side.CLIENT)
-    public Class<? extends GuiContainer> getGUI();
+    public Class<? extends GuiScreen> getGUI();
 	/**
      * Get the texture path of the GUI.
      * @return The path of the GUI for this block.

@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.inventory.IGuiContainerProvider;
-import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -25,7 +25,7 @@ import java.util.Map;
 public class GuiHandler implements IGuiHandler {
 
     private static Map<Integer, Class<? extends Container>> CONTAINERS = Maps.newHashMap();
-    private static Map<Integer, Class<? extends GuiContainer>> GUIS = Maps.newHashMap();
+    private static Map<Integer, Class<? extends GuiScreen>> GUIS = Maps.newHashMap();
     private static Map<Integer, GuiType> TYPES = Maps.newHashMap();
     
     // Two variables to avoid collisions in singleplayer worlds
@@ -81,6 +81,9 @@ public class GuiHandler implements IGuiHandler {
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
     	try {
     		Class<? extends Container> containerClass = CONTAINERS.get(id);
+            if(containerClass == null) {
+                return null; // Possible with client-only GUI's like books.
+            }
     		if(TYPES.get(id) == GuiType.BLOCK) {
     			TileEntity tileEntity = world.getTileEntity(x, y, z);
     			Constructor<? extends Container> containerConstructor = containerClass.getConstructor(InventoryPlayer.class, tileEntity.getClass());
@@ -109,13 +112,13 @@ public class GuiHandler implements IGuiHandler {
     @Override
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
     	try {
-    		Class<? extends GuiContainer> guiClass = GUIS.get(id);
+    		Class<? extends GuiScreen> guiClass = GUIS.get(id);
     		if(TYPES.get(id) == GuiType.BLOCK) {
     			TileEntity tileEntity = world.getTileEntity(x, y, z);
-	            Constructor<? extends GuiContainer> guiConstructor = guiClass.getConstructor(InventoryPlayer.class, tileEntity.getClass());
+	            Constructor<? extends GuiScreen> guiConstructor = guiClass.getConstructor(InventoryPlayer.class, tileEntity.getClass());
 	            return guiConstructor.newInstance(player.inventory, tileEntity);
     		} else {
-	            Constructor<? extends GuiContainer> guiConstructor = guiClass.getConstructor(EntityPlayer.class, int.class);
+	            Constructor<? extends GuiScreen> guiConstructor = guiClass.getConstructor(EntityPlayer.class, int.class);
 	            return guiConstructor.newInstance(player, getItemIndex(player));
     		}
     	} catch (NoSuchMethodException e) {

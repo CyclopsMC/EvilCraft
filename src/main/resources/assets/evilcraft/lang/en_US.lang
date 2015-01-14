@@ -177,6 +177,8 @@ item.items.sceptreOfThunder.name=Sceptre of Thunder
 item.items.sceptreOfThunder.info=Spawns thunder when activated, single-use.
 item.items.bloodOrb.empty.name=Empty Orb
 item.items.bloodOrb.filled.name=Blood Orb
+item.items.originsOfDarkness.name=Origins of Darkness
+item.items.originsOfDarkness.info=Obtain by feeding a Darkened Apple to a mob.
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

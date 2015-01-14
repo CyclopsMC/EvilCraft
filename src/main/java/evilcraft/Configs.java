@@ -169,6 +169,7 @@ public class Configs {
         configs.add(new BucketEternalWaterConfig());
         configs.add(new BloodOrbConfig());
         configs.add(new SceptreOfThunderConfig());
+        configs.add(new OriginsOfDarknessConfig());
         
         // Entities
         // Item

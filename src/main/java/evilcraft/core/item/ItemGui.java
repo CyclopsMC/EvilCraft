@@ -1,11 +1,5 @@
 package evilcraft.core.item;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
@@ -16,6 +10,12 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.Helpers;
 import evilcraft.core.helper.Helpers.IDType;
 import evilcraft.core.inventory.IGuiContainerProvider;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 /**
  * Configurable item that can show a GUI on right clicking.
@@ -28,7 +28,7 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
 	
 	private Class<? extends Container> container;
     @SideOnly(Side.CLIENT)
-    private Class<? extends GuiContainer> gui;
+    private Class<? extends GuiScreen> gui;
 	
 	/**
      * Make a new item instance.
@@ -47,7 +47,7 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
     
     @Override
 	@SideOnly(Side.CLIENT)
-    public void setGUI(Class<? extends GuiContainer> gui) {
+    public void setGUI(Class<? extends GuiScreen> gui) {
         this.gui = gui;
     }
     
@@ -63,7 +63,7 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
     
     @Override
 	@SideOnly(Side.CLIENT)
-    public Class<? extends GuiContainer> getGUI() {
+    public Class<? extends GuiScreen> getGUI() {
         return gui;
     }
     
@@ -96,11 +96,15 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
      */
     public void openGuiForItemIndex(World world, EntityPlayer player, int itemIndex) {
     	GuiHandler.setTemporaryItemIndex(itemIndex);
-    	if(!world.isRemote) {
+    	if(!world.isRemote || isClientSideOnlyGui()) {
     		player.openGui(EvilCraft._instance, getGuiID(), world, (int) player.posX, (int) player.posY, (int) player.posZ);
     	}
     }
-    
+
+    protected boolean isClientSideOnlyGui() {
+        return false;
+    }
+
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
     	openGuiForItemIndex(world, player, player.inventory.currentItem);
