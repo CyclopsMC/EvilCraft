@@ -2,7 +2,7 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-    <download for="1.7.10" version="0.7.1b">http://bit.ly/1xFlhQ7</download>
+    <download for="1.7.10" version="0.7.2b">http://bit.ly/1C0HPxo</download>
     <download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
     <download for="1.6.4" version="0.4.1b">http://bit.ly/1lJiaBX</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
@@ -374,6 +374,11 @@
 			blood infusion core, which is the main item used to craft EvilCraft machines such as
 			the [u]blood infuser[/u] and [u]blood chest[/u].
 		</element>
+        <element name="Blood Orb">
+            A crafting item which is created by infusing an [u]Empty Orb[/u].
+            The [u]Empty Orb[/u] is created in a crafting grid with one iron ingot in the middle surrounded by
+            four glass blocks of any type.
+        </element>
 		<element name="Blood Pearl of Teleportation" recipe="LGOintg">
 			The [u]blood pearl of teleportation[/u] gives you the powers of an enderman!
 			Or at least... sort of. This pearl actually has the same functionality as an
@@ -496,7 +501,7 @@
             [u]Blood[/u] in this item. The worse the bad effect, the more [u]Blood[/u] will be drained.
             This item can fit into your Baubles inventory.
 		</element>
-		<element name="Kineticator" recipe="s9zcw8h">
+		<element name="Kineticator" recipe="bMWwA6X">
 			This item can move things towards you within a certain area, for example items and
 			experience orbs.
 			This item needs blood to function. It can be enabled by Shift-Right clicking and
@@ -553,6 +558,9 @@
 			Works just the same as the regular [u]Kineticator[\u], with the only difference
             that it moves items and experience further away, instead of attracting it.
 		</element>
+        <element name="Sceptre of Thunder" recipe="Ekag3RT">
+            An early game item to spawn a thunder storm. This item has only one use.
+        </element>
 		<element name="Spike" recipe="g0PQJxM">
 			Just a simple item used in various crafting recipes.
 		</element>
