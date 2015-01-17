@@ -175,6 +175,10 @@ item.items.bucketEternalWater.info=无限水之源.
 item.items.promiseAcceptor.0.name=铁之诺言接收器
 item.items.promiseAcceptor.1.name=金之诺言接收器
 item.items.promiseAcceptor.2.name=璀璨诺言接收器
+item.items.sceptreOfThunder.name=雷电权杖
+item.items.sceptreOfThunder.info=使用会使天气变为雷雨天,一次性道具.
+item.items.bloodOrb.empty.name=空晶球
+item.items.bloodOrb.filled.name=血晶球
 
 # Fluids
 fluid.fluids.evilcraftblood=血液
@@ -248,3 +252,5 @@ achievement.evilcraft.powerCrafting.desc=制造充能的永恒合成包!
 
 # Gui
 gui.exaltedCrafting=便携合成
+gui.waila.tankConfig=Tank contents
+gui.waila.innerBlocksConfig=Actual inner blocks
