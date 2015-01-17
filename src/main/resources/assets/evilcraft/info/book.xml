@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section name="infoBook.section.main">
+    <section name="infoBook.section.preface">
+        <page>
+            <paragraph>infoBook.section.preface.text1</paragraph>
+            <paragraph>infoBook.section.preface.text1</paragraph>
+        </page>
+        <page>
+            <paragraph>infoBook.section.preface.text2</paragraph>
+        </page>
+        <page>
+            <paragraph>infoBook.section.preface.text3</paragraph>
+        </page>
+    </section>
+</section>

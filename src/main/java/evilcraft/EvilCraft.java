@@ -17,6 +17,7 @@ import evilcraft.core.Debug;
 import evilcraft.core.config.ConfigHandler;
 import evilcraft.core.helper.LoggerHelper;
 import evilcraft.event.ServerStatusEventHook;
+import evilcraft.infobook.InfoBookRegistry;
 import evilcraft.modcompat.ModCompatLoader;
 import evilcraft.proxy.CommonProxy;
 import evilcraft.world.gen.DarkTempleGenerator;
@@ -151,6 +152,9 @@ public class EvilCraft {
         
         // Call init listeners
         callInitStepListeners(IInitListener.Step.INIT);
+
+        // Initialize info book
+        InfoBookRegistry.getInstance();
     }
     
     /**
