@@ -42,8 +42,6 @@ public class InfoSection {
      */
     public void bakeSection(FontRenderer fontRenderer, int width, int maxLines, int lineHeight) {
         if(paragraphs.size() == 0) {
-            // TODO: buttons for returning to an index (shift click on back-button to go back to first page of this section)
-            // TODO: 2 pages at once?
             // Add hyperlinks for these sections (page-wrapped)
             int linesOnPage = 0;
             if(isTitlePage(0)) {

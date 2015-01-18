@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.helper.InventoryHelpers;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.HyperLink;
 import evilcraft.infobook.InfoBookRegistry;
@@ -28,7 +29,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     protected static ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, OriginsOfDarkness.getInstance().getGuiTexture());
     private static final int BUTTON_NEXT = 1;
     private static final int BUTTON_PREVIOUS = 2;
-    private static final int BUTTON_HYPERLINKS_START = 3;
+    private static final int BUTTON_PARENT = 3;
+    private static final int BUTTON_HYPERLINKS_START = 4;
 
     private static final int HR_WIDTH = 88;
     private static final int HR_HEIGHT = 10;
@@ -37,6 +39,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
     private NextPageButton buttonNextPage;
     private NextPageButton buttonPreviousPage;
+    private NextPageButton buttonParent;
 
     private InfoSection currentSection;
     private int page;
@@ -58,8 +61,9 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         left = (width - guiWidth) / 2;
         top = (height - guiHeight) / 2;
 
-        this.buttonList.add(this.buttonNextPage = new NextPageButton(BUTTON_NEXT, left + 105, top + 156, 0, 180));
-        this.buttonList.add(this.buttonPreviousPage = new NextPageButton(BUTTON_PREVIOUS, left + 23, top + 156, 0, 193));
+        this.buttonList.add(this.buttonNextPage = new NextPageButton(BUTTON_NEXT, left + 105, top + 156, 0, 180, 18, 13));
+        this.buttonList.add(this.buttonPreviousPage = new NextPageButton(BUTTON_PREVIOUS, left + 23, top + 156, 0, 193, 18, 13));
+        this.buttonList.add(this.buttonParent = new NextPageButton(BUTTON_PARENT, left + 69, top + 156, 36, 180, 8, 8));
         this.updateGui();
         int nextId = BUTTON_HYPERLINKS_START;
         for(HyperLink link : currentSection.getLinks(page)) {
@@ -97,31 +101,41 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                 !currentSection.isRoot() && currentSection.getParent().getSubSections() > currentSection.getChildIndex() + 1);
         this.buttonPreviousPage.visible = currentSection != null && (page > 0 ||
                 !currentSection.isRoot() && currentSection.getChildIndex() >= 0);
+        this.buttonParent.visible = currentSection != null && currentSection.getParent() != null;
     }
 
     protected void actionPerformed(GuiButton button) {
         boolean goToLastPage = false;
         if(button.id == BUTTON_NEXT && button.visible) {
-            if(page < currentSection.getPages() - 1) {
+            if(page < currentSection.getPages() - 1 && !MinecraftHelpers.isShifted()) {
                 page++;
             } else if(currentSection.getSubSections() > 0) {
                 currentSection = currentSection.getSubSection(0);
                 page = 0;
-            } else {
+            } else if(!currentSection.isRoot() && currentSection.getParent().getSubSections() > currentSection.getChildIndex() + 1) {
                 currentSection = currentSection.getParent().getSubSection(currentSection.getChildIndex() + 1);
                 page = 0;
             }
         } else if(button.id == BUTTON_PREVIOUS && button.visible) {
-            if(page > 0) {
+            if (page > 0) {
                 page--;
-            } else if(currentSection.getChildIndex() == 0) {
+            } else if (currentSection.getChildIndex() == 0) {
                 currentSection = currentSection.getParent();
                 page = 0;
             } else {
                 currentSection = currentSection.getParent().getSubSection(currentSection.getChildIndex() - 1);
-                goToLastPage = true;
+                goToLastPage = !MinecraftHelpers.isShifted();
                 // We can not set the new 'page', because the currentSection hasn't been baked yet.
             }
+        } else if(button.id == BUTTON_PARENT) {
+            if(MinecraftHelpers.isShifted()) {
+                while(currentSection.getParent() != null) {
+                    currentSection = currentSection.getParent();
+                }
+            } else {
+                currentSection = currentSection.getParent();
+            }
+            page = 0;
         } else if(button instanceof TextOverlayButton) {
             currentSection = ((TextOverlayButton) button).getLink().getTarget();
         } else {
@@ -145,14 +159,10 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     @SideOnly(Side.CLIENT)
     static class NextPageButton extends GuiButton {
 
-        private static final int WIDTH = 18;
-        private static final int HEIGHT = 13;
+        private int x, y;
 
-        private int x;
-        private int y;
-
-        public NextPageButton(int id, int xPosition, int yPosition, int x, int y) {
-            super(id, xPosition, yPosition, WIDTH, HEIGHT, "");
+        public NextPageButton(int id, int xPosition, int yPosition, int x, int y, int width, int height) {
+            super(id, xPosition, yPosition, width, height, "");
             this.x = x;
             this.y = y;
         }
@@ -170,10 +180,10 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                 int l = y;
 
                 if (isHover) {
-                    k += WIDTH;
+                    k += width;
                 }
 
-                this.drawTexturedModalRect(this.xPosition, this.yPosition, k, l, WIDTH, HEIGHT);
+                this.drawTexturedModalRect(this.xPosition, this.yPosition, k, l, width, height);
             }
         }
     }
@@ -201,7 +211,6 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                 boolean isHover = mouseX >= this.xPosition && mouseY >= this.yPosition &&
                         mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                // TODO: fancy overlay thing
                 boolean oldUnicode = minecraft.fontRenderer.getUnicodeFlag();
                 minecraft.fontRenderer.setUnicodeFlag(true);
                 minecraft.fontRenderer.drawString((isHover ? "§n" : "") +
