@@ -7,6 +7,7 @@ import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.gui.FontRenderer;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,11 +19,13 @@ public class InfoSection {
 
     private static final int X_OFFSET = 16;
     private static final int Y_OFFSET = 16;
+    private static final int TITLE_LINES = 3;
 
     private InfoSection parent;
     private int childIndex;
     private String unlocalizedName;
     private List<InfoSection> sections = Lists.newLinkedList();
+    private List<List<HyperLink>> links = Lists.newLinkedList();;
     private List<String> paragraphs;
     private List<String> localizedPages;
 
@@ -37,12 +40,29 @@ public class InfoSection {
      * Will make a localized version of this section with a variable amount of paragraphs.
      * Must be called once before the section will be drawn.
      */
-    public void bakeSection(FontRenderer fontRenderer, int width, int maxLines) {
+    public void bakeSection(FontRenderer fontRenderer, int width, int maxLines, int lineHeight) {
         if(paragraphs.size() == 0) {
-            // TODO: make an index from all subsections (recursive) with links
-            // TODO: limit links per page
-            // TODO: buttons for returning to an index
-            for(InfoSection section : sections) paragraphs.add(section.getLocalizedTitle());
+            // TODO: buttons for returning to an index (shift click on back-button to go back to first page of this section)
+            // TODO: 2 pages at once?
+            // Add hyperlinks for these sections (page-wrapped)
+            int linesOnPage = 0;
+            if(isTitlePage(0)) {
+                linesOnPage += TITLE_LINES;
+            }
+            List<HyperLink> pageLinks = Lists.newArrayListWithCapacity(maxLines);
+            StringBuilder lines = new StringBuilder();
+            for(InfoSection infoSection : sections) {
+                lines.append("\n");
+                linesOnPage++;
+                if(linesOnPage >= maxLines) {
+                    linesOnPage = 0;
+                    links.add(pageLinks);
+                    pageLinks = Lists.newArrayListWithCapacity(maxLines);
+                }
+                pageLinks.add(new HyperLink(X_OFFSET, Y_OFFSET + (linesOnPage - 1) * lineHeight, infoSection));
+            }
+            paragraphs.add(lines.toString());
+            links.add(pageLinks);
         }
 
         // Localize paragraphs and fit them into materialized paragraphs.
@@ -50,14 +70,15 @@ public class InfoSection {
         for(String paragraph : paragraphs) {
             contents += L10NHelpers.localize(paragraph) + "\n\n";
         }
+
+        // Wrap the text into pages.
         List<String> allLines = fontRenderer.listFormattedStringToWidth(contents, width - X_OFFSET);
         localizedPages = Lists.newLinkedList();
         int linesOnPage = 0;
         StringBuilder currentPage = new StringBuilder();
         if(isTitlePage(0)) {
-            int clearLines = 2;
-            for(int i = 0; i < clearLines; i++) currentPage.append("\n"); // Make a blank space for the section title.
-            linesOnPage += clearLines;
+            for(int i = 1; i < TITLE_LINES; i++) currentPage.append("\n"); // Make a blank space for the section title.
+            linesOnPage += TITLE_LINES;
         }
         for(String line : allLines) {
             linesOnPage++;
@@ -88,7 +109,7 @@ public class InfoSection {
         return localizedPages.get(page);
     }
 
-    protected String getLocalizedTitle() {
+    public String getLocalizedTitle() {
         return L10NHelpers.localize(unlocalizedName);
     }
 
@@ -110,6 +131,11 @@ public class InfoSection {
 
     public int getChildIndex() {
         return this.childIndex;
+    }
+
+    public List<HyperLink> getLinks(int page) {
+        if(links.size() <= page) return Collections.EMPTY_LIST;
+        return links.get(page);
     }
 
     public void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page) {

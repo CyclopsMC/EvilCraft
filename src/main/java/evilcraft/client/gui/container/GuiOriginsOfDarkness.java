@@ -4,9 +4,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.helper.InventoryHelpers;
+import evilcraft.core.helper.RenderHelpers;
+import evilcraft.infobook.HyperLink;
 import evilcraft.infobook.InfoBookRegistry;
 import evilcraft.infobook.InfoSection;
 import evilcraft.item.OriginsOfDarkness;
+import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -25,6 +28,10 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     protected static ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, OriginsOfDarkness.getInstance().getGuiTexture());
     private static final int BUTTON_NEXT = 1;
     private static final int BUTTON_PREVIOUS = 2;
+    private static final int BUTTON_HYPERLINKS_START = 3;
+
+    private static final int HR_WIDTH = 88;
+    private static final int HR_HEIGHT = 10;
 
     protected final ItemStack itemStack;
 
@@ -45,6 +52,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
     @Override
     public void initGui() {
+        this.buttonList.clear();
         super.initGui();
 
         left = (width - guiWidth) / 2;
@@ -53,6 +61,10 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         this.buttonList.add(this.buttonNextPage = new NextPageButton(BUTTON_NEXT, left + 105, top + 156, 0, 180));
         this.buttonList.add(this.buttonPreviousPage = new NextPageButton(BUTTON_PREVIOUS, left + 23, top + 156, 0, 193));
         this.updateGui();
+        int nextId = BUTTON_HYPERLINKS_START;
+        for(HyperLink link : currentSection.getLinks(page)) {
+            this.buttonList.add(new TextOverlayButton(nextId++, link, left + link.getX(), top + link.getY(), getFontRenderer().FONT_HEIGHT));
+        }
     }
 
     @Override
@@ -75,7 +87,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     }
 
     private void updateGui() {
-        currentSection.bakeSection(getFontRenderer(), guiWidth, guiHeight / 12);
+        currentSection.bakeSection(getFontRenderer(), guiWidth, guiHeight / 12, getFontRenderer().FONT_HEIGHT);
         updateButtons();
     }
 
@@ -88,6 +100,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     }
 
     protected void actionPerformed(GuiButton button) {
+        boolean goToLastPage = false;
         if(button.id == BUTTON_NEXT && button.visible) {
             if(page < currentSection.getPages() - 1) {
                 page++;
@@ -106,22 +119,26 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                 page = 0;
             } else {
                 currentSection = currentSection.getParent().getSubSection(currentSection.getChildIndex() - 1);
-                page = 0;
+                goToLastPage = true;
+                // We can not set the new 'page', because the currentSection hasn't been baked yet.
             }
+        } else if(button instanceof TextOverlayButton) {
+            currentSection = ((TextOverlayButton) button).getLink().getTarget();
         } else {
             super.actionPerformed(button);
         }
-        this.updateGui();
+        this.initGui();
+        if(goToLastPage) {
+            page = currentSection.getPages() - 1;
+        }
     }
 
     public void drawHorizontalRule(int x, int y) {
-        int width = 88;
-        int height = 10;
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.getTextureManager().bindTexture(texture);
-        this.drawTexturedModalRect(x - width / 2, y - height / 2, 146, 0, width, height);
+        this.drawTexturedModalRect(x - HR_WIDTH / 2, y - HR_HEIGHT / 2, 146, 0, HR_WIDTH, HR_HEIGHT);
         GL11.glDisable(GL11.GL_BLEND);
     }
 
@@ -159,6 +176,41 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                 this.drawTexturedModalRect(this.xPosition, this.yPosition, k, l, WIDTH, HEIGHT);
             }
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    static class TextOverlayButton extends GuiButton {
+
+        @Getter private HyperLink link;
+
+        public TextOverlayButton(int id, HyperLink link, int x, int y, int height) {
+            super(id, x, y, 0, height, link.getTarget().getLocalizedTitle());
+            this.link = link;
+            FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+            boolean oldUnicode = fontRenderer.getUnicodeFlag();
+            fontRenderer.setUnicodeFlag(true);
+            this.width = fontRenderer.getStringWidth(displayString);
+            fontRenderer.setUnicodeFlag(oldUnicode);
+        }
+
+        /**
+         * Draws this button to the screen.
+         */
+        public void drawButton(Minecraft minecraft, int mouseX, int mouseY) {
+            if (this.visible) {
+                boolean isHover = mouseX >= this.xPosition && mouseY >= this.yPosition &&
+                        mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                // TODO: fancy overlay thing
+                boolean oldUnicode = minecraft.fontRenderer.getUnicodeFlag();
+                minecraft.fontRenderer.setUnicodeFlag(true);
+                minecraft.fontRenderer.drawString((isHover ? "§n" : "") +
+                                displayString + "§r", xPosition, yPosition,
+                        RenderHelpers.RGBToInt(isHover ? 100 : 0, isHover ? 100 : 0, isHover ? 150 : 125));
+                minecraft.fontRenderer.setUnicodeFlag(oldUnicode);
+            }
+        }
+
     }
 
 }

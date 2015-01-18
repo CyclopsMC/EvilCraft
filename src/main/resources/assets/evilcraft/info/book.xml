@@ -6,4 +6,14 @@
         <paragraph>infoBook.preface.text3</paragraph>
         <paragraph>infoBook.preface.text4</paragraph>
     </section>
+    <section name="infoBook.preface2">
+        <paragraph>infoBook.preface.text3</paragraph>
+        <paragraph>infoBook.preface.text4</paragraph>
+    </section>
+    <section name="infoBook.preface3">
+        <paragraph>infoBook.preface.text1</paragraph>
+        <paragraph>infoBook.preface.text2</paragraph>
+        <paragraph>infoBook.preface.text3</paragraph>
+        <paragraph>infoBook.preface.text4</paragraph>
+    </section>
 </section>
