@@ -52,7 +52,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
         this.buttonList.add(this.buttonNextPage = new NextPageButton(BUTTON_NEXT, left + 105, top + 156, 0, 180));
         this.buttonList.add(this.buttonPreviousPage = new NextPageButton(BUTTON_PREVIOUS, left + 23, top + 156, 0, 193));
-        this.updateButtons();
+        this.updateGui();
     }
 
     @Override
@@ -74,24 +74,55 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         return this.fontRendererObj;
     }
 
+    private void updateGui() {
+        currentSection.bakeSection(getFontRenderer(), guiWidth, guiHeight / 12);
+        updateButtons();
+    }
+
     private void updateButtons() {
-        this.buttonNextPage.visible = currentSection != null && (page < currentSection.getPages() - 1);
-        this.buttonPreviousPage.visible = currentSection != null && page > 0;
+        this.buttonNextPage.visible = currentSection != null && ((page < currentSection.getPages() - 1) ||
+                currentSection.getSubSections() > 0 ||
+                !currentSection.isRoot() && currentSection.getParent().getSubSections() > currentSection.getChildIndex() + 1);
+        this.buttonPreviousPage.visible = currentSection != null && (page > 0 ||
+                !currentSection.isRoot() && currentSection.getChildIndex() >= 0);
     }
 
     protected void actionPerformed(GuiButton button) {
-        if(button.id == BUTTON_NEXT) {
+        if(button.id == BUTTON_NEXT && button.visible) {
             if(page < currentSection.getPages() - 1) {
                 page++;
+            } else if(currentSection.getSubSections() > 0) {
+                currentSection = currentSection.getSubSection(0);
+                page = 0;
+            } else {
+                currentSection = currentSection.getParent().getSubSection(currentSection.getChildIndex() + 1);
+                page = 0;
             }
-        } else if(button.id == BUTTON_PREVIOUS) {
+        } else if(button.id == BUTTON_PREVIOUS && button.visible) {
             if(page > 0) {
                 page--;
+            } else if(currentSection.getChildIndex() == 0) {
+                currentSection = currentSection.getParent();
+                page = 0;
+            } else {
+                currentSection = currentSection.getParent().getSubSection(currentSection.getChildIndex() - 1);
+                page = 0;
             }
         } else {
             super.actionPerformed(button);
         }
-        this.updateButtons();;
+        this.updateGui();
+    }
+
+    public void drawHorizontalRule(int x, int y) {
+        int width = 88;
+        int height = 10;
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        mc.getTextureManager().bindTexture(texture);
+        this.drawTexturedModalRect(x - width / 2, y - height / 2, 146, 0, width, height);
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     @SideOnly(Side.CLIENT)

@@ -254,3 +254,8 @@ achievement.evilcraft.powerCrafting.desc=Craft an Exalted Crafter, craft-ception
 gui.exaltedCrafting=Exalted Crafting
 gui.waila.tankConfig=Tank contents
 gui.waila.innerBlocksConfig=Actual inner blocks
+
+# --- Origins of Darkness contents ---
+infoBook.preface=Preface
+infoBook.preface.text1=Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius felis sit amet velit mollis euismod. Nunc quis elit eu ex tristique feugiat. Nunc venenatis eros nec justo accumsan, vel suscipit dui aliquet. Duis iaculis diam ac massa volutpat scelerisque. Morbi congue, eros ac tristique varius, massa ipsum porta sapien, at egestas purus libero eget lectus. Ut id nulla auctor, consequat sapien non, porta quam. Integer hendrerit viverra nulla, nec mollis velit venenatis vitae. Sed bibendum turpis in tellus molestie, accumsan blandit ligula dapibus. Vestibulum sodales nisi nec ultrices viverra.
+infoBook.preface.text2=Quisque a velit accumsan, placerat justo et, consectetur ligula. In ornare nulla vel suscipit auctor. Nullam feugiat maximus velit. Sed ac scelerisque leo. Nam vehicula orci ante, in mattis ipsum venenatis sit amet. Sed sagittis odio et faucibus aliquet. Duis aliquam consectetur felis. Maecenas volutpat purus eu diam faucibus, vitae cursus metus convallis. Aliquam vel est at nulla scelerisque venenatis ac et ex.

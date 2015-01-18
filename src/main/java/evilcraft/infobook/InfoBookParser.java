@@ -31,8 +31,8 @@ public class InfoBookParser {
         SECTION_FACTORIES.put("", new IInfoSectionFactory() {
 
             @Override
-            public InfoSection create(String unlocalizedName, ArrayList<ArrayList<String>> pages) {
-                return new InfoSection(unlocalizedName, pages);
+            public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName, ArrayList<String> paragraphs) {
+                return new InfoSection(parent, childIndex, unlocalizedName, paragraphs);
             }
 
         });
@@ -45,7 +45,7 @@ public class InfoBookParser {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(stream.getInputStream());
-            return buildSection(doc.getDocumentElement());
+            return buildSection(null, 0, doc.getDocumentElement());
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -56,46 +56,39 @@ public class InfoBookParser {
         throw new InfoBookException("Info Book XML is invalid.");
     }
 
-    protected static InfoSection buildSection(Element sectionElement) {
+    protected static InfoSection buildSection(InfoSection parent, int childIndex, Element sectionElement) {
         NodeList sections = sectionElement.getElementsByTagName("section");
-        NodeList pages = sectionElement.getElementsByTagName("page");
-        ArrayList<ArrayList<String>> pageList = Lists.newArrayListWithCapacity(pages.getLength());
-        InfoSection section = createSection(sectionElement.getAttribute("type"), sectionElement.getAttribute("name"), pageList);
+        NodeList paragraphs = sectionElement.getElementsByTagName("paragraph");
+        ArrayList<String> paragraphList = Lists.newArrayListWithCapacity(paragraphs.getLength());
+        InfoSection section = createSection(parent, childIndex, sectionElement.getAttribute("type"), sectionElement.getAttribute("name"), paragraphList);
 
         if(sections.getLength() > 0) {
             for (int i = 0; i < sections.getLength(); i++) {
                 Element subsection = (Element) sections.item(i);
-                section.registerSection(buildSection(subsection));
+                section.registerSection(buildSection(section, i, subsection));
             }
         } else {
-            for (int i = 0; i < pages.getLength(); i++) {
-                Element page = (Element) pages.item(i);
-                NodeList paragraphs = page.getElementsByTagName("paragraph");
-                ArrayList<String> paragraphList = Lists.newArrayListWithCapacity(paragraphs.getLength());
-                for (int j = 0; j < paragraphs.getLength(); j++) {
-                    Element paragraph = (Element) paragraphs.item(j);
-                    paragraphList.add(paragraph.getTextContent());
-                }
-                pageList.add(paragraphList);
+            for (int j = 0; j < paragraphs.getLength(); j++) {
+                Element paragraph = (Element) paragraphs.item(j);
+                paragraphList.add(paragraph.getTextContent());
             }
         }
-        section.bakeSection();
 
         return section;
     }
 
-    protected static InfoSection createSection(String type, String unlocalizedName, ArrayList<ArrayList<String>> pages) {
+    protected static InfoSection createSection(InfoSection parent, int childIndex, String type, String unlocalizedName, ArrayList<String> paragraphs) {
         if(type == null) type = "";
         IInfoSectionFactory factory = SECTION_FACTORIES.get(type);
         if(factory == null) {
             throw new InfoBookException("No section of type '" + type + "' was found.");
         }
-        return factory.create(unlocalizedName, pages);
+        return factory.create(parent, childIndex, unlocalizedName, paragraphs);
     }
 
     protected static interface IInfoSectionFactory {
 
-        public InfoSection create(String unlocalizedName, ArrayList<ArrayList<String>> pages);
+        public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName, ArrayList<String> paragraphs);
 
     }
 
