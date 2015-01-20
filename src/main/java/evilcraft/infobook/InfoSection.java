@@ -161,34 +161,36 @@ public class InfoSection {
     }
 
     public void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page) {
-        FontRenderer fontRenderer = gui.getFontRenderer();
-        boolean oldUnicode = fontRenderer.getUnicodeFlag();
-        fontRenderer.setUnicodeFlag(true);
-        fontRenderer.setBidiFlag(false);
+        if(page < getPages()) {
+            FontRenderer fontRenderer = gui.getFontRenderer();
+            boolean oldUnicode = fontRenderer.getUnicodeFlag();
+            fontRenderer.setUnicodeFlag(true);
+            fontRenderer.setBidiFlag(false);
 
-        // Draw text content
-        String content = getLocalizedPageString(page);
-        if(content != null) fontRenderer.drawSplitString(content, x + X_OFFSET, y + Y_OFFSET, width - X_OFFSET, 0);
+            // Draw text content
+            String content = getLocalizedPageString(page);
+            if (content != null) fontRenderer.drawSplitString(content, x + X_OFFSET, y + Y_OFFSET, width - X_OFFSET, 0);
 
-        // Draw title if on first page
-        if(isTitlePage(page)) {
-            GL11.glPushMatrix();
-            float scale = 1.5f;
-            GL11.glScalef(scale, scale, 1.0f);
-            String title = getLocalizedTitle();
-            int titleLength = fontRenderer.getStringWidth(title);
-            fontRenderer.drawString(title, Math.round((x + width / 2) / scale - titleLength / 2), Math.round((y + Y_OFFSET + 3) / scale), RenderHelpers.RGBToInt(120, 20, 30));
-            GL11.glPopMatrix();
-            gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET);
-            gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET + 21);
-        }
-        fontRenderer.setUnicodeFlag(oldUnicode);
+            // Draw title if on first page
+            if (isTitlePage(page)) {
+                GL11.glPushMatrix();
+                float scale = 1.5f;
+                GL11.glScalef(scale, scale, 1.0f);
+                String title = getLocalizedTitle();
+                int titleLength = fontRenderer.getStringWidth(title);
+                fontRenderer.drawString(title, Math.round((x + width / 2) / scale - titleLength / 2), Math.round((y + Y_OFFSET + 3) / scale), RenderHelpers.RGBToInt(120, 20, 30));
+                GL11.glPopMatrix();
+                gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET);
+                gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET + 21);
+            }
+            fontRenderer.setUnicodeFlag(oldUnicode);
 
-        // Draw appendixes
-        for(SectionAppendix appendix : appendixes) {
-            if(appendix.getPage() == page) {
-                int linesOffset = getFontHeight(fontRenderer) * appendix.getLineStart();
-                appendix.drawScreen(gui, x, y + Y_OFFSET + linesOffset, width, height, page);
+            // Draw appendixes
+            for (SectionAppendix appendix : appendixes) {
+                if (appendix.getPage() == page) {
+                    int linesOffset = getFontHeight(fontRenderer) * appendix.getLineStart();
+                    appendix.drawScreen(gui, x, y + Y_OFFSET + linesOffset, width, height, page);
+                }
             }
         }
     }

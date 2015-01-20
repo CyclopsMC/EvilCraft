@@ -1,5 +1,6 @@
 package evilcraft;
 
+import com.google.common.collect.Maps;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.block.*;
 import evilcraft.core.item.ItemBlockFluidContainer;
@@ -51,6 +52,11 @@ public class Recipes {
 	private static final String RECIPES_BASE_PATH = "/assets/" + Reference.MOD_ID + "/recipes/";
 	private static final String RECIPES_XSD_PATH = RECIPES_BASE_PATH + "recipes.xsd";
 	private static final Pattern EXTERNAL_RECIPES_PATTERN = Pattern.compile("^[^_].*\\.xml");
+
+    /**
+     * A map of all recipes this mod adds with a unique name.
+     */
+    public static final Map<String, Object> namedRecipes = Maps.newHashMap();
 
     /**
      * The extra buckets that are added with this mod.

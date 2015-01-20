@@ -15,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -43,7 +44,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
     private InfoSection currentSection;
     private int page;
-    private int guiWidth = 146;
+    private int guiWidth = 283;
+    private int pageWidth = 142;
     private int guiHeight = 180;
     private int left, top;
 
@@ -61,9 +63,9 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         left = (width - guiWidth) / 2;
         top = (height - guiHeight) / 2;
 
-        this.buttonList.add(this.buttonNextPage = new NextPageButton(BUTTON_NEXT, left + 105, top + 156, 0, 180, 18, 13));
+        this.buttonList.add(this.buttonNextPage = new NextPageButton(BUTTON_NEXT, left + pageWidth + 100, top + 156, 0, 180, 18, 13));
         this.buttonList.add(this.buttonPreviousPage = new NextPageButton(BUTTON_PREVIOUS, left + 23, top + 156, 0, 193, 18, 13));
-        this.buttonList.add(this.buttonParent = new NextPageButton(BUTTON_PARENT, left + 69, top + 156, 36, 180, 8, 8));
+        this.buttonList.add(this.buttonParent = new NextPageButton(BUTTON_PARENT, left + 2, top + 2, 36, 180, 8, 8));
         this.updateGui();
         int nextId = BUTTON_HYPERLINKS_START;
         for(HyperLink link : currentSection.getLinks(page)) {
@@ -77,9 +79,23 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         GL11.glColor4f(1F, 1F, 1F, 1F);
         mc.renderEngine.bindTexture(texture);
 
-        drawTexturedModalRect(left, top, 0, 0, guiWidth, guiHeight);
-        currentSection.drawScreen(this, left, top, guiWidth, guiHeight, page);
+        drawTexturedModalRect(left, top, 0, 0, pageWidth, guiHeight);
+        drawTexturedModalRectMirrored(left + pageWidth - 1, top, 0, 0, pageWidth, guiHeight);
+        currentSection.drawScreen(this, left, top, pageWidth, guiHeight, page);
+        currentSection.drawScreen(this, left + pageWidth - 1, top, pageWidth, guiHeight, page + 1);
         super.drawScreen(f, x, y);
+    }
+
+    public void drawTexturedModalRectMirrored(int x, int y, int u, int v, int width, int height) {
+        float f = 0.00390625F;
+        float f1 = 0.00390625F;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV((double)(x + 0), (double)(y + height), (double)this.zLevel, (double)((float)(u + width) * f), (double)((float)(v + height) * f1));
+        tessellator.addVertexWithUV((double)(x + width), (double)(y + height), (double)this.zLevel, (double)((float)(u + 0) * f), (double)((float)(v + height) * f1));
+        tessellator.addVertexWithUV((double)(x + width), (double)(y + 0), (double)this.zLevel, (double)((float)(u + 0) * f), (double)((float)(v + 0) * f1));
+        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)this.zLevel, (double)((float)(u + width) * f), (double)((float)(v + 0) * f1));
+        tessellator.draw();
     }
 
     @Override
@@ -95,13 +111,13 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         boolean oldUnicode = mc.fontRenderer.getUnicodeFlag();
         mc.fontRenderer.setUnicodeFlag(true);
         int lineHeight = InfoSection.getFontHeight(getFontRenderer());
-        currentSection.bakeSection(getFontRenderer(), guiWidth, (guiHeight - 2 * InfoSection.Y_OFFSET - 5) / lineHeight, lineHeight);
+        currentSection.bakeSection(getFontRenderer(), pageWidth, (guiHeight - 2 * InfoSection.Y_OFFSET - 5) / lineHeight, lineHeight);
         updateButtons();
         mc.fontRenderer.setUnicodeFlag(oldUnicode);
     }
 
     private void updateButtons() {
-        this.buttonNextPage.visible = currentSection != null && ((page < currentSection.getPages() - 1) ||
+        this.buttonNextPage.visible = currentSection != null && ((page < currentSection.getPages() - 2) ||
                 currentSection.getSubSections() > 0 ||
                 !currentSection.isRoot() && currentSection.getParent().getSubSections() > currentSection.getChildIndex() + 1);
         this.buttonPreviousPage.visible = currentSection != null && (page > 0 ||
@@ -112,8 +128,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     protected void actionPerformed(GuiButton button) {
         boolean goToLastPage = false;
         if(button.id == BUTTON_NEXT && button.visible) {
-            if(page < currentSection.getPages() - 1 && !MinecraftHelpers.isShifted()) {
-                page++;
+            if(page < currentSection.getPages() - 2 && !MinecraftHelpers.isShifted()) {
+                page+=2;
             } else if(currentSection.getSubSections() > 0) {
                 currentSection = currentSection.getSubSection(0);
                 page = 0;
@@ -123,7 +139,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
             }
         } else if(button.id == BUTTON_PREVIOUS && button.visible) {
             if (page > 0) {
-                page--;
+                page-=2;
             } else if (currentSection.getChildIndex() == 0) {
                 currentSection = currentSection.getParent();
                 page = 0;
@@ -157,7 +173,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.getTextureManager().bindTexture(texture);
-        this.drawTexturedModalRect(x - HR_WIDTH / 2, y - HR_HEIGHT / 2, 146, 0, HR_WIDTH, HR_HEIGHT);
+        this.drawTexturedModalRect(x - HR_WIDTH / 2, y - HR_HEIGHT / 2, 52, 180, HR_WIDTH, HR_HEIGHT);
         GL11.glDisable(GL11.GL_BLEND);
     }
 
