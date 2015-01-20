@@ -67,7 +67,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         this.updateGui();
         int nextId = BUTTON_HYPERLINKS_START;
         for(HyperLink link : currentSection.getLinks(page)) {
-            this.buttonList.add(new TextOverlayButton(nextId++, link, left + link.getX(), top + link.getY(), getFontRenderer().FONT_HEIGHT));
+            this.buttonList.add(new TextOverlayButton(nextId++, link, left + link.getX(), top + link.getY(),
+                    InfoSection.getFontHeight(getFontRenderer())));
         }
     }
 
@@ -91,8 +92,12 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     }
 
     private void updateGui() {
-        currentSection.bakeSection(getFontRenderer(), guiWidth, guiHeight / 12, getFontRenderer().FONT_HEIGHT);
+        boolean oldUnicode = mc.fontRenderer.getUnicodeFlag();
+        mc.fontRenderer.setUnicodeFlag(true);
+        int lineHeight = InfoSection.getFontHeight(getFontRenderer());
+        currentSection.bakeSection(getFontRenderer(), guiWidth, (guiHeight - 2 * InfoSection.Y_OFFSET - 5) / lineHeight, lineHeight);
         updateButtons();
+        mc.fontRenderer.setUnicodeFlag(oldUnicode);
     }
 
     private void updateButtons() {

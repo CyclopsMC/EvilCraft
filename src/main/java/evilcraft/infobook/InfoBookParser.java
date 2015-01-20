@@ -3,6 +3,9 @@ package evilcraft.infobook;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import evilcraft.Reference;
+import evilcraft.infobook.pageelement.ImageAppendix;
+import evilcraft.infobook.pageelement.SectionAppendix;
+import net.minecraft.util.ResourceLocation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -15,6 +18,7 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,8 +35,22 @@ public class InfoBookParser {
         SECTION_FACTORIES.put("", new IInfoSectionFactory() {
 
             @Override
-            public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName, ArrayList<String> paragraphs) {
-                return new InfoSection(parent, childIndex, unlocalizedName, paragraphs);
+            public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName,
+                                      ArrayList<String> paragraphs, List<SectionAppendix> appendixes) {
+                return new InfoSection(parent, childIndex, unlocalizedName, paragraphs, appendixes);
+            }
+
+        });
+    }
+
+    private static final Map<String, IAppendixFactory> APPENDIX_FACTORIES = Maps.newHashMap();
+    static {
+        APPENDIX_FACTORIES.put("image", new IAppendixFactory() {
+
+            @Override
+            public SectionAppendix create(Element node) {
+                return new ImageAppendix(new ResourceLocation(node.getTextContent()),
+                        Integer.parseInt(node.getAttribute("width")), Integer.parseInt(node.getAttribute("height")));
             }
 
         });
@@ -59,8 +77,11 @@ public class InfoBookParser {
     protected static InfoSection buildSection(InfoSection parent, int childIndex, Element sectionElement) {
         NodeList sections = sectionElement.getElementsByTagName("section");
         NodeList paragraphs = sectionElement.getElementsByTagName("paragraph");
+        NodeList appendixes = sectionElement.getElementsByTagName("appendix");
         ArrayList<String> paragraphList = Lists.newArrayListWithCapacity(paragraphs.getLength());
-        InfoSection section = createSection(parent, childIndex, sectionElement.getAttribute("type"), sectionElement.getAttribute("name"), paragraphList);
+        ArrayList<SectionAppendix> appendixList = Lists.newArrayListWithCapacity(appendixes.getLength());
+        InfoSection section = createSection(parent, childIndex, sectionElement.getAttribute("type"),
+                sectionElement.getAttribute("name"), paragraphList, appendixList);
 
         if(sections.getLength() > 0) {
             for (int i = 0; i < sections.getLength(); i++) {
@@ -72,23 +93,44 @@ public class InfoBookParser {
                 Element paragraph = (Element) paragraphs.item(j);
                 paragraphList.add(paragraph.getTextContent());
             }
+            for (int j = 0; j < appendixes.getLength(); j++) {
+                Element appendix = (Element) appendixes.item(j);
+                appendixList.add(createAppendix(appendix.getAttribute("type"), appendix));
+            }
         }
 
         return section;
     }
 
-    protected static InfoSection createSection(InfoSection parent, int childIndex, String type, String unlocalizedName, ArrayList<String> paragraphs) {
+    protected static InfoSection createSection(InfoSection parent, int childIndex, String type, String unlocalizedName,
+                                               ArrayList<String> paragraphs, List<SectionAppendix> appendixes) {
         if(type == null) type = "";
         IInfoSectionFactory factory = SECTION_FACTORIES.get(type);
         if(factory == null) {
             throw new InfoBookException("No section of type '" + type + "' was found.");
         }
-        return factory.create(parent, childIndex, unlocalizedName, paragraphs);
+        return factory.create(parent, childIndex, unlocalizedName, paragraphs, appendixes);
+    }
+
+    protected static SectionAppendix createAppendix(String type, Element node) {
+        if(type == null) type = "";
+        IAppendixFactory factory = APPENDIX_FACTORIES.get(type);
+        if(factory == null) {
+            throw new InfoBookException("No appendix of type '" + type + "' was found.");
+        }
+        return factory.create(node);
     }
 
     protected static interface IInfoSectionFactory {
 
-        public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName, ArrayList<String> paragraphs);
+        public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName,
+                                  ArrayList<String> paragraphs, List<SectionAppendix> appendixes);
+
+    }
+
+    protected static interface IAppendixFactory {
+
+        public SectionAppendix create(Element node);
 
     }
 
