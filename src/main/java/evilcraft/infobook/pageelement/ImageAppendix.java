@@ -11,6 +11,8 @@ import org.lwjgl.opengl.GL11;
  */
 public class ImageAppendix extends SectionAppendix {
 
+    private static final int OFFSET_Y = 0;
+
     private ResourceLocation resource;
     private int width;
     private int height;
@@ -23,17 +25,20 @@ public class ImageAppendix extends SectionAppendix {
 
     @Override
     public int getHeight() {
-        return height;
+        return height + 2 * OFFSET_Y;
     }
 
     @Override
-    public void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page) {
+    public void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
         Minecraft.getMinecraft().getTextureManager().bindTexture(resource);
         int xc = x + width / 2 - this.width / 2;
+        int yc = y + OFFSET_Y;
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(1F, 1F, 1F, 1F);
-        gui.drawTexturedModalRect(xc, y, 0, 0, this.width, this.height);
+        gui.drawTexturedModalRect(xc, yc, 0, 0, this.width, this.height);
         GL11.glDisable(GL11.GL_BLEND);
+
+        gui.drawOuterBorder(xc, yc, this.width, this.height, 0.5F, 0.5F, 0.5F, 0.4f);
     }
 }

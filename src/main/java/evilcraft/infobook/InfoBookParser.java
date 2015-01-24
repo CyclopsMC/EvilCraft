@@ -2,10 +2,15 @@ package evilcraft.infobook;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import cpw.mods.fml.common.registry.GameData;
 import evilcraft.Reference;
+import evilcraft.core.helper.CraftingHelpers;
+import evilcraft.infobook.pageelement.CraftingRecipeAppendix;
 import evilcraft.infobook.pageelement.ImageAppendix;
 import evilcraft.infobook.pageelement.SectionAppendix;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.OreDictionary;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -51,6 +56,19 @@ public class InfoBookParser {
             public SectionAppendix create(Element node) {
                 return new ImageAppendix(new ResourceLocation(node.getTextContent()),
                         Integer.parseInt(node.getAttribute("width")), Integer.parseInt(node.getAttribute("height")));
+            }
+
+        });
+        APPENDIX_FACTORIES.put("craftingRecipe", new IAppendixFactory() {
+
+            @Override
+            public SectionAppendix create(Element node) {
+                int index = 0;
+                if(node.getAttribute("index") != null) {
+                    index = Integer.parseInt(node.getAttribute("index"));
+                }
+                return new CraftingRecipeAppendix(CraftingHelpers.findShapedRecipe(
+                        new ItemStack(GameData.getItemRegistry().getObject(node.getTextContent()), 1, OreDictionary.WILDCARD_VALUE), index));
             }
 
         });

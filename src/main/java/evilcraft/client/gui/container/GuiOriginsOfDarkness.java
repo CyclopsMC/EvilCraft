@@ -36,6 +36,11 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     private static final int HR_WIDTH = 88;
     private static final int HR_HEIGHT = 10;
 
+    private static final int BORDER_CORNER = 4;
+    private static final int BORDER_WIDTH = 2;
+    private static final int BORDER_X = 0;
+    private static final int BORDER_Y = 203;
+
     protected final ItemStack itemStack;
 
     private NextPageButton buttonNextPage;
@@ -75,15 +80,15 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     }
 
     @Override
-    public void drawScreen(int f, int x, float y) {
+    public void drawScreen(int x, int y, float f) {
         GL11.glColor4f(1F, 1F, 1F, 1F);
         mc.renderEngine.bindTexture(texture);
 
         drawTexturedModalRect(left, top, 0, 0, pageWidth, guiHeight);
         drawTexturedModalRectMirrored(left + pageWidth - 1, top, 0, 0, pageWidth, guiHeight);
-        currentSection.drawScreen(this, left, top, pageWidth, guiHeight, page);
-        currentSection.drawScreen(this, left + pageWidth - 1, top, pageWidth, guiHeight, page + 1);
-        super.drawScreen(f, x, y);
+        currentSection.drawScreen(this, left, top, pageWidth, guiHeight, page, x, y);
+        currentSection.drawScreen(this, left + pageWidth - 1, top, pageWidth, guiHeight, page + 1, x, y);
+        super.drawScreen(x, y, f);
     }
 
     public void drawTexturedModalRectMirrored(int x, int y, int u, int v, int width, int height) {
@@ -164,7 +169,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         }
         this.initGui();
         if(goToLastPage) {
-            page = currentSection.getPages() - 1;
+            page = currentSection.getPages() - 2;
         }
     }
 
@@ -175,6 +180,43 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         mc.getTextureManager().bindTexture(texture);
         this.drawTexturedModalRect(x - HR_WIDTH / 2, y - HR_HEIGHT / 2, 52, 180, HR_WIDTH, HR_HEIGHT);
         GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public void drawOuterBorder(int x, int y, int width, int height) {
+        drawOuterBorder(x, y, width, height, 1, 1, 1, 1);
+    }
+
+    public void drawOuterBorder(int x, int y, int width, int height, float r, float g, float b, float alpha) {
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glColor4f(r, g, b, alpha);
+        mc.getTextureManager().bindTexture(texture);
+
+        // Corners
+        this.drawTexturedModalRect(x - BORDER_WIDTH, y - BORDER_WIDTH, BORDER_X, BORDER_Y, BORDER_CORNER, BORDER_CORNER);
+        this.drawTexturedModalRect(x + width - BORDER_WIDTH, y - BORDER_WIDTH, BORDER_X + BORDER_CORNER, BORDER_Y, BORDER_CORNER, BORDER_CORNER);
+        this.drawTexturedModalRect(x - BORDER_WIDTH, y + height - BORDER_WIDTH, BORDER_X + 3 * BORDER_CORNER, BORDER_Y, BORDER_CORNER, BORDER_CORNER);
+        this.drawTexturedModalRect(x + width - BORDER_WIDTH, y + height - BORDER_WIDTH, BORDER_X + 2 * BORDER_CORNER, BORDER_Y, BORDER_CORNER, BORDER_CORNER);
+
+        // Sides
+        for(int i = BORDER_WIDTH; i < width - BORDER_WIDTH; i+=2) {
+            this.drawTexturedModalRect(x + i, y - BORDER_WIDTH, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, BORDER_WIDTH, BORDER_WIDTH);
+            this.drawTexturedModalRect(x + i, y + height, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, BORDER_WIDTH, BORDER_WIDTH);
+        }
+        for(int i = BORDER_WIDTH; i < height - BORDER_WIDTH; i+=2) {
+            this.drawTexturedModalRect(x - BORDER_WIDTH, y + i, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, BORDER_WIDTH, BORDER_WIDTH);
+            this.drawTexturedModalRect(x + width, y + i, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, BORDER_WIDTH, BORDER_WIDTH);
+        }
+
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public void renderToolTip(ItemStack itemStack, int x, int y) {
+        super.renderToolTip(itemStack, x, y);
+    }
+
+    public int getTick() {
+        return (int) mc.theWorld.getWorldTime();
     }
 
     @SideOnly(Side.CLIENT)

@@ -8,6 +8,8 @@
         <appendix type="image" width="32" height="32">evilcraft:textures/gui/infobook/test.png</appendix>
         <appendix type="image" width="32" height="32">evilcraft:textures/gui/infobook/test.png</appendix>
         <appendix type="image" width="32" height="32">evilcraft:textures/gui/infobook/test.png</appendix>
+        <appendix type="craftingRecipe" index="0">evilcraft:entangledChalice</appendix>
+        <appendix type="craftingRecipe" index="1">evilcraft:entangledChalice</appendix>
     </section>
     <section name="infoBook.preface2">
         <paragraph>infoBook.preface.text3</paragraph>

@@ -18,9 +18,10 @@ import java.util.List;
  */
 public class InfoSection {
 
-    public static final int X_OFFSET = 18;
+    public static final int X_OFFSET = 22;
     public static final int Y_OFFSET = 16;
     private static final int TITLE_LINES = 3;
+    private static final int APPENDIX_OFFSET_LINE = 1;
 
     private InfoSection parent;
     private int childIndex;
@@ -97,6 +98,8 @@ public class InfoSection {
         }
         localizedPages.add(currentPage.toString());
 
+        linesOnPage += APPENDIX_OFFSET_LINE;
+
         // Process all appendixes.
         for(SectionAppendix appendix : appendixes) {
             int lines = (int) Math.ceil((double) appendix.getHeight() / (double) getFontHeight(fontRenderer));
@@ -106,7 +109,7 @@ public class InfoSection {
             }
             appendix.setLineStart(linesOnPage);
             appendix.setPage(pages - 1);
-            linesOnPage += lines;
+            linesOnPage += lines + APPENDIX_OFFSET_LINE;
         }
     }
 
@@ -127,7 +130,7 @@ public class InfoSection {
     }
 
     protected String getLocalizedPageString(int page) {
-        if(page >= localizedPages.size()) return null;
+        if(page >= localizedPages.size() || page < 0) return null;
         return localizedPages.get(page);
     }
 
@@ -156,11 +159,11 @@ public class InfoSection {
     }
 
     public List<HyperLink> getLinks(int page) {
-        if(links.size() <= page) return Collections.EMPTY_LIST;
+        if(links.size() <= page || page < 0) return Collections.EMPTY_LIST;
         return links.get(page);
     }
 
-    public void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page) {
+    public void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
         if(page < getPages()) {
             FontRenderer fontRenderer = gui.getFontRenderer();
             boolean oldUnicode = fontRenderer.getUnicodeFlag();
@@ -189,7 +192,7 @@ public class InfoSection {
             for (SectionAppendix appendix : appendixes) {
                 if (appendix.getPage() == page) {
                     int linesOffset = getFontHeight(fontRenderer) * appendix.getLineStart();
-                    appendix.drawScreen(gui, x, y + Y_OFFSET + linesOffset, width, height, page);
+                    appendix.drawScreen(gui, x, y + Y_OFFSET + linesOffset, width, height, page, mx, my);
                 }
             }
         }

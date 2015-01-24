@@ -21,6 +21,6 @@ import lombok.Data;
      */
     public abstract int getHeight();
 
-    public abstract void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page);
+    public abstract void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my);
 
 }
