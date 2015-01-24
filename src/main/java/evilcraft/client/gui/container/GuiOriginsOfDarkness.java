@@ -39,7 +39,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     private static final int BORDER_CORNER = 4;
     private static final int BORDER_WIDTH = 2;
     private static final int BORDER_X = 0;
-    private static final int BORDER_Y = 203;
+    private static final int BORDER_Y = 206;
 
     protected final ItemStack itemStack;
 

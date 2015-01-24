@@ -4,7 +4,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cpw.mods.fml.common.registry.GameData;
 import evilcraft.Reference;
+import evilcraft.api.recipes.custom.IRecipe;
+import evilcraft.block.BloodInfuser;
 import evilcraft.core.helper.CraftingHelpers;
+import evilcraft.core.recipe.custom.DurationRecipeProperties;
+import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
+import evilcraft.infobook.pageelement.BloodInfuserRecipeAppendix;
 import evilcraft.infobook.pageelement.CraftingRecipeAppendix;
 import evilcraft.infobook.pageelement.ImageAppendix;
 import evilcraft.infobook.pageelement.SectionAppendix;
@@ -63,15 +69,37 @@ public class InfoBookParser {
 
             @Override
             public SectionAppendix create(Element node) {
-                int index = 0;
-                if(node.getAttribute("index") != null) {
-                    index = Integer.parseInt(node.getAttribute("index"));
-                }
-                return new CraftingRecipeAppendix(CraftingHelpers.findShapedRecipe(
-                        new ItemStack(GameData.getItemRegistry().getObject(node.getTextContent()), 1, OreDictionary.WILDCARD_VALUE), index));
+                return new CraftingRecipeAppendix(CraftingHelpers.findShapedRecipe(createStack(node), getIndex(node)));
             }
 
         });
+        APPENDIX_FACTORIES.put("bloodInfuserRecipe", new IAppendixFactory() {
+
+            @Override
+            public SectionAppendix create(Element node) {
+                ItemStack itemStack = createStack(node);
+                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>>
+                        recipes = BloodInfuser.getInstance().getRecipeRegistry().
+                        findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
+                int index = getIndex(node);
+                if(index >= recipes.size()) throw new IllegalArgumentException("Could not find Blood Infuser recipe for " +
+                        itemStack.getItem().getUnlocalizedName() + "with index " + index);
+                return new BloodInfuserRecipeAppendix(recipes.get(index));
+            }
+
+        });
+    }
+
+    private static int getIndex(Element node) {
+        int index = 0;
+        if(node.getAttribute("index") != null) {
+            index = Integer.parseInt(node.getAttribute("index"));
+        }
+        return index;
+    }
+
+    private static ItemStack createStack(Element node) {
+        return new ItemStack(GameData.getItemRegistry().getObject(node.getTextContent()), 1, OreDictionary.WILDCARD_VALUE);
     }
 
     public static InfoSection initializeInfoBook() {

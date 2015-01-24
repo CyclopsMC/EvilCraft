@@ -1,32 +1,53 @@
 package evilcraft.infobook.pageelement;
 
+import com.google.common.collect.Lists;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import java.util.List;
 
 /**
  * Recipes that can be added to sections.
  * @author rubensworks
  */
-public abstract class RecipeAppendix extends SectionAppendix {
+public abstract class RecipeAppendix<T> extends SectionAppendix {
 
     protected static final int SLOT_SIZE = 16;
     protected static final int TICK_DELAY = 30;
 
-    protected IRecipe recipe;
+    protected T recipe;
 
-    public RecipeAppendix(IRecipe recipe) {
+    public RecipeAppendix(T recipe) {
         this.recipe = recipe;
     }
 
     @Override
     public int getHeight() {
         return 58;
+    }
+
+    protected int getTick(GuiOriginsOfDarkness gui) {
+        return gui.getTick() / TICK_DELAY;
+    }
+
+    protected ItemStack prepareItemStacks(List<ItemStack> itemStacks, int tick) {
+        return prepareItemStack(itemStacks.get(tick % itemStacks.size()).copy(), tick);
+    }
+
+    protected ItemStack prepareItemStack(ItemStack itemStack, int tick) {
+        if(itemStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+            List<ItemStack> itemStacks = Lists.newLinkedList();
+            itemStack.getItem().getSubItems(itemStack.getItem(), null, itemStacks);
+            if(itemStacks.isEmpty()) return itemStack;
+            return itemStacks.get(tick % itemStacks.size());
+        }
+        return itemStack;
     }
 
     protected void renderItem(GuiOriginsOfDarkness gui, int x, int y, ItemStack itemStack, int mx, int my) {

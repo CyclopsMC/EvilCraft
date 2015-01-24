@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.logging.log4j.Level;
@@ -19,7 +18,7 @@ import java.util.List;
  * Shaped recipes.
  * @author rubensworks
  */
-public class CraftingRecipeAppendix extends RecipeAppendix {
+public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
 
     private static final int START_X = 22;
     private static final int START_Y = 0;
@@ -36,17 +35,12 @@ public class CraftingRecipeAppendix extends RecipeAppendix {
         gui.drawOuterBorder(x + START_X - 3, y - 1, START_X_RESULT - START_X + 22, getHeight() + 6, 0.5F, 0.5F, 0.5F, 0.4f);
 
         // Prepare items
-        int tick = gui.getTick() / TICK_DELAY;
+        int tick = getTick(gui);
         ItemStack[] grid = new ItemStack[9];
-        ItemStack result = recipe.getRecipeOutput();
+        ItemStack result = prepareItemStack(recipe.getRecipeOutput(), tick);
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                List<ItemStack> itemStacks = getItemStacks(i + j * 3);
-                ItemStack itemStack = itemStacks.get(tick % itemStacks.size()).copy();
-                if(itemStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-                    itemStack.setItemDamage(tick % (itemStack.getItem().getMaxDamage() + 1));
-                }
-                grid[i + j * 3] = itemStack;
+                grid[i + j * 3] = prepareItemStacks(getItemStacks(i + j * 3), tick);
             }
         }
 

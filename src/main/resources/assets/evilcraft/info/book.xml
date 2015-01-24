@@ -5,6 +5,7 @@
         <paragraph>infoBook.preface.text2</paragraph>
         <paragraph>infoBook.preface.text3</paragraph>
         <paragraph>infoBook.preface.text4</paragraph>
+        <appendix type="bloodInfuserRecipe" index="0">evilcraft:bloodWaxedCoal</appendix>
         <appendix type="image" width="32" height="32">evilcraft:textures/gui/infobook/test.png</appendix>
         <appendix type="image" width="32" height="32">evilcraft:textures/gui/infobook/test.png</appendix>
         <appendix type="image" width="32" height="32">evilcraft:textures/gui/infobook/test.png</appendix>

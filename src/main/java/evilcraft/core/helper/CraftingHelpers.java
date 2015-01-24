@@ -20,7 +20,7 @@ public class CraftingHelpers {
                 return recipe;
             }
         }
-        throw new IllegalArgumentException("Could not find recipe for " + itemStack.getItem().getUnlocalizedName() +
+        throw new IllegalArgumentException("Could not find crafting recipe for " + itemStack.getItem().getUnlocalizedName() +
                 "with index " + index);
     }
 
