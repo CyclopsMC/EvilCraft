@@ -20,19 +20,33 @@ import java.util.List;
  */
 public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
 
-    private static final int START_X = 22;
-    private static final int START_Y = 0;
-    private static final int OFFSET_X = 5;
-    private static final int OFFSET_Y = 5;
-    private static final int START_X_RESULT = 104;
+    private static final int OFFSET_Y = 0;
+    private static final int SLOT_OFFSET_X = 5;
+    private static final int SLOT_OFFSET_Y = 5;
+    private static final int START_X_RESULT = 84;
 
     public CraftingRecipeAppendix(IRecipe recipe) {
         super(recipe);
     }
 
     @Override
-    public void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
-        gui.drawOuterBorder(x + START_X - 3, y - 1, START_X_RESULT - START_X + 22, getHeight() + 6, 0.5F, 0.5F, 0.5F, 0.4f);
+    protected int getOffsetY() {
+        return OFFSET_Y;
+    }
+
+    @Override
+    protected int getWidth() {
+        return START_X_RESULT + 20;
+    }
+
+    @Override
+    protected int getHeight() {
+        return 58;
+    }
+
+    @Override
+    protected void drawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
+        gui.drawOuterBorder(x - 1, y - 1, getWidth() + 2, getHeight() + 2, 0.5F, 0.5F, 0.5F, 0.4f);
 
         // Prepare items
         int tick = getTick(gui);
@@ -47,20 +61,20 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
         // Items
         for(int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                renderItem(gui, x + START_X + (SLOT_SIZE + OFFSET_X) * i, y + START_Y + (SLOT_SIZE + OFFSET_Y) * j,
+                renderItem(gui, x + (SLOT_SIZE + SLOT_OFFSET_X) * i, y+ (SLOT_SIZE + SLOT_OFFSET_Y) * j,
                         grid[i + j * 3], mx, my);
             }
         }
-        renderItem(gui, x + START_X_RESULT, y + START_Y + (SLOT_SIZE + OFFSET_Y), result, mx, my);
+        renderItem(gui, x + START_X_RESULT, y + (SLOT_SIZE + SLOT_OFFSET_Y), result, mx, my);
 
         // Tooltips
         for(int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                renderItemTooltip(gui, x + START_X + (SLOT_SIZE + OFFSET_X) * i, y + START_Y + (SLOT_SIZE + OFFSET_Y) * j,
+                renderItemTooltip(gui, x + (SLOT_SIZE + SLOT_OFFSET_X) * i, y + (SLOT_SIZE + SLOT_OFFSET_Y) * j,
                         grid[i + j * 3], mx, my);
             }
         }
-        renderItemTooltip(gui, x + START_X_RESULT, y + START_Y + (SLOT_SIZE + OFFSET_Y), result, mx, my);
+        renderItemTooltip(gui, x + START_X_RESULT, y + (SLOT_SIZE + SLOT_OFFSET_Y), result, mx, my);
     }
 
     protected List<ItemStack> getItemStacks(int index) {

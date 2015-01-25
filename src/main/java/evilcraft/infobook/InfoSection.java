@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class InfoSection {
 
-    public static final int X_OFFSET = 22;
     public static final int Y_OFFSET = 16;
     private static final int TITLE_LINES = 3;
     private static final int APPENDIX_OFFSET_LINE = 1;
@@ -63,7 +62,7 @@ public class InfoSection {
                     links.add(pageLinks);
                     pageLinks = Lists.newArrayListWithCapacity(maxLines);
                 }
-                pageLinks.add(new HyperLink(X_OFFSET, Y_OFFSET + (linesOnPage - 1) * lineHeight, infoSection));
+                pageLinks.add(new HyperLink(0, Y_OFFSET + (linesOnPage - 1) * lineHeight, infoSection));
             }
             paragraphs.add(lines.toString());
             links.add(pageLinks);
@@ -76,7 +75,7 @@ public class InfoSection {
         }
 
         // Wrap the text into pages.
-        List<String> allLines = fontRenderer.listFormattedStringToWidth(contents, width - 2 * X_OFFSET);
+        List<String> allLines = fontRenderer.listFormattedStringToWidth(contents, width);
         localizedPages = Lists.newLinkedList();
         int linesOnPage = 0;
         StringBuilder currentPage = new StringBuilder();
@@ -102,7 +101,7 @@ public class InfoSection {
 
         // Process all appendixes.
         for(SectionAppendix appendix : appendixes) {
-            int lines = (int) Math.ceil((double) appendix.getHeight() / (double) getFontHeight(fontRenderer));
+            int lines = (int) Math.ceil((double) appendix.getFullHeight() / (double) getFontHeight(fontRenderer));
             if(linesOnPage + lines > maxLines) {
                 pages++;
                 linesOnPage = 0;
@@ -172,7 +171,7 @@ public class InfoSection {
 
             // Draw text content
             String content = getLocalizedPageString(page);
-            if (content != null) fontRenderer.drawSplitString(content, x + X_OFFSET, y + Y_OFFSET, width - X_OFFSET, 0);
+            if (content != null) fontRenderer.drawSplitString(content, x, y + Y_OFFSET, width, 0);
 
             // Draw title if on first page
             if (isTitlePage(page)) {

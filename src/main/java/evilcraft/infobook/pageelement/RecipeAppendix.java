@@ -27,11 +27,6 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         this.recipe = recipe;
     }
 
-    @Override
-    public int getHeight() {
-        return 58;
-    }
-
     protected int getTick(GuiOriginsOfDarkness gui) {
         return gui.getTick() / TICK_DELAY;
     }

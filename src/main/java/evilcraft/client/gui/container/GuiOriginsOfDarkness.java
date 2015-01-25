@@ -41,6 +41,10 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     private static final int BORDER_X = 0;
     private static final int BORDER_Y = 206;
 
+    public static final int X_OFFSET_OUTER = 20;
+    public static final int X_OFFSET_INNER = 7;
+    public static final int X_OFFSET_TOTAL = X_OFFSET_OUTER + X_OFFSET_INNER;
+
     protected final ItemStack itemStack;
 
     private NextPageButton buttonNextPage;
@@ -74,7 +78,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         this.updateGui();
         int nextId = BUTTON_HYPERLINKS_START;
         for(HyperLink link : currentSection.getLinks(page)) {
-            this.buttonList.add(new TextOverlayButton(nextId++, link, left + link.getX(), top + link.getY(),
+            int xOffset = page % 2 == 1 ? X_OFFSET_INNER : X_OFFSET_OUTER;
+            this.buttonList.add(new TextOverlayButton(nextId++, link, left + xOffset + link.getX(), top + link.getY(),
                     InfoSection.getFontHeight(getFontRenderer())));
         }
     }
@@ -86,8 +91,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
         drawTexturedModalRect(left, top, 0, 0, pageWidth, guiHeight);
         drawTexturedModalRectMirrored(left + pageWidth - 1, top, 0, 0, pageWidth, guiHeight);
-        currentSection.drawScreen(this, left, top, pageWidth, guiHeight, page, x, y);
-        currentSection.drawScreen(this, left + pageWidth - 1, top, pageWidth, guiHeight, page + 1, x, y);
+        currentSection.drawScreen(this, left + X_OFFSET_OUTER, top, pageWidth - X_OFFSET_TOTAL, guiHeight, page, x, y);
+        currentSection.drawScreen(this, left + pageWidth - 1 + X_OFFSET_INNER, top, pageWidth - X_OFFSET_TOTAL, guiHeight, page + 1, x, y);
         super.drawScreen(x, y, f);
     }
 
@@ -116,7 +121,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         boolean oldUnicode = mc.fontRenderer.getUnicodeFlag();
         mc.fontRenderer.setUnicodeFlag(true);
         int lineHeight = InfoSection.getFontHeight(getFontRenderer());
-        currentSection.bakeSection(getFontRenderer(), pageWidth, (guiHeight - 2 * InfoSection.Y_OFFSET - 5) / lineHeight, lineHeight);
+        currentSection.bakeSection(getFontRenderer(), pageWidth - X_OFFSET_TOTAL, (guiHeight - 2 * InfoSection.Y_OFFSET - 5) / lineHeight, lineHeight);
         updateButtons();
         mc.fontRenderer.setUnicodeFlag(oldUnicode);
     }
@@ -246,7 +251,10 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                     k += width;
                 }
 
+                GL11.glEnable(GL11.GL_BLEND);
+                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 this.drawTexturedModalRect(this.xPosition, this.yPosition, k, l, width, height);
+                GL11.glDisable(GL11.GL_BLEND);
             }
         }
     }
