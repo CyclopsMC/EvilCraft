@@ -27,6 +27,11 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
 	public String getUnlocalizedName() {
 		return "blocks." + getNamedId();
 	}
+
+    @Override
+    public String getFullUnlocalizedName() {
+        return "tile." + getUnlocalizedName() + ".name";
+    }
     
     @Override
 	public ConfigurableType getHolderType() {

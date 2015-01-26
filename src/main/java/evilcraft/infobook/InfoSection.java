@@ -9,6 +9,7 @@ import evilcraft.infobook.pageelement.SectionAppendix;
 import net.minecraft.client.gui.FontRenderer;
 import org.lwjgl.opengl.GL11;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -30,17 +31,45 @@ public class InfoSection {
     private List<InfoSection> sections = Lists.newLinkedList();
     private List<List<HyperLink>> links = Lists.newLinkedList();
     private List<SectionAppendix> appendixes;
-    private List<String> paragraphs;
+    protected List<String> paragraphs;
+    private ArrayList<String> tagList;
     private int pages;
     private List<String> localizedPages;
 
     public InfoSection(InfoSection parent, int childIndex, String unlocalizedName, List<String> paragraphs,
-                       List<SectionAppendix> appendixes) {
+                       List<SectionAppendix> appendixes, ArrayList<String> tagList) {
         this.parent = parent;
         this.childIndex = childIndex;
         this.unlocalizedName = unlocalizedName;
         this.paragraphs = paragraphs;
         this.appendixes = appendixes;
+        this.tagList = tagList;
+    }
+
+    protected void addLinks(int maxLines, int lineHeight, Map<String, InfoSection> softLinks) {
+        int linesOnPage = 0;
+        if(isTitlePage(0)) {
+            linesOnPage += TITLE_LINES;
+        }
+        List<HyperLink> pageLinks = Lists.newArrayListWithCapacity(maxLines);
+        StringBuilder lines = new StringBuilder();
+        for(Map.Entry<String, InfoSection> entry : softLinks.entrySet()) {
+        //for(InfoSection infoSection : sections) {
+            lines.append("\n");
+            linesOnPage++;
+            if(linesOnPage >= maxLines) {
+                linesOnPage = 0;
+                links.add(pageLinks);
+                pageLinks = Lists.newArrayListWithCapacity(maxLines);
+            }
+            pageLinks.add(new HyperLink(0, Y_OFFSET + (linesOnPage - 1) * lineHeight, entry.getValue(), entry.getKey()));
+        }
+        paragraphs.add(lines.toString());
+        links.add(pageLinks);
+    }
+
+    protected boolean shouldAddIndex() {
+        return true;
     }
 
     /**
@@ -48,26 +77,13 @@ public class InfoSection {
      * Must be called once before the section will be drawn.
      */
     public void bakeSection(FontRenderer fontRenderer, int width, int maxLines, int lineHeight) {
-        if(paragraphs.size() == 0) {
-            // Add hyperlinks for these sections (page-wrapped)
-            int linesOnPage = 0;
-            if(isTitlePage(0)) {
-                linesOnPage += TITLE_LINES;
+        if(paragraphs.size() == 0 && shouldAddIndex()) {
+            // linkedmap to make sure the contents are sorted by insertion order.
+            Map<String, InfoSection> softLinks = Maps.newLinkedHashMap();
+            for(InfoSection section : sections) {
+                softLinks.put(section.unlocalizedName, section);
             }
-            List<HyperLink> pageLinks = Lists.newArrayListWithCapacity(maxLines);
-            StringBuilder lines = new StringBuilder();
-            for(InfoSection infoSection : sections) {
-                lines.append("\n");
-                linesOnPage++;
-                if(linesOnPage >= maxLines) {
-                    linesOnPage = 0;
-                    links.add(pageLinks);
-                    pageLinks = Lists.newArrayListWithCapacity(maxLines);
-                }
-                pageLinks.add(new HyperLink(0, Y_OFFSET + (linesOnPage - 1) * lineHeight, infoSection));
-            }
-            paragraphs.add(lines.toString());
-            links.add(pageLinks);
+            addLinks(maxLines, lineHeight, softLinks);
         }
 
         // Localize paragraphs and fit them into materialized paragraphs.
@@ -236,6 +252,10 @@ public class InfoSection {
                 }
             }
         }
+    }
+
+    public ArrayList<String> getTags() {
+        return tagList;
     }
 
 }

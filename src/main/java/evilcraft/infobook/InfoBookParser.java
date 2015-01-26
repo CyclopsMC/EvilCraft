@@ -47,8 +47,9 @@ public class InfoBookParser {
 
             @Override
             public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName,
-                                      ArrayList<String> paragraphs, List<SectionAppendix> appendixes) {
-                return new InfoSection(parent, childIndex, unlocalizedName, paragraphs, appendixes);
+                                      ArrayList<String> paragraphs, List<SectionAppendix> appendixes,
+                                      ArrayList<String> tagList) {
+                return new InfoSection(parent, childIndex, unlocalizedName, paragraphs, appendixes, tagList);
             }
 
         });
@@ -109,7 +110,9 @@ public class InfoBookParser {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(stream.getInputStream());
-            return buildSection(null, 0, doc.getDocumentElement());
+            InfoSection root = buildSection(null, 0, doc.getDocumentElement());
+            root.registerSection(new InfoSectionTagIndex(root));
+            return root;
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -122,12 +125,14 @@ public class InfoBookParser {
 
     protected static InfoSection buildSection(InfoSection parent, int childIndex, Element sectionElement) {
         NodeList sections = sectionElement.getElementsByTagName("section");
+        NodeList tags = sectionElement.getElementsByTagName("tag");
         NodeList paragraphs = sectionElement.getElementsByTagName("paragraph");
         NodeList appendixes = sectionElement.getElementsByTagName("appendix");
         ArrayList<String> paragraphList = Lists.newArrayListWithCapacity(paragraphs.getLength());
         ArrayList<SectionAppendix> appendixList = Lists.newArrayListWithCapacity(appendixes.getLength());
+        ArrayList<String> tagList = Lists.newArrayListWithCapacity(tags.getLength());
         InfoSection section = createSection(parent, childIndex, sectionElement.getAttribute("type"),
-                sectionElement.getAttribute("name"), paragraphList, appendixList);
+                sectionElement.getAttribute("name"), paragraphList, appendixList, tagList);
 
         if(sections.getLength() > 0) {
             for (int i = 0; i < sections.getLength(); i++) {
@@ -135,6 +140,10 @@ public class InfoBookParser {
                 section.registerSection(buildSection(section, i, subsection));
             }
         } else {
+            for (int j = 0; j < tags.getLength(); j++) {
+                Element tag = (Element) tags.item(j);
+                tagList.add(tag.getTextContent());
+            }
             for (int j = 0; j < paragraphs.getLength(); j++) {
                 Element paragraph = (Element) paragraphs.item(j);
                 paragraphList.add(paragraph.getTextContent());
@@ -149,13 +158,14 @@ public class InfoBookParser {
     }
 
     protected static InfoSection createSection(InfoSection parent, int childIndex, String type, String unlocalizedName,
-                                               ArrayList<String> paragraphs, List<SectionAppendix> appendixes) {
+                                               ArrayList<String> paragraphs, List<SectionAppendix> appendixes,
+                                               ArrayList<String> tagList) {
         if(type == null) type = "";
         IInfoSectionFactory factory = SECTION_FACTORIES.get(type);
         if(factory == null) {
             throw new InfoBookException("No section of type '" + type + "' was found.");
         }
-        return factory.create(parent, childIndex, unlocalizedName, paragraphs, appendixes);
+        return factory.create(parent, childIndex, unlocalizedName, paragraphs, appendixes, tagList);
     }
 
     protected static SectionAppendix createAppendix(String type, Element node) {
@@ -170,7 +180,8 @@ public class InfoBookParser {
     protected static interface IInfoSectionFactory {
 
         public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName,
-                                  ArrayList<String> paragraphs, List<SectionAppendix> appendixes);
+                                  ArrayList<String> paragraphs, List<SectionAppendix> appendixes,
+                                  ArrayList<String> tagList);
 
     }
 

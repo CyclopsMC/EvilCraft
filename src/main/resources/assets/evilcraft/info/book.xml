@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <section name="infoBook.section.main">
     <section name="infoBook.preface">
+        <tag>bloodWaxedCoal</tag>
+        <tag>entangledChalice</tag>
         <paragraph>infoBook.preface.text1</paragraph>
         <paragraph>infoBook.preface.text2</paragraph>
         <paragraph>infoBook.preface.text3</paragraph>
@@ -13,6 +15,7 @@
         <appendix type="craftingRecipe" index="1">evilcraft:entangledChalice</appendix>
     </section>
     <section name="infoBook.preface2">
+        <tag>darkGem</tag>
         <paragraph>infoBook.preface.text3</paragraph>
         <paragraph>infoBook.preface.text4</paragraph>
     </section>

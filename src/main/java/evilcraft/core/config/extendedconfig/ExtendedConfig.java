@@ -183,6 +183,14 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements
     public abstract String getUnlocalizedName();
 
     /**
+     * Get the full unlocalized name for this configurable.
+     * @return The unlocalized name.
+     */
+    public String getFullUnlocalizedName() {
+        return getUnlocalizedName();
+    }
+
+    /**
      * This method will by default just return null.
      * If it returns something else, this config will assume that the object that is returned is the unique sub-instance
      * for the configurable.

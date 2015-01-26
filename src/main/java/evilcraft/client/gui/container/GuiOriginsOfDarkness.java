@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.helper.InventoryHelpers;
+import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.HyperLink;
@@ -175,6 +176,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         this.initGui();
         if(goToLastPage) {
             page = Math.max(0, currentSection.getPages() - 2);
+            page += page % 2;
         }
     }
 
@@ -265,7 +267,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         @Getter private HyperLink link;
 
         public TextOverlayButton(int id, HyperLink link, int x, int y, int height) {
-            super(id, x, y, 0, height, link.getTarget().getLocalizedTitle());
+            super(id, x, y, 0, height, L10NHelpers.localize(link.getUnlocalizedName()));
             this.link = link;
             FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
             boolean oldUnicode = fontRenderer.getUnicodeFlag();

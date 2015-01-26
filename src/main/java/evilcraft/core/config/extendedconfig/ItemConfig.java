@@ -35,8 +35,13 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     
     @Override
 	public String getUnlocalizedName() {
-		return "items." + getNamedId();
+		return "items." + getNamedId() + ".name";
 	}
+
+    @Override
+    public String getFullUnlocalizedName() {
+        return "item." + getUnlocalizedName();
+    }
     
     @Override
 	public ConfigurableType getHolderType() {
