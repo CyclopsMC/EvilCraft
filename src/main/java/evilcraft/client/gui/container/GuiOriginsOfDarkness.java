@@ -174,7 +174,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         }
         this.initGui();
         if(goToLastPage) {
-            page = currentSection.getPages() - 2;
+            page = Math.max(0, currentSection.getPages() - 2);
         }
     }
 

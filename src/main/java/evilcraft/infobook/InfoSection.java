@@ -1,6 +1,7 @@
 package evilcraft.infobook;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
@@ -10,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Section of the info book.
@@ -99,17 +101,56 @@ public class InfoSection {
 
         linesOnPage += APPENDIX_OFFSET_LINE;
 
-        // Process all appendixes.
+        // Distribute appendixes among pages.
+        Map<Integer, List<SectionAppendix>> appendixesPerPage = Maps.newHashMap();
+        List<SectionAppendix> appendixCurrentPage = Lists.newLinkedList();
+        int appendixPageStart = pages - 1;
+        int appendixLineStart = linesOnPage;
         for(SectionAppendix appendix : appendixes) {
-            int lines = (int) Math.ceil((double) appendix.getFullHeight() / (double) getFontHeight(fontRenderer));
+            int lines = getAppendixLineHeight(appendix, fontRenderer);
             if(linesOnPage + lines > maxLines) {
+                appendixesPerPage.put(pages - 1, appendixCurrentPage);
                 pages++;
                 linesOnPage = 0;
+                appendixCurrentPage = Lists.newLinkedList();
             }
-            appendix.setLineStart(linesOnPage);
+            // Start line will be set in a later iteration.
+            //appendix.setLineStart(linesOnPage);
+            appendixCurrentPage.add(appendix);
             appendix.setPage(pages - 1);
             linesOnPage += lines + APPENDIX_OFFSET_LINE;
         }
+        appendixesPerPage.put(pages - 1, appendixCurrentPage);
+
+        // Loop over each page to determine optimal vertical float positioning of appendixes.
+        for(Map.Entry<Integer, List<SectionAppendix>> entry : appendixesPerPage.entrySet()) {
+            int freeLines = maxLines;
+            int lineStart = 0;
+
+            // Special case if appendixes occurs on a page that still has text content, so this needs an offset.
+            if(entry.getKey() == appendixPageStart) {
+                lineStart = appendixLineStart;
+                freeLines -= appendixLineStart;
+            }
+
+            // Count total lines that are free.
+            for(SectionAppendix appendix : entry.getValue()) {
+                freeLines -= getAppendixLineHeight(appendix, fontRenderer);
+            }
+
+            // Distribute the free lines among all appendixes on this page.
+            int linesOffset = freeLines / (entry.getValue().size() + 1);
+            int linesOffsetMod = freeLines % (entry.getValue().size() + 1);
+            lineStart += linesOffset;
+            for(SectionAppendix appendix : entry.getValue()) {
+                appendix.setLineStart(lineStart);
+                lineStart += linesOffset + getAppendixLineHeight(appendix, fontRenderer) + (linesOffsetMod > 0 ? linesOffsetMod-- : 0);
+            }
+        }
+    }
+
+    protected static final int getAppendixLineHeight(SectionAppendix appendix, FontRenderer fontRenderer) {
+        return (int) Math.ceil((double) appendix.getFullHeight() / (double) getFontHeight(fontRenderer));
     }
 
     public static int getFontHeight(FontRenderer fontRenderer) {
