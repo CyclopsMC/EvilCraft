@@ -35,12 +35,12 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     
     @Override
 	public String getUnlocalizedName() {
-		return "items." + getNamedId() + ".name";
+		return "items." + getNamedId();
 	}
 
     @Override
     public String getFullUnlocalizedName() {
-        return "item." + getUnlocalizedName();
+        return "item." + getUnlocalizedName() + ".name";
     }
     
     @Override

@@ -36,6 +36,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
     private static final int HR_WIDTH = 88;
     private static final int HR_HEIGHT = 10;
+    private static final int BANNER_WIDTH = 91;
+    private static final int BANNER_HEIGHT = 12;
 
     private static final int BORDER_CORNER = 4;
     private static final int BORDER_WIDTH = 2;
@@ -180,12 +182,30 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         }
     }
 
+    public void drawScaledCenteredString(String string, int x, int y, int width, float scale, int color) {
+        GL11.glPushMatrix();
+        GL11.glScalef(scale, scale, 1.0f);
+        int titleLength = fontRendererObj.getStringWidth(string);
+        int titleHeight = fontRendererObj.FONT_HEIGHT;
+        fontRendererObj.drawString(string, Math.round((x + width / 2) / scale - titleLength / 2), Math.round(y / scale - titleHeight / 2), color);
+        GL11.glPopMatrix();
+    }
+
     public void drawHorizontalRule(int x, int y) {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.getTextureManager().bindTexture(texture);
         this.drawTexturedModalRect(x - HR_WIDTH / 2, y - HR_HEIGHT / 2, 52, 180, HR_WIDTH, HR_HEIGHT);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public void drawTextBanner(int x, int y) {
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        mc.getTextureManager().bindTexture(texture);
+        this.drawTexturedModalRect(x - BANNER_WIDTH / 2, y - BANNER_HEIGHT / 2, 52, 191, BANNER_WIDTH, BANNER_HEIGHT);
         GL11.glDisable(GL11.GL_BLEND);
     }
 

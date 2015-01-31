@@ -2,10 +2,15 @@ package evilcraft.infobook.pageelement;
 
 import com.google.common.collect.Lists;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
+import evilcraft.core.helper.L10NHelpers;
+import evilcraft.core.helper.RenderHelpers;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -22,6 +27,8 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
     protected static final int TICK_DELAY = 30;
 
     protected T recipe;
+
+    private List<RenderItemHolder> renderItemHolders = Lists.newLinkedList();
 
     public RecipeAppendix(T recipe) {
         this.recipe = recipe;
@@ -46,7 +53,11 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
     }
 
     protected void renderItem(GuiOriginsOfDarkness gui, int x, int y, ItemStack itemStack, int mx, int my) {
-        gui.drawOuterBorder(x, y, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
+        renderItem(gui, x, y, itemStack, mx, my, true);
+    }
+
+    protected void renderItem(GuiOriginsOfDarkness gui, int x, int y, ItemStack itemStack, int mx, int my, boolean renderOverlays) {
+        if(renderOverlays) gui.drawOuterBorder(x, y, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
 
         RenderItem renderItem = RenderItem.getInstance();
         GL11.glPushMatrix();
@@ -56,8 +67,21 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         renderItem.renderItemAndEffectIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().getTextureManager(), itemStack, x, y);
-        renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().getTextureManager(), itemStack, x, y);
+        if(renderOverlays) renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().getTextureManager(), itemStack, x, y);
         RenderHelper.disableStandardItemLighting();
+        GL11.glPopMatrix();
+
+        if(renderOverlays) renderItemHolders.add(new RenderItemHolder(x, y, itemStack));
+    }
+
+    protected void renderIcon(GuiOriginsOfDarkness gui, int x, int y, IIcon icon) {
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        RenderHelper.enableGUIStandardItemLighting();
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        RenderItem.getInstance().renderIcon(x, y, icon, SLOT_SIZE, SLOT_SIZE);RenderHelper.disableStandardItemLighting();
         GL11.glPopMatrix();
     }
 
@@ -72,6 +96,53 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    @Override
+    protected int getHeight() {
+        return getHeightInner() + getAdditionalHeight();
+    }
+
+    protected abstract int getHeightInner();
+
+    protected int getAdditionalHeight() {
+        return 5;
+    }
+
+    @Override
+    protected int getOffsetY() {
+        return getAdditionalHeight();
+    }
+
+    protected abstract String getUnlocalizedTitle();
+
+    @Override
+    public final void drawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
+        int yOffset = getAdditionalHeight();
+        gui.drawOuterBorder(x - 1, y - 1 - yOffset, getWidth() + 2, getHeight() + 2, 0.5F, 0.5F, 0.5F, 0.4f);
+        gui.drawTextBanner(x + width / 2, y - 2 - yOffset);
+        gui.drawScaledCenteredString(L10NHelpers.localize(getUnlocalizedTitle()), x, y - 2 - yOffset, width, 0.9f, RenderHelpers.RGBToInt(120, 20, 30));
+
+        drawElementInner(gui, x, y, width, height, page, mx, my);
+        renderToolTips(gui, mx, my);
+    }
+
+    protected abstract void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my);
+
+    protected void renderToolTips(GuiOriginsOfDarkness gui, int mx, int my) {
+        for(RenderItemHolder renderItemHolder : renderItemHolders) {
+            renderItemTooltip(gui, renderItemHolder.getX(), renderItemHolder.getY(), renderItemHolder.getItemStack(), mx, my);
+        }
+        renderItemHolders.clear();
+    }
+
+    @Data
+    @AllArgsConstructor
+    private static class RenderItemHolder {
+
+        private int x, y;
+        private ItemStack itemStack;
+
     }
 
 }

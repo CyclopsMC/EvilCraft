@@ -7,7 +7,6 @@ import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.pageelement.SectionAppendix;
 import net.minecraft.client.gui.FontRenderer;
-import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -232,13 +231,7 @@ public class InfoSection {
 
             // Draw title if on first page
             if (isTitlePage(page)) {
-                GL11.glPushMatrix();
-                float scale = 1.5f;
-                GL11.glScalef(scale, scale, 1.0f);
-                String title = getLocalizedTitle();
-                int titleLength = fontRenderer.getStringWidth(title);
-                fontRenderer.drawString(title, Math.round((x + width / 2) / scale - titleLength / 2), Math.round((y + Y_OFFSET + 3) / scale), RenderHelpers.RGBToInt(120, 20, 30));
-                GL11.glPopMatrix();
+                gui.drawScaledCenteredString(getLocalizedTitle(), x, y + Y_OFFSET + 10, width, 1.5f, RenderHelpers.RGBToInt(120, 20, 30));
                 gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET);
                 gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET + 21);
             }

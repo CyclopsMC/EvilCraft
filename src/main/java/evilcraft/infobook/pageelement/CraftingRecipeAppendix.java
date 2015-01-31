@@ -2,6 +2,7 @@ package evilcraft.infobook.pageelement;
 
 import evilcraft.EvilCraft;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
@@ -20,7 +21,6 @@ import java.util.List;
  */
 public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
 
-    private static final int OFFSET_Y = 0;
     private static final int SLOT_OFFSET_X = 5;
     private static final int SLOT_OFFSET_Y = 5;
     private static final int START_X_RESULT = 84;
@@ -30,24 +30,22 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
     }
 
     @Override
-    protected int getOffsetY() {
-        return OFFSET_Y;
-    }
-
-    @Override
     protected int getWidth() {
         return START_X_RESULT + 20;
     }
 
     @Override
-    protected int getHeight() {
+    protected int getHeightInner() {
         return 58;
     }
 
     @Override
-    protected void drawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
-        gui.drawOuterBorder(x - 1, y - 1, getWidth() + 2, getHeight() + 2, 0.5F, 0.5F, 0.5F, 0.4f);
+    protected String getUnlocalizedTitle() {
+        return "tile.workbench.name";
+    }
 
+    @Override
+    protected void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
         // Prepare items
         int tick = getTick(gui);
         ItemStack[] grid = new ItemStack[9];
@@ -67,14 +65,8 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
         }
         renderItem(gui, x + START_X_RESULT, y + (SLOT_SIZE + SLOT_OFFSET_Y), result, mx, my);
 
-        // Tooltips
-        for(int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                renderItemTooltip(gui, x + (SLOT_SIZE + SLOT_OFFSET_X) * i, y + (SLOT_SIZE + SLOT_OFFSET_Y) * j,
-                        grid[i + j * 3], mx, my);
-            }
-        }
-        renderItemTooltip(gui, x + START_X_RESULT, y + (SLOT_SIZE + SLOT_OFFSET_Y), result, mx, my);
+        // Crafting Table icon
+        renderItem(gui, x + (SLOT_SIZE + SLOT_OFFSET_X) * 3, y + SLOT_OFFSET_Y + SLOT_SIZE, new ItemStack(Blocks.crafting_table), mx, my, false);
     }
 
     protected List<ItemStack> getItemStacks(int index) {

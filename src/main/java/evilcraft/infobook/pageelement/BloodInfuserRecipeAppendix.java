@@ -1,19 +1,16 @@
 package evilcraft.infobook.pageelement;
 
 import evilcraft.api.recipes.custom.IRecipe;
+import evilcraft.block.BloodInfuser;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
-import evilcraft.item.CreativeBloodDrop;
+import evilcraft.item.BucketBloodConfig;
 import evilcraft.item.Promise;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 /**
  * Blood Infuser recipes.
@@ -21,7 +18,6 @@ import org.lwjgl.opengl.GL12;
  */
 public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> {
 
-    private static final int OFFSET_Y = 0;
     private static final int SLOT_OFFSET_X = 16;
     private static final int SLOT_OFFSET_Y = 23;
     private static final int START_X_RESULT = 68;
@@ -31,24 +27,22 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
     }
 
     @Override
-    protected int getOffsetY() {
-        return OFFSET_Y;
-    }
-
-    @Override
     protected int getWidth() {
         return START_X_RESULT + 32;
     }
 
     @Override
-    protected int getHeight() {
+    protected int getHeightInner() {
         return 42;
     }
 
     @Override
-    public void drawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
-        gui.drawOuterBorder(x - 1, y - 1, getWidth() + 2, getHeight() + 2, 0.5F, 0.5F, 0.5F, 0.4f);
+    protected String getUnlocalizedTitle() {
+        return "tile.blocks.bloodInfuser.name";
+    }
 
+    @Override
+    public void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
         // Prepare items
         int tick = getTick(gui);
         ItemStack input = prepareItemStacks(recipe.getInput().getItemStacks(), tick);
@@ -67,15 +61,9 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
             renderItem(gui, x + SLOT_OFFSET_X, y + 3, promise, mx, my);
         }
 
-        // Blood
-        GL11.glPushMatrix();
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        RenderHelper.enableGUIStandardItemLighting();
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        RenderItem.getInstance().renderIcon(x + SLOT_OFFSET_X + 20, y + 3, CreativeBloodDrop.getInstance().getIconFromDamage(0), 16, 16);RenderHelper.disableStandardItemLighting();
-        GL11.glPopMatrix();
+        int middle = (width - SLOT_SIZE) / 2;
+        renderIcon(gui, x + middle, y + 3, BucketBloodConfig._instance.getItemInstance().getIconFromDamage(0));
+        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(BloodInfuser.getInstance()), mx, my, false);
 
         // Blood amount text
         FontRenderer fontRenderer = gui.getFontRenderer();
@@ -84,14 +72,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
         fontRenderer.setBidiFlag(false);
         FluidStack fluidStack = recipe.getInput().getFluidStack();
         String line = fluidStack.amount + " mB";
-        fontRenderer.drawSplitString(line, x + SLOT_OFFSET_X + 40, y + 6, 200, 0);
+        fontRenderer.drawSplitString(line, x + middle + SLOT_SIZE + 2, y + 6, 200, 0);
         fontRenderer.setUnicodeFlag(oldUnicode);
-
-        // Tooltips
-        renderItemTooltip(gui, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my);
-        renderItemTooltip(gui, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my);
-        if(promise != null) {
-            renderItemTooltip(gui, x + SLOT_OFFSET_X, y, promise, mx, my);
-        }
     }
 }
