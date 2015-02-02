@@ -242,13 +242,23 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         this.drawTexturedModalRect(x + width - BORDER_WIDTH, y + height - BORDER_WIDTH, BORDER_X + 2 * BORDER_CORNER, BORDER_Y, BORDER_CORNER, BORDER_CORNER);
 
         // Sides
-        for(int i = BORDER_WIDTH; i < width - BORDER_WIDTH; i+=2) {
-            this.drawTexturedModalRect(x + i, y - BORDER_WIDTH, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, BORDER_WIDTH, BORDER_WIDTH);
-            this.drawTexturedModalRect(x + i, y + height, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, BORDER_WIDTH, BORDER_WIDTH);
+        for(int i = BORDER_WIDTH; i < width - BORDER_WIDTH; i+=BORDER_WIDTH) {
+            int drawWidth = BORDER_WIDTH;
+            if(i + BORDER_WIDTH >= width - BORDER_CORNER) {
+                drawWidth -= i - (width - BORDER_CORNER);
+            }
+            this.drawTexturedModalRect(x + i, y - BORDER_WIDTH, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, drawWidth, BORDER_WIDTH);
+            this.drawTexturedModalRect(x + i, y + height, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, drawWidth, BORDER_WIDTH);
         }
-        for(int i = BORDER_WIDTH; i < height - BORDER_WIDTH; i+=2) {
-            this.drawTexturedModalRect(x - BORDER_WIDTH, y + i, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, BORDER_WIDTH, BORDER_WIDTH);
-            this.drawTexturedModalRect(x + width, y + i, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, BORDER_WIDTH, BORDER_WIDTH);
+        for(int i = BORDER_WIDTH; i < height - BORDER_WIDTH; i+=BORDER_WIDTH) {
+            int drawHeight = BORDER_WIDTH;
+            if(i + BORDER_WIDTH >= height - BORDER_CORNER) {
+                drawHeight -= i - (height - BORDER_CORNER);
+            }
+            if(drawHeight > 0) {
+                this.drawTexturedModalRect(x - BORDER_WIDTH, y + i, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, BORDER_WIDTH, drawHeight);
+                this.drawTexturedModalRect(x + width, y + i, BORDER_X + 4 * BORDER_CORNER, BORDER_Y, BORDER_WIDTH, drawHeight);
+            }
         }
 
         GL11.glDisable(GL11.GL_BLEND);
