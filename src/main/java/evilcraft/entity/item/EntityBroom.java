@@ -113,7 +113,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     
     @Override
 	public boolean canBeCollidedWith() {
-		return !isDead;
+		return !isDead && riddenByEntity == null;
 	}
     
     @Override
