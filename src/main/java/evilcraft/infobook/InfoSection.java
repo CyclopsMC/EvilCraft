@@ -237,6 +237,9 @@ public class InfoSection {
             }
             fontRenderer.setUnicodeFlag(oldUnicode);
 
+            // Draw current page/section indication
+            gui.drawScaledCenteredString(getLocalizedTitle() + " - " + (page + 1) +  "/" + getPages(), x + ((page % 2 == 0) ? 10 : -10), y + height - Y_OFFSET, width, 0.6f, RenderHelpers.RGBToInt(190, 190, 190));
+
             // Draw appendixes
             for (SectionAppendix appendix : appendixes) {
                 if (appendix.getPage() == page) {
