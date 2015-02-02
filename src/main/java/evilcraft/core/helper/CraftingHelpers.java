@@ -2,10 +2,12 @@ package evilcraft.core.helper;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Several convenience functions for crafting.
@@ -13,7 +15,7 @@ import java.util.List;
  */
 public class CraftingHelpers {
 
-    public static IRecipe findShapedRecipe(ItemStack itemStack, int index) {
+    public static IRecipe findCraftingRecipe(ItemStack itemStack, int index) {
         int indexAttempt = index;
         for(IRecipe recipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList()) {
             if(itemStacksEqual(recipe.getRecipeOutput(), itemStack) && indexAttempt-- == 0) {
@@ -21,6 +23,18 @@ public class CraftingHelpers {
             }
         }
         throw new IllegalArgumentException("Could not find crafting recipe for " + itemStack.getItem().getUnlocalizedName() +
+                "with index " + index);
+    }
+
+    public static Map.Entry<ItemStack, ItemStack> findFurnaceRecipe(ItemStack itemStack, int index) {
+        int indexAttempt = index;
+        for(Map.Entry<ItemStack, ItemStack> recipe : ((Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().
+                getSmeltingList()).entrySet()) {
+            if(itemStacksEqual(recipe.getValue(), itemStack) && indexAttempt-- == 0) {
+                return recipe;
+            }
+        }
+        throw new IllegalArgumentException("Could not find furnace recipe for " + itemStack.getItem().getUnlocalizedName() +
                 "with index " + index);
     }
 

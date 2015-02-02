@@ -10,10 +10,7 @@ import evilcraft.core.helper.CraftingHelpers;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
-import evilcraft.infobook.pageelement.BloodInfuserRecipeAppendix;
-import evilcraft.infobook.pageelement.CraftingRecipeAppendix;
-import evilcraft.infobook.pageelement.ImageAppendix;
-import evilcraft.infobook.pageelement.SectionAppendix;
+import evilcraft.infobook.pageelement.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
@@ -70,7 +67,7 @@ public class InfoBookParser {
 
             @Override
             public SectionAppendix create(Element node) {
-                return new CraftingRecipeAppendix(CraftingHelpers.findShapedRecipe(createStack(node), getIndex(node)));
+                return new CraftingRecipeAppendix(CraftingHelpers.findCraftingRecipe(createStack(node), getIndex(node)));
             }
 
         });
@@ -86,6 +83,14 @@ public class InfoBookParser {
                 if(index >= recipes.size()) throw new IllegalArgumentException("Could not find Blood Infuser recipe for " +
                         itemStack.getItem().getUnlocalizedName() + "with index " + index);
                 return new BloodInfuserRecipeAppendix(recipes.get(index));
+            }
+
+        });
+        APPENDIX_FACTORIES.put("furnaceRecipe", new IAppendixFactory() {
+
+            @Override
+            public SectionAppendix create(Element node) {
+                return new FurnaceRecipeAppendix(CraftingHelpers.findFurnaceRecipe(createStack(node), getIndex(node)));
             }
 
         });
