@@ -127,6 +127,10 @@ public class InfoBookParser {
         return new ItemStack(GameData.getItemRegistry().getObject(node.getTextContent()), 1, meta);
     }
 
+    /**
+     * Initialize the infobook from the xml file.
+     * @return The root of the infobook.
+     */
     public static InfoSection initializeInfoBook() {
         try {
             InputStream is = InfoBookParser.class.getResourceAsStream(BASE_PATH + BOOK);

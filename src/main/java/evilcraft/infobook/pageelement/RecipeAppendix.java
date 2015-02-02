@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
+import evilcraft.infobook.InfoSection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.minecraft.client.Minecraft;
@@ -121,7 +122,12 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         int yOffset = getAdditionalHeight();
         gui.drawOuterBorder(x - 1, y - 1 - yOffset, getWidth() + 2, getHeight() + 2, 0.5F, 0.5F, 0.5F, 0.4f);
         gui.drawTextBanner(x + width / 2, y - 2 - yOffset);
-        gui.drawScaledCenteredString(L10NHelpers.localize(getUnlocalizedTitle()), x, y - 2 - yOffset, width, 0.9f, RenderHelpers.RGBToInt(120, 20, 30));
+        float originalScale = 0.9f;
+        float originalWidth = gui.getFontRenderer().getStringWidth(getUnlocalizedTitle()) * originalScale;
+        int maxWidth = GuiOriginsOfDarkness.BANNER_WIDTH - 2;
+        float scale = Math.min(originalScale, maxWidth / originalWidth);
+
+        gui.drawScaledCenteredString(L10NHelpers.localize(getUnlocalizedTitle()), x, y - 2 - yOffset, width, scale, RenderHelpers.RGBToInt(120, 20, 30));
 
         drawElementInner(gui, x, y, width, height, page, mx, my);
     }
@@ -137,6 +143,11 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
             renderItemTooltip(gui, renderItemHolder.getX(), renderItemHolder.getY(), renderItemHolder.getItemStack(), mx, my);
         }
         renderItemHolders.clear();
+    }
+
+    @Override
+    public void bakeElement(InfoSection infoSection) {
+
     }
 
     @Data

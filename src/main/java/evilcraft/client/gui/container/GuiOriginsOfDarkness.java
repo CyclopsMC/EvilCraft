@@ -36,7 +36,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
     private static final int HR_WIDTH = 88;
     private static final int HR_HEIGHT = 10;
-    private static final int BANNER_WIDTH = 91;
+    public static final int BANNER_WIDTH = 91;
     private static final int BANNER_HEIGHT = 12;
     private static final int ARROW_WIDTH = 22;
     private static final int ARROW_HEIGHT = 13;

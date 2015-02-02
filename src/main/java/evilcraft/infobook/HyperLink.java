@@ -3,6 +3,7 @@ package evilcraft.infobook;
 import lombok.Getter;
 
 /**
+ * A link wrapper targeted at other sections.
  * @author rubensworks
  */
 public class HyperLink {

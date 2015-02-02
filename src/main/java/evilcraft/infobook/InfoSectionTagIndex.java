@@ -2,6 +2,7 @@ package evilcraft.infobook;
 
 import com.google.common.collect.Maps;
 import evilcraft.core.config.ConfigHandler;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.infobook.pageelement.SectionAppendix;
 import net.minecraft.client.gui.FontRenderer;
 
@@ -39,7 +40,10 @@ public class InfoSectionTagIndex extends InfoSection {
                 // TODO: add support for multiple tag occurences?
                 throw new IllegalArgumentException("The tag " + tag + " occurs multiple times.");
             }
-            softLinks.put(ConfigHandler.getInstance().getDictionary().get(tag).getFullUnlocalizedName(), section);
+            ExtendedConfig<?> config = ConfigHandler.getInstance().getDictionary().get(tag);
+            if(config != null) {
+                softLinks.put(config.getFullUnlocalizedName(), section);
+            }
         }
         for(int i = 0; i < section.getSubSections(); i++) {
             addSoftLinks(softLinks, section.getSubSection(i));

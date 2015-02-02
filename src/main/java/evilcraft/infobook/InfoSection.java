@@ -45,6 +45,12 @@ public class InfoSection {
         this.tagList = tagList;
     }
 
+    /**
+     * Add all links from the given map to this section, starting from page 0.
+     * @param maxLines The maximum amount of lines per page.
+     * @param lineHeight The line height.
+     * @param softLinks The map of links.
+     */
     protected void addLinks(int maxLines, int lineHeight, Map<String, InfoSection> softLinks) {
         int linesOnPage = 0;
         if(isTitlePage(0)) {
@@ -53,7 +59,6 @@ public class InfoSection {
         List<HyperLink> pageLinks = Lists.newArrayListWithCapacity(maxLines);
         StringBuilder lines = new StringBuilder();
         for(Map.Entry<String, InfoSection> entry : softLinks.entrySet()) {
-        //for(InfoSection infoSection : sections) {
             lines.append("\n");
             linesOnPage++;
             if(linesOnPage >= maxLines) {
@@ -162,6 +167,11 @@ public class InfoSection {
                 lineStart += linesOffset + getAppendixLineHeight(appendix, fontRenderer) + (linesOffsetMod > 0 ? linesOffsetMod-- : 0);
             }
         }
+
+        // Bake appendix contents
+        for(SectionAppendix appendix : appendixes) {
+            appendix.bakeElement(this);
+        }
     }
 
     protected static final int getAppendixLineHeight(SectionAppendix appendix, FontRenderer fontRenderer) {
@@ -218,6 +228,17 @@ public class InfoSection {
         return links.get(page);
     }
 
+    /**
+     * Draw the screen for a given page.
+     * @param gui The gui.
+     * @param x X.
+     * @param y Y.
+     * @param width The width of the page.
+     * @param height The height of the page.
+     * @param page The page to render.
+     * @param mx Mouse X.
+     * @param my Mouse Y.
+     */
     public void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
         if(page < getPages()) {
             FontRenderer fontRenderer = gui.getFontRenderer();
@@ -250,6 +271,17 @@ public class InfoSection {
         }
     }
 
+    /**
+     * Draw the overlays for the given page, for tooltips and such.
+     * @param gui The gui.
+     * @param x X.
+     * @param y Y.
+     * @param width The width of the page.
+     * @param height The height of the page.
+     * @param page The page to render.
+     * @param mx Mouse X.
+     * @param my Mouse Y.
+     */
     public void postDrawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
         if(page < getPages()) {
             FontRenderer fontRenderer = gui.getFontRenderer();

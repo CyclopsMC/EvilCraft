@@ -1,6 +1,7 @@
 package evilcraft.infobook.pageelement;
 
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
+import evilcraft.infobook.InfoSection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
@@ -46,6 +47,11 @@ public class ImageAppendix extends SectionAppendix {
 
     @Override
     protected void postDrawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
+
+    }
+
+    @Override
+    public void bakeElement(InfoSection infoSection) {
 
     }
 }
