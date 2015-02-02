@@ -7,6 +7,7 @@
         <paragraph>infoBook.preface.text2</paragraph>
         <paragraph>infoBook.preface.text3</paragraph>
         <paragraph>infoBook.preface.text4</paragraph>
+        <appendix type="envirAccRecipe" index="0" meta="2">evilcraft:exaltedCrafter</appendix>
         <appendix type="furnaceRecipe" index="0">evilcraft:burningGemStone</appendix>
         <appendix type="bloodInfuserRecipe" index="0">evilcraft:bloodWaxedCoal</appendix>
         <appendix type="image" width="32" height="32">evilcraft:textures/gui/infobook/test.png</appendix>

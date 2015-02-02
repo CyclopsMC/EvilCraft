@@ -61,10 +61,10 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
 
         // Tier
         if(promise != null) {
-            renderItem(gui, x + SLOT_OFFSET_X, y + 3, promise, mx, my);
+            renderItem(gui, x + SLOT_OFFSET_X, y + 2, promise, mx, my);
         }
 
-        renderIcon(gui, x + middle, y + 3, BucketBloodConfig._instance.getItemInstance().getIconFromDamage(0));
+        renderIcon(gui, x + middle, y + 2, BucketBloodConfig._instance.getItemInstance().getIconFromDamage(0));
         renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(BloodInfuser.getInstance()), mx, my, false);
 
         // Blood amount text
@@ -74,7 +74,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
         fontRenderer.setBidiFlag(false);
         FluidStack fluidStack = recipe.getInput().getFluidStack();
         String line = fluidStack.amount + " mB";
-        fontRenderer.drawSplitString(line, x + middle + SLOT_SIZE + 2, y + 6, 200, 0);
+        fontRenderer.drawSplitString(line, x + middle + SLOT_SIZE + 1, y + 6, 200, 0);
         fontRenderer.setUnicodeFlag(oldUnicode);
     }
 }

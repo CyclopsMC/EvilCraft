@@ -6,10 +6,10 @@ import cpw.mods.fml.common.registry.GameData;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
+import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.core.helper.CraftingHelpers;
-import evilcraft.core.recipe.custom.DurationRecipeProperties;
-import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
-import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
+import evilcraft.core.recipe.custom.*;
+import evilcraft.core.weather.WeatherType;
 import evilcraft.infobook.pageelement.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -94,18 +94,37 @@ public class InfoBookParser {
             }
 
         });
+        APPENDIX_FACTORIES.put("envirAccRecipe", new IAppendixFactory() {
+
+            @Override
+            public SectionAppendix create(Element node) {
+                ItemStack itemStack = createStack(node);
+                List<IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>>
+                        recipes = EnvironmentalAccumulator.getInstance().getRecipeRegistry().
+                        findRecipesByOutput(new EnvironmentalAccumulatorRecipeComponent(itemStack, WeatherType.ANY));
+                int index = getIndex(node);
+                if(index >= recipes.size()) throw new IllegalArgumentException("Could not find Environmental Accumulator recipe for " +
+                        itemStack.getItem().getUnlocalizedName() + "with index " + index);
+                return new EnvironmentalAccumulatorRecipeAppendix(recipes.get(index));
+            }
+
+        });
     }
 
     private static int getIndex(Element node) {
         int index = 0;
-        if(node.getAttribute("index") != null) {
+        if(!node.getAttribute("index").isEmpty()) {
             index = Integer.parseInt(node.getAttribute("index"));
         }
         return index;
     }
 
     private static ItemStack createStack(Element node) {
-        return new ItemStack(GameData.getItemRegistry().getObject(node.getTextContent()), 1, OreDictionary.WILDCARD_VALUE);
+        int meta = OreDictionary.WILDCARD_VALUE;
+        if(!node.getAttribute("meta").isEmpty()) {
+            meta = Integer.parseInt(node.getAttribute("meta"));
+        }
+        return new ItemStack(GameData.getItemRegistry().getObject(node.getTextContent()), 1, meta);
     }
 
     public static InfoSection initializeInfoBook() {
