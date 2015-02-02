@@ -43,6 +43,9 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
 
     @Override
     public void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
+        int middle = (width - SLOT_SIZE) / 2;
+        gui.drawArrowRight(x + middle - 3, y + SLOT_OFFSET_Y + 2);
+
         // Prepare items
         int tick = getTick(gui);
         ItemStack input = prepareItemStacks(recipe.getInput().getItemStacks(), tick);
@@ -61,7 +64,6 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
             renderItem(gui, x + SLOT_OFFSET_X, y + 3, promise, mx, my);
         }
 
-        int middle = (width - SLOT_SIZE) / 2;
         renderIcon(gui, x + middle, y + 3, BucketBloodConfig._instance.getItemInstance().getIconFromDamage(0));
         renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(BloodInfuser.getInstance()), mx, my, false);
 

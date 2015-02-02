@@ -240,11 +240,28 @@ public class InfoSection {
             // Draw appendixes
             for (SectionAppendix appendix : appendixes) {
                 if (appendix.getPage() == page) {
-                    int linesOffset = getFontHeight(fontRenderer) * appendix.getLineStart();
-                    appendix.drawScreen(gui, x, y + Y_OFFSET + linesOffset, width, height, page, mx, my);
+                    appendix.drawScreen(gui, x, y + Y_OFFSET + getAppendixOffsetLine(fontRenderer, appendix), width,
+                            height, page, mx, my, true);
                 }
             }
         }
+    }
+
+    public void postDrawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
+        if(page < getPages()) {
+            FontRenderer fontRenderer = gui.getFontRenderer();
+            // Post draw appendixes
+            for (SectionAppendix appendix : appendixes) {
+                if (appendix.getPage() == page) {
+                    appendix.drawScreen(gui, x, y + Y_OFFSET + getAppendixOffsetLine(fontRenderer, appendix), width,
+                            height, page, mx, my, false);
+                }
+            }
+        }
+    }
+
+    protected static int getAppendixOffsetLine(FontRenderer fontRenderer, SectionAppendix appendix) {
+        return getFontHeight(fontRenderer) * appendix.getLineStart();
     }
 
     public ArrayList<String> getTags() {

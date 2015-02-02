@@ -38,6 +38,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     private static final int HR_HEIGHT = 10;
     private static final int BANNER_WIDTH = 91;
     private static final int BANNER_HEIGHT = 12;
+    private static final int ARROW_WIDTH = 22;
+    private static final int ARROW_HEIGHT = 13;
 
     private static final int BORDER_CORNER = 4;
     private static final int BORDER_WIDTH = 2;
@@ -94,8 +96,13 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
         drawTexturedModalRect(left, top, 0, 0, pageWidth, guiHeight);
         drawTexturedModalRectMirrored(left + pageWidth - 1, top, 0, 0, pageWidth, guiHeight);
-        currentSection.drawScreen(this, left + X_OFFSET_OUTER, top, pageWidth - X_OFFSET_TOTAL, guiHeight, page, x, y);
-        currentSection.drawScreen(this, left + pageWidth - 1 + X_OFFSET_INNER, top, pageWidth - X_OFFSET_TOTAL, guiHeight, page + 1, x, y);
+        int x0 = left + X_OFFSET_OUTER;
+        int x1 = left + pageWidth - 1 + X_OFFSET_INNER;
+        int width = pageWidth - X_OFFSET_TOTAL;
+        currentSection.drawScreen(this, x0, top, width, guiHeight, page, x, y);
+        currentSection.drawScreen(this, x1, top, width, guiHeight, page + 1, x, y);
+        currentSection.postDrawScreen(this, x0, top, width, guiHeight, page, x, y);
+        currentSection.postDrawScreen(this, x1, top, width, guiHeight, page + 1, x, y);
         super.drawScreen(x, y, f);
     }
 
@@ -206,6 +213,15 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.getTextureManager().bindTexture(texture);
         this.drawTexturedModalRect(x - BANNER_WIDTH / 2, y - BANNER_HEIGHT / 2, 52, 191, BANNER_WIDTH, BANNER_HEIGHT);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public void drawArrowRight(int x, int y) {
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        mc.getTextureManager().bindTexture(texture);
+        this.drawTexturedModalRect(x, y, 0, 210, ARROW_WIDTH, ARROW_HEIGHT);
         GL11.glDisable(GL11.GL_BLEND);
     }
 

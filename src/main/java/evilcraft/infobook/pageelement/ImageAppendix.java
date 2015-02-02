@@ -43,4 +43,9 @@ public class ImageAppendix extends SectionAppendix {
         gui.drawTexturedModalRect(x, y, 0, 0, getWidth(), getHeight());
         gui.drawOuterBorder(x, y, getWidth(), getHeight(), 0.5F, 0.5F, 0.5F, 0.4f);
     }
+
+    @Override
+    protected void postDrawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
+
+    }
 }

@@ -28,16 +28,33 @@ import org.lwjgl.opengl.GL11;
     protected abstract int getWidth();
     protected abstract int getHeight();
 
-    public void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
+    /**
+     * Draw the appendix.
+     * @param gui The gui.
+     * @param x Start X.
+     * @param y Start Y.
+     * @param width Max width.
+     * @param height Max height.
+     * @param page Current page.
+     * @param mx Mouse X.
+     * @param my Mouse Y.
+     * @param pre If the normal drawing should occur, otherwise post-drawing: things like tooltips.
+     */
+    public void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my, boolean pre) {
         int xc = x + width / 2 - getWidth() / 2;
         int yc = y + getOffsetY();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(1F, 1F, 1F, 1F);
-        drawElement(gui, xc, yc, getWidth(), getHeight(), page, mx, my);
+        if(pre) {
+            drawElement(gui, xc, yc, getWidth(), getHeight(), page, mx, my);
+        } else {
+            postDrawElement(gui, xc, yc, getWidth(), getHeight(), page, mx, my);
+        }
         GL11.glDisable(GL11.GL_BLEND);
     }
 
     protected abstract void drawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my);
+    protected abstract void postDrawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my);
 
 }

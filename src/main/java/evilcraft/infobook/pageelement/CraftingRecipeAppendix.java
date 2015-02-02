@@ -46,6 +46,8 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
 
     @Override
     protected void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
+        gui.drawArrowRight(x + (SLOT_SIZE + SLOT_OFFSET_X) * 3 - 3, y + SLOT_OFFSET_Y + SLOT_SIZE + 2);
+
         // Prepare items
         int tick = getTick(gui);
         ItemStack[] grid = new ItemStack[9];

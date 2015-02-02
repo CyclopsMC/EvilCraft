@@ -124,6 +124,9 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         gui.drawScaledCenteredString(L10NHelpers.localize(getUnlocalizedTitle()), x, y - 2 - yOffset, width, 0.9f, RenderHelpers.RGBToInt(120, 20, 30));
 
         drawElementInner(gui, x, y, width, height, page, mx, my);
+    }
+
+    protected void postDrawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
         renderToolTips(gui, mx, my);
     }
 
