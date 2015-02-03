@@ -1,17 +1,18 @@
 package evilcraft.entity.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.block.InvisibleRedstoneBlock;
 import evilcraft.block.InvisibleRedstoneBlockConfig;
 import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.RedstoneGrenade;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 
 /**
  * Entity for the {@link RedstoneGrenade}.
@@ -87,4 +88,10 @@ public class EntityRedstoneGrenade extends EntityThrowable implements IConfigura
         
         this.setDead();
     }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return null;
+    }
+
 }

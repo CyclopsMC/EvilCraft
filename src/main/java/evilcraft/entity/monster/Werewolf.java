@@ -2,6 +2,7 @@ package evilcraft.entity.monster;
 
 import evilcraft.Configs;
 import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.entity.villager.WerewolfVillagerConfig;
 import evilcraft.item.WerewolfBoneConfig;
@@ -233,6 +234,11 @@ public class Werewolf extends EntityMob implements IConfigurable{
      */
     public void setFromVillager(boolean fromVillager) {
         this.fromVillager = fromVillager;
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return null;
     }
 
 }

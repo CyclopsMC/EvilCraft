@@ -31,6 +31,11 @@ public class ConfigurableBlockTorch extends BlockTorch implements IConfigurable{
     private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
+    }
     
     @Override
     public String getTextureName() {

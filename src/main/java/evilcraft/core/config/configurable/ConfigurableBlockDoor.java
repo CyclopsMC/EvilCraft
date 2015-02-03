@@ -1,9 +1,9 @@
 package evilcraft.core.config.configurable;
 
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.material.Material;
 import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.material.Material;
 
 /**
  * Door block that can hold ExtendedConfigs
@@ -35,6 +35,11 @@ public abstract class ConfigurableBlockDoor extends BlockDoor implements IConfig
     @Override
     public String getTextureName() {
         return Reference.MOD_ID+":"+eConfig.getNamedId();
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
     }
 
 }

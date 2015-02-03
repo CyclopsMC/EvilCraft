@@ -12,6 +12,7 @@ import evilcraft.client.particle.EntityDarkSmokeFX;
 import evilcraft.client.particle.EntityDegradeFX;
 import evilcraft.core.config.IChangedCallback;
 import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
@@ -773,5 +774,10 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 		}
 		
 	}
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return null;
+    }
     
 }

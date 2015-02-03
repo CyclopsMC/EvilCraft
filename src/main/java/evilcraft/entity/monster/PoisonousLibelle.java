@@ -2,6 +2,7 @@ package evilcraft.entity.monster;
 
 import evilcraft.Configs;
 import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.PoisonSacConfig;
 import net.minecraft.entity.*;
 import net.minecraft.entity.monster.IMob;
@@ -347,6 +348,11 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
      */
     public float getWingProgressScaled(float scale) {
         return (float)wingProgress / (float)WINGLENGTH * scale;
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return null;
     }
 
 }

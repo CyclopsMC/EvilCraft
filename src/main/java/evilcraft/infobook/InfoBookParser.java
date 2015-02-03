@@ -111,6 +111,8 @@ public class InfoBookParser {
         });
     }
 
+    public static Map<String, InfoSection> configLinks;
+
     private static int getIndex(Element node) {
         int index = 0;
         if(!node.getAttribute("index").isEmpty()) {

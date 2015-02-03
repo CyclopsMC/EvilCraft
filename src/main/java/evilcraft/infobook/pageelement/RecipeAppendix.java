@@ -1,12 +1,16 @@
 package evilcraft.infobook.pageelement;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import evilcraft.Configs;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
+import evilcraft.infobook.AdvancedButton;
+import evilcraft.infobook.InfoBookParser;
 import evilcraft.infobook.InfoSection;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -17,6 +21,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Recipes that can be added to sections.
@@ -29,7 +34,12 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
 
     protected T recipe;
 
-    private List<RenderItemHolder> renderItemHolders = Lists.newLinkedList();
+    /**
+     * This map holds advanced buttons that have a unique identifier.
+     * The map has to be populated in the baking of this appendix.
+     * The map values can be updated on each render tick.
+     */
+    protected Map<AdvancedButton.Enum, ItemButton> renderItemHolders = Maps.newHashMap();
 
     public RecipeAppendix(T recipe) {
         this.recipe = recipe;
@@ -53,11 +63,11 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         return itemStack;
     }
 
-    protected void renderItem(GuiOriginsOfDarkness gui, int x, int y, ItemStack itemStack, int mx, int my) {
-        renderItem(gui, x, y, itemStack, mx, my, true);
+    protected void renderItem(GuiOriginsOfDarkness gui, int x, int y, ItemStack itemStack, int mx, int my, AdvancedButton.Enum buttonEnum) {
+        renderItem(gui, x, y, itemStack, mx, my, true, buttonEnum);
     }
 
-    protected void renderItem(GuiOriginsOfDarkness gui, int x, int y, ItemStack itemStack, int mx, int my, boolean renderOverlays) {
+    protected void renderItem(GuiOriginsOfDarkness gui, int x, int y, ItemStack itemStack, int mx, int my, boolean renderOverlays, AdvancedButton.Enum buttonEnum) {
         if(renderOverlays) gui.drawOuterBorder(x, y, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
 
         RenderItem renderItem = RenderItem.getInstance();
@@ -72,7 +82,7 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         RenderHelper.disableStandardItemLighting();
         GL11.glPopMatrix();
 
-        if(renderOverlays) renderItemHolders.add(new RenderItemHolder(x, y, itemStack));
+        if(buttonEnum != null && renderOverlays) renderItemHolders.get(buttonEnum).update(x, y, itemStack, gui);
     }
 
     protected void renderIcon(GuiOriginsOfDarkness gui, int x, int y, IIcon icon) {
@@ -139,23 +149,57 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
     protected abstract void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my);
 
     protected void renderToolTips(GuiOriginsOfDarkness gui, int mx, int my) {
-        for(RenderItemHolder renderItemHolder : renderItemHolders) {
-            renderItemTooltip(gui, renderItemHolder.getX(), renderItemHolder.getY(), renderItemHolder.getItemStack(), mx, my);
+        for(ItemButton renderItemHolder : renderItemHolders.values()) {
+            renderItemTooltip(gui, renderItemHolder.xPosition, renderItemHolder.yPosition, renderItemHolder.getItemStack(), mx, my);
         }
+    }
+
+    @Override
+    public void preBakeElement(InfoSection infoSection) {
         renderItemHolders.clear();
     }
 
     @Override
     public void bakeElement(InfoSection infoSection) {
-
+        infoSection.addAdvancedButtons(getPage(), renderItemHolders.values());
     }
 
-    @Data
-    @AllArgsConstructor
-    private static class RenderItemHolder {
+    protected static class ItemButton extends AdvancedButton {
 
-        private int x, y;
-        private ItemStack itemStack;
+        @Getter private ItemStack itemStack;
+
+        public ItemButton() {
+
+        }
+
+        /**
+         * This is called each render tick to update the button to the latest render state.
+         * @param x The X position.
+         * @param y The Y position.
+         * @param itemStack The itemStack to display.
+         * @param gui The gui.
+         */
+        public void update(int x, int y, ItemStack itemStack, GuiOriginsOfDarkness gui) {
+            this.itemStack = itemStack;
+            ExtendedConfig<?> config = Configs.getConfigFromItem(itemStack.getItem());
+            InfoSection target = null;
+            if(config != null) {
+                target = InfoBookParser.configLinks.get(config.getFullUnlocalizedName());
+            }
+            super.update(x, y, "empty", target, gui);
+        }
+
+        @Override
+        public void drawButton(Minecraft minecraft, int mouseX, int mouseY) {
+            if(isVisible() && isHover(mouseX, mouseY)) {
+                gui.drawOuterBorder(xPosition, yPosition, 16, 16, 0.392f, 0.392f, 0.6f, 0.9f);
+            }
+        }
+
+        @Override
+        public boolean isVisible() {
+            return super.isVisible() && itemStack != null;
+        }
 
     }
 

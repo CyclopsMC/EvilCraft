@@ -2,6 +2,8 @@ package evilcraft.infobook.pageelement;
 
 import evilcraft.EvilCraft;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
+import evilcraft.infobook.AdvancedButton;
+import evilcraft.infobook.InfoSection;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -25,6 +27,12 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
     private static final int SLOT_OFFSET_Y = 5;
     private static final int START_X_RESULT = 84;
 
+    private static final AdvancedButton.Enum[] INPUT = new AdvancedButton.Enum[9];
+    static {
+        for(int i = 0; i < 9; i++) INPUT[i] = AdvancedButton.Enum.create();
+    }
+    private static final AdvancedButton.Enum RESULT = AdvancedButton.Enum.create();
+
     public CraftingRecipeAppendix(IRecipe recipe) {
         super(recipe);
     }
@@ -45,6 +53,13 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
     }
 
     @Override
+    public void bakeElement(InfoSection infoSection) {
+        for(int i = 0; i < 9; i++) renderItemHolders.put(INPUT[i], new ItemButton());
+        renderItemHolders.put(RESULT, new ItemButton());
+        super.bakeElement(infoSection);
+    }
+
+    @Override
     protected void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
         gui.drawArrowRight(x + (SLOT_SIZE + SLOT_OFFSET_X) * 3 - 3, y + SLOT_OFFSET_Y + SLOT_SIZE + 2);
 
@@ -62,13 +77,14 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
         for(int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 renderItem(gui, x + (SLOT_SIZE + SLOT_OFFSET_X) * i, y+ (SLOT_SIZE + SLOT_OFFSET_Y) * j,
-                        grid[i + j * 3], mx, my);
+                        grid[i + j * 3], mx, my, INPUT[i + j * 3]);
             }
         }
-        renderItem(gui, x + START_X_RESULT, y + (SLOT_SIZE + SLOT_OFFSET_Y), result, mx, my);
+        renderItem(gui, x + START_X_RESULT, y + (SLOT_SIZE + SLOT_OFFSET_Y), result, mx, my, RESULT);
 
         // Crafting Table icon
-        renderItem(gui, x + (SLOT_SIZE + SLOT_OFFSET_X) * 3, y + SLOT_OFFSET_Y + SLOT_SIZE, new ItemStack(Blocks.crafting_table), mx, my, false);
+        renderItem(gui, x + (SLOT_SIZE + SLOT_OFFSET_X) * 3, y + SLOT_OFFSET_Y + SLOT_SIZE,
+                new ItemStack(Blocks.crafting_table), mx, my, false, null);
     }
 
     protected List<ItemStack> getItemStacks(int index) {

@@ -1,10 +1,10 @@
 package evilcraft.core.config.configurable;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import evilcraft.core.config.extendedconfig.EnchantmentConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnumEnchantmentType;
 
 /**
  * A simple configurable for Enchantments, will auto-register itself after construction.
@@ -32,6 +32,11 @@ public class ConfigurableEnchantment extends Enchantment implements IConfigurabl
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
     }
     
     @Override

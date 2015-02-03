@@ -43,6 +43,11 @@ public class ConfigurableItemBucket extends ItemBucket implements IConfigurable{
     private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
+    }
     
     @Override
     public String getIconString() {

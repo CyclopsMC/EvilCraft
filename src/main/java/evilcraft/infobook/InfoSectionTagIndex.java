@@ -18,14 +18,15 @@ public class InfoSectionTagIndex extends InfoSection {
     public InfoSectionTagIndex(InfoSection parent) {
         super(parent, parent.getSubSections(), "infoBook.tagIndex", new ArrayList<String>(),
                 new ArrayList<SectionAppendix>(), new ArrayList<String>());
+
+        // treemap to ensure order by tag
+        InfoBookParser.configLinks = Maps.newTreeMap();
+        addSoftLinks(InfoBookParser.configLinks, getParent());
     }
 
     public void bakeSection(FontRenderer fontRenderer, int width, int maxLines, int lineHeight) {
         if(paragraphs.size() == 0) {
-            // treemap to ensure order by tag
-            Map<String, InfoSection> softLinks = Maps.newTreeMap();
-            addSoftLinks(softLinks, getParent());
-            addLinks(maxLines, lineHeight, softLinks);
+            addLinks(maxLines, lineHeight, InfoBookParser.configLinks);
         }
         super.bakeSection(fontRenderer, width, maxLines, lineHeight);
     }

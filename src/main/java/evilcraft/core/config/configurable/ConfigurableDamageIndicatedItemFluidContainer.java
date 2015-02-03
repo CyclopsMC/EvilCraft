@@ -54,6 +54,11 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     }
 
     @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
+    }
+
+    @Override
     public String getIconString() {
         return Reference.MOD_ID+":"+eConfig.getNamedId();
     }

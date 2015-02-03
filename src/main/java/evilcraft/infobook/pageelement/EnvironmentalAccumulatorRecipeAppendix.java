@@ -7,6 +7,8 @@ import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
+import evilcraft.infobook.AdvancedButton;
+import evilcraft.infobook.InfoSection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -34,6 +36,9 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
     private static final int START_X_RESULT = 68;
     private static final int Y_START = 2;
 
+    private static final AdvancedButton.Enum INPUT = AdvancedButton.Enum.create();
+    private static final AdvancedButton.Enum RESULT = AdvancedButton.Enum.create();
+
     public EnvironmentalAccumulatorRecipeAppendix(IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
         super(recipe);
     }
@@ -54,6 +59,13 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
     }
 
     @Override
+    public void bakeElement(InfoSection infoSection) {
+        renderItemHolders.put(INPUT, new ItemButton());
+        renderItemHolders.put(RESULT, new ItemButton());
+        super.bakeElement(infoSection);
+    }
+
+    @Override
     public void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
         int middle = (width - SLOT_SIZE) / 2;
         gui.drawArrowRight(x + middle - 3, y + SLOT_OFFSET_Y + 2);
@@ -64,10 +76,10 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
         ItemStack result = prepareItemStack(recipe.getOutput().getItemStack(), tick);
 
         // Items
-        renderItem(gui, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my);
-        renderItem(gui, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my);
+        renderItem(gui, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
+        renderItem(gui, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
 
-        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(EnvironmentalAccumulator.getInstance()), mx, my, false);
+        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(EnvironmentalAccumulator.getInstance()), mx, my, false, null);
 
         // Draw weathers
         int inputX = X_ICON_OFFSETS.get(recipe.getInput().getWeatherType());

@@ -1,17 +1,17 @@
 package evilcraft.core.config.configurable;
 
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemReed;
-import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemReed;
+import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 /**
  * Item that can hold ExtendedConfigs which places blocks on use.
@@ -38,6 +38,11 @@ public abstract class ConfigurableItemForBlock extends ItemReed implements IConf
     @SuppressWarnings("rawtypes")
     private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
     }
     
     @Override

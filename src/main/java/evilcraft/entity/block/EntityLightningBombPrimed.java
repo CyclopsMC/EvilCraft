@@ -1,14 +1,15 @@
 package evilcraft.entity.block;
 
-import java.util.Random;
-
+import evilcraft.block.LightningBomb;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.world.World;
-import evilcraft.block.LightningBomb;
-import evilcraft.core.config.configurable.IConfigurable;
+
+import java.util.Random;
 
 /**
  * Entity for primed {@link LightningBomb}.
@@ -84,5 +85,9 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfi
             world.addWeatherEffect(new EntityLightningBolt(world, x, y, z));
         }
     }
-    
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return null;
+    }
 }

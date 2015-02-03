@@ -1,5 +1,10 @@
 package evilcraft.entity.monster;
 
+import evilcraft.Configs;
+import evilcraft.block.NetherfishSpawn;
+import evilcraft.block.NetherfishSpawnConfig;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -9,10 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import evilcraft.Configs;
-import evilcraft.block.NetherfishSpawn;
-import evilcraft.block.NetherfishSpawnConfig;
-import evilcraft.core.config.configurable.IConfigurable;
 
 /**
  * A silverfish for the nether.
@@ -102,6 +103,11 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
             }
         }
         super.updateEntityActionState();
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return null;
     }
     
 }

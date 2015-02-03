@@ -1,15 +1,15 @@
 package evilcraft.core.config.configurable;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Reference;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBasePressurePlate;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * {@link BlockBasePressurePlate} that can hold ExtendedConfigs.
@@ -45,6 +45,11 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
     
     private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
         this.eConfig = eConfig;
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
     }
     
     @Override

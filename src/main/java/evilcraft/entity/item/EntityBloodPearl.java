@@ -1,5 +1,11 @@
 package evilcraft.entity.item;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.item.BloodPearlOfTeleportation;
+import evilcraft.item.BloodPearlOfTeleportationConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -11,11 +17,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.item.BloodPearlOfTeleportation;
-import evilcraft.item.BloodPearlOfTeleportationConfig;
 
 /**
  * Entity for the {@link BloodPearlOfTeleportation}.
@@ -85,6 +86,11 @@ public class EntityBloodPearl extends EntityThrowable implements IConfigurable{
 
             this.setDead();
         }
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return null;
     }
 
 }

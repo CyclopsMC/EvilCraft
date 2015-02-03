@@ -1,9 +1,9 @@
 package evilcraft.core.config.configurable;
 
-import net.minecraft.world.biome.BiomeGenBase;
 import evilcraft.core.config.extendedconfig.BiomeConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
+import net.minecraft.world.biome.BiomeGenBase;
 
 /**
  * A simple configurable for Biomes, will auto-register itself after construction.
@@ -36,6 +36,11 @@ public class ConfigurableBiome extends BiomeGenBase implements IConfigurable {
      */
     public String getLocalizedName() {
         return L10NHelpers.localize(eConfig.getUnlocalizedName());
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
     }
 
 }

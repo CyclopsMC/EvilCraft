@@ -11,5 +11,7 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
  *
  */
 public interface IConfigurable {
-    
+
+    public ExtendedConfig<?> getConfig();
+
 }

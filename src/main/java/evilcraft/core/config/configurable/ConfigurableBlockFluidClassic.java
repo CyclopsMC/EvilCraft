@@ -1,13 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import java.util.Random;
-
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.BlockFluidClassic;
-import net.minecraftforge.fluids.Fluid;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
@@ -15,6 +7,14 @@ import evilcraft.core.block.component.EntityDropParticleFXBlockComponent;
 import evilcraft.core.block.component.IEntityDropParticleFXBlock;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.event.TextureStitchEventHook;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.BlockFluidClassic;
+import net.minecraftforge.fluids.Fluid;
+
+import java.util.Random;
 
 /**
  * Block that represents an in-world fluid that can hold ExtendedConfigs
@@ -52,6 +52,11 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
 
     private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
         this.eConfig = eConfig;
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
     }
     
     @Override

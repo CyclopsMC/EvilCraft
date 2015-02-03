@@ -1,5 +1,11 @@
 package evilcraft.entity.item;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.helper.EntityHelpers;
+import evilcraft.item.LightningGrenade;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -8,11 +14,6 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.helper.EntityHelpers;
-import evilcraft.item.LightningGrenade;
 
 /**
  * Entity for the {@link LightningGrenade}.
@@ -68,6 +69,11 @@ public class EntityLightningGrenade extends EntityThrowable implements IConfigur
 
             this.setDead();
         }
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return null;
     }
 
 }

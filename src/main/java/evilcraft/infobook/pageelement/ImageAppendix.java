@@ -51,6 +51,11 @@ public class ImageAppendix extends SectionAppendix {
     }
 
     @Override
+    public void preBakeElement(InfoSection infoSection) {
+
+    }
+
+    @Override
     public void bakeElement(InfoSection infoSection) {
 
     }

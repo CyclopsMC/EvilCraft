@@ -1,9 +1,9 @@
 package evilcraft.core.config.configurable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Reference;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,10 +12,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Block that extends from BlockLeaves that can hold ExtendedConfigs
@@ -42,6 +42,11 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
 
     private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
         this.eConfig = eConfig;
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
     }
 
     @Override

@@ -6,6 +6,8 @@ import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
+import evilcraft.infobook.AdvancedButton;
+import evilcraft.infobook.InfoSection;
 import evilcraft.item.BucketBloodConfig;
 import evilcraft.item.Promise;
 import net.minecraft.client.gui.FontRenderer;
@@ -21,6 +23,10 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
     private static final int SLOT_OFFSET_X = 16;
     private static final int SLOT_OFFSET_Y = 23;
     private static final int START_X_RESULT = 68;
+
+    private static final AdvancedButton.Enum INPUT = AdvancedButton.Enum.create();
+    private static final AdvancedButton.Enum RESULT = AdvancedButton.Enum.create();
+    private static final AdvancedButton.Enum PROMISE = AdvancedButton.Enum.create();
 
     public BloodInfuserRecipeAppendix(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
         super(recipe);
@@ -42,6 +48,14 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
     }
 
     @Override
+    public void bakeElement(InfoSection infoSection) {
+        renderItemHolders.put(INPUT, new ItemButton());
+        renderItemHolders.put(RESULT, new ItemButton());
+        renderItemHolders.put(PROMISE, new ItemButton());
+        super.bakeElement(infoSection);
+    }
+
+    @Override
     public void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
         int middle = (width - SLOT_SIZE) / 2;
         gui.drawArrowRight(x + middle - 3, y + SLOT_OFFSET_Y + 2);
@@ -56,16 +70,16 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
         }
 
         // Items
-        renderItem(gui, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my);
-        renderItem(gui, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my);
+        renderItem(gui, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
+        renderItem(gui, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
 
         // Tier
         if(promise != null) {
-            renderItem(gui, x + SLOT_OFFSET_X, y + 2, promise, mx, my);
+            renderItem(gui, x + SLOT_OFFSET_X, y + 2, promise, mx, my, PROMISE);
         }
 
         renderIcon(gui, x + middle, y + 2, BucketBloodConfig._instance.getItemInstance().getIconFromDamage(0));
-        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(BloodInfuser.getInstance()), mx, my, false);
+        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(BloodInfuser.getInstance()), mx, my, false, null);
 
         // Blood amount text
         FontRenderer fontRenderer = gui.getFontRenderer();

@@ -8,10 +8,7 @@ import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.pageelement.SectionAppendix;
 import net.minecraft.client.gui.FontRenderer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Section of the info book.
@@ -34,6 +31,7 @@ public class InfoSection {
     private ArrayList<String> tagList;
     private int pages;
     private List<String> localizedPages;
+    private Map<Integer, List<AdvancedButton>> advancedButtons = Maps.newHashMap();
 
     public InfoSection(InfoSection parent, int childIndex, String unlocalizedName, List<String> paragraphs,
                        List<SectionAppendix> appendixes, ArrayList<String> tagList) {
@@ -169,7 +167,9 @@ public class InfoSection {
         }
 
         // Bake appendix contents
+        advancedButtons.clear();
         for(SectionAppendix appendix : appendixes) {
+            appendix.preBakeElement(this);
             appendix.bakeElement(this);
         }
     }
@@ -301,6 +301,24 @@ public class InfoSection {
 
     public ArrayList<String> getTags() {
         return tagList;
+    }
+
+    public List<AdvancedButton> getAdvancedButtons(int page) {
+        if(!advancedButtons.containsKey(page)) {
+            return Collections.EMPTY_LIST;
+        }
+        return advancedButtons.get(page);
+    }
+
+    public void addAdvancedButton(int page, AdvancedButton advancedButton) {
+        if(!advancedButtons.containsKey(page)) {
+            advancedButtons.put(page, Lists.<AdvancedButton>newLinkedList());
+        }
+        advancedButtons.get(page).add(advancedButton);
+    }
+
+    public <T extends AdvancedButton> void addAdvancedButtons(int page, Collection<T> advancedButtons) {
+        for(AdvancedButton advancedButton : advancedButtons) addAdvancedButton(page, advancedButton);
     }
 
 }

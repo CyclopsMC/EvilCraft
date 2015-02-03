@@ -7,6 +7,7 @@ import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.RenderHelpers;
+import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.HyperLink;
 import evilcraft.infobook.InfoBookRegistry;
 import evilcraft.infobook.InfoSection;
@@ -82,10 +83,13 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         this.buttonList.add(this.buttonParent = new NextPageButton(BUTTON_PARENT, left + 2, top + 2, 36, 180, 8, 8));
         this.updateGui();
         int nextId = BUTTON_HYPERLINKS_START;
-        for(HyperLink link : currentSection.getLinks(page)) {
-            int xOffset = page % 2 == 1 ? X_OFFSET_INNER : X_OFFSET_OUTER;
-            this.buttonList.add(new TextOverlayButton(nextId++, link, left + xOffset + link.getX(), top + link.getY(),
-                    InfoSection.getFontHeight(getFontRenderer())));
+        for(int innerPage = page; innerPage <= page + 1; innerPage++) {
+            for (HyperLink link : currentSection.getLinks(innerPage)) {
+                int xOffset = innerPage % 2 == 1 ? X_OFFSET_INNER : X_OFFSET_OUTER;
+                this.buttonList.add(new TextOverlayButton(nextId++, link, left + xOffset + link.getX(), top + link.getY(),
+                        InfoSection.getFontHeight(getFontRenderer())));
+            }
+            this.buttonList.addAll(currentSection.getAdvancedButtons(innerPage));
         }
     }
 
@@ -179,14 +183,18 @@ public class GuiOriginsOfDarkness extends GuiScreen {
             page = 0;
         } else if(button instanceof TextOverlayButton) {
             currentSection = ((TextOverlayButton) button).getLink().getTarget();
+            page = 0;
+        } else if(button instanceof AdvancedButton && ((AdvancedButton) button).isVisible()) {
+            currentSection = ((AdvancedButton) button).getTarget();
+            page = 0;
         } else {
             super.actionPerformed(button);
         }
-        this.initGui();
         if(goToLastPage) {
             page = Math.max(0, currentSection.getPages() - 2);
             page += page % 2;
         }
+        this.initGui();
     }
 
     public void drawScaledCenteredString(String string, int x, int y, int width, float scale, int color) {
@@ -322,9 +330,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
             fontRenderer.setUnicodeFlag(oldUnicode);
         }
 
-        /**
-         * Draws this button to the screen.
-         */
+        @Override
         public void drawButton(Minecraft minecraft, int mouseX, int mouseY) {
             if (this.visible) {
                 boolean isHover = mouseX >= this.xPosition && mouseY >= this.yPosition &&

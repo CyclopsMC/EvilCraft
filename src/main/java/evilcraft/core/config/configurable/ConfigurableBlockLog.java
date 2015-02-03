@@ -44,6 +44,11 @@ public class ConfigurableBlockLog extends BlockLog implements IConfigurable{
     }
 
     @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
+    }
+
+    @Override
     public String getTextureName() {
         return Reference.MOD_ID+":"+eConfig.getNamedId();
     }

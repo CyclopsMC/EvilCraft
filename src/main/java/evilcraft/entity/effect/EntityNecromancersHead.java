@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.item.NecromancerStaff;
@@ -185,6 +186,11 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
 	        	this.setDead();
 	        }
     	}
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return null;
     }
 
 }

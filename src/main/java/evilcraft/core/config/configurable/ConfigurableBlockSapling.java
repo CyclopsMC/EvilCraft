@@ -47,6 +47,11 @@ public class ConfigurableBlockSapling extends BlockSapling implements IConfigura
     }
 
     @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
+    }
+
+    @Override
     public String getTextureName() {
         return Reference.MOD_ID+":"+eConfig.getNamedId();
     }

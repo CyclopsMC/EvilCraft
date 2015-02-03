@@ -28,4 +28,9 @@ public abstract class ConfigurableDegradationEffect implements IConfigurable, ID
         this.eConfig = eConfig;
     }
 
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
+    }
+
 }

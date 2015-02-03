@@ -42,6 +42,11 @@ public class ConfigurableBlock extends Block implements IConfigurable, IMultiRen
     private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
+    }
     
     @Override
     @SideOnly(Side.CLIENT)

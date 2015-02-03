@@ -22,11 +22,14 @@ import evilcraft.fluid.BloodConfig;
 import evilcraft.fluid.PoisonConfig;
 import evilcraft.item.*;
 import evilcraft.world.biome.BiomeDegradedConfig;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import javax.annotation.Nullable;
 import java.util.Set;
 
 /**
@@ -232,6 +235,25 @@ public class Configs {
             return false;
         } catch (SecurityException e4) {
             return false;
+        }
+    }
+
+    /**
+     * Get the config from a given item.
+     * It will internally also try to get the block from the item if it exists to get the config from.
+     * @param item The item, possibly IConfigurable.
+     * @return The config or null.
+     */
+    public static @Nullable ExtendedConfig<?> getConfigFromItem(Item item) {
+        if(item instanceof IConfigurable) {
+            return ((IConfigurable) item).getConfig();
+        } else {
+            Block block = Block.getBlockFromItem(item);
+            if(block != Blocks.air && block instanceof IConfigurable) {
+                return ((IConfigurable) block).getConfig();
+            } else {
+                return null;
+            }
         }
     }
     

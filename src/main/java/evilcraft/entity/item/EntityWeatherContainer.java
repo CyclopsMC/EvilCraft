@@ -2,6 +2,7 @@ package evilcraft.entity.item;
 
 import evilcraft.Configs;
 import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.entity.item.EntityThrowable;
 import evilcraft.item.WeatherContainer;
 import evilcraft.item.WeatherContainer.WeatherContainerTypes;
@@ -111,5 +112,10 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
         super.entityInit();
         
         dataWatcher.addObject(ITEMSTACK_INDEX, WeatherContainer.createItemStack(WeatherContainerTypes.EMPTY, 1));
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return null;
     }
 }

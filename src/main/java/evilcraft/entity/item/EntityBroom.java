@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MathHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.item.Broom;
@@ -343,6 +344,10 @@ public class EntityBroom extends Entity implements IConfigurable{
     protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
     	
     }
-    
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return null;
+    }
     
 }

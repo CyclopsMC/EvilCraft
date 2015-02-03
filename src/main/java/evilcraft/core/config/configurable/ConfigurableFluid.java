@@ -1,7 +1,7 @@
 package evilcraft.core.config.configurable;
 
-import net.minecraftforge.fluids.Fluid;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraftforge.fluids.Fluid;
 
 /**
  * Fluid that can hold ExtendedConfigs
@@ -28,6 +28,11 @@ public abstract class ConfigurableFluid extends Fluid implements IConfigurable{
     @SuppressWarnings("rawtypes")
     private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
+    }
+
+    @Override
+    public ExtendedConfig<?> getConfig() {
+        return eConfig;
     }
 
 }

@@ -346,9 +346,7 @@ public class ConfigurableBlockContainer extends BlockContainer implements IConfi
         return itemStack;
     }
 
-    /**
-     * @return The config instance.
-     */
+    @Override
     public final BlockContainerConfig getConfig() {
         return (BlockContainerConfig) this.eConfig;
     }
