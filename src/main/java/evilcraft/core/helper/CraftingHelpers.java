@@ -1,5 +1,6 @@
 package evilcraft.core.helper;
 
+import evilcraft.infobook.InfoBookParser;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -15,18 +16,18 @@ import java.util.Map;
  */
 public class CraftingHelpers {
 
-    public static IRecipe findCraftingRecipe(ItemStack itemStack, int index) {
+    public static IRecipe findCraftingRecipe(ItemStack itemStack, int index) throws InfoBookParser.InvalidAppendixException {
         int indexAttempt = index;
         for(IRecipe recipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList()) {
             if(itemStacksEqual(recipe.getRecipeOutput(), itemStack) && indexAttempt-- == 0) {
                 return recipe;
             }
         }
-        throw new IllegalArgumentException("Could not find crafting recipe for " + itemStack.getItem().getUnlocalizedName() +
+        throw new InfoBookParser.InvalidAppendixException("Could not find crafting recipe for " + itemStack.getItem().getUnlocalizedName() +
                 "with index " + index);
     }
 
-    public static Map.Entry<ItemStack, ItemStack> findFurnaceRecipe(ItemStack itemStack, int index) {
+    public static Map.Entry<ItemStack, ItemStack> findFurnaceRecipe(ItemStack itemStack, int index) throws InfoBookParser.InvalidAppendixException {
         int indexAttempt = index;
         for(Map.Entry<ItemStack, ItemStack> recipe : ((Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().
                 getSmeltingList()).entrySet()) {
@@ -34,7 +35,7 @@ public class CraftingHelpers {
                 return recipe;
             }
         }
-        throw new IllegalArgumentException("Could not find furnace recipe for " + itemStack.getItem().getUnlocalizedName() +
+        throw new InfoBookParser.InvalidAppendixException("Could not find furnace recipe for " + itemStack.getItem().getUnlocalizedName() +
                 "with index " + index);
     }
 
