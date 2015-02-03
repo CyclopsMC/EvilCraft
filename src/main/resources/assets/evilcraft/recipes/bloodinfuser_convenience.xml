@@ -2,6 +2,7 @@
 <recipes>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">potentiaSphere</condition>
         <condition type="config">evilcraftblood</condition>
@@ -21,6 +22,7 @@
     </recipe>
     
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -38,6 +40,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <condition type="config">werewolfFlesh</condition>
@@ -56,6 +59,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -73,6 +77,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -90,6 +95,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -107,6 +113,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -124,6 +131,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -141,6 +149,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -158,6 +167,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -175,6 +185,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -192,6 +203,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -209,6 +221,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -226,6 +239,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
@@ -243,6 +257,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <condition type="config">dullDust</condition>
@@ -261,6 +276,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <condition type="config">bloodWaxedCoal</condition>
@@ -279,6 +295,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <condition type="config">bloodWaxedCoalBlock</condition>
@@ -297,6 +314,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <condition type="config">enderTear</condition>
@@ -315,6 +333,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>convenience</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <condition type="config">bloodPotash</condition>

@@ -86,6 +86,7 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
     }
 
     protected void renderIcon(GuiOriginsOfDarkness gui, int x, int y, IIcon icon) {
+        GL11.glColor3f(1, 1, 1);
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

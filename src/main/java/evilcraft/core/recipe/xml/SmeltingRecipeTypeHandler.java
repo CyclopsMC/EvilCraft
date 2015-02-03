@@ -1,11 +1,9 @@
 package evilcraft.core.recipe.xml;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * Recipe type handler for smelting recipes.
@@ -14,7 +12,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class SmeltingRecipeTypeHandler extends CommonRecipeTypeHandler {
 
 	@Override
-	public void loadRecipe(Node recipe) {
+	public ItemStack loadRecipe(Node recipe) {
 		Element recipeElement = (Element) recipe;
 		Element input = (Element) recipeElement.getElementsByTagName("input").item(0);
 		Element output = (Element) recipeElement.getElementsByTagName("output").item(0);
@@ -27,6 +25,7 @@ public class SmeltingRecipeTypeHandler extends CommonRecipeTypeHandler {
 		}
 		
 		GameRegistry.addSmelting(inputItem, outputItem, xp);
+        return outputItem;
 	}
 
 }

@@ -1,21 +1,18 @@
 package evilcraft.core.recipe.xml;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import cpw.mods.fml.common.registry.GameRegistry;
+import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
 /**
@@ -26,7 +23,7 @@ import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 public class ShapedRecipeTypeHandler extends GridRecipeTypeHandler {
 
 	@Override
-	protected void handleIO(Element input, ItemStack output) throws XmlRecipeException {		
+	protected void handleIO(Element input, ItemStack output) throws XmlRecipeException {
 		Element inputGrid = (Element) input.getElementsByTagName("grid").item(0);
 		NodeList gridRows = inputGrid.getElementsByTagName("gridrow");
 		

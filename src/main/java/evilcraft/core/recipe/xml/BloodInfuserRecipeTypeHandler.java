@@ -20,7 +20,7 @@ import org.w3c.dom.Node;
 public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
 
 	@Override
-	protected void handleRecipe(Element input, Element output, Element properties)
+	protected ItemStack handleRecipe(Element input, Element output, Element properties)
 			throws XmlRecipeException {
 		Node inputItem = input.getElementsByTagName("item").item(0);
 		String inputFluid = input.getElementsByTagName("fluid").item(0).getTextContent();
@@ -53,11 +53,13 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
             );
         }
 
+        ItemStack outputStack = (ItemStack) getItem(outputItem);
 		BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
                 recipeComponent,
-                new ItemStackRecipeComponent((ItemStack) getItem(outputItem)),
+                new ItemStackRecipeComponent(outputStack),
                 new DurationRecipeProperties(duration)
         );
+        return outputStack;
 	}
 
 }

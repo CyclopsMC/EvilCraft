@@ -3,6 +3,7 @@ package evilcraft.infobook;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cpw.mods.fml.common.registry.GameData;
+import evilcraft.Recipes;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
@@ -27,6 +28,7 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -112,6 +114,48 @@ public class InfoBookParser {
         });
     }
 
+    private static final Map<String, IAppendixItemFactory> APPENDIX_LIST_FACTORIES = Maps.newHashMap();
+    static {
+        APPENDIX_LIST_FACTORIES.put("craftingRecipe", new IAppendixItemFactory() {
+
+            @Override
+            public SectionAppendix create(ItemStack itemStack) throws InvalidAppendixException {
+                return new CraftingRecipeAppendix(CraftingHelpers.findCraftingRecipe(itemStack, 0));
+            }
+
+        });
+        APPENDIX_LIST_FACTORIES.put("bloodInfuserRecipe", new IAppendixItemFactory() {
+
+            @Override
+            public SectionAppendix create(ItemStack itemStack) throws InvalidAppendixException {
+                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>>
+                        recipes = BloodInfuser.getInstance().getRecipeRegistry().
+                        findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
+                return new BloodInfuserRecipeAppendix(recipes.get(0));
+            }
+
+        });
+        APPENDIX_LIST_FACTORIES.put("furnaceRecipe", new IAppendixItemFactory() {
+
+            @Override
+            public SectionAppendix create(ItemStack itemStack) throws InvalidAppendixException {
+                return new FurnaceRecipeAppendix(CraftingHelpers.findFurnaceRecipe(itemStack, 0));
+            }
+
+        });
+        APPENDIX_LIST_FACTORIES.put("envirAccRecipe", new IAppendixItemFactory() {
+
+            @Override
+            public SectionAppendix create(ItemStack itemStack) throws InvalidAppendixException {
+                List<IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>>
+                        recipes = EnvironmentalAccumulator.getInstance().getRecipeRegistry().
+                        findRecipesByOutput(new EnvironmentalAccumulatorRecipeComponent(itemStack, WeatherType.ANY));
+                return new EnvironmentalAccumulatorRecipeAppendix(recipes.get(0));
+            }
+
+        });
+    }
+
     public static Map<String, InfoSection> configLinks;
 
     private static int getIndex(Element node) {
@@ -163,6 +207,7 @@ public class InfoBookParser {
         NodeList tags = sectionElement.getElementsByTagName("tag");
         NodeList paragraphs = sectionElement.getElementsByTagName("paragraph");
         NodeList appendixes = sectionElement.getElementsByTagName("appendix");
+        NodeList appendixLists = sectionElement.getElementsByTagName("appendixList");
         ArrayList<String> paragraphList = Lists.newArrayListWithCapacity(paragraphs.getLength());
         ArrayList<SectionAppendix> appendixList = Lists.newArrayListWithCapacity(appendixes.getLength());
         ArrayList<String> tagList = Lists.newArrayListWithCapacity(tags.getLength());
@@ -191,6 +236,18 @@ public class InfoBookParser {
                     // Skip this appendix.
                 }
             }
+            for (int j = 0; j < appendixLists.getLength(); j++) {
+                Element appendixListNode = (Element) appendixLists.item(j);
+                String type = appendixListNode.getAttribute("type");
+                Collection<ItemStack> itemStacks = Recipes.taggedOutput.get(appendixListNode.getTextContent());
+                for(ItemStack itemStack : itemStacks) {
+                    try {
+                        appendixList.add(createAppendix(appendixListNode.getAttribute("type"), itemStack));
+                    } catch (InvalidAppendixException e) {
+                        // Skip this appendix.
+                    }
+                }
+            }
         }
 
         return section;
@@ -216,6 +273,15 @@ public class InfoBookParser {
         return factory.create(node);
     }
 
+    protected static SectionAppendix createAppendix(String type, ItemStack itemStack) throws InvalidAppendixException {
+        if(type == null) type = "";
+        IAppendixItemFactory factory = APPENDIX_LIST_FACTORIES.get(type);
+        if(factory == null) {
+            throw new InfoBookException("No appendix list of type '" + type + "' was found.");
+        }
+        return factory.create(itemStack);
+    }
+
     protected static interface IInfoSectionFactory {
 
         public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName,
@@ -227,6 +293,12 @@ public class InfoBookParser {
     protected static interface IAppendixFactory {
 
         public SectionAppendix create(Element node) throws InvalidAppendixException;
+
+    }
+
+    protected static interface IAppendixItemFactory {
+
+        public SectionAppendix create(ItemStack itemStack) throws InvalidAppendixException;
 
     }
 

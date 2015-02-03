@@ -1,8 +1,12 @@
 package evilcraft.core.recipe.xml;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import evilcraft.Configs;
 import evilcraft.EvilCraft;
+import evilcraft.Recipes;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.item.ItemStack;
 import org.apache.logging.log4j.Level;
 import org.w3c.dom.Document;
@@ -22,6 +26,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -221,8 +226,24 @@ public class XmlRecipeLoader {
 			throw new XmlRecipeException(String.format(
 					"Could not find a recipe type handler of type '%s'", type));
 		}
-		handler.loadRecipe(recipe);
-	}
+		ItemStack output = handler.loadRecipe(recipe);
+
+        ExtendedConfig<?> config = Configs.getConfigFromItem(output.getItem());
+        for(String tag : getTags(recipe)) {
+            Recipes.taggedOutput.put(tag, output);
+            Recipes.taggedConfigurablesOutput.put(tag, config);
+        }
+    }
+
+    private List<String> getTags(Element recipe) {
+        NodeList tagNodes = recipe.getElementsByTagName("tag");
+        List<String> tags = Lists.newArrayListWithCapacity(tagNodes.getLength());
+        for (int i = 0; i < tagNodes.getLength(); i++) {
+            Element tag = (Element) tagNodes.item(i);
+            tags.add(tag.getTextContent());
+        }
+        return tags;
+    }
 	
 	/**
 	 * Error that can occur while reading xml recipes.

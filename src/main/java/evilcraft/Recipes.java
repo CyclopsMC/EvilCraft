@@ -1,8 +1,10 @@
 package evilcraft;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
 import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.block.*;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.item.ItemBlockFluidContainer;
 import evilcraft.core.recipe.ItemBlockFluidContainerCombinationRecipe;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
@@ -54,9 +56,13 @@ public class Recipes {
 	private static final Pattern EXTERNAL_RECIPES_PATTERN = Pattern.compile("^[^_].*\\.xml");
 
     /**
-     * A map of all recipes this mod adds with a unique name.
+     * Maps tags to lists of recipe output items.
      */
-    public static final Map<String, Object> namedRecipes = Maps.newHashMap();
+    public static final Multimap<String, ItemStack> taggedOutput = LinkedListMultimap.create();
+    /**
+     * Maps tags to lists of recipe output configurables.
+     */
+    public static final Multimap<String, ExtendedConfig<?>> taggedConfigurablesOutput = LinkedListMultimap.create();
 
     /**
      * The extra buckets that are added with this mod.
