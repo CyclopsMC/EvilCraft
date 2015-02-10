@@ -46,7 +46,7 @@ public class XmlRecipeLoader {
 				new EnvironmentalAccumulatorRecipeTypeHandler());
 	}
 	
-	private static final Map<String, IRecipeConditionHandler> RECIPE_CONDITION_HANDLERS =
+	public static final Map<String, IRecipeConditionHandler> RECIPE_CONDITION_HANDLERS =
 			Maps.newHashMap();
 	static {
 		RECIPE_CONDITION_HANDLERS.put("config", new ConfigRecipeConditionHandler());

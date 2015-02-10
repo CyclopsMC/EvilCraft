@@ -10,6 +10,9 @@ import evilcraft.block.BloodInfuser;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.core.helper.CraftingHelpers;
 import evilcraft.core.recipe.custom.*;
+import evilcraft.core.recipe.xml.ConfigRecipeConditionHandler;
+import evilcraft.core.recipe.xml.IRecipeConditionHandler;
+import evilcraft.core.recipe.xml.XmlRecipeLoader;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.infobook.pageelement.*;
 import net.minecraft.item.Item;
@@ -219,13 +222,30 @@ public class InfoBookParser {
             for (int i = 0; i < sections.getLength(); i++) {
                 Element subsection = (Element) sections.item(i);
                 if(subsection.getParentNode() == sectionElement) {
-                    section.registerSection(buildSection(section, subChildIndex++, subsection));
+                    InfoSection subsubsection = buildSection(section, subChildIndex, subsection);
+                    if(subsubsection != null) {
+                        section.registerSection(subsubsection);
+                        subChildIndex++;
+                    }
                 }
             }
         } else {
             for (int j = 0; j < tags.getLength(); j++) {
                 Element tag = (Element) tags.item(j);
-                tagList.add(tag.getTextContent());
+                String tagString = tag.getTextContent();
+                String type = "config";
+                if(tag.hasAttribute("type")) {
+                    type = tag.getAttribute("type");
+                }
+                IRecipeConditionHandler conditionHandler = XmlRecipeLoader.RECIPE_CONDITION_HANDLERS.get(type);
+                if(!conditionHandler.isSatisfied(tag.getTextContent())) {
+                    return null;
+                }
+                // Yes, I know this isn't very clean, I am currently more interested in eating grapes than abstracting
+                // this whole conditional system.
+                if(conditionHandler instanceof ConfigRecipeConditionHandler) {
+                    tagList.add(tagString);
+                }
             }
             for (int j = 0; j < paragraphs.getLength(); j++) {
                 Element paragraph = (Element) paragraphs.item(j);

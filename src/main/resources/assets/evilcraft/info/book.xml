@@ -327,4 +327,36 @@
             </section>
         </section>
     </section>
+    <section name="infoBook.modIntegrations">
+        <section name="infoBook.modIntegrations.baubles">
+            <tag type="mod">Baubles</tag>
+            <paragraph>infoBook.modIntegrations.baubles.text</paragraph>
+        </section>
+        <section name="infoBook.modIntegrations.bloodMagic">
+            <tag type="mod">AWWayofTime</tag>
+            <tag>boundBloodDrop</tag>
+            <paragraph>infoBook.modIntegrations.bloodMagic.text</paragraph>
+            <appendix type="bloodInfuserRecipe">evilcraft:boundBloodDrop</appendix>
+        </section>
+        <section name="infoBook.modIntegrations.forestry">
+            <tag type="mod">Forestry</tag>
+            <paragraph>infoBook.modIntegrations.forestry.text</paragraph>
+        </section>
+        <section name="infoBook.modIntegrations.nei">
+            <tag type="mod">NotEnoughItems</tag>
+            <paragraph>infoBook.modIntegrations.nei.text</paragraph>
+        </section>
+        <section name="infoBook.modIntegrations.thermalExpansion">
+            <tag type="mod">ThermalExpansion</tag>
+            <paragraph>infoBook.modIntegrations.thermalExpansion.text</paragraph>
+        </section>
+        <section name="infoBook.modIntegrations.tinkersConstruct">
+            <tag type="mod">TConstruct</tag>
+            <paragraph>infoBook.modIntegrations.tinkersConstruct.text</paragraph>
+        </section>
+        <section name="infoBook.modIntegrations.waila">
+            <tag type="mod">Waila</tag>
+            <paragraph>infoBook.modIntegrations.waila.text</paragraph>
+        </section>
+    </section>
 </section>

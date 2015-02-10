@@ -257,13 +257,13 @@ gui.waila.innerBlocksConfig=Actual inner blocks
 
 # ------ Origins of Darkness contents ------
 infoBook.section.main=Origins of Darkness
-infoBook.tagIndex=&oIndex
+infoBook.tagIndex=&oIndex&r
 
 infoBook.preface=Preface
 infoBook.preface.text1=It would seem this world holds more than meets the eye. There are things I will conclude in this book, my writings of acquired knowledge of the obscurity that resides here. I have discovered a dark way of living with the creatures of this world. “&oWhat evil will come of this&r”, I ask myself? “&oEvil lurks in every corner&r”, I hear a dark voice within me reply. I have discovered a few secrets within this vast world of silly villagers and zombies, something their puny minds will never comprehend.
 infoBook.preface.text2=Many kinds of magic exist in this world, but the kind you can achieve with &4Blood&0 seems different. I've noticed people cutting themselves for obtaining &4Blood&0, I prefer to spare my strength for some other things...
 
-infoBook.structure=Structure
+infoBook.structure=&oStructure&r
 infoBook.structure.text1=This book is split into two major parts, for the two ages of evilness I like to classify everything in. I consider everything before my coming to this world as the &1First Age&0, and my life's work the &1Second Age&0.
 infoBook.structure.text2=You can navigate through this book by clicking on the arrows at the bottom, shift clicking will flip through whole sections instead of single pages. At the start of large sections you will see a content table which will contain hyperlinks to its subsections for faster browsing. When you come across recipes, the items that are explained in this book are clickable as a fast reference to the section they are explained in. You will also notice a button at the top left of this book, which will take you to the section above your current one.
 
@@ -461,3 +461,27 @@ infoBook.secondAge.abusingSpirits.spiritReanimator=Spirit Reanimator
 infoBook.secondAge.abusingSpirits.spiritReanimator.text1=After the discovery of the &1Spirit Furnace&0 I was still determined to revive those spirits. To solve the problem of unstable mobs I put them inside &1Eggs&0, as an attempt to stabilize them. This process still requires some substantial amount of &4Blood&0 and of course an empty &1Egg&0.
 infoBook.secondAge.abusingSpirits.spiritReanimator.text2=Because of this more advanced process, spirits will be completely used up, so only one &1Egg&0 can be created per &1spirit&0.
 infoBook.secondAge.abusingSpirits.spiritReanimator.text3=Some mobs however seem to refuse to enter the &1Egg&0, so their spirits will be lost forever.
+
+# --- First Age ---
+infoBook.modIntegrations=&oMod Integrations&r
+
+infoBook.modIntegrations.baubles=Baubles
+infoBook.modIntegrations.baubles.text=The mod that adds several convenient new accessory slots to your player is also able to store the rings and pendants that are offered in this book. They still keep working as if they were inside your inventory. Baubles for everyone!
+
+infoBook.modIntegrations.bloodMagic=Blood Magic
+infoBook.modIntegrations.bloodMagic.text=One day I discovered a very strange &1Blood Orb&0 that must have been owned by some kind of &1Magician&0. When using it I felt like I was somehow connected to it. After a while I discovered that it was in fact connected to my &4Blood&0 stream. By forcing a large amount of &4Blood&0 through it using the &1Blood Infuser&0, I've managed to create an item that is both connected to my &4Blood&0 stream and can be used as a simple container, allowing me to place it in my favorite machines and using it with my items.
+
+infoBook.modIntegrations.forestry=Forestry
+infoBook.modIntegrations.forestry.text=When &ovisiting&r some of my friends working with trees and bees, I noticed that some of their bags allow me to insert some of my items. I also noticed that their machine called the &1Squeezer&0 is able to extract &4Blood&0 from parts of the &1Undead Tree&0, which can be easily grown using their tree growing system.
+
+infoBook.modIntegrations.nei=Not Enough Items
+infoBook.modIntegrations.nei.text=All these people keep talking about "&oNot Enough Items&r", which I really don't understand, since I just have "&oToo Many Items&r"! But it sounds like the former group seems to understand my knowledge...
+
+infoBook.modIntegrations.thermalExpansion=Thermal Expansion
+infoBook.modIntegrations.thermalExpansion.text=These people are quite strange, they always wear very odd clothes and mostly seem to be wielding many types wrenches for some reason. I know only one thing about them, they have a machine that can transpose fluids which allows for some very basic blood infusion, but unfortunately this can't be upgraded.
+
+infoBook.modIntegrations.tinkersConstruct=Tinkers' Construct
+infoBook.modIntegrations.tinkersConstruct.text=&0Tools, tools and tools!&r It seems to be all these folks think about. Using nothing but these tools must damage them severely, luckily they have the &1Blood Chest&0 to repair them!
+
+infoBook.modIntegrations.waila=WAILA
+infoBook.modIntegrations.waila.text=What are you looking at, you ask? You should be able to tell, really.
