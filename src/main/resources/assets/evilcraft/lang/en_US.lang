@@ -386,7 +386,7 @@ infoBook.secondAge.bloodInfusion.bloodInfuser.text2=This machine finally allows 
 
 infoBook.secondAge.bloodInfusion.undeadTree=Undead Tree
 infoBook.secondAge.bloodInfusion.undeadTree.text1=I was able to reanimate dead saplings, the trees that grow from this tree are remarkable to say the least. They seem to give off a lot of Blood, but the saplings that drop still seem to be dead somehow. Combining the wood with a Dark Gem will result in some stick which will be useful some day.
-infoBook.secondAge.bloodInfusion.undeadTree.text2=Killing a sapling is as simple as shearing a living one in a crafting grid.
+infoBook.secondAge.bloodInfusion.undeadTree.text2=Killing a sapling is as simple as shearing a living one in a crafting grid. &oIs that tree growing in a desert?&r
 
 infoBook.secondAge.bloodInfusion.advancedBloodInfusion=Advanced Blood Infusion
 infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text1=Soon after my first &1Blood Infuser&0 was build, I started to think of some optimizations to make the machine faster and more efficient. Using the &1Crushed Dark Gems&0 I was able to construct materialized &1Promises&0 which the &1Blood Infuser&0 actually seems to adhere to, it looks like the machine is actually alive in some way...

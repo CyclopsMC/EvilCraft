@@ -191,6 +191,7 @@
                 <tag>darkStick</tag>
                 <paragraph>infoBook.secondAge.bloodInfusion.undeadTree.text1</paragraph>
                 <paragraph>infoBook.secondAge.bloodInfusion.undeadTree.text2</paragraph>
+                <appendix type="image" width="70" height="130">evilcraft:textures/gui/infobook/undeadTree.png</appendix>
                 <appendix type="craftingRecipe">minecraft:deadBush</appendix>
                 <appendix type="bloodInfuserRecipe">evilcraft:undeadSapling</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkStick</appendix>
@@ -231,6 +232,7 @@
                 <tag>sanguinaryPedestal</tag>
                 <paragraph>infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text1</paragraph>
                 <paragraph>infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text2</paragraph>
+                <appendix type="image" width="120" height="72">evilcraft:textures/gui/infobook/sanguinaryPedestal.png</appendix>
                 <appendix type="craftingRecipe" index="0">evilcraft:sanguinaryPedestal</appendix>
                 <appendix type="craftingRecipe" index="1">evilcraft:sanguinaryPedestal</appendix>
             </section>
@@ -315,6 +317,7 @@
                 <paragraph>infoBook.secondAge.abusingSpirits.spiritFurnace.text1</paragraph>
                 <paragraph>infoBook.secondAge.abusingSpirits.spiritFurnace.text2</paragraph>
                 <paragraph>infoBook.secondAge.abusingSpirits.spiritFurnace.text3</paragraph>
+                <appendix type="image" width="120" height="135">evilcraft:textures/gui/infobook/spiritFurnace.png</appendix>
                 <appendix type="bloodInfuserRecipe">evilcraft:darkBloodBrick</appendix>
                 <appendix type="craftingRecipe">evilcraft:spiritFurnace</appendix>
             </section>
