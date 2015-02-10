@@ -1,5 +1,6 @@
 package evilcraft.client.gui.container;
 
+import com.google.common.collect.Lists;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
@@ -22,6 +23,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.util.List;
 
 /**
  * Gui for the Origins of Darkness book.
@@ -59,6 +62,11 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
     private InfoSection currentSection;
     private int page;
+
+    private InfoSection nextSection;
+    private int nextPage;
+    private boolean goToLastPage;
+
     private int guiWidth = 283;
     private int pageWidth = 142;
     private int guiHeight = 180;
@@ -85,8 +93,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         int nextId = BUTTON_HYPERLINKS_START;
         for(int innerPage = page; innerPage <= page + 1; innerPage++) {
             for (HyperLink link : currentSection.getLinks(innerPage)) {
-                int xOffset = innerPage % 2 == 1 ? X_OFFSET_INNER : X_OFFSET_OUTER;
-                this.buttonList.add(new TextOverlayButton(nextId++, link, left + xOffset + link.getX(), top + link.getY(),
+                int xOffset = innerPage % 2 == 1 ? X_OFFSET_INNER + pageWidth : X_OFFSET_OUTER;
+                this.buttonList.add(new TextOverlayButton(nextId++, link, left + xOffset + link.getX(), top + InfoSection.Y_OFFSET / 2 + link.getY(),
                         InfoSection.getFontHeight(getFontRenderer())));
             }
             this.buttonList.addAll(currentSection.getAdvancedButtons(innerPage));
@@ -134,10 +142,37 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     private void updateGui() {
         boolean oldUnicode = mc.fontRenderer.getUnicodeFlag();
         mc.fontRenderer.setUnicodeFlag(true);
+        int width = pageWidth - X_OFFSET_TOTAL;
         int lineHeight = InfoSection.getFontHeight(getFontRenderer());
-        currentSection.bakeSection(getFontRenderer(), pageWidth - X_OFFSET_TOTAL, (guiHeight - 2 * InfoSection.Y_OFFSET - 5) / lineHeight, lineHeight);
+        int maxLines = (guiHeight - 2 * InfoSection.Y_OFFSET - 5) / lineHeight;
+
+        // Bake current and all reachable sections.
+        List<InfoSection> infoSectionsToBake = Lists.newLinkedList();
+        infoSectionsToBake.add(currentSection);
+        getPreviousSections(infoSectionsToBake);
+        getNextSections(infoSectionsToBake);
+        for(InfoSection infoSection : infoSectionsToBake) {
+            if(infoSection != null) infoSection.bakeSection(getFontRenderer(), width, maxLines, lineHeight);
+        }
+
         updateButtons();
         mc.fontRenderer.setUnicodeFlag(oldUnicode);
+    }
+
+    protected void getPreviousSections(List<InfoSection> sections) {
+        if (currentSection.getChildIndex() == 0) {
+            sections.add(currentSection.getParent());
+        } else if(!currentSection.isRoot()) {
+            sections.add(currentSection.getParent().getSubSection(currentSection.getChildIndex() - 1));
+        }
+    }
+
+    protected void getNextSections(List<InfoSection> sections) {
+        if(currentSection.getSubSections() > 0) {
+            sections.add(currentSection.getSubSection(0));
+        } else if(!currentSection.isRoot() && currentSection.getParent().getSubSections() > currentSection.getChildIndex() + 1) {
+            sections.add(currentSection.getParent().getSubSection(currentSection.getChildIndex() + 1));
+        }
     }
 
     private void updateButtons() {
@@ -150,51 +185,69 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     }
 
     protected void actionPerformed(GuiButton button) {
-        boolean goToLastPage = false;
+        goToLastPage = false;
+        nextSection = currentSection;
+        nextPage = page;
         if(button.id == BUTTON_NEXT && button.visible) {
             if(page < currentSection.getPages() - 2 && !MinecraftHelpers.isShifted()) {
-                page+=2;
+                nextPage = page + 2;
             } else if(currentSection.getSubSections() > 0) {
-                currentSection = currentSection.getSubSection(0);
-                page = 0;
+                nextSection = currentSection.getSubSection(0);
+                nextPage = 0;
             } else if(!currentSection.isRoot() && currentSection.getParent().getSubSections() > currentSection.getChildIndex() + 1) {
-                currentSection = currentSection.getParent().getSubSection(currentSection.getChildIndex() + 1);
-                page = 0;
+                nextSection = currentSection.getParent().getSubSection(currentSection.getChildIndex() + 1);
+                nextPage = 0;
             }
         } else if(button.id == BUTTON_PREVIOUS && button.visible) {
             if (page > 0) {
-                page-=2;
+                nextPage = page - 2;
             } else if (currentSection.getChildIndex() == 0) {
-                currentSection = currentSection.getParent();
-                page = 0;
+                nextSection = currentSection.getParent();
+                nextPage = 0;
             } else {
-                currentSection = currentSection.getParent().getSubSection(currentSection.getChildIndex() - 1);
+                nextSection = currentSection.getParent().getSubSection(currentSection.getChildIndex() - 1);
                 goToLastPage = !MinecraftHelpers.isShifted();
                 // We can not set the new 'page', because the currentSection hasn't been baked yet.
             }
-        } else if(button.id == BUTTON_PARENT) {
+        } else if(button.id == BUTTON_PARENT && button.visible) {
             if(MinecraftHelpers.isShifted()) {
-                while(currentSection.getParent() != null) {
-                    currentSection = currentSection.getParent();
+                nextSection = currentSection.getParent();
+                while(nextSection.getParent() != null) {
+                    nextSection = nextSection.getParent();
                 }
             } else {
-                currentSection = currentSection.getParent();
+                nextSection = currentSection.getParent();
             }
-            page = 0;
+            nextPage = 0;
         } else if(button instanceof TextOverlayButton) {
-            currentSection = ((TextOverlayButton) button).getLink().getTarget();
-            page = 0;
+            nextSection = ((TextOverlayButton) button).getLink().getTarget();
+            nextPage = 0;
         } else if(button instanceof AdvancedButton && ((AdvancedButton) button).isVisible()) {
-            currentSection = ((AdvancedButton) button).getTarget();
-            page = 0;
+            nextSection = ((AdvancedButton) button).getTarget();
+            nextPage = 0;
         } else {
             super.actionPerformed(button);
         }
-        if(goToLastPage) {
-            page = Math.max(0, currentSection.getPages() - 2);
-            page += page % 2;
+    }
+
+    protected void mouseClicked(int x, int y, int p_73864_3_) {
+        super.mouseClicked(x, y, p_73864_3_);
+        if(p_73864_3_ == 0 && (nextSection != null || page != nextPage)) {
+            currentSection = nextSection;
+            nextSection = null;
+            page = nextPage;
+            this.initGui();
+            if (goToLastPage) {
+                page = Math.max(0, currentSection.getPages() - 2);
+                page += page % 2;
+            }
         }
-        this.initGui();
+    }
+
+    public void drawScaledCenteredString(String string, int x, int y, int width, float originalScale, int maxWidth, int color) {
+        float originalWidth = getFontRenderer().getStringWidth(string) * originalScale;
+        float scale = Math.min(originalScale, maxWidth / originalWidth * originalScale);
+        drawScaledCenteredString(string, x, y, width, scale, color);
     }
 
     public void drawScaledCenteredString(String string, int x, int y, int width, float scale, int color) {
@@ -321,7 +374,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         @Getter private HyperLink link;
 
         public TextOverlayButton(int id, HyperLink link, int x, int y, int height) {
-            super(id, x, y, 0, height, L10NHelpers.localize(link.getUnlocalizedName()));
+            super(id, x, y, 0, height, InfoSection.formatString(L10NHelpers.localize(link.getUnlocalizedName())));
             this.link = link;
             FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
             boolean oldUnicode = fontRenderer.getUnicodeFlag();

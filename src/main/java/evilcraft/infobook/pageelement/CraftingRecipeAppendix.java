@@ -103,6 +103,7 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
         }
         if(itemStacks.length <= index) return Collections.EMPTY_LIST;
         Object element = itemStacks[index];
+        if(element == null) return Collections.EMPTY_LIST;
         return element instanceof ItemStack ? Arrays.asList((ItemStack) element) : (List<ItemStack>) element;
     }
 

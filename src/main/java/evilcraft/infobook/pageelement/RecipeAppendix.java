@@ -14,6 +14,7 @@ import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
@@ -50,6 +51,7 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
     }
 
     protected ItemStack prepareItemStacks(List<ItemStack> itemStacks, int tick) {
+        if(itemStacks.size() == 0) return null;
         return prepareItemStack(itemStacks.get(tick % itemStacks.size()).copy(), tick);
     }
 
@@ -86,6 +88,7 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
     }
 
     protected void renderIcon(GuiOriginsOfDarkness gui, int x, int y, IIcon icon) {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationItemsTexture);
         GL11.glColor3f(1, 1, 1);
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_BLEND);
@@ -93,13 +96,14 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         RenderHelper.enableGUIStandardItemLighting();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
-        RenderItem.getInstance().renderIcon(x, y, icon, SLOT_SIZE, SLOT_SIZE);RenderHelper.disableStandardItemLighting();
+        RenderItem.getInstance().renderIcon(x, y, icon, SLOT_SIZE, SLOT_SIZE);
+        RenderHelper.disableStandardItemLighting();
         GL11.glPopMatrix();
     }
 
     protected void renderItemTooltip(GuiOriginsOfDarkness gui, int x, int y, ItemStack itemStack, int mx, int my) {
         GL11.glPushMatrix();
-        if(mx >= x && my >= y && mx <= x + SLOT_SIZE && my <= y + SLOT_SIZE) {
+        if(mx >= x && my >= y && mx <= x + SLOT_SIZE && my <= y + SLOT_SIZE && itemStack != null ) {
             gui.renderToolTip(itemStack, mx, my);
         }
         GL11.glPopMatrix();
@@ -133,12 +137,7 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         int yOffset = getAdditionalHeight();
         gui.drawOuterBorder(x - 1, y - 1 - yOffset, getWidth() + 2, getHeight() + 2, 0.5F, 0.5F, 0.5F, 0.4f);
         gui.drawTextBanner(x + width / 2, y - 2 - yOffset);
-        float originalScale = 0.9f;
-        float originalWidth = gui.getFontRenderer().getStringWidth(getUnlocalizedTitle()) * originalScale;
-        int maxWidth = GuiOriginsOfDarkness.BANNER_WIDTH - 2;
-        float scale = Math.min(originalScale, maxWidth / originalWidth);
-
-        gui.drawScaledCenteredString(L10NHelpers.localize(getUnlocalizedTitle()), x, y - 2 - yOffset, width, scale, RenderHelpers.RGBToInt(120, 20, 30));
+        gui.drawScaledCenteredString(L10NHelpers.localize(getUnlocalizedTitle()), x, y - 2 - yOffset, width, 0.9f, GuiOriginsOfDarkness.BANNER_WIDTH - 6, RenderHelpers.RGBToInt(120, 20, 30));
 
         drawElementInner(gui, x, y, width, height, page, mx, my);
     }
@@ -182,10 +181,12 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
          */
         public void update(int x, int y, ItemStack itemStack, GuiOriginsOfDarkness gui) {
             this.itemStack = itemStack;
-            ExtendedConfig<?> config = Configs.getConfigFromItem(itemStack.getItem());
             InfoSection target = null;
-            if(config != null) {
-                target = InfoBookParser.configLinks.get(config.getFullUnlocalizedName());
+            if(this.itemStack != null) {
+                ExtendedConfig<?> config = Configs.getConfigFromItem(itemStack.getItem());
+                if (config != null) {
+                    target = InfoBookParser.configLinks.get(config.getFullUnlocalizedName());
+                }
             }
             super.update(x, y, "empty", target, gui);
         }

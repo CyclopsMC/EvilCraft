@@ -188,19 +188,31 @@ public class InfoSection {
 
     public void registerSection(InfoSection section) {
         sections.add(section);
+        section.childIndex = sections.size() - 1;
     }
 
     public int getPages() {
         return pages;
     }
 
+    /**
+     * Give the correct format to a string.
+     * Will allow the convenient "&" format codes to be used instead of "§": http://minecraft.gamepedia.com/Formatting_codes
+     * Will also refresh all formats at the end of the string.
+     * @param string The string to format.
+     * @return The formatted string.
+     */
+    public static String formatString(String string) {
+        return (string + "&r").replaceAll("&", "§");
+    }
+
     protected String getLocalizedPageString(int page) {
         if(page >= localizedPages.size() || page < 0) return null;
-        return localizedPages.get(page);
+        return formatString(localizedPages.get(page));
     }
 
     public String getLocalizedTitle() {
-        return L10NHelpers.localize(unlocalizedName);
+        return formatString(L10NHelpers.localize(unlocalizedName));
     }
 
     public int getSubSections() {
@@ -252,7 +264,7 @@ public class InfoSection {
 
             // Draw title if on first page
             if (isTitlePage(page)) {
-                gui.drawScaledCenteredString(getLocalizedTitle(), x, y + Y_OFFSET + 10, width, 1.5f, RenderHelpers.RGBToInt(120, 20, 30));
+                gui.drawScaledCenteredString(getLocalizedTitle(), x, y + Y_OFFSET + 10, width, 1.5f, width, RenderHelpers.RGBToInt(120, 20, 30));
                 gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET);
                 gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET + 21);
             }

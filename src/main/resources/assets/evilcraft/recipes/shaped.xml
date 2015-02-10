@@ -205,6 +205,7 @@
 	</recipe>
 
 	<recipe type="shaped">
+        <tag>weatherCrafting</tag>
 		<condition type="config">lightningGrenade</condition>
 		<condition type="config">weatherContainer</condition>
 		<input>
@@ -965,6 +966,7 @@
     </recipe>
 
     <recipe type="shaped">
+        <tag>weatherCrafting</tag>
         <condition type="config">bucketEternalWater</condition>
         <input>
             <grid>
@@ -986,6 +988,7 @@
     </recipe>
 
     <recipe type="shaped">
+        <tag>weatherCrafting</tag>
         <condition type="config">eternalWaterBlock</condition>
         <condition type="config">darkBlock</condition>
         <input>

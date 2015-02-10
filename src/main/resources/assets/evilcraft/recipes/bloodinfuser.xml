@@ -165,6 +165,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>other</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">evilcraftblood</condition>
         <condition type="config">bloodyCobblestone</condition>
@@ -251,6 +252,7 @@
     </recipe>
 
     <recipe type="evilcraft:bloodinfuser">
+        <tag>other</tag>
         <condition type="config">bloodInfuser</condition>
         <condition type="config">bloodOrb</condition>
         <input>

@@ -1,12 +1,12 @@
 package evilcraft.entity.item;
 
-import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.render.entity.RenderBroom;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.EntityConfig;
+import net.minecraft.client.renderer.entity.Render;
 
 /**
  * Config for the {@link EntityBroom}.
@@ -44,7 +44,7 @@ public class EntityBroomConfig extends EntityConfig {
     public EntityBroomConfig() {
         super(
         	true,
-            "broom",
+            "broomEntity",
             null,
             EntityBroom.class
         );

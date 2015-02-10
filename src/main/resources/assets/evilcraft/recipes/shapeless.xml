@@ -93,6 +93,7 @@
 	</recipe>
 	
 	<recipe type="shapeless">
+        <tag>weatherCrafting</tag>
         <condition type="config">weatherContainer</condition>
         <condition type="predefined">evilcraft:shapelessWeatherContainerRecipes</condition>
         <input>
@@ -106,6 +107,7 @@
     </recipe>
     
 	<recipe type="shapeless">
+        <tag>weatherCrafting</tag>
         <condition type="config">weatherContainer</condition>
         <condition type="predefined">evilcraft:shapelessWeatherContainerRecipes</condition>
         <input>

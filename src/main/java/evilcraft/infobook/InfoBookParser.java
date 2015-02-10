@@ -215,9 +215,12 @@ public class InfoBookParser {
                 sectionElement.getAttribute("name"), paragraphList, appendixList, tagList);
 
         if(sections.getLength() > 0) {
+            int subChildIndex = 0;
             for (int i = 0; i < sections.getLength(); i++) {
                 Element subsection = (Element) sections.item(i);
-                section.registerSection(buildSection(section, i, subsection));
+                if(subsection.getParentNode() == sectionElement) {
+                    section.registerSection(buildSection(section, subChildIndex++, subsection));
+                }
             }
         } else {
             for (int j = 0; j < tags.getLength(); j++) {
