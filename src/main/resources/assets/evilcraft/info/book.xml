@@ -256,6 +256,9 @@
             </section>
         </section>
         <section name="infoBook.secondAge.tools">
+            <section name="infoBook.secondAge.tools.introduction">
+                <paragraph>infoBook.secondAge.tools.introduction.text</paragraph>
+            </section>
             <section name="infoBook.secondAge.tools.bloodPearlOfTeleportation">
                 <tag>bloodPearlOfTeleportation</tag>
                 <paragraph>infoBook.secondAge.tools.bloodPearlOfTeleportation.text</paragraph>

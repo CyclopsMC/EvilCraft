@@ -417,6 +417,9 @@ infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text3=These chalices c
 # - Tools -
 infoBook.secondAge.tools=Tools
 
+infoBook.secondAge.tools.introduction=Introduction
+infoBook.secondAge.tools.introduction.text=Items that use &4Blood&0 mostly have an internal container that can hold some &4Blood&0 which can be filled using the &1Blood Infuser&0 or by activating auto-supply mode on other tools and holding the item to fill in your hand. When using these items, it will drain some &4Blood&0. When that item has ran out of &4Blood&0, it will try to drain &4Blood&0 from other containers in your inventory, or it will stop functioning if no such item can be found.
+
 infoBook.secondAge.tools.bloodPearlOfTeleportation=Blood Pearl of Teleportation
 infoBook.secondAge.tools.bloodPearlOfTeleportation.text=Regular &1Ender Pearls&0 are fun for teleporting around, but this can get quite expensive. Using the powers of &4Blood&0, I was able to construct a special &1Ender Pearl&0 that is completely reusable at the cost of some &4Blood&0. It also seems much more potent than regular &1Ender Pearls&0, which can only be good.
 
