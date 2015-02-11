@@ -4,5 +4,7 @@
     "vengeanceBeamStop": {"category": "master","sounds": [{"name": "vengeanceBeamStop", "stream": false}]},
     "vengeanceSpirit": {"category": "master","sounds": [{"name": "vengeanceSpirit1", "stream": false}, {"name": "vengeanceSpirit2", "stream": false}]},
     "vengeanceSpiritDeath": {"category": "master","sounds": [{"name": "vengeanceSpiritDeath", "stream": false}]},
-    "boxBeam": {"category": "master","sounds": [{"name": "boxBeam", "stream": false}]}
+    "boxBeam": {"category": "master","sounds": [{"name": "boxBeam", "stream": false}]},
+    "pageFlip": {"category": "master","sounds": [{"name": "pageFlip1", "stream": false}, {"name": "pageFlip2", "stream": false}, {"name": "pageFlip3", "stream": false}]},
+    "pagesFlip": {"category": "master","sounds": [{"name": "pagesFlip", "stream": false}]}
 }

@@ -15,6 +15,8 @@ import evilcraft.infobook.InfoSection;
 import evilcraft.item.OriginsOfDarkness;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -366,6 +368,12 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                 GL11.glDisable(GL11.GL_BLEND);
             }
         }
+
+        @Override
+        public void func_146113_a(SoundHandler soundHandler) {
+            soundHandler.playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(Reference.MOD_ID, "pageFlip"), 1.0F));
+        }
+
     }
 
     @SideOnly(Side.CLIENT)
@@ -396,6 +404,11 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                         RenderHelpers.RGBToInt(isHover ? 100 : 0, isHover ? 100 : 0, isHover ? 150 : 125));
                 minecraft.fontRenderer.setUnicodeFlag(oldUnicode);
             }
+        }
+
+        @Override
+        public void func_146113_a(SoundHandler soundHandler) {
+            soundHandler.playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(Reference.MOD_ID, "pageFlip"), 1.0F));
         }
 
     }
