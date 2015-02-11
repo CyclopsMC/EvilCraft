@@ -6,6 +6,8 @@ import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.pageelement.SectionAppendix;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import net.minecraft.client.gui.FontRenderer;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -93,9 +95,6 @@ public class InfoSection {
         if(paragraphs.size() == 0 && shouldAddIndex()) {
             // linkedmap to make sure the contents are sorted by insertion order.
             Map<String, Pair<InfoSection, Integer>> softLinks = Maps.newLinkedHashMap();
-            /*for(InfoSection section : sections) {
-                softLinks.put(section.unlocalizedName, section);
-            }*/
             constructAllLinks(this, softLinks, 0, 2);
             addLinks(maxLines, lineHeight, softLinks);
         }
@@ -319,6 +318,50 @@ public class InfoSection {
         }
     }
 
+    /**
+     * Get the next InfoSection relative to this one plus page in this tree hierarchy using pre-order traversal.
+     * @param page The current page.
+     * @param stepSection Take a complete section as traversal step.
+     * @return The next location or null if this was the last location.
+     */
+    public InfoSection.Location getNext(int page, boolean stepSection) {
+        if(page < getPages() - 1 && !stepSection) {
+            return new InfoSection.Location(page + 1, this);
+        } else if(getSubSections() > 0) {
+            return new InfoSection.Location(0, getSubSection(0));
+        } else {
+            InfoSection current = this;
+            while(!current.isRoot()) {
+                if (current.getChildIndex() < current.getParent().getSubSections() - 1) {
+                    return new Location(0, current.getParent().getSubSection(current.getChildIndex() + 1));
+                }
+                current = current.getParent();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the previous InfoSection relative to this one plus page in this tree hierarchy using pre-order traversal.
+     * @param page The current page.
+     * @param stepSection Take a complete section as traversal step.
+     * @return The previous location or null if this was the last location.
+     */
+    public InfoSection.Location getPrevious(int page, boolean stepSection) {
+        if(page > 0) {
+            return new InfoSection.Location(stepSection ? 0 : page - 2, this);
+        } else if(!isRoot() && getChildIndex() == 0) {
+            return new InfoSection.Location(0, getParent());
+        } else if(!isRoot() && getChildIndex() > 0) {
+            InfoSection current = getParent().getSubSection(getChildIndex() - 1);
+            while(current.getSubSections() > 0) {
+                current = current.getSubSection(current.getSubSections() - 1);
+            }
+            return new InfoSection.Location(0, current);
+        }
+        return null;
+    }
+
     protected static int getAppendixOffsetLine(FontRenderer fontRenderer, SectionAppendix appendix) {
         return getFontHeight(fontRenderer) * appendix.getLineStart();
     }
@@ -343,6 +386,13 @@ public class InfoSection {
 
     public <T extends AdvancedButton> void addAdvancedButtons(int page, Collection<T> advancedButtons) {
         for(AdvancedButton advancedButton : advancedButtons) addAdvancedButton(page, advancedButton);
+    }
+
+    @Data @AllArgsConstructor public static class Location {
+
+        private int page;
+        private InfoSection infoSection;
+
     }
 
 }

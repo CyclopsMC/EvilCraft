@@ -92,6 +92,12 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         this.buttonList.add(this.buttonPreviousPage = new NextPageButton(BUTTON_PREVIOUS, left + 23, top + 156, 0, 193, 18, 13));
         this.buttonList.add(this.buttonParent = new NextPageButton(BUTTON_PARENT, left + 2, top + 2, 36, 180, 8, 8));
         this.updateGui();
+
+        if (goToLastPage) {
+            page = Math.max(0, currentSection.getPages() - 2);
+            page += page % 2;
+        }
+
         int nextId = BUTTON_HYPERLINKS_START;
         for(int innerPage = page; innerPage <= page + 1; innerPage++) {
             for (HyperLink link : currentSection.getLinks(innerPage)) {
@@ -125,10 +131,10 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         float f1 = 0.00390625F;
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV((double)(x + 0), (double)(y + height), (double)this.zLevel, (double)((float)(u + width) * f), (double)((float)(v + height) * f1));
-        tessellator.addVertexWithUV((double)(x + width), (double)(y + height), (double)this.zLevel, (double)((float)(u + 0) * f), (double)((float)(v + height) * f1));
-        tessellator.addVertexWithUV((double)(x + width), (double)(y + 0), (double)this.zLevel, (double)((float)(u + 0) * f), (double)((float)(v + 0) * f1));
-        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)this.zLevel, (double)((float)(u + width) * f), (double)((float)(v + 0) * f1));
+        tessellator.addVertexWithUV((double) (x + 0), (double) (y + height), (double) this.zLevel, (double) ((float) (u + width) * f), (double) ((float) (v + height) * f1));
+        tessellator.addVertexWithUV((double) (x + width), (double) (y + height), (double) this.zLevel, (double) ((float) (u + 0) * f), (double) ((float) (v + height) * f1));
+        tessellator.addVertexWithUV((double) (x + width), (double) (y + 0), (double) this.zLevel, (double) ((float) (u + 0) * f), (double) ((float) (v + 0) * f1));
+        tessellator.addVertexWithUV((double) (x + 0), (double) (y + 0), (double) this.zLevel, (double) ((float) (u + width) * f), (double) ((float) (v + 0) * f1));
         tessellator.draw();
     }
 
@@ -162,27 +168,22 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     }
 
     protected void getPreviousSections(List<InfoSection> sections) {
-        if (currentSection.getChildIndex() == 0) {
-            sections.add(currentSection.getParent());
-        } else if(!currentSection.isRoot()) {
-            sections.add(currentSection.getParent().getSubSection(currentSection.getChildIndex() - 1));
+        InfoSection.Location location = currentSection.getPrevious(page, false);
+        if(location != null) {
+            sections.add(location.getInfoSection());
         }
     }
 
     protected void getNextSections(List<InfoSection> sections) {
-        if(currentSection.getSubSections() > 0) {
-            sections.add(currentSection.getSubSection(0));
-        } else if(!currentSection.isRoot() && currentSection.getParent().getSubSections() > currentSection.getChildIndex() + 1) {
-            sections.add(currentSection.getParent().getSubSection(currentSection.getChildIndex() + 1));
+        InfoSection.Location location = currentSection.getNext(page + 1, false);
+        if(location != null) {
+            sections.add(location.getInfoSection());
         }
     }
 
     private void updateButtons() {
-        this.buttonNextPage.visible = currentSection != null && ((page < currentSection.getPages() - 2) ||
-                currentSection.getSubSections() > 0 ||
-                !currentSection.isRoot() && currentSection.getParent().getSubSections() > currentSection.getChildIndex() + 1);
-        this.buttonPreviousPage.visible = currentSection != null && (page > 0 ||
-                !currentSection.isRoot() && currentSection.getChildIndex() >= 0);
+        this.buttonNextPage.visible = currentSection.getNext(page + 1, false) != null;
+        this.buttonPreviousPage.visible = currentSection.getPrevious(page, false) != null;
         this.buttonParent.visible = currentSection != null && currentSection.getParent() != null;
     }
 
@@ -191,26 +192,15 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         nextSection = currentSection;
         nextPage = page;
         if(button.id == BUTTON_NEXT && button.visible) {
-            if(page < currentSection.getPages() - 2 && !MinecraftHelpers.isShifted()) {
-                nextPage = page + 2;
-            } else if(currentSection.getSubSections() > 0) {
-                nextSection = currentSection.getSubSection(0);
-                nextPage = 0;
-            } else if(!currentSection.isRoot() && currentSection.getParent().getSubSections() > currentSection.getChildIndex() + 1) {
-                nextSection = currentSection.getParent().getSubSection(currentSection.getChildIndex() + 1);
-                nextPage = 0;
-            }
+            InfoSection.Location location = currentSection.getNext(page + 1, MinecraftHelpers.isShifted());
+            nextSection = location.getInfoSection();
+            nextPage = location.getPage();
         } else if(button.id == BUTTON_PREVIOUS && button.visible) {
-            if (page > 0) {
-                nextPage = page - 2;
-            } else if (currentSection.getChildIndex() == 0) {
-                nextSection = currentSection.getParent();
-                nextPage = 0;
-            } else {
-                nextSection = currentSection.getParent().getSubSection(currentSection.getChildIndex() - 1);
-                goToLastPage = !MinecraftHelpers.isShifted();
-                // We can not set the new 'page', because the currentSection hasn't been baked yet.
-            }
+            InfoSection.Location location = currentSection.getPrevious(page, MinecraftHelpers.isShifted());
+            nextSection = location.getInfoSection();
+            nextPage = location.getPage();
+            // We can not set the new 'page', because the currentSection hasn't been baked yet and we do not know the last page yet.
+            goToLastPage = nextSection != currentSection && !MinecraftHelpers.isShifted();
         } else if(button.id == BUTTON_PARENT && button.visible) {
             if(MinecraftHelpers.isShifted()) {
                 nextSection = currentSection.getParent();
@@ -234,15 +224,11 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
     protected void mouseClicked(int x, int y, int p_73864_3_) {
         super.mouseClicked(x, y, p_73864_3_);
-        if(p_73864_3_ == 0 && (nextSection != null || page != nextPage)) {
+        if(p_73864_3_ == 0 && ((nextSection != null && nextSection != currentSection) || page != nextPage)) {
             currentSection = nextSection;
             nextSection = null;
             page = nextPage;
             this.initGui();
-            if (goToLastPage) {
-                page = Math.max(0, currentSection.getPages() - 2);
-                page += page % 2;
-            }
         }
     }
 
