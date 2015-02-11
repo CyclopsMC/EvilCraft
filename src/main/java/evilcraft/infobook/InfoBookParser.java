@@ -19,6 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.commons.lang3.tuple.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -159,7 +160,7 @@ public class InfoBookParser {
         });
     }
 
-    public static Map<String, InfoSection> configLinks;
+    public static Map<String, Pair<InfoSection, Integer>> configLinks;
 
     private static int getIndex(Element node) {
         int index = 0;

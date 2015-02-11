@@ -7,6 +7,7 @@ import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.pageelement.SectionAppendix;
 import net.minecraft.client.gui.FontRenderer;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 
@@ -20,6 +21,7 @@ public class InfoSection {
     public static final int Y_OFFSET = 16;
     private static final int TITLE_LINES = 3;
     private static final int APPENDIX_OFFSET_LINE = 1;
+    private static final int LINK_INDENT = 8;
 
     private InfoSection parent;
     private int childIndex;
@@ -49,22 +51,22 @@ public class InfoSection {
      * @param lineHeight The line height.
      * @param softLinks The map of links.
      */
-    protected void addLinks(int maxLines, int lineHeight, Map<String, InfoSection> softLinks) {
+    protected void addLinks(int maxLines, int lineHeight, Map<String, Pair<InfoSection, Integer>> softLinks) {
         int linesOnPage = 0;
         if(isTitlePage(0)) {
             linesOnPage += TITLE_LINES;
         }
         List<HyperLink> pageLinks = Lists.newArrayListWithCapacity(maxLines);
         StringBuilder lines = new StringBuilder();
-        for(Map.Entry<String, InfoSection> entry : softLinks.entrySet()) {
-            lines.append("\n");
+        for(Map.Entry<String, Pair<InfoSection, Integer>> entry : softLinks.entrySet()) {
+            lines.append(" \n");
             linesOnPage++;
             if(linesOnPage >= maxLines) {
                 linesOnPage = 0;
                 links.add(pageLinks);
                 pageLinks = Lists.newArrayListWithCapacity(maxLines);
             }
-            pageLinks.add(new HyperLink(0, Y_OFFSET + (linesOnPage - 1) * lineHeight, entry.getValue(), entry.getKey()));
+            pageLinks.add(new HyperLink(entry.getValue().getRight(), Y_OFFSET + (linesOnPage - 1) * lineHeight, entry.getValue().getLeft(), entry.getKey()));
         }
         paragraphs.add(lines.toString());
         links.add(pageLinks);
@@ -74,6 +76,15 @@ public class InfoSection {
         return true;
     }
 
+    protected static void constructAllLinks(InfoSection root, Map<String, Pair<InfoSection, Integer>> softLinks, int indent, int maxDepth) {
+        for(InfoSection section : root.sections) {
+            softLinks.put(section.unlocalizedName, Pair.of(section, indent));
+            if(maxDepth - 1 > 0) {
+                constructAllLinks(section, softLinks, indent + LINK_INDENT, maxDepth - 1);
+            }
+        }
+    }
+
     /**
      * Will make a localized version of this section with a variable amount of paragraphs.
      * Must be called once before the section will be drawn.
@@ -81,10 +92,11 @@ public class InfoSection {
     public void bakeSection(FontRenderer fontRenderer, int width, int maxLines, int lineHeight) {
         if(paragraphs.size() == 0 && shouldAddIndex()) {
             // linkedmap to make sure the contents are sorted by insertion order.
-            Map<String, InfoSection> softLinks = Maps.newLinkedHashMap();
-            for(InfoSection section : sections) {
+            Map<String, Pair<InfoSection, Integer>> softLinks = Maps.newLinkedHashMap();
+            /*for(InfoSection section : sections) {
                 softLinks.put(section.unlocalizedName, section);
-            }
+            }*/
+            constructAllLinks(this, softLinks, 0, 2);
             addLinks(maxLines, lineHeight, softLinks);
         }
 

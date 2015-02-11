@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -185,7 +186,10 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
             if(this.itemStack != null) {
                 ExtendedConfig<?> config = Configs.getConfigFromItem(itemStack.getItem());
                 if (config != null) {
-                    target = InfoBookParser.configLinks.get(config.getFullUnlocalizedName());
+                    Pair<InfoSection, Integer> pair = InfoBookParser.configLinks.get(config.getFullUnlocalizedName());
+                    if(pair != null) {
+                        target = pair.getLeft();
+                    }
                 }
             }
             super.update(x, y, "empty", target, gui);
