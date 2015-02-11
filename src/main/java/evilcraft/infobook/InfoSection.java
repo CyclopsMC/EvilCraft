@@ -101,8 +101,9 @@ public class InfoSection {
 
         // Localize paragraphs and fit them into materialized paragraphs.
         String contents = "";
-        for(String paragraph : paragraphs) {
-            contents += L10NHelpers.localize(paragraph) + "\n\n";
+        for(Iterator<String> it = paragraphs.iterator(); it.hasNext();) {
+            String paragraph = it.next();
+            contents += formatString(L10NHelpers.localize(paragraph)) + (it.hasNext() ? "\n\n" : "");
         }
 
         // Wrap the text into pages.
@@ -210,16 +211,17 @@ public class InfoSection {
      * Give the correct format to a string.
      * Will allow the convenient "&" format codes to be used instead of "§": http://minecraft.gamepedia.com/Formatting_codes
      * Will also refresh all formats at the end of the string.
+     * This will replace "&N"'s with a newlines.
      * @param string The string to format.
      * @return The formatted string.
      */
     public static String formatString(String string) {
-        return (string + "&r").replaceAll("&", "§");
+        return (string + "&r").replaceAll("&N", "\n").replaceAll("&", "§");
     }
 
     protected String getLocalizedPageString(int page) {
         if(page >= localizedPages.size() || page < 0) return null;
-        return formatString(localizedPages.get(page));
+        return localizedPages.get(page);
     }
 
     public String getLocalizedTitle() {
@@ -282,7 +284,7 @@ public class InfoSection {
             fontRenderer.setUnicodeFlag(oldUnicode);
 
             // Draw current page/section indication
-            gui.drawScaledCenteredString(getLocalizedTitle() + " - " + (page + 1) +  "/" + getPages(), x + ((page % 2 == 0) ? 10 : -10), y + height - Y_OFFSET, width, 0.6f, RenderHelpers.RGBToInt(190, 190, 190));
+            gui.drawScaledCenteredString(getLocalizedTitle() + " - " + (page + 1) +  "/" + getPages(), x + ((page % 2 == 0) ? 10 : -10), y + height - Y_OFFSET, width, 0.6f, (int) (width * 0.75f), RenderHelpers.RGBToInt(190, 190, 190));
 
             // Draw appendixes
             for (SectionAppendix appendix : appendixes) {

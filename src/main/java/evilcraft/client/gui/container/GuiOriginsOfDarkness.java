@@ -62,8 +62,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     private NextPageButton buttonPreviousPage;
     private NextPageButton buttonParent;
 
-    private InfoSection currentSection;
-    private int page;
+    private static InfoSection currentSection;
+    private static int page;
 
     private InfoSection nextSection;
     private int nextPage;
@@ -76,8 +76,10 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
     public GuiOriginsOfDarkness(EntityPlayer player, int itemIndex) {
         itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex);
-        currentSection = InfoBookRegistry.getInstance().getRoot();
-        page = 0;
+        if(currentSection == null) {
+            currentSection = InfoBookRegistry.getInstance().getRoot();
+            page = 0;
+        }
     }
 
     @Override
@@ -121,9 +123,9 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         int width = pageWidth - X_OFFSET_TOTAL;
         currentSection.drawScreen(this, x0, top, width, guiHeight, page, x, y);
         currentSection.drawScreen(this, x1, top, width, guiHeight, page + 1, x, y);
+        super.drawScreen(x, y, f);
         currentSection.postDrawScreen(this, x0, top, width, guiHeight, page, x, y);
         currentSection.postDrawScreen(this, x1, top, width, guiHeight, page + 1, x, y);
-        super.drawScreen(x, y, f);
     }
 
     public void drawTexturedModalRectMirrored(int x, int y, int u, int v, int width, int height) {

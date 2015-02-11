@@ -311,10 +311,10 @@ infoBook.firstAge.relics.humanoidFlesh=Humanoid Flesh
 infoBook.firstAge.relics.humanoidFlesh.text=You might never have noticed before, but when players die they seem to drop a part of their flesh. Eating it seems to be dangerous, maybe eating it at night-time might be more safe. I wouldn’t recommend eating your own flesh though, that’s just nasty, try eating one of your friends instead!
 
 infoBook.firstAge.relics.enchantments=Enchantments
-infoBook.firstAge.relics.enchantments.breaking.text=&l&nBreaking&r\nThis enchantment exists in three stages, it looks like it does exactly the opposite of the Unbreaking enchant. This doesn’t seem very useful, does it? Maybe I should find a way to get rid of this.
-infoBook.firstAge.relics.enchantments.lifeStealing.text=&l&nLife Stealing&r\nThe three stages of this enchant on offensive weapons allows you to steal parts of the life you take from others.
-infoBook.firstAge.relics.enchantments.poisonTip.text=&l&nPoison Tip&r\nWhen applying some poison to your weapons, you have a chance of poisoning your victims.This enchantment exists in three stages. It looks like you can make a basic version of this enchantment by adding a poisonous material to a regular book.
-infoBook.firstAge.relics.enchantments.unusing.text=&l&nUnusing&r\nI was getting tired of my favorite tools breaking everytime I wasn’t paying attention to them. This I why I devised a new enchantment that makes tools unusable when they are about to break, giving myself enough time to repair it to its former glory.
+infoBook.firstAge.relics.enchantments.breaking.text=&l&nBreaking&r&NThis enchantment exists in three stages, it looks like it does exactly the opposite of the Unbreaking enchant. This doesn’t seem very useful, does it? Maybe I should find a way to get rid of this.
+infoBook.firstAge.relics.enchantments.lifeStealing.text=&l&nLife Stealing&r&NThe three stages of this enchant on offensive weapons allows you to steal parts of the life you take from others.
+infoBook.firstAge.relics.enchantments.poisonTip.text=&l&nPoison Tip&r&NWhen applying some poison to your weapons, you have a chance of poisoning your victims.This enchantment exists in three stages. It looks like you can make a basic version of this enchantment by adding a poisonous material to a regular book.
+infoBook.firstAge.relics.enchantments.unusing.text=&l&nUnusing&r&NI was getting tired of my favorite tools breaking everytime I wasn’t paying attention to them. This I why I devised a new enchantment that makes tools unusable when they are about to break, giving myself enough time to repair it to its former glory.
 
 # - Items -
 infoBook.firstAge.items=Items
