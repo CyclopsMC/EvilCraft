@@ -56,9 +56,9 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
     public int getMaxLevel() {
         return 3;
     }
-    
+
     @Override
-    public boolean canApply(ItemStack itemStack) {
+    public boolean canApplyAtEnchantingTable(ItemStack itemStack) {
         return false;
     }
     
