@@ -20,9 +20,14 @@
                 <tag>darkBlock</tag>
                 <tag>darkBrick</tag>
                 <paragraph>infoBook.firstAge.newWorld.darkOre.text</paragraph>
-                <appendix type="craftingRecipe" index="0">evilcraft:darkBlock</appendix>
-                <appendix type="craftingRecipe" index="0">evilcraft:darkGem</appendix>
-                <appendix type="craftingRecipe" index="0">evilcraft:darkBrick</appendix>
+                <appendix type="craftingRecipe">evilcraft:darkBlock</appendix>
+                <appendix type="craftingRecipe">evilcraft:darkGem</appendix>
+                <appendix type="craftingRecipe">evilcraft:darkBrick</appendix>
+            </section>
+            <section name="infoBook.firstAge.newWorld.darkenedApple">
+                <tag>darkenedApple</tag>
+                <paragraph>infoBook.firstAge.newWorld.darkenedApple.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:darkenedApple</appendix>
             </section>
             <section name="infoBook.firstAge.newWorld.evilDungeon">
                 <paragraph>infoBook.firstAge.newWorld.evilDungeon.text</paragraph>
@@ -150,6 +155,7 @@
     </section>
     <section name="infoBook.secondAge">
         <section name="infoBook.secondAge.powersOfBlood">
+            <tag>hardenedBlood</tag>
             <tag>hardenedBloodShard</tag>
             <tag>darkPowerGem</tag>
             <paragraph>infoBook.secondAge.powersOfBlood.text1</paragraph>

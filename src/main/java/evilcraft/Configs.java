@@ -21,6 +21,7 @@ import evilcraft.entity.villager.WerewolfVillagerConfig;
 import evilcraft.fluid.BloodConfig;
 import evilcraft.fluid.PoisonConfig;
 import evilcraft.item.*;
+import evilcraft.potion.PotionPalingConfig;
 import evilcraft.world.biome.BiomeDegradedConfig;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -82,7 +83,11 @@ public class Configs {
     /**
      * Register all the configs.
      */
-	public void registerConfigs() {        
+	public void registerConfigs() {
+
+        // Potion Effects
+        configs.add(new PotionPalingConfig());
+
         // Fluids
         configs.add(new BloodConfig());
         configs.add(new PoisonConfig());
@@ -173,6 +178,7 @@ public class Configs {
         configs.add(new BloodOrbConfig());
         configs.add(new SceptreOfThunderConfig());
         configs.add(new OriginsOfDarknessConfig());
+        configs.add(new DarkenedAppleConfig());
         
         // Entities
         // Item
@@ -214,6 +220,7 @@ public class Configs {
         configs.add(new ParticleDegradationConfig());
         configs.add(new SoundDegradationConfig());
         configs.add(new TerraformDegradationConfig());
+        configs.add(new PalingDegradationConfig());
     }
 
     /**

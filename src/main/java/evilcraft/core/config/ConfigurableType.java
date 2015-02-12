@@ -1,28 +1,8 @@
 package evilcraft.core.config;
 
 import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.configurabletypeaction.BiomeAction;
-import evilcraft.core.config.configurabletypeaction.BlockAction;
-import evilcraft.core.config.configurabletypeaction.ConfigurableTypeAction;
-import evilcraft.core.config.configurabletypeaction.DegradationEffectAction;
-import evilcraft.core.config.configurabletypeaction.DummyAction;
-import evilcraft.core.config.configurabletypeaction.EnchantmentAction;
-import evilcraft.core.config.configurabletypeaction.EntityAction;
-import evilcraft.core.config.configurabletypeaction.FluidAction;
-import evilcraft.core.config.configurabletypeaction.ItemAction;
-import evilcraft.core.config.configurabletypeaction.MobAction;
-import evilcraft.core.config.configurabletypeaction.VillagerAction;
-import evilcraft.core.config.extendedconfig.BiomeConfig;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
-import evilcraft.core.config.extendedconfig.DummyConfig;
-import evilcraft.core.config.extendedconfig.EnchantmentConfig;
-import evilcraft.core.config.extendedconfig.EntityConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.FluidConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.core.config.extendedconfig.MobConfig;
-import evilcraft.core.config.extendedconfig.VillagerConfig;
+import evilcraft.core.config.configurabletypeaction.*;
+import evilcraft.core.config.extendedconfig.*;
 
 /**
  * The different types of {@link IConfigurable}.
@@ -71,6 +51,11 @@ public class ConfigurableType {
      * Degradation effect type.
      */
     public static final ConfigurableType DEGRADATIONEFFECT = new ConfigurableType(true, DegradationEffectConfig.class, new DegradationEffectAction(), ConfigurableTypeCategory.DEGRADATIONEFFECT);
+    /**
+     * Potion effect type.
+     */
+    public static final ConfigurableType POTION = new ConfigurableType(true, PotionConfig.class, new PotionAction(), ConfigurableTypeCategory.POTION);
+
 
     /**
      * Dummy type, only used for configs that refer to nothing.

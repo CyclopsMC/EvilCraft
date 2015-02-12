@@ -254,4 +254,15 @@
         </output>
     </recipe>
 
+    <recipe type="shapeless">
+        <condition type="config">darkenedApple</condition>
+        <input>
+            <item>minecraft:apple</item>
+            <item type="oredict">gemDark</item>
+        </input>
+        <output>
+            <item>evilcraft:darkenedApple</item>
+        </output>
+    </recipe>
+
 </recipes>

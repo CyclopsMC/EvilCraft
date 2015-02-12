@@ -181,7 +181,9 @@ item.items.bloodOrb.name=Blood Orb
 item.items.bloodOrb.empty.name=Empty Orb
 item.items.bloodOrb.filled.name=Blood Orb
 item.items.originsOfDarkness.name=Origins of Darkness
-item.items.originsOfDarkness.info=Obtain by feeding a Darkened Apple to a mob.
+item.items.originsOfDarkness.info=Obtain by feeding a Darkened Apple to a mob and quickly throwing a Book at the result.
+item.items.darkenedApple.name=Darkened Apple
+item.items.darkenedApple.info=I wouldn't eat this, maybe feed it to some animal.
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
@@ -227,9 +229,14 @@ chat.bossDisplay.charge=%s Charge
 # Death messages
 death.attack.dieWithoutAnyReason=%1$s dies without any apparent reason!
 death.attack.distorted=%1$s couldn't handle the amount of distortion anymore.
+death.attack.spiked=%1$s was killed by spikes.
+death.attack.paling=%1$s faded away.
 
 # Biomes
 biomes.biomeDegraded=Degraded
+
+# Potion Effects
+potions.paling=Paling
 
 # Achievements
 achievement.evilcraft.fart=Learn to Fart
@@ -281,11 +288,14 @@ infoBook.firstAge.newWorld.introduction.text=I have discovered several strange n
 infoBook.firstAge.newWorld.darkOre=Dark Ore
 infoBook.firstAge.newWorld.darkOre.text=This world is filled with all sorts of resources, this I have known for a long time...But today I have made a new discovery, there is an ore in this world, with a somewhat dark shine to it, it makes me think of precious gems, but I sense a very obscure presence within them. Hitting them with an iron pick axe seems to be the minimal requirement to get some of these gems. There also seems to appear some kind of rather strange dust, when I mine them, I’m sure I will find a use for this dust soon enough.
 
+infoBook.firstAge.newWorld.darkenedApple=Darkened Apple
+infoBook.firstAge.newWorld.darkenedApple.text=As you are reading this book, you might have already come across this item. Combining an &1Apple&0 and a &1Dark Gem&0 results in a special &1Apple&0 that when eaten inflicts large amounts of damage for a certain time. If the entity dies because of this effect, it will leave behind some kind of portal. I have yet to master the use of these portals...
+
 infoBook.firstAge.newWorld.evilDungeon=Evil Dungeon
 infoBook.firstAge.newWorld.evilDungeon.text=While caving, I occasionally encounter these grim rooms with &4Blood&0 spread all over the floor. These &4Blood&0 traces are probably caused by the battles of previous explorers with the countless mobs inhabiting these dungeons.
 
 infoBook.firstAge.newWorld.darkTemple=Dark Temple
-infoBook.firstAge.newWorld.darkTemple.text1=There seem to be certain structures in this world that were built by some kind of ancient civilization that was able to infuse certain environmental powers into items. These processes however seem to degrade the natural balance of the environment the more this process is used. This is possibly the main reason why that ancient civilization isn’t around anymore today...
+infoBook.firstAge.newWorld.darkTemple.text1=There seem to be certain structures in this world that were built by some kind of ancient civilization that was able to infuse certain environmental powers into items. These processes however seem to degrade the natural balance of the environment the more this process is used. This is possibly the main reason why that civilization isn’t around anymore today...
 infoBook.firstAge.newWorld.darkTemple.text2=Using &1Dark Gems&0 I was able to enhance existing &1Glass Bottles&0 to be able to contain environmental weather. Throwing such a &1Weather Container&0 inside the core of such a temple will absorb the current weather into the bottle.
 infoBook.firstAge.newWorld.darkTemple.text3=I also discovered that certain items can be empowered using the special properties of thunderstorms. These items can also be empowered when they are directly struck by lightning, but it seems very unlikely to predict where lightning is going to strike, or is it...?
 

@@ -52,6 +52,10 @@ public enum ConfigurableTypeCategory {
      * Machine category.
      */
     MACHINE("machine"),
+    /**
+     * Potion category.
+     */
+    POTION("potion"),
     
     /**
      * Category with core settings.
@@ -63,7 +67,7 @@ public enum ConfigurableTypeCategory {
      */
     public static ConfigurableTypeCategory[] CATEGORIES = new ConfigurableTypeCategory[]{ITEM, BLOCK,
     	FLUID, ENTITY, GENERAL, WORLDGENERATION, ENCHANTMENT, MOB, BIOME,
-    	DEGRADATIONEFFECT, MACHINE};
+    	DEGRADATIONEFFECT, MACHINE, POTION};
     
     private String name;
     

@@ -25,9 +25,13 @@ public class ExtendedDamageSource extends DamageSource{
      * DamageSource for when necromancer's entities that are automatically killed.
      */
     public static ExtendedDamageSource necromancerRecall = (ExtendedDamageSource)((new ExtendedDamageSource("necromancerRecall")));
+    /**
+     * DamageSource for paling entities.
+     */
+    public static ExtendedDamageSource paling = (ExtendedDamageSource)((new ExtendedDamageSource("paling")));
 
-    protected ExtendedDamageSource(String par1Str) {
-        super(par1Str);
+    protected ExtendedDamageSource(String unlocalizedName) {
+        super(unlocalizedName);
     }
     
     /**

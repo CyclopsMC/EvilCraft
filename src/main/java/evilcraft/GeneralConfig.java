@@ -111,6 +111,12 @@ public class GeneralConfig extends DummyConfig {
     public static int mbFlowRate = 100;
 
     /**
+     * The minimum array size of potion types, increase to allow for more potion types.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "The minimum array size of potion types, increase to allow for more potion types.", requiresMcRestart = true)
+    public static int minimumPotionTypesArraySize = 256;
+
+    /**
      * The amount of blocks per vein there should be.
      */
     public static int silverfish_BlocksPerVein = 4;

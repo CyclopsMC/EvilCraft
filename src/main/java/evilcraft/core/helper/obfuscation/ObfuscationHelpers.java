@@ -1,11 +1,7 @@
 package evilcraft.core.helper.obfuscation;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Map;
-
+import cpw.mods.fml.relauncher.ReflectionHelper;
+import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.particle.EffectRenderer;
@@ -21,8 +17,12 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import evilcraft.core.helper.RenderHelpers;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Map;
 
 /**
  * Helper for getting private fields or methods.
@@ -123,8 +123,7 @@ public class ObfuscationHelpers {
 			e.printStackTrace();
 		} catch (SecurityException e) {
 			e.printStackTrace();
-		}        
-		catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -202,5 +201,31 @@ public class ObfuscationHelpers {
 	public static boolean isPotionBadEffect(Potion potion) {
 		return ReflectionHelper.getPrivateValue(Potion.class, potion, ObfuscationData.POTION_ISBADEFFECT);
 	}
+
+    /**
+     * Set the private static final 'potionTypes' field from @link{net.minecraft.potion.Potion}
+     * @param potionTypes The panorama path.
+     */
+    public static void setPotionTypesArray(Potion[] potionTypes) {
+        Field field = ReflectionHelper.findField(Potion.class, ObfuscationData.POTION_POTIONTYPES);
+
+        Field modifiersField;
+        try {
+            modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+
+            field.setAccessible(true);
+            field.set(null, potionTypes);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 	
 }
