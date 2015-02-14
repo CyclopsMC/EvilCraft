@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
+import evilcraft.core.algorithm.EvictingStack;
 import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
@@ -38,7 +39,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     private static final int BUTTON_NEXT = 1;
     private static final int BUTTON_PREVIOUS = 2;
     private static final int BUTTON_PARENT = 3;
-    private static final int BUTTON_HYPERLINKS_START = 4;
+    private static final int BUTTON_BACK = 4;
+    private static final int BUTTON_HYPERLINKS_START = 5;
 
     private static final int HR_WIDTH = 88;
     private static final int HR_HEIGHT = 10;
@@ -61,10 +63,12 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     private NextPageButton buttonNextPage;
     private NextPageButton buttonPreviousPage;
     private NextPageButton buttonParent;
+    private NextPageButton buttonBack;
 
     private static InfoSection currentSection;
     private static int page;
 
+    private static EvictingStack<InfoSection.Location> history = new EvictingStack<InfoSection.Location>(128);
     private InfoSection nextSection;
     private int nextPage;
     private boolean goToLastPage;
@@ -93,6 +97,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         this.buttonList.add(this.buttonNextPage = new NextPageButton(BUTTON_NEXT, left + pageWidth + 100, top + 156, 0, 180, 18, 13));
         this.buttonList.add(this.buttonPreviousPage = new NextPageButton(BUTTON_PREVIOUS, left + 23, top + 156, 0, 193, 18, 13));
         this.buttonList.add(this.buttonParent = new NextPageButton(BUTTON_PARENT, left + 2, top + 2, 36, 180, 8, 8));
+        this.buttonList.add(this.buttonBack = new NextPageButton(BUTTON_BACK, left + pageWidth + 127, top + 2, 0, 223, 13, 18));
         this.updateGui();
 
         if (goToLastPage) {
@@ -187,6 +192,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         this.buttonNextPage.visible = currentSection.getNext(page + 1, false) != null;
         this.buttonPreviousPage.visible = currentSection.getPrevious(page, false) != null;
         this.buttonParent.visible = currentSection != null && currentSection.getParent() != null;
+        this.buttonBack.visible = history.currentSize() > 0;
     }
 
     protected void actionPerformed(GuiButton button) {
@@ -197,12 +203,14 @@ public class GuiOriginsOfDarkness extends GuiScreen {
             InfoSection.Location location = currentSection.getNext(page + 1, MinecraftHelpers.isShifted());
             nextSection = location.getInfoSection();
             nextPage = location.getPage();
+            history.push(new InfoSection.Location(page, currentSection));
         } else if(button.id == BUTTON_PREVIOUS && button.visible) {
             InfoSection.Location location = currentSection.getPrevious(page, MinecraftHelpers.isShifted());
             nextSection = location.getInfoSection();
             nextPage = location.getPage();
             // We can not set the new 'page', because the currentSection hasn't been baked yet and we do not know the last page yet.
             goToLastPage = nextSection != currentSection && !MinecraftHelpers.isShifted();
+            history.push(new InfoSection.Location(page, currentSection));
         } else if(button.id == BUTTON_PARENT && button.visible) {
             if(MinecraftHelpers.isShifted()) {
                 nextSection = currentSection.getParent();
@@ -213,12 +221,19 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                 nextSection = currentSection.getParent();
             }
             nextPage = 0;
+            history.push(new InfoSection.Location(page, currentSection));
+        } else if(button.id == BUTTON_BACK && button.visible) {
+            InfoSection.Location location = history.pop();
+            nextSection = location.getInfoSection();
+            nextPage = location.getPage();
         } else if(button instanceof TextOverlayButton) {
             nextSection = ((TextOverlayButton) button).getLink().getTarget();
             nextPage = 0;
+            if(nextSection != currentSection) history.push(new InfoSection.Location(page, currentSection));
         } else if(button instanceof AdvancedButton && ((AdvancedButton) button).isVisible()) {
             nextSection = ((AdvancedButton) button).getTarget();
             nextPage = 0;
+            if(nextSection != currentSection) history.push(new InfoSection.Location(page, currentSection));
         } else {
             super.actionPerformed(button);
         }
@@ -321,6 +336,15 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
     public int getTick() {
         return (int) mc.theWorld.getWorldTime();
+    }
+
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+
+        if(!this.mc.thePlayer.isEntityAlive() || this.mc.thePlayer.isDead) {
+            this.mc.thePlayer.closeScreen();
+        }
     }
 
     @SideOnly(Side.CLIENT)

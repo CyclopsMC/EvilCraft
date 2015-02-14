@@ -278,7 +278,7 @@ infoBook.preface.text2=Many kinds of magic exist in this world, but the kind you
 
 infoBook.structure=&oStructure&r
 infoBook.structure.text1=This book is split into two major parts, for the two ages of evilness I like to classify everything in. I consider everything before my coming to this world as the &1First Age&0, and my life's work the &1Second Age&0.
-infoBook.structure.text2=You can navigate through this book by clicking on the arrows at the bottom, shift clicking will flip through whole sections instead of single pages. At the start of large sections you will see a content table which will contain hyperlinks to its subsections for faster browsing. When you come across recipes, the items that are explained in this book are clickable as a fast reference to the section they are explained in. You will also notice a button at the top left of this book, which will take you to the section above your current one.
+infoBook.structure.text2=You can navigate through this book by clicking on the arrows at the bottom, shift clicking will flip through whole sections instead of single pages. At the start of large sections you will see a content table which will contain hyperlinks to its subsections for faster browsing. When you come across recipes, the items that are explained in this book are clickable as a fast reference to the section they are explained in. You will also notice a button at the top left of this book, which will take you to the section above your current one. The button at the top right corner will go back to the previously visited page each time when clicked.
 
 # --- First Age ---
 infoBook.firstAge=First Age
