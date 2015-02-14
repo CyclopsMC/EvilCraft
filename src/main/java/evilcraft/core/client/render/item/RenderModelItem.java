@@ -1,13 +1,11 @@
 package evilcraft.core.client.render.item;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
 
 /**
  * General item renderer for blocks/items with models.
@@ -86,7 +84,7 @@ public class RenderModelItem implements IItemRenderer {
     private void renderModel(ItemRenderType type, float x, float y, float z) {
         preRenderModel(type, x, y, z);
         
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(getTexture());
+        if(getTexture() != null) FMLClientHandler.instance().getClient().renderEngine.bindTexture(getTexture());
         GL11.glPushMatrix();
         GL11.glTranslatef(x, y, z);
         GL11.glRotatef(180, 1, 0, 0);

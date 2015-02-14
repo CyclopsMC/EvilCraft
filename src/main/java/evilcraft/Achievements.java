@@ -1,26 +1,15 @@
 package evilcraft;
 
+import evilcraft.block.BoxOfEternalClosure;
+import evilcraft.block.BoxOfEternalClosureConfig;
+import evilcraft.block.SpiritFurnace;
+import evilcraft.block.SpiritFurnaceConfig;
+import evilcraft.item.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
-import evilcraft.block.BoxOfEternalClosure;
-import evilcraft.block.BoxOfEternalClosureConfig;
-import evilcraft.block.SpiritFurnace;
-import evilcraft.block.SpiritFurnaceConfig;
-import evilcraft.item.BloodExtractor;
-import evilcraft.item.BloodExtractorConfig;
-import evilcraft.item.Broom;
-import evilcraft.item.BroomConfig;
-import evilcraft.item.DarkGem;
-import evilcraft.item.DarkGemConfig;
-import evilcraft.item.ExaltedCrafter;
-import evilcraft.item.ExaltedCrafterConfig;
-import evilcraft.item.MaceOfDistortion;
-import evilcraft.item.MaceOfDistortionConfig;
-import evilcraft.item.NecromancerStaff;
-import evilcraft.item.NecromancerStaffConfig;
 
 /**
  * Obtainable achievements in this mod.
@@ -29,6 +18,10 @@ import evilcraft.item.NecromancerStaffConfig;
  */
 public class Achievements {
 
+    /**
+     * Pick up a copy of Origins of Darkness.
+     */
+    public static final Achievement EVIL_SOURCE = new ExtendedAchievement("evilSource", 0, 0, new ItemStack(Configs.isEnabled(OriginsOfDarknessConfig.class) ? OriginsOfDarkness.getInstance() : Items.potato), null);
 	/**
 	 * First farting achievement.
 	 */
@@ -69,8 +62,10 @@ public class Achievements {
 	 * Make a spirit furnace.
 	 */
 	public static final Achievement POWER_CRAFTING = new ExtendedAchievement("powerCrafting", 0, 2, new ItemStack(Configs.isEnabled(ExaltedCrafterConfig.class) ? ExaltedCrafter.getInstance() : Items.potato), FIRST_AGE);
-	
-	private static final Achievement[] ACHIEVEMENTS = {
+
+
+    private static final Achievement[] ACHIEVEMENTS = {
+        EVIL_SOURCE,
 		FART,
 		FIRST_AGE,
 		SECOND_AGE,

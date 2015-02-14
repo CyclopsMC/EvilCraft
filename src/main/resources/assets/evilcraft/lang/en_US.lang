@@ -67,6 +67,7 @@ tile.blocks.gemStoneTorch.info=Blocks Vengeance Spirit spawning in a radius of 1
 tile.blocks.eternalWaterBlock.name=Eternal Water Block
 tile.blocks.eternalWaterBlock.info=An infinite source of water.
 tile.blocks.bloodWaxedCoalBlock.name=Block of Blood-Waxed Coal
+tile.blocks.spiritPortal.name=Spirit Portal
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone
@@ -181,7 +182,7 @@ item.items.bloodOrb.name=Blood Orb
 item.items.bloodOrb.empty.name=Empty Orb
 item.items.bloodOrb.filled.name=Blood Orb
 item.items.originsOfDarkness.name=Origins of Darkness
-item.items.originsOfDarkness.info=Obtain by feeding a Darkened Apple to a mob and quickly throwing a Book at the result.
+item.items.originsOfDarkness.info=Obtain by feeding a Darkened Apple to a mob and quickly throwing a Book at the resulting anomaly.
 item.items.darkenedApple.name=Darkened Apple
 item.items.darkenedApple.info=I wouldn't eat this, maybe feed it to some animal.
 
@@ -239,6 +240,8 @@ biomes.biomeDegraded=Degraded
 potions.paling=Paling
 
 # Achievements
+achievement.evilcraft.evilSource=A True Source of Evil
+achievement.evilcraft.evilSource.desc=Obtain a copy of the Origins of Darkness by throwing a book into the anomaly resulting from feeding a Darkened Apple to an animal.
 achievement.evilcraft.fart=Learn to Fart
 achievement.evilcraft.fart.desc=Finally release all of those nasty gases.
 achievement.evilcraft.firstAge=First Age
@@ -289,7 +292,7 @@ infoBook.firstAge.newWorld.darkOre=Dark Ore
 infoBook.firstAge.newWorld.darkOre.text=This world is filled with all sorts of resources, this I have known for a long time...But today I have made a new discovery, there is an ore in this world, with a somewhat dark shine to it, it makes me think of precious gems, but I sense a very obscure presence within them. Hitting them with an iron pick axe seems to be the minimal requirement to get some of these gems. There also seems to appear some kind of rather strange dust, when I mine them, I’m sure I will find a use for this dust soon enough.
 
 infoBook.firstAge.newWorld.darkenedApple=Darkened Apple
-infoBook.firstAge.newWorld.darkenedApple.text=As you are reading this book, you might have already come across this item. Combining an &1Apple&0 and a &1Dark Gem&0 results in a special &1Apple&0 that when eaten inflicts large amounts of damage for a certain time. If the entity dies because of this effect, it will leave behind some kind of portal. I have yet to master the use of these portals...
+infoBook.firstAge.newWorld.darkenedApple.text=As you are reading this book, you might have already come across this item. Combining an &1Apple&0 and a &1Dark Gem&0 results in a special &1Apple&0 that when eaten inflicts large amounts of damage for a certain time. If the entity dies because of this effect, it will leave behind some kind of anomaly. I have yet to discover any uses for this phenomenon...
 
 infoBook.firstAge.newWorld.evilDungeon=Evil Dungeon
 infoBook.firstAge.newWorld.evilDungeon.text=While caving, I occasionally encounter these grim rooms with &4Blood&0 spread all over the floor. These &4Blood&0 traces are probably caused by the battles of previous explorers with the countless mobs inhabiting these dungeons.

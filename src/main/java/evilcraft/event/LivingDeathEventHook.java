@@ -3,11 +3,15 @@ package evilcraft.event;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
+import evilcraft.ExtendedDamageSource;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.BloodStainedBlockConfig;
+import evilcraft.block.SpiritPortal;
+import evilcraft.block.SpiritPortalConfig;
 import evilcraft.client.particle.EntityBloodSplashFX;
 import evilcraft.core.PlayerExtendedInventoryIterator;
 import evilcraft.core.algorithm.Location;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.world.FakeWorld;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
@@ -18,6 +22,7 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
@@ -46,6 +51,7 @@ public class LivingDeathEventHook {
         bloodStainedBlockEvent(event);
         vengeanceEvent(event);
         dropHumanoidFleshEvent(event);
+        palingDeath(event);
     }
 
 	private void bloodObtainEvent(LivingDeathEvent event) {
@@ -147,5 +153,17 @@ public class LivingDeathEventHook {
 			player.worldObj.spawnEntityInWorld(entity);
 		}
 	}
+
+    private void palingDeath(LivingDeathEvent event) {
+        if(event.source == ExtendedDamageSource.paling && Configs.isEnabled(SpiritPortalConfig.class)) {
+            int x = (int) (event.entityLiving.posX - event.entityLiving.width / 2);
+            int y = (int) (event.entityLiving.posY - event.entityLiving.height / 2 + 1);
+            int z = (int) (event.entityLiving.posZ - event.entityLiving.width / 2);
+            if(event.entityLiving.worldObj.getBlock(x, y, z) == Blocks.air) {
+                event.entityLiving.worldObj.setBlock(x, y, z, SpiritPortal.getInstance(), 0,
+                        MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            }
+        }
+    }
     
 }

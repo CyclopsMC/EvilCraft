@@ -1,15 +1,13 @@
 package evilcraft.core.client.render.tileentity;
 
+import evilcraft.core.tileentity.EvilCraftTileEntity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import evilcraft.core.tileentity.EvilCraftTileEntity;
 
 /**
  * General renderer for {@link EvilCraftTileEntity} with models.
@@ -50,7 +48,7 @@ public class RenderTileEntityModel extends TileEntitySpecialRenderer {
     
     protected void renderTileEntityAt(EvilCraftTileEntity tile, double x, double y, double z, float partialTick) {
         ForgeDirection direction = tile.getRotation();
-        this.bindTexture(getTexture());
+        if(getTexture() != null) this.bindTexture(getTexture());
 
         GL11.glPushMatrix();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);

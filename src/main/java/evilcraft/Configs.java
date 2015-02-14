@@ -128,6 +128,7 @@ public class Configs {
         configs.add(new GemStoneTorchConfig());
         configs.add(new EternalWaterBlockConfig());
         configs.add(new BloodWaxedCoalBlockConfig());
+        configs.add(new SpiritPortalConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
