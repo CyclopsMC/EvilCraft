@@ -49,7 +49,7 @@ public final class L10NHelpers {
             autoSupply = EnumChatFormatting.GREEN + localize(KEY_ENABLED);
         }
         infoLines.add(EnumChatFormatting.BOLD
-        		+ localize(statusPrefixKey, new Object[]{autoSupply}));
+        		+ localize(statusPrefixKey, autoSupply));
 	}
 	
 	/**

@@ -130,9 +130,12 @@ public class Recipes {
 				
 			}
     	} else if(file.isDirectory()) {
-    		for(File childFile : file.listFiles()) {
-    			registerRecipesForFiles(childFile);
-    		}
+            File[] childFiles = file.listFiles();
+            if(childFiles != null) {
+                for (File childFile : childFiles) {
+                    registerRecipesForFiles(childFile);
+                }
+            }
     	}
     }
 

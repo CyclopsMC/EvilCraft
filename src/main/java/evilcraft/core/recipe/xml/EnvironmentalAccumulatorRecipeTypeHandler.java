@@ -1,15 +1,13 @@
 package evilcraft.core.recipe.xml;
 
-import net.minecraft.item.ItemStack;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 import evilcraft.core.weather.WeatherType;
+import net.minecraft.item.ItemStack;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * Handler for blood infuser recipes.
@@ -54,7 +52,7 @@ public class EnvironmentalAccumulatorRecipeTypeHandler extends SuperRecipeTypeHa
 	
 	private WeatherType getWeatherType(String type) throws XmlRecipeException {
 		WeatherType weather = WeatherType.valueOf(type);
-		if(type == null) {
+		if(weather == null) {
 			throw new XmlRecipeException(String.format("Could not found the weather '%s'", type));
 		}
 		return weather;

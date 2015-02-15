@@ -1,7 +1,12 @@
 package evilcraft.entity.effect;
 
-import java.util.List;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Achievements;
+import evilcraft.EvilCraft;
+import evilcraft.client.particle.EntityBlurFX;
+import evilcraft.core.config.configurable.IConfigurable;
+import evilcraft.entity.monster.VengeanceSpirit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,13 +17,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Achievements;
-import evilcraft.EvilCraft;
-import evilcraft.client.particle.EntityBlurFX;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.entity.monster.VengeanceSpirit;
+
+import java.util.List;
 
 /**
  * Entity for the anti-vengeance beams.
@@ -87,7 +87,6 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
             Entity entity = null;
             List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
-            EntityLivingBase entitylivingbase = this.getThrower();
 
             for (int j = 0; j < list.size(); ++j) {
                 Entity entity1 = (Entity)list.get(j);

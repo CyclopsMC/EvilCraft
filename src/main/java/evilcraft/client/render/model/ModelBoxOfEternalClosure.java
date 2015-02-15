@@ -1,8 +1,7 @@
 package evilcraft.client.render.model;
 
-import java.nio.FloatBuffer;
-import java.util.Random;
-
+import evilcraft.Reference;
+import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -10,11 +9,10 @@ import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.WavefrontObject;
-
 import org.lwjgl.opengl.GL11;
 
-import evilcraft.Reference;
-import evilcraft.core.helper.RenderHelpers;
+import java.nio.FloatBuffer;
+import java.util.Random;
 
 /**
  * Model for the Box of Eternal Closure
@@ -74,7 +72,6 @@ public class ModelBoxOfEternalClosure extends ModelBase {
 		double x = 0;
 		double y = 0;
 		double z = 0;
-		float partialTickTime;
 		
         GL11.glDisable(GL11.GL_LIGHTING);
         rand.setSeed(31100L);

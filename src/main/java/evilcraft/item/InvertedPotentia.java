@@ -56,7 +56,7 @@ public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerab
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean hasEffect(ItemStack itemStack, int pass){
         return isEmpowered(itemStack);
     }
     
@@ -70,10 +70,7 @@ public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerab
     
     @Override
 	public boolean isEmpowered(ItemStack itemStack) {
-        if(itemStack.getItem() == this) {
-            return itemStack.getItemDamage() == EMPOWERED_META;
-        }
-        return false;
+        return itemStack.getItem() == this && itemStack.getItemDamage() == EMPOWERED_META;
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })

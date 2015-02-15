@@ -99,7 +99,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	}
 
 	@Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean hasEffect(ItemStack itemStack, int pass){
         return ItemHelpers.isActivated(itemStack);
     }
     
@@ -151,7 +151,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	    			if(forceGlobal) {
 	    				spirit.setGlobalVengeance(true);
 	    			} else {
-	    				spirit.setEnabledVengeance((EntityPlayer) entity, enableVengeance);
+	    				spirit.setEnabledVengeance((EntityPlayer) entity, true);
 	    			}
 	    			spirit.setTarget(entity);
 	    		}

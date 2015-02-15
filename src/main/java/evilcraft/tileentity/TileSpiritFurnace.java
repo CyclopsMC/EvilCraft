@@ -104,7 +104,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     					new AllowedBlock(SpiritFurnace.getInstance()).setMaxOccurences(1)
     					},
     			Lists.newArrayList(SpiritFurnace.getInstance(), DarkBloodBrick.getInstance())
-    		).setMinimumSize(new Size(new int[]{2, 2, 2}));
+    		).setMinimumSize(new Size(2, 2, 2));
     
     private static final Map<Class<?>, ITickAction<TileSpiritFurnace>> BOX_COOK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSpiritFurnace>>();
     static {

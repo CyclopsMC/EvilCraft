@@ -5,7 +5,6 @@ import evilcraft.core.config.ConfigurableType;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import net.minecraft.block.Block;
 
-import java.util.Collections;
 import java.util.Set;
 
 /**

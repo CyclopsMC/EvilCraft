@@ -1,6 +1,15 @@
 package evilcraft.item;
-import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.client.gui.container.GuiExaltedCrafter;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.inventory.NBTSimpleInventory;
+import evilcraft.core.item.ItemGui;
+import evilcraft.entity.item.EntityItemEmpowerable;
+import evilcraft.inventory.container.ContainerExaltedCrafter;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -13,16 +22,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.client.gui.container.GuiExaltedCrafter;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.inventory.NBTSimpleInventory;
-import evilcraft.core.item.ItemGui;
-import evilcraft.entity.item.EntityItemEmpowerable;
-import evilcraft.inventory.container.ContainerExaltedCrafter;
+
+import java.util.List;
 
 /**
  * A portable crafting table with a built-in ender chest.
@@ -81,7 +82,7 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean hasEffect(ItemStack itemStack, int pass){
     	return isEmpowered(itemStack);
     }
     

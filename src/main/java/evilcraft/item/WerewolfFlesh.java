@@ -1,6 +1,13 @@
 package evilcraft.item;
-import java.util.List;
 
+import com.mojang.authlib.GameProfile;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.config.configurable.ConfigurableItemFood;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,15 +20,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-import com.mojang.authlib.GameProfile;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.configurable.ConfigurableItemFood;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.helper.RenderHelpers;
+import java.util.List;
 
 /**
  * Random flesh drop from werewolves, gives some fine boosts at night.
@@ -83,7 +82,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     }
     
     @Override
-    public boolean hasEffect(ItemStack par1ItemStack){
+    public boolean hasEffect(ItemStack itemStack, int pass){
         return isPower();
     }
     

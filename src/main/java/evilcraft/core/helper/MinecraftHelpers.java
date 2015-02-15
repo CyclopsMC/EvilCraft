@@ -91,7 +91,7 @@ public class MinecraftHelpers {
     
     /**
      * Check if it's day in this world.
-     * @param world
+     * @param world The world.
      * @return If it is day in the world, checked with the world time.
      */
     public static boolean isDay(World world) {
@@ -243,7 +243,7 @@ public class MinecraftHelpers {
         if((fluid1 == null && fluid2 != null) || (fluid1 != null && fluid2 == null)) {
             return false;
         }
-        if(fluid1 == null && fluid2 == null) {
+        if(fluid1 == null) { // fluid2 is always null now
             return true;
         }
         return fluid1.fluidID == fluid2.fluidID && fluid1.amount == fluid2.amount;

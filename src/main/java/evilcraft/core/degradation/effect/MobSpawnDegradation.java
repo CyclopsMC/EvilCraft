@@ -1,10 +1,5 @@
 package evilcraft.core.degradation.effect;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 import evilcraft.api.ILocation;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
@@ -12,6 +7,11 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.degradation.StochasticDegradationEffect;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.LocationHelpers;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 
 /**
  * Degradation that will eventually spawn mobs in the area.
@@ -65,7 +65,7 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
         EntityLiving entityliving;
 
         try {
-            entityliving = (EntityLiving)spawnlistentry.entityClass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {world});
+            entityliving = (EntityLiving)spawnlistentry.entityClass.getConstructor(World.class).newInstance(world);
         } catch (Exception exception) {
             exception.printStackTrace();
             return;

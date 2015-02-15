@@ -114,10 +114,8 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
     
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float motionX, float motionY, float motionZ) {
-    	if(tankComponent.onBlockActivatedTank(world, x, y, z, player, side, motionX, motionY, motionZ)) {
-        	return true;
-        }
-    	return super.onBlockActivated(world, x, y, z, player, side, motionX, motionY, motionZ);
+    	return tankComponent.onBlockActivatedTank(world, x, y, z, player, side, motionX, motionY, motionZ) ||
+                super.onBlockActivated(world, x, y, z, player, side, motionX, motionY, motionZ);
     }
     
     @Override

@@ -65,7 +65,7 @@ public class EvilCraft {
      */
     public static FMLEventChannel channel;
     
-    private static Set<IInitListener> initListeners = Sets.newHashSet();
+    private static final Set<IInitListener> initListeners = Sets.newHashSet();
     static {
     	addInitListeners(new ModCompatLoader());
     }

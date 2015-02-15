@@ -1,9 +1,9 @@
 package evilcraft.fluid;
 
-import net.minecraftforge.fluids.Fluid;
 import evilcraft.core.config.configurable.ConfigurableFluid;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.FluidConfig;
+import net.minecraftforge.fluids.Fluid;
 
 /**
  * The blood {@link Fluid}.
@@ -16,7 +16,7 @@ public class Blood extends ConfigurableFluid{
     
     /**
      * Make the unique instance.
-     * @param eConfig
+     * @param eConfig config
      */
     public static void initInstance(ExtendedConfig<FluidConfig> eConfig) {
         if(_instance == null)

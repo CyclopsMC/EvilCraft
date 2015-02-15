@@ -36,7 +36,7 @@ public class MathHelpers {
      *  ...
      * @param value The input value.
      * @param timing The timing value, should increment each time this is called for good results.
-     * @return
+     * @return The bursted value.
      */
     public static int factorToBursts(double value, int timing) {
         boolean shouldHaveCost = true;

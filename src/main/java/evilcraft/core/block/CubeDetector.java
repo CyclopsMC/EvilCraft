@@ -281,11 +281,8 @@ public class CubeDetector {
 			public boolean run(World world, ILocation location) {
 				// Only check the allowed block conditions if in validation mode,
 				// normally this 'valid' check is not needed, but bugs are always possible...
-				if(valid && !validateAllowedBlockConditions(world, location)) {
-					//System.out.println("Validate condition failed.");
-					return false;
-				}
-				return validateLocationInStructure(world, dimensionEgdes, location, action);
+				return !(valid && !validateAllowedBlockConditions(world, location)) &&
+                        validateLocationInStructure(world, dimensionEgdes, location, action);
 			}
 			
 		});

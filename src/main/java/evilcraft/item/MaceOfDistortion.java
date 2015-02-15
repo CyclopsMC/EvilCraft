@@ -122,8 +122,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
                 int newPower = (getPower(itemStack) + 1) % POWER_LEVELS;
                 setPower(itemStack, newPower);
                 player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC
-                		+ L10NHelpers.localize("item.items.maceOfDistortion.setPower",
-                				new Object[]{newPower})));
+                		+ L10NHelpers.localize("item.items.maceOfDistortion.setPower", newPower)));
             }
             return itemStack;
         } else {
@@ -357,8 +356,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         list.add(EnumChatFormatting.BOLD
-        		+ L10NHelpers.localize(getUnlocalizedName() + ".info.power",
-        				new Object[]{getPower(itemStack)}));
+        		+ L10NHelpers.localize(getUnlocalizedName() + ".info.power", getPower(itemStack)));
     }
     
     /**

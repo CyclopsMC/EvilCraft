@@ -1,17 +1,14 @@
 package evilcraft.core.client.gui.container;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.List;
-
+import evilcraft.Reference;
+import evilcraft.core.inventory.container.ExtendedInventoryContainer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import evilcraft.Reference;
-import evilcraft.core.inventory.container.ExtendedInventoryContainer;
+import java.awt.*;
+import java.util.List;
 
 /**
  * An extended GUI container.
@@ -74,8 +71,8 @@ public class GuiContainerExtended extends GuiContainer {
         int xStart;
         int yStart;
         
-        for(int i = 0; i < lines.size(); i++) {
-            tempWidth = this.fontRendererObj.getStringWidth(lines.get(i));
+        for(String line : lines) {
+            tempWidth = this.fontRendererObj.getStringWidth(line);
             
             if(tempWidth > tooltipWidth) {
                 tooltipWidth = tempWidth;

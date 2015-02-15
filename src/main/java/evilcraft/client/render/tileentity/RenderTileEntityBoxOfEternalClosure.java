@@ -1,13 +1,5 @@
 package evilcraft.client.render.tileentity;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import evilcraft.Reference;
 import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.client.render.model.ModelBoxOfEternalClosure;
@@ -15,6 +7,12 @@ import evilcraft.core.client.render.tileentity.RenderTileEntityModel;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Renderer for the {@link BoxOfEternalClosure}.
@@ -45,7 +43,6 @@ public class RenderTileEntityBoxOfEternalClosure extends RenderTileEntityModel {
     	z += 0.5D;
     	
     	// Optionally render beam
-    	ModelBoxOfEternalClosure boxModel = (ModelBoxOfEternalClosure)getModel();
     	TileBoxOfEternalClosure box = (TileBoxOfEternalClosure) tile;
     	VengeanceSpirit target = box.getTargetSpirit();
     	if(target != null) {

@@ -1,16 +1,14 @@
 package evilcraft.client.particle;
 
+import evilcraft.Reference;
+import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
-
-import evilcraft.Reference;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 
 /**
  * A blurred static fading particle with any possible color.
@@ -79,7 +77,6 @@ public class EntityBloodBrickFX extends EntityFX {
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
 
-		float f10 = 0.5F * particleScale;
 		float f11 = (float)(prevPosX + (posX - prevPosX) * f - interpPosX);
 		float f12 = (float)(prevPosY + (posY - prevPosY) * f - interpPosY);
 		float f13 = (float)(prevPosZ + (posZ - prevPosZ) * f - interpPosZ);

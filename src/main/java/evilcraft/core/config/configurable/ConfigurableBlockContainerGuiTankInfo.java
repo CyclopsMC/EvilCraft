@@ -1,19 +1,19 @@
 package evilcraft.core.config.configurable;
 
-import java.util.List;
-
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.block.component.BlockTankComponent;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+
+import java.util.List;
 
 /**
  * Block that can hold ExtendedConfigs
@@ -51,10 +51,8 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
     
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float motionX, float motionY, float motionZ) {
-    	if(tankComponent.onBlockActivatedTank(world, x, y, z, player, side, motionX, motionY, motionZ)) {
-        	return true;
-        }
-    	return super.onBlockActivated(world, x, y, z, player, side, motionX, motionY, motionZ);
+    	return tankComponent.onBlockActivatedTank(world, x, y, z, player, side, motionX, motionY, motionZ) ||
+                super.onBlockActivated(world, x, y, z, player, side, motionX, motionY, motionZ);
     }
     
     @Override

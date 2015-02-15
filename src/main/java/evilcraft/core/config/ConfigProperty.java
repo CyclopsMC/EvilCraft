@@ -183,7 +183,7 @@ public final class ConfigProperty {
     public void save(Configuration config, boolean forceUpdate) {
         // Sorry, no cleaner solution for this...
         // Reflection could solve it partially, but it'd be still quite ugly...
-        String category = getCategory().toString();
+        String category = getCategory();
         String name = getName();
         Object value = getValue();
         

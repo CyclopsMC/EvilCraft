@@ -1,20 +1,5 @@
 package evilcraft.item;
 
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
@@ -28,6 +13,21 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.fluid.Blood;
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.ItemFluidContainer;
+
+import java.util.List;
 
 /**
  * Containers that holds an infinite amount of blood.
@@ -106,8 +106,7 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
                     IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
                     FluidStack heldFluid = fluidContainer.getFluid(held);
                     if(/*tickFluid.amount >= MB_FILL_PERTICK Not required for creative mode filling
-                            && */(heldFluid == null || (heldFluid != null
-                                                    && heldFluid.isFluidEqual(tickFluid)
+                            && */(heldFluid == null || (heldFluid.isFluidEqual(tickFluid)
                                                     && heldFluid.amount < fluidContainer.getCapacity(held)
                                                     )
                                )

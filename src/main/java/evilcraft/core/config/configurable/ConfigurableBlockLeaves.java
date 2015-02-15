@@ -1,9 +1,9 @@
 package evilcraft.core.config.configurable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Reference;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,10 +12,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Block that extends from BlockLeaves that can hold ExtendedConfigs
@@ -96,11 +96,7 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
     @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
-    	if (side > 7 || field_150121_P) {
-            return super.shouldSideBeRendered(world, x, y, z, side);
-        } else {
-            return true;
-        }
+        return !(side > 7 || field_150121_P) || super.shouldSideBeRendered(world, x, y, z, side);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

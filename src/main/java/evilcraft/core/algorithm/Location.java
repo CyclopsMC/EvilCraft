@@ -1,7 +1,7 @@
 package evilcraft.core.algorithm;
 
-import net.minecraft.nbt.NBTTagCompound;
 import evilcraft.api.ILocation;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * Location class.
@@ -77,10 +77,7 @@ public class Location implements ILocation {
 
     @Override
     public boolean equals(Object object) {
-    	if(object instanceof ILocation && object != null) {
-    		return ((ILocation) object).getCoordinates().equals(getCoordinates());
-    	}
-    	return false;
+    	return object instanceof ILocation && ((ILocation) object).getCoordinates().equals(getCoordinates());
     }
 
 	@Override

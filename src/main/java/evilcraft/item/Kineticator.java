@@ -104,8 +104,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                 int newPower = (getPower(itemStack) + 1) % POWER_LEVELS;
                 setPower(itemStack, newPower);
                 player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC
-                		+ L10NHelpers.localize("item.items.kineticator.setPower",
-                				new Object[]{newPower})));
+                		+ L10NHelpers.localize("item.items.kineticator.setPower", newPower)));
             }
         }
         return itemStack;
@@ -124,8 +123,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
         		getUnlocalizedName() + ".info" + (isRepelling(itemStack) ? ".repelling" : "") + ".attraction");
         list.add(EnumChatFormatting.BOLD
-        		+ L10NHelpers.localize(getUnlocalizedName() + ".info.area",
-        				new Object[]{getArea(itemStack)}));
+        		+ L10NHelpers.localize(getUnlocalizedName() + ".info.area", getArea(itemStack)));
     }
     
     /**

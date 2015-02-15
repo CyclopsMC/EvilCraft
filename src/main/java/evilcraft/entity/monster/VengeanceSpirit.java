@@ -248,11 +248,9 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
         	}
         	
         	if(worldObj.isRemote) {
-        		if(isVisible()) {
-        			spawnSmoke();
-        			if(isSwarm()) {
-        				spawnSwarmParticles();
-        			}
+        		spawnSmoke();
+        		if(isSwarm()) {
+        			spawnSwarmParticles();
         		}
         	}
         }
@@ -587,7 +585,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
             @Nullable
             @Override
             public Boolean apply(@Nullable Boolean input, World world, int x, int y, int z) {
-                return input && world.getBlock(x, y, z) != GemStoneTorchConfig._instance.getBlockInstance();
+                return (input == null ||input) && world.getBlock(x, y, z) != GemStoneTorchConfig._instance.getBlockInstance();
             }
 
         }, true);

@@ -12,7 +12,7 @@ public class Size extends Location implements ISize {
 	/**
 	 * A null size in three dimensions.
 	 */
-	public static final Size NULL_SIZE = new Size(new int[]{0, 0, 0});
+	public static final Size NULL_SIZE = new Size(0, 0, 0);
 
 	/**
 	 * Make a new instance.

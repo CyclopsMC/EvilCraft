@@ -74,7 +74,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(16, 0);
     }
 
     @Override
@@ -286,9 +286,8 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
 
     private void attackEntitiesInList(List<Entity> entities) {
         int chance = PoisonousLibelleConfig.poisonChance;
-        for (int i = 0; i < entities.size(); ++i) {
+        for (Entity entity : entities) {
             if(chance > 0 && worldObj.rand.nextInt(chance) == 0) {
-                Entity entity = (Entity) entities.get(i);
                 if (entity instanceof EntityLivingBase) {
                     boolean shouldAttack = true;
                     if (entity instanceof EntityPlayer) {

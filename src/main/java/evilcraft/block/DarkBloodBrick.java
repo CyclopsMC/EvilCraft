@@ -82,7 +82,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
     }
     
     private void triggerDetector(World world, int x, int y, int z, boolean valid) {
-    	TileSpiritFurnace.detector.detect(world, new Location(new int[]{x, y, z}), valid, true);
+    	TileSpiritFurnace.detector.detect(world, new Location(x, y, z), valid, true);
     }
     
     @Override
@@ -111,7 +111,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
         int meta = world.getBlockMetadata(x, y, z);
         if(meta == 1) {
             final Wrapper<ILocation> tileLocationWrapper = new Wrapper<ILocation>();
-            TileSpiritFurnace.detector.detect(world, new Location(new int[]{x, y, z}), true, new CubeDetector.IValidationAction() {
+            TileSpiritFurnace.detector.detect(world, new Location(x, y, z), true, new CubeDetector.IValidationAction() {
 
                 @Override
                 public void onValidate(ILocation location, Block block) {

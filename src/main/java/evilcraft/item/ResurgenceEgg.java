@@ -1,12 +1,13 @@
 package evilcraft.item;
-import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,12 +15,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.configurable.ConfigurableItem;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.core.helper.L10NHelpers;
+
+import java.util.List;
 
 /**
  * Egg to hold entities.
@@ -59,7 +56,7 @@ public class ResurgenceEgg extends ConfigurableItem {
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean hasEffect(ItemStack itemStack, int pass){
         return !isEmpty(itemStack);
     }
     
@@ -107,7 +104,7 @@ public class ResurgenceEgg extends ConfigurableItem {
 			content = L10NHelpers.getLocalizedEntityName(id);
 		}
 		list.add(EnumChatFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
-				new Object[]{EnumChatFormatting.RESET + content}));
+                EnumChatFormatting.RESET + content));
     }
     
     @Override

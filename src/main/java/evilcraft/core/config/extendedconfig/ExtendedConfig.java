@@ -1,5 +1,6 @@
 package evilcraft.core.config.extendedconfig;
 
+import com.sun.istack.internal.NotNull;
 import evilcraft.EvilCraft;
 import evilcraft.IInitListener;
 import evilcraft.core.config.*;
@@ -247,7 +248,7 @@ public abstract class ExtendedConfig<C extends ExtendedConfig<C>> implements
     }
     
     @Override
-    public int compareTo(ExtendedConfig<C> o) {
+    public int compareTo(@NotNull ExtendedConfig<C> o) {
         return getNamedId().compareTo(o.getNamedId());
     }
     

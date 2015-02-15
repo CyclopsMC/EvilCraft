@@ -74,7 +74,7 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
             @Nullable
             @Override
             public Boolean apply(@Nullable Boolean input, World world, int x, int y, int z) {
-                return input || world.getBlock(x, y, z) == Blocks.water;
+                return (input == null || input) || world.getBlock(x, y, z) == Blocks.water;
             }
 
         }, false);

@@ -1,10 +1,5 @@
 package evilcraft.event;
 
-import java.util.Random;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
@@ -13,6 +8,10 @@ import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentUnusing;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+
+import java.util.Random;
 
 /**
  * Event hook for {@link PlayerInteractEvent}.O
@@ -51,7 +50,7 @@ public class PlayerInteractEventHook {
     
     private int doesEnchantApply(PlayerInteractEvent event, int enchantID) {
         if(event.action.equals(PlayerInteractEvent.Action.LEFT_CLICK_BLOCK)) {
-            if(event.entityPlayer instanceof EntityPlayer) {
+            if(event.entityPlayer != null) {
                 ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
                 return EnchantmentHelpers.doesEnchantApply(itemStack, enchantID);
             }
