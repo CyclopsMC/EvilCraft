@@ -14,6 +14,7 @@ import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.entity.monster.VengeanceSpirit;
+import evilcraft.entity.monster.VengeanceSpiritConfig;
 import evilcraft.modcompat.baubles.BaublesModCompat;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
@@ -154,6 +155,8 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	    				spirit.setEnabledVengeance((EntityPlayer) entity, true);
 	    			}
 	    			spirit.setTarget(entity);
+                    int chance = VengeanceSpiritConfig.nonDegradedSpawnChance;
+                    spirit.setIsSwarm(chance <= 0 || world.rand.nextInt(chance) > 0);
 	    		}
 	    	}
     	}
