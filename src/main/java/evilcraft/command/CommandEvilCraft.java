@@ -1,6 +1,5 @@
 package evilcraft.command;
 
-import com.sun.istack.internal.NotNull;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.ServerHelpers;
 import net.minecraft.command.ICommand;
@@ -48,7 +47,7 @@ public class CommandEvilCraft implements ICommand {
     }
 
     @Override
-    public int compareTo(@NotNull Object o) {
+    public int compareTo(Object o) {
         return 0;
     }
 
