@@ -1,19 +1,17 @@
 package evilcraft;
 
-import java.io.IOException;
-import java.net.URL;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import evilcraft.core.helper.L10NHelpers;
+import evilcraft.modcompat.versionchecker.VersionCheckerModCompat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-
 import org.apache.commons.io.IOUtils;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import evilcraft.modcompat.versionchecker.VersionCheckerModCompat;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * This will execute the version checker.
@@ -44,7 +42,7 @@ public class VersionStats {
 	 * @return The latest version.
 	 */
 	public static String getVersion() {
-		return Reference.MOD_VERSION + " for Minecraft " + Reference.MOD_MC_VERSION;
+		return L10NHelpers.localize("general.versionCurrent", Reference.MOD_VERSION, Reference.MOD_MC_VERSION);
 	}
 	
 	/**
@@ -78,7 +76,7 @@ public class VersionStats {
 					
 					VersionStats versionStats = getVersionStats();
 					if(GeneralConfig.versionChecker && needsUpdate(versionStats)) {
-						sendMessage(player, "Update " + versionStats.mod_version + " of "+Reference.MOD_NAME+"(" + Reference.MOD_VERSION + "): " + versionStats.update_link);
+                        sendMessage(player, L10NHelpers.localize("general.versionUpdate", versionStats.mod_version, Reference.MOD_NAME, Reference.MOD_VERSION, versionStats.update_link));
 					}
 			}
 		    
