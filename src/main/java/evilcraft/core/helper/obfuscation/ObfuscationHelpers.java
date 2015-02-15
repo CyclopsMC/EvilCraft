@@ -1,11 +1,7 @@
 package evilcraft.core.helper.obfuscation;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Map;
-
+import cpw.mods.fml.relauncher.ReflectionHelper;
+import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.particle.EffectRenderer;
@@ -20,9 +16,14 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import evilcraft.core.helper.RenderHelpers;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Map;
 
 /**
  * Helper for getting private fields or methods.
@@ -202,5 +203,14 @@ public class ObfuscationHelpers {
 	public static boolean isPotionBadEffect(Potion potion) {
 		return ReflectionHelper.getPrivateValue(Potion.class, potion, ObfuscationData.POTION_ISBADEFFECT);
 	}
+
+    /**
+     * Get the private 'enableRain' field from {@link net.minecraft.world.biome.BiomeGenBase}.
+     * @param biome The biome instance.
+     * @return enableRain
+     */
+    public static boolean isRainingEnabled(BiomeGenBase biome) {
+        return ReflectionHelper.getPrivateValue(BiomeGenBase.class, biome, ObfuscationData.BIOME_ENABLERAIN);
+    }
 	
 }

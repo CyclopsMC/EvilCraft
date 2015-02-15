@@ -42,7 +42,7 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(16, 0);
+        this.dataWatcher.addObject(16, new Byte((byte) 0));
     }
     
     @Override

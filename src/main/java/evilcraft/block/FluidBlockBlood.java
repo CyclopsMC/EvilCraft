@@ -5,6 +5,7 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.WorldHelpers;
+import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.fluid.Blood;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -59,7 +60,10 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
         if(random.nextInt(CHANCE_HARDEN) == 0 &&
-                isSourceBlock(world, x, y, z) && !world.isRaining() && !isWaterInArea(world, x, y, z)) {
+                isSourceBlock(world, x, y, z) &&
+                (!(world.isRaining() && ObfuscationHelpers.isRainingEnabled(world.getBiomeGenForCoords(x, z)))
+                        || !world.canBlockSeeTheSky(x, y, z))
+                && !isWaterInArea(world, x, y, z)) {
             world.setBlock(x, y, z, HardenedBlood.getInstance());
             world.setBlockMetadataWithNotify(x, y, z, 0, 2);
         } else {

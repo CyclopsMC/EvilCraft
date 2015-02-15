@@ -1,12 +1,10 @@
 package evilcraft.core.helper.obfuscation;
 
-import java.util.Map;
-
+import com.google.common.collect.Maps;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.google.common.collect.Maps;
-
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import java.util.Map;
 
 /**
  * Entries used for getting private fields and methods by using it in
@@ -97,5 +95,10 @@ public class ObfuscationData {
 	 * Field from net.minecraft.potion.Potion.
 	 */
 	public static final String[] POTION_ISBADEFFECT = new String[] { "isBadEffect", "field_76418_K", "K" };
+
+    /**
+     * Field from net.minecraft.world.biome.BiomeGenBase.
+     */
+    public static final String[] BIOME_ENABLERAIN = new String[] { "enableRain", "field_76765_S", "S" };
 	
 }
