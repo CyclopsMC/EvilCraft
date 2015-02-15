@@ -52,14 +52,16 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
      * @param event the event from the init methods
      */
     public void handle(FMLPreInitializationEvent event) {
-    	 // You will be able to find the config file in .minecraft/config/ and it will be named EvilCraft.cfg
-        // here our Configuration has been instantiated, and saved under the name "config"
-        // If the file doesn't already exist, it will be created.
-        Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-        setConfig(config);
-        
-        // Loading the configuration from its file
-        config.load();
+        if(getConfig() == null) {
+            // You will be able to find the config file in .minecraft/config/ and it will be named EvilCraft.cfg
+            // here our Configuration has been instantiated, and saved under the name "config"
+            // If the file doesn't already exist, it will be created.
+            Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+            setConfig(config);
+
+            // Loading the configuration from its file
+            config.load();
+        }
         
         loadConfig();
     }
@@ -117,10 +119,10 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
             // Register the element depending on the type.
             ConfigurableType type = eConfig.getHolderType();
             type.getElementTypeAction().preRun(eConfig, config, false);
-            
-            // Update the config file.
-            getConfig().save();
     	}
+
+        // Update the config file.
+        getConfig().save();
     }
 
 	/**

@@ -111,7 +111,7 @@ public class EvilCraft {
         
         // Register events
         proxy.registerEventHooks();
-        
+
         // Start fetching the version info
         VersionStats.load();
     }

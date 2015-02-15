@@ -186,14 +186,16 @@ public final class ConfigProperty {
         String category = getCategory();
         String name = getName();
         Object value = getValue();
+        String comment = getComment();
         
         Property additionalProperty = null;
         if(value instanceof Integer) {
             additionalProperty = config.get(
-                category,
-                name,
-                (Integer)value
-                );
+                    category,
+                    name,
+                    (Integer)value,
+                    comment
+                    );
             if(forceUpdate) {
             	additionalProperty.setValue((Integer)value);
             }
@@ -205,10 +207,11 @@ public final class ConfigProperty {
             }
         } else if(value instanceof Boolean) {
             additionalProperty = config.get(
-                category,
-                name,
-                (Boolean)value
-                );
+                    category,
+                    name,
+                    (Boolean)value,
+                    comment
+                    );
             if(forceUpdate) {
             	additionalProperty.setValue((Boolean)value);
             }
@@ -223,7 +226,8 @@ public final class ConfigProperty {
             additionalProperty = config.get(
                     category,
                     name,
-                    (Double)value
+                    (Double)value,
+                    comment
                     );
             if(forceUpdate) {
             	additionalProperty.setValue((Double)value);
@@ -236,10 +240,11 @@ public final class ConfigProperty {
             } 
         } else if(value instanceof String) {
             additionalProperty = config.get(
-                category,
-                name,
-                (String)value
-                );
+                    category,
+                    name,
+                    (String)value,
+                    comment
+                    );
             if(forceUpdate) {
             	additionalProperty.setValue((String)value);
             }
@@ -253,7 +258,8 @@ public final class ConfigProperty {
             additionalProperty = config.get(
                     category,
                     name,
-                    (String[])value
+                    (String[])value,
+                    comment
                     );
                 if(forceUpdate) {
                 	additionalProperty.setValues((String[])value);
@@ -270,11 +276,6 @@ public final class ConfigProperty {
         }
         additionalProperty.setRequiresWorldRestart(isRequiresWorldRestart());
         additionalProperty.setRequiresMcRestart(isRequiresMcRestart());
-        
-        // Save to config file.
-        if(forceUpdate) {
-        	config.save();
-        }
     }
 
 	/**
