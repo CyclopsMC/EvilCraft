@@ -10,6 +10,7 @@ import evilcraft.tileentity.TileEternalWaterBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -44,8 +45,23 @@ public class EternalWaterBlockConfig extends BlockContainerConfig {
     }
 
     @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlock.class;
+    }
+
+    @Override
     protected IConfigurable initSubInstance() {
         return new ConfigurableBlockContainer(this, Material.water, TileEternalWaterBlock.class) {
+
+            @Override
+            public boolean saveNBTToDroppedItem() {
+                return false;
+            }
+
+            @Override
+            public float getBlockHardness(World world, int x, int y, int z) {
+                return 0.5F;
+            }
 
             private IIcon topIcon;
             private IIcon bottomIcon;
