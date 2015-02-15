@@ -1,13 +1,13 @@
 package evilcraft.world.biome;
 
-import net.minecraft.world.ColorizerFoliage;
-import net.minecraft.world.ColorizerGrass;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableBiome;
 import evilcraft.core.config.extendedconfig.BiomeConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.RenderHelpers;
+import net.minecraft.world.ColorizerFoliage;
+import net.minecraft.world.ColorizerGrass;
 
 /**
  * Enchantment for letting tools break tools faster.
@@ -60,6 +60,12 @@ public class BiomeDegraded extends ConfigurableBiome {
         double d0 = (double)this.getFloatTemperature(x, y, z);
         double d1 = (double)this.getFloatRainfall();
         return ((ColorizerFoliage.getFoliageColor(d0, d1) & RenderHelpers.RGBToInt(10, 20, 50)) + 5115470) / 2;
+    }
+
+    @Override
+    public float getSpawningChance()
+    {
+        return 0.5F;
     }
 
 }
