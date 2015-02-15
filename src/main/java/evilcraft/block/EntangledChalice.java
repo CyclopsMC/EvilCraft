@@ -21,6 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -65,7 +66,22 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 
     private EntangledChalice(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileEntangledChalice.class);
+    }
+
+    @Override
+    public void setBlockBoundsForItemRender() {
         setBlockBounds(0.16F, 0F, 0.16F, 0.84F, 0.98F, 0.84F);
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+        setBlockBoundsForItemRender();
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB area, List list, Entity entity) {
+        setBlockBounds(0, 0, 0, 1, 1, 1);
+        super.addCollisionBoxesToList(world, x, y, z, area, list, entity);
     }
     
     @Override

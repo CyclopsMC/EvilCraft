@@ -1,21 +1,5 @@
 package evilcraft.block;
-import java.util.List;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
@@ -31,6 +15,24 @@ import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.fluid.BloodConfig;
 import evilcraft.tileentity.TileDarkTank;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
+
+import java.util.List;
 
 /**
  * A tank that can hold liquids.
@@ -79,7 +81,22 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGlass);
-        this.setBlockBounds(0.125F, 0.001F, 0.125F, 0.875F, 0.999F, 0.875F);
+    }
+
+    @Override
+    public void setBlockBoundsForItemRender() {
+        setBlockBounds(0.125F, 0.001F, 0.125F, 0.875F, 0.999F, 0.875F);
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+        setBlockBoundsForItemRender();
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB area, List list, Entity entity) {
+        setBlockBounds(0, 0, 0, 1, 1, 1);
+        super.addCollisionBoxesToList(world, x, y, z, area, list, entity);
     }
     
     @Override
