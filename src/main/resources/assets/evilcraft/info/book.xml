@@ -358,6 +358,15 @@
             <tag type="mod">NotEnoughItems</tag>
             <paragraph>infoBook.modIntegrations.nei.text</paragraph>
         </section>
+        <section name="infoBook.modIntegrations.thaumcraft">
+            <tag type="mod">Thaumcraft</tag>
+            <tag>veinedScribingTools</tag>
+            <tag>bloodWandCap</tag>
+            <paragraph>infoBook.modIntegrations.thaumcraft.text</paragraph>
+            <appendix type="craftingRecipe" index="0">evilcraft:veinedScribingTools</appendix>
+            <appendix type="craftingRecipe" index="1">evilcraft:veinedScribingTools</appendix>
+            <appendix type="bloodInfuserRecipe">evilcraft:bloodWandCap</appendix>
+        </section>
         <section name="infoBook.modIntegrations.thermalExpansion">
             <tag type="mod">ThermalExpansion</tag>
             <paragraph>infoBook.modIntegrations.thermalExpansion.text</paragraph>

@@ -502,6 +502,9 @@ infoBook.modIntegrations.nei.text=All these people keep talking about "&oNot Eno
 infoBook.modIntegrations.thermalExpansion=Thermal Expansion
 infoBook.modIntegrations.thermalExpansion.text=These people are quite strange, they always wear very odd clothes and mostly seem to be wielding many types wrenches for some reason. I know only one thing about them, they have a machine that can transpose fluids which allows for some very basic blood infusion, but unfortunately this can't be upgraded.
 
+infoBook.modIntegrations.thaumcraft=Thaumcraft
+infoBook.modIntegrations.thaumcraft.text=I have noticed Thaumaturgy to be a very different kind of magic. It looks like Thaumaturges are very happy when they see items of mine, they always walk around here with their strange hexagons. To please my friends, I have constructed some &1Veined Scribing Tools&0 which can be used to write with &4Blood&0 instead of ink. It also looks like their &1Golden Wand Caps&0 can be strengthened a bit by putting them inside a &1Blood Infuser&0 which gives them a slightly better aspect discount, and who doesn't love the look of some &4Blood&0 on a wand?
+
 infoBook.modIntegrations.tinkersConstruct=Tinkers' Construct
 infoBook.modIntegrations.tinkersConstruct.text=&0Tools, tools and tools!&r It seems to be all these folks think about. Using nothing but these tools must damage them severely, luckily they have the &1Blood Chest&0 to repair them!
 
