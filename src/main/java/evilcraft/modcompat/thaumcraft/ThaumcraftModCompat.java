@@ -36,13 +36,25 @@ public class ThaumcraftModCompat implements IModCompat {
             Configs.getInstance().configs.add(new BloodWandCapConfig());
         } else if(step == Step.INIT) {
             registerAspects();
+
             if(Configs.isEnabled(BloodWandCapConfig.class)) {
-                WandCap bloodWandCap = new WandCap("blood", 0.95F, new ItemStack(BloodWandCap.getInstance()), 3) {
+                WandCap bloodWandCap = new WandCap("blood", 0.95F, new ItemStack(BloodWandCapConfig._instance.getItemInstance()), 3) {
                     public String getResearch() {
                         return "CAP_gold";
                     }
                 };
                 bloodWandCap.setTexture(new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "wand_cap_blood.png"));
+            }
+
+            if(Configs.isEnabled(DarkGemConfig.class)) {
+                ThaumcraftApi.addLootBagItem(new ItemStack(DarkGem.getInstance()), 100, 0, 1, 2);
+                ThaumcraftApi.addLootBagItem(new ItemStack(DarkGem.getInstance(), 2), 80, 0, 1, 2);
+                ThaumcraftApi.addLootBagItem(new ItemStack(DarkGem.getInstance(), 5), 40, 0, 1, 2);
+            }
+            if(Configs.isEnabled(DarkGemCrushedConfig.class)) {
+                ThaumcraftApi.addLootBagItem(new ItemStack(DarkGemCrushedConfig._instance.getItemInstance()), 80, 0, 1, 2);
+                ThaumcraftApi.addLootBagItem(new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 2), 60, 0, 1, 2);
+                ThaumcraftApi.addLootBagItem(new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 5), 20, 0, 1, 2);
             }
     	}
     }
@@ -126,7 +138,7 @@ public class ThaumcraftModCompat implements IModCompat {
 
 	@Override
 	public String getComment() {
-		return "Adds Thaumcraft aspects to EvilCraft items and blocks.";
+		return "Adds Thaumcraft aspects to EvilCraft items and blocks, a new Blood Wand Cap, Vein Scribing Tools and extra Loot Bag items.";
 	}
 
 }

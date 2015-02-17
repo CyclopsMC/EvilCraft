@@ -2,10 +2,14 @@ package evilcraft.entity.monster;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.EvilCraft;
+import evilcraft.GeneralConfig;
+import evilcraft.Reference;
 import evilcraft.block.GemStoneTorchConfig;
 import evilcraft.client.particle.EntityBlurFX;
 import evilcraft.client.particle.EntityDarkSmokeFX;
@@ -33,6 +37,7 @@ import net.minecraft.world.World;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
+import thaumcraft.api.ThaumcraftApiHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -198,6 +203,11 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
         this.worldObj.removeEntity(this);
     	if(entity instanceof EntityPlayer) {
     		EntityPlayer player = (EntityPlayer) entity;
+
+            if(Loader.isModLoaded(Reference.MOD_THAUMCRAFT)) {
+                addWarp((EntityPlayer) entity);
+            }
+
     		if(!Configs.isEnabled(BurningGemStoneConfig.class)
     				|| BurningGemStone.damageForPlayer(player, isSwarm() ? getSwarmTier() : 0, false)) {
     			entity.addVelocity(
@@ -719,6 +729,13 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 				EvilCraft.proxy.playSoundMinecraft(posX, posY, posZ, sound, volume, frequency);
 			}
 		}
+    }
+
+    @Optional.Method(modid = Reference.MOD_THAUMCRAFT)
+    private void addWarp(EntityPlayer player) {
+        if(GeneralConfig.thaumcraftVengeanceSpiritWarp) {
+            ThaumcraftApiHelper.addWarpToPlayer(player, 1, true);
+        }
     }
 	
 	/**

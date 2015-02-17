@@ -117,6 +117,12 @@ public class GeneralConfig extends DummyConfig {
     public static int minimumPotionTypesArraySize = 256;
 
     /**
+     * [Thaumcraft] If temporary warp should be added when hit by a Vengeance Spirit.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "[Thaumcraft] If temporary warp should be added when hit by a Vengeance Spirit.", requiresMcRestart = true)
+    public static boolean thaumcraftVengeanceSpiritWarp = true;
+
+    /**
      * The amount of blocks per vein there should be.
      */
     public static int silverfish_BlocksPerVein = 4;

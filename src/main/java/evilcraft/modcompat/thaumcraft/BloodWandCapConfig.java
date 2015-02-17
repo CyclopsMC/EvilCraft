@@ -1,9 +1,12 @@
 package evilcraft.modcompat.thaumcraft;
 
+import evilcraft.core.config.configurable.ConfigurableItem;
+import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
- * Config for the {@link evilcraft.modcompat.thaumcraft.BloodWandCap}.
+ * Blood Infused Golden Wand cap that has a slightly higher discount.
+ * Textures are based on the ones from Thaumcraft.
  * @author rubensworks
  *
  */
@@ -22,8 +25,13 @@ public class BloodWandCapConfig extends ItemConfig {
         	true,
             "bloodWandCap",
             null,
-            BloodWandCap.class
+            null
         );
+    }
+
+    @Override
+    protected IConfigurable initSubInstance() {
+        return new ConfigurableItem(this);
     }
     
 }
