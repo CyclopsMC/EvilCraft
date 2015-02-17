@@ -186,6 +186,8 @@ item.items.originsOfDarkness.info=Obtain by feeding a Darkened Apple to a mob an
 item.items.darkenedApple.name=Darkened Apple
 item.items.darkenedApple.info=I wouldn't eat this, maybe feed it to some animal.
 item.items.veinedScribingTools.name=Veined Scribing Tools
+item.items.bloodWandCap.name=Blood Cap
+item.Wand.blood.cap=Blood Banded
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

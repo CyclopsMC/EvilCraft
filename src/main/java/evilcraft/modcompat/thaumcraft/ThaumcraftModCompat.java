@@ -11,9 +11,11 @@ import evilcraft.item.*;
 import evilcraft.modcompat.IModCompat;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.wands.WandCap;
 
 /**
  * Compatibility plugin for Waila.
@@ -31,8 +33,17 @@ public class ThaumcraftModCompat implements IModCompat {
     public void onInit(Step step) {
         if(step == IInitListener.Step.PREINIT) {
             Configs.getInstance().configs.add(new VeinedScribingToolsConfig());
+            Configs.getInstance().configs.add(new BloodWandCapConfig());
         } else if(step == Step.INIT) {
             registerAspects();
+            if(Configs.isEnabled(BloodWandCapConfig.class)) {
+                WandCap bloodWandCap = new WandCap("blood", 0.95F, new ItemStack(BloodWandCap.getInstance()), 3) {
+                    public String getResearch() {
+                        return "CAP_gold";
+                    }
+                };
+                bloodWandCap.setTexture(new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "wand_cap_blood.png"));
+            }
     	}
     }
 
