@@ -1,10 +1,5 @@
 package evilcraft.modcompat;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 import cpw.mods.fml.common.Loader;
 import evilcraft.IInitListener;
 import evilcraft.core.config.ConfigHandler;
@@ -14,9 +9,15 @@ import evilcraft.modcompat.fmp.ForgeMultipartModCompat;
 import evilcraft.modcompat.forestry.ForestryModCompat;
 import evilcraft.modcompat.nei.NEIModCompat;
 import evilcraft.modcompat.tconstruct.TConstructModCompat;
+import evilcraft.modcompat.thaumcraft.ThaumcraftModCompat;
 import evilcraft.modcompat.thermalexpansion.ThermalExpansionModCompat;
 import evilcraft.modcompat.versionchecker.VersionCheckerModCompat;
 import evilcraft.modcompat.waila.WailaModCompat;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The loader for {@link IModCompat} instances.
@@ -39,6 +40,7 @@ public class ModCompatLoader implements IInitListener {
         MODCOMPATS.add(new NEIModCompat());
         MODCOMPATS.add(new VersionCheckerModCompat());
         MODCOMPATS.add(new BloodMagicModCompat());
+        MODCOMPATS.add(new ThaumcraftModCompat());
     }
     
     @Override

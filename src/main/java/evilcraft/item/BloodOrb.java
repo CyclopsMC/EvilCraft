@@ -21,7 +21,6 @@ import java.util.List;
 public class BloodOrb extends ConfigurableItem {
 
     private static BloodOrb _instance = null;
-    public static final int ACTIVE_META = 2;
 
     private IIcon filled;
 
