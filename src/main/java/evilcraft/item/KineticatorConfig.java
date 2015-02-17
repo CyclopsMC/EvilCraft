@@ -35,6 +35,15 @@ public class KineticatorConfig extends ItemConfig {
     public static int consumeHoldoff = 20;
 
     /**
+     * The blacklisted items which should not be influenced by the Kineticator, by unique item/block name.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB,
+            comment = "The blacklisted items which should not be influenced by the Kineticator, by unique item/block name.")
+    public static String[] kineticateBlacklist = new String[]{
+            "appliedenergistics2:item.ItemCrystalSeed",
+    };
+
+    /**
      * Make a new instance.
      */
     public KineticatorConfig() {

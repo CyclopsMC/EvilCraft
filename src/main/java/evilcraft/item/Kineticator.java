@@ -190,7 +190,8 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                 // Move all those items in the direction of the player.
                 for(Entity moveEntity : entities) {
                     if(repelling ||
-                            (moveEntity instanceof EntityItem && ((EntityItem) moveEntity).delayBeforeCanPickup == 0) ||
+                            (moveEntity instanceof EntityItem && ((EntityItem) moveEntity).delayBeforeCanPickup == 0
+                                    && canKineticateItem(((EntityItem) moveEntity).getEntityItem())) ||
                             (moveEntity instanceof EntityXPOrb)) {
                         double dx = moveEntity.posX - x;
                         double dy = moveEntity.posY - (y + (world.isRemote ? -1 : 1));
@@ -238,7 +239,17 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
             }
         }
     }
-    
+
+    protected boolean canKineticateItem(ItemStack entityItem) {
+        if(entityItem == null) return false;
+        for(String name : KineticatorConfig.kineticateBlacklist) {
+            if(itemRegistry.getNameForObject(entityItem.getItem()).equals(name)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @SideOnly(Side.CLIENT)
     protected void showEntityMoved(World world, Entity player, Entity entity, double dx, double dy, double dz) {
         Random rand = world.rand;
