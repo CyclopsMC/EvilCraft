@@ -1,5 +1,7 @@
 package evilcraft.modcompat.thaumcraft;
 
+import evilcraft.Configs;
+import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.block.*;
 import evilcraft.entity.monster.NetherfishConfig;
@@ -27,7 +29,9 @@ public class ThaumcraftModCompat implements IModCompat {
 
     @Override
     public void onInit(Step step) {
-    	if(step == Step.INIT) {
+        if(step == IInitListener.Step.PREINIT) {
+            Configs.getInstance().configs.add(new VeinedScribingToolsConfig());
+        } else if(step == Step.INIT) {
             registerAspects();
     	}
     }

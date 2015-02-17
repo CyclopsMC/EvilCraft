@@ -265,4 +265,30 @@
         </output>
     </recipe>
 
+    <recipe type="shapeless">
+        <condition type="mod">Thaumcraft</condition>
+        <condition type="config">veinedScribingTools</condition>
+        <input>
+            <item>minecraft:glass_bottle</item>
+            <item>minecraft:feather</item>
+            <item meta="1">evilcraft:bloodOrb</item>
+        </input>
+        <output>
+            <item>evilcraft:veinedScribingTools</item>
+        </output>
+    </recipe>
+
+    <recipe type="shapeless">
+        <condition type="mod">Thaumcraft</condition>
+        <condition type="config">veinedScribingTools</condition>
+        <input>
+            <item>Thaumcraft:ItemEssence</item>
+            <item>minecraft:feather</item>
+            <item meta="1">evilcraft:bloodOrb</item>
+        </input>
+        <output>
+            <item>evilcraft:veinedScribingTools</item>
+        </output>
+    </recipe>
+
 </recipes>

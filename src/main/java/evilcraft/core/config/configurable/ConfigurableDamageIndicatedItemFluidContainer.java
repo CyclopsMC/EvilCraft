@@ -83,7 +83,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
         MovingObjectPosition movingobjectpositionFill = this.getMovingObjectPositionFromPlayer(world, player, true);
 
         if (movingobjectpositionDrain != null && movingobjectpositionFill != null) {
-            if (movingobjectpositionFill.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+            if (isPickupFluids() && movingobjectpositionFill.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 // Fill the container and remove fluid block
                 int x = movingobjectpositionFill.blockX;
                 int y = movingobjectpositionFill.blockY;
@@ -105,7 +105,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
             }
 
             // Drain container and place fluid block
-            if (hasBucket && movingobjectpositionDrain.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+            if (hasBucket && isPlaceFluids() && movingobjectpositionDrain.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 int x = movingobjectpositionDrain.blockX;
                 int y = movingobjectpositionDrain.blockY;
                 int z = movingobjectpositionDrain.blockZ;
@@ -165,6 +165,14 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
      */
     public boolean isPlaceFluids() {
         return placeFluids;
+    }
+
+    /**
+     * If this item can pick up fluids when right-clicking (non-sneaking).
+     * @return If it can pick up fluids.
+     */
+    public boolean isPickupFluids() {
+        return canPickUp;
     }
 
     /**

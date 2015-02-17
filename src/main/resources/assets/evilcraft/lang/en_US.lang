@@ -185,6 +185,7 @@ item.items.originsOfDarkness.name=Origins of Darkness
 item.items.originsOfDarkness.info=Obtain by feeding a Darkened Apple to a mob and quickly throwing a Book at the resulting anomaly.
 item.items.darkenedApple.name=Darkened Apple
 item.items.darkenedApple.info=I wouldn't eat this, maybe feed it to some animal.
+item.items.veinedScribingTools.name=Veined Scribing Tools
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
