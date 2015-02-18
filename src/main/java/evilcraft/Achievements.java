@@ -18,10 +18,6 @@ import net.minecraftforge.common.AchievementPage;
  */
 public class Achievements {
 
-    /**
-     * Pick up a copy of Origins of Darkness.
-     */
-    public static final Achievement EVIL_SOURCE = new ExtendedAchievement("evilSource", 0, 0, new ItemStack(Configs.isEnabled(OriginsOfDarknessConfig.class) ? OriginsOfDarkness.getInstance() : Items.potato), null);
 	/**
 	 * First farting achievement.
 	 */
@@ -30,7 +26,11 @@ public class Achievements {
 	 * Discovering the first age.
 	 */
 	public static final Achievement FIRST_AGE = new ExtendedAchievement("firstAge", 0, 4, new ItemStack(Configs.isEnabled(DarkGemConfig.class) ? DarkGem.getInstance() : Items.potato), null);
-	/**
+    /**
+     * Pick up a copy of Origins of Darkness.
+     */
+    public static final Achievement EVIL_SOURCE = new ExtendedAchievement("evilSource", 0, 6, new ItemStack(Configs.isEnabled(OriginsOfDarknessConfig.class) ? OriginsOfDarkness.getInstance() : Items.potato), FIRST_AGE);
+    /**
 	 * Discovering the second age.
 	 */
 	public static final Achievement SECOND_AGE = new ExtendedAchievement("secondAge", 2, 4, new ItemStack(Configs.isEnabled(BloodExtractorConfig.class) ? BloodExtractor.getInstance() : Items.potato), FIRST_AGE);
@@ -62,6 +62,10 @@ public class Achievements {
 	 * Make a spirit furnace.
 	 */
 	public static final Achievement POWER_CRAFTING = new ExtendedAchievement("powerCrafting", 0, 2, new ItemStack(Configs.isEnabled(ExaltedCrafterConfig.class) ? ExaltedCrafter.getInstance() : Items.potato), FIRST_AGE);
+    /**
+     * Eat some Humanoid Flesh.
+     */
+    public static final Achievement CANNIBAL = new ExtendedAchievement("cannibal", 4, -1, new ItemStack(Configs.isEnabled(WerewolfFleshConfig.class) ? WerewolfFlesh.getInstance() : Items.potato, 1, 1), null);
 
 
     private static final Achievement[] ACHIEVEMENTS = {
@@ -75,7 +79,8 @@ public class Achievements {
 		TIDY,
 		PLAYER_DISTORTER,
 		PLAYER_DEVASTATOR,
-		POWER_CRAFTING
+		POWER_CRAFTING,
+        CANNIBAL
 	};
 	
 	/**

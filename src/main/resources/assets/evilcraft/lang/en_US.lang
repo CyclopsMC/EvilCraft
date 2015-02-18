@@ -248,9 +248,9 @@ achievement.evilcraft.evilSource.desc=Obtain a copy of the Origins of Darkness b
 achievement.evilcraft.fart=Learn to Fart
 achievement.evilcraft.fart.desc=Finally release all of those nasty gases.
 achievement.evilcraft.firstAge=First Age
-achievement.evilcraft.firstAge.desc=Discover the origins of the first evil age.
+achievement.evilcraft.firstAge.desc=Discover the origins of the first evil age by mining some Dark Gems.
 achievement.evilcraft.secondAge=Second Age
-achievement.evilcraft.secondAge.desc=Initiate the second evil age.
+achievement.evilcraft.secondAge.desc=Initiate the second evil age by crafting a Blood Extractor.
 achievement.evilcraft.masterDistorter=Master Distorter
 achievement.evilcraft.masterDistorter.desc=Distort over ten mobs at once with the Mace of Distortion.
 achievement.evilcraft.spiritCooker=Mob Chef
@@ -265,6 +265,8 @@ achievement.evilcraft.playerDevastator=Player Devastator
 achievement.evilcraft.playerDevastator.desc=Attack a player using zombies spawned from a Necromancer Staff.
 achievement.evilcraft.powerCrafting=Power Crafting
 achievement.evilcraft.powerCrafting.desc=Craft an Exalted Crafter, craft-ception!
+achievement.evilcraft.cannibal=Cannibal
+achievement.evilcraft.cannibal.desc=Eat some Humanoid Flesh.
 
 # Gui
 gui.exaltedCrafting=Exalted Crafting
