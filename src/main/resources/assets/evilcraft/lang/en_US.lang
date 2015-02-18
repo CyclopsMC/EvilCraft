@@ -336,7 +336,7 @@ infoBook.firstAge.relics.enchantments.unusing.text=&l&nUnusing&r&NI was getting 
 infoBook.firstAge.items=Items
 
 infoBook.firstAge.items.darkTank=Dark Tank
-infoBook.firstAge.items.darkTank.text1=Using some &1Dark Gems&0 and a piece of &1Glass&0, it is possible to construct a strong container that is able to hold fluids. It is possible to place these tanks somewhere, or hold them in your inventory.
+infoBook.firstAge.items.darkTank.text1=Using some &1Iron&0, &1Dark Gems&0 and a piece of &1Glass&0, it is possible to construct a strong container that is able to hold fluids. It is possible to place these tanks somewhere, or hold them in your inventory.
 infoBook.firstAge.items.darkTank.text2=When it is placed somewhere, you can right-click which gives it a purple-ish glow, and it seems to open up a hole at the bottom of the tank which is able to automatically fill containers underneath it.
 infoBook.firstAge.items.darkTank.text3=Shift + right-clicking with the tank in your hand and not aiming at a block (because you know you will just place the tank down if you would do so) will enable a special mode to make it automatically try to fill any container you are currently holding if it can accept that fluid.
 infoBook.firstAge.items.darkTank.text4=It looks like it can hold about sixteen buckets. If that is too limiting for you, these tanks seem to be expandable by placing multiple ones inside a crafting table, no fluids seem to go lost in this process.

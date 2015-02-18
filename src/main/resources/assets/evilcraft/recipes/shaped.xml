@@ -29,7 +29,7 @@
 
 	<recipe type="shaped">
 		<condition type="config">weatherContainer</condition>
-		<condition type="config">darkPowerGem</condition>
+		<condition type="config">darkGem</condition>
 		<input>
 			<grid>
 				<gridrow>
@@ -643,9 +643,9 @@
                     <item />
                 </gridrow>
                 <gridrow>
-                    <item type="oredict">gemDark</item>
+                    <item>minecraft:iron_ingot</item>
                     <item type="oredict">blockGlass</item>
-                    <item type="oredict">gemDark</item>
+                    <item>minecraft:iron_ingot</item>
                 </gridrow>
                 <gridrow>
                     <item />
