@@ -1,13 +1,13 @@
 package evilcraft.world.gen;
 
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
 import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
 import evilcraft.core.world.gen.WorldGenMinableExtended;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * WorldGenerator for netherfish spawn blocks.
@@ -20,7 +20,7 @@ public class NetherfishSpawnGenerator extends WorldGenMinableExtended{
      * Make a new instance.
      */
     public NetherfishSpawnGenerator() {
-        super(NetherfishSpawn.getInstance(), 1, NetherfishSpawnConfig.veinsPerChunk, 1, 127, Blocks.netherrack, -1);
+        super(NetherfishSpawn.getInstance(), 1, NetherfishSpawnConfig.veinsPerChunk, 1, 127, Blocks.netherrack);
     }
     
     @Override

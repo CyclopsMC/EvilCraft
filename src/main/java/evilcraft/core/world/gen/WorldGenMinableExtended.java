@@ -1,7 +1,6 @@
 package evilcraft.core.world.gen;
 
-import java.util.Random;
-
+import evilcraft.core.helper.WorldHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,7 +9,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import evilcraft.core.helper.WorldHelpers;
+
+import java.util.Random;
 
 /**
  * WorldGenerator for mineable blocks.
@@ -28,7 +28,6 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
     protected Block block;
     protected Block replaceTarget;
     protected int meta = NO_META;
-    protected int dimensionId;
     
     /**
      * Make a new instance.
@@ -38,9 +37,8 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
      * @param startY Start coordinate for Y
      * @param endY End coordinate for Y.
      * @param replaceTarget The replace target block. Stone for overworld, netherrack for nether.
-     * @param dimensionId The dimension Id;
      */
-    public WorldGenMinableExtended(Block block, int blocksPerVein, int veinsPerChunk, int startY, int endY, Block replaceTarget, int dimensionId) {
+    public WorldGenMinableExtended(Block block, int blocksPerVein, int veinsPerChunk, int startY, int endY, Block replaceTarget) {
         super(block, blocksPerVein, replaceTarget);
         this.block = block;
         this.blocksPerVein = blocksPerVein;
@@ -48,7 +46,6 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
         this.startY = startY;
         this.endY = endY;
         this.replaceTarget = replaceTarget;
-        this.dimensionId = dimensionId;
     }
     
     /**
@@ -60,9 +57,8 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
      * @param startY Start coordinate for Y
      * @param endY End coordinate for Y.
      * @param replaceTarget The replace target block. Stone for overworld, netherrack for nether.
-     * @param dimensionId The dimension Id;
      */
-    public WorldGenMinableExtended(Block block, int meta, int blocksPerVein, int veinsPerChunk, int startY, int endY, Block replaceTarget, int dimensionId) {
+    public WorldGenMinableExtended(Block block, int meta, int blocksPerVein, int veinsPerChunk, int startY, int endY, Block replaceTarget) {
         super(block, meta, blocksPerVein, Blocks.stone);
         this.block = block;
         this.blocksPerVein = blocksPerVein;
@@ -70,7 +66,6 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
         this.startY = startY;
         this.endY = endY;
         this.meta = meta;
-        this.dimensionId = dimensionId;
     }
     
     /**
@@ -85,7 +80,7 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
             int firstBlockXCoord = chunkX + rand.nextInt(16);
             int firstBlockYCoord = startY + rand.nextInt(endY - startY);
             int firstBlockZCoord = chunkZ + rand.nextInt(16);
-            
+
             this.generate(world, rand, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
         }
     }
@@ -179,18 +174,11 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
 
 	@Override
 	public boolean shouldRetroGen(NBTTagCompound tag, int dimensionId) {
-		return dimensionId == getDimensionId() && !tag.getBoolean(getUniqueName());
+		return !tag.getBoolean(getUniqueName());
 	}
 
 	@Override
 	public void afterRetroGen(NBTTagCompound tag) {
 		tag.setBoolean(getUniqueName(), true);
-	}
-
-	/**
-	 * @return the dimensionId
-	 */
-	public int getDimensionId() {
-		return dimensionId;
 	}
 }

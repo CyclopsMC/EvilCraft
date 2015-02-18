@@ -1,11 +1,11 @@
 package evilcraft.core.world.gen;
 
-import java.util.List;
-import java.util.Random;
-
+import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
-import cpw.mods.fml.common.IWorldGenerator;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * A world generator in which {@link WorldGenMinableExtended} instances can be added.
@@ -31,9 +31,7 @@ public class SimpleMinableWorldGenerator implements IWorldGenerator {
 	@Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
         for(WorldGenMinableExtended worldGen : worldGenerators) {
-        	if(worldGen.getDimensionId() == world.provider.dimensionId) {
-        		worldGen.loopGenerate(world, random, chunkX * 16, chunkZ * 16);
-        	}
+        	worldGen.loopGenerate(world, random, chunkX * 16, chunkZ * 16);
         }
     }
 	
