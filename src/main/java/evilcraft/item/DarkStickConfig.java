@@ -1,6 +1,5 @@
 package evilcraft.item;
 
-import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
@@ -25,11 +24,6 @@ public class DarkStickConfig extends ItemConfig {
             null,
             DarkStick.class
         );
-    }
-    
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_WOODSTICK;
     }
     
 }
