@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -42,8 +43,18 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
 
             @Override
             public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+                MovingObjectPosition position = this.getMovingObjectPositionFromPlayer(world, player, true);
+                if(position != null && position.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                    Block block = world.getBlock(position.blockX, position.blockY, position.blockZ);
+                    if(block == Blocks.water) {
+                        world.setBlockToAir(position.blockX, position.blockY, position.blockZ);
+                        return itemStack;
+                    }
+                }
+
                 ItemStack result = super.onItemRightClick(itemStack, world, player);
                 if(result != null && result.getItem() == Items.bucket) return new ItemStack(getContainerItem());
+
                 return result;
             }
 
