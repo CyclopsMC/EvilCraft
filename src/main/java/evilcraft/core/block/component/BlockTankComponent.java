@@ -78,15 +78,18 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
                     fluidStack = containerItem.getFluid(itemStack);
                     if(player.isSneaking()) { // Drain from tank into item.
                         if(tile.getTank().getFluidAmount() > 0) {
-                            if(containerItem.fill(itemStack, tile.getTank().getFluid(), false) > 0) {
-                                tile.getTank().drain(containerItem.fill(itemStack,
-                                        tile.getTank().getFluid(), true), true);
+                            FluidStack fluidStackTemp = new FluidStack(tile.getTank().getFluid().getFluid(),
+                                    FluidContainerRegistry.BUCKET_VOLUME);
+                            if(containerItem.fill(itemStack, fluidStackTemp, false) > 0) {
+                                tile.getTank().drain(containerItem.fill(itemStack, fluidStackTemp, true), true);
                             }
                         }
 
                     } else { // Fill to tank from item.
-                        if(canTankBeFilled(tile, fluidStack) && tile.getTank().fill(fluidStack, false) > 0) {
-                            containerItem.drain(itemStack, tile.fill(fluidStack, true), true);
+                        FluidStack fluidStackTemp = new FluidStack(fluidStack.getFluid(),
+                                Math.min(FluidContainerRegistry.BUCKET_VOLUME, fluidStack.amount));
+                        if(canTankBeFilled(tile, fluidStack) && tile.getTank().fill(fluidStackTemp, false) > 0) {
+                            containerItem.drain(itemStack, tile.fill(fluidStackTemp, true), true);
                         }
                     }
                     return true;
