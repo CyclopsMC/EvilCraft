@@ -1,21 +1,5 @@
 package evilcraft.block;
-import java.util.List;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
@@ -31,6 +15,25 @@ import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.fluid.BloodConfig;
 import evilcraft.tileentity.TileDarkTank;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
+
+import java.util.List;
 
 /**
  * A tank that can hold liquids.
@@ -244,11 +247,13 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	@SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
-		int capacity = TileDarkTank.BASE_CAPACITY;
+        ItemStack itemStack = new ItemStack(item);
+
+        int capacityOriginal = TileDarkTank.BASE_CAPACITY;
+		int capacity = capacityOriginal;
 		do{
-		    ItemStack itemStack = new ItemStack(item);
             setTankCapacity(itemStack, capacity);
-        	list.add(itemStack);
+        	list.add(itemStack.copy());
         	if(Configs.isEnabled(BloodConfig.class)) {
         		ItemStack itemStackFilled = itemStack.copy();
         		IFluidContainerItem container = (IFluidContainerItem) itemStackFilled.getItem();
@@ -257,6 +262,19 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         	}
         	capacity = capacity << 2;
         } while(capacity << 2 < DarkTankConfig.maxTankSize);
+
+        // Add filled basic tanks for all fluids.
+        if(DarkTankConfig.creativeTabFluids) {
+            for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
+                if (fluid != Blood.getInstance()) {
+                    ItemStack itemStackFilled = itemStack.copy();
+                    setTankCapacity(itemStackFilled, capacityOriginal);
+                    IFluidContainerItem container = (IFluidContainerItem) itemStackFilled.getItem();
+                    container.fill(itemStackFilled, new FluidStack(fluid, capacity), true);
+                    list.add(itemStackFilled);
+                }
+            }
+        }
     }
 
 }

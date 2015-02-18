@@ -1,7 +1,5 @@
 package evilcraft.block;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import evilcraft.client.render.block.RenderDarkTank;
 import evilcraft.client.render.item.RenderItemDarkTank;
 import evilcraft.client.render.tileentity.RenderTileEntityDarkTank;
@@ -12,6 +10,8 @@ import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.item.ItemBlockFluidContainer;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileDarkTank;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 
 /**
  * Config for the {@link DarkTank}.
@@ -35,6 +35,11 @@ public class DarkTankConfig extends BlockContainerConfig {
 	 */
 	@ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The maximum tank size visible in the creative tabs. (Make sure that you do not cross the max int size.)")
 	public static int maxTankCreativeSize = 4096000;
+    /**
+     * If creative versions for all fluids should be added to the creative tab.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "If creative versions for all fluids should be added to the creative tab.")
+    public static boolean creativeTabFluids = true;
 
     /**
      * Make a new instance.
