@@ -62,7 +62,8 @@ public class VeinedScribingTools extends ConfigurableDamageIndicatedItemFluidCon
     public void setDamage(ItemStack itemStack, int damage) {
         FluidStack fluidStack = getFluid(itemStack);
         if(fluidStack != null) {
-            drain(itemStack, (damage * USAGE) - fluidStack.amount, true);
+            int toDrain = (damage * USAGE) - fluidStack.amount;
+            if(toDrain > 0) drain(itemStack, toDrain, true);
         }
     }
 

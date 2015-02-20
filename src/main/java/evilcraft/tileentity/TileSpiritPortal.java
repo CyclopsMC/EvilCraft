@@ -56,7 +56,9 @@ public class TileSpiritPortal extends EvilCraftTileEntity {
                 if (entityItem.getEntityItem().getItem() instanceof ItemBook) {
                     Entity entity = new EntityItem(worldObj, entityItem.posX, entityItem.posY, entityItem.posZ,
                             new ItemStack(OriginsOfDarkness.getInstance(), entityItem.getEntityItem().stackSize));
-                    entity.setVelocity(entityItem.motionX, entityItem.motionY, entityItem.motionZ);
+                    entity.motionX = entityItem.motionX;
+                    entity.motionY = entityItem.motionY;
+                    entity.motionZ = entityItem.motionZ;
                     entityItem.setDead();
                     worldObj.spawnEntityInWorld(entity);
                 }
