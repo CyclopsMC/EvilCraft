@@ -1112,4 +1112,30 @@
         </output>
     </recipe>
 
+    <recipe type="shaped">
+        <condition type="config">effortlessRing</condition>
+        <input>
+            <grid>
+                <gridrow>
+                    <item meta="4">evilcraft:promise</item>
+                    <item>minecraft:gold_ingot</item>
+                    <item />
+                </gridrow>
+                <gridrow>
+                    <item>minecraft:iron_ingot</item>
+                    <item meta="3">evilcraft:promise</item>
+                    <item>minecraft:iron_ingot</item>
+                </gridrow>
+                <gridrow>
+                    <item />
+                    <item>minecraft:gold_ingot</item>
+                    <item />
+                </gridrow>
+            </grid>
+        </input>
+        <output>
+            <item>evilcraft:effortlessRing</item>
+        </output>
+    </recipe>
+
 </recipes>

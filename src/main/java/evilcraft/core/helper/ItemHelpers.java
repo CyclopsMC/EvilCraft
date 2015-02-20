@@ -1,8 +1,10 @@
 package evilcraft.core.helper;
 
 import evilcraft.GeneralConfig;
+import evilcraft.core.PlayerExtendedInventoryIterator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -107,6 +109,22 @@ public class ItemHelpers {
                 item.drain(itemStack, filled, true);
             }
         }
+    }
+
+    /**
+     * Check if the given player has at least one of the given item.
+     * @param player The player.
+     * @param item The item to search in the inventory.
+     * @return If the player has the item.
+     */
+    public static boolean hasPlayerItem(EntityPlayer player, Item item) {
+        for(PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player); it.hasNext();) {
+            ItemStack itemStack = it.next();
+            if (itemStack != null && itemStack.getItem() == item) {
+                return true;
+            }
+        }
+        return false;
     }
 	
 }

@@ -1,7 +1,6 @@
 package evilcraft.item;
 
 import baubles.api.BaubleType;
-import baubles.api.BaublesApi;
 import baubles.api.IBauble;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.Optional;
@@ -17,7 +16,6 @@ import evilcraft.modcompat.baubles.BaublesModCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -60,21 +58,6 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
         super(eConfig, InvigoratingPendantConfig.capacity, Blood.getInstance());
         this.setMaxStackSize(1);
     }
-    
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    private void equipBauble(ItemStack itemStack, EntityPlayer player) {
-    	IInventory inventory = BaublesApi.getBaubles(player);
-		for(int i = 0; i < inventory.getSizeInventory(); i++) {
-			if(inventory.getStackInSlot(i) == null && inventory.isItemValidForSlot(i, itemStack)) {
-				inventory.setInventorySlotContents(i, itemStack.copy());
-				if(!player.capabilities.isCreativeMode){
-					player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-				}
-				onEquipped(itemStack, player);
-				break;
-			}
-		}
-	}
     
     /**
      * Clear the bad effects of given player.

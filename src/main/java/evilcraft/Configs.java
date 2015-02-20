@@ -180,6 +180,7 @@ public class Configs {
         configs.add(new SceptreOfThunderConfig());
         configs.add(new OriginsOfDarknessConfig());
         configs.add(new DarkenedAppleConfig());
+        configs.add(new EffortlessRingConfig());
         
         // Entities
         // Item

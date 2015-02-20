@@ -275,6 +275,11 @@
                 <paragraph>infoBook.secondAge.tools.invigoratingPendant.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:invigoratingPendant</appendix>
             </section>
+            <section name="infoBook.secondAge.tools.effortlessRing">
+                <tag>effortlessRing</tag>
+                <paragraph>infoBook.secondAge.tools.effortlessRing.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:effortlessRing</appendix>
+            </section>
             <section name="infoBook.secondAge.tools.kineticator">
                 <tag>kineticator</tag>
                 <paragraph>infoBook.secondAge.tools.kineticator.text1</paragraph>

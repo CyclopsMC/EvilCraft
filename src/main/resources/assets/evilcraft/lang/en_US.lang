@@ -188,6 +188,8 @@ item.items.darkenedApple.info=I wouldn't eat this, maybe feed it to some animal.
 item.items.veinedScribingTools.name=Veined Scribing Tools
 item.items.bloodWandCap.name=Blood Cap
 item.Wand.blood.cap=Blood Banded
+item.items.effortlessRing.name=Effortless Ring
+item.items.effortlessRing.info=Walk faster and more efficient.
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
@@ -443,6 +445,9 @@ infoBook.secondAge.tools.bloodPearlOfTeleportation.text=Regular &1Ender Pearls&0
 
 infoBook.secondAge.tools.invigoratingPendant=Invigorating Pendant
 infoBook.secondAge.tools.invigoratingPendant.text=Getting rid of bad potion effects can be a pain. This pendant is able to remove any bad effect at the cost of some &4Blood&0. Worse effects cost more &4Blood&0. It even seems to extinguish fire, but I wouldn’t recommend swimming in lava just yet.
+
+infoBook.secondAge.tools.effortlessRing=Effortless Ring
+infoBook.secondAge.tools.effortlessRing.text=I was able to construct a special ring that can apply the &1Promises&0 of &1Efficiency&0 and &1Velocity&0 which allows you to walk faster, jump higher and step more easily on blocks. Just hold this item anywhere inside your inventory to gain its effects. Note that this step assist can be avoided by holding &oShift&r.
 
 infoBook.secondAge.tools.kineticator=Kineticator
 infoBook.secondAge.tools.kineticator.text1=This item is able to attract items and experience orbs in a certain area. This area can be changed by right-clicking it, enabling or disabling it is done with a simple shift + right-click. Items that are attracted from nearby consume little to no &4Blood&0, but items from further away will require some more &4Blood&0. Sneaking will avoid kineticating items.

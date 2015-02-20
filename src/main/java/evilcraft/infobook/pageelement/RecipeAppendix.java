@@ -84,6 +84,7 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         if(renderOverlays) renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().getTextureManager(), itemStack, x, y);
         RenderHelper.disableStandardItemLighting();
         GL11.glPopMatrix();
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
 
         if(buttonEnum != null && renderOverlays) renderItemHolders.get(buttonEnum).update(x, y, itemStack, gui);
     }
