@@ -75,10 +75,7 @@ public class TileDarkTank extends TankInventoryTileEntity {
 	
 	@Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-		if(from == ForgeDirection.DOWN) {
-			return false;
-		}
-		return super.canFill(from, fluid);
+		return from != ForgeDirection.DOWN && super.canFill(from, fluid);
 	}
 
 }

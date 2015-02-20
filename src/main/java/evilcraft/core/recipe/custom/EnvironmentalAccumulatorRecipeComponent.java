@@ -3,7 +3,6 @@ package evilcraft.core.recipe.custom;
 import evilcraft.api.recipes.custom.IRecipeInput;
 import evilcraft.api.recipes.custom.IRecipeOutput;
 import evilcraft.core.weather.WeatherType;
-import lombok.Data;
 import net.minecraft.item.ItemStack;
 
 /**

@@ -24,6 +24,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -82,7 +83,22 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGlass);
-        this.setBlockBounds(0.125F, 0.001F, 0.125F, 0.875F, 0.999F, 0.875F);
+    }
+
+    @Override
+    public void setBlockBoundsForItemRender() {
+        setBlockBounds(0.125F, 0.001F, 0.125F, 0.875F, 0.999F, 0.875F);
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+        setBlockBoundsForItemRender();
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB area, List list, Entity entity) {
+        setBlockBounds(0, 0, 0, 1, 1, 1);
+        super.addCollisionBoxesToList(world, x, y, z, area, list, entity);
     }
     
     @Override

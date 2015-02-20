@@ -83,8 +83,7 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
         super.writeToNBT(data);
         data.setInteger("currentState", currentState);
         NBTTagList tickerList = new NBTTagList();
-        for(int i = 0; i < tickers.size(); i++) {
-            TickComponent<T, ITickAction<T>> ticker = tickers.get(i);
+        for(TickComponent<T, ITickAction<T>> ticker : tickers) {
             NBTTagCompound tag = new NBTTagCompound();
             tag.setInteger("tick", ticker.getTick());
             tag.setInteger("requiredTicks", ticker.getRequiredTicks());

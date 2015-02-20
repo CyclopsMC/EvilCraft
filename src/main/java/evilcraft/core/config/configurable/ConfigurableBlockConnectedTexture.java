@@ -1,10 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
@@ -15,6 +10,11 @@ import evilcraft.core.client.render.block.MultiPassBlockRenderer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.RenderHelpers;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Block that can hold ExtendedConfigs with connected textures.
@@ -116,8 +116,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * @see ForgeDirection
      */
     public boolean shouldConnectDirection(IBlockAccess world, ForgeDirection side, int x, int y, int z) {
-        if(!shouldConnect(world, x, y, z)) return false;
-        return world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this;
+        return shouldConnect(world, x, y, z) && world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this;
     }
     
     /**
@@ -131,8 +130,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * @see DirectionCorner
      */
     public boolean shouldConnectDirection(IBlockAccess world, DirectionCorner side, int x, int y, int z) {
-        if(!shouldConnect(world, x, y, z))return false;
-        return world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this;
+        return shouldConnect(world, x, y, z) && world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this;
     }
     
     @Override

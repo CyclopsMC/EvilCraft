@@ -25,6 +25,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
 
 import java.io.File;
@@ -142,9 +143,12 @@ public class Recipes {
 				
 			}
     	} else if(file.isDirectory()) {
-    		for(File childFile : file.listFiles()) {
-    			registerRecipesForFiles(childFile);
-    		}
+            File[] childFiles = file.listFiles();
+            if(childFiles != null) {
+                for (File childFile : childFiles) {
+                    registerRecipesForFiles(childFile);
+                }
+            }
     	}
     }
 
@@ -242,7 +246,7 @@ public class Recipes {
 
             GameRegistry.addRecipe(new ObservableShapedRecipe(3, 3, new ItemStack[]{
                     new ItemStack(Items.gold_ingot), new ItemStack(tear), new ItemStack(Items.gold_ingot),
-                    new ItemStack(DarkGem.getInstance()), new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance())), new ItemStack(DarkGem.getInstance()),
+                    new ItemStack(DarkGem.getInstance()), new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 1, OreDictionary.WILDCARD_VALUE), new ItemStack(DarkGem.getInstance()),
                     new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot)
             }, new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 2), new IRecipeOutputObserver() {
                 @Override

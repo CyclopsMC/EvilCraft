@@ -1,23 +1,16 @@
 package evilcraft.event;
 
-import java.util.Random;
-
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
 import evilcraft.core.helper.EnchantmentHelpers;
-import evilcraft.enchantment.EnchantmentBreaking;
-import evilcraft.enchantment.EnchantmentBreakingConfig;
-import evilcraft.enchantment.EnchantmentLifeStealing;
-import evilcraft.enchantment.EnchantmentLifeStealingConfig;
-import evilcraft.enchantment.EnchantmentPoisonTip;
-import evilcraft.enchantment.EnchantmentPoisonTipConfig;
-import evilcraft.enchantment.EnchantmentUnusing;
-import evilcraft.enchantment.EnchantmentUnusingConfig;
+import evilcraft.enchantment.*;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+
+import java.util.Random;
 
 /**
  * Event hook for {@link LivingAttackEvent}.
@@ -56,8 +49,7 @@ public class LivingAttackEventHook {
             EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
             ItemStack itemStack = entity.getEquipmentInSlot(0);
             if(EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentUnusingConfig._instance.ID) > -1) {
-                if(entity != null
-                        && EnchantmentUnusing.unuseTool(itemStack)) {
+                if(EnchantmentUnusing.unuseTool(itemStack)) {
                     event.setCanceled(true);
                     //player.stopUsingItem();
                 }

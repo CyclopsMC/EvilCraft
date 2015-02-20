@@ -1,6 +1,6 @@
 ## EvilCraft
-[![Build Status](https://drone.io/github.com/rubensworks/EvilCraft/status.png)](https://drone.io/github.com/rubensworks/EvilCraft/latest)  
-Dev builds: https://drone.io/github.com/rubensworks/EvilCraft/files  
+[![Build Status](https://drone.io/github.com/rubensworks/EvilCraft/status.png)](https://drone.io/github.com/rubensworks/EvilCraft/latest)
+Dev builds: https://drone.io/github.com/rubensworks/EvilCraft/files
 Master: EvilCraft 0.7.0 for Minecraft 1.7.10 (Forge 10.13.2.1230)
 
 The master branch will always contain the latest released version with possibly some bug fixes for that version that will eventually be released.
@@ -29,8 +29,58 @@ Testers:
 * Also add appropriate labels to the issues, preferably the *-pending labels.
 * Regular questions don't belong here, please use a contact channel for that.
 
-### Building
-_Coming soon, but when looking at the build file it should be pretty straightforward_
+### Building and setting up a development environment
+
+#### Notes before building
+When it comes to minecraft modding we advice you to use either IntelliJ Idea or Eclipse because of their support for customization. Unfortunately we have found eclipse to be rather unreliable when it comes to building projects using ForgeGradle and thus we are unable to provide you with instructions to setup a _reliable_ development environment (reliable, as in _doesn't break every so often_). Should there be anyone who does get EvilCraft working properly in an eclipse environment, then please by all means send us the steps you followed and we will add them to this readme.
+
+EvilCraft uses [Project Lombok](http://projectlombok.org/) -- an annotation processor that allows us you to generate constructors, getters and setters using annotations -- to speed up recurring tasks and keep part of our codebase clean at the same time. Because of this it is advised that you install a plugin for your IDE that supports Project Lombok. Should you encounter any weird errors concerning missing getter or setter methods, it's probably because your code has not been processed by Project Lombok's processor. A list of Project Lombok plugins can be found [here](http://projectlombok.org/download.htm).
+
+#### Creating a lib folder for mod dependencies
+EvilCraft provides compatibility with certain mods and because of this, you will require the deobfuscated jars and/or api's of these mods if you want to be able to run EvilCraft from an IDE. Luckely most mods provide a repository from which these required jars will automatically be downloaded when using our gradle build script. Mods that do not provide access to a repository will have to be downloaded manually and stored inside a _lib folder somewhere in your filesystem_ (e.g. `/home/user/mc_libs`).
+In order to get EvilCraft to run from you IDE, you will have to download the following mod's unobfuscated jars and manually put them inside your _lib folder_:
+
+ - [BloodMagic](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1290532-1-7-10-2-1-6-4-blood-magic-v1-3-0b-updated-jan-16)
+
+#### IntelliJ IDEA
+1. Make sure you have read the section on _Creating a lib folder for mod dependencies_ before continuing. In this example we will assume the lib folder is located at `/home/user/mc_libs`.
+
+2. Clone the EvilCraft source code using git and cd inside the EvilCraft directory
+
+  ```
+  git clone https://github.com/rubensworks/EvilCraft
+  cd EvilCraft/
+  ```
+
+3. Make a copy of `gradle.properties_template` and name it `gradle.properties`
+
+  ```
+  cp gradle.properties_template gradle.properties
+  ```
+
+4. Edit `gradle.properties` and point the value of `libs_path` to a your lib folder (be sure to use an **absolute path**)
+
+  ```
+  libs_path=/home/user/mc_libs
+  ```
+
+5. Execute the following gradle command to setup your workspace and create the necessary idea project files:
+
+  ```
+  ./gradlew setupDecompWorkspace idea genIntellijRuns
+  ```
+
+6. Open the `EvilCraft.ipr` project file using IntelliJ IDEA
+
+7. In the _Project View_, navigate to `src/api/java` and rightclick the directory. Next go to `mark directory as > sources root`, as shown in the picture below:
+
+  ![mark as sources](doc/images/mark_as_sources.png)
+
+8. Install the IDEA _Lombok plugin_ by going to `Preferences > Plugins` and searching for `Lombok Plugin`
+
+9. After installing the _Lombok plugin_, go to `Preferences > Build, Execution, Deployment > Compiler` and enable `Enable annotation processing`
+
+10. Select `Minecraft Client` from _Run configurations_ and press the green play button. Minecraft should now launch with EvilCraft and all of its dependencies loaded :)
 
 ### License
 All code and images are licenced under [Creative Commons 4](http://creativecommons.org/licenses/by/4.0/)

@@ -59,8 +59,8 @@ public class CommandConfigSet extends CommandEvilCraft {
                 config.getCallback().run(newValue);
                 config.save(configuration, true);
                 configuration.save();
-                icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.updatedValue", new Object[]{name, newValue.toString()})));
-                // TODO: Why not updated in config? Config not changeable at runtime?
+                icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.updatedValue",
+                        name, newValue.toString())));
             } else {
                 icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.invalidNewValue")));
             }

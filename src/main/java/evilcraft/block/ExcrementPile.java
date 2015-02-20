@@ -1,7 +1,15 @@
 package evilcraft.block;
-import java.util.List;
-import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.Achievements;
+import evilcraft.Configs;
+import evilcraft.core.IInformationProvider;
+import evilcraft.core.config.configurable.ConfigurableBlock;
+import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.item.Broom;
+import evilcraft.item.BroomConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -18,16 +26,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Achievements;
-import evilcraft.Configs;
-import evilcraft.core.IInformationProvider;
-import evilcraft.core.config.configurable.ConfigurableBlock;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.item.Broom;
-import evilcraft.item.BroomConfig;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * The excrement that is dropped by animals.
@@ -110,8 +111,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
         Block block = world.getBlock(x, y - 1, z);
         if (block == null) return false;
         if (block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7) return true;
-        if (!block.isLeaves(world, x, y - 1, z) && !block.isOpaqueCube()) return false;
-        return block.getMaterial().blocksMovement();
+        return (block.isLeaves(world, x, y - 1, z) || block.isOpaqueCube()) && block.getMaterial().blocksMovement();
     }
     
     @Override

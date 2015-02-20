@@ -16,6 +16,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.lang.reflect.Field;
@@ -226,6 +227,15 @@ public class ObfuscationHelpers {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Get the private 'enableRain' field from {@link net.minecraft.world.biome.BiomeGenBase}.
+     * @param biome The biome instance.
+     * @return enableRain
+     */
+    public static boolean isRainingEnabled(BiomeGenBase biome) {
+        return ReflectionHelper.getPrivateValue(BiomeGenBase.class, biome, ObfuscationData.BIOME_ENABLERAIN);
     }
 	
 }

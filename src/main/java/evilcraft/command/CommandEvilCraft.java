@@ -1,15 +1,15 @@
 package evilcraft.command;
 
+import evilcraft.core.helper.L10NHelpers;
+import evilcraft.core.helper.ServerHelpers;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.util.ChatComponentText;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-import evilcraft.core.helper.L10NHelpers;
-import evilcraft.core.helper.ServerHelpers;
 
 /**
  * The EvilCraft command.

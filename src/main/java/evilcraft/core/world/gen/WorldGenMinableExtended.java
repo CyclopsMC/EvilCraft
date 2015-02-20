@@ -131,8 +131,6 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
 
                         if (d12 * d12 + d13 * d13 < 1.0D) {
                             for (int cz = k1; cz <= j2; ++cz) {
-                                double d14 = ((double)cz + 0.5D - d8) / (d10 / 2.0D);
-                                
                                 if(cx > 0 && cx < WorldHelpers.CHUNK_SIZE
                                 		&& cz > 0 && cz < WorldHelpers.CHUNK_SIZE) {
 	                                ExtendedBlockStorage storage = chunk.getBlockStorageArray()[y >> 4];

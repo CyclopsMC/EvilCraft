@@ -193,7 +193,7 @@ public class XmlRecipeLoader {
                     if(crashOnInvalidRecipe) {
                         throw e;
                     } else {
-                        System.err.print(e);
+                        EvilCraft.log(e.getMessage(), Level.ERROR);
                     }
                 }
 			}

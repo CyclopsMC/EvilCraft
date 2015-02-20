@@ -127,7 +127,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     
 	protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
         FluidStack stack = new FluidStack(fluidID, 1);
-        if(fluidID > 0 && stack != null) {
+        if(fluidID > 0) {
             IIcon icon = stack.getFluid().getIcon();
             if (icon == null) icon = Blocks.water.getIcon(0, 0);
             

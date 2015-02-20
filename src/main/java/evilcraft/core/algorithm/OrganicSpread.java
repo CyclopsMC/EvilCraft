@@ -1,10 +1,9 @@
 package evilcraft.core.algorithm;
 
-import java.util.Random;
-
 import evilcraft.api.ILocation;
-
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * An algorithm that is able to organically spread an object in an area.
@@ -140,8 +139,8 @@ public class OrganicSpread {
     
     protected boolean isBigEnough(float[] direction) {
         float MIN = 0.3F;
-        for(int i = 0; i < direction.length; i++) {
-            if(direction[i] > MIN || direction[i] < MIN) {
+        for(float directionElement : direction) {
+            if(directionElement > MIN || directionElement < MIN) {
                 return true;
             }
         }

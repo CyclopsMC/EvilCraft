@@ -1,11 +1,11 @@
 package evilcraft.world.gen.structure;
 
+import net.minecraft.block.Block;
+import net.minecraft.world.World;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.world.World;
 
 /**
  * A quarter of a structure that can be rotated three times.
@@ -104,7 +104,7 @@ public abstract class QuarterSymmetricalStructure {
 		
 		/**
 		 * Creates a new wrapper around the specified {@link Block} with metadata 0.
-		 * @param block
+		 * @param block The block to wrap.
 		 */
 		public BlockWrapper(Block block) {
 			this(block, 0);
@@ -112,8 +112,8 @@ public abstract class QuarterSymmetricalStructure {
 		
 		/**
 		 * Creates a new wrapper around the specified {@link Block} with the specified metadata. 
-		 * @param block
-		 * @param metadata
+		 * @param block The block to wrap.
+		 * @param metadata The metadata of the block.
 		 */
 		public BlockWrapper(Block block, int metadata) {
 			this.block = block;

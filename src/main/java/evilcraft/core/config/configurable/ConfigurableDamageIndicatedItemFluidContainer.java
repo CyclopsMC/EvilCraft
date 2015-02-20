@@ -122,7 +122,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
                     return itemStack;
                 }
 
-                if (this.tryPlaceContainedLiquid(world, x, y, z, block, hasBucket)) {
+                if (this.tryPlaceContainedLiquid(world, x, y, z, block, true)) {
                     this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, true);
                     return itemStack;
                 }

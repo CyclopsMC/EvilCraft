@@ -47,10 +47,7 @@ public class AllowedBlock {
 	
 	@Override
 	public boolean equals(Object object) {
-		if(!(object instanceof AllowedBlock)){
-			return false;
-		}
-		return getBlock().equals(((AllowedBlock)object).getBlock());
+		return object instanceof AllowedBlock && getBlock().equals(((AllowedBlock)object).getBlock());
 	}
 	
 }

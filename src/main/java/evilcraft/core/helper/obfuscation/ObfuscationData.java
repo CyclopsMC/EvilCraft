@@ -100,5 +100,9 @@ public class ObfuscationData {
      * Field from net.minecraft.potion.Potion.
      */
     public static final String[] POTION_POTIONTYPES = new String[] { "potionTypes", "field_76425_a", "a" };
+    /**
+     * Field from net.minecraft.world.biome.BiomeGenBase.
+     */
+    public static final String[] BIOME_ENABLERAIN = new String[] { "enableRain", "field_76765_S", "S" };
 	
 }

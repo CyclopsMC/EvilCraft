@@ -74,7 +74,6 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
         Block block;
 
         if(y >= 1 && y + treeHeight + 1 <= worldHeight) {
-            int blockId;
             int xOffset;
             int yOffset;
             int zOffset;

@@ -4,6 +4,10 @@ general.info.enabled=Enabled
 general.info.disabled=Disabled
 general.info.empty=Empty
 general.tooltip.info=<Shift for info>
+# mod-version; MC-version
+general.versionCurrent=%s for Minecraft %s
+# new-mod-version; mod-name; current-mod-version; update-link
+general.versionUpdate=Update %s of %s(%s): %s
 
 # Blocks
 tile.blocks.blockBlood.name=Blood

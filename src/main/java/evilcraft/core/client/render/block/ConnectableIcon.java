@@ -1,13 +1,13 @@
 package evilcraft.core.client.render.block;
 
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.DirectionCorner;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.RenderHelpers;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * A virtual {@link IIcon} that has several icons and needs multiple render passes for
@@ -227,7 +227,7 @@ public class ConnectableIcon implements IIcon{
     
     /**
      * Define whether or not the current rendering is for an inventory block.
-     * @param isInventoryBlock
+     * @param isInventoryBlock The new value
      */
     public void setInventoryBlock(boolean isInventoryBlock) {
         this.isInventoryBlock = isInventoryBlock;
@@ -264,7 +264,6 @@ public class ConnectableIcon implements IIcon{
      * @param connect If the connection for the given direction should be enabled.
      */
     public void connect(ForgeDirection direction, boolean connect) {
-        boolean old = this.connectWithSides[direction.ordinal()];
         this.connectWithSides[direction.ordinal()] = connect;
     }
     
@@ -274,7 +273,6 @@ public class ConnectableIcon implements IIcon{
      * @param connect If the connection for the given direction should be enabled.
      */
     public void connectCorner(DirectionCorner direction, boolean connect) {
-        boolean old = this.connectWithSidesCorner[direction.ordinal()];
         this.connectWithSidesCorner[direction.ordinal()] = connect;
     }
 

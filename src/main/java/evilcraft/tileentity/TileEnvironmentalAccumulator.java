@@ -1,21 +1,5 @@
 package evilcraft.tileentity;
 
-import java.util.List;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.IBossDisplayData;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.world.World;
-
-import org.lwjgl.util.vector.Vector4f;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.ILocation;
@@ -33,6 +17,20 @@ import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.tileentity.environmentalaccumulator.IEAProcessingFinishedEffect;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.world.World;
+import org.lwjgl.util.vector.Vector4f;
+
+import java.util.List;
 
 /**
  * Machine that can accumulate the weather and put it in a bottle.
@@ -210,7 +208,6 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
         for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe :
                 EnvironmentalAccumulator.getInstance().getRecipeRegistry().allRecipes()) {
             EnvironmentalAccumulatorRecipeComponent input = recipe.getInput();
-            EnvironmentalAccumulatorRecipeComponent output = recipe.getOutput();
 
             ItemStack recipeStack = input.getItemStack();
             WeatherType weatherType = input.getWeatherType();
@@ -404,8 +401,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	@Override
 	public IChatComponent func_145748_c_() {
 		String message = L10NHelpers.localize("chat.bossDisplay.charge",
-				new Object[]{L10NHelpers.localize(
-						EnvironmentalAccumulator.getInstance().getUnlocalizedName() + ".name")});
+				L10NHelpers.localize(EnvironmentalAccumulator.getInstance().getUnlocalizedName() + ".name"));
 		return new ChatComponentText(message);
 	}
 

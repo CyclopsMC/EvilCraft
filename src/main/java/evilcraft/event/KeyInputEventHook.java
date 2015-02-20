@@ -1,15 +1,15 @@
 package evilcraft.event;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.client.settings.KeyBinding;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import evilcraft.client.KeyHandler;
+import net.minecraft.client.settings.KeyBinding;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Event hook for {@link KeyInputEvent}
@@ -39,7 +39,7 @@ public class KeyInputEventHook {
 	
 	/**
 	 * Handles key presses for keybindings added by EvilCraft
-	 * @param event
+	 * @param event The input event.
 	 */
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onPlayerKeyInput(KeyInputEvent event) {

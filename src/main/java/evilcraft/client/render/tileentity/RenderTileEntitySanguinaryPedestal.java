@@ -3,7 +3,6 @@ package evilcraft.client.render.tileentity;
 import evilcraft.client.render.model.ModelPedestal;
 import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.client.render.tileentity.RenderTileEntityModelWavefront;
-import evilcraft.tileentity.TileEntangledChalice;
 import evilcraft.tileentity.TileSanguinaryPedestal;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;

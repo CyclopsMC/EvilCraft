@@ -1,6 +1,5 @@
 package evilcraft.entity.monster;
 
-import net.minecraft.client.renderer.entity.Render;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.render.entity.RenderVengeanceSpirit;
@@ -9,6 +8,7 @@ import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChanged;
+import net.minecraft.client.renderer.entity.Render;
 
 /**
  * Config for the {@link Netherfish}.
@@ -49,6 +49,12 @@ public class VengeanceSpiritConfig extends MobConfig {
     public static String[] entityBlacklist = new String[]{
     	"werewolf",
     };
+
+    /**
+     * The 1/X chance that an actual spirit will spawn when doing actions like mining with the Vengeance Pickaxe.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "The 1/X chance that an actual spirit will spawn when doing actions like mining with the Vengeance Pickaxe.")
+    public static int nonDegradedSpawnChance = 5;
 
     /**
      * Make a new instance.

@@ -83,7 +83,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     }
     
     @Override
-    public boolean hasEffect(ItemStack par1ItemStack){
+    public boolean hasEffect(ItemStack itemStack, int pass){
         return isPower();
     }
     

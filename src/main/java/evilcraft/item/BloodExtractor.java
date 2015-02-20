@@ -1,16 +1,5 @@
 package evilcraft.item;
-import java.util.List;
-import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
@@ -27,6 +16,18 @@ import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.fluid.Blood;
 import evilcraft.tileentity.TileBloodStainedBlock;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.ItemFluidContainer;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * Can extract blood from attacking mobs and {@link BloodStainedBlock}.
@@ -90,7 +91,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean hasEffect(ItemStack itemStack, int pass){
         return ItemHelpers.isActivated(itemStack);
     }
     

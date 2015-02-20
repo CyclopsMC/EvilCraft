@@ -1,8 +1,8 @@
 package evilcraft.core.tileentity;
 
+import evilcraft.core.helper.MinecraftHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import evilcraft.core.helper.MinecraftHelpers;
 
 /**
  * A TileEntity with an inner block.
@@ -28,7 +28,7 @@ public abstract class InnerBlocksTileEntity extends EvilCraftTileEntity {
 	 * @param block The block.
 	 */
     public void setInnerBlock(Block block) {
-    	this.blockName = block.blockRegistry.getNameForObject(block);
+    	this.blockName = Block.blockRegistry.getNameForObject(block);
     	sendImmediateUpdate();
     }
     

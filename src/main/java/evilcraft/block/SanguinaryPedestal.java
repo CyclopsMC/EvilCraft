@@ -12,13 +12,17 @@ import evilcraft.tileentity.TileSanguinaryPedestal;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -53,7 +57,22 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     private SanguinaryPedestal(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileSanguinaryPedestal.class);
+    }
+
+    @Override
+    public void setBlockBoundsForItemRender() {
         setBlockBounds(0.02F, 0F, 0.02F, 0.98F, 0.98F, 0.98F);
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+        setBlockBoundsForItemRender();
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB area, List list, Entity entity) {
+        setBlockBounds(0, 0, 0, 1, 1, 1);
+        super.addCollisionBoxesToList(world, x, y, z, area, list, entity);
     }
     
     @Override

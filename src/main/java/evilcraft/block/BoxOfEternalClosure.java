@@ -193,7 +193,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 			content = L10NHelpers.getLocalizedEntityName(id);
 		}
 		return EnumChatFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
-				new Object[]{EnumChatFormatting.RESET + content});
+				EnumChatFormatting.RESET + content);
 	}
 
 	@SuppressWarnings("rawtypes")

@@ -72,7 +72,7 @@ public class LivingDeathEventHook {
     }
     
     private void bloodStainedBlockEvent(LivingDeathEvent event) {
-        if(event.source.damageType == DamageSource.fall.damageType
+        if(event.source == DamageSource.fall
                 && Configs.isEnabled(BloodStainedBlockConfig.class)
                 && !(event.entity instanceof VengeanceSpirit)) {
             int x = MathHelper.floor_double(event.entity.posX);

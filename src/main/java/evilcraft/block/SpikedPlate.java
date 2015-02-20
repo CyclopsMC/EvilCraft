@@ -1,7 +1,13 @@
 package evilcraft.block;
-import java.util.Iterator;
-import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.ExtendedDamageSource;
+import evilcraft.core.config.configurable.ConfigurableBlockBasePressurePlate;
+import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+import evilcraft.tileentity.TileSanguinaryPedestal;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -15,14 +21,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.ExtendedDamageSource;
-import evilcraft.core.config.configurable.ConfigurableBlockBasePressurePlate;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
-import evilcraft.tileentity.TileSanguinaryPedestal;
+
+import java.util.List;
 
 /**
  * Logs for the Undead Tree.
@@ -117,11 +117,7 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 		int ret = 0;
 		
 		if(list != null && !list.isEmpty()) {
-            Iterator iterator = list.iterator();
-
-            while(iterator.hasNext()) {
-                Entity entity = (Entity)iterator.next();
-
+            for(Entity entity : (List<Entity>) list) {
                 if(!entity.doesEntityNotTriggerPressurePlate() && damageEntity(world, entity, x, y, z)) {
                     ret = 15;
                 }

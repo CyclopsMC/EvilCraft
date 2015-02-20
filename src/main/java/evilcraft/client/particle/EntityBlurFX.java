@@ -1,17 +1,15 @@
 package evilcraft.client.particle;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import evilcraft.Reference;
+import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
-import evilcraft.Reference;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 
 /**
  * A blurred static fading particle with any possible color.
@@ -89,8 +87,7 @@ public class EntityBlurFX extends EntityFX {
 
 	@Override
 	public void renderParticle(Tessellator tessellator, float f, float f1, float f2, float f3, float f4, float f5) {
-		float agescale = 0;
-		agescale = (float)particleAge / (float) scaleLife;
+		float agescale = (float)particleAge / (float) scaleLife;
 		if(agescale > 1F) {
 			agescale = 2 - agescale;
 		}

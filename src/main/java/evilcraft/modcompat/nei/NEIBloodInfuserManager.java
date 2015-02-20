@@ -324,7 +324,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
             int verticalOffset = 0;
             
             while(level > 0) {
-                int textureHeight = 0;
+                int textureHeight;
                 
                 if(level > 16) {
                     textureHeight = 16;

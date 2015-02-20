@@ -55,7 +55,7 @@ public interface IMultiRenderPassBlock {
     public void updateTileEntity(IBlockAccess world, int x, int y, int z);
     /**
      * Define whether or not the current rendering is for an inventory block.
-     * @param isInventoryBlock
+     * @param isInventoryBlock The new value
      */
     public void setInventoryBlock(boolean isInventoryBlock);
     

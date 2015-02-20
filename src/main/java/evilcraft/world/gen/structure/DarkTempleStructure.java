@@ -22,6 +22,8 @@ import evilcraft.world.gen.nbt.DarkTempleData;
  */
 public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	private static final int STRUCTURE_HEIGHT = 9;
+
+	private static final int[] CORNER_INC = {-1, 1};
 	
 	private static DarkTempleStructure _instance = null;
 	
@@ -104,6 +106,40 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	private boolean isSolidBlock(Block block) {
 	    Material material =  block.getMaterial();
 		return material.isSolid() && material.isOpaque();
+	}
+
+	private int getMaxPillarHeightAt(World world, int x, int y, int z) {
+		int max = 0;
+
+		for (Integer incX : CORNER_INC) {
+			for (Integer incZ : CORNER_INC) {
+				max = Math.max(max, getPillarHeightForCornerAt(world, x, y, z, incX, incZ));
+			}
+		}
+
+		return max;
+	}
+
+	/**
+	 * @param world The world.
+	 * @param x Center x coordinate of the structure.
+	 * @param y Height coordinate of the structure.
+	 * @param z Center z coordinate of the structure.
+	 * @param incX Indicates the corner X-direction.
+	 * @param incZ Indicates the cordern Z-direction.
+	 * @return Returns the height of a pillar in one of the corners, specified by (incX, incZ),
+	 *         of the temple if it were centered at the given (x,y,z) location.
+	 */
+	private int getPillarHeightForCornerAt(World world, int x, int y, int z, int incX, int incZ) {
+		int xx = x + 4*incX;
+		int zz = z + 4*incZ;
+		int res = 0;
+
+		while (!isSolidBlock(world, xx, y, zz)) {
+			y--;
+			res++;
+		}
+		return res;
 	}
 	
 	@Override
@@ -222,10 +258,10 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 		// pillars to the ground
 		int xx = x + 4*incX;
 		int zz = z + 4*incZ;
-		
-		while (!isSolidBlock(world, xx, y, zz)) {
-			world.setBlock(xx, y, zz, Blocks.cobblestone, 0, 2);
-			y--;
+		int pillarHeight = getPillarHeightForCornerAt(world, x, y, z, incX, incZ);
+
+		for (int yOffset = 0; yOffset < pillarHeight; yOffset++) {
+			world.setBlock(xx, y - yOffset, zz, Blocks.cobblestone, 0, 2);
 		}
 	}
 	
@@ -236,6 +272,10 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 		while (groundHeight != -1) {
 			// Check if we have room to place the structure here
 			if (canPlaceStructure(world, x, groundHeight+1, z)) {
+				// Only place the structure if the pillars are not too long
+				if (getMaxPillarHeightAt(world, x, y, z) > GeneralConfig.darkTempleMaxPillarLength) return false;
+
+				// If all is ok, generate the structure
 				super.generate(world, random, x, groundHeight, z);
 
 				// save position of the dark temple in NBT

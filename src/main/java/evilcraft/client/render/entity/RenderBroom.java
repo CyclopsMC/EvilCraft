@@ -1,13 +1,11 @@
 package evilcraft.client.render.entity;
 
-import net.minecraft.entity.Entity;
-
-import org.lwjgl.opengl.GL11;
-
 import evilcraft.client.render.model.ModelBroom;
 import evilcraft.core.client.render.model.RenderModel;
 import evilcraft.core.config.extendedconfig.EntityConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraft.entity.Entity;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Renderer for a broom
@@ -19,7 +17,7 @@ public class RenderBroom extends RenderModel<ModelBroom> {
 	
     /**
      * Make a new instance.
-     * @param config
+     * @param config config
      */
 	public RenderBroom(ExtendedConfig<EntityConfig> config) {
 	    super(config);

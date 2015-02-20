@@ -26,7 +26,7 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 	
 	/**
 	 * Make a new instance.
-	 * @param tank
+	 * @param tank The tank.
 	 */
 	public BlockTankComponent(T tank) {
 		this.tank = tank;
@@ -34,15 +34,15 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 
 	/**
 	 * Called upon tank activation.
-	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param player
-	 * @param side
-	 * @param motionX
-	 * @param motionY
-	 * @param motionZ
+	 * @param world The world.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 * @param player Player
+	 * @param side Side integer
+	 * @param motionX X motion
+	 * @param motionY Y motion
+	 * @param motionZ Z motion
 	 * @return If the event should be halted.
 	 */
 	public boolean onBlockActivatedTank(World world, int x, int y, int z,

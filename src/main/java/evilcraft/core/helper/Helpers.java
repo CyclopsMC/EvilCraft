@@ -1,9 +1,9 @@
 package evilcraft.core.helper;
 
+import evilcraft.core.config.configurable.IConfigurable;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import evilcraft.core.config.configurable.IConfigurable;
 
 /**
  * A collection of helper methods and fields.
@@ -44,7 +44,7 @@ public class Helpers {
      */
     public static int getNewId(IDType type) {
     	Integer ID = ID_COUNTER.get(type);
-    	if(ID == null) ID = new Integer(0);
+    	if(ID == null) ID = 0;
     	ID_COUNTER.put(type, ID + 1);
     	return ID;
     }

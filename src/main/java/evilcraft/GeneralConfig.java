@@ -105,6 +105,12 @@ public class GeneralConfig extends DummyConfig {
     public static int darkTempleMinDistance = 300;
 
     /**
+     * Maximal length of the pillars of a dark temple.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Maximal length of the pillars of a dark temple.")
+    public static int darkTempleMaxPillarLength = 20;
+
+    /**
      * The amount of mB that can flow per tick.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The amount of mB that can flow per tick out of machines and items.", requiresMcRestart = true)

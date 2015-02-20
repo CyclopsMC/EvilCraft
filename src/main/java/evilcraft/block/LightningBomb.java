@@ -1,6 +1,12 @@
 package evilcraft.block;
-import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.core.config.configurable.ConfigurableBlock;
+import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.entity.block.EntityLightningBombPrimed;
+import evilcraft.entity.item.EntityLightningGrenade;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -12,13 +18,8 @@ import net.minecraft.init.Items;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.configurable.ConfigurableBlock;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.entity.block.EntityLightningBombPrimed;
-import evilcraft.entity.item.EntityLightningGrenade;
+
+import java.util.Random;
 
 /**
  * A bomb that spawns lightning when ignited.
@@ -151,7 +152,7 @@ public class LightningBomb extends ConfigurableBlock {
         } else if (entity instanceof EntityLightningGrenade && !world.isRemote) {
             EntityLightningGrenade entitygrenade = (EntityLightningGrenade)entity;
 
-            this.primeBomb(world, x, y, z, 1, entitygrenade.getThrower() instanceof EntityLivingBase ? (EntityLivingBase)entitygrenade.getThrower() : null);
+            this.primeBomb(world, x, y, z, 1, entitygrenade.getThrower() != null ? entitygrenade.getThrower() : null);
             world.setBlockToAir(x, y, z);
         }
     }

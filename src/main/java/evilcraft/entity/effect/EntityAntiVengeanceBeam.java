@@ -88,7 +88,6 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
             Entity entity = null;
             List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
-            EntityLivingBase entitylivingbase = this.getThrower();
 
             for (int j = 0; j < list.size(); ++j) {
                 Entity entity1 = (Entity)list.get(j);

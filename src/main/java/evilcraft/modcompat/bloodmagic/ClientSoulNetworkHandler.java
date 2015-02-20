@@ -1,15 +1,8 @@
 package evilcraft.modcompat.bloodmagic;
 
-import java.util.Map;
-import java.util.Set;
-
-import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.event.world.WorldEvent;
 import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -17,6 +10,11 @@ import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.network.PacketHandler;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.event.world.WorldEvent;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A client-side cache for the soul network contents.
@@ -81,7 +79,7 @@ public class ClientSoulNetworkHandler {
 	
 	/**
 	 * Add the given player to the server list of essence watchers.
-	 * @param player
+	 * @param player Player
 	 */
 	//@SideOnly(Side.SERVER)
 	public void addUpdatePlayer(String player) {

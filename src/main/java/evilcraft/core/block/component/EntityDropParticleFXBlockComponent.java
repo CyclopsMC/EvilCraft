@@ -1,11 +1,11 @@
 package evilcraft.core.block.component;
 
-import java.util.Random;
-
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.client.particle.ExtendedEntityDropParticleFX;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * Component that can show drops of a certain color underneath blocks.
@@ -53,7 +53,7 @@ public class EntityDropParticleFXBlockComponent implements IEntityDropParticleFX
 
     @Override
     public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-        if (rand.nextInt(chance) == 0 && (offset == 0 || world.doesBlockHaveSolidTopSurface(world, x, y - offset, z)) && !world.getBlock(x, y - offset - 1, z).getMaterial().blocksMovement()) {
+        if (rand.nextInt(chance) == 0 && (offset == 0 || World.doesBlockHaveSolidTopSurface(world, x, y - offset, z)) && !world.getBlock(x, y - offset - 1, z).getMaterial().blocksMovement()) {
             double px = (double) ((float) x + rand.nextFloat());
             double py = (double) y - 0.05D - offset;
             double pz = (double) ((float) z + rand.nextFloat());
