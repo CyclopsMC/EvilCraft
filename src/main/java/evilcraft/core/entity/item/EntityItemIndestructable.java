@@ -61,6 +61,9 @@ public abstract class EntityItemIndestructable extends EntityItem {
     
     private void init() {
     	delayBeforeCanPickup = 40;
+        if(isUndespawnable()) {
+            this.lifespan = Integer.MAX_VALUE;
+        }
     }
 	
 	protected boolean isIndestructable() {
@@ -69,14 +72,6 @@ public abstract class EntityItemIndestructable extends EntityItem {
 	
 	protected boolean isUndespawnable() {
 		return isIndestructable();
-	}
-	
-	@Override
-	public void onUpdate() {
-		super.onUpdate();
-		if(isUndespawnable()) {
-			this.age--;
-		}
 	}
 	
 	@Override
