@@ -21,6 +21,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 
 /**
@@ -107,7 +108,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             Fluid ender = FluidRegistry.getFluid("ender");
             if(ender != null) {
                 NBTTagCompound crucibleEnder = new NBTTagCompound();
-                crucibleEnder.setInteger("energy", 2000);
+                crucibleEnder.setInteger("energy", 40000);
                 crucibleEnder.setTag("input", new NBTTagCompound());
                 crucibleEnder.setTag("output", new NBTTagCompound());
 
@@ -135,7 +136,7 @@ public class ThermalExpansionModCompat implements IModCompat {
                     BloodInfuser.getInstance().getRecipeRegistry().allRecipes()) {
                 if(recipe.getInput().getTier() == 0) {
                     NBTTagCompound bloodInfuse = new NBTTagCompound();
-                    bloodInfuse.setInteger("energy", recipe.getProperties().getDuration() * 100);
+                    bloodInfuse.setInteger("energy", recipe.getProperties().getDuration() * 10);
                     bloodInfuse.setTag("input", new NBTTagCompound());
                     bloodInfuse.setTag("output", new NBTTagCompound());
                     bloodInfuse.setTag("fluid", new NBTTagCompound());
@@ -164,6 +165,34 @@ public class ThermalExpansionModCompat implements IModCompat {
             fill.setBoolean("reversible", true);
             entry.getValue().copy().writeToNBT(fill.getCompoundTag("fluid"));
             FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", fill);
+        }
+
+        // Pulverize Blood-Waxed Coal
+        if(Configs.isEnabled(BloodWaxedCoalConfig.class)) {
+            NBTTagCompound pulverizerDustCoal = new NBTTagCompound();
+            pulverizerDustCoal.setInteger("energy", 2400);
+            pulverizerDustCoal.setTag("input", new NBTTagCompound());
+            pulverizerDustCoal.setTag("primaryOutput", new NBTTagCompound());
+
+            new ItemStack(BloodWaxedCoalConfig._instance.getItemInstance()).writeToNBT(pulverizerDustCoal.getCompoundTag("input"));
+            List<ItemStack> dustCoalList = OreDictionary.getOres("dustCoal");
+            if(!dustCoalList.isEmpty()) {
+                ItemStack dustCoal = dustCoalList.get(0).copy();
+                dustCoal.stackSize = 2;
+                dustCoal.writeToNBT(pulverizerDustCoal.getCompoundTag("primaryOutput"));
+
+                List<ItemStack> sulfurList = OreDictionary.getOres("dustSulfur");
+                if(!sulfurList.isEmpty()) {
+                    pulverizerDustCoal.setTag("secondaryOutput", new NBTTagCompound());
+                    pulverizerDustCoal.setInteger("secondaryChance", 20);
+
+                    ItemStack dustSulfur = sulfurList.get(0).copy();
+                    dustSulfur.stackSize = 1;
+                    dustSulfur.writeToNBT(pulverizerDustCoal.getCompoundTag("secondaryOutput"));
+                }
+
+                FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDustCoal);
+            }
         }
     }
     
