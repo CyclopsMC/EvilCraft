@@ -16,7 +16,7 @@ public class ExtendedDamageSource extends DamageSource{
     /**
      * DamageSource for when entities die from distortion not caused by another player.
      */
-    public static ExtendedDamageSource distorted = (ExtendedDamageSource)((new ExtendedDamageSource("distored")));
+    public static ExtendedDamageSource distorted = (ExtendedDamageSource)((new ExtendedDamageSource("distorted")));
     /**
      * DamageSource for when entities die from a spiked plate.
      */
