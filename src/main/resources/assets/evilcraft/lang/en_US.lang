@@ -159,7 +159,7 @@ item.items.promise.tier3.name=Promise of Tenacity III
 item.items.promise.tier3.info=Machine tier upgrade, also usable for lower tier recipes. Tank capacity x8.
 item.items.promise.speed0.name=Promise of Velocity
 item.items.promise.speed0.info=Machine speed x2
-item.items.promise.efficiency0.name=Promise of Efficiency
+item.items.promise.efficiency0.name=Promise of Productivity
 item.items.promise.efficiency0.info=Machine Blood efficiency x1.5
 item.items.bowlOfPromises.name=Bowl of Promises
 item.items.bowlOfPromises.active.name=Bowl of Promises
@@ -417,7 +417,7 @@ infoBook.secondAge.bloodInfusion.undeadTree.text2=Killing a sapling is as simple
 
 infoBook.secondAge.bloodInfusion.advancedBloodInfusion=Advanced Blood Infusion
 infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text1=Soon after my first &1Blood Infuser&0 was build, I started to think of some optimizations to make the machine faster and more efficient. Using the &1Crushed Dark Gems&0 I was able to construct materialized &1Promises&0 which the &1Blood Infuser&0 actually seems to adhere to, it looks like the machine is actually alive in some way...
-infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text2=Filling a &1Bowl of Empty Promises&0 with this purple powder and infusing it with &4Blood&0 will result in a &1Bowl of Promises&0 of a certain strength. Combining this with a reactant and a mineral promise acceptor which can be created with a significant amount of &4Blood&0, will result in a &1Promise&0 of a certain type. &1Promises of Tenacity&0 can be created by utilizing organic reactants, this will allow the machine (and maybe others as well) to allow for more &1Promises&0 and &4Blood&0 to hold. &1Promises of Velocity&0 can be used to increase the speed of the machine, while the &1Efficiency Promise&0 will reduce the amount of &4Blood&0 required to process an item.
+infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text2=Filling a &1Bowl of Empty Promises&0 with this purple powder and infusing it with &4Blood&0 will result in a &1Bowl of Promises&0 of a certain strength. Combining this with a reactant and a mineral promise acceptor which can be created with a significant amount of &4Blood&0, will result in a &1Promise&0 of a certain type. &1Promises of Tenacity&0 can be created by utilizing organic reactants, this will allow the machine (and maybe others as well) to allow for more &1Promises&0 and &4Blood&0 to hold. &1Promises of Velocity&0 can be used to increase the speed of the machine, while the &Productivity Promise&0 will reduce the amount of &4Blood&0 required to process an item.
 
 infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes=More Blood Infusion Recipes
 infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text=Because of these new &1Tenacity&0 Promises, it looks like a whole new world opened to infuse items.
@@ -451,7 +451,7 @@ infoBook.secondAge.tools.invigoratingPendant=Invigorating Pendant
 infoBook.secondAge.tools.invigoratingPendant.text=Getting rid of bad potion effects can be a pain. This pendant is able to remove any bad effect at the cost of some &4Blood&0. Worse effects cost more &4Blood&0. It even seems to extinguish fire, but I wouldn’t recommend swimming in lava just yet.
 
 infoBook.secondAge.tools.effortlessRing=Effortless Ring
-infoBook.secondAge.tools.effortlessRing.text=I was able to construct a special ring that can apply the &1Promises&0 of &1Efficiency&0 and &1Velocity&0 which allows you to walk faster, jump higher and step more easily on blocks. Just hold this item anywhere inside your inventory to gain its effects. Note that this step assist can be avoided by holding &oShift&r.
+infoBook.secondAge.tools.effortlessRing.text=I was able to construct a special ring that can apply the &1Promises&0 of &Productivity&0 and &1Velocity&0 which allows you to walk faster, jump higher and step more easily on blocks. Just hold this item anywhere inside your inventory to gain its effects. Note that this step assist can be avoided by holding &oShift&r.
 
 infoBook.secondAge.tools.kineticator=Kineticator
 infoBook.secondAge.tools.kineticator.text1=This item is able to attract items and experience orbs in a certain area. This area can be changed by right-clicking it, enabling or disabling it is done with a simple shift + right-click. Items that are attracted from nearby consume little to no &4Blood&0, but items from further away will require some more &4Blood&0. Sneaking will avoid kineticating items.
