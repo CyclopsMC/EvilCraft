@@ -2,7 +2,6 @@ package evilcraft.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Achievements;
 import evilcraft.Configs;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.config.configurable.ConfigurableBlock;
@@ -124,7 +123,6 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     @Override
     public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
         super.harvestBlock(world, player, x, y, z, meta);
-        player.addStat(Achievements.TIDY, 1);
         world.setBlockToAir(x, y, z);
     }
 

@@ -47,10 +47,6 @@ public class Achievements {
 	 */
 	public static final Achievement CLOSURE = new ExtendedAchievement("closure", -2, 2, new ItemStack(Configs.isEnabled(BoxOfEternalClosureConfig.class) ? BoxOfEternalClosure.getInstance() : Blocks.anvil), FIRST_AGE);
 	/**
-	 * Tidy up excrement pile with a broom.
-	 */
-	public static final Achievement TIDY = new ExtendedAchievement("tidy", 4, 0, new ItemStack(Configs.isEnabled(BroomConfig.class) ? Broom.getInstance() : Items.potato), null);
-	/**
 	 * Distort a player.
 	 */
 	public static final Achievement PLAYER_DISTORTER = new ExtendedAchievement("playerDistorter", 4, 6, new ItemStack(Items.skull, 1, 3), DISTORTER);
@@ -76,7 +72,6 @@ public class Achievements {
 		DISTORTER,
 		SPIRIT_COOKER,
 		CLOSURE,
-		TIDY,
 		PLAYER_DISTORTER,
 		PLAYER_DEVASTATOR,
 		POWER_CRAFTING,
