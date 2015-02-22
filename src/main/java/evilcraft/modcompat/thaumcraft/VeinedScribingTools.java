@@ -48,7 +48,7 @@ public class VeinedScribingTools extends ConfigurableDamageIndicatedItemFluidCon
 
     @Override
     public int getMaxDamage() {
-        return CAPACITY;
+        return CAPACITY / USAGE;
     }
 
     @Override
@@ -62,8 +62,8 @@ public class VeinedScribingTools extends ConfigurableDamageIndicatedItemFluidCon
     public void setDamage(ItemStack itemStack, int damage) {
         FluidStack fluidStack = getFluid(itemStack);
         if(fluidStack != null) {
-            int toDrain = (damage * USAGE) - fluidStack.amount;
-            if(toDrain > 0) drain(itemStack, toDrain, true);
+            drain(itemStack, (damage - getDamage(itemStack)) * USAGE, true);
+            System.out.println(getDamage(itemStack));
         }
     }
 
