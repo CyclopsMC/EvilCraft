@@ -26,6 +26,7 @@ public class PlayerRingOfFire {
         ALLOW_RING.add(UUID.fromString("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c")); // _EeB_
         ALLOW_RING.add(UUID.fromString("3e13f558-fb72-4949-a842-07879924bc49")); // JonaBrackenwood
         ALLOW_RING.add(UUID.fromString("777e7aa3-9373-4511-8d75-f99d23ebe252")); // Davivs69
+        ALLOW_RING.add(UUID.fromString("94b8bfe7-9102-405c-ab80-2c4468e918f9")); // JokerReaper
     }
 
     /**
