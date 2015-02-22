@@ -34,7 +34,7 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
     private static final float STEP_SIZE = 1F;
     private static final float JUMP_DISTANCE_FACTOR = 0.05F;
     private static final float JUMP_HEIGHT_FACTOR = 0.3F;
-    private static final float FALLDISTANCE_REDUCTION = 0.5F;
+    private static final float FALLDISTANCE_REDUCTION = 1.5F;
 
     private static EffortlessRing _instance = null;
 
