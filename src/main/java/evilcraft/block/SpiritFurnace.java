@@ -71,7 +71,7 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
-    	return !TileSpiritFurnace.canWork(world, new Location(x, y, z)) &&
+        return !TileSpiritFurnace.canWork(world, new Location(x, y, z)) ||
                 super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
     }
     
