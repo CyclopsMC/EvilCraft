@@ -43,12 +43,8 @@ public class VeinedScribingTools extends ConfigurableDamageIndicatedItemFluidCon
 
     private VeinedScribingTools(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, CAPACITY, Blood.getInstance());
+        setMaxDamage(CAPACITY / USAGE);
         this.canPickUp = false;
-    }
-
-    @Override
-    public int getMaxDamage() {
-        return CAPACITY / USAGE;
     }
 
     @Override
