@@ -1,11 +1,11 @@
 package evilcraft.core.client.render.model;
 
+import evilcraft.Reference;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 
 /**
  * A renderer for a custom model.
@@ -26,8 +26,12 @@ public abstract class RenderModel<M extends ModelBase> extends Render {
      */
     @SuppressWarnings("rawtypes")
     public RenderModel(ExtendedConfig config) {
-        texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + config.getNamedId() + ".png");
+        texture = createResourceLocation(config);
         model = constructModel();
+    }
+
+    protected ResourceLocation createResourceLocation(ExtendedConfig config) {
+        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + config.getNamedId() + ".png");
     }
     
     protected abstract M constructModel();

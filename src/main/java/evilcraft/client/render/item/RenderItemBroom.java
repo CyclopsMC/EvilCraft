@@ -1,17 +1,17 @@
 package evilcraft.client.render.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
-
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.client.FMLClientHandler;
+import evilcraft.Reference;
 import evilcraft.client.render.model.ModelBroom;
 import evilcraft.core.client.render.model.RenderModel;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.item.Broom;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.IItemRenderer;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Item renderer for the {@link Broom}.
@@ -26,6 +26,10 @@ public class RenderItemBroom extends RenderModel<ModelBroom> implements IItemRen
      */
     public RenderItemBroom(ExtendedConfig<ItemConfig> config) {
         super(config);
+    }
+
+    protected ResourceLocation createResourceLocation(ExtendedConfig config) {
+        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + config.getNamedId() + "Entity.png");
     }
 
     @Override
