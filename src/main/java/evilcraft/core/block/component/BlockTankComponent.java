@@ -85,7 +85,7 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
                             }
                         }
 
-                    } else { // Fill to tank from item.
+                    } else if(fluidStack != null) { // Fill to tank from item.
                         FluidStack fluidStackTemp = new FluidStack(fluidStack.getFluid(),
                                 Math.min(FluidContainerRegistry.BUCKET_VOLUME, fluidStack.amount));
                         if(canTankBeFilled(tile, fluidStack) && tile.getTank().fill(fluidStackTemp, false) > 0) {
