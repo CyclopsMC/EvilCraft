@@ -216,7 +216,7 @@
         </output>
         <properties>
             <tier>1</tier>
-            <duration>5000</duration>
+            <duration>500</duration>
         </properties>
     </recipe>
 
@@ -234,7 +234,7 @@
         </output>
         <properties>
             <tier>2</tier>
-            <duration>500</duration>
+            <duration>1000</duration>
         </properties>
     </recipe>
 
@@ -252,7 +252,7 @@
         </output>
         <properties>
             <tier>3</tier>
-            <duration>500</duration>
+            <duration>1000</duration>
         </properties>
     </recipe>
 
