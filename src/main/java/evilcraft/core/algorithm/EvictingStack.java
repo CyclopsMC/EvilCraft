@@ -23,7 +23,7 @@ public class EvictingStack<T> {
     }
 
     public void push(T element) {
-        if(top == stack.size()) top = 0;
+        if(top == maxSize()) top = 0;
         stack.add(top, element);
         top++;
         if(popBalance < size - 1) popBalance++;
@@ -31,8 +31,7 @@ public class EvictingStack<T> {
 
     public T pop() {
         if(top - 1 < 0) top = size;
-        top--;
-        T element = stack.get(top);
+        T element = stack.get(--top);
         popBalance--;
         return element;
     }

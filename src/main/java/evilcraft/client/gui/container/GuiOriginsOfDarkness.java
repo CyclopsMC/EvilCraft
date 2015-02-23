@@ -222,7 +222,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
             }
             nextPage = 0;
             history.push(new InfoSection.Location(page, currentSection));
-        } else if(button.id == BUTTON_BACK && button.visible) {
+        } else if(button.id == BUTTON_BACK && button.visible && history.currentSize() > 0) {
             InfoSection.Location location = history.pop();
             nextSection = location.getInfoSection();
             nextPage = location.getPage();
@@ -241,7 +241,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
     protected void mouseClicked(int x, int y, int p_73864_3_) {
         super.mouseClicked(x, y, p_73864_3_);
-        if(p_73864_3_ == 0 && ((nextSection != null && nextSection != currentSection) || page != nextPage)) {
+        if(p_73864_3_ == 0 && (nextSection != null && (nextSection != currentSection || page != nextPage))) {
             currentSection = nextSection;
             nextSection = null;
             page = nextPage;
