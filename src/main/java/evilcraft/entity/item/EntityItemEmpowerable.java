@@ -1,10 +1,10 @@
 package evilcraft.entity.item;
 
+import evilcraft.core.entity.item.EntityItemIndestructable;
+import evilcraft.item.IItemEmpowerable;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import evilcraft.core.entity.item.EntityItemIndestructable;
-import evilcraft.item.IItemEmpowerable;
 
 /**
  * Entity item for an {@link IItemEmpowerable}.
@@ -55,6 +55,7 @@ public class EntityItemEmpowerable extends EntityItemIndestructable {
 	
 	@Override
 	protected boolean isIndestructable() {
+        if(!(getEntityItem().getItem() instanceof IItemEmpowerable)) return super.isIndestructable();
 		return ((IItemEmpowerable) getEntityItem().getItem()).isEmpowered(getEntityItem());
 	}
 	
