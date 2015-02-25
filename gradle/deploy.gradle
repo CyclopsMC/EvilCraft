@@ -9,7 +9,7 @@ if(project.hasProperty("curseforge_key") && project.hasProperty("changelog")) {
         releaseType = "release"
 
         additionalArtifact deobfJar
-        additionalArtifact apiJar
+        //additionalArtifact apiJar
         additionalArtifact sourceJar
         additionalArtifact javadocJar
     }
