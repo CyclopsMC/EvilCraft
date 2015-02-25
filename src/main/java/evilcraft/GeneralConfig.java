@@ -31,6 +31,12 @@ public class GeneralConfig extends DummyConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "If the recipe loader should crash when finding invalid recipes.", requiresMcRestart = true)
     public static boolean crashOnInvalidRecipe = false;
+
+    /**
+     * If mod compatibility loader should crash hard if errors occur in that process.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "If mod compatibility loader should crash hard if errors occur in that process.", requiresMcRestart = true)
+    public static boolean crashOnModCompatCrash = false;
     
     /**
      * If players are able to die without any reason.

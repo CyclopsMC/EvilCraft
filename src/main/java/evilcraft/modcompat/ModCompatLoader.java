@@ -1,6 +1,9 @@
 package evilcraft.modcompat;
 
+import com.google.common.collect.Sets;
 import cpw.mods.fml.common.Loader;
+import evilcraft.EvilCraft;
+import evilcraft.GeneralConfig;
 import evilcraft.IInitListener;
 import evilcraft.core.config.ConfigHandler;
 import evilcraft.modcompat.baubles.BaublesModCompat;
@@ -15,9 +18,11 @@ import evilcraft.modcompat.versionchecker.VersionCheckerModCompat;
 import evilcraft.modcompat.waila.WailaModCompat;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import org.apache.logging.log4j.Level;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The loader for {@link IModCompat} instances.
@@ -42,12 +47,22 @@ public class ModCompatLoader implements IInitListener {
         MODCOMPATS.add(new BloodMagicModCompat());
         MODCOMPATS.add(new ThaumcraftModCompat());
     }
+
+    protected static Set<String> CRASHED_MODCOMPATS = Sets.newHashSet();
     
     @Override
     public void onInit(IInitListener.Step step) {
         for(IModCompat modCompat : MODCOMPATS) {
             if(shouldLoadModCompat(modCompat)) {
-                modCompat.onInit(step);
+                try {
+                    modCompat.onInit(step);
+                } catch (RuntimeException e) {
+                    EvilCraft.log("The EvilCraft mod compatibility for " + modCompat.getModID() +
+                            " has crashed! Report this crash log to the mod author or try updating the conflicting mods.", Level.ERROR);
+                    if(GeneralConfig.crashOnModCompatCrash) throw e;
+                    e.printStackTrace();
+                    CRASHED_MODCOMPATS.add(modCompat.getModID());
+                }
             }
         }
     }
@@ -58,7 +73,7 @@ public class ModCompatLoader implements IInitListener {
      * @return If it should be loaded.
      */
     public static final boolean shouldLoadModCompat(IModCompat modCompat) {
-    	return isModLoaded(modCompat) && isModEnabled(modCompat);
+    	return isModLoaded(modCompat) && isModEnabled(modCompat) && isModNotCrashed(modCompat);
     }
     
     private static boolean isModLoaded(IModCompat modCompat) {
@@ -76,6 +91,10 @@ public class ModCompatLoader implements IInitListener {
         	config.save();
         }
         return enabled;
+    }
+
+    private static boolean isModNotCrashed(IModCompat modCompat) {
+        return !CRASHED_MODCOMPATS.contains(modCompat.getModID());
     }
     
 }
