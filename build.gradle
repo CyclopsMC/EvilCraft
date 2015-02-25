@@ -47,3 +47,10 @@ apply from: 'gradle/forge.gradle'
 apply from: 'gradle/dev.gradle'
 //apply from: 'gradle/chicken.gradle'
 apply from: 'gradle/deploy.gradle'
+
+// Mark API directory as source directory in IDEA.
+idea {
+    module {
+        sourceDirs += file('src/api/java')
+    }
+}

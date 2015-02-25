@@ -74,15 +74,11 @@ In order to get EvilCraft to run from you IDE, you will have to download the fol
 
 6. Open the `EvilCraft.ipr` project file using IntelliJ IDEA
 
-7. In the _Project View_, navigate to `src/api/java` and rightclick the directory. Next go to `mark directory as > sources root`, as shown in the picture below:
+7. Install the IDEA _Lombok plugin_ by going to `Preferences > Plugins` and searching for `Lombok Plugin`
 
-  ![mark as sources](doc/images/mark_as_sources.png)
+8. After installing the _Lombok plugin_, go to `Preferences > Build, Execution, Deployment > Compiler` and enable `Enable annotation processing`
 
-8. Install the IDEA _Lombok plugin_ by going to `Preferences > Plugins` and searching for `Lombok Plugin`
-
-9. After installing the _Lombok plugin_, go to `Preferences > Build, Execution, Deployment > Compiler` and enable `Enable annotation processing`
-
-10. Select `Minecraft Client` from _Run configurations_ and press the green play button. Minecraft should now launch with EvilCraft and all of its dependencies loaded :)
+9. Select `Minecraft Client` from _Run configurations_ and press the green play button. Minecraft should now launch with EvilCraft and all of its dependencies loaded :)
 
 ### License
 All code and images are licenced under [Creative Commons 4](http://creativecommons.org/licenses/by/4.0/)
