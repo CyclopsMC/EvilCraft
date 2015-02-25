@@ -30,9 +30,9 @@ public class MathHelpers {
      * that is able to offset factor values if required.
      * It in fact converts a factor to bursts of natural numbers.
      * For example:
-     *  value = 0,5; timing = 0 -> 1
-     *  value = 0,5; timing = 1 -> 0
-     *  value = 0,5; timing = 2 -> 1
+     *  value = 0,5; timing = 0 to 1
+     *  value = 0,5; timing = 1 to 0
+     *  value = 0,5; timing = 2 to 1
      *  ...
      * @param value The input value.
      * @param timing The timing value, should increment each time this is called for good results.

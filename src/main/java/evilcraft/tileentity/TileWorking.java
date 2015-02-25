@@ -144,6 +144,7 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
      * If the given item can be extracted.
      * @param slot The slot id.
      * @param itemStack The item that is being extracted, the current slot contents.
+     * @param replaceItem The current item in that slot.
      * @return If it can be extracted.
      */
     public boolean canExtractItem(int slot, ItemStack itemStack, ItemStack replaceItem) {

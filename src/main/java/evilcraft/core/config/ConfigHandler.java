@@ -12,7 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 
 /**
- * Create config file and register items & blocks from the given ExtendedConfigs
+ * Create config file and register items and blocks from the given ExtendedConfigs.
  * @author rubensworks
  *
  */

@@ -105,7 +105,7 @@ public class ConfigurableType {
     /**
      * If this type should refer to a {@link IConfigurable} with a unique instance.
      * If this is true, the {@link IConfigurable} should have a public static void
-     * initInstance(ExtendedConfig<?> eConfig) method and also a public static 
+     * initInstance(ExtendedConfig eConfig) method and also a public static
      * (? extends IConfigurable) getInstance() method.
      * @return If it has a unique instance.
      */

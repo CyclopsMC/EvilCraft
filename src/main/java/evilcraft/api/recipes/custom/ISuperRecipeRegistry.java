@@ -1,8 +1,8 @@
 package evilcraft.api.recipes.custom;
 
-import java.util.List;
-
 import evilcraft.api.IRegistry;
+
+import java.util.List;
 
 /**
  * Machine recipe registry manager.
@@ -60,6 +60,8 @@ public interface ISuperRecipeRegistry extends IRegistry {
      * Returns the first recipe for which the matches() method of the given
      * {@link IRecipeMatcher} returns true.
      * @param recipeMatcher A matcher that defines which recipes fit some matching criteria.
+     * @param <M> The machine type.
+     * @param <R> The recipe type.
      * @return The first recipe which matches the criteria, or null in case no such recipe was found.
      */
     @SuppressWarnings("rawtypes")
@@ -69,6 +71,8 @@ public interface ISuperRecipeRegistry extends IRegistry {
      * Returns a list of registered recipe for which the matches() method of the given
      * {@link IRecipeMatcher} returns true.
      * @param recipeMatcher A matcher that defines which recipes fit some matching criteria.
+     * @param <M> The machine type.
+     * @param <R> The recipe type.
      * @return A list of recipes that match the given criteria.
      */
     @SuppressWarnings("rawtypes")

@@ -25,6 +25,7 @@ public abstract class RecipePropertyMatcher<M extends IMachine, R extends IRecip
     /**
      * Returns the property of the recipe that should be matched.
      * @param recipe A recipe whose properties should be matched.
+     * @param machine The machine.
      * @return The property of the given recipe that should be matched.
      */
     public abstract P getProperty(M machine, R recipe);

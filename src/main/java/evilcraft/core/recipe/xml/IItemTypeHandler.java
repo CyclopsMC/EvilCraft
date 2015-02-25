@@ -1,8 +1,7 @@
 package evilcraft.core.recipe.xml;
 
-import org.w3c.dom.Node;
-
 import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
+import org.w3c.dom.Node;
 
 /**
  * Handler for different types of item declaration inside the xml recipe file.
@@ -14,7 +13,7 @@ public interface IItemTypeHandler {
 	/**
 	 * Get the item for this type of handler for the given node element, can just be a text node.
 	 * @param itemNode The node containing info about this item, for example
-	 * "<item>evilcraft:darkGem</item>"
+	 * "&lt;item&gt;evilcraft:darkGem&lt;/item&gt;"
 	 * @return An item stack for this item or a string representing an ore dict id.
 	 * @throws XmlRecipeException If an error occured
 	 */

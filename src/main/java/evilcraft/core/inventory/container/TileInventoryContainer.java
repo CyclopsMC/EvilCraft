@@ -1,15 +1,15 @@
 package evilcraft.core.inventory.container;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import evilcraft.core.inventory.IGuiContainerProvider;
 import evilcraft.core.tileentity.InventoryTileEntity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 
 /**
  * A container for a tile entity with inventory.
  * @author rubensworks
  *
- * @param <T>
+ * @param <T> The type of tile.
  */
 public class TileInventoryContainer<T extends InventoryTileEntity> extends ExtendedInventoryContainer {
     

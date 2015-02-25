@@ -1,13 +1,13 @@
 package evilcraft.core.inventory.slot;
 
+import evilcraft.core.tileentity.WorkingTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import evilcraft.core.tileentity.WorkingTileEntity;
 
 /**
  * Slot that is used for only accepting workable items.
  * @author rubensworks
- * @param <T> 
+ * @param <T> The tile type.
  *
  */
 public class SlotWorkingRemoveOnly<T extends WorkingTileEntity<?, ?>> extends SlotWorking<T> {

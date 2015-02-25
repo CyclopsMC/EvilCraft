@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 /**
  * Slot that is used for only accepting workable items.
  * @author rubensworks
- * @param <T> 
+ * @param <T> The tile type.
  *
  */
 public class SlotWorking<T extends WorkingTileEntity<?, ?>> extends Slot {

@@ -1,15 +1,14 @@
 package evilcraft.api;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import evilcraft.api.degradation.IDegradationRegistry;
 import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.core.degradation.DegradationRegistry;
 import evilcraft.core.recipe.custom.SuperRecipeRegistry;
 import evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
+
+import java.util.Map;
 
 /**
  * Manager for all the registries in this mod.
@@ -36,6 +35,7 @@ public class RegistryManager {
 	/**
 	 * Get the unique registry of the given class.
 	 * @param clazz The class of the registry.
+     * @param <T> The type of registry.
 	 * @return The unique registry.
 	 */
 	@SuppressWarnings("unchecked")

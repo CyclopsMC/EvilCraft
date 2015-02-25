@@ -90,6 +90,10 @@ public class InfoSection {
     /**
      * Will make a localized version of this section with a variable amount of paragraphs.
      * Must be called once before the section will be drawn.
+     * @param fontRenderer The font renderer.
+     * @param width Section width
+     * @param maxLines The maximum amount of lines per page.
+     * @param lineHeight The line height.
      */
     public void bakeSection(FontRenderer fontRenderer, int width, int maxLines, int lineHeight) {
         if(paragraphs.size() == 0 && shouldAddIndex()) {
@@ -209,9 +213,9 @@ public class InfoSection {
 
     /**
      * Give the correct format to a string.
-     * Will allow the convenient "&" format codes to be used instead of "§": http://minecraft.gamepedia.com/Formatting_codes
+     * Will allow the convenient "&amp;" format codes to be used instead of "§": http://minecraft.gamepedia.com/Formatting_codes
      * Will also refresh all formats at the end of the string.
-     * This will replace "&N"'s with a newlines.
+     * This will replace "&amp;N"'s with a newlines.
      * @param string The string to format.
      * @return The formatted string.
      */

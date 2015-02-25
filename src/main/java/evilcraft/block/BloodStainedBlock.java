@@ -95,6 +95,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
      * @param defaultIcon The default icon to render if none needs to be rendered.
      * @param baseBlock The base block.
      * @return The icon.
+     * @throws InvalidInnerBlocksTileException If an error occurred while getting the icon.
      */
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta, int renderPass, IIcon defaultIcon, Block baseBlock)

@@ -62,6 +62,7 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
 
     /**
      * Call this in machines that should display blood particles when working.
+     * @param tile The tile working entity.
      * @param world The world.
      * @param x X
      * @param y Y

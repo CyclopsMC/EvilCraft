@@ -63,7 +63,7 @@ public class EnchantmentHelpers {
 	 * Sets the level of an enchantment given an itemStack and the id
 	 * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
 	 * the id in the enchantmentlist)
-	 * Will clear the enchantment if the new level <= 0
+	 * Will clear the enchantment if the new level &lt;= 0
 	 * @param itemStack The itemStack which contains the enchanted item
 	 * @param enchantmentListID The id of the enchantment in the enchantment list
 	 * @param level The new level of the enchantment on the given item
@@ -85,7 +85,7 @@ public class EnchantmentHelpers {
 	 * Sets the level of an enchantment given an itemStack and the id
 	 * of the enchantment in the enchantmentlist (see doesEnchantApply() to get
 	 * the id in the enchantmentlist)
-	 * Will clear the enchantment if the new level <= 0
+	 * Will clear the enchantment if the new level &lt;= 0
 	 * @param itemStack The itemStack which contains the enchanted item
 	 * @param enchantment The enchantment
 	 * @param level The new level of the enchantment on the given item

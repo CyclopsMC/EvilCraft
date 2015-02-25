@@ -97,6 +97,7 @@ public class RenderModelItem implements IItemRenderer {
     
     /**
      * Render the actual model, override this to change the way the model should be rendered.
+     * @param model The base model.
      */
     protected void renderModel(ModelBase model) {
     	model.render(null, 0, 0, 0, 0, 0, 0);

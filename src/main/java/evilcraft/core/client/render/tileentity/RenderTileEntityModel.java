@@ -87,6 +87,9 @@ public class RenderTileEntityModel extends TileEntitySpecialRenderer {
 	
 	/**
      * Render the actual model, override this to change the way the model should be rendered.
+     * @param tile The tile entity.
+     * @param model The base model.
+     * @param partialTick The partial render tick.
      */
     protected void renderModel(EvilCraftTileEntity tile, ModelBase model, float partialTick) {
     	model.render(null, 0, 0, 0, 0, 0, 0);

@@ -112,6 +112,7 @@ public class CubeDetector {
 	 * @param world The world to look in.
 	 * @param startLocation The location to start looking from.
 	 * @param dimension The dimension to navigate in.
+     * @param direction the distance to go by.
 	 * @return The found border.
 	 */
 	protected ILocation navigateToBorder(World world, ILocation startLocation, int dimension, int direction) {

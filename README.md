@@ -3,6 +3,8 @@
 Dev builds: https://drone.io/github.com/rubensworks/EvilCraft/files
 Master: EvilCraft 0.7.0 for Minecraft 1.7.10 (Forge 10.13.2.1230)
 
+All downloads (including deobfuscated builds) can be found on [Curse](http://minecraft.curseforge.com/mc-mods/74610-evilcraft/files)
+
 The master branch will always contain the latest released version with possibly some bug fixes for that version that will eventually be released.
 New versions will be created in branched named like version-{mc_version}-{next_mod_version}
 

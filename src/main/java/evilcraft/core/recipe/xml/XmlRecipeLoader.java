@@ -176,6 +176,8 @@ public class XmlRecipeLoader {
 	
 	/**
 	 * Load the recipes for this instance.
+     * @param crashOnInvalidRecipe If the loader should crash when an invalid recipe has been found.
+     *                             Will skip recipe otherwise.
 	 * @throws XmlRecipeException If something went wrong.
 	 */
 	public void loadRecipes(boolean crashOnInvalidRecipe) throws XmlRecipeException {

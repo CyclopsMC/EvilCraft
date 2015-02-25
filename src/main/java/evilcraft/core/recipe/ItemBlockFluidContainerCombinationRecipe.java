@@ -1,13 +1,13 @@
 package evilcraft.core.recipe;
 
+import evilcraft.block.DarkTank;
+import evilcraft.core.item.ItemBlockFluidContainer;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.block.DarkTank;
-import evilcraft.core.item.ItemBlockFluidContainer;
 
 /**
  * recipe for combining dark tanks in a shapeless manner.
@@ -21,7 +21,7 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 	
 	/**
 	 * Make a new instance.
-	 * @param size The recipe size (should be called multiple times (1->9) to allow for all shapeless crafting types.
+	 * @param size The recipe size (should be called multiple times (1 to 9) to allow for all shapeless crafting types.
 	 * @param tankItem The tank item that is combinable.
 	 */
 	public ItemBlockFluidContainerCombinationRecipe(int size, ItemBlockFluidContainer tankItem) {

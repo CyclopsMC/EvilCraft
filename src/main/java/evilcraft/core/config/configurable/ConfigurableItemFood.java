@@ -27,6 +27,7 @@ public abstract class ConfigurableItemFood extends ItemFood implements IConfigur
      * @param eConfig Config for this block.
      * @param healAmount Amount of health to regen.
      * @param saturationModifier The modifier for the saturation.
+     * @param isWolfsFavoriteMeat If this is wolf food.
      */
     @SuppressWarnings({ "rawtypes" })
     protected ConfigurableItemFood(ExtendedConfig eConfig, int healAmount, float saturationModifier, boolean isWolfsFavoriteMeat) {

@@ -1,15 +1,15 @@
 package evilcraft.core.inventory.container;
 
+import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 
 /**
  * A container for a chest that allows slot ticking.
  * @author rubensworks
  *
- * @param <T>
+ * @param <T> The type of tile.
  */
 public abstract class TickingChestContainer<T extends TickingTankInventoryTileEntity<T>> extends TickingTankInventoryContainer<T> {
     

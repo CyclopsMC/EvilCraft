@@ -7,6 +7,11 @@ if(project.hasProperty("curseforge_key") && project.hasProperty("changelog")) {
         projectId = "74610" // my project url is http://minecraft.curseforge.com/mc-mods/74610-evilcraft/
         changelog = new File(project.changelog).text
         releaseType = "release"
+
+        additionalArtifact deobfJar
+        additionalArtifact apiJar
+        additionalArtifact sourceJar
+        additionalArtifact javadocJar
     }
 }
 
