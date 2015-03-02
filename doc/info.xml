@@ -2,7 +2,7 @@
 <info imgPrefix="http://i.imgur.com/" imgSuffix=".png">
 	<logo>4Pe8YfI</logo>
 	<slogan>An evil mod for Minecraft</slogan>
-    <download for="1.7.10" version="0.8.0b">http://bit.ly/1Gpivli</download>
+    <download for="1.7.10" version="0.8.1">http://bit.ly/1GxK4sW</download>
     <download for="1.7.2" version="0.4.1b">http://bit.ly/UG6J4g</download>
     <download for="1.6.4" version="0.4.1b">http://bit.ly/1lJiaBX</download>
 	<workingOn>New features, additional content and bugfixes.</workingOn>
@@ -53,19 +53,22 @@
                 Thanks to these people for their awesome spotlights!
             </element>
             <element name="TheDiamondMinecart">[b]0.2.3b[/b]
-                [center][media]http://www.youtube.com/watch?v=aOnjvMASgjA[/media][/center]
+                [center][media]http://www.youtube.com/embed/aOnjvMASgjA[/media][/center]
+            </element>
+            <element name="Lekkel124">[b]0.7.1b[/b] (French)
+                [center][media]http://www.youtube.com/embed/wmYtGWMuYG8[/media][/center]
             </element>
             <element name="Dartron">[b]0.2.2b[/b]
-                [center][media]http://www.youtube.com/watch?v=sU3n60Mp_pI[/media][/center]
+                [center][media]http://www.youtube.com/embed/sU3n60Mp_pI[/media][/center]
             </element>
             <element name="LittleLizardGaming">[b]0.4.0b[/b]
-                [center][media]https://www.youtube.com/watch?v=1-Z_KIMcVUE[/media][/center]
+                [center][media]https://www.youtube.com/embed/1-Z_KIMcVUE[/media][/center]
             </element>
             <element name="QuinGames">[b]0.3.0b[/b] (Dutch)
-                [center][media]http://www.youtube.com/watch?v=p8IgbtCb-YQ[/media][/center]
+                [center][media]http://www.youtube.com/embed/p8IgbtCb-YQ[/media][/center]
             </element>
             <element name="EncryptedTonight">[b]0.2.2b[/b]
-                [center][media]http://www.youtube.com/watch?v=e_GLGPpuYGM[/media][/center]
+                [center][media]http://www.youtube.com/embed/e_GLGPpuYGM[/media][/center]
             </element>
         </element>
         <element name="Configuration">
