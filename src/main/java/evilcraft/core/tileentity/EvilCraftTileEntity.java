@@ -103,7 +103,7 @@ public class EvilCraftTileEntity extends TileEntity {
 		if(sendUpdateBackoff <= 0) {
             sendUpdateBackoff = getUpdateBackoffTicks();
 			
-			if(shouldSendUpdate) {
+			if(shouldSendUpdate && isTileValid()) {
     			shouldSendUpdate = false;
         		
 	    		beforeSendUpdate();
@@ -111,6 +111,10 @@ public class EvilCraftTileEntity extends TileEntity {
 	    		afterSendUpdate();
     		}
 		}
+    }
+
+    protected boolean isTileValid() {
+        return getBlockType() instanceof ConfigurableBlockContainer;
     }
     
     /**
