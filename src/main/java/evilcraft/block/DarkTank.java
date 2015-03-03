@@ -282,7 +282,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         // Add filled basic tanks for all fluids.
         if(DarkTankConfig.creativeTabFluids) {
             for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
-                if (fluid != Blood.getInstance()) {
+                if (fluid != null && fluid != Blood.getInstance()) {
                     ItemStack itemStackFilled = itemStack.copy();
                     setTankCapacity(itemStackFilled, capacityOriginal);
                     IFluidContainerItem container = (IFluidContainerItem) itemStackFilled.getItem();
