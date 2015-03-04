@@ -1,0 +1,521 @@
+# General
+itemGroup.EvilCraft=EvilCraft
+general.info.enabled=Activé
+general.info.disabled=Désactivé
+general.info.empty=Vide
+general.tooltip.info=<Maj pour info>
+# mod-version; MC-version
+general.versionCurrent=%s pour Minecraft %s
+# new-mod-version; mod-name; current-mod-version; update-link
+general.versionUpdate=Mise à jour %s de %s(%s): %s
+
+# Blocks
+tile.blocks.blockBlood.name=Sang
+tile.blocks.blockPoison.name=Poison
+tile.blocks.bloodChest.name=Coffre de sang
+tile.blocks.bloodChest.info=Réparation d'éléments.
+tile.blocks.bloodInfuser.name=Infuseur de sang
+tile.blocks.darkOre.name=Minerai sombre
+tile.blocks.darkOre.info.custom=Trouvé entre les niveaux %s et %s.
+tile.blocks.darkBlock.name=Bloc sombre
+tile.blocks.bloodStainedBlock.name=Bloc taché de sang
+tile.blocks.bloodStainedBlock.info=Créé lorsque les entités tombent de mort.
+tile.blocks.lightningBomb.name=Bombe de foudre
+tile.blocks.bloodyCobblestone.name=Pavé sanglant
+tile.blocks.netherMonsterBlock.name=Oeuf de monstre du Nether
+tile.blocks.excrementPile.name=Pile d'excréments
+tile.blocks.hardenedBlood.name=Sang durci
+tile.blocks.hardenedBlood.info=Sang séché. Liquifie avec pluie ou en le cassant.
+tile.blocks.obscuredGlass.name=Verre obscur
+tile.blocks.environmentalAccumulator.name=Accumulateur environemental
+tile.blocks.environmentalAccumulator.info=Trouvable dans les temples sombres, non fabricable.
+tile.blocks.undeadLeaves.name=Feuilles mortes-vivantes
+tile.blocks.undeadLog.name=Rondin mort-vivant
+tile.blocks.undeadSapling.name=Pousse morte-vivante
+tile.blocks.undeadSapling.info=Pousse un arbre mort-vivant.
+tile.blocks.undeadPlank.name=Planche morte-vivante
+tile.blocks.invisibleRedstoneBlock.name=Bloc de Redstone invisible
+tile.blocks.purifier.name=Purifieur
+tile.blocks.purifier.info=Désenchanteur
+tile.blocks.darkBrick.name=Briques sombres
+tile.blocks.darkBloodBrick.name=Briques de sang sombres
+tile.blocks.spiritFurnace.name=four d'esprit
+tile.blocks.spiritFurnace.info=Cuisiner des esprits de vengeance pour obtenir leurs drops.
+tile.blocks.spiritFurnace.help.invalid=Impossible à cuisiner
+tile.blocks.spiritFurnace.help.invalid.noEntity=Vide ou pas de boîte
+tile.blocks.spiritFurnace.help.invalid.contentSize=Taille du contenu: %s
+tile.blocks.spiritFurnace.help.invalid.requiredSize=Taille requise: %s
+tile.blocks.spiritFurnace.help.invalid.forceHalt=Plus d'espace pour les drops
+tile.blocks.spiritFurnace.help.invalid.caughtError=Créature esprit invalide. Contactez le dev du mod.
+tile.blocks.boxOfEternalClosure.name=Boîte de fermeture éternelle
+tile.blocks.boxOfEternalClosure.info.content=Contenu: %s
+tile.blocks.darkTank.name=Réservoir sombre
+tile.blocks.darkTank.info=Placez-le sur la grille de l'établi avec d'autres réservoir pour augmenter sa capacité. Maj + Clique-droit pour auto-alimenter.
+tile.blocks.darkTank.info.autoSupply=Auto-alimentation: %s
+tile.blocks.sanguinaryPedestal.name=Piédestal sanguinaire
+tile.blocks.sanguinaryPedestal.info=Aspire les blocs tachés de sang de la zone.
+tile.blocks.sanguinaryPedestal.boost=Efficacité I
+tile.blocks.spikedPlate.name=Plaque pointue
+tile.blocks.spikedPlate.info=Blesse les créatures, placez-le sur le piédestal pour aspirer le sang.
+tile.blocks.spiritReanimator.name=Réanimateur d'esprit
+tile.blocks.spiritReanimator.info=Ranimez les esprit de vengeance.
+tile.blocks.spiritReanimator.help.invalid.noEntity=Non valide, vide ou pas de boîte
+tile.blocks.spiritReanimator.help.invalid.invalidEntity=Aucun oeuf disponible pour la créature
+tile.blocks.spiritReanimator.help.invalid.differentEgg=Enlevez les oeuf de créatures différentes
+tile.blocks.entangledChalice.name=Calice empêtré
+tile.blocks.entangledChalice.info=Le contenu des calices empêtrés est omniprésent.\nMaj + clique-droit pour omni-alimenter.
+tile.blocks.entangledChalice.info.autoSupply=Omni-alimentation: %s
+tile.blocks.darkPowerGemBlock.name=Bloc de gemme de pouvoir sombre
+tile.blocks.gemStoneTorch.name=Torche en pierre de gemme
+tile.blocks.gemStoneTorch.info=Les blocs d'esprit de vengeance apparaissent dans un rayon de 15 blocs.
+tile.blocks.eternalWaterBlock.name=Bloc d'eau éternelle
+tile.blocks.eternalWaterBlock.info=Une source infinie d'eau.
+tile.blocks.bloodWaxedCoalBlock.name=Bloc de charbon ciré de sang
+tile.blocks.spiritPortal.name=Portail d'esprits
+
+# Items
+item.items.werewolfBone.name=Werewolf Bone
+item.items.werewolfFlesh.name=Werewolf Flesh
+item.items.humanFlesh.name=Humanoid Flesh
+item.items.lightningGrenade.name=Lightning Grenade
+item.items.redstoneGrenade.name=Redstone Grenade
+item.items.bucketBlood.name=Blood Bucket
+item.items.bucketPoison.name=Poison Bucket
+item.items.bloodExtractor.name=Blood Extractor
+item.items.bloodExtractor.info=Hold in inventory when slaying mobs.\nShift + Right click to extract or auto-supply.
+item.items.bloodExtractor.info.autoSupply=Auto-supply: %s
+item.items.darkGem.name=Dark Gem
+item.items.darkStick.name=Dark Stick
+item.items.weatherContainer.name=Weather Container
+item.items.bloodPearlOfTeleportation.name=Blood Pearl of Teleportation
+item.items.broom.name=Broom
+item.items.broom.info=I can fly!
+item.items.hardenedBloodShard.name=Hardened Blood Shard
+item.items.hardenedBloodShard.info=Use Flint and Steel on Hardened Blood.
+item.items.bloodInfusionCore.name=Blood Infusion Core
+item.items.darkPowerGem.name=Dark Power Gem
+item.items.darkPowerGem.info=Throw a Dark Gem in the middle of a pool with at least five non-hardened Blood blocks. Or infuse a Dark Gem with blood.
+item.items.bloodContainer.bloodCell.name=Blood Cell
+item.items.bloodContainer.bloodCan.name=Blood Can
+item.items.bloodContainer.bloodBasin.name=Blood Basin
+item.items.bloodContainer.creativeBloodContainer.name=Creative Blood Container
+item.items.bloodContainer.info=DEPRECATED! Place in crafting grid to convert to a Dark Tank.
+item.items.bloodContainer.info.autoSupply=Auto-supply: %s
+item.items.poisonSac.name=Poison Sac
+item.items.werewolfFur.name=Werewolf Fur
+item.items.blook.name=Blook
+item.items.blook.info=Can absorb item enchants when placed in the Purifier.
+item.items.potentiaSphere.name=Potentia Sphere
+item.items.potentiaSphere.info=Infuse with blood to make an Ender Pearl.
+item.items.invertedPotentia.name=Inverted Potentia
+item.items.invertedPotentia.info=Strike with lightning to empower.
+item.items.maceOfDistortion.name=Mace of Distortion
+item.items.maceOfDistortion.setPower=Set power to %s
+item.items.maceOfDistortion.info=Shift + Right click to change power level.
+item.items.maceOfDistortion.info.power=Power: %s
+item.items.kineticator.name=Kineticator
+item.items.kineticator.repelling.name=Repelling Kineticator
+item.items.kineticator.setPower=Set power to %s
+item.items.kineticator.info=Shift + Right click to toggle kinetication.\nRight click to change area.
+item.items.kineticator.info.attraction=Attraction: %s
+item.items.kineticator.info.repelling.attraction=Repelling: %s
+item.items.kineticator.info.area=Area: %s
+item.items.vengeanceRing.name=Vengeance Ring
+item.items.vengeanceRing.info=Might attract or summon Vengeance Spirits.\nShift + Right click to toggle boost.
+item.items.vengeanceRing.info.status=Status: %s
+item.items.vengeanceFocus.name=Vengeance Focus
+item.items.vengeanceFocus.info=Right click to enable beam.
+item.items.vengeancePickaxe.name=Vengeance Pickaxe
+item.items.vengeancePickaxe.info=Might summon Vengeance Spirits.
+item.items.burningGemStone.name=Burning GemStone
+item.items.burningGemStone.info=Passively converts Vengeance Spirit damage to hunger.
+item.items.darkGemCrushed.name=Crushed Dark Gem
+item.items.veinSword.name=Vein Sword
+item.items.creativeBloodDrop.name=Creative Blood Drop
+item.items.creativeBloodDrop.info=Creative mode only item to drain and fill infinite amounts of Blood.
+item.items.creativeBloodDrop.info.autoSupply=Auto-supply: %s
+item.items.darkSpike.name=Spike
+item.items.exaltedCrafter.name=Exalted Crafter
+item.items.exaltedCrafter.wood.name=Wooden Exalted Crafter
+item.items.necromancerStaff.name=Necromancer Staff
+item.items.necromancerStaff.info=Summon hordes of zombies.
+item.items.invigoratingPendant.name=Invigorating Pendant
+item.items.invigoratingPendant.info=Removes bad potion effects.
+item.items.boundBloodDrop.name=Bound Blood Drop
+item.items.boundBloodDrop.info=Right click to bind with your Blood Magic soul network.
+item.items.boundBloodDrop.info.autoSupply=Auto-supply: %s
+item.items.boundBloodDrop.info.currentOwner=Current owner: %s
+item.items.boundBloodDrop.info.currentOwner.none=None
+item.items.resurgenceEgg.name=Resurgence Egg
+item.items.resurgenceEgg.info.content=Contents: %s
+item.items.corruptedTear.name=Corrupted Tear
+item.items.promise.name=Promise
+item.items.promise.useIn=Usable in:
+item.items.promise.tier1.name=Promise of Tenacity I
+item.items.promise.tier1.info=Machine tier upgrade, also usable for lower tier recipes. Tank capacity x2.
+item.items.promise.tier2.name=Promise of Tenacity II
+item.items.promise.tier2.info=Machine tier upgrade, also usable for lower tier recipes. Tank capacity x4.
+item.items.promise.tier3.name=Promise of Tenacity III
+item.items.promise.tier3.info=Machine tier upgrade, also usable for lower tier recipes. Tank capacity x8.
+item.items.promise.speed0.name=Promise of Velocity
+item.items.promise.speed0.info=Machine speed x2
+item.items.promise.efficiency0.name=Promise of Productivity
+item.items.promise.efficiency0.info=Machine Blood efficiency x1.5
+item.items.bowlOfPromises.name=Bowl of Promises
+item.items.bowlOfPromises.active.name=Bowl of Promises
+item.items.bowlOfPromises.dusted.name=Filled Bowl of Empty Promises
+item.items.bowlOfPromises.empty.name=Bowl of Empty Promises
+item.items.bowlOfPromises.strength=Strength
+item.items.dullDust.name=Dull Dust
+item.items.dullDust.info=Quite boring dust... Or is it?
+item.items.bloodWaxedCoal.name=Blood-Waxed Coal
+item.items.bloodWaxedCoal.info=Double your coal efficiency.
+item.items.enderTear.name=Ender Tear
+item.items.enderTear.info=Rare drop from Endermen.
+item.items.bloodPotash.name=Blood Potash
+item.items.bloodPotash.info=Double your bonemealing efficiency.
+item.items.bucketEternalWater.name=Eternal Water Bucket
+item.items.bucketEternalWater.info=An infinite source of water.
+item.items.promiseAcceptor.name=Promise Acceptor
+item.items.promiseAcceptor.0.name=Iron Promise Acceptor
+item.items.promiseAcceptor.1.name=Gold Promise Acceptor
+item.items.promiseAcceptor.2.name=Diamond Promise Acceptor
+item.items.sceptreOfThunder.name=Sceptre of Thunder
+item.items.sceptreOfThunder.info=Spawns thunder when activated, single-use.
+item.items.bloodOrb.name=Blood Orb
+item.items.bloodOrb.empty.name=Empty Orb
+item.items.bloodOrb.filled.name=Blood Orb
+item.items.originsOfDarkness.name=Origins of Darkness
+item.items.originsOfDarkness.info=Obtain by feeding a Darkened Apple to a mob and quickly throwing a Book at the resulting anomaly.
+item.items.darkenedApple.name=Darkened Apple
+item.items.darkenedApple.info=I wouldn't eat this, maybe feed it to some animal.
+item.items.veinedScribingTools.name=Veined Scribing Tools
+item.items.bloodWandCap.name=Blood Cap
+item.Wand.blood.cap=Blood Banded
+item.items.effortlessRing.name=Effortless Ring
+item.items.effortlessRing.info=Walk faster and more efficient.
+
+# Fluids
+fluid.fluids.evilcraftblood=Blood
+fluid.fluids.evilcraftpoison=Poison
+
+# Weather container info
+weatherContainer.empty=Empty
+weatherContainer.clear=My only sunshine
+weatherContainer.rain=When the rain begins to fall
+weatherContainer.lightning=Thunderstruck
+
+# Controls
+key.categories.evilcraft=EvilCraft
+key.fart=Toggle Farting
+key.exaltedCrafting=Open Exalted Crafter
+
+# Entities
+entity.evilcraft.werewolf.name=Werewolf
+entity.evilcraft.poisonousLibelle.name=Poisonous Libelle
+entity.evilcraft.netherfish.name=Nether Fish
+entity.evilcraft.vengeanceSpirit.name=Vengeance Spirit
+entity.werewolf.name=Werewolf
+entity.poisonousLibelle.name=Poisonous Libelle
+entity.netherfish.name=Nether Fish
+entity.vengeanceSpirit.name=Vengeance Spirit
+
+# Enchantments
+enchantment.breaking=Breaking
+enchantment.lifeStealing=Life Stealing
+enchantment.unusing=Unusing
+enchantment.poisonTip=Poison Tip
+
+# Chat messages
+chat.command.invalidArguments=Invalid Arguments
+chat.command.invalidSubcommand=Invalid Subcommand
+chat.command.onlyOneValue=Please define one new value
+chat.command.invalidNewValue=Invalid new value
+chat.command.updatedValue=Updated %s to: %s
+chat.command.fartingEnabled=Farting enabled
+chat.command.fartingDisabled=Farting disabled
+chat.bossDisplay.charge=%s Charge
+
+# Death messages
+death.attack.dieWithoutAnyReason=%1$s dies without any apparent reason!
+death.attack.distorted=%1$s couldn't handle the amount of distortion anymore.
+death.attack.spiked=%1$s was killed by spikes.
+death.attack.paling=%1$s faded away.
+
+# Biomes
+biomes.biomeDegraded=Degraded
+
+# Potion Effects
+potions.paling=Paling
+
+# Achievements
+achievement.evilcraft.evilSource=A True Source of Evil
+achievement.evilcraft.evilSource.desc=Obtain a copy of the Origins of Darkness by throwing a book into the anomaly resulting from feeding a Darkened Apple to an animal.
+achievement.evilcraft.fart=Learn to Fart
+achievement.evilcraft.fart.desc=Finally release all of those nasty gases.
+achievement.evilcraft.firstAge=First Age
+achievement.evilcraft.firstAge.desc=Discover the origins of the first evil age by mining some Dark Gems.
+achievement.evilcraft.secondAge=Second Age
+achievement.evilcraft.secondAge.desc=Initiate the second evil age by crafting a Blood Extractor.
+achievement.evilcraft.masterDistorter=Master Distorter
+achievement.evilcraft.masterDistorter.desc=Distort over ten mobs at once with the Mace of Distortion.
+achievement.evilcraft.spiritCooker=Mob Chef
+achievement.evilcraft.spiritCooker.desc=Make a spirit furnace.
+achievement.evilcraft.closure=Eternal Closure
+achievement.evilcraft.closure.desc=Use the Vengeance Focus to entangle a Vengeance Spirit.
+achievement.evilcraft.playerDistorter=Player Distorter
+achievement.evilcraft.playerDistorter.desc=Distort a player with the Mace of Distortion.
+achievement.evilcraft.playerDevastator=Player Devastator
+achievement.evilcraft.playerDevastator.desc=Attack a player using zombies spawned from a Necromancer Staff.
+achievement.evilcraft.powerCrafting=Power Crafting
+achievement.evilcraft.powerCrafting.desc=Craft an Exalted Crafter, craft-ception!
+achievement.evilcraft.cannibal=Cannibal
+achievement.evilcraft.cannibal.desc=Eat some Humanoid Flesh.
+
+# Gui
+gui.exaltedCrafting=Exalted Crafting
+gui.waila.tankConfig=Tank contents
+gui.waila.innerBlocksConfig=Actual inner blocks
+
+# ------ Origins of Darkness contents ------
+infoBook.section.main=Origins of Darkness
+infoBook.tagIndex=&oIndex&r
+
+infoBook.preface=Preface
+infoBook.preface.text1=It would seem this world holds more than meets the eye. There are things I will conclude in this book, my writings of acquired knowledge of the obscurity that resides here. I have discovered a dark way of living with the creatures of this world. “&oWhat evil will come of this&r”, I ask myself? “&oEvil lurks in every corner&r”, I hear a dark voice within me reply. I have discovered a few secrets within this vast world of silly villagers and zombies, something their puny minds will never comprehend.
+infoBook.preface.text2=Many kinds of magic exist in this world, but the kind you can achieve with &4Blood&0 seems different. I've noticed people cutting themselves for obtaining &4Blood&0, I prefer to spare my strength for some other things...
+
+infoBook.structure=&oStructure&r
+infoBook.structure.text1=This book is split into two major parts, for the two ages of evilness I like to classify everything in. I consider everything before my coming to this world as the &1First Age&0, and my life's work the &1Second Age&0.
+infoBook.structure.text2=You can navigate through this book by clicking on the arrows at the bottom, shift clicking will flip through whole sections instead of single pages. At the start of large sections you will see a content table which will contain hyperlinks to its subsections for faster browsing. When you come across recipes, the items that are explained in this book are clickable as a fast reference to the section they are explained in. You will also notice a button at the top left of this book, which will take you to the section above your current one. The button at the top right corner will go back to the previously visited page each time when clicked.
+
+# --- First Age ---
+infoBook.firstAge=First Age
+
+# - A Strange New World -
+infoBook.firstAge.newWorld=A Strange New World
+infoBook.firstAge.newWorld.introduction=Introduction
+infoBook.firstAge.newWorld.introduction.text=I have discovered several strange new things lately. They all give off some eerie vibe, the longer I am around those things, the more I feel accustomed to it... Not all of these things might be very useful right away, but I might have some ideas to use them for something else.
+
+infoBook.firstAge.newWorld.darkOre=Dark Ore
+infoBook.firstAge.newWorld.darkOre.text=This world is filled with all sorts of resources, this I have known for a long time...But today I have made a new discovery, there is an ore in this world, with a somewhat dark shine to it, it makes me think of precious gems, but I sense a very obscure presence within them. Hitting them with an iron pick axe seems to be the minimal requirement to get some of these gems. There also seems to appear some kind of rather strange dust, when I mine them, I’m sure I will find a use for this dust soon enough.
+
+infoBook.firstAge.newWorld.darkenedApple=Darkened Apple
+infoBook.firstAge.newWorld.darkenedApple.text=As you are reading this book, you might have already come across this item. Combining an &1Apple&0 and a &1Dark Gem&0 results in a special &1Apple&0 that when eaten inflicts large amounts of damage for a certain time. If the entity dies because of this effect, it will leave behind some kind of anomaly. I have yet to discover any uses for this phenomenon...
+
+infoBook.firstAge.newWorld.evilDungeon=Evil Dungeon
+infoBook.firstAge.newWorld.evilDungeon.text=While caving, I occasionally encounter these grim rooms with &4Blood&0 spread all over the floor. These &4Blood&0 traces are probably caused by the battles of previous explorers with the countless mobs inhabiting these dungeons.
+
+infoBook.firstAge.newWorld.darkTemple=Dark Temple
+infoBook.firstAge.newWorld.darkTemple.text1=There seem to be certain structures in this world that were built by some kind of ancient civilization that was able to infuse certain environmental powers into items. These processes however seem to degrade the natural balance of the environment the more this process is used. This is possibly the main reason why that civilization isn’t around anymore today...
+infoBook.firstAge.newWorld.darkTemple.text2=Using &1Dark Gems&0 I was able to enhance existing &1Glass Bottles&0 to be able to contain environmental weather. Throwing such a &1Weather Container&0 inside the core of such a temple will absorb the current weather into the bottle.
+infoBook.firstAge.newWorld.darkTemple.text3=I also discovered that certain items can be empowered using the special properties of thunderstorms. These items can also be empowered when they are directly struck by lightning, but it seems very unlikely to predict where lightning is going to strike, or is it...?
+
+infoBook.firstAge.newWorld.weatherContainerBenefits=Weather Container Benefits
+infoBook.firstAge.newWorld.weatherContainerBenefits.text=Weather that is contained in these bottles can be reactivated when the bottles are thrown against something. But instead of breaking them, it might be more interesting to use them to craft several other neat items.
+
+infoBook.firstAge.newWorld.libelle=Poisonous Libelle
+infoBook.firstAge.newWorld.libelle.text=It seems that there are some new creatures in this world. This creature appears to be a pretty large type of dragonfly. During the day time it is a rather peaceful creature, but do not be fooled, for if you would venture too close in proximity of this insect, it will try to poison you as though it being some kind of self defense. At night however, this beasty becomes subdued by an ancient evil and kills everything in its path. I deem myself lucky they have no other weapons besides actively looking me up at night to come and poison me. I managed to kill quite a few of these annoying things and carved some interesting poison sacs from their bodies. I have thrown them in a &1Bucket of Water&0 and the water really absorbs the poison well when I throw in four of these. I have long done the same with &lPoisonous Potato’s&r as well. It can be useful in a pinch for defending my evil lair... Ehm, I mean house... I named this creature after the dutch word for it’s kind, because I did not want to let it be confused with ordinary dragon flies, for obvious reasons...
+
+infoBook.firstAge.newWorld.werewolf=Werewolf
+infoBook.firstAge.newWorld.werewolf.text=Whilest I was exploring this world, I have taken rest in many villages. One of the towns I rested in had a strange looking fellow in it. I started talking to him and it soon struck me he was not as interested in emeralds as the other people in his town. In fact he started asking more and more questions about the dark ore I had discovered, we talked away hours and hours. He was so keen about getting his hands on them and other objects I have discovered that we ended up trading things for most of the rest of the day. When night had fallen, he took me to his house in the village and he said I was most welcome to spend the night in his spare bedroom. I said I already rented a room at the local inn but thanked him for his kindness anyway. As I crawled into bed in the inn, I took a last glance at the moon, as I usually do before going to sleep and I saw it was a nice full moon. As I closed my eyes, all of a sudden, I heard a loud distressed shout and after that a wolf-like growl. The whole village was looking through their windows and we saw a tall wolf, walking on its hindlegs. Everyone cowered in fear, but I, without fear nor doubt, took up my trusty dagger and gave it a pretty good beating. It was a very strong creature, his fur will make a nice memento to his great fight...When I woke up the next morning to conclude my trading session of the day before, my strange trading friend had taken a leave. There where claw marks all over his house and there was &4Blood&0 on the floor, I still wonder if the strange wolve ate him... Or if perhaps he was a werewolf, as the villagers gossip on... It looks like I can convert his drops to regular items when just placing them inside a &1Crafting Table&0.
+
+infoBook.firstAge.newWorld.netherFish=Nether Fish
+infoBook.firstAge.newWorld.netherFish.text=Once upon a time while I was visiting hell, I discovered a block of &1Netherrack&0 that was a bit harder to break than normally. But after breaking the block, I noticed a little creature popping out and it started to attack me. It lit me on fire and I took some mild damage, luckily I was able to kill it without much trouble.
+
+# - Relics -
+infoBook.firstAge.relics=Relics
+
+infoBook.firstAge.relics.broom=Broom
+infoBook.firstAge.relics.broom.text=It looks like some dungeons and unordinary villagers seem to rarely contain a &1Broom&0. At first, it looks like a regular broom to clean your floor with, but when handling it in a certain way, it seems to float. After practicing with it for a while, I was able to control it enough to be able to fly in any direction I wanted while sitting on it.
+
+infoBook.firstAge.relics.humanoidFlesh=Humanoid Flesh
+infoBook.firstAge.relics.humanoidFlesh.text=You might never have noticed before, but when players die they seem to drop a part of their flesh. Eating it seems to be dangerous, maybe eating it at night-time might be more safe. I wouldn’t recommend eating your own flesh though, that’s just nasty, try eating one of your friends instead!
+
+infoBook.firstAge.relics.enchantments=Enchantments
+infoBook.firstAge.relics.enchantments.breaking.text=&l&nBreaking&r&NThis enchantment exists in three stages, it looks like it does exactly the opposite of the Unbreaking enchant. This doesn’t seem very useful, does it? Maybe I should find a way to get rid of this.
+infoBook.firstAge.relics.enchantments.lifeStealing.text=&l&nLife Stealing&r&NThe three stages of this enchant on offensive weapons allows you to steal parts of the life you take from others.
+infoBook.firstAge.relics.enchantments.poisonTip.text=&l&nPoison Tip&r&NWhen applying some poison to your weapons, you have a chance of poisoning your victims.This enchantment exists in three stages. It looks like you can make a basic version of this enchantment by adding a poisonous material to a regular book.
+infoBook.firstAge.relics.enchantments.unusing.text=&l&nUnusing&r&NI was getting tired of my favorite tools breaking everytime I wasn’t paying attention to them. This I why I devised a new enchantment that makes tools unusable when they are about to break, giving myself enough time to repair it to its former glory.
+
+# - Items -
+infoBook.firstAge.items=Items
+
+infoBook.firstAge.items.darkTank=Dark Tank
+infoBook.firstAge.items.darkTank.text1=Using some &1Iron&0, &1Dark Gems&0 and a piece of &1Glass&0, it is possible to construct a strong container that is able to hold fluids. It is possible to place these tanks somewhere, or hold them in your inventory.
+infoBook.firstAge.items.darkTank.text2=When it is placed somewhere, you can right-click which gives it a purple-ish glow, and it seems to open up a hole at the bottom of the tank which is able to automatically fill containers underneath it.
+infoBook.firstAge.items.darkTank.text3=Shift + right-clicking with the tank in your hand and not aiming at a block (because you know you will just place the tank down if you would do so) will enable a special mode to make it automatically try to fill any container you are currently holding if it can accept that fluid.
+infoBook.firstAge.items.darkTank.text4=It looks like it can hold about sixteen buckets. If that is too limiting for you, these tanks seem to be expandable by placing multiple ones inside a crafting table, no fluids seem to go lost in this process.
+
+infoBook.firstAge.items.darkSpike=Spikes
+infoBook.firstAge.items.darkSpike.text=Using a &1Dark Gem&0 and a piece of &1Iron&0, I was able to create very sharp and durable &1Spikes&0. Mobs don't seem to like them very much...
+
+infoBook.firstAge.items.spikedPlate=Spiked Plate
+infoBook.firstAge.items.spikedPlate.text1=Some &1Spikes&0 and a &1Plate&0 will result in a plate which will damage any mob walking over it, me and my peers don’t seem to take any damage though. The powers of the &1Dark Gem&0 seems to ensure killing mobs in this process to drop the same things when killed by any player.
+infoBook.firstAge.items.spikedPlate.text2=For your convenience, they also give off a redstone signal when a mob is taking damage.
+
+infoBook.firstAge.items.potentiaSphere=Potentia Sphere
+infoBook.firstAge.items.potentiaSphere.text=Combining several shiny mundane items will result in a sphere that seems to possess some awesome powers, I might discover a way to harness these powers in the near future. It looks like the power can be inverted by using some &1Dark Gems&0.
+
+infoBook.firstAge.items.dullDust=Dull Dust
+infoBook.firstAge.items.dullDust.text=Combining some &1Sugar&0 and &1Gunpowder&0 will result in a weird dust that doesn’t seem to be very useful at the moment, hence the name. Although this might change one day.
+
+infoBook.firstAge.items.obscuredGlass=Obscured Glass
+infoBook.firstAge.items.obscuredGlass.text=Some people might find regular &1Glass&0 too bright. Combining some glass with a &1Dark Gem&0 seems to make a special type of glass that almost completely reduces the amount of light that gets through. I am still able to look through the glass though, very strange...
+
+infoBook.firstAge.items.exaltedCrafter=Exalted Crafter
+infoBook.firstAge.items.exaltedCrafter.text1=Crafting tables can be inconvenient sometimes when at remote locations. It looks like the &1Crushed Dark Gems&0 give the power to craft things from within your inventory! Attaching some kind of chest to it gives an easy internal inventory, even your &1Ender Chest&0 seems to work. Power users might be happy with this item, since it can be bound to a hotkey. Using that same hotkey when the gui is open will clear your inventory, and using the hotkey with shift will balance all the items currently inside the grid.
+infoBook.firstAge.items.exaltedCrafter.text2=Striking it with lightning seems to make it bound to reality so that it can’t be destroyed or disappear when dropped.
+
+# - Items -
+infoBook.firstAge.vengeanceSpirits=Vengeance Spirits
+
+infoBook.firstAge.vengeanceSpirits.introduction=After Monsters Die
+infoBook.firstAge.vengeanceSpirits.introduction.text1=Other people find it strange, but I always watch closely when beasts die. I noticed that they mostly give off some strange dark-purple aura which quickly fades again.
+infoBook.firstAge.vengeanceSpirits.introduction.text2=I noticed that I can use some of the &1Crushed Dark Gem&0 to construct a ring which allows me to fully see those auras of the mobs I kill, though it looks like they can see me as well. They always try to follow me and when they touch me they do some minor damage after which they dissolve into thin air.
+infoBook.firstAge.vengeanceSpirits.introduction.text3=Activating the ring gives me some amazing powers but this seems to attract and anger some spirits, although most of these spirits are unrecognisable for some reason...
+
+infoBook.firstAge.vengeanceSpirits.catchingSpirits=Catching Spirits
+infoBook.firstAge.vengeanceSpirits.catchingSpirits.text1=On some of my adventures I discovered some strange purple boxes which contained some distorted spirits. It looks like these spirits were captured a long time ago and have since been degrading, I don’t think they can be restored to their original state though.
+infoBook.firstAge.vengeanceSpirits.catchingSpirits.text2=I was able to reverse-engineer these boxes to be able to craft them myself. In this process, I also discovered how to freeze spirits so that they can be absorbed by these boxes. I enhanced the Vengeance Ring with this technology to make a focus that can be used to target spirits and catch them. Maybe I can use these contained spirits for something later...
+
+infoBook.firstAge.vengeanceSpirits.spiritProtection=Spirit Protection
+infoBook.firstAge.vengeanceSpirits.spiritProtection.text=These spirits can do some nasty damage if you’re not careful. I noticed that these spirits seem to be annoyed by &1Dark Gems&0, but they still ignore feeling that if they see you. The power of fire and a larger amount of &1Dark Gems&0 seems to change the way the spirits attack you though. Instead of taking damage, you will now only be a bit more hungry, which might be better than the alternative.
+
+# --- Second Age ---
+infoBook.secondAge=Second Age
+
+# - Powers of Blood -
+infoBook.secondAge.powersOfBlood=The Powers of Blood
+infoBook.secondAge.powersOfBlood.text1=Everyone knows that &4Blood&0 is a key element of every living being. Combining the magical properties of &1Dark Gems&0 and the vitalizing &4Blood&0 allowed me to come up with some really amazing new tools and machines. Some of my peers say I’m a bit too enthusiastic about this discovery, I guess they’re not open-minded enough.
+infoBook.secondAge.powersOfBlood.text2=&1Dark Gems&0 seem to be very open to accept &4Blood&0. Tossing one in a pool of &4Blood&0 results in a &1Dark Power Gem&0. Note that you will need at least five source &4Blood&0 blocks, you will need to do this at least once, in the next chapter I will explain how to more cheaply craft &1Dark Power Gems&0.
+infoBook.secondAge.powersOfBlood.text3=As we all know, &4Blood&0 will dry out after a while when it is in a dry area. Using some &1Flint and Steel&0 on such &1Hardened Blood&0 will give some &1Hardened Blood Shards&0 which might come in handy later on. It looks like these shards can also be obtained when cooking such a &1Hardened Blood&0 block, if you can obtain it in some way ... maybe a soft touch can help?
+
+# - Blood Infusion -
+infoBook.secondAge.bloodInfusion=Blood Infusion
+
+infoBook.secondAge.bloodInfusion.bloodInfusionCore=Blood Infusion Core
+infoBook.secondAge.bloodInfusion.bloodInfusionCore.text=This is one of the most profound discoveries based on &4Blood&0. Mundane items can be infused with &4Blood&0 to give the very special and interesting properties. The possibilities are endless, as long as you are not afraid to think a bit out of the box.
+
+infoBook.secondAge.bloodInfusion.bloodExtraction=Blood Extraction
+infoBook.secondAge.bloodInfusion.bloodExtraction.text1=Using some &1Spikes&0, I was able to make a simple utility to obtain some &4Blood&0 from various places. When killing certain beasts, this item will fill up with &4Blood&0 when it is somewhere within your inventory. Sometimes you might come across some &4Blood&0 stains on the ground, a simple shift + right click will put some of the &4Blood&0 in your extractor. These &4Blood&0 stains seem to form when something falls to death from a great height, this might come in handy one day...
+infoBook.secondAge.bloodInfusion.bloodExtraction.text2=A simple right click with this item will place one bucket of &4Blood&0 on the ground.
+infoBook.secondAge.bloodInfusion.bloodExtraction.text3=This will be useful until I find some less manual ways to get my hands on some &4Blood&0.
+
+infoBook.secondAge.bloodInfusion.bloodChest=Blood Chest
+infoBook.secondAge.bloodInfusion.bloodChest.text=My first simple attempt to infuse items with &4Blood&0 resulted in a simple chest in which tools can bathe in. This bathing causes damage to the tools to slowly disappear. There is however a minor issue which causes tools to rarely attain bad effects, like the &1Breaking&0 enchant. I’ll certainly discover another way to purify these tools to get rid of these bad effects.
+
+infoBook.secondAge.bloodInfusion.bloodInfuser=Blood Infuser
+infoBook.secondAge.bloodInfusion.bloodInfuser.text1=After repairing items, I was sure I could take things to the next level. Items that can accept &4Blood&0, like the &1Dark Tanks&0 I introduced before, will be filled with &4Blood&0 when placed in this machine. Other specific items seem to transform in a special way when filled with &4Blood&0, here is a non-exhaustive list of items which can be infused. Giving this machine a redstone signal will pause any running process.
+infoBook.secondAge.bloodInfusion.bloodInfuser.text2=This machine finally allows you to make &1Dark Power Gems&0 more easily and at a much lower cost.
+
+infoBook.secondAge.bloodInfusion.undeadTree=Undead Tree
+infoBook.secondAge.bloodInfusion.undeadTree.text1=I was able to reanimate dead saplings, the trees that grow from this process are remarkable to say the least. They seem to give off a lot of Blood, but the saplings that drop still seem to be dead somehow. Combining the wood with a Dark Gem will result in some sticks which will be useful some day.
+infoBook.secondAge.bloodInfusion.undeadTree.text2=Killing a sapling is as simple as shearing a living one in a crafting grid. &oIs that tree growing in a desert?&r
+
+infoBook.secondAge.bloodInfusion.advancedBloodInfusion=Advanced Blood Infusion
+infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text1=Soon after my first &1Blood Infuser&0 was built, I started to think of some optimizations to make the machine faster and more efficient. Using the &1Crushed Dark Gems&0 I was able to construct materialized &1Promises&0 which the &1Blood Infuser&0 actually seems to adhere to, it looks like the machine is actually alive in some way...
+infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text2=Filling a &1Bowl of Empty Promises&0 with this purple powder and infusing it with &4Blood&0 will result in a &1Bowl of Promises&0 of a certain strength. Combining this with a reactant and a mineral promise acceptor which can be created with a significant amount of &4Blood&0, will result in a &1Promise&0 of a certain type. &1Promises of Tenacity&0 can be created by utilizing organic reactants, this will allow the machine (and maybe others as well) to allow for more &1Promises&0 and &4Blood&0 to hold. &1Promises of Velocity&0 can be used to increase the speed of the machine, while the &Productivity Promise&0 will reduce the amount of &4Blood&0 required to process an item.
+
+infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes=More Blood Infusion Recipes
+infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text=Because of these new &1Promises of Tenacity&0, it looks like a whole new world opened to infuse items.
+
+# - Evolved Blood Machinery -
+infoBook.secondAge.evolvedBloodMachinery=Evolved Blood Machinery
+
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal=Sanguinary Pedestal
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text1=I was getting tired of pushing mobs off of cliffs and extracting the &4Blood&0, that is why I constructed a device which is able to extract &4Blood&0 from nearby stained blocks and place it in any nearby tanks. Using some &1Dark Power Gems&0, the &4Blood&0 efficiency of this &4Blood&0 extraction can be increased.
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text2=Placing a &1Spiked Plate&0 on top of it will enhance the capabilities of this plate to also absorb the &4Blood&0 of the beasts it kills and redirect it to the pedestal.
+
+infoBook.secondAge.evolvedBloodMachinery.purifier=Purifier
+infoBook.secondAge.evolvedBloodMachinery.purifier.text1=After the unfortunate side-effects of the &1Blood Chest&0, I decided to design a new machine that is able to remove these bad effects from your tools. Simply by placing a tool with a bad effect inside of this block together with at least one bucket worth of &4Blood&0 will remove this effect from the item.
+infoBook.secondAge.evolvedBloodMachinery.purifier.text2=An unintended benefit of this machine is that when filling it completely with &4Blood&0 and placing an enchanted item together with a &1Blook&0 (which is just a &1Book&0 infused with &1Blood&0), will move a random enchantment from the item to the book, at the cost of three &1Buckets of Blood&0.
+
+infoBook.secondAge.evolvedBloodMachinery.entangledChalice=Entangled Chalice
+infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text1=When you have as much experience as I have with infusing items with &4Blood&0, you will notice that by enhancing a tear of the fearsome &1Ghast&0 will result in a very special kind of tear. It seems to share all properties when split in half. This gave me the idea to build &lEntangled Chalices&0 with this tear with the goal of sharing the fluid contents of the chalice with all other chalices that are constructed from the same tear.
+infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text2=Normally, you will get two chalices sharing contents from the crafting recipe, but when replacing the center &4Gold Ingot&0 in the recipe with an existing chalice, it will expand the tear network to include another chalice.
+infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text3=These chalices can be placed in the world or held in your inventory. Shift + right-click with it in your hand to enable the Omni-Supply mode which will continuously try to fill all containers in your inventory with &4Blood&0.
+
+# - Tools -
+infoBook.secondAge.tools=Tools
+
+infoBook.secondAge.tools.introduction=Introduction
+infoBook.secondAge.tools.introduction.text=Items that use &4Blood&0 mostly have an internal container that can hold some &4Blood&0 which can be filled using the &1Blood Infuser&0 or by activating auto-supply mode on other tools and holding the item to fill in your hand. When using these items, it will drain some &4Blood&0. When that item has ran out of &4Blood&0, it will try to drain &4Blood&0 from other containers in your inventory, or it will stop functioning if no such item can be found.
+
+infoBook.secondAge.tools.bloodPearlOfTeleportation=Blood Pearl of Teleportation
+infoBook.secondAge.tools.bloodPearlOfTeleportation.text=Regular &1Ender Pearls&0 are fun for teleporting around, but this can get quite expensive. Using the powers of &4Blood&0, I was able to construct a special &1Ender Pearl&0 that is completely reusable at the cost of some &4Blood&0. It also seems much more potent than regular &1Ender Pearls&0, which can only be good.
+
+infoBook.secondAge.tools.invigoratingPendant=Invigorating Pendant
+infoBook.secondAge.tools.invigoratingPendant.text=Getting rid of bad potion effects can be a pain. This pendant is able to remove any bad effect at the cost of some &4Blood&0. Worse effects cost more &4Blood&0. It even seems to extinguish fire, but I wouldn’t recommend swimming in lava just yet.
+
+infoBook.secondAge.tools.effortlessRing=Effortless Ring
+infoBook.secondAge.tools.effortlessRing.text=I was able to construct a special ring that can apply the &1Promises&0 of &Productivity&0 and &1Velocity&0 which allows you to walk faster, jump higher and step more easily on blocks. Just hold this item anywhere inside your inventory to gain its effects. Note that this step assist can be avoided by holding &oShift&r.
+
+infoBook.secondAge.tools.kineticator=Kineticator
+infoBook.secondAge.tools.kineticator.text1=This item is able to attract items and experience orbs in a certain area. This area can be changed by right-clicking it, enabling or disabling it is done with a simple shift + right-click. Items that are attracted from nearby consumes little to no &4Blood&0, but items from further away will require some more &4Blood&0. Sneaking will avoid kineticating items.
+infoBook.secondAge.tools.kineticator.text2=Reversing the recipe will give the opposite version of this item which is able to repel items and experience orbs.
+
+infoBook.secondAge.tools.sceptreOfThunder=Sceptre of Thunder
+infoBook.secondAge.tools.sceptreOfThunder.text=I feel oddly at peace when there are thunderstorms. That is why I made a simple tool that can spawn such storms. This item can however be used only once, making this a rather expensive process.
+
+infoBook.secondAge.tools.vengeancePickaxe=Vengeance Pickaxe
+infoBook.secondAge.tools.vengeancePickaxe.text=I’ve discovered a way to reuse the technology from the &1Vengeance Ring&0 into a pickaxe. This seems to drastically reduce the durability of the pickaxe though. But it has an interesting side-effect that when crafted will have the ability to trigger an enormous &1Fortune&0.
+
+infoBook.secondAge.tools.gemstoneTorch=Gemstone Torch
+infoBook.secondAge.tools.gemstoneTorch.text=I was able to combine the &1Burning Gemstone&0 with a &1Dark Stick&0 to make a special torch that seems to absorb any spawning &1Vengeance Spirits&0 in its light area. Note that any spirits spawned outside the area will still be able to wander in this area though, but a simple mundane wall should be able to solve that.
+
+# - Weapons -
+infoBook.secondAge.weapons=Weapons
+
+infoBook.secondAge.weapons.veinSword=Vein Sword
+infoBook.secondAge.weapons.veinSword.text=Short on &4Blood&0 and always out in the fields attacking mobs? Why not use this sword that will boost the &4Blood&0 you will get in your &1Blood Extractor&0 after killing mobs? As a bonus, this sword will provide a default &1Looting&0 bonus when crafted.
+
+infoBook.secondAge.weapons.maceOfDistortion=Mace of Distortion
+infoBook.secondAge.weapons.maceOfDistortion.text=Holding right-click with this mace will build up a circular sphere around it that, when released, will trigger a force upon all other entities within that sphere knocking them back and causing some damage as long as the mace has enough &4Blood&0. Shift + right-clicking it will cycle through the different power levels, each higher level will cause more damage, but at the same time cost more &4Blood&0.
+
+infoBook.secondAge.weapons.necromancerStaff=Necromancer Staff
+infoBook.secondAge.weapons.necromancerStaff.text1=&1Zombies&0 seem to be controllable once you have a skull of some kind. After mounting such a skull on a staff I discovered that I can spawn zombies that will attack any entity I target for a limited amount of time.
+infoBook.secondAge.weapons.necromancerStaff.text2=These &1zombies&0 are not easily tamed though, sometimes they just won’t attack mobs, and they will even completely ignore mobs of certain types they aren't used to attacking. But this weapon is certainly worth the effort.
+
+# - Abusing Spirits -
+infoBook.secondAge.abusingSpirits=Abusing Spirits
+
+infoBook.secondAge.abusingSpirits.infusingSpirits=Infusing Spirits
+infoBook.secondAge.abusingSpirits.infusingSpirits.text=Having &1Vengeance Spirits&0 contained in boxes is not very useful by itself. I theorized that it might be possible to revive the spirits using some &4Blood&0...
+
+infoBook.secondAge.abusingSpirits.spiritFurnace=Spirit Furnace
+infoBook.secondAge.abusingSpirits.spiritFurnace.text1=I finally succeeded in reviving &1Vengeance Spirits&0, or at least partially. The revived spirits seem to be too weak to live in the real world, but they seem to have all the properties and materials of real mobs though. There is however a use for this discovery, when building a large machine that can contain the resulting mob it will, at the cost of a large amount of &4Blood&0, revive the spirit and immediately cook it alive. This will result in the drops of these mobs to be collected in the machine’s inventory. It looks like the &1Box of Eternal Closure&0 can indefinitely be reused without the spirit ever getting out of it.
+infoBook.secondAge.abusingSpirits.spiritFurnace.text2=You will need a bunch of tough blocks, like &1Dark Bricks&0 infused with some &4Blood&0 to make sure the spirits can’t get out. You will need to build a cubic structure of these blocks so that the mob you wish to reanimate has room enough to fit in the inside of the structure. A zombie for example is one block wide and two blocks high, so you will need a structure of three blocks wide and four blocks high with a hollow space inside. If the mob you try to contain is very large you might even need to build a structure that is as large as a nine-by-nine, not too shabby!
+infoBook.secondAge.abusingSpirits.spiritFurnace.text3=You will also need a single &1Spirit Furnace&0 block somewhere in the structure. This block can easily be connected to other inventories or tanks using the known means. You will see a distinct red glow when the structure has been successfully assembled.
+
+infoBook.secondAge.abusingSpirits.spiritReanimator=Spirit Reanimator
+infoBook.secondAge.abusingSpirits.spiritReanimator.text1=After the discovery of the &1Spirit Furnace&0 I was still determined to revive those spirits. To solve the problem of unstable mobs I put them inside &1Eggs&0, as an attempt to stabilize them. This process still requires some substantial amount of &4Blood&0 and of course an empty &1Egg&0.
+infoBook.secondAge.abusingSpirits.spiritReanimator.text2=Because of this more advanced process, spirits will be completely used up, so only one &1Egg&0 can be created per &1spirit&0.
+infoBook.secondAge.abusingSpirits.spiritReanimator.text3=Some mobs however seem to refuse to enter the &1Egg&0, so their spirits will be lost forever.
+
+# --- Mod Integrations ---
+infoBook.modIntegrations=&oMod Integrations&r
+
+infoBook.modIntegrations.baubles=Baubles
+infoBook.modIntegrations.baubles.text=The mod that adds several convenient new accessory slots to your player is also able to store the rings and pendants that are offered in this book. They still keep working as if they were inside your inventory. Baubles for everyone!
+
+infoBook.modIntegrations.bloodMagic=Blood Magic
+infoBook.modIntegrations.bloodMagic.text=One day I discovered a very strange &1Blood Orb&0 that must have been owned by some kind of &1Magician&0. When using it I felt like I was somehow connected to it. After a while I discovered that it was in fact connected to my &4Blood&0 stream. By forcing a large amount of &4Blood&0 through it using the &1Blood Infuser&0, I've managed to create an item that is both connected to my &4Blood&0 stream and can be used as a simple container, allowing me to place it in my favorite machines and using it with my items.
+
+infoBook.modIntegrations.forestry=Forestry
+infoBook.modIntegrations.forestry.text=When &ovisiting&r some of my friends working with trees and bees, I noticed that some of their bags allow me to insert some of my items. I also noticed that their machine called the &1Squeezer&0 is able to extract &4Blood&0 from parts of the &1Undead Tree&0, which can be easily grown using their tree growing system.
+
+infoBook.modIntegrations.nei=Not Enough Items
+infoBook.modIntegrations.nei.text=All these people keep talking about "&oNot Enough Items&r", which I really don't understand, since I just have "&oToo Many Items&r"! But it sounds like the former group seems to understand my knowledge...
+
+infoBook.modIntegrations.thermalExpansion=Thermal Expansion
+infoBook.modIntegrations.thermalExpansion.text=These people are quite strange, they always wear very odd clothes and mostly seem to be wielding many types of wrenches for some reason. I know only one thing about them, they have a machine that can transpose fluids which allows for some very basic blood infusion, but unfortunately this can't be upgraded.
+
+infoBook.modIntegrations.thaumcraft=Thaumcraft
+infoBook.modIntegrations.thaumcraft.text=I have noticed Thaumaturgy to be a very different kind of magic. It looks like Thaumaturges are very happy when they see items of mine, they always walk around here with their strange hexagons. To please my friends, I have constructed some &1Veined Scribing Tools&0 which can be used to write with &4Blood&0 instead of ink. It also looks like their &1Golden Wand Caps&0 can be strengthened a bit by putting them inside a &1Blood Infuser&0 which gives them a slightly better aspect discount, and who doesn't love the look of some &4Blood&0 on a wand?
+
+infoBook.modIntegrations.tinkersConstruct=Tinkers' Construct
+infoBook.modIntegrations.tinkersConstruct.text=&0Tools, tools and tools!&r It seems to be all these folks think about. Using nothing but these tools must damage them severely, luckily they have the &1Blood Chest&0 to repair them!
+
+infoBook.modIntegrations.waila=WAILA
+infoBook.modIntegrations.waila.text=What are you looking at, you ask? You should be able to tell, really.
