@@ -1,10 +1,20 @@
 package evilcraft.tileentity;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import evilcraft.block.BloodChest;
+import evilcraft.core.fluid.BloodFluidConverter;
+import evilcraft.core.fluid.ImplicitFluidConversionTank;
+import evilcraft.core.fluid.SingleUseTank;
+import evilcraft.core.helper.WorldHelpers;
+import evilcraft.core.inventory.slot.SlotFluidContainer;
+import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
+import evilcraft.core.tileentity.tickaction.ITickAction;
+import evilcraft.core.tileentity.tickaction.TickComponent;
+import evilcraft.fluid.Blood;
+import evilcraft.inventory.container.ContainerBloodChest;
+import evilcraft.inventory.slot.SlotRepairable;
+import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
+import evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
+import evilcraft.tileentity.tickaction.bloodchest.RepairItemTickAction;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,20 +25,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import evilcraft.block.BloodChest;
-import evilcraft.core.fluid.BloodFluidConverter;
-import evilcraft.core.fluid.ImplicitFluidConversionTank;
-import evilcraft.core.fluid.SingleUseTank;
-import evilcraft.core.helper.WorldHelpers;
-import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
-import evilcraft.core.tileentity.tickaction.ITickAction;
-import evilcraft.core.tileentity.tickaction.TickComponent;
-import evilcraft.fluid.Blood;
-import evilcraft.inventory.container.ContainerBloodChest;
-import evilcraft.inventory.slot.SlotRepairable;
-import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
-import evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
-import evilcraft.tileentity.tickaction.bloodchest.RepairItemTickAction;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A chest that is able to repair tools with the use of blood.
@@ -121,7 +122,9 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         List<Integer> inSlotsTank = new LinkedList<Integer>();
         inSlotsTank.add(SLOT_CONTAINER);
         List<Integer> inSlotsInventory = new LinkedList<Integer>();
-        inSlotsInventory.add(SLOT_CONTAINER);
+        for(int i = 0; i < SLOTS_CHEST; i++) {
+            inSlotsInventory.add(i);
+        }
         addSlotsToSide(ForgeDirection.EAST, inSlotsTank);
         addSlotsToSide(ForgeDirection.UP, inSlotsInventory);
         addSlotsToSide(ForgeDirection.DOWN, inSlotsInventory);
@@ -136,7 +139,11 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        return SlotRepairable.checkIsItemValid(itemStack);
+        if(slot == SLOT_CONTAINER)
+            return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
+        else if(slot <= SLOTS_CHEST && slot >= 0)
+            return SlotRepairable.checkIsItemValid(itemStack);
+        return false;
     }
 
     @Override
