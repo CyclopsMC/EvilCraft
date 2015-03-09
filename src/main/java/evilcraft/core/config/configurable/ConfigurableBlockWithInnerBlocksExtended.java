@@ -109,6 +109,17 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
 		}
     	return new ItemStack(block, 1, block.getDamageValue(world, x, y, z));
     }
+
+    @Override
+    public float getBlockHardness(World world, int x, int y, int z) {
+        try {
+            return getTile(world, x, y, z).getInnerBlock().getBlockHardness(world, x, y, z);
+        } catch (InvalidInnerBlocksTileException e) {
+            return Blocks.stone.getBlockHardness(world, x, y, z);
+        } catch (NullPointerException e) {
+            return Blocks.stone.getBlockHardness(world, x, y, z);
+        }
+    }
     
     /**
      * Convert the block at the given location to an inner block of this.
