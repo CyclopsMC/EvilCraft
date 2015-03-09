@@ -1,11 +1,11 @@
 package evilcraft.core.inventory;
 
+import evilcraft.core.helper.MinecraftHelpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import evilcraft.core.helper.MinecraftHelpers;
 
 /**
  * A basic inventory implementation.
@@ -58,7 +58,7 @@ public class SimpleInventory implements IInventory {
 
     @Override
     public void setInventorySlotContents(int slotId, ItemStack itemstack) {
-        if (slotId >= _contents.length) {
+        if (slotId >= _contents.length || slotId < 0) {
             return;
         }
         this._contents[slotId] = itemstack;
