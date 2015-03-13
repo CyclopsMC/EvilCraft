@@ -1,11 +1,11 @@
 package evilcraft.core.config.extendedconfig;
 
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.ConfigurableType;
 import evilcraft.proxy.ClientProxy;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.entity.Entity;
 
 /**
  * Config for entities.
@@ -40,10 +40,11 @@ public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
     @Override
     @SideOnly(Side.CLIENT)
     public void onRegistered() {
-        if(getRender() != null) {
+        Render render = getRender();
+        if(render != null) {
         	@SuppressWarnings("unchecked")
             Class<? extends Entity> clazz = (Class<? extends Entity>) this.getElement();
-        	ClientProxy.ENTITY_RENDERERS.put(clazz, getRender());
+        	ClientProxy.ENTITY_RENDERERS.put(clazz, render);
         }
     }
     
