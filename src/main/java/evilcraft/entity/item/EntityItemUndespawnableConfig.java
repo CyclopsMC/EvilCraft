@@ -1,7 +1,9 @@
 package evilcraft.entity.item;
 
-import net.minecraft.client.renderer.entity.Render;
 import evilcraft.core.config.extendedconfig.EntityConfig;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
 
 /**
  * Config for the {@link EntityItemUndespawnable}.
@@ -33,7 +35,7 @@ public class EntityItemUndespawnableConfig extends EntityConfig {
     }
 
 	@Override
-	protected Render getRender() {
+	protected Render getRender(RenderManager renderManager, RenderItem renderItem) {
 		return null;
 	}
 }

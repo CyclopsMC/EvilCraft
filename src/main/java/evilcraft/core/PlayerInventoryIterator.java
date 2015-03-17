@@ -1,11 +1,10 @@
 package evilcraft.core;
 
-import java.util.Iterator;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-
 import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.Iterator;
 
 /**
  * Iterate over a player's inventory.

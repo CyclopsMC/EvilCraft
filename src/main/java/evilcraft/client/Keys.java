@@ -1,11 +1,9 @@
 package evilcraft.client;
 
-import net.minecraft.client.settings.KeyBinding;
-
-import org.lwjgl.input.Keyboard;
-
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.event.KeyInputEventHook;
+import net.minecraft.client.settings.KeyBinding;
+import org.lwjgl.input.Keyboard;
 
 /**
  * Enum that contains all custom hotkeys that

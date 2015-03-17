@@ -1,7 +1,5 @@
 package evilcraft.event;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
 import evilcraft.core.helper.EnchantmentHelpers;
 import evilcraft.enchantment.EnchantmentBreaking;
@@ -10,6 +8,8 @@ import evilcraft.enchantment.EnchantmentUnusing;
 import evilcraft.enchantment.EnchantmentUnusingConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Random;
 

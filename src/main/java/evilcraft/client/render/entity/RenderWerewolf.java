@@ -1,11 +1,12 @@
 package evilcraft.client.render.entity;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.entity.EntityLiving;
 import evilcraft.core.client.render.entity.RenderModelLiving;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.entity.monster.Werewolf;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.EntityLiving;
 
 /**
  * Renderer for a werewolf
@@ -21,8 +22,8 @@ public class RenderWerewolf extends RenderModelLiving<ModelBase> {
      * @param model The model.
      * @param par2 No idea...
      */
-	public RenderWerewolf(ExtendedConfig<MobConfig> config, ModelBase model, float par2) {
-	    super(config, model, par2);
+	public RenderWerewolf(RenderManager renderManager, ExtendedConfig<MobConfig> config, ModelBase model, float par2) {
+	    super(renderManager, config, model, par2);
 	}
 	
 	private void renderWerewolf(Werewolf werewolf, double x, double y, double z, float yaw, float partialTickTime) {

@@ -2,10 +2,12 @@ package evilcraft.world.gen.structure;
 
 import evilcraft.Configs;
 import evilcraft.block.BloodyCobblestoneConfig;
+import evilcraft.core.helper.MinecraftHelpers;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityMobSpawner;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenDungeons;
@@ -29,30 +31,35 @@ public class EvilDungeonStructure extends WorldGenDungeons {
     private static final int CHESTS_RAND = 2;
 
     @Override
-    public boolean generate(World world, Random random, int x, int y, int z) {
+    public boolean generate(World world, Random random, BlockPos blockPos) {
         int height = 3;
         int radiusX = random.nextInt(RADIUS_X_RAND) + RADIUS_X;
         int radiusZ = random.nextInt(RADIUS_Z_RAND) + RADIUS_Z;
         int chests = random.nextInt(CHESTS) + CHESTS_RAND;
         int openingCounter = 0; // Counts the amount of 'holes' that would be available when the dungeon should be placed
 
+        int x = blockPos.getX();
+        int y = blockPos.getY();
+        int z = blockPos.getZ();
+
         // Check if this is a valid spot for a dungeon
         for (int xr = x - radiusX - 1; xr <= x + radiusX + 1; ++xr) {
             for (int yr = y - 1; yr <= y + height + 1; ++yr) {
                 for (int zr = z - radiusZ - 1; zr <= z + radiusZ + 1; ++zr) {
-                	
+                	BlockPos loopPos = new BlockPos(xr, yr, zr);
+
                 	// Skip invalid chunk generation positions.
                 	if(!world.getChunkProvider().chunkExists(xr / 16, yr / 16)) {
                 		return false;
                 	}
                 	
-                    Material material = world.getBlock(xr, yr, zr).getMaterial();
+                    Material material = world.getBlockState(loopPos).getBlock().getMaterial();
                     if (yr == y - 1 && !material.isSolid())
                         return false;
                     if (yr == y + height + 1 && !material.isSolid())
                         return false;
                     if ((xr == x - radiusX - 1 || xr == x + radiusX + 1 || zr == z - radiusZ - 1 || zr == z + radiusZ + 1)
-                            && yr == y && world.isAirBlock(xr, yr, zr) && world.isAirBlock(xr, yr + 1, zr))
+                            && yr == y && world.isAirBlock(loopPos) && world.isAirBlock(loopPos.add(0, 1, 0)))
                         ++openingCounter;
                 }
             }
@@ -62,22 +69,23 @@ public class EvilDungeonStructure extends WorldGenDungeons {
             for (int xr = x - radiusX - 1; xr <= x + radiusX + 1; ++xr) {
                 for (int yr = y + height; yr >= y - 1; --yr) {
                     for (int zr = z - radiusZ - 1; zr <= z + radiusZ + 1; ++zr) {
+                        BlockPos loopPos = new BlockPos(xr, yr, zr);
                         if (xr != x - radiusX - 1
                                 && yr != y - 1
                                 && zr != z - radiusZ - 1
                                 && xr != x + radiusX + 1
                                 && yr != y + height + 1
                                 && zr != z + radiusZ + 1) {
-                            world.setBlockToAir(xr, yr, zr);
-                        } else if (yr >= 0 && !world.getBlock(xr, yr - 1, zr).getMaterial().isSolid()) {
-                            world.setBlockToAir(xr, yr, zr);
-                        } else if (world.getBlock(xr, yr, zr).getMaterial().isSolid()) {
+                            world.setBlockToAir(loopPos);
+                        } else if (yr >= 0 && !world.getBlockState(loopPos.add(0, -1, 0)).getBlock().getMaterial().isSolid()) {
+                            world.setBlockToAir(loopPos);
+                        } else if (world.getBlockState(loopPos).getBlock().getMaterial().isSolid()) {
                             if (yr == y - 1 && random.nextInt(4) != 0) {
 								if(Configs.isEnabled(BloodyCobblestoneConfig.class)) {
-									world.setBlock(xr, yr, zr, BloodyCobblestoneConfig._instance.getBlockInstance(), 0, 2);
+									world.setBlockState(loopPos, BloodyCobblestoneConfig._instance.getBlockInstance().getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
 								}
                             } else {
-                                world.setBlock(xr, yr, zr, Blocks.cobblestone, 0, 2);
+                                world.setBlockState(loopPos, Blocks.cobblestone.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                             }
                         }
                     }
@@ -89,25 +97,26 @@ public class EvilDungeonStructure extends WorldGenDungeons {
             while (xr < attempts && chests > 0) {
                 int xrr = x + random.nextInt(radiusX * 2 + 1) - radiusX;
                 int zrr = z + random.nextInt(radiusZ * 2 + 1) - radiusZ;
+                BlockPos loopPos = new BlockPos(xrr, y, zrr);
 
-                if (world.isAirBlock(xrr, y, zrr)) {
+                if (world.isAirBlock(loopPos)) {
                     int wallCounter = 0;
 
-                    if (world.getBlock(xrr - 1, y, zrr).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.add(-1, 0, 0)).getBlock().getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlock(xrr + 1, y, zrr).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.add(1, 0, 0)).getBlock().getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlock(xrr, y, zrr - 1).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.add(0, 0, -1)).getBlock().getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlock(xrr, y, zrr + 1).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.add(0, 0, 1)).getBlock().getMaterial().isSolid())
                         ++wallCounter;
 
                     if (wallCounter == 1) {
-                        world.setBlock(xrr, y, zrr, Blocks.chest, 0, 2);
-                        TileEntityChest tileentitychest = (TileEntityChest)world.getTileEntity(xrr, y, zrr);
+                        world.setBlockState(loopPos, Blocks.chest.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                        TileEntityChest tileentitychest = (TileEntityChest)world.getTileEntity(loopPos);
 
                         if (tileentitychest != null) {
                             ChestGenHooks info = ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST);
@@ -122,12 +131,12 @@ public class EvilDungeonStructure extends WorldGenDungeons {
 
             for(int xs = x - 1; xs <= x + 1; xs += 2) {
                 for(int zs = z - 1; zs <= z + 1; zs += 2) {
-                    world.setBlock(xs, y, zs, Blocks.mob_spawner, 0, 2);
-                    TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner)world.getTileEntity(xs, y, zs);
+                    BlockPos loopPos = new BlockPos(xs, y, zs);
+                    world.setBlockState(loopPos, Blocks.mob_spawner.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                    TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner)world.getTileEntity(loopPos);
         
                     if (tileentitymobspawner != null) {
-                    	//getSpawnerLogic
-                        tileentitymobspawner.func_145881_a().setEntityName(this.pickMobSpawner(random));
+                        tileentitymobspawner.getSpawnerBaseLogic().setEntityName(this.pickMobSpawner(random));
                     } else {
                         System.err.println("Failed to fetch mob spawner entity at (" + xs + ", " + y + ", " + zs + ")");
                     }

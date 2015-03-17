@@ -1,6 +1,5 @@
 package evilcraft.core.degradation.effect;
 
-import evilcraft.api.ILocation;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -9,6 +8,7 @@ import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.LocationHelpers;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
@@ -56,12 +56,11 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
     @Override
     public void runServerSide(IDegradable degradable) {
         WorldServer world = (WorldServer) degradable.getWorld();
-        ILocation spawn = LocationHelpers.getRandomPointInSphere(degradable.getLocation(), degradable.getRadius());
-        float x = spawn.getCoordinates()[0] + 0.5F;
-        float y = spawn.getCoordinates()[1];
-        float z = spawn.getCoordinates()[2] + 0.5F;
-        SpawnListEntry spawnlistentry = world.spawnRandomCreature(EnumCreatureType.monster,
-        		spawn.getCoordinates()[0], spawn.getCoordinates()[1], spawn.getCoordinates()[2]);
+        BlockPos spawn = LocationHelpers.getRandomPointInSphere(degradable.getLocation(), degradable.getRadius());
+        float x = spawn.getX() + 0.5F;
+        float y = spawn.getY();
+        float z = spawn.getZ() + 0.5F;
+        SpawnListEntry spawnlistentry = world.func_175734_a(EnumCreatureType.MONSTER, spawn); // MCP: spawnRandomCreature
         EntityLiving entityliving;
 
         try {

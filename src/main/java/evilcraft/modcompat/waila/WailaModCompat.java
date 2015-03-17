@@ -1,9 +1,9 @@
 package evilcraft.modcompat.waila;
 
-import cpw.mods.fml.common.event.FMLInterModComms;
 import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 /**
  * Compatibility plugin for Waila.

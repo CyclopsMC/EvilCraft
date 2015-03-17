@@ -1,14 +1,14 @@
 package evilcraft.inventory.container;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 import evilcraft.block.BloodChest;
 import evilcraft.core.inventory.container.TickingChestContainer;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.inventory.slot.SlotRepairable;
 import evilcraft.tileentity.TileBloodChest;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 
 /**
  * Container for the {@link BloodChest}.
@@ -38,7 +38,7 @@ public class ContainerBloodChest extends TickingChestContainer<TileBloodChest> {
      */
     public ContainerBloodChest(InventoryPlayer inventory, TileBloodChest tile) {
         super(inventory, tile, CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y);
-        tile.openInventory();
+        tile.openInventory(inventory.player);
         addSlotToContainer(new SlotFluidContainer(tile, TileBloodChest.SLOT_CONTAINER, 8, 36, tile.getTank())); // Container emptier
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
@@ -51,7 +51,7 @@ public class ContainerBloodChest extends TickingChestContainer<TileBloodChest> {
     @Override
     public void onContainerClosed(EntityPlayer entityplayer) {
         super.onContainerClosed(entityplayer);
-        tile.closeInventory();
+        tile.closeInventory(entityplayer);
     }
     
 }

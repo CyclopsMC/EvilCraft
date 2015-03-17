@@ -1,13 +1,9 @@
 package evilcraft.tileentity;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.ILocation;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
-import evilcraft.core.algorithm.Location;
 import evilcraft.core.degradation.DegradationExecutor;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.L10NHelpers;
@@ -25,9 +21,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.util.vector.Vector4f;
 
 import java.util.List;
@@ -55,7 +54,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     private DegradationExecutor degradationExecutor;
     // This number rises with the number of uses of the env. accum.
     private int degradation = 0;
-    private ILocation location = null;
+    private BlockPos location = null;
     
     /**
      * Holds the state of the environmental accumulator.
@@ -199,9 +198,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
         // Look for items thrown into the beam
         @SuppressWarnings("rawtypes")
         List entityItems = worldObj.getEntitiesWithinAABB(EntityItem.class, 
-                AxisAlignedBB.getBoundingBox(
-                        this.xCoord, this.yCoord + WEATHER_CONTAINER_MIN_DROP_HEIGHT, this.zCoord, 
-                        this.xCoord + 1.0, this.yCoord + WEATHER_CONTAINER_MAX_DROP_HEIGHT, this.zCoord + 1.0)
+                AxisAlignedBB.fromBounds(
+                        getPos().getX(), getPos().getY() + WEATHER_CONTAINER_MIN_DROP_HEIGHT, getPos().getZ(),
+                        getPos().getX() + 1.0, getPos().getY() + WEATHER_CONTAINER_MAX_DROP_HEIGHT, getPos().getZ() + 1.0)
                 );
 
         // Loop over all recipes until we find an item dropped in the accumulator that matches a recipe
@@ -252,7 +251,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	private void dropItemStack() {
 	    if (!worldObj.isRemote) {
 	        // EntityItem that will contain the dropped itemstack
-	        EntityItem entity = new EntityItem(worldObj, this.xCoord, this.yCoord + WEATHER_CONTAINER_SPAWN_HEIGHT, this.zCoord);
+	        EntityItem entity = new EntityItem(worldObj, getPos().getX(), getPos().getY() + WEATHER_CONTAINER_SPAWN_HEIGHT, getPos().getZ());
 	        
 	        if (recipe == null) {
 	            // No recipe found, throw the item stack in the inventory back
@@ -326,7 +325,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	        IEAProcessingFinishedEffect effect = (recipe == null) ? null : recipe.getProperties().getFinishedProcessingEffect();
 	        
 	        if (effect == null)    // fall back to default case
-	            this.worldObj.playAuxSFX(2002, (int)Math.round(xCoord), (int)Math.round(yCoord + WEATHER_CONTAINER_SPAWN_HEIGHT), (int)Math.round(zCoord), 16428);
+	            this.worldObj.playAuxSFX(2002, getPos().add(0, WEATHER_CONTAINER_SPAWN_HEIGHT, 0), 16428);
 	        else
 	            effect.executeEffect(this, recipe);
 	    }
@@ -398,17 +397,26 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
         return getMaxCooldownTick();
     }
 
-	@Override
-	public IChatComponent func_145748_c_() {
+    @Override
+    public String getName() {
+        return inventory.getName();
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return inventory.hasCustomName();
+    }
+
+    @Override
+	public IChatComponent getDisplayName() {
 		String message = L10NHelpers.localize("chat.bossDisplay.charge",
 				L10NHelpers.localize(EnvironmentalAccumulator.getInstance().getUnlocalizedName() + ".name"));
 		return new ChatComponentText(message);
 	}
 
     @Override
-    public ILocation getLocation() {
-    	if(location == null) location = new Location(xCoord, yCoord, zCoord);
-    	return location;
+    public BlockPos getLocation() {
+    	return getPos();
     }
 
     @Override
@@ -418,7 +426,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
     @Override
     public List<Entity> getAreaEntities() {
-        return EntityHelpers.getEntitiesInArea(getWorld(), xCoord, yCoord, zCoord, getRadius());
+        return EntityHelpers.getEntitiesInArea(getWorld(), getPos(), getRadius());
     }
 
     @Override
@@ -459,37 +467,47 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     }
 
     @Override
-    public String getInventoryName() {
-        return inventory.getInventoryName();
-    }
-
-    @Override
-    public boolean hasCustomInventoryName() {
-        return inventory.hasCustomInventoryName();
-    }
-
-    @Override
     public int getInventoryStackLimit() {
         return inventory.getInventoryStackLimit();
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        return false;
+        return inventory.isUseableByPlayer(entityplayer);
     }
 
     @Override
-    public void openInventory() {
-    
+    public void openInventory(EntityPlayer playerIn) {
+        inventory.openInventory(playerIn);
     }
 
     @Override
-    public void closeInventory() {
-        
+    public void closeInventory(EntityPlayer playerIn) {
+        inventory.closeInventory(playerIn);
     }
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-        return false;
+        return inventory.isItemValidForSlot(i, itemstack);
+    }
+
+    @Override
+    public int getField(int id) {
+        return inventory.getField(id);
+    }
+
+    @Override
+    public void setField(int id, int value) {
+        inventory.setField(id, value);
+    }
+
+    @Override
+    public int getFieldCount() {
+        return inventory.getFieldCount();
+    }
+
+    @Override
+    public void clear() {
+        inventory.clear();
     }
 }

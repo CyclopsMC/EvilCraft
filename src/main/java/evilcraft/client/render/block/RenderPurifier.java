@@ -1,22 +1,22 @@
 package evilcraft.client.render.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.block.Purifier;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.fluid.Blood;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 
 /**
@@ -32,14 +32,14 @@ public class RenderPurifier implements ISimpleBlockRenderingHandler {
     public static final int ID = RenderingRegistry.getNextAvailableRenderId();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID,
+    public void renderInventoryBlock(Block block, IBlockState blockStatedata, int modelID,
             RenderBlocks renderer) {
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
         renderInventoryBlock(renderer, block, metadata);
     }
 
-    private void renderInventoryBlock(RenderBlocks renderer, Block block, int metadata) {
+    private void renderInventoryBlock(RenderBlocks renderer, Block block, IBlockState blockStatedata) {
         // Init
         Tessellator tessellator = Tessellator.instance;
         block.setBlockBoundsForItemRender();
@@ -51,7 +51,7 @@ public class RenderPurifier implements ISimpleBlockRenderingHandler {
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         
         // Loop over sides and render them relative to the given direction.
-        for(ForgeDirection renderDirection : DirectionHelpers.DIRECTIONS) {
+        for(EnumFacing renderDirection : DirectionHelpers.DIRECTIONS) {
             tessellator.startDrawingQuads();
             tessellator.setNormal(
                     renderDirection.offsetX,
@@ -73,7 +73,7 @@ public class RenderPurifier implements ISimpleBlockRenderingHandler {
         }
         
         // The rendering of the inside
-        IIcon icon = block.getBlockTextureFromSide(2);
+        TextureAtlasSprite icon = block.getBlockTextureFromSide(2);
         float f4 = 0.125F;
         double x = 0;
         double y = 0;
@@ -94,7 +94,7 @@ public class RenderPurifier implements ISimpleBlockRenderingHandler {
         tessellator.setNormal(0, 0, 1);
         renderer.renderFaceZNeg(block, (double)x, (double)y, (double)((float)z + 1.0F - f4), icon);
         tessellator.draw();
-        IIcon icon1 = Purifier.getPurifierIcon("inner");
+        TextureAtlasSprite icon1 = Purifier.getPurifierIcon("inner");
         tessellator.startDrawingQuads();
         tessellator.setNormal(0, -1, 0);
         renderer.renderFaceYPos(block, (double)x, (double)((float)y - 1.0F + 0.25F), (double)z, icon1);
@@ -107,12 +107,12 @@ public class RenderPurifier implements ISimpleBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
+    public boolean renderWorldBlock(IBlockAccess world, BlockPos blockPos,
             Block block, int modelId, RenderBlocks renderer) {
         return renderBlockPurifier((Purifier) block, world, x, y, z, renderer);
     }
     
-    private boolean renderBlockPurifier(Purifier purifier, IBlockAccess blockAccess, int x, int y, int z, RenderBlocks renderer) {
+    private boolean renderBlockPurifier(Purifier purifier, IBlockAccess blockAccess, BlockPos blockPos, RenderBlocks renderer) {
         renderer.renderStandardBlock(purifier, x, y, z);
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(purifier.getMixedBrightnessForBlock(blockAccess, x, y, z));
@@ -133,18 +133,18 @@ public class RenderPurifier implements ISimpleBlockRenderingHandler {
         }
 
         tessellator.setColorOpaque_F(f * f1, f * f2, f * f3);
-        IIcon icon = purifier.getBlockTextureFromSide(2);
+        TextureAtlasSprite icon = purifier.getBlockTextureFromSide(2);
         f4 = 0.125F;
         renderer.renderFaceXPos(purifier, (double)((float)x - 1.0F + f4), (double)y, (double)z, icon);
         renderer.renderFaceXNeg(purifier, (double)((float)x + 1.0F - f4), (double)y, (double)z, icon);
         renderer.renderFaceZPos(purifier, (double)x, (double)y, (double)((float)z - 1.0F + f4), icon);
         renderer.renderFaceZNeg(purifier, (double)x, (double)y, (double)((float)z + 1.0F - f4), icon);
-        IIcon icon1 = Purifier.getPurifierIcon("inner");
+        TextureAtlasSprite icon1 = Purifier.getPurifierIcon("inner");
         renderer.renderFaceYPos(purifier, (double)x, (double)((float)y - 1.0F + 0.25F), (double)z, icon1);
         renderer.renderFaceYNeg(purifier, (double)x, (double)((float)y + 1.0F - 0.75F), (double)z, icon1);
         int i1 = blockAccess.getBlockMetadata(x, y, z);
         if (i1 > 0) {
-            IIcon icon2 = Blood.getInstance().getIcon();
+            TextureAtlasSprite icon2 = Blood.getInstance().getIcon();
 
             if (i1 > 3) {
                 i1 = 3;

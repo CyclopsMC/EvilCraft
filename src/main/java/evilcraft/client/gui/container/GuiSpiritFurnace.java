@@ -1,15 +1,15 @@
 package evilcraft.client.gui.container;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.entity.player.InventoryPlayer;
 import evilcraft.block.SpiritFurnace;
-import evilcraft.core.algorithm.Size;
 import evilcraft.core.client.gui.container.GuiWorking;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.inventory.container.ContainerSpiritFurnace;
 import evilcraft.tileentity.TileSpiritFurnace;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.Vec3i;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * GUI for the {@link SpiritFurnace}.
@@ -97,9 +97,8 @@ public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
         this.setProgress(PROGRESSWIDTH, PROGRESSHEIGHT, PROGRESSX, PROGRESSY, PROGRESSTARGETX, PROGRESSTARGETY);
     }
     
-    private String prettyPrintSize(Size size) {
-    	int[] c = size.getCoordinates();
-    	return c[0] + "x" + c[1] + "x" + c[2];
+    private String prettyPrintSize(Vec3i size) {
+        return size.getX() + "x" + size.getY() + "x" + size.getZ();
     }
     
     @Override

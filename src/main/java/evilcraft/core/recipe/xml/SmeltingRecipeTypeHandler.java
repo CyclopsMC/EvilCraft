@@ -1,7 +1,7 @@
 package evilcraft.core.recipe.xml;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 

@@ -1,8 +1,8 @@
 package evilcraft.core.helper;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
+
+import java.util.List;
 
 /**
  * A collection of String helper methods.

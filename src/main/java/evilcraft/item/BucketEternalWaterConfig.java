@@ -45,9 +45,9 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
             public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
                 MovingObjectPosition position = this.getMovingObjectPositionFromPlayer(world, player, true);
                 if(position != null && position.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                    Block block = world.getBlock(position.blockX, position.blockY, position.blockZ);
+                    Block block = world.getBlockState(position.func_178782_a()).getBlock();
                     if(block == Blocks.water) {
-                        world.setBlockToAir(position.blockX, position.blockY, position.blockZ);
+                        world.setBlockToAir(position.func_178782_a());
                         return itemStack;
                     }
                 }

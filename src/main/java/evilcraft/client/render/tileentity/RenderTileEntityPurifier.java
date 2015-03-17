@@ -3,7 +3,10 @@ package evilcraft.client.render.tileentity;
 import evilcraft.Reference;
 import evilcraft.block.Purifier;
 import evilcraft.tileentity.TilePurifier;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBook;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -30,12 +33,12 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
     private ModelBook enchantmentBook = new ModelBook();
 	
 	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTickTime) {
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTickTime, int partialDamage) {
 	    TilePurifier tile = (TilePurifier) tileEntity;
 	    
 	    if(tile != null) {
             if(tile.getBookItem() != null) {
-                renderBook(tile, tile.getWorldObj(), tile.getBookItem(), x, y + 0.4, z, partialTickTime);
+                renderBook(tile, tile.getWorld(), tile.getBookItem(), x, y + 0.4, z, partialTickTime);
             }
         }
 	    
@@ -48,7 +51,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
 	    
         if(tile != null) {
             if(tile.getPurifyItem() != null) {
-                renderItem(tile.getWorldObj(), tile.getPurifyItem(), tile.getRandomRotation());
+                renderItem(tile.getWorld(), tile.getPurifyItem(), tile.getRandomRotation());
             }
         }
         
@@ -68,11 +71,11 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
             GL11.glScalef(2F, 2F, 2F);
         }
         
-        RenderItem.renderInFrame = true;
-        EntityItem entity = new EntityItem(world, 0, 0, 0, itemStack);
-        entity.hoverStart = 0.0F;
-        RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-        RenderItem.renderInFrame = false;
+        GlStateManager.pushAttrib();
+        RenderHelper.enableStandardItemLighting();
+        Minecraft.getMinecraft().getRenderItem().func_175043_b(itemStack);
+        RenderHelper.disableStandardItemLighting();
+        GlStateManager.popAttrib();
 
         GL11.glPopMatrix();
     }

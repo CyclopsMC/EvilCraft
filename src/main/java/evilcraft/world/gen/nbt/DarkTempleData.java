@@ -1,11 +1,12 @@
 package evilcraft.world.gen.nbt;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.WorldSavedData;
+
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.WorldSavedData;
 
 /**
  * Responsible for saving all dark temple locations in NBT format.
@@ -32,12 +33,10 @@ public class DarkTempleData extends WorldSavedData {
 	
 	/**
 	 * Add a location of a new dark temple.
-	 * @param x X-coordinate of the dark temple.
-	 * @param y Y-coordinate of the dark temple.
-	 * @param z Z-coordinate of the dark temple.
+	 * @param blockPos Coordinate of the dark temple.
 	 */
-	public void addStructureLocation(int x, int y, int z) {
-		structureLocations.add(new Position(x, y, z));
+	public void addStructureLocation(BlockPos blockPos) {
+		structureLocations.add(new Position(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
 		setDirty(true);
 	}
 	
@@ -45,24 +44,22 @@ public class DarkTempleData extends WorldSavedData {
 	 * Check if a dark temple is in the range of the given coordinates.
 	 * NOTE: this function will ignores the Y-coordinate because those are
 	 * not interesting for dark temple spawning positions.
-	 * @param x The X-coordinate of the given location.
-	 * @param y The Y-coordinate of the given location.
-	 * @param z The Z-coordinate of the given location.
+	 * @param blockPos The coordinate of the given location.
 	 * @param range The range in which we have to search for other dark temples
 	 *              around the given location.
 	 * @return true if there is a dark temple in the given range, otherwise false is returned.
 	 */
-	public boolean isStructureInRange(int x, int y, int z, int range) {
+	public boolean isStructureInRange(BlockPos blockPos, int range) {
 		for (Position pos : structureLocations) {
-			if (inRange(pos, x, y, z, range))
+			if (inRange(pos, blockPos, range))
 				return true;
 		}
 		
 		return false;
 	}
 	
-	private boolean inRange(Position pos, int x, int y, int z, int range) {
-		return (pos.x - x) * (pos.x - x) + (pos.z - z) * (pos.z - z) <= range * range;
+	private boolean inRange(Position pos, BlockPos blockPos, int range) {
+		return (pos.getX() - blockPos.getX()) * (pos.getX() - blockPos.getX()) + (pos.getZ() - blockPos.getZ()) * (pos.getZ() - blockPos.getZ()) <= range * range;
 	}
 
 	@Override
@@ -83,7 +80,7 @@ public class DarkTempleData extends WorldSavedData {
 
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
-		// TODO: this can be rewritten using an ILocation instance and using NBTTagList.
+		// TODO: this can be rewritten using an BlockPos instance and using NBTTagList.
 		ByteBuffer buffer = ByteBuffer.allocate(4 + structureLocations.size() * Position.SIZE_IN_BYTES);
 		
 		// Write the number of elements in the list
@@ -97,21 +94,17 @@ public class DarkTempleData extends WorldSavedData {
 		compound.setByteArray("locations", buffer.array());
 	}
 	
-	private static class Position {
+	private static class Position extends BlockPos {
 		public static final int SIZE_IN_BYTES = 3 * 4;
 		
-		public int x, y, z;
-		
 		public Position(int x, int y, int z) {
-			this.x = x;
-			this.y = y;
-			this.z = z;
+			super(x, y, z);
 		}
 		
 		public void addToByteBuffer(ByteBuffer buffer) {
-			buffer.putInt(x);
-			buffer.putInt(y);
-			buffer.putInt(z);
+			buffer.putInt(getX());
+			buffer.putInt(getY());
+			buffer.putInt(getZ());
 		}
 		
 		public static Position fromByteBuffer(ByteBuffer buffer) {

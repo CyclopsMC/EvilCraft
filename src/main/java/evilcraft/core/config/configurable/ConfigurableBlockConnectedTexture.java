@@ -1,7 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.DirectionCorner;
 import evilcraft.core.client.render.block.ConnectableIcon;
@@ -11,10 +9,12 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
+import net.minecraft.client.renderer.texture.TextureAtlasSpriteRegister;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Block that can hold ExtendedConfigs with connected textures.
@@ -29,16 +29,16 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     protected CustomRenderBlocks renderer;
     
     protected ConnectableIcon connectableIcon;
-    protected IIcon blockIconBorder;
-    protected IIcon blockIconCorner;
-    protected IIcon blockIconInnerCorner;
-    protected IIcon blockIconInventory;
+    protected TextureAtlasSprite blockIconBorder;
+    protected TextureAtlasSprite blockIconCorner;
+    protected TextureAtlasSprite blockIconInnerCorner;
+    protected TextureAtlasSprite blockIconInventory;
 
     
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
-     * @param material Material of this block.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
+     * @param material Material of this blockState.
      */
     @SuppressWarnings("rawtypes")
     public ConfigurableBlockConnectedTexture(ExtendedConfig eConfig,
@@ -50,7 +50,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * Get the icon of the background.
      * @return The background icon.
      */
-    public IIcon getIconBackground() {
+    public TextureAtlasSprite getIconBackground() {
         return blockIcon;
     }
 
@@ -58,7 +58,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * Get the icon for the borders.
      * @return The border icon.
      */
-    public IIcon getIconBorders() {
+    public TextureAtlasSprite getIconBorders() {
         return blockIconBorder;
     }
 
@@ -66,7 +66,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * Get the icon for the corners.
      * @return The corner icon.
      */
-    public IIcon getIconCorners() {
+    public TextureAtlasSprite getIconCorners() {
         return blockIconCorner;
     }
 
@@ -74,16 +74,16 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
      * Get the inner corner icon.
      * @return The inner corner icon.
      */
-    public IIcon getIconInnerCorners() {
+    public TextureAtlasSprite getIconInnerCorners() {
         return blockIconInnerCorner;
     }
     
     /**
-     * Get the inventory block icon.
-     * @return The inventory block icon.
+     * Get the inventory blockState icon.
+     * @return The inventory blockState icon.
      * @see ConfigurableBlockConnectedTexture#hasSeperateInventoryBlockIcon()
      */
-    public IIcon getIconInventory() {
+    public TextureAtlasSprite getIconInventory() {
         return hasSeperateInventoryBlockIcon()?blockIconInventory:blockIcon;
     }
     
@@ -94,43 +94,43 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     }
     
     /**
-     * If the block at the given coordinates should connect to any other block.
+     * If the blockState at the given coordinates should connect to any other blockState.
      * @param world The world.
      * @param x X coordinate.
      * @param y Y coordinate.
      * @param z Z coordinate.
      * @return If these should connect.
      */
-    public boolean shouldConnect(IBlockAccess world, int x, int y, int z) {
+    public boolean shouldConnect(IBlockAccess world, BlockPos blockPos) {
         return true;
     }
     
     /**
-     * If this block should connect at the given direction.
+     * If this blockState should connect at the given direction.
      * @param world The world.
      * @param side The direction to check the connection with.
      * @param x X coordinate.
      * @param y Y coordinate.
      * @param z Z coordinate.
-     * @return If this block should connect at the given direction.
-     * @see ForgeDirection
+     * @return If this blockState should connect at the given direction.
+     * @see EnumFacing
      */
-    public boolean shouldConnectDirection(IBlockAccess world, ForgeDirection side, int x, int y, int z) {
-        return shouldConnect(world, x, y, z) && world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this;
+    public boolean shouldConnectDirection(IBlockAccess world, EnumFacing side, BlockPos blockPos) {
+        return shouldConnect(world, blockPos) && world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this;
     }
     
     /**
-     * If this block should connect at the given direction corner.
+     * If this blockState should connect at the given direction corner.
      * @param world The world.
      * @param side The direction corner to check the connection with.
      * @param x X coordinate.
      * @param y Y coordinate.
      * @param z Z coordinate.
-     * @return If this block should connect at the given direction.
+     * @return If this blockState should connect at the given direction.
      * @see DirectionCorner
      */
-    public boolean shouldConnectDirection(IBlockAccess world, DirectionCorner side, int x, int y, int z) {
-        return shouldConnect(world, x, y, z) && world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this;
+    public boolean shouldConnectDirection(IBlockAccess world, DirectionCorner side, BlockPos blockPos) {
+        return shouldConnect(world, blockPos) && world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) == this;
     }
     
     @Override
@@ -158,7 +158,7 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
+    public void registerBlockIcons(TextureAtlasSpriteRegister iconRegister) {
         super.registerBlockIcons(iconRegister);
         blockIconBorder = iconRegister.registerIcon(getTextureName()+"_border");
         blockIconCorner = iconRegister.registerIcon(getTextureName()+"_corner");
@@ -173,13 +173,13 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta) {
+    public TextureAtlasSprite getIcon(EnumFacing side, IBlockState blockState) {
         return getIcon(side, meta, pass);
     }
     
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta, int renderPass) {
+    public TextureAtlasSprite getIcon(EnumFacing side, IBlockState blockState, int renderPass) {
         if(this.getRenderBlocks() != null) { // In case for inventoryblock?
             connectableIcon.prepareIcon(side, renderPass, this.getRenderBlocks());
         }
@@ -187,9 +187,9 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     }
     
     @Override
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        updateConnections(world, x, y, z);// If there are framerate issues, this will propably be the cause.
-        return super.getIcon(world, x, y, z, side);
+    public TextureAtlasSprite getIcon(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
+        updateConnections(world, blockPos);// If there are framerate issues, this will propably be the cause.
+        return super.getIcon(world, blockPos, side);
     }
     
     @Override
@@ -197,15 +197,15 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
         return connectableIcon.getRequiredPasses();
     }
     
-    private void updateConnections(IBlockAccess world, int x, int y, int z) {
+    private void updateConnections(IBlockAccess world, BlockPos blockPos) {
     	// Regular sides
-        for(ForgeDirection direction : DirectionHelpers.DIRECTIONS) {
-            boolean connect = shouldConnectDirection(world, direction, x, y, z);
+        for(EnumFacing direction : DirectionHelpers.DIRECTIONS) {
+            boolean connect = shouldConnectDirection(world, direction, blockPos);
             connectableIcon.connect(direction, connect);
         }
         // Corner sides
         for(DirectionCorner direction : DirectionHelpers.DIRECTIONS_CORNERS) {
-            boolean connect = shouldConnectDirection(world, direction, x, y, z);
+            boolean connect = shouldConnectDirection(world, direction, blockPos);
             connectableIcon.connectCorner(direction, connect);
         }
     }
@@ -216,10 +216,10 @@ public abstract class ConfigurableBlockConnectedTexture extends ConfigurableBloc
     }
     
     /**
-     * If this block has a seperate icon for rendering the inventory block, false by default.
+     * If this blockState has a seperate icon for rendering the inventory blockState, false by default.
      * If it is true, the renderer will look for getTextureName()+"_inventory" icon, otherwise
-     * the background of the block will be taken (without corners, edges and innercorners).
-     * @return If this block has a seperate icon for rendering the inventory block.
+     * the background of the blockState will be taken (without corners, edges and innercorners).
+     * @return If this blockState has a seperate icon for rendering the inventory blockState.
      */
     public boolean hasSeperateInventoryBlockIcon() {
         return false;

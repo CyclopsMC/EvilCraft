@@ -40,7 +40,7 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
     
     /**
      * If hasSubTypes() returns true this method can be overwritten to define another ItemBlock class
-     * @return the ItemBlock class to use for the target block.
+     * @return the ItemBlock class to use for the target blockState.
      */
     public Class<? extends ItemBlock> getItemBlockClass() {
         return ItemBlockExtended.class;
@@ -55,16 +55,16 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
     }
     
     /**
-     * If this block should enable Forge Multiparts and BC facades.
-     * @return If that should be enabled for this block.
+     * If this blockState should enable Forge Multiparts and BC facades.
+     * @return If that should be enabled for this blockState.
      */
     public boolean isMultipartEnabled() {
         return false;
     }
 
     /**
-     * Get the casted instance of the block.
-     * @return The block.
+     * Get the casted instance of the blockState.
+     * @return The blockState.
      */
     public Block getBlockInstance() {
         return (Block) super.getSubInstance();

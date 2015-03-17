@@ -1,12 +1,11 @@
 package evilcraft.tileentity;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.tileentity.NBTPersist;
+import evilcraft.core.tileentity.TickingEvilCraftTileEntity;
 import evilcraft.entity.monster.VengeanceSpirit;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,6 +15,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 import java.util.Random;
@@ -26,7 +27,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
+public class TileBoxOfEternalClosure extends TickingEvilCraftTileEntity {
 	
 	/**
 	 * The name of the NBT tag that will hold spirit entity data.
@@ -83,15 +84,14 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
         VengeanceSpirit target = getTargetSpirit();
         if(spirit == null && !worldObj.isRemote) {
 	        if(target != null
-	        		|| (WorldHelpers.efficientTick(getWorldObj(), TICK_MODULUS, 
-	        				xCoord, yCoord, zCoord) && findNextEntity())) {
+	        		|| (WorldHelpers.efficientTick(getWorld(), TICK_MODULUS,
+	        				getPos()) && findNextEntity())) {
 	        	pullEntity();
 	        }
         }
         
         if(worldObj.isRemote && target != null) {
-        	EvilCraft.proxy.playSound(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
-        			"boxBeam", 0.1F + worldObj.rand.nextFloat() * 0.9F,
+        	EvilCraft.proxy.playSound(getPos(), "boxBeam", 0.1F + worldObj.rand.nextFloat() * 0.9F,
         			0.1F + worldObj.rand.nextFloat() * 0.9F);
         }
         
@@ -99,15 +99,15 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     }
     
     private boolean findNextEntity() {
-    	AxisAlignedBB box = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord,
-    			xCoord, yCoord, zCoord).expand(TARGET_RADIUS, TARGET_RADIUS, TARGET_RADIUS);
+    	AxisAlignedBB box = AxisAlignedBB.fromBounds(getPos().getX(), getPos().getY(), getPos().getZ(),
+                getPos().getX(), getPos().getY(), getPos().getZ()).expand(TARGET_RADIUS, TARGET_RADIUS, TARGET_RADIUS);
     	@SuppressWarnings("unchecked")
 		List<VengeanceSpirit> entities = worldObj.getEntitiesWithinAABB(VengeanceSpirit.class, box);
     	double minDistance = TARGET_RADIUS + 1;
     	VengeanceSpirit closest = null;
     	for(VengeanceSpirit spirit : entities) {
     		if(spirit.isFrozen() && !spirit.isSwarm()) {
-	    		double distance = spirit.getDistance(xCoord, yCoord, zCoord);
+	    		double distance = spirit.getDistance(getPos().getX(), getPos().getY(), getPos().getZ());
 	    		if(distance < minDistance) {
 	    			minDistance = distance;
 	    			closest = spirit;
@@ -121,16 +121,16 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     private void pullEntity() {
     	VengeanceSpirit target = getTargetSpirit();
     	if(target != null) {
-    		double dx = targetSpirit.posX - xCoord - 0.5D;
-    		double dy = targetSpirit.posY - yCoord - 0.5D;
-    		double dz = targetSpirit.posZ - zCoord - 0.5D;
+    		double dx = targetSpirit.posX - getPos().getX() - 0.5D;
+    		double dy = targetSpirit.posY - getPos().getY() - 0.5D;
+    		double dz = targetSpirit.posZ - getPos().getZ() - 0.5D;
     		double distance = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
     		
     		if(target.isDead || !target.isFrozen()) {
     			setTargetSpirit(null);
     		} else {
-                if(target.boundingBox.expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS).intersectsWith(getBlock().
-                        getCollisionBoundingBoxFromPool(worldObj, xCoord, yCoord, zCoord))) {
+                if(target.getBoundingBox().expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS).intersectsWith(getBlock().
+                        getCollisionBoundingBox(worldObj, getPos(), worldObj.getBlockState(getPos())))) {
 	    			closing = true;
 	    			close(true);
 	    			setSpiritInstance(targetSpirit);
@@ -170,11 +170,12 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
      * Release the inner spirit into the world.
      */
     public void releaseSpirit() {
-    	VengeanceSpirit spirit = new VengeanceSpirit(getWorldObj());
-    	spirit.copyDataFrom((VengeanceSpirit) spiritInstance, true);
+    	VengeanceSpirit spirit = new VengeanceSpirit(getWorld());
+        // CMP: copyDataFrom
+    	spirit.func_180432_n((VengeanceSpirit) spiritInstance);
     	Random rand = worldObj.rand;
-    	spirit.setPosition(xCoord + rand.nextDouble(), yCoord + rand.nextDouble(),
-    			zCoord + rand.nextDouble());
+    	spirit.setPosition(getPos().getX() + rand.nextDouble(), getPos().getY() + rand.nextDouble(),
+                getPos().getZ() + rand.nextDouble());
     	spirit.setFrozenDuration(0);
     	spirit.setGlobalVengeance(true);
     	spirit.setRemainingLife(MathHelper.getRandomIntegerInRange(worldObj.rand,
@@ -185,7 +186,6 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     	this.clearSpiritInstance();
     	
     	worldObj.spawnEntityInWorld(spirit);
-        spirit.onSpawnWithEgg((IEntityLivingData)null);
     }
     
     /**
@@ -214,8 +214,8 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     	if(old != spiritInstance) {
     		if(old == null) {
     			if(!initial) {
-	    			getWorldObj().playSoundEffect(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
-	    					"random.chestclosed", 0.5F, getWorldObj().rand.nextFloat() * 0.1F + 0.9F);
+	    			getWorld().playSoundEffect(getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D,
+	    					"random.chestclosed", 0.5F, getWorld().rand.nextFloat() * 0.1F + 0.9F);
     			}
     		}
     		sendUpdate();
@@ -224,7 +224,7 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     }
     
     protected void updateLight() {
-    	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    	worldObj.markBlockForUpdate(getPos());
     }
     
     protected void clearSpiritInstance() {
@@ -243,7 +243,7 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
      */
     public EntityLivingBase getSpiritInstance() {
         if(spiritInstance == null) {
-            EntityLivingBase entity = getEntityFromNBT(getWorldObj(), spiritTag);
+            EntityLivingBase entity = getEntityFromNBT(getWorld(), spiritTag);
             setSpiritInstance(entity);
             if(!VengeanceSpirit.canSustain(entity) && entity != null && !(entity instanceof VengeanceSpirit)) {
                 releaseSpirit();
@@ -276,10 +276,10 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	 */
 	public VengeanceSpirit getTargetSpirit() {
 		// Make sure our target spirit is up-to-date with the server-synced target spirit ID.
-		if(getWorldObj().isRemote && targetSpiritId == NO_TARGET) {
+		if(getWorld().isRemote && targetSpiritId == NO_TARGET) {
 			targetSpirit = null;
 		} else if(targetSpirit == null && targetSpiritId != NO_TARGET) {
-			setTargetSpirit((VengeanceSpirit)getWorldObj().getEntityByID(targetSpiritId));
+			setTargetSpirit((VengeanceSpirit)getWorld().getEntityByID(targetSpiritId));
 		}
 		return targetSpirit;
 	}
@@ -308,7 +308,7 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
     protected void onSendUpdate() {
         super.onSendUpdate();
         // Trigger comparator update.
-        worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, this.getBlock());
+        worldObj.notifyNeighborsOfStateChange(getPos(), this.getBlock());
     }
 
 }

@@ -1,17 +1,14 @@
 package evilcraft.core.recipe.xml;
 
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.google.common.collect.Lists;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
+import java.util.List;
 
 /**
  * Handler for shapeless recipes.

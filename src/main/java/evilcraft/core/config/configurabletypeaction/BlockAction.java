@@ -1,11 +1,5 @@
 package evilcraft.core.config.configurabletypeaction;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-import net.minecraftforge.oredict.OreDictionary;
-import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.EvilCraftTab;
 import evilcraft.client.gui.GuiHandler;
 import evilcraft.client.gui.GuiHandler.GuiType;
@@ -14,6 +8,12 @@ import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGui;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.modcompat.fmp.ForgeMultipartHelper;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * The action used for {@link BlockConfig}.
@@ -58,7 +58,7 @@ public class BlockAction extends ConfigurableTypeAction<BlockConfig> {
             ConfigurableBlockContainer container = (ConfigurableBlockContainer) block;
             GameRegistry.registerTileEntity(container.getTileEntity(), eConfig.getSubUniqueName());
             
-            // If the block has a GUI, go ahead and register that.
+            // If the blockState has a GUI, go ahead and register that.
             if(container.hasGui()) {
                 ConfigurableBlockContainerGui gui = (ConfigurableBlockContainerGui) container;
                 GuiHandler.registerGUI(gui, GuiType.BLOCK);
@@ -70,7 +70,7 @@ public class BlockAction extends ConfigurableTypeAction<BlockConfig> {
             OreDictionary.registerOre(eConfig.getOreDictionaryId(), new ItemStack((Block)eConfig.getSubInstance()));
         }
         
-        // Register third-party mod block parts.
+        // Register third-party mod blockState parts.
         if(eConfig.isMultipartEnabled()) {
             ForgeMultipartHelper.registerMicroblock(eConfig);
         }

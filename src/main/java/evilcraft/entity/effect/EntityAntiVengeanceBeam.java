@@ -1,7 +1,5 @@
 package evilcraft.entity.effect;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.EvilCraft;
 import evilcraft.client.particle.EntityBlurFX;
@@ -18,6 +16,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -73,11 +73,11 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
     @SuppressWarnings("rawtypes")
 	@Override
     public void onUpdate() {
-    	Vec3 vec3 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-        Vec3 vec31 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+    	Vec3 vec3 = new Vec3(this.posX, this.posY, this.posZ);
+        Vec3 vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
-        vec3 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-        vec31 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+        vec3 = new Vec3(this.posX, this.posY, this.posZ);
+        vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         
         soundTick++;
         if(soundTick > 3 && this.getEntityId() % 10 == 0) {
@@ -86,7 +86,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         
     	if (!this.worldObj.isRemote) {
             Entity entity = null;
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
 
             for (int j = 0; j < list.size(); ++j) {
@@ -94,7 +94,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
 
                 if (entity1 instanceof VengeanceSpirit && !((VengeanceSpirit) entity1).isSwarm()) {
                     float f = 0.3F;
-                    AxisAlignedBB axisalignedbb = entity1.boundingBox.expand((double)f, (double)f, (double)f);
+                    AxisAlignedBB axisalignedbb = entity1.getBoundingBox().expand((double)f, (double)f, (double)f);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
 
                     if (movingobjectposition1 != null) {
@@ -123,7 +123,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         }
     	
     	if (movingobjectposition != null) {
-            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlock(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ) == Blocks.portal) {
+            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlockState(movingobjectposition.func_178782_a()).getBlock() == Blocks.portal) {
                 this.setInPortal();
             } else {
                 this.onImpact(movingobjectposition);

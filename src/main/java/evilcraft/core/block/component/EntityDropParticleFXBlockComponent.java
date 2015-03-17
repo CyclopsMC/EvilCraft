@@ -1,9 +1,11 @@
 package evilcraft.core.block.component;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.client.particle.ExtendedEntityDropParticleFX;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.util.Random;
 
@@ -52,11 +54,13 @@ public class EntityDropParticleFXBlockComponent implements IEntityDropParticleFX
     }
 
     @Override
-    public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-        if (rand.nextInt(chance) == 0 && (offset == 0 || World.doesBlockHaveSolidTopSurface(world, x, y - offset, z)) && !world.getBlock(x, y - offset - 1, z).getMaterial().blocksMovement()) {
-            double px = (double) ((float) x + rand.nextFloat());
-            double py = (double) y - 0.05D - offset;
-            double pz = (double) ((float) z + rand.nextFloat());
+    public void randomDisplayTick(World world, BlockPos blockPos, IBlockState blockState, Random rand) {
+        if (rand.nextInt(chance) == 0 &&
+                (offset == 0 || World.doesBlockHaveSolidTopSurface(world, blockPos.add(0, - offset, 0))) &&
+                !world.getBlockState(blockPos.add(0, - offset - 1, 0)).getBlock().getMaterial().blocksMovement()) {
+            double px = (double) ((float) blockPos.getX() + rand.nextFloat());
+            double py = (double) blockPos.getY() - 0.05D - offset;
+            double pz = (double) ((float) blockPos.getZ() + rand.nextFloat());
 
             EntityFX fx = new ExtendedEntityDropParticleFX(world, px, py, pz, particleRed, particleGreen, particleBlue);
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);

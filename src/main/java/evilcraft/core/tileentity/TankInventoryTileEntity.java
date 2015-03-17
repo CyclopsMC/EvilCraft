@@ -2,7 +2,7 @@ package evilcraft.core.tileentity;
 
 import evilcraft.core.fluid.SingleUseTank;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -110,7 +110,7 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
     }
     
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
         return tank.fill(resource, doFill);
     }
     
@@ -121,11 +121,11 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      * @return Amount of resource that was (or would have been, if simulated) filled.
      */
     public int fill(FluidStack resource, boolean doFill) {
-        return fill(ForgeDirection.UP, resource, doFill);
+        return fill(EnumFacing.UP, resource, doFill);
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource,
+    public FluidStack drain(EnumFacing from, FluidStack resource,
             boolean doDrain) {
         if (resource == null || !resource.isFluidEqual(tank.getFluid()))
             return null;
@@ -140,11 +140,11 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      *         simulated) drained.
      */
     public FluidStack drain(FluidStack resource, boolean doDrain) {
-        return drain(ForgeDirection.DOWN, resource, doDrain);
+        return drain(EnumFacing.DOWN, resource, doDrain);
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return tank.drain(maxDrain, doDrain);
     }
     
@@ -156,37 +156,37 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      *         simulated) drained.
      */
     public FluidStack drain(int maxDrain, boolean doDrain) {
-        return drain(ForgeDirection.DOWN, maxDrain, doDrain);
+        return drain(EnumFacing.DOWN, maxDrain, doDrain);
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
+    public boolean canFill(EnumFacing from, Fluid fluid) {
         return tank.getAcceptedFluid() == null || tank.canTankAccept(fluid);
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+    public boolean canDrain(EnumFacing from, Fluid fluid) {
         return tank.getAcceptedFluid() == null || tank.canTankAccept(fluid);
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(EnumFacing from) {
         FluidTankInfo[] info = new FluidTankInfo[1];
         info[0] = tank.getInfo();
         return info;
     }
 
     /**
-     * If this tile should send block updates when the tank has changed.
-     * @return If it should send block updates.
+     * If this tile should send blockState updates when the tank has changed.
+     * @return If it should send blockState updates.
      */
     public boolean isSendUpdateOnTankChanged() {
         return sendUpdateOnTankChanged;
     }
 
     /**
-     * If this tile should send block updates when the tank has changed.
-     * @param sendUpdateOnTankChanged If it should send block updates.
+     * If this tile should send blockState updates when the tank has changed.
+     * @param sendUpdateOnTankChanged If it should send blockState updates.
      */
     public void setSendUpdateOnTankChanged(boolean sendUpdateOnTankChanged) {
         this.sendUpdateOnTankChanged = sendUpdateOnTankChanged;
@@ -196,7 +196,7 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
     protected void onSendUpdate() {
     	super.onSendUpdate();
     	if(getBlock().hasComparatorInputOverride()) {
-    		worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, this.getBlock());
+    		worldObj.notifyNeighborsOfStateChange(getPos(), this.getBlock());
     	}
     }
 

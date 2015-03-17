@@ -1,12 +1,12 @@
 package evilcraft.client.render.tileentity;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelChest;
-import net.minecraft.util.ResourceLocation;
 import evilcraft.block.BloodChest;
 import evilcraft.core.client.render.tileentity.RenderTileEntityModel;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.tileentity.TileBloodChest;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelChest;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Renderer for the {@link BloodChest}.

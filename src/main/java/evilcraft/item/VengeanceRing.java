@@ -3,9 +3,7 @@ package evilcraft.item;
 import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import baubles.api.IBauble;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import com.google.common.base.Predicate;
 import evilcraft.Reference;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -25,8 +23,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -100,7 +102,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	}
 
 	@Override
-    public boolean hasEffect(ItemStack itemStack, int pass){
+    public boolean hasEffect(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
     
@@ -117,18 +119,20 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
     @SuppressWarnings("unchecked")
 	public static void toggleVengeanceArea(World world, Entity entity, int area,
 			boolean enableVengeance, boolean spawnRandom, boolean forceGlobal) {
-    	if(world.difficultySetting != EnumDifficulty.PEACEFUL) {
+    	if(world.getDifficulty() != EnumDifficulty.PEACEFUL) {
 	    	double x = entity.posX;
 	    	double y = entity.posY;
 	    	double z = entity.posZ;
+            BlockPos blockPos = entity.getPosition();
 	    	
 	    	// Look for spirits in an area.
-	    	AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
-	    	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABBExcludingEntity(entity, box,
-	    			new IEntitySelector() {
+	    	AxisAlignedBB box = AxisAlignedBB.fromBounds(x, y, z, x, y, z).expand(area, area, area);
+            // MCP: getEntitiesWithinAABBExcludingEntity
+	    	List<VengeanceSpirit> spirits = world.func_175674_a(entity, box,
+	    			new Predicate<Entity>() {
 	
 				@Override
-				public boolean isEntityApplicable(Entity entity) {
+				public boolean apply(Entity entity) {
 					return entity instanceof VengeanceSpirit;
 				}
 	        	
@@ -138,23 +142,22 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	    	for(VengeanceSpirit spirit : spirits) {
 	    		spirit.setEnabledVengeance((EntityPlayer) entity, enableVengeance);
 	    		if(enableVengeance) {
-	    			spirit.setTarget(entity);
-	    		} else if(spirit.getEntityToAttack() == entity) {
-	    			spirit.setTarget(null);
+	    			spirit.setAttackTarget((EntityLivingBase) entity);
+	    		} else if(spirit.getAttackTarget() == entity) {
+	    			spirit.setAttackTarget(null);
 	    		}
 	    	}
 	    	
 	    	// If no spirits were found in an area, we spawn a new one and make him angry.
 	    	if(spirits.size() == 0 && enableVengeance) {
-	    		VengeanceSpirit spirit = VengeanceSpirit.spawnRandom(world, (int) Math.round(x),
-	    				(int) Math.round(y) , (int) Math.round(z), area / 4);
+	    		VengeanceSpirit spirit = VengeanceSpirit.spawnRandom(world, blockPos, area / 4);
 	    		if(spirit != null) {
 	    			if(forceGlobal) {
 	    				spirit.setGlobalVengeance(true);
 	    			} else {
 	    				spirit.setEnabledVengeance((EntityPlayer) entity, true);
 	    			}
-	    			spirit.setTarget(entity);
+	    			spirit.setAttackTarget((EntityLivingBase) entity);
                     int chance = VengeanceSpiritConfig.nonDegradedSpawnChance;
                     spirit.setIsSwarm(chance <= 0 || world.rand.nextInt(chance) > 0);
 	    		}
@@ -168,7 +171,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
      */
     public static void updateRingPowers(EntityPlayer player) {
     	for(int[] power : RING_POWERS) {
-    		player.addPotionEffect(new PotionEffect(power[0], power[1], power[2], true));
+    		player.addPotionEffect(new PotionEffect(power[0], power[1], power[2], false, true));
     	}
 	}
     

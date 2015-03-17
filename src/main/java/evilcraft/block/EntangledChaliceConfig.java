@@ -1,8 +1,5 @@
 package evilcraft.block;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
 import evilcraft.Reference;
 import evilcraft.client.render.item.RenderItemEntangledChalice;
 import evilcraft.client.render.model.ModelChalice;
@@ -12,6 +9,9 @@ import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileEntangledChalice;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Config for the {@link EntangledChalice}.

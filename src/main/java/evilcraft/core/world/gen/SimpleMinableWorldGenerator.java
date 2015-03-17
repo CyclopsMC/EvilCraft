@@ -1,8 +1,8 @@
 package evilcraft.core.world.gen;
 
-import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.List;
 import java.util.Random;

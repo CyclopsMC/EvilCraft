@@ -1,25 +1,24 @@
 package evilcraft.tileentity;
 
-import evilcraft.core.tileentity.EvilCraftTileEntity;
+import evilcraft.core.tileentity.TickingEvilCraftTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.*;
 
 /**
- * Tile Entity for the eternal water block.
+ * Tile Entity for the eternal water blockState.
  * @author rubensworks
  *
  */
-public class TileEternalWaterBlock extends EvilCraftTileEntity implements IFluidHandler {
+public class TileEternalWaterBlock extends TickingEvilCraftTileEntity implements IFluidHandler {
 
     public static final FluidStack WATER = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
 
 	@Override
 	protected void updateTileEntity() {
-		if(!getWorldObj().isRemote) {
-            for(ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-                TileEntity tile = worldObj.getTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY,
-                        zCoord + direction.offsetZ);
+		if(!getWorld().isRemote) {
+            for(EnumFacing direction : EnumFacing.VALUES) {
+                TileEntity tile = worldObj.getTileEntity(getPos().offset(direction));
                 if (tile instanceof IFluidHandler) {
                     IFluidHandler handler = (IFluidHandler) tile;
                     FluidStack fluidStack = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
@@ -30,33 +29,33 @@ public class TileEternalWaterBlock extends EvilCraftTileEntity implements IFluid
 	}
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
         return 0;
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
         if(resource == null || resource.getFluid() != FluidRegistry.WATER) return null;
         return drain(from, FluidContainerRegistry.BUCKET_VOLUME, doDrain);
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return new FluidStack(FluidRegistry.WATER, maxDrain);
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
+    public boolean canFill(EnumFacing from, Fluid fluid) {
         return true;
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+    public boolean canDrain(EnumFacing from, Fluid fluid) {
         return true;
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(EnumFacing from) {
         return new FluidTankInfo[] {
             new FluidTankInfo(WATER.copy(), FluidContainerRegistry.BUCKET_VOLUME)
         };

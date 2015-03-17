@@ -1,8 +1,6 @@
 package evilcraft.item;
 
 import com.google.common.collect.Maps;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -11,14 +9,15 @@ import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.upgrade.Upgrades;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import java.util.List;
@@ -60,7 +59,7 @@ public class Promise extends ConfigurableItem {
         SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_EFFICIENCY, RenderHelpers.RGBToInt(120, 120, 210));
     }
 
-    private IIcon overlay;
+    private TextureAtlasSprite overlay;
 
     /**
      * Initialise the configurable.
@@ -98,19 +97,8 @@ public class Promise extends ConfigurableItem {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack itemStack, int pass) {
-        return pass == 0;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses() {
+    public boolean hasEffect(ItemStack itemStack) {
         return true;
-    }
-    
-    @Override
-    public int getRenderPasses(int metadata) {
-        return 2;
     }
 
     @Override
@@ -131,18 +119,6 @@ public class Promise extends ConfigurableItem {
                 list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("tile." + upgradable.getUnlocalizedName() + ".name"));
             }
         }
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IIconRegister iconRegister) {
-        super.registerIcons(iconRegister);
-        overlay = iconRegister.registerIcon(getIconString() + "_overlay");
-    }
-    
-    @Override
-    public IIcon getIconFromDamageForRenderPass(int meta, int renderpass) {
-        return renderpass == 0 ? this.overlay : super.getIconFromDamageForRenderPass(meta, renderpass);
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -178,7 +154,7 @@ public class Promise extends ConfigurableItem {
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return itemStack.getItemDamage() < 3 ? EnumRarity.rare : EnumRarity.uncommon;
+        return itemStack.getItemDamage() < 3 ? EnumRarity.RARE : EnumRarity.UNCOMMON;
     }
 
 }

@@ -1,8 +1,8 @@
 package evilcraft.core.config.configurabletypeaction;
 
+import evilcraft.core.config.extendedconfig.EnchantmentConfig;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
-import evilcraft.core.config.extendedconfig.EnchantmentConfig;
 
 /**
  * The action used for {@link EnchantmentConfig}.

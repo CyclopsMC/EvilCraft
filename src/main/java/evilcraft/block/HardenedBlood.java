@@ -7,12 +7,16 @@ import evilcraft.fluid.Blood;
 import evilcraft.item.HardenedBloodShardConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -55,7 +59,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public Item getItemDropped(int par1, Random random, int zero) {
+    public Item getItemDropped(IBlockState blockState, Random random, int zero) {
         return null;
     }
     
@@ -65,21 +69,21 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
+    public void harvestBlock(World world, EntityPlayer player, BlockPos blockPos, IBlockState blockState, TileEntity tile){
         player.addStat(StatList.mineBlockStatArray[Block.getIdFromBlock(this)], 1);
         player.addExhaustion(0.025F);
 
         if (this.canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(player)) {
-            ItemStack itemstack = this.createStackedBlock(meta);
+            ItemStack itemstack = this.createStackedBlock(blockState);
 
             if (itemstack != null) {
-                this.dropBlockAsItem(world, x, y, z, itemstack);
+                spawnAsEntity(world, blockPos, itemstack);
             }
         } else {
-            Material material = world.getBlock(x, y - 1, z).getMaterial();
+            Material material = world.getBlockState(blockPos.add(0, -1, 0)).getBlock().getMaterial();
 
             if (material.blocksMovement() || material.isLiquid()) {
-                world.setBlock(x, y, z, FluidBlockBlood.getInstance());
+                world.setBlockState(blockPos, FluidBlockBlood.getInstance().getDefaultState());
             }
         }
     }
@@ -90,31 +94,31 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public void fillWithRain(World world, int x, int y, int z) {
-        world.setBlock(x, y, z, FluidBlockBlood.getInstance());
+    public void fillWithRain(World world, BlockPos blockPos) {
+        world.setBlockState(blockPos, FluidBlockBlood.getInstance().getDefaultState());
     }
     
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float coordX, float coordY, float coordZ) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float coordX, float coordY, float coordZ) {
         if (player.getCurrentEquippedItem() != null) {
             if (player.getCurrentEquippedItem().getItem() == Items.flint_and_steel) {
                 if(player.capabilities.isCreativeMode || !player.getCurrentEquippedItem().attemptDamageItem(1, world.rand))
-                    splitBlock(world, x, y, z);
+                    splitBlock(world, blockPos);
                 return true;
             }
         }
-        return super.onBlockActivated(world, x, y, z, player, meta, coordX, coordY, coordZ);
+        return super.onBlockActivated(world, blockPos, blockState, player, side, coordX, coordY, coordZ);
     }
 
-    private void splitBlock(World world, int x, int y, int z) {
+    private void splitBlock(World world, BlockPos blockPos) {
         ItemStack itemStack = new ItemStack(HardenedBloodShardConfig._instance.getItemInstance(), HardenedBloodShardConfig.minimumDropped
         		+ (int) (Math.random() * (double) HardenedBloodShardConfig.additionalDropped));
-        dropBlockAsItem(world, x, y, z, itemStack);
-        world.setBlockToAir(x, y, z);
+        spawnAsEntity(world, blockPos, itemStack);
+        world.setBlockToAir(blockPos);
     }
     
     @Override
-    public boolean isNormalCube(IBlockAccess world, int x, int y, int z) {
+    public boolean isNormalCube(IBlockAccess world, BlockPos blockPos) {
         return false;
     }
 

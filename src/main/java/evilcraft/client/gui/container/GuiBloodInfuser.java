@@ -1,10 +1,10 @@
 package evilcraft.client.gui.container;
 
-import net.minecraft.entity.player.InventoryPlayer;
 import evilcraft.block.BloodInfuser;
 import evilcraft.core.client.gui.container.GuiWorking;
 import evilcraft.inventory.container.ContainerBloodInfuser;
 import evilcraft.tileentity.TileBloodInfuser;
+import net.minecraft.entity.player.InventoryPlayer;
 
 /**
  * GUI for the {@link BloodInfuser}.

@@ -1,8 +1,8 @@
 package evilcraft.core.inventory;
 
+import evilcraft.core.helper.InventoryHelpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import evilcraft.core.helper.InventoryHelpers;
 
 /**
  * A simple inventory for a currently held item by a player that can be stored in NBT.

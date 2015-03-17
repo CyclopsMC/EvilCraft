@@ -1,8 +1,6 @@
 package evilcraft.entity.effect;
 
 import com.google.common.collect.Lists;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -21,6 +19,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -96,7 +96,6 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
 	            	if(EntityHelpers.spawnEntity(world, mob)) {
                         observables.add(mob);
 			    	}
-                    mob.getNavigator().setAvoidsWater(false);
                     boolean res = mob.getNavigator().tryMoveToEntityLiving(target, 1);
                     if(!res) {
                         mob.getNavigator().tryMoveToXYZ(target.posX, target.posY + 1, target.posZ, 1);

@@ -1,8 +1,10 @@
 package evilcraft.block;
-import net.minecraft.block.material.Material;
+
 import evilcraft.core.config.configurable.ConfigurableBlockSapling;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.material.Material;
 
 /**
  * Sapling for the Undead Tree.
@@ -10,6 +12,8 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
  *
  */
 public class UndeadSapling extends ConfigurableBlockSapling {
+
+    public static BlockPlanks.EnumType TYPE = BlockPlanks.EnumType.valueOf("undead");
     
     private static UndeadSapling _instance = null;
     

@@ -1,12 +1,9 @@
 package evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.BloodStainedBlockConfig;
 import evilcraft.client.particle.EntityBloodSplashFX;
-import evilcraft.core.algorithm.Location;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -19,6 +16,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
@@ -26,6 +25,8 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.ItemFluidContainer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -139,7 +140,7 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
     }
     
     @Override
-    public int getDisplayDamage(ItemStack itemStack) {
+    public double getDurabilityForDisplay(ItemStack itemStack) {
         return 1;
     }
     
@@ -151,19 +152,19 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
     }
     
     @Override
-    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-        Block block = world.getBlock(x, y, z);
+    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ) {
+        Block block = world.getBlockState(blockPos).getBlock();
         if(player.isSneaking()) {
 	        if(Configs.isEnabled(BloodStainedBlockConfig.class)
-	        		&& (BloodStainedBlock.getInstance().canSetInnerBlock(block, world, x, y, z) || block == BloodStainedBlock.getInstance())) {
-	        	BloodStainedBlock.getInstance().stainBlock(world, new Location(x, y, z), FluidContainerRegistry.BUCKET_VOLUME);
+	        		&& (BloodStainedBlock.getInstance().canSetInnerBlock(block, world, blockPos) || block == BloodStainedBlock.getInstance())) {
+	        	BloodStainedBlock.getInstance().stainBlock(world, blockPos, FluidContainerRegistry.BUCKET_VOLUME);
 		        if(world.isRemote) {
-		        	EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + world.rand.nextInt(2));
+		        	EntityBloodSplashFX.spawnParticles(world, blockPos.add(0, 1, 0), 5, 1 + world.rand.nextInt(2));
 		        }
 		        return false;
 	        }
 	    }
-        return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+        return super.onItemUseFirst(itemStack, player, world, blockPos, side, hitX, hitY, hitZ);
     }
     
     @Override

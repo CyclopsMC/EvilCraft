@@ -3,8 +3,10 @@ package evilcraft.client.render.tileentity;
 import evilcraft.Reference;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.tileentity.TileSpiritPortal;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -26,24 +28,26 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
     private static final ResourceLocation PORTALBASE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "portalBases.png");
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime) {
-        renderTileEntityAt((TileSpiritPortal) tileentity, x, y, z, partialTickTime);
+	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
+        renderTileEntityAt((TileSpiritPortal) tileentity, x, y, z, partialTickTime, partialDamage);
 	}
 	
-	protected void renderTileEntityAt(TileSpiritPortal tileentity, double x, double y, double z, float partialTickTime) {
+	protected void renderTileEntityAt(TileSpiritPortal tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
         float progress = tileentity.getProgress();
         GL11.glPushMatrix();
         GL11.glTranslatef(0.5F, 0.5f, 0.5F);
-        renderPortalBase((float) x, (float) y, (float) z, progress);
+        renderPortalBase(Tessellator.getInstance().getWorldRenderer(), (float) x, (float) y, (float) z, progress);
         GL11.glTranslatef((float)x, (float)y, (float)z);
         Random random = new Random();
-        int seed = tileentity.xCoord + tileentity.yCoord + tileentity.zCoord;
-        random.setSeed((long) seed);
-        renderStar(seed, progress, Tessellator.instance, partialTickTime, random);
+        long seed = tileentity.getPos().toLong();
+        random.setSeed(seed);
+        renderStar(seed, progress, Tessellator.getInstance(), partialTickTime, random);
         GL11.glPopMatrix();
 	}
 
     private void renderStar(float rotation, float progress, Tessellator tessellator, float partialTicks, Random random) {
+        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+
 		/* Rotate opposite direction at 20% speed */
         GL11.glRotatef(rotation * -0.2f % 360, 0.5f, 1, 0.5f);
 
@@ -76,17 +80,17 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
             GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(random.nextFloat() * 360.0F + progress * 90.0F, 0.0F, 0.0F, 1.0F);
-            tessellator.startDrawing(6);
+            worldRenderer.startDrawing(6);
             float f3 = random.nextFloat() * BEAM_END_DISTANCE + 5.0F + f2 * 10.0F;
             float f4 = random.nextFloat() * BEAM_START_DISTANCE + 1.0F + f2 * 2.0F;
-            tessellator.setBrightness(255);
-            tessellator.setColorRGBA_I(color1, (int)(MAX_OPACITY * (1.0F - f2)));
-            tessellator.addVertex(0.0D, 0.0D, 0.0D);
-            tessellator.setColorRGBA_I(color2, 0);
-            tessellator.addVertex(-0.866D * f4, f3, -0.5F * f4);
-            tessellator.addVertex(0.866D * f4, f3, -0.5F * f4);
-            tessellator.addVertex(0.0D, f3, 1.0F * f4);
-            tessellator.addVertex(-0.866D * f4, f3, -0.5F * f4);
+            worldRenderer.func_178963_b(255); // mcp: setBrightness
+            worldRenderer.func_178974_a(color1, (int)(MAX_OPACITY * (1.0F - f2))); // mcp: setColor
+            worldRenderer.addVertex(0.0D, 0.0D, 0.0D);
+            worldRenderer.func_178974_a(color2, 0); // mcp: setColor
+            worldRenderer.addVertex(-0.866D * f4, f3, -0.5F * f4);
+            worldRenderer.addVertex(0.866D * f4, f3, -0.5F * f4);
+            worldRenderer.addVertex(0.0D, f3, 1.0F * f4);
+            worldRenderer.addVertex(-0.866D * f4, f3, -0.5F * f4);
             tessellator.draw();
         }
 
@@ -100,7 +104,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         RenderHelper.enableStandardItemLighting();
     }
 
-    private void renderPortalBase(float x, float y, float z, float progress) {
+    private void renderPortalBase(WorldRenderer worldRenderer, float x, float y, float z, float progress) {
         GL11.glPushMatrix();
         GL11.glTranslatef(x, y, z);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -111,12 +115,11 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GL11.glColor3f(0.72F, 0.5f, 0.83F);
 
         bindTexture(PORTALBASE);
-        Tessellator tessellator = Tessellator.instance;
-        RenderManager renderManager = RenderManager.instance;
+        RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
         float r = 180.0F - renderManager.playerViewY;
         GL11.glRotatef(r, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(-renderManager.playerViewX, 1F, 0F, 0F);
-        renderIconForProgress(tessellator, ((int) (progress * 100)) % 4, progress);
+        renderIconForProgress(worldRenderer, ((int) (progress * 100)) % 4, progress);
 
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDepthMask(true);
@@ -124,7 +127,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GL11.glPopMatrix();
     }
 
-    private void renderIconForProgress(Tessellator tessellator, int index, float progress) {
+    private void renderIconForProgress(WorldRenderer worldRenderer, int index, float progress) {
         if(progress > 0.8F) {
             progress -= (progress - 0.8F) * 4;
         }
@@ -137,14 +140,14 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GL11.glScalef(0.5f * progress, 0.5f * progress, 0.5f * progress);
         GL11.glTranslatef(-0.5F, -0.5f, 0);
 
-        tessellator.startDrawingQuads();
-        tessellator.setNormal(0.0F, 1.0F, 0.0F);
-        tessellator.setBrightness(100);
-        tessellator.addVertexWithUV(0, 1, 0.0D, u1, v2);
-        tessellator.addVertexWithUV(0, 0, 0.0D, u1, v1);
-        tessellator.addVertexWithUV(1, 0, 0.0D, u2, v1);
-        tessellator.addVertexWithUV(1, 1, 0.0D, u2, v2);
-        tessellator.draw();
+        worldRenderer.startDrawingQuads();
+        worldRenderer.func_178986_b(0.0F, 1.0F, 0.0F); // mcp: setPosition
+        worldRenderer.func_178963_b(100);
+        worldRenderer.addVertexWithUV(0, 1, 0.0D, u1, v2);
+        worldRenderer.addVertexWithUV(0, 0, 0.0D, u1, v1);
+        worldRenderer.addVertexWithUV(1, 0, 0.0D, u2, v1);
+        worldRenderer.addVertexWithUV(1, 1, 0.0D, u2, v2);
+        worldRenderer.draw();
     }
 
 }

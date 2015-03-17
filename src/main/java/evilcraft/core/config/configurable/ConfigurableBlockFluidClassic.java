@@ -1,18 +1,20 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.block.component.EntityDropParticleFXBlockComponent;
 import evilcraft.core.block.component.IEntityDropParticleFXBlock;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.event.TextureStitchEventHook;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
@@ -29,22 +31,19 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     protected ExtendedConfig eConfig = null;
     
     @SideOnly(Side.CLIENT)
-    protected IIcon[] icon;
-    
-    @SideOnly(Side.CLIENT)
     protected EntityDropParticleFXBlockComponent entityDropParticleFXBlockComponent;
     
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
-     * @param fluid The fluid this block has to represent
-     * @param material Material of this block.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
+     * @param fluid The fluid this blockState has to represent
+     * @param material Material of this blockState.
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockFluidClassic(ExtendedConfig eConfig, Fluid fluid, Material material) {
         super(fluid, material);
         this.setConfig(eConfig);
-        this.setBlockName(eConfig.getUnlocalizedName());
+        this.setUnlocalizedName(eConfig.getUnlocalizedName());
         fluid.setBlock(this);
         TextureStitchEventHook.fluidMap.put(fluid, this);
         this.fluid = fluid;
@@ -59,29 +58,12 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
         return eConfig;
     }
     
-    @Override
-    public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        this.icon = new IIcon[] { iconRegister.registerIcon(getTextureName()+"_still"), iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.getNamedId()+"_flow") };
-        fluid.setIcons(icon[0], icon[1]);
-    }
-    
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        return side != 0 && side != 1 ? this.icon[1] : this.icon[0];
-    }
-    
     /**
      * Set the drop particle color.
      * @param particleRed Red color.
      * @param particleGreen Green color.
      * @param particleBlue Blue color.
-     * @return This instance of the block.
+     * @return This instance of the blockState.
      */
     @SideOnly(Side.CLIENT)
     public ConfigurableBlockFluidClassic setParticleColor(float particleRed, float particleGreen, float particleBlue) {
@@ -92,12 +74,30 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     @Override
     @SideOnly(Side.CLIENT)
     /**
-     * For the particle effects underneath a block that has the liquid on top.
+     * For the particle effects underneath a blockState that has the liquid on top.
      */
-    public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-        super.randomDisplayTick(world, x, y, z, rand);
+    public void randomDisplayTick(World world, BlockPos blockPos, IBlockState blockState, Random rand) {
+        super.randomDisplayTick(world, blockPos, blockState, rand);
         if(entityDropParticleFXBlockComponent != null)
-            entityDropParticleFXBlockComponent.randomDisplayTick(world, x, y, z, rand);
+            entityDropParticleFXBlockComponent.randomDisplayTick(world, blockPos, rand);
+    }
+
+    /**
+     * Get the still icon.
+     * @param map The texture map.
+     * @return The icon.
+     */
+    public TextureAtlasSprite getIconLocationStill(TextureMap map) {
+        return map.getAtlasSprite(Reference.MOD_ID + ":" + "blocks/" + getConfig().getNamedId() + "_still");
+    }
+
+    /**
+     * Get the flow icon.
+     * @param map The texture map.
+     * @return The icon.
+     */
+    public TextureAtlasSprite getIconLocationFlow(TextureMap map) {
+        return map.getAtlasSprite(Reference.MOD_ID + ":" + "blocks/" + getConfig().getNamedId() + "_flow");
     }
 
 }

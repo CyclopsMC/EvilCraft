@@ -1,8 +1,8 @@
 package evilcraft.api.tileentity.bloodchest;
 
-import java.util.Random;
-
 import net.minecraft.item.ItemStack;
+
+import java.util.Random;
 
 /**
  * Actions that can be registered in ...

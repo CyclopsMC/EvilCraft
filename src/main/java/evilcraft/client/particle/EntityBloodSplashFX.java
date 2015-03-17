@@ -1,13 +1,14 @@
 package evilcraft.client.particle;
 
-import java.util.Random;
-
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntitySplashFX;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 
 /**
@@ -38,18 +39,16 @@ public class EntityBloodSplashFX extends EntitySplashFX {
     /**
      * Spawn particles.
      * @param world The world.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param z Z coordinate.
+     * @param blockPos The position.
      * @param velocity The velocity of the particle.
      * @param amount The amount of particles to spawn.
      */
-    public static void spawnParticles(World world, int x, int y, int z, int velocity, int amount) {
+    public static void spawnParticles(World world, BlockPos blockPos, int velocity, int amount) {
         Random random = new Random();
         for(int i = 0; i < amount; i++) {
-            float x_r = x + random.nextFloat();
-            float y_r = y + random.nextFloat();
-            float z_r = z + random.nextFloat();
+            float x_r = blockPos.getX() + random.nextFloat();
+            float y_r = blockPos.getY() + random.nextFloat();
+            float z_r = blockPos.getZ() + random.nextFloat();
             EntityFX fx = new EntityBloodSplashFX(world, x_r, y_r, z_r, random.nextInt(velocity), random.nextInt(velocity), random.nextInt(velocity));
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
         }

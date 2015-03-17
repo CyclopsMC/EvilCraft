@@ -1,12 +1,12 @@
 package evilcraft.modcompat.tconstruct;
 
-import java.util.Random;
-
+import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
+import evilcraft.block.BloodChestConfig;
 import net.minecraft.item.ItemStack;
 import tconstruct.library.tools.AbilityHelper;
 import tconstruct.library.tools.ToolCore;
-import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
-import evilcraft.block.BloodChestConfig;
+
+import java.util.Random;
 
 /**
  * A Blood Chest repair action for Tinkers' Construct tools.

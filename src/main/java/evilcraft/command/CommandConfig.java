@@ -1,13 +1,13 @@
 package evilcraft.command;
 
+import evilcraft.core.config.ConfigProperty;
+import net.minecraft.command.ICommand;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import net.minecraft.command.ICommand;
-import evilcraft.core.config.ConfigProperty;
 
 /**
  * Command for selecting {@link ConfigProperty}.

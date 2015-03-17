@@ -1,20 +1,17 @@
 package evilcraft.core.world.gen;
 
-import java.util.Random;
-import java.util.Set;
-
+import com.google.common.collect.Sets;
+import evilcraft.EvilCraft;
+import evilcraft.GeneralConfig;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.world.ChunkDataEvent;
-
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Level;
 
-import com.google.common.collect.Sets;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import evilcraft.EvilCraft;
-import evilcraft.GeneralConfig;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Registry for {@link IRetroGen} instances.
@@ -66,7 +63,7 @@ public class RetroGenRegistry {
 			
 			boolean atLeastOneModified = false;
 			for(IRetroGen retroGen : retroGeneratables) {
-				if(retroGen.shouldRetroGen(tag, event.world.provider.dimensionId)) {
+				if(retroGen.shouldRetroGen(tag, event.world.provider.getDimensionId())) {
 					retroGen.retroGenerateChunk(tag, event.getChunk(), random);
 					EvilCraft.log("Retrogenerating chunk at " 
 							+ event.getChunk().xPosition + ":" + event.getChunk().zPosition, Level.INFO);

@@ -1,20 +1,18 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.ILocation;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.tileentity.InnerBlocksTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -22,16 +20,16 @@ import net.minecraft.world.World;
 import java.util.List;
 
 /**
- * A block that is based on inner blocks that are stored in a tile entity.
+ * A blockState that is based on inner blocks that are stored in a tile entity.
  * @author rubensworks
  *
  */
 public abstract class ConfigurableBlockWithInnerBlocksExtended extends ConfigurableBlockContainer {
     
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
-     * @param material Material of this block.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
+     * @param material Material of this blockState.
      * @param tileEntity The tile class
      */
     @SuppressWarnings("rawtypes")
@@ -54,147 +52,115 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     /**
      * Get the tile entity.
      * @param world The world.
-     * @param x X
-     * @param y Y
-     * @param z Z
+     * @param blockPos The position.
      * @return The tile.
      * @throws InvalidInnerBlocksTileException If the found tile was invalid or no {@link InnerBlocksTileEntity}.
      */
-    public InnerBlocksTileEntity getTile(IBlockAccess world, int x, int y, int z) throws InvalidInnerBlocksTileException {
-    	TileEntity tile = world.getTileEntity(x, y, z);
+    public InnerBlocksTileEntity getTile(IBlockAccess world, BlockPos blockPos) throws InvalidInnerBlocksTileException {
+    	TileEntity tile = world.getTileEntity(blockPos);
     	if(tile == null || !(tile instanceof InnerBlocksTileEntity)) {
     		throw new InvalidInnerBlocksTileException();
     	}
     	return (InnerBlocksTileEntity) tile;
     }
     
-    @Override
+    /*@Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
+    public TextureAtlasSprite getIcon(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
     	try {
-			return getTile(world, x, y, z).getInnerBlock().getIcon(side, world.getBlockMetadata(x, y, z));
+			return getTile(world, x, y, z).getInnerBlockState().getIcon(side, world.getBlockMetadata(x, y, z));
 		} catch (InvalidInnerBlocksTileException e) {
 			return Blocks.stone.getIcon(world, x, y, z, side);
 		} catch (NullPointerException e) {
             return Blocks.stone.getIcon(world, x, y, z, side);
         }
-    }
+    }*/
     
     @Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
-    	unwrapInnerBlock(world, x, y, z);
+    public boolean removedByPlayer(World world, BlockPos blockPos, EntityPlayer player, boolean willHarvest) {
+    	unwrapInnerBlock(world, blockPos);
     	return false;
     }
     
-    @Override
+    /*@Override
     @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+    public int colorMultiplier(IBlockAccess world, BlockPos blockPos) {
         try {
-			return getTile(world, x, y, z).getInnerBlock().colorMultiplier(world, x, y, z);
+			return getTile(world, blockPos).getInnerBlockState().colorMultiplier(world, blockPos);
 		} catch (InvalidInnerBlocksTileException e) {
-			return Blocks.stone.colorMultiplier(world, x, y, z);
+			return Blocks.stone.colorMultiplier(world, blockPos);
 		} catch (NullPointerException e) {
-            return Blocks.stone.colorMultiplier(world, x, y, z);
+            return Blocks.stone.colorMultiplier(world, blockPos);
         }
-    }
+    }*/
     
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
-    	Block block;
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos blockPos) {
+    	IBlockState blockState;
 		try {
-			block = getTile(world, x, y, z).getInnerBlock();
-            if(block == null) block = Blocks.stone;
+            blockState = getTile(world, blockPos).getInnerBlockState();
+            if(blockState == null) blockState = Blocks.stone.getDefaultState();
 		} catch (InvalidInnerBlocksTileException e) {
-			block = Blocks.stone;
+            blockState = Blocks.stone.getDefaultState();
 		}
-    	return new ItemStack(block, 1, block.getDamageValue(world, x, y, z));
+    	return new ItemStack(blockState.getBlock(), 1, blockState.getBlock().getMetaFromState(blockState));
     }
     
     /**
-     * Convert the block at the given location to an inner block of this.
+     * Convert the blockState at the given location to an inner blockState of this.
      * @param world The world.
-     * @param location The location.
-     * @return If the block could be set as inner block.
+     * @param blockPos The position.
+     * @return If the blockState could be set as inner blockState.
      */
-    public boolean setInnerBlock(World world, ILocation location) {
-    	int[] c = location.getCoordinates();
-    	return setInnerBlock(world, c[0], c[1], c[2]);
-    }
-    
-    /**
-     * Convert the block at the given location to an inner block of this.
-     * @param world The world.
-     * @param x X
-     * @param y Y
-     * @param z Z
-     * @return If the block could be set as inner block.
-     */
-    public boolean setInnerBlock(World world, int x, int y, int z) {
-    	Block block = world.getBlock(x, y, z);
-    	if(canSetInnerBlock(block, world, x, y, z)) {
-    		int meta = world.getBlockMetadata(x, y, z);
-    		world.setBlock(x, y, z, this);
+    public boolean setInnerBlock(World world, BlockPos blockPos) {
+    	Block block = world.getBlockState(blockPos).getBlock();
+    	if(canSetInnerBlock(block, world, blockPos)) {
+    		IBlockState state = world.getBlockState(blockPos);
     		try {
-				getTile(world, x, y, z).setInnerBlock(block);
+				getTile(world, blockPos).setInnerBlockState(state);
 			} catch (InvalidInnerBlocksTileException e) {
 				e.printStackTrace();
 			}
-    		world.setBlockMetadataWithNotify(x, y, z, meta, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+    		world.setBlockState(blockPos, state, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     		return true;
     	}
     	return false;
     }
     
     /**
-     * Unwrap the inner block from this block.
-     * @param world The world.
-     * @param location The location.
-     * @return The newly set block.
-     */
-    public Block unwrapInnerBlock(World world, ILocation location) {
-    	int[] c = location.getCoordinates();
-    	return unwrapInnerBlock(world, c[0], c[1], c[2]);
-    }
-    
-    /**
-     * Try to unwrap the inner block from this block.
+     * Try to unwrap the inner blockState from this blockState.
      * Will return null if failed.
      * @param world The world.
-     * @param x X
-     * @param y Y
-     * @param z Z
-     * @return The newly set block or null.
+     * @param blockPos The position.
+     * @return The newly set blockState state or null.
      */
-    public Block unwrapInnerBlock(World world, int x, int y, int z) {
+    public IBlockState unwrapInnerBlock(World world, BlockPos blockPos) {
     	InnerBlocksTileEntity tile = null;
 		try {
-			tile = getTile(world, x, y, z);
+			tile = getTile(world, blockPos);
 		} catch (InvalidInnerBlocksTileException e) {
 			e.printStackTrace();
 		}
     	if(tile == null) return null;
-    	Block block = tile.getInnerBlock();
+        IBlockState block = tile.getInnerBlockState();
     	if(block == null) return null;
-    	int meta = world.getBlockMetadata(x, y, z);
-    	world.setBlock(x, y, z, block);
-    	world.setBlockMetadataWithNotify(x, y, z, meta, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-    	return block;
+    	IBlockState state = world.getBlockState(blockPos);
+    	world.setBlockState(blockPos, state, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+    	return state;
     }
     
     /**
-     * If the given block can be set to an inner block of this.
-     * @param block The block to set as inner block.
+     * If the given blockState can be set to an inner blockState of this.
+     * @param block The blockState to set as inner blockState.
      * @param world The world.
-     * @param x X
-     * @param y Y
-     * @param z Z
-     * @return If the block can be set as inner block.
+     * @param blockPos The position.
+     * @return If the blockState can be set as inner blockState.
      */
-    public boolean canSetInnerBlock(Block block, IBlockAccess world, int x, int y, int z) {
+    public boolean canSetInnerBlock(Block block, IBlockAccess world, BlockPos blockPos) {
     	return block != null
-    			&& !block.isAir(world, x, y, z)
+    			&& !block.isAir(world, blockPos)
     			&& block.isOpaqueCube()
-    			&& !block.hasTileEntity(world.getBlockMetadata(x, y, z))
+    			&& !block.hasTileEntity(world.getBlockState(blockPos))
     			&& block.getRenderType() == 0;
     }
     

@@ -1,12 +1,13 @@
 package evilcraft.client.particle;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import net.minecraft.client.particle.EntitySplashFX;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -64,23 +65,21 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
      * Call this in machines that should display blood particles when working.
      * @param tile The tile working entity.
      * @param world The world.
-     * @param x X
-     * @param y Y
-     * @param z Z
+     * @param blockPos The blockState position.
      * @param random Random instance.
      */
     @SideOnly(Side.CLIENT)
-    public static void randomDisplayTick(@Nullable WorkingTileEntity tile, World world, int x, int y, int z, Random random) {
+    public static void randomDisplayTick(@Nullable WorkingTileEntity tile, World world, BlockPos blockPos, Random random) {
         if(tile != null && random.nextInt(10) == 0) {
-            ForgeDirection rotatedDirection = tile.getRotation();
+            EnumFacing rotatedDirection = tile.getRotation();
             if (tile.isVisuallyWorking()) {
                 for(int i = 0; i < 1 + random.nextInt(5); i++) {
-                    double particleX = x - rotatedDirection.offsetX + (rotatedDirection == ForgeDirection.EAST ? 1 : 0)
-                            + (rotatedDirection == ForgeDirection.NORTH || rotatedDirection == ForgeDirection.SOUTH ?
+                    double particleX = blockPos.getX() - rotatedDirection.getFrontOffsetX() + (rotatedDirection == EnumFacing.EAST ? 1 : 0)
+                            + (rotatedDirection == EnumFacing.NORTH || rotatedDirection == EnumFacing.SOUTH ?
                             (0.3 + random.nextDouble() * 0.4) : 0);
-                    double particleY = y + 0.1 + random.nextDouble() * 0.5;
-                    double particleZ = z - rotatedDirection.offsetZ + (rotatedDirection == ForgeDirection.SOUTH ? 1 : 0)
-                            + (rotatedDirection == ForgeDirection.EAST || rotatedDirection == ForgeDirection.WEST ?
+                    double particleY = blockPos.getY() + 0.1 + random.nextDouble() * 0.5;
+                    double particleZ = blockPos.getZ() - rotatedDirection.getFrontOffsetZ() + (rotatedDirection == EnumFacing.SOUTH ? 1 : 0)
+                            + (rotatedDirection == EnumFacing.EAST || rotatedDirection == EnumFacing.WEST ?
                             (0.3 + random.nextDouble() * 0.4) : 0);
 
                     float particleMotionX = -0.1F + random.nextFloat() * 0.2F;

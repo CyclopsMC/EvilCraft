@@ -1,11 +1,11 @@
 package evilcraft.event;
 
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Event hook for {@link net.minecraftforge.event.world.BlockEvent.BreakEvent}.
@@ -25,9 +25,9 @@ public class BlockBreakEventHook {
     
     private void unwrapInnerBlock(BlockEvent.BreakEvent event) {
         if(!event.world.isRemote) {
-            Block block = event.world.getBlock(event.x, event.y, event.z);
+            Block block = event.world.getBlockState(event.pos).getBlock();
             if(block instanceof ConfigurableBlockWithInnerBlocksExtended) {
-                ((ConfigurableBlockWithInnerBlocksExtended) block).unwrapInnerBlock(event.world, event.x, event.y, event.z);
+                ((ConfigurableBlockWithInnerBlocksExtended) block).unwrapInnerBlock(event.world, event.pos);
                 event.setResult(Result.ALLOW);
             }
         }

@@ -3,7 +3,6 @@ package evilcraft.core.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -31,7 +30,7 @@ public class GuiButtonExtended extends GuiButton {
 	@Override
 	public void drawButton(Minecraft minecraft, int i, int j) {
         if(visible) {
-	        FontRenderer fontrenderer = minecraft.fontRenderer;
+	        FontRenderer fontrenderer = minecraft.fontRendererObj;
 	        minecraft.renderEngine.bindTexture(buttonTextures);
 	        GL11.glColor4f(1, 1, 1, 1);
 	        

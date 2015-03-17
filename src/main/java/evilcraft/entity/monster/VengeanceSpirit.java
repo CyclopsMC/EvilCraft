@@ -2,10 +2,6 @@ package evilcraft.entity.monster;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.EvilCraft;
 import evilcraft.GeneralConfig;
@@ -31,9 +27,14 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
@@ -91,7 +92,6 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
      */
     public VengeanceSpirit(World world) {
         super(world);
-        this.getNavigator().setAvoidsWater(false);
         this.stepHeight = 5.0F;
         this.isImmuneToFire = true;
         this.preventEntitySpawning = false;
@@ -115,7 +115,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, damage, false));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, false));
         
         setRemainingLife(remainingLife);
         setFrozenDuration(0);
@@ -128,7 +128,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     	if(eggList.size() > 0) {
 	    	EntityList.EntityEggInfo egg = eggList.get(rand.nextInt(eggList.size()));
 	    	if(egg != null) {
-		    	Class<Entity> clazz = (Class<Entity>) EntityList.IDtoClassMapping.get(egg.spawnedID);
+		    	Class<Entity> clazz = (Class<Entity>) EntityList.idToClassMapping.get(egg.spawnedID);
 		    	if(clazz != null) {
 		    		return clazz.getName();
 		    	}
@@ -190,9 +190,10 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     public EnumCreatureAttribute getCreatureAttribute() {
         return EnumCreatureAttribute.UNDEAD;
     }
-    
+
+    // MCP: isEntityInvulnerable
     @Override
-    public boolean isEntityInvulnerable() {
+    public boolean func_180431_b(DamageSource damageSource) {
     	return true;
     }
     
@@ -243,7 +244,8 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
         	if(innerEntity != null) {
 	        	innerEntity.isDead = isDead;
 	        	innerEntity.deathTime = deathTime;
-	        	innerEntity.attackTime = attackTime;
+                innerEntity.setRevengeTarget(getAttackTarget());
+	        	//innerEntity.lastAttackerTime = lastAttackerTime;
 	        	innerEntity.hurtTime = hurtTime;
 	        	innerEntity.rotationPitch = rotationPitch;
 	        	innerEntity.rotationYaw = rotationYaw;
@@ -386,7 +388,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     	String[] players = getVengeancePlayers();
         int index = ArrayUtils.indexOf(players, player.getDisplayName());
     	if(enabled && index == ArrayUtils.INDEX_NOT_FOUND)
-    		players = ArrayUtils.add(players, player.getDisplayName());
+    		players = ArrayUtils.add(players, player.getDisplayName().getFormattedText());
     	else if(!enabled && index != ArrayUtils.INDEX_NOT_FOUND)
     		players = ArrayUtils.remove(players, index);
     	setVengeancePlayers(players);
@@ -570,18 +572,14 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
      * It will check if the amount of spirits in an area is below a certain threshold and if there aren't any gemstone
      * torches in the area
 	 * @param world The world.
-	 * @param x X coordinate.
-	 * @param y Y coordinate.
-	 * @param z Z Coordinate.
+	 * @param blockPos The position.
      * @return If we are allowed to spawn a spirit.
      */
 	@SuppressWarnings("unchecked")
-	public static boolean canSpawnNew(World world, double x, double y, double z) {
-        if(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z)) return false;
-
+	public static boolean canSpawnNew(World world, BlockPos blockPos) {
 		int area = VengeanceSpiritConfig.spawnLimitArea;
 		int threshold = VengeanceSpiritConfig.spawnLimit;
-		AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
+		AxisAlignedBB box = AxisAlignedBB.fromBounds(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ()).expand(area, area, area);
     	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABB(VengeanceSpirit.class, box);
 		if(spirits.size() >= threshold) {
             return false;
@@ -589,13 +587,13 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 
         if(!Configs.isEnabled(GemStoneTorchConfig.class)) return true;
 
-        return WorldHelpers.foldArea(world, GemStoneTorchConfig.area, (int) x, (int) y, (int) z,
+        return WorldHelpers.foldArea(world, GemStoneTorchConfig.area, blockPos,
                 new WorldHelpers.WorldFoldingFunction<Boolean, Boolean>() {
 
             @Nullable
             @Override
-            public Boolean apply(@Nullable Boolean input, World world, int x, int y, int z) {
-                return (input == null ||input) && world.getBlock(x, y, z) != GemStoneTorchConfig._instance.getBlockInstance();
+            public Boolean apply(@Nullable Boolean input, World world, BlockPos blockPos) {
+                return (input == null ||input) && world.getBlockState(blockPos).getBlock() != GemStoneTorchConfig._instance.getBlockInstance();
             }
 
         }, true);
@@ -657,28 +655,27 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 	/**
 	 * Spawn a random vengeance spirit in the given area.
 	 * @param world The world.
-	 * @param x The center X coordinate.
-	 * @param y The center Y coordinate.
-	 * @param z The center Z coordinate.
+	 * @param blockPos The position.
 	 * @param area The radius in which the spawn can occur.
 	 * @return The spawned spirit, could be null.
 	 */
-	public static VengeanceSpirit spawnRandom(World world, int x, int y, int z, int area) {
+	public static VengeanceSpirit spawnRandom(World world, BlockPos blockPos, int area) {
 		VengeanceSpirit spirit = new VengeanceSpirit(world);
 		int attempts = 50;
         int baseDistance = 5;
-		while(canSpawnNew(world, x, y, z) && attempts > 0) {
-			int posX = x + MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
-            int posY = y + MathHelper.getRandomIntegerInRange(world.rand, 0, 3) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
-            int posZ = z + MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
+		while(canSpawnNew(world, blockPos) && attempts > 0) {
+            BlockPos spawnPos = blockPos.add(
+                    MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1),
+                    MathHelper.getRandomIntegerInRange(world.rand, 0, 3) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1),
+                    MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1)
+            );
             
-            if(World.doesBlockHaveSolidTopSurface(world, posX, posY - 1, posZ)) {
-                spirit.setPosition((double) posX + 0.5, (double) posY + 0.5, (double) posZ + 0.5);
-                if(world.checkNoEntityCollision(spirit.boundingBox)
-                		&& world.getCollidingBoundingBoxes(spirit, spirit.boundingBox).isEmpty()
-                		&& !world.isAnyLiquid(spirit.boundingBox)) {
+            if(World.doesBlockHaveSolidTopSurface(world, spawnPos.add(0, -1, 0))) {
+                spirit.setPosition((double) spawnPos.getX() + 0.5, (double) spawnPos.getY() + 0.5, (double) spawnPos.getZ() + 0.5);
+                if(world.checkNoEntityCollision(spirit.getBoundingBox())
+                		&& world.getCollidingBoundingBoxes(spirit, spirit.getBoundingBox()).isEmpty()
+                		&& !world.isAnyLiquid(spirit.getBoundingBox())) {
                     world.spawnEntityInWorld(spirit);
-                    spirit.onSpawnWithEgg((IEntityLivingData)null);
                     attempts = -1;
                     return spirit;
                 }

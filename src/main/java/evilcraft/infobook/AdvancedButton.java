@@ -44,7 +44,7 @@ public class AdvancedButton extends GuiButton {
     @Override
     public void drawButton(Minecraft minecraft, int mouseX, int mouseY) {
         if(isVisible() && isHover(mouseX, mouseY)) {
-            minecraft.fontRenderer.drawString(("§n") +
+            minecraft.fontRendererObj.drawString(("§n") +
                             displayString + "§r", xPosition, xPosition,
                     RenderHelpers.RGBToInt(100, 100, 150));
         }

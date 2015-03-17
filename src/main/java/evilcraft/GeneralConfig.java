@@ -95,13 +95,13 @@ public class GeneralConfig extends DummyConfig {
     /**
      * Minimum height at which a dark temple can spawn.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Minimum block height at which a dark temple can spawn.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Minimum blockState height at which a dark temple can spawn.")
     public static int darkTempleMinHeight = 75;
     
     /**
      * Maximum height at which a dark temple can spawn.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Maximum block height at which a dark temple can spawn.")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Maximum blockState height at which a dark temple can spawn.")
     public static int darkTempleMaxHeight = 256;
     
     /**

@@ -1,12 +1,11 @@
 package evilcraft.core;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.logging.log4j.Level;
-
 import evilcraft.EvilCraft;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.apache.logging.log4j.Level;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Helps with code debugging.

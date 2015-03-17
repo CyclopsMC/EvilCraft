@@ -1,16 +1,16 @@
 package evilcraft.client.gui.container;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
 import evilcraft.block.SpiritFurnace;
 import evilcraft.core.client.gui.container.GuiWorking;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.inventory.container.ContainerSpiritReanimator;
 import evilcraft.tileentity.TileSpiritReanimator;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * GUI for the {@link SpiritFurnace}.

@@ -1,18 +1,16 @@
 package evilcraft.core.client.render.block;
 
+import evilcraft.core.helper.DirectionHelpers;
+import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
-
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import evilcraft.core.helper.DirectionHelpers;
-import evilcraft.core.helper.RenderHelpers;
 
 
 /**
@@ -29,14 +27,14 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
     protected CustomRenderBlocks renderBlocks = new CustomRenderBlocks();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
+    public void renderInventoryBlock(Block block, IBlockState blockStatedata, int modelID, RenderBlocks renderer) {
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
         renderInventoryBlock(renderer, block, metadata);
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, BlockPos blockPos, Block block, int modelId, RenderBlocks renderer) {
         renderBlocks.setWorld(world);
         renderBlocks.setRenderBoundsFromBlock(block);
         boolean visible = false;
@@ -75,7 +73,7 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
         return ID;
     }
     
-    private void renderInventoryBlock(RenderBlocks renderer, Block block, int metaData) {
+    private void renderInventoryBlock(RenderBlocks renderer, Block block, IBlockState blockStateData) {
         // Init
         Tessellator tessellator = Tessellator.instance;
         block.setBlockBoundsForItemRender();
@@ -98,7 +96,7 @@ public class MultiPassBlockRenderer implements ISimpleBlockRenderingHandler{
             for (int pass = 0; pass < blockToRender.getRenderPasses(); pass++) {
                 blockToRender.setRenderPass(pass);
                 // Loop over sides and render them relative to the given direction.
-                for(ForgeDirection renderDirection : DirectionHelpers.DIRECTIONS) {
+                for(EnumFacing renderDirection : DirectionHelpers.DIRECTIONS) {
                     tessellator.startDrawingQuads();
                     tessellator.setNormal(
                             renderDirection.offsetX,

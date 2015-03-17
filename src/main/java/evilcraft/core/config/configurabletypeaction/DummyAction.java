@@ -1,7 +1,7 @@
 package evilcraft.core.config.configurabletypeaction;
 
-import net.minecraftforge.common.config.Configuration;
 import evilcraft.core.config.extendedconfig.DummyConfig;
+import net.minecraftforge.common.config.Configuration;
 
 /**
  * Just a dummy action.

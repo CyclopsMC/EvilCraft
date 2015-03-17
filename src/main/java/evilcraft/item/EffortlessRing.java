@@ -2,8 +2,6 @@ package evilcraft.item;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Reference;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -18,6 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * A ring that allows the player to walk faster with a double step height.
@@ -65,7 +65,7 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return EnumRarity.uncommon;
+        return EnumRarity.UNCOMMON;
     }
 
     /**

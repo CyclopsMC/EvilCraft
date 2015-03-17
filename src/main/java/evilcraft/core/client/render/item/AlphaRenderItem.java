@@ -2,12 +2,10 @@ package evilcraft.core.client.render.item;
 
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.client.IItemRenderer;
-
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.registry.RenderingRegistry;
 
 
 /**
@@ -37,7 +35,7 @@ public class AlphaRenderItem implements IItemRenderer{
     @Override
     public void renderItem(ItemRenderType type, ItemStack itemStack, Object... data) {
         GL11.glEnable(GL11.GL_BLEND);
-        IIcon icon = itemStack.getIconIndex();
+        TextureAtlasSprite icon = itemStack.getIconIndex();
         renderItem.renderIcon(0, 0, icon, 16, 16);
         GL11.glDisable(GL11.GL_BLEND);
     }

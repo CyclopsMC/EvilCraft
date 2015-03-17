@@ -1,9 +1,9 @@
 package evilcraft.core.config.extendedconfig;
 
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.BiomeDictionary;
 import evilcraft.core.config.ConfigurableType;
 import evilcraft.core.config.configurable.ConfigurableBiome;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
 
 /**
  * Config for biomes.

@@ -1,13 +1,15 @@
 package evilcraft.entity.block;
 
-import net.minecraft.client.renderer.entity.Render;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.block.LightningBomb;
 import evilcraft.client.render.block.RenderBombPrimed;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.EntityConfig;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Config for {@link EntityLightningBombPrimed}.
@@ -41,7 +43,7 @@ public class EntityLightningBombPrimedConfig extends EntityConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender() {
+    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
         return new RenderBombPrimed(LightningBomb.getInstance());
     }
     

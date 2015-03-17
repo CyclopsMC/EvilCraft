@@ -1,15 +1,15 @@
 package evilcraft.core.degradation.effect;
 
-import java.util.List;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+
+import java.util.List;
 
 /**
  * Degradation effect that will nauseate entities in the degradation area.

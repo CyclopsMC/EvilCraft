@@ -1,10 +1,10 @@
 package evilcraft.core.config.configurabletypeaction;
 
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 import evilcraft.api.RegistryManager;
 import evilcraft.api.degradation.IDegradationRegistry;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 
 /**
  * The action used for {@link DegradationEffectConfig}.

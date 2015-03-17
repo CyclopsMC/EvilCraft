@@ -1,25 +1,24 @@
 package evilcraft.core.algorithm;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Random;
-
 import com.google.common.collect.ContiguousSet;
 import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
+import net.minecraft.util.BlockPos;
 
-import evilcraft.api.ILocation;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Random;
 
 /**
  * An iterator for an N-dimensional region defined by a location in that space with an offset in each direction.
  * @author rubensworks
  *
  */
-public class RegionIterator implements Iterator<ILocation> {
+public class RegionIterator implements Iterator<BlockPos> {
 
-	private ILocation center;
+	private BlockPos center;
 	private int offset;
 	private boolean shuffle;
 	
@@ -33,7 +32,7 @@ public class RegionIterator implements Iterator<ILocation> {
 	 * @param offset The offset.
 	 * @param shuffle If the resulting locations from the iterator should deterministicly be shuffled.
 	 */
-	public RegionIterator(ILocation center, int offset, boolean shuffle) {
+	public RegionIterator(BlockPos center, int offset, boolean shuffle) {
 		this.center = center;
 		this.offset = offset;
 		this.shuffle = shuffle;
@@ -49,11 +48,7 @@ public class RegionIterator implements Iterator<ILocation> {
 	}
 	
 	private long getShuffleSeed() {
-		long seed = 0;
-		for(int c : center.getCoordinates()) {
-			seed += c;
-		}
-		return seed;
+		return center.toLong();
 	}
 	
 	/**
@@ -61,7 +56,7 @@ public class RegionIterator implements Iterator<ILocation> {
 	 * @param center The center.
 	 * @param offset The offset.
 	 */
-	public RegionIterator(ILocation center, int offset) {
+	public RegionIterator(BlockPos center, int offset) {
 		this(center, offset, false);
 	}
 	
@@ -69,15 +64,16 @@ public class RegionIterator implements Iterator<ILocation> {
 		return 2 * offset + 1;
 	}
 	
-	private void addTickOffset(ILocation center) {
+	private void addTickOffset(BlockPos center) {
 		int tick = shuffledTicks.get(loopBlockTick);
-		for(int i = 0; i < center.getDimensions(); i++) {
+        int[] c = new int[3];
+		for(int i = 0; i < 3; i++) {
 			int mod = (int) Math.pow(getArea(), i + 1);
 			int prevMod = (int) Math.pow(getArea(), i);
-			center.getCoordinates()[i] += -offset
+			c[i] = -offset
 					+ ((tick % mod) - (tick % prevMod)) / prevMod;
-			
 		}
+        center.add(c[0], c[1], c[2]);
 	}
 	
 	@Override
@@ -86,9 +82,9 @@ public class RegionIterator implements Iterator<ILocation> {
 	}
 
 	@Override
-	public ILocation next() {
+	public BlockPos next() {
 		loopBlockTick = (loopBlockTick + 1) % maxTick;
-		ILocation next = center.copy();
+		BlockPos next = new BlockPos(center.getX(), center.getY(), center.getZ());
 		addTickOffset(next);
 		return next;
 	}

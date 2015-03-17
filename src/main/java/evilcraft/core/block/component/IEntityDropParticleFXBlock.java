@@ -1,8 +1,10 @@
 package evilcraft.core.block.component;
 
-import java.util.Random;
-
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * Interface for the {@link EntityDropParticleFXBlockComponent}.
@@ -13,10 +15,9 @@ public interface IEntityDropParticleFXBlock {
     /**
      * Called when a random display tick occurs.
      * @param world The world.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param z Z coordinate.
+     * @param blockPos The position.
+     * @param blockState The block state.
      * @param rand Random object.
      */
-    public void randomDisplayTick(World world, int x, int y, int z, Random rand);
+    public void randomDisplayTick(World world, BlockPos blockPos, IBlockState blockState, Random rand);
 }

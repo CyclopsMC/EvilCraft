@@ -1,10 +1,11 @@
 package evilcraft.core.client.gui.container;
 
 import evilcraft.core.fluid.SingleUseTank;
+import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.inventory.container.ExtendedInventoryContainer;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.IIcon;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 
@@ -89,7 +90,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     }
     
 	protected void drawForgegroundString() {
-    	fontRendererObj.drawString(tile.getInventoryName(), 8 + offsetX, 4 + offsetY, 4210752);
+    	fontRendererObj.drawString(tile.getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
     
     @Override
@@ -128,8 +129,8 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
 	protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
         FluidStack stack = new FluidStack(fluidID, 1);
         if(fluidID > 0) {
-            IIcon icon = stack.getFluid().getIcon();
-            if (icon == null) icon = Blocks.water.getIcon(0, 0);
+            TextureAtlasSprite icon = stack.getFluid().getIcon();
+            if (icon == null) icon = RenderHelpers.getBlockIcon(Blocks.water);
             
             int verticalOffset = 0;
             
@@ -144,8 +145,9 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
                     level = 0;
                 }
                 
-                mc.renderEngine.bindTexture(mc.renderEngine.getResourceLocation(0));
-                drawTexturedModelRectFromIcon(xOffset, yOffset - textureHeight - verticalOffset, icon, tankWidth, textureHeight);
+                mc.renderEngine.bindTexture(RenderHelpers.TEXTURE_MAP);
+                // MCP: drawTexturedModelRectFromIcon
+                func_175175_a(xOffset, yOffset - textureHeight - verticalOffset, icon, tankWidth, textureHeight);
                 verticalOffset = verticalOffset + 16;
             }
             

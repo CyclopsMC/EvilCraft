@@ -1,7 +1,7 @@
 package evilcraft.block;
 
-import net.minecraft.init.Blocks;
 import evilcraft.core.config.extendedconfig.BlockConfig;
+import net.minecraft.init.Blocks;
 
 /**
  * Config for the {@link UndeadLeaves}.
@@ -29,7 +29,7 @@ public class UndeadLeavesConfig extends BlockConfig {
     
     @Override
     public void onRegistered() {
-    	Blocks.fire.setFireInfo(UndeadLeaves.getInstance(), 30, 60);
+    	Blocks.fire.func_180686_a(UndeadLeaves.getInstance(), 30, 60);
     }
     
     @Override

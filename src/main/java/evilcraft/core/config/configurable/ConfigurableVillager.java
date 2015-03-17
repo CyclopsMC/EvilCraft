@@ -1,12 +1,12 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.VillagerConfig;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
+import net.minecraftforge.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Random;
 /**
  * Villager that can hold ExtendedConfigs
  * @author rubensworks
- *
+ * TODO: still being written in Forge.
  */
 public class ConfigurableVillager implements IConfigurable, IVillageTradeHandler {
 

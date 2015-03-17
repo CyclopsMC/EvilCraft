@@ -1,8 +1,6 @@
 package evilcraft.item;
 
 import com.google.common.collect.Maps;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -10,7 +8,9 @@ import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class PromiseAcceptor extends ConfigurableItem {
         COLORS.put(2, RenderHelpers.RGBToInt(150, 250, 200));
     }
 
-    private IIcon overlay;
+    private TextureAtlasSprite overlay;
 
     /**
      * Initialise the configurable.
@@ -60,7 +60,7 @@ public class PromiseAcceptor extends ConfigurableItem {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack itemStack, int pass) {
+    public boolean hasEffect(ItemStack itemStack) {
         return true;
     }
 

@@ -1,7 +1,5 @@
 package evilcraft.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
 import evilcraft.core.block.IBlockTank;
@@ -11,18 +9,19 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.tileentity.TileEntangledChalice;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -30,7 +29,7 @@ import java.util.List;
 
 /**
  * Chalice that can be bound to other chalices which causes them to always share the same fluid amount.
- * Can be filled or drained in block mode, and can be used to auto-supply ALL slots in a player inventory.
+ * Can be filled or drained in blockState mode, and can be used to auto-supply ALL slots in a player inventory.
  * @author rubensworks
  *
  */
@@ -39,7 +38,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 	/**
 	 * Meta data for supplying.
 	 */
-	public static final int META_SUPPLY = 1;
+    public static final PropertyBool SUPPLY = PropertyBool.create("supply");
 	
     private static EntangledChalice _instance = null;
     
@@ -66,6 +65,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 
     private EntangledChalice(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileEntangledChalice.class);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(SUPPLY, false));
     }
 
     @Override
@@ -74,27 +74,14 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
         setBlockBoundsForItemRender();
     }
 
     @Override
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB area, List list, Entity entity) {
+    public void addCollisionBoxesToList(World world, BlockPos blockPos, IBlockState blockState, AxisAlignedBB area, List list, Entity entity) {
         setBlockBounds(0, 0, 0, 1, 1, 1);
-        super.addCollisionBoxesToList(world, x, y, z, area, list, entity);
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        
-    }
-    
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        // This is ONLY used for the block breaking/broken particles
-        // Since the gold block looks very similar, we use that icon.
-        return Blocks.gold_block.getIcon(0, 0);
+        super.addCollisionBoxesToList(world, blockPos, blockState, area, list, entity);
     }
     
     @Override
@@ -108,14 +95,14 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
     }
 
     @Override
-    public boolean renderAsNormalBlock() {
+    public boolean isNormalCube() {
         return false;
     }
     
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float motionX, float motionY, float motionZ) {
-    	return tankComponent.onBlockActivatedTank(world, x, y, z, player, side, motionX, motionY, motionZ) ||
-                super.onBlockActivated(world, x, y, z, player, side, motionX, motionY, motionZ);
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float motionX, float motionY, float motionZ) {
+    	return tankComponent.onBlockActivatedTank(world, blockPos, player, side, motionX, motionY, motionZ) ||
+                super.onBlockActivated(world, blockPos, blockState, player, side, motionX, motionY, motionZ);
     }
     
     @Override
@@ -171,7 +158,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 		if(player.isSneaking()) {
             if(!world.isRemote) {
             	ItemStack activated = itemStack.copy();
-            	activated.setItemDamage(META_SUPPLY - activated.getItemDamage());
+            	activated.setItemDamage(1 - activated.getItemDamage());
             	return activated;
             }
             return itemStack;
@@ -181,12 +168,12 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 
 	@Override
 	public boolean isActivated(ItemStack itemStack, World world, Entity entity) {
-		return itemStack.getItemDamage() == META_SUPPLY;
+		return itemStack.getItemDamage() == 1;
 	}
 	
 	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z) {
-		TileEntity tile = world.getTileEntity(x, y, z);
+	public int getLightValue(IBlockAccess world, BlockPos blockPos) {
+		TileEntity tile = world.getTileEntity(blockPos);
 		if(tile != null && tile instanceof TileEntangledChalice) {
 			TileEntangledChalice tank = (TileEntangledChalice) tile;
 			if(tank.getTank().getFluidType() != null) {
@@ -207,6 +194,6 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return EnumRarity.rare;
+        return EnumRarity.RARE;
     }
 }

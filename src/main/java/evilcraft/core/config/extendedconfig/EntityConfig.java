@@ -1,11 +1,14 @@
 package evilcraft.core.config.extendedconfig;
 
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.ConfigurableType;
 import evilcraft.proxy.ClientProxy;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Config for entities.
@@ -40,10 +43,12 @@ public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
     @Override
     @SideOnly(Side.CLIENT)
     public void onRegistered() {
-        if(getRender() != null) {
+        Render render = getRender(Minecraft.getMinecraft().getRenderManager(),
+                Minecraft.getMinecraft().getRenderItem());
+        if(render != null) {
         	@SuppressWarnings("unchecked")
             Class<? extends Entity> clazz = (Class<? extends Entity>) this.getElement();
-        	ClientProxy.ENTITY_RENDERERS.put(clazz, getRender());
+        	ClientProxy.ENTITY_RENDERERS.put(clazz, render);
         }
     }
     
@@ -71,5 +76,5 @@ public abstract class EntityConfig extends ExtendedConfig<EntityConfig>{
         return false;
     }
     
-    protected abstract Render getRender();
+    protected abstract Render getRender(RenderManager renderManager, RenderItem renderItem);
 }

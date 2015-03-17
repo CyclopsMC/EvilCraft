@@ -1,10 +1,10 @@
 package evilcraft.item;
 
-import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.IFuelHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Config for the Crushed Dark Gem.

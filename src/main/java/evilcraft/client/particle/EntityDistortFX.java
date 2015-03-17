@@ -1,8 +1,8 @@
 package evilcraft.client.particle;
 
+import evilcraft.item.MaceOfDistortion;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
-import evilcraft.item.MaceOfDistortion;
 
 /**
  * An effect for the distortion radial effect.

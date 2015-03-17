@@ -1,15 +1,19 @@
 package evilcraft.block;
-import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.world.IBlockAccess;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableBlockConnectedTexture;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 /**
  * Glass that holds back some light.
@@ -52,24 +56,24 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public Item getItemDropped(int par1, Random random, int zero) {
+    public Item getItemDropped(IBlockState blockState, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
     
     @SideOnly(Side.CLIENT)
     @Override
-    public boolean shouldSideBeRendered (IBlockAccess world, int x, int y, int z, int side) {
-        Block block = world.getBlock(x, y, z);
-        return block == this ? false : super.shouldSideBeRendered(world, x, y, z, side);
+    public boolean shouldSideBeRendered (IBlockAccess world, BlockPos blockPos, EnumFacing side) {
+        Block block = world.getBlockState(blockPos).getBlock();
+        return block == this ? false : super.shouldSideBeRendered(world, blockPos, side);
     }
     
     @Override
-    public int getRenderBlockPass() {
+    public int getRenderPasses() {
         return 1;
     }
     
     @Override
-    public boolean renderAsNormalBlock() {
+    public boolean isNormalCube() {
         return false;
     }
     

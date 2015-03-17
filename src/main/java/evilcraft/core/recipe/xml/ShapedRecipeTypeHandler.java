@@ -2,9 +2,9 @@ package evilcraft.core.recipe.xml;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

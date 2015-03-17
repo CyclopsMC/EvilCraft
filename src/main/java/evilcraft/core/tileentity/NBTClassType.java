@@ -1,14 +1,14 @@
 package evilcraft.core.tileentity;
 
+import evilcraft.api.tileentity.INBTSerializable;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import evilcraft.api.tileentity.INBTSerializable;
 
 /**
  * Types of NBT field classes used for persistence of fields in {@link EvilCraftTileEntity}.

@@ -7,10 +7,13 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -26,10 +29,10 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
 			new BlockTankComponent<ConfigurableBlockContainerGuiTankInfo>(this); 
 	
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
-     * @param material Material of this block.
-     * @param tileEntity The class of the tile entity this block holds.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
+     * @param material Material of this blockState.
+     * @param tileEntity The class of the tile entity this blockState holds.
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockContainerGuiTankInfo(ExtendedConfig eConfig,
@@ -43,16 +46,16 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
     }
 
     @Override
-    public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-    	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(x, y, z);
+    public int getComparatorInputOverride(World world, BlockPos blockPos) {
+    	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
     
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float motionX, float motionY, float motionZ) {
-    	return tankComponent.onBlockActivatedTank(world, x, y, z, player, side, motionX, motionY, motionZ) ||
-                super.onBlockActivated(world, x, y, z, player, side, motionX, motionY, motionZ);
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float motionX, float motionY, float motionZ) {
+    	return tankComponent.onBlockActivatedTank(world, blockPos, player, side, motionX, motionY, motionZ) ||
+                super.onBlockActivated(world, blockPos, blockState, player, side, motionX, motionY, motionZ);
     }
     
     @Override

@@ -1,26 +1,22 @@
 package evilcraft.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.ILocation;
 import evilcraft.client.gui.container.GuiSpiritFurnace;
-import evilcraft.core.algorithm.Location;
-import evilcraft.core.algorithm.Size;
 import evilcraft.core.block.CubeDetector.IDetectionListener;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.inventory.container.ContainerSpiritFurnace;
 import evilcraft.tileentity.TileSpiritFurnace;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -33,10 +29,6 @@ import java.util.Random;
 public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo implements IDetectionListener {
     
     private static SpiritFurnace _instance = null;
-    
-    private IIcon blockIconInactive;
-    private IIcon blockIconUp;
-    private IIcon blockIconInactiveUp;
     
     /**
      * Initialise the configurable.
@@ -70,32 +62,13 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     }
     
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
-        return !TileSpiritFurnace.canWork(world, new Location(x, y, z)) ||
-                super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer entityplayer, EnumFacing side, float par7, float par8, float par9) {
+        return !TileSpiritFurnace.canWork(world, blockPos) ||
+                super.onBlockActivated(world, blockPos, blockState, entityplayer, side, par7, par8, par9);
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(getTextureName());
-        blockIconInactive = iconRegister.registerIcon(getTextureName() + "_inactive");
-        blockIconUp = iconRegister.registerIcon(getTextureName() + "_UP");
-        blockIconInactiveUp = iconRegister.registerIcon(getTextureName() + "_inactive_UP");
-        
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        if (meta == 1) {
-            return side < 2 ? this.blockIconUp : this.blockIcon;
-        }
-        return side < 2 ? this.blockIconInactiveUp : this.blockIconInactive;
-    }
-    
-    @Override
-    public Item getItemDropped(int par1, Random random, int zero) {
+    public Item getItemDropped(IBlockState blockState, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
 
@@ -109,29 +82,29 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
         return TileSpiritFurnace.LIQUID_PER_SLOT;
     }
     
-    private void triggerDetector(World world, int x, int y, int z, boolean valid) {
-    	TileSpiritFurnace.detector.detect(world, new Location(x, y, z), valid, true);
+    private void triggerDetector(World world, BlockPos blockPos, boolean valid) {
+    	TileSpiritFurnace.detector.detect(world, blockPos, valid, true);
     }
     
     @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
-    	triggerDetector(world, x, y, z, true);
+    public void onBlockAdded(World world, BlockPos blockPos, IBlockState blockState) {
+    	triggerDetector(world, blockPos, true);
     }
     
-    @Override
-    public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
-    	triggerDetector(world, x, y, z, false);
-    	super.onBlockPreDestroy(world, x, y, z, meta);
-    }
+    /*@Override
+    public void onBlockPreDestroy(World world, BlockPos blockPos, IBlockState blockState) {
+    	triggerDetector(world, blockPos, false);
+    	super.onBlockPreDestroy(world, blockPos, meta);
+    }*/
 
 	@Override
-	public void onDetect(World world, ILocation location, Size size, boolean valid) {
-		Block block = LocationHelpers.getBlock(world, location);
+	public void onDetect(World world, BlockPos location, Vec3i size, boolean valid) {
+		Block block = world.getBlockState(location).getBlock();
 		if(block == this) {
 			TileSpiritFurnace.detectStructure(world, location, size, valid);
-			TileEntity tile = LocationHelpers.getTile(world, location);
+			TileEntity tile = world.getTileEntity(location);
 			if(tile != null) {
-				((TileSpiritFurnace) tile).setSize(valid ? size : Size.NULL_SIZE);
+				((TileSpiritFurnace) tile).setSize(valid ? size : Vec3i.NULL_VECTOR);
 			}
 		}
 	}

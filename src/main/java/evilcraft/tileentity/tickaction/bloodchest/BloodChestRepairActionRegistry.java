@@ -1,12 +1,12 @@
 package evilcraft.tileentity.tickaction.bloodchest;
 
+import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
+import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
+import net.minecraft.item.ItemStack;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
-import net.minecraft.item.ItemStack;
-import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
-import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 
 /**
  * Registry for {@link IBloodChestRepairAction} instances.

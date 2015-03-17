@@ -1,8 +1,8 @@
 package evilcraft.core.client.render.item;
 
+import evilcraft.core.client.render.model.ModelWavefront;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
-import evilcraft.core.client.render.model.ModelWavefront;
 
 /**
  * General item renderer for blocks/items with models.

@@ -1,21 +1,21 @@
 package evilcraft.client.render.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.RenderHelpers;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 
 /**
@@ -31,14 +31,14 @@ public class RenderEnvironmentalAccumulator implements ISimpleBlockRenderingHand
     public static final int ID = RenderingRegistry.getNextAvailableRenderId();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID,
+    public void renderInventoryBlock(Block block, IBlockState blockStatedata, int modelID,
             RenderBlocks renderer) {
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
         renderInventoryBlock(renderer, block, metadata);
     }
 
-    private void renderInventoryBlock(RenderBlocks renderer, Block block, int metadata) {
+    private void renderInventoryBlock(RenderBlocks renderer, Block block, IBlockState blockStatedata) {
         // Init
         Tessellator tessellator = Tessellator.instance;
         block.setBlockBoundsForItemRender();
@@ -50,7 +50,7 @@ public class RenderEnvironmentalAccumulator implements ISimpleBlockRenderingHand
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         
         // Loop over sides and render them relative to the given direction.
-        for(ForgeDirection renderDirection : DirectionHelpers.DIRECTIONS) {
+        for(EnumFacing renderDirection : DirectionHelpers.DIRECTIONS) {
             tessellator.startDrawingQuads();
             tessellator.setNormal(
                     renderDirection.offsetX,
@@ -72,7 +72,7 @@ public class RenderEnvironmentalAccumulator implements ISimpleBlockRenderingHand
         }
         
         // The rendering of the inside
-        IIcon icon = block.getBlockTextureFromSide(ForgeDirection.DOWN.ordinal());
+        TextureAtlasSprite icon = block.getBlockTextureFromSide(EnumFacing.DOWN.ordinal());
         float f4 = 0.300F;
         double x = 0;
         double y = 0;
@@ -105,12 +105,12 @@ public class RenderEnvironmentalAccumulator implements ISimpleBlockRenderingHand
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
+    public boolean renderWorldBlock(IBlockAccess world, BlockPos blockPos,
             Block block, int modelId, RenderBlocks renderer) {
         return renderEnvironmentalAccumulator((EnvironmentalAccumulator) block, world, x, y, z, renderer);
     }
     
-    private boolean renderEnvironmentalAccumulator(EnvironmentalAccumulator envirAcc, IBlockAccess blockAccess, int x, int y, int z, RenderBlocks renderer) {
+    private boolean renderEnvironmentalAccumulator(EnvironmentalAccumulator envirAcc, IBlockAccess blockAccess, BlockPos blockPos, RenderBlocks renderer) {
         renderer.renderStandardBlock(envirAcc, x, y, z);
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(envirAcc.getMixedBrightnessForBlock(blockAccess, x, y, z));
@@ -131,7 +131,7 @@ public class RenderEnvironmentalAccumulator implements ISimpleBlockRenderingHand
         }
 
         tessellator.setColorOpaque_F(f * f1, f * f2, f * f3);
-        IIcon icon = envirAcc.getBlockTextureFromSide(ForgeDirection.DOWN.ordinal());
+        TextureAtlasSprite icon = envirAcc.getBlockTextureFromSide(EnumFacing.DOWN.ordinal());
         f4 = 0.300F;
         renderer.renderFaceXPos(envirAcc, (double)((float)x - 1.0F + f4), (double)y, (double)z, icon);
         renderer.renderFaceXNeg(envirAcc, (double)((float)x + 1.0F - f4), (double)y, (double)z, icon);

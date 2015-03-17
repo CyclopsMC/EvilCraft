@@ -44,7 +44,7 @@ public abstract class ItemBucketConfig extends ItemConfig {
     public abstract Fluid getFluidInstance();
     /**
      * Get the {@link ConfigurableBlockFluidClassic} this bucket can place / pick up.
-     * @return the fluid block.
+     * @return the fluid blockState.
      */
     public abstract Block getFluidBlockInstance();
     

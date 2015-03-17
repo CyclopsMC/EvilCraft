@@ -29,7 +29,7 @@ public class CraftingHelpers {
 
     public static Map.Entry<ItemStack, ItemStack> findFurnaceRecipe(ItemStack itemStack, int index) throws InfoBookParser.InvalidAppendixException {
         int indexAttempt = index;
-        for(Map.Entry<ItemStack, ItemStack> recipe : ((Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().
+        for(Map.Entry<ItemStack, ItemStack> recipe : ((Map<ItemStack, ItemStack>) FurnaceRecipes.instance().
                 getSmeltingList()).entrySet()) {
             if(itemStacksEqual(recipe.getValue(), itemStack) && indexAttempt-- == 0) {
                 return recipe;

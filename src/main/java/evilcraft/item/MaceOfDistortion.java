@@ -1,9 +1,7 @@
 package evilcraft.item;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Multimap;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.client.particle.EntityDistortFX;
@@ -27,6 +25,9 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -107,7 +108,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     
     @Override
     public EnumAction getItemUseAction(ItemStack itemStack) {
-        return EnumAction.bow;
+        return EnumAction.BOW;
     }
     
     @Override
@@ -225,15 +226,8 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
         
         // Get the entities in the given area
         double area = getArea(itemUsedCount);
-        AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
-        List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(player, box, new IEntitySelector() {
-
-            @Override
-            public boolean isEntityApplicable(Entity entity) {
-                return true;
-            }
-            
-        });
+        AxisAlignedBB box = AxisAlignedBB.fromBounds(x, y, z, x, y, z).expand(area, area, area);
+        List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(player, box);
         
         // Do knockback and damage to the list of entities
         boolean onePlayer = false;
@@ -313,7 +307,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
             world.playSoundAtEntity(player, "random.explode", (float)(power + 1) / (float)POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         }
         // Fake explosion effect.
-        world.spawnParticle("largeexplode", entity.posX, entity.posY + itemRand.nextFloat(), entity.posZ, 1.0D, 0.0D, 0.0D);
+        world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, entity.posX, entity.posY + itemRand.nextFloat(), entity.posZ, 1.0D, 0.0D, 0.0D);
     }
     
     @SideOnly(Side.CLIENT)
@@ -330,7 +324,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
         float particleMotionY = 0.2F;
         float particleMotionZ = world.rand.nextFloat() * 0.2F - 0.1F;
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                new EntitySmokeFX(world, particleX, particleY, particleZ,
+                new EntitySmokeFX.Factory().func_178902_a(0, world, particleX, particleY, particleZ,
                         particleMotionX, particleMotionY, particleMotionZ)
                 );
         
@@ -346,7 +340,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     @Override
     public Multimap getAttributeModifiers(ItemStack itemStack) {
         Multimap multimap = super.getAttributeModifiers(itemStack);
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)MELEE_DAMAGE, 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", (double)MELEE_DAMAGE, 0));
         return multimap;
     }
     

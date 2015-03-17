@@ -1,8 +1,5 @@
 package evilcraft.entity.monster;
 
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.render.entity.RenderPoisonousLibelle;
 import evilcraft.client.render.model.ModelPoisonousLibelle;
 import evilcraft.core.config.ConfigurableProperty;
@@ -10,8 +7,12 @@ import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Config for the {@link PoisonousLibelle}.
@@ -78,13 +79,13 @@ public class PoisonousLibelleConfig extends MobConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender() {
-        return new RenderPoisonousLibelle(this, new ModelPoisonousLibelle(), 0.5F);
+    public Render getRender(RenderManager renderManager) {
+        return new RenderPoisonousLibelle(renderManager, this, new ModelPoisonousLibelle(), 0.5F);
     }
     
     @Override
     public void onRegistered() {
-        EntityRegistry.addSpawn(PoisonousLibelle.class, 1, 1, 2, EnumCreatureType.monster, BiomeGenBase.river);
+        EntityRegistry.addSpawn(PoisonousLibelle.class, 1, 1, 2, EnumCreatureType.MONSTER, BiomeGenBase.river);
     }
     
 }

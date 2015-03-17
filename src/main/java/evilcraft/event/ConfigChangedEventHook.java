@@ -1,9 +1,9 @@
 package evilcraft.event;
 
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Reference;
 import evilcraft.core.config.ConfigHandler;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Event hook for {@link ConfigChangedEvent}.

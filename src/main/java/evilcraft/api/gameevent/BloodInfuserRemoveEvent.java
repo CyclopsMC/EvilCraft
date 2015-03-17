@@ -1,8 +1,8 @@
 package evilcraft.api.gameevent;
 
-import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.eventhandler.Event;
 
 /**
  * Event when a player removes a crafted item from a slot.

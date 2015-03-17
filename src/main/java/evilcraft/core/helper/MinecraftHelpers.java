@@ -1,25 +1,24 @@
 package evilcraft.core.helper;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.item.TileEntityNBTStorage;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import java.util.LinkedList;
@@ -59,15 +58,15 @@ public class MinecraftHelpers {
 	}
     
     /**
-     * Cause a regular block update.
+     * Cause a regular blockState update.
      */
     public static final int BLOCK_NOTIFY = 1;
     /**
-     * Send a block update to the client.
+     * Send a blockState update to the client.
      */
     public static final int BLOCK_NOTIFY_CLIENT = 2;
     /**
-     * Stop the block from re-rendering.
+     * Stop the blockState from re-rendering.
      */
     public static final int BLOCK_NOTIFY_NO_RERENDER = 4;
     
@@ -118,41 +117,22 @@ public class MinecraftHelpers {
      * @param z Z coordinate.
      * @return the entity that was spawned.
      */
-    public static Entity spawnCreature(World world, int entityID, double x, double y, double z)
-    {
-        if (!EntityList.entityEggs.containsKey(Integer.valueOf(entityID))) {
-            return null;
-        } else {
-            Entity entity = EntityList.createEntityByID(entityID, world);
-
-            if (entity != null && entity.isEntityAlive()) {
-                EntityLiving entityliving = (EntityLiving)entity;
-                entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360.0F), 0.0F);
-                entityliving.rotationYawHead = entityliving.rotationYaw;
-                entityliving.renderYawOffset = entityliving.rotationYaw;
-                entityliving.onSpawnWithEgg((IEntityLivingData)null);
-                world.spawnEntityInWorld(entity);
-                entityliving.playLivingSound();
-            }
-
-            return entity;
-        }
+    public static Entity spawnCreature(World world, int entityID, double x, double y, double z) {
+        return ItemMonsterPlacer.spawnCreature(world, entityID, x, y, z);
     }
     
     /**
      * This method should be called when a BlockContainer is destroyed
-     * @param block The block.
+     * @param block The blockState.
      * @param world world
-     * @param x x coordinate
-     * @param y y coordinate
-     * @param z z coordinate
+     * @param blockPos The position.
      * @param saveNBT If the NBT data should be saved to the dropped item.
      */
-    public static void preDestroyBlock(ConfigurableBlockContainer block, World world, int x, int y, int z, boolean saveNBT) {
-        TileEntity tile = world.getTileEntity(x, y, z);
+    public static void preDestroyBlock(ConfigurableBlockContainer block, World world, BlockPos blockPos, boolean saveNBT) {
+        TileEntity tile = world.getTileEntity(blockPos);
 
         if (tile instanceof IInventory && !world.isRemote) {
-            dropItems(world, (IInventory) tile, x, y, z);
+            dropItems(world, (IInventory) tile, blockPos);
             InventoryHelpers.clearInventory((IInventory) tile);
         }
         
@@ -171,11 +151,9 @@ public class MinecraftHelpers {
     /**
 	 * This method should be called after a BlockContainer is destroyed
 	 * @param world world
-	 * @param x x coordinate
-	 * @param y y coordinate
-	 * @param z z coordinate
+	 * @param blockPos The position.
 	 */
-	public static void postDestroyBlock(World world, int x, int y, int z) {
+	public static void postDestroyBlock(IBlockAccess world, BlockPos blockPos) {
 	    // Does nothing for now.
 	}
     
@@ -183,18 +161,17 @@ public class MinecraftHelpers {
      * Drop an ItemStack into the world
      * @param world the world
      * @param stack ItemStack to drop
-     * @param x x coordinate
-     * @param y y coordinate
-     * @param z z coordinate
+     * @param blockPos The position.
      */
-    public static void dropItems(World world, ItemStack stack, int x, int y, int z) {
+    public static void dropItems(World world, ItemStack stack, BlockPos blockPos) {
         if (stack.stackSize > 0) {
             float offsetMultiply = 0.7F;
             double offsetX = (world.rand.nextFloat() * offsetMultiply) + (1.0F - offsetMultiply) * 0.5D;
             double offsetY = (world.rand.nextFloat() * offsetMultiply) + (1.0F - offsetMultiply) * 0.5D;
             double offsetZ = (world.rand.nextFloat() * offsetMultiply) + (1.0F - offsetMultiply) * 0.5D;
-            EntityItem entityitem = new EntityItem(world, x + offsetX, y + offsetY, z + offsetZ, stack);
-            entityitem.delayBeforeCanPickup = 10;
+            EntityItem entityitem = new EntityItem(world, blockPos.getX() + offsetX, blockPos.getY() + offsetY,
+                    blockPos.getZ() + offsetZ, stack);
+            entityitem.setPickupDelay(10);
     
             world.spawnEntityInWorld(entityitem);
         }
@@ -204,15 +181,13 @@ public class MinecraftHelpers {
      * Drop an ItemStack into the world
      * @param world the world
      * @param inventory inventory with ItemStacks
-     * @param x x coordinate
-     * @param y y coordinate
-     * @param z z coordinate
+     * @param blockPos The position.
      */
-    public static void dropItems(World world, IInventory inventory, int x, int y, int z) {
+    public static void dropItems(World world, IInventory inventory, BlockPos blockPos) {
         for (int i = 0; i < inventory.getSizeInventory(); i++) {
             ItemStack itemStack = inventory.getStackInSlot(i);
             if (itemStack != null && itemStack.stackSize > 0)
-                dropItems(world, inventory.getStackInSlot(i).copy(), x, y, z);
+                dropItems(world, inventory.getStackInSlot(i).copy(), blockPos);
         }
     }
 

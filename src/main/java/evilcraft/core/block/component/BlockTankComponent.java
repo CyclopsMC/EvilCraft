@@ -9,15 +9,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
 /**
- * Component for block tanks.
+ * Component for blockState tanks.
  * @author rubensworks
- * @param <T> The type of block.
+ * @param <T> The type of blockState.
  *
  */
 public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
@@ -35,9 +37,7 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 	/**
 	 * Called upon tank activation.
 	 * @param world The world.
-	 * @param x X
-	 * @param y Y
-	 * @param z Z
+	 * @param blockPos The position.
 	 * @param player Player
 	 * @param side Side integer
 	 * @param motionX X motion
@@ -45,11 +45,11 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 	 * @param motionZ Z motion
 	 * @return If the event should be halted.
 	 */
-	public boolean onBlockActivatedTank(World world, int x, int y, int z,
-			EntityPlayer player, int side, float motionX, float motionY,
+	public boolean onBlockActivatedTank(World world, BlockPos blockPos,
+			EntityPlayer player, EnumFacing side, float motionX, float motionY,
 			float motionZ) {
         ItemStack itemStack = player.inventory.getCurrentItem();
-        TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(x, y, z);
+        TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
         if(tile != null) {
             if(itemStack != null) {
             	FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);

@@ -1,11 +1,11 @@
 package evilcraft.core;
 
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 /**
- * An equivalent to {@link ForgeDirection} for being able to also refer to
- * block positions that are at a euclidian distance of maximum 2.
- * @see ForgeDirection
+ * An equivalent to {@link EnumFacing} for being able to also refer to
+ * blockState positions that are at a euclidian distance of maximum 2.
+ * @see EnumFacing
  * @author rubensworks
  *
  */

@@ -1,5 +1,14 @@
 package evilcraft.client.render.tileentity;
 
+import evilcraft.api.recipes.custom.IRecipe;
+import evilcraft.block.EnvironmentalAccumulator;
+import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
+import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
+import evilcraft.tileentity.EvilCraftBeaconTileEntity;
+import evilcraft.tileentity.TileEnvironmentalAccumulator;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.boss.BossStatus;
@@ -7,15 +16,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
 import org.lwjgl.opengl.GL11;
-
-import evilcraft.api.recipes.custom.IRecipe;
-import evilcraft.block.EnvironmentalAccumulator;
-import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
-import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
-import evilcraft.tileentity.EvilCraftBeaconTileEntity;
-import evilcraft.tileentity.TileEnvironmentalAccumulator;
 
 /**
  * Renderer for the {@link EnvironmentalAccumulator}.
@@ -28,8 +29,8 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
     private static final int ITEM_SPIN_SPEED = 3;
     
     @Override
-    public void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime) {
-        super.renderBeacon(tileentity, x, y, z, partialTickTime);
+    public void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
+        super.renderBeacon(tileentity, x, y, z, partialTickTime, partialDamage);
         
         TileEnvironmentalAccumulator tile = (TileEnvironmentalAccumulator)tileentity;
         if(tile.getHealth() != tile.getMaxHealth())
@@ -69,11 +70,12 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
             GL11.glTranslatef(1F, 1F, 1F);
             GL11.glRotated(angle, 0, 1, 0);
         }
-        
-        RenderItem.renderInFrame = true;
-        EntityItem entity = new EntityItem(world, 0, 0, 0, stack);
-        entity.hoverStart = 0.0F;
-        RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-        RenderItem.renderInFrame = false;
+
+        GlStateManager.pushAttrib();
+        RenderHelper.enableStandardItemLighting();
+        Minecraft.getMinecraft().getRenderItem().func_175043_b(stack);
+        RenderHelper.disableStandardItemLighting();
+        GlStateManager.popAttrib();
+        //Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
     }
 }

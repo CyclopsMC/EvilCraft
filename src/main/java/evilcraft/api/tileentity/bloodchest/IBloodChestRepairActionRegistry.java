@@ -1,9 +1,9 @@
 package evilcraft.api.tileentity.bloodchest;
 
-import java.util.Random;
-
-import net.minecraft.item.ItemStack;
 import evilcraft.api.IRegistry;
+import net.minecraft.item.ItemStack;
+
+import java.util.Random;
 
 /**
  * Registry for {@link IBloodChestRepairAction} instances.

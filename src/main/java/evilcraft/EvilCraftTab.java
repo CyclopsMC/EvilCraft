@@ -1,7 +1,8 @@
 package evilcraft;
+
+import evilcraft.item.DarkGem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import evilcraft.item.DarkGem;
 
 /**
  * Creative tab for EvilCraft.

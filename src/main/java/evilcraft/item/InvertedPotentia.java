@@ -1,7 +1,5 @@
 package evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -14,6 +12,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerab
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack, int pass){
+    public boolean hasEffect(ItemStack itemStack){
         return isEmpowered(itemStack);
     }
     

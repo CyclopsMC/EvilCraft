@@ -10,8 +10,8 @@ import net.minecraft.item.ItemStack;
 public interface IBlockRarityProvider {
 
     /**
-     * @param itemStack The itemstack with this block.
-     * @return The rarity for this block.
+     * @param itemStack The itemstack with this blockState.
+     * @return The rarity for this blockState.
      */
     public EnumRarity getRarity(ItemStack itemStack);
 

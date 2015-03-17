@@ -75,7 +75,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     }
     
     /**
-     * If the furnace should visually (block icon) show it is working, should only be
+     * If the furnace should visually (blockState icon) show it is working, should only be
      * called client-side.
      * @return If the state is working.
      */

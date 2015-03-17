@@ -1,13 +1,5 @@
 package evilcraft.block;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.RegistryManager;
 import evilcraft.api.recipes.custom.IMachine;
 import evilcraft.api.recipes.custom.IRecipeRegistry;
@@ -19,6 +11,11 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.tileentity.TileEnvironmentalAccumulator;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 
 /**
  * Block that can collect the weather and stuff.
@@ -73,10 +70,6 @@ public class EnvironmentalAccumulator
      * processing.
      */
     public static final int STATE_FINISHED_PROCESSING_ITEM = 3;
-    
-    private IIcon sideIcon;
-    private IIcon bottomIcon;
-    private IIcon topIcon;
 
 	private EnvironmentalAccumulator(ExtendedConfig<BlockConfig> eConfig) {
 		super(eConfig, Material.iron, TileEnvironmentalAccumulator.class);
@@ -97,34 +90,14 @@ public class EnvironmentalAccumulator
     }
 	
 	@Override
-	public boolean renderAsNormalBlock() {
+	public boolean isNormalCube() {
 	    return false;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@Override
-	public IIcon getIcon(int side, int meta) {
-	    if (side == ForgeDirection.UP.ordinal())
-	        return topIcon;
-	    
-	    if (side == ForgeDirection.DOWN.ordinal())
-	        return bottomIcon;
-	    
-	    return sideIcon;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerBlockIcons(IIconRegister iconRegister) {
-	    sideIcon = iconRegister.registerIcon(getTextureName() + "_side");
-	    bottomIcon = iconRegister.registerIcon(getTextureName() + "_bottom");
-	    topIcon = iconRegister.registerIcon(getTextureName() + "_top");
-	}
-	
-	@Override
-	public void onBlockHarvested(World world, int x, int y, int z, int metadata, EntityPlayer player) {
+	public void onBlockHarvested(World world, BlockPos blockPos, IBlockState blockStatedata, EntityPlayer player) {
 	    // Environmental Accumulators should not drop upon breaking
-	    world.setBlockToAir(x, y, z);
+	    world.setBlockToAir(blockPos);
 	}
 
     @Override

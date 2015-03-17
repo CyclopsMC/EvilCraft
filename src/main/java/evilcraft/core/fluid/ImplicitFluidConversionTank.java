@@ -1,8 +1,8 @@
 package evilcraft.core.fluid;
 
+import evilcraft.core.tileentity.EvilCraftTileEntity;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.core.tileentity.EvilCraftTileEntity;
 
 /**
  * A single use tank that can accept multiple types of fluids.

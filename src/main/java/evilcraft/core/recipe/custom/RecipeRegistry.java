@@ -1,17 +1,10 @@
 package evilcraft.core.recipe.custom;
 
+import evilcraft.api.RegistryManager;
+import evilcraft.api.recipes.custom.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import evilcraft.api.RegistryManager;
-import evilcraft.api.recipes.custom.IMachine;
-import evilcraft.api.recipes.custom.IRecipe;
-import evilcraft.api.recipes.custom.IRecipeInput;
-import evilcraft.api.recipes.custom.IRecipeMatcher;
-import evilcraft.api.recipes.custom.IRecipeOutput;
-import evilcraft.api.recipes.custom.IRecipeProperties;
-import evilcraft.api.recipes.custom.IRecipeRegistry;
-import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
 
 /**
  * Default implementation of {@link IRecipeRegistry}.

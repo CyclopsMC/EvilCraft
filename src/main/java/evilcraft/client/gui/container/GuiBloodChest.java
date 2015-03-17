@@ -1,10 +1,10 @@
 package evilcraft.client.gui.container;
 
-import net.minecraft.entity.player.InventoryPlayer;
 import evilcraft.block.BloodChest;
 import evilcraft.core.client.gui.container.GuiContainerTankInventory;
 import evilcraft.inventory.container.ContainerBloodChest;
 import evilcraft.tileentity.TileBloodChest;
+import net.minecraft.entity.player.InventoryPlayer;
 
 /**
  * GUI for the {@link BloodChest}.

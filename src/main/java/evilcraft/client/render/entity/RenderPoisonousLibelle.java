@@ -5,6 +5,7 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.entity.monster.PoisonousLibelle;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import org.lwjgl.opengl.GL11;
@@ -23,8 +24,8 @@ public class RenderPoisonousLibelle extends RenderModelLiving<ModelBase> {
      * @param model The model.
      * @param par2 No idea...
      */
-	public RenderPoisonousLibelle(ExtendedConfig<MobConfig> config, ModelBase model, float par2) {
-	    super(config, model, par2);
+	public RenderPoisonousLibelle(RenderManager renderManager, ExtendedConfig<MobConfig> config, ModelBase model, float par2) {
+	    super(renderManager, config, model, par2);
 	}
 
     @Override

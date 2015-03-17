@@ -37,7 +37,7 @@ public interface IBlockTank {
      */
     public void setTankCapacity(NBTTagCompound tag, int capacity);
     /**
-     * Get the maximum capacity possible for this item/block type.
+     * Get the maximum capacity possible for this item/blockState type.
      * Only makes sense to have a bigger value than {@link IBlockTank#getTankCapacity(ItemStack)}
      * if this capacity is variable.
      * @return The max capacity.

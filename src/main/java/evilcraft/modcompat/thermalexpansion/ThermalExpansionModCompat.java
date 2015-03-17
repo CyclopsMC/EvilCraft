@@ -1,6 +1,5 @@
 package evilcraft.modcompat.thermalexpansion;
 
-import cpw.mods.fml.common.event.FMLInterModComms;
 import evilcraft.*;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.*;
@@ -18,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class ThermalExpansionModCompat implements IModCompat {
         }
 
         // Crucible poison
-        ArrayList<ItemStack> materialPoisonousList = OreDictionary.getOres(Reference.DICT_MATERIALPOISONOUS);
+        List<ItemStack> materialPoisonousList = OreDictionary.getOres(Reference.DICT_MATERIALPOISONOUS);
         for(ItemStack materialPoisonous : materialPoisonousList) {
             NBTTagCompound cruciblePoison = new NBTTagCompound();
             cruciblePoison.setInteger("energy", 2000);

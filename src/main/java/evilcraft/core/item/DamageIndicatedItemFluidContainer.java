@@ -1,7 +1,5 @@
 package evilcraft.core.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.IInformationProvider;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +9,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -49,19 +49,19 @@ public abstract class DamageIndicatedItemFluidContainer extends ItemFluidContain
     
     @Override
     public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
-        if(container != null && container.stackTagCompound != null && container.stackTagCompound.getCompoundTag("Fluid") != null) {
+        if(container != null && container.getTagCompound() != null && container.getTagCompound().getCompoundTag("Fluid") != null) {
             // Fix for Thermal Expansion
-            FluidStack stack = FluidStack.loadFluidStackFromNBT(container.stackTagCompound.getCompoundTag("Fluid"));
+            FluidStack stack = FluidStack.loadFluidStackFromNBT(container.getTagCompound().getCompoundTag("Fluid"));
             if(stack != null && stack.amount <= 0) {
                 stack.amount = 0;
-                NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag("Fluid");
+                NBTTagCompound fluidTag = container.getTagCompound().getCompoundTag("Fluid");
                 fluidTag.setInteger("Amount", 0);
                 return stack;
             }
         }
         FluidStack fluidStack = super.drain(container, maxDrain, doDrain);
         if(container != null &&
-                (container.stackTagCompound == null || container.stackTagCompound.getCompoundTag("Fluid") == null)) {
+                (container.getTagCompound() == null || container.getTagCompound().getCompoundTag("Fluid") == null)) {
             fill(container, new FluidStack(fluid, 0), true);
         }
         return fluidStack;

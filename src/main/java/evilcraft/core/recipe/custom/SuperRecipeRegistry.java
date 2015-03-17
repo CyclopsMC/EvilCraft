@@ -1,18 +1,11 @@
 package evilcraft.core.recipe.custom;
 
+import evilcraft.api.recipes.custom.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import evilcraft.api.recipes.custom.IMachine;
-import evilcraft.api.recipes.custom.IRecipe;
-import evilcraft.api.recipes.custom.IRecipeInput;
-import evilcraft.api.recipes.custom.IRecipeMatch;
-import evilcraft.api.recipes.custom.IRecipeMatcher;
-import evilcraft.api.recipes.custom.IRecipeOutput;
-import evilcraft.api.recipes.custom.IRecipeProperties;
-import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
 
 /**
  * This class allows you to register new recipes for machines.

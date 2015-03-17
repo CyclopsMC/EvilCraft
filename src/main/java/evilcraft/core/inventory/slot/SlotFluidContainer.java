@@ -1,12 +1,12 @@
 package evilcraft.core.inventory.slot;
 
+import evilcraft.core.fluid.SingleUseTank;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import evilcraft.core.fluid.SingleUseTank;
 
 /**
  * Slots that will accept buckets and {@link IFluidContainerItem}.

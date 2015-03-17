@@ -1,11 +1,11 @@
 package evilcraft.core.tileentity;
 
+import evilcraft.api.tileentity.INBTSerializable;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import evilcraft.api.tileentity.INBTSerializable;
 
 
 /**

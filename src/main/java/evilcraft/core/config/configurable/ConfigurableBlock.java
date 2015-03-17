@@ -1,17 +1,15 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import evilcraft.core.client.render.block.CustomRenderBlocks;
 import evilcraft.core.client.render.block.IMultiRenderPassBlock;
 import evilcraft.core.client.render.block.MultiPassBlockRenderer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Block that can hold ExtendedConfigs
@@ -28,15 +26,15 @@ public class ConfigurableBlock extends Block implements IConfigurable, IMultiRen
     protected boolean isInventoryBlock = false;
     
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
-     * @param material Material of this block.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
+     * @param material Material of this blockState.
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlock(ExtendedConfig eConfig, Material material) {
         super(material);
         this.setConfig(eConfig);
-        this.setBlockName(eConfig.getUnlocalizedName());
+        this.setUnlocalizedName(eConfig.getUnlocalizedName());
     }
 
     private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
@@ -48,29 +46,12 @@ public class ConfigurableBlock extends Block implements IConfigurable, IMultiRen
         return eConfig;
     }
     
-    @Override
+    /*@Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(getTextureName());
-    }
-    
-    @Override
-    public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta) {
-        return getIcon(side, meta, pass);
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta, int renderPass) {
+    public TextureAtlasSprite getIcon(EnumFacing side, IBlockState blockState, int renderPass) {
         if(renderPass < 0) return null;
         return super.getIcon(side, meta);
-    }
+    }*/
     
     @SideOnly(Side.CLIENT)
     @Override
@@ -107,7 +88,7 @@ public class ConfigurableBlock extends Block implements IConfigurable, IMultiRen
     }
     
     @Override
-    public void updateTileEntity(IBlockAccess world, int x, int y, int z) {
+    public void updateTileEntity(IBlockAccess world, BlockPos blockPos) {
         // There was absolutely nothing here...
     }
     

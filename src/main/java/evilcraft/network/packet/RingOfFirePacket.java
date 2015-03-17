@@ -1,8 +1,5 @@
 package evilcraft.network.packet;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.particle.EntityFireShootFX;
 import evilcraft.core.helper.LocationHelpers;
 import evilcraft.network.CodecField;
@@ -13,6 +10,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Packet for sending and showing the ring of fire.
@@ -47,7 +47,7 @@ public class RingOfFirePacket extends PacketCodec {
 	 * @param player The player data.
 	 */
 	public RingOfFirePacket(EntityPlayer player) {
-		this.displayName = player.getDisplayName();
+		this.displayName = player.getDisplayName().getFormattedText();
 		this.x = player.posX;
 		this.y = player.posY;
 		this.z = player.posZ;
@@ -95,7 +95,7 @@ public class RingOfFirePacket extends PacketCodec {
                         );
             } else {
                 FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new EntityFlameFX(world, particleX, particleY, particleZ, 0, 0, 0)
+                        new EntityFlameFX.Factory().func_178902_a(0, world, particleX, particleY, particleZ, 0, 0, 0)
                         );
             }
         }

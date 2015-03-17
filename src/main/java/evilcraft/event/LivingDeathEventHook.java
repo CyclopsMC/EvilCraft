@@ -1,7 +1,5 @@
 package evilcraft.event;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.block.BloodStainedBlock;
@@ -10,25 +8,26 @@ import evilcraft.block.SpiritPortal;
 import evilcraft.block.SpiritPortalConfig;
 import evilcraft.client.particle.EntityBloodSplashFX;
 import evilcraft.core.PlayerExtendedInventoryIterator;
-import evilcraft.core.algorithm.Location;
 import evilcraft.core.world.FakeWorld;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
 import evilcraft.item.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Random;
 
@@ -76,17 +75,18 @@ public class LivingDeathEventHook {
             int x = MathHelper.floor_double(event.entity.posX);
             int y = MathHelper.floor_double(event.entity.posY - event.entity.getYOffset() - 1);
             int z = MathHelper.floor_double(event.entity.posZ);
-            Block block = event.entity.worldObj.getBlock(x, y, z);
-            if(BloodStainedBlock.getInstance().canSetInnerBlock(block, event.entity.worldObj, x, y, z)
+            BlockPos pos = new BlockPos(x, y, z);
+            Block block = event.entity.worldObj.getBlockState(pos).getBlock();
+            if(BloodStainedBlock.getInstance().canSetInnerBlock(block, event.entity.worldObj, pos)
             		|| block == BloodStainedBlock.getInstance()) {
                 if (!event.entity.worldObj.isRemote) {
-                    // Transform block into blood stained version
-                	BloodStainedBlock.getInstance().stainBlock(event.entity.worldObj, new Location(x, y, z),
+                    // Transform blockState into blood stained version
+                	BloodStainedBlock.getInstance().stainBlock(event.entity.worldObj, pos,
                 			(int) (BloodStainedBlockConfig.bloodMBPerHP * event.entityLiving.getMaxHealth()));
                 } else {
                     // Init particles
                     Random random = new Random();
-                    EntityBloodSplashFX.spawnParticles(event.entity.worldObj, x, y + 1, z, ((int)event.entityLiving.getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
+                    EntityBloodSplashFX.spawnParticles(event.entity.worldObj, pos.add(0, 1, 0), ((int)event.entityLiving.getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
                 }
             }
         }
@@ -95,24 +95,20 @@ public class LivingDeathEventHook {
 	private void vengeanceEvent(LivingDeathEvent event) {
         if (event.entityLiving != null) {
             World world = event.entityLiving.worldObj;
-            double x = event.entityLiving.posX;
-            double y = event.entityLiving.posY;
-            double z = event.entityLiving.posZ;
             boolean directToPlayer = shouldDirectSpiritToPlayer(event);
             if (!world.isRemote && !(world instanceof FakeWorld)
-                    && world.difficultySetting != EnumDifficulty.PEACEFUL
+                    && world.getDifficulty() != EnumDifficulty.PEACEFUL
                     && Configs.isEnabled(VengeanceSpiritConfig.class)
                     && VengeanceSpirit.canSustain(event.entityLiving)
-                    && (directToPlayer || VengeanceSpirit.canSpawnNew(world, x, y, z))) {
+                    && (directToPlayer || VengeanceSpirit.canSpawnNew(world, event.entityLiving.getPosition()))) {
                 VengeanceSpirit spirit = new VengeanceSpirit(world);
                 spirit.setInnerEntity(event.entityLiving);
                 spirit.copyLocationAndAnglesFrom(event.entityLiving);
-                spirit.onSpawnWithEgg((IEntityLivingData) null);
                 world.spawnEntityInWorld(spirit);
                 if(directToPlayer) {
                     EntityPlayer player = (EntityPlayer) event.source.getSourceOfDamage();
                     spirit.setGlobalVengeance(true);
-                    spirit.setTarget(player);
+                    spirit.setAttackTarget(player);
                 }
             }
         }
@@ -143,7 +139,7 @@ public class LivingDeathEventHook {
 				tag = new NBTTagCompound();
 				itemStack.setTagCompound(tag);
 			}
-			NBTUtil.func_152460_a(tag, player.getGameProfile());
+            NBTUtil.writeGameProfile(tag, player.getGameProfile());
 			double x = player.posX;
 			double y = player.posY;
 			double z = player.posZ;
@@ -154,10 +150,7 @@ public class LivingDeathEventHook {
 
     private void palingDeath(LivingDeathEvent event) {
         if(event.source == ExtendedDamageSource.paling && Configs.isEnabled(SpiritPortalConfig.class)) {
-            int x = (int) (event.entityLiving.posX - event.entityLiving.width / 2);
-            int y = (int) (event.entityLiving.posY - event.entityLiving.height / 2 + 1);
-            int z = (int) (event.entityLiving.posZ - event.entityLiving.width / 2);
-            SpiritPortal.tryPlacePortal(event.entityLiving.worldObj, x, y, z);
+            SpiritPortal.tryPlacePortal(event.entityLiving.worldObj, event.entityLiving.getPosition().add(0, 1, 0));
         }
     }
     

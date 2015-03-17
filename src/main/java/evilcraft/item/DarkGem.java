@@ -10,6 +10,7 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.WorldHelpers;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -55,33 +56,29 @@ public class DarkGem extends ConfigurableItem {
         if(Configs.isEnabled(BloodInfusionCoreConfig.class) && !entityItem.worldObj.isRemote
         		&& WorldHelpers.efficientTick(entityItem.worldObj, TICK_MODULUS, 
         				(int) entityItem.posX, (int) entityItem.posY, (int) entityItem.posZ)) {
-            int x = MathHelper.floor_double(entityItem.posX);
+            /*int x = MathHelper.floor_double(entityItem.posX);
             int y = MathHelper.floor_double(entityItem.posY);
-            int z = MathHelper.floor_double(entityItem.posZ);
+            int z = MathHelper.floor_double(entityItem.posZ);*/
+            BlockPos blockPos = entityItem.getPosition();
             World world = entityItem.worldObj;
             
             int amount = 0;
-            if(isValidBlock(world, x, y, z)) {
+            if(isValidBlock(world, blockPos)) {
                 // For storing REQUIRED_BLOOD_BLOCKS coordinates
-                int[] xs = new int[REQUIRED_BLOOD_BLOCKS];
-                int[] ys = new int[REQUIRED_BLOOD_BLOCKS];
-                int[] zs = new int[REQUIRED_BLOOD_BLOCKS];
+                BlockPos[] visited = new BlockPos[REQUIRED_BLOOD_BLOCKS];
                 
                 // Save first coordinate
-                xs[amount] = x;
-                ys[amount] = y;
-                zs[amount] = z;
+                visited[amount] = blockPos;
                 amount++;
                 
                 // Search in neighbourhood
                 for(int i = -1; i <= 1; i++) {
                     for(int j = -1; j <= 1; j++) {
                         for(int k = -1; k <= 1; k++) {
-                            if(!(i==0 && j==0 && k==0) && isValidBlock(world, x + i, y + j, z + k)) {
+                            BlockPos loopPos = blockPos.add(i, j, k);
+                            if(!(i==0 && j==0 && k==0) && isValidBlock(world, loopPos)) {
                                 // Save next coordinate
-                                xs[amount] = x + i;
-                                ys[amount] = y + j;
-                                zs[amount] = z + k;
+                                visited[amount] = loopPos;
                                 amount++;
                                 
                                 // Do the transform when REQUIRED_BLOOD_BLOCKS are found
@@ -92,10 +89,10 @@ public class DarkGem extends ConfigurableItem {
                                     
                                     // Retrace coordinate step and remove all those blocks + spawn particles
                                     for(int restep = 0; restep < amount; restep++) {
-                                        world.setBlockToAir(xs[restep], ys[restep], zs[restep]);
+                                        world.setBlockToAir(visited[restep]);
                                         if (world.isRemote)
-                                            BloodStainedBlock.splash(world, xs[restep], ys[restep] - 1, zs[restep]);
-                                        world.notifyBlocksOfNeighborChange(xs[restep], ys[restep], zs[restep], Blocks.air);
+                                            BloodStainedBlock.splash(world, visited[restep].add(0, -1, 0));
+                                        world.notifyNeighborsOfStateChange(visited[restep], Blocks.air);
                                     }
                                     return false;
                                 }
@@ -108,9 +105,9 @@ public class DarkGem extends ConfigurableItem {
         return false;
     }
     
-    private boolean isValidBlock(IBlockAccess world, int x, int y, int z) {
-        return world.getBlock(x, y, z) == FluidBlockBlood.getInstance()
-                && FluidBlockBlood.getInstance().isSourceBlock(world, x, y, z);
+    private boolean isValidBlock(IBlockAccess world, BlockPos blockPos) {
+        return world.getBlockState(blockPos).getBlock() == FluidBlockBlood.getInstance()
+                && FluidBlockBlood.getInstance().isSourceBlock(world, blockPos);
     }
 
 }

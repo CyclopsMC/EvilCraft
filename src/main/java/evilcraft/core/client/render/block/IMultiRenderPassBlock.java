@@ -1,6 +1,6 @@
 package evilcraft.core.client.render.block;
 
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 /**
@@ -14,11 +14,11 @@ public interface IMultiRenderPassBlock {
     /**
      * Get the icon for the given parameters.
      * @param side The side to render for.
-     * @param meta The metadata of the block that will be rendered.
+     * @param meta The metadata of the blockState that will be rendered.
      * @param renderPass The renderpass.
      * @return The icon.
      */
-    public IIcon getIcon(int side, int meta, int renderPass);
+    //public TextureAtlasSprite getIcon(EnumFacing side, IBlockState blockState, int renderPass);
     /**
      * Get the amount of required render passes.
      * @return Required render passes.
@@ -30,7 +30,7 @@ public interface IMultiRenderPassBlock {
      */
     public void setRenderPass(int pass);
     /**
-     * If the block should be rendered in this pass.
+     * If the blockState should be rendered in this pass.
      * @param pass The pass to check.
      * @return If it should be rendered.
      */
@@ -48,13 +48,11 @@ public interface IMultiRenderPassBlock {
     /**
      * Update the tile entity (for updating the icon) at the given coordinates.
      * @param world The world.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param z Z coordinate.
+     * @param blockPos The position.
      */
-    public void updateTileEntity(IBlockAccess world, int x, int y, int z);
+    public void updateTileEntity(IBlockAccess world, BlockPos blockPos);
     /**
-     * Define whether or not the current rendering is for an inventory block.
+     * Define whether or not the current rendering is for an inventory blockState.
      * @param isInventoryBlock The new value
      */
     public void setInventoryBlock(boolean isInventoryBlock);

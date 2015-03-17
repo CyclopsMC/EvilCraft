@@ -1,7 +1,7 @@
 package evilcraft.core.inventory.container;
 
-import net.minecraft.entity.player.InventoryPlayer;
 import evilcraft.core.tileentity.WorkingTileEntity;
+import net.minecraft.entity.player.InventoryPlayer;
 
 /**
  * A container for a working tile entity.

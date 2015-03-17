@@ -2,12 +2,12 @@ package evilcraft;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.modcompat.versionchecker.VersionCheckerModCompat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;

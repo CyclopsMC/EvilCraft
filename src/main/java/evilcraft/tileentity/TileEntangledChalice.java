@@ -5,6 +5,7 @@ import evilcraft.core.fluid.WorldSharedTank;
 import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 
 /**
  * Tile Entity for the entangled chalice.
@@ -36,12 +37,12 @@ public class TileEntangledChalice extends TankInventoryTileEntity {
     }
 	
 	@Override
-	public boolean isItemValidForSlot(int side, ItemStack item) {
+	public boolean isItemValidForSlot(int index, ItemStack item) {
 		return false;
 	}
 
 	@Override
-    public int[] getAccessibleSlotsFromSide(int side) {
+    public int[] getSlotsForFace(EnumFacing side) {
 		return new int[0];
 	}
 	

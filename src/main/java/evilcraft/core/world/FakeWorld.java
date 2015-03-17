@@ -30,8 +30,7 @@ public class FakeWorld extends World {
 	 * Make a new instance.
 	 */
 	public FakeWorld() {
-		super(new FakeSaveHandler(), "FakeWorld", new WorldSettings(new FakeWorldInfo()), new FakeWorldProvider(), new Profiler());
-		this.isRemote = false;
+		super(new FakeSaveHandler(), new FakeWorldInfo(), new FakeWorldProvider(), new Profiler(), false);
 	}
 
 	@Override
@@ -39,14 +38,14 @@ public class FakeWorld extends World {
 		return new FakeChunkProvider();
 	}
 
-	@Override
+    @Override
+    protected int getRenderDistanceChunks() {
+        return 0;
+    }
+
+    @Override
 	public Entity getEntityByID(int var1) {
 		return null;
-	}
-
-	@Override
-	protected int func_152379_p() {
-		return 0;
 	}
 
 }

@@ -1,7 +1,5 @@
 package evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -11,10 +9,13 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class ResurgenceEgg extends ConfigurableItem {
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack, int pass){
+    public boolean hasEffect(ItemStack itemStack){
         return !isEmpty(itemStack);
     }
     
@@ -117,16 +118,16 @@ public class ResurgenceEgg extends ConfigurableItem {
                 return itemStack;
             } else {
                 if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                    int x = movingobjectposition.blockX;
-                    int y = movingobjectposition.blockY;
-                    int z = movingobjectposition.blockZ;
+                    BlockPos blockPos = movingobjectposition.func_178782_a();
+                    int x = blockPos.getX();
+                    int y = blockPos.getY();
+                    int z = blockPos.getZ();
 
-                    if (!world.canMineBlock(player, x, y, z)
-                    		|| !player.canPlayerEdit(x, y, z, movingobjectposition.sideHit, itemStack)) {
+                    if (!world.canMineBlockBody(player, blockPos)) {
                         return itemStack;
                     }
 
-                    if (world.getBlock(x, y, z) instanceof BlockLiquid) {
+                    if (world.getBlockState(blockPos).getBlock() instanceof BlockLiquid) {
                         Entity entity = spawnCreature(world, getEntityString(itemStack), (double)x, (double)y, (double)z);
                         if (entity != null) {
                             if (entity instanceof EntityLivingBase && itemStack.hasDisplayName()) {
@@ -159,7 +160,6 @@ public class ResurgenceEgg extends ConfigurableItem {
             entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360.0F), 0.0F);
             entityliving.rotationYawHead = entityliving.rotationYaw;
             entityliving.renderYawOffset = entityliving.rotationYaw;
-            entityliving.onSpawnWithEgg((IEntityLivingData)null);
             world.spawnEntityInWorld(entity);
             entityliving.playLivingSound();
         }

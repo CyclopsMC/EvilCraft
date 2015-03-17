@@ -1,16 +1,16 @@
 package evilcraft.network.packet;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
-import evilcraft.api.ILocation;
 import evilcraft.core.helper.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Packet for playing a sound at a location.
@@ -83,8 +83,8 @@ public class SoundPacket extends PacketCodec {
      * @param volume The volume of the sound.
      * @param frequency The pitch of the sound.
 	 */
-	public SoundPacket(ILocation location, String sound, float volume, float frequency) {
-		this(location.getCoordinates()[0], location.getCoordinates()[1], location.getCoordinates()[2],
+	public SoundPacket(BlockPos location, String sound, float volume, float frequency) {
+		this(location.getX(), location.getY(), location.getZ(),
 				sound, volume, frequency);
 	}
     

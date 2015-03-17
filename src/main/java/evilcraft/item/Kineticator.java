@@ -1,7 +1,6 @@
 package evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import com.google.common.base.Predicate;
 import evilcraft.client.particle.EntityBlurFX;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -11,7 +10,6 @@ import evilcraft.core.helper.L10NHelpers;
 import evilcraft.entity.item.EntityItemUndespawnable;
 import evilcraft.fluid.Blood;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -20,9 +18,14 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 import java.util.Random;
@@ -41,9 +44,6 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     private static final int RANGE_PER_LEVEL = 2;
     private static final double USAGE_PER_D = 0.1;
     private static final int CONTAINER_SIZE = FluidContainerRegistry.BUCKET_VOLUME;
-    
-    @SideOnly(Side.CLIENT)
-    private IIcon repellingIcon;
     
     /**
      * Initialise the configurable.
@@ -66,21 +66,6 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
 
     private Kineticator(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, CONTAINER_SIZE, Blood.getInstance());
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        repellingIcon = iconRegister.registerIcon(getIconString() + "_repelling");
-        super.registerIcons(iconRegister);
-    }
-    
-    @Override
-    public IIcon getIconFromDamage(int damage) {
-    	if(damage == 1) {
-    		return repellingIcon;
-    	}
-    	return super.getIconFromDamage(damage);
     }
     
     protected boolean isRepelling(ItemStack itemStack) {
@@ -174,11 +159,12 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
             if(0 == world.getWorldTime() % KineticatorConfig.tickHoldoff) {
                 // Get items in calculated area.
                 int area = getArea(itemStack);
-                AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
-                List<EntityItem> entities = world.getEntitiesWithinAABBExcludingEntity(entity, box, new IEntitySelector() {
+                AxisAlignedBB box = AxisAlignedBB.fromBounds(x, y, z, x, y, z).expand(area, area, area);
+                // MCP: getEntitiesWithinAABBExcludingEntity
+                List<EntityItem> entities = world.func_175674_a(entity, box, new Predicate<Entity>() {
 
                     @Override
-                    public boolean isEntityApplicable(Entity entity) {
+                    public boolean apply(Entity entity) {
                         return entity instanceof EntityItem
                                 || (KineticatorConfig.moveXP && entity instanceof EntityXPOrb);
                     }
@@ -188,7 +174,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                 // Move all those items in the direction of the player.
                 for(Entity moveEntity : entities) {
                     if(repelling ||
-                            (moveEntity instanceof EntityItem && ((EntityItem) moveEntity).delayBeforeCanPickup == 0
+                            (moveEntity instanceof EntityItem && !((EntityItem) moveEntity).func_174874_s() // MCP: pickupdelay > 0
                                     && canKineticateItem(((EntityItem) moveEntity).getEntityItem())) ||
                             (moveEntity instanceof EntityXPOrb)) {
                         double dx = moveEntity.posX - x;
@@ -217,7 +203,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                                 showEntityMoved(world, entity, moveEntity, dx / 10, dy / 10, dz / 10);
                             } else {
                                 if (moveEntity instanceof EntityItem && d < 5.0D) {
-                                    ((EntityItem) moveEntity).delayBeforeCanPickup = repelling ? 5 : 0;
+                                    ((EntityItem) moveEntity).setPickupDelay(repelling ? 5 : 0);
                                 }
                                 moveEntity.motionX = dx * strength;
                                 moveEntity.motionY = dy * strength;

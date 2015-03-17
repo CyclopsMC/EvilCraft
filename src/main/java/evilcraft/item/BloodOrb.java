@@ -1,15 +1,14 @@
 package evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class BloodOrb extends ConfigurableItem {
 
     private static BloodOrb _instance = null;
 
-    private IIcon filled;
+    private TextureAtlasSprite filled;
 
     /**
      * Initialise the configurable.
@@ -47,19 +46,6 @@ public class BloodOrb extends ConfigurableItem {
         super(eConfig);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IIconRegister iconRegister) {
-        super.registerIcons(iconRegister);
-        filled = iconRegister.registerIcon(getIconString() + "_filled");
-    }
-
-    @Override
-    public IIcon getIconFromDamage(int meta) {
-        if(meta == 1) return filled;
-        return super.getIconFromDamage(meta);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

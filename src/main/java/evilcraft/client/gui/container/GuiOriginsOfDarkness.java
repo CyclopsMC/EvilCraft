@@ -1,8 +1,6 @@
 package evilcraft.client.gui.container;
 
 import com.google.common.collect.Lists;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.algorithm.EvictingStack;
 import evilcraft.core.helper.InventoryHelpers;
@@ -22,11 +20,15 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -136,12 +138,13 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     public void drawTexturedModalRectMirrored(int x, int y, int u, int v, int width, int height) {
         float f = 0.00390625F;
         float f1 = 0.00390625F;
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV((double) (x + 0), (double) (y + height), (double) this.zLevel, (double) ((float) (u + width) * f), (double) ((float) (v + height) * f1));
-        tessellator.addVertexWithUV((double) (x + width), (double) (y + height), (double) this.zLevel, (double) ((float) (u + 0) * f), (double) ((float) (v + height) * f1));
-        tessellator.addVertexWithUV((double) (x + width), (double) (y + 0), (double) this.zLevel, (double) ((float) (u + 0) * f), (double) ((float) (v + 0) * f1));
-        tessellator.addVertexWithUV((double) (x + 0), (double) (y + 0), (double) this.zLevel, (double) ((float) (u + width) * f), (double) ((float) (v + 0) * f1));
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+        worldRenderer.startDrawingQuads();
+        worldRenderer.addVertexWithUV((double) (x + 0), (double) (y + height), (double) this.zLevel, (double) ((float) (u + width) * f), (double) ((float) (v + height) * f1));
+        worldRenderer.addVertexWithUV((double) (x + width), (double) (y + height), (double) this.zLevel, (double) ((float) (u + 0) * f), (double) ((float) (v + height) * f1));
+        worldRenderer.addVertexWithUV((double) (x + width), (double) (y + 0), (double) this.zLevel, (double) ((float) (u + 0) * f), (double) ((float) (v + 0) * f1));
+        worldRenderer.addVertexWithUV((double) (x + 0), (double) (y + 0), (double) this.zLevel, (double) ((float) (u + width) * f), (double) ((float) (v + 0) * f1));
         tessellator.draw();
     }
 
@@ -155,8 +158,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     }
 
     private void updateGui() {
-        boolean oldUnicode = mc.fontRenderer.getUnicodeFlag();
-        mc.fontRenderer.setUnicodeFlag(true);
+        boolean oldUnicode = mc.fontRendererObj.getUnicodeFlag();
+        mc.fontRendererObj.setUnicodeFlag(true);
         int width = pageWidth - X_OFFSET_TOTAL;
         int lineHeight = InfoSection.getFontHeight(getFontRenderer());
         int maxLines = (guiHeight - 2 * InfoSection.Y_OFFSET - 5) / lineHeight;
@@ -171,7 +174,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         }
 
         updateButtons();
-        mc.fontRenderer.setUnicodeFlag(oldUnicode);
+        mc.fontRendererObj.setUnicodeFlag(oldUnicode);
     }
 
     protected void getPreviousSections(List<InfoSection> sections) {
@@ -195,7 +198,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         this.buttonBack.visible = history.currentSize() > 0;
     }
 
-    protected void actionPerformed(GuiButton button) {
+    protected void actionPerformed(GuiButton button) throws IOException {
         goToLastPage = false;
         nextSection = currentSection;
         nextPage = page;
@@ -239,7 +242,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         }
     }
 
-    protected void mouseClicked(int x, int y, int p_73864_3_) {
+    protected void mouseClicked(int x, int y, int p_73864_3_) throws IOException {
         super.mouseClicked(x, y, p_73864_3_);
         if(p_73864_3_ == 0 && (nextSection != null && (nextSection != currentSection || page != nextPage))) {
             currentSection = nextSection;
@@ -382,8 +385,8 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         }
 
         @Override
-        public void func_146113_a(SoundHandler soundHandler) {
-            soundHandler.playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(Reference.MOD_ID, "pageFlip"), 1.0F));
+        public void playPressSound(SoundHandler soundHandler) {
+            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation(Reference.MOD_ID, "pageFlip"), 1.0F));
         }
 
     }
@@ -396,7 +399,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
         public TextOverlayButton(int id, HyperLink link, int x, int y, int height) {
             super(id, x, y, 0, height, InfoSection.formatString(L10NHelpers.localize(link.getUnlocalizedName())));
             this.link = link;
-            FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+            FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
             boolean oldUnicode = fontRenderer.getUnicodeFlag();
             fontRenderer.setUnicodeFlag(true);
             this.width = fontRenderer.getStringWidth(displayString);
@@ -409,18 +412,18 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                 boolean isHover = mouseX >= this.xPosition && mouseY >= this.yPosition &&
                         mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                boolean oldUnicode = minecraft.fontRenderer.getUnicodeFlag();
-                minecraft.fontRenderer.setUnicodeFlag(true);
-                minecraft.fontRenderer.drawString((isHover ? "§n" : "") +
+                boolean oldUnicode = minecraft.fontRendererObj.getUnicodeFlag();
+                minecraft.fontRendererObj.setUnicodeFlag(true);
+                minecraft.fontRendererObj.drawString((isHover ? "§n" : "") +
                                 displayString + "§r", xPosition, yPosition,
                         RenderHelpers.RGBToInt(isHover ? 100 : 0, isHover ? 100 : 0, isHover ? 150 : 125));
-                minecraft.fontRenderer.setUnicodeFlag(oldUnicode);
+                minecraft.fontRendererObj.setUnicodeFlag(oldUnicode);
             }
         }
 
         @Override
-        public void func_146113_a(SoundHandler soundHandler) {
-            soundHandler.playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(Reference.MOD_ID, "pageFlip"), 1.0F));
+        public void playPressSound(SoundHandler soundHandler) {
+            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation(Reference.MOD_ID, "pageFlip"), 1.0F));
         }
 
     }

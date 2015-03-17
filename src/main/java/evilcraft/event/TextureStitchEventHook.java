@@ -1,18 +1,20 @@
 package evilcraft.event;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.google.common.collect.Maps;
+import evilcraft.Reference;
+import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
+import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
-import evilcraft.core.helper.RenderHelpers;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Event hook for {@link TextureStitchEventHook}.
@@ -24,9 +26,9 @@ public class TextureStitchEventHook {
     protected static final String EMPTY_ICON_NAME = "empty";
     
     /**
-     * The mapping of {@link Fluid} to {@link BlockFluidBase}.
+     * The mapping of {@link Fluid} to {@link ConfigurableBlockFluidClassic}.
      */
-    public static Map<Fluid, BlockFluidBase> fluidMap = new HashMap<Fluid, BlockFluidBase>();
+    public static Map<Fluid, ConfigurableBlockFluidClassic> fluidMap = Maps.newHashMap();
     
     /**
      * Before the texture stitching.
@@ -35,7 +37,7 @@ public class TextureStitchEventHook {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onTextureHookPre(TextureStitchEvent.Pre event) {
-        RenderHelpers.EMPTYICON = Minecraft.getMinecraft().getTextureMapBlocks().registerIcon(Reference.MOD_ID+":"+EMPTY_ICON_NAME);
+        RenderHelpers.EMPTYICON = event.map.getAtlasSprite(Reference.MOD_ID+":"+EMPTY_ICON_NAME);
     }
     
     /**
@@ -45,8 +47,11 @@ public class TextureStitchEventHook {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void postStitch(TextureStitchEvent.Post event) {
-        for(Entry<Fluid, BlockFluidBase> fluids : fluidMap.entrySet()) {
-            fluids.getKey().setIcons(fluids.getValue().getBlockTextureFromSide(0), fluids.getValue().getBlockTextureFromSide(1));
+        for(Entry<Fluid, ConfigurableBlockFluidClassic> fluids : fluidMap.entrySet()) {
+            fluids.getKey().setIcons(
+                    fluids.getValue().getIconLocationStill(event.map),
+                    fluids.getValue().getIconLocationFlow(event.map)
+            );
         }
     }
 }

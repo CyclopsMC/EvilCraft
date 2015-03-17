@@ -63,7 +63,7 @@ public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFl
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return EnumRarity.uncommon;
+        return EnumRarity.UNCOMMON;
     }
     
 }

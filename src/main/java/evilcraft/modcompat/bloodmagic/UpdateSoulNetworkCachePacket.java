@@ -1,17 +1,15 @@
 package evilcraft.modcompat.bloodmagic;
 
-import java.util.Map;
-
+import com.google.common.collect.Maps;
+import evilcraft.network.CodecField;
+import evilcraft.network.PacketCodec;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.google.common.collect.Maps;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.network.CodecField;
-import evilcraft.network.PacketCodec;
+import java.util.Map;
 
 /**
  * Update the soul network cache at the clients originating from the server.

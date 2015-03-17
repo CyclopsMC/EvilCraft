@@ -1,21 +1,21 @@
 package evilcraft.network.packet;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.ILocation;
 import evilcraft.client.particle.EntityBloodBrickFX;
 import evilcraft.core.helper.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * Packet for telling clients if a structure has been formed for a block location.
+ * Packet for telling clients if a structure has been formed for a blockState location.
  * @author rubensworks
  *
  */
@@ -58,15 +58,15 @@ public class DetectionListenerPacket extends PacketCodec {
 	 * @param location The location data.
 	 * @param activation If the structure is being activated, otherwise deactivated.
 	 */
-	public DetectionListenerPacket(ILocation location, boolean activation) {
-		this.x = location.getCoordinates()[0];
-		this.y = location.getCoordinates()[1];
-		this.z = location.getCoordinates()[2];
+	public DetectionListenerPacket(BlockPos location, boolean activation) {
+		this.x = location.getX();
+		this.y = location.getY();
+		this.z = location.getZ();
 		this.activation = activation;
 	}
     
     @SideOnly(Side.CLIENT)
-    private void showActivatedParticle(World world, int x, int y, int z, ForgeDirection side) {
+    private void showActivatedParticle(World world, int x, int y, int z, EnumFacing side) {
         EntityBloodBrickFX burst = new EntityBloodBrickFX(world, x, y, z, side);
 		Minecraft.getMinecraft().effectRenderer.addEffect(burst);
 	}
@@ -75,7 +75,7 @@ public class DetectionListenerPacket extends PacketCodec {
 	@SideOnly(Side.CLIENT)
 	public void actionClient(World world, EntityPlayer player) {
 		if(activation) {
-			for(ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
+			for(EnumFacing side : EnumFacing.VALUES) {
 				showActivatedParticle(world, x, y, z, side);
 			}
 		}

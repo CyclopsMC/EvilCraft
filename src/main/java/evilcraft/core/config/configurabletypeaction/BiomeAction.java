@@ -1,9 +1,9 @@
 package evilcraft.core.config.configurabletypeaction;
 
+import evilcraft.core.config.extendedconfig.BiomeConfig;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
-import evilcraft.core.config.extendedconfig.BiomeConfig;
 
 /**
  * The action used for {@link BiomeConfig}.

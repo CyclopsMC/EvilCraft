@@ -1,7 +1,10 @@
 package evilcraft.block;
 
 import evilcraft.core.PlayerExtendedInventoryIterator;
+import evilcraft.core.fluid.WorldSharedTank;
+import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.core.helper.ItemHelpers;
+import evilcraft.core.item.ItemBlockFluidContainer;
 import evilcraft.core.world.GlobalCounter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -10,22 +13,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.core.fluid.WorldSharedTank;
-import evilcraft.core.fluid.WorldSharedTankCache;
-import evilcraft.core.item.ItemBlockFluidContainer;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
 import java.util.Iterator;
 
 /**
- * Specialized item for the {@link EntangledChalice} block.
+ * Specialized item for the {@link EntangledChalice} blockState.
  * @author rubensworks
  */
 public class EntangledChaliceItem extends ItemBlockFluidContainer {
 
 	/**
      * Make a new instance.
-     * @param block The block instance.
+     * @param block The blockState instance.
      */
     public EntangledChaliceItem(Block block) {
         super(block);
@@ -38,13 +38,13 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
      */
     public String getTankID(ItemStack container) {
     	String key = getBlockTank().getTankNBTName();
-    	if(container.stackTagCompound == null || !container.stackTagCompound.hasKey(key)) {
+    	if(container.getTagCompound() == null || !container.getTagCompound().hasKey(key)) {
             // In this case, the tank is invalid!
-    		container.stackTagCompound = new NBTTagCompound();
-            container.stackTagCompound.setTag(key, new NBTTagCompound());
-    		container.stackTagCompound.getCompoundTag(key).setString(WorldSharedTank.NBT_TANKID, "invalid");
+    		container.setTagCompound(new NBTTagCompound());
+            container.getTagCompound().setTag(key, new NBTTagCompound());
+    		container.getTagCompound().getCompoundTag(key).setString(WorldSharedTank.NBT_TANKID, "invalid");
     	}
-        return container.stackTagCompound.getCompoundTag(key).getString(WorldSharedTank.NBT_TANKID);
+        return container.getTagCompound().getCompoundTag(key).getString(WorldSharedTank.NBT_TANKID);
     }
 
     /**
@@ -54,13 +54,13 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
      */
     public void setTankID(ItemStack container, String tankID) {
         String key = getBlockTank().getTankNBTName();
-        if(container.stackTagCompound == null) {
-            container.stackTagCompound = new NBTTagCompound();
+        if(container.getTagCompound() == null) {
+            container.setTagCompound(new NBTTagCompound());
         }
-        if(!container.stackTagCompound.hasKey(key)) {
-            container.stackTagCompound.setTag(key, new NBTTagCompound());
+        if(!container.getTagCompound().hasKey(key)) {
+            container.getTagCompound().setTag(key, new NBTTagCompound());
         }
-        container.stackTagCompound.getCompoundTag(key).setString(WorldSharedTank.NBT_TANKID, tankID);
+        container.getTagCompound().getCompoundTag(key).setString(WorldSharedTank.NBT_TANKID, tankID);
     }
 
     /**

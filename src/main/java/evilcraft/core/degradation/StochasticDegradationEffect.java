@@ -1,12 +1,12 @@
 package evilcraft.core.degradation;
 
-import java.util.Random;
-
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.IDegradationEffect;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+
+import java.util.Random;
 
 /**
  * A {@link IDegradationEffect} that can be executed with a certain chance.

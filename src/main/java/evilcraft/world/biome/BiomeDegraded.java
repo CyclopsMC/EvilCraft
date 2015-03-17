@@ -1,13 +1,14 @@
 package evilcraft.world.biome;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableBiome;
 import evilcraft.core.config.extendedconfig.BiomeConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.RenderHelpers;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.ColorizerGrass;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Enchantment for letting tools break tools faster.
@@ -42,22 +43,24 @@ public class BiomeDegraded extends ConfigurableBiome {
         this.setHeight(height_MidPlains);
         this.setTemperatureRainfall(0.8F, 0.9F);
         this.setColor(RenderHelpers.RGBToInt(0, 30, 20));
-        this.func_76733_a(RenderHelpers.RGBToInt(20, 50, 30));
+        this.func_150563_c(RenderHelpers.RGBToInt(20, 50, 30));
         this.waterColorMultiplier = RenderHelpers.RGBToInt(60, 50, 20);
     }
     
     @SideOnly(Side.CLIENT)
     @Override
-    public int getBiomeGrassColor(int x, int y, int z) {
-        double d0 = (double)this.getFloatTemperature(x, y, z);
+    // MCP: getBiomeGrassColor
+    public int func_180627_b(BlockPos blockPos) {
+        double d0 = (double)this.func_180626_a(blockPos); // MCP: getFloatTemperature
         double d1 = (double)this.getFloatRainfall();
         return ((ColorizerGrass.getGrassColor(d0, d1) & RenderHelpers.RGBToInt(10, 20, 5)) + 5115470) / 2;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public int getBiomeFoliageColor(int x, int y, int z) {
-        double d0 = (double)this.getFloatTemperature(x, y, z);
+    // MCP: getBiomeFoliageColor
+    public int func_180625_c(BlockPos blockPos) {
+        double d0 = (double)this.func_180626_a(blockPos); // MCP: getFloatTemperature
         double d1 = (double)this.getFloatRainfall();
         return ((ColorizerFoliage.getFoliageColor(d0, d1) & RenderHelpers.RGBToInt(10, 20, 50)) + 5115470) / 2;
     }

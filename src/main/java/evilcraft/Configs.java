@@ -99,7 +99,6 @@ public class Configs {
         configs.add(new DarkBlockConfig());
         configs.add(new BloodStainedBlockConfig());
         configs.add(new LightningBombConfig());
-        configs.add(new LargeDoorConfig());
         configs.add(new ContainedFluxConfig());
         configs.add(new BloodInfuserConfig());
         configs.add(new BloodyCobblestoneConfig());
@@ -139,14 +138,12 @@ public class Configs {
         configs.add(new BloodExtractorConfig());
         configs.add(new DarkGemConfig());
         configs.add(new DarkStickConfig());
-        configs.add(new LargeDoorItemConfig());
         configs.add(new WeatherContainerConfig());        
         configs.add(new BloodPearlOfTeleportationConfig());
         configs.add(new BroomConfig());
         configs.add(new HardenedBloodShardConfig());
         configs.add(new DarkPowerGemConfig());
         configs.add(new BloodInfusionCoreConfig());
-        configs.add(new BloodContainerConfig());
         configs.add(new PoisonSacConfig());
         configs.add(new BucketPoisonConfig());
         configs.add(new WerewolfFurConfig());
@@ -198,7 +195,7 @@ public class Configs {
         configs.add(new NetherfishConfig());
         configs.add(new PoisonousLibelleConfig());
         configs.add(new VengeanceSpiritConfig());
-        configs.add(new BoxOfEternalClosureConfig()); // This is a block, but depends on vengeance spirit.
+        configs.add(new BoxOfEternalClosureConfig()); // This is a blockState, but depends on vengeance spirit.
         // Villager
         configs.add(new WerewolfVillagerConfig());
         // Other
@@ -249,7 +246,7 @@ public class Configs {
 
     /**
      * Get the config from a given item.
-     * It will internally also try to get the block from the item if it exists to get the config from.
+     * It will internally also try to get the blockState from the item if it exists to get the config from.
      * @param item The item, possibly IConfigurable.
      * @return The config or null.
      */

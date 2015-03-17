@@ -1,11 +1,7 @@
 package evilcraft.core.helper.obfuscation;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import evilcraft.core.helper.RenderHelpers;
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.particle.EffectRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -14,10 +10,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -129,32 +124,6 @@ public class ObfuscationHelpers {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * Get the renderFace method for the given side in {@link net.minecraft.client.renderer.RenderBlocks}.
-	 * @param renderer The block renderer.
-	 * @param direction The side.
-	 * @return The method.
-	 */
-	public static Method getRenderFaceMethod(RenderBlocks renderer, ForgeDirection direction) {
-		Method method = ReflectionHelper.findMethod(RenderBlocks.class, renderer,
-				ObfuscationData.RENDERBLOCKS_RENDERFACE.get(direction), Block.class, double.class,
-				double.class, double.class, IIcon.class);
-		return method;
-	}
-	
-	/**
-	 * Set a private 'uvRotate' field from {@link net.minecraft.client.renderer.RenderBlocks}
-	 * depending on which direction you specified.
-	 * Note that this does not contain the MC side number bug fix, for this, please use {@link RenderHelpers}.
-	 * @param renderer The block renderer.
-	 * @param direction The side.
-	 * @param rotation The rotation to set.
-	 */
-	public static void setUVRotate(RenderBlocks renderer, ForgeDirection direction, int rotation) {
-		ReflectionHelper.setPrivateValue(RenderBlocks.class, renderer, rotation,
-				ObfuscationData.RENDERBLOCKS_UVROTATE.get(direction));
 	}
 	
 	/**

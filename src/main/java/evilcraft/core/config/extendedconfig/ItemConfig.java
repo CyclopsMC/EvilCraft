@@ -71,6 +71,14 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     public Item getItemInstance() {
     	return (Item) super.getSubInstance();
     }
+
+    /**
+     * All the possible meta values of this item.
+     * @return Array of all the available meta values.
+     */
+    public int[] getSubTypes() {
+        return new int[]{0};
+    }
     
     @Override
     public void onRegistered() {

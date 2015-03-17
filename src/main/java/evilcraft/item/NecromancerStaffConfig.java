@@ -1,9 +1,9 @@
 package evilcraft.item;
 
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.ItemConfig;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 
 /**
  * Config for the {@link NecromancerStaff}.

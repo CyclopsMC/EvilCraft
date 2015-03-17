@@ -1,19 +1,21 @@
 package evilcraft.client.render.tileentity;
 
-import evilcraft.core.fluid.WorldSharedTank;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
 import evilcraft.block.EntangledChalice;
 import evilcraft.client.render.model.ModelChalice;
 import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.client.render.tileentity.RenderTileEntityModelWavefront;
+import evilcraft.core.fluid.WorldSharedTank;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.helper.RenderHelpers.IFluidContextRender;
 import evilcraft.tileentity.TileEntangledChalice;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fluids.FluidStack;
 
 /**
  * Renderer for the {@link EntangledChalice}.
@@ -36,14 +38,14 @@ public class RenderTileEntityEntangledChalice extends RenderTileEntityModelWavef
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f, int partialDamage) {
 		if(tile instanceof TileEntangledChalice) {
 			final TileEntangledChalice chalice = ((TileEntangledChalice) tile);
 			ModelChalice.setColorSeed(((WorldSharedTank) chalice.getTank()).getTankID());
-            super.renderTileEntityAt(tile, x, y, z, f);
+            super.renderTileEntityAt(tile, x, y, z, f, partialDamage);
 	
 			FluidStack fluid = chalice.getTank().getFluid();
-			RenderHelpers.renderTileFluidContext(fluid, x, y, z, tile, new IFluidContextRender() {
+			RenderHelpers.renderTileFluidContext(fluid, new BlockPos(x, y, z), tile, new IFluidContextRender() {
 
 				@Override
 				public void renderFluid(FluidStack fluid) {
@@ -66,20 +68,21 @@ public class RenderTileEntityEntangledChalice extends RenderTileEntityModelWavef
 		float max = MAX - vertexOffset;
 		float iconScale = (float) (1.0D - fillRatio) / (4F);
 		
-		IIcon icon = RenderHelpers.getFluidIcon(fluid, ForgeDirection.UP);
+		TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, EnumFacing.UP);
 			
-		Tessellator t = Tessellator.instance;
-		t.startDrawingQuads();
+		Tessellator t = Tessellator.getInstance();
+        WorldRenderer worldRenderer = t.getWorldRenderer();
+        worldRenderer.startDrawingQuads();
 		
 		double minU = (icon.getMaxU() - icon.getMinU()) * iconScale + icon.getMinU();
 		double maxU = icon.getMaxU() - (icon.getMaxU() - icon.getMinU()) * iconScale;
 		double minV = (icon.getMaxV() - icon.getMinV()) * iconScale + icon.getMinV();
 		double maxV = icon.getMaxV() - (icon.getMaxV() - icon.getMinV()) * iconScale;
-		
-		t.addVertexWithUV(min, height, min, minU, maxV);
-		t.addVertexWithUV(min, height, max, minU, minV);
-		t.addVertexWithUV(max, height, max, maxU, minV);
-		t.addVertexWithUV(max, height, min, maxU, maxV);
+
+        worldRenderer.addVertexWithUV(min, height, min, minU, maxV);
+        worldRenderer.addVertexWithUV(min, height, max, minU, minV);
+        worldRenderer.addVertexWithUV(max, height, max, maxU, minV);
+        worldRenderer.addVertexWithUV(max, height, min, maxU, maxV);
 			
 		t.draw();
 	}

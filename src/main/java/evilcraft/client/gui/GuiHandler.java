@@ -1,9 +1,6 @@
 package evilcraft.client.gui;
 
 import com.google.common.collect.Maps;
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.inventory.IGuiContainerProvider;
 import net.minecraft.client.gui.GuiScreen;
@@ -11,7 +8,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -85,7 +86,7 @@ public class GuiHandler implements IGuiHandler {
                 return null; // Possible with client-only GUI's like books.
             }
     		if(TYPES.get(id) == GuiType.BLOCK) {
-    			TileEntity tileEntity = world.getTileEntity(x, y, z);
+    			TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
     			Constructor<? extends Container> containerConstructor = containerClass.getConstructor(InventoryPlayer.class, tileEntity.getClass());
     			return containerConstructor.newInstance(player.inventory, tileEntity);
     		} else {
@@ -114,7 +115,7 @@ public class GuiHandler implements IGuiHandler {
     	try {
     		Class<? extends GuiScreen> guiClass = GUIS.get(id);
     		if(TYPES.get(id) == GuiType.BLOCK) {
-    			TileEntity tileEntity = world.getTileEntity(x, y, z);
+    			TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
 	            Constructor<? extends GuiScreen> guiConstructor = guiClass.getConstructor(InventoryPlayer.class, tileEntity.getClass());
 	            return guiConstructor.newInstance(player.inventory, tileEntity);
     		} else {
@@ -144,7 +145,7 @@ public class GuiHandler implements IGuiHandler {
     public static enum GuiType {
     	
     	/**
-    	 * A block with a tile entity.
+    	 * A blockState with a tile entity.
     	 */
     	BLOCK,
     	/**

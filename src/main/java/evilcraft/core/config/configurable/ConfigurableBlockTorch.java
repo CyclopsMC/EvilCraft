@@ -5,7 +5,7 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.BlockTorch;
 
 /**
- * Torch block that can hold ExtendedConfigs
+ * Torch blockState that can hold ExtendedConfigs
  * @author rubensworks
  *
  */
@@ -15,13 +15,13 @@ public class ConfigurableBlockTorch extends BlockTorch implements IConfigurable{
     protected ExtendedConfig eConfig = null;
 
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockTorch(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
-        this.setBlockName(eConfig.getUnlocalizedName());
+        this.setUnlocalizedName(eConfig.getUnlocalizedName());
         this.setHardness(0.0F);
         this.setLightLevel(0.9375F);
         this.setStepSound(soundTypeWood);
@@ -35,11 +35,6 @@ public class ConfigurableBlockTorch extends BlockTorch implements IConfigurable{
     @Override
     public ExtendedConfig<?> getConfig() {
         return eConfig;
-    }
-    
-    @Override
-    public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
     }
 
 }

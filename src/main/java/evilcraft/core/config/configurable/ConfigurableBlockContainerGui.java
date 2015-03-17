@@ -1,7 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.Helpers;
@@ -11,11 +9,16 @@ import evilcraft.core.inventory.container.TileInventoryContainer;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.tileentity.InventoryTileEntity;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Block with a tile entity with a GUI that can hold ExtendedConfigs.
@@ -32,10 +35,10 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer im
     private Class<? extends GuiScreen> gui;
 
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
-     * @param material Material of this block.
-     * @param tileEntity The class of the tile entity this block holds.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
+     * @param material Material of this blockState.
+     * @param tileEntity The class of the tile entity this blockState holds.
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockContainerGui(ExtendedConfig eConfig,
@@ -73,13 +76,13 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer im
     }
     
     @Override
-    public boolean renderAsNormalBlock() {
+    public boolean isNormalCube() {
         return false;
     }
     
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
-        super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer entityplayer, EnumFacing side, float par7, float par8, float par9) {
+        super.onBlockActivated(world, blockPos, blockState, entityplayer, side, par7, par8, par9);
 
         // Drop through if the player is sneaking
         if (entityplayer.isSneaking()) {
@@ -87,15 +90,15 @@ public class ConfigurableBlockContainerGui extends ConfigurableBlockContainer im
         }
 
         if (!world.isRemote && hasGui()) {
-            entityplayer.openGui(EvilCraft._instance, guiID, world, x, y, z);
+            entityplayer.openGui(EvilCraft._instance, guiID, world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
         }
 
         return true;
     }
     
     @Override
-    protected void onPostBlockDestroyed(World world, int x, int y, int z) {
-    	super.onPostBlockDestroyed(world, x, y, z);
+    protected void onPostBlockDestroyed(World world, BlockPos blockPos) {
+    	super.onPostBlockDestroyed(world, blockPos);
     	
     	// Close the GUI if it is open
     	if(world.isRemote) {

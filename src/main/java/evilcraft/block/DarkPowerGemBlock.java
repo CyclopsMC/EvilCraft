@@ -4,13 +4,15 @@ import evilcraft.core.config.configurable.ConfigurableBlockConnectedTexture;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 import java.util.Random;
 
 /**
- * Storage block for the dark power gem.
+ * Storage blockState for the dark power gem.
  * @author rubensworks
  *
  */
@@ -45,12 +47,12 @@ public class DarkPowerGemBlock extends ConfigurableBlockConnectedTexture {
     }
 
     @Override
-    public boolean isBeaconBase(IBlockAccess worldObj, int x, int y, int z, int beaconX, int beaconY, int beaconZ) {
+    public boolean isBeaconBase(IBlockAccess worldObj, BlockPos blockPos, BlockPos beacon) {
         return true;
     }
 
     @Override
-    public Item getItemDropped(int par1, Random random, int zero) {
+    public Item getItemDropped(IBlockState blockState, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
 

@@ -1,35 +1,35 @@
 package evilcraft.core.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
 import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemBlockWithMetadata;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
 /**
- * An extended {@link ItemBlockWithMetadata} that will automatically add information to the block
- * item if that block implements {@link IInformationProvider}.
+ * An extended {@link ItemBlock} that will automatically add information to the blockState
+ * item if that blockState implements {@link IInformationProvider}.
  * @author rubensworks
  *
  */
-public class ItemBlockMetadata extends ItemBlockWithMetadata{
+public class ItemBlockMetadata extends ItemBlock {
     
     protected InformationProviderComponent informationProvider;
     protected IBlockRarityProvider rarityProvider = null;
 
     /**
      * Make a new instance.
-     * @param block The block instance.
+     * @param block The blockState instance.
      */
     public ItemBlockMetadata(Block block) {
-        super(block, block);
+        super(block);
         informationProvider = new InformationProviderComponent(block);
         if(block instanceof IBlockRarityProvider) {
             rarityProvider = (IBlockRarityProvider) block;

@@ -1,7 +1,5 @@
 package evilcraft.block;
 
-import evilcraft.api.ILocation;
-import evilcraft.core.algorithm.Location;
 import evilcraft.core.algorithm.RegionIterator;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.extendedconfig.BlockConfig;
@@ -11,8 +9,10 @@ import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.tileentity.TileSpiritPortal;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -65,27 +65,27 @@ public class SpiritPortal extends ConfigurableBlockContainer {
     }
 
     @Override
-    public boolean renderAsNormalBlock() {
+    public boolean isNormalCube() {
         return false;
     }
 	
 	@Override
-	public void onBlockHarvested(World world, int x, int y, int z, int metadata, EntityPlayer player) {
+	public void onBlockHarvested(World world, BlockPos blockPos, IBlockState blockStatedata, EntityPlayer player) {
 	    // Portals should not drop upon breaking
-	    world.setBlockToAir(x, y, z);
+	    world.setBlockToAir(blockPos);
 	}
 
     protected static boolean canReplaceBlock(Block block) {
         return block != null && (block == Blocks.air || block.getMaterial().isReplaceable());
     }
 
-    public static boolean tryPlacePortal(World world, int x, int y, int z) {
+    public static boolean tryPlacePortal(World world, BlockPos blockPos) {
         int attempts = 9;
-        for(RegionIterator it = new RegionIterator(new Location(x, y, z), 1, true); it.hasNext() && attempts >= 0;) {
-            ILocation location = it.next();
-            if(canReplaceBlock(LocationHelpers.getBlock(world, location))) {
-                world.setBlock(location.getCoordinates()[0], location.getCoordinates()[1], location.getCoordinates()[2],
-                        SpiritPortal.getInstance(), 0, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+        for(RegionIterator it = new RegionIterator(blockPos, 1, true); it.hasNext() && attempts >= 0;) {
+            BlockPos location = it.next();
+            if(canReplaceBlock(world.getBlockState(location).getBlock())) {
+                world.setBlockState(location, SpiritPortal.getInstance().getDefaultState(),
+                        MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                 return true;
             }
             attempts--;

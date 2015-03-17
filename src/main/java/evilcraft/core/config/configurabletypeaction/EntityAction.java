@@ -1,11 +1,11 @@
 package evilcraft.core.config.configurabletypeaction;
 
-import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.core.config.extendedconfig.EntityConfig;
 import evilcraft.core.helper.Helpers;
 import evilcraft.core.helper.Helpers.IDType;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 /**
  * The action used for {@link EntityConfig}.

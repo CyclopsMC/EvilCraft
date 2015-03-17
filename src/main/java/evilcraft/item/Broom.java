@@ -1,15 +1,14 @@
 package evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.entity.item.EntityBroom;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 /**
@@ -48,10 +47,6 @@ public class Broom extends ConfigurableItem {
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {}
-    
-    @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
         if (!world.isRemote && player.ridingEntity == null) {
             player.posY += Y_SPAWN_OFFSET;
@@ -69,9 +64,9 @@ public class Broom extends ConfigurableItem {
     }
     
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ) {
     	if (!world.isRemote && player.isSneaking()) {
-    		world.spawnEntityInWorld(new EntityBroom(world, x + 0.5, y + Y_SPAWN_OFFSET, z + 0.5));
+    		world.spawnEntityInWorld(new EntityBroom(world, blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5));
     		
     		// We don't consume the broom when in creative mode
     		if (!player.capabilities.isCreativeMode)
@@ -85,7 +80,7 @@ public class Broom extends ConfigurableItem {
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return EnumRarity.rare;
+        return EnumRarity.RARE;
     }
     
 }

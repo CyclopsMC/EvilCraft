@@ -1,10 +1,10 @@
 package evilcraft.item;
 
+import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.fluid.Blood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.fluid.Blood;
 
 /**
  * Config for the {@link CreativeBloodDrop}.

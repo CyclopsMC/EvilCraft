@@ -1,7 +1,5 @@
 package evilcraft.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.client.render.block.RenderDarkTank;
 import evilcraft.core.IInformationProvider;
@@ -16,7 +14,8 @@ import evilcraft.fluid.Blood;
 import evilcraft.fluid.BloodConfig;
 import evilcraft.tileentity.TileDarkTank;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,14 +24,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -44,20 +45,12 @@ import java.util.List;
 public class DarkTank extends ConfigurableBlockContainer implements IInformationProvider, IBlockTank {
 	
 	private static final String NBT_TAG_CAPACITY = "tankCapacity";
-	
-	/**
-	 * Meta data for draining.
-	 */
-	public static final int META_DRAINING = 1;
+
+	public static final PropertyBool DRAINING = PropertyBool.create("draining");
 	
     private static DarkTank _instance = null;
     
-    private BlockTankComponent<DarkTank> tankComponent = new BlockTankComponent<DarkTank>(this); 
-    
-    protected IIcon sideIcon;
-    protected IIcon topIcon;
-    protected IIcon sideIconActive;
-    protected IIcon topIconActive;
+    private BlockTankComponent<DarkTank> tankComponent = new BlockTankComponent<DarkTank>(this);
     
     /**
      * Initialise the configurable.
@@ -80,7 +73,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 
     private DarkTank(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.glass, TileDarkTank.class);
-        
+        this.setDefaultState(this.blockState.getBaseState().withProperty(DRAINING, false));
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGlass);
     }
@@ -91,14 +84,14 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
         setBlockBoundsForItemRender();
     }
 
     @Override
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB area, List list, Entity entity) {
+    public void addCollisionBoxesToList(World world, BlockPos blockPos, IBlockState blockState, AxisAlignedBB area, List list, Entity entity) {
         setBlockBounds(0, 0, 0, 1, 1, 1);
-        super.addCollisionBoxesToList(world, x, y, z, area, list, entity);
+        super.addCollisionBoxesToList(world, blockPos, blockState, area, list, entity);
     }
     
     @Override
@@ -107,28 +100,10 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     }
 
     @Override
-    public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-    	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(x, y, z);
+    public int getComparatorInputOverride(World world, BlockPos blockPos) {
+    	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-    	sideIcon = iconRegister.registerIcon(getTextureName() + "_side");
-    	topIcon = iconRegister.registerIcon(getTextureName() + "_top");
-    	sideIconActive = iconRegister.registerIcon(getTextureName() + "_side_active");
-    	topIconActive = iconRegister.registerIcon(getTextureName() + "_top_active");
-    }
-    
-    @Override
-    public IIcon getIcon(int side, int meta) {
-    	ForgeDirection direction = ForgeDirection.getOrientation(side);
-        if(direction == ForgeDirection.UP || direction == ForgeDirection.DOWN) {
-        	return meta == META_DRAINING ? topIconActive : topIcon;
-        }
-        return meta == META_DRAINING ? sideIconActive : sideIcon;
     }
     
     @Override
@@ -137,18 +112,18 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     }
     
     @Override
-    public boolean renderAsNormalBlock() {
+    public boolean isNormalCube() {
     	return false;
     }
     
-    @Override
+    /*@Override
     public int getRenderBlockPass() {
     	return 1;
-    }
+    }*/
     
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+    public boolean shouldSideBeRendered(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
     	return true;
     }
     
@@ -158,12 +133,11 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float motionX, float motionY, float motionZ) {
-    	if(tankComponent.onBlockActivatedTank(world, x, y, z, player, side, motionX, motionY, motionZ)) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float motionX, float motionY, float motionZ) {
+    	if(tankComponent.onBlockActivatedTank(world, blockPos, player, side, motionX, motionY, motionZ)) {
         	return true;
         } else {
-        	int meta = world.getBlockMetadata(x, y, z);
-        	world.setBlockMetadataWithNotify(x, y, z, 1 - meta, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+        	world.setBlockState(blockPos, this.blockState.getBaseState().withProperty(DRAINING, !(Boolean)blockState.getValue(DRAINING)), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         	return true;
         }
     }
@@ -216,8 +190,8 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     }
 	
 	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z) {
-		TileEntity tile = world.getTileEntity(x, y, z);
+	public int getLightValue(IBlockAccess world, BlockPos blockPos) {
+		TileEntity tile = world.getTileEntity(blockPos);
 		if(tile != null && tile instanceof TileDarkTank) {
 			TileDarkTank tank = (TileDarkTank) tile;
 			if(tank.getTank().getFluidType() != null) {
@@ -242,7 +216,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 		if(player.isSneaking()) {
             if(!world.isRemote) {
             	ItemStack activated = itemStack.copy();
-            	activated.setItemDamage(DarkTank.META_DRAINING - activated.getItemDamage());
+            	activated.setItemDamage(1 - activated.getItemDamage());
             	return activated;
             }
             return itemStack;
@@ -252,12 +226,12 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 
 	@Override
 	public boolean isActivated(ItemStack itemStack, World world, Entity entity) {
-		return itemStack.getItemDamage() == DarkTank.META_DRAINING;
+		return itemStack.getItemDamage() == 1;
 	}
 	
 	@Override
-	public int damageDropped(int meta) {
-		return meta;
+	public int damageDropped(IBlockState blockState) {
+		return (Boolean) blockState.getValue(DRAINING) ? 1 : 0;
     }
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

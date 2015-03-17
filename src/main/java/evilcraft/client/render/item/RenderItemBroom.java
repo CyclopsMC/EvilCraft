@@ -1,6 +1,5 @@
 package evilcraft.client.render.item;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.Reference;
 import evilcraft.client.render.model.ModelBroom;
 import evilcraft.core.client.render.model.RenderModel;
@@ -11,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 
 /**

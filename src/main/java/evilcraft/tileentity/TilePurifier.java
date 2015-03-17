@@ -1,8 +1,5 @@
 package evilcraft.tileentity;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.block.Purifier;
 import evilcraft.block.PurifierConfig;
 import evilcraft.client.particle.EntityBloodBubbleFX;
@@ -25,10 +22,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -112,7 +112,7 @@ public class TilePurifier extends TankInventoryTileEntity {
         List<Integer> slots = new LinkedList<Integer>();
         slots.add(SLOT_BOOK);
         slots.add(SLOT_PURIFY);
-        for(ForgeDirection direction : DirectionHelpers.DIRECTIONS)
+        for(EnumFacing direction : DirectionHelpers.DIRECTIONS)
             addSlotsToSide(direction, slots);
         
         this.setSendUpdateOnInventoryChanged(true);
@@ -243,7 +243,7 @@ public class TilePurifier extends TankInventoryTileEntity {
     @Override
     protected void onSendUpdate() {
         super.onSendUpdate();
-        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBucketsFloored(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+        worldObj.setBlockState(getPos(), Purifier.getInstance().getDefaultState().withProperty(Purifier.FILL, getBucketsFloored()), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     }
     
     private void updateBook() {
@@ -316,9 +316,9 @@ public class TilePurifier extends TankInventoryTileEntity {
     @SideOnly(Side.CLIENT)
     private void showEffect() {
         for (int i=0; i < 1; i++) {                
-            double particleX = xCoord + 0.2 + worldObj.rand.nextDouble() * 0.6;
-            double particleY = yCoord + 0.2 + worldObj.rand.nextDouble() * 0.6;
-            double particleZ = zCoord + 0.2 + worldObj.rand.nextDouble() * 0.6;
+            double particleX = getPos().getX() + 0.2 + worldObj.rand.nextDouble() * 0.6;
+            double particleY = getPos().getY() + 0.2 + worldObj.rand.nextDouble() * 0.6;
+            double particleZ = getPos().getZ() + 0.2 + worldObj.rand.nextDouble() * 0.6;
 
             float particleMotionX = -0.01F + worldObj.rand.nextFloat() * 0.02F;
             float particleMotionY = 0.01F;
@@ -335,16 +335,16 @@ public class TilePurifier extends TankInventoryTileEntity {
     private void showEnchantingEffect() {
         if(worldObj.rand.nextInt(10) == 0) {
             for (int i=0; i < 1; i++) {                
-                double particleX = xCoord + 0.45 + worldObj.rand.nextDouble() * 0.1;
-                double particleY = yCoord + 1.45 + worldObj.rand.nextDouble() * 0.1;
-                double particleZ = zCoord + 0.45 + worldObj.rand.nextDouble() * 0.1;
+                double particleX = getPos().getX() + 0.45 + worldObj.rand.nextDouble() * 0.1;
+                double particleY = getPos().getY() + 1.45 + worldObj.rand.nextDouble() * 0.1;
+                double particleZ = getPos().getZ() + 0.45 + worldObj.rand.nextDouble() * 0.1;
                 
                 float particleMotionX = -0.4F + worldObj.rand.nextFloat() * 0.8F;
                 float particleMotionY = -worldObj.rand.nextFloat();
                 float particleMotionZ = -0.4F + worldObj.rand.nextFloat() * 0.8F;
     
                 FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new EntityEnchantmentTableParticleFX(worldObj, particleX, particleY, particleZ,
+                        new EntityEnchantmentTableParticleFX.EnchantmentTable().func_178902_a(0, worldObj, particleX, particleY, particleZ,
                                 particleMotionX, particleMotionY, particleMotionZ)
                         );
             }
@@ -354,9 +354,9 @@ public class TilePurifier extends TankInventoryTileEntity {
     @SideOnly(Side.CLIENT)
     private void showEnchantedEffect() {
         for (int i=0; i < 100; i++) {                
-            double particleX = xCoord + 0.45 + worldObj.rand.nextDouble() * 0.1;
-            double particleY = yCoord + 1.45 + worldObj.rand.nextDouble() * 0.1;
-            double particleZ = zCoord + 0.45 + worldObj.rand.nextDouble() * 0.1;
+            double particleX = getPos().getX() + 0.45 + worldObj.rand.nextDouble() * 0.1;
+            double particleY = getPos().getY() + 1.45 + worldObj.rand.nextDouble() * 0.1;
+            double particleZ = getPos().getZ() + 0.45 + worldObj.rand.nextDouble() * 0.1;
             
             float particleMotionX = -0.4F + worldObj.rand.nextFloat() * 0.8F;
             float particleMotionY = -0.4F + worldObj.rand.nextFloat() * 0.8F;

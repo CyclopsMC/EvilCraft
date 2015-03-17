@@ -1,14 +1,13 @@
 package evilcraft.core;
 
-import java.util.List;
-
 import evilcraft.core.item.InformationProviderComponent;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+
+import java.util.List;
 
 /**
  * Interface that can be applied to {@link Block} or {@link Item} so that they can provide information
@@ -20,7 +19,7 @@ import net.minecraft.util.EnumChatFormatting;
 public interface IInformationProvider {
     
     /**
-     * A prefix for block information.
+     * A prefix for blockState information.
      */
     public static String BLOCK_PREFIX = EnumChatFormatting.RED.toString();
     /**

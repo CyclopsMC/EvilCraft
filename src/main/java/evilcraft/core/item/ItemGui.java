@@ -1,7 +1,5 @@
 package evilcraft.core.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.client.gui.GuiHandler;
@@ -16,6 +14,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Configurable item that can show a GUI on right clicking.
@@ -32,7 +32,7 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
 	
 	/**
      * Make a new item instance.
-     * @param eConfig Config for this block.
+     * @param eConfig Config for this blockState.
      */
     @SuppressWarnings({ "rawtypes" })
 	protected ItemGui(ExtendedConfig eConfig) {

@@ -50,7 +50,7 @@ public class UndeadPlankConfig extends BlockConfig {
     
     @Override
     public void onRegistered() {
-    	Blocks.fire.setFireInfo(getBlockInstance(), 5, 20);
+    	Blocks.fire.func_180686_a(getBlockInstance(), 5, 20);
     }
     
 }

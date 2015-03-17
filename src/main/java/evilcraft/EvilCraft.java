@@ -1,15 +1,6 @@
 package evilcraft;
 
 import com.google.common.collect.Sets;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.*;
-import cpw.mods.fml.common.network.FMLEventChannel;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
 import evilcraft.client.gui.GuiHandler;
 import evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import evilcraft.command.CommandEvilCraft;
@@ -23,6 +14,15 @@ import evilcraft.proxy.CommonProxy;
 import evilcraft.world.gen.DarkTempleGenerator;
 import evilcraft.world.gen.EvilDungeonGenerator;
 import evilcraft.world.gen.OreGenerator;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.network.FMLEventChannel;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
@@ -44,7 +44,7 @@ public class EvilCraft {
     
     /**
      * The proxy of this mod, depending on 'side' a different proxy will be inside this field.
-     * @see cpw.mods.fml.common.SidedProxy
+     * @see net.minecraftforge.fml.common.SidedProxy
      */
     @SidedProxy(clientSide = "evilcraft.proxy.ClientProxy", serverSide = "evilcraft.proxy.CommonProxy")
     public static CommonProxy proxy;
@@ -124,6 +124,9 @@ public class EvilCraft {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         LoggerHelper.log(Level.INFO, "init()");
+
+        // Polish the enabled configs.
+        ConfigHandler.getInstance().polishConfigs();
         
         // Register world generation
         GameRegistry.registerWorldGenerator(new OreGenerator(), 5);

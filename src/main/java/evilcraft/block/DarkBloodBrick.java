@@ -1,38 +1,34 @@
 package evilcraft.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.ILocation;
-import evilcraft.core.algorithm.Location;
-import evilcraft.core.algorithm.Size;
 import evilcraft.core.algorithm.Wrapper;
 import evilcraft.core.block.CubeDetector;
 import evilcraft.core.block.CubeDetector.IDetectionListener;
 import evilcraft.core.config.configurable.ConfigurableBlock;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.LocationHelpers;
-import evilcraft.item.DarkGem;
 import evilcraft.tileentity.TileSpiritFurnace;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 /**
- * Ore that drops {@link DarkGem}.
+ * Wall brick for the Spirit Furnace.
  * @author rubensworks
  *
  */
 public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListener {
-    
+
+    public static final PropertyBool ACTIVE = PropertyBool.create("enabled");
+
     private static DarkBloodBrick _instance = null;
-    
-    private IIcon blockIconInactive;
     
     /**
      * Initialise the configurable.
@@ -55,81 +51,66 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
 
     private DarkBloodBrick(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
         this.setHardness(5.0F);
         this.setStepSound(soundTypeStone);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-    	super.registerBlockIcons(iconRegister);
-        blockIconInactive = iconRegister.registerIcon(getTextureName() + "_inactive");
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta) {
-    	if(meta == 0) {
-    		return blockIconInactive;
-    	}
-        return super.getIcon(side, meta);
-    }
-    
-    @Override
-    public boolean canCreatureSpawn(EnumCreatureType creatureType, IBlockAccess world, int x, int y, int z) {
+    public boolean canCreatureSpawn(IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type) {
     	return false;
     }
     
-    private void triggerDetector(World world, int x, int y, int z, boolean valid) {
-    	TileSpiritFurnace.detector.detect(world, new Location(x, y, z), valid, true);
+    private void triggerDetector(World world, BlockPos blockPos, boolean valid) {
+    	TileSpiritFurnace.detector.detect(world, blockPos, valid, true);
     }
     
     @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
-    	triggerDetector(world, x, y, z, true);
-        world.func_147453_f(x, y, z, this);
+    public void onBlockAdded(World world, BlockPos blockPos, IBlockState blockState) {
+    	triggerDetector(world, blockPos, true);
+        //world.func_147453_f(blockPos, this);
     }
+
+    // TODO
+    /*@Override
+    public void onBlockPreDestroy(World world, BlockPos blockPos, IBlockState blockState) {super.onBlockDestroyedByPlayer();
+    	if((Boolean)blockState.getValue(ACTIVE)) triggerDetector(world, blockPos, false);
+    	super.onBlockPreDestroy(world, blockPos, blockState);
+    }*/
     
     @Override
-    public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
-    	if(meta == 1) triggerDetector(world, x, y, z, false);
-    	super.onBlockPreDestroy(world, x, y, z, meta);
-    }
-    
-    @Override
-	public void onDetect(World world, ILocation location, Size size, boolean valid) {
-		Block block = LocationHelpers.getBlock(world, location);
+	public void onDetect(World world, BlockPos location, Vec3i size, boolean valid) {
+		Block block = world.getBlockState(location).getBlock();
 		if(block == this) {
 			TileSpiritFurnace.detectStructure(world, location, size, valid);
 		}
 	}
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side,
                                     float posX, float posY, float posZ) {
-        int meta = world.getBlockMetadata(x, y, z);
-        if(meta == 1) {
-            final Wrapper<ILocation> tileLocationWrapper = new Wrapper<ILocation>();
-            TileSpiritFurnace.detector.detect(world, new Location(x, y, z), true, new CubeDetector.IValidationAction() {
+        if((Boolean) blockState.getValue(ACTIVE)) {
+            final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
+            TileSpiritFurnace.detector.detect(world, blockPos, true, new CubeDetector.IValidationAction() {
 
                 @Override
-                public void onValidate(ILocation location, Block block) {
+                public void onValidate(BlockPos location, Block block) {
                     if(block == SpiritFurnace.getInstance()) {
                         tileLocationWrapper.set(location);
                     }
                 }
 
             }, false);
-            ILocation tileLocation = tileLocationWrapper.get();
+            BlockPos tileLocation = tileLocationWrapper.get();
             if(tileLocation != null) {
-                int[] c = tileLocation.getCoordinates();
-                LocationHelpers.getBlock(world,
-                        tileLocation).onBlockActivated(world, c[0], c[1], c[2], player, side, posX, posY, posZ);
+                world.getBlockState(tileLocation).getBlock().
+                        onBlockActivated(world, tileLocation, world.getBlockState(tileLocation),
+                                player, side, posX, posY, posZ);
                 return true;
             }
         }
-        return super.onBlockActivated(world, x, y, z, player, side, posX, posY, posZ);
+        return super.onBlockActivated(world, blockPos, blockState, player, side, posX, posY, posZ);
     }
 
 }

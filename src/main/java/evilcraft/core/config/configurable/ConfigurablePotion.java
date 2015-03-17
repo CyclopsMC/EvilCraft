@@ -1,8 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.PotionConfig;
@@ -12,6 +9,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * A configurable potion effect.
@@ -32,7 +32,7 @@ public abstract class ConfigurablePotion extends Potion implements IConfigurable
      * @param iconIndex The sprite index of the icon.
      */
     protected ConfigurablePotion(ExtendedConfig<PotionConfig> eConfig, boolean badEffect, int color, int iconIndex) {
-        super(eConfig.downCast().ID, badEffect, color);
+        super(eConfig.downCast().ID, new ResourceLocation(eConfig.getNamedId()), badEffect, color);
         this.setConfig(eConfig);
         this.setPotionName(eConfig.getUnlocalizedName());
         this.setIconIndex(iconIndex % 8, iconIndex / 8);

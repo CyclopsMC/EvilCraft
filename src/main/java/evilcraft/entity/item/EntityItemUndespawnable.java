@@ -1,9 +1,9 @@
 package evilcraft.entity.item;
 
+import evilcraft.core.entity.item.EntityItemIndestructable;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import evilcraft.core.entity.item.EntityItemIndestructable;
 
 /**
  * Entity item that can not despawn.

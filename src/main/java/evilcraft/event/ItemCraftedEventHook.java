@@ -1,10 +1,5 @@
 package evilcraft.event;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import evilcraft.Achievements;
 import evilcraft.Configs;
 import evilcraft.block.SpiritFurnace;
@@ -13,7 +8,12 @@ import evilcraft.item.BloodExtractor;
 import evilcraft.item.BloodExtractorConfig;
 import evilcraft.item.ExaltedCrafter;
 import evilcraft.item.ExaltedCrafterConfig;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 
 /**
  * Event hook for {@link ItemCraftedEvent}.

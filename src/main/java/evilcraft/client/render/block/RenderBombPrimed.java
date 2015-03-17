@@ -1,15 +1,13 @@
 package evilcraft.client.render.block;
 
+import evilcraft.entity.block.EntityLightningBombPrimed;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderTNTPrimed;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import evilcraft.entity.block.EntityLightningBombPrimed;
 
 /**
  * Renderer for a primed bomb.
@@ -22,8 +20,8 @@ public class RenderBombPrimed extends RenderTNTPrimed{
     protected Block block;
     
     /**
-     * Make a new RenderBombPrimed for a certain block disguise.
-     * @param block The block to render for this entity
+     * Make a new RenderBombPrimed for a certain blockState disguise.
+     * @param block The blockState to render for this entity
      */
     public RenderBombPrimed(Block block) {
         this.block = block;

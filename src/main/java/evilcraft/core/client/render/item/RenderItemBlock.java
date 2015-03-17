@@ -5,11 +5,10 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-
 import org.lwjgl.opengl.GL11;
 
 /**
- * Abstract {@link IItemRenderer} for item blocks that is able to render additional stuff next to the standard block.
+ * Abstract {@link IItemRenderer} for item blocks that is able to render additional stuff next to the standard blockState.
  * @author rubensworks
  *
  */
@@ -37,7 +36,7 @@ public abstract class RenderItemBlock implements IItemRenderer {
     	
     	preRenderAdditional(type, itemStack, block);
 
-        // Regular block rendering
+        // Regular blockState rendering
         if (block.getRenderBlockPass() > 0) {
             GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
             GL11.glEnable(GL11.GL_BLEND);

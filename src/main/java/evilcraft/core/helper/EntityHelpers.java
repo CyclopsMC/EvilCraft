@@ -1,14 +1,16 @@
 package evilcraft.core.helper;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-import cpw.mods.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
+
+import java.util.List;
 
 /**
  * Helpers for entities.
@@ -24,30 +26,27 @@ public class EntityHelpers {
 
 	/**
 	 * This should by called when custom entities collide. It will call the
-	 * correct method in {@link Block#onEntityCollidedWithBlock(World, int, int, int, Entity)}.
+	 * correct method in {@link Block#onEntityCollidedWithBlock(World, BlockPos, Entity)}.
 	 * @param world The world
-	 * @param x X coordinate.
-	 * @param y Y coordinate.
-	 * @param z Z coordinate.
+	 * @param blockPos The position.
 	 * @param entity The entity that collides.
 	 */
-	public static void onEntityCollided(World world, int x, int y, int z, Entity entity) {
-	    Block block = world.getBlock(x, y, z);
+	public static void onEntityCollided(World world, BlockPos blockPos, Entity entity) {
+	    Block block = world.getBlockState(blockPos).getBlock();
 	    if(block != null)
-	        block.onEntityCollidedWithBlock(world, x, y, z, entity);
+	        block.onEntityCollidedWithBlock(world, blockPos, entity);
 	}
 
 	/**
 	 * Get the list of entities within a certain area.
 	 * @param world The world to look in.
-	 * @param x The center X coordinate.
-	 * @param y The center Y coordinate.
-	 * @param z The center Z coordinate.
+	 * @param blockPos The position.
 	 * @param area The radius of the area.
 	 * @return The list of entities in that area.
 	 */
-	public static List<Entity> getEntitiesInArea(World world, int x, int y, int z, int area) {
-	    AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
+	public static List<Entity> getEntitiesInArea(World world, BlockPos blockPos, int area) {
+	    AxisAlignedBB box = AxisAlignedBB.fromBounds(blockPos.getX(), blockPos.getY(), blockPos.getZ(),
+                blockPos.getX(), blockPos.getY(), blockPos.getZ()).expand(area, area, area);
 	    @SuppressWarnings("unchecked")
 	    List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, box);
 	    return entities;
@@ -66,11 +65,21 @@ public class EntityHelpers {
             if (!ForgeEventFactory.doSpecialSpawn(entityLiving, world, (float) entityLiving.posX,
             		(float) entityLiving.posY, (float) entityLiving.posZ)) {
             	world.spawnEntityInWorld(entityLiving);
-            	entityLiving.onSpawnWithEgg(null);
                 return true;
             }
         }
         return false;
 	}
-	
+
+    /**
+     * Get the size of an entity.
+     * @param entity The entity.
+     * @return The size.
+     */
+    public static Vec3i getEntitySize(Entity entity) {
+        int x = ((int) Math.ceil(entity.width));
+        int y = ((int) Math.ceil(entity.height));
+        int z = x;
+        return new Vec3i(x, y, z);
+    }
 }

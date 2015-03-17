@@ -1,30 +1,28 @@
 package evilcraft.block;
 
-import java.util.List;
-import java.util.Random;
-
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.RenderHelpers;
 import evilcraft.item.RedstoneGrenade;
 import evilcraft.item.RedstoneGrenadeConfig;
 import evilcraft.tileentity.TileInvisibleRedstoneBlock;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 /**
- * An invisible block where players can walk through and disappears after a few ticks.
+ * An invisible blockState where players can walk through and disappears after a few ticks.
  * @author immortaleeb
  *
  */
@@ -58,11 +56,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {}
-    
-    @Override
-    public Item getItemDropped(int meta, Random random, int zero) {
+    public Item getItemDropped(IBlockState blockState, Random random, int zero) {
     	if(Configs.isEnabled(RedstoneGrenadeConfig.class)) {
     		return RedstoneGrenade.getInstance();
     	} else {
@@ -71,7 +65,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     }
 
     @Override
-    public int isProvidingWeakPower(IBlockAccess blockAccess, int x, int y, int z, int side) {
+    public int isProvidingWeakPower(IBlockAccess blockAccess, BlockPos blockPos, IBlockState blockState, EnumFacing side) {
         return 15;
     }
     
@@ -91,28 +85,23 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     }
     
     @Override
-    public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
+    public boolean isReplaceable(World world, BlockPos blockPos) {
         return true;
     }
     
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+    public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos blockPos, IBlockState blockState) {
         return null;
     }
     
     @Override
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
-        return AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0);
+    public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos blockPos) {
+        return AxisAlignedBB.fromBounds(0, 0, 0, 0, 0, 0);
     }
     
     @Override
-    public TileEntity createTileEntity(World world, int metadata) {
+    public TileEntity createTileEntity(World world, IBlockState blockStatedata) {
         return new TileInvisibleRedstoneBlock(world);
-    }
-    
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        return RenderHelpers.EMPTYICON;
     }
     
     @SuppressWarnings("rawtypes")

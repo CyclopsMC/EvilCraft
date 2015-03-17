@@ -1,7 +1,5 @@
 package evilcraft.event;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.GeneralConfig;
@@ -14,9 +12,12 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Event hook for {@link LivingUpdateEvent}.
@@ -47,13 +48,14 @@ public class LivingUpdateEventHook {
                 && event.entity.worldObj.rand.nextInt(CHANCE_DROP_EXCREMENT) == 0) {
             EntityAnimal entity = (EntityAnimal) event.entity;
             World world = entity.worldObj;
+            BlockPos blockPos = entity.getPosition();
             int x = MathHelper.floor_double(entity.posX);
             int y = MathHelper.floor_double(entity.posY);
             int z = MathHelper.floor_double(entity.posZ);
-            if(world.getBlock(x, y, z) == Blocks.air && world.getBlock(x, y - 1, z).isNormalCube()) {
-                world.setBlock(x, y, z, ExcrementPile.getInstance());
-            } else if(world.getBlock(x, y, z) == ExcrementPile.getInstance()) {
-                ExcrementPile.heightenPileAt(world, x, y, z);
+            if(world.getBlockState(blockPos).getBlock() == Blocks.air && world.getBlockState(blockPos.add(0, -1, 0)).getBlock().isNormalCube()) {
+                world.setBlockState(blockPos, ExcrementPile.getInstance().getDefaultState());
+            } else if(world.getBlockState(blockPos).getBlock() == ExcrementPile.getInstance()) {
+                ExcrementPile.getInstance().heightenPileAt(world, blockPos);
             }
         }
     }

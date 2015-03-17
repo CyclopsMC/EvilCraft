@@ -5,7 +5,7 @@ import evilcraft.block.DarkTank;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
@@ -35,12 +35,12 @@ public class TileDarkTank extends TankInventoryTileEntity {
 	}
 	
 	@Override
-	public boolean isItemValidForSlot(int side, ItemStack item) {
+	public boolean isItemValidForSlot(int index, ItemStack item) {
 		return false;
 	}
 
 	@Override
-    public int[] getAccessibleSlotsFromSide(int side) {
+    public int[] getSlotsForFace(EnumFacing side) {
 		return new int[0];
 	}
 	
@@ -53,14 +53,14 @@ public class TileDarkTank extends TankInventoryTileEntity {
 	}
 	
 	protected boolean shouldAutoDrain() {
-		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == DarkTank.META_DRAINING;
+		return (Boolean) worldObj.getBlockState(getPos()).getValue(DarkTank.DRAINING);
 	}
 	
 	@Override
 	protected void updateTileEntity() {
-		if(!getTank().isEmpty() && shouldAutoDrain() && !getWorldObj().isRemote) {
-			ForgeDirection down = ForgeDirection.DOWN;
-			TileEntity tile = worldObj.getTileEntity(xCoord + down.offsetX, yCoord + down.offsetY, zCoord + down.offsetZ);
+		if(!getTank().isEmpty() && shouldAutoDrain() && !getWorld().isRemote) {
+			EnumFacing down = EnumFacing.DOWN;
+            TileEntity tile = worldObj.getTileEntity(getPos().offset(down));
 			if(tile instanceof IFluidHandler) {
 				IFluidHandler handler = (IFluidHandler) tile;
 				FluidStack fluidStack = new FluidStack(getTank().getFluidType(),
@@ -74,8 +74,8 @@ public class TileDarkTank extends TankInventoryTileEntity {
 	}
 	
 	@Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-		return from != ForgeDirection.DOWN && super.canFill(from, fluid);
+    public boolean canFill(EnumFacing from, Fluid fluid) {
+		return from != EnumFacing.DOWN && super.canFill(from, fluid);
 	}
 
 }

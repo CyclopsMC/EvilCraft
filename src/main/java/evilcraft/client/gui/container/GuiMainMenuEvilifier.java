@@ -1,10 +1,10 @@
 package evilcraft.client.gui.container;
 
-import java.util.Random;
-
-import net.minecraft.util.ResourceLocation;
 import evilcraft.Reference;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+import net.minecraft.util.ResourceLocation;
+
+import java.util.Random;
 
 /**
  * This can add an evil surrounding to the main menu.

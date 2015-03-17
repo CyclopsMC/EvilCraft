@@ -1,12 +1,5 @@
 package evilcraft.block;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraftforge.common.ChestGenHooks;
 import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.client.render.item.RenderItemBoxOfEternalClosure;
@@ -18,6 +11,13 @@ import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraftforge.common.ChestGenHooks;
 
 /**
  * Config for the {@link BoxOfEternalClosure}.

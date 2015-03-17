@@ -1,14 +1,18 @@
 package evilcraft.core.config.configurabletypeaction;
 
-import net.minecraft.item.Item;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.EvilCraftTab;
+import evilcraft.Reference;
 import evilcraft.client.gui.GuiHandler;
 import evilcraft.client.gui.GuiHandler.GuiType;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.inventory.IGuiContainerProvider;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.item.Item;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * The action used for {@link ItemConfig}.
@@ -51,6 +55,15 @@ public class ItemAction extends ConfigurableTypeAction<ItemConfig>{
         if(item instanceof IGuiContainerProvider) {
         	IGuiContainerProvider gui = (IGuiContainerProvider) item;
         	GuiHandler.registerGUI(gui, GuiType.ITEM);
+        }
+    }
+
+    @Override
+    public void polish(ItemConfig config) {
+        for(int meta : config.getSubTypes()) {
+            Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(config.getItemInstance(), meta,
+                    new ModelResourceLocation(Reference.MOD_ID + ":" + config.getUnlocalizedName(), "inventory"));
+            // ModelBakery.addVariantName(yourItem, new String[]{"different", "variant", "namesOfModelFiles"});
         }
     }
 

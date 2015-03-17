@@ -1,7 +1,6 @@
 package evilcraft.core.item;
 
-import java.util.List;
-
+import evilcraft.core.IInformationProvider;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -9,7 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
-import evilcraft.core.IInformationProvider;
+
+import java.util.List;
 
 /**
  * A component that has to be added for classes that want to implement the DamageIndicator behaviour.

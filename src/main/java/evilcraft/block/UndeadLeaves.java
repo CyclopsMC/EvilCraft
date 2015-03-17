@@ -1,17 +1,24 @@
 package evilcraft.block;
-import java.util.Random;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.block.component.EntityDropParticleFXBlockComponent;
 import evilcraft.core.block.component.IEntityDropParticleFXBlock;
 import evilcraft.core.config.configurable.ConfigurableBlockLeaves;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * Leaves for the Undead Tree.
@@ -58,20 +65,22 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
     }
 
     @Override
-    public Item getItemDropped(int meta, Random random, int zero) {
+    public Item getItemDropped(IBlockState blockState, Random random, int zero) {
         return Item.getItemFromBlock(Blocks.deadbush);
     }
-    
+
     @Override
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-        super.randomDisplayTick(world, x, y, z, random);
-        entityDropParticleFXBlockComponent.randomDisplayTick(world, x, y, z, random);
+    public BlockPlanks.EnumType func_176233_b(int p_176233_1_) {
+        return UndeadSapling.TYPE;
     }
 
-	@Override
-	public String[] func_150125_e() {
-		return null;
-	}
+    @Override
+    public void randomDisplayTick(World world, BlockPos blockPos, Random rand) {
+        entityDropParticleFXBlockComponent.randomDisplayTick(world, blockPos, rand);
+    }
 
+    @Override
+    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+        return null;
+    }
 }

@@ -1,13 +1,5 @@
 package evilcraft.item;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.EvilCraft;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -15,6 +7,13 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.entity.effect.EntityAntiVengeanceBeam;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Focus that is able to direct rays of the sun to entangle vengeance spirits.
@@ -28,7 +27,7 @@ public class VengeanceFocus extends ConfigurableItem {
     private static VengeanceFocus _instance = null;
     
     @SideOnly(Side.CLIENT)
-    private IIcon[] iconArray;
+    private TextureAtlasSprite[] iconArray;
     
     /**
      * Initialise the configurable.
@@ -53,27 +52,6 @@ public class VengeanceFocus extends ConfigurableItem {
         super(eConfig);
     }
     
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon(this.getIconString());
-        this.iconArray = new IIcon[4];
-
-        for(int i = 0; i < this.iconArray.length; ++i) {
-            this.iconArray[i] = par1IconRegister.registerIcon(this.getIconString() + "_" + i);
-        }
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
-    	if(getItemInUseDuration(player) == getMaxItemUseDuration(usingItem)) {
-        	return getIcon(stack, renderPass);
-        }
-    	return iconArray[Math.min(this.iconArray.length - 1,
-    			(player.getItemInUseDuration() / 3))];
-    }
-    
     private int getItemInUseDuration(EntityPlayer player) {
     	return player.isUsingItem() ? ObfuscationHelpers.getItemInUse(player).getMaxItemUseDuration()
     			- ObfuscationHelpers.getItemInUseCount(player) : 0;
@@ -91,7 +69,7 @@ public class VengeanceFocus extends ConfigurableItem {
     
     @Override
     public EnumAction getItemUseAction(ItemStack itemStack) {
-        return EnumAction.bow;
+        return EnumAction.BOW;
     }
     
     @Override

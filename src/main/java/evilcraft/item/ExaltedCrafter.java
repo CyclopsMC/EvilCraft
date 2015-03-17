@@ -1,7 +1,5 @@
 package evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.gui.container.GuiExaltedCrafter;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -10,7 +8,7 @@ import evilcraft.core.inventory.NBTSimpleInventory;
 import evilcraft.core.item.ItemGui;
 import evilcraft.entity.item.EntityItemEmpowerable;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -20,8 +18,9 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     private static ExaltedCrafter _instance = null;
     
     @SideOnly(Side.CLIENT)
-    private IIcon woodenIcon;
+    private TextureAtlasSprite woodenIcon;
     
     /**
      * Initialise the configurable.
@@ -67,29 +66,14 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        woodenIcon = iconRegister.registerIcon(getIconString() + "_wooden");
-        super.registerIcons(iconRegister);
-    }
-    
-    @Override
-    public IIcon getIconFromDamage(int damage) {
-    	if((damage & 1) == 1) {
-    		return woodenIcon;
-    	}
-    	return super.getIconFromDamage(damage);
-    }
-    
-    @Override
-    public boolean hasEffect(ItemStack itemStack, int pass){
+    public boolean hasEffect(ItemStack itemStack){
     	return isEmpowered(itemStack);
     }
     
     @Override
     @SideOnly(Side.CLIENT)
     public EnumRarity getRarity(ItemStack itemStack){
-        return isEmpowered(itemStack) ? EnumRarity.uncommon : super.getRarity(itemStack);
+        return isEmpowered(itemStack) ? EnumRarity.UNCOMMON : super.getRarity(itemStack);
     }
     
     @Override

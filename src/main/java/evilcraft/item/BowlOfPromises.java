@@ -1,18 +1,17 @@
 package evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -26,10 +25,10 @@ public class BowlOfPromises extends ConfigurableItem {
     private static BowlOfPromises _instance = null;
     public static final int ACTIVE_META = 2;
 
-    private IIcon dusted;
-    private IIcon empty;
-    private IIcon active_overlay;
-    private IIcon active;
+    private TextureAtlasSprite dusted;
+    private TextureAtlasSprite empty;
+    private TextureAtlasSprite active_overlay;
+    private TextureAtlasSprite active;
 
     /**
      * Initialise the configurable.
@@ -71,35 +70,8 @@ public class BowlOfPromises extends ConfigurableItem {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack itemStack, int pass) {
-        return pass == 0 && itemStack.getItemDamage() >= ACTIVE_META;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses() {
-        return true;
-    }
-
-    @Override
-    public int getRenderPasses(int metadata) {
-        return metadata >= ACTIVE_META ? 2 : 1;
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IIconRegister iconRegister) {
-        active_overlay = iconRegister.registerIcon(getIconString() + "_active_overlay");
-        active = iconRegister.registerIcon(getIconString() + "_active");
-        dusted = iconRegister.registerIcon(getIconString() + "_dusted");
-        empty = iconRegister.registerIcon(getIconString() + "_empty");
-    }
-
-    @Override
-    public IIcon getIconFromDamageForRenderPass(int meta, int renderpass) {
-        if(meta == 0) return dusted;
-        if(meta == 1) return empty;
-        return renderpass == 0 ? active_overlay : active;
+    public boolean hasEffect(ItemStack itemStack) {
+        return itemStack.getItemDamage() >= ACTIVE_META;
     }
 
     @Override

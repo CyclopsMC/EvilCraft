@@ -1,13 +1,13 @@
 package evilcraft.core.item;
 
-import java.util.List;
-
+import evilcraft.core.IInformationProvider;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.IInformationProvider;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 /**
  * A component that can be used for {@link IInformationProvider} implementations.
@@ -21,7 +21,7 @@ public class InformationProviderComponent {
     
     /**
      * Make a new instance.
-     * @param block The block for which the component is used.
+     * @param block The blockState for which the component is used.
      */
     public InformationProviderComponent(Block block) {
         setBlock(block);
@@ -46,24 +46,24 @@ public class InformationProviderComponent {
     }
 
     /**
-     * If the block that uses this component implements {@link IInformationProvider}.
-     * @return If the block provides info.
+     * If the blockState that uses this component implements {@link IInformationProvider}.
+     * @return If the blockState provides info.
      */
     public boolean isHasInfo() {
         return hasInfo;
     }
 
     /**
-     * Get the block that uses this component.
-     * @return The block.
+     * Get the blockState that uses this component.
+     * @return The blockState.
      */
     public Block getBlock() {
         return block;
     }
 
     /**
-     * Set the block that uses this component.
-     * @param block The block.
+     * Set the blockState that uses this component.
+     * @param block The blockState.
      */
     public void setBlock(Block block) {
         this.block = block;

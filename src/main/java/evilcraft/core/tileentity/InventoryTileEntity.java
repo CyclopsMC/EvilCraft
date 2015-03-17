@@ -6,7 +6,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,11 +18,11 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-public abstract class InventoryTileEntity extends EvilCraftTileEntity implements ISidedInventory {
+public abstract class InventoryTileEntity extends TickingEvilCraftTileEntity implements ISidedInventory {
     
     protected SimpleInventory inventory;
-    protected Map<ForgeDirection, int[]> slotSides;
-    protected Map<ForgeDirection, Integer> slotSidesSize;
+    protected Map<EnumFacing, int[]> slotSides;
+    protected Map<EnumFacing, Integer> slotSidesSize;
     protected boolean sendUpdateOnInventoryChanged = false;
     
     /**
@@ -32,9 +33,9 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
      */
     public InventoryTileEntity(int inventorySize, String inventoryName, int stackSize) {
         inventory = new SimpleInventory(inventorySize , inventoryName, stackSize);
-        slotSides = new HashMap<ForgeDirection, int[]>();
-        slotSidesSize = new HashMap<ForgeDirection, Integer>();
-        for(ForgeDirection side : DirectionHelpers.DIRECTIONS) {
+        slotSides = new HashMap<EnumFacing, int[]>();
+        slotSidesSize = new HashMap<EnumFacing, Integer>();
+        for(EnumFacing side : DirectionHelpers.DIRECTIONS) {
             // Init each side to it can theoretically hold all possible slots,
             // Integer lists are not option because Java allows to autoboxing
             // and that would be required in the getter methods below.
@@ -59,7 +60,7 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
      * @param side The side to map this slots to.
      * @param slots The numerical representations of the slots to map.
      */
-    protected void addSlotsToSide(ForgeDirection side, Collection<Integer> slots) {
+    protected void addSlotsToSide(EnumFacing side, Collection<Integer> slots) {
         int[] currentSlots = slotSides.get(side);
         int offset = slotSidesSize.get(side);
         int i = 0;
@@ -114,13 +115,18 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     }
 
     @Override
-    public String getInventoryName() {
-        return inventory.getInventoryName();
+    public String getName() {
+        return inventory.getName();
     }
 
     @Override
-    public boolean hasCustomInventoryName() {
-        return inventory.hasCustomInventoryName();
+    public boolean hasCustomName() {
+        return inventory.hasCustomName();
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
     }
 
     @Override
@@ -130,19 +136,44 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
-    }
-    
-    @Override
-    public void openInventory() {
-        
+        return worldObj.getTileEntity(getPos()) == this && entityPlayer.getDistanceSq(getPos().add(0.5D, 0.5D, 0.5D)) <= 64.0D;
     }
 
     @Override
-    public void closeInventory() {
-        
+    public void openInventory(EntityPlayer playerIn) {
+        inventory.openInventory(playerIn);
     }
-    
+
+    @Override
+    public void closeInventory(EntityPlayer playerIn) {
+        inventory.closeInventory(playerIn);
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int index, ItemStack stack) {
+        return inventory.isItemValidForSlot(index, stack);
+    }
+
+    @Override
+    public int getField(int id) {
+        return inventory.getField(id);
+    }
+
+    @Override
+    public void setField(int id, int value) {
+        inventory.setField(id, value);
+    }
+
+    @Override
+    public int getFieldCount() {
+        return inventory.getFieldCount();
+    }
+
+    @Override
+    public void clear() {
+        inventory.clear();;
+    }
+
     @Override
     public void readFromNBT(NBTTagCompound data) {
         super.readFromNBT(data);
@@ -156,13 +187,13 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     }
 
     @Override
-    public int[] getAccessibleSlotsFromSide(int side) {
-        return slotSides.get(ForgeDirection.getOrientation(side));
+    public int[] getSlotsForFace(EnumFacing side) {
+        return slotSides.get(side);
     }
     
-    private boolean canAccess(int slot, int side) {
+    private boolean canAccess(int slot, EnumFacing side) {
         boolean canAccess = false;
-        for(int slotAccess : getAccessibleSlotsFromSide(side)) {
+        for(int slotAccess : getSlotsForFace(side)) {
             if(slotAccess == slot)
                 canAccess = true;
         }
@@ -170,26 +201,26 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     }
 
     @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+    public boolean canInsertItem(int slot, ItemStack itemStack, EnumFacing side) {
         return canAccess(slot, side) && this.isItemValidForSlot(slot, itemStack);
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+    public boolean canExtractItem(int slot, ItemStack itemStack, EnumFacing side) {
         return canAccess(slot, side);
     }
 
     /**
-     * If this tile should send block updates when the inventory has changed.
-     * @return If it should send block updates.
+     * If this tile should send blockState updates when the inventory has changed.
+     * @return If it should send blockState updates.
      */
     public boolean isSendUpdateOnInventoryChanged() {
         return sendUpdateOnInventoryChanged;
     }
 
     /**
-     * If this tile should send block updates when the inventory has changed.
-     * @param sendUpdateOnInventoryChanged If it should send block updates.
+     * If this tile should send blockState updates when the inventory has changed.
+     * @param sendUpdateOnInventoryChanged If it should send blockState updates.
      */
     public void setSendUpdateOnInventoryChanged(
             boolean sendUpdateOnInventoryChanged) {

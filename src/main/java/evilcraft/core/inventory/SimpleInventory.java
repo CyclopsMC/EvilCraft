@@ -1,11 +1,13 @@
 package evilcraft.core.inventory;
 
+import evilcraft.core.helper.MinecraftHelpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import evilcraft.core.helper.MinecraftHelpers;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.IChatComponent;
 
 /**
  * A basic inventory implementation.
@@ -70,11 +72,6 @@ public class SimpleInventory implements IInventory {
     }
 
     @Override
-    public String getInventoryName() {
-        return _name;
-    }
-
-    @Override
     public int getInventoryStackLimit() {
         return _stackLimit;
     }
@@ -89,11 +86,13 @@ public class SimpleInventory implements IInventory {
     }
 
     @Override
-    public void openInventory() {
+    public void openInventory(EntityPlayer playerIn) {
+
     }
 
     @Override
-    public void closeInventory() {
+    public void closeInventory(EntityPlayer playerIn) {
+
     }
 
     /**
@@ -175,17 +174,49 @@ public class SimpleInventory implements IInventory {
     }
 
     @Override
-    public boolean hasCustomInventoryName() {
-        return false;
-    }
-
-    @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
         return true;
     }
 
-	@Override
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+        for(int i = 0; i < getSizeInventory(); i++) {
+            _contents[i] = null;
+        }
+    }
+
+    @Override
 	public void markDirty() {
 		
 	}
+
+    @Override
+    public String getName() {
+        return _name;
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return new ChatComponentTranslation(this.getName());
+    }
 }

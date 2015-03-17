@@ -6,6 +6,8 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 /**
@@ -41,21 +43,21 @@ public class BloodPotash extends ConfigurableItem {
     }
 
     @Override
-    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float coordX, float coordY, float coordZ) {
+    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float coordX, float coordY, float coordZ) {
         boolean done = false;
         int attempts = 0;
         while (attempts < 2) {
-            done = ItemDye.applyBonemeal(itemStack.copy(), world, x, y, z, player) | done;
+            done = ItemDye.applyBonemeal(itemStack.copy(), world, blockPos, player) | done;
             attempts++;
         }
         if (done) {
             itemStack.stackSize--;
             if (!world.isRemote) {
-                world.playAuxSFX(2005, x, y, z, 0);
+                world.playAuxSFX(2005, blockPos, 0);
             }
             return true;
         }
-        return super.onItemUse(itemStack, player, world, x, y, z, side, coordX, coordY, coordZ);
+        return super.onItemUse(itemStack, player, world, blockPos, side, coordX, coordY, coordZ);
     }
 
 }

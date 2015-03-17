@@ -1,15 +1,15 @@
 package evilcraft.command;
 
+import evilcraft.VersionStats;
+import evilcraft.core.config.ConfigProperty;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.util.ChatComponentText;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-import evilcraft.VersionStats;
-import evilcraft.core.config.ConfigProperty;
 
 /**
  * Command for showing current version.

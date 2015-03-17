@@ -1,7 +1,5 @@
 package evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItemPickaxe;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -12,7 +10,10 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -54,17 +55,17 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
         this.setMaxDamage(154);
         this.efficiencyOnProperMaterial *= 1.250F;
     }
-    
+
     // Can break all blocks, like diamond
     @Override
-    public boolean func_150897_b(Block block) {
+    public boolean canHarvestBlock(Block block) {
         return true;
     }
     
     @Override
-	public boolean onBlockDestroyed(ItemStack itemStack, World world, Block block, int x, int y, int z, EntityLivingBase entity) {
+	public boolean onBlockDestroyed(ItemStack itemStack, World world, Block block, BlockPos blockPos, EntityLivingBase entity) {
         if(!world.isRemote) {
-    	boolean result = super.onBlockDestroyed(itemStack, world, block, x, y, z, entity);
+    	boolean result = super.onBlockDestroyed(itemStack, world, block, blockPos, entity);
         if(result) {
         	if(world.rand.nextInt(VengeancePickaxeConfig.vengeanceChance) == 0) {
         		int area = VengeancePickaxeConfig.areaOfEffect;
@@ -73,7 +74,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
         }
         return result;
         }
-        return super.onBlockDestroyed(itemStack, world, block, x, y, z, entity);
+        return super.onBlockDestroyed(itemStack, world, block, blockPos, entity);
     }
     
     /**

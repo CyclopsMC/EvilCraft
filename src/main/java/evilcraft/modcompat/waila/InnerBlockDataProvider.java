@@ -1,14 +1,14 @@
 package evilcraft.modcompat.waila;
 
-import java.util.List;
-
+import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
+import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
+import evilcraft.core.tileentity.InnerBlocksTileEntity;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.item.ItemStack;
-import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
-import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
-import evilcraft.core.tileentity.InnerBlocksTileEntity;
+
+import java.util.List;
 
 /**
  * Waila data provider for blocks with inner blocks.
@@ -22,11 +22,11 @@ public class InnerBlockDataProvider implements IWailaDataProvider {
             IWailaConfigHandler config) {
         if(accessor.getBlock() instanceof ConfigurableBlockWithInnerBlocks && config.getConfig(Waila.getInnerBlockConfigID())) {
             ConfigurableBlockWithInnerBlocks block = (ConfigurableBlockWithInnerBlocks) accessor.getBlock();
-            return new ItemStack(block.getBlockFromMetadata(accessor.getMetadata()));
+            return new ItemStack(block.getBlockFromState(accessor.getMetadata()));
         }
         if(accessor.getBlock() instanceof ConfigurableBlockWithInnerBlocksExtended && config.getConfig(Waila.getInnerBlockConfigID())) {
         	InnerBlocksTileEntity tile = (InnerBlocksTileEntity) accessor.getTileEntity();
-            return new ItemStack(tile.getInnerBlock(), 1, accessor.getMetadata());
+            return new ItemStack(tile.getInnerBlockState(), 1, accessor.getMetadata());
         }
         return null;
     }

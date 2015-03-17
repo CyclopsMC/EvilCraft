@@ -1,15 +1,13 @@
 package evilcraft.core.world;
 
-import java.util.List;
-
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 
-import com.google.common.collect.Lists;
+import java.util.List;
 
 /**
  * A dummy implementation of {@link IChunkProvider}.
@@ -28,17 +26,22 @@ public class FakeChunkProvider implements IChunkProvider {
 		return null;
 	}
 
-	@Override
-	public Chunk loadChunk(int var1, int var2) {
-		return null;
-	}
+    @Override
+    public Chunk func_177459_a(BlockPos p_177459_1_) {
+        return null;
+    }
 
 	@Override
 	public void populate(IChunkProvider var1, int var2, int var3) {
 		
 	}
 
-	@Override
+    @Override
+    public boolean func_177460_a(IChunkProvider p_177460_1_, Chunk p_177460_2_, int p_177460_3_, int p_177460_4_) {
+        return false;
+    }
+
+    @Override
 	public boolean saveChunks(boolean var1, IProgressUpdate var2) {
 		return true;
 	}
@@ -58,28 +61,25 @@ public class FakeChunkProvider implements IChunkProvider {
 		return new String();
 	}
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	public List getPossibleCreatures(EnumCreatureType var1, int var2, int var3,
-			int var4) {
-		return Lists.newLinkedList();
-	}
+    @Override
+    public List func_177458_a(EnumCreatureType p_177458_1_, BlockPos p_177458_2_) {
+        return null;
+    }
 
-	@Override
-	public ChunkPosition func_147416_a(World var1, String var2, int var3,
-			int var4, int var5) {
-		return null;
-	}
+    @Override
+    public BlockPos func_180513_a(World worldIn, String p_180513_2_, BlockPos p_180513_3_) {
+        return null;
+    }
 
 	@Override
 	public int getLoadedChunkCount() {
 		return 0;
 	}
 
-	@Override
-	public void recreateStructures(int var1, int var2) {
-		
-	}
+    @Override
+    public void func_180514_a(Chunk p_180514_1_, int p_180514_2_, int p_180514_3_) {
+
+    }
 
 	@Override
 	public void saveExtraData() {

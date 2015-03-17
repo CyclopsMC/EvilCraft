@@ -1,6 +1,6 @@
 package evilcraft.core.recipe.xml;
 
-import cpw.mods.fml.common.Loader;
+import net.minecraftforge.fml.common.Loader;
 
 /**
  * Condition handler for checking if mods are available.

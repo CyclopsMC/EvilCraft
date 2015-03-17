@@ -57,11 +57,6 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
     }
     
     @Override
-    public boolean canUpdate() {
-        return true;
-    }
-    
-    @Override
     public void readFromNBT(NBTTagCompound data) {
         super.readFromNBT(data);
         currentState = data.getInteger("currentState");
@@ -98,7 +93,7 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
         
         // Update tickers.
         if(!worldObj.isRemote) {
-            boolean redstone = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+            boolean redstone = worldObj.isBlockPowered(getPos());
             for(TickComponent<T, ITickAction<T>> ticker : getTickers()) {
                 if(!(ticker.isRedstoneDisableable() && redstone)) {
                     ticker.tick(inventory.getStackInSlot(ticker.getSlot()), ticker.getSlot());

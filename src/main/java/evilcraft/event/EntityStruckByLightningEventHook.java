@@ -1,12 +1,12 @@
 package evilcraft.event;
 
+import evilcraft.entity.villager.WerewolfVillagerConfig;
+import evilcraft.item.IItemEmpowerable;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import evilcraft.entity.villager.WerewolfVillagerConfig;
-import evilcraft.item.IItemEmpowerable;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Event hook for {@link EntityStruckByLightningEvent}.

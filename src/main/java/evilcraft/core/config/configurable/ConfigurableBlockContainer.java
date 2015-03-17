@@ -1,34 +1,36 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.core.client.render.block.CustomRenderBlocks;
 import evilcraft.core.client.render.block.IMultiRenderPassBlock;
 import evilcraft.core.client.render.block.MultiPassBlockRenderer;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.item.TileEntityNBTStorage;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -37,7 +39,9 @@ import java.util.Random;
  *
  */
 public class ConfigurableBlockContainer extends BlockContainer implements IConfigurable, IMultiRenderPassBlock {
-    
+
+    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
     
@@ -47,23 +51,23 @@ public class ConfigurableBlockContainer extends BlockContainer implements IConfi
     protected boolean hasGui = false;
     
     private boolean rotatable;
-    protected IIcon[] sideIcons = new IIcon[DirectionHelpers.DIRECTIONS.size()];
     
     protected int pass = 0;
     protected CustomRenderBlocks renderer;
     protected boolean isInventoryBlock = false;
     
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
-     * @param material Material of this block.
-     * @param tileEntity The class of the tile entity this block holds.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
+     * @param material Material of this blockState.
+     * @param tileEntity The class of the tile entity this blockState holds.
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockContainer(ExtendedConfig eConfig, Material material, Class<? extends EvilCraftTileEntity> tileEntity) {
         super(material);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
         this.setConfig(eConfig);
-        this.setBlockName(eConfig.getUnlocalizedName());
+        this.setUnlocalizedName(eConfig.getUnlocalizedName());
         this.random = new Random();
         this.tileEntity = tileEntity;
         setHardness(5F);
@@ -71,7 +75,7 @@ public class ConfigurableBlockContainer extends BlockContainer implements IConfi
     }
     
     /**
-     * Get the class of the tile entity this block holds.
+     * Get the class of the tile entity this blockState holds.
      * @return The tile entity class.
      */
     public Class<? extends TileEntity> getTileEntity() {
@@ -84,51 +88,11 @@ public class ConfigurableBlockContainer extends BlockContainer implements IConfi
     }
     
     /**
-     * If this block container has a corresponding GUI.
+     * If this blockState container has a corresponding GUI.
      * @return If it has a GUI.
      */
     public boolean hasGui() {
         return hasGui;
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        if(isRotatable()) {
-            for(ForgeDirection direction : DirectionHelpers.DIRECTIONS) {
-                sideIcons[direction.ordinal()] = iconRegister.registerIcon(getTextureName() + "_" + direction.name());
-            }
-        } else {
-            blockIcon = iconRegister.registerIcon(getTextureName());
-        }
-    }
-    
-    @Override
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        if(isRotatable()) {
-            int meta = world.getBlockMetadata(x, y, z);
-            EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
-            ForgeDirection rotatedDirection = DirectionHelpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
-            return this.getIcon(rotatedDirection.ordinal(), meta);
-        } else {
-            return super.getIcon(world, x, y, z, side);
-        }
-    }
-    
-    @Override
-    public IIcon getIcon(int side, int meta) {
-    	return getIcon(side, meta, pass);
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta, int renderPass) {
-        if(renderPass < 0) return null;
-        if(isRotatable()) {
-            return sideIcons[side];
-        } else {
-            return super.getIcon(side, meta);
-        }
     }
     
     @SideOnly(Side.CLIENT)
@@ -166,18 +130,13 @@ public class ConfigurableBlockContainer extends BlockContainer implements IConfi
     }
     
     @Override
-    public void updateTileEntity(IBlockAccess world, int x, int y, int z) {
+    public void updateTileEntity(IBlockAccess world, BlockPos blockPos) {
         // There was absolutely nothing here...
     }
     
     @Override
     public void setInventoryBlock(boolean isInventoryBlock) {
         this.isInventoryBlock = isInventoryBlock;
-    }
-    
-    @Override
-    public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
     }
     
     @Override
@@ -201,56 +160,58 @@ public class ConfigurableBlockContainer extends BlockContainer implements IConfi
     }
     
     /**
-     * If the NBT data of this tile entity should be added to the dropped block.
+     * If the NBT data of this tile entity should be added to the dropped blockState.
      * @return If the NBT data should be added.
      */
     public boolean saveNBTToDroppedItem() {
         return true;
     }
     
-    protected void onPreBlockDestroyed(World world, int x, int y, int z) {
-    	MinecraftHelpers.preDestroyBlock(this, world, x, y, z, saveNBTToDroppedItem());
+    protected void onPreBlockDestroyed(World world, BlockPos blockPos) {
+    	MinecraftHelpers.preDestroyBlock(this, world, blockPos, saveNBTToDroppedItem());
     }
     
-    protected void onPostBlockDestroyed(World world, int x, int y, int z) {
+    protected void onPostBlockDestroyed(World world, BlockPos blockPos) {
     	
     }
     
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-    	onPreBlockDestroyed(world, x, y, z);
-        super.breakBlock(world, x, y, z, block, meta);
-        onPostBlockDestroyed(world, x, y, z);
+    public void breakBlock(World world, BlockPos blockPos, IBlockState blockState) {
+    	onPreBlockDestroyed(world, blockPos);
+        super.breakBlock(world, blockPos, blockState);
+        onPostBlockDestroyed(world, blockPos);
     }
     
     @Override
-    public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion explosion) {
-    	onPreBlockDestroyed(world, x, y, z);
-    	super.onBlockDestroyedByExplosion(world, x, y, z, explosion);
-    	onPostBlockDestroyed(world, x, y, z);
+    public void onBlockDestroyedByExplosion(World world, BlockPos blockPos, Explosion explosion) {
+    	onPreBlockDestroyed(world, blockPos);
+    	super.onBlockDestroyedByExplosion(world, blockPos, explosion);
+    	onPostBlockDestroyed(world, blockPos);
     }
     
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
+    public void onBlockPlacedBy(World world, BlockPos blockPos, IBlockState blockState, EntityLivingBase entity, ItemStack stack) {
         if(entity != null) {
-            EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
+            EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(blockPos);
             
             if(stack.getTagCompound() != null) {
-                    stack.getTagCompound().setInteger("x", x);
-                    stack.getTagCompound().setInteger("y", y);
-                    stack.getTagCompound().setInteger("z", z);
-                    stack.getTagCompound().setInteger("rotation", ForgeDirection.UNKNOWN.ordinal());
+                    stack.getTagCompound().setInteger("x", blockPos.getX());
+                    stack.getTagCompound().setInteger("y", blockPos.getY());
+                    stack.getTagCompound().setInteger("z", blockPos.getZ());
+                    //stack.getTagCompound().setInteger("rotation", UNKNOWN.ordinal());
                     tile.readFromNBT(stack.getTagCompound());
             }
             
-            if(tile.isRotatable()) {
-                ForgeDirection facing = DirectionHelpers.getEntityFacingDirection(entity);
+            /*if(tile.isRotatable()) {
+                EnumFacing facing = DirectionHelpers.getEntityFacingDirection(entity);
                 tile.setRotation(facing);
+            }*/
+
+            if(tile instanceof IUpdatePlayerListBox) {
+                ((IUpdatePlayerListBox) tile).update();
             }
-            
-            tile.sendUpdate();
         }
-        super.onBlockPlacedBy(world, x, y, z, entity, stack);
+        super.onBlockPlacedBy(world, blockPos, blockState, entity, stack);
     }
     
     /**
@@ -263,32 +224,20 @@ public class ConfigurableBlockContainer extends BlockContainer implements IConfi
     }
     
     @Override
-    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
-        if(!world.isRemote) {
-            EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
-            if(tile.isRotatable()) {
-                tile.setRotation(tile.getRotation().getRotation(axis));
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-        ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-        ItemStack itemStack = new ItemStack(getItemDropped(metadata, world.rand, fortune), 1, damageDropped(metadata));
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos blockPos, IBlockState blockState, int fortune) {
+        List<ItemStack> drops = new ArrayList<ItemStack>();
+        ItemStack itemStack = new ItemStack(getItemDropped(blockState, new Random(), fortune), 1, damageDropped(blockState));
 		if(TileEntityNBTStorage.TAG != null) {
 		    itemStack.setTagCompound(TileEntityNBTStorage.TAG);
 		}
 		drops.add(itemStack);
         
-        MinecraftHelpers.postDestroyBlock(world, x, y, z);
+        MinecraftHelpers.postDestroyBlock(world, blockPos);
         return drops;
     }
 
     /**
-     * If the NBT data of this block should be preserved in the item when it
+     * If the NBT data of this blockState should be preserved in the item when it
      * is broken into an item.
      * @return If it should keep NBT data.
      */
@@ -297,7 +246,7 @@ public class ConfigurableBlockContainer extends BlockContainer implements IConfi
 	}
 
 	/**
-     * If this block can be rotated.
+     * If this blockState can be rotated.
      * @return Can be rotated.
      */
     public boolean isRotatable() {
@@ -314,7 +263,7 @@ public class ConfigurableBlockContainer extends BlockContainer implements IConfi
     
     /**
      * Get the texture path of the GUI.
-     * @return The path of the GUI for this block.
+     * @return The path of the GUI for this blockState.
      */
     public String getGuiTexture() {
         return getGuiTexture("");
@@ -323,22 +272,22 @@ public class ConfigurableBlockContainer extends BlockContainer implements IConfi
     /**
      * Get the texture path of the GUI.
      * @param suffix Suffix to add to the path.
-     * @return The path of the GUI for this block.
+     * @return The path of the GUI for this blockState.
      */
     public String getGuiTexture(String suffix) {
         return Reference.TEXTURE_PATH_GUI + eConfig.getNamedId() + "_gui" + suffix + ".png";
     }
     
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
-    	Item item = getItem(world, x, y, z);
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos blockPos) {
+    	Item item = getItem(world, blockPos);
 
         if (item == null) {
             return null;
         }
 
-        ItemStack itemStack = new ItemStack(item, 1, getDamageValue(world, x, y, z));
-        TileEntity tile = world.getTileEntity(x, y, z);
+        ItemStack itemStack = new ItemStack(item, 1, getDamageValue(world, blockPos));
+        TileEntity tile = world.getTileEntity(blockPos);
         if (tile instanceof EvilCraftTileEntity && isKeepNBTOnDrop()) {
             EvilCraftTileEntity ecTile = ((EvilCraftTileEntity) tile);
             itemStack.setTagCompound(ecTile.getNBTTagCompound());

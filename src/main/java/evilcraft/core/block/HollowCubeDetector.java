@@ -1,7 +1,7 @@
 package evilcraft.core.block;
 
-import evilcraft.api.ILocation;
-import evilcraft.core.algorithm.Size;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -23,11 +23,11 @@ public class HollowCubeDetector extends CubeDetector {
 	}
 	
 	@Override
-	protected void postValidate(World world, final Size size, final int[][] dimensionEgdes, final boolean valid) {
-		coordinateRecursion(world, dimensionEgdes, new ILocationAction() {
+	protected void postValidate(World world, final Vec3i size, final int[][] dimensionEgdes, final boolean valid) {
+		coordinateRecursion(world, dimensionEgdes, new BlockPosAction() {
 
 			@Override
-			public boolean run(World world, ILocation location) {
+			public boolean run(World world, BlockPos location) {
 				if(isEdge(world, dimensionEgdes, location) && isValidLocation(world, location)) {
 					notifyListeners(world, location, size, valid);
 				}
@@ -38,7 +38,7 @@ public class HollowCubeDetector extends CubeDetector {
 	}
 	
 	@Override
-	protected boolean validateLocationInStructure(World world, int[][] dimensionEgdes, ILocation location, IValidationAction action) {
+	protected boolean validateLocationInStructure(World world, int[][] dimensionEgdes, BlockPos location, IValidationAction action) {
 		// Validate edge or air.
 		if (isEdge(world, dimensionEgdes, location)) {
 			if (!isValidLocation(world, location, action)) {

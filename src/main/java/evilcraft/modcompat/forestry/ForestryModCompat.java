@@ -1,6 +1,5 @@
 package evilcraft.modcompat.forestry;
 
-import cpw.mods.fml.common.event.FMLInterModComms;
 import evilcraft.Configs;
 import evilcraft.IInitListener;
 import evilcraft.Reference;
@@ -12,6 +11,7 @@ import evilcraft.item.PoisonSacConfig;
 import evilcraft.modcompat.IModCompat;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 /**
  * Compatibility plugin for Forestry.

@@ -1,9 +1,9 @@
 package evilcraft.core.recipe.xml;
 
-import cpw.mods.fml.common.registry.GameData;
 import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.oredict.OreDictionary;
 import org.w3c.dom.Node;
 

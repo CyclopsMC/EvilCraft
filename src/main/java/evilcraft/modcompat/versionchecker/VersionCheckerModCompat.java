@@ -1,11 +1,11 @@
 package evilcraft.modcompat.versionchecker;
 
-import net.minecraft.nbt.NBTTagCompound;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import evilcraft.Reference;
 import evilcraft.VersionStats;
 import evilcraft.modcompat.IModCompat;
 import evilcraft.modcompat.ModCompatLoader;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 /**
  * Mod compat for the Version Checker mod.

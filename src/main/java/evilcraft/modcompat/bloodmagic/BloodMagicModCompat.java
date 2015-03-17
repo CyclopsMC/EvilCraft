@@ -1,12 +1,12 @@
 package evilcraft.modcompat.bloodmagic;
 
-import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.Configs;
 import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
 import evilcraft.network.PacketHandler;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 /**
  * Compatibility plugin for Forestry.

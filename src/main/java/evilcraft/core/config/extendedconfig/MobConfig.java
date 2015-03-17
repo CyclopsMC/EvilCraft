@@ -2,6 +2,7 @@ package evilcraft.core.config.extendedconfig;
 
 import evilcraft.core.config.ConfigurableType;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 
 /**
  * Config for mobs.
@@ -44,8 +45,9 @@ public abstract class MobConfig extends ExtendedConfig<MobConfig>{
     
     /**
      * Get the render for this configurable.
+     * @param renderManager The render manager.
      * @return Get the render.
      */
-    public abstract Render getRender();
+    public abstract Render getRender(RenderManager renderManager);
 
 }

@@ -1,14 +1,13 @@
 package evilcraft.core;
 
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +22,8 @@ public class BucketHandler {
     private static BucketHandler _instance;
     
     /**
-     * The map that will map the fluid block to the respective bucket that is capable
-     * to hold the fluid of that block.
+     * The map that will map the fluid blockState to the respective bucket that is capable
+     * to hold the fluid of that blockState.
      */
     public Map<Block, Item> buckets = new HashMap<Block, Item>();
     
@@ -42,7 +41,7 @@ public class BucketHandler {
     }
 
     /**
-     * Called when player right clicks with an empty bucket on a fluid block.
+     * Called when player right clicks with an empty bucket on a fluid blockState.
      * @param event The Forge event required for this.
      */
     @SubscribeEvent
@@ -56,12 +55,12 @@ public class BucketHandler {
     }
 
     private ItemStack fillCustomBucket(World world, MovingObjectPosition pos, ItemStack current) {
-        Block block = world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+        Block block = world.getBlockState(pos.func_178782_a()).getBlock();
 
         Item bucket = buckets.get(block);
-        if (bucket != null && world.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ) == 0 &&
+        if (bucket != null && world.getBlockState(pos.func_178782_a()) == block.getDefaultState() &&
                 ItemStack.areItemStacksEqual(current, bucket.getContainerItem(current))) {
-            world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.air);
+            world.setBlockToAir(pos.func_178782_a());
             return new ItemStack(bucket);
         } else {
             return null;

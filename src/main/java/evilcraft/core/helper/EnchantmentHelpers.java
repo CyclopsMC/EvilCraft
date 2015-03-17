@@ -73,7 +73,7 @@ public class EnchantmentHelpers {
 	    if(level <= 0) {
 	        enchlist.removeTag(enchantmentListID);
 	        if(enchlist.tagCount() == 0) {
-	            itemStack.stackTagCompound.removeTag("ench");
+	            itemStack.getTagCompound().removeTag("ench");
 	        }
 	    } else {
 	    	NBTTagCompound compound = enchlist.getCompoundTagAt(enchantmentListID);

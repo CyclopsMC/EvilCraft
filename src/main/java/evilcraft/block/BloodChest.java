@@ -1,12 +1,5 @@
 package evilcraft.block;
-import java.util.Random;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.item.Item;
-import net.minecraft.util.IIcon;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.gui.container.GuiBloodChest;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import evilcraft.core.config.extendedconfig.BlockConfig;
@@ -14,6 +7,11 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.inventory.container.ContainerBloodChest;
 import evilcraft.tileentity.TileBloodChest;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
+
+import java.util.Random;
 
 /**
  * A chest that runs on blood and repairs tools.
@@ -63,20 +61,7 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        
-    }
-    
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        // This is ONLY used for the block breaking/broken particles
-        // Since the blood infuser looks very similar, we use that icon.
-        return BloodInfuser.getInstance().getIcon(side, meta);
-    }
-    
-    @Override
-    public Item getItemDropped(int par1, Random random, int zero) {
+    public Item getItemDropped(IBlockState state, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
 

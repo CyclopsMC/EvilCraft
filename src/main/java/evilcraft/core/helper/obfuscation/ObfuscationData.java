@@ -1,8 +1,8 @@
 package evilcraft.core.helper.obfuscation;
 
 import com.google.common.collect.Maps;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.util.Map;
 
@@ -11,6 +11,7 @@ import java.util.Map;
  * {@link ReflectionHelper#getPrivateValue(Class, Object, String...)}.
  * These MCP mappings should be updated with every MC update!
  * @author rubensworks
+ * TODO !!!
  *
  */
 public class ObfuscationData {
@@ -51,32 +52,6 @@ public class ObfuscationData {
 	public static final String[] GUIMAINMENU_TITLEPANORAMAPATHS = new String[] { "titlePanoramaPaths", "field_73978_o", "o" };
 	
 	/**
-	 * Methods from net.minecraft.client.renderer.RenderBlocks.
-	 */
-	public static final Map<ForgeDirection, String[]> RENDERBLOCKS_RENDERFACE = Maps.newHashMap();
-	static {
-		RENDERBLOCKS_RENDERFACE.put(ForgeDirection.DOWN, new String[] { "renderFaceYNeg", "func_147768_a", "a" });
-		RENDERBLOCKS_RENDERFACE.put(ForgeDirection.UP, new String[] { "renderFaceYPos", "func_147806_b", "b" });
-		RENDERBLOCKS_RENDERFACE.put(ForgeDirection.NORTH, new String[] { "renderFaceZPos", "func_147734_d", "d" });
-		RENDERBLOCKS_RENDERFACE.put(ForgeDirection.EAST, new String[] { "renderFaceXPos", "func_147764_f", "f" });
-		RENDERBLOCKS_RENDERFACE.put(ForgeDirection.SOUTH, new String[] { "renderFaceZNeg", "func_147761_c", "c" });
-		RENDERBLOCKS_RENDERFACE.put(ForgeDirection.WEST, new String[] { "renderFaceXNeg", "func_147798_e", "e" });
-	}
-	
-	/**
-	 * Fields from net.minecraft.client.renderer.RenderBlocks.
-	 */
-	public static final Map<ForgeDirection, String[]> RENDERBLOCKS_UVROTATE = Maps.newHashMap();
-	static {
-		RENDERBLOCKS_UVROTATE.put(ForgeDirection.DOWN, new String[] { "uvRotateBottom", "field_147865_v", "v" });
-		RENDERBLOCKS_UVROTATE.put(ForgeDirection.UP, new String[] { "uvRotateTop", "field_147867_u", "u" });
-		RENDERBLOCKS_UVROTATE.put(ForgeDirection.NORTH, new String[] { "uvRotateEast", "field_147875_q", "q" });
-		RENDERBLOCKS_UVROTATE.put(ForgeDirection.EAST, new String[] { "uvRotateSouth", "field_147871_s", "s" });
-		RENDERBLOCKS_UVROTATE.put(ForgeDirection.SOUTH, new String[] { "uvRotateWest", "field_147873_r", "r" });
-		RENDERBLOCKS_UVROTATE.put(ForgeDirection.WEST, new String[] { "uvRotateNorth", "field_147869_t", "t" });
-	}
-	
-	/**
 	 * Field from net.minecraft.potion.PotionEffect.
 	 */
 	public static final String[] POTIONEFFECT_DURATION = new String[] { "duration", "field_76460_b", "b" };
@@ -100,6 +75,7 @@ public class ObfuscationData {
      * Field from net.minecraft.potion.Potion.
      */
     public static final String[] POTION_POTIONTYPES = new String[] { "potionTypes", "field_76425_a", "a" };
+
     /**
      * Field from net.minecraft.world.biome.BiomeGenBase.
      */

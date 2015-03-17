@@ -1,12 +1,12 @@
 package evilcraft.modcompat.bloodmagic;
 
+import evilcraft.network.CodecField;
+import evilcraft.network.PacketCodec;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.network.CodecField;
-import evilcraft.network.PacketCodec;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Packet from client to server to register a player for soul network updates.

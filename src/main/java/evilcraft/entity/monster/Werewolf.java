@@ -18,6 +18,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
@@ -43,8 +44,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
      */
     public Werewolf(World world) {
         super(world);
-        
-        this.getNavigator().setAvoidsWater(true);
+
         this.setSize(0.6F, 2.9F);
         this.stepHeight = 1.0F;
         this.isImmuneToFire = false;
@@ -55,10 +55,10 @@ public class Werewolf extends EntityMob implements IConfigurable{
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, true));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, false));
     
         // This sets the default villager profession ID.
-        this.villagerNBTTagCompound.setInteger("Profession", WerewolfVillagerConfig._instance.getId());
+        this.villagerNBTTagCompound.setInteger("Profession", WerewolfVillagerConfig._instance.getId()); // TODO
     }
     
     @Override
@@ -96,7 +96,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
     public static boolean isWerewolfTime(World world) {
         return world.getCurrentMoonPhaseFactor() == 1.0
                 && !MinecraftHelpers.isDay(world)
-                && world.difficultySetting != EnumDifficulty.PEACEFUL;
+                && world.getDifficulty() != EnumDifficulty.PEACEFUL;
     }
     
     private static void replaceEntity(EntityLiving old, EntityLiving neww, World world) {
@@ -104,10 +104,9 @@ public class Werewolf extends EntityMob implements IConfigurable{
         // Maybe something like this: https://github.com/iChun/Morph/blob/master/morph/client/model/ModelMorphAcquisition.java
         neww.copyLocationAndAnglesFrom(old);
         world.removeEntity(old);
-        neww.onSpawnWithEgg((IEntityLivingData)null);
 
         world.spawnEntityInWorld(neww);
-        world.playAuxSFXAtEntity((EntityPlayer)null, 1016, (int)old.posX, (int)old.posY, (int)old.posZ, 0);
+        world.playAuxSFXAtEntity((EntityPlayer)null, 1016, old.getPosition(), 0);
     }
     
     /**
@@ -136,7 +135,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
     
     @Override
     public void onLivingUpdate() {        
-        if(!worldObj.isRemote && (!isWerewolfTime(worldObj) || worldObj.difficultySetting == EnumDifficulty.PEACEFUL)) {
+        if(!worldObj.isRemote && (!isWerewolfTime(worldObj) || worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)) {
             replaceWithVillager();
         } else {
             super.onLivingUpdate();
@@ -195,10 +194,9 @@ public class Werewolf extends EntityMob implements IConfigurable{
     protected String getDeathSound() {
         return "mob.wolf.death";
     }
-    
-    //playStepSound
+
     @Override
-    protected void func_145780_a(int x, int y, int z, Block block) {
+    protected void playStepSound(BlockPos blockPos, Block block) {
         this.playSound("mob.zombie.step", 0.15F, 1.0F);
     }
     

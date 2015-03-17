@@ -1,9 +1,9 @@
 package evilcraft.core.world.gen;
 
-import java.util.Random;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.chunk.Chunk;
+
+import java.util.Random;
 
 /**
  * World generator that support retro-generation.

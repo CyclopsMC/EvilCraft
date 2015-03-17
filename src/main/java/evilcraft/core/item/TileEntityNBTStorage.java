@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * This is a temporary storage for NBT data when {@link EvilCraftTileEntity}s are destroyed.
- * In the dropped blocks method this tag should then be used to add to the dropped block.
+ * In the dropped blocks method this tag should then be used to add to the dropped blockState.
  * @author rubensworks
  *
  */

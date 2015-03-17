@@ -1,9 +1,9 @@
 package evilcraft.core.client.render.tileentity;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.util.ResourceLocation;
 import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * General renderer for {@link EvilCraftTileEntity} with {@link ModelWavefront} models.

@@ -1,7 +1,5 @@
 package evilcraft.block;
 
-import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.core.config.configurable.ConfigurableBlock;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.BlockConfig;
@@ -10,6 +8,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.IFuelHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Config for the Undead Plank.
@@ -49,7 +49,8 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
     @Override
     public void onRegistered() {
         super.onRegistered();
-    	Blocks.fire.setFireInfo(getBlockInstance(), 5, 5);
+        // setFireInfo
+    	Blocks.fire.func_180686_a(getBlockInstance(), 5, 5);
         GameRegistry.registerFuelHandler(this);
     }
 

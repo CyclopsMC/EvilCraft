@@ -1,13 +1,10 @@
 package evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.BloodStainedBlockConfig;
 import evilcraft.client.particle.EntityBloodSplashFX;
 import evilcraft.core.PlayerInventoryIterator;
-import evilcraft.core.algorithm.Location;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended.InvalidInnerBlocksTileException;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -20,11 +17,15 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 import java.util.Random;
@@ -63,8 +64,8 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     }
     
     @Override
-    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-    	Block block = world.getBlock(x, y, z);
+    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    	Block block = world.getBlockState(blockPos).getBlock();
         if(player.isSneaking()) {
 	        if(Configs.isEnabled(BloodStainedBlockConfig.class) && block == BloodStainedBlock.getInstance()) {
 	            Random random = world.rand;
@@ -72,26 +73,26 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
 	            // Fill the extractor a bit
 	            int amount = 0;
 				try {
-					amount = ((TileBloodStainedBlock) BloodStainedBlock.getInstance().getTile(world, x, y, z)).getAmount();
+					amount = ((TileBloodStainedBlock) BloodStainedBlock.getInstance().getTile(world, blockPos)).getAmount();
 				} catch (InvalidInnerBlocksTileException e) {
 					e.printStackTrace();
 				}
 	            int filled = fillBloodExtractor(itemStack, amount, !world.isRemote);
-	            BloodStainedBlock.getInstance().unstainBlock(world, new Location(x, y, z), filled);
+	            BloodStainedBlock.getInstance().unstainBlock(world, blockPos, filled);
 	            
 	            // Transform bloody dirt into regular dirt if we used some of the blood
 	            if(filled > 0 && world.isRemote) {
 	                // Init particles
-	                EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + random.nextInt(2));
+	                EntityBloodSplashFX.spawnParticles(world, blockPos.add(0, 1, 1), 5, 1 + random.nextInt(2));
 	            }
 	            return false;
 	        }
         }
-        return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+        return super.onItemUseFirst(itemStack, player, world, blockPos, side, hitX, hitY, hitZ);
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack, int pass){
+    public boolean hasEffect(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
     

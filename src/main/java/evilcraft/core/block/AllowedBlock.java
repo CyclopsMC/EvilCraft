@@ -1,6 +1,6 @@
 package evilcraft.core.block;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 
 /**
  * Holder class for the allowed blocks in a structure.
@@ -9,20 +9,20 @@ import net.minecraft.block.Block;
  */
 public class AllowedBlock {
 	
-	private Block block;
+	private IBlockState blockState;
 	private int maxOccurences = -1;
 	
 	/**
 	 * Make a new instance.
-	 * @param block The allowed block.
+	 * @param blockState The allowed blockState.
 	 */
-	public AllowedBlock(Block block) {
-		this.block = block;
+	public AllowedBlock(IBlockState blockState) {
+		this.blockState = blockState;
 	}
 	
 	/**
 	 * Set the maximum occurences.
-	 * @param maxOccurences The maximum amount of times this block should occur.
+	 * @param maxOccurences The maximum amount of times this blockState should occur.
 	 * A negative value here will ignore this condition.
 	 * @return This instance.
 	 */
@@ -32,10 +32,10 @@ public class AllowedBlock {
 	}
 
 	/**
-	 * @return the block
+	 * @return the blockState
 	 */
-	public Block getBlock() {
-		return block;
+	public IBlockState getBlock() {
+		return blockState;
 	}
 
 	/**

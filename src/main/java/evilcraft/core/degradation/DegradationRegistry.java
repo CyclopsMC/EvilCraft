@@ -1,13 +1,9 @@
 package evilcraft.core.degradation;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 import evilcraft.api.degradation.IDegradationEffect;
 import evilcraft.api.degradation.IDegradationRegistry;
+
+import java.util.*;
 
 /**
  * Registry for all the {@link IDegradationEffect}.

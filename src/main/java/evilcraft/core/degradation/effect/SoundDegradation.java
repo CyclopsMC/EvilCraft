@@ -1,14 +1,14 @@
 package evilcraft.core.degradation.effect;
 
-import java.util.Random;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.degradation.StochasticDegradationEffect;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * Client-side degradation effect that will play creepy sounds.

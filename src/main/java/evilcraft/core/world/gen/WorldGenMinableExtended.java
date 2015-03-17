@@ -1,15 +1,19 @@
 package evilcraft.core.world.gen;
 
+import com.google.common.base.Predicate;
 import evilcraft.core.helper.WorldHelpers;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.pattern.BlockHelper;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -18,54 +22,31 @@ import java.util.Random;
  *
  */
 public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGen {
-    
-	private static final int NO_META = 0;
 	
     protected int blocksPerVein;
     protected int veinsPerChunk;
     protected int startY;
     protected int endY;
-    protected Block block;
+    protected IBlockState state;
     protected Block replaceTarget;
-    protected int meta = NO_META;
     
     /**
      * Make a new instance.
-     * @param block block to spawn.
+     * @param state blockstate to spawn.
      * @param blocksPerVein Blocks per vein.
      * @param veinsPerChunk Veins per chunk.
      * @param startY Start coordinate for Y
      * @param endY End coordinate for Y.
-     * @param replaceTarget The replace target block. Stone for overworld, netherrack for nether.
+     * @param replaceTarget The replace target blockState. Stone for overworld, netherrack for nether.
      */
-    public WorldGenMinableExtended(Block block, int blocksPerVein, int veinsPerChunk, int startY, int endY, Block replaceTarget) {
-        super(block, blocksPerVein, replaceTarget);
-        this.block = block;
+    public WorldGenMinableExtended(IBlockState state, int blocksPerVein, int veinsPerChunk, int startY, int endY, Block replaceTarget) {
+        super(state, blocksPerVein, BlockHelper.forBlock(replaceTarget));
+        this.state = state;
         this.blocksPerVein = blocksPerVein;
         this.veinsPerChunk = veinsPerChunk;
         this.startY = startY;
         this.endY = endY;
         this.replaceTarget = replaceTarget;
-    }
-    
-    /**
-     * Make a new instance.
-     * @param block block to spawn.
-     * @param meta Metadata of the block to spawn.
-     * @param blocksPerVein Blocks per vein.
-     * @param veinsPerChunk Veins per chunk.
-     * @param startY Start coordinate for Y
-     * @param endY End coordinate for Y.
-     * @param replaceTarget The replace target block. Stone for overworld, netherrack for nether.
-     */
-    public WorldGenMinableExtended(Block block, int meta, int blocksPerVein, int veinsPerChunk, int startY, int endY, Block replaceTarget) {
-        super(block, meta, blocksPerVein, Blocks.stone);
-        this.block = block;
-        this.blocksPerVein = blocksPerVein;
-        this.veinsPerChunk = veinsPerChunk;
-        this.startY = startY;
-        this.endY = endY;
-        this.meta = meta;
     }
     
     /**
@@ -81,12 +62,12 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
             int firstBlockYCoord = startY + rand.nextInt(endY - startY);
             int firstBlockZCoord = chunkZ + rand.nextInt(16);
 
-            this.generate(world, rand, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
+            this.generate(world, rand, new BlockPos(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord));
         }
     }
     
     protected String getUniqueName() {
-    	return block.getUnlocalizedName();
+    	return state.getBlock().getUnlocalizedName();
     }
     
     /**
@@ -133,18 +114,26 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
                             for (int cz = k1; cz <= j2; ++cz) {
                                 if(cx > 0 && cx < WorldHelpers.CHUNK_SIZE
                                 		&& cz > 0 && cz < WorldHelpers.CHUNK_SIZE) {
+                                    BlockPos blockPos = new BlockPos(cx, cy, cz);
 	                                ExtendedBlockStorage storage = chunk.getBlockStorageArray()[y >> 4];
 	                                if(storage != null) {
-	                    	            Block oldBlock = chunk.getBlock(x, y, z);
-	                    	            int oldMeta = chunk.getBlockMetadata(x, y, z);
+                                        final IBlockState oldBlockState = chunk.getBlockState(blockPos);
+	                    	            Block oldBlock = oldBlockState.getBlock();
 	                    	            if(oldBlock != null
-	                    	            		&& oldBlock != block
-	                    	            		&& oldBlock.isReplaceableOreGen(chunk.worldObj, cx, cy, cz, replaceTarget)
-	                    	            		&& !oldBlock.hasTileEntity(oldMeta)) { // We do not replace TE's, even if they are replacable.
-	                    	            	storage.func_150818_a(x, y & 15, z, block); // Replace the block.
-	                    	            	if(meta != NO_META) {
-	                    	            		storage.setExtBlockMetadata(x, y & 15, z, meta);
-	                    	            	}
+	                    	            		&& oldBlockState != state
+	                    	            		&& oldBlock.isReplaceableOreGen(chunk.getWorld(), blockPos, new Predicate<IBlockState>() {
+                                            @Override
+                                            public boolean apply(@Nullable IBlockState input) {
+                                                return input.equals(oldBlockState);
+                                            }
+
+                                            @Override
+                                            public boolean equals(@Nullable Object object) {
+                                                return object.equals(oldBlockState);
+                                            }
+                                        })
+	                    	            		&& !oldBlock.hasTileEntity(oldBlockState)) { // We do not replace TE's, even if they are replacable.
+	                    	            	storage.set(x, y & 15, z, oldBlockState);
 	                    	            }
 	                                }
                                 }

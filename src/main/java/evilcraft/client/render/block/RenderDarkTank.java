@@ -1,18 +1,16 @@
 package evilcraft.client.render.block;
 
+import evilcraft.core.helper.DirectionHelpers;
+import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
-
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import evilcraft.core.helper.DirectionHelpers;
-import evilcraft.core.helper.RenderHelpers;
 
 
 /**
@@ -28,14 +26,14 @@ public class RenderDarkTank implements ISimpleBlockRenderingHandler {
     public static final int ID = RenderingRegistry.getNextAvailableRenderId();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID,
+    public void renderInventoryBlock(Block block, IBlockState blockStatedata, int modelID,
             RenderBlocks renderer) {
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
         renderInventoryBlock(renderer, block, metadata);
     }
 
-    private void renderInventoryBlock(RenderBlocks renderer, Block block, int metadata) {
+    private void renderInventoryBlock(RenderBlocks renderer, Block block, IBlockState blockStatedata) {
         // Init
         Tessellator tessellator = Tessellator.instance;
         block.setBlockBoundsForItemRender();
@@ -53,7 +51,7 @@ public class RenderDarkTank implements ISimpleBlockRenderingHandler {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         
         // Loop over sides and render them relative to the given direction.
-        for(ForgeDirection renderDirection : DirectionHelpers.DIRECTIONS) {
+        for(EnumFacing renderDirection : DirectionHelpers.DIRECTIONS) {
             tessellator.startDrawingQuads();
             tessellator.setNormal(
                     renderDirection.offsetX,
@@ -80,9 +78,9 @@ public class RenderDarkTank implements ISimpleBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
+    public boolean renderWorldBlock(IBlockAccess world, BlockPos blockPos,
             Block block, int modelId, RenderBlocks renderer) {
-    	// We render the block two times, but with swapped render block bounds, so it will render the backside as well.
+    	// We render the blockState two times, but with swapped render blockState bounds, so it will render the backside as well.
     	// Disabling CULL_FACE does not work since the renderer doesn't render immediately, because of that other renderers might
     	// disable CULL_FACE again later.
     	

@@ -1,17 +1,15 @@
 package evilcraft.core.helper;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3i;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import evilcraft.api.ILocation;
-import evilcraft.core.algorithm.Location;
-
 /**
- * Helper methods involving {@link ILocation}S and {@link TargetPoint}S.
+ * Helper methods involving {@link BlockPos}S and {@link TargetPoint}S.
  * @author immortaleeb
  *
  */
@@ -33,88 +31,16 @@ public class LocationHelpers {
 
 	/**
 	 * Creates a {@link TargetPoint} for the dimension of the given world and the
-	 * given {@link ILocation}.
+	 * given {@link BlockPos}.
 	 * 
 	 * @param world The world from which the dimension will be used.
 	 * @param location The location for the target.
 	 * @param range The range of the {@link TargetPoint}.
 	 * @return A {@link TargetPoint} with the position and dimension of the entity and the given range.
 	 */
-	public static TargetPoint createTargetPointFromLocation(World world, ILocation location,
+	public static TargetPoint createTargetPointFromLocation(World world, BlockPos location,
 			int range) {
-		int[] c = location.getCoordinates();
-		return new TargetPoint(world.provider.dimensionId, c[0], c[1], c[2], range);
-	}
-
-	private static int[] validateLocation(ILocation location) throws LocationException {
-		if(location == null || location.getDimensions() != 3) {
-			throw new LocationException("The location '" + location
-					+ "' does not have exactly three coordinated.");
-		}
-		return location.getCoordinates();
-	}
-
-	/**
-	 * Get the block from a location in a world.
-	 * @param world The world.
-	 * @param location The location.
-	 * @return The block on that location.
-	 * @throws LocationException If the given location does not have exactly three dimensions.
-	 */
-	public static Block getBlock(World world, ILocation location) throws LocationException {
-		int[] c = validateLocation(location);
-		return world.getBlock(c[0], c[1], c[2]);
-	}
-
-	/**
-	 * Get the block metadata from a location in a world.
-	 * @param world The world.
-	 * @param location The location.
-	 * @return The block on that location.
-	 * @throws LocationException If the given location does not have exactly three dimensions.
-	 */
-	public static int getBlockMeta(World world, ILocation location) throws LocationException {
-		int[] c = validateLocation(location);
-		return world.getBlockMetadata(c[0], c[1], c[2]);
-	}
-
-	/**
-	 * Get the tile entity from a location in a world.
-	 * @param world The world.
-	 * @param location The location.
-	 * @return The tile entity on that location.
-	 * @throws LocationException If the given location does not have exactly three dimensions.
-	 */
-	public static TileEntity getTile(World world, ILocation location) throws LocationException {
-		int[] c = validateLocation(location);
-		return world.getTileEntity(c[0], c[1], c[2]);
-	}
-	
-	/**
-	 * Set the block.
-	 * @param world The world.
-	 * @param location The location.
-	 * @param block The block to set.
-	 * @throws LocationException If the given location does not have exactly three dimensions.
-	 */
-	public static void setBlock(World world, ILocation location, Block block) throws LocationException {
-		int[] c = LocationHelpers.validateLocation(location);
-		world.setBlock(c[0], c[1], c[2], block);
-	}
-	
-	/**
-	 * Set the block metadata.
-	 * @param world The world.
-	 * @param location The location.
-	 * @param meta The meta value to set.
-	 * @param notifyFlag The flag to set. See the BLOCK_NOTIFY_* fields in {@link Helpers}
-	 * for more info, these can be or-ed together.
-	 * @throws LocationException If the given location does not have exactly three dimensions.
-	 */
-	public static void setBlockMetadata(World world, ILocation location, int meta,
-			int notifyFlag) throws LocationException {
-		int[] c = LocationHelpers.validateLocation(location);
-		world.setBlockMetadataWithNotify(c[0], c[1], c[2], meta, notifyFlag);
+		return new TargetPoint(world.provider.getDimensionId(), location.getX(), location.getY(), location.getZ(), range);
 	}
 	
 	/**
@@ -123,38 +49,48 @@ public class LocationHelpers {
 	 * @param radius The radius of the sphere.
 	 * @return The coordinates of the random point.
 	 */
-	public static ILocation getRandomPointInSphere(ILocation center, int radius) {
-		ILocation randomPoint = null;
+	public static BlockPos getRandomPointInSphere(BlockPos center, int radius) {
+		BlockPos randomPoint = null;
 	    while(randomPoint == null) {
-	    	int totalDistance = 0;
-	    	int[] coordinates = new int[center.getDimensions()];
-	    	for(int i = 0; i < center.getDimensions(); i++) {
-	    		coordinates[i] = center.getCoordinates()[i] - radius + random.nextInt(2 * radius);
-	    		int d = center.getCoordinates()[i] - coordinates[i];
-	    		totalDistance += d * d;
-	    	}
+            BlockPos coordinates = center.add(- radius + random.nextInt(2 * radius),
+                    - radius + random.nextInt(2 * radius), - radius + random.nextInt(2 * radius));
+            double totalDistance = center.distanceSq(coordinates);
 	    	if((int) Math.sqrt(totalDistance) <= radius) {
-	    		randomPoint = new Location(coordinates);
+	    		randomPoint = coordinates;
 	    	}
 	    }
 	    return randomPoint;
 	}
-	
-	/**
-	 * Exceptions that can occur with location manipulation.
-	 * @author rubensworks
-	 *
-	 */
-	public static class LocationException extends RuntimeException {
-		
-		/**
-		 * Make a new instance.
-		 * @param message The message.
-		 */
-		public LocationException(String message) {
-			super(message);
-		}
-		
-	}
+
+    public static BlockPos copyLocation(BlockPos blockPos) {
+        return new BlockPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+    }
+
+    public static Vec3i copyLocation(Vec3i blockPos) {
+        return new Vec3i(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+    }
+
+    public static BlockPos addToDimension(BlockPos blockPos, int dimension, int value) {
+        if(dimension == 0) return blockPos.add(value, 0, 0);
+        if(dimension == 1) return blockPos.add(0, value, 0);
+        if(dimension == 2) return blockPos.add(0, 0, value);
+        return blockPos;
+    }
+
+    public static BlockPos fromArray(int[] coordinates) {
+        return new BlockPos(coordinates[0], coordinates[1], coordinates[2]);
+    }
+
+    public static int[] toArray(Vec3i blockPos) {
+        return new int[]{blockPos.getX(), blockPos.getY(), blockPos.getZ()};
+    }
+
+    public static BlockPos subtract(BlockPos blockPos, Vec3i vec) {
+        return new BlockPos(blockPos.getX() - vec.getX(), blockPos.getY() - vec.getY(), blockPos.getZ() - vec.getZ());
+    }
+
+    public static Vec3i subtract(Vec3i vec1, Vec3i vec2) {
+        return new Vec3i(vec1.getX() - vec2.getX(), vec1.getY() - vec2.getY(), vec1.getZ() - vec2.getZ());
+    }
 
 }

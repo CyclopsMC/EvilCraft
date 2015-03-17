@@ -1,14 +1,15 @@
 package evilcraft.core.config.configurabletypeaction;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import evilcraft.EvilCraft;
 import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.Helpers;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.Helpers.IDType;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.proxy.ClientProxy;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLiving;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 /**
  * The action used for {@link MobConfig}.
@@ -31,7 +32,7 @@ public class MobAction extends ConfigurableTypeAction<MobConfig>{
         // Register mob
         Class<? extends EntityLiving> clazz = (Class<? extends EntityLiving>) eConfig.getElement();
         if (MinecraftHelpers.isClientSide())
-            ClientProxy.ENTITY_RENDERERS.put(clazz, eConfig.getRender());
+            ClientProxy.ENTITY_RENDERERS.put(clazz, eConfig.getRender(Minecraft.getMinecraft().getRenderManager()));
         EntityRegistry.registerGlobalEntityID(clazz, eConfig.getNamedId(), EntityRegistry.findGlobalUniqueEntityId(), eConfig.getBackgroundEggColor(), eConfig.getForegroundEggColor());
 		EntityRegistry.registerModEntity(clazz, eConfig.getNamedId(), Helpers.getNewId(IDType.ENTITY), EvilCraft._instance, 80, 3, true);
     }

@@ -1,6 +1,5 @@
 package evilcraft.inventory.container;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.api.gameevent.BloodInfuserRemoveEvent;
 import evilcraft.block.BloodInfuser;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
@@ -10,6 +9,7 @@ import evilcraft.tileentity.TileBloodInfuser;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 /**
  * Container for the {@link BloodInfuser}.

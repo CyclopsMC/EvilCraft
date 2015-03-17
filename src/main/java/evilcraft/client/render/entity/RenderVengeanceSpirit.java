@@ -1,16 +1,14 @@
 package evilcraft.client.render.entity;
 
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.config.extendedconfig.MobConfig;
+import evilcraft.entity.monster.VengeanceSpirit;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.MobConfig;
-import evilcraft.entity.monster.VengeanceSpirit;
 
 /**
  * Renderer for a vengeance spirit
@@ -24,8 +22,8 @@ public class RenderVengeanceSpirit extends Render {
      * Make a new instance.
      * @param config Then config.
      */
-    public RenderVengeanceSpirit(ExtendedConfig<MobConfig> config) {
-        
+    public RenderVengeanceSpirit(RenderManager renderManager, ExtendedConfig<MobConfig> config) {
+        super(renderManager);
     }
 
 	@Override
@@ -33,7 +31,7 @@ public class RenderVengeanceSpirit extends Render {
 		VengeanceSpirit spirit = (VengeanceSpirit) entity;
 		EntityLivingBase innerEntity = spirit.getInnerEntity();
 		if(innerEntity != null && spirit.isVisible()) {
-			Render render = (Render) RenderManager.instance.entityRenderMap.get(innerEntity.getClass());
+			Render render = (Render) renderManager.entityRenderMap.get(innerEntity.getClass());
 			if(render != null && !spirit.isSwarm()) {
 				GL11.glEnable(GL11.GL_BLEND);
 				if(!spirit.isFrozen()) {

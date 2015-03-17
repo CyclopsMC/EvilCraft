@@ -1,10 +1,5 @@
 package evilcraft.client.render.item;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
-
-import org.lwjgl.opengl.GL11;
-
 import evilcraft.block.EntangledChaliceItem;
 import evilcraft.client.render.model.ModelChalice;
 import evilcraft.client.render.tileentity.RenderTileEntityEntangledChalice;
@@ -12,6 +7,10 @@ import evilcraft.core.client.render.item.RenderModelWavefrontItem;
 import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.helper.RenderHelpers.IFluidContextRender;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
+import org.lwjgl.opengl.GL11;
 
 
 /**
@@ -35,7 +34,7 @@ public class RenderItemEntangledChalice extends RenderModelWavefrontItem {
     	final EntangledChaliceItem chalice = (EntangledChaliceItem) currentItemStack.getItem();
     	FluidStack fluidStack = chalice.getFluid(currentItemStack);
     	ModelChalice.setColorSeed(chalice.getTankID(currentItemStack));
-    	RenderHelpers.renderFluidContext(fluidStack, 0, 0, 0, new IFluidContextRender() {
+    	RenderHelpers.renderFluidContext(fluidStack, new BlockPos(0, 0, 0), new IFluidContextRender() {
 			
 			@Override
 			public void renderFluid(FluidStack fluid) {

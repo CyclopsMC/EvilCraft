@@ -1,14 +1,12 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -23,8 +21,8 @@ public abstract class ConfigurableItemFood extends ItemFood implements IConfigur
     protected ExtendedConfig eConfig = null;
     
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
      * @param healAmount Amount of health to regen.
      * @param saturationModifier The modifier for the saturation.
      * @param isWolfsFavoriteMeat If this is wolf food.
@@ -44,17 +42,6 @@ public abstract class ConfigurableItemFood extends ItemFood implements IConfigur
     @Override
     public ExtendedConfig<?> getConfig() {
         return eConfig;
-    }
-    
-    @Override
-    public String getIconString() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        itemIcon = iconRegister.registerIcon(getIconString());
     }
     
     @SuppressWarnings("rawtypes")

@@ -5,15 +5,21 @@ import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockSilverfish;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.monster.EntitySilverfish;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.util.Facing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * A silverfish for the nether.
@@ -33,6 +39,7 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
         super(world);
         this.isImmuneToFire = true;
         this.experienceValue = 10;
+        this.tasks.addTask(5, new Netherfish.AIHideInStone());
     }
     
     @Override
@@ -68,7 +75,7 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
         // TODO: for some reason, this does not work, although it is called client side, it just doesn't render those damn particles...
         if(!this.worldObj.isRemote) {
             for (int i = 0; i < 2; ++i) {
-                this.worldObj.spawnParticle("fire", this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
+                this.worldObj.spawnParticle(EnumParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
             }
         }
         super.onLivingUpdate();
@@ -79,35 +86,82 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
         // A line copied from EntityBlaze
         return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
-    
-    @Override
-    protected void updateEntityActionState() {
-        // This fish does NOT grief, maybe this could be implemented, maybe not, nobody likes griefing mobs, but it is quite evil though...
-        if (!this.worldObj.isRemote) {
-            if (this.entityToAttack == null && !this.hasPath()) {
-                int i, j, k;
-                i = MathHelper.floor_double(this.posX);
-                j = MathHelper.floor_double(this.posY + 0.5D);
-                k = MathHelper.floor_double(this.posZ);
-                int i2 = this.rand.nextInt(6);
-                Block block = this.worldObj.getBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2]);
-                int metaData = NetherfishSpawn.getInstance().getMetadataFromBlock(block);
-                
-                if (Configs.isEnabled(NetherfishSpawnConfig.class) && metaData >= 0) {
-                    this.worldObj.setBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2], NetherfishSpawn.getInstance(), NetherfishSpawn.getInstance().getMetadataFromBlock(block), 3);
-                    this.spawnExplosionParticle();
-                    this.setDead();
-                } else {
-                    this.updateWanderPath();
-                }
-            }
-        }
-        super.updateEntityActionState();
-    }
 
     @Override
     public ExtendedConfig<?> getConfig() {
         return null;
+    }
+
+    class AIHideInStone extends EntityAIWander {
+
+        private EnumFacing field_179483_b;
+        private boolean field_179484_c;
+        private static final String __OBFID = "CL_00002205";
+
+        public AIHideInStone()
+        {
+            super(Netherfish.this, 1.0D, 10);
+            this.setMutexBits(1);
+        }
+
+        /**
+         * Returns whether the EntityAIBase should begin execution.
+         */
+        public boolean shouldExecute()
+        {
+            if (Netherfish.this.getAttackTarget() != null) {
+                return false;
+            } else if (!Netherfish.this.getNavigator().noPath()) {
+                return false;
+            } else {
+                Random random = Netherfish.this.getRNG();
+
+                if (Configs.isEnabled(NetherfishSpawnConfig.class) && random.nextInt(10) == 0)
+                {
+                    this.field_179483_b = EnumFacing.random(random);
+                    BlockPos blockpos = (new BlockPos(Netherfish.this.posX, Netherfish.this.posY + 0.5D, Netherfish.this.posZ)).offset(this.field_179483_b);
+                    int meta = NetherfishSpawn.getInstance().getMetadataFromBlock(Netherfish.this.worldObj.getBlockState(blockpos).getBlock());
+
+                    if (meta >= 0) {
+                        Netherfish.this.worldObj.setBlockState(getPosition(), NetherfishSpawn.getInstance().getDefaultState().withProperty(NetherfishSpawn.FAKEMETA, meta));
+                        this.field_179484_c = true;
+                        return true;
+                    }
+                }
+
+                this.field_179484_c = false;
+                return super.shouldExecute();
+            }
+        }
+
+        /**
+         * Returns whether an in-progress EntityAIBase should continue executing
+         */
+        public boolean continueExecuting()
+        {
+            return this.field_179484_c ? false : super.continueExecuting();
+        }
+
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
+        public void startExecuting()
+        {
+            if (!this.field_179484_c) {
+                super.startExecuting();
+            } else {
+                World world = Netherfish.this.worldObj;
+                BlockPos blockpos = (new BlockPos(Netherfish.this.posX, Netherfish.this.posY + 0.5D, Netherfish.this.posZ)).offset(this.field_179483_b);
+                IBlockState iblockstate = world.getBlockState(blockpos);
+
+                if (BlockSilverfish.func_176377_d(iblockstate)) {
+                    world.setBlockState(blockpos, Blocks.monster_egg.getDefaultState().withProperty(BlockSilverfish.VARIANT_PROP, BlockSilverfish.EnumType.func_176878_a(iblockstate)), 3);
+                    Netherfish.this.spawnExplosionParticle();
+                    Netherfish.this.setDead();
+                }
+            }
+        }
+
     }
     
 }

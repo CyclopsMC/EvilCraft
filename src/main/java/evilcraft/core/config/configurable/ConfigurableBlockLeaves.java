@@ -1,19 +1,18 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.BlockLeaves;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -26,18 +25,15 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-
-    private IIcon iconOpaque;
-    private IIcon iconTransparent;
     
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockLeaves(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
-        this.setBlockName(eConfig.getUnlocalizedName());
+        this.setUnlocalizedName(eConfig.getUnlocalizedName());
     }
 
     private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
@@ -50,39 +46,16 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
     }
 
     @Override
-    public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
-    }
+    public abstract Item getItemDropped(IBlockState blockState, Random random, int zero);
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        iconTransparent = iconRegister.registerIcon(getTextureName());
-        iconOpaque = iconRegister.registerIcon(getTextureName() + "_opaque");
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        return !field_150121_P? iconTransparent : iconOpaque;
-    }
-
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        return !field_150121_P? iconTransparent : iconOpaque;
-    }
-
-    @Override
-    public abstract Item getItemDropped(int meta, Random random, int zero);
-
-    @Override
-    public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune) {
+    public void dropBlockAsItemWithChance(World world, BlockPos blockPos, IBlockState blockState, float chance, int fortune) {
         if(!world.isRemote) {
-            ArrayList<ItemStack> items = getDrops(world, x, y, z, meta, fortune);
+            List<ItemStack> items = getDrops(world, blockPos, blockState, fortune);
 
             for (ItemStack item : items) {
                 if (world.rand.nextFloat() <= chance) {
-                    this.dropBlockAsItem(world, x, y, z, item);
+                    this.spawnAsEntity(world, blockPos, item);
                 }
             }
         }
@@ -94,14 +67,14 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
     }
     
     @Override
-    public boolean renderAsNormalBlock() {
+    public boolean isNormalCube() {
         return false;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
-        return !(side > 7 || field_150121_P) || super.shouldSideBeRendered(world, x, y, z, side);
+    public boolean shouldSideBeRendered(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
+        return !(field_150121_P) || super.shouldSideBeRendered(world, blockPos, side);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -111,7 +84,7 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
     }
     
     @Override
-    public boolean isLeaves (IBlockAccess world, int x, int y, int z) {
+    public boolean isLeaves (IBlockAccess world, BlockPos blockPos) {
         return true;
     }
 

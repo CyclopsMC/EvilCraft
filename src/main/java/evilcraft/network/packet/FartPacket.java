@@ -1,7 +1,5 @@
 package evilcraft.network.packet;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.GeneralConfig;
 import evilcraft.client.particle.EntityFartFX;
@@ -13,6 +11,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +65,7 @@ public class FartPacket extends PacketCodec {
 	 * @param player The player data.
 	 */
 	public FartPacket(EntityPlayer player) {
-		this.displayName = player.getDisplayName();
+		this.displayName = player.getDisplayName().getFormattedText();
 		this.x = player.posX;
 		this.y = player.posY;
 		this.z = player.posZ;

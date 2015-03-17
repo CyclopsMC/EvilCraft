@@ -1,15 +1,15 @@
 package evilcraft.core.degradation.effect;
 
-import net.minecraft.world.World;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.api.ILocation;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.client.particle.EntityDegradeFX;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * An effect that will knockback the entities within the range of the degradable.
@@ -51,13 +51,13 @@ public class ParticleDegradation extends ConfigurableDegradationEffect {
     @Override
     @SideOnly(Side.CLIENT)
     public void runClientSide(IDegradable degradable) {
-        ILocation center = degradable.getLocation();
+        BlockPos center = degradable.getLocation();
         World world = degradable.getWorld();
         int radius = degradable.getRadius();
         
-        double xCoord = center.getCoordinates()[0] - radius + 2 * radius * world.rand.nextFloat();
-        double yCoord = center.getCoordinates()[1] - radius + 2 * radius * world.rand.nextFloat();
-        double zCoord = center.getCoordinates()[2] - radius + 2 * radius * world.rand.nextFloat();
+        double xCoord = center.getX() - radius + 2 * radius * world.rand.nextFloat();
+        double yCoord = center.getY() - radius + 2 * radius * world.rand.nextFloat();
+        double zCoord = center.getZ() - radius + 2 * radius * world.rand.nextFloat();
         
         double particleX = xCoord;
         double particleY = yCoord;

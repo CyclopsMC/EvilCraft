@@ -1,14 +1,11 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBasePressurePlate;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -22,24 +19,24 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
     protected ExtendedConfig eConfig = null;
     
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
-     * @param material Material of this block.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
+     * @param material Material of this blockState.
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockBasePressurePlate(ExtendedConfig eConfig, Material material) {
-        super("", material);
+        super(material);
         this.setConfig(eConfig);
-        this.setBlockName(eConfig.getUnlocalizedName());
+        this.setUnlocalizedName(eConfig.getUnlocalizedName());
         setHardness(2F);
         setStepSound(Block.soundTypeStone);
     }
     
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-        if(!canPlaceBlockAt(world, x, y, z)) {
-        	this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-            world.setBlockToAir(x, y, z);
+    public void onNeighborBlockChange(World world, BlockPos blockPos, IBlockState blockState, Block block) {
+        if(!canPlaceBlockAt(world, blockPos)) {
+        	this.dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), 0);
+            world.setBlockToAir(blockPos);
         }
     }
     
@@ -50,26 +47,6 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
     @Override
     public ExtendedConfig<?> getConfig() {
         return eConfig;
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(getTextureName());
-    }
-    
-    @Override
-    public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
-    }
-    
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-        this.setMetaBlockBounds(world, x, y, z, world.getBlockMetadata(x, y, z));
-    }
-
-    protected void setMetaBlockBounds(IBlockAccess world, int x, int y, int z, int meta) {
-        super.func_150063_b(meta);
     }
 
 }

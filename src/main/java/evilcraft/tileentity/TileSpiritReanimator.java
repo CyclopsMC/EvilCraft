@@ -23,7 +23,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -129,11 +129,11 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
         inSlotsTank.add(SLOT_CONTAINER);
         List<Integer> outSlots = new LinkedList<Integer>();
         outSlots.add(SLOTS_OUTPUT);
-        addSlotsToSide(ForgeDirection.EAST, inSlotsTank);
-        addSlotsToSide(ForgeDirection.UP, inSlots);
-        addSlotsToSide(ForgeDirection.DOWN, outSlots);
-        addSlotsToSide(ForgeDirection.SOUTH, outSlots);
-        addSlotsToSide(ForgeDirection.WEST, outSlots);
+        addSlotsToSide(EnumFacing.EAST, inSlotsTank);
+        addSlotsToSide(EnumFacing.UP, inSlots);
+        addSlotsToSide(EnumFacing.DOWN, outSlots);
+        addSlotsToSide(EnumFacing.SOUTH, outSlots);
+        addSlotsToSide(EnumFacing.WEST, outSlots);
 
         // Upgrade behaviour
         upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(1) {

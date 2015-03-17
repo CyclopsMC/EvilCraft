@@ -1,10 +1,10 @@
 package evilcraft.event;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Achievements;
 import evilcraft.item.OriginsOfDarkness;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Event hook for {@link net.minecraftforge.event.entity.player}.

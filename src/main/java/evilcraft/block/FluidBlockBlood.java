@@ -8,14 +8,16 @@ import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.fluid.Blood;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
- * A block for the {@link Blood} fluid.
+ * A blockState for the {@link Blood} fluid.
  * @author rubensworks
  *
  */
@@ -58,27 +60,26 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     }
     
     @Override
-    public void updateTick(World world, int x, int y, int z, Random random) {
+    public void updateTick(World world, BlockPos blockPos, IBlockState blockState, Random random) {
         if(random.nextInt(CHANCE_HARDEN) == 0 &&
-                isSourceBlock(world, x, y, z) &&
-                (!(world.isRaining() && ObfuscationHelpers.isRainingEnabled(world.getBiomeGenForCoords(x, z)))
-                        || !world.canBlockSeeTheSky(x, y, z))
-                && !isWaterInArea(world, x, y, z)) {
-            world.setBlock(x, y, z, HardenedBlood.getInstance());
-            world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+                isSourceBlock(world, blockPos) &&
+                (!(world.isRaining() && ObfuscationHelpers.isRainingEnabled(world.getBiomeGenForCoords(blockPos)))
+                        || !world.canBlockSeeSky(blockPos))
+                && !isWaterInArea(world, blockPos)) {
+            world.setBlockState(blockPos, HardenedBlood.getInstance().getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         } else {
-            super.updateTick(world, x, y, z, random);
+            super.updateTick(world, blockPos, blockState, random);
         }
-        world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+        world.scheduleUpdate(blockPos, this, tickRate(world));
     }
 
-    protected boolean isWaterInArea(World world, int x, int y, int z) {
-        return WorldHelpers.foldArea(world, 4, x, y, z, new WorldHelpers.WorldFoldingFunction<Boolean, Boolean>() {
+    protected boolean isWaterInArea(World world, BlockPos blockPos) {
+        return WorldHelpers.foldArea(world, 4, blockPos, new WorldHelpers.WorldFoldingFunction<Boolean, Boolean>() {
 
             @Nullable
             @Override
-            public Boolean apply(@Nullable Boolean input, World world, int x, int y, int z) {
-                return (input == null || input) || world.getBlock(x, y, z) == Blocks.water;
+            public Boolean apply(@Nullable Boolean input, World world, BlockPos blockPos) {
+                return (input == null || input) || world.getBlockState(blockPos).getBlock() == Blocks.water;
             }
 
         }, false);

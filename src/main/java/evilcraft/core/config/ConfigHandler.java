@@ -1,12 +1,12 @@
 package evilcraft.core.config;
 
 import com.google.common.collect.Maps;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import evilcraft.EvilCraft;
 import evilcraft.IInitListener;
 import evilcraft.command.CommandConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -102,6 +102,16 @@ public class ConfigHandler extends LinkedHashSet<ExtendedConfig>{
         
         // Saving the configuration to its file
         config.save();
+    }
+
+    /**
+     * Polish the enabled configs during the initialization phase.
+     */
+    public void polishConfigs() {
+        for(ExtendedConfig<?> eConfig : processedConfigs) {
+            ConfigurableType type = eConfig.getHolderType();
+            type.getElementTypeAction().polish(eConfig);
+        }
     }
     
     /**

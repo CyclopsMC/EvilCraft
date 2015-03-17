@@ -12,6 +12,7 @@ import evilcraft.tileentity.TileSpiritFurnace;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import org.apache.commons.lang3.mutable.MutableDouble;
 
@@ -52,8 +53,9 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 			
 			// Send sound to client
 			String deathSound = ObfuscationHelpers.getDeathSound(entity);
-			EvilCraft.proxy.sendSoundMinecraft(tile.xCoord + 0.5D, tile.yCoord + 0.5D,
-					tile.zCoord + 0.5D, deathSound, 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
+            BlockPos pos = tile.getPos();
+			EvilCraft.proxy.sendSoundMinecraft(pos.getX() + 0.5D, pos.getY() + 0.5D,
+					pos.getZ() + 0.5D, deathSound, 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
 			
 			try {
 				// Kill the entity to get the drops

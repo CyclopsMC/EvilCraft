@@ -1,7 +1,6 @@
 package evilcraft.modcompat;
 
 import com.google.common.collect.Sets;
-import cpw.mods.fml.common.Loader;
 import evilcraft.EvilCraft;
 import evilcraft.GeneralConfig;
 import evilcraft.IInitListener;
@@ -18,6 +17,7 @@ import evilcraft.modcompat.versionchecker.VersionCheckerModCompat;
 import evilcraft.modcompat.waila.WailaModCompat;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.common.Loader;
 import org.apache.logging.log4j.Level;
 
 import java.util.LinkedList;

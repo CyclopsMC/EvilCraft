@@ -1,13 +1,14 @@
 package evilcraft.entity.monster;
 
-import net.minecraft.client.renderer.entity.Render;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.render.entity.RenderNetherfish;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.RenderHelpers;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Config for the {@link Netherfish}.
@@ -56,8 +57,8 @@ public class NetherfishConfig extends MobConfig {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender() {
-        return new RenderNetherfish(this);
+    public Render getRender(RenderManager renderManager) {
+        return new RenderNetherfish(renderManager, this);
     }
     
 }

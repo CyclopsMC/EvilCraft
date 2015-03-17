@@ -1,47 +1,52 @@
 package evilcraft.core.config.configurable;
 
-import java.util.List;
-import java.util.Random;
-
+import evilcraft.core.IInformationProvider;
+import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.IInformationProvider;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Random;
 
 /**
- * A block that is based on inner blocks that are stored in the meta data.
+ * A blockState that is based on inner blocks that are stored in the meta data.
  * @author rubensworks
  *
  */
 public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock implements IInformationProvider{
 
+    public static final PropertyInteger FAKEMETA = PropertyInteger.create("meta", 0, 15);
+
     // No more than 16 different innerblocks allowed!
     protected final Block[] INNER_BLOCKS;
     
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
-     * @param material Material of this block.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
+     * @param material Material of this blockState.
      */
     @SuppressWarnings("rawtypes")
     public ConfigurableBlockWithInnerBlocks(ExtendedConfig eConfig, Material material) {
         super(eConfig, material);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FAKEMETA, false));
         INNER_BLOCKS = makeInnerBlockList();
     }
     
     /**
      * This should be implemented and return a list of innerblocks, they all must refer to
-     * non-null block instanced to work correctly.
+     * non-null blockState instanced to work correctly.
      * @return The list of innerblocks
      */
     protected abstract Block[] makeInnerBlockList();
@@ -55,24 +60,18 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta) {
-    	return getBlockFromMetadata(meta).getBlockTextureFromSide(side);
+    public Item getItemDropped(IBlockState blockState, Random random, int zero) {
+        return getBlockFromState(blockState).getItemDropped(blockState, random, zero);
     }
     
     @Override
-    public Item getItemDropped(int meta, Random random, int zero) {
-        return getBlockFromMetadata(meta).getItemDropped(meta, random, zero);
-    }
-    
-    @Override
-    protected ItemStack createStackedBlock(int meta) {
-        return new ItemStack(getBlockFromMetadata(meta));
+    protected ItemStack createStackedBlock(IBlockState blockState) {
+        return new ItemStack(getBlockFromState(blockState));
     }
     
     @Override
     public String getInfo(ItemStack itemStack) {
-        return "Block: "+EnumChatFormatting.ITALIC+getBlockFromMetadata(itemStack.getItemDamage()).getLocalizedName();
+        return "Block: "+EnumChatFormatting.ITALIC+ getBlockFromMeta(itemStack.getItemDamage()).getLocalizedName();
     }
     
     @SuppressWarnings("rawtypes")
@@ -82,9 +81,9 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     }
     
     /**
-     * Get the metadata for the given (inner) block id
-     * @param block The block to search a stained version for
-     * @return metadata for this block or -1 if none can be found.
+     * Get the metadata for the given (inner) blockState id
+     * @param block The blockState to search a stained version for
+     * @return metadata for this blockState or -1 if none can be found.
      */
     public int getMetadataFromBlock(Block block) {
         for(int i = 0; i < INNER_BLOCKS.length; i++) {
@@ -95,12 +94,21 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     }
 
     /**
-     * Get the Block from the given (inner) block metadata
-     * @param blockMetadata metadata for the inner block.
+     * Get the Block from the given (inner) blockState metadata
+     * @param blockState state for the inner blockState.
      * @return The Block for the given metadata or the last available Block if the metadata was out of range.
      */
-    public Block getBlockFromMetadata(int blockMetadata) {
-        return INNER_BLOCKS[Math.min(INNER_BLOCKS.length - 1, blockMetadata)];
+    public Block getBlockFromState(IBlockState blockState) {
+        return getBlockFromMeta((Integer) blockState.getValue(FAKEMETA));
+    }
+
+    /**
+     * Get the Block from the given (inner) blockState metadata
+     * @param blockMeta meta for the inner blockState.
+     * @return The Block for the given metadata or the last available Block if the metadata was out of range.
+     */
+    public Block getBlockFromMeta(int blockMeta) {
+        return INNER_BLOCKS[Math.min(INNER_BLOCKS.length - 1, blockMeta)];
     }
     
     /**
@@ -112,37 +120,37 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     }
     
     @Override
-    public float getBlockHardness(World world, int x, int y, int z) {
-        int meta = world.getBlockMetadata(x, y, z);
-        return getBlockFromMetadata(meta).getBlockHardness(world, x, y, z);
+    public float getBlockHardness(World world, BlockPos blockPos) {
+        IBlockState blockState = world.getBlockState(blockPos);
+        return getBlockFromState(blockState).getBlockHardness(world, blockPos);
     }
     
     @Override
-    public int damageDropped(int meta) {
-        return meta;
+    public int damageDropped(IBlockState blockState) {
+        return (Integer) blockState.getValue(FAKEMETA);
     }
     
     @Override
-    public boolean canHarvestBlock(EntityPlayer player, int meta) {
-        return getBlockFromMetadata(meta).canHarvestBlock(player, 0);
+    public boolean canHarvestBlock(IBlockAccess world, BlockPos blockPos, EntityPlayer player) {
+        return getBlockFromState(world.getBlockState(blockPos)).canHarvestBlock(world, blockPos, player);
     }
     
     @Override
-    public float getPlayerRelativeBlockHardness(EntityPlayer player, World world, int x, int y, int z) {
-        int meta = world.getBlockMetadata(x, y, z);
-        return getBlockFromMetadata(meta).getPlayerRelativeBlockHardness(player, world, x, y, z);
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
-        return getBlockFromMetadata(world.getBlockMetadata(x, y, z)).colorMultiplier(world, x, y, z);
+    public float getPlayerRelativeBlockHardness(EntityPlayer player, World world, BlockPos blockPos) {
+        IBlockState blockState = world.getBlockState(blockPos);
+        return getBlockFromState(blockState).getPlayerRelativeBlockHardness(player, world, blockPos);
     }
     
     @Override
     @SideOnly(Side.CLIENT)
-    public int getRenderColor(int meta) {
-        return getBlockFromMetadata(meta).getRenderColor(0);
+    public int colorMultiplier(IBlockAccess world, BlockPos blockPos, int renderPass) {
+        return getBlockFromState(world.getBlockState(blockPos)).colorMultiplier(world, blockPos, renderPass);
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getRenderColor(IBlockState blockState) {
+        return getBlockFromState(blockState).getRenderColor(blockState);
     }
     
 }

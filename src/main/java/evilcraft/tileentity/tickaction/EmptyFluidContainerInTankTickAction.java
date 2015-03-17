@@ -1,12 +1,12 @@
 package evilcraft.tileentity.tickaction;
 
+import evilcraft.core.tileentity.TankInventoryTileEntity;
+import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
+import evilcraft.core.tileentity.tickaction.ITickAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
-import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
-import evilcraft.core.tileentity.tickaction.ITickAction;
 
 /**
  * {@link ITickAction} for emptying fluid containers in a tank.

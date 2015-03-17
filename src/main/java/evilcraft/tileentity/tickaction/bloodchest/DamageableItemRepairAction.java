@@ -1,15 +1,15 @@
 package evilcraft.tileentity.tickaction.bloodchest;
 
-import java.util.LinkedList;
-import java.util.Random;
-
-import net.minecraft.item.ItemStack;
 import evilcraft.Configs;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 import evilcraft.block.BloodChestConfig;
 import evilcraft.core.config.configurable.ConfigurableEnchantment;
 import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
+import net.minecraft.item.ItemStack;
+
+import java.util.LinkedList;
+import java.util.Random;
 
 /**
  * Repair action for damageable items.

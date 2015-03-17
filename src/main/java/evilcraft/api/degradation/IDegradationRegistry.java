@@ -1,8 +1,8 @@
 package evilcraft.api.degradation;
 
-import java.util.Set;
-
 import evilcraft.api.IRegistry;
+
+import java.util.Set;
 
 /**
  * Interface for the degradation registry.

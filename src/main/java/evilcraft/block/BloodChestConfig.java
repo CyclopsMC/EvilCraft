@@ -1,12 +1,5 @@
 package evilcraft.block;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelChest;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.client.render.item.RenderItemBloodChest;
 import evilcraft.client.render.tileentity.RenderTileEntityBloodChest;
@@ -17,6 +10,13 @@ import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileBloodChest;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelChest;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Config for the {@link BloodChest}.

@@ -5,6 +5,7 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * A simple configurable for Enchantments, will auto-register itself after construction.
@@ -23,7 +24,7 @@ public class ConfigurableEnchantment extends Enchantment implements IConfigurabl
      */
     protected ConfigurableEnchantment(ExtendedConfig<EnchantmentConfig> eConfig, int weight,
             EnumEnchantmentType type) {
-        super(eConfig.downCast().ID, weight, type);
+        super(eConfig.downCast().ID, new ResourceLocation(eConfig.getNamedId()), weight, type);
         this.setConfig(eConfig);
         this.setName(eConfig.getUnlocalizedName());
         

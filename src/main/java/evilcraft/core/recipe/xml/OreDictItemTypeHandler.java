@@ -7,7 +7,7 @@ package evilcraft.core.recipe.xml;
 public class OreDictItemTypeHandler extends DefaultItemTypeHandler {
 
 	@Override
-	protected Object makeItemStack(String key, int amount, int meta) {        
+	protected Object makeItemStack(String key, int amount, int meta) {
         return key;
     }
 	

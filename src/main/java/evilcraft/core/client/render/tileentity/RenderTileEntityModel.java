@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -46,8 +46,8 @@ public class RenderTileEntityModel extends TileEntitySpecialRenderer {
 		return texture;
 	}
     
-    protected void renderTileEntityAt(EvilCraftTileEntity tile, double x, double y, double z, float partialTick) {
-        ForgeDirection direction = tile.getRotation();
+    protected void renderTileEntityAt(EvilCraftTileEntity tile, double x, double y, double z, float partialTick, int partialDamage) {
+        EnumFacing direction = tile.getRotation();
         if(getTexture() != null) this.bindTexture(getTexture());
 
         GL11.glPushMatrix();
@@ -58,16 +58,16 @@ public class RenderTileEntityModel extends TileEntitySpecialRenderer {
         GL11.glTranslatef(0.5F, 0.5F, 0.5F);
         short rotation = 0;
 
-        if (direction == ForgeDirection.SOUTH) {
+        if (direction == EnumFacing.SOUTH) {
             rotation = 180;
         }
-        if (direction == ForgeDirection.NORTH) {
+        if (direction == EnumFacing.NORTH) {
             rotation = 0;
         }
-        if (direction == ForgeDirection.EAST) {
+        if (direction == EnumFacing.EAST) {
             rotation = 90;
         }
-        if (direction == ForgeDirection.WEST) {
+        if (direction == EnumFacing.WEST) {
             rotation = -90;
         }
 
@@ -81,8 +81,8 @@ public class RenderTileEntityModel extends TileEntitySpecialRenderer {
     }
 	
 	@Override
-    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTick) {
-        this.renderTileEntityAt((EvilCraftTileEntity)tile, x, y, z, partialTick);
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTick, int partialDamage) {
+        this.renderTileEntityAt((EvilCraftTileEntity)tile, x, y, z, partialTick, partialDamage);
     }
 	
 	/**

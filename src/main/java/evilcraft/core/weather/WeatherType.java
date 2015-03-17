@@ -1,8 +1,8 @@
 package evilcraft.core.weather;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.world.World;
+
+import java.lang.reflect.Field;
 
 /**
  * Abstract class for weather types.

@@ -2,6 +2,7 @@ package evilcraft.core.entity.item;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 /**
@@ -60,7 +61,7 @@ public abstract class EntityItemIndestructable extends EntityItem {
     }
     
     private void init() {
-    	delayBeforeCanPickup = 40;
+        setPickupDelay(40);
         if(isUndespawnable()) {
             this.lifespan = Integer.MAX_VALUE;
         }
@@ -80,9 +81,10 @@ public abstract class EntityItemIndestructable extends EntityItem {
 			super.dealFireDamage(damage);
 		}
     }
-	
+
+    // MCP: isEntityInvulnerable
 	@Override
-	public boolean isEntityInvulnerable() {
+	public boolean func_180431_b(DamageSource damageSource) {
 		return isIndestructable();
 	}
 }

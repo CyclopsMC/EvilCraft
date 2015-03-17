@@ -1,10 +1,10 @@
 package evilcraft.inventory.slot;
 
+import evilcraft.api.RegistryManager;
+import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import evilcraft.api.RegistryManager;
-import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 
 /**
  * A slot that only accepts repairable items.

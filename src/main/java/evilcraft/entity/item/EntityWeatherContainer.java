@@ -75,7 +75,7 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
         
         // Play sound and show particles of splash potion of harming
         // TODO: make custom particles for this
-        this.worldObj.playAuxSFX(2002, (int)Math.round(this.posX), (int)Math.round(this.posY), (int)Math.round(this.posZ), 16428);
+        this.worldObj.playAuxSFX(2002, getPosition(), 16428);
         
         setDead();
     }

@@ -1,26 +1,24 @@
 package evilcraft.tileentity;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidHandler;
-import evilcraft.api.ILocation;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.PurifierConfig;
 import evilcraft.block.SanguinaryPedestal;
 import evilcraft.block.SanguinaryPedestalConfig;
-import evilcraft.core.algorithm.Location;
 import evilcraft.core.algorithm.RegionIterator;
-import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidHandler;
 
 /**
  * Tile for the {@link SanguinaryPedestal}.
@@ -57,7 +55,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
         fill(fluidStack, true);
     }
     
-    protected void afterBlockReplace(World world, ILocation location, Block block, int amount) {
+    protected void afterBlockReplace(World world, BlockPos location, Block block, int amount) {
     	// NOTE: this is only called server-side, so make sure to send packets where needed.
     	
     	// Fill tank
@@ -76,17 +74,17 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
     public void updateTileEntity() {
     	super.updateTileEntity();
 
-        if(!getWorldObj().isRemote) {
+        if(!getWorld().isRemote) {
             int actions = hasEfficiency() ? ACTIONS_PER_TICK_EFFICIENCY : 1;
-	    	// Drain next block in tick
+	    	// Drain next blockState in tick
     		while(!getTank().isFull() && actions > 0) {
-		    	ILocation location = getNextLocation();
-		    	Block block = LocationHelpers.getBlock(getWorldObj(), location);
+		    	BlockPos location = getNextLocation();
+		    	Block block = getWorld().getBlockState(location).getBlock();
 		    	if(block == BloodStainedBlock.getInstance()) {
-		    		BloodStainedBlock.UnstainResult result = BloodStainedBlock.getInstance().unstainBlock(getWorldObj(),
+		    		BloodStainedBlock.UnstainResult result = BloodStainedBlock.getInstance().unstainBlock(getWorld(),
 		    				location, getTank().getCapacity() - getTank().getFluidAmount());
 		    		if(result.amount > 0) {
-		    			afterBlockReplace(getWorldObj(), location, result.block, result.amount);
+		    			afterBlockReplace(getWorld(), location, result.block.getBlock(), result.amount);
 		    		}
 		    	}
                 actions--;
@@ -94,8 +92,8 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
 	    	
 	    	// Auto-drain the inner tank
 	    	if(!getTank().isEmpty()) {
-				for(ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-					TileEntity tile = worldObj.getTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY, zCoord + direction.offsetZ);
+				for(EnumFacing direction : EnumFacing.VALUES) {
+					TileEntity tile = worldObj.getTileEntity(getPos().offset(direction));
 					if(!getTank().isEmpty() && tile instanceof IFluidHandler) {
 						IFluidHandler handler = (IFluidHandler) tile;
 						FluidStack fluidStack = new FluidStack(getTank().getFluidType(), Math.min(MB_RATE, getTank().getFluidAmount()));
@@ -117,13 +115,13 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
 	}
 	
 	@Override
-    public int[] getAccessibleSlotsFromSide(int side) {
+    public int[] getSlotsForFace(EnumFacing side) {
 		return new int[0];
 	}
 	
-	private ILocation getNextLocation() {
+	private BlockPos getNextLocation() {
 		if(regionIterator == null) {
-			regionIterator = new RegionIterator(new Location(xCoord, yCoord, zCoord), (hasEfficiency() ? OFFSET_EFFICIENCY : OFFSET), true);
+			regionIterator = new RegionIterator(getPos(), (hasEfficiency() ? OFFSET_EFFICIENCY : OFFSET), true);
 		}
 		return regionIterator.next();
 	}

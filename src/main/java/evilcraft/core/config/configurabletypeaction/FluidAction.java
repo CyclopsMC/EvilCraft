@@ -1,9 +1,9 @@
 package evilcraft.core.config.configurabletypeaction;
 
+import evilcraft.core.config.extendedconfig.FluidConfig;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import evilcraft.core.config.extendedconfig.FluidConfig;
 
 /**
  * The action used for {@link FluidConfig}.

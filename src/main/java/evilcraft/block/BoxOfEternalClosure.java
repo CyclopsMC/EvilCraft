@@ -1,7 +1,5 @@
 package evilcraft.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
@@ -16,20 +14,19 @@ import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
@@ -72,22 +69,9 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        
-    }
-    
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        // This is ONLY used for the block breaking/broken particles
-        // Since the ender chest looks very similar, we use that icon.
-        return Blocks.ender_chest.getIcon(0, 0);
-    }
-    
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-    	EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
-        if(tile.getRotation() == ForgeDirection.EAST || tile.getRotation() == ForgeDirection.WEST) {
+    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
+    	EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(blockPos);
+        if(tile.getRotation() == EnumFacing.EAST || tile.getRotation() == EnumFacing.WEST) {
         	setBlockBounds(0.2F, 0F, 0.0F, 0.8F, 0.43F, 1.0F);
         } else {
         	setBlockBounds(0.0F, 0F, 0.2F, 1.0F, 0.43F, 0.8F);
@@ -105,7 +89,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     }
     
     @Override
-    public boolean renderAsNormalBlock() {
+    public boolean isNormalCube() {
     	return false;
     }
     
@@ -204,24 +188,25 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 	}
 
     @Override
-	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-    	return World.doesBlockHaveSolidTopSurface(world, x, y - 1, z);
+	public boolean canPlaceBlockAt(World world, BlockPos blockPos) {
+    	return World.doesBlockHaveSolidTopSurface(world, blockPos.add(0, -1, 0));
     }
     
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-        if(!canPlaceBlockAt(world, x, y, z)) {
-        	dropBlockAsItem(world, x, y, z, 0, 0);
-        	world.setBlockToAir(x, y, z);
+    public void onNeighborBlockChange(World world, BlockPos blockPos, IBlockState blockState, Block block) {
+        if(!canPlaceBlockAt(world, blockPos)) {
+        	dropBlockAsItem(world, blockPos, blockState, 0);
+        	world.setBlockToAir(blockPos);
         }
+        super.onNeighborBlockChange(world, blockPos, blockState, block);
     }
     
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
-    	if(world.getTileEntity(x, y, z) != null) {
-	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(x, y, z);
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityplayer, EnumFacing side, float hitX, float hitY, float hitZ) {
+    	if(world.getTileEntity(blockPos) != null) {
+	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
 	    	if(tile.getSpiritInstance() != null) {
-	    		world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, "random.chestopen",
+	    		world.playSoundEffect(blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, "random.chestopen",
 	    				0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 	    		if(!world.isRemote) {
 	    			tile.releaseSpirit();
@@ -229,18 +214,18 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 	    		return true;
 	    	}
     	}
-    	return super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
+    	return super.onBlockActivated(world, blockPos, state, entityplayer, side, hitX, hitY, hitZ);
     }
     
     @Override
-    public int getLightValue(IBlockAccess world, int x, int y, int z) {
-    	if(world.getTileEntity(x, y, z) != null) {
-	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(x, y, z);
+    public int getLightValue(IBlockAccess world, BlockPos blockPos) {
+    	if(world.getTileEntity(blockPos) != null) {
+	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
 	    	if(tile.getLidAngle() > 0) {
 	    		return LIGHT_LEVEL;
 	    	}
     	}
-        return super.getLightValue(world, x, y, z);
+        return super.getLightValue(world, blockPos);
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -254,7 +239,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return EnumRarity.uncommon;
+        return EnumRarity.UNCOMMON;
     }
 
     @Override
@@ -263,14 +248,14 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     }
 
     @Override
-    public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-        if(world.getTileEntity(x, y, z) != null) {
-            TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(x, y, z);
+    public int getComparatorInputOverride(World world, BlockPos blockPos) {
+        if(world.getTileEntity(blockPos) != null) {
+            TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
             if(tile.getSpiritInstance() != null) {
                 return 15;
             }
         }
-        return super.getComparatorInputOverride(world, x, y, z, side);
+        return super.getComparatorInputOverride(world, blockPos);
     }
 
 }

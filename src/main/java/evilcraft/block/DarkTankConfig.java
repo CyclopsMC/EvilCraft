@@ -61,7 +61,8 @@ public class DarkTankConfig extends BlockContainerConfig {
     @Override
     public void onRegistered() {
         if (MinecraftHelpers.isClientSide()) {
-        	ClientProxy.BLOCK_RENDERERS.add(new RenderDarkTank());
+            // TODO
+        	//ClientProxy.BLOCK_RENDERERS.add(new RenderDarkTank());
             ClientProxy.TILE_ENTITY_RENDERERS.put(TileDarkTank.class,
             		new RenderTileEntityDarkTank());
             ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(DarkTank.getInstance()),

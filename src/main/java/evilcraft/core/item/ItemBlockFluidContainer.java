@@ -1,7 +1,5 @@
 package evilcraft.core.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
@@ -16,12 +14,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
 /**
  * {@link ItemBlock} that can be used for blocks that have a tile entity with a fluid container.
- * The block must implement {@link IBlockTank}.
+ * The blockState must implement {@link IBlockTank}.
  * Instances of this will also keep it's tank capacity next to the contents.
  * @author rubensworks
  *
@@ -32,7 +32,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
 	
     /**
      * Make a new instance.
-     * @param block The block instance.
+     * @param block The blockState instance.
      */
     public ItemBlockFluidContainer(Block block) {
         super(block);
@@ -41,7 +41,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
     }
     
     /**
-     * @return The block tank.
+     * @return The blockState tank.
      */
     public IBlockTank getBlockTank() {
     	return block;
@@ -50,27 +50,27 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
 	@Override
 	public FluidStack getFluid(ItemStack container) {
 		String key = block.getTankNBTName();
-		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey(key)) {
+		if (container.getTagCompound() == null || !container.getTagCompound().hasKey(key)) {
             return null;
         }
-        return FluidStack.loadFluidStackFromNBT(container.stackTagCompound.getCompoundTag(key));
+        return FluidStack.loadFluidStackFromNBT(container.getTagCompound().getCompoundTag(key));
 	}
 
 	protected void setFluid(ItemStack container, FluidStack fluidStack) {
 		String key = block.getTankNBTName();
 		if (fluidStack == null || fluidStack.amount <= 0) {
-            container.stackTagCompound.removeTag(key);
-            if (container.stackTagCompound.hasNoTags()) {
-                container.stackTagCompound = null;
+            container.getTagCompound().removeTag(key);
+            if (container.getTagCompound().hasNoTags()) {
+                container.setTagCompound(null);
             }
         } else {
-            if(container.stackTagCompound == null) {
+            if(container.getTagCompound() == null) {
                 container.setTagCompound(new NBTTagCompound());
             }
-	        NBTTagCompound fluidTag = container.stackTagCompound.getCompoundTag(key);
+	        NBTTagCompound fluidTag = container.getTagCompound().getCompoundTag(key);
 	        fluidStack.writeToNBT(fluidTag);
-            fluidTag.removeTag("Empty"); // Make sure that after this block is placed the fluid inside is correctly recognised.
-	        container.stackTagCompound.setTag(key, fluidTag);
+            fluidTag.removeTag("Empty"); // Make sure that after this blockState is placed the fluid inside is correctly recognised.
+	        container.getTagCompound().setTag(key, fluidTag);
         }
 	}
 	

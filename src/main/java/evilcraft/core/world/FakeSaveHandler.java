@@ -1,14 +1,14 @@
 package evilcraft.core.world;
 
-import java.io.File;
-import java.util.UUID;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.storage.IChunkLoader;
 import net.minecraft.world.storage.IPlayerFileData;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
+
+import java.io.File;
+import java.util.UUID;
 
 /**
  * A dummy implementation of {@link ISaveHandler}, use with caution.
@@ -44,8 +44,8 @@ public class FakeSaveHandler implements ISaveHandler {
 		
 	}
 
-	@Override
-	public IPlayerFileData getSaveHandler() {
+    @Override
+	public IPlayerFileData getPlayerNBTManager() {
 		return null;
 	}
 

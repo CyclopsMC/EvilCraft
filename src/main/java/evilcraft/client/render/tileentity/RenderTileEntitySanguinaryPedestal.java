@@ -25,11 +25,11 @@ public class RenderTileEntitySanguinaryPedestal extends RenderTileEntityModelWav
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f, int partialDamage) {
 		if(tile instanceof TileSanguinaryPedestal) {
             ModelPedestal.setRedHue(tile.getBlockMetadata() == 1);
 		}
-        super.renderTileEntityAt(tile, x, y, z, f);
+        super.renderTileEntityAt(tile, x, y, z, f, partialDamage);
 	}
     
 }

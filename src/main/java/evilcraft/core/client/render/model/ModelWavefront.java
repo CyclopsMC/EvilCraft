@@ -1,9 +1,9 @@
 package evilcraft.core.client.render.model;
 
+import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.WavefrontObject;
-import evilcraft.core.helper.RenderHelpers;
 
 /**
  * Render a {@link WavefrontObject}.

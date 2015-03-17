@@ -1,10 +1,10 @@
 package evilcraft.api.degradation;
 
-import java.util.List;
-
 import net.minecraft.entity.Entity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import evilcraft.api.ILocation;
+
+import java.util.List;
 
 /**
  * Objects that can execute {@link IDegradationEffect} should implement this.
@@ -17,7 +17,7 @@ public interface IDegradable {
      * Get the center location of this degradable instance.
      * @return The center coordinates.
      */
-    public ILocation getLocation();
+    public BlockPos getLocation();
     /**
      * Get the radius of the area.
      * @return The radius.

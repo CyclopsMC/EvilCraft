@@ -1,11 +1,11 @@
 package evilcraft.item;
 
-import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.IFuelHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Config for the Blood-Waxed Coal.

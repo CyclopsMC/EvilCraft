@@ -5,13 +5,13 @@
 // - ZeuX
 package evilcraft.client.render.model;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import evilcraft.entity.monster.PoisonousLibelle;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import evilcraft.entity.monster.PoisonousLibelle;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Davivs69

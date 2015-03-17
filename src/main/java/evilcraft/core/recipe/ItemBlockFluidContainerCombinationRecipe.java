@@ -43,8 +43,20 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 	public ItemStack getRecipeOutput() {
 		return new ItemStack(DarkTank.getInstance());
 	}
-	
-	@Override
+
+    @Override
+    public ItemStack[] func_179532_b(InventoryCrafting inventory) {
+        ItemStack[] aitemstack = new ItemStack[inventory.getSizeInventory()];
+
+        for (int i = 0; i < aitemstack.length; ++i) {
+            ItemStack itemstack = inventory.getStackInSlot(i);
+            aitemstack[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack);
+        }
+
+        return aitemstack;
+    }
+
+    @Override
 	public ItemStack getCraftingResult(InventoryCrafting grid) {						
 		ItemStack output = getRecipeOutput().copy();
 		

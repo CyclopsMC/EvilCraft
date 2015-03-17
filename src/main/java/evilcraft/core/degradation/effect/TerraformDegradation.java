@@ -1,26 +1,28 @@
 package evilcraft.core.degradation.effect;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
+import com.google.common.collect.Maps;
 import evilcraft.Configs;
-import evilcraft.api.ILocation;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
-import evilcraft.core.block.BlockTypeHolder;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.degradation.StochasticDegradationEffect;
 import evilcraft.core.helper.LocationHelpers;
+import evilcraft.core.helper.MinecraftHelpers;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Degradation effect that will terraform certain blocks into the area to
- * other block.
+ * other blockState.
  * @author rubensworks
  *
  */
@@ -47,53 +49,51 @@ private static TerraformDegradation _instance = null;
         return _instance;
     }
     
-    private static Map<Block, Map<BlockTypeHolder, Integer>> TERRAFORMATIONS = 
-            new HashMap<Block, Map<BlockTypeHolder, Integer>>();
+    private static Map<Block, Map<IBlockState, Integer>> TERRAFORMATIONS = Maps.newHashMap();
     private static final double CHANCE = 0.1D;
     
     private static Random random = new Random();
     
     static{
         // Default replacement
-        putReplacement(null, new BlockTypeHolder(Blocks.cobblestone), 30);
+        putReplacement(null, Blocks.cobblestone.getDefaultState(), 30);
         
-        putReplacement(Blocks.stone, new BlockTypeHolder(Blocks.cobblestone));
+        putReplacement(Blocks.stone, Blocks.cobblestone.getDefaultState());
         
-        putReplacement(Blocks.cobblestone, new BlockTypeHolder(Blocks.dirt), 10);
-        putReplacement(Blocks.cobblestone, new BlockTypeHolder(Blocks.lava), 30);
+        putReplacement(Blocks.cobblestone, Blocks.dirt.getDefaultState(), 10);
+        putReplacement(Blocks.cobblestone, Blocks.lava.getDefaultState(), 30);
         
-        putReplacement(Blocks.coal_block, new BlockTypeHolder(Blocks.diamond_block), 10000);
+        putReplacement(Blocks.coal_block, Blocks.diamond_block.getDefaultState(), 10000);
         
-        putReplacement(Blocks.dirt, new BlockTypeHolder(Blocks.netherrack), 30);
-        putReplacement(Blocks.grass, new BlockTypeHolder(Blocks.netherrack), 20);
-        putReplacement(Blocks.mycelium, new BlockTypeHolder(Blocks.netherrack), 5);
-        putReplacement(Blocks.dirt, new BlockTypeHolder(Blocks.sand));
-        putReplacement(Blocks.grass, new BlockTypeHolder(Blocks.sand));
-        putReplacement(Blocks.mycelium, new BlockTypeHolder(Blocks.sand));
-        putReplacement(Blocks.dirt, new BlockTypeHolder(Blocks.clay), 20);
-        putReplacement(Blocks.grass, new BlockTypeHolder(Blocks.sand), 20);
-        putReplacement(Blocks.mycelium, new BlockTypeHolder(Blocks.sand), 20);
+        putReplacement(Blocks.dirt, Blocks.netherrack.getDefaultState(), 30);
+        putReplacement(Blocks.grass, Blocks.netherrack.getDefaultState(), 20);
+        putReplacement(Blocks.mycelium, Blocks.netherrack.getDefaultState(), 5);
+        putReplacement(Blocks.dirt, Blocks.sand.getDefaultState());
+        putReplacement(Blocks.grass, Blocks.sand.getDefaultState());
+        putReplacement(Blocks.mycelium, Blocks.sand.getDefaultState());
+        putReplacement(Blocks.dirt, Blocks.clay.getDefaultState(), 20);
+        putReplacement(Blocks.grass, Blocks.sand.getDefaultState(), 20);
+        putReplacement(Blocks.mycelium, Blocks.sand.getDefaultState(), 20);
         
         if(Configs.isEnabled(NetherfishSpawnConfig.class)) {
             putReplacement(Blocks.netherrack,
-                    new BlockTypeHolder(NetherfishSpawn.getInstance(),
-                            NetherfishSpawn.getInstance().
-                                getMetadataFromBlock(Blocks.netherrack)), 50);
+                    NetherfishSpawn.getInstance().getStateFromMeta(NetherfishSpawn.getInstance().
+                            getMetadataFromBlock(Blocks.netherrack)), 50);
         }
         
-        putReplacement(Blocks.sand, new BlockTypeHolder(null));
+        putReplacement(Blocks.sand, null);
         
-        putReplacement(Blocks.water, new BlockTypeHolder(null));
+        putReplacement(Blocks.water, null);
     }
     
-    private static final void putReplacement(Block key, BlockTypeHolder value) {
+    private static final void putReplacement(Block key, IBlockState value) {
         putReplacement(key, value, 0);
     }
     
-    private static final void putReplacement(Block key, BlockTypeHolder value, int chance) {
-        Map<BlockTypeHolder, Integer> mapValue = TERRAFORMATIONS.get(key);
+    private static final void putReplacement(Block key, IBlockState value, int chance) {
+        Map<IBlockState, Integer> mapValue = TERRAFORMATIONS.get(key);
         if(mapValue == null) {
-            mapValue = new HashMap<BlockTypeHolder, Integer>();
+            mapValue = new HashMap<IBlockState, Integer>();
             TERRAFORMATIONS.put(key, mapValue);
         }
         mapValue.put(value, chance);
@@ -108,14 +108,14 @@ private static TerraformDegradation _instance = null;
         
     }
     
-    protected BlockTypeHolder getReplacement(Block block) {
-        Map<BlockTypeHolder, Integer> mapValue = TERRAFORMATIONS.get(block);
+    protected IBlockState getReplacement(Block block) {
+        Map<IBlockState, Integer> mapValue = TERRAFORMATIONS.get(block);
         if(mapValue == null) { // Fetch the default replacement.
             mapValue = TERRAFORMATIONS.get(null);
         }
         if(mapValue != null) {
             Object[] keys = mapValue.keySet().toArray();
-            BlockTypeHolder holder = (BlockTypeHolder) keys[random.nextInt(keys.length)];
+            IBlockState holder = (IBlockState) keys[random.nextInt(keys.length)];
             Integer chance = mapValue.get(holder);
             if(chance == null || chance == 0 || random.nextInt(chance) == 0) {
                 return holder;
@@ -128,22 +128,19 @@ private static TerraformDegradation _instance = null;
     public void runServerSide(IDegradable degradable) {
         World world = degradable.getWorld();
         
-        ILocation blockPoint = LocationHelpers.getRandomPointInSphere(
+        BlockPos blockPos = LocationHelpers.getRandomPointInSphere(
                 degradable.getLocation(), degradable.getRadius());
-        int x = blockPoint.getCoordinates()[0];
-        int y = blockPoint.getCoordinates()[1];
-        int z = blockPoint.getCoordinates()[2];
         
-        Block block = world.getBlock(x, y, z);
-        BlockTypeHolder replace = getReplacement(block);
+        Block block = world.getBlockState(blockPos).getBlock();
+        IBlockState replace = getReplacement(block);
         
         if(replace != null
-                && !degradable.getLocation().equals(blockPoint)
-                && world.getTileEntity(x, y, z) == null) {
+                && !degradable.getLocation().equals(blockPos)
+                && world.getTileEntity(blockPos) == null) {
             if(replace.getBlock() == null) {
-                world.setBlockToAir(x, y, z);
-            } else if(replace.getBlock().getBlockHardness(world, x, y, z) > 0) {
-                world.setBlock(x, y, z, replace.getBlock(), replace.getMeta(), 3);
+                world.setBlockToAir(blockPos);
+            } else if(replace.getBlock().getBlockHardness(world, blockPos) > 0) {
+                world.setBlockState(blockPos, replace, MinecraftHelpers.BLOCK_NOTIFY_CLIENT | MinecraftHelpers.BLOCK_NOTIFY);
             }
         }
     }

@@ -1,10 +1,10 @@
 package evilcraft.core.config.configurabletypeaction;
 
-import net.minecraftforge.common.config.Configuration;
 import evilcraft.EvilCraft;
 import evilcraft.core.config.ConfigHandler;
 import evilcraft.core.config.UndisableableConfigException;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraftforge.common.config.Configuration;
 
 /**
  * An action that is used to register Configurables.
@@ -50,4 +50,12 @@ public abstract class ConfigurableTypeAction<C extends ExtendedConfig<C>> {
      * @param config configuration from the config file.
      */
     public abstract void postRun(C eConfig, Configuration config);
+
+    /**
+     * Optional method that will be called during the initialization phase.
+     * @param config configuration holder.
+     */
+    public void polish(C config) {
+
+    }
 }

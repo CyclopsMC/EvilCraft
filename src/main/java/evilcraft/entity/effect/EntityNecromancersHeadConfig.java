@@ -1,11 +1,13 @@
 package evilcraft.entity.effect;
 
+import evilcraft.core.config.extendedconfig.EntityConfig;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.init.Items;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.extendedconfig.EntityConfig;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Config for the {@link EntityNecromancersHead}.
@@ -33,8 +35,8 @@ public class EntityNecromancersHeadConfig extends EntityConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender() {
-        return new RenderSnowball(Items.skull);
+    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
+        return new RenderSnowball(renderManager, Items.skull, renderItem);
     }
     
     @Override

@@ -1,11 +1,11 @@
 package evilcraft.core;
 
 import baubles.api.BaublesApi;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Optional;
 import evilcraft.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Optional;
 
 import java.util.Iterator;
 

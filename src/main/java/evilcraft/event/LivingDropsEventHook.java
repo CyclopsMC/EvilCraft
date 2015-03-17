@@ -1,7 +1,5 @@
 package evilcraft.event;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
 import evilcraft.item.EnderTearConfig;
 import net.minecraft.entity.Entity;
@@ -9,6 +7,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Event for {@link net.minecraftforge.event.entity.living.LivingDropsEvent}.
@@ -35,7 +35,7 @@ public class LivingDropsEventHook {
             }
             if(chance > 0 && e.worldObj.rand.nextInt(chance) == 0) {
                 EntityItem entity = new EntityItem(e.worldObj, e.posX, e.posY, e.posZ, new ItemStack(EnderTearConfig._instance.getItemInstance()));
-                entity.delayBeforeCanPickup = 10;
+                entity.setPickupDelay(10);
                 event.drops.add(entity);
             }
         }

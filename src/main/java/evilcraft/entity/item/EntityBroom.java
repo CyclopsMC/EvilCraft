@@ -1,7 +1,5 @@
 package evilcraft.entity.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -16,6 +14,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -136,13 +136,13 @@ public class EntityBroom extends Entity implements IConfigurable{
             lastMounted = player;
         }
     }
-    
+
+    // MCP: setPositionAndRotation2
     @Override
-    public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements)
-    {
+    public void func_180426_a(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean isTeleport) {
         posRotationIncrements += 6;
         
-        this.yOffset = 0.0F;
+        //this.yOffset = 0.0F;
         this.newPosX = x;
         this.newPosY = y;
         this.newPosZ = z;
@@ -293,7 +293,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         
         // Apply collisions
         @SuppressWarnings("rawtypes")
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.2, 0.0, 0.2));
+        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().expand(0.2, 0.0, 0.2));
         int l;
 
         if (list != null && !list.isEmpty())
@@ -328,7 +328,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     }
     
     @Override
-    protected void fall(float par1) { } // Makes sure the player doesn't get any fall damage when on the broom
+    public void fall(float distance, float damageMultiplier) { } // Makes sure the player doesn't get any fall damage when on the broom
 
     @Override
     protected void entityInit() {

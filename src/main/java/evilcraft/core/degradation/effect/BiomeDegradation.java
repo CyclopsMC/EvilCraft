@@ -1,17 +1,17 @@
 package evilcraft.core.degradation.effect;
 
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import evilcraft.api.ILocation;
 import evilcraft.api.degradation.IDegradable;
-import evilcraft.core.algorithm.Location;
 import evilcraft.core.algorithm.OrganicSpread;
 import evilcraft.core.algorithm.OrganicSpread.IOrganicSpreadable;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.world.biome.BiomeDegraded;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 
 /**
  * Makes biomes darker.
@@ -63,20 +63,17 @@ public class BiomeDegradation extends ConfigurableDegradationEffect implements I
     public void runServerSide(IDegradable degradable) {
         OrganicSpread spread =
                 new OrganicSpread(degradable.getWorld(), DIMENSIONS, degradable.getRadius(), this);
-        int[] c = degradable.getLocation().getCoordinates();
-        ILocation location = new Location(c[0], c[2]);
-        spread.spreadTick(location);
+        spread.spreadTick(LocationHelpers.copyLocation(degradable.getLocation()));
     }
 
     @Override
-    public boolean isDone(World world, ILocation location) {
-        return world.getBiomeGenForCoords(location.getCoordinates()[0], location.getCoordinates()[1])
-                .getClass().equals(BIOME_CLASS);
+    public boolean isDone(World world, BlockPos location) {
+        return world.getBiomeGenForCoords(location).getClass().equals(BIOME_CLASS);
     }
 
     @Override
-    public void spreadTo(World world, ILocation location) {
-        WorldHelpers.setBiome(world, location.getCoordinates()[0], location.getCoordinates()[1], BIOME);
+    public void spreadTo(World world, BlockPos location) {
+        WorldHelpers.setBiome(world, location, BIOME);
     }
     
 }

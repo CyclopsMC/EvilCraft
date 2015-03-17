@@ -1,21 +1,18 @@
 package evilcraft.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.tileentity.TileEternalWaterBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -59,34 +56,17 @@ public class EternalWaterBlockConfig extends BlockContainerConfig {
             }
 
             @Override
-            public float getBlockHardness(World world, int x, int y, int z) {
+            public float getBlockHardness(World world, BlockPos blockPos) {
                 return 0.5F;
             }
 
-            private IIcon topIcon;
-            private IIcon bottomIcon;
-
             @Override
-            @SideOnly(Side.CLIENT)
-            public void registerBlockIcons(IIconRegister iconRegister) {
-                super.registerBlockIcons(iconRegister);
-                topIcon = iconRegister.registerIcon(getTextureName() + "_top");
-                bottomIcon = iconRegister.registerIcon(getTextureName() + "_bottom");
-            }
-
-            @Override
-            public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-                if(side == ForgeDirection.UP.ordinal()) return topIcon;
-                if(side == ForgeDirection.DOWN.ordinal()) return bottomIcon;
-                return super.getIcon(world, x, y, z, side);
-            }
-
-            @Override
-            public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
+            public boolean isReplaceable(World world, BlockPos blockPos) {
                 return false;
             }
 
-            public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
+            @Override
+            public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumFacing side,
                                             float xp, float yp, float zp) {
                 ItemStack itemStack = player.inventory.getCurrentItem();
                 if(itemStack != null) {

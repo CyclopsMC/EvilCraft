@@ -1,38 +1,30 @@
 package evilcraft.proxy;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import net.minecraft.block.Block;
+import evilcraft.EvilCraft;
+import evilcraft.client.ExaltedCrafterKeyHandler;
+import evilcraft.client.FartKeyHandler;
+import evilcraft.client.KeyHandler;
+import evilcraft.client.Keys;
+import evilcraft.event.KeyInputEventHook;
+import evilcraft.event.PlayerTickEventHook;
+import evilcraft.event.TextureStitchEventHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import evilcraft.EvilCraft;
-import evilcraft.client.ExaltedCrafterKeyHandler;
-import evilcraft.client.FartKeyHandler;
-import evilcraft.client.KeyHandler;
-import evilcraft.client.Keys;
-import evilcraft.core.client.render.block.MultiPassBlockRenderer;
-import evilcraft.event.KeyInputEventHook;
-import evilcraft.event.PlayerTickEventHook;
-import evilcraft.event.TextureStitchEventHook;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Proxy for the client side.
@@ -52,19 +44,6 @@ public class ClientProxy extends CommonProxy {
 	 * Map for the {@link TileEntity} renderers.
 	 */
 	public static Map<Class<? extends TileEntity>, TileEntitySpecialRenderer> TILE_ENTITY_RENDERERS = new HashMap<Class<? extends TileEntity>, TileEntitySpecialRenderer>();
-	/**
-	 * List of {@link Block} rendereres.
-	 */
-	public static List<ISimpleBlockRenderingHandler> BLOCK_RENDERERS = new LinkedList<ISimpleBlockRenderingHandler>();
-	/**
-     * Map for the {@link Item} renderers.
-     */
-    public static Map<Item, IItemRenderer> ITEM_RENDERERS = new HashMap<Item, IItemRenderer>();
-	
-	// Renderers required for the API
-	static {
-		BLOCK_RENDERERS.add(new MultiPassBlockRenderer());
-	}
 
 	@Override
 	public void registerRenderers() {
@@ -83,14 +62,6 @@ public class ClientProxy extends CommonProxy {
 					entry.getValue());
 			EvilCraft.log("Registered " + entry.getKey() + " special renderer");
 		}
-
-		// Block renderers
-		for (ISimpleBlockRenderingHandler renderer : BLOCK_RENDERERS)
-			RenderingRegistry.registerBlockHandler(renderer);
-
-		// Item renderers
-        for(Entry<Item, IItemRenderer> entry : ITEM_RENDERERS.entrySet())
-            MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
 	}
 
 	@Override
@@ -136,7 +107,7 @@ public class ClientProxy extends CommonProxy {
 	    	
 	    	// If we notice this sound is no mod sound, relay it to the default MC sound system.
 	    	if(!mod.equals(DEFAULT_RESOURCELOCATION_MOD) && FMLClientHandler.instance().getClient()
-	    			.getSoundHandler().getSound(record.getPositionedSoundLocation()) == null) {
+	    			.getSoundHandler().getSound(record.getSoundLocation()) == null) {
 	    		playSoundMinecraft(x, y, z, sound, volume, frequency);
 	    	} else {
 		    	FMLClientHandler.instance().getClient().getSoundHandler()

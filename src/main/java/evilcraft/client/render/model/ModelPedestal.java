@@ -1,12 +1,10 @@
 package evilcraft.client.render.model;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.obj.WavefrontObject;
-
-import org.lwjgl.opengl.GL11;
-
 import evilcraft.Reference;
 import evilcraft.core.client.render.model.ModelWavefront;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.obj.WavefrontObject;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Model for a pedestal.

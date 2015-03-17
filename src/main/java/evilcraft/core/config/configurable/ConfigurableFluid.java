@@ -15,7 +15,7 @@ public abstract class ConfigurableFluid extends Fluid implements IConfigurable{
     
     /**
      * Make a new fluid instance.
-     * @param eConfig Config for this block.
+     * @param eConfig Config for this blockState.
      */
     @SuppressWarnings({ "rawtypes" })
     protected ConfigurableFluid(ExtendedConfig eConfig) {

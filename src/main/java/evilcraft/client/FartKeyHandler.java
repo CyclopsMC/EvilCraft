@@ -1,15 +1,15 @@
 package evilcraft.client;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.ChatComponentText;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.FartPacket;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * A {@link KeyHandler} which handles farts.
@@ -24,7 +24,7 @@ public class FartKeyHandler implements KeyHandler {
 	
 	@Override
 	public void onKeyPressed(KeyBinding kb) {
-		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		GameSettings settings = Minecraft.getMinecraft().gameSettings;
 		
 		if (kb == Keys.FART.keyBinding) {

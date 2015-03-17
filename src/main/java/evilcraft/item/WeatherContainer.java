@@ -1,7 +1,5 @@
 package evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -9,7 +7,7 @@ import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.entity.item.EntityWeatherContainer;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -17,8 +15,9 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class WeatherContainer extends ConfigurableItem {
     
     private static WeatherContainer _instance = null;
     
-    private IIcon overlay;
+    private TextureAtlasSprite overlay;
     
     /**
      * Initialise the configurable.
@@ -68,18 +67,7 @@ public class WeatherContainer extends ConfigurableItem {
     
     @Override
     public EnumAction getItemUseAction(ItemStack itemStack) {
-        return EnumAction.bow;
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses() {
-        return true;
-    }
-    
-    @Override
-    public int getRenderPasses(int metadata) {
-        return 2;
+        return EnumAction.BOW;
     }
     
     /**
@@ -134,18 +122,6 @@ public class WeatherContainer extends ConfigurableItem {
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         WeatherContainerTypes type = getWeatherContainerType(itemStack);
         list.add(type.damageColor + type.description);
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IIconRegister iconRegister) {
-        itemIcon = iconRegister.registerIcon(getIconString());
-        overlay = iconRegister.registerIcon(getIconString() + "_overlay");
-    }
-    
-    @Override
-    public IIcon getIconFromDamageForRenderPass(int meta, int renderpass) {
-        return renderpass == 0 ? this.overlay : super.getIconFromDamageForRenderPass(meta, renderpass);
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -295,7 +271,7 @@ public class WeatherContainer extends ConfigurableItem {
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return itemStack.getItemDamage() == 0 ? EnumRarity.common :
-                (itemStack.getItemDamage() > 2 ? EnumRarity.rare : EnumRarity.uncommon);
+        return itemStack.getItemDamage() == 0 ? EnumRarity.COMMON :
+                (itemStack.getItemDamage() > 2 ? EnumRarity.RARE : EnumRarity.UNCOMMON);
     }
 }

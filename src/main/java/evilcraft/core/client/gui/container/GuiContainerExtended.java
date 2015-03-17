@@ -51,15 +51,6 @@ public class GuiContainerExtended extends GuiContainer {
         drawTexturedModalRect(guiLeft + offsetX, guiTop + offsetY, 0, 0, xSize - 2 * offsetX, ySize - 2 * offsetY);
     }
     
-    protected boolean isPointInRegion(Rectangle region, Point mouse) {
-    	return isPointInRegion(region.x, region.y, region.width, region.height, mouse.x, mouse.y);
-    }
-    
-    protected boolean isPointInRegion(int x, int y, int width, int height, int mouseX, int mouseY) {
-    	// MCP isPointInRegion
-    	return func_146978_c(x, y, width, height, mouseX, mouseY);
-    }
-    
     protected void drawTooltip(List<String> lines, int x, int y) {
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -114,8 +105,9 @@ public class GuiContainerExtended extends GuiContainer {
             } else {
                 line = "\u00a77" + line;
             }
-            
-            this.fontRendererObj.drawStringWithShadow(line, xStart, yStart, -1);
+
+            // MCP: drawStringWithShadow
+            this.fontRendererObj.func_175063_a(line, xStart, yStart, -1);
             
             if(stringIndex == 0) {
                 yStart += 2;

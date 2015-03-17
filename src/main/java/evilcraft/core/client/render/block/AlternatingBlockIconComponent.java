@@ -1,14 +1,14 @@
 package evilcraft.core.client.render.block;
 
-import java.util.Random;
-
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
+import net.minecraft.client.renderer.texture.TextureAtlasSpriteRegister;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.IBlockAccess;
+
+import java.util.Random;
 
 /**
  * A component to be used in Blocks. Depending on the amount of alternateIcons,
- * this component will make sure that depending on the location of the block, different
+ * this component will make sure that depending on the location of the blockState, different
  * icons will be displayed. Icons must be available in the following format:
  * 'textureNameBase_{0-(alternateIcons-1)}'
  * 
@@ -24,7 +24,7 @@ import net.minecraft.world.IBlockAccess;
  */
 public class AlternatingBlockIconComponent {
     
-    private IIcon[] alternateIcons;
+    private TextureAtlasSprite[] alternateIcons;
     private Random random = new Random();
     
     /**
@@ -32,15 +32,15 @@ public class AlternatingBlockIconComponent {
      * @param alternateIcons The amount of icons to alternate.
      */
     public AlternatingBlockIconComponent(int alternateIcons) {
-        this.alternateIcons =  new IIcon[alternateIcons];
+        this.alternateIcons =  new TextureAtlasSprite[alternateIcons];
     }
     
     /**
      * Register icons
      * @param textureNameBase The base texture name.
-     * @param iconRegister The {@link IIconRegister}.
+     * @param iconRegister The {@link TextureAtlasSpriteRegister}.
      */
-    public void registerIcons(String textureNameBase, IIconRegister iconRegister) {
+    public void registerIcons(String textureNameBase, TextureAtlasSpriteRegister iconRegister) {
         for(int i = 0; i < getAlternateIcons().length; i++) {
             alternateIcons[i] = iconRegister.registerIcon(textureNameBase + "_" + i);
         }
@@ -50,20 +50,20 @@ public class AlternatingBlockIconComponent {
      * The array of alternate icons.
      * @return The icon array.
      */
-    public IIcon[] getAlternateIcons() {
+    public TextureAtlasSprite[] getAlternateIcons() {
         return alternateIcons;
     }
     
     /**
-     * Get one from the alternate icons depending on the coordinates and side of the block.
+     * Get one from the alternate icons depending on the coordinates and side of the blockState.
      * @param world The world.
      * @param x X coordinate.
      * @param y Y coordinate.
      * @param z Z coordinate.
-     * @param side The side of the block that will be rendered.
+     * @param side The side of the blockState that will be rendered.
      * @return The icon to render.
      */
-    public IIcon getAlternateIcon(IBlockAccess world, int x, int y, int z, int side) {
+    public TextureAtlasSprite getAlternateIcon(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
         random.setSeed(String.format("%s:%s:%s:%s", x, y, z, side).hashCode());
         int randomIndex = random.nextInt(getAlternateIcons().length);
         return alternateIcons[randomIndex];
@@ -73,7 +73,7 @@ public class AlternatingBlockIconComponent {
      * Get the first/base icon.
      * @return The base icon.
      */
-    public IIcon getBaseIcon() {
+    public TextureAtlasSprite getBaseIcon() {
         return alternateIcons[0];
     }
 }

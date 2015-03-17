@@ -1,10 +1,10 @@
 package evilcraft.event;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.block.EternalWaterBlockConfig;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Event hook for {@link net.minecraftforge.event.entity.player.FillBucketEvent}.
@@ -23,7 +23,7 @@ public class FillBucketEventHook {
     }
     
     private void stopFillWithEternalWaterBlock(FillBucketEvent event) {
-        Block block = event.world.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ);
+        Block block = event.world.getBlockState(event.target.func_178782_a()).getBlock();
         if(block == EternalWaterBlockConfig._instance.getBlockInstance()) {
             event.setCanceled(true);
         }

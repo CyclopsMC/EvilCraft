@@ -1,10 +1,10 @@
 package evilcraft.core.degradation;
 
-import net.minecraft.nbt.NBTTagCompound;
 import evilcraft.api.RegistryManager;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.IDegradationEffect;
 import evilcraft.api.degradation.IDegradationRegistry;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * An executor component to be used by {@link IDegradable}.

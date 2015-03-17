@@ -1,11 +1,13 @@
 package evilcraft.entity.item;
 
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderSnowball;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.config.extendedconfig.EntityConfig;
 import evilcraft.item.RedstoneGrenade;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RenderSnowball;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Config for the {@link EntityRedstoneGrenade}.
@@ -33,8 +35,8 @@ public class EntityRedstoneGrenadeConfig extends EntityConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender() {
-        return new RenderSnowball(RedstoneGrenade.getInstance());
+    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
+        return new RenderSnowball(renderManager, RedstoneGrenade.getInstance(), renderItem);
     }
     
     @Override

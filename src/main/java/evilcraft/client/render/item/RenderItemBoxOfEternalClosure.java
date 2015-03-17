@@ -1,11 +1,11 @@
 package evilcraft.client.render.item;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.util.ResourceLocation;
 import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.client.render.model.ModelBoxOfEternalClosure;
 import evilcraft.core.client.render.item.RenderModelItem;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Item renderer for the {@link BoxOfEternalClosure}.

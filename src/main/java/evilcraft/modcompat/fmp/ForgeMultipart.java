@@ -1,11 +1,10 @@
 package evilcraft.modcompat.fmp;
 
-import java.util.List;
-
-import net.minecraft.block.Block;
 import codechicken.microblock.BlockMicroMaterial;
-
 import com.google.common.collect.Lists;
+import net.minecraft.block.Block;
+
+import java.util.List;
 
 /**
  * API handler for Forge Multipart.
@@ -17,8 +16,8 @@ public class ForgeMultipart {
 	private static List<Block> blocks = Lists.newLinkedList();
     
     /**
-     * Register a block as a multipart block.
-     * @param block The block to be microblock registered.
+     * Register a blockState as a multipart blockState.
+     * @param block The blockState to be microblock registered.
      */
     public static void registerBlock(Block block) {
     	blocks.add(block);

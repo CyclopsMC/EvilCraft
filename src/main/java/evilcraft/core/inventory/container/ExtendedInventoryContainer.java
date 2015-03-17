@@ -1,7 +1,7 @@
 package evilcraft.core.inventory.container;
 
-import net.minecraft.entity.player.InventoryPlayer;
 import evilcraft.core.inventory.IGuiContainerProvider;
+import net.minecraft.entity.player.InventoryPlayer;
 
 /**
  * An extended container.

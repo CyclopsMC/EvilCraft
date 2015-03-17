@@ -1,11 +1,12 @@
 package evilcraft.item;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemStack;
+
 import evilcraft.core.PlayerInventoryIterator;
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ItemStack;
 
 /**
  * A dark gem that somehow caught fire.
@@ -44,7 +45,7 @@ public class BurningGemStone extends ConfigurableItem {
     
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-    	return EnumRarity.uncommon;
+    	return EnumRarity.UNCOMMON;
     }
 
     /**

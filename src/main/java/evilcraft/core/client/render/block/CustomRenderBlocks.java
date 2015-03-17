@@ -3,7 +3,7 @@ package evilcraft.core.client.render.block;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.IIcon;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.IBlockAccess;
 
 /**
@@ -18,7 +18,7 @@ public class CustomRenderBlocks extends RenderBlocks {
     // flips the icon in some rotations, "it's a motherflippin' joke!"
     
     @Override
-    public void renderFaceZNeg(Block par1Block, double par2, double par4, double par6, IIcon par8Icon) {
+    public void renderFaceZNeg(Block par1Block, double par2, double par4, double par6, TextureAtlasSprite par8Icon) {
         Tessellator tessellator = Tessellator.instance;
 
         if (hasOverrideBlockTexture()) {
@@ -113,7 +113,7 @@ public class CustomRenderBlocks extends RenderBlocks {
     }
 
     @Override
-    public void renderFaceXPos(Block par1Block, double par2, double par4, double par6, IIcon par8Icon) {
+    public void renderFaceXPos(Block par1Block, double par2, double par4, double par6, TextureAtlasSprite par8Icon) {
         Tessellator tessellator = Tessellator.instance;
 
         if (hasOverrideBlockTexture()) {

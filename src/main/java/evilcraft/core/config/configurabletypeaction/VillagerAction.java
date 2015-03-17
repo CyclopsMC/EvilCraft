@@ -1,12 +1,12 @@
 package evilcraft.core.config.configurabletypeaction;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.common.registry.VillagerRegistry;
 import evilcraft.Reference;
 import evilcraft.core.config.configurable.ConfigurableVillager;
 import evilcraft.core.config.extendedconfig.VillagerConfig;
 import evilcraft.core.helper.MinecraftHelpers;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
 
 /**
  * The action used for {@link VillagerConfig}.
@@ -17,7 +17,7 @@ public class VillagerAction extends ConfigurableTypeAction<VillagerConfig>{
 
     @Override
     public void preRun(VillagerConfig eConfig, Configuration config, boolean startup) {
-        if(startup && !eConfig.isEnabled()) eConfig.setId(0);
+        //if(startup && !eConfig.isEnabled()) eConfig.setId(0);
     }
 
     @Override
@@ -26,14 +26,15 @@ public class VillagerAction extends ConfigurableTypeAction<VillagerConfig>{
         eConfig.save();
         
         // Register
-        VillagerRegistry.instance().registerVillagerId(eConfig.getId());
-        if (MinecraftHelpers.isClientSide()) {
-            ResourceLocation villagerSkin = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_SKINS + eConfig.getNamedId() + ".png");
-            VillagerRegistry.instance().registerVillagerSkin(eConfig.getId(), villagerSkin);
-        }
+        String name = Reference.MOD_ID + ":" + eConfig.getNamedId();
+        String resource = Reference.MOD_ID + ":" + Reference.TEXTURE_PATH_SKINS + eConfig.getNamedId() + ".png";
+        VillagerRegistry.VillagerProfession profession = new VillagerRegistry.VillagerProfession(name, resource);
+        VillagerRegistry.instance().register(profession);
+
+        // TODO: This is still being written in Forge!!!
         
         // Add trades
-        VillagerRegistry.instance().registerVillageTradeHandler(eConfig.getId(), (ConfigurableVillager) eConfig.getSubInstance());
+        //VillagerRegistry.instance().registerVillageTradeHandler(eConfig.getId(), (ConfigurableVillager) eConfig.getSubInstance());
     }
 
 }

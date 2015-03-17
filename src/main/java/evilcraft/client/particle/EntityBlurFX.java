@@ -1,14 +1,16 @@
 package evilcraft.client.particle;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.Reference;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -72,7 +74,7 @@ public class EntityBlurFX extends EntityFX {
 	}
 	
 	private void validateDistance() {
-		EntityLivingBase renderentity = FMLClientHandler.instance().getClient().renderViewEntity;
+		EntityLivingBase renderentity = FMLClientHandler.instance().getClient().thePlayer;
 		int visibleDistance = MAX_VIEW_DISTANCE;
 		
 		if(!FMLClientHandler.instance().getClient().gameSettings.fancyGraphics) {
@@ -85,8 +87,9 @@ public class EntityBlurFX extends EntityFX {
 		}
 	}
 
-	@Override
-	public void renderParticle(Tessellator tessellator, float f, float f1, float f2, float f3, float f4, float f5) {
+    @Override
+    // mcp: renderParticle
+    public void func_180434_a(WorldRenderer worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		float agescale = (float)particleAge / (float) scaleLife;
 		if(agescale > 1F) {
 			agescale = 2 - agescale;
@@ -94,7 +97,7 @@ public class EntityBlurFX extends EntityFX {
 
 		particleScale = originalScale * agescale;
 
-		tessellator.draw();
+        Tessellator.getInstance().draw();
 		GL11.glPushMatrix();
 
 		GL11.glDepthMask(false);
@@ -110,22 +113,22 @@ public class EntityBlurFX extends EntityFX {
 		float f12 = (float)(prevPosY + (posY - prevPosY) * f - interpPosY);
 		float f13 = (float)(prevPosZ + (posZ - prevPosZ) * f - interpPosZ);
 
-		tessellator.startDrawingQuads();
-		tessellator.setBrightness(TESSELATOR_BRIGHTNESS);
-		tessellator.setColorRGBA_F(particleRed, particleGreen, particleBlue, 0.9F);
-		tessellator.addVertexWithUV(f11 - f1 * f10 - f4 * f10, f12 - f2 * f10, f13 - f3 * f10 - f5 * f10, 0, 1);
-		tessellator.addVertexWithUV(f11 - f1 * f10 + f4 * f10, f12 + f2 * f10, f13 - f3 * f10 + f5 * f10, 1, 1);
-		tessellator.addVertexWithUV(f11 + f1 * f10 + f4 * f10, f12 + f2 * f10, f13 + f3 * f10 + f5 * f10, 1, 0);
-		tessellator.addVertexWithUV(f11 + f1 * f10 - f4 * f10, f12 - f2 * f10, f13 + f3 * f10 - f5 * f10, 0, 0);
+        worldRenderer.startDrawingQuads();
+        worldRenderer.func_178963_b(TESSELATOR_BRIGHTNESS);
+        worldRenderer.func_178960_a(particleRed, particleGreen, particleBlue, 0.9F);
+        worldRenderer.addVertexWithUV(f11 - f1 * f10 - f4 * f10, f12 - f2 * f10, f13 - f3 * f10 - f5 * f10, 0, 1);
+        worldRenderer.addVertexWithUV(f11 - f1 * f10 + f4 * f10, f12 + f2 * f10, f13 - f3 * f10 + f5 * f10, 1, 1);
+        worldRenderer.addVertexWithUV(f11 + f1 * f10 + f4 * f10, f12 + f2 * f10, f13 + f3 * f10 + f5 * f10, 1, 0);
+        worldRenderer.addVertexWithUV(f11 + f1 * f10 - f4 * f10, f12 - f2 * f10, f13 + f3 * f10 - f5 * f10, 0, 0);
 
-		tessellator.draw();
+        Tessellator.getInstance().draw();
 
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDepthMask(true);
 
 		GL11.glPopMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ObfuscationHelpers.getParticleTexture());
-		tessellator.startDrawingQuads();
+        worldRenderer.startDrawingQuads();
 	}
 	
 	@Override

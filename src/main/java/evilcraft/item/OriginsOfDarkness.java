@@ -48,7 +48,7 @@ public class OriginsOfDarkness extends ItemGui {
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return EnumRarity.uncommon;
+        return EnumRarity.UNCOMMON;
     }
 
     @Override

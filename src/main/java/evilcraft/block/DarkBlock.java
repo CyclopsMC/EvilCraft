@@ -1,16 +1,19 @@
 package evilcraft.block;
-import java.util.Random;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.world.IBlockAccess;
 import evilcraft.core.config.configurable.ConfigurableBlockConnectedTexture;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.DarkGem;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
+
+import java.util.Random;
 
 /**
- * A storage block for {@link DarkGem}.
+ * A storage blockState for {@link DarkGem}.
  * @author rubensworks
  *
  */
@@ -45,12 +48,12 @@ public class DarkBlock extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public boolean isBeaconBase(IBlockAccess worldObj, int x, int y, int z, int beaconX, int beaconY, int beaconZ) {
+    public boolean isBeaconBase(IBlockAccess worldObj, BlockPos pos, BlockPos beacon) {
     	return true;
     }
     
     @Override
-    public Item getItemDropped(int par1, Random random, int zero) {
+    public Item getItemDropped(IBlockState blockState, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
     

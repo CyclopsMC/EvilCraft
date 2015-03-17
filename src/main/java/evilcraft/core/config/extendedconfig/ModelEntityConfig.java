@@ -1,11 +1,13 @@
 package evilcraft.core.config.extendedconfig;
 
+import evilcraft.core.client.render.model.RenderModel;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
-import evilcraft.core.client.render.model.RenderModel;
 
 /**
  * Config for Entities with a custom Model.
@@ -26,7 +28,7 @@ public abstract class ModelEntityConfig extends EntityConfig{
     }
     
     @Override
-    protected Render getRender() {
+    protected Render getRender(RenderManager renderManager, RenderItem renderItem) {
         Constructor<? extends Render> constructor;
         Render render = null;
         try {

@@ -1,22 +1,22 @@
 package evilcraft.block;
-import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.entity.monster.Netherfish;
 import evilcraft.entity.monster.NetherfishConfig;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
- * A block that spawns a {@link Netherfish} when the block breaks.
+ * A blockState that spawns a {@link Netherfish} when the blockState breaks.
  * @author rubensworks
  *
  */
@@ -58,19 +58,15 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {}
-    
-    @Override
-    public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta) {
+    public void onBlockDestroyedByPlayer(World world, BlockPos blockPos, IBlockState blockState) {
         if (!world.isRemote && Configs.isEnabled(NetherfishConfig.class)) {
             Netherfish netherfish = new Netherfish(world);
-            netherfish.setLocationAndAngles((double)x + 0.5D, (double)y, (double)z + 0.5D, 0.0F, 0.0F);
+            netherfish.setLocationAndAngles((double)blockPos.getX() + 0.5D, (double)blockPos.getY(), (double)blockPos.getZ() + 0.5D, 0.0F, 0.0F);
             world.spawnEntityInWorld(netherfish);
             netherfish.spawnExplosionParticle();
         }
 
-        super.onBlockDestroyedByPlayer(world, x, y, z, meta);
+        super.onBlockDestroyedByPlayer(world, blockPos, blockState);
     }
     
     @Override
@@ -79,12 +75,12 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     }
     
     /**
-     * Does the given metadata correspond to an inner block?
-     * @param meta Metadata for the (inner) block
-     * @return if the metadata corresponds to an inner block.
+     * Does the given metadata correspond to an inner blockState?
+     * @param blockState The blockstate.
+     * @return if the metadata corresponds to an inner blockState.
      */
-    public boolean getPosingIdByMetadata(int meta) {
-        return getBlockFromMetadata(meta) != null;
+    public boolean getPosingIdByMetadata(IBlockState blockState) {
+        return getBlockFromState(blockState) != null;
     }
 
 }

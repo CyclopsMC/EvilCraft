@@ -1,11 +1,11 @@
 package evilcraft.event;
 
+import evilcraft.core.config.configurable.ConfigurableBlockSapling;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.entity.player.BonemealEvent;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import evilcraft.core.config.configurable.ConfigurableBlockSapling;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Event hook for {@link BonemealEvent}.
@@ -25,10 +25,10 @@ public class BonemealEventHook {
     
     private void bonemealCustomSaplings(BonemealEvent event) {
         if(!event.world.isRemote) {
-            Block block = event.world.getBlock(event.x, event.y, event.z);
+            Block block = event.world.getBlockState(event.pos).getBlock();
             if(block instanceof ConfigurableBlockSapling) {
                 ConfigurableBlockSapling sapling = (ConfigurableBlockSapling) block;
-                sapling.func_149878_d(event.world, event.x, event.y, event.z, event.world.rand);
+                sapling.func_176478_d(event.world, event.pos, event.world.getBlockState(event.pos), event.world.rand);
                 event.setResult(Result.ALLOW);
             }
         }

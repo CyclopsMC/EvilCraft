@@ -1,9 +1,9 @@
 package evilcraft.core.client.render;
 
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -23,7 +23,8 @@ public class RenderTexture extends Render {
 	 * @param scale The scale.
 	 * @param texture The texture
 	 */
-    public RenderTexture(float scale, ResourceLocation texture) {
+    public RenderTexture(RenderManager renderManager, float scale, ResourceLocation texture) {
+        super(renderManager);
         this.scale = scale;
         this.texture = texture;
     }

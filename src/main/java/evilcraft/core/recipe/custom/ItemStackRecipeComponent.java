@@ -5,6 +5,7 @@ import evilcraft.api.recipes.custom.IRecipeInput;
 import evilcraft.api.recipes.custom.IRecipeOutput;
 import evilcraft.api.recipes.custom.IRecipeProperties;
 import lombok.Data;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 

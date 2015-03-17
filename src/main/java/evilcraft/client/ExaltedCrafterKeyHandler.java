@@ -1,18 +1,16 @@
 package evilcraft.client;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.ItemStack;
-
-import org.apache.commons.lang3.tuple.Pair;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.PlayerInventoryIterator;
 import evilcraft.item.ExaltedCrafter;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.ExaltedCrafterOpenPacket;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * A {@link KeyHandler} which handles farts.
@@ -25,7 +23,7 @@ public class ExaltedCrafterKeyHandler implements KeyHandler {
 	
 	@Override
 	public void onKeyPressed(KeyBinding kb) {
-		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		if(kb == Keys.EXALTEDCRAFTING.keyBinding) {
 			Pair<Integer, ItemStack> found = null;
 			PlayerInventoryIterator it = new PlayerInventoryIterator(player);

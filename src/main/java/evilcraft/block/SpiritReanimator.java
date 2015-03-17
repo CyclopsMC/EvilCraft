@@ -1,23 +1,20 @@
 package evilcraft.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.gui.container.GuiSpiritReanimator;
 import evilcraft.client.particle.EntityBloodBubbleFX;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.inventory.container.ContainerSpiritReanimator;
 import evilcraft.tileentity.TileSpiritReanimator;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
@@ -29,15 +26,6 @@ import java.util.Random;
 public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
     
     private static SpiritReanimator _instance = null;
-    
-    @SideOnly(Side.CLIENT)
-    private IIcon sideIcon;
-    @SideOnly(Side.CLIENT)
-    private IIcon topIcon;
-    @SideOnly(Side.CLIENT)
-    private IIcon frontIconOn;
-    @SideOnly(Side.CLIENT)
-    private IIcon frontIconOff;
     
     /**
      * Initialise the configurable.
@@ -69,35 +57,6 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
             setGUI(GuiSpiritReanimator.class);
         setContainer(ContainerSpiritReanimator.class);
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-    	TileSpiritReanimator tile = (TileSpiritReanimator) world.getTileEntity(x, y, z);
-        ForgeDirection rotatedDirection = DirectionHelpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
-        return getIcon(rotatedDirection.ordinal(), tile.isVisuallyWorking()?1:0);
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        topIcon = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.UP.name());
-        sideIcon = iconRegister.registerIcon(getTextureName() + "_" + "side");
-        frontIconOn = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.NORTH.name() + "_on");
-        frontIconOff = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.NORTH.name() + "_off");
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        if(side == ForgeDirection.UP.ordinal() || side == ForgeDirection.DOWN.ordinal()) {
-            return topIcon;
-        } else if (side == ForgeDirection.SOUTH.ordinal()) {
-        	return meta == 1 ? frontIconOn : frontIconOff;
-        } else {
-            return sideIcon;
-        }
-    }
 
     @Override
     public String getTankNBTName() {
@@ -111,9 +70,9 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(x, y, z), world, x, y, z, random);
-        super.randomDisplayTick(world, x, y, z, random);
+    public void randomDisplayTick(World world, BlockPos blockPos, IBlockState blockState, Random random) {
+        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(blockPos), world, blockPos, random);
+        super.randomDisplayTick(world, blockPos, blockState, random);
     }
 
 }

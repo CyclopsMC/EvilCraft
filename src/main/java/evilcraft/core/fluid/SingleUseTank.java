@@ -2,6 +2,7 @@ package evilcraft.core.fluid;
 
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
+import evilcraft.core.tileentity.TickingEvilCraftTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -70,7 +71,7 @@ public class SingleUseTank extends Tank {
     protected void sendUpdate() {
     	// TODO: generalize this to accept ITankUpdateListeners if this would be necessary later.
     	if(!(tile instanceof TankInventoryTileEntity) || ((TankInventoryTileEntity) tile).isSendUpdateOnTankChanged()) {
-    		tile.sendUpdate();
+    		((TickingEvilCraftTileEntity) tile).sendUpdate();
     	}
     }
 

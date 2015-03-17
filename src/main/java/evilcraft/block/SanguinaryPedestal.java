@@ -1,7 +1,5 @@
 package evilcraft.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
@@ -10,17 +8,17 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.tileentity.TileSanguinaryPedestal;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -33,7 +31,9 @@ import java.util.List;
  *
  */
 public class SanguinaryPedestal extends ConfigurableBlockContainer implements IInformationProvider, IBlockRarityProvider {
-    
+
+    public static final PropertyInteger TIER = PropertyInteger.create("tier", 0, 1);
+
     private static SanguinaryPedestal _instance = null;
     
     /**
@@ -57,6 +57,7 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     private SanguinaryPedestal(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileSanguinaryPedestal.class);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(TIER, 0));
     }
 
     @Override
@@ -65,27 +66,14 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
         setBlockBoundsForItemRender();
     }
 
     @Override
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB area, List list, Entity entity) {
+    public void addCollisionBoxesToList(World world, BlockPos blockPos, IBlockState blockState, AxisAlignedBB area, List list, Entity entity) {
         setBlockBounds(0, 0, 0, 1, 1, 1);
-        super.addCollisionBoxesToList(world, x, y, z, area, list, entity);
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        
-    }
-    
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        // This is ONLY used for the block breaking/broken particles
-        // Since the anvil looks very similar, we use that icon.
-        return Blocks.anvil.getIcon(0, 0);
+        super.addCollisionBoxesToList(world, blockPos, blockState, area, list, entity);
     }
     
     @Override
@@ -99,7 +87,7 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
     }
 
     @Override
-    public boolean renderAsNormalBlock() {
+    public boolean isNormalCube() {
         return false;
     }
 
@@ -112,8 +100,8 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
     }
 
     @Override
-    public int damageDropped(int meta) {
-        return meta;
+    public int damageDropped(IBlockState blockState) {
+        return (Integer) blockState.getValue(TIER);
     }
 
     @Override
@@ -133,6 +121,6 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return itemStack.getItemDamage() == 1 ? EnumRarity.uncommon : EnumRarity.common;
+        return itemStack.getItemDamage() == 1 ? EnumRarity.UNCOMMON : EnumRarity.COMMON;
     }
 }

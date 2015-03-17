@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -70,14 +71,14 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfi
                 this.explode(this.worldObj, this.posX, this.posY, this.posZ);
             }
         } else {
-            this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
+            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
     }
 
     private void explode(World world, double x, double y, double z) {
         Random rand = new Random();
         for (int i = 0; i < 32; ++i) {
-            world.spawnParticle("magicCrit", x, y + rand.nextDouble() * 2.0D, z, rand.nextGaussian(), 0.0D, rand.nextGaussian());
+            world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, x, y + rand.nextDouble() * 2.0D, z, rand.nextGaussian(), 0.0D, rand.nextGaussian());
         }
 
         if (!world.isRemote) {

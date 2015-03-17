@@ -1,16 +1,16 @@
 package evilcraft.core.client.render.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.DirectionCorner;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * A virtual {@link IIcon} that has several icons and needs multiple render passes for
+ * A virtual {@link TextureAtlasSprite} that has several icons and needs multiple render passes for
  * making it possible to dynamically render connected textures.
  * Blocks that use this icon must implement {@link IMultiRenderPassBlock}.
  * Five icons are necessary for this.
@@ -26,26 +26,26 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @author rubensworks
  *
  */
-public class ConnectableIcon implements IIcon{
+public class ConnectableIcon implements TextureAtlasSprite{
     
     protected static final int LAYERS = 4;
     protected static final int EDGES = 4;
-    protected static final int SIDES = DirectionHelpers.DIRECTIONS.size();
-    protected IIcon[] icons = new IIcon[LAYERS];// background; borders; corners; innerCorners
-    protected IIcon inventoryBlockIcon; // Icon for inventoryBlock
+    protected static final EnumFacing sideS = DirectionHelpers.DIRECTIONS.size();
+    protected TextureAtlasSprite[] icons = new TextureAtlasSprite[LAYERS];// background; borders; corners; innerCorners
+    protected TextureAtlasSprite inventoryBlockIcon; // Icon for inventoryBlock
     
     protected int renderPass = 0; // Current renderpass of the icon
-    protected int side = 0; // Current side to display icon for
+    protected EnumFacing side = 0; // Current side to display icon for
     protected boolean isInventoryBlock = false;
     
     // With what direction should side X with rotation Y connect. rotation: N, E, S, W
-    protected static final ForgeDirection[][] CONNECT_MATRIX = {
-        {ForgeDirection.NORTH, ForgeDirection.WEST, ForgeDirection.SOUTH, ForgeDirection.EAST}, // DOWN
-        {ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST}, // UP
-        {ForgeDirection.UP, ForgeDirection.WEST, ForgeDirection.DOWN, ForgeDirection.EAST}, // NORTH
-        {ForgeDirection.UP, ForgeDirection.EAST, ForgeDirection.DOWN, ForgeDirection.WEST}, // SOUTH
-        {ForgeDirection.UP, ForgeDirection.SOUTH, ForgeDirection.DOWN, ForgeDirection.NORTH}, // WEST
-        {ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.DOWN, ForgeDirection.SOUTH}, // EAST
+    protected static final EnumFacing[][] CONNECT_MATRIX = {
+        {EnumFacing.NORTH, EnumFacing.WEST, EnumFacing.SOUTH, EnumFacing.EAST}, // DOWN
+        {EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST}, // UP
+        {EnumFacing.UP, EnumFacing.WEST, EnumFacing.DOWN, EnumFacing.EAST}, // NORTH
+        {EnumFacing.UP, EnumFacing.EAST, EnumFacing.DOWN, EnumFacing.WEST}, // SOUTH
+        {EnumFacing.UP, EnumFacing.SOUTH, EnumFacing.DOWN, EnumFacing.NORTH}, // WEST
+        {EnumFacing.UP, EnumFacing.NORTH, EnumFacing.DOWN, EnumFacing.SOUTH}, // EAST
     };
     
     // With what direction should side X with rotation Y connect. rotation: N, E, S, W
@@ -59,9 +59,9 @@ public class ConnectableIcon implements IIcon{
     };
     
     // Temporary connection booleans, these will update every render call.
-    // Which directions relative to this block should connect (have same ID for example)
+    // Which directions relative to this blockState should connect (have same ID for example)
     protected boolean[] connectWithSides = new boolean[DirectionHelpers.DIRECTIONS.size()];
-    // Which directions relative to this block (with corner) should connect (have same ID for example)
+    // Which directions relative to this blockState (with corner) should connect (have same ID for example)
     protected boolean[] connectWithSidesCorner = new boolean[DirectionHelpers.DIRECTIONS_CORNERS.size()];
     
     /**
@@ -70,9 +70,9 @@ public class ConnectableIcon implements IIcon{
      * @param borders The border icon.
      * @param corners The corner icon.
      * @param innerCorners The inner corner icon.
-     * @param inventoryBlockIcon The inventory block icon.
+     * @param inventoryBlockIcon The inventory blockState icon.
      */
-    public ConnectableIcon(IIcon background, IIcon borders, IIcon corners, IIcon innerCorners, IIcon inventoryBlockIcon) {
+    public ConnectableIcon(TextureAtlasSprite background, TextureAtlasSprite borders, TextureAtlasSprite corners, TextureAtlasSprite innerCorners, TextureAtlasSprite inventoryBlockIcon) {
         this.icons[0] = background;
         this.icons[1] = borders;
         this.icons[2] = corners;
@@ -87,14 +87,14 @@ public class ConnectableIcon implements IIcon{
             this.renderPass = 0;
     }
     
-    protected void setSide(int side) {
+    protected void setSide(EnumFacing side) {
         if(side >= 0 && side < SIDES)
             this.side = side;
         else
             this.side = 0;
     }
     
-    protected IIcon getInnerIcon() {
+    protected TextureAtlasSprite getInnerIcon() {
         if(isInventoryBlock)
             return inventoryBlockIcon;
         else if(shouldRender(getCurrentLayer()))
@@ -103,11 +103,11 @@ public class ConnectableIcon implements IIcon{
             return RenderHelpers.EMPTYICON;
     }
     
-    protected boolean shouldConnect(int side, int rotation) {
+    protected boolean shouldConnect(EnumFacing side, int rotation) {
         return getConnectWithSides()[CONNECT_MATRIX[side][rotation].ordinal()];
     }
     
-    protected boolean shouldConnectCorner(int side, int rotation) {
+    protected boolean shouldConnectCorner(EnumFacing side, int rotation) {
         return getConnectWithSidesCorner()[CONNECT_CORNER_MATRIX[side][rotation].ordinal()];
     }
     
@@ -119,14 +119,14 @@ public class ConnectableIcon implements IIcon{
         } else if(layer == Layer.CORNERS.ordinal()) {
             // Fix for mirrored DOWN rotation
             int incr = -1;
-            if(this.getCurrentSide() == ForgeDirection.DOWN.ordinal())
+            if(this.getCurrentSide() == EnumFacing.DOWN.ordinal())
                 incr = 1;
             return !shouldConnect(getCurrentSide(), getCurrentRotation())
                     && !shouldConnect(getCurrentSide(), (getCurrentRotation() + EDGES + incr) % EDGES);
         } else {
             // Fix for mirrored DOWN rotation
             int incr = -1;
-            if(this.getCurrentSide() == ForgeDirection.DOWN.ordinal())
+            if(this.getCurrentSide() == EnumFacing.DOWN.ordinal())
                 incr = 1;
             return (shouldConnect(getCurrentSide(), getCurrentRotation())
                     && shouldConnect(getCurrentSide(), (getCurrentRotation() + EDGES + incr) % EDGES)
@@ -217,16 +217,16 @@ public class ConnectableIcon implements IIcon{
      * @param renderPass The render pass for that side.
      * @param renderBlocks The {@link RenderBlocks} instance.
      */
-    public void prepareIcon(int side, int renderPass, RenderBlocks renderBlocks) {
+    public void prepareIcon(EnumFacing side, int renderPass, RenderBlocks renderBlocks) {
         this.setRenderPass(renderPass);
         this.setSide(side);
         int rotation = getCurrentRotation();
-        ForgeDirection renderSide = ForgeDirection.getOrientation(side);
+        EnumFacing renderSide = EnumFacing.getOrientation(side);
         RenderHelpers.setRenderBlocksUVRotation(renderBlocks, renderSide, rotation);
     }
     
     /**
-     * Define whether or not the current rendering is for an inventory block.
+     * Define whether or not the current rendering is for an inventory blockState.
      * @param isInventoryBlock The new value
      */
     public void setInventoryBlock(boolean isInventoryBlock) {
@@ -241,8 +241,8 @@ public class ConnectableIcon implements IIcon{
     }
     
     /**
-     * Get the array that is indexed by the {@link ForgeDirection} ordinal values with
-     * their respective value for whether or not this block should connect to that block.
+     * Get the array that is indexed by the {@link EnumFacing} ordinal values with
+     * their respective value for whether or not this blockState should connect to that blockState.
      * @return The connect with sides boolean array.
      */
     public boolean[] getConnectWithSides() {
@@ -251,7 +251,7 @@ public class ConnectableIcon implements IIcon{
     
     /**
      * Get the array that is indexed by the {@link DirectionCorner} ordinal values with
-     * their respective value for whether or not this block should connect to that block.
+     * their respective value for whether or not this blockState should connect to that blockState.
      * @return The connect with sides boolean array.
      */
     public boolean[] getConnectWithSidesCorner() {
@@ -259,11 +259,11 @@ public class ConnectableIcon implements IIcon{
     }
     
     /**
-     * Set the connection to a certain {@link ForgeDirection}.
+     * Set the connection to a certain {@link EnumFacing}.
      * @param direction The direction to enable/disable the connection to.
      * @param connect If the connection for the given direction should be enabled.
      */
-    public void connect(ForgeDirection direction, boolean connect) {
+    public void connect(EnumFacing direction, boolean connect) {
         this.connectWithSides[direction.ordinal()] = connect;
     }
     

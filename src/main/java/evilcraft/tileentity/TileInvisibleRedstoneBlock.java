@@ -1,19 +1,20 @@
 package evilcraft.tileentity;
 
-import net.minecraft.world.World;
 import evilcraft.block.InvisibleRedstoneBlock;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.item.RedstoneGrenadeConfig;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.world.World;
 
 /**
  * Tile for the {@link InvisibleRedstoneBlock}.
- * TODO: remove TE and implement with metadata with altered block ticktime (see pressure plate)
+ * TODO: remove TE and implement with metadata with altered blockState ticktime (see pressure plate)
  * @author rubensworks
  *
  */
-public class TileInvisibleRedstoneBlock extends EvilCraftTileEntity {
+public class TileInvisibleRedstoneBlock extends EvilCraftTileEntity implements IUpdatePlayerListBox {
     
-    // Destroy redstone block after 1 redstone tick (= 2 game ticks)
+    // Destroy redstone blockState after 1 redstone tick (= 2 game ticks)
     private static final int TICK_DESTRUCTION_THRESHOLD = 2;
     
     private final long tickCreated;
@@ -27,13 +28,11 @@ public class TileInvisibleRedstoneBlock extends EvilCraftTileEntity {
     }
     
     @Override
-    public void updateTileEntity() {
-    	super.updateTileEntity();
-    	
+    public void update() {
         if (worldObj.getTotalWorldTime() - tickCreated >= TICK_DESTRUCTION_THRESHOLD) {
-        	worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+        	worldObj.setBlockToAir(getPos());
         	if(RedstoneGrenadeConfig.dropAfterUsage) {
-        		InvisibleRedstoneBlock.getInstance().dropBlockAsItem(worldObj, xCoord, yCoord, zCoord, 0, 0);
+        		InvisibleRedstoneBlock.getInstance().dropBlockAsItem(worldObj, getPos(), worldObj.getBlockState(getPos()), 0);
         	}
         }
     }

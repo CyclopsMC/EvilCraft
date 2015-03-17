@@ -1,8 +1,6 @@
 package evilcraft.item;
 
 import com.mojang.authlib.GameProfile;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.core.config.configurable.ConfigurableItemFood;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
@@ -20,6 +18,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -79,11 +79,11 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     @Override
     @SideOnly(Side.CLIENT)
     public EnumRarity getRarity(ItemStack itemStack){
-        return isHumanFlesh(itemStack) ? EnumRarity.rare : EnumRarity.epic;
+        return isHumanFlesh(itemStack) ? EnumRarity.RARE : EnumRarity.EPIC;
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack, int pass){
+    public boolean hasEffect(ItemStack itemStack){
         return isPower();
     }
     
@@ -114,14 +114,14 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     
     private boolean isOwnCanibal(ItemStack itemStack, EntityPlayer player) {
     	if(itemStack.getTagCompound() != null) {
-			GameProfile profile = NBTUtil.func_152459_a(itemStack.getTagCompound());
+			GameProfile profile = NBTUtil.readGameProfileFromNBT(itemStack.getTagCompound());
 			return player.getGameProfile().equals(profile);
 		}
     	return false;
     }
     
     @Override
-    public ItemStack onEaten(ItemStack itemStack, World world, EntityPlayer player) {
+    public ItemStack onItemUseFinish(ItemStack itemStack, World world, EntityPlayer player) {
         --itemStack.stackSize;
         if(itemStack.getItemDamage() == 1) {
             player.addStat(Achievements.CANNIBAL, 1);
@@ -136,8 +136,8 @@ public class WerewolfFlesh extends ConfigurableItemFood {
             world.playSoundAtEntity(player, "mob.wolf.hurt", 0.5F, 
             		world.rand.nextFloat() * 0.1F + 0.9F);
         } else if(isPower()) {
-        	int foodLevel = this.func_150905_g(itemStack);// get healAmount
-        	float saturationLevel = this.func_150906_h(itemStack);// get saturationModifier
+        	int foodLevel = this.getHealAmount(itemStack);
+        	float saturationLevel = this.getSaturationModifier(itemStack);
             player.getFoodStats().addStats(foodLevel, saturationLevel);
             if(!world.isRemote) {
 	            player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 
@@ -179,7 +179,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     	if(isHumanFlesh(itemStack)) {
     		String player = EnumChatFormatting.ITALIC + "None";
     		if(itemStack.getTagCompound() != null) {
-    			GameProfile profile = NBTUtil.func_152459_a(itemStack.getTagCompound());
+    			GameProfile profile = NBTUtil.readGameProfileFromNBT(itemStack.getTagCompound());
     			player = profile.getName();
     		}
     		list.add("Player: " + EnumChatFormatting.WHITE + player);

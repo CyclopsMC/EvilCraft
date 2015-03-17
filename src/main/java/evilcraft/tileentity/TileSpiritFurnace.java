@@ -2,19 +2,17 @@ package evilcraft.tileentity;
 
 import com.google.common.collect.Lists;
 import evilcraft.Configs;
-import evilcraft.api.ILocation;
 import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.block.BoxOfEternalClosureConfig;
 import evilcraft.block.DarkBloodBrick;
 import evilcraft.block.SpiritFurnace;
-import evilcraft.core.algorithm.Size;
-import evilcraft.core.algorithm.Sizes;
 import evilcraft.core.block.AllowedBlock;
 import evilcraft.core.block.CubeDetector;
 import evilcraft.core.block.HollowCubeDetector;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import evilcraft.core.fluid.SingleUseTank;
+import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
@@ -40,8 +38,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -100,11 +100,13 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     @SuppressWarnings("unchecked")
 	public static CubeDetector detector = new HollowCubeDetector(
     			new AllowedBlock[]{
-    					new AllowedBlock(DarkBloodBrick.getInstance()),
-    					new AllowedBlock(SpiritFurnace.getInstance()).setMaxOccurences(1)
+    					new AllowedBlock(DarkBloodBrick.getInstance().getDefaultState()),
+                        new AllowedBlock(DarkBloodBrick.getInstance().getDefaultState().withProperty(DarkBloodBrick.ACTIVE, true)),
+    					new AllowedBlock(SpiritFurnace.getInstance().getDefaultState()).setMaxOccurences(1),
+                        new AllowedBlock(SpiritFurnace.getInstance().getDefaultState().withProperty(DarkBloodBrick.ACTIVE, true)).setMaxOccurences(1)
     					},
     			Lists.newArrayList(SpiritFurnace.getInstance(), DarkBloodBrick.getInstance())
-    		).setMinimumSize(new Size(2, 2, 2));
+    		).setMinimumSize(new Vec3i(2, 2, 2));
     
     private static final Map<Class<?>, ITickAction<TileSpiritFurnace>> BOX_COOK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSpiritFurnace>>();
     static {
@@ -121,7 +123,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
     
     @NBTPersist
-    private Size size = Size.NULL_SIZE.copy();
+    private Vec3i size = LocationHelpers.copyLocation(Vec3i.NULL_VECTOR);
     @NBTPersist
     private Boolean forceHalt = false;
     @NBTPersist
@@ -161,11 +163,11 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
         for(int slot : SLOTS_DROP) {
         	outSlots.add(slot);
         }
-        addSlotsToSide(ForgeDirection.EAST, inSlotsTank);
-        addSlotsToSide(ForgeDirection.UP, inSlots);
-        addSlotsToSide(ForgeDirection.DOWN, outSlots);
-        addSlotsToSide(ForgeDirection.SOUTH, outSlots);
-        addSlotsToSide(ForgeDirection.WEST, outSlots);
+        addSlotsToSide(EnumFacing.EAST, inSlotsTank);
+        addSlotsToSide(EnumFacing.UP, inSlots);
+        addSlotsToSide(EnumFacing.DOWN, outSlots);
+        addSlotsToSide(EnumFacing.SOUTH, outSlots);
+        addSlotsToSide(EnumFacing.WEST, outSlots);
 
         // Upgrade behaviour
         upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(1) {
@@ -239,12 +241,12 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * Get the size of the box entity.
      * @return The box entity size.
      */
-    public Size getEntitySize() {
+    public Vec3i getEntitySize() {
     	EntityLiving entity = getEntity();
     	if(entity == null) {
-    		return Size.NULL_SIZE;
+    		return Vec3i.NULL_VECTOR;
     	}
-    	return Sizes.getEntitySize(entity);
+    	return EntityHelpers.getEntitySize(entity);
     }
     
     /**
@@ -257,13 +259,13 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     	if(entity == null) {
     		return false;
     	}
-    	Size requiredSize = getEntitySize();
+    	Vec3i requiredSize = getEntitySize();
     	return getInnerSize().compareTo(requiredSize) >= 0;
     }
     
     @Override
     public boolean canWork() {
-    	Size size = getSize();
+    	Vec3i size = getSize();
 		return size.compareTo(TileSpiritFurnace.detector.getMinimumSize()) >= 0;
     }
     
@@ -273,8 +275,8 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * @param location The location.
      * @return If it is valid.
      */
-    public static boolean canWork(World world, ILocation location) {
-    	TileEntity tile = LocationHelpers.getTile(world, location);
+    public static boolean canWork(World world, BlockPos location) {
+    	TileEntity tile = world.getTileEntity(location);
 		if(tile != null) {
 			return ((TileSpiritFurnace) tile).canWork();
 		}
@@ -294,18 +296,16 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     }
     
     /**
-     * Callback for when a structure has been detected for a spirit furnace block.
+     * Callback for when a structure has been detected for a spirit furnace blockState.
      * @param world The world.
-     * @param location The location of one block of the structure.
+     * @param location The location of one blockState of the structure.
      * @param size The size of the structure.
      * @param valid If the structure is being validated(/created), otherwise invalidated.
      */
-    public static void detectStructure(World world, ILocation location, Size size, boolean valid) {
-    	int newMeta = valid ? 1 : 0;
-		boolean change = LocationHelpers.getBlockMeta(world, location) != newMeta;
-		LocationHelpers.setBlockMetadata(world, location, newMeta, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+    public static void detectStructure(World world, BlockPos location, Vec3i size, boolean valid) {
+		boolean change = (Boolean) world.getBlockState(location).getValue(DarkBloodBrick.ACTIVE);
+        world.setBlockState(location, world.getBlockState(location).withProperty(DarkBloodBrick.ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
 		if(change) {
-			int[] c = location.getCoordinates();
 			PacketHandler.sendToAllAround(new DetectionListenerPacket(location, valid),
 					LocationHelpers.createTargetPointFromLocation(world, location, 50));
 		}
@@ -344,21 +344,21 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 	/**
 	 * @return the size
 	 */
-	public Size getSize() {
+	public Vec3i getSize() {
 		return size;
 	}
 	
 	/**
 	 * @return the actual inner size.
 	 */
-	public Size getInnerSize() {
-		return (Size) getSize().subtract(new Size(1, 1, 1));
+	public Vec3i getInnerSize() {
+		return LocationHelpers.subtract(getSize(), new Vec3i(1, 1, 1));
 	}
 
 	/**
 	 * @param size the size to set
 	 */
-	public void setSize(Size size) {
+	public void setSize(Vec3i size) {
 		this.size = size;
 		sendUpdate();
 	}

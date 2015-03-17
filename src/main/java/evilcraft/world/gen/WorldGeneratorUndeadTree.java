@@ -5,9 +5,10 @@ import evilcraft.block.UndeadLogConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 import java.util.Random;
 
@@ -41,14 +42,18 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
     }
 
     @Override
-    public boolean generate(World world, Random rand, int x, int retries, int z) {
+    public boolean generate(World world, Random rand, BlockPos blockPos) {
+        int x = blockPos.getX();
+        int retries = blockPos.getY();
+        int z = blockPos.getZ();
         for(int c = 0; c < retries; c++) {
             int y = world.getActualHeight() - 1;
-            while(world.isAirBlock(x, y, z) && y > 0) {
+            BlockPos loopPos = new BlockPos(x, y, z);
+            while(world.isAirBlock(loopPos) && y > 0) {
                 y--;
             }
 
-            if(!growTree(world, rand, x, y + 1, z)) {
+            if(!growTree(world, rand, loopPos.add(0, 1, 0))) {
                 retries--;
             }
 
@@ -63,24 +68,26 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
      * Grow an Undead Tree at the given location.
      * @param world The world.
      * @param rand Random object.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param z Z coordinate.
+     * @param blockPos The position.
      * @return If the tree was grown.
      */
-    public boolean growTree(World world, Random rand, int x, int y, int z) {
+    public boolean growTree(World world, Random rand, BlockPos blockPos) {
         int treeHeight = rand.nextInt(9) + 4;
         int worldHeight = world.getHeight();
         Block block;
 
-        if(y >= 1 && y + treeHeight + 1 <= worldHeight) {
+        if(blockPos.getY() >= 1 && blockPos.getY() + treeHeight + 1 <= worldHeight) {
             int xOffset;
             int yOffset;
             int zOffset;
 
-            block = world.getBlock(x, y - 1, z);
+            BlockPos basePos = blockPos.add(0, -1, 0);
+            block = world.getBlockState(basePos).getBlock();
+            int x = blockPos.getX();
+            int y = blockPos.getY();
+            int z = blockPos.getZ();
 
-            if((block != null && block.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP,
+            if((block != null && block.canSustainPlant(world, basePos, EnumFacing.UP,
                     ((BlockSapling)sapling))) && y < worldHeight - treeHeight - 1) {
                 for(yOffset = y; yOffset <= y + 1 + treeHeight; ++yOffset) {
                     byte radius = 1;
@@ -97,11 +104,12 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
                     if(yOffset >= 0 & yOffset < worldHeight) {
                         for(xOffset = x - radius; xOffset <= x + radius; ++xOffset) {
                             for(zOffset = z - radius; zOffset <= z + radius; ++zOffset) {
-                                block = world.getBlock(xOffset, yOffset, zOffset);
+                                BlockPos loopPos = new BlockPos(xOffset, yOffset, zOffset);
+                                block = world.getBlockState(loopPos).getBlock();
 
-                                if(block != null && !(block.isLeaves(world, xOffset, yOffset, zOffset) ||
+                                if(block != null && !(block.isLeaves(world, loopPos) ||
                                         block == Blocks.air ||
-                                        block.canBeReplacedByLeaves(world, xOffset, yOffset, zOffset))) {
+                                        block.canBeReplacedByLeaves(world, loopPos))) {
                                     return false;
                                 }
                             }
@@ -111,9 +119,9 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
                     }
                 }
 
-                block = world.getBlock(x, y - 1, z);
+                block = world.getBlockState(basePos).getBlock();
                 if (block != null) {
-                    block.onPlantGrow(world, x, y - 1, z, x, y, z);
+                    block.onPlantGrow(world, basePos, blockPos);
 
                     // Add leaves
                     for(yOffset = y - 3 + treeHeight; yOffset <= y + treeHeight; ++yOffset) {
@@ -128,16 +136,17 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
                             for(zOffset = z - center; zOffset <= z + center; ++zOffset) {
                                 int zPos = zOffset - z;
                                 zPos = (zPos + (t = zPos >> 31)) ^ t;
+                                BlockPos loopPos = new BlockPos(xOffset, yOffset, zOffset);
     
-                                block = world.getBlock(xOffset, yOffset, zOffset);
+                                block = world.getBlockState(loopPos).getBlock();
     
                                 if(((xPos != center | zPos != center) ||
                                         rand.nextInt(2) != 0 && var12 != 0) &&
-                                        (block == null || block.isLeaves(world, xOffset, yOffset, zOffset) ||
+                                        (block == null || block.isLeaves(world, loopPos) ||
                                         block == Blocks.air ||
-                                        block.canBeReplacedByLeaves(world, xOffset, yOffset, zOffset))) {
-                                    this.setBlockAndNotifyAdequately(world, xOffset, yOffset, zOffset,
-                                            leaves, 0);
+                                        block.canBeReplacedByLeaves(world, loopPos))) {
+                                    // MCP: setBlockAndNotifyAdequately
+                                    this.func_175903_a(world, loopPos, leaves.getDefaultState());
                                 }
                             }
                         }
@@ -145,13 +154,13 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
 
                     // Replace replacable blocks with logs
                     for(yOffset = 0; yOffset < treeHeight; ++yOffset) {
-                        block = world.getBlock(x, y + yOffset, z);
+                        BlockPos loopPos = blockPos.add(0, yOffset, z);
 
                         if(block == null || block == Blocks.air  ||
-                                block.isLeaves(world, x, y + yOffset, z) ||
-                                block.isReplaceable(world, x, y + yOffset, z)) {
-                            this.setBlockAndNotifyAdequately(world, x, y + yOffset, z,
-                                    logs, 0);
+                                block.isLeaves(world, loopPos) ||
+                                block.isReplaceable(world, loopPos)) {
+                            // MCP: setBlockAndNotifyAdequately
+                            this.func_175903_a(world, loopPos, logs.getDefaultState());
                         }
                     }
                     return true;

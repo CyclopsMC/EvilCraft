@@ -1,12 +1,12 @@
 package evilcraft.tileentity.tickaction;
 
+import evilcraft.core.fluid.SingleUseTank;
+import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
+import evilcraft.core.tileentity.tickaction.ITickAction;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.core.fluid.SingleUseTank;
-import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
-import evilcraft.core.tileentity.tickaction.ITickAction;
 
 /**
  * {@link ITickAction} that can empty buckets in tanks.

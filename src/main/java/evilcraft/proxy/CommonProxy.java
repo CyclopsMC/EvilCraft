@@ -1,16 +1,16 @@
 package evilcraft.proxy;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.api.ILocation;
 import evilcraft.core.BucketHandler;
 import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.core.world.gen.RetroGenRegistry;
 import evilcraft.event.*;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.*;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 /**
  * Proxy for server and client side.
@@ -92,9 +92,8 @@ public class CommonProxy {
      * @param volume The volume of the sound.
      * @param frequency The pitch of the sound.
      */
-    public void playSoundMinecraft(ILocation location, String sound, float volume, float frequency) {
-    	int[] c = location.getCoordinates();
-    	playSoundMinecraft(c[0], c[1], c[2], sound, volume, frequency);
+    public void playSoundMinecraft(BlockPos location, String sound, float volume, float frequency) {
+    	playSoundMinecraft(location.getX(), location.getY(), location.getZ(), sound, volume, frequency);
     }
     
     /**
@@ -126,6 +125,18 @@ public class CommonProxy {
     		String mod) {
     	// No implementation server-side.
     }
+
+    /**
+     * Play an evilcraft sound, will do nothing serverside, use {@link CommonProxy#sendSound(double,
+     * double, double, String, float, float, String)} for this.
+     * @param blockPos The position.
+     * @param sound The sound name to play.
+     * @param volume The volume of the sound.
+     * @param frequency The pitch of the sound.
+     */
+    public void playSound(BlockPos blockPos, String sound, float volume, float frequency) {
+        playSound(blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, sound, volume, frequency, Reference.MOD_ID);
+    }
     
     /**
      * Play an evilcraft sound, will do nothing serverside, use {@link CommonProxy#sendSound(double,
@@ -148,9 +159,8 @@ public class CommonProxy {
      * @param volume The volume of the sound.
      * @param frequency The pitch of the sound.
      */
-    public void sendSoundMinecraft(ILocation location, String sound, float volume, float frequency) {
-    	int[] c = location.getCoordinates();
-		sendSound(c[0], c[1], c[2], sound, volume, frequency, DEFAULT_RESOURCELOCATION_MOD);
+    public void sendSoundMinecraft(BlockPos location, String sound, float volume, float frequency) {
+		sendSound(location.getX(), location.getY(), location.getZ(), sound, volume, frequency, DEFAULT_RESOURCELOCATION_MOD);
     }
     
     /**

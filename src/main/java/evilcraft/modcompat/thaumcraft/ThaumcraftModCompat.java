@@ -146,7 +146,7 @@ public class ThaumcraftModCompat implements IModCompat {
         }
     }
 
-    private void registerObjectTagSafe(ItemConfig itemConfig, int meta, AspectList aspects) {
+    private void registerObjectTagSafe(ItemConfig itemConfig, IBlockState blockState, AspectList aspects) {
         if(itemConfig != null) {
             ThaumcraftApi.registerObjectTag(new ItemStack(itemConfig.getItemInstance(), 1, meta), aspects);
         }

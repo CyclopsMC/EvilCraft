@@ -1,17 +1,14 @@
 package evilcraft.client.render.model;
 
-import java.util.Map;
-import java.util.Random;
-
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.obj.WavefrontObject;
-
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Maps;
-
 import evilcraft.Reference;
 import evilcraft.core.client.render.model.ModelWavefront;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.obj.WavefrontObject;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Model for a chalice.

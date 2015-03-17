@@ -6,6 +6,7 @@ import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.item.Promise;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 
 /**
@@ -106,13 +107,13 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
     }
 
     @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+    public boolean canInsertItem(int slot, ItemStack itemStack, EnumFacing side) {
         return super.canInsertItem(slot, itemStack, side) && canInsertItem(slot, itemStack);
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
-        return super.canExtractItem(slot, itemStack, side) && canExtractItem(slot, itemStack, null);
+    public boolean canExtractItem(int slot, ItemStack itemStack, EnumFacing side) {
+        return super.canExtractItem(slot, itemStack, side) && canExtractItem(slot, itemStack, (ItemStack) null);
     }
 
     /**

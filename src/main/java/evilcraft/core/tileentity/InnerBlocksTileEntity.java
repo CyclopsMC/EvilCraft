@@ -2,52 +2,36 @@ package evilcraft.core.tileentity;
 
 import evilcraft.core.helper.MinecraftHelpers;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 
 /**
- * A TileEntity with an inner block.
+ * A TileEntity with an inner blockState.
  * @author rubensworks
  *
  */
-public abstract class InnerBlocksTileEntity extends EvilCraftTileEntity {
-	
-	private static Block[] OLD_BLOCKS = {
-        Blocks.grass,
-        Blocks.dirt,
-        Blocks.stone,
-        Blocks.stonebrick,
-        Blocks.cobblestone,
-        Blocks.sand
-        };
+public abstract class InnerBlocksTileEntity extends TickingEvilCraftTileEntity {
     
 	@NBTPersist
 	private String blockName = null;
+    @NBTPersist
+    private int meta = 0;
     
 	/**
-	 * Set the inner block.
-	 * @param block The block.
+	 * Set the inner blockState.
+	 * @param blockState The blockState state.
 	 */
-    public void setInnerBlock(Block block) {
-    	this.blockName = Block.blockRegistry.getNameForObject(block);
-    	sendImmediateUpdate();
+    public void setInnerBlockState(IBlockState blockState) {
+        this.meta = blockState.getBlock().getMetaFromState(blockState);
+    	this.blockName = (String) Block.blockRegistry.getNameForObject(blockState.getBlock());
     }
     
     /**
-     * Get the inner block.
-     * @return The inner block.
+     * Get the inner blockState.
+     * @return The inner blockState.
      */
-	public Block getInnerBlock() {
-		if(blockName != null && !blockName.isEmpty()) {
-	    	return Block.getBlockFromName(blockName);
-		} else {
-			// Backwards compatibility!
-	    	int meta = getWorldObj().getBlockMetadata(xCoord, yCoord, zCoord);
-	    	Block ret = OLD_BLOCKS[Math.min(OLD_BLOCKS.length - 1, meta)];
-	    	setInnerBlock(ret);
-	    	getWorldObj().setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-	    	onDeprecationTrigger();
-	    	return ret;
-		}
+	public IBlockState getInnerBlockState() {
+		return Block.getBlockFromName(blockName).getStateFromMeta(this.meta);
     }
 	
 	protected void onDeprecationTrigger() {

@@ -1,24 +1,24 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import evilcraft.core.PlayerExtendedInventoryIterator;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.item.DamageIndicatedItemFluidContainer;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     private boolean placeFluids = false;
 
     /**
-     * Make a new block instance.
+     * Make a new blockState instance.
      * @param eConfig Config for this item.
      * @param capacity The capacity for the fluid container this item should have.
      * @param fluid The fluid this container should be able to hold.
@@ -59,17 +59,6 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     }
 
     @Override
-    public String getIconString() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        itemIcon = iconRegister.registerIcon(getIconString());
-    }
-
-    @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         FluidStack fluidStack = getFluid(itemStack);
         FluidStack drained = this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, false);
@@ -84,45 +73,39 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
 
         if (movingobjectpositionDrain != null && movingobjectpositionFill != null) {
             if (isPickupFluids() && movingobjectpositionFill.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                // Fill the container and remove fluid block
-                int x = movingobjectpositionFill.blockX;
-                int y = movingobjectpositionFill.blockY;
-                int z = movingobjectpositionFill.blockZ;
-                if (!world.canMineBlock(player, x, y, z)) {
+                // Fill the container and remove fluid blockState
+                BlockPos blockPos = movingobjectpositionFill.func_178782_a();
+                if (!world.canMineBlockBody(player, blockPos)) {
                     return itemStack;
                 }
 
-                if (!player.canPlayerEdit(x, y, z, movingobjectpositionFill.sideHit, itemStack)) {
+                /*if (!player.canPlayerEdit(blockPos, movingobjectpositionFill.sideHit, itemStack)) {
                     return itemStack;
-                }
-                if (world.getBlock(x, y, z) == block && world.getBlockMetadata(x, y, z) == 0) {
+                }*/
+                if (world.getBlockState(blockPos).getBlock() == block && (Integer) world.getBlockState(blockPos).getValue(BlockLiquid.LEVEL) == 0) {
                     if(hasSpace) {
-                        world.setBlockToAir(x, y, z);
+                        world.setBlockToAir(blockPos);
                         this.fill(itemStack, new FluidStack(getFluid(), FluidContainerRegistry.BUCKET_VOLUME), true);
                     }
                     return itemStack;
                 }
             }
 
-            // Drain container and place fluid block
+            // Drain container and place fluid blockState
             if (hasBucket && isPlaceFluids() && movingobjectpositionDrain.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                int x = movingobjectpositionDrain.blockX;
-                int y = movingobjectpositionDrain.blockY;
-                int z = movingobjectpositionDrain.blockZ;
-                if (!world.canMineBlock(player, x, y, z)) {
+                BlockPos blockPos = movingobjectpositionFill.func_178782_a();
+                if (!world.canMineBlockBody(player, blockPos)) {
                     return itemStack;
                 }
 
-                ForgeDirection direction = ForgeDirection.getOrientation(movingobjectpositionDrain.sideHit);
-                x += direction.offsetX;
-                y += direction.offsetY;
-                z += direction.offsetZ;
+                EnumFacing direction = movingobjectpositionDrain.field_178784_b;
+                blockPos = blockPos.add(direction.getDirectionVec());
 
-                if (!player.canPlayerEdit(x, y, z, movingobjectpositionDrain.sideHit, itemStack)) {
+                /*if (!player.canPlayerEdit(blockPos, direction, itemStack)) {
                     return itemStack;
-                }
+                }*/
 
-                if (this.tryPlaceContainedLiquid(world, x, y, z, block, true)) {
+                if (this.tryPlaceContainedLiquid(world, blockPos, block, true)) {
                     this.drain(itemStack, FluidContainerRegistry.BUCKET_VOLUME, true);
                     return itemStack;
                 }
@@ -131,21 +114,20 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
         return itemStack;
     }
 
-    private boolean tryPlaceContainedLiquid(World world, int x, int y, int z, Block block, boolean hasBucket) {
+    private boolean tryPlaceContainedLiquid(World world, BlockPos blockPos, Block block, boolean hasBucket) {
         if (!hasBucket) {
             return false;
         } else {
-            Material material = world.getBlock(x, y, z).getMaterial();
+            Material material = world.getBlockState(blockPos).getBlock().getMaterial();
 
-            if (!world.isAirBlock(x, y, z) && material.isSolid()) {
+            if (!world.isAirBlock(blockPos) && material.isSolid()) {
                 return false;
             } else {
                 if (!world.isRemote && !material.isSolid() && !material.isLiquid()) {
-                	// MCP destroyBlock
-                    world.func_147480_a(x, y, z, true);
+                    world.destroyBlock(blockPos, true);
                 }
 
-                world.setBlock(x, y, z, block, 0, 3);
+                world.setBlockState(blockPos, block.getDefaultState(), 3);
 
                 return true;
             }
@@ -187,12 +169,12 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
     }
     
     @Override
-    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ) {
         return false;
     }
 
     @Override
-    public boolean doesSneakBypassUse(World world, int x, int y, int z, EntityPlayer player) {
+    public boolean doesSneakBypassUse(World world, BlockPos blockPos, EntityPlayer player) {
         return true;
     }
     

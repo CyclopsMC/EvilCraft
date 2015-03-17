@@ -1,11 +1,11 @@
 package evilcraft.tileentity.tickaction.bloodchest;
 
-import net.minecraft.item.ItemStack;
 import evilcraft.api.RegistryManager;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.block.BloodChestConfig;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.tileentity.TileBloodChest;
+import net.minecraft.item.ItemStack;
 
 /**
  * {@link ITickAction} that can repair items using blood.
@@ -37,7 +37,7 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
                 int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {
                     drainTank(tile);
-                    actions.repair(itemStack, tile.getWorldObj().rand, actionID);
+                    actions.repair(itemStack, tile.getWorld().rand, actionID);
                 }
                 
             }

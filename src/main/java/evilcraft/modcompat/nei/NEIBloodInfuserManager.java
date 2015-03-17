@@ -24,7 +24,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 
@@ -318,7 +318,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         Minecraft mc = Minecraft.getMinecraft();
         FluidStack stack = new FluidStack(fluidID, 1);
         if(fluidID > 0) {
-            IIcon icon = stack.getFluid().getIcon();
+            TextureAtlasSprite icon = stack.getFluid().getIcon();
             if (icon == null) icon = Blocks.water.getIcon(0, 0);
             
             int verticalOffset = 0;
@@ -344,7 +344,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         }
     }
 
-    private void drawTexturedModelRectFromIcon(int x, int y, IIcon icon, int width, int height) {
+    private void drawTexturedModelRectFromIcon(int x, int y, TextureAtlasSprite icon, int width, int height) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV((double)(x + 0), (double)(y + height), (double)this.zLevel, (double)icon.getMinU(), (double)icon.getMaxV());

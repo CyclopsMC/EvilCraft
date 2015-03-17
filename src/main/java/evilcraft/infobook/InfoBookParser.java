@@ -2,7 +2,6 @@ package evilcraft.infobook;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import cpw.mods.fml.common.registry.GameData;
 import evilcraft.Recipes;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
@@ -18,6 +17,7 @@ import evilcraft.infobook.pageelement.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.tuple.Pair;
 import org.w3c.dom.Document;

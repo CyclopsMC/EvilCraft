@@ -1,20 +1,5 @@
 package evilcraft.tileentity;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucket;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.IFluidContainerItem;
 import evilcraft.block.BloodChest;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
@@ -29,6 +14,21 @@ import evilcraft.inventory.slot.SlotRepairable;
 import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
 import evilcraft.tileentity.tickaction.bloodchest.RepairItemTickAction;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.IFluidContainerItem;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A chest that is able to repair tools with the use of blood.
@@ -122,11 +122,11 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         inSlotsTank.add(SLOT_CONTAINER);
         List<Integer> inSlotsInventory = new LinkedList<Integer>();
         inSlotsInventory.add(SLOT_CONTAINER);
-        addSlotsToSide(ForgeDirection.EAST, inSlotsTank);
-        addSlotsToSide(ForgeDirection.UP, inSlotsInventory);
-        addSlotsToSide(ForgeDirection.DOWN, inSlotsInventory);
-        addSlotsToSide(ForgeDirection.SOUTH, inSlotsInventory);
-        addSlotsToSide(ForgeDirection.WEST, inSlotsInventory);
+        addSlotsToSide(EnumFacing.EAST, inSlotsTank);
+        addSlotsToSide(EnumFacing.UP, inSlotsInventory);
+        addSlotsToSide(EnumFacing.DOWN, inSlotsInventory);
+        addSlotsToSide(EnumFacing.SOUTH, inSlotsInventory);
+        addSlotsToSide(EnumFacing.WEST, inSlotsInventory);
     }
     
     @Override
@@ -152,24 +152,28 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     @Override
     public void updateTileEntity() {
         super.updateTileEntity();
+        int x = getPos().getX();
+        int y = getPos().getY();
+        int z = getPos().getZ();
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.
         if(worldObj != null
                 && !this.worldObj.isRemote
                 && this.playersUsing != 0
-                && WorldHelpers.efficientTick(worldObj, TICK_MODULUS, this.xCoord, this.yCoord, this.zCoord)/*(this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0*/) {
+                && WorldHelpers.efficientTick(worldObj, TICK_MODULUS, this.getPos())/*(this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0*/) {
             this.playersUsing = 0;
             float range = 5.0F;
+
             @SuppressWarnings("unchecked")
             List<EntityPlayer> entities = this.worldObj.getEntitiesWithinAABB(
                     EntityPlayer.class,
-                    AxisAlignedBB.getBoundingBox(
-                            (double)((float)this.xCoord - range),
-                            (double)((float)this.yCoord - range),
-                            (double)((float)this.zCoord - range),
-                            (double)((float)(this.xCoord + 1) + range),
-                            (double)((float)(this.yCoord + 1) + range),
-                            (double)((float)(this.zCoord + 1) + range)
+                    AxisAlignedBB.fromBounds(
+                            (double)((float)x - range),
+                            (double)((float)y - range),
+                            (double)((float)z - range),
+                            (double)((float)(x + 1) + range),
+                            (double)((float)(y + 1) + range),
+                            (double)((float)(z + 1) + range)
                             )
                     );
 
@@ -179,16 +183,16 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
                 }
             }
             
-            worldObj.addBlockEvent(xCoord, yCoord, zCoord, block, 1, playersUsing);
+            worldObj.addBlockEvent(getPos(), block, 1, playersUsing);
         }
 
         prevLidAngle = lidAngle;
         float increaseAngle = 0.1F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
             worldObj.playSoundEffect(
-                    (double) xCoord + 0.5D,
-                    (double) yCoord + 0.5D,
-                    (double) zCoord + 0.5D,
+                    (double) x + 0.5D,
+                    (double) y + 0.5D,
+                    (double) z + 0.5D,
                     "random.chestopen",
                     0.5F,
                     worldObj.rand.nextFloat() * 0.1F + 0.9F
@@ -207,9 +211,9 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
             float closedAngle = 0.5F;
             if (lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
                 worldObj.playSoundEffect(
-                        (double) xCoord + 0.5D,
-                        (double) yCoord + 0.5D,
-                        (double) zCoord + 0.5D,
+                        (double) x + 0.5D,
+                        (double) y + 0.5D,
+                        (double) z + 0.5D,
                         "random.chestclosed",
                         0.5F,
                         worldObj.rand.nextFloat() * 0.1F + 0.9F
@@ -230,26 +234,26 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     }
 
     @Override
-    public void openInventory() {
+    public void openInventory(EntityPlayer entityPlayer) {
         triggerPlayerUsageChange(1);
     }
 
     @Override
-    public void closeInventory() {
+    public void closeInventory(EntityPlayer entityPlayer) {
         triggerPlayerUsageChange(-1);
     }
     
     private void triggerPlayerUsageChange(int change) {
         if (worldObj != null) {
             playersUsing += change;
-            worldObj.addBlockEvent(xCoord, yCoord, zCoord, block, 1, playersUsing);
+            worldObj.addBlockEvent(getPos(), block, 1, playersUsing);
         }
     }
     
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
         return super.isUseableByPlayer(entityPlayer)
-                && (worldObj == null || worldObj.getTileEntity(xCoord, yCoord, zCoord) != this);
+                && (worldObj == null || worldObj.getTileEntity(getPos()) != this);
     }
 
 }

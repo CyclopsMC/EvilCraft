@@ -1,6 +1,9 @@
 package evilcraft.core.algorithm;
 
-import evilcraft.api.ILocation;
+import com.sun.javafx.geom.Vec3f;
+import evilcraft.core.helper.LocationHelpers;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -76,90 +79,47 @@ public class OrganicSpread {
     }
     
     /**
-     * Perform one spreading tick so that one new block will be spread to.
+     * Perform one spreading tick so that one new blockState will be spread to.
      * @param startLocation The location to start spreading from.
      */
-    public void spreadTick(ILocation startLocation) {
-        if(startLocation.getDimensions() != getDimensions()) {
-            throw new RuntimeException("The dimensions of the given location("
-            		+ startLocation.getDimensions() + ") do not equal " + "this spreading dimensions("
-            		+ getDimensions() + ").");
-        }
-        ILocation newLocation = startLocation.copy();
+    public void spreadTick(BlockPos startLocation) {
+        BlockPos newLocation = startLocation;
         
         // Safely get a random direction.
-        float[] direction = getRandomDirection();
-        int attempts = 10;
-        while(!isBigEnough(direction) && attempts > 0) {
-            direction = getRandomDirection();
-            attempts--;
-        }
+        Vec3i direction = getRandomDirection();
         
-        // Copy old coordinates to float array.
-        float[] oldCoordinates = new float[newLocation.getDimensions()];
-        for(int i = 0; i < newLocation.getDimensions(); i++) {
-            oldCoordinates[i] = newLocation.getCoordinates()[i];
-        }
+        // Copy old coordinates.
+        BlockPos oldCoordinates = LocationHelpers.copyLocation(newLocation);
         
         // Loop in that direction.
         while(getSpreadable().isDone(world, newLocation) && isInArea(startLocation, oldCoordinates)) {
             // Calculate the new coordinates
-            float[] newCoordinates = new float[direction.length];
-            for(int i = 0; i < newCoordinates.length; i++) {
-                newCoordinates[i] = oldCoordinates[i] + direction[i];
-            }
+            BlockPos newCoordinates = oldCoordinates.add(direction);
             
             // Set the new coordinates
-            int[] finalCoordinates = new int[newLocation.getDimensions()];
-            for(int i = 0; i < newLocation.getDimensions(); i++) {
-                finalCoordinates[i] = (int) newCoordinates[i];
-            }
-            newLocation.setCoordinates(finalCoordinates);
+            newLocation = LocationHelpers.copyLocation(newCoordinates);
             
             // Swap
             oldCoordinates = newCoordinates;
         }
         
-        
-        
-        // Spread to the new block.
+        // Spread to the new blockState.
         if(!getSpreadable().isDone(world, newLocation)) {
             getSpreadable().spreadTo(world, newLocation);
         }
     }
     
-    protected boolean isInArea(ILocation center, float[] location) {
-        int distance = 0;
-        for(int i = 0; i < center.getDimensions(); i++) {
-            float d = center.getCoordinates()[i] - location[i];
-            distance += d * d;
-        }
-        return Math.sqrt(distance) <= getRadius();
-    }
-    
-    protected boolean isBigEnough(float[] direction) {
-        float MIN = 0.3F;
-        for(float directionElement : direction) {
-            if(directionElement > MIN || directionElement < MIN) {
-                return true;
-            }
-        }
-        return false;
+    protected boolean isInArea(BlockPos center, BlockPos location) {
+        return Math.sqrt(center.distanceSq(location)) <= getRadius();
     }
     
     /**
      * Get a random direction to spread in.
      * @return An array of a choice of -1;0;1 per coordinate index.
      */
-    protected float[] getRandomDirection() {
-        float[] direction = new float[getDimensions()];
-        for(int i = 0; i < direction.length; i++) {
-            direction[i] = (random.nextFloat() * 2 - 1) / 2;
-        }
-        return direction;
+    protected Vec3i getRandomDirection() {
+        return new Vec3i((random.nextFloat() * 2 - 1) / 2, (random.nextFloat() * 2 - 1) / 2, (random.nextFloat() * 2 - 1) / 2);
     }
-    
-    
 
     /**
      * Interface for organically spreadable things.
@@ -174,13 +134,13 @@ public class OrganicSpread {
          * @param location The location.
          * @return If it is spread to.
          */
-        public boolean isDone(World world, ILocation location);
+        public boolean isDone(World world, BlockPos location);
         /**
          * Spread to a given location.
          * @param world The world.
          * @param location The location.
          */
-        public void spreadTo(World world, ILocation location);
+        public void spreadTo(World world, BlockPos location);
         
     }
 

@@ -1,6 +1,9 @@
 package evilcraft.world.gen.structure;
 
+import evilcraft.core.helper.MinecraftHelpers;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -42,7 +45,7 @@ public abstract class QuarterSymmetricalStructure {
 		layers.add(layer);
 	}
 
-	protected void buildCorner(World world, int x, int y, int z, int incX, int incZ) {
+	protected void buildCorner(World world, BlockPos blockPos, int incX, int incZ) {
 		for (int i = 0; i < layerHeights.size(); ++i) {
 			int layerHeight = layerHeights.get(i);
 			BlockWrapper[] layer = layers.get(i);
@@ -54,16 +57,16 @@ public abstract class QuarterSymmetricalStructure {
 				for (int xr = start; xr < quarterWidth; ++xr) {
 					BlockWrapper wrapper = layer[(quarterWidth - xr - 1) * quarterHeight + zr];
 
-					if (wrapper != null) // not an air block?
-						world.setBlock(x + xr * incX, y + layerHeight, z + zr * incZ, wrapper.block, wrapper.metadata, 2);
+					if (wrapper != null) // not an air blockState?
+						world.setBlockState(blockPos.add(xr * incX, layerHeight, zr * incZ), wrapper.blockState, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
 				}
 			}
 		}
 		
-		postBuildCorner(world, x, y, z, incX, incZ);
+		postBuildCorner(world, blockPos, incX, incZ);
 	}
 	
-	protected void postBuildCorner(World world, int x, int y, int z, int incX, int incZ) {
+	protected void postBuildCorner(World world, BlockPos blockPos, int incX, int incZ) {
 		
 	}
 
@@ -71,53 +74,45 @@ public abstract class QuarterSymmetricalStructure {
 	 * Generate this structure.
 	 * @param world The world.
 	 * @param random Random object.
-	 * @param x X center coordinate.
-	 * @param y Y center coordinate.
-	 * @param z Z center coordinate.
+	 * @param blockPos Center coordinate.
 	 * @return If the structure was generated.
 	 */
-	public boolean generate(World world, Random random, int x, int y, int z) {
-		buildCorner(world, x, y, z, 1, 1);
-		buildCorner(world, x, y, z, -1, 1);
-		buildCorner(world, x, y, z, 1, -1);
-		buildCorner(world, x, y, z, -1, -1);
+	public boolean generate(World world, Random random, BlockPos blockPos) {
+		buildCorner(world, blockPos, 1, 1);
+		buildCorner(world, blockPos, -1, 1);
+		buildCorner(world, blockPos, 1, -1);
+		buildCorner(world, blockPos, -1, -1);
 
 		return true;
 	}
 	
 	/**
 	 * This is a wrapper class, which wraps around a {@link Block} and
-	 * pairs with it the metadata for that specific block instance.
+	 * pairs with it the metadata for that specific blockState instance.
 	 * 
 	 * @author immortaleeb
 	 *
 	 */
 	public class BlockWrapper {
 		/**
-		 * {@link Block} for which this instance is a wrapper.
+		 * {@link IBlockState} for which this instance is a wrapper.
 		 */
-		public Block block;
-		/**
-		 * Metadata which should be used for the specific {@link Block}.
-		 */
-		public int metadata;
+		public IBlockState blockState;
 		
 		/**
 		 * Creates a new wrapper around the specified {@link Block} with metadata 0.
-		 * @param block The block to wrap.
+		 * @param block The blockState to wrap.
 		 */
 		public BlockWrapper(Block block) {
-			this(block, 0);
+			this(block.getDefaultState());
 		}
 		
 		/**
-		 * Creates a new wrapper around the specified {@link Block} with the specified metadata. 
-		 * @param block The block to wrap.
-		 * @param metadata The metadata of the block.
+		 * Creates a new wrapper around the specified {@link IBlockState} with the specified metadata.
+		 * @param blockState The blockState to wrap.
 		 */
-		public BlockWrapper(Block block, int metadata) {
-			this.block = block;
-			this.metadata = metadata;
+		public BlockWrapper(IBlockState blockState) {
+			this.blockState = blockState;
 		}
 	}
 }

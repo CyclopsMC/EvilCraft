@@ -39,7 +39,7 @@ public class Waila {
             registrar.registerBodyProvider(new BoxOfEternalClosureDataProvider(), TileBoxOfEternalClosure.class);
         }
 
-        // Generic block info
+        // Generic blockState info
         registrar.registerBodyProvider(new GenericBlockInfoDataProvider(), IConfigurable.class);
     }
     

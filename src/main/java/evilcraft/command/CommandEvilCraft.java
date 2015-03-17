@@ -2,8 +2,10 @@ package evilcraft.command;
 
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.ServerHelpers;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 
 import java.util.HashMap;
@@ -80,7 +82,7 @@ public class CommandEvilCraft implements ICommand {
     }
 
     @Override
-    public void processCommand(ICommandSender icommandsender, String[] astring) {
+    public void processCommand(ICommandSender icommandsender, String[] astring) throws CommandException {
         if(astring.length == 0) {
             icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.invalidArguments")));
         } else {
@@ -96,18 +98,18 @@ public class CommandEvilCraft implements ICommand {
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
-        return ServerHelpers.isOp(icommandsender);
+        return ServerHelpers.isOp(icommandsender.getName());
     }
 
     @SuppressWarnings("rawtypes")
     @Override
     public List addTabCompletionOptions(ICommandSender icommandsender,
-            String[] astring) {
+            String[] astring, BlockPos blockPos) {
         if(astring.length != 0) {
             ICommand subcommand = getSubcommands().get(astring[0]);
             if(subcommand != null) {
                 String[] asubstring = shortenArgumentList(astring);
-                return subcommand.addTabCompletionOptions(icommandsender, asubstring);
+                return subcommand.addTabCompletionOptions(icommandsender, asubstring, blockPos);
             } else {
                 return getSubCommands(astring[0]);
             }

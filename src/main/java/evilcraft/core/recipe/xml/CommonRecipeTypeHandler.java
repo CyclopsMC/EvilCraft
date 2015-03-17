@@ -1,12 +1,10 @@
 package evilcraft.core.recipe.xml;
 
-import java.util.Map;
-
+import com.google.common.collect.Maps;
+import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 import org.w3c.dom.Node;
 
-import com.google.common.collect.Maps;
-
-import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
+import java.util.Map;
 
 /**
  * A default implementation of {@link IRecipeTypeHandler} with some helper methods and

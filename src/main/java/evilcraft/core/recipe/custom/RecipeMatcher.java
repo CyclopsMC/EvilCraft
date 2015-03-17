@@ -1,13 +1,9 @@
 package evilcraft.core.recipe.custom;
 
-import java.util.List;
-
 import evilcraft.api.RegistryManager;
-import evilcraft.api.recipes.custom.IMachine;
-import evilcraft.api.recipes.custom.IRecipe;
-import evilcraft.api.recipes.custom.IRecipeMatch;
-import evilcraft.api.recipes.custom.IRecipeMatcher;
-import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
+import evilcraft.api.recipes.custom.*;
+
+import java.util.List;
 
 /**
  * Helper class to abstract away some function logic (lambdas would make this way simpler though).

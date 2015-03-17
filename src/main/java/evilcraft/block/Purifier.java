@@ -1,7 +1,5 @@
 package evilcraft.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.client.render.block.RenderPurifier;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.extendedconfig.BlockConfig;
@@ -9,14 +7,16 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.BucketBloodConfig;
 import evilcraft.tileentity.TilePurifier;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -29,15 +29,10 @@ import java.util.List;
  *
  */
 public class Purifier extends ConfigurableBlockContainer {
-    
+
+    public static final PropertyInteger FILL = PropertyInteger.create("fill", 0, 2);
+
     private static Purifier _instance = null;
-    
-    @SideOnly(Side.CLIENT)
-    private IIcon innerIcon;
-    @SideOnly(Side.CLIENT)
-    private IIcon topIcon;
-    @SideOnly(Side.CLIENT)
-    private IIcon bottomIcon;
     
     /**
      * Initialise the configurable.
@@ -60,15 +55,16 @@ public class Purifier extends ConfigurableBlockContainer {
 
     private Purifier(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TilePurifier.class);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FILL, 0));
     }
     
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float motionX, float motionY, float motionZ) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float motionX, float motionY, float motionZ) {
         if(world.isRemote) {
             return true;
         } else {
             ItemStack itemStack = player.inventory.getCurrentItem();
-            TilePurifier tile = (TilePurifier) world.getTileEntity(x, y, z);
+            TilePurifier tile = (TilePurifier) world.getTileEntity(blockPos);
             if(tile != null) {
                 if (itemStack == null && tile.getPurifyItem() != null) {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getPurifyItem());
@@ -114,47 +110,22 @@ public class Purifier extends ConfigurableBlockContainer {
         }
         return false;
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        return side == 1 ? this.topIcon : (side == 0 ? this.bottomIcon : this.blockIcon);
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        this.innerIcon = iconRegister.registerIcon(this.getTextureName() + "_" + "inner");
-        this.topIcon = iconRegister.registerIcon(this.getTextureName() + "_top");
-        this.bottomIcon = iconRegister.registerIcon(this.getTextureName() + "_" + "bottom");
-        this.blockIcon = iconRegister.registerIcon(this.getTextureName() + "_side");
-    }
 
     @SuppressWarnings("rawtypes")
     @Override
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB area, List collisionBoxes, Entity entity) {
+    public void addCollisionBoxesToList(World world, BlockPos blockPos, IBlockState blockState, AxisAlignedBB area, List collisionBoxes, Entity entity) {
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.3125F, 1.0F);
-        super.addCollisionBoxesToList(world, x, y, z, area, collisionBoxes, entity);
+        super.addCollisionBoxesToList(world, blockPos, blockState, area, collisionBoxes, entity);
         float f = 0.125F;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
-        super.addCollisionBoxesToList(world, x, y, z, area, collisionBoxes, entity);
+        super.addCollisionBoxesToList(world, blockPos, blockState, area, collisionBoxes, entity);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
-        super.addCollisionBoxesToList(world, x, y, z, area, collisionBoxes, entity);
+        super.addCollisionBoxesToList(world, blockPos, blockState, area, collisionBoxes, entity);
         this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-        super.addCollisionBoxesToList(world, x, y, z, area, collisionBoxes, entity);
+        super.addCollisionBoxesToList(world, blockPos, blockState, area, collisionBoxes, entity);
         this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
-        super.addCollisionBoxesToList(world, x, y, z, area, collisionBoxes, entity);
+        super.addCollisionBoxesToList(world, blockPos, blockState, area, collisionBoxes, entity);
         this.setBlockBoundsForItemRender();
-    }
-
-    /**
-     * Get the inner or bottom icon of the purifier, used for rendering.
-     * @param icon The "inner" or "bottom" icon.
-     * @return An icon.
-     */
-    @SideOnly(Side.CLIENT)
-    public static IIcon getPurifierIcon(String icon) {
-        return icon.equals("inner") ? Purifier._instance.innerIcon : (icon.equals("bottom") ? Purifier._instance.bottomIcon : null);
     }
     
     @Override
@@ -173,7 +144,7 @@ public class Purifier extends ConfigurableBlockContainer {
     }
 
     @Override
-    public boolean renderAsNormalBlock() {
+    public boolean isNormalCube() {
         return false;
     }
     
@@ -183,8 +154,8 @@ public class Purifier extends ConfigurableBlockContainer {
     }
 
     @Override
-    public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-        return world.getBlockMetadata(x, y, z);
+    public int getComparatorInputOverride(World world, BlockPos blockPos) {
+        return (Integer) world.getBlockState(blockPos).getValue(FILL);
     }
 
 }

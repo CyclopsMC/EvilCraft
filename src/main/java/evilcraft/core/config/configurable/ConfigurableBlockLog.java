@@ -1,16 +1,14 @@
 package evilcraft.core.config.configurable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.BlockLog;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +23,17 @@ public class ConfigurableBlockLog extends BlockLog implements IConfigurable{
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
 
-    private IIcon iconTop;
-    private IIcon iconSide;
+    private TextureAtlasSprite iconTop;
+    private TextureAtlasSprite iconSide;
 
     /**
-     * Make a new block instance.
-     * @param eConfig Config for this block.
+     * Make a new blockState instance.
+     * @param eConfig Config for this blockState.
      */
     @SuppressWarnings({ "rawtypes" })
     public ConfigurableBlockLog(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
-        this.setBlockName(eConfig.getUnlocalizedName());
+        this.setUnlocalizedName(eConfig.getUnlocalizedName());
     }
 
     @SuppressWarnings("rawtypes")
@@ -49,32 +47,8 @@ public class ConfigurableBlockLog extends BlockLog implements IConfigurable{
     }
 
     @Override
-    public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        iconSide = iconRegister.registerIcon(getTextureName());
-        iconTop = iconRegister.registerIcon(getTextureName() + "_top");
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    protected IIcon getSideIcon(int par1) {
-        return this.iconSide;
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    protected IIcon getTopIcon(int par1) {
-        return this.iconTop;
-    }
-
-    @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-        ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos blockPos, IBlockState blockStatedata, int fortune) {
+        List<ItemStack> drops = new ArrayList<ItemStack>();
         drops.add(new ItemStack(this, 1, 0));
         return drops;
     }

@@ -5,10 +5,10 @@
 // - ZeuX
 package evilcraft.client.render.model;
 
+import evilcraft.entity.monster.Werewolf;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import evilcraft.entity.monster.Werewolf;
 
 /**
  * @author Davivs69
