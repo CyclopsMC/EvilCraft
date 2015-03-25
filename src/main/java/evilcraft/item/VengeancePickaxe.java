@@ -66,7 +66,8 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
         if(!world.isRemote) {
     	boolean result = super.onBlockDestroyed(itemStack, world, block, x, y, z, entity);
         if(result) {
-        	if(world.rand.nextInt(VengeancePickaxeConfig.vengeanceChance) == 0) {
+            int chance = VengeancePickaxeConfig.vengeanceChance;
+        	if(chance > 0 && world.rand.nextInt(chance) == 0) {
         		int area = VengeancePickaxeConfig.areaOfEffect;
         		VengeanceRing.toggleVengeanceArea(world, entity, area, true, true, true);
         	}
