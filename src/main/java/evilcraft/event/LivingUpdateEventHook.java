@@ -70,7 +70,7 @@ public class LivingUpdateEventHook {
     private void transformWerewolfVillager(LivingUpdateEvent event) {
         if(event.entity instanceof EntityVillager && !event.entity.worldObj.isRemote) {
             EntityVillager villager = (EntityVillager) event.entity;
-            if(Werewolf.isWerewolfTime(event.entity.worldObj)
+            if(Werewolf.isWerewolfTime(event.entity.worldObj) && Configs.isEnabled(WerewolfVillagerConfig.class)
                     && villager.getProfession() == WerewolfVillagerConfig._instance.getId()) {
                 Werewolf.replaceVillager(villager);
             }
