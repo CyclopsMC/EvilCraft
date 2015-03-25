@@ -235,6 +235,8 @@ chat.command.invalidNewValue=Invalid new value
 chat.command.updatedValue=Updated %s to: %s
 chat.command.fartingEnabled=Farting enabled
 chat.command.fartingDisabled=Farting disabled
+chat.command.invalidPlayer=The player '%s' was not found
+chat.command.ignitedPlayer=The player '%s' was lit on fire for %s seconds
 chat.bossDisplay.charge=%s Charge
 
 # Death messages
