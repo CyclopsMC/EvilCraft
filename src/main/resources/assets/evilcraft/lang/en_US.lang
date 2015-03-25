@@ -165,6 +165,7 @@ item.items.bowlOfPromises.name=Bowl of Promises
 item.items.bowlOfPromises.active.name=Bowl of Promises
 item.items.bowlOfPromises.dusted.name=Filled Bowl of Empty Promises
 item.items.bowlOfPromises.empty.name=Bowl of Empty Promises
+item.items.bowlOfPromises.empty.info=Not used up in crafting.
 item.items.bowlOfPromises.strength=Strength
 item.items.dullDust.name=Dull Dust
 item.items.dullDust.info=Quite boring dust... Or is it?
