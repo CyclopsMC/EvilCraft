@@ -77,6 +77,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     private static final int WATCHERID_VENGEANCEPLAYERS = 24;
     private static final int WATCHERID_ISSWARM = 25;
     private static final int WATCHERID_SWARMTIER = 26;
+    private static final int WATCHERID_BUILDUP = 27;
     
     /**
      * The NBT key used to store the inner entity name.
@@ -147,6 +148,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
         this.dataWatcher.addObject(WATCHERID_VENGEANCEPLAYERS, new String());
         this.dataWatcher.addObject(WATCHERID_ISSWARM, 0);
         this.dataWatcher.addObject(WATCHERID_SWARMTIER, rand.nextInt(SWARM_TIERS));
+        this.dataWatcher.addObject(WATCHERID_BUILDUP, 0);
     }
     
     @Override
@@ -158,6 +160,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     	tag.setInteger("frozenDuration", getFrozenDuration());
     	tag.setBoolean("isSwarm", isSwarm());
     	tag.setInteger("swarmTier", getSwarmTier());
+        tag.setInteger("buildupDuration", getBuildupDuration());
     }
     
     @Override
@@ -170,6 +173,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     	setFrozenDuration(tag.getInteger("frozenDuration"));
     	setIsSwarm(tag.getBoolean("isSwarm"));
     	setSwarmTier(tag.getInteger("swarmTier"));
+        setBuildupDuration(tag.getInteger("buildupDuration"));
     }
 
     @Override
@@ -198,6 +202,8 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     
     @Override
     public boolean attackEntityAsMob(Entity entity) {
+        if(getBuildupDuration() > 0) return false; // Don't attack anything when still building up.
+
         this.setDead();
         this.worldObj.removeEntity(this);
     	if(entity instanceof EntityPlayer) {
@@ -232,7 +238,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     
     @Override
     public boolean isMovementBlocked() {
-    	return isFrozen();
+    	return isFrozen() || getBuildupDuration() > 0;
     }
     
     @Override
@@ -264,7 +270,10 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
         		}
         	}
         }
-        
+
+        int buildupDuration = getBuildupDuration();
+        if(buildupDuration > 0) setBuildupDuration(buildupDuration - 1);
+
         if(isFrozen()) {
         	this.motionX = 0;
         	this.motionY = 0;
@@ -452,6 +461,22 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 	public void setRemainingLife(int remainingLife) {
 		this.dataWatcher.updateObject(WATCHERID_REMAININGLIFE, remainingLife);
 	}
+
+    /**
+     * Get the remaining life.
+     * @return The remaining life.
+     */
+    public int getBuildupDuration() {
+        return dataWatcher.getWatchableObjectInt(WATCHERID_BUILDUP);
+    }
+
+    /**
+     * Set the remaining buildup time.
+     * @param buildupDuration The remaining life.
+     */
+    public void setBuildupDuration(int buildupDuration) {
+        this.dataWatcher.updateObject(WATCHERID_BUILDUP, buildupDuration);
+    }
 
 	/**
 	 * Get the frozen duration.

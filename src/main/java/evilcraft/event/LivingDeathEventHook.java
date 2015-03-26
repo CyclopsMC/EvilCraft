@@ -11,6 +11,7 @@ import evilcraft.block.SpiritPortalConfig;
 import evilcraft.client.particle.EntityBloodSplashFX;
 import evilcraft.core.PlayerExtendedInventoryIterator;
 import evilcraft.core.algorithm.Location;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.world.FakeWorld;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
@@ -111,6 +112,7 @@ public class LivingDeathEventHook {
                 world.spawnEntityInWorld(spirit);
                 if(directToPlayer) {
                     EntityPlayer player = (EntityPlayer) event.source.getSourceOfDamage();
+                    spirit.setBuildupDuration(3 * MinecraftHelpers.SECOND_IN_TICKS);
                     spirit.setGlobalVengeance(true);
                     spirit.setTarget(player);
                 }
