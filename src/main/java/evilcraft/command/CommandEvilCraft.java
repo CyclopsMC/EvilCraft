@@ -25,6 +25,7 @@ public class CommandEvilCraft implements ICommand {
         list.add(NAME);
         list.add("evilCraft");
         list.add("EvilCraft");
+        list.add("ec");
         return list;
     }
     
