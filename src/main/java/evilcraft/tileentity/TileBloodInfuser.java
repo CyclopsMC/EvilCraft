@@ -7,7 +7,7 @@ import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
-import evilcraft.core.recipe.custom.DurationRecipeProperties;
+import evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.core.tileentity.tickaction.ITickAction;
@@ -82,7 +82,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     
     private int infuseTicker;
     private SingleCache<Triple<ItemStack, FluidStack, Integer>,
-                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> recipeCache;
+                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>> recipeCache;
     
     private static final Map<Class<?>, ITickAction<TileBloodInfuser>> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
     static {
@@ -167,16 +167,16 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
 
         // Efficient cache to retrieve the current craftable recipe.
         recipeCache = new SingleCache<Triple<ItemStack, FluidStack, Integer>,
-                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>>(
+                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>(
                 new SingleCache.ICacheUpdater<Triple<ItemStack, FluidStack, Integer>,
-                        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>>() {
+                        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>() {
             @Override
-            public IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> getNewValue(Triple<ItemStack, FluidStack, Integer> key) {
+            public IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> getNewValue(Triple<ItemStack, FluidStack, Integer> key) {
                 ItemFluidStackAndTierRecipeComponent recipeInput = new ItemFluidStackAndTierRecipeComponent(key.getLeft(),
                         key.getMiddle(), -1);
-                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> maxRecipe = null;
+                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> maxRecipe = null;
                 int maxRecipeTier = -1;
-                for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe :
+                for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe :
                         BloodInfuser.getInstance().getRecipeRegistry().findRecipesByInput(recipeInput)) {
                     if(recipe.getInput().getTier() > maxRecipeTier && key.getRight() >= recipe.getInput().getTier()) {
                         maxRecipe = recipe;
@@ -205,7 +205,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
      * @param itemStack The input item.
      * @return The recipe.
      */
-    public IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>
+    public IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>
         getRecipe(ItemStack itemStack) {
         return recipeCache.get(new ImmutableTriple<ItemStack, FluidStack, Integer>(
                 itemStack == null ? null : itemStack.copy(),
@@ -235,7 +235,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         }
         
         // Valid custom recipe
-        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe =
+        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe =
                 getRecipe(itemStack);
         if(recipe != null)
             return true;

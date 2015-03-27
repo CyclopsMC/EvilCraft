@@ -4,7 +4,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import evilcraft.*;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.*;
-import evilcraft.core.recipe.custom.DurationRecipeProperties;
+import evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.fluid.Blood;
@@ -132,7 +132,7 @@ public class ThermalExpansionModCompat implements IModCompat {
 
         // Fluid Transposer: blood infuse
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
-            for (IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe :
+            for (IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe :
                     BloodInfuser.getInstance().getRecipeRegistry().allRecipes()) {
                 if(recipe.getInput().getTier() == 0) {
                     NBTTagCompound bloodInfuse = new NBTTagCompound();

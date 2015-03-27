@@ -16,6 +16,7 @@
         <properties>
             <duration>1000</duration>
             <tier>2</tier>
+            <xp>10</xp>
         </properties>
     </recipe>
 
@@ -35,6 +36,7 @@
         <properties>
             <tier>3</tier>
             <duration>1000</duration>
+            <xp>5</xp>
         </properties>
     </recipe>
 
@@ -54,6 +56,7 @@
         <properties>
             <tier>1</tier>
             <duration>500</duration>
+            <xp>3</xp>
         </properties>
     </recipe>
     

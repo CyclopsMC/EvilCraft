@@ -3,7 +3,7 @@ package evilcraft.core.recipe.custom;
 import evilcraft.api.recipes.custom.IRecipeProperties;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
 import evilcraft.tileentity.environmentalaccumulator.IEAProcessingFinishedEffect;
-import lombok.*;
+import lombok.Getter;
 
 /**
  * Additional properties that are used to process {@link evilcraft.api.recipes.custom.IRecipe}S for the
