@@ -26,6 +26,6 @@ ACCESS_TOKEN=$(grep github_token= gradle.properties | sed s/github_token=//)
 
 creationresp=$(curl -d@.tmp.json https://api.github.com/repos/rubensworks/EvilCraft/releases?access_token=$ACCESS_TOKEN)
 RELEASEID=$(echo $creationresp | jsonval "id")
-curl -i -F filedata=@build/libs/$name.jar https://api.github.com/repos/rubensworks/EvilCraft/releases/$RELEASEID/?access_token=$ACCESS_TOKEN
+curl -H "Authorization: token $ACCESS_TOKEN" -H "Content-Type: application/zip" --data-binary @build/libs/$name.jar https://api.github.com/repos/rubensworks/EvilCraft/releases/$RELEASEID/?name=$name.jar
 
 rm .tmp.json
