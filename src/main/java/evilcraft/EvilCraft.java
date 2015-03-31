@@ -14,6 +14,7 @@ import evilcraft.client.gui.GuiHandler;
 import evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import evilcraft.command.CommandEvilCraft;
 import evilcraft.core.Debug;
+import evilcraft.core.IMCHandler;
 import evilcraft.core.config.ConfigHandler;
 import evilcraft.core.helper.LoggerHelper;
 import evilcraft.event.ServerStatusEventHook;
@@ -70,6 +71,11 @@ public class EvilCraft {
     static {
     	addInitListeners(new ModCompatLoader());
     }
+
+    /**
+     * The IMC handler for this mod.
+     */
+    public static final IMCHandler IMC_HANDLER = new IMCHandler();
     
     /**
      * The pre-initialization, will register required configs.
@@ -194,6 +200,15 @@ public class EvilCraft {
     @EventHandler
     public void onServerStopping(FMLServerStoppingEvent event) {
         ServerStatusEventHook.getInstance().onStoppingEvent(event);
+    }
+
+    /**
+     * When IMC events are received for this mod.
+     * @param event The event.
+     */
+    @EventHandler
+    public void onIMC(FMLInterModComms.IMCEvent event) {
+        IMC_HANDLER.handle(event);
     }
     
     /**

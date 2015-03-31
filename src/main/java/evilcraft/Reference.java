@@ -16,6 +16,9 @@ public class Reference {
     public static final String MOD_BUILD_NUMBER = "@BUILD_NUMBER@";
     public static final String MOD_CHANNEL = MOD_ID;
     public static final String MOD_MC_VERSION = "@MC_VERSION@";
+
+    // IMC keys
+    public static final String IMC_BLACKLIST_VENGEANCESPIRIT = "blacklistVengeanceSpirit";
     
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";

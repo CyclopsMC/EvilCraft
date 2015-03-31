@@ -1,14 +1,21 @@
 package evilcraft.entity.monster;
 
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.EvilCraft;
+import evilcraft.IInitListener;
+import evilcraft.Reference;
 import evilcraft.client.render.entity.RenderVengeanceSpirit;
+import evilcraft.core.IMCHandler;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChanged;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.entity.EntityLivingBase;
+import org.apache.logging.log4j.Level;
 
 /**
  * Config for the {@link Netherfish}.
@@ -87,6 +94,32 @@ public class VengeanceSpiritConfig extends MobConfig {
     @Override
     public Render getRender() {
         return new RenderVengeanceSpirit(this);
+    }
+
+    @Override
+    public void onInit(IInitListener.Step step) {
+        super.onInit(step);
+        if(step == IInitListener.Step.INIT) {
+            EvilCraft.IMC_HANDLER.registerAction(Reference.IMC_BLACKLIST_VENGEANCESPIRIT, new IMCHandler.IIMCAction() {
+
+                @Override
+                public boolean handle(FMLInterModComms.IMCMessage message) {
+                    if(!message.isStringMessage()) return false;
+                    try {
+                        Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(message.getStringValue());
+                        VengeanceSpirit.addToBlacklistIMC(clazz);
+                    } catch (ClassNotFoundException e) {
+                        EvilCraft.log("IMC blacklist vengeance spirit did not provide an existing class.", Level.ERROR);
+                        return false;
+                    } catch (ClassCastException e) {
+                        EvilCraft.log("IMC blacklist vengeance spirit did not provide a class of type EntityLivingBase.",
+                                Level.ERROR);
+                        return false;
+                    }
+                    return true;
+                }
+            });
+        }
     }
     
 }
