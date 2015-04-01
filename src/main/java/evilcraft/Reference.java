@@ -19,6 +19,7 @@ public class Reference {
 
     // IMC keys
     public static final String IMC_BLACKLIST_VENGEANCESPIRIT = "blacklistVengeanceSpirit";
+    public static final String IMC_OVERRIDE_SPIRITFURNACE_DROPS = "overrideSpiritFurnaceDrops";
     
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";

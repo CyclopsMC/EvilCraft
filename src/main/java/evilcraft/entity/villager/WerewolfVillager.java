@@ -7,6 +7,7 @@ import evilcraft.block.UndeadSaplingConfig;
 import evilcraft.core.config.configurable.ConfigurableVillager;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.VillagerConfig;
+import evilcraft.core.helper.WeightedItemStack;
 import evilcraft.item.*;
 import net.minecraft.item.ItemStack;
 
