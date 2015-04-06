@@ -1,14 +1,14 @@
 package evilcraft.network.packet;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 
 /**
  * Updates the world shared tank cache for all clients.
@@ -43,7 +43,7 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 			this.fluidId = -1;
 			this.fluidAmount = -1;
 		} else {
-			this.fluidId = fluidStack.fluidID;
+			this.fluidId = fluidStack.getFluidID();
 			this.fluidAmount = fluidStack.amount;
 		}
 	}

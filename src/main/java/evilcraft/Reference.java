@@ -78,6 +78,6 @@ public class Reference {
     public static final String MOD_THAUMCRAFT = "Thaumcraft";
     
     // Dependencies
-    public static final String MOD_DEPENDENCIES = "required-after:Forge@[10.13.0.1200,);" // See the Forge changelog
+    public static final String MOD_DEPENDENCIES = "required-after:Forge@[10.13.3.1355,);" // See the Forge changelog
             + "after:"+Reference.MOD_THERMALEXPANSION;
 }
