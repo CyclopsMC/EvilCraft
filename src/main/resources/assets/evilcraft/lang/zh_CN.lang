@@ -303,7 +303,7 @@ infoBook.firstAge.newWorld.darkOre=暗能宝石矿石
 infoBook.firstAge.newWorld.darkOre.text=我早就知道这世界上充满着各种资源...但是今天我在这个世界找到了新发现，一种闪耀着黑色光泽的矿石，它让我觉得是种珍贵的宝石，但是我能感觉它内部模糊的存在。要得到这种宝石，好像铁镐是挖掘的最低要求。在挖掘时有时也会得到一些奇怪的粉末，我确信我很快就能找到这些粉末的用处。
 
 infoBook.firstAge.newWorld.darkenedApple=黑苹果
-infoBook.firstAge.newWorld.darkenedApple.text=当你读这本书的时候你可能已经发现了这个东西。将一个&1苹果&0和一个&1暗能宝石&0结合得到一个特殊的&1苹果&0，吃掉它就会在一段时间内造成大量伤害。如果生物应为这种效果死亡，还会在死亡点留下某种异常。我到现在还没有发现这种现象的用处...
+infoBook.firstAge.newWorld.darkenedApple.text=当你读这本书的时候你可能已经发现了这个东西。将一个&1苹果&0和一个&1暗能宝石&0结合得到一个特殊的&1苹果&0，吃掉它就会在一段时间内造成大量伤害。如果生物因为这种效果死亡，还会在死亡点留下某种异常。我到现在还没有发现这种现象的用处...
 
 infoBook.firstAge.newWorld.evilDungeon=邪恶地牢
 infoBook.firstAge.newWorld.evilDungeon.text=在探测洞穴的时候，我偶尔会遇到一些&4血液&0洒满地板的狰狞的房间。这些&4血液&0的痕迹可能是以前的探险家与无数的怪物在这地下城作战时留下的。
