@@ -18,6 +18,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -236,6 +237,24 @@ public class ObfuscationHelpers {
      */
     public static boolean isRainingEnabled(BiomeGenBase biome) {
         return ReflectionHelper.getPrivateValue(BiomeGenBase.class, biome, ObfuscationData.BIOME_ENABLERAIN);
+    }
+
+    /**
+     * Get the private 'width' field from {@link net.minecraftforge.oredict.ShapedOreRecipe}.
+     * @param recipe The recipe instance.
+     * @return width
+     */
+    public static int getShapedOreRecipeWidth(ShapedOreRecipe recipe) {
+        return ReflectionHelper.getPrivateValue(ShapedOreRecipe.class, recipe, ObfuscationData.SHAPEDORERECIPE_WIDTH);
+    }
+
+    /**
+     * Get the private 'height' field from {@link net.minecraftforge.oredict.ShapedOreRecipe}.
+     * @param recipe The recipe instance.
+     * @return width
+     */
+    public static int getShapedOreRecipeHeight(ShapedOreRecipe recipe) {
+        return ReflectionHelper.getPrivateValue(ShapedOreRecipe.class, recipe, ObfuscationData.SHAPEDORERECIPE_HEIGHT);
     }
 	
 }
