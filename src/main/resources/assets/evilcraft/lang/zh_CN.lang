@@ -390,8 +390,8 @@ infoBook.secondAge=第二纪元
 # - Powers of Blood -
 infoBook.secondAge.powersOfBlood=血的力量
 infoBook.secondAge.powersOfBlood.text1=&4血液&0是生物生存的关键要素，将赋予生命的&4血液&0和魔法般的&1暗能宝石&0结合，我做出了一些让人震惊的新工具和机器。有人说我太热衷于这项发现了，但是我觉得他们太过于守旧。
-infoBook.secondAge.powersOfBlood.text2=&1暗能宝石&0似乎能吸收很多&4血液&0，吸收一池子&4血液&0才制造了一个&1血能宝石&0。发现这些，你至少需要5格流动的&4血液&0，你至少需要一个&1血能宝石&0。在下一章我会告诉你怎么更廉价的制作&1血能宝石&0。
-infoBook.secondAge.powersOfBlood.text3=大家都知道，&4血液&0会在干燥的环境下很快干枯。在这些&1血块&0上使用&1打火石&0就能得到&1干血碎片&0，它将会派上用场。似乎&1血块&0可以直接烧出&1干血碎片&0，你可以用其他的方式获得&1血块&0...似乎使用精准就能获得血块
+infoBook.secondAge.powersOfBlood.text2=&1暗能宝石&0似乎能吸收很多&4血液&0，吸收一池子&4血液&0才制造了一个&1血能宝石&0。发现了这些，你至少需要5格流动的&4血液&0，来制作一个&1血能宝石&0。在下一章我会告诉你怎么更廉价的制作&1血能宝石&0。
+infoBook.secondAge.powersOfBlood.text3=大家都知道，&4血液&0会在干燥的环境下很快干枯。在这些&1血块&0上使用&1打火石&0就能得到&1干血碎片&0，它将会派上用场。似乎&1血块&0可以直接烧出&1干血碎片&0，你可以用其他的方式获得&1血块&0...似乎使用&4精准&0就能获得血块
 
 # - Blood Infusion -
 infoBook.secondAge.bloodInfusion=血能注入
@@ -417,7 +417,7 @@ infoBook.secondAge.bloodInfusion.undeadTree.text2=杀死树苗的方法很简单
 
 infoBook.secondAge.bloodInfusion.advancedBloodInfusion=高级血能注入
 infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text1=当我第一次制作&1血能注入器&0，我就还是考虑如何是机器更加高效快捷的工作。使用&1暗能宝石粉末&0，我构建了&1诺言&0，这样血能注入器就可以有新的提高，就像机器在某种层度上是活得一样...
-infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text2=用这种紫色的粉末装满一个&1空血能碗&0，并向它注入&4血液&0就能获得一碗相应强度的&1注能暗能粉末&0。根据这种反应现象，用大量&4血液&0和矿物制造就能制作相应的&1诺言接收器&0。&1坚韧的诺言&0结合了一些有机物，它会允许机器（也可能是其他物品）容纳更多&1诺言&0和&4血液&0。&1速度的诺言&0可以加快机器的速度，而&1效率的诺言&0可以减少&4血液&0的用量。
+infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text2=用这种紫色的粉末装满一个&1空血能碗&0，并向它注入&4血液&0就能获得一碗相应强度的&1注能暗能粉末&0。根据这种反应现象，用大量&4血液&0和矿物制造就能制作相应的&1诺言接收器&0。&1坚韧的诺言&0结合了一些有机物，它会允许机器(也可能是其他物品)容纳更多&1诺言&0和&4血液&0。&1速度的诺言&0可以加快机器的速度，而&1效率的诺言&0可以减少&4血液&0的用量。
 
 infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes=更多血能注入合成
 infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text=因为新的&1坚韧的诺言&0，就像打开了一个全新的世界。
@@ -431,7 +431,7 @@ infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text2=在上面放�
 
 infoBook.secondAge.evolvedBloodMachinery.purifier=净化器
 infoBook.secondAge.evolvedBloodMachinery.purifier.text1=在体验&1血能箱&0的副作用以后，我决定设计一个新装置，用来移除工具上的坏效果。将有坏附魔的工具放置到机器内，加入至少一桶&4血液&0，就能移除这种效果。
-infoBook.secondAge.evolvedBloodMachinery.purifier.text2=这个机器有个一个意外的功能，在装满&4血液&0（至少3桶）的净化器上放置&4血书&0（注入&4血液&0的&1书&0），就可以从放入的工具上移出随机的一项附魔，血书将变成附魔书。
+infoBook.secondAge.evolvedBloodMachinery.purifier.text2=这个机器有个一个意外的功能，在装满&4血液&0(至少3桶)的净化器上放置&4血书&0(注入&4血液&0的&1书&0)，就可以从放入的工具上移出随机的一项附魔，血书将变成附魔书。
 
 infoBook.secondAge.evolvedBloodMachinery.entangledChalice=纠缠圣杯
 infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text1=你可能会有和我一样的经历，向&1恶魂之泪&0注入&4血液&0就能的到一种非常特殊的眼泪。在分割后它们似乎还共享着所有属性，这使我有灵感用金锭制作&1纠缠圣杯&0，用来共享它们之间的液体。
@@ -477,7 +477,7 @@ infoBook.secondAge.weapons.maceOfDistortion.text=按住鼠标右键就会在附�
 
 infoBook.secondAge.weapons.necromancerStaff=死灵法师权杖
 infoBook.secondAge.weapons.necromancerStaff.text1=当你有一个头颅以后你就能控制&1僵尸&0。当用头颅做出这样一个权杖后，我发现我用权杖攻击时产生的僵尸会有时间限制。
-infoBook.secondAge.weapons.necromancerStaff.text2=These &这些僵尸并不容易被驯服，有时候他们不会攻击指定的目标，它们甚至会完全忘记目标。但是这种武器肯（坑）定是值得的。1zombies&0 are not easily tamed though， sometimes they just won’t attack mobs， and they will even completely ignore mobs of certain types they aren't used to attacking. But this weapon is certainly worth the effort.
+infoBook.secondAge.weapons.necromancerStaff.text2=这些僵尸并不容易被驯服，有时候他们不会攻击指定的目标，它们甚至会完全忘记目标。但是这种武器肯(坑)定是值得的。
 
 # - Abusing Spirits -
 infoBook.secondAge.abusingSpirits=滥(qiao)用灵魂
@@ -488,7 +488,7 @@ infoBook.secondAge.abusingSpirits.infusingSpirits.text=将复仇灵魂封印在�
 infoBook.secondAge.abusingSpirits.spiritFurnace=灵魂炉
 infoBook.secondAge.abusingSpirits.spiritFurnace.text1=我最终成功重铸了&1复仇灵魂&0，或者说一部分。这种重铸的灵魂非常虚弱，以至于不能存活在现实世界，但是他们仍然会掉落那些相应生物的掉落物。然而为了使用这个发现，制造一个大型机器用来重铸灵魂。消耗大量的血液，会使这些灵魂立即复活。看起来&1永恒的灵魂棺&0可以无限的使用，如果灵魂没有逃走。
 infoBook.secondAge.abusingSpirits.spiritFurnace.text2=你需要一堆坚韧的方块，看起来注入一些&4血液&0的&1黑砖&0可以确保这种需要，灵魂也无法从中逃脱。你需要建造一个立方体结构，而内部结构足够大以适应你捕捉的灵魂的大小。拿僵尸做个例子，你需要两格高，所以你要建造一个3*4*3的立方体结构，使它中空两个方块的大小。如果你想容纳的生物很大，你可能需要一个9*9的结构，不要太小气哦！
-infoBook.secondAge.abusingSpirits.spiritFurnace.text3=你也需要预留一块地方放置&1灵魂炉&0。这个方块可以用已知的手段链接到其他容器或者液体罐。让你看见红光时表示结构搭建完成。
+infoBook.secondAge.abusingSpirits.spiritFurnace.text3=你也需要预留一块地方放置&1灵魂炉&0。这个方块可以用已知的手段链接到其他容器或者液体罐。让你看见&4红光&0时表示结构搭建完成。
 
 infoBook.secondAge.abusingSpirits.spiritReanimator=灵魂再生炉
 infoBook.secondAge.abusingSpirits.spiritReanimator.text1=发明了&1灵魂炉&0之后，我还是想要复活这些灵魂。为了解决它们不稳定这些问题，我尝试把它们放到&1鸡蛋&0里面。这个过程也需要一些&4血液&0，当然也需要一个&1鸡蛋&0。
@@ -520,7 +520,5 @@ infoBook.modIntegrations.tinkersConstruct=匠魂
 infoBook.modIntegrations.tinkersConstruct.text=&0工具 工具 工具！&r看起来这些人只会思考这些问题。没干什么但是他们的工具依然损坏严重，幸运的是有&1血能箱&0来修复它们！
 
 infoBook.modIntegrations.waila=WAILA
-infoBook.modIntegrations.waila.text=What are you looking at， you ask? You should be able to tell， really.
+infoBook.modIntegrations.waila.text=你问我你到底看到什么？你应该知道的！
 
-# zh_CN
-# Translated by bebacksee
