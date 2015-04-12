@@ -21,7 +21,7 @@ minecraft_version=$(grep minecraft_version= build.properties | sed s/minecraft_v
 tag=$(grep mod_version= build.properties | sed s/mod_version=//)
 name="EvilCraft-"$minecraft_version"-"$tag
 changelog=$(cat changelog.txt)
-printf '{"tag_name": "%s","target_commitish": "master","name": "%s","body": "%s","draft": false,"prerelease": false}' $tag $name "$changelog" > .tmp.json
+printf '{"tag_name": "%s","target_commitish": "master","name": "%s","body": "%s","draft": false,"prerelease": false}' $tag $name "Changelog can be found at: http://minecraft.curseforge.com/mc-mods/74610-evilcraft/files" > .tmp.json
 ACCESS_TOKEN=$(grep github_token= gradle.properties | sed s/github_token=//)
 
 creationresp=$(curl -d@.tmp.json https://api.github.com/repos/rubensworks/EvilCraft/releases?access_token=$ACCESS_TOKEN)
