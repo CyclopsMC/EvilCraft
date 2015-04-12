@@ -1,6 +1,11 @@
 language: java
 jdk: openjdk7
 
+notifications:
+  email: false
+env:
+  global: TERM=dumb
+
 before_install:
     - git submodule init
     - git submodule update
