@@ -23,6 +23,7 @@ import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.item.BurningGemStone;
 import evilcraft.item.BurningGemStoneConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.boss.EntityDragon;
@@ -351,7 +352,8 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     
     private boolean isAlternativelyVisible() {
     	// TODO: add other possibilities like glasses
-		return Minecraft.getMinecraft().thePlayer.capabilities.isCreativeMode;
+        EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+		return player != null && player.capabilities.isCreativeMode;
 	}
 
 	@Override
