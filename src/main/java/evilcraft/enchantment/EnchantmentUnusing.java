@@ -1,10 +1,10 @@
 package evilcraft.enchantment;
 
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.item.ItemStack;
 import evilcraft.core.config.configurable.ConfigurableEnchantment;
 import evilcraft.core.config.extendedconfig.EnchantmentConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.item.ItemStack;
 
 /**
  * Enchantment that stop your tool from being usable when it only has durability left.
@@ -51,6 +51,11 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
     @Override
     public int getMaxLevel() {
         return 1;
+    }
+
+    @Override
+    public boolean canApply(ItemStack itemStack) {
+        return itemStack != null && itemStack.getItem().isItemTool(itemStack);
     }
     
     /**
