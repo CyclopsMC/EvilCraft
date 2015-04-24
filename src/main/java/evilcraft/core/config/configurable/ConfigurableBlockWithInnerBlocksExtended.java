@@ -19,6 +19,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -118,6 +119,17 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
             return Blocks.stone.getBlockHardness(world, x, y, z);
         } catch (NullPointerException e) {
             return Blocks.stone.getBlockHardness(world, x, y, z);
+        }
+    }
+
+    @Override
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+        try {
+            return getTile(world, x, y, z).getInnerBlock().getDrops(world, x, y, z, metadata, fortune);
+        } catch (InvalidInnerBlocksTileException e) {
+            return Blocks.stone.getDrops(world, x, y, z, metadata, fortune);
+        } catch (NullPointerException e) {
+            return Blocks.stone.getDrops(world, x, y, z, metadata, fortune);
         }
     }
     

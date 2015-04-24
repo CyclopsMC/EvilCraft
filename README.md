@@ -42,7 +42,7 @@ EvilCraft uses [Project Lombok](http://projectlombok.org/) -- an annotation proc
 EvilCraft provides compatibility with certain mods and because of this, you will require the deobfuscated jars and/or api's of these mods if you want to be able to run EvilCraft from an IDE. Luckely most mods provide a repository from which these required jars will automatically be downloaded when using our gradle build script. Mods that do not provide access to a repository will have to be downloaded manually and stored inside a _lib folder somewhere in your filesystem_ (e.g. `/home/user/mc_libs`).
 In order to get EvilCraft to run from you IDE, you will have to download the following mod's unobfuscated jars and manually put them inside your _lib folder_:
 
- - [BloodMagic](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1290532-1-7-10-2-1-6-4-blood-magic-v1-3-0b-updated-jan-16)
+ - [BloodMagic](https://www.dropbox.com/sh/0aqvalqobu61t44/AADZq-GuoDeuNzgg6zueVM_Ca)
 
 #### IntelliJ IDEA
 1. Make sure you have read the section on _Creating a lib folder for mod dependencies_ before continuing. In this example we will assume the lib folder is located at `/home/user/mc_libs`.

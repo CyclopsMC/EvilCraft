@@ -344,7 +344,7 @@ public class InfoSection {
                 current = current.getParent();
             }
         }
-        return null;
+        return new InfoSection.Location(page, this);
     }
 
     /**
@@ -365,7 +365,7 @@ public class InfoSection {
             }
             return new InfoSection.Location(0, current);
         }
-        return null;
+        return new InfoSection.Location(page, this);
     }
 
     protected static int getAppendixOffsetLine(FontRenderer fontRenderer, SectionAppendix appendix) {

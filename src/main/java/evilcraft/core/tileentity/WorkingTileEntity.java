@@ -89,7 +89,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
      * @return The scaled working progress.
      */
     public int getWorkTickScaled(int scale) {
-        return (int) ((float)getWorkTick() / (float)getRequiredWorkTicks() * (float)scale);
+        return (int) Math.ceil((float)(getWorkTick() + 1) / (float)getRequiredWorkTicks() * (float)scale);
     }
     
     protected abstract int getWorkTicker();

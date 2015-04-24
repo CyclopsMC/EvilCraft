@@ -2,6 +2,7 @@ package evilcraft.infobook.pageelement;
 
 import evilcraft.EvilCraft;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
+import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.InfoSection;
 import net.minecraft.init.Blocks;
@@ -87,12 +88,36 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
                 new ItemStack(Blocks.crafting_table), mx, my, false, null);
     }
 
+    /**
+     * This method makes sure that recipes which do not take up a full 3x3 crafting grid are still returned inside a
+     * 3x3 object array formatted like if they were in a full grid.
+     * @param itemStacksRaw An array of items with length width * height
+     * @param width The original recipe width.
+     * @param height The original recipe height.
+     * @return The reformatted object array.
+     */
+    private static Object[] formatShapedGrid(Object[] itemStacksRaw, int width, int height) {
+        int rawIndex = 0;
+        Object[] itemStacks = new Object[9];
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                itemStacks[y * 3 + x] = itemStacksRaw[rawIndex++];
+                if(rawIndex >= itemStacksRaw.length) break;
+            }
+            if(rawIndex >= itemStacksRaw.length) break;
+        }
+        return itemStacks;
+    }
+
     protected List<ItemStack> getItemStacks(int index) {
         Object[] itemStacks;
         if(recipe instanceof ShapedRecipes) {
-            itemStacks = ((ShapedRecipes) recipe).recipeItems;
+            itemStacks = formatShapedGrid(((ShapedRecipes) recipe).recipeItems,
+                    ((ShapedRecipes) recipe).recipeWidth, ((ShapedRecipes) recipe).recipeHeight);
         } else if(recipe instanceof ShapedOreRecipe) {
-            itemStacks = ((ShapedOreRecipe) recipe).getInput();
+            itemStacks = formatShapedGrid(((ShapedOreRecipe) recipe).getInput(),
+                    ObfuscationHelpers.getShapedOreRecipeWidth(((ShapedOreRecipe) recipe)),
+                    ObfuscationHelpers.getShapedOreRecipeHeight(((ShapedOreRecipe) recipe)));
         } else if(recipe instanceof ShapelessRecipes) {
             itemStacks = ((ShapelessRecipes) recipe).recipeItems.toArray();
         } else if(recipe instanceof ShapelessOreRecipe) {
