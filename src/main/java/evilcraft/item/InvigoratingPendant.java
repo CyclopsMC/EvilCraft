@@ -85,6 +85,7 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
 	    		if(potionID >= 0 && potionID < Potion.potionTypes.length) {
 	    			shouldClear = ObfuscationHelpers.isPotionBadEffect(Potion.potionTypes[potionID]);
 	    		}
+                shouldClear = shouldClear & !effect.getIsAmbient();
 	    		
 	    		if(shouldClear) {	    			
 	    			int reductionMultiplier = effect.getAmplifier() + 1;
@@ -98,11 +99,11 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
 	    				player.removePotionEffect(potionID);
 	    			} else {
 	    				ObfuscationHelpers.setPotionEffectDuration(effect, remaining - toReduce);
+                        ObfuscationHelpers.onChangedPotionEffect(player, effect, true);
 	    				toDrain = (int) Math.ceil((double) (reductionMultiplier * amount)
 	    						* ((double) toReduce / (double) originalReducableDuration));
 	    			}
 	    			consume(toDrain, itemStack, player);
-	    			ObfuscationHelpers.onChangedPotionEffect(player, effect, true);
 	    		}
 	    	}
     	}
