@@ -19,7 +19,9 @@ import java.net.URL;
  *
  */
 public class VersionStats {
-	
+
+    private static final Object LOCK = new Object();
+
 	private static VersionStats VERSION_STATS = null;
 	
 	private static boolean CHECKED = false;
@@ -48,7 +50,7 @@ public class VersionStats {
 	/**
 	 * Fetch the latest version. Make sure this method is only loaded once!
 	 */
-	public static synchronized void load() {
+	public static void load() {
 		new Thread(new Runnable() {
 	
 	        @Override
@@ -65,7 +67,7 @@ public class VersionStats {
 	 * Check the latest version.
 	 * @param event The tick event.
 	 */
-	public static synchronized void check(final PlayerTickEvent event) {
+	public static void check(final PlayerTickEvent event) {
 		if(!CHECKED) {
 			CHECKED = true;
 			new Thread(new Runnable() {
@@ -73,8 +75,21 @@ public class VersionStats {
 		        @Override
 		        public void run() {
 					EntityPlayer player = event.player;
-					
-					VersionStats versionStats = getVersionStats();
+
+                    VersionStats versionStats;
+                    synchronized(LOCK) {
+                        versionStats = VERSION_STATS;
+                    }
+                    while(versionStats == null) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+
+                        }
+                        synchronized(LOCK) {
+                            versionStats = VERSION_STATS;
+                        }
+                    }
 					if(GeneralConfig.versionChecker && needsUpdate(versionStats)) {
                         sendMessage(player, L10NHelpers.localize("general.versionUpdate", versionStats.mod_version, Reference.MOD_NAME, Reference.MOD_VERSION, versionStats.update_link));
 					}
@@ -113,7 +128,10 @@ public class VersionStats {
 	
 	private static synchronized VersionStats getVersionStats() {
 		if(VERSION_STATS == null) {
-			VERSION_STATS = fetchVersionStats();
+            VersionStats temp = fetchVersionStats();
+            synchronized(LOCK) {
+                VERSION_STATS = temp;
+            }
 		}
 		return VERSION_STATS;
 	}
