@@ -8,6 +8,7 @@ import evilcraft.IInitListener;
 import evilcraft.core.config.ConfigHandler;
 import evilcraft.modcompat.baubles.BaublesModCompat;
 import evilcraft.modcompat.bloodmagic.BloodMagicModCompat;
+import evilcraft.modcompat.ee3.EE3ModCompat;
 import evilcraft.modcompat.fmp.ForgeMultipartModCompat;
 import evilcraft.modcompat.forestry.ForestryModCompat;
 import evilcraft.modcompat.nei.NEIModCompat;
@@ -46,6 +47,7 @@ public class ModCompatLoader implements IInitListener {
         MODCOMPATS.add(new VersionCheckerModCompat());
         MODCOMPATS.add(new BloodMagicModCompat());
         MODCOMPATS.add(new ThaumcraftModCompat());
+        MODCOMPATS.add(new EE3ModCompat());
     }
 
     protected static Set<String> CRASHED_MODCOMPATS = Sets.newHashSet();

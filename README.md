@@ -43,6 +43,7 @@ EvilCraft provides compatibility with certain mods and because of this, you will
 In order to get EvilCraft to run from you IDE, you will have to download the following mod's unobfuscated jars and manually put them inside your _lib folder_:
 
  - [BloodMagic](https://www.dropbox.com/sh/0aqvalqobu61t44/AADZq-GuoDeuNzgg6zueVM_Ca)
+ - [EE3](http://minecraft.curseforge.com/mc-mods/65509-ee3/files)
 
 #### IntelliJ IDEA
 1. Make sure you have read the section on _Creating a lib folder for mod dependencies_ before continuing. In this example we will assume the lib folder is located at `/home/user/mc_libs`.

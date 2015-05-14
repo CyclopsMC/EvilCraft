@@ -80,6 +80,7 @@ public class Reference {
     public static final String MOD_NEI = "NotEnoughItems";
     public static final String MOD_BLOODMAGIC = "AWWayofTime";
     public static final String MOD_THAUMCRAFT = "Thaumcraft";
+    public static final String MOD_EE3 = "EE3";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "required-after:Forge@[10.13.3.1360,);" // See the Forge changelog
