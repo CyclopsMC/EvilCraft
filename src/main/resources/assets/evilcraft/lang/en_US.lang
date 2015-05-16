@@ -195,6 +195,8 @@ item.items.bloodWandCap.name=Blood Cap
 item.Wand.blood.cap=Blood Banded
 item.items.effortlessRing.name=Effortless Ring
 item.items.effortlessRing.info=Walk faster and more efficient.
+item.items.condensedBlood.name=Condensed Blood
+item.items.condensedBlood.info=Insert into any machine for extra Blood.
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
@@ -394,6 +396,7 @@ infoBook.secondAge.powersOfBlood=The Powers of Blood
 infoBook.secondAge.powersOfBlood.text1=Everyone knows that &4Blood&0 is a key element of every living being. Combining the magical properties of &1Dark Gems&0 and the vitalizing &4Blood&0 allowed me to come up with some really amazing new tools and machines. Some of my peers say I’m a bit too enthusiastic about this discovery, I guess they’re not open-minded enough.
 infoBook.secondAge.powersOfBlood.text2=&1Dark Gems&0 seem to be very open to accept &4Blood&0. Tossing one in a pool of &4Blood&0 results in a &1Dark Power Gem&0. Note that you will need at least five source &4Blood&0 blocks, you will need to do this at least once, in the next chapter I will explain how to more cheaply craft &1Dark Power Gems&0.
 infoBook.secondAge.powersOfBlood.text3=As we all know, &4Blood&0 will dry out after a while when it is in a dry area. Using some &1Flint and Steel&0 on such &1Hardened Blood&0 will give some &1Hardened Blood Shards&0 which might come in handy later on. It looks like these shards can also be obtained when cooking such a &1Hardened Blood&0 block, if you can obtain it in some way ... maybe a soft touch can help?
+infoBook.secondAge.powersOfBlood.text4=It appears that &1Condensed Blood&0 can be found in some rare places. These can be inserted into any &4Blood&0-accepting machines to gain half a bucket of extra &4Blood&0 for your pleasure.
 
 # - Blood Infusion -
 infoBook.secondAge.bloodInfusion=Blood Infusion

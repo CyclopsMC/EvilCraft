@@ -18,8 +18,7 @@ public abstract class EmptyInTankTickAction<T extends TickingTankInventoryTileEn
     @Override
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick) {
         return !tile.getTank().isFull()
-                && itemStack != null
-                && itemStack.stackSize == 1;
+                && itemStack != null;
     }
     
 }

@@ -158,9 +158,11 @@
             <tag>hardenedBlood</tag>
             <tag>hardenedBloodShard</tag>
             <tag>darkPowerGem</tag>
+            <tag>condensedBlood</tag>
             <paragraph>infoBook.secondAge.powersOfBlood.text1</paragraph>
             <paragraph>infoBook.secondAge.powersOfBlood.text2</paragraph>
             <paragraph>infoBook.secondAge.powersOfBlood.text3</paragraph>
+            <paragraph>infoBook.secondAge.powersOfBlood.text4</paragraph>
             <appendix type="furnaceRecipe">evilcraft:hardenedBloodShard</appendix>
         </section>
         <section name="infoBook.secondAge.bloodInfusion">

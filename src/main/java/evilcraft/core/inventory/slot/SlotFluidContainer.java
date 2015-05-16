@@ -1,12 +1,12 @@
 package evilcraft.core.inventory.slot;
 
+import evilcraft.core.fluid.SingleUseTank;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import evilcraft.core.fluid.SingleUseTank;
 
 /**
  * Slots that will accept buckets and {@link IFluidContainerItem}.
@@ -56,7 +56,9 @@ public class SlotFluidContainer extends Slot {
      * @return If the given item is valid.
      */
     public static boolean checkIsItemValid(ItemStack itemStack, SingleUseTank tank) {
-        if(itemStack != null && itemStack.stackSize == 1) {
+        if(itemStack != null
+                && (itemStack.stackSize == 1 || FluidContainerRegistry.drainFluidContainer(itemStack) == null
+                    || FluidContainerRegistry.drainFluidContainer(itemStack).stackSize == 0)) {
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
             if(fluidStack == null && itemStack.getItem() instanceof IFluidContainerItem) {
             	IFluidContainerItem container = (IFluidContainerItem) itemStack.getItem();
