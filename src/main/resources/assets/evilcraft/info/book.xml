@@ -358,6 +358,10 @@
             <paragraph>infoBook.modIntegrations.bloodMagic.text</paragraph>
             <appendix type="bloodInfuserRecipe">evilcraft:boundBloodDrop</appendix>
         </section>
+        <section name="infoBook.modIntegrations.ee3">
+            <tag type="mod">EE3</tag>
+            <paragraph>infoBook.modIntegrations.ee3.text</paragraph>
+        </section>
         <section name="infoBook.modIntegrations.forestry">
             <tag type="mod">Forestry</tag>
             <paragraph>infoBook.modIntegrations.forestry.text</paragraph>

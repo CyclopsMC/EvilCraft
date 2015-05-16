@@ -509,6 +509,9 @@ infoBook.modIntegrations.baubles.text=The mod that adds several convenient new a
 infoBook.modIntegrations.bloodMagic=Blood Magic
 infoBook.modIntegrations.bloodMagic.text=One day I discovered a very strange &1Blood Orb&0 that must have been owned by some kind of &1Magician&0. When using it I felt like I was somehow connected to it. After a while I discovered that it was in fact connected to my &4Blood&0 stream. By forcing a large amount of &4Blood&0 through it using the &1Blood Infuser&0, I've managed to create an item that is both connected to my &4Blood&0 stream and can be used as a simple container, allowing me to place it in my favorite machines and using it with my items.
 
+infoBook.modIntegrations.ee3=Equivalent Exchange 3
+infoBook.modIntegrations.ee3.text=Magicians have discovered that almost all things in this world have some kind of &1value&0 relative to other things. These people have mastered the act of &1transmuting&0 these things to each other. Their strange methods even seem to work with my items.
+
 infoBook.modIntegrations.forestry=Forestry
 infoBook.modIntegrations.forestry.text=When &ovisiting&r some of my friends working with trees and bees, I noticed that some of their bags allow me to insert some of my items. I also noticed that their machine called the &1Squeezer&0 is able to extract &4Blood&0 from parts of the &1Undead Tree&0, which can be easily grown using their tree growing system.
 
