@@ -279,6 +279,7 @@ achievement.evilcraft.cannibal.desc=Eat some Humanoid Flesh.
 gui.exaltedCrafting=Exalted Crafting
 gui.waila.tankConfig=Tank contents
 gui.waila.innerBlocksConfig=Actual inner blocks
+gui.nei.fluids=Fluids
 
 # ------ Origins of Darkness contents ------
 infoBook.section.main=Origins of Darkness
