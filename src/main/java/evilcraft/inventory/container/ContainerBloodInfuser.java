@@ -73,8 +73,10 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
                 IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>
                         recipe = BloodInfuser.getInstance().getRecipeRegistry().
                         findRecipeByOutput(new ItemStackRecipeComponent(itemStack));
-                EntityHelpers.spawnXpAtPlayer(player.worldObj, player, (int) Math.floor(recipe.getProperties().getXp() * itemStack.stackSize));
-                FMLCommonHandler.instance().bus().post(new BloodInfuserRemoveEvent(player, itemStack));
+                if(recipe != null) {
+                    EntityHelpers.spawnXpAtPlayer(player.worldObj, player, (int) Math.floor(recipe.getProperties().getXp() * itemStack.stackSize));
+                    FMLCommonHandler.instance().bus().post(new BloodInfuserRemoveEvent(player, itemStack));
+                }
                 super.onPickupFromSlot(player, itemStack);
             }
 
