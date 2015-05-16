@@ -231,6 +231,7 @@
                 <tag>bloodWaxedCoalBlock</tag>
                 <tag>bloodPotash</tag>
                 <paragraph>infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:bloodOrb</appendix>
                 <appendixList type="bloodInfuserRecipe">other</appendixList>
                 <appendixList type="bloodInfuserRecipe">convenience</appendixList>
             </section>
