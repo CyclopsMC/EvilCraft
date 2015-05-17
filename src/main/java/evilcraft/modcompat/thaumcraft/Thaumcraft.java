@@ -99,9 +99,6 @@ public class Thaumcraft {
         registerObjectTagSafe(BroomConfig._instance, new AspectList().add(Aspect.MOTION, 4).add(Aspect.MAGIC, 2).add(Aspect.FLIGHT, 6).add(Aspect.TRAVEL, 2));
         registerObjectTagSafe(BlookConfig._instance, new AspectList().add(bloodLists).add(Aspect.MIND, 1));
         registerObjectTagSafe(InvertedPotentiaConfig._instance, InvertedPotentia.EMPOWERED_META, new AspectList(new ItemStack(InvertedPotentia.getInstance())).add(Aspect.ENERGY, 4));
-        for(int i = 0; i < 4; i++) {
-            registerObjectTagSafe(ExaltedCrafterConfig._instance, i, new AspectList(new ItemStack(ExaltedCrafter.getInstance(), 1, i)).add(Aspect.CRAFT, 10));
-        }
         registerObjectTagSafe(CorruptedTearConfig._instance, new AspectList().add(Aspect.DEATH, 4).add(Aspect.SOUL, 4).add(Aspect.ENTROPY, 4).add(Aspect.EXCHANGE, 8).add(Aspect.TRAVEL, 2).add(Aspect.MAGIC, 4));
         for(int i = 0; i < 3; i++) {
             registerObjectTagSafe(PromiseAcceptorConfig._instance, i, new AspectList().add(Aspect.METAL, 10).add(Aspect.MECHANISM, 10));
