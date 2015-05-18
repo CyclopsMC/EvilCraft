@@ -55,7 +55,7 @@ public class Thaumcraft {
 
         // Blood
         AspectList bloodLists = new AspectList().add(Aspect.ENERGY, 2).add(Aspect.LIFE, 4);
-        registerObjectTagSafe(FluidBlockBloodConfig._instance, bloodLists);
+        registerObjectTagSafe(FluidBlockBloodConfig._instance, bloodLists.copy());
         registerObjectTagSafe(HardenedBloodConfig._instance, bloodLists.copy());
         registerObjectTagSafe(BucketBloodConfig._instance, bloodLists.copy().add(Aspect.METAL, 3));
         registerObjectTagSafe(HardenedBloodShardConfig._instance, new AspectList().add(Aspect.LIFE, 1));
@@ -63,11 +63,10 @@ public class Thaumcraft {
         registerObjectTagSafe(BloodyCobblestoneConfig._instance, bloodLists.copy().add(Aspect.EARTH, 1).add(Aspect.ENTROPY, 1));
 
         // Dark Gem
-        registerObjectTagSafe(DarkGemConfig._instance, new AspectList().add(Aspect.CRYSTAL, 2).add(Aspect.DARKNESS, 4));
         ThaumcraftApi.registerObjectTag("gemDark", new AspectList().add(Aspect.CRYSTAL, 2).add(Aspect.DARKNESS, 4));
         registerObjectTagSafe(DarkOreConfig._instance, new AspectList().add(Aspect.CRYSTAL, 2).add(Aspect.DARKNESS, 2).add(Aspect.EARTH, 1));
         registerObjectTagSafe(DarkGemCrushedConfig._instance, new AspectList().add(Aspect.SOUL, 2).add(Aspect.DARKNESS, 2).add(Aspect.EARTH, 1));
-        registerObjectTagSafe(DarkPowerGemConfig._instance, new AspectList(new ItemStack(DarkGem.getInstance())).add(bloodLists.copy()).add(Aspect.MAGIC, 2));
+        registerObjectTagSafe(DarkPowerGemConfig._instance, new AspectList().add(Aspect.CRYSTAL, 2).add(Aspect.DARKNESS, 4).add(bloodLists.copy()).add(Aspect.MAGIC, 2));
 
         // Poison
         registerObjectTagSafe(FluidBlockPoisonConfig._instance, new AspectList().add(Aspect.POISON, 4));
@@ -86,27 +85,27 @@ public class Thaumcraft {
         registerObjectTagSafe(WerewolfFurConfig._instance, new AspectList().add(Aspect.BEAST, 8));
 
         // Weather containers
-        AspectList weatherContainerList = new AspectList(new ItemStack(WeatherContainer.getInstance()));
-        registerObjectTagSafe(WeatherContainerConfig._instance, new AspectList().add(weatherContainerList).add(Aspect.WEATHER, 4).add(Aspect.MAGIC, 2));
-        registerObjectTagSafe(WeatherContainerConfig._instance, WeatherContainer.WeatherContainerTypes.CLEAR.ordinal(), new AspectList().add(weatherContainerList).add(Aspect.ORDER, 6));
-        registerObjectTagSafe(WeatherContainerConfig._instance, WeatherContainer.WeatherContainerTypes.RAIN.ordinal(), new AspectList().add(weatherContainerList).add(Aspect.WATER, 6));
-        registerObjectTagSafe(WeatherContainerConfig._instance, WeatherContainer.WeatherContainerTypes.LIGHTNING.ordinal(), new AspectList().add(weatherContainerList).add(Aspect.ENERGY, 6));
+        AspectList weatherContainerList = new AspectList().add(Aspect.DARKNESS, 3).add(Aspect.CRYSTAL, 1);
+        registerObjectTagSafe(WeatherContainerConfig._instance, new AspectList().add(weatherContainerList.copy()).add(Aspect.WEATHER, 4).add(Aspect.MAGIC, 2));
+        registerObjectTagSafe(WeatherContainerConfig._instance, WeatherContainer.WeatherContainerTypes.CLEAR.ordinal(), new AspectList().add(weatherContainerList.copy()).add(Aspect.ORDER, 6));
+        registerObjectTagSafe(WeatherContainerConfig._instance, WeatherContainer.WeatherContainerTypes.RAIN.ordinal(), new AspectList().add(weatherContainerList.copy()).add(Aspect.WATER, 6));
+        registerObjectTagSafe(WeatherContainerConfig._instance, WeatherContainer.WeatherContainerTypes.LIGHTNING.ordinal(), new AspectList().add(weatherContainerList.copy()).add(Aspect.ENERGY, 6));
 
         // Other
         registerObjectTagSafe(EnvironmentalAccumulatorConfig._instance, new AspectList().add(Aspect.MAGIC, 10).add(Aspect.ENTROPY, 5).add(Aspect.EXCHANGE, 4).add(Aspect.MECHANISM, 3).add(Aspect.WEATHER, 10));
         registerObjectTagSafe(SpiritPortalConfig._instance, new AspectList().add(Aspect.MAGIC, 10).add(Aspect.TRAVEL, 10).add(Aspect.UNDEAD, 10));
         registerObjectTagSafe(DarkBloodBrickConfig._instance, new AspectList(new ItemStack(DarkBrickConfig._instance.getBlockInstance())).add(new AspectList(new ItemStack(DarkPowerGemConfig._instance.getItemInstance()))));
         registerObjectTagSafe(BroomConfig._instance, new AspectList().add(Aspect.MOTION, 4).add(Aspect.MAGIC, 2).add(Aspect.FLIGHT, 6).add(Aspect.TRAVEL, 2));
-        registerObjectTagSafe(BlookConfig._instance, new AspectList().add(bloodLists).add(Aspect.MIND, 1));
+        registerObjectTagSafe(BlookConfig._instance, new AspectList().add(bloodLists.copy()).add(Aspect.MIND, 1));
         registerObjectTagSafe(InvertedPotentiaConfig._instance, InvertedPotentia.EMPOWERED_META, new AspectList(new ItemStack(InvertedPotentia.getInstance())).add(Aspect.ENERGY, 4));
         registerObjectTagSafe(CorruptedTearConfig._instance, new AspectList().add(Aspect.DEATH, 4).add(Aspect.SOUL, 4).add(Aspect.ENTROPY, 4).add(Aspect.EXCHANGE, 8).add(Aspect.TRAVEL, 2).add(Aspect.MAGIC, 4));
         for(int i = 0; i < 3; i++) {
             registerObjectTagSafe(PromiseAcceptorConfig._instance, i, new AspectList().add(Aspect.METAL, 10).add(Aspect.MECHANISM, 10));
         }
-        registerObjectTagSafe(BloodWaxedCoalConfig._instance, new AspectList().add(Aspect.FIRE, 4).add(Aspect.ENERGY, 4).add(bloodLists));
-        registerObjectTagSafe(BloodPotashConfig._instance, new AspectList().add(Aspect.SENSES, 2).add(bloodLists));
+        registerObjectTagSafe(BloodWaxedCoalConfig._instance, new AspectList().add(Aspect.FIRE, 4).add(Aspect.ENERGY, 4).add(bloodLists.copy()));
+        registerObjectTagSafe(BloodPotashConfig._instance, new AspectList().add(Aspect.SENSES, 2).add(bloodLists.copy()));
         registerObjectTagSafe(EnderTearConfig._instance, new AspectList().add(Aspect.TRAVEL, 8).add(Aspect.MAGIC, 8).add(Aspect.ELDRITCH, 4));
-        registerObjectTagSafe(BloodOrbConfig._instance, 1, new AspectList().add(Aspect.ORDER, 1).add(bloodLists));
+        registerObjectTagSafe(BloodOrbConfig._instance, 1, new AspectList().add(Aspect.ORDER, 1).add(bloodLists.copy()));
         registerObjectTagSafe(OriginsOfDarknessConfig._instance, new AspectList(new ItemStack(Items.book)).add(Aspect.DARKNESS, 4));
         ThaumcraftApi.registerObjectTag(DarkSpikeConfig._instance.getOreDictionaryId(), new AspectList().add(Aspect.METAL, 2).add(Aspect.DARKNESS, 2).add(Aspect.DEATH, 1));
         registerObjectTagSafe(ObscuredGlassConfig._instance, new AspectList().add(Aspect.DARKNESS, 4).add(Aspect.LIGHT, 4));
