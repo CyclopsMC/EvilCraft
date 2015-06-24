@@ -1,12 +1,15 @@
 package evilcraft.tileentity.tickaction.bloodchest;
 
+import evilcraft.api.RegistryManager;
+import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
+import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
+import evilcraft.core.config.IChangedCallback;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
-import net.minecraft.item.ItemStack;
-import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
-import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 
 /**
  * Registry for {@link IBloodChestRepairAction} instances.
@@ -14,6 +17,8 @@ import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
  *
  */
 public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRegistry {
+
+    private String[] itemBlacklist = new String[0];
 
     private final List<IBloodChestRepairAction> repairActions =
             new LinkedList<IBloodChestRepairAction>();
@@ -32,9 +37,11 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
 
     @Override
     public boolean isItemValidForSlot(ItemStack itemStack) {
-        for(IBloodChestRepairAction action : repairActions) {
-            if(action.isItemValidForSlot(itemStack)) {
-                return true;
+        if(isNotBlacklisted(itemStack)) {
+            for (IBloodChestRepairAction action : repairActions) {
+                if (action.isItemValidForSlot(itemStack)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -53,6 +60,46 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
     @Override
     public void repair(ItemStack itemStack, Random random, int actionID) {
         repairActions.get(actionID).repair(itemStack, random);
+    }
+
+    protected boolean isNotBlacklisted(ItemStack itemStack) {
+        if(itemStack == null) return false;
+        for(String name : itemBlacklist) {
+            System.out.println(Item.itemRegistry.getNameForObject(itemStack.getItem()));
+            if(Item.itemRegistry.getNameForObject(itemStack.getItem()).equals(name)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void setBlacklist(String[] blacklist) {
+        itemBlacklist = blacklist;
+    }
+
+    /**
+     * The changed callback for the item blacklist.
+     * @author rubensworks
+     *
+     */
+    public static class ItemBlacklistChanged implements IChangedCallback {
+
+        private static boolean calledOnce = false;
+
+        @Override
+        public void onChanged(Object value) {
+            if(calledOnce) {
+                RegistryManager.getRegistry(IBloodChestRepairActionRegistry.class).setBlacklist((String[]) value);
+            }
+            calledOnce = true;
+        }
+
+        @Override
+        public void onRegisteredPostInit(Object value) {
+            onChanged(value);
+        }
+
     }
     
 }
