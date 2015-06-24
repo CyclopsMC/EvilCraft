@@ -3,7 +3,6 @@ package evilcraft.core.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -26,6 +25,10 @@ public class GuiButtonExtended extends GuiButton {
 	public GuiButtonExtended(int id, int x, int y,
 			int width, int height, String string) {
 		super(id, x, y, width, height, string);
+	}
+
+	protected String getDisplayString() {
+		return this.displayString;
 	}
 	
 	@Override
@@ -51,7 +54,7 @@ public class GuiButtonExtended extends GuiButton {
 	        	color = 0xffffa0;
 	        }
 	        
-	        drawCenteredString(fontrenderer, displayString, xPosition + width / 2, yPosition + (height - 8) / 2, color);
+	        drawCenteredString(fontrenderer, getDisplayString(), xPosition + width / 2, yPosition + (height - 8) / 2, color);
         }
     }
 

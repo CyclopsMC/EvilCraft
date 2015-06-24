@@ -21,6 +21,7 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
 	
 	public static final int BUTTON_CLEAR = 1;
     public static final int BUTTON_BALANCE = 2;
+    public static final int BUTTON_TOGGLERETURN = 3;
 	private EntityPlayer player;
 	private int itemIndex;
 	
@@ -60,6 +61,12 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     	super.initGui();
     	buttonList.add(new GuiButtonExtended(BUTTON_CLEAR,   this.guiLeft + 88,  this.guiTop + 58, 13, 12, "C"));
         buttonList.add(new GuiButtonExtended(BUTTON_BALANCE, this.guiLeft + 103, this.guiTop + 58, 13, 12, "B"));
+        buttonList.add(new GuiButtonExtended(BUTTON_TOGGLERETURN, this.guiLeft + 36, this.guiTop + 70, 40, 12, "...") {
+            @Override
+            public String getDisplayString() {
+                return ((ContainerExaltedCrafter) inventorySlots).isReturnToInnerInventory() ? "inner" : "player";
+            }
+        });
     }
     
     @Override

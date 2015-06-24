@@ -1,12 +1,12 @@
 package evilcraft.core.inventory.container;
 
+import evilcraft.core.helper.InventoryHelpers;
+import evilcraft.core.item.ItemGui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import evilcraft.core.helper.InventoryHelpers;
-import evilcraft.core.item.ItemGui;
 
 /**
  * A container for an item.
@@ -41,8 +41,12 @@ public abstract class ItemInventoryContainer<I extends ItemGui> extends Extended
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		ItemStack item = InventoryHelpers.getItemFromIndex(player, itemIndex);
+		ItemStack item = getItemStack(player);
 		return item != null && item.getItem() == getItem();
+	}
+
+	public ItemStack getItemStack(EntityPlayer player) {
+		return InventoryHelpers.getItemFromIndex(player, itemIndex);
 	}
 	
 	@Override
