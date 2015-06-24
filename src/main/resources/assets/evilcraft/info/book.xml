@@ -138,7 +138,7 @@
                 <appendix type="craftingRecipe">evilcraft:vengeanceRing</appendix>
             </section>
             <section name="infoBook.firstAge.vengeanceSpirits.catchingSpirits">
-                <tag>boxOfExternalClosure</tag>
+                <tag>boxOfEternalClosure</tag>
                 <tag>vengeanceFocus</tag>
                 <paragraph>infoBook.firstAge.vengeanceSpirits.catchingSpirits.text1</paragraph>
                 <paragraph>infoBook.firstAge.vengeanceSpirits.catchingSpirits.text2</paragraph>
