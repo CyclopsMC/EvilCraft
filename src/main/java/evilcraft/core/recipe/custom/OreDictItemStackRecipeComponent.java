@@ -1,6 +1,7 @@
 package evilcraft.core.recipe.custom;
 
 import lombok.Data;
+import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class OreDictItemStackRecipeComponent extends ItemStackRecipeComponent {
 
     private final String key;
+    @Getter(lazy=true) private final List<ItemStack> itemStacks = OreDictionary.getOres(getKey());
 
     public OreDictItemStackRecipeComponent(String key) {
         super(null);
@@ -49,7 +51,4 @@ public class OreDictItemStackRecipeComponent extends ItemStackRecipeComponent {
         return key.hashCode() + 876;
     }
 
-    public List<ItemStack> getItemStacks() {
-        return OreDictionary.getOres(getKey());
-    }
 }
