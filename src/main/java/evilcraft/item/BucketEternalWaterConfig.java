@@ -8,10 +8,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.*;
 
 /**
  * Config for the Eternal Water Bucket.
@@ -56,6 +57,20 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
                 if(result != null && result.getItem() == Items.bucket) return new ItemStack(getContainerItem());
 
                 return result;
+            }
+
+            @Override
+            public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
+                                     float hitX, float hitY, float hitZ) {
+                TileEntity tile = world.getTileEntity(x, y, z);
+                if(tile instanceof IFluidHandler) {
+                    if(!world.isRemote) {
+                        ((IFluidHandler) tile).fill(ForgeDirection.getOrientation(side),
+                                new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME), true);
+                        return true;
+                    }
+                }
+                return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
             }
 
         };

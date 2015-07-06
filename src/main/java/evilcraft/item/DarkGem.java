@@ -15,6 +15,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 /**
  * Gem that drops from {@link DarkOre}.
  * @author rubensworks
@@ -50,56 +52,53 @@ public class DarkGem extends ConfigurableItem {
     }
     
     @Override
-    public boolean onEntityItemUpdate(EntityItem entityItem) {
+    public boolean onEntityItemUpdate(final EntityItem entityItem) {
         // This will transform a dark gem into a blood infusion core when it finds 
         // REQUIRED_BLOOD_BLOCKS blood fluid blocks in the neighbourhood.
         if(Configs.isEnabled(BloodInfusionCoreConfig.class) && !entityItem.worldObj.isRemote
         		&& WorldHelpers.efficientTick(entityItem.worldObj, TICK_MODULUS, 
         				(int) entityItem.posX, (int) entityItem.posY, (int) entityItem.posZ)) {
-            /*int x = MathHelper.floor_double(entityItem.posX);
-            int y = MathHelper.floor_double(entityItem.posY);
-            int z = MathHelper.floor_double(entityItem.posZ);*/
-            BlockPos blockPos = entityItem.getPosition();
+            final BlockPos blockPos = entityItem.getPosition();
             World world = entityItem.worldObj;
             
             int amount = 0;
             if(isValidBlock(world, blockPos)) {
                 // For storing REQUIRED_BLOOD_BLOCKS coordinates
-                BlockPos[] visited = new BlockPos[REQUIRED_BLOOD_BLOCKS];
+                final BlockPos[] visited = new BlockPos[REQUIRED_BLOOD_BLOCKS];
                 
                 // Save first coordinate
                 visited[amount] = blockPos;
                 amount++;
-                
+
                 // Search in neighbourhood
-                for(int i = -1; i <= 1; i++) {
-                    for(int j = -1; j <= 1; j++) {
-                        for(int k = -1; k <= 1; k++) {
-                            BlockPos loopPos = blockPos.add(i, j, k);
-                            if(!(i==0 && j==0 && k==0) && isValidBlock(world, loopPos)) {
-                                // Save next coordinate
-                                visited[amount] = loopPos;
-                                amount++;
-                                
-                                // Do the transform when REQUIRED_BLOOD_BLOCKS are found
-                                if(amount == REQUIRED_BLOOD_BLOCKS) {
-                                    // Spawn the new item
-                                    entityItem.getEntityItem().stackSize--;
-                                    entityItem.dropItem(DarkPowerGemConfig._instance.getItemInstance(), 1);
-                                    
-                                    // Retrace coordinate step and remove all those blocks + spawn particles
-                                    for(int restep = 0; restep < amount; restep++) {
-                                        world.setBlockToAir(visited[restep]);
-                                        if (world.isRemote)
-                                            BloodStainedBlock.splash(world, visited[restep].add(0, -1, 0));
-                                        world.notifyNeighborsOfStateChange(visited[restep], Blocks.air);
-                                    }
-                                    return false;
+                WorldHelpers.foldArea(world, 3, blockPos, new WorldHelpers.WorldFoldingFunction<Integer, Integer>() {
+                    @Nullable
+                    @Override
+                    public Integer apply(@Nullable Integer amount, World world, BlockPos pos) {
+                        if(amount == null || amount == -1) return amount;
+                        if(!(pos.getX() == blockPos.getX() && pos.getY() == blockPos.getY() && pos.getZ() == blockPos.getZ()) && isValidBlock(world, pos)) {
+                            // Save next coordinate
+                            visited[amount] = pos;
+
+                            // Do the transform when REQUIRED_BLOOD_BLOCKS are found
+                            if(++amount == REQUIRED_BLOOD_BLOCKS) {
+                                // Spawn the new item
+                                entityItem.getEntityItem().stackSize--;
+                                entityItem.dropItem(DarkPowerGemConfig._instance.getItemInstance(), 1);
+
+                                // Retrace coordinate steps and remove all those blocks + spawn particles
+                                for(int restep = 0; restep < amount; restep++) {
+                                    world.setBlockToAir(visited[restep]);
+                                    if (world.isRemote)
+                                        BloodStainedBlock.splash(world, visited[restep].add(0, -1, 0));
+                                    world.notifyBlockOfStateChange(visited[restep], Blocks.air);
                                 }
+                                return -1;
                             }
                         }
+                        return amount;
                     }
-                }
+                }, 1);
             }
         }
         return false;

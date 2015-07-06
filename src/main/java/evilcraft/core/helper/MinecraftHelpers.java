@@ -221,7 +221,7 @@ public class MinecraftHelpers {
         if(fluid1 == null) { // fluid2 is always null now
             return true;
         }
-        return fluid1.fluidID == fluid2.fluidID && fluid1.amount == fluid2.amount;
+        return fluid1.getFluidID() == fluid2.getFluidID() && fluid1.amount == fluid2.amount;
     }
 
     /**

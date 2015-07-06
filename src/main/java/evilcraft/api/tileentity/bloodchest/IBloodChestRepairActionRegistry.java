@@ -39,5 +39,11 @@ public interface IBloodChestRepairActionRegistry extends IRegistry {
      * @param actionID the ID of the action to call.
      */
     public void repair(ItemStack itemStack, Random random, int actionID);
+
+    /**
+     * Set the blacklist of item names.
+     * @param blacklist The names of items that are not allowed into the blood chest.
+     */
+    public void setBlacklist(String[] blacklist);
     
 }

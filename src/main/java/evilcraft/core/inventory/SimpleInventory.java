@@ -60,7 +60,7 @@ public class SimpleInventory implements IInventory {
 
     @Override
     public void setInventorySlotContents(int slotId, ItemStack itemstack) {
-        if (slotId >= _contents.length) {
+        if (slotId >= _contents.length || slotId < 0) {
             return;
         }
         this._contents[slotId] = itemstack;

@@ -5,6 +5,7 @@ import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.helper.WorldHelpers;
+import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
@@ -121,6 +122,9 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         List<Integer> inSlotsTank = new LinkedList<Integer>();
         inSlotsTank.add(SLOT_CONTAINER);
         List<Integer> inSlotsInventory = new LinkedList<Integer>();
+        for(int i = 0; i < SLOTS_CHEST; i++) {
+            inSlotsInventory.add(i);
+        }
         inSlotsInventory.add(SLOT_CONTAINER);
         addSlotsToSide(EnumFacing.EAST, inSlotsTank);
         addSlotsToSide(EnumFacing.UP, inSlotsInventory);
@@ -136,7 +140,11 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        return SlotRepairable.checkIsItemValid(itemStack);
+        if(slot == SLOT_CONTAINER)
+            return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
+        else if(slot <= SLOTS_CHEST && slot >= 0)
+            return SlotRepairable.checkIsItemValid(itemStack);
+        return false;
     }
 
     @Override

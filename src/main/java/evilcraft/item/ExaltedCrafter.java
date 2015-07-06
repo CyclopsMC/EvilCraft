@@ -30,6 +30,8 @@ import java.util.List;
  *
  */
 public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
+
+    private static final String NBT_RETURNTOINNER = "returnToInner";
     
     private static ExaltedCrafter _instance = null;
     
@@ -139,6 +141,19 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemStack) {
     	return new EntityItemEmpowerable(world, (EntityItem) location);
+    }
+
+    public void setReturnToInner(ItemStack itemStack, boolean returnToInner) {
+        if(itemStack.hasTagCompound()) {
+            itemStack.getTagCompound().setBoolean(NBT_RETURNTOINNER, returnToInner);
+        }
+    }
+
+    public boolean isReturnToInner(ItemStack itemStack) {
+        if(itemStack.hasTagCompound()) {
+            return itemStack.getTagCompound().getBoolean(NBT_RETURNTOINNER);
+        }
+        return false;
     }
 
 }

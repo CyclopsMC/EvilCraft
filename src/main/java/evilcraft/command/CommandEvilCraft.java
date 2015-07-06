@@ -27,6 +27,7 @@ public class CommandEvilCraft implements ICommand {
         list.add(NAME);
         list.add("evilCraft");
         list.add("EvilCraft");
+        list.add("ec");
         return list;
     }
     
@@ -35,6 +36,7 @@ public class CommandEvilCraft implements ICommand {
         map.put("config", new CommandConfig());
         map.put("version", new CommandVersion());
         map.put("recursion", new CommandRecursion());
+        map.put("ignite", new CommandIgnite());
         return map;
     }
     

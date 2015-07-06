@@ -68,6 +68,12 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
                 container.balanceGrid();
             }
         });
+        ACTIONS.put(GuiExaltedCrafter.BUTTON_TOGGLERETURN, new IButtonAction() {
+            @Override
+            public void execute(ContainerExaltedCrafter container) {
+                container.setReturnToInnerInventory(!container.isReturnToInnerInventory());
+            }
+        });
     }
 
     /**
@@ -175,6 +181,14 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
             }
         }
     }
+
+    public boolean isReturnToInnerInventory() {
+        return ExaltedCrafter.getInstance().isReturnToInner(getItemStack(player));
+    }
+
+    protected void setReturnToInnerInventory(boolean returnToInner) {
+        ExaltedCrafter.getInstance().setReturnToInner(getItemStack(player), returnToInner);
+    }
     
     @Override
     protected int getSlotStart(int originSlot, int slotStart, boolean reverse) {
@@ -182,20 +196,24 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     		// Avoid shift clicking with as target the crafting grid (+ result).
     		return 10;
     	} else if(reverse && originSlot < 10) {
-    		// Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
-    		//return 1 + GRID_ROWS * GRID_COLUMNS;
-            return slotStart; // TODO: later on, make a toggle to control this behaviour
+            if(isReturnToInnerInventory()) {
+                // Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
+                return 1 + GRID_ROWS * GRID_COLUMNS;
+            } else {
+                return slotStart;
+            }
     	}
     	return super.getSlotStart(originSlot, slotStart, reverse);
     }
     
     @Override
     protected int getSlotRange(int originSlot, int slotRange, boolean reverse) {
-    	/*if(reverse && originSlot < 10) {
+    	if(isReturnToInnerInventory() && reverse && originSlot < 10) {
     		// Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
     		return getSizeInventory();
-    	}*/ // TODO: same as before
-    	return slotRange;
+    	} else {
+            return slotRange;
+        }
     }
     
     protected void addCraftingGrid(EntityPlayer player, NBTCraftingGrid grid) {

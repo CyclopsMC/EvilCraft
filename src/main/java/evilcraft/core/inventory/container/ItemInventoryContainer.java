@@ -41,8 +41,12 @@ public abstract class ItemInventoryContainer<I extends ItemGui> extends Extended
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		ItemStack item = InventoryHelpers.getItemFromIndex(player, itemIndex);
+		ItemStack item = getItemStack(player);
 		return item != null && item.getItem() == getItem();
+	}
+
+	public ItemStack getItemStack(EntityPlayer player) {
+		return InventoryHelpers.getItemFromIndex(player, itemIndex);
 	}
 	
 	@Override

@@ -1,6 +1,5 @@
 package evilcraft.command;
 
-import evilcraft.core.config.ConfigProperty;
 import net.minecraft.command.ICommand;
 
 import java.util.HashMap;
@@ -9,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Command for selecting {@link ConfigProperty}.
+ * Command for doing some recursion.
  * @author rubensworks
  *
  */

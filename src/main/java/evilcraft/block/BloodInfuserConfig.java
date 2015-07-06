@@ -1,10 +1,13 @@
 package evilcraft.block;
 
 import com.google.common.collect.Sets;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.tileentity.TileWorking;
+import evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import net.minecraft.item.ItemBlock;
 
 import java.util.Set;
@@ -20,6 +23,16 @@ public class BloodInfuserConfig extends BlockContainerConfig {
      * The unique instance.
      */
     public static BloodInfuserConfig _instance;
+
+    /**
+     * The blacklisted items, by item name.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE,
+            comment = "The blacklisted Blood Chest items, by item name.",
+            changedCallback = BloodChestRepairActionRegistry.ItemBlacklistChanged.class)
+    public static String[] itemBlacklist = new String[]{
+            "minecraft:stick"
+    };
 
     /**
      * Make a new instance.

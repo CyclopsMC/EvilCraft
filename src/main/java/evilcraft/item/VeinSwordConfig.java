@@ -23,6 +23,12 @@ public class VeinSwordConfig extends ItemConfig {
     public static double extractionBoost = 2.0;
 
     /**
+     * Maximum uses for this item.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "Maximum uses for this item.")
+    public static int durability = 32;
+
+    /**
      * Make a new instance.
      */
     public VeinSwordConfig() {

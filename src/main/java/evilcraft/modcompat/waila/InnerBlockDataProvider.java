@@ -6,7 +6,14 @@ import evilcraft.core.tileentity.InnerBlocksTileEntity;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+<<<<<<< HEAD
+=======
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+>>>>>>> origin/master
 
 import java.util.List;
 
@@ -22,11 +29,11 @@ public class InnerBlockDataProvider implements IWailaDataProvider {
             IWailaConfigHandler config) {
         if(accessor.getBlock() instanceof ConfigurableBlockWithInnerBlocks && config.getConfig(Waila.getInnerBlockConfigID())) {
             ConfigurableBlockWithInnerBlocks block = (ConfigurableBlockWithInnerBlocks) accessor.getBlock();
-            return new ItemStack(block.getBlockFromState(accessor.getMetadata()));
+            return accessor.getStack();
         }
         if(accessor.getBlock() instanceof ConfigurableBlockWithInnerBlocksExtended && config.getConfig(Waila.getInnerBlockConfigID())) {
         	InnerBlocksTileEntity tile = (InnerBlocksTileEntity) accessor.getTileEntity();
-            return new ItemStack(tile.getInnerBlockState(), 1, accessor.getMetadata());
+            return accessor.getStack();
         }
         return null;
     }

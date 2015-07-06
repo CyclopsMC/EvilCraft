@@ -1,7 +1,6 @@
 package evilcraft.core.config.configurabletypeaction;
 
 import evilcraft.core.config.extendedconfig.BiomeConfig;
-import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
@@ -32,7 +31,7 @@ public class BiomeAction extends ConfigurableTypeAction<BiomeConfig>{
         eConfig.save();
         
         // Register biome
-        BiomeManager.addSpawnBiome(eConfig.getBiome());
+        //BiomeManager.addSpawnBiome(eConfig.getBiome());
         eConfig.registerBiomeDictionary();
     }
 

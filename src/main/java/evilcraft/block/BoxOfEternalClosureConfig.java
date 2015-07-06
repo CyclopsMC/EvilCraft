@@ -63,7 +63,7 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
         BoxOfEternalClosure.setVengeanceSwarmContent(spiritStack);
         for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
             ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
-            		spiritStack, 1, 5, 5));
+            		spiritStack, 1, 1, 4));
         }
     }
     

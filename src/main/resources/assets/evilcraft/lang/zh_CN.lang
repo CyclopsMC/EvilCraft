@@ -1,12 +1,13 @@
-# zh_CN
-# Translated by bebacksee
-
 # General
 itemGroup.EvilCraft=邪恶工艺
 general.info.enabled=启用
 general.info.disabled=禁用
 general.info.empty=空
 general.tooltip.info=<按Shift查看>
+# mod-version; MC-version
+general.versionCurrent=%s for Minecraft %s
+# new-mod-version; mod-name; current-mod-version; update-link
+general.versionUpdate=Update %s of %s(%s): %s
 
 # Blocks
 tile.blocks.blockBlood.name=血液
@@ -14,8 +15,8 @@ tile.blocks.blockPoison.name=毒液
 tile.blocks.bloodChest.name=血能箱
 tile.blocks.bloodChest.info=用血液修复物品
 tile.blocks.bloodInfuser.name=血能注入器
-tile.blocks.darkOre.name=暗黑矿石
-tile.blocks.darkOre.info.custom=可以在 %s 到 %s高度找到.
+tile.blocks.darkOre.name=暗能宝石矿石
+tile.blocks.darkOre.info.custom=可以在 %s 到 %s高度找到。
 tile.blocks.darkBlock.name=暗能宝石块
 tile.blocks.bloodStainedBlock.name=血迹方块
 tile.blocks.bloodStainedBlock.info=这是生物摔死的地方
@@ -29,7 +30,7 @@ tile.blocks.obscuredGlass.name=毛玻璃
 tile.blocks.environmentalAccumulator.name=天气储存器
 tile.blocks.environmentalAccumulator.info=在山顶的黑暗神庙被找到，无法制造
 tile.blocks.undeadLeaves.name=亡灵树叶
-tile.blocks.undeadLog.name=亡灵原木
+tile.blocks.undeadLog.name=亡灵木
 tile.blocks.undeadSapling.name=亡灵树苗
 tile.blocks.undeadSapling.info=被注满了血液的枯死灌木
 tile.blocks.undeadPlank.name=亡灵木板
@@ -39,37 +40,38 @@ tile.blocks.purifier.info=不再被添加随机附魔！
 tile.blocks.darkBrick.name=黑砖
 tile.blocks.darkBloodBrick.name=黑暗血砖
 tile.blocks.spiritFurnace.name=灵魂炉
-tile.blocks.spiritFurnace.info=提供被捕灵魂血液，可以得到他们的掉落物(需要中空结构).
+tile.blocks.spiritFurnace.info=提供被捕灵魂血液，可以得到他们的掉落物(需要中空结构)。
 tile.blocks.spiritFurnace.help.invalid=无法注入血液
 tile.blocks.spiritFurnace.help.invalid.noEntity=空的或者没有灵魂箱
 tile.blocks.spiritFurnace.help.invalid.contentSize=容量大小: %s
 tile.blocks.spiritFurnace.help.invalid.requiredSize=需要大小: %s
 tile.blocks.spiritFurnace.help.invalid.forceHalt=没有空间
-tile.blocks.spiritFurnace.help.invalid.caughtError=无效生物灵魂. 重新捕捉.
+tile.blocks.spiritFurnace.help.invalid.caughtError=无效生物灵魂，重新捕捉
 tile.blocks.boxOfEternalClosure.name=永恒的灵魂箱
 tile.blocks.boxOfEternalClosure.info.content=容量: %s
-tile.blocks.darkTank.name=黑暗液体箱
-tile.blocks.darkTank.info=叠加合成增加容量. Shift + 右键切换是否流动.
+tile.blocks.darkTank.name=暗黑液体罐
+tile.blocks.darkTank.info=叠加合成增加容量. Shift + 右键切换是否自动补给.
 tile.blocks.darkTank.info.autoSupply=自动补给: %s
 tile.blocks.sanguinaryPedestal.name=血腥基座
-tile.blocks.sanguinaryPedestal.info=提取附近方块的血迹.
+tile.blocks.sanguinaryPedestal.info=提取附近方块的血迹
 tile.blocks.sanguinaryPedestal.boost=效率 I
 tile.blocks.spikedPlate.name=钉刺板
-tile.blocks.spikedPlate.info=对钉刺板生物造成伤害使它们留下血迹.
-tile.blocks.spiritReanimator.name=灵魂繁殖再生炉
-tile.blocks.spiritReanimator.info=可以以蛋的形式复活复仇灵魂.
-tile.blocks.spiritReanimator.help.invalid.noEntity=无效, 空的或者没有灵魂箱
+tile.blocks.spikedPlate.info=对生物造成伤害，放置在基座上同时会生产血
+tile.blocks.spiritReanimator.name=灵魂再生炉
+tile.blocks.spiritReanimator.info=可以以蛋的形式复活复仇灵魂
+tile.blocks.spiritReanimator.help.invalid.noEntity=无效,空的或者没有灵魂箱
 tile.blocks.spiritReanimator.help.invalid.invalidEntity=这个生物没有刷怪蛋
 tile.blocks.spiritReanimator.help.invalid.differentEgg=请移除其它生物蛋
 tile.blocks.entangledChalice.name=纠缠圣杯
-tile.blocks.entangledChalice.info=穿越世界的纠缠,两个杯子将共享液体.\nShift + 右键切换自动补给.
+tile.blocks.entangledChalice.info=穿越世界的纠缠，两个杯子将共享液体。\nShift + 右键切换自动补给
 tile.blocks.entangledChalice.info.autoSupply=自动补给: %s
 tile.blocks.darkPowerGemBlock.name=血能宝石块
 tile.blocks.gemStoneTorch.name=暗能火把
-tile.blocks.gemStoneTorch.info=复仇灵魂不会在暗能火把15格范围内产生.
+tile.blocks.gemStoneTorch.info=复仇灵魂不会在暗能火把15格范围内产生
 tile.blocks.eternalWaterBlock.name=永恒水方块
-tile.blocks.eternalWaterBlock.info=一个无限的水源.
+tile.blocks.eternalWaterBlock.info=一个无限的水源
 tile.blocks.bloodWaxedCoalBlock.name=血蜡煤块
+tile.blocks.spiritPortal.name=灵魂之门
 
 # Items
 item.items.werewolfBone.name=狼人的骨头
@@ -80,7 +82,7 @@ item.items.redstoneGrenade.name=红石脉冲弹
 item.items.bucketBlood.name=血液桶
 item.items.bucketPoison.name=毒液桶
 item.items.bloodExtractor.name=血液提取器
-item.items.bloodExtractor.info=放在背包,杀死生物时会收集血液.\nShift + 右键切换自动补给.
+item.items.bloodExtractor.info=放在背包，杀死生物时会收集血液。\nShift + 右键切换自动补给
 item.items.bloodExtractor.info.autoSupply=自动补给: %s
 item.items.darkGem.name=暗能宝石
 item.items.darkStick.name=深色木棍
@@ -90,74 +92,76 @@ item.items.broom.name=扫把
 item.items.broom.info=I can fly!
 item.items.hardenedBloodShard.name=干血碎片
 item.items.hardenedBloodShard.info=在血块上使用打火石可以获得
-item.items.bloodInfusionCore.name=血能核心
+item.items.bloodInfusionCore.name=血能注入核心
 item.items.darkPowerGem.name=血能宝石
-item.items.darkPowerGem.info=将暗黑矿石投入至少5格的流动血液中，或者用血能注入器将血能注入暗黑宝石
+item.items.darkPowerGem.info=将暗能宝石投入至少5格的流动血液中，或者用血能注入器将血能注入暗能宝石
 item.items.bloodContainer.bloodCell.name=血瓶
 item.items.bloodContainer.bloodCan.name=血罐
 item.items.bloodContainer.bloodBasin.name=血盆
 item.items.bloodContainer.creativeBloodContainer.name=血箱(创造模式)
-item.items.bloodContainer.info=不推荐使用！请合成转换为黑暗液体箱.
+item.items.bloodContainer.info=不推荐使用！请合成转换为暗黑液体罐.
 item.items.bloodContainer.info.autoSupply=自动补给模式:
 item.items.poisonSac.name=毒囊
 item.items.werewolfFur.name=狼人皮
 item.items.blook.name=血书
-item.items.blook.info=放入净化器中可以吸收物品的附魔.
+item.items.blook.info=放入净化器中可以吸收物品的附魔
 item.items.potentiaSphere.name=神秘球
-item.items.potentiaSphere.info=注入血液会变成末影珍珠.
+item.items.potentiaSphere.info=注入血液会变成末影珍珠
 item.items.invertedPotentia.name=暗黑能量球
-item.items.invertedPotentia.info=用闪电可以充能.
+item.items.invertedPotentia.info=用闪电可以充能
 item.items.maceOfDistortion.name=立场扭曲锤
 item.items.maceOfDistortion.setPower=功率等级设为 %s
-item.items.maceOfDistortion.info=Shift + 右键切换功率.
+item.items.maceOfDistortion.info=Shift + 右键切换功率
 item.items.maceOfDistortion.info.power=功率: %s
 item.items.kineticator.name=磁场魔杖
 item.items.kineticator.repelling.name=反磁场魔杖
 item.items.kineticator.setPower=功率等级设为 %s
-item.items.kineticator.info=Shift + 右键开启魔杖.\n 右键改变作用面积.
+item.items.kineticator.info=Shift + 右键开启魔杖 \n 右键改变作用面积
 item.items.kineticator.info.attraction=吸引: %s
 item.items.kineticator.info.repelling.attraction=排斥: %s
 item.items.kineticator.info.area=范围: %s
-item.items.vengeanceRing.name=复仇之戒
-item.items.vengeanceRing.info=buff++,可能会吸引或召唤复仇灵魂.\n shift +右键开启或关闭.
+item.items.vengeanceRing.name=复仇指环
+item.items.vengeanceRing.info=buff++，可能会吸引或召唤复仇灵魂 \n shift +右键开启或关闭
 item.items.vengeanceRing.info.status=状态: %s
 item.items.vengeanceFocus.name=复仇之焦
-item.items.vengeanceFocus.info=右键灵魂施加封印,会使附近的空灵魂箱会吸收灵魂.
+item.items.vengeanceFocus.info=右键灵魂施加封印，会使附近的空灵魂箱会吸收灵魂。
 item.items.vengeancePickaxe.name=复仇之镐
-item.items.vengeancePickaxe.info=可能会召唤复仇之魂.
+item.items.vengeancePickaxe.info=可能会召唤复仇之魂
 item.items.burningGemStone.name=灼烧暗能宝石块
-item.items.burningGemStone.info=被动地将复仇灵魂的损害转换为饥饿.
+item.items.burningGemStone.info=被动地将复仇灵魂的损害转换为饥饿
 item.items.darkGemCrushed.name=暗能宝石粉
 item.items.veinSword.name=静脉剑
 item.items.creativeBloodDrop.name=创造血源
-item.items.creativeBloodDrop.info=创造模式使用无限血液.
+item.items.creativeBloodDrop.info=创造模式使用无限血液
 item.items.creativeBloodDrop.info.autoSupply=自动补给: %s
 item.items.darkSpike.name=针管
-item.items.exaltedCrafter.name=永恒合成包
+item.items.exaltedCrafter.name=末影合成包
 item.items.exaltedCrafter.wood.name=木制合成包
 item.items.necromancerStaff.name=死灵法师权杖
-item.items.necromancerStaff.info=召唤僵尸.
+item.items.necromancerStaff.info=召唤僵尸
 item.items.invigoratingPendant.name=振奋吊坠
 item.items.invigoratingPendant.info=消除负面状态.
 item.items.boundBloodDrop.name=绑定的血滴
-item.items.boundBloodDrop.info=右键绑定你的血魔法网络.
+item.items.boundBloodDrop.info=右键绑定你的血魔法网络
 item.items.boundBloodDrop.info.autoSupply=自动补给: %s
 item.items.boundBloodDrop.info.currentOwner=现在的所有者: %s
 item.items.boundBloodDrop.info.currentOwner.none=无
 item.items.resurgenceEgg.name=复活蛋
 item.items.resurgenceEgg.info.content=内容: %s
 item.items.corruptedTear.name=堕落之泪
+item.items.promise.name=诺言升级
 item.items.promise.useIn=可以在以下使用:
 item.items.promise.tier1.name=坚韧的诺言 I
-item.items.promise.tier1.info=机器升级,血液容量x2.
+item.items.promise.tier1.info=机器升级，血液容量x2。
 item.items.promise.tier2.name=坚韧的诺言 II
-item.items.promise.tier2.info=机器升级,血液容量x4.
+item.items.promise.tier2.info=机器升级，血液容量x4。
 item.items.promise.tier3.name=坚韧的诺言 III
-item.items.promise.tier3.info=机器升级,血液容量x8.
+item.items.promise.tier3.info=机器升级，血液容量x8。
 item.items.promise.speed0.name=速度的诺言
 item.items.promise.speed0.info=机器速度 x2
 item.items.promise.efficiency0.name=效率的诺言
 item.items.promise.efficiency0.info=血能机器效率 x1.5
+item.items.bowlOfPromises.name=暗能粉末
 item.items.bowlOfPromises.active.name=注能暗能粉末
 item.items.bowlOfPromises.dusted.name=满满的暗能粉末
 item.items.bowlOfPromises.empty.name=空血能碗
@@ -165,28 +169,39 @@ item.items.bowlOfPromises.strength=充能强度
 item.items.dullDust.name=暗尘
 item.items.dullDust.info=相当无用的灰尘... 不是吗?
 item.items.bloodWaxedCoal.name=血蜡煤
-item.items.bloodWaxedCoal.info=双倍燃烧效率.
+item.items.bloodWaxedCoal.info=双倍燃烧效率
 item.items.enderTear.name=末影人之泪
-item.items.enderTear.info=末影人的稀有掉落(思乡的眼泪).
+item.items.enderTear.info=末影人的稀有掉落(思乡的眼泪)
 item.items.bloodPotash.name=染血骨粉
-item.items.bloodPotash.info=骨粉的双倍效率.
+item.items.bloodPotash.info=骨粉的双倍效率
 item.items.bucketEternalWater.name=永恒水桶
-item.items.bucketEternalWater.info=无限水之源.
+item.items.bucketEternalWater.info=无限水之源
+item.items.promiseAcceptor.name=诺言接收器
 item.items.promiseAcceptor.0.name=铁之诺言接收器
 item.items.promiseAcceptor.1.name=金之诺言接收器
 item.items.promiseAcceptor.2.name=璀璨诺言接收器
 item.items.sceptreOfThunder.name=雷电权杖
-item.items.sceptreOfThunder.info=使用会使天气变为雷雨天,一次性道具.
+item.items.sceptreOfThunder.info=使用会使天气变为雷雨天，一次性道具。
+item.items.bloodOrb.name=血晶球
 item.items.bloodOrb.empty.name=空晶球
 item.items.bloodOrb.filled.name=血晶球
+item.items.originsOfDarkness.name=黑暗起源
+item.items.originsOfDarkness.info=通过喂动物一个黑苹果然后快速向它死后的异常上扔一本书得到
+item.items.darkenedApple.name=黑苹果
+item.items.darkenedApple.info=不可食用，可以喂给动物
+item.items.veinedScribingTools.name=静脉划线工具
+item.items.bloodWandCap.name=血杖端
+item.Wand.blood.cap=Blood Banded
+item.items.effortlessRing.name=迅捷指环
+item.items.effortlessRing.info=行走速度更快更高效
 
 # Fluids
 fluid.fluids.evilcraftblood=血液
 fluid.fluids.evilcraftpoison=毒液
 
 # Weather container info
-weatherContainer.empty=空空如也
-weatherContainer.clear=那份专属于我的阳光
+weatherContainer.empty=空
+weatherContainer.clear=属于我的阳光
 weatherContainer.rain=当雨开始下起来的时候
 weatherContainer.lightning=雷暴降临！轰隆隆！
 
@@ -207,7 +222,7 @@ entity.vengeanceSpirit.name=复仇之魂
 
 # Enchantments
 enchantment.breaking=破碎
-enchantment.lifeStealing=生命窃取
+enchantment.lifeStealing=吸血
 enchantment.unusing=保险
 enchantment.poisonTip=淬毒
 
@@ -219,38 +234,291 @@ chat.command.invalidNewValue=无效新数值
 chat.command.updatedValue=可用更新 %s to: %s 
 chat.command.fartingEnabled=开启放屁模式
 chat.command.fartingDisabled=关闭放屁模式
+chat.command.invalidPlayer=未找到玩家 '%s' 
+chat.command.ignitedPlayer=玩家'%s' 被点燃 %s 秒
 chat.bossDisplay.charge=%s 充能
 
 # Death messages
 death.attack.dieWithoutAnyReason=%1$s 死的毫无缘由!
-death.attack.distorted=%1$s 无法活在扭曲里了.
+death.attack.distorted=%1$s 无法活在扭曲里了。
+death.attack.spiked=%1$s 被针扎死!
+death.attack.paling=%1$s 消逝了。
 
 # Biomes
 biomes.biomeDegraded=Degraded
 
+# Potion Effects
+potions.paling=苍白
+
 # Achievements
+achievement.evilcraft.evilSource=邪恶起源
+achievement.evilcraft.evilSource.desc=喂食动物黑苹果，在其死亡点扔书得到黑暗起源。
 achievement.evilcraft.fart=学会放屁
-achievement.evilcraft.fart.desc=最后释放所有这些讨厌的气体.
+achievement.evilcraft.fart.desc=最后释放所有这些讨厌的气体。
 achievement.evilcraft.firstAge=第一纪元
-achievement.evilcraft.firstAge.desc=第一次发现邪恶纪元的起源.
+achievement.evilcraft.firstAge.desc=第一次发现邪恶纪元的起源。
 achievement.evilcraft.secondAge=第二纪元
-achievement.evilcraft.secondAge.desc=启动第二邪恶纪元.
+achievement.evilcraft.secondAge.desc=启动第二邪恶纪元。
 achievement.evilcraft.masterDistorter=扭曲大师
-achievement.evilcraft.masterDistorter.desc=一次用力场扭曲锤杀死超过10只生物.
+achievement.evilcraft.masterDistorter.desc=一次用力场扭曲锤杀死超过10只生物。
 achievement.evilcraft.spiritCooker=血腥厨师
-achievement.evilcraft.spiritCooker.desc=搭建一个灵魂炉.
+achievement.evilcraft.spiritCooker.desc=搭建一个灵魂炉。
 achievement.evilcraft.closure=永恒封印
-achievement.evilcraft.closure.desc=使用复仇之焦捕捉一个复仇灵魂.
-achievement.evilcraft.tidy=收拾一下!
-achievement.evilcraft.tidy.desc=用扫把清理便便.
+achievement.evilcraft.closure.desc=使用复仇之焦捕捉一个复仇灵魂。
 achievement.evilcraft.playerDistorter=扭曲玩家
-achievement.evilcraft.playerDistorter.desc=用扭曲杀死玩家.
+achievement.evilcraft.playerDistorter.desc=用扭曲杀死玩家。
 achievement.evilcraft.playerDevastator=毁灭玩家
-achievement.evilcraft.playerDevastator.desc=用死灵法师权杖召唤僵尸杀死玩家.
+achievement.evilcraft.playerDevastator.desc=用死灵法师权杖召唤僵尸杀死玩家。
 achievement.evilcraft.powerCrafting=力量制造
-achievement.evilcraft.powerCrafting.desc=制造充能的永恒合成包!
+achievement.evilcraft.powerCrafting.desc=制造充能的末影合成包!
+achievement.evilcraft.cannibal=食人族
+achievement.evilcraft.cannibal.desc=试试吃点人肉。
 
 # Gui
 gui.exaltedCrafting=便携合成
-gui.waila.tankConfig=Tank contents
-gui.waila.innerBlocksConfig=Actual inner blocks
+gui.waila.tankConfig=液体含量
+gui.waila.innerBlocksConfig=容器内物品
+
+# ------ Origins of Darkness contents ------
+infoBook.section.main=黑暗起源
+infoBook.tagIndex=&o目录&r
+
+infoBook.preface=前言
+infoBook.preface.text1=这个世界远不止我看到的那样，这就是我要在这本写着我浅显知识的书里说的。我发现了一种黑暗生活的方式，和这个世界的生物一起。“&o什么样的邪恶将来临&r”，我问自己?“&o邪恶潜伏在各个角落&r”，黑暗的角落传来心声。我发现了这广阔世界的一些秘密，当然那些愚蠢的村民和僵尸是永远不可能理解的。
+infoBook.preface.text2=这个世界已经存在着很多种魔法，但你可以使用&4血液&0来做到的似乎有所不同。我注意到有人为了得到&4血液&0而割伤自己，而我更愿意为一些其他的东西释放我的力量。
+
+infoBook.structure=&o构成&r
+infoBook.structure.text1=这本书分为两部分，我喜欢把一切分为邪恶的两个纪元。我把这世界原来所有的一切分为&1第一纪元&0，而我的一生的事业便是&1第二纪元&0。
+infoBook.structure.text2=你可以点击这本书底部的箭头来浏览这本书，按住Shift点击将整段翻页，而不是一页页的翻。为了可以快速浏览，在每章的开头会有包含这章所有小节的浏览链接。当你看到合成时，这本书所给出的合成图是可以点击的，通过点击可以快速参考它所在的小节。你可能也会注意到书左上角的按钮，它可以回到当前小节的上一个章节目录。
+
+# --- First Age ---
+infoBook.firstAge=第一纪元
+
+# - A Strange New World -
+infoBook.firstAge.newWorld=一个陌生的新世界
+infoBook.firstAge.newWorld.introduction=介绍
+infoBook.firstAge.newWorld.introduction.text=最近我发现了一些奇怪的新东西。它们都发出一些阴森恐怖的氛围，我在这些东西旁边呆的时间越长，我就越习惯于这些...现在这些东西不是所有的都非常有用，但是我有一些把它们用在别的东西上的想法。
+
+infoBook.firstAge.newWorld.darkOre=暗能宝石矿石
+infoBook.firstAge.newWorld.darkOre.text=我早就知道这世界上充满着各种资源...但是今天我在这个世界找到了新发现，一种闪耀着黑色光泽的矿石，它让我觉得是种珍贵的宝石，但是我能感觉它内部模糊的存在。要得到这种宝石，好像铁镐是挖掘的最低要求。在挖掘时有时也会得到一些奇怪的粉末，我确信我很快就能找到这些粉末的用处。
+
+infoBook.firstAge.newWorld.darkenedApple=黑苹果
+infoBook.firstAge.newWorld.darkenedApple.text=当你读这本书的时候你可能已经发现了这个东西。将一个&1苹果&0和一个&1暗能宝石&0结合得到一个特殊的&1苹果&0，吃掉它就会在一段时间内造成大量伤害。如果生物因为这种效果死亡，还会在死亡点留下某种异常。我到现在还没有发现这种现象的用处...
+
+infoBook.firstAge.newWorld.evilDungeon=邪恶地牢
+infoBook.firstAge.newWorld.evilDungeon.text=在探测洞穴的时候，我偶尔会遇到一些&4血液&0洒满地板的狰狞的房间。这些&4血液&0的痕迹可能是以前的探险家与无数的怪物在这地下城作战时留下的。
+
+infoBook.firstAge.newWorld.darkTemple=黑暗神庙
+infoBook.firstAge.newWorld.darkTemple.text1=这些有着一定结构的建筑似乎是由某种古老的文明建造，通过它可以向物品中注入特定的环境能量。随着使用，看起来这个方法会破坏环境的平衡。这可能也是现在这个古老文明不再存在的主要原因...
+infoBook.firstAge.newWorld.darkTemple.text2=我使用&1暗能宝石&0就能增强&1玻璃瓶&0使它能够容纳天气。把这些天气瓶子向神庙的核心扔，就能吸收当前的天气，装入瓶内。
+infoBook.firstAge.newWorld.darkTemple.text3=我发现某些物品可以通过雷暴天气的特殊性能充能。这些物品可以通过被直接雷击充能，但是被闪电直接命中似乎不太可能，还是说....?
+
+infoBook.firstAge.newWorld.weatherContainerBenefits=天气瓶子用处
+infoBook.firstAge.newWorld.weatherContainerBenefits.text=在瓶子中的天气会在瓶子扔出破碎后激活。相比于破坏这些瓶子，使用它们制造一些其他的物品似乎更有趣。
+
+infoBook.firstAge.newWorld.libelle=毒蜻蜓
+infoBook.firstAge.newWorld.libelle.text=似乎这个世界还有一些新生物。这种生物好像是大号的蜻蜓。在白天的时候是一种相当和平的生物，但是不要被它欺骗，如果你靠得太近，这种昆虫就会叮咬你，似乎是它们的一种自卫方式。而在晚上，这种野兽就会被遗传的邪恶所征服，杀戮它所经过的一切生物。我认为至少我是幸运的，它们没有其他的武器除了积极的寻找我，毒杀我。我设法杀死了一些这种烦人的生物，从他们的尸体上得到了一下有趣的毒囊。我把它们扔进&1一桶水&0，很快溶解了4份毒囊。这将在紧要关头捍卫我的邪恶老巢...嗯，我的意思是家...我用荷兰文为这种生物命名，因为我并不想把他们和普通的巨型苍蝇搞混，这显而易见...
+
+infoBook.firstAge.newWorld.werewolf=狼人
+infoBook.firstAge.newWorld.werewolf.text=(这是作者编的小故事介绍他与狼人的邂逅，我就不翻译了233)Whilest I was exploring this world， I have taken rest in many villages. One of the towns I rested in had a strange looking fellow in it. I started talking to him and it soon struck me he was not as interested in emeralds as the other people in his town. In fact he started asking more and more questions about the dark ore I had discovered， we talked away hours and hours. He was so keen about getting his hands on them and other objects I have discovered that we ended up trading things for most of the rest of the day. When night had fallen， he took me to his house in the village and he said I was most welcome to spend the night in his spare bedroom. I said I already rented a room at the local inn but thanked him for his kindness anyway. As I crawled into bed in the inn， I took a last glance at the moon， as I usually do before going to sleep and I saw it was a nice full moon. As I closed my eyes， all of a sudden， I heard a loud distressed shout and after that a wolf-like growl. The whole village was looking through their windows and we saw a tall wolf， walking on its hindlegs. Everyone cowered in fear， but I， without fear nor doubt， took up my trusty dagger and gave it a pretty good beating. It was a very strong creature， his fur will make a nice memento to his great fight...When I woke up the next morning to conclude my trading session of the day before， my strange trading friend had taken a leave. There where claw marks all over his house and there was &4Blood&0 on the floor， I still wonder if the strange wolve ate him... Or if perhaps he was a werewolf， as the villagers gossip on... 似乎我可以通过&1工作台&0将狼人骨头转化为骨粉。
+
+infoBook.firstAge.newWorld.netherFish=下界蠹虫
+infoBook.firstAge.newWorld.netherFish.text=有一次，在我参观地狱时，我发现一格&1地狱岩&0比正常的有点难以敲碎。但是当我打破石头时，我发现一个小生物突然出现并开始攻击我。它使我着火，并对我造成了一点伤害，幸运的是我很容易就杀死了它。
+
+# - Relics -
+infoBook.firstAge.relics=遗迹
+
+infoBook.firstAge.relics.broom=扫把
+infoBook.firstAge.relics.broom.text=似乎在地牢和一些不平凡的村民家中会有少量几率有&1扫把&0。最初，它看起来就像一个普通的扫把一样，用来清洁地板，但是打开方式正确时，它就能漂浮起来。用它练习一段时间后，我能坐在上面控制它向我想要的方向飞行。
+
+infoBook.firstAge.relics.humanoidFlesh=人肉
+infoBook.firstAge.relics.humanoidFlesh.text=你可能之前都没有注意到，在玩家时候的地方会掉落一些他们的肉。吃人肉似乎很危险，在晚上吃可能更安全。当然，我不建议你吃自己的肉，那只会令人讨厌，你可以试试你朋友的！
+
+infoBook.firstAge.relics.enchantments=附魔
+infoBook.firstAge.relics.enchantments.breaking.text=&l&n破碎&r&N这个附魔有三个等级，它的作用和&1耐久&0完全相反。这看起来很没用，不是吗？或许我需要一种摆脱它的方法。
+infoBook.firstAge.relics.enchantments.lifeStealing.text=&l&n吸血&r&N这三个等级的附魔能让你的进攻性武器在攻击时偷取生命。
+infoBook.firstAge.relics.enchantments.poisonTip.text=&l&n淬毒&r&N当你把都涂在你的武器上时，你有机会使被攻击的生物中毒。这个附魔有三个等级。你可以&1毒液桶&0和正常的&1书&0结合制造基础的淬毒附魔书。
+infoBook.firstAge.relics.enchantments.unusing.text=&l&n保险&r&N我讨厌一不小心就用坏了我心爱的工具。因此我设计了一个新的附魔，在工具快坏掉时使它们无法被使用，这样就使我有机会修复它，恢复它昔日的辉煌。
+
+# - Items -
+infoBook.firstAge.items=物品
+
+infoBook.firstAge.items.darkTank=暗黑液体罐
+infoBook.firstAge.items.darkTank.text1=使用一些&1铁&0,&1暗能宝石&0和一块&1玻璃&0，就能制造一个容纳液体的强大容器，可以把它放置或者放在背包里。
+infoBook.firstAge.items.darkTank.text2=当被放置时，你可以右击使它放出紫色光芒，它就会产生一个洞，并自动填满它底部的容器。
+infoBook.firstAge.items.darkTank.text3=拿着暗黑液体罐，按住Shift，对空中右击，开启自动补给模式，它会自动的补满你手中的液体容器。
+infoBook.firstAge.items.darkTank.text4=它似乎可以容纳16桶液体(16000mB)。但是这对你来说还是太少，这些液体罐似乎可以通过工作台叠加合成增加容量，并且在这个过程中液体不会丢失。
+
+infoBook.firstAge.items.darkSpike=针管
+infoBook.firstAge.items.darkSpike.text=使用一个&1暗能宝石&0和一块&1铁&0，我制造了非常锋利的&1针管&0。小怪物们似乎并不喜欢这个东西...
+
+infoBook.firstAge.items.spikedPlate=钉刺板
+infoBook.firstAge.items.spikedPlate.text1=用一些&1针管&0和一个&1测压板&0就能制造钉刺板，它会对走过的任何生物造成伤害，除了玩家。&1暗能宝石&0的能量使得钉刺板杀死生物也会像玩家杀死生物一样，掉落同样的东西。
+infoBook.firstAge.items.spikedPlate.text2=为了使用方便，在对生物造成伤害的时候它会产生红石信号。
+
+infoBook.firstAge.items.potentiaSphere=神秘球
+infoBook.firstAge.items.potentiaSphere.text=和几个普通物品结合就会诞生一个拥有神奇能量的球，我以后应该能发现使用这种能量的方法。这种能量好像可以用一些&1暗能宝石&0来转化。
+
+infoBook.firstAge.items.dullDust=暗尘
+infoBook.firstAge.items.dullDust.text=用一些&1糖&0和&1火药&0结合，就能制作一些奇怪的粉末，目前看起来毫无用处，所以命名为暗尘。但是终有一天会有所改变。
+
+infoBook.firstAge.items.obscuredGlass=毛玻璃
+infoBook.firstAge.items.obscuredGlass.text=有人觉得普通&1玻璃&0太亮了。结合一个&1暗能宝石&0就会形成一种几乎完全减少光线通过的毛玻璃。但是我还是能通过玻璃看东西，好奇怪....
+
+infoBook.firstAge.items.exaltedCrafter=合成包
+infoBook.firstAge.items.exaltedCrafter.text1=有时在偏远的地方，合成台并不再身边。而暗能宝石粉可以赋予你在物品栏合成的方法。当然它可以绑定热键，高级玩家会为此而高兴的。在合成包的界面，使用相同的热键就可以把合成栏的物品拿到背包，按住Shift在使用热键就能把合成栏的物品平均起来。
+infoBook.firstAge.items.exaltedCrafter.text2=被直接雷击会使它充能，这样当成为掉落物时它不会被破坏或者删除。
+
+# - Items -
+infoBook.firstAge.vengeanceSpirits=复仇之魂
+
+infoBook.firstAge.vengeanceSpirits.introduction=怪物死后
+infoBook.firstAge.vengeanceSpirits.introduction.text1=有人觉得这很奇怪，但是我一直在野兽死时认真观察。我发现它们大都放出暗紫色的光环，然后很快消失。
+infoBook.firstAge.vengeanceSpirits.introduction.text2=我发现我可以使用&1暗能宝石粉&0制作一个指环使我能清楚的看到我杀死的怪物的死亡，但是它们好像也能看见我。它们会试图跟着我，和我接触，当然这会有一点轻微的伤害，之后它们便烟消云散了。
+infoBook.firstAge.vengeanceSpirits.introduction.text3=激活这些指环给予我惊人的力量，但是似乎会吸引一些激怒的灵魂，虽然大多数的这些灵魂都已经因为某些原因无法辨认了...
+
+infoBook.firstAge.vengeanceSpirits.catchingSpirits=捕捉灵魂
+infoBook.firstAge.vengeanceSpirits.catchingSpirits.text1=在我的冒险旅途中我发现了一些装有扭曲灵魂的奇怪的紫色箱子。看起来这些灵魂被抓获很久了，到现在已经面目全非，我觉得他们不可能恢复到原来的样子了。
+infoBook.firstAge.vengeanceSpirits.catchingSpirits.text2=我逆向研究这些箱子，并学会再制造。在这个过程中，我发现了如何封印灵魂并使它们被这些箱子吸收。我用这种技术增强了复仇指环，使它聚焦到灵魂上这样就能抓住他们。也许我以后能使用这些含有灵魂的东西...
+
+infoBook.firstAge.vengeanceSpirits.spiritProtection=驱赶灵魂
+infoBook.firstAge.vengeanceSpirits.spiritProtection.text=如果你不小心这些灵魂造成一些的伤害，我注意到这些灵魂会因为暗能宝石而被激怒，但是会无视那些，如果它看见了你。虽然火和大量的暗能宝石的能量能很好的改变这些情况，但是会消耗饥饿度代替损伤，当然这样会更好。
+
+# --- Second Age ---
+infoBook.secondAge=第二纪元
+
+# - Powers of Blood -
+infoBook.secondAge.powersOfBlood=血的力量
+infoBook.secondAge.powersOfBlood.text1=&4血液&0是生物生存的关键要素，将赋予生命的&4血液&0和魔法般的&1暗能宝石&0结合，我做出了一些让人震惊的新工具和机器。有人说我太热衷于这项发现了，但是我觉得他们太过于守旧。
+infoBook.secondAge.powersOfBlood.text2=&1暗能宝石&0似乎能吸收很多&4血液&0，吸收一池子&4血液&0才制造了一个&1血能宝石&0。发现了这些，你至少需要5格流动的&4血液&0，来制作一个&1血能宝石&0。在下一章我会告诉你怎么更廉价的制作&1血能宝石&0。
+infoBook.secondAge.powersOfBlood.text3=大家都知道，&4血液&0会在干燥的环境下很快干枯。在这些&1血块&0上使用&1打火石&0就能得到&1干血碎片&0，它将会派上用场。似乎&1血块&0可以直接烧出&1干血碎片&0，你可以用其他的方式获得&1血块&0...似乎使用&4精准&0就能获得血块
+
+# - Blood Infusion -
+infoBook.secondAge.bloodInfusion=血能注入
+
+infoBook.secondAge.bloodInfusion.bloodInfusionCore=血能注入核心
+infoBook.secondAge.bloodInfusion.bloodInfusionCore.text=这似乎是用&4血液&0做的最意义重大的发明。普通的物品注入血以后就能产生非常特殊有趣的性质。这些可能性是无穷无尽的，你可能都不敢想象。
+
+infoBook.secondAge.bloodInfusion.bloodExtraction=血液提取器
+infoBook.secondAge.bloodInfusion.bloodExtraction.text1=使用一些&1针管&0，我制作了一个可以简单获得&4血液&0的工具。将它放在背包，当你杀死野兽时，就能获得&4血液&0。让你遇到有血迹的方块时，可以拿着它按住Shift，使用右键提取&4血液&0到你的血液提取器里。这些血是因为生物从高处掉落摔死产生的，当然只会维持一天...
+infoBook.secondAge.bloodInfusion.bloodExtraction.text2=拿着提取器对着地上右键就能释放一格&4血液&0。
+infoBook.secondAge.bloodInfusion.bloodExtraction.text3=这是在我找到代替人工方式之前得到血液的有效方法。
+
+infoBook.secondAge.bloodInfusion.bloodChest=血能箱
+infoBook.secondAge.bloodInfusion.bloodChest.text=我的第一个使用&4血液&0的简单尝试就是一个可以浸泡工具的简单箱子。将工具浸泡其中，工具的损伤会慢慢消失。但也有一个小问题，这会对工具造成不好的效果，比如沾染上破碎附魔。
+
+infoBook.secondAge.bloodInfusion.bloodInfuser=血能注入器
+infoBook.secondAge.bloodInfusion.bloodInfuser.text1=尝试过修复物品之后，我确信我能做出更高级别的东西。物品也可以接受&4血液&0，比如我之前说的&1暗黑液体罐&0一样，将它放入这台机器就能使它灌满&4血液&0。其他的特殊物品注入&4血液&0时似乎会有特定的转换方式，这里是能注入血液的物品的部分列表。给予这台机器红石信号就能暂停所有工作流程。
+infoBook.secondAge.bloodInfusion.bloodInfuser.text2=这台机器可以让你使用更少的&4血液&0制造&1血能宝石&0。
+
+infoBook.secondAge.bloodInfusion.undeadTree=亡灵树
+infoBook.secondAge.bloodInfusion.undeadTree.text1=我能复活枯死的树苗！正在生长的亡灵树见证了这一过程。他们似乎在流血，但是掉落的树苗还是莫名其妙的死亡了。结合暗能宝石的木棍会有有用的一天。
+infoBook.secondAge.bloodInfusion.undeadTree.text2=杀死树苗的方法很简单，在合成台上用剪刀和树苗就能制作死亡的树苗。&o这还是长在沙漠里树苗吗？&r
+
+infoBook.secondAge.bloodInfusion.advancedBloodInfusion=高级血能注入
+infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text1=当我第一次制作&1血能注入器&0，我就还是考虑如何是机器更加高效快捷的工作。使用&1暗能宝石粉末&0，我构建了&1诺言&0，这样血能注入器就可以有新的提高，就像机器在某种层度上是活得一样...
+infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text2=用这种紫色的粉末装满一个&1空血能碗&0，并向它注入&4血液&0就能获得一碗相应强度的&1注能暗能粉末&0。根据这种反应现象，用大量&4血液&0和矿物制造就能制作相应的&1诺言接收器&0。&1坚韧的诺言&0结合了一些有机物，它会允许机器(也可能是其他物品)容纳更多&1诺言&0和&4血液&0。&1速度的诺言&0可以加快机器的速度，而&1效率的诺言&0可以减少&4血液&0的用量。
+
+infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes=更多血能注入合成
+infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text=因为新的&1坚韧的诺言&0，就像打开了一个全新的世界。
+
+# - Evolved Blood Machinery -
+infoBook.secondAge.evolvedBloodMachinery=进阶血能机器
+
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal=血腥基座
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text1=我开始厌倦把怪物推下悬崖并提取&4血液&0，这也是我为什么制作这个可以提取周围血迹方块&4血液&0并装入相邻的液体罐的装置的原因。使用一些血能宝石，这个装置提取&4血液&0的效率会变高。
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text2=在上面放置&1钉刺板&0会加强基座的效果，吸收被杀死的生物的血液。
+
+infoBook.secondAge.evolvedBloodMachinery.purifier=净化器
+infoBook.secondAge.evolvedBloodMachinery.purifier.text1=在体验&1血能箱&0的副作用以后，我决定设计一个新装置，用来移除工具上的坏效果。将有坏附魔的工具放置到机器内，加入至少一桶&4血液&0，就能移除这种效果。
+infoBook.secondAge.evolvedBloodMachinery.purifier.text2=这个机器有个一个意外的功能，在装满&4血液&0(至少3桶)的净化器上放置&4血书&0(注入&4血液&0的&1书&0)，就可以从放入的工具上移出随机的一项附魔，血书将变成附魔书。
+
+infoBook.secondAge.evolvedBloodMachinery.entangledChalice=纠缠圣杯
+infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text1=你可能会有和我一样的经历，向&1恶魂之泪&0注入&4血液&0就能的到一种非常特殊的眼泪。在分割后它们似乎还共享着所有属性，这使我有灵感用金锭制作&1纠缠圣杯&0，用来共享它们之间的液体。
+infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text2=正常的情况下，你会得到两个原始的圣杯，当你用其中一个作为核心，再制造两个圣杯时，它们三个圣杯就会形成网络，共享其中的液体。
+infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text3=这些圣杯可以放置在地上，或者放在背包。将圣杯拿在手上按住Shift，按右键就能开启自动供给模式，为你的背包内的容器补充&4血液&0。
+
+# - Tools -
+infoBook.secondAge.tools=工具
+
+infoBook.secondAge.tools.introduction=介绍
+infoBook.secondAge.tools.introduction.text=使用血液的大部分物品会有一个内部的容器，可以容纳一些&4血液&0，可以使用&1血能注入器&0填充你的工具，或者打开其他工具的自动供给模式，它就会补满你手持的工具。当使用这些物品时会消耗一些&4血液&0，当这些物品消耗完血液以后，它会尝试消耗你背包内其他容器的血液，如果没有血液容器，它将停止工作。
+
+infoBook.secondAge.tools.bloodPearlOfTeleportation=血能末影珍珠
+infoBook.secondAge.tools.bloodPearlOfTeleportation.text=常规的末影珍珠可以做有趣的瞬移，但是这相当昂贵。使用血能，我制造了一个可以消耗血液重复使用的特殊的末影珍珠。它似乎比正常的末影珍珠更好用。
+
+infoBook.secondAge.tools.invigoratingPendant=振奋吊坠
+infoBook.secondAge.tools.invigoratingPendant.text=坏药水的负面效果让我痛苦至今。这个吊坠可以通过消耗&4血液&0移除负面效果。越糟糕的效果消耗越多的血液。它甚至可以熄灭身上的火，当然我不建议你去岩浆里游泳。
+
+infoBook.secondAge.tools.effortlessRing=迅捷指环
+infoBook.secondAge.tools.effortlessRing.text=我可以用&1速度的诺言&0和&1效率的诺言&0制作一个指环，可以使我走得更快，踏得更高。把它放在背包就能获得效果。按住Shift可以恢复正常速度。
+
+infoBook.secondAge.tools.kineticator=磁场魔杖
+infoBook.secondAge.tools.kineticator.text1=这是一个可以在一定范围了吸引掉落物和经验的物品。范围大小可以用右键调节，使用Shift+右键可以控制开启或者关闭。吸引较近的物品会消耗少量的&4血液&0，而吸引远处的物品会消耗更多的血液。潜行时不吸引物品。
+infoBook.secondAge.tools.kineticator.text2=相反的配方带来相反的功能，反磁场魔杖可以排斥物品和经验。
+
+infoBook.secondAge.tools.sceptreOfThunder=雷电权杖
+infoBook.secondAge.tools.sceptreOfThunder.text=奇怪的是在和平模式会有雷暴天气。所以我制作了一个简单的工具生成雷暴。这个工具只能使用一次，所以是一个相当昂贵的过程。
+
+infoBook.secondAge.tools.vengeancePickaxe=复仇之镐
+infoBook.secondAge.tools.vengeancePickaxe.text=我发现了一种方法，把复仇指环的技术运用于镐子。尽管这大大降低了镐子的耐久。但是它有一个强大的副作用，在使用是有触发大量时运效果的可能。
+
+infoBook.secondAge.tools.gemstoneTorch=暗能火把
+infoBook.secondAge.tools.gemstoneTorch.text=I我用一个&1灼烧的暗能宝石块&0和一个&1深色木棍&0制作了一个特殊的火把，它会吸收它照亮的区域产生的&1复仇之魂&0。请注意，在区域外产生的复仇之魂可以走进被照亮的区域，当然普通的墙壁就能住当它们。
+
+# - Weapons -
+infoBook.secondAge.weapons=武器
+
+infoBook.secondAge.weapons.veinSword=静脉剑
+infoBook.secondAge.weapons.veinSword.text=血液短缺而奔走在田野攻击小怪？为什么不适用这把剑，它能使血液提取器获得更多的血液当杀死生物。作为福利，这把剑自带抢夺II。
+
+infoBook.secondAge.weapons.maceOfDistortion=立场扭曲锤
+infoBook.secondAge.weapons.maceOfDistortion.text=按住鼠标右键就会在附近产生一个圆形的扭曲力场，当释放鼠标是，就能触发立场，就能作用于周围的生物，将其击退并产生伤害，当然这需要足够的&4血液&0。Shift+右键就能调节产生立场的范围功率，更高的功率会造成更多的伤害并消耗更多的&4血液&0。
+
+infoBook.secondAge.weapons.necromancerStaff=死灵法师权杖
+infoBook.secondAge.weapons.necromancerStaff.text1=当你有一个头颅以后你就能控制&1僵尸&0。当用头颅做出这样一个权杖后，我发现我用权杖攻击时产生的僵尸会有时间限制。
+infoBook.secondAge.weapons.necromancerStaff.text2=这些僵尸并不容易被驯服，有时候他们不会攻击指定的目标，它们甚至会完全忘记目标。但是这种武器肯(坑)定是值得的。
+
+# - Abusing Spirits -
+infoBook.secondAge.abusingSpirits=滥(qiao)用灵魂
+
+infoBook.secondAge.abusingSpirits.infusingSpirits=注入灵魂
+infoBook.secondAge.abusingSpirits.infusingSpirits.text=将复仇灵魂封印在灵魂棺中本身并没有什么用。我推测，会有一种使用&4血液&0和这些灵魂的方法...
+
+infoBook.secondAge.abusingSpirits.spiritFurnace=灵魂炉
+infoBook.secondAge.abusingSpirits.spiritFurnace.text1=我最终成功重铸了&1复仇灵魂&0，或者说一部分。这种重铸的灵魂非常虚弱，以至于不能存活在现实世界，但是他们仍然会掉落那些相应生物的掉落物。然而为了使用这个发现，制造一个大型机器用来重铸灵魂。消耗大量的血液，会使这些灵魂立即复活。看起来&1永恒的灵魂棺&0可以无限的使用，如果灵魂没有逃走。
+infoBook.secondAge.abusingSpirits.spiritFurnace.text2=你需要一堆坚韧的方块，看起来注入一些&4血液&0的&1黑砖&0可以确保这种需要，灵魂也无法从中逃脱。你需要建造一个立方体结构，而内部结构足够大以适应你捕捉的灵魂的大小。拿僵尸做个例子，你需要两格高，所以你要建造一个3*4*3的立方体结构，使它中空两个方块的大小。如果你想容纳的生物很大，你可能需要一个9*9的结构，不要太小气哦！
+infoBook.secondAge.abusingSpirits.spiritFurnace.text3=你也需要预留一块地方放置&1灵魂炉&0。这个方块可以用已知的手段链接到其他容器或者液体罐。让你看见&4红光&0时表示结构搭建完成。
+
+infoBook.secondAge.abusingSpirits.spiritReanimator=灵魂再生炉
+infoBook.secondAge.abusingSpirits.spiritReanimator.text1=发明了&1灵魂炉&0之后，我还是想要复活这些灵魂。为了解决它们不稳定这些问题，我尝试把它们放到&1鸡蛋&0里面。这个过程也需要一些&4血液&0，当然也需要一个&1鸡蛋&0。
+infoBook.secondAge.abusingSpirits.spiritReanimator.text2=由于这种先进的工艺，灵魂会被消耗掉，所以每个&1灵魂&0只能制作一个&1刷怪蛋&0.
+infoBook.secondAge.abusingSpirits.spiritReanimator.text3=然而有些灵魂拒绝成为&1刷怪蛋&0，所以他们的灵魂会直接消失...
+
+# --- Mod Integrations ---
+infoBook.modIntegrations=&o模组联动&r
+
+infoBook.modIntegrations.baubles=Baubles
+infoBook.modIntegrations.baubles.text=这个模组提供了一些方便的饰品栏，所以你可以这本书提到的吊坠和指环放到相应的地方。在饰品栏时它们会仍然起效。Baubles for everyone!
+
+infoBook.modIntegrations.bloodMagic=血魔法
+infoBook.modIntegrations.bloodMagic.text=有一天我发现了一个奇怪的&1血晶球&0可能属于某种魔法。我使用它时我感到我和它连接在了一起。之后我发现它实际上和我的&4血&0流连接在了一起。通过&1血能注入器&0向其中灌注了大量的&4血液&0，我成功的创建了一个连接我的血流的容器，就能把他用在我最爱的机器和物品上面。
+
+infoBook.modIntegrations.forestry=林业
+infoBook.modIntegrations.forestry.text=当&o参观&r我的朋友从事着树与蜜蜂的工作，我发现他们的一些袋子可以装我的物品。我也发现他们的机器&1压榨机&0能从&1亡灵木&0中提取血液，当然&1亡灵树&0也可以通过他们的生长系统快速繁殖。
+
+infoBook.modIntegrations.nei=物品管理器(NEI)
+infoBook.modIntegrations.nei.text=所有人都在谈论"&oNot Enough Items&r"，而我真的不懂，我只有"&oToo Many Items&r"!但是前面的它好像很懂我的知识...
+
+infoBook.modIntegrations.thermalExpansion=热力膨胀
+infoBook.modIntegrations.thermalExpansion.text=这些人很奇怪，它们总穿着奇怪的衣服，还经常因为某些原因举起各种扳手。我只知道，它们有一种机器可以转置液体，所以也可以做一些基础的血能注入，很不辛，它不能升级。
+
+infoBook.modIntegrations.thaumcraft=神秘
+infoBook.modIntegrations.thaumcraft.text=我注意到神秘是一个非常特别的魔法。神秘使们看见我的东西也很高兴，他们经常拿着他们怪异的六边形物品到处走动。为了让我的朋友高兴，我也制作了一些可以代替&1笔与墨&0的&1静脉画线工具&0，可以用血代替墨水。好像他们的&1金杖端&0也可以通过放入&1血能注入器&0注入血能，可以得到一些更好的灵气减免效果，为什么谁都不喜欢这种&1血杖端&0？
+
+infoBook.modIntegrations.tinkersConstruct=匠魂
+infoBook.modIntegrations.tinkersConstruct.text=&0工具 工具 工具！&r看起来这些人只会思考这些问题。没干什么但是他们的工具依然损坏严重，幸运的是有&1血能箱&0来修复它们！
+
+infoBook.modIntegrations.waila=WAILA
+infoBook.modIntegrations.waila.text=你问我你到底看到什么？你应该知道的！
+

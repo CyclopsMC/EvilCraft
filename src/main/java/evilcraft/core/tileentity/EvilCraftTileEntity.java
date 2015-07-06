@@ -17,7 +17,7 @@ import java.util.List;
  *
  */
 public class EvilCraftTileEntity extends TileEntity {
-    
+
     private List<Field> nbtPersistedFields = null;
     
     @NBTPersist
@@ -46,7 +46,99 @@ public class EvilCraftTileEntity extends TileEntity {
     public boolean canInteractWith(EntityPlayer entityPlayer) {
         return true;
     }
+
+    /**
+     * Send a world update for the coordinates of this tile entity.
+     * This will always send lag-safe updates, so calling this many times per tick will
+     * not cause multiple packets to be sent, more info in the class javadoc.
+     */
+    public final void sendUpdate() {
+    	shouldSendUpdate = true;
+    }
     
+    /**
+     * Send an immediate world update for the coordinates of this tile entity.
+     * This does the same as {@link EvilCraftTileEntity#sendUpdate()} but will
+     * ignore the update backoff.
+     */
+    public final void sendImmediateUpdate() {
+    	sendUpdate();
+    	sendUpdateBackoff = 0;
+    }
+    
+    /**
+     * Do not override this method (you won't even be able to do so).
+     * Use updateTileEntity() instead.
+     */
+    @Override
+    public final void updateEntity() {
+    	super.updateEntity();
+    	updateTileEntity();
+    	trySendActualUpdate();
+    }
+    
+    /**
+     * Override this method instead of {@link EvilCraftTileEntity#updateEntity()}.
+     * This method is called each tick.
+     */
+    protected void updateTileEntity() {
+    	
+    }
+    
+    private void trySendActualUpdate() {
+    	sendUpdateBackoff--;    		
+		if(sendUpdateBackoff <= 0) {
+            sendUpdateBackoff = getUpdateBackoffTicks();
+			
+			if(shouldSendUpdate && isTileValid()) {
+    			shouldSendUpdate = false;
+        		
+	    		beforeSendUpdate();
+	    		onSendUpdate();
+	    		afterSendUpdate();
+    		}
+		}
+    }
+
+    protected boolean isTileValid() {
+        return getBlockType() instanceof ConfigurableBlockContainer;
+    }
+    
+    /**
+     * Called when an update will is sent.
+     * This contains the logic to send the update, so make sure to call the super!
+     */
+    protected void onSendUpdate() {
+    	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+    
+    /**
+     * Called when before update is sent.
+     */
+    protected void beforeSendUpdate() {
+    	
+    }
+    
+    /**
+     * Called when after update is sent. (Not necessarily received yet!)
+     */
+    protected void afterSendUpdate() {
+    	
+    }
+    
+    @Override
+    public Packet getDescriptionPacket() {
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, getNBTTagCompound());
+    }
+    
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+        super.onDataPacket(net, packet);
+        NBTTagCompound tag = packet.func_148857_g();
+        readFromNBT(tag);
+        onUpdateReceived();
+    }
+
     private void generateNBTPersistedFields() {
         nbtPersistedFields = new LinkedList<Field>();
         for(Class<?> clazz = this.getClass(); clazz != null; clazz = clazz.getSuperclass()) {

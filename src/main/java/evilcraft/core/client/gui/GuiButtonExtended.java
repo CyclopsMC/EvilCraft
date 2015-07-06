@@ -26,6 +26,10 @@ public class GuiButtonExtended extends GuiButton {
 			int width, int height, String string) {
 		super(id, x, y, width, height, string);
 	}
+
+	protected String getDisplayString() {
+		return this.displayString;
+	}
 	
 	@Override
 	public void drawButton(Minecraft minecraft, int i, int j) {
@@ -50,7 +54,7 @@ public class GuiButtonExtended extends GuiButton {
 	        	color = 0xffffa0;
 	        }
 	        
-	        drawCenteredString(fontrenderer, displayString, xPosition + width / 2, yPosition + (height - 8) / 2, color);
+	        drawCenteredString(fontrenderer, getDisplayString(), xPosition + width / 2, yPosition + (height - 8) / 2, color);
         }
     }
 

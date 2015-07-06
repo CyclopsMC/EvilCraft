@@ -43,7 +43,7 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 			this.fluidId = -1;
 			this.fluidAmount = -1;
 		} else {
-			this.fluidId = fluidStack.fluidID;
+			this.fluidId = fluidStack.getFluidID();
 			this.fluidAmount = fluidStack.amount;
 		}
 	}

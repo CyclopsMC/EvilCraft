@@ -94,13 +94,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     
     @Override
     public void fillWithRain(World world, BlockPos blockPos) {
-        // Transform to regular blockState when it rains
-        try {
-			world.setBlockState(blockPos, getTile(world, blockPos).getInnerBlockState());
-			world.removeTileEntity(blockPos);
-		} catch (InvalidInnerBlocksTileException e) {
-			e.printStackTrace();
-		}
+        unwrapInnerBlock(world, blockPos);
     }
     
     /**

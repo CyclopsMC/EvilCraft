@@ -80,5 +80,13 @@ public class ObfuscationData {
      * Field from net.minecraft.world.biome.BiomeGenBase.
      */
     public static final String[] BIOME_ENABLERAIN = new String[] { "enableRain", "field_76765_S", "S" };
+    /**
+     * Field from net.minecraftforge.oredict.ShapedOreRecipe.
+     */
+    public static final String[] SHAPEDORERECIPE_WIDTH = new String[] { "width" };
+    /**
+     * Field from net.minecraftforge.oredict.ShapedOreRecipe.
+     */
+    public static final String[] SHAPEDORERECIPE_HEIGHT = new String[] { "height" };
 	
 }

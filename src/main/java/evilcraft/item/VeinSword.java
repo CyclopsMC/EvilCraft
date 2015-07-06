@@ -48,6 +48,7 @@ public class VeinSword extends ConfigurableItemSword {
 
     private VeinSword(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, Item.ToolMaterial.GOLD);
+        this.setMaxDamage(VeinSwordConfig.durability);
     }
     
     /**
