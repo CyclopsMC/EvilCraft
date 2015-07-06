@@ -1,6 +1,6 @@
 package evilcraft.entity.item;
 
-import evilcraft.core.config.extendedconfig.EntityConfig;
+import evilcraft.EvilCraft;
 import evilcraft.item.BloodPearlOfTeleportation;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 
 /**
  * Config for the {@link EntityBloodPearl}.
@@ -26,6 +27,7 @@ public class EntityBloodPearlConfig extends EntityConfig {
      */
     public EntityBloodPearlConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "entityBloodPearl",
             null,

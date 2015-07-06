@@ -1,7 +1,8 @@
 package evilcraft.item;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Poison Sac.
@@ -20,6 +21,7 @@ public class PoisonSacConfig extends ItemConfig {
      */
     public PoisonSacConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "poisonSac",
             null,

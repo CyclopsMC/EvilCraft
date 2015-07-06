@@ -1,17 +1,14 @@
 package evilcraft.item;
 
-import baubles.api.BaubleType;
-import baubles.api.IBauble;
 import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.fluid.Blood;
-import evilcraft.modcompat.baubles.BaublesModCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +26,7 @@ import java.util.Iterator;
  *
  */
 @Optional.Interface(iface = "baubles.api.IBauble", modid = Reference.MOD_BAUBLES, striprefs = true)
-public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidContainer implements IBauble {
+public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidContainer { // TODO: implements IBauble
 
 	private static final int TICK_MODULUS = MinecraftHelpers.SECOND_IN_TICKS / 2;
 	
@@ -124,10 +121,13 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
 
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
+	// TODO
+	/*@Optional.Method(modid = Reference.MOD_BAUBLES)
 	@Override
 	public boolean canEquip(ItemStack itemStack, EntityLivingBase entity) {
-		return BaublesModCompat.canUse();
+		// TODO
+		//return BaublesModCompat.canUse();
+		return true;
 	}
 
 	@Optional.Method(modid = Reference.MOD_BAUBLES)
@@ -157,9 +157,10 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
 	@Optional.Method(modid = Reference.MOD_BAUBLES)
 	@Override
 	public void onWornTick(ItemStack itemStack, EntityLivingBase entity) {
+		// TODO
 		if(BaublesModCompat.canUse()) {
 			this.onUpdate(itemStack, entity.worldObj, entity, 0, false);
 		}
-	}
+	}*/
 
 }

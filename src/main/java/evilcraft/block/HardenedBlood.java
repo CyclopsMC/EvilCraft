@@ -1,8 +1,5 @@
 package evilcraft.block;
 
-import evilcraft.core.config.configurable.ConfigurableBlockConnectedTexture;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.fluid.Blood;
 import evilcraft.item.HardenedBloodShardConfig;
 import net.minecraft.block.Block;
@@ -19,15 +16,19 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.Random;
 
 /**
  * A hardened version of {@link Blood}.
+ * TODO: connected textures
  * @author rubensworks
  *
  */
-public class HardenedBlood extends ConfigurableBlockConnectedTexture {
+public class HardenedBlood extends ConfigurableBlock {
     
     private static HardenedBlood _instance = null;
     

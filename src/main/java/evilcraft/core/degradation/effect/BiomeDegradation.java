@@ -5,13 +5,13 @@ import evilcraft.core.algorithm.OrganicSpread;
 import evilcraft.core.algorithm.OrganicSpread.IOrganicSpreadable;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.world.biome.BiomeDegraded;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Makes biomes darker.

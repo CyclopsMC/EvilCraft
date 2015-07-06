@@ -1,15 +1,16 @@
 package evilcraft.entity.monster;
 
+import evilcraft.EvilCraft;
 import evilcraft.client.render.entity.RenderVengeanceSpirit;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChanged;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 
 /**
  * Config for the {@link Netherfish}.
@@ -62,6 +63,7 @@ public class VengeanceSpiritConfig extends MobConfig {
      */
     public VengeanceSpiritConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "vengeanceSpirit",
             null,

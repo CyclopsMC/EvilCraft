@@ -1,10 +1,10 @@
 package evilcraft.tileentity;
 
 import evilcraft.block.InvisibleRedstoneBlock;
-import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.item.RedstoneGrenadeConfig;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 /**
  * Tile for the {@link InvisibleRedstoneBlock}.
@@ -12,7 +12,7 @@ import net.minecraft.world.World;
  * @author rubensworks
  *
  */
-public class TileInvisibleRedstoneBlock extends EvilCraftTileEntity implements IUpdatePlayerListBox {
+public class TileInvisibleRedstoneBlock extends CyclopsTileEntity implements IUpdatePlayerListBox, CyclopsTileEntity.ITickingTile {
     
     // Destroy redstone blockState after 1 redstone tick (= 2 game ticks)
     private static final int TICK_DESTRUCTION_THRESHOLD = 2;
@@ -28,7 +28,7 @@ public class TileInvisibleRedstoneBlock extends EvilCraftTileEntity implements I
     }
     
     @Override
-    public void update() {
+    public void updateTileEntity() {
         if (worldObj.getTotalWorldTime() - tickCreated >= TICK_DESTRUCTION_THRESHOLD) {
         	worldObj.setBlockToAir(getPos());
         	if(RedstoneGrenadeConfig.dropAfterUsage) {

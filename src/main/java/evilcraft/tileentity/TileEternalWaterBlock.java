@@ -1,16 +1,16 @@
 package evilcraft.tileentity;
 
-import evilcraft.core.tileentity.TickingEvilCraftTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.*;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 /**
  * Tile Entity for the eternal water blockState.
  * @author rubensworks
  *
  */
-public class TileEternalWaterBlock extends TickingEvilCraftTileEntity implements IFluidHandler {
+public class TileEternalWaterBlock extends CyclopsTileEntity implements IFluidHandler, CyclopsTileEntity.ITickingTile {
 
     public static final FluidStack WATER = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
 

@@ -1,9 +1,11 @@
 package evilcraft.entity.item;
 
+import evilcraft.EvilCraft;
 import evilcraft.client.render.entity.RenderBroom;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.EntityConfig;
+import net.minecraft.client.Minecraft;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -45,6 +47,7 @@ public class EntityBroomConfig extends EntityConfig {
      */
     public EntityBroomConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "broomEntity",
             null,
@@ -55,7 +58,7 @@ public class EntityBroomConfig extends EntityConfig {
     @SideOnly(Side.CLIENT)
     @Override
     protected Render getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderBroom(this);
+        return new RenderBroom(Minecraft.getMinecraft().getRenderManager(), this);
     }
     
     @Override

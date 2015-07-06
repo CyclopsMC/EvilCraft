@@ -1,10 +1,10 @@
 package evilcraft.entity.item;
 
 import evilcraft.Configs;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MathHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.item.Broom;
 import evilcraft.item.BroomConfig;
 import net.minecraft.client.Minecraft;
@@ -137,9 +137,8 @@ public class EntityBroom extends Entity implements IConfigurable{
         }
     }
 
-    // MCP: setPositionAndRotation2
     @Override
-    public void func_180426_a(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean isTeleport) {
+    public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean isTeleport) {
         posRotationIncrements += 6;
         
         //this.yOffset = 0.0F;

@@ -100,7 +100,7 @@ public class CommandEvilCraft implements ICommand {
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
-        return ServerHelpers.isOp(icommandsender.getName());
+        return ServerHelpers.isOp(icommandsender.getCommandSenderName());
     }
 
     @SuppressWarnings("rawtypes")

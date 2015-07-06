@@ -1,10 +1,11 @@
 package evilcraft.block;
 
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.EvilCraft;
 import evilcraft.item.ExcrementPileItemBlock;
 import net.minecraft.item.ItemBlock;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the {@link ExcrementPile}.
@@ -35,6 +36,7 @@ public class ExcrementPileConfig extends BlockConfig {
      */
     public ExcrementPileConfig() {
         super(
+                EvilCraft._instance,
         	false,
             "excrementPile",
             null,

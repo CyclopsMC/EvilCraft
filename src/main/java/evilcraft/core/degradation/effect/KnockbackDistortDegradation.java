@@ -3,10 +3,10 @@ package evilcraft.core.degradation.effect;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.MaceOfDistortion;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.List;
 

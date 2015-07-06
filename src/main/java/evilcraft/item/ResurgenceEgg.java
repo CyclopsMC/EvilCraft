@@ -1,11 +1,14 @@
 package evilcraft.item;
 
-import evilcraft.core.config.configurable.ConfigurableItem;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -118,7 +121,7 @@ public class ResurgenceEgg extends ConfigurableItem {
                 return itemStack;
             } else {
                 if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                    BlockPos blockPos = movingobjectposition.func_178782_a();
+                    BlockPos blockPos = movingobjectposition.getBlockPos();
                     int x = blockPos.getX();
                     int y = blockPos.getY();
                     int z = blockPos.getZ();

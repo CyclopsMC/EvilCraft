@@ -3,10 +3,10 @@ package evilcraft.tileentity.tickaction.bloodchest;
 import evilcraft.Configs;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 import evilcraft.block.BloodChestConfig;
-import evilcraft.core.config.configurable.ConfigurableEnchantment;
 import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 
 import java.util.LinkedList;
 import java.util.Random;

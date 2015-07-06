@@ -88,8 +88,7 @@ public class EntityBlurFX extends EntityFX {
 	}
 
     @Override
-    // mcp: renderParticle
-    public void func_180434_a(WorldRenderer worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void renderParticle(WorldRenderer worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		float agescale = (float)particleAge / (float) scaleLife;
 		if(agescale > 1F) {
 			agescale = 2 - agescale;
@@ -114,8 +113,8 @@ public class EntityBlurFX extends EntityFX {
 		float f13 = (float)(prevPosZ + (posZ - prevPosZ) * f - interpPosZ);
 
         worldRenderer.startDrawingQuads();
-        worldRenderer.func_178963_b(TESSELATOR_BRIGHTNESS);
-        worldRenderer.func_178960_a(particleRed, particleGreen, particleBlue, 0.9F);
+        worldRenderer.setBrightness(TESSELATOR_BRIGHTNESS);
+        worldRenderer.setColorRGBA_F(particleRed, particleGreen, particleBlue, 0.9F);
         worldRenderer.addVertexWithUV(f11 - f1 * f10 - f4 * f10, f12 - f2 * f10, f13 - f3 * f10 - f5 * f10, 0, 1);
         worldRenderer.addVertexWithUV(f11 - f1 * f10 + f4 * f10, f12 + f2 * f10, f13 - f3 * f10 + f5 * f10, 1, 1);
         worldRenderer.addVertexWithUV(f11 + f1 * f10 + f4 * f10, f12 + f2 * f10, f13 + f3 * f10 + f5 * f10, 1, 0);

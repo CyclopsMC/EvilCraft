@@ -1,12 +1,13 @@
 package evilcraft.block;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.configurable.ConfigurableBlock;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.BlockConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the Undead Plank.
@@ -25,6 +26,7 @@ public class UndeadPlankConfig extends BlockConfig {
      */
     public UndeadPlankConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "undeadPlank",
             null,
@@ -50,7 +52,7 @@ public class UndeadPlankConfig extends BlockConfig {
     
     @Override
     public void onRegistered() {
-    	Blocks.fire.func_180686_a(getBlockInstance(), 5, 20);
+    	Blocks.fire.setFireInfo(getBlockInstance(), 5, 20);
     }
     
 }

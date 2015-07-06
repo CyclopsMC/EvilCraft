@@ -2,7 +2,7 @@ package evilcraft.world.gen.structure;
 
 import evilcraft.Configs;
 import evilcraft.block.BloodyCobblestoneConfig;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;

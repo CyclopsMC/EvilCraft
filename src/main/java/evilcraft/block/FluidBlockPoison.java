@@ -1,9 +1,5 @@
 package evilcraft.block;
 
-import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.fluid.Poison;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -12,6 +8,10 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockFluidClassic;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * A blockState for the {@link Poison} fluid.

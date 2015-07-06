@@ -36,7 +36,7 @@ public class OreGenerator extends SimpleMinableWorldGenerator {
 		}
 		if(GeneralConfig.extraSilverfish && GeneralConfig.silverfish_BlocksPerVein > 0 && GeneralConfig.silverfish_VeinsPerChunk > 0) {
 			oreGenerators.add(new WorldGenMinableExtended(
-                    Blocks.monster_egg.getDefaultState().withProperty(BlockSilverfish.VARIANT_PROP, BlockSilverfish.EnumType.STONE),
+                    Blocks.monster_egg.getDefaultState().withProperty(BlockSilverfish.VARIANT, BlockSilverfish.EnumType.STONE),
                     GeneralConfig.silverfish_BlocksPerVein, GeneralConfig.silverfish_VeinsPerChunk,
                     GeneralConfig.silverfish_StartY, GeneralConfig.silverfish_EndY,
 					Blocks.stone));

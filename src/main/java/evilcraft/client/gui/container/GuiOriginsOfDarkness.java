@@ -5,7 +5,7 @@ import evilcraft.Reference;
 import evilcraft.core.algorithm.EvictingStack;
 import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.helper.L10NHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.HyperLink;

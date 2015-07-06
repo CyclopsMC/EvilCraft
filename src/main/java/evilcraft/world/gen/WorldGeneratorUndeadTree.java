@@ -6,9 +6,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraft.util.EnumFacing;
 
 import java.util.Random;
 
@@ -145,8 +145,7 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
                                         (block == null || block.isLeaves(world, loopPos) ||
                                         block == Blocks.air ||
                                         block.canBeReplacedByLeaves(world, loopPos))) {
-                                    // MCP: setBlockAndNotifyAdequately
-                                    this.func_175903_a(world, loopPos, leaves.getDefaultState());
+                                    this.setBlockAndNotifyAdequately(world, loopPos, leaves.getDefaultState());
                                 }
                             }
                         }
@@ -159,8 +158,7 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
                         if(block == null || block == Blocks.air  ||
                                 block.isLeaves(world, loopPos) ||
                                 block.isReplaceable(world, loopPos)) {
-                            // MCP: setBlockAndNotifyAdequately
-                            this.func_175903_a(world, loopPos, logs.getDefaultState());
+                            this.setBlockAndNotifyAdequately(world, loopPos, logs.getDefaultState());
                         }
                     }
                     return true;

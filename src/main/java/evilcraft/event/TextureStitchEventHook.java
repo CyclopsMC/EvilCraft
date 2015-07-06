@@ -2,17 +2,14 @@ package evilcraft.event;
 
 import com.google.common.collect.Maps;
 import evilcraft.Reference;
-import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
 import evilcraft.core.helper.RenderHelpers;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockFluidClassic;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -26,7 +23,7 @@ public class TextureStitchEventHook {
     protected static final String EMPTY_ICON_NAME = "empty";
     
     /**
-     * The mapping of {@link Fluid} to {@link ConfigurableBlockFluidClassic}.
+     * The mapping of {@link Fluid} to {@link org.cyclops.cyclopscore.config.configurable.ConfigurableBlockFluidClassic}.
      */
     public static Map<Fluid, ConfigurableBlockFluidClassic> fluidMap = Maps.newHashMap();
     

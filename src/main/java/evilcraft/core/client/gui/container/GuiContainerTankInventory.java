@@ -4,8 +4,8 @@ import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.inventory.container.ExtendedInventoryContainer;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 
@@ -90,7 +90,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     }
     
 	protected void drawForgegroundString() {
-    	fontRendererObj.drawString(tile.getName(), 8 + offsetX, 4 + offsetY, 4210752);
+    	fontRendererObj.drawString(tile.getCommandSenderName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
     
     @Override
@@ -146,8 +146,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
                 }
                 
                 mc.renderEngine.bindTexture(RenderHelpers.TEXTURE_MAP);
-                // MCP: drawTexturedModelRectFromIcon
-                func_175175_a(xOffset, yOffset - textureHeight - verticalOffset, icon, tankWidth, textureHeight);
+                drawTexturedModalRect(xOffset, yOffset - textureHeight - verticalOffset, icon, tankWidth, textureHeight);
                 verticalOffset = verticalOffset + 16;
             }
             

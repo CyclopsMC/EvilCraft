@@ -1,6 +1,7 @@
 package evilcraft.item;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link DarkStick}.
@@ -19,6 +20,7 @@ public class DarkStickConfig extends ItemConfig {
      */
     public DarkStickConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "darkStick",
             null,

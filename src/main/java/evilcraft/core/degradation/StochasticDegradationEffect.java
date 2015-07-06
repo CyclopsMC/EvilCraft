@@ -4,7 +4,7 @@ import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.IDegradationEffect;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.Random;
 

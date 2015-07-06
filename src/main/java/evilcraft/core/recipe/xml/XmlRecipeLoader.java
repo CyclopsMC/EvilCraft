@@ -6,7 +6,7 @@ import com.google.common.collect.Sets;
 import evilcraft.Configs;
 import evilcraft.EvilCraft;
 import evilcraft.Recipes;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import net.minecraft.item.ItemStack;
 import org.apache.logging.log4j.Level;
 import org.w3c.dom.Document;
@@ -146,17 +146,17 @@ public class XmlRecipeLoader {
 					
 					@Override
 					public void warning(SAXParseException exception) throws SAXException {
-						EvilCraft.log("[" + fileName + "]: " + exception.getMessage(), Level.WARN);
+						EvilCraft.clog("[" + fileName + "]: " + exception.getMessage(), Level.WARN);
 					}
 					
 					@Override
 					public void fatalError(SAXParseException exception) throws SAXException {
-						EvilCraft.log("[" + fileName + "]: " + exception.getMessage(), Level.FATAL);
+						EvilCraft.clog("[" + fileName + "]: " + exception.getMessage(), Level.FATAL);
 					}
 					
 					@Override
 					public void error(SAXParseException exception) throws SAXException {
-						EvilCraft.log("[" + fileName + "]: " + exception.getMessage(), Level.ERROR);
+						EvilCraft.clog("[" + fileName + "]: " + exception.getMessage(), Level.ERROR);
 					}
 				});
 		        Schema schema = factory.newSchema(new StreamSource(xsdIs));
@@ -195,7 +195,7 @@ public class XmlRecipeLoader {
                     if(crashOnInvalidRecipe) {
                         throw e;
                     } else {
-                        EvilCraft.log(e.getMessage(), Level.ERROR);
+                        EvilCraft.clog(e.getMessage(), Level.ERROR);
                     }
                 }
 			}

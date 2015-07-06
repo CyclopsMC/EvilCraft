@@ -51,7 +51,7 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
             byte b0 = 1;
             double d3 = (double)f2 * 0.025D * (1.0D - (double)(b0 & 1) * 2.5D);
             worldRenderer.startDrawingQuads();
-            worldRenderer.func_178960_a(beamInnerColor.x, beamInnerColor.y, beamInnerColor.z, beamInnerColor.w);
+            worldRenderer.setColorRGBA_F(beamInnerColor.x, beamInnerColor.y, beamInnerColor.z, beamInnerColor.w);
             double d4 = (double)b0 * 0.2D;
             double d5 = 0.5D + Math.cos(d3 + 2.356194490192345D) * d4;
             double d6 = 0.5D + Math.sin(d3 + 2.356194490192345D) * d4;
@@ -87,7 +87,7 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
             GL11.glDepthMask(false);
             worldRenderer.startDrawingQuads();
-            worldRenderer.func_178960_a(beamOuterColor.x, beamOuterColor.y, beamOuterColor.z, beamOuterColor.w);
+            worldRenderer.setColorRGBA_F(beamOuterColor.x, beamOuterColor.y, beamOuterColor.z, beamOuterColor.w);
             double d18 = 0.2D;
             double d19 = 0.2D;
             double d20 = 0.8D;

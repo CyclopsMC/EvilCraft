@@ -1,14 +1,15 @@
 package evilcraft.entity.monster;
 
+import evilcraft.EvilCraft;
 import evilcraft.client.render.entity.RenderNetherfish;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 
 /**
  * Config for the {@link Netherfish}.
@@ -33,6 +34,7 @@ public class NetherfishConfig extends MobConfig {
      */
     public NetherfishConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "netherfish",
             null,

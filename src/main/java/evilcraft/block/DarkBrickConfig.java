@@ -1,10 +1,11 @@
 package evilcraft.block;
 
-import evilcraft.core.config.configurable.ConfigurableBlock;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.EvilCraft;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the Dark Brick.
@@ -23,6 +24,7 @@ public class DarkBrickConfig extends BlockConfig {
      */
     public DarkBrickConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "darkBrick",
             null,
@@ -32,9 +34,9 @@ public class DarkBrickConfig extends BlockConfig {
 
     @Override
     protected IConfigurable initSubInstance() {
-        return (ConfigurableBlock) new ConfigurableBlock(this, Material.rock).
-                setHarvestLevelDefined("pickaxe", 2).setHardness(5.0F).
-                setStepSound(Block.soundTypeStone);
+        Block block = new ConfigurableBlock(this, Material.rock).setHardness(5.0F).setStepSound(Block.soundTypeStone);
+        block.setHarvestLevel("pickaxe", 2);
+        return (ConfigurableBlock) block;
     }
     
     @Override

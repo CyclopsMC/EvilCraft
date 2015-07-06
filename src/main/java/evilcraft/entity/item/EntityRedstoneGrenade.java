@@ -3,8 +3,8 @@ package evilcraft.entity.item;
 import evilcraft.Configs;
 import evilcraft.block.InvisibleRedstoneBlock;
 import evilcraft.block.InvisibleRedstoneBlockConfig;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.RedstoneGrenade;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -54,11 +54,11 @@ public class EntityRedstoneGrenade extends EntityThrowable implements IConfigura
 
     @Override
     protected void onImpact(MovingObjectPosition pos) {
-        BlockPos blockPos = pos.func_178782_a();
+        BlockPos blockPos = pos.getBlockPos();
         
-        if (worldObj.isAirBlock(blockPos.add(pos.field_178784_b.getDirectionVec()))) {
+        if (worldObj.isAirBlock(blockPos.add(pos.sideHit.getDirectionVec()))) {
 			if(Configs.isEnabled(InvisibleRedstoneBlockConfig.class)) {
-	            worldObj.setBlockState(blockPos.add(pos.field_178784_b.getDirectionVec()), InvisibleRedstoneBlock.getInstance().getDefaultState());
+	            worldObj.setBlockState(blockPos.add(pos.sideHit.getDirectionVec()), InvisibleRedstoneBlock.getInstance().getDefaultState());
 			}
             
             if (worldObj.isRemote) {

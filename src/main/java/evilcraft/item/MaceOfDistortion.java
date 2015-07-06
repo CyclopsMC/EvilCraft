@@ -1,19 +1,17 @@
 package evilcraft.item;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Multimap;
 import evilcraft.Achievements;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.client.particle.EntityDistortFX;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.fluid.Blood;
 import net.minecraft.client.particle.EntitySmokeFX;
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -324,7 +322,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
         float particleMotionY = 0.2F;
         float particleMotionZ = world.rand.nextFloat() * 0.2F - 0.1F;
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                new EntitySmokeFX.Factory().func_178902_a(0, world, particleX, particleY, particleZ,
+                new EntitySmokeFX.Factory().getEntityFX(0, world, particleX, particleY, particleZ,
                         particleMotionX, particleMotionY, particleMotionZ)
                 );
         

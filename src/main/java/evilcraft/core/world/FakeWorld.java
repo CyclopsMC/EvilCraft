@@ -3,7 +3,6 @@ package evilcraft.core.world;
 import net.minecraft.entity.Entity;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.IChunkProvider;
 
 /**

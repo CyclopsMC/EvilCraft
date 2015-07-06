@@ -1,7 +1,8 @@
 package evilcraft.world.biome;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.BiomeConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BiomeConfig;
 
 /**
  * Config for {@link BiomeDegraded}.
@@ -20,6 +21,7 @@ public class BiomeDegradedConfig extends BiomeConfig {
      */
     public BiomeDegradedConfig() {
         super(
+                EvilCraft._instance,
             Reference.BIOME_DEGRADED,
             "biomeDegraded",
             null,

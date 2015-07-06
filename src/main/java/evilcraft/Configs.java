@@ -1,9 +1,6 @@
 package evilcraft;
 
 import evilcraft.block.*;
-import evilcraft.core.config.ConfigHandler;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.degradation.effect.*;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentLifeStealingConfig;
@@ -25,13 +22,12 @@ import evilcraft.potion.PotionPalingConfig;
 import evilcraft.world.biome.BiomeDegradedConfig;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
+import org.cyclops.cyclopscore.config.ConfigHandler;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import javax.annotation.Nullable;
-import java.util.Set;
 
 /**
  * This class holds a set of all the configs that need to be registered.
@@ -39,51 +35,8 @@ import java.util.Set;
  *
  */
 public class Configs {
-    
-    private static Configs _instance;
-    
-    /**
-     * The set of configs.
-     */
-    @SuppressWarnings("rawtypes")
-    public Set<ExtendedConfig> configs = ConfigHandler.getInstance(); // Order is necessary for some registrations
-    
-    /**
-     * Get the unique instance.
-     * @return Unique instance.
-     */
-    public static Configs getInstance() {
-        if(_instance == null)
-            _instance = new Configs();
-        return _instance;
-    }
-    
-    private Configs() {
-        
-    }
-    
-    /**
-     * Register the general configs. They won't be checked with the config debugger.
-     */
-    public void registerGeneralConfigs() {
-        // General
-        configs.add(new GeneralConfig());
-    }
-    
-    /**
-     * Register ore dictionary keys for vanilla items/blocks.
-     */
-    public void registerVanillaDictionary() {
-        OreDictionary.registerOre(Reference.DICT_BLOCKGLASS, new ItemStack(Blocks.glass));
-        OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Items.poisonous_potato));
-        OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Items.bone));
-        OreDictionary.registerOre(Reference.DICT_ITEMSKULL, new ItemStack(Items.skull, 1, OreDictionary.WILDCARD_VALUE));
-    }
-    
-    /**
-     * Register all the configs.
-     */
-	public void registerConfigs() {
+
+    public static void registerBlocks(ConfigHandler configs) {
 
         // Potion Effects
         configs.add(new PotionPalingConfig());
@@ -223,28 +176,6 @@ public class Configs {
     }
 
     /**
-     * A safe way to check if a {@link IConfigurable} is enabled. @see ExtendedConfig#isEnabled()
-     * @param config The config to check.
-     * @return If the given config is enabled.
-     */
-    @SuppressWarnings("rawtypes")
-    public static boolean isEnabled(Class<? extends ExtendedConfig> config) {
-        try {
-            return ((ExtendedConfig)config.getField("_instance").get(null)).isEnabled();
-        } catch (NullPointerException e1) {
-            return false;
-        } catch (IllegalArgumentException e2) {
-            return false;
-        } catch (IllegalAccessException e3) {
-            return false;
-        } catch (NoSuchFieldException e3) {
-            return false;
-        } catch (SecurityException e4) {
-            return false;
-        }
-    }
-
-    /**
      * Get the config from a given item.
      * It will internally also try to get the blockState from the item if it exists to get the config from.
      * @param item The item, possibly IConfigurable.
@@ -261,6 +192,15 @@ public class Configs {
                 return null;
             }
         }
+    }
+
+    /**
+     * A safe way to check if a {@link org.cyclops.cyclopscore.config.configurable.IConfigurable} is enabled. @see ExtendedConfig#isEnabled()
+     * @param config The config to check.
+     * @return If the given config is enabled.
+     */
+    public static boolean isEnabled(Class<? extends ExtendedConfig> config) {
+        return ConfigHandler.isEnabled(config);
     }
     
 }

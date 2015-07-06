@@ -1,12 +1,12 @@
 package evilcraft.client.render.entity;
 
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.MobConfig;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSilverfish;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.util.ResourceLocation;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 
 /**
  * Renderer for a netherfish

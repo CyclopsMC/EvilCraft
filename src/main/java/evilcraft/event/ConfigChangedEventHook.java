@@ -1,7 +1,7 @@
 package evilcraft.event;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.ConfigHandler;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -19,7 +19,7 @@ public class ConfigChangedEventHook {
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
         if(eventArgs.modID.equals(Reference.MOD_ID)) {
-        	ConfigHandler.getInstance().syncProcessedConfigs();
+        	EvilCraft._instance.getConfigHandler().syncProcessedConfigs();
         }
     }
 }

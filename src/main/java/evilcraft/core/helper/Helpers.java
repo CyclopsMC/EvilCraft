@@ -1,7 +1,5 @@
 package evilcraft.core.helper;
 
-import evilcraft.core.config.configurable.IConfigurable;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +37,7 @@ public class Helpers {
     
     /**
      * Get a new ID for the given type.
-     * @param type Type for a {@link IConfigurable}.
+     * @param type Type for a {@link org.cyclops.cyclopscore.config.configurable.IConfigurable}.
      * @return The incremented ID.
      */
     public static int getNewId(IDType type) {

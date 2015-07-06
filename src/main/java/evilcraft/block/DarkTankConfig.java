@@ -1,17 +1,16 @@
 package evilcraft.block;
 
-import evilcraft.client.render.block.RenderDarkTank;
-import evilcraft.client.render.item.RenderItemDarkTank;
+import evilcraft.EvilCraft;
 import evilcraft.client.render.tileentity.RenderTileEntityDarkTank;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.BlockContainerConfig;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.item.ItemBlockFluidContainer;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileDarkTank;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * Config for the {@link DarkTank}.
@@ -46,6 +45,7 @@ public class DarkTankConfig extends BlockContainerConfig {
      */
     public DarkTankConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "darkTank",
             null,
@@ -65,8 +65,8 @@ public class DarkTankConfig extends BlockContainerConfig {
         	//ClientProxy.BLOCK_RENDERERS.add(new RenderDarkTank());
             ClientProxy.TILE_ENTITY_RENDERERS.put(TileDarkTank.class,
             		new RenderTileEntityDarkTank());
-            ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(DarkTank.getInstance()),
-            		new RenderItemDarkTank());
+            // TODO
+            //ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(DarkTank.getInstance()), new RenderItemDarkTank());
         }
     }
 

@@ -1,7 +1,8 @@
 package evilcraft.item;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Werewolf Bone.
@@ -20,6 +21,7 @@ public class WerewolfBoneConfig extends ItemConfig {
      */
     public WerewolfBoneConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "werewolfBone",
             null,

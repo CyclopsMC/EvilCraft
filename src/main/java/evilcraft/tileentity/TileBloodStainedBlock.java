@@ -2,7 +2,7 @@ package evilcraft.tileentity;
 
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.core.tileentity.InnerBlocksTileEntity;
-import evilcraft.core.tileentity.NBTPersist;
+import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 
 /**
  * Tile for the {@link BloodStainedBlock}.

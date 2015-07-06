@@ -1,6 +1,5 @@
 package evilcraft.core;
 
-import baubles.api.BaublesApi;
 import evilcraft.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -56,12 +55,15 @@ public class PlayerExtendedInventoryIterator implements Iterator<ItemStack> {
 
     @Optional.Method(modid = Reference.MOD_BAUBLES)
     protected ItemStack getBaublesStack(int index) {
-        return BaublesApi.getBaubles(player).getStackInSlot(index);
+        return null;
+        // TODO
+        //return BaublesApi.getBaubles(player).getStackInSlot(index);
     }
 
     @Optional.Method(modid = Reference.MOD_BAUBLES)
     protected void setBaublesData() {
-        maxBaublesSize = BaublesApi.getBaubles(player).getSizeInventory();
+        // TODO
+        //maxBaublesSize = BaublesApi.getBaubles(player).getSizeInventory();
         baublesIterator = 0;
     }
 

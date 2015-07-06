@@ -1,7 +1,7 @@
 package evilcraft.core;
 
 import evilcraft.EvilCraft;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.apache.logging.log4j.Level;
 
 import java.util.HashSet;
@@ -74,13 +74,13 @@ public class Debug {
         }
         
         if(ok) {
-            EvilCraft.log(CONFIGCHECKER_PREFIX+"Everything is just fine!");
+            EvilCraft.clog(CONFIGCHECKER_PREFIX + "Everything is just fine!");
         }
     }
     
     private static void log(String message) {
         ok = false;
-        EvilCraft.log(CONFIGCHECKER_PREFIX+message, Level.INFO);
+        EvilCraft.clog(CONFIGCHECKER_PREFIX + message, Level.INFO);
     }
 
 }

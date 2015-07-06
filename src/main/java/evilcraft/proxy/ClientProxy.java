@@ -52,7 +52,7 @@ public class ClientProxy extends CommonProxy {
 				.entrySet()) {
 			RenderingRegistry.registerEntityRenderingHandler(entry.getKey(),
 					entry.getValue());
-			EvilCraft.log("Registered " + entry.getKey() + " renderer");
+			EvilCraft.clog("Registered " + entry.getKey() + " renderer");
 		}
 
 		// Special TileEntity renderers
@@ -60,7 +60,7 @@ public class ClientProxy extends CommonProxy {
 				.entrySet()) {
 			ClientRegistry.bindTileEntitySpecialRenderer(entry.getKey(),
 					entry.getValue());
-			EvilCraft.log("Registered " + entry.getKey() + " special renderer");
+			EvilCraft.clog("Registered " + entry.getKey() + " special renderer");
 		}
 	}
 
@@ -79,12 +79,12 @@ public class ClientProxy extends CommonProxy {
 		KeyInputEventHook.getInstance().addKeyHandler(settings.keyBindSneak,
 				fartKeyHandler);
 
-		EvilCraft.log("Registered key bindings");
+		EvilCraft.clog("Registered key bindings");
 	}
 
 	@Override
 	public void registerTickHandlers() {
-		EvilCraft.log("Registered tick handlers");
+		EvilCraft.clog("Registered tick handlers");
 	}
 
 	@Override

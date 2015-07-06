@@ -1,6 +1,7 @@
 package evilcraft.item;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Corrupted Tear.
@@ -19,6 +20,7 @@ public class CorruptedTearConfig extends ItemConfig {
      */
     public CorruptedTearConfig() {
         super(
+                EvilCraft._instance,
             true,
             "corruptedTear",
             null,

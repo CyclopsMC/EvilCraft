@@ -6,6 +6,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 
 import java.util.LinkedList;
@@ -28,7 +29,7 @@ public class CommandIgnite extends CommandEvilCraft {
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender sender, String[] parts) {
+    public List addTabCompletionOptions(ICommandSender sender, String[] parts, BlockPos blockPos) {
         return parts.length >= 1 ?
                 CommandBase.getListOfStringsMatchingLastWord(parts, MinecraftServer.getServer().getAllUsernames()) : null;
     }
@@ -37,12 +38,12 @@ public class CommandIgnite extends CommandEvilCraft {
     public void processCommand(ICommandSender sender, String[] parts) {
         if(parts.length >= 1 && parts[0].length() > 0) {
             MinecraftServer minecraftserver = MinecraftServer.getServer();
-            GameProfile gameprofile = minecraftserver.func_152358_ax().func_152655_a(parts[0]);
+            GameProfile gameprofile = minecraftserver.getPlayerProfileCache().getGameProfileForUsername(parts[0]);
 
             if (gameprofile == null) {
                 sender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.invalidPlayer", parts[0])));
             } else {
-                EntityPlayerMP player = minecraftserver.getConfigurationManager().func_152612_a(parts[0]);
+                EntityPlayerMP player = minecraftserver.getConfigurationManager().getPlayerByUsername(parts[0]);
                 int duration = 2;
                 if(parts.length > 1) {
                     try {

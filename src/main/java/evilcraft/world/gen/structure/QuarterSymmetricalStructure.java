@@ -1,6 +1,6 @@
 package evilcraft.world.gen.structure;
 
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;

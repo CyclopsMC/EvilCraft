@@ -1,6 +1,7 @@
 package evilcraft.item;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Effortless Ring.
@@ -19,6 +20,7 @@ public class EffortlessRingConfig extends ItemConfig {
      */
     public EffortlessRingConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "effortlessRing",
             null,

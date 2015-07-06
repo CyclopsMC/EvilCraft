@@ -3,8 +3,7 @@ package evilcraft.core.config.configurable;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.block.component.BlockTankComponent;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -15,6 +14,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainerGui;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.List;
 

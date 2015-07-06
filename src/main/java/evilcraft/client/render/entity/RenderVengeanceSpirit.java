@@ -1,13 +1,13 @@
 package evilcraft.client.render.entity;
 
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.entity.monster.VengeanceSpirit;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 import org.lwjgl.opengl.GL11;
 
 /**

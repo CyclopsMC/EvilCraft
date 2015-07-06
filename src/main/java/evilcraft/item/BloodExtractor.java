@@ -5,10 +5,9 @@ import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.BloodStainedBlockConfig;
 import evilcraft.client.particle.EntityBloodSplashFX;
 import evilcraft.core.PlayerInventoryIterator;
-import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended.InvalidInnerBlocksTileException;
+import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.fluid.Blood;
@@ -26,6 +25,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 import java.util.List;
 import java.util.Random;
@@ -74,7 +74,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
 	            int amount = 0;
 				try {
 					amount = ((TileBloodStainedBlock) BloodStainedBlock.getInstance().getTile(world, blockPos)).getAmount();
-				} catch (InvalidInnerBlocksTileException e) {
+				} catch (ConfigurableBlockWithInnerBlocksExtended.InvalidInnerBlocksTileException e) {
 					e.printStackTrace();
 				}
 	            int filled = fillBloodExtractor(itemStack, amount, !world.isRemote);

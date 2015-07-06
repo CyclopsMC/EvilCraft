@@ -1,6 +1,7 @@
 package evilcraft.fluid;
 
-import evilcraft.core.config.extendedconfig.FluidConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.FluidConfig;
 
 /**
  * Config for {@link Blood}.
@@ -19,10 +20,11 @@ public class BloodConfig extends FluidConfig {
      */
     public BloodConfig() {
         super(
-            true,
-            "evilcraftblood",
-            null,
-            Blood.class
+                EvilCraft._instance,
+                true,
+                "evilcraftblood",
+                null,
+                Blood.class
         );
     }
     

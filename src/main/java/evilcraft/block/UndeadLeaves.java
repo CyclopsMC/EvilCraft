@@ -1,11 +1,6 @@
 package evilcraft.block;
 
-import evilcraft.core.block.component.EntityDropParticleFXBlockComponent;
-import evilcraft.core.block.component.IEntityDropParticleFXBlock;
 import evilcraft.core.config.configurable.ConfigurableBlockLeaves;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.MinecraftHelpers;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -14,8 +9,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.block.component.EntityDropParticleFXBlockComponent;
+import org.cyclops.cyclopscore.block.component.IEntityDropParticleFXBlock;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
 import java.util.Random;
@@ -70,13 +68,13 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
     }
 
     @Override
-    public BlockPlanks.EnumType func_176233_b(int p_176233_1_) {
+    public BlockPlanks.EnumType getWoodType(int meta) {
         return UndeadSapling.TYPE;
     }
 
     @Override
-    public void randomDisplayTick(World world, BlockPos blockPos, Random rand) {
-        entityDropParticleFXBlockComponent.randomDisplayTick(world, blockPos, rand);
+    public void randomDisplayTick(World world, BlockPos blockPos, IBlockState blockState, Random rand) {
+        entityDropParticleFXBlockComponent.randomDisplayTick(world, blockPos, blockState, rand);
     }
 
     @Override

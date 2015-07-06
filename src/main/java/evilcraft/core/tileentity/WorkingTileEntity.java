@@ -2,6 +2,7 @@ package evilcraft.core.tileentity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import evilcraft.core.tileentity.upgrade.IUpgradable;
 import evilcraft.core.tileentity.upgrade.IUpgradeBehaviour;
 import evilcraft.core.tileentity.upgrade.Upgrades;
@@ -214,7 +215,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     }
 
     public Set<Upgrades.Upgrade> getUpgrades() {
-        return this.getBlock().getConfig().getUpgrades();
+        return ((UpgradableBlockContainerConfig) this.getBlock().getConfig()).getUpgrades();
     }
 
     /**

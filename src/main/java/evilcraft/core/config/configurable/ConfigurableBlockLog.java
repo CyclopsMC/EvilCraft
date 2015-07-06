@@ -1,6 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -9,16 +8,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Block that extends from a log that can hold ExtendedConfigs
+ * Block that extends from a clog that can hold ExtendedConfigs
  * @author rubensworks
  *
  */
-public class ConfigurableBlockLog extends BlockLog implements IConfigurable{
+public class ConfigurableBlockLog extends BlockLog implements IConfigurable {
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;

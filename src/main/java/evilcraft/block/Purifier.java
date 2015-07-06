@@ -1,9 +1,5 @@
 package evilcraft.block;
 
-import evilcraft.client.render.block.RenderPurifier;
-import evilcraft.core.config.configurable.ConfigurableBlockContainer;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.BucketBloodConfig;
 import evilcraft.tileentity.TilePurifier;
 import net.minecraft.block.material.Material;
@@ -20,6 +16,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.List;
 
@@ -140,7 +139,9 @@ public class Purifier extends ConfigurableBlockContainer {
 
     @Override
     public int getRenderType() {
-        return RenderPurifier.ID;
+        // TODO
+        //return RenderPurifier.ID;
+        return -1;
     }
 
     @Override

@@ -3,6 +3,7 @@ package evilcraft.core.helper;
 import evilcraft.core.IInformationProvider;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
 

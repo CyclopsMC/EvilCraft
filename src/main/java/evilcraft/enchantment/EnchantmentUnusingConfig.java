@@ -1,7 +1,8 @@
 package evilcraft.enchantment;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.EnchantmentConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
 
 /**
  * Config for {@link EnchantmentUnusing}.
@@ -20,6 +21,7 @@ public class EnchantmentUnusingConfig extends EnchantmentConfig {
      */
     public EnchantmentUnusingConfig() {
         super(
+                EvilCraft._instance,
             Reference.ENCHANTMENT_UNUSING,
             "unusing",
             null,

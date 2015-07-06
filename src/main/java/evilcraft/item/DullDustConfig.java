@@ -1,7 +1,8 @@
 package evilcraft.item;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Dull Dust.
@@ -20,6 +21,7 @@ public class DullDustConfig extends ItemConfig {
      */
     public DullDustConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "dullDust",
             null,

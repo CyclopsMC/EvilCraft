@@ -1,20 +1,15 @@
 package evilcraft.item;
 
-import baubles.api.BaubleType;
-import baubles.api.BaublesApi;
-import baubles.api.IBauble;
 import com.google.common.base.Predicate;
 import evilcraft.Reference;
-import evilcraft.core.config.configurable.ConfigurableItem;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
-import evilcraft.modcompat.baubles.BaublesModCompat;
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,7 +33,7 @@ import java.util.List;
  *
  */
 @Optional.Interface(iface = "baubles.api.IBauble", modid = Reference.MOD_BAUBLES, striprefs = true)
-public class VengeanceRing extends ConfigurableItem implements IBauble {
+public class VengeanceRing extends ConfigurableItem {
 
 	private static final int BONUS_TICK_MODULUS = 5;
 	private static final int BONUS_POTION_DURATION = 3 * 20;
@@ -88,14 +83,15 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
     
     @Optional.Method(modid = Reference.MOD_BAUBLES)
     private void equipBauble(ItemStack itemStack, EntityPlayer player) {
-    	IInventory inventory = BaublesApi.getBaubles(player);
+    	IInventory inventory = null; //BaublesApi.getBaubles(player); TODO
 		for(int i = 0; i < inventory.getSizeInventory(); i++) {
 			if(inventory.getStackInSlot(i) == null && inventory.isItemValidForSlot(i, itemStack)) {
 				inventory.setInventorySlotContents(i, itemStack.copy());
 				if(!player.capabilities.isCreativeMode){
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 				}
-				onEquipped(itemStack, player);
+				// TODO
+				//onEquipped(itemStack, player);
 				break;
 			}
 		}
@@ -127,16 +123,15 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	    	
 	    	// Look for spirits in an area.
 	    	AxisAlignedBB box = AxisAlignedBB.fromBounds(x, y, z, x, y, z).expand(area, area, area);
-            // MCP: getEntitiesWithinAABBExcludingEntity
-	    	List<VengeanceSpirit> spirits = world.func_175674_a(entity, box,
-	    			new Predicate<Entity>() {
-	
-				@Override
-				public boolean apply(Entity entity) {
-					return entity instanceof VengeanceSpirit;
-				}
-	        	
-	        });
+	    	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABB(VengeanceSpirit.class, box,
+					new Predicate<Entity>() {
+
+						@Override
+						public boolean apply(Entity entity) {
+							return entity instanceof VengeanceSpirit;
+						}
+
+					});
 	    	
 	    	// Vengeance all the spirits in the neighbourhood
 	    	for(VengeanceSpirit spirit : spirits) {
@@ -197,10 +192,13 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
         		getUnlocalizedName() + ".info.status");
     }
 
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
+	// TODO
+	/*@Optional.Method(modid = Reference.MOD_BAUBLES)
 	@Override
 	public boolean canEquip(ItemStack itemStack, EntityLivingBase entity) {
-		return BaublesModCompat.canUse();
+		// TODO: re-enable when baubles is updated.
+		//return BaublesModCompat.canUse();
+		return true;
 	}
 
 	@Optional.Method(modid = Reference.MOD_BAUBLES)
@@ -230,9 +228,10 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	@Optional.Method(modid = Reference.MOD_BAUBLES)
 	@Override
 	public void onWornTick(ItemStack itemStack, EntityLivingBase entity) {
+		// TODO: re-enable when baubles is updated.
 		if(BaublesModCompat.canUse()) {
 			this.onUpdate(itemStack, entity.worldObj, entity, 0, false);
 		}
-	}
+	}*/
 
 }

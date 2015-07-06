@@ -3,7 +3,6 @@ package evilcraft;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import evilcraft.core.helper.L10NHelpers;
-import evilcraft.modcompat.versionchecker.VersionCheckerModCompat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -57,7 +56,8 @@ public class VersionStats {
 	        public void run() {
 	        	VersionStats versionStats = getVersionStats();
 	        	if(needsUpdate(versionStats)) {
-	        		VersionCheckerModCompat.sendIMCOutdatedMessage(versionStats);
+					// TODO: version checker modcompat
+	        		//VersionCheckerModCompat.sendIMCOutdatedMessage(versionStats);
 	        	}
 			}
 		}).start();
@@ -119,9 +119,9 @@ public class VersionStats {
 					+ "?mc_version=" + Reference.MOD_MC_VERSION + "&mod_version=" + Reference.MOD_VERSION;
 			versionStats = gson.fromJson(IOUtils.toString(new URL(location)), VersionStats.class);
 		} catch (JsonSyntaxException e) {
-		    EvilCraft.log("The version stats server returned an invalid answer.");
+		    EvilCraft.clog("The version stats server returned an invalid answer.");
 		} catch (IOException e) {
-			EvilCraft.log("Can't connect to version stats server");
+			EvilCraft.clog("Can't connect to version stats server");
 		}
 		return versionStats;
 	}

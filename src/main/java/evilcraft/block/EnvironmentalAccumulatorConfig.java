@@ -1,13 +1,13 @@
 package evilcraft.block;
 
-import evilcraft.client.render.block.RenderEnvironmentalAccumulator;
+import evilcraft.EvilCraft;
 import evilcraft.client.render.tileentity.RenderTileEntityEnvironmentalAccumulator;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.BlockContainerConfig;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileEnvironmentalAccumulator;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * Config for the {@link EnvironmentalAccumulator}.
@@ -46,6 +46,7 @@ public class EnvironmentalAccumulatorConfig extends BlockContainerConfig {
      */
 	public EnvironmentalAccumulatorConfig() {
 		super(
+				EvilCraft._instance,
 				true,
 				"environmentalAccumulator",
 				null,
@@ -56,7 +57,6 @@ public class EnvironmentalAccumulatorConfig extends BlockContainerConfig {
 	@Override
 	public void onRegistered() {
 	    if(MinecraftHelpers.isClientSide()) {
-	        ClientProxy.BLOCK_RENDERERS.add(new RenderEnvironmentalAccumulator());
 	        ClientProxy.TILE_ENTITY_RENDERERS.put(TileEnvironmentalAccumulator.class, new RenderTileEntityEnvironmentalAccumulator());
 	    }
 	}

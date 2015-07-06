@@ -123,7 +123,7 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
         } else if(recipe instanceof ShapelessOreRecipe) {
             itemStacks = ((ShapelessOreRecipe) recipe).getInput().toArray();
         } else {
-            EvilCraft.log("Recipe of type " + recipe.getClass() + " is not supported.", Level.ERROR);
+            EvilCraft.clog("Recipe of type " + recipe.getClass() + " is not supported.", Level.ERROR);
             return Collections.EMPTY_LIST;
         }
         if(itemStacks.length <= index) return Collections.EMPTY_LIST;

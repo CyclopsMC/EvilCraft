@@ -4,14 +4,12 @@ import evilcraft.block.Purifier;
 import evilcraft.block.PurifierConfig;
 import evilcraft.client.particle.EntityBloodBubbleFX;
 import evilcraft.client.particle.EntityMagicFinishFX;
-import evilcraft.core.config.configurable.ConfigurableEnchantment;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.EnchantmentHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.tileentity.NBTPersist;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.item.BlookConfig;
@@ -29,6 +27,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -344,7 +344,7 @@ public class TilePurifier extends TankInventoryTileEntity {
                 float particleMotionZ = -0.4F + worldObj.rand.nextFloat() * 0.8F;
     
                 FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new EntityEnchantmentTableParticleFX.EnchantmentTable().func_178902_a(0, worldObj, particleX, particleY, particleZ,
+                        new EntityEnchantmentTableParticleFX.EnchantmentTable().getEntityFX(0, worldObj, particleX, particleY, particleZ,
                                 particleMotionX, particleMotionY, particleMotionZ)
                         );
             }

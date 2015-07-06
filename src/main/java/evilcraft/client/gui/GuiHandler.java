@@ -1,7 +1,7 @@
 package evilcraft.client.gui;
 
 import com.google.common.collect.Maps;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.inventory.IGuiContainerProvider;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;

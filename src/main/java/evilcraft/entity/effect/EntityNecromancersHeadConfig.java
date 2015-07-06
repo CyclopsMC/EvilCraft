@@ -1,6 +1,6 @@
 package evilcraft.entity.effect;
 
-import evilcraft.core.config.extendedconfig.EntityConfig;
+import evilcraft.EvilCraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.init.Items;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 
 /**
  * Config for the {@link EntityNecromancersHead}.
@@ -26,6 +27,7 @@ public class EntityNecromancersHeadConfig extends EntityConfig {
      */
     public EntityNecromancersHeadConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "entityNecromancersHead",
             null,

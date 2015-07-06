@@ -1,9 +1,10 @@
 package evilcraft.item;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Hardened Blood Shard.
@@ -34,6 +35,7 @@ public class HardenedBloodShardConfig extends ItemConfig {
      */
     public HardenedBloodShardConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "hardenedBloodShard",
             null,

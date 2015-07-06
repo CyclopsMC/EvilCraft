@@ -38,8 +38,8 @@ public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEnt
     }
     
     @Override
-    public void addCraftingToCrafters(ICrafting icrafting) {
-        super.addCraftingToCrafters(icrafting);
+    public void onCraftGuiOpened(ICrafting icrafting) {
+        super.onCraftGuiOpened(icrafting);
         sendTickersUpdates(icrafting, true);
     }
     

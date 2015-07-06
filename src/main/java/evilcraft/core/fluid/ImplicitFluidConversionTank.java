@@ -1,8 +1,8 @@
 package evilcraft.core.fluid;
 
-import evilcraft.core.tileentity.EvilCraftTileEntity;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 /**
  * A single use tank that can accept multiple types of fluids.
@@ -20,7 +20,7 @@ public class ImplicitFluidConversionTank extends SingleUseTank {
      * @param tile The TileEntity that uses this tank.
 	 * @param converter The fluid converter.
      */
-    public ImplicitFluidConversionTank(String name, int capacity, EvilCraftTileEntity tile,
+    public ImplicitFluidConversionTank(String name, int capacity, CyclopsTileEntity tile,
     		ImplicitFluidConverter converter) {
         super(name, capacity, tile);
         this.converter = converter;

@@ -1,12 +1,13 @@
 package evilcraft.item;
 
+import evilcraft.EvilCraft;
 import evilcraft.block.FluidBlockPoison;
-import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
-import evilcraft.core.config.configurable.ConfigurableFluid;
-import evilcraft.core.config.configurable.ConfigurableItemBucket;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ItemBucketConfig;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockFluidClassic;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableFluid;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItemBucket;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import evilcraft.fluid.Poison;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemBucketConfig;
 
 /**
  * Config for the Poison Bucket.
@@ -25,6 +26,7 @@ public class BucketPoisonConfig extends ItemBucketConfig {
      */
     public BucketPoisonConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "bucketPoison",
             null,

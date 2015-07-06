@@ -1,10 +1,10 @@
 package evilcraft.tileentity;
 
-import evilcraft.core.tileentity.TickingEvilCraftTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.lwjgl.util.vector.Vector4f;
 
 /**
@@ -12,7 +12,7 @@ import org.lwjgl.util.vector.Vector4f;
  * @author immortaleeb
  *
  */
-public abstract class EvilCraftBeaconTileEntity extends TickingEvilCraftTileEntity {
+public abstract class EvilCraftBeaconTileEntity extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
 	
     @SideOnly(Side.CLIENT)
 	private Vector4f beamInnerColor;

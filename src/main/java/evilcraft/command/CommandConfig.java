@@ -1,7 +1,7 @@
 package evilcraft.command;
 
-import evilcraft.core.config.ConfigProperty;
 import net.minecraft.command.ICommand;
+import org.cyclops.cyclopscore.config.ConfigProperty;
 
 import java.util.HashMap;
 import java.util.LinkedList;

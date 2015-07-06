@@ -1,15 +1,16 @@
 package evilcraft.entity.monster;
 
+import evilcraft.EvilCraft;
 import evilcraft.client.render.entity.RenderWerewolf;
 import evilcraft.client.render.model.ModelWerewolf;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 
 /**
  * Config for the {@link Werewolf}.
@@ -34,6 +35,7 @@ public class WerewolfConfig extends MobConfig {
      */
     public WerewolfConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "werewolf",
             null,

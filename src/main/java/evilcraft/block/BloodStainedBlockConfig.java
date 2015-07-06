@@ -1,8 +1,9 @@
 package evilcraft.block;
 
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.BlockContainerConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 
 /**
  * Config for the {@link BloodStainedBlock}.
@@ -37,6 +38,7 @@ public class BloodStainedBlockConfig extends BlockContainerConfig {
      */
     public BloodStainedBlockConfig() {
         super(
+            EvilCraft._instance,
         	true,
             "bloodStainedBlock",
             null,

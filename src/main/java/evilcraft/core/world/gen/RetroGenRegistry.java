@@ -65,7 +65,7 @@ public class RetroGenRegistry {
 			for(IRetroGen retroGen : retroGeneratables) {
 				if(retroGen.shouldRetroGen(tag, event.world.provider.getDimensionId())) {
 					retroGen.retroGenerateChunk(tag, event.getChunk(), random);
-					EvilCraft.log("Retrogenerating chunk at " 
+					EvilCraft.clog("Retrogenerating chunk at "
 							+ event.getChunk().xPosition + ":" + event.getChunk().zPosition, Level.INFO);
 					atLeastOneModified = true;
 				}

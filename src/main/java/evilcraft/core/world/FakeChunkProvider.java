@@ -27,7 +27,7 @@ public class FakeChunkProvider implements IChunkProvider {
 	}
 
     @Override
-    public Chunk func_177459_a(BlockPos p_177459_1_) {
+    public Chunk provideChunk(BlockPos p_177459_1_) {
         return null;
     }
 
@@ -62,12 +62,12 @@ public class FakeChunkProvider implements IChunkProvider {
 	}
 
     @Override
-    public List func_177458_a(EnumCreatureType p_177458_1_, BlockPos p_177458_2_) {
+    public List getPossibleCreatures(EnumCreatureType p_177458_1_, BlockPos p_177458_2_) {
         return null;
     }
 
     @Override
-    public BlockPos func_180513_a(World worldIn, String p_180513_2_, BlockPos p_180513_3_) {
+    public BlockPos getStrongholdGen(World worldIn, String p_180513_2_, BlockPos p_180513_3_) {
         return null;
     }
 
@@ -77,7 +77,7 @@ public class FakeChunkProvider implements IChunkProvider {
 	}
 
     @Override
-    public void func_180514_a(Chunk p_180514_1_, int p_180514_2_, int p_180514_3_) {
+    public void recreateStructures(Chunk p_180514_1_, int p_180514_2_, int p_180514_3_) {
 
     }
 

@@ -1,13 +1,13 @@
 package evilcraft.client.render.entity;
 
 import evilcraft.core.client.render.entity.RenderModelLiving;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.entity.monster.PoisonousLibelle;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 import org.lwjgl.opengl.GL11;
 
 /**

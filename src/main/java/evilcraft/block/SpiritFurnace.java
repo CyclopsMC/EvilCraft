@@ -3,21 +3,25 @@ package evilcraft.block;
 import evilcraft.client.gui.container.GuiSpiritFurnace;
 import evilcraft.core.block.CubeDetector.IDetectionListener;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.inventory.container.ContainerSpiritFurnace;
 import evilcraft.tileentity.TileSpiritFurnace;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.Random;
 
@@ -55,10 +59,6 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
         this.setStepSound(soundTypeStone);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
         this.setRotatable(true);
-        
-        if (MinecraftHelpers.isClientSide())
-            setGUI(GuiSpiritFurnace.class);
-        setContainer(ContainerSpiritFurnace.class);
     }
     
     @Override
@@ -109,4 +109,14 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
 		}
 	}
 
+    @Override
+    public Class<? extends Container> getContainer() {
+        return ContainerSpiritFurnace.class;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Class<? extends GuiScreen> getGui() {
+        return GuiSpiritFurnace.class;
+    }
 }

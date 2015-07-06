@@ -1,8 +1,8 @@
 package evilcraft.item;
 
-import evilcraft.core.config.configurable.ConfigurableItem;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.entity.item.EntityItemEmpowerable;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;

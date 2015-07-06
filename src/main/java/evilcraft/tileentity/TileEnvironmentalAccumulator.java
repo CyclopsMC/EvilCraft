@@ -7,8 +7,7 @@ import evilcraft.block.EnvironmentalAccumulatorConfig;
 import evilcraft.core.degradation.DegradationExecutor;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.L10NHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.inventory.SimpleInventory;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
@@ -27,6 +26,7 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.lwjgl.util.vector.Vector4f;
 
 import java.util.List;
@@ -398,8 +398,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     }
 
     @Override
-    public String getName() {
-        return inventory.getName();
+    public String getCommandSenderName() {
+        return inventory.getCommandSenderName();
     }
 
     @Override

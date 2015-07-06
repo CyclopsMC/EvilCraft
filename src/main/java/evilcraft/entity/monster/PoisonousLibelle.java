@@ -1,8 +1,8 @@
 package evilcraft.entity.monster;
 
 import evilcraft.Configs;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.PoisonSacConfig;
 import net.minecraft.entity.*;
 import net.minecraft.entity.monster.IMob;

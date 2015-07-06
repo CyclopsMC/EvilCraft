@@ -1,15 +1,15 @@
 package evilcraft.core.config.configurable;
 
-import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.BlockTorch;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Torch blockState that can hold ExtendedConfigs
  * @author rubensworks
  *
  */
-public class ConfigurableBlockTorch extends BlockTorch implements IConfigurable{
+public class ConfigurableBlockTorch extends BlockTorch implements IConfigurable {
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;

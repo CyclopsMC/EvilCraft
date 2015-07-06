@@ -1,10 +1,12 @@
 package evilcraft.block;
 
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
+
+import evilcraft.EvilCraft;
 import evilcraft.core.config.configurable.ConfigurableBlockTorch;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the Burning Gemstone Torch.
@@ -29,6 +31,7 @@ public class GemStoneTorchConfig extends BlockConfig {
      */
     public GemStoneTorchConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "gemStoneTorch",
             null,

@@ -1,10 +1,10 @@
 package evilcraft.command;
 
 import evilcraft.VersionStats;
-import evilcraft.core.config.ConfigProperty;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
+import org.cyclops.cyclopscore.config.ConfigProperty;
 
 import java.util.HashMap;
 import java.util.LinkedList;

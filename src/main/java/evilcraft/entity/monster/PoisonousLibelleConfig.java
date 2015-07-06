@@ -1,10 +1,8 @@
 package evilcraft.entity.monster;
 
+import evilcraft.EvilCraft;
 import evilcraft.client.render.entity.RenderPoisonousLibelle;
 import evilcraft.client.render.model.ModelPoisonousLibelle;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -13,6 +11,9 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 
 /**
  * Config for the {@link PoisonousLibelle}.
@@ -55,6 +56,7 @@ public class PoisonousLibelleConfig extends MobConfig {
      */
     public PoisonousLibelleConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "poisonousLibelle",
             null,

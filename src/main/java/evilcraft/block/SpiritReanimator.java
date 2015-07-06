@@ -3,18 +3,20 @@ package evilcraft.block;
 import evilcraft.client.gui.container.GuiSpiritReanimator;
 import evilcraft.client.particle.EntityBloodBubbleFX;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.inventory.container.ContainerSpiritReanimator;
 import evilcraft.tileentity.TileSpiritReanimator;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.Random;
 
@@ -52,10 +54,6 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
         this.setStepSound(soundTypeStone);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
         this.setRotatable(true);
-        
-        if (MinecraftHelpers.isClientSide())
-            setGUI(GuiSpiritReanimator.class);
-        setContainer(ContainerSpiritReanimator.class);
     }
 
     @Override
@@ -75,4 +73,14 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
         super.randomDisplayTick(world, blockPos, blockState, random);
     }
 
+    @Override
+    public Class<? extends Container> getContainer() {
+        return ContainerSpiritReanimator.class;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Class<? extends GuiScreen> getGui() {
+        return GuiSpiritReanimator.class;
+    }
 }

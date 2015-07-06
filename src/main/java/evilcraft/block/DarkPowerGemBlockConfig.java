@@ -1,6 +1,7 @@
 package evilcraft.block;
 
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the {@link evilcraft.block.DarkPowerGemBlock}.
@@ -19,6 +20,7 @@ public class DarkPowerGemBlockConfig extends BlockConfig {
      */
     public DarkPowerGemBlockConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "darkPowerGemBlock",
             null,

@@ -1,7 +1,9 @@
 package evilcraft.entity.item;
 
+import evilcraft.EvilCraft;
 import evilcraft.core.client.render.RenderThrowable;
-import evilcraft.core.config.extendedconfig.EntityConfig;
+import net.minecraft.client.Minecraft;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import evilcraft.item.WeatherContainer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -26,6 +28,7 @@ public class EntityWeatherContainerConfig extends EntityConfig {
      */
     public EntityWeatherContainerConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "entityWeatherContainer",
             null,
@@ -36,7 +39,7 @@ public class EntityWeatherContainerConfig extends EntityConfig {
     @SideOnly(Side.CLIENT)
     @Override
     public Render getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderThrowable(WeatherContainer.getInstance());
+        return new RenderThrowable(Minecraft.getMinecraft().getRenderManager(), WeatherContainer.getInstance(), Minecraft.getMinecraft().getRenderItem());
     }
     
     @Override

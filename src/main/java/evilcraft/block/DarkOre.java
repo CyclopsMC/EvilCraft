@@ -3,11 +3,7 @@ package evilcraft.block;
 import evilcraft.Achievements;
 import evilcraft.Configs;
 import evilcraft.core.IInformationProvider;
-import evilcraft.core.config.configurable.ConfigurableBlock;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.item.DarkGem;
 import evilcraft.item.DarkGemConfig;
 import evilcraft.item.DarkGemCrushedConfig;
@@ -23,6 +19,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
 import java.util.Random;
@@ -223,11 +223,6 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     @Override
     public boolean canSilkHarvest() {
         return true;
-    }
-    
-    @Override
-    public int getRenderPasses() {
-        return 2;
     }
 
     @Override

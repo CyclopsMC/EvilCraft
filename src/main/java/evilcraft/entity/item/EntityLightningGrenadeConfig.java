@@ -1,6 +1,7 @@
 package evilcraft.entity.item;
 
-import evilcraft.core.config.extendedconfig.EntityConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import evilcraft.item.LightningGrenade;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -26,6 +27,7 @@ public class EntityLightningGrenadeConfig extends EntityConfig {
      */
     public EntityLightningGrenadeConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "entityLightningGrenade",
             null,

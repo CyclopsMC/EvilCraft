@@ -1,10 +1,10 @@
 package evilcraft.enchantment;
 
-import evilcraft.core.config.configurable.ConfigurableEnchantment;
-import evilcraft.core.config.extendedconfig.EnchantmentConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
+import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Enchantment that stop your tool from being usable when it only has durability left.

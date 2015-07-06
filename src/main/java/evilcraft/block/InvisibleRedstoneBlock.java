@@ -1,9 +1,6 @@
 package evilcraft.block;
 
 import evilcraft.Configs;
-import evilcraft.core.config.configurable.ConfigurableBlockContainer;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.RedstoneGrenade;
 import evilcraft.item.RedstoneGrenadeConfig;
 import evilcraft.tileentity.TileInvisibleRedstoneBlock;
@@ -17,6 +14,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.List;
 import java.util.Random;

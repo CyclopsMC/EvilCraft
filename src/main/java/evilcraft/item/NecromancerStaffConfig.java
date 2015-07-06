@@ -1,8 +1,9 @@
 package evilcraft.item;
 
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 /**
@@ -34,6 +35,7 @@ public class NecromancerStaffConfig extends ItemConfig {
      */
     public NecromancerStaffConfig() {
         super(
+                EvilCraft._instance,
             true,
             "necromancerStaff",
             null,

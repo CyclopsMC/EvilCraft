@@ -7,11 +7,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -73,7 +70,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         
         GlStateManager.pushAttrib();
         RenderHelper.enableStandardItemLighting();
-        Minecraft.getMinecraft().getRenderItem().func_175043_b(itemStack);
+        Minecraft.getMinecraft().getRenderItem().renderItemModel(itemStack);
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
 

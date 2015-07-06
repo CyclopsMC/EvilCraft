@@ -1,10 +1,11 @@
 package evilcraft.block;
 
+import evilcraft.EvilCraft;
 import evilcraft.client.render.tileentity.RenderTileEntitySpiritPortal;
-import evilcraft.core.config.extendedconfig.BlockContainerConfig;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileSpiritPortal;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * Config for the {@link evilcraft.block.SpiritPortal}.
@@ -23,6 +24,7 @@ public class SpiritPortalConfig extends BlockContainerConfig {
      */
 	public SpiritPortalConfig() {
 		super(
+				EvilCraft._instance,
 				true,
 				"spiritPortal",
 				null,

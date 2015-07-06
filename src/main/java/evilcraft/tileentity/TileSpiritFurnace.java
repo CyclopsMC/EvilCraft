@@ -14,9 +14,7 @@ import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.LocationHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
-import evilcraft.core.tileentity.NBTPersist;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
 import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
@@ -46,6 +44,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import org.apache.commons.lang3.mutable.MutableDouble;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;

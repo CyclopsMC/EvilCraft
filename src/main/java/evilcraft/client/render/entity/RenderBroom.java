@@ -1,10 +1,11 @@
 package evilcraft.client.render.entity;
 
 import evilcraft.client.render.model.ModelBroom;
-import evilcraft.core.client.render.model.RenderModel;
-import evilcraft.core.config.extendedconfig.EntityConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import org.cyclops.cyclopscore.client.render.model.RenderModel;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -17,10 +18,11 @@ public class RenderBroom extends RenderModel<ModelBroom> {
 	
     /**
      * Make a new instance.
+     * @param renderManager The render manager
      * @param config config
      */
-	public RenderBroom(ExtendedConfig<EntityConfig> config) {
-	    super(config);
+	public RenderBroom(RenderManager renderManager, ExtendedConfig<EntityConfig> config) {
+	    super(renderManager, config);
 	}
 
 	@Override

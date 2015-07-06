@@ -82,9 +82,8 @@ public abstract class EntityItemIndestructable extends EntityItem {
 		}
     }
 
-    // MCP: isEntityInvulnerable
 	@Override
-	public boolean func_180431_b(DamageSource damageSource) {
+	public boolean isEntityInvulnerable(DamageSource damageSource) {
 		return isIndestructable();
 	}
 }

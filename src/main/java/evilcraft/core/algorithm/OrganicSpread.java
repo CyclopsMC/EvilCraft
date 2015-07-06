@@ -1,6 +1,5 @@
 package evilcraft.core.algorithm;
 
-import com.sun.javafx.geom.Vec3f;
 import evilcraft.core.helper.LocationHelpers;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3i;

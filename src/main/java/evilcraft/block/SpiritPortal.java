@@ -1,11 +1,6 @@
 package evilcraft.block;
 
 import evilcraft.core.algorithm.RegionIterator;
-import evilcraft.core.config.configurable.ConfigurableBlockContainer;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.LocationHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.tileentity.TileSpiritPortal;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -14,6 +9,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * Block that can collect the weather and stuff.

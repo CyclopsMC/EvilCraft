@@ -2,14 +2,17 @@ package evilcraft.block;
 
 import evilcraft.client.gui.container.GuiBloodChest;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.inventory.container.ContainerBloodChest;
 import evilcraft.tileentity.TileBloodChest;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.Random;
 
@@ -48,11 +51,6 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
         this.setStepSound(soundTypeWood);
         this.setRotatable(true);
         setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
-        
-        if (MinecraftHelpers.isClientSide())
-            setGUI(GuiBloodChest.class);
-        
-        setContainer(ContainerBloodChest.class);
     }
     
     @Override
@@ -75,4 +73,14 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
         return TileBloodChest.LIQUID_PER_SLOT;
     }
 
+    @Override
+    public Class<? extends Container> getContainer() {
+        return ContainerBloodChest.class;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Class<? extends GuiScreen> getGui() {
+        return GuiBloodChest.class;
+    }
 }

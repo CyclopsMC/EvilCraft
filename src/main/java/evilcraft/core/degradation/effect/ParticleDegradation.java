@@ -4,12 +4,12 @@ import evilcraft.api.degradation.IDegradable;
 import evilcraft.client.particle.EntityDegradeFX;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * An effect that will knockback the entities within the range of the degradable.

@@ -7,7 +7,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -106,8 +105,7 @@ public class GuiContainerExtended extends GuiContainer {
                 line = "\u00a77" + line;
             }
 
-            // MCP: drawStringWithShadow
-            this.fontRendererObj.func_175063_a(line, xStart, yStart, -1);
+            this.fontRendererObj.drawStringWithShadow(line, xStart, yStart, -1);
             
             if(stringIndex == 0) {
                 yStart += 2;

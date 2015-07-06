@@ -45,7 +45,7 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 	}
 
     @Override
-    public ItemStack[] func_179532_b(InventoryCrafting inventory) {
+    public ItemStack[] getRemainingItems(InventoryCrafting inventory) {
         ItemStack[] aitemstack = new ItemStack[inventory.getSizeInventory()];
 
         for (int i = 0; i < aitemstack.length; ++i) {

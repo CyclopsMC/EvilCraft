@@ -1,6 +1,7 @@
 package evilcraft.entity.item;
 
-import evilcraft.core.config.extendedconfig.EntityConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -22,6 +23,7 @@ public class EntityItemUndespawnableConfig extends EntityConfig {
      */
     public EntityItemUndespawnableConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "entityItemUndespawnable",
             null,

@@ -1,6 +1,8 @@
 package evilcraft.block;
 
-import evilcraft.core.config.extendedconfig.BlockContainerConfig;
+
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 
 /**
  * A config for {@link InvisibleRedstoneBlock}.
@@ -19,6 +21,7 @@ public class InvisibleRedstoneBlockConfig extends BlockContainerConfig {
      */
     public InvisibleRedstoneBlockConfig() {
         super(
+                EvilCraft._instance,
         		true,
         		"invisibleRedstoneBlock",
         		null,

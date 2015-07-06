@@ -1,12 +1,11 @@
 package evilcraft.item;
 
-import evilcraft.client.render.item.RenderItemBroom;
-import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.proxy.ClientProxy;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * Config for the {@link Broom}.
@@ -25,6 +24,7 @@ public class BroomConfig extends ItemConfig {
      */
     public BroomConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "broom",
             null,
@@ -38,9 +38,10 @@ public class BroomConfig extends ItemConfig {
         for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
             ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(new ItemStack(Broom.getInstance()), 1, 2, 2));
         }
-        if (MinecraftHelpers.isClientSide()) {
+        // TODO
+        /*if (MinecraftHelpers.isClientSide()) {
             ClientProxy.ITEM_RENDERERS.put(this.getItemInstance(), new RenderItemBroom(this));
-        }
+        }*/
     }
     
 }

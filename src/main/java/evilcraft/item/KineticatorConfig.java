@@ -1,8 +1,9 @@
 package evilcraft.item;
 
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link Kineticator}.
@@ -48,6 +49,7 @@ public class KineticatorConfig extends ItemConfig {
      */
     public KineticatorConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "kineticator",
             null,

@@ -1,22 +1,21 @@
 package evilcraft.block;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.client.render.item.RenderItemBloodChest;
 import evilcraft.client.render.tileentity.RenderTileEntityBloodChest;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.BlockContainerConfig;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileBloodChest;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 
 /**
  * Config for the {@link BloodChest}.
@@ -59,6 +58,7 @@ public class BloodChestConfig extends BlockContainerConfig {
      */
     public BloodChestConfig() {
         super(
+            EvilCraft._instance,
         	true,
             "bloodChest",
             null,
@@ -83,7 +83,8 @@ public class BloodChestConfig extends BlockContainerConfig {
     	ModelBase model = new ModelChest();
     	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "bloodChest.png");
         ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new RenderTileEntityBloodChest(model, texture));
-        ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BloodChest.getInstance()), new RenderItemBloodChest(model, texture));
+        // TODO: item renderer
+        //ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BloodChest.getInstance()), new RenderItemBloodChest(model, texture));
     }
     
 }

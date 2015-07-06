@@ -1,16 +1,16 @@
 package evilcraft.fluid;
 
-import evilcraft.core.config.configurable.ConfigurableFluid;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.FluidConfig;
 import net.minecraftforge.fluids.Fluid;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableFluid;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.FluidConfig;
 
 /**
  * The poisonous {@link Fluid}.
  * @author rubensworks
  *
  */
-public class Poison extends ConfigurableFluid{
+public class Poison extends ConfigurableFluid {
     
     private static Poison _instance = null;
     

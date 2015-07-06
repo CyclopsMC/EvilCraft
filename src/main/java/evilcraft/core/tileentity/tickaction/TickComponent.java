@@ -1,10 +1,10 @@
 package evilcraft.core.tileentity.tickaction;
 
-import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,7 +22,7 @@ import java.util.Map.Entry;
  * @see ITickAction
  * @see TickingTankInventoryTileEntity
  */
-public class TickComponent<C extends EvilCraftTileEntity, T extends ITickAction<C>> {
+public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>> {
     
     private Map<Class<?>, T> tickActions;
     

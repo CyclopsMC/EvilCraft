@@ -1,10 +1,11 @@
 package evilcraft.item;
 
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.configurable.ConfigurableItem;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Ender Tear.
@@ -35,6 +36,7 @@ public class EnderTearConfig extends ItemConfig {
      */
     public EnderTearConfig() {
         super(
+                EvilCraft._instance,
             true,
             "enderTear",
             null,

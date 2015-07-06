@@ -1,8 +1,5 @@
 package evilcraft.block;
 
-import evilcraft.core.config.configurable.ConfigurableBlock;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.entity.block.EntityLightningBombPrimed;
 import evilcraft.entity.item.EntityLightningGrenade;
 import net.minecraft.block.Block;
@@ -18,6 +15,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.Random;
 

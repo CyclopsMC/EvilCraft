@@ -3,9 +3,9 @@ package evilcraft.tileentity.tickaction.bloodchest;
 import evilcraft.api.RegistryManager;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
-import evilcraft.core.config.IChangedCallback;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.config.IChangedCallback;
 
 import java.util.LinkedList;
 import java.util.List;

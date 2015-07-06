@@ -1,6 +1,7 @@
 package evilcraft.item;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Blook.
@@ -19,6 +20,7 @@ public class BlookConfig extends ItemConfig {
      */
     public BlookConfig() {
         super(
+                EvilCraft._instance,
             true,
             "blook",
             null,

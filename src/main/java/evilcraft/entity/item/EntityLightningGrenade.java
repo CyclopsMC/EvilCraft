@@ -1,7 +1,7 @@
 package evilcraft.entity.item;
 
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.item.LightningGrenade;
 import net.minecraft.entity.Entity;
@@ -64,7 +64,7 @@ public class EntityLightningGrenade extends EntityThrowable implements IConfigur
 
         if (!this.worldObj.isRemote) {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {    
-                EntityHelpers.onEntityCollided(this.worldObj, par1MovingObjectPosition.func_178782_a(), this);
+                EntityHelpers.onEntityCollided(this.worldObj, par1MovingObjectPosition.getBlockPos(), this);
                 this.worldObj.addWeatherEffect(new EntityLightningBolt(this.worldObj, this.posX, this.posY, this.posZ));
             }
 

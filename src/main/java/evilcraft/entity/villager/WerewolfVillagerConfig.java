@@ -1,9 +1,10 @@
 package evilcraft.entity.villager;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.VillagerConfig;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.VillagerConfig;
 
 /**
  * Config for the {@link WerewolfVillager}.
@@ -34,6 +35,7 @@ public class WerewolfVillagerConfig extends VillagerConfig {
      */
     public WerewolfVillagerConfig() {
         super(
+                EvilCraft._instance,
         	villagerID,
             "werewolfVillager",
             null,

@@ -1,11 +1,11 @@
 package evilcraft.core.fluid;
 
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.tileentity.EvilCraftTileEntity;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 /**
  * A tank that has shared contents for a given ID.
@@ -29,7 +29,7 @@ public class WorldSharedTank extends SingleUseTank {
      * @param capacity The capacity (mB) for the tank.
      * @param tile The TileEntity that uses this tank.
      */
-    public WorldSharedTank(String name, int capacity, EvilCraftTileEntity tile) {
+    public WorldSharedTank(String name, int capacity, CyclopsTileEntity tile) {
         super(name, capacity, tile);
         this.tile = tile;
     }

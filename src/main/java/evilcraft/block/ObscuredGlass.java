@@ -1,8 +1,5 @@
 package evilcraft.block;
 
-import evilcraft.core.config.configurable.ConfigurableBlockConnectedTexture;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -12,15 +9,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.Random;
 
 /**
  * Glass that holds back some light.
+ * TODO: connected textures
  * @author rubensworks
  *
  */
-public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
+public class ObscuredGlass extends ConfigurableBlock {
     
     private static ObscuredGlass _instance = null;
     
@@ -51,11 +52,6 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public boolean hasSeperateInventoryBlockIcon() {
-        return true;
-    }
-    
-    @Override
     public Item getItemDropped(IBlockState blockState, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
@@ -65,11 +61,6 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     public boolean shouldSideBeRendered (IBlockAccess world, BlockPos blockPos, EnumFacing side) {
         Block block = world.getBlockState(blockPos).getBlock();
         return block == this ? false : super.shouldSideBeRendered(world, blockPos, side);
-    }
-    
-    @Override
-    public int getRenderPasses() {
-        return 1;
     }
     
     @Override

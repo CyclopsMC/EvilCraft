@@ -95,7 +95,7 @@ public class RingOfFirePacket extends PacketCodec {
                         );
             } else {
                 FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new EntityFlameFX.Factory().func_178902_a(0, world, particleX, particleY, particleZ, 0, 0, 0)
+                        new EntityFlameFX.Factory().getEntityFX(0, world, particleX, particleY, particleZ, 0, 0, 0)
                         );
             }
         }

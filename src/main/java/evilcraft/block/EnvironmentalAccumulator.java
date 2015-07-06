@@ -4,10 +4,6 @@ import evilcraft.api.RegistryManager;
 import evilcraft.api.recipes.custom.IMachine;
 import evilcraft.api.recipes.custom.IRecipeRegistry;
 import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
-import evilcraft.client.render.block.RenderEnvironmentalAccumulator;
-import evilcraft.core.config.configurable.ConfigurableBlockContainer;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.tileentity.TileEnvironmentalAccumulator;
@@ -16,6 +12,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Block that can collect the weather and stuff.
@@ -86,7 +85,9 @@ public class EnvironmentalAccumulator
 	
 	@Override
     public int getRenderType() {
-        return RenderEnvironmentalAccumulator.ID;
+        // TODO
+        //return RenderEnvironmentalAccumulator.ID;
+        return -1;
     }
 	
 	@Override

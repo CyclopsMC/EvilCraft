@@ -1,8 +1,9 @@
 package evilcraft.item;
 
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link VeinSword}.
@@ -33,6 +34,7 @@ public class VeinSwordConfig extends ItemConfig {
      */
     public VeinSwordConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "veinSword",
             null,

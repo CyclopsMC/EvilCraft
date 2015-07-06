@@ -1,6 +1,8 @@
 package evilcraft.block;
 
-import evilcraft.core.config.extendedconfig.BlockConfig;
+
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * A config for {@link HardenedBlood}.
@@ -19,6 +21,7 @@ public class HardenedBloodConfig extends BlockConfig {
      */
     public HardenedBloodConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "hardenedBlood",
             null,

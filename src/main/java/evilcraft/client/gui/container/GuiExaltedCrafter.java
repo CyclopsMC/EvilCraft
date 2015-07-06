@@ -5,12 +5,14 @@ import evilcraft.core.client.gui.GuiButtonExtended;
 import evilcraft.core.client.gui.container.GuiContainerExtended;
 import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.core.helper.L10NHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
 import evilcraft.item.ExaltedCrafter;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+
+import java.io.IOException;
 
 /**
  * GUI for the {@link ExaltedCrafter}.
@@ -48,7 +50,7 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     }
     
     @Override
-    protected void keyTyped(char key, int code) {
+    protected void keyTyped(char key, int code) throws IOException {
     	if(code == Keys.EXALTEDCRAFTING.keyBinding.getKeyCode()) {
             pressButton(MinecraftHelpers.isShifted() ? BUTTON_BALANCE : BUTTON_CLEAR);
     	}

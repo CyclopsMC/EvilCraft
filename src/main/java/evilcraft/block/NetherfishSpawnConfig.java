@@ -1,10 +1,11 @@
 package evilcraft.block;
 
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.EvilCraft;
 import evilcraft.core.item.ItemBlockMetadata;
 import net.minecraft.item.ItemBlock;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the {@link NetherfishSpawn}.
@@ -29,6 +30,7 @@ public class NetherfishSpawnConfig extends BlockConfig {
      */
     public NetherfishSpawnConfig() {
         super(
+            EvilCraft._instance,
         	true,
             "netherMonsterBlock",
             null,

@@ -1,14 +1,17 @@
 package evilcraft.core.config.extendedconfig;
 
-import evilcraft.core.config.ConfigurableType;
+import evilcraft.EvilCraft;
+import evilcraft.core.config.ExtendedConfigurableType;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
+import org.cyclops.cyclopscore.config.ConfigurableType;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Config for degradation effects.
  * @author rubensworks
  * @see ExtendedConfig
  */
-public abstract class DegradationEffectConfig extends ExtendedConfig<DegradationEffectConfig>{
+public abstract class DegradationEffectConfig extends ExtendedConfig<DegradationEffectConfig> {
 
     private int weight;
     
@@ -22,7 +25,7 @@ public abstract class DegradationEffectConfig extends ExtendedConfig<Degradation
      */
     public DegradationEffectConfig(boolean enabled, String namedId, String comment,
             Class<? extends ConfigurableDegradationEffect> element, int weight) {
-        super(enabled, namedId, comment, element);
+        super(EvilCraft._instance, enabled, namedId, comment, element);
         this.weight = weight;
     }
     
@@ -33,7 +36,7 @@ public abstract class DegradationEffectConfig extends ExtendedConfig<Degradation
     
     @Override
 	public ConfigurableType getHolderType() {
-		return ConfigurableType.DEGRADATIONEFFECT;
+		return ExtendedConfigurableType.DEGRADATIONEFFECT;
 	}
     
     /**

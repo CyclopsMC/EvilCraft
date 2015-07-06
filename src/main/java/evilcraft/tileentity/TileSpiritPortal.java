@@ -3,8 +3,8 @@ package evilcraft.tileentity;
 import evilcraft.Configs;
 import evilcraft.EvilCraft;
 import evilcraft.client.particle.EntityBlurFX;
-import evilcraft.core.tileentity.NBTPersist;
-import evilcraft.core.tileentity.TickingEvilCraftTileEntity;
+import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import evilcraft.item.OriginsOfDarkness;
 import evilcraft.item.OriginsOfDarknessConfig;
 import net.minecraft.client.Minecraft;
@@ -25,9 +25,10 @@ import java.util.Random;
  * @author immortaleeb
  *
  */
-public class TileSpiritPortal extends TickingEvilCraftTileEntity {
+public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
 
-    @NBTPersist private Float progress = 0f;
+    @NBTPersist
+    private Float progress = 0f;
 
 	@Override
 	public void updateTileEntity() {

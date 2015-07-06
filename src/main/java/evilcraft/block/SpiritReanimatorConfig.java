@@ -1,13 +1,14 @@
 package evilcraft.block;
 
 import com.google.common.collect.Sets;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.BlockContainerConfig;
+import evilcraft.EvilCraft;
+import evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.tileentity.TileWorking;
 import net.minecraft.item.ItemBlock;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 
 import java.util.Set;
 
@@ -16,7 +17,7 @@ import java.util.Set;
  * @author rubensworks
  *
  */
-public class SpiritReanimatorConfig extends BlockContainerConfig {
+public class SpiritReanimatorConfig extends UpgradableBlockContainerConfig {
     
     /**
      * The unique instance.
@@ -46,6 +47,7 @@ public class SpiritReanimatorConfig extends BlockContainerConfig {
      */
     public SpiritReanimatorConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "spiritReanimator",
             null,

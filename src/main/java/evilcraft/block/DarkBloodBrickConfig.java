@@ -1,6 +1,7 @@
 package evilcraft.block;
 
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the {@link DarkBloodBrick}.
@@ -19,6 +20,7 @@ public class DarkBloodBrickConfig extends BlockConfig {
      */
     public DarkBloodBrickConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "darkBloodBrick",
             null,

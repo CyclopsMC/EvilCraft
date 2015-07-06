@@ -1,12 +1,12 @@
 package evilcraft.enchantment;
 
-import evilcraft.core.config.configurable.ConfigurableEnchantment;
-import evilcraft.core.config.extendedconfig.EnchantmentConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
+import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Enchantment that poisons the attacked entity.

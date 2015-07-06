@@ -1,13 +1,14 @@
 package evilcraft.command;
 
-import evilcraft.core.config.ConfigHandler;
-import evilcraft.core.config.ConfigProperty;
+import evilcraft.EvilCraft;
 import evilcraft.core.helper.Helpers;
 import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.config.Configuration;
+import org.cyclops.cyclopscore.config.ConfigHandler;
+import org.cyclops.cyclopscore.config.ConfigProperty;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -54,7 +55,7 @@ public class CommandConfigSet extends CommandEvilCraft {
         } else {
             Object newValue = Helpers.tryParse(astring[0], config.getValue());
             if(newValue != null) {
-            	Configuration configuration = ConfigHandler.getInstance().getConfig();
+            	Configuration configuration = EvilCraft._instance.getConfigHandler().getConfig();
             	configuration.load();
                 config.getCallback().run(newValue);
                 config.save(configuration, true);

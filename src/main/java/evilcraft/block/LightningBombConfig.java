@@ -1,6 +1,7 @@
 package evilcraft.block;
 
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the {@link LightningBomb}.
@@ -19,6 +20,7 @@ public class LightningBombConfig extends BlockConfig {
      */
     public LightningBombConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "lightningBomb",
             null,

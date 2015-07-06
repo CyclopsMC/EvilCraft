@@ -1,9 +1,10 @@
 package evilcraft.enchantment;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.EnchantmentConfig;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
 
 /**
  * Config for {@link EnchantmentLifeStealing}.
@@ -28,6 +29,7 @@ public class EnchantmentLifeStealingConfig extends EnchantmentConfig {
      */
     public EnchantmentLifeStealingConfig() {
         super(
+                EvilCraft._instance,
             Reference.ENCHANTMENT_LIFESTEALING,
             "lifeStealing",
             null,

@@ -2,8 +2,6 @@ package evilcraft.block;
 
 import evilcraft.Configs;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.entity.monster.Netherfish;
 import evilcraft.entity.monster.NetherfishConfig;
 import net.minecraft.block.Block;
@@ -12,6 +10,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.Random;
 

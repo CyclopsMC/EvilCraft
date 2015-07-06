@@ -4,18 +4,18 @@ import evilcraft.Configs;
 import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.block.BoxOfEternalClosureConfig;
 import evilcraft.block.UndeadSaplingConfig;
-import evilcraft.core.config.configurable.ConfigurableVillager;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.VillagerConfig;
 import evilcraft.item.*;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableVillager;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.VillagerConfig;
 
 /**
  * Villager with specific evil trades.
  * @author rubensworks
  *
  */
-public class WerewolfVillager extends ConfigurableVillager{
+public class WerewolfVillager extends ConfigurableVillager {
     
     /**
      * The unique instance.

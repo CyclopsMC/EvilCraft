@@ -1,6 +1,7 @@
 package evilcraft.item;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link ResurgenceEgg}.
@@ -19,6 +20,7 @@ public class ResurgenceEggConfig extends ItemConfig {
      */
     public ResurgenceEggConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "resurgenceEgg",
             null,

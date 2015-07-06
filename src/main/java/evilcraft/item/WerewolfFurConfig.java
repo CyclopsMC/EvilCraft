@@ -1,6 +1,7 @@
 package evilcraft.item;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Werewolf Fur.
@@ -19,6 +20,7 @@ public class WerewolfFurConfig extends ItemConfig {
      */
     public WerewolfFurConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "werewolfFur",
             null,

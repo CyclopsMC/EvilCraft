@@ -1,6 +1,7 @@
 package evilcraft.item;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -21,6 +22,7 @@ public class PromiseAcceptorConfig extends ItemConfig {
      */
     public PromiseAcceptorConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "promiseAcceptor",
             null,

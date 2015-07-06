@@ -1,7 +1,8 @@
 package evilcraft.enchantment;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.EnchantmentConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
 
 /**
  * Config for {@link EnchantmentPoisonTip}.
@@ -20,6 +21,7 @@ public class EnchantmentPoisonTipConfig extends EnchantmentConfig {
      */
     public EnchantmentPoisonTipConfig() {
         super(
+                EvilCraft._instance,
             Reference.ENCHANTMENT_POISON_TIP,
             "poisonTip",
             null,

@@ -3,14 +3,13 @@ package evilcraft.item;
 import com.google.common.base.Predicate;
 import evilcraft.client.particle.EntityBlurFX;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.entity.item.EntityItemUndespawnable;
 import evilcraft.fluid.Blood;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -160,8 +159,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                 // Get items in calculated area.
                 int area = getArea(itemStack);
                 AxisAlignedBB box = AxisAlignedBB.fromBounds(x, y, z, x, y, z).expand(area, area, area);
-                // MCP: getEntitiesWithinAABBExcludingEntity
-                List<EntityItem> entities = world.func_175674_a(entity, box, new Predicate<Entity>() {
+                List<EntityItem> entities = world.getEntitiesInAABBexcluding(entity, box, new Predicate<Entity>() {
 
                     @Override
                     public boolean apply(Entity entity) {
@@ -174,7 +172,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                 // Move all those items in the direction of the player.
                 for(Entity moveEntity : entities) {
                     if(repelling ||
-                            (moveEntity instanceof EntityItem && !((EntityItem) moveEntity).func_174874_s() // MCP: pickupdelay > 0
+                            (moveEntity instanceof EntityItem && !((EntityItem) moveEntity).cannotPickup()
                                     && canKineticateItem(((EntityItem) moveEntity).getEntityItem())) ||
                             (moveEntity instanceof EntityXPOrb)) {
                         double dx = moveEntity.posX - x;

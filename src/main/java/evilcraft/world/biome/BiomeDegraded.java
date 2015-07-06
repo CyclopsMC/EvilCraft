@@ -1,14 +1,14 @@
 package evilcraft.world.biome;
 
-import evilcraft.core.config.configurable.ConfigurableBiome;
-import evilcraft.core.config.extendedconfig.BiomeConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBiome;
+import org.cyclops.cyclopscore.config.extendedconfig.BiomeConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Enchantment for letting tools break tools faster.
@@ -49,18 +49,16 @@ public class BiomeDegraded extends ConfigurableBiome {
     
     @SideOnly(Side.CLIENT)
     @Override
-    // MCP: getBiomeGrassColor
-    public int func_180627_b(BlockPos blockPos) {
-        double d0 = (double)this.func_180626_a(blockPos); // MCP: getFloatTemperature
+    public int getGrassColorAtPos(BlockPos blockPos) {
+        double d0 = (double)this.getFloatTemperature(blockPos);
         double d1 = (double)this.getFloatRainfall();
         return ((ColorizerGrass.getGrassColor(d0, d1) & RenderHelpers.RGBToInt(10, 20, 5)) + 5115470) / 2;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    // MCP: getBiomeFoliageColor
-    public int func_180625_c(BlockPos blockPos) {
-        double d0 = (double)this.func_180626_a(blockPos); // MCP: getFloatTemperature
+    public int getFoliageColorAtPos(BlockPos blockPos) {
+        double d0 = (double)this.getFloatTemperature(blockPos);
         double d1 = (double)this.getFloatRainfall();
         return ((ColorizerFoliage.getFoliageColor(d0, d1) & RenderHelpers.RGBToInt(10, 20, 50)) + 5115470) / 2;
     }

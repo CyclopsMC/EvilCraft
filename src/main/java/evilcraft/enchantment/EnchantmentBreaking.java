@@ -1,12 +1,12 @@
 package evilcraft.enchantment;
 
-import evilcraft.core.config.configurable.ConfigurableEnchantment;
-import evilcraft.core.config.extendedconfig.EnchantmentConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.EnchantmentHelpers;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
+import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.Random;
 

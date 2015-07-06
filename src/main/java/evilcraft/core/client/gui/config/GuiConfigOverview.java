@@ -1,8 +1,7 @@
 package evilcraft.core.client.gui.config;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.ConfigHandler;
-import evilcraft.core.config.ConfigurableTypeCategory;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
@@ -10,6 +9,8 @@ import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.CategoryEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
+import org.cyclops.cyclopscore.config.ConfigHandler;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Locale;
 
 /**
  * Overview config screen.
+ * TODO: abstract to cyclops
  * @author rubensworks
  *
  */
@@ -28,16 +30,20 @@ public class GuiConfigOverview extends GuiConfig {
 	 */
 	public GuiConfigOverview(GuiScreen parentScreen) {
 		super(parentScreen, getConfigElements(), Reference.MOD_ID, false, false,
-			GuiConfig.getAbridgedConfigPath(ConfigHandler.getInstance().getConfig().toString()));
+			GuiConfig.getAbridgedConfigPath(getConfigHandler().getConfig().toString()));
+	}
+
+	private static final ConfigHandler getConfigHandler() {
+		return EvilCraft._instance.getConfigHandler();
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static List<IConfigElement> getConfigElements() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		for(ConfigurableTypeCategory category : ConfigurableTypeCategory.CATEGORIES) {
+		/*for(ConfigurableTypeCategory category : ConfigurableTypeCategory.CATEGORIES) {
 			list.add(new DummyCategoryElement(category.toString(),
 					category.toString(), ExtendedCategoryEntry.class));
-		}
+		}*/
 		return list;
 	}
 	
@@ -70,7 +76,7 @@ public class GuiConfigOverview extends GuiConfig {
 					.getName().replaceAll(" ", "").toUpperCase(Locale.ENGLISH));
 			
 			// Get all the elements inside this category
-            List<IConfigElement> elements = (new ConfigElement(ConfigHandler.getInstance().getConfig()
+            List<IConfigElement> elements = (new ConfigElement(getConfigHandler().getConfig()
             		.getCategory(category.toString()))).getChildElements();
 			return new GuiConfig(this.owningScreen, elements, 
                     this.owningScreen.modID, category.toString(),
@@ -78,7 +84,7 @@ public class GuiConfigOverview extends GuiConfig {
                     	|| this.owningScreen.allRequireWorldRestart, 
                     this.configElement.requiresMcRestart()
                     	|| this.owningScreen.allRequireMcRestart,
-                    GuiConfig.getAbridgedConfigPath(ConfigHandler.getInstance().getConfig().toString()));
+                    GuiConfig.getAbridgedConfigPath(getConfigHandler().getConfig().toString()));
         }
 		
 	}

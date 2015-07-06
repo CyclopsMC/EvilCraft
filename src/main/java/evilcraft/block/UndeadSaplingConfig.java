@@ -1,7 +1,8 @@
 package evilcraft.block;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the Undead Sapling.
@@ -20,6 +21,7 @@ public class UndeadSaplingConfig extends BlockConfig {
      */
     public UndeadSaplingConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "undeadSapling",
             null,

@@ -1,7 +1,8 @@
 package evilcraft.core.config.configurable;
 
 import evilcraft.api.degradation.IDegradationEffect;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Group interface of {@link IConfigurable} and {@link IDegradationEffect}.

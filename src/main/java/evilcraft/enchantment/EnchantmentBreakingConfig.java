@@ -1,7 +1,8 @@
 package evilcraft.enchantment;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.EnchantmentConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
 
 /**
  * Config for {@link EnchantmentBreaking}.
@@ -20,6 +21,7 @@ public class EnchantmentBreakingConfig extends EnchantmentConfig {
      */
     public EnchantmentBreakingConfig() {
         super(
+                EvilCraft._instance,
             Reference.ENCHANTMENT_BREAKING,
             "breaking",
             null,

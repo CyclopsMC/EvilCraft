@@ -1,6 +1,8 @@
 package evilcraft.block;
 
-import evilcraft.core.config.extendedconfig.BlockConfig;
+
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the {@link EvilBlock}.
@@ -19,6 +21,7 @@ public class EvilBlockConfig extends BlockConfig {
      */
     public EvilBlockConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "evilBlock",
             null,

@@ -1,10 +1,6 @@
 package evilcraft.core.helper.obfuscation;
 
-import com.google.common.collect.Maps;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-
-import java.util.Map;
 
 /**
  * Entries used for getting private fields and methods by using it in

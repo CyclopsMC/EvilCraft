@@ -28,7 +28,7 @@ public class BonemealEventHook {
             Block block = event.world.getBlockState(event.pos).getBlock();
             if(block instanceof ConfigurableBlockSapling) {
                 ConfigurableBlockSapling sapling = (ConfigurableBlockSapling) block;
-                sapling.func_176478_d(event.world, event.pos, event.world.getBlockState(event.pos), event.world.rand);
+                sapling.grow(event.world, event.pos, event.world.getBlockState(event.pos), event.world.rand);
                 event.setResult(Result.ALLOW);
             }
         }

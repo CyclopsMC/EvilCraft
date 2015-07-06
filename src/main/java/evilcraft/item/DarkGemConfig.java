@@ -1,7 +1,8 @@
 package evilcraft.item;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link DarkGem}.
@@ -20,6 +21,7 @@ public class DarkGemConfig extends ItemConfig {
      */
     public DarkGemConfig() {
         super(
+            EvilCraft._instance,
         	true,
             "darkGem",
             null,

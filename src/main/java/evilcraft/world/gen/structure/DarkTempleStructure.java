@@ -3,7 +3,7 @@ package evilcraft.world.gen.structure;
 import evilcraft.GeneralConfig;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.core.helper.DirectionHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.world.gen.nbt.DarkTempleData;
 import net.minecraft.block.Block;
@@ -140,7 +140,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	
 	@Override
 	protected void generateLayers() {
-		BlockWrapper us = new BlockWrapper(Blocks.stone_slab.getDefaultState().withProperty(BlockSlab.HALF_PROP, BlockSlab.EnumBlockHalf.TOP));	// upside down stone slab
+		BlockWrapper us = new BlockWrapper(Blocks.stone_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP));	// upside down stone slab
 		BlockWrapper rs = new BlockWrapper(Blocks.stone_slab);
 		BlockWrapper ds = new BlockWrapper(Blocks.double_stone_slab);
 		BlockWrapper cb = new BlockWrapper(Blocks.stonebrick);	// chiseled brick

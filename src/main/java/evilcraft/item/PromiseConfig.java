@@ -1,6 +1,7 @@
 package evilcraft.item;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link evilcraft.item.Promise}.
@@ -19,6 +20,7 @@ public class PromiseConfig extends ItemConfig {
      */
     public PromiseConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "promise",
             null,

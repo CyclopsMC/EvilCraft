@@ -1,8 +1,8 @@
 package evilcraft.item;
 
 import evilcraft.core.config.configurable.ConfigurableItemPickaxe;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.EnchantmentHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;

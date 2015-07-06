@@ -1,7 +1,6 @@
 package evilcraft.core.config.configurable;
 
 import evilcraft.core.PlayerExtendedInventoryIterator;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.item.DamageIndicatedItemFluidContainer;
 import net.minecraft.block.Block;
@@ -19,6 +18,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableDamageIndicatedItemFluidContainer extends DamageIndicatedItemFluidContainer implements IConfigurable{
+public abstract class ConfigurableDamageIndicatedItemFluidContainer extends DamageIndicatedItemFluidContainer implements IConfigurable {
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
@@ -74,7 +75,7 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
         if (movingobjectpositionDrain != null && movingobjectpositionFill != null) {
             if (isPickupFluids() && movingobjectpositionFill.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 // Fill the container and remove fluid blockState
-                BlockPos blockPos = movingobjectpositionFill.func_178782_a();
+                BlockPos blockPos = movingobjectpositionFill.getBlockPos();
                 if (!world.canMineBlockBody(player, blockPos)) {
                     return itemStack;
                 }
@@ -93,12 +94,12 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
 
             // Drain container and place fluid blockState
             if (hasBucket && isPlaceFluids() && movingobjectpositionDrain.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                BlockPos blockPos = movingobjectpositionFill.func_178782_a();
+                BlockPos blockPos = movingobjectpositionFill.getBlockPos();
                 if (!world.canMineBlockBody(player, blockPos)) {
                     return itemStack;
                 }
 
-                EnumFacing direction = movingobjectpositionDrain.field_178784_b;
+                EnumFacing direction = movingobjectpositionDrain.sideHit;
                 blockPos = blockPos.add(direction.getDirectionVec());
 
                 /*if (!player.canPlayerEdit(blockPos, direction, itemStack)) {

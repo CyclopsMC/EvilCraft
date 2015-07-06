@@ -1,6 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,6 +7,8 @@ import net.minecraft.item.ItemReed;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableItemForBlock extends ItemReed implements IConfigurable{
+public abstract class ConfigurableItemForBlock extends ItemReed implements IConfigurable {
     
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;

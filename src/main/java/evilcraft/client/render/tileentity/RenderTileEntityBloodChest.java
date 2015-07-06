@@ -1,19 +1,19 @@
 package evilcraft.client.render.tileentity;
 
 import evilcraft.block.BloodChest;
-import evilcraft.core.client.render.tileentity.RenderTileEntityModel;
-import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.tileentity.TileBloodChest;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.util.ResourceLocation;
+import org.cyclops.cyclopscore.client.render.tileentity.RenderTileEntityModel;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 /**
  * Renderer for the {@link BloodChest}.
  * @author rubensworks
  *
  */
-public class RenderTileEntityBloodChest extends RenderTileEntityModel {
+public class RenderTileEntityBloodChest extends RenderTileEntityModel<TileBloodChest, ModelBase> {
 	
 	/**
      * Make a new instance.
@@ -25,7 +25,7 @@ public class RenderTileEntityBloodChest extends RenderTileEntityModel {
     }
     
     @Override
-    protected void renderModel(EvilCraftTileEntity tile, ModelBase model, float partialTick) {
+    protected void renderModel(TileBloodChest tile, ModelBase model, float partialTick) {
     	TileBloodChest chestTile = (TileBloodChest) tile;
     	ModelChest modelchest = (ModelChest) model;
     	float lidangle = chestTile.prevLidAngle + (chestTile.lidAngle - chestTile.prevLidAngle) * partialTick;

@@ -1,9 +1,9 @@
 package evilcraft.core.inventory.container;
 
 import evilcraft.core.inventory.IGuiContainerProvider;
-import evilcraft.core.tileentity.InventoryTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import org.cyclops.cyclopscore.tileentity.InventoryTileEntity;
 
 /**
  * A container for a tile entity with inventory.

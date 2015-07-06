@@ -65,8 +65,7 @@ public class EntityBloodBrickFX extends EntityFX {
 	}
 
 	@Override
-    // mcp: renderParticle
-	public void func_180434_a(WorldRenderer worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	public void renderParticle(WorldRenderer worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         Tessellator.getInstance().draw();
         GL11.glPushMatrix();
 
@@ -111,10 +110,10 @@ public class EntityBloodBrickFX extends EntityFX {
 	    	GL11.glTranslated(0.0D, 0.0D, -0.5D);
 	    }
 
-       worldRenderer.func_178963_b(TESSELATOR_BRIGHTNESS); // mcp: setBrightness
+       	worldRenderer.setBrightness(TESSELATOR_BRIGHTNESS);
 		float brightness = (float) particleAge / (float) (particleMaxAge / 2);
 		if(brightness > 1) brightness = (float) (particleMaxAge - particleAge) / 2 / (float) (particleMaxAge / 2);
-        worldRenderer.func_178960_a(particleRed, particleGreen, particleBlue, brightness); // mcp: setColor
+        worldRenderer.setColorRGBA_F(particleRed, particleGreen, particleBlue, brightness);
 
 		float offsetter = 1.0F;
         worldRenderer.addVertexWithUV(-0.5D * offsetter, 0.5D * offsetter, 0.0D, 0.0D, 1.0D);

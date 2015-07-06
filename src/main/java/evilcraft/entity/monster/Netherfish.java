@@ -3,8 +3,8 @@ package evilcraft.entity.monster;
 import evilcraft.Configs;
 import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -154,8 +154,8 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
                 BlockPos blockpos = (new BlockPos(Netherfish.this.posX, Netherfish.this.posY + 0.5D, Netherfish.this.posZ)).offset(this.field_179483_b);
                 IBlockState iblockstate = world.getBlockState(blockpos);
 
-                if (BlockSilverfish.func_176377_d(iblockstate)) {
-                    world.setBlockState(blockpos, Blocks.monster_egg.getDefaultState().withProperty(BlockSilverfish.VARIANT_PROP, BlockSilverfish.EnumType.func_176878_a(iblockstate)), 3);
+                if (BlockSilverfish.canContainSilverfish(iblockstate)) {
+                    world.setBlockState(blockpos, Blocks.monster_egg.getDefaultState().withProperty(BlockSilverfish.VARIANT, BlockSilverfish.EnumType.forModelBlock(iblockstate)), 3);
                     Netherfish.this.spawnExplosionParticle();
                     Netherfish.this.setDead();
                 }

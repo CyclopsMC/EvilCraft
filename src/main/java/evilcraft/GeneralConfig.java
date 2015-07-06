@@ -1,10 +1,11 @@
 package evilcraft;
 
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableType;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.DummyConfig;
+import evilcraft.core.config.ExtendedConfigurableType;
 import evilcraft.core.fluid.BloodFluidConverter.BloodConvertersChanged;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableType;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.DummyConfig;
 
 /**
  * A config with general options for this mod.
@@ -155,7 +156,7 @@ public class GeneralConfig extends DummyConfig {
      * Create a new instance.
      */
     public GeneralConfig() {
-        super(true, "general", null, GeneralConfig.class);
+        super(EvilCraft._instance, true, "general", null, GeneralConfig.class);
     }
     
     @Override

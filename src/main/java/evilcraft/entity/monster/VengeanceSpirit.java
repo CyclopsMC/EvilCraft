@@ -10,16 +10,16 @@ import evilcraft.block.GemStoneTorchConfig;
 import evilcraft.client.particle.EntityBlurFX;
 import evilcraft.client.particle.EntityDarkSmokeFX;
 import evilcraft.client.particle.EntityDegradeFX;
-import evilcraft.core.config.IChangedCallback;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.IChangedCallback;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.item.BurningGemStone;
 import evilcraft.item.BurningGemStoneConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.boss.EntityDragon;
@@ -39,7 +39,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
-import thaumcraft.api.ThaumcraftApiHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -196,9 +195,8 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
         return EnumCreatureAttribute.UNDEAD;
     }
 
-    // MCP: isEntityInvulnerable
     @Override
-    public boolean func_180431_b(DamageSource damageSource) {
+    public boolean isEntityInvulnerable(DamageSource damageSource) {
     	return true;
     }
     
@@ -353,8 +351,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     }
     
     private boolean isAlternativelyVisible() {
-    	// TODO: add other possibilities like glasses
-        EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		return player != null && player.capabilities.isCreativeMode;
 	}
 
@@ -432,9 +429,9 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     	} catch (ClassNotFoundException e) {
     		// In this case it is a vengeance swarm.
 		} catch (NullPointerException e) {
-			EvilCraft.log("Tried to spirit invalid entity, removing it now.", Level.ERROR);
+			EvilCraft.clog("Tried to spirit invalid entity, removing it now.", Level.ERROR);
  		} catch (ClassCastException e) {
-			EvilCraft.log("Tried to spirit invalid entity, removing it now.", Level.ERROR);
+			EvilCraft.clog("Tried to spirit invalid entity, removing it now.", Level.ERROR);
  		}
         if(!this.worldObj.isRemote) {
             this.worldObj.removeEntity(this);
@@ -755,7 +752,8 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     @Optional.Method(modid = Reference.MOD_THAUMCRAFT)
     private void addWarp(EntityPlayer player) {
         if(GeneralConfig.thaumcraftVengeanceSpiritWarp) {
-            ThaumcraftApiHelper.addWarpToPlayer(player, 1, true);
+            // TODO: re-enable when thaumcraft is updated
+            //ThaumcraftApiHelper.addWarpToPlayer(player, 1, true);
         }
     }
 	
@@ -766,8 +764,8 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 	 */
 	public static void addToBlacklist(Class<? extends EntityLivingBase> clazz) {
 		if(BLACKLIST.add(clazz))
-			EvilCraft.log("Added entity class " + clazz.getCanonicalName()
-					+ " to the spirit blacklist.");
+			EvilCraft.clog("Added entity class " + clazz.getCanonicalName()
+                    + " to the spirit blacklist.");
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -776,8 +774,8 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 		for(String entity : blacklist) {
 			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) EntityList.stringToClassMapping.get(entity);
 			if(clazz == null) {
-				EvilCraft.log("Could not find entity by name '" + entity
-						+ "' for spirit blacklist.", Level.ERROR);
+				EvilCraft.clog("Could not find entity by name '" + entity
+                        + "' for spirit blacklist.", Level.ERROR);
 			} else {
 				addToBlacklist(clazz);
 			}

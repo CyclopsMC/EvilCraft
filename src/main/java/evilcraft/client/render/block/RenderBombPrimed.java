@@ -2,7 +2,9 @@ package evilcraft.client.render.block;
 
 import evilcraft.entity.block.EntityLightningBombPrimed;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderTNTPrimed;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.item.EntityTNTPrimed;
@@ -14,20 +16,23 @@ import org.lwjgl.opengl.GL11;
  * @author rubensworks
  *
  */
-public class RenderBombPrimed extends RenderTNTPrimed{
-    
-    protected RenderBlocks blockRenderer = new RenderBlocks();
-    protected Block block;
+public class RenderBombPrimed extends RenderTNTPrimed {
+
+    protected final Block block;
     
     /**
      * Make a new RenderBombPrimed for a certain blockState disguise.
-     * @param block The blockState to render for this entity
+     * @param renderManager The render manager
+     * @param block The block
      */
-    public RenderBombPrimed(Block block) {
+    public RenderBombPrimed(RenderManager renderManager, Block block) {
+        super(renderManager);
         this.block = block;
     }
     
     private void renderPrimedBomb(EntityLightningBombPrimed entity, double x, double y, double z, float yaw, float partialTickTime) {
+        BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+
         GL11.glPushMatrix();
         GL11.glTranslatef((float)x, (float)y, (float)z);
         float f2;
@@ -51,7 +56,7 @@ public class RenderBombPrimed extends RenderTNTPrimed{
 
         f2 = (1.0F - ((float)entity.fuse - partialTickTime + 1.0F) / 100.0F) * 0.8F;
         this.bindEntityTexture(entity);
-        this.blockRenderer.renderBlockAsItem(block, 0, entity.getBrightness(partialTickTime));
+        blockrendererdispatcher.renderBlockBrightness(block.getDefaultState(), entity.getBrightness(partialTickTime));
 
         if (entity.fuse / 5 % 2 == 0) {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -59,7 +64,7 @@ public class RenderBombPrimed extends RenderTNTPrimed{
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_DST_ALPHA);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, f2);
-            this.blockRenderer.renderBlockAsItem(block, 0, 1.0F);
+            blockrendererdispatcher.renderBlockBrightness(block.getDefaultState(), 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glEnable(GL11.GL_LIGHTING);
@@ -70,7 +75,7 @@ public class RenderBombPrimed extends RenderTNTPrimed{
     }
     
     @Override
-    protected ResourceLocation getEntityTexture(EntityTNTPrimed par1Entity) {
+    protected ResourceLocation func_180563_a(EntityTNTPrimed par1Entity) {
         return TextureMap.locationBlocksTexture;
     }
     

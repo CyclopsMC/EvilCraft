@@ -5,6 +5,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * Contains helper methods involving {@link IInventory}S.

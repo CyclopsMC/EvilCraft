@@ -7,9 +7,6 @@ import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
 import evilcraft.client.gui.container.GuiBloodInfuser;
 import evilcraft.client.particle.EntityBloodBubbleFX;
 import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
@@ -18,12 +15,16 @@ import evilcraft.inventory.container.ContainerBloodInfuser;
 import evilcraft.tileentity.TileBloodInfuser;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.Random;
 
@@ -37,17 +38,6 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     private static BloodInfuser _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new BloodInfuser(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -59,10 +49,6 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
         super(eConfig, Material.rock, TileBloodInfuser.class);
         this.setStepSound(soundTypeStone);
         this.setRotatable(true);
-        
-        if (MinecraftHelpers.isClientSide())
-            setGUI(GuiBloodInfuser.class);
-        setContainer(ContainerBloodInfuser.class);
     }
     
     @Override
@@ -96,5 +82,16 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     public int getLightValue(IBlockAccess world, BlockPos blockPos) {
         TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(blockPos);
         return tile.isVisuallyWorking() ? 4 : super.getLightValue(world, blockPos);
+    }
+
+    @Override
+    public Class<? extends Container> getContainer() {
+        return ContainerBloodInfuser.class;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Class<? extends GuiScreen> getGui() {
+        return GuiBloodInfuser.class;
     }
 }

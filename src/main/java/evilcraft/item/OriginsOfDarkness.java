@@ -1,9 +1,9 @@
 package evilcraft.item;
 
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.item.ItemGui;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;

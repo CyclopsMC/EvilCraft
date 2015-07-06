@@ -1,6 +1,8 @@
 package evilcraft.block;
 
-import evilcraft.core.config.extendedconfig.BlockConfig;
+
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for {@link FluidBlockBlood}.
@@ -19,6 +21,7 @@ public class FluidBlockBloodConfig extends BlockConfig {
      */
     public FluidBlockBloodConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "blockBlood",
             null,

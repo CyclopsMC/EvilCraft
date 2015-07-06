@@ -1,8 +1,6 @@
 package evilcraft.block;
 
-import evilcraft.core.config.configurable.ConfigurableBlock;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.EvilCraft;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -10,6 +8,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the Undead Plank.
@@ -28,6 +29,7 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
      */
     public BloodWaxedCoalBlockConfig() {
         super(
+            EvilCraft._instance,
         	true,
             "bloodWaxedCoalBlock",
             null,
@@ -40,7 +42,7 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
         return (ConfigurableBlock) new ConfigurableBlock(this, Material.rock).
                 setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston);
     }
-    
+
     @Override
     public boolean isMultipartEnabled() {
         return true;
@@ -49,8 +51,7 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
     @Override
     public void onRegistered() {
         super.onRegistered();
-        // setFireInfo
-    	Blocks.fire.func_180686_a(getBlockInstance(), 5, 5);
+    	Blocks.fire.setFireInfo(getBlockInstance(), 5, 5);
         GameRegistry.registerFuelHandler(this);
     }
 
@@ -61,5 +62,5 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
         }
         return 0;
     }
-    
+
 }

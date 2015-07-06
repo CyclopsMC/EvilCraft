@@ -2,8 +2,8 @@ package evilcraft.entity.effect;
 
 import com.google.common.collect.Lists;
 import evilcraft.Achievements;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.item.NecromancerStaff;
@@ -32,7 +32,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class EntityNecromancersHead extends EntityThrowable implements IConfigurable{
+public class EntityNecromancersHead extends EntityThrowable implements IConfigurable {
     
 	private static final int DURATION = 20;
 

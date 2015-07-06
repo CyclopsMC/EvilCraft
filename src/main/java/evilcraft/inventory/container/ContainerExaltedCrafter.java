@@ -10,9 +10,6 @@ import evilcraft.item.ExaltedCrafter;
 import evilcraft.item.ExaltedCrafterConfig;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.ExaltedCrafterButtonPacket;
-import invtweaks.api.container.ChestContainer;
-import invtweaks.api.container.ContainerSection;
-import invtweaks.api.container.ContainerSectionCallback;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
@@ -32,7 +29,7 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-@ChestContainer
+// TODO: @ChestContainer
 public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCrafter> {
     
 	private static final int GRID_OFFSET_X = 30;
@@ -237,8 +234,8 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     /**
      * @return Container selection options for inventory tweaks.
      */
-    @ContainerSectionCallback
-    public Map<ContainerSection, List<Slot>> getContainerSelection() {
+    // TODO: @ContainerSectionCallback
+    /*public Map<ContainerSection, List<Slot>> getContainerSelection() {
         Map<ContainerSection, List<Slot>> selection = Maps.newHashMap();
         List<Slot> craftingInSlots = Lists.newLinkedList();
         List<Slot> craftingOutSlots = Lists.newLinkedList();
@@ -254,7 +251,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         selection.put(ContainerSection.CHEST, craftingChest);
         return selection;
 
-    }
+    }*/
 
     /**
      * Action for pressing buttons.

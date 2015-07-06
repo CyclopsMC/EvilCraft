@@ -1,8 +1,9 @@
 package evilcraft.item;
 
-import evilcraft.core.config.configurable.ConfigurableItem;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Dark Power Gem.
@@ -21,6 +22,7 @@ public class DarkPowerGemConfig extends ItemConfig {
      */
     public DarkPowerGemConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "darkPowerGem",
             null,

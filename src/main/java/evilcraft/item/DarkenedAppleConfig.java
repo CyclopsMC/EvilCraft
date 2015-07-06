@@ -1,6 +1,7 @@
 package evilcraft.item;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Darkened Apple.
@@ -19,6 +20,7 @@ public class DarkenedAppleConfig extends ItemConfig {
      */
     public DarkenedAppleConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "darkenedApple",
             null,

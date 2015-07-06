@@ -1,9 +1,10 @@
 package evilcraft.block;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the {@link DarkOre}.
@@ -43,6 +44,7 @@ public class DarkOreConfig extends BlockConfig {
      */
     public DarkOreConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "darkOre",
             null,

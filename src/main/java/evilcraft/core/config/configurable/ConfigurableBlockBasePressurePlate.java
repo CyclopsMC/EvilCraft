@@ -1,19 +1,20 @@
 package evilcraft.core.config.configurable;
 
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBasePressurePlate;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * {@link BlockBasePressurePlate} that can hold ExtendedConfigs.
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressurePlate implements IConfigurable{
+public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressurePlate implements IConfigurable {
     
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;

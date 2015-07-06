@@ -1,7 +1,7 @@
 package evilcraft.entity.item;
 
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.BloodPearlOfTeleportation;
 import evilcraft.item.BloodPearlOfTeleportationConfig;
 import net.minecraft.entity.Entity;
@@ -24,7 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author rubensworks
  *
  */
-public class EntityBloodPearl extends EntityThrowable implements IConfigurable{
+public class EntityBloodPearl extends EntityThrowable implements IConfigurable {
     
     /**
      * Make a new instance in the given world.

@@ -1,18 +1,20 @@
 package evilcraft.item;
 
-import evilcraft.core.config.configurable.ConfigurableItemBucket;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ItemBucketConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItemBucket;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemBucketConfig;
 
 /**
  * Config for the Eternal Water Bucket.
@@ -31,6 +33,7 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
      */
     public BucketEternalWaterConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "bucketEternalWater",
             null,
@@ -46,9 +49,9 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
             public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
                 MovingObjectPosition position = this.getMovingObjectPositionFromPlayer(world, player, true);
                 if(position != null && position.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                    Block block = world.getBlockState(position.func_178782_a()).getBlock();
+                    Block block = world.getBlockState(position.getBlockPos()).getBlock();
                     if(block == Blocks.water) {
-                        world.setBlockToAir(position.func_178782_a());
+                        world.setBlockToAir(position.getBlockPos());
                         return itemStack;
                     }
                 }
@@ -60,17 +63,16 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
             }
 
             @Override
-            public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
-                                     float hitX, float hitY, float hitZ) {
-                TileEntity tile = world.getTileEntity(x, y, z);
+            public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
+                                          float hitX, float hitY, float hitZ) {
+                TileEntity tile = world.getTileEntity(pos);
                 if(tile instanceof IFluidHandler) {
                     if(!world.isRemote) {
-                        ((IFluidHandler) tile).fill(ForgeDirection.getOrientation(side),
-                                new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME), true);
+                        ((IFluidHandler) tile).fill(side, new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME), true);
                         return true;
                     }
                 }
-                return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+                return super.onItemUseFirst(stack, player, world, pos, side, hitX, hitY, hitZ);
             }
 
         };

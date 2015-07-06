@@ -1,17 +1,9 @@
 package evilcraft.block;
 
-import evilcraft.Reference;
-import evilcraft.client.render.item.RenderItemEntangledChalice;
-import evilcraft.client.render.model.ModelChalice;
-import evilcraft.client.render.model.ModelGem;
-import evilcraft.client.render.tileentity.RenderTileEntityEntangledChalice;
-import evilcraft.core.config.extendedconfig.BlockContainerConfig;
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.proxy.ClientProxy;
-import evilcraft.tileentity.TileEntangledChalice;
-import net.minecraft.item.Item;
+import evilcraft.EvilCraft;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * Config for the {@link EntangledChalice}.
@@ -30,6 +22,7 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
      */
     public EntangledChaliceConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "entangledChalice",
             null,
@@ -45,14 +38,17 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
     @Override
     public void onRegistered() {
         if(MinecraftHelpers.isClientSide()) {
-        	ResourceLocation textureGem = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "gem.png");
+        	/*ResourceLocation textureGem = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "gem.png");
         	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "chalice.png");
         	ModelGem gem = new ModelGem(textureGem);
         	ModelChalice model = new ModelChalice(texture, gem);
-            ClientProxy.TILE_ENTITY_RENDERERS.put(TileEntangledChalice.class,
-            		new RenderTileEntityEntangledChalice(model, texture));
-            ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(EntangledChalice.getInstance()),
-            		new RenderItemEntangledChalice(model, texture));
+        	*/
+            // TODO
+            //ClientProxy.TILE_ENTITY_RENDERERS.put(TileEntangledChalice.class,
+            //		new RenderTileEntityEntangledChalice(model, texture));
+            // TODO
+            //ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(EntangledChalice.getInstance()),
+            //		new RenderItemEntangledChalice(model, texture));
         }
     }
     

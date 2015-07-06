@@ -1,7 +1,7 @@
 package evilcraft.core.fluid;
 
-import evilcraft.core.config.IChangedCallback;
 import evilcraft.fluid.Blood;
+import org.cyclops.cyclopscore.config.IChangedCallback;
 
 /**
  * An implicit blood converter.

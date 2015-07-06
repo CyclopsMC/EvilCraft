@@ -1,12 +1,13 @@
 package evilcraft.item;
 
+import evilcraft.EvilCraft;
 import evilcraft.block.FluidBlockBlood;
-import evilcraft.core.config.configurable.ConfigurableBlockFluidClassic;
-import evilcraft.core.config.configurable.ConfigurableFluid;
-import evilcraft.core.config.configurable.ConfigurableItemBucket;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ItemBucketConfig;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockFluidClassic;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableFluid;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItemBucket;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import evilcraft.fluid.Blood;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemBucketConfig;
 
 /**
  * Config for the Blood Bucket.
@@ -25,6 +26,7 @@ public class BucketBloodConfig extends ItemBucketConfig {
      */
     public BucketBloodConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "bucketBlood",
             null,

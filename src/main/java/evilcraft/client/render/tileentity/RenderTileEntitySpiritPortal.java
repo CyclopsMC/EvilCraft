@@ -83,10 +83,10 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
             worldRenderer.startDrawing(6);
             float f3 = random.nextFloat() * BEAM_END_DISTANCE + 5.0F + f2 * 10.0F;
             float f4 = random.nextFloat() * BEAM_START_DISTANCE + 1.0F + f2 * 2.0F;
-            worldRenderer.func_178963_b(255); // mcp: setBrightness
-            worldRenderer.func_178974_a(color1, (int)(MAX_OPACITY * (1.0F - f2))); // mcp: setColor
+            worldRenderer.setBrightness(255);
+            worldRenderer.setColorRGBA_I(color1, (int) (MAX_OPACITY * (1.0F - f2)));
             worldRenderer.addVertex(0.0D, 0.0D, 0.0D);
-            worldRenderer.func_178974_a(color2, 0); // mcp: setColor
+            worldRenderer.setColorRGBA_I(color2, 0);
             worldRenderer.addVertex(-0.866D * f4, f3, -0.5F * f4);
             worldRenderer.addVertex(0.866D * f4, f3, -0.5F * f4);
             worldRenderer.addVertex(0.0D, f3, 1.0F * f4);
@@ -141,13 +141,13 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GL11.glTranslatef(-0.5F, -0.5f, 0);
 
         worldRenderer.startDrawingQuads();
-        worldRenderer.func_178986_b(0.0F, 1.0F, 0.0F); // mcp: setPosition
-        worldRenderer.func_178963_b(100);
+        worldRenderer.putPosition(0.0F, 1.0F, 0.0F);
+        worldRenderer.setBrightness(100);
         worldRenderer.addVertexWithUV(0, 1, 0.0D, u1, v2);
         worldRenderer.addVertexWithUV(0, 0, 0.0D, u1, v1);
         worldRenderer.addVertexWithUV(1, 0, 0.0D, u2, v1);
         worldRenderer.addVertexWithUV(1, 1, 0.0D, u2, v2);
-        worldRenderer.draw();
+        worldRenderer.startDrawingQuads();
     }
 
 }

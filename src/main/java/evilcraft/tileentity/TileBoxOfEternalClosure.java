@@ -3,13 +3,9 @@ package evilcraft.tileentity;
 import evilcraft.EvilCraft;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.WorldHelpers;
-import evilcraft.core.tileentity.EvilCraftTileEntity;
-import evilcraft.core.tileentity.NBTPersist;
-import evilcraft.core.tileentity.TickingEvilCraftTileEntity;
 import evilcraft.entity.monster.VengeanceSpirit;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -17,6 +13,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 import java.util.List;
 import java.util.Random;
@@ -27,7 +25,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class TileBoxOfEternalClosure extends TickingEvilCraftTileEntity {
+public class TileBoxOfEternalClosure extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
 	
 	/**
 	 * The name of the NBT tag that will hold spirit entity data.
@@ -91,7 +89,7 @@ public class TileBoxOfEternalClosure extends TickingEvilCraftTileEntity {
         }
         
         if(worldObj.isRemote && target != null) {
-        	EvilCraft.proxy.playSound(getPos(), "boxBeam", 0.1F + worldObj.rand.nextFloat() * 0.9F,
+        	EvilCraft.proxy.playSound(getPos().getX(), getPos().getY(), getPos().getZ(), "boxBeam", 0.1F + worldObj.rand.nextFloat() * 0.9F,
         			0.1F + worldObj.rand.nextFloat() * 0.9F);
         }
         
@@ -171,8 +169,7 @@ public class TileBoxOfEternalClosure extends TickingEvilCraftTileEntity {
      */
     public void releaseSpirit() {
     	VengeanceSpirit spirit = new VengeanceSpirit(getWorld());
-        // CMP: copyDataFrom
-    	spirit.func_180432_n((VengeanceSpirit) spiritInstance);
+    	spirit.copyDataFromOld((VengeanceSpirit) spiritInstance);
     	Random rand = worldObj.rand;
     	spirit.setPosition(getPos().getX() + rand.nextDouble(), getPos().getY() + rand.nextDouble(),
                 getPos().getZ() + rand.nextDouble());

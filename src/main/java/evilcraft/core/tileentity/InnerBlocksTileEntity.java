@@ -1,16 +1,16 @@
 package evilcraft.core.tileentity;
 
-import evilcraft.core.helper.MinecraftHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 /**
  * A TileEntity with an inner blockState.
  * @author rubensworks
  *
  */
-public abstract class InnerBlocksTileEntity extends TickingEvilCraftTileEntity {
+public abstract class InnerBlocksTileEntity extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
     
 	@NBTPersist
 	private String blockName = null;

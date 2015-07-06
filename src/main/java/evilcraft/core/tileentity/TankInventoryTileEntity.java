@@ -7,6 +7,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
+import org.cyclops.cyclopscore.tileentity.InventoryTileEntity;
 
 /**
  * A TileEntity that has an inventory and a tank that can accept fluids or only one type of fluid.

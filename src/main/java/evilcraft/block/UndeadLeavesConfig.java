@@ -1,7 +1,8 @@
 package evilcraft.block;
 
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import evilcraft.EvilCraft;
 import net.minecraft.init.Blocks;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the {@link UndeadLeaves}.
@@ -20,6 +21,7 @@ public class UndeadLeavesConfig extends BlockConfig {
      */
     public UndeadLeavesConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "undeadLeaves",
             null,
@@ -29,7 +31,7 @@ public class UndeadLeavesConfig extends BlockConfig {
     
     @Override
     public void onRegistered() {
-    	Blocks.fire.func_180686_a(UndeadLeaves.getInstance(), 30, 60);
+    	Blocks.fire.setFireInfo(UndeadLeaves.getInstance(), 30, 60);
     }
     
     @Override

@@ -3,8 +3,8 @@ package evilcraft.entity.effect;
 import evilcraft.Achievements;
 import evilcraft.EvilCraft;
 import evilcraft.client.particle.EntityBlurFX;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.entity.monster.VengeanceSpirit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -26,7 +26,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigurable{
+public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigurable {
 	
 	private static final int MAX_AGE = 10 * 20;
     
@@ -123,7 +123,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         }
     	
     	if (movingobjectposition != null) {
-            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlockState(movingobjectposition.func_178782_a()).getBlock() == Blocks.portal) {
+            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlockState(movingobjectposition.getBlockPos()).getBlock() == Blocks.portal) {
                 this.setInPortal();
             } else {
                 this.onImpact(movingobjectposition);

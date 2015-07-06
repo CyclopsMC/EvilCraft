@@ -1,6 +1,7 @@
 package evilcraft.item;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link SceptreOfThunder}.
@@ -19,6 +20,7 @@ public class SceptreOfThunderConfig extends ItemConfig {
      */
     public SceptreOfThunderConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "sceptreOfThunder",
             null,

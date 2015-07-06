@@ -2,9 +2,6 @@ package evilcraft.block;
 
 import evilcraft.Configs;
 import evilcraft.core.IInformationProvider;
-import evilcraft.core.config.configurable.ConfigurableBlock;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.Broom;
 import evilcraft.item.BroomConfig;
 import net.minecraft.block.Block;
@@ -31,6 +28,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.List;
 import java.util.Random;
@@ -163,9 +163,9 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
                             if(blockBelow.getBlock() == Blocks.dirt) {
                                 world.setBlockState(blockPos.add(xr, -1, zr), Blocks.grass.getDefaultState());
                             } else if(blockBelow == Blocks.grass) {
-                                ItemDye.func_179234_a(new ItemStack(Items.dye, 1), world, blockPos.add(xr, -1, zr));
+                                ItemDye.applyBonemeal(new ItemStack(Items.dye, 1), world, blockPos.add(xr, -1, zr));
                             }
-                            ItemDye.func_179234_a(new ItemStack(Items.dye, 1), world, blockPos.add(xr, -1, zr));
+                            ItemDye.applyBonemeal(new ItemStack(Items.dye, 1), world, blockPos.add(xr, -1, zr));
                         }
                     }
                 }

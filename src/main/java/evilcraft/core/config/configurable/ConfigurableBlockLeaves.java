@@ -1,6 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,6 +11,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.List;
 import java.util.Random;
@@ -21,7 +22,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockLeaves extends BlockLeaves implements IConfigurable{
+public abstract class ConfigurableBlockLeaves extends BlockLeaves implements IConfigurable {
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
@@ -74,7 +75,7 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
     @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
-        return !(field_150121_P) || super.shouldSideBeRendered(world, blockPos, side);
+        return !(isTransparent) || super.shouldSideBeRendered(world, blockPos, side);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

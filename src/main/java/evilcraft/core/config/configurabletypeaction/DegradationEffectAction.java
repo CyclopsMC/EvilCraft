@@ -5,13 +5,14 @@ import evilcraft.api.degradation.IDegradationRegistry;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import org.cyclops.cyclopscore.config.configurabletypeaction.ConfigurableTypeAction;
 
 /**
  * The action used for {@link DegradationEffectConfig}.
  * @author rubensworks
  * @see ConfigurableTypeAction
  */
-public class DegradationEffectAction extends ConfigurableTypeAction<DegradationEffectConfig>{
+public class DegradationEffectAction extends ConfigurableTypeAction<DegradationEffectConfig> {
 
     @Override
     public void preRun(DegradationEffectConfig eConfig, Configuration config, boolean startup) {

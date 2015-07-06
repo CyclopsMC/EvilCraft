@@ -1,29 +1,31 @@
 package evilcraft;
 
 import com.google.common.collect.Sets;
-import evilcraft.client.gui.GuiHandler;
 import evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import evilcraft.command.CommandEvilCraft;
-import evilcraft.core.Debug;
-import evilcraft.core.config.ConfigHandler;
 import evilcraft.core.helper.LoggerHelper;
 import evilcraft.event.ServerStatusEventHook;
 import evilcraft.infobook.InfoBookRegistry;
-import evilcraft.modcompat.ModCompatLoader;
+import evilcraft.item.DarkGemConfig;
 import evilcraft.proxy.CommonProxy;
 import evilcraft.world.gen.DarkTempleGenerator;
 import evilcraft.world.gen.EvilDungeonGenerator;
 import evilcraft.world.gen.OreGenerator;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
+import org.cyclops.cyclopscore.config.ConfigHandler;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigReference;
+import org.cyclops.cyclopscore.init.ItemCreativeTab;
+import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.proxy.ICommonProxy;
 
 import java.io.File;
 import java.util.Set;
@@ -40,7 +42,7 @@ import java.util.Set;
     dependencies = Reference.MOD_DEPENDENCIES,
     guiFactory = "evilcraft.core.client.gui.config.ExtendedConfigGuiFactory"
     )
-public class EvilCraft {
+public class EvilCraft extends ModBase {
     
     /**
      * The proxy of this mod, depending on 'side' a different proxy will be inside this field.
@@ -68,7 +70,12 @@ public class EvilCraft {
     
     private static final Set<IInitListener> initListeners = Sets.newHashSet();
     static {
-    	addInitListeners(new ModCompatLoader());
+        // TODO: when modcompats are restored
+    	//addInitListeners(new ModCompatLoader());
+    }
+
+    public EvilCraft() {
+        super(Reference.MOD_ID, Reference.MOD_NAME);
     }
     
     /**
@@ -77,41 +84,7 @@ public class EvilCraft {
      */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        LoggerHelper.init();
-        LoggerHelper.log(Level.INFO, "preInit()");
-        
-        // Determine evilcraft config folder.
-        String rootFolderName = event.getModConfigurationDirectory()
-                + "/" + Reference.MOD_ID;
-        CONFIG_FOLDER = new File(rootFolderName);
-        if(!CONFIG_FOLDER.exists()) {
-        	CONFIG_FOLDER.mkdir();
-        }
-        
-        // Register configs and start with loading the general configs
-        Configs.getInstance().registerGeneralConfigs();
-        ConfigHandler.getInstance().handle(event);
-        Configs.getInstance().registerVanillaDictionary();
-        Configs.getInstance().registerConfigs();
-        
-        // Call init listeners
-        callInitStepListeners(IInitListener.Step.PREINIT);
-        
-        // Run debugging tools
-        if(GeneralConfig.debug) {
-            Debug.checkPreConfigurables(Configs.getInstance().configs);
-        }
-        
-        // Load the rest of the configs and run the ConfigHandler to make/read the config and fill in the game registry
-        ConfigHandler.getInstance().handle(event);   
-        
-        // Run debugging tools (after registering Configurables)
-        if(GeneralConfig.debug) {
-            Debug.checkPostConfigurables();
-        }
-        
-        // Register events
-        proxy.registerEventHooks();
+        super.preInit(event);
 
         // Start fetching the version info
         VersionStats.load();
@@ -123,18 +96,12 @@ public class EvilCraft {
      */
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        LoggerHelper.log(Level.INFO, "init()");
-
-        // Polish the enabled configs.
-        ConfigHandler.getInstance().polishConfigs();
+        super.init(event);
         
         // Register world generation
         GameRegistry.registerWorldGenerator(new OreGenerator(), 5);
         GameRegistry.registerWorldGenerator(new EvilDungeonGenerator(), 2);
         GameRegistry.registerWorldGenerator(new DarkTempleGenerator(), 1);
-        
-        // Gui Handlers
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         
         // Add custom panorama's
         if(event.getSide() == Side.CLIENT) {
@@ -147,14 +114,8 @@ public class EvilCraft {
         proxy.registerPacketHandlers();
         proxy.registerTickHandlers();
         
-        // Register recipes
-        Recipes.registerRecipes(CONFIG_FOLDER);
-        
         // Register achievements
         Achievements.registerAchievements();
-        
-        // Call init listeners
-        callInitStepListeners(IInitListener.Step.INIT);
 
         // Initialize info book
         InfoBookRegistry.getInstance();
@@ -166,10 +127,7 @@ public class EvilCraft {
      */
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        LoggerHelper.log(Level.INFO, "postInit()");
-        
-        // Call init listeners
-        callInitStepListeners(IInitListener.Step.POSTINIT);
+        super.postInit(event);
     }
     
     /**
@@ -187,6 +145,7 @@ public class EvilCraft {
      */
     @EventHandler
     public void onServerStarted(FMLServerStartedEvent event) {
+        super.onServerStarted(event);
         ServerStatusEventHook.getInstance().onStartedEvent(event);
     }
 
@@ -196,15 +155,36 @@ public class EvilCraft {
      */
     @EventHandler
     public void onServerStopping(FMLServerStoppingEvent event) {
+        super.onServerStopping(event);
         ServerStatusEventHook.getInstance().onStoppingEvent(event);
     }
-    
+
+    @Override
+    public CreativeTabs constructDefaultCreativeTab() {
+        return new ItemCreativeTab(this, new ItemConfigReference(DarkGemConfig.class));
+    }
+
+    @Override
+    public void onGeneralConfigsRegister(ConfigHandler configHandler) {
+        configHandler.add(new GeneralConfig());
+    }
+
+    @Override
+    public void onMainConfigsRegister(ConfigHandler configHandler) {
+        Configs.registerBlocks(configHandler);
+    }
+
+    @Override
+    public ICommonProxy getProxy() {
+        return proxy;
+    }
+
     /**
      * Log a new info message for this mod.
      * @param message The message to show.
      */
-    public static void log(String message) {
-        log(message, Level.INFO);
+    public static void clog(String message) {
+        clog(message, Level.INFO);
     }
     
     /**
@@ -212,36 +192,8 @@ public class EvilCraft {
      * @param message The message to show.
      * @param level The level in which the message must be shown.
      */
-    public static void log(String message, Level level) {
+    public static void clog(String message, Level level) {
         LoggerHelper.log(level, message);
-    }
-    
-    /**
-     * Register a new init listener.
-     * @param initListener The init listener.
-     */
-    public static void addInitListeners(IInitListener initListener) {
-    	synchronized(initListeners) {
-    		initListeners.add(initListener);
-    	}
-    }
-    
-    /**
-     * Get the init-listeners on a thread-safe way;
-     * @return A copy of the init listeners list.
-     */
-    private static Set<IInitListener> getSafeInitListeners() {
-    	Set<IInitListener> clonedInitListeners;
-        synchronized(initListeners) {
-        	clonedInitListeners = Sets.newHashSet(initListeners);
-        }
-        return clonedInitListeners;
-    }
-    
-    private static void callInitStepListeners(IInitListener.Step step) {
-    	for(IInitListener initListener : getSafeInitListeners()) {
-        	initListener.onInit(step);
-        }
     }
     
 }

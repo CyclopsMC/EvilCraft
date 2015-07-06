@@ -1,7 +1,8 @@
 package evilcraft.item;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -23,6 +24,7 @@ public class DarkGemCrushedConfig extends ItemConfig implements IFuelHandler {
      */
     public DarkGemCrushedConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "darkGemCrushed",
             null,

@@ -3,7 +3,7 @@ package evilcraft.core.tileentity.upgrade;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import evilcraft.core.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 import java.util.Collection;
 import java.util.Map;

@@ -21,8 +21,8 @@ public class LoggerHelper {
     
     /**
      * Log a new message.
-     * @param logLevel The level to log at.
-     * @param message The message to log.
+     * @param logLevel The level to clog at.
+     * @param message The message to clog.
      */
     public static void log(Level logLevel, String message) {
         logger.log(logLevel, message);

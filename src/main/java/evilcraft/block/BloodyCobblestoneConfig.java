@@ -1,11 +1,12 @@
 package evilcraft.block;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.config.configurable.ConfigurableBlock;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.BlockConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 
 /**
  * Config for the Bloody Cobblestone.
@@ -24,6 +25,7 @@ public class BloodyCobblestoneConfig extends BlockConfig {
      */
     public BloodyCobblestoneConfig() {
         super(
+            EvilCraft._instance,
         	true,
             "bloodyCobblestone",
             null,
@@ -33,9 +35,10 @@ public class BloodyCobblestoneConfig extends BlockConfig {
 
     @Override
     protected IConfigurable initSubInstance() {
-        return (ConfigurableBlock) new ConfigurableBlock(this, Material.rock).
-                setHarvestLevelDefined("pickaxe", 0).setHardness(1.5F).setResistance(10.0F).
+        Block block = new ConfigurableBlock(this, Material.rock).setHardness(1.5F).setResistance(10.0F).
                 setStepSound(Block.soundTypeStone);
+        block.setHarvestLevel("pickaxe", 0);
+        return (ConfigurableBlock) block;
     }
     
     @Override

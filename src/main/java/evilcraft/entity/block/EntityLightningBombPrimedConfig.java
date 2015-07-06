@@ -1,15 +1,17 @@
 package evilcraft.entity.block;
 
+import evilcraft.EvilCraft;
 import evilcraft.block.LightningBomb;
 import evilcraft.client.render.block.RenderBombPrimed;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.EntityConfig;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 
 /**
  * Config for {@link EntityLightningBombPrimed}.
@@ -34,6 +36,7 @@ public class EntityLightningBombPrimedConfig extends EntityConfig {
      */
     public EntityLightningBombPrimedConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "entityLightningBomb",
             null,
@@ -44,7 +47,7 @@ public class EntityLightningBombPrimedConfig extends EntityConfig {
     @SideOnly(Side.CLIENT)
     @Override
     public Render getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderBombPrimed(LightningBomb.getInstance());
+        return new RenderBombPrimed(Minecraft.getMinecraft().getRenderManager(), LightningBomb.getInstance());
     }
     
 }

@@ -1,8 +1,8 @@
 package evilcraft.entity.item;
 
 import evilcraft.Configs;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.entity.item.EntityThrowable;
 import evilcraft.item.WeatherContainer;
 import evilcraft.item.WeatherContainer.WeatherContainerTypes;
@@ -87,13 +87,13 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
     }
 
     @Override
-    protected float func_70182_d() {
+    protected float getVelocity() {
         // Determines the distance of the throw
         return 1.0F;
     }
 
     @Override
-    protected float func_70183_g() {
+    protected float getInaccuracy() {
         // Offset for the start height at which the entity is thrown
         return 0.0F;
     }

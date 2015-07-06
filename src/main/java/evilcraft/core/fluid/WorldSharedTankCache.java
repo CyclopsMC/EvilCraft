@@ -1,7 +1,7 @@
 package evilcraft.core.fluid;
 
 import com.google.common.collect.Maps;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
 import net.minecraft.nbt.NBTTagCompound;

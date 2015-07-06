@@ -3,7 +3,7 @@ package evilcraft;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import evilcraft.block.*;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.item.ItemBlockFluidContainer;
 import evilcraft.core.recipe.ItemBlockFluidContainerCombinationRecipe;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;

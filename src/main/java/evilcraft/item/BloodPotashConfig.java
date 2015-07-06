@@ -1,6 +1,7 @@
 package evilcraft.item;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link evilcraft.item.BloodPotash}.
@@ -19,6 +20,7 @@ public class BloodPotashConfig extends ItemConfig {
      */
     public BloodPotashConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "bloodPotash",
             null,

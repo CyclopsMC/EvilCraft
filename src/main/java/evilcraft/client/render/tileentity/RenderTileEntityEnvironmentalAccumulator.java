@@ -9,10 +9,7 @@ import evilcraft.tileentity.TileEnvironmentalAccumulator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.boss.BossStatus;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -73,7 +70,7 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
 
         GlStateManager.pushAttrib();
         RenderHelper.enableStandardItemLighting();
-        Minecraft.getMinecraft().getRenderItem().func_175043_b(stack);
+        Minecraft.getMinecraft().getRenderItem().renderItemModel(stack);
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
         //Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);

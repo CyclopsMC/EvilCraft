@@ -1,13 +1,10 @@
 package evilcraft.item;
 
-import baubles.api.BaubleType;
-import baubles.api.IBauble;
 import evilcraft.Reference;
-import evilcraft.core.config.configurable.ConfigurableItem;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.ItemHelpers;
-import evilcraft.modcompat.baubles.BaublesModCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +22,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  *
  */
 @Optional.Interface(iface = "baubles.api.IBauble", modid = Reference.MOD_BAUBLES, striprefs = true)
-public class EffortlessRing extends ConfigurableItem implements IBauble {
+public class EffortlessRing extends ConfigurableItem { // TODO: implements IBauble
 
     private static final int TICK_MODULUS = 1;
     private static final String PLAYER_NBT_KEY = Reference.MOD_ID + ":" + "lastStepSize";
@@ -125,10 +122,13 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
 
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
+    // TODO
+    /*@Optional.Method(modid = Reference.MOD_BAUBLES)
     @Override
     public boolean canEquip(ItemStack itemStack, EntityLivingBase entity) {
-        return BaublesModCompat.canUse();
+        // TODO
+        //return BaublesModCompat.canUse();
+        return true;
     }
 
     @Optional.Method(modid = Reference.MOD_BAUBLES)
@@ -158,9 +158,10 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
     @Optional.Method(modid = Reference.MOD_BAUBLES)
     @Override
     public void onWornTick(ItemStack itemStack, EntityLivingBase entity) {
+        // TODO
         if(BaublesModCompat.canUse()) {
             this.onUpdate(itemStack, entity.worldObj, entity, 0, false);
         }
-    }
+    }*/
 
 }

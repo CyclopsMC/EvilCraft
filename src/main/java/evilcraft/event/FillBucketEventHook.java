@@ -23,7 +23,7 @@ public class FillBucketEventHook {
     }
     
     private void stopFillWithEternalWaterBlock(FillBucketEvent event) {
-        Block block = event.world.getBlockState(event.target.func_178782_a()).getBlock();
+        Block block = event.world.getBlockState(event.target.getBlockPos()).getBlock();
         if(block == EternalWaterBlockConfig._instance.getBlockInstance()) {
             event.setCanceled(true);
         }

@@ -96,7 +96,7 @@ public class RenderHelpers {
      * @return The icon.
      */
     public static TextureAtlasSprite getBlockIcon(Block block) {
-        return Minecraft.getMinecraft().getBlockRendererDispatcher().func_175023_a().func_178122_a(block.getDefaultState());
+        return Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getTexture(block.getDefaultState());
     }
 	
 	/**
@@ -169,7 +169,7 @@ public class RenderHelpers {
      * @param brightness The brightness.
      */
     public static void setBrightness(int brightness) {
-        Tessellator.getInstance().getWorldRenderer().func_178962_a(brightness, brightness, brightness, brightness);
+        Tessellator.getInstance().getWorldRenderer().setBrightness(brightness);
     }
 	
 	/**

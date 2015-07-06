@@ -54,7 +54,7 @@ public class ImplicitFluidConverter {
 	 */
 	public void addConverter(Fluid fluid, double rate) {
 		if(fluid != null) {
-			EvilCraft.log("Register fluid conversion for " + fluid.getName()
+			EvilCraft.clog("Register fluid conversion for " + fluid.getName()
 					+ " with ratio " + rate);
 			converters.put(fluid, rate);
 		}
@@ -110,14 +110,14 @@ public class ImplicitFluidConverter {
 			}
 			Fluid fluid = FluidRegistry.getFluid(split[0]);
 			if(fluid == null) {
-				EvilCraft.log("Could not find a fluid by name '" + split[0] + "' for " 
+				EvilCraft.clog("Could not find a fluid by name '" + split[0] + "' for "
 						+ "a fluid converter config.", Level.ERROR);
 			}
 			double ratio = 1.0D;
 			try {
 				ratio = Double.parseDouble(split[1]);
 			} catch (NumberFormatException e) {
-				EvilCraft.log("Invalid ratio '" + split[1] + "' in "
+				EvilCraft.clog("Invalid ratio '" + split[1] + "' in "
 						+ "a fluid converter config, using 1.0.", Level.ERROR);
 			}
 			addConverter(fluid, ratio);

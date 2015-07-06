@@ -1,12 +1,12 @@
 package evilcraft.core.client.render.entity;
 
 import evilcraft.Reference;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * A renderer for a custom model of an entity.

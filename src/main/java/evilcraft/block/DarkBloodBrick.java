@@ -3,9 +3,6 @@ package evilcraft.block;
 import evilcraft.core.algorithm.Wrapper;
 import evilcraft.core.block.CubeDetector;
 import evilcraft.core.block.CubeDetector.IDetectionListener;
-import evilcraft.core.config.configurable.ConfigurableBlock;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.tileentity.TileSpiritFurnace;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -18,6 +15,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Wall brick for the Spirit Furnace.

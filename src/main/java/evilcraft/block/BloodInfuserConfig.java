@@ -1,9 +1,10 @@
 package evilcraft.block;
 
 import com.google.common.collect.Sets;
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.BlockContainerConfig;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.tileentity.TileWorking;
@@ -17,7 +18,7 @@ import java.util.Set;
  * @author rubensworks
  *
  */
-public class BloodInfuserConfig extends BlockContainerConfig {
+public class BloodInfuserConfig extends UpgradableBlockContainerConfig {
     
     /**
      * The unique instance.
@@ -39,6 +40,7 @@ public class BloodInfuserConfig extends BlockContainerConfig {
      */
     public BloodInfuserConfig() {
         super(
+            EvilCraft._instance,
         	true,
             "bloodInfuser",
             null,

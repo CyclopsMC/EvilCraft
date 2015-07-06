@@ -1,12 +1,11 @@
 package evilcraft.core.fluid;
 
-import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
-import evilcraft.core.tileentity.TickingEvilCraftTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 /**
  * A simple tank that can accept and drain fluids until the capacity is reached.
@@ -23,7 +22,7 @@ public class SingleUseTank extends Tank {
     public static final String NBT_ACCEPTED_FLUID = "acceptedFluid";
     
     private Fluid acceptedFluid;
-    protected EvilCraftTileEntity tile;
+    protected CyclopsTileEntity tile;
 
     /**
      * Make a new tank instance.
@@ -31,7 +30,7 @@ public class SingleUseTank extends Tank {
      * @param capacity The capacity (mB) for the tank.
      * @param tile The TileEntity that uses this tank.
      */
-    public SingleUseTank(String name, int capacity, EvilCraftTileEntity tile) {
+    public SingleUseTank(String name, int capacity, CyclopsTileEntity tile) {
         super(name, capacity, tile);
         this.tile = tile;
     }
@@ -71,7 +70,7 @@ public class SingleUseTank extends Tank {
     protected void sendUpdate() {
     	// TODO: generalize this to accept ITankUpdateListeners if this would be necessary later.
     	if(!(tile instanceof TankInventoryTileEntity) || ((TankInventoryTileEntity) tile).isSendUpdateOnTankChanged()) {
-    		((TickingEvilCraftTileEntity) tile).sendUpdate();
+    		tile.sendUpdate();
     	}
     }
 

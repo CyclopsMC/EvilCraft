@@ -1,8 +1,8 @@
 package evilcraft.entity.block;
 
 import evilcraft.block.LightningBomb;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -17,7 +17,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfigurable{
+public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfigurable {
     
     private static final float EXPLOSION_STRENGTH = 1.0f;
 

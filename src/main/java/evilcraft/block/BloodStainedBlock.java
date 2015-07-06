@@ -1,11 +1,8 @@
 package evilcraft.block;
 
 import evilcraft.client.particle.EntityBloodSplashFX;
-import evilcraft.core.client.render.block.AlternatingBlockIconComponent;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
-import evilcraft.core.config.extendedconfig.BlockConfig;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.tileentity.TileBloodStainedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -17,6 +14,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Multiple blockState types (defined by metadata) that have blood stains.
@@ -26,8 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended {
     
     private static BloodStainedBlock _instance = null;
-    private AlternatingBlockIconComponent alternatingBlockIconComponent = new AlternatingBlockIconComponent(getAlternateIconsAmount());
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -51,19 +49,6 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
         super(eConfig, Material.sponge, TileBloodStainedBlock.class);
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGravel);
-    }
-    
-    /**
-     * Get the amount of alternative icons for the blood stains.
-     * @return The amount of icons.
-     */
-    public int getAlternateIconsAmount() {
-        return 3;
-    }
-    
-    @Override
-    public int getRenderPasses() {
-        return 2;
     }
     
     @SideOnly(Side.CLIENT)

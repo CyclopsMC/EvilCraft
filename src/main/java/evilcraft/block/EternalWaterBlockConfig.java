@@ -1,8 +1,6 @@
 package evilcraft.block;
 
-import evilcraft.core.config.configurable.ConfigurableBlockContainer;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.BlockContainerConfig;
+import evilcraft.EvilCraft;
 import evilcraft.core.helper.InventoryHelpers;
 import evilcraft.tileentity.TileEternalWaterBlock;
 import net.minecraft.block.material.Material;
@@ -16,6 +14,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 
 /**
  * Config for the {@link evilcraft.block.BloodChest}.
@@ -34,6 +35,7 @@ public class EternalWaterBlockConfig extends BlockContainerConfig {
      */
     public EternalWaterBlockConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "eternalWaterBlock",
             null,

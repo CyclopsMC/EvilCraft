@@ -1,16 +1,15 @@
 package evilcraft.entity.monster;
 
 import evilcraft.Configs;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.entity.villager.WerewolfVillagerConfig;
 import evilcraft.item.WerewolfBoneConfig;
 import evilcraft.item.WerewolfFurConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
@@ -175,7 +174,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
     }
     
     @Override
-    protected void dropRareDrop(int chance) {
+    protected void addRandomDrop() {
         if(Configs.isEnabled(WerewolfFurConfig.class))
             this.dropItem(WerewolfFurConfig._instance.getItemInstance(), 1);
     }
