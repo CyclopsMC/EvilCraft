@@ -15,6 +15,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
@@ -28,6 +29,7 @@ import java.util.Random;
  */
 public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock implements IInformationProvider{
 
+    @BlockProperty
     public static final PropertyInteger FAKEMETA = PropertyInteger.create("meta", 0, 15);
 
     // No more than 16 different innerblocks allowed!
@@ -41,7 +43,6 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     @SuppressWarnings("rawtypes")
     public ConfigurableBlockWithInnerBlocks(ExtendedConfig eConfig, Material material) {
         super(eConfig, material);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FAKEMETA, false));
         INNER_BLOCKS = makeInnerBlockList();
     }
     

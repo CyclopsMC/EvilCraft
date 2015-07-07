@@ -29,6 +29,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -45,6 +46,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	
 	private static final String NBT_TAG_CAPACITY = "tankCapacity";
 
+	@BlockProperty
 	public static final PropertyBool DRAINING = PropertyBool.create("draining");
 	
     private static DarkTank _instance = null;
@@ -61,7 +63,6 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 
     public DarkTank(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.glass, TileDarkTank.class);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(DRAINING, false));
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGlass);
     }

@@ -16,6 +16,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 public class Purifier extends ConfigurableBlockContainer {
 
+    @BlockProperty
     public static final PropertyInteger FILL = PropertyInteger.create("fill", 0, 2);
 
     private static Purifier _instance = null;
@@ -43,7 +45,6 @@ public class Purifier extends ConfigurableBlockContainer {
 
     public Purifier(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TilePurifier.class);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FILL, 0));
     }
     
     @Override

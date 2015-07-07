@@ -28,6 +28,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -42,6 +43,7 @@ import java.util.Random;
  */
 public class ExcrementPile extends ConfigurableBlock implements IInformationProvider {
 
+    @BlockProperty
     public static final PropertyInteger LAYERS_PROP = PropertyInteger.create("layers", 1, 8);
 
     private static ExcrementPile _instance = null;
@@ -61,7 +63,6 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
 
     public ExcrementPile(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.clay);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(LAYERS_PROP, Integer.valueOf(1)));
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
         this.setTickRandomly(true);
         this.setBlockBoundsForPileDepth(0);

@@ -3,6 +3,7 @@ package evilcraft.block;
 import evilcraft.core.config.configurable.ConfigurableBlockSapling;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.material.Material;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
@@ -12,8 +13,6 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
  *
  */
 public class UndeadSapling extends ConfigurableBlockSapling {
-
-    public static BlockPlanks.EnumType TYPE = BlockPlanks.EnumType.valueOf("undead");
     
     private static UndeadSapling _instance = null;
     

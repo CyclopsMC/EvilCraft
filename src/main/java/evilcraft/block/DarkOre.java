@@ -19,6 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -40,6 +41,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     private static final int INCREASE_XP = 5; // Amount of XP that can be gained from mining this blockState
     private static final int CRUSHEDCHANCE = 4; // The chance on a crushed dark gem with no fortune.
 
+    @BlockProperty
     public static final PropertyBool GLOWING = PropertyBool.create("enabled");
     
     /**
@@ -52,7 +54,6 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
 
     public DarkOre(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(GLOWING, false));
         this.setTickRandomly(true);
         this.setHardness(3.0F);
         this.setStepSound(soundTypeStone);

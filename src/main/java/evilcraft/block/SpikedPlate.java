@@ -17,6 +17,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
@@ -29,6 +30,7 @@ import java.util.List;
  */
 public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 
+    @BlockProperty
     public static final PropertyInteger POWER = PropertyInteger.create("power", 0, 15);
 
     private static SpikedPlate _instance = null;
@@ -43,7 +45,6 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 
     public SpikedPlate(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(POWER, 0));
     }
     
     @Override

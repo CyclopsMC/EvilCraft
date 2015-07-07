@@ -21,6 +21,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -38,6 +39,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 	/**
 	 * Meta data for supplying.
 	 */
+    @BlockProperty
     public static final PropertyBool SUPPLY = PropertyBool.create("supply");
 	
     private static EntangledChalice _instance = null;
@@ -54,7 +56,6 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 
     public EntangledChalice(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileEntangledChalice.class);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(SUPPLY, false));
     }
 
     @Override

@@ -15,6 +15,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -26,6 +27,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
  */
 public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListener {
 
+    @BlockProperty
     public static final PropertyBool ACTIVE = PropertyBool.create("enabled");
 
     private static DarkBloodBrick _instance = null;
@@ -40,7 +42,6 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
 
     public DarkBloodBrick(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
         this.setHardness(5.0F);
         this.setStepSound(soundTypeStone);
         this.setHarvestLevel("pickaxe", 2); // Iron tier

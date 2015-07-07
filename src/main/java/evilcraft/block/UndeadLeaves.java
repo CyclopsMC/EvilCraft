@@ -57,11 +57,6 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
     }
 
     @Override
-    public BlockPlanks.EnumType getWoodType(int meta) {
-        return UndeadSapling.TYPE;
-    }
-
-    @Override
     public void randomDisplayTick(World world, BlockPos blockPos, IBlockState blockState, Random rand) {
         entityDropParticleFXBlockComponent.randomDisplayTick(world, blockPos, blockState, rand);
     }

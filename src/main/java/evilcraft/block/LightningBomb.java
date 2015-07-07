@@ -15,6 +15,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -30,6 +31,7 @@ public class LightningBomb extends ConfigurableBlock {
     
     private static LightningBomb _instance = null;
 
+    @BlockProperty
     public static final PropertyBool PRIMED = PropertyBool.create("enabled");
     
     /**
@@ -42,7 +44,6 @@ public class LightningBomb extends ConfigurableBlock {
 
     public LightningBomb(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.tnt);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(PRIMED, false));
         this.setHardness(0.0F);
         this.setStepSound(soundTypeGrass);
     }

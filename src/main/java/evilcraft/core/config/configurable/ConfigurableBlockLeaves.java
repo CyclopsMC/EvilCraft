@@ -1,6 +1,8 @@
 package evilcraft.core.config.configurable;
 
+import evilcraft.block.UndeadSapling;
 import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -87,6 +89,11 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
     @Override
     public boolean isLeaves (IBlockAccess world, BlockPos blockPos) {
         return true;
+    }
+
+    @Override
+    public BlockPlanks.EnumType getWoodType(int meta) {
+        return null;
     }
 
 }

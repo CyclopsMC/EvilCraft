@@ -18,6 +18,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -32,6 +33,7 @@ import java.util.List;
  */
 public class SanguinaryPedestal extends ConfigurableBlockContainer implements IInformationProvider, IBlockRarityProvider {
 
+    @BlockProperty
     public static final PropertyInteger TIER = PropertyInteger.create("tier", 0, 1);
 
     private static SanguinaryPedestal _instance = null;
@@ -46,7 +48,6 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     public SanguinaryPedestal(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileSanguinaryPedestal.class);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(TIER, 0));
     }
 
     @Override
