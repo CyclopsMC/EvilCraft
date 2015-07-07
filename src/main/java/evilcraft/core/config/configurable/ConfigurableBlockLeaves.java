@@ -1,6 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import evilcraft.block.UndeadSapling;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;

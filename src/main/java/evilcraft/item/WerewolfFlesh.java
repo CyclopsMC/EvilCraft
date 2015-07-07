@@ -2,10 +2,8 @@ package evilcraft.item;
 
 import com.mojang.authlib.GameProfile;
 import evilcraft.Achievements;
+import evilcraft.Reference;
 import evilcraft.core.config.configurable.ConfigurableItemFood;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -20,6 +18,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
 
@@ -41,9 +42,9 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
     	if(isHumanFlesh(itemStack)) {
-    		return "item.items.humanFlesh";
+    		return "item.items." + Reference.MOD_ID + ".humanFlesh";
     	}
-        return "item.items." + eConfig.getNamedId();
+        return "item.items."  + Reference.MOD_ID + "." + eConfig.getNamedId();
     }
     
     /**

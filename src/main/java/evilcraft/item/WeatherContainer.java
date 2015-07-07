@@ -1,9 +1,6 @@
 package evilcraft.item;
 
-import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import evilcraft.core.helper.L10NHelpers;
+import evilcraft.Reference;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.entity.item.EntityWeatherContainer;
@@ -18,6 +15,10 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.List;
 
@@ -203,7 +204,7 @@ public class WeatherContainer extends ConfigurableItem {
         private WeatherContainerTypes(WeatherType type, String description, EnumChatFormatting damageColor, int damageRenderColor) {
             this.type = type;
             
-            this.description = L10NHelpers.localize("weatherContainer." + description);
+            this.description = L10NHelpers.localize("weatherContainer." + Reference.MOD_ID + "." + description);
             this.damageColor = damageColor;
             this.damageRenderColor = damageRenderColor;
         }

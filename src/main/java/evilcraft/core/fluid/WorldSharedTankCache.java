@@ -1,7 +1,6 @@
 package evilcraft.core.fluid;
 
 import com.google.common.collect.Maps;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,6 +13,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Type;
 import net.minecraftforge.fml.relauncher.Side;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.Iterator;
 import java.util.Map;

@@ -2,7 +2,6 @@ package evilcraft.block;
 
 import evilcraft.client.particle.EntityBloodSplashFX;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.tileentity.TileBloodStainedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,6 +15,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * Multiple blockState types (defined by metadata) that have blood stains.

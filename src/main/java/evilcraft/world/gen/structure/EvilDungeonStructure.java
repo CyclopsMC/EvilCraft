@@ -2,7 +2,6 @@ package evilcraft.world.gen.structure;
 
 import evilcraft.Configs;
 import evilcraft.block.BloodyCobblestoneConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
@@ -13,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenDungeons;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.DungeonHooks;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.Random;
 

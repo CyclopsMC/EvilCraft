@@ -3,8 +3,6 @@ package evilcraft.entity.effect;
 import evilcraft.Achievements;
 import evilcraft.EvilCraft;
 import evilcraft.client.particle.EntityBlurFX;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.entity.monster.VengeanceSpirit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -18,6 +16,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.List;
 

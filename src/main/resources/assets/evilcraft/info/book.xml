@@ -1,213 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<section name="infoBook.section.main">
-    <section name="infoBook.preface">
-        <paragraph>infoBook.preface.text1</paragraph>
-        <paragraph>infoBook.preface.text2</paragraph>
+<section name="infoBook.evilcraft.section.main">
+    <section name="infoBook.evilcraft.preface">
+        <paragraph>infoBook.evilcraft.preface.text1</paragraph>
+        <paragraph>infoBook.evilcraft.preface.text2</paragraph>
     </section>
-    <section name="infoBook.structure">
-        <paragraph>infoBook.structure.text1</paragraph>
-        <paragraph>infoBook.structure.text2</paragraph>
+    <section name="infoBook.evilcraft.structure">
+        <paragraph>infoBook.evilcraft.structure.text1</paragraph>
+        <paragraph>infoBook.evilcraft.structure.text2</paragraph>
     </section>
-    <section name="infoBook.firstAge">
-        <section name="infoBook.firstAge.newWorld">
-            <section name="infoBook.firstAge.newWorld.introduction">
-                <paragraph>infoBook.firstAge.newWorld.introduction.text</paragraph>
+    <section name="infoBook.evilcraft.firstAge">
+        <section name="infoBook.evilcraft.firstAge.newWorld">
+            <section name="infoBook.evilcraft.firstAge.newWorld.introduction">
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.introduction.text</paragraph>
             </section>
-            <section name="infoBook.firstAge.newWorld.darkOre">
+            <section name="infoBook.evilcraft.firstAge.newWorld.darkOre">
                 <tag>darkOre</tag>
                 <tag>darkGem</tag>
                 <tag>darkGemCrushed</tag>
                 <tag>darkBlock</tag>
                 <tag>darkBrick</tag>
-                <paragraph>infoBook.firstAge.newWorld.darkOre.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.darkOre.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:darkBlock</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkGem</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkBrick</appendix>
             </section>
-            <section name="infoBook.firstAge.newWorld.darkenedApple">
+            <section name="infoBook.evilcraft.firstAge.newWorld.darkenedApple">
                 <tag>darkenedApple</tag>
-                <paragraph>infoBook.firstAge.newWorld.darkenedApple.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.darkenedApple.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:darkenedApple</appendix>
             </section>
-            <section name="infoBook.firstAge.newWorld.evilDungeon">
-                <paragraph>infoBook.firstAge.newWorld.evilDungeon.text</paragraph>
+            <section name="infoBook.evilcraft.firstAge.newWorld.evilDungeon">
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.evilDungeon.text</paragraph>
             </section>
-            <section name="infoBook.firstAge.newWorld.darkTemple">
+            <section name="infoBook.evilcraft.firstAge.newWorld.darkTemple">
                 <tag>weatherContainer</tag>
-                <paragraph>infoBook.firstAge.newWorld.darkTemple.text1</paragraph>
-                <paragraph>infoBook.firstAge.newWorld.darkTemple.text2</paragraph>
-                <paragraph>infoBook.firstAge.newWorld.darkTemple.text3</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.darkTemple.text1</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.darkTemple.text2</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.darkTemple.text3</paragraph>
                 <appendix type="image" width="100" height="133">evilcraft:textures/gui/infobook/darkTemple.png</appendix>
                 <appendix type="craftingRecipe">evilcraft:weatherContainer</appendix>
                 <appendix type="envirAccRecipe" index="0">evilcraft:weatherContainer</appendix>
                 <appendix type="envirAccRecipe" index="1">evilcraft:weatherContainer</appendix>
                 <appendix type="envirAccRecipe" index="2">evilcraft:weatherContainer</appendix>
             </section>
-            <section name="infoBook.firstAge.newWorld.weatherContainerBenefits">
+            <section name="infoBook.evilcraft.firstAge.newWorld.weatherContainerBenefits">
                 <tag>lightningGrenade</tag>
                 <tag>bucketEternalWater</tag>
                 <tag>eternalWaterBlock</tag>
-                <paragraph>infoBook.firstAge.newWorld.weatherContainerBenefits.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.weatherContainerBenefits.text</paragraph>
                 <appendixList type="craftingRecipe">weatherCrafting</appendixList>
             </section>
-            <section name="infoBook.firstAge.newWorld.libelle">
+            <section name="infoBook.evilcraft.firstAge.newWorld.libelle">
                 <tag>bucketPoison</tag>
-                <paragraph>infoBook.firstAge.newWorld.libelle.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.libelle.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bucketPoison</appendix>
                 <appendix type="craftingRecipe">minecraft:poisonous_potato</appendix>
                 <appendix type="craftingRecipe" meta="8196">minecraft:potion</appendix>
             </section>
-            <section name="infoBook.firstAge.newWorld.werewolf">
-                <paragraph>infoBook.firstAge.newWorld.werewolf.text</paragraph>
+            <section name="infoBook.evilcraft.firstAge.newWorld.werewolf">
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.werewolf.text</paragraph>
                 <appendix type="image" width="100" height="123">evilcraft:textures/gui/infobook/werewolfVillager.png</appendix>
             </section>
-            <section name="infoBook.firstAge.newWorld.netherFish">
-                <paragraph>infoBook.firstAge.newWorld.netherFish.text</paragraph>
+            <section name="infoBook.evilcraft.firstAge.newWorld.netherFish">
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.netherFish.text</paragraph>
             </section>
         </section>
-        <section name="infoBook.firstAge.relics">
-            <section name="infoBook.firstAge.relics.broom">
+        <section name="infoBook.evilcraft.firstAge.relics">
+            <section name="infoBook.evilcraft.firstAge.relics.broom">
                 <tag>broom</tag>
-                <paragraph>infoBook.firstAge.relics.broom.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.relics.broom.text</paragraph>
             </section>
-            <section name="infoBook.firstAge.relics.humanoidFlesh">
-                <paragraph>infoBook.firstAge.relics.humanoidFlesh.text</paragraph>
+            <section name="infoBook.evilcraft.firstAge.relics.humanoidFlesh">
+                <paragraph>infoBook.evilcraft.firstAge.relics.humanoidFlesh.text</paragraph>
             </section>
-            <section name="infoBook.firstAge.relics.enchantments">
-                <paragraph>infoBook.firstAge.relics.enchantments.breaking.text</paragraph>
-                <paragraph>infoBook.firstAge.relics.enchantments.lifeStealing.text</paragraph>
-                <paragraph>infoBook.firstAge.relics.enchantments.poisonTip.text</paragraph>
-                <paragraph>infoBook.firstAge.relics.enchantments.unusing.text</paragraph>
+            <section name="infoBook.evilcraft.firstAge.relics.enchantments">
+                <paragraph>infoBook.evilcraft.firstAge.relics.enchantments.breaking.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.relics.enchantments.lifeStealing.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.relics.enchantments.poisonTip.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.relics.enchantments.unusing.text</paragraph>
             </section>
         </section>
-        <section name="infoBook.firstAge.items">
-            <section name="infoBook.firstAge.items.darkTank">
+        <section name="infoBook.evilcraft.firstAge.items">
+            <section name="infoBook.evilcraft.firstAge.items.darkTank">
                 <tag>darkTank</tag>
-                <paragraph>infoBook.firstAge.items.darkTank.text1</paragraph>
-                <paragraph>infoBook.firstAge.items.darkTank.text2</paragraph>
-                <paragraph>infoBook.firstAge.items.darkTank.text3</paragraph>
-                <paragraph>infoBook.firstAge.items.darkTank.text4</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.darkTank.text1</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.darkTank.text2</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.darkTank.text3</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.darkTank.text4</paragraph>
                 <appendix type="craftingRecipe" index="0">evilcraft:darkTank</appendix>
             </section>
-            <section name="infoBook.firstAge.items.darkSpike">
+            <section name="infoBook.evilcraft.firstAge.items.darkSpike">
                 <tag>darkSpike</tag>
-                <paragraph>infoBook.firstAge.items.darkSpike.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.darkSpike.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:darkSpike</appendix>
             </section>
-            <section name="infoBook.firstAge.items.spikedPlate">
+            <section name="infoBook.evilcraft.firstAge.items.spikedPlate">
                 <tag>spikedPlate</tag>
-                <paragraph>infoBook.firstAge.items.spikedPlate.text1</paragraph>
-                <paragraph>infoBook.firstAge.items.spikedPlate.text2</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.spikedPlate.text1</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.spikedPlate.text2</paragraph>
                 <appendix type="craftingRecipe">evilcraft:spikedPlate</appendix>
             </section>
-            <section name="infoBook.firstAge.items.potentiaSphere">
+            <section name="infoBook.evilcraft.firstAge.items.potentiaSphere">
                 <tag>potentiaSphere</tag>
                 <tag>invertedPotentia</tag>
-                <paragraph>infoBook.firstAge.items.potentiaSphere.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.potentiaSphere.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:potentiaSphere</appendix>
                 <appendix type="craftingRecipe">evilcraft:invertedPotentia</appendix>
                 <appendix type="envirAccRecipe">evilcraft:invertedPotentia</appendix>
             </section>
-            <section name="infoBook.firstAge.items.dullDust">
+            <section name="infoBook.evilcraft.firstAge.items.dullDust">
                 <tag>dullDust</tag>
-                <paragraph>infoBook.firstAge.items.dullDust.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.dullDust.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:dullDust</appendix>
             </section>
-            <section name="infoBook.firstAge.items.obscuredGlass">
+            <section name="infoBook.evilcraft.firstAge.items.obscuredGlass">
                 <tag>obscuredGlass</tag>
-                <paragraph>infoBook.firstAge.items.obscuredGlass.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.obscuredGlass.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:obscuredGlass</appendix>
             </section>
-            <section name="infoBook.firstAge.items.exaltedCrafter">
+            <section name="infoBook.evilcraft.firstAge.items.exaltedCrafter">
                 <tag>exaltedCrafter</tag>
-                <paragraph>infoBook.firstAge.items.exaltedCrafter.text1</paragraph>
-                <paragraph>infoBook.firstAge.items.exaltedCrafter.text2</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.exaltedCrafter.text1</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.exaltedCrafter.text2</paragraph>
                 <appendix type="craftingRecipe" index="0">evilcraft:exaltedCrafter</appendix>
                 <appendix type="craftingRecipe" index="1">evilcraft:exaltedCrafter</appendix>
                 <appendix type="envirAccRecipe" index="0">evilcraft:exaltedCrafter</appendix>
                 <appendix type="envirAccRecipe" index="1">evilcraft:exaltedCrafter</appendix>
             </section>
         </section>
-        <section name="infoBook.firstAge.vengeanceSpirits">
-            <section name="infoBook.firstAge.vengeanceSpirits.introduction">
+        <section name="infoBook.evilcraft.firstAge.vengeanceSpirits">
+            <section name="infoBook.evilcraft.firstAge.vengeanceSpirits.introduction">
                 <tag>vengeanceRing</tag>
-                <paragraph>infoBook.firstAge.vengeanceSpirits.introduction.text1</paragraph>
-                <paragraph>infoBook.firstAge.vengeanceSpirits.introduction.text2</paragraph>
-                <paragraph>infoBook.firstAge.vengeanceSpirits.introduction.text3</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.vengeanceSpirits.introduction.text1</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.vengeanceSpirits.introduction.text2</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.vengeanceSpirits.introduction.text3</paragraph>
                 <appendix type="image" width="100" height="115">evilcraft:textures/gui/infobook/vengeanceSpirit.png</appendix>
                 <appendix type="craftingRecipe">evilcraft:vengeanceRing</appendix>
             </section>
-            <section name="infoBook.firstAge.vengeanceSpirits.catchingSpirits">
+            <section name="infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits">
                 <tag>boxOfEternalClosure</tag>
                 <tag>vengeanceFocus</tag>
-                <paragraph>infoBook.firstAge.vengeanceSpirits.catchingSpirits.text1</paragraph>
-                <paragraph>infoBook.firstAge.vengeanceSpirits.catchingSpirits.text2</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits.text1</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits.text2</paragraph>
                 <appendix type="image" width="110" height="60">evilcraft:textures/gui/infobook/catchSpirits.png</appendix>
                 <appendix type="craftingRecipe">evilcraft:boxOfExternalClosure</appendix>
                 <appendix type="craftingRecipe">evilcraft:vengeanceFocus</appendix>
             </section>
-            <section name="infoBook.firstAge.vengeanceSpirits.spiritProtection">
+            <section name="infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection">
                 <tag>burningGemStone</tag>
-                <paragraph>infoBook.firstAge.vengeanceSpirits.spiritProtection.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection.text</paragraph>
                 <appendix type="furnaceRecipe">evilcraft:burningGemStone</appendix>
             </section>
         </section>
     </section>
-    <section name="infoBook.secondAge">
-        <section name="infoBook.secondAge.powersOfBlood">
+    <section name="infoBook.evilcraft.secondAge">
+        <section name="infoBook.evilcraft.secondAge.powersOfBlood">
             <tag>hardenedBlood</tag>
             <tag>hardenedBloodShard</tag>
             <tag>darkPowerGem</tag>
-            <paragraph>infoBook.secondAge.powersOfBlood.text1</paragraph>
-            <paragraph>infoBook.secondAge.powersOfBlood.text2</paragraph>
-            <paragraph>infoBook.secondAge.powersOfBlood.text3</paragraph>
+            <paragraph>infoBook.evilcraft.secondAge.powersOfBlood.text1</paragraph>
+            <paragraph>infoBook.evilcraft.secondAge.powersOfBlood.text2</paragraph>
+            <paragraph>infoBook.evilcraft.secondAge.powersOfBlood.text3</paragraph>
             <appendix type="furnaceRecipe">evilcraft:hardenedBloodShard</appendix>
         </section>
-        <section name="infoBook.secondAge.bloodInfusion">
-            <section name="infoBook.secondAge.bloodInfusion.bloodInfusionCore">
+        <section name="infoBook.evilcraft.secondAge.bloodInfusion">
+            <section name="infoBook.evilcraft.secondAge.bloodInfusion.bloodInfusionCore">
                 <tag>bloodInfusionCore</tag>
-                <paragraph>infoBook.secondAge.bloodInfusion.bloodInfusionCore.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodInfusionCore.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bloodInfusionCore</appendix>
             </section>
-            <section name="infoBook.secondAge.bloodInfusion.bloodExtraction">
+            <section name="infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction">
                 <tag>bloodExtractor</tag>
-                <paragraph>infoBook.secondAge.bloodInfusion.bloodExtraction.text1</paragraph>
-                <paragraph>infoBook.secondAge.bloodInfusion.bloodExtraction.text2</paragraph>
-                <paragraph>infoBook.secondAge.bloodInfusion.bloodExtraction.text3</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text3</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bloodExtractor</appendix>
             </section>
-            <section name="infoBook.secondAge.bloodInfusion.bloodChest">
+            <section name="infoBook.evilcraft.secondAge.bloodInfusion.bloodChest">
                 <tag>bloodChest</tag>
-                <paragraph>infoBook.secondAge.bloodInfusion.bloodChest.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodChest.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bloodChest</appendix>
             </section>
-            <section name="infoBook.secondAge.bloodInfusion.bloodInfuser">
+            <section name="infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser">
                 <tag>bloodInfuser</tag>
                 <tag>darkPowerGemBlock</tag>
-                <paragraph>infoBook.secondAge.bloodInfusion.bloodInfuser.text1</paragraph>
-                <paragraph>infoBook.secondAge.bloodInfusion.bloodInfuser.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser.text2</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bloodInfuser</appendix>
                 <appendix type="bloodInfuserRecipe">evilcraft:darkPowerGem</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkPowerGem</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkPowerGemBlock</appendix>
                 <appendix type="bloodInfuserRecipe">evilcraft:darkPowerGemBlock</appendix>
             </section>
-            <section name="infoBook.secondAge.bloodInfusion.undeadTree">
+            <section name="infoBook.evilcraft.secondAge.bloodInfusion.undeadTree">
                 <tag>undeadSapling</tag>
                 <tag>darkStick</tag>
-                <paragraph>infoBook.secondAge.bloodInfusion.undeadTree.text1</paragraph>
-                <paragraph>infoBook.secondAge.bloodInfusion.undeadTree.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text2</paragraph>
                 <appendix type="image" width="70" height="130">evilcraft:textures/gui/infobook/undeadTree.png</appendix>
                 <appendix type="craftingRecipe">minecraft:deadBush</appendix>
                 <appendix type="bloodInfuserRecipe">evilcraft:undeadSapling</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkStick</appendix>
             </section>
-            <section name="infoBook.secondAge.bloodInfusion.advancedBloodInfusion">
+            <section name="infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion">
                 <tag>bowlOfPromises</tag>
                 <tag>promise</tag>
                 <tag>promiseAcceptor</tag>
-                <paragraph>infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text1</paragraph>
-                <paragraph>infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion.text2</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bowlOfPromises</appendix>
                 <appendix type="bloodInfuserRecipe" index="0">evilcraft:bowlOfPromises</appendix>
                 <appendix type="bloodInfuserRecipe" index="1">evilcraft:bowlOfPromises</appendix>
@@ -222,167 +222,167 @@
                 <appendix type="bloodInfuserRecipe" index="1">evilcraft:promiseAcceptor</appendix>
                 <appendix type="bloodInfuserRecipe" index="2">evilcraft:promiseAcceptor</appendix>
             </section>
-            <section name="infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes">
+            <section name="infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusionRecipes">
                 <tag>bloodyCobblestone</tag>
                 <tag>bloodOrb</tag>
                 <tag>bloodWaxedCoal</tag>
                 <tag>bloodWaxedCoalBlock</tag>
                 <tag>bloodPotash</tag>
-                <paragraph>infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text</paragraph>
                 <appendixList type="bloodInfuserRecipe">other</appendixList>
                 <appendixList type="bloodInfuserRecipe">convenience</appendixList>
             </section>
         </section>
-        <section name="infoBook.secondAge.evolvedBloodMachinery">
-            <section name="infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal">
+        <section name="infoBook.evilcraft.secondAge.evolvedBloodMachinery">
+            <section name="infoBook.evilcraft.secondAge.evolvedBloodMachinery.sanguinaryPedestal">
                 <tag>sanguinaryPedestal</tag>
-                <paragraph>infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text1</paragraph>
-                <paragraph>infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text2</paragraph>
                 <appendix type="image" width="120" height="72">evilcraft:textures/gui/infobook/sanguinaryPedestal.png</appendix>
                 <appendix type="craftingRecipe" index="0">evilcraft:sanguinaryPedestal</appendix>
                 <appendix type="craftingRecipe" index="1">evilcraft:sanguinaryPedestal</appendix>
             </section>
-            <section name="infoBook.secondAge.evolvedBloodMachinery.purifier">
+            <section name="infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier">
                 <tag>purifier</tag>
                 <tag>blook</tag>
-                <paragraph>infoBook.secondAge.evolvedBloodMachinery.purifier.text1</paragraph>
-                <paragraph>infoBook.secondAge.evolvedBloodMachinery.purifier.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text2</paragraph>
                 <appendix type="craftingRecipe">evilcraft:purifier</appendix>
                 <appendix type="bloodInfuserRecipe">evilcraft:blook</appendix>
             </section>
-            <section name="infoBook.secondAge.evolvedBloodMachinery.entangledChalice">
+            <section name="infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice">
                 <tag>entangledChalice</tag>
                 <tag>corruptedTear</tag>
-                <paragraph>infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text1</paragraph>
-                <paragraph>infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text2</paragraph>
-                <paragraph>infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text3</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text3</paragraph>
                 <appendix type="bloodInfuserRecipe">evilcraft:corruptedTear</appendix>
                 <appendix type="craftingRecipe" index="0">evilcraft:entangledChalice</appendix>
                 <appendix type="craftingRecipe" index="1">evilcraft:entangledChalice</appendix>
             </section>
         </section>
-        <section name="infoBook.secondAge.tools">
-            <section name="infoBook.secondAge.tools.introduction">
-                <paragraph>infoBook.secondAge.tools.introduction.text</paragraph>
+        <section name="infoBook.evilcraft.secondAge.tools">
+            <section name="infoBook.evilcraft.secondAge.tools.introduction">
+                <paragraph>infoBook.evilcraft.secondAge.tools.introduction.text</paragraph>
             </section>
-            <section name="infoBook.secondAge.tools.bloodPearlOfTeleportation">
+            <section name="infoBook.evilcraft.secondAge.tools.bloodPearlOfTeleportation">
                 <tag>bloodPearlOfTeleportation</tag>
-                <paragraph>infoBook.secondAge.tools.bloodPearlOfTeleportation.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.tools.bloodPearlOfTeleportation.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bloodPearlOfTeleportation</appendix>
             </section>
-            <section name="infoBook.secondAge.tools.invigoratingPendant">
+            <section name="infoBook.evilcraft.secondAge.tools.invigoratingPendant">
                 <tag>invigoratingPendant</tag>
-                <paragraph>infoBook.secondAge.tools.invigoratingPendant.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.tools.invigoratingPendant.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:invigoratingPendant</appendix>
             </section>
-            <section name="infoBook.secondAge.tools.effortlessRing">
+            <section name="infoBook.evilcraft.secondAge.tools.effortlessRing">
                 <tag>effortlessRing</tag>
-                <paragraph>infoBook.secondAge.tools.effortlessRing.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.tools.effortlessRing.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:effortlessRing</appendix>
             </section>
-            <section name="infoBook.secondAge.tools.kineticator">
+            <section name="infoBook.evilcraft.secondAge.tools.kineticator">
                 <tag>kineticator</tag>
-                <paragraph>infoBook.secondAge.tools.kineticator.text1</paragraph>
-                <paragraph>infoBook.secondAge.tools.kineticator.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.tools.kineticator.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.tools.kineticator.text2</paragraph>
                 <appendix type="craftingRecipe" index="0">evilcraft:kineticator</appendix>
                 <appendix type="craftingRecipe" index="1">evilcraft:kineticator</appendix>
             </section>
-            <section name="infoBook.secondAge.tools.sceptreOfThunder">
+            <section name="infoBook.evilcraft.secondAge.tools.sceptreOfThunder">
                 <tag>sceptreOfThunder</tag>
-                <paragraph>infoBook.secondAge.tools.sceptreOfThunder.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.tools.sceptreOfThunder.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:sceptreOfThunder</appendix>
             </section>
-            <section name="infoBook.secondAge.tools.vengeancePickaxe">
+            <section name="infoBook.evilcraft.secondAge.tools.vengeancePickaxe">
                 <tag>vengeancePickaxe</tag>
-                <paragraph>infoBook.secondAge.tools.vengeancePickaxe.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.tools.vengeancePickaxe.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:vengeancePickaxe</appendix>
             </section>
-            <section name="infoBook.secondAge.tools.gemstoneTorch">
+            <section name="infoBook.evilcraft.secondAge.tools.gemstoneTorch">
                 <tag>gemStoneTorch</tag>
-                <paragraph>infoBook.secondAge.tools.gemstoneTorch.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.tools.gemstoneTorch.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:gemStoneTorch</appendix>
             </section>
         </section>
-        <section name="infoBook.secondAge.weapons">
-            <section name="infoBook.secondAge.weapons.veinSword">
+        <section name="infoBook.evilcraft.secondAge.weapons">
+            <section name="infoBook.evilcraft.secondAge.weapons.veinSword">
                 <tag>veinSword</tag>
-                <paragraph>infoBook.secondAge.weapons.veinSword.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.weapons.veinSword.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:veinSword</appendix>
             </section>
-            <section name="infoBook.secondAge.weapons.maceOfDistortion">
+            <section name="infoBook.evilcraft.secondAge.weapons.maceOfDistortion">
                 <tag>maceOfDistortion</tag>
-                <paragraph>infoBook.secondAge.weapons.maceOfDistortion.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.weapons.maceOfDistortion.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:maceOfDistortion</appendix>
             </section>
-            <section name="infoBook.secondAge.weapons.necromancerStaff">
+            <section name="infoBook.evilcraft.secondAge.weapons.necromancerStaff">
                 <tag>necromancerStaff</tag>
-                <paragraph>infoBook.secondAge.weapons.necromancerStaff.text1</paragraph>
-                <paragraph>infoBook.secondAge.weapons.necromancerStaff.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.weapons.necromancerStaff.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.weapons.necromancerStaff.text2</paragraph>
                 <appendix type="craftingRecipe">evilcraft:necromancerStaff</appendix>
             </section>
         </section>
-        <section name="infoBook.secondAge.abusingSpirits">
-            <section name="infoBook.secondAge.abusingSpirits.infusingSpirits">
-                <paragraph>infoBook.secondAge.abusingSpirits.infusingSpirits.text</paragraph>
+        <section name="infoBook.evilcraft.secondAge.abusingSpirits">
+            <section name="infoBook.evilcraft.secondAge.abusingSpirits.infusingSpirits">
+                <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.infusingSpirits.text</paragraph>
             </section>
-            <section name="infoBook.secondAge.abusingSpirits.spiritFurnace">
+            <section name="infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace">
                 <tag>darkBloodBrick</tag>
                 <tag>spiritFurnace</tag>
-                <paragraph>infoBook.secondAge.abusingSpirits.spiritFurnace.text1</paragraph>
-                <paragraph>infoBook.secondAge.abusingSpirits.spiritFurnace.text2</paragraph>
-                <paragraph>infoBook.secondAge.abusingSpirits.spiritFurnace.text3</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text3</paragraph>
                 <appendix type="image" width="120" height="135">evilcraft:textures/gui/infobook/spiritFurnace.png</appendix>
                 <appendix type="bloodInfuserRecipe">evilcraft:darkBloodBrick</appendix>
                 <appendix type="craftingRecipe">evilcraft:spiritFurnace</appendix>
             </section>
-            <section name="infoBook.secondAge.abusingSpirits.spiritReanimator">
+            <section name="infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator">
                 <tag>spiritReanimator</tag>
-                <paragraph>infoBook.secondAge.abusingSpirits.spiritReanimator.text1</paragraph>
-                <paragraph>infoBook.secondAge.abusingSpirits.spiritReanimator.text2</paragraph>
-                <paragraph>infoBook.secondAge.abusingSpirits.spiritReanimator.text3</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text3</paragraph>
                 <appendix type="craftingRecipe">evilcraft:spiritReanimator</appendix>
             </section>
         </section>
     </section>
-    <section name="infoBook.modIntegrations">
-        <section name="infoBook.modIntegrations.baubles">
+    <section name="infoBook.evilcraft.modIntegrations">
+        <section name="infoBook.evilcraft.modIntegrations.baubles">
             <tag type="mod">Baubles</tag>
-            <paragraph>infoBook.modIntegrations.baubles.text</paragraph>
+            <paragraph>infoBook.evilcraft.modIntegrations.baubles.text</paragraph>
         </section>
-        <section name="infoBook.modIntegrations.bloodMagic">
+        <section name="infoBook.evilcraft.modIntegrations.bloodMagic">
             <tag type="mod">AWWayofTime</tag>
             <tag>boundBloodDrop</tag>
-            <paragraph>infoBook.modIntegrations.bloodMagic.text</paragraph>
+            <paragraph>infoBook.evilcraft.modIntegrations.bloodMagic.text</paragraph>
             <appendix type="bloodInfuserRecipe">evilcraft:boundBloodDrop</appendix>
         </section>
-        <section name="infoBook.modIntegrations.forestry">
+        <section name="infoBook.evilcraft.modIntegrations.forestry">
             <tag type="mod">Forestry</tag>
-            <paragraph>infoBook.modIntegrations.forestry.text</paragraph>
+            <paragraph>infoBook.evilcraft.modIntegrations.forestry.text</paragraph>
         </section>
-        <section name="infoBook.modIntegrations.nei">
+        <section name="infoBook.evilcraft.modIntegrations.nei">
             <tag type="mod">NotEnoughItems</tag>
-            <paragraph>infoBook.modIntegrations.nei.text</paragraph>
+            <paragraph>infoBook.evilcraft.modIntegrations.nei.text</paragraph>
         </section>
-        <section name="infoBook.modIntegrations.thaumcraft">
+        <section name="infoBook.evilcraft.modIntegrations.thaumcraft">
             <tag type="mod">Thaumcraft</tag>
             <tag>veinedScribingTools</tag>
             <tag>bloodWandCap</tag>
-            <paragraph>infoBook.modIntegrations.thaumcraft.text</paragraph>
+            <paragraph>infoBook.evilcraft.modIntegrations.thaumcraft.text</paragraph>
             <appendix type="craftingRecipe" index="0">evilcraft:veinedScribingTools</appendix>
             <appendix type="craftingRecipe" index="1">evilcraft:veinedScribingTools</appendix>
             <appendix type="bloodInfuserRecipe">evilcraft:bloodWandCap</appendix>
         </section>
-        <section name="infoBook.modIntegrations.thermalExpansion">
+        <section name="infoBook.evilcraft.modIntegrations.thermalExpansion">
             <tag type="mod">ThermalExpansion</tag>
-            <paragraph>infoBook.modIntegrations.thermalExpansion.text</paragraph>
+            <paragraph>infoBook.evilcraft.modIntegrations.thermalExpansion.text</paragraph>
         </section>
-        <section name="infoBook.modIntegrations.tinkersConstruct">
+        <section name="infoBook.evilcraft.modIntegrations.tinkersConstruct">
             <tag type="mod">TConstruct</tag>
-            <paragraph>infoBook.modIntegrations.tinkersConstruct.text</paragraph>
+            <paragraph>infoBook.evilcraft.modIntegrations.tinkersConstruct.text</paragraph>
         </section>
-        <section name="infoBook.modIntegrations.waila">
+        <section name="infoBook.evilcraft.modIntegrations.waila">
             <tag type="mod">Waila</tag>
-            <paragraph>infoBook.modIntegrations.waila.text</paragraph>
+            <paragraph>infoBook.evilcraft.modIntegrations.waila.text</paragraph>
         </section>
     </section>
 </section>

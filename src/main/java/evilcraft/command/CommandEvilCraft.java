@@ -1,12 +1,12 @@
 package evilcraft.command;
 
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.ServerHelpers;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.HashMap;
 import java.util.LinkedList;

@@ -1,6 +1,5 @@
 package evilcraft.modcompat.waila;
 
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
 import mcp.mobius.waila.api.IWailaConfigHandler;

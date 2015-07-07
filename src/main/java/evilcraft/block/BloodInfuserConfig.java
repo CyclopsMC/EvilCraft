@@ -2,14 +2,14 @@ package evilcraft.block;
 
 import com.google.common.collect.Sets;
 import evilcraft.EvilCraft;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
-import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.tileentity.TileWorking;
 import evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import net.minecraft.item.ItemBlock;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 
 import java.util.Set;
 

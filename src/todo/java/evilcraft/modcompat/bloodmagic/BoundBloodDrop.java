@@ -7,7 +7,6 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.helper.ItemHelpers;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.fluid.Blood;
 import net.minecraft.creativetab.CreativeTabs;

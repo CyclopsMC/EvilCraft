@@ -1,10 +1,7 @@
 package evilcraft.entity.item;
 
 import evilcraft.Configs;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.MathHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.item.Broom;
 import evilcraft.item.BroomConfig;
 import net.minecraft.client.Minecraft;
@@ -16,6 +13,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
 

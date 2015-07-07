@@ -5,10 +5,7 @@ import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.BloodStainedBlockConfig;
 import evilcraft.client.particle.EntityBloodSplashFX;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.ItemHelpers;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.fluid.Blood;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -27,6 +24,9 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.ItemFluidContainer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.List;
 
@@ -70,7 +70,7 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-        		getUnlocalizedName() + ".info.autoSupply");
+                getUnlocalizedName() + ".info.autoSupply");
     }
     
     @Override

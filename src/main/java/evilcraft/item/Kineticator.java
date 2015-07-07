@@ -3,10 +3,7 @@ package evilcraft.item;
 import com.google.common.base.Predicate;
 import evilcraft.client.particle.EntityBlurFX;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.ItemHelpers;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.entity.item.EntityItemUndespawnable;
 import evilcraft.fluid.Blood;
 import net.minecraft.client.Minecraft;
@@ -25,6 +22,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.List;
 import java.util.Random;
@@ -94,7 +94,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-        		getUnlocalizedName() + ".info" + (isRepelling(itemStack) ? ".repelling" : "") + ".attraction");
+                getUnlocalizedName() + ".info" + (isRepelling(itemStack) ? ".repelling" : "") + ".attraction");
         list.add(EnumChatFormatting.BOLD
         		+ L10NHelpers.localize(getUnlocalizedName() + ".info.area", getArea(itemStack)));
     }

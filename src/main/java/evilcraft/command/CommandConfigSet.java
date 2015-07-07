@@ -2,13 +2,12 @@ package evilcraft.command;
 
 import evilcraft.EvilCraft;
 import evilcraft.core.helper.Helpers;
-import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.config.Configuration;
-import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.ConfigProperty;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.HashMap;
 import java.util.LinkedList;

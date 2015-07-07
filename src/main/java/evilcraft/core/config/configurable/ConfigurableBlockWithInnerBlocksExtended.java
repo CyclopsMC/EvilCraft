@@ -1,6 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.tileentity.InnerBlocksTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -17,6 +16,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
 

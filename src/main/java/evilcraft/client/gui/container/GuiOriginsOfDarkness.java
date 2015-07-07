@@ -4,8 +4,6 @@ import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.core.algorithm.EvictingStack;
 import evilcraft.core.helper.InventoryHelpers;
-import evilcraft.core.helper.L10NHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.HyperLink;
@@ -26,6 +24,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;

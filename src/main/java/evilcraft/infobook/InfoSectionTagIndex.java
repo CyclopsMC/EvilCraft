@@ -2,11 +2,11 @@ package evilcraft.infobook;
 
 import com.google.common.collect.Maps;
 import evilcraft.EvilCraft;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.infobook.pageelement.SectionAppendix;
 import net.minecraft.client.gui.FontRenderer;
 import org.apache.commons.lang3.tuple.Pair;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -3,8 +3,6 @@ package evilcraft.tileentity;
 import evilcraft.Configs;
 import evilcraft.EvilCraft;
 import evilcraft.client.particle.EntityBlurFX;
-import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
-import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import evilcraft.item.OriginsOfDarkness;
 import evilcraft.item.OriginsOfDarknessConfig;
 import net.minecraft.client.Minecraft;
@@ -16,6 +14,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 import java.util.List;
 import java.util.Random;

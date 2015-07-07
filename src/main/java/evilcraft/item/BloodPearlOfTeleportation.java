@@ -1,14 +1,14 @@
 package evilcraft.item;
 
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.entity.item.EntityBloodPearl;
 import evilcraft.fluid.Blood;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Ender pearl that runs on blood.

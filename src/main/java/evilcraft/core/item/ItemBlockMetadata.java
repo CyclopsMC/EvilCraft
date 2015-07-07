@@ -2,7 +2,6 @@ package evilcraft.core.item;
 
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
-import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -10,6 +9,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.List;
 

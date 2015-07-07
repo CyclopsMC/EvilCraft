@@ -2,10 +2,10 @@ package evilcraft.item;
 
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the Crushed Dark Gem.

@@ -1,7 +1,6 @@
 package evilcraft.client.gui;
 
 import com.google.common.collect.Maps;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.inventory.IGuiContainerProvider;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

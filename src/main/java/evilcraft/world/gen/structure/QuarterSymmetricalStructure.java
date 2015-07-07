@@ -1,10 +1,10 @@
 package evilcraft.world.gen.structure;
 
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.ArrayList;
 import java.util.List;

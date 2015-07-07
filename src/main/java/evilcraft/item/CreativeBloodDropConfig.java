@@ -1,11 +1,11 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.fluid.Blood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link CreativeBloodDrop}.

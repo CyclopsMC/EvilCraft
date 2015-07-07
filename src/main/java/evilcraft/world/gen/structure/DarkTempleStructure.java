@@ -3,7 +3,6 @@ package evilcraft.world.gen.structure;
 import evilcraft.GeneralConfig;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.core.helper.DirectionHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.world.gen.nbt.DarkTempleData;
 import net.minecraft.block.Block;
@@ -13,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import javax.annotation.Nullable;
 import java.util.Random;

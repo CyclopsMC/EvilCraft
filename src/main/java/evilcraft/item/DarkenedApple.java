@@ -1,14 +1,14 @@
 package evilcraft.item;
 
 import evilcraft.core.config.configurable.ConfigurableItemFood;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import evilcraft.potion.PotionPalingConfig;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * A dark apple that will apply a killing potion effect to the entity eating the apple.

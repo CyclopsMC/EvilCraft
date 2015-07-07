@@ -2,11 +2,11 @@ package evilcraft.client.gui.container;
 
 import evilcraft.block.SpiritFurnace;
 import evilcraft.core.client.gui.container.GuiWorking;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.inventory.container.ContainerSpiritFurnace;
 import evilcraft.tileentity.TileSpiritFurnace;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.Vec3i;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.ArrayList;
 import java.util.List;

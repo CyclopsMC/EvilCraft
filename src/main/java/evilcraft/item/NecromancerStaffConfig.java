@@ -1,10 +1,10 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 
 /**
  * Config for the {@link NecromancerStaff}.

@@ -1,10 +1,10 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**

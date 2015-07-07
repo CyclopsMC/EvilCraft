@@ -1,9 +1,9 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link PromiseAcceptor}.

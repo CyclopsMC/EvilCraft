@@ -6,15 +6,15 @@ import evilcraft.api.degradation.IDegradable;
 import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.degradation.StochasticDegradationEffect;
 import evilcraft.core.helper.LocationHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.HashMap;
 import java.util.Map;

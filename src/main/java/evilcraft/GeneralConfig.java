@@ -1,6 +1,5 @@
 package evilcraft;
 
-import evilcraft.core.config.ExtendedConfigurableType;
 import evilcraft.core.fluid.BloodFluidConverter.BloodConvertersChanged;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableType;

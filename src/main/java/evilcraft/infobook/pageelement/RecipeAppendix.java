@@ -4,8 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import evilcraft.Configs;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.InfoBookParser;
@@ -17,6 +15,8 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.tuple.Pair;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 

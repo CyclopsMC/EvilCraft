@@ -1,10 +1,10 @@
 package evilcraft.core.fluid;
 
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 /**

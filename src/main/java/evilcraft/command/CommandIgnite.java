@@ -1,13 +1,13 @@
 package evilcraft.command;
 
 import com.mojang.authlib.GameProfile;
-import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.LinkedList;
 import java.util.List;

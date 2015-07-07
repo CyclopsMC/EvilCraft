@@ -1,9 +1,9 @@
 package evilcraft.block;
 
+import evilcraft.Reference;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
 import evilcraft.core.helper.EntityHelpers;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.core.world.FakeWorld;
 import evilcraft.entity.monster.VengeanceSpirit;
@@ -26,6 +26,7 @@ import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 import java.util.List;
@@ -160,7 +161,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
 	@Override
 	public String getInfo(ItemStack itemStack) {
-		String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty");
+		String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general." + Reference.MOD_ID + ".info.empty");
 		String id = getSpiritName(itemStack);
 		if(id != null) {
 			content = L10NHelpers.getLocalizedEntityName(id);

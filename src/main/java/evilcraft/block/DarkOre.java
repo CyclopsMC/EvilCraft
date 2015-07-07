@@ -3,7 +3,6 @@ package evilcraft.block;
 import evilcraft.Achievements;
 import evilcraft.Configs;
 import evilcraft.core.IInformationProvider;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.item.DarkGem;
 import evilcraft.item.DarkGemConfig;
 import evilcraft.item.DarkGemCrushedConfig;
@@ -23,6 +22,7 @@ import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
@@ -218,7 +218,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     @Override
     public String getInfo(ItemStack itemStack) {
     	return IInformationProvider.INFO_PREFIX + L10NHelpers.localize(this.getUnlocalizedName()
-    			+ ".info.custom", DarkOreConfig.startY, DarkOreConfig.endY);
+                + ".info.custom", DarkOreConfig.startY, DarkOreConfig.endY);
     }
 
     @SuppressWarnings("rawtypes")

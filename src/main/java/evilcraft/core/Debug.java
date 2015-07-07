@@ -1,8 +1,8 @@
 package evilcraft.core;
 
 import evilcraft.EvilCraft;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.apache.logging.log4j.Level;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,6 +1,5 @@
 package evilcraft.client;
 
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.FartPacket;
 import net.minecraft.client.Minecraft;
@@ -10,6 +9,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 /**
  * A {@link KeyHandler} which handles farts.

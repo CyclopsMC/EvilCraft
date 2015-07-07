@@ -1,7 +1,6 @@
 package evilcraft.modcompat.waila;
 
 import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.helper.L10NHelpers;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;

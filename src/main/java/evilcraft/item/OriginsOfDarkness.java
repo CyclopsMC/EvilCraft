@@ -1,12 +1,12 @@
 package evilcraft.item;
 
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.item.ItemGui;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * A simple orb that can be filled with blood.

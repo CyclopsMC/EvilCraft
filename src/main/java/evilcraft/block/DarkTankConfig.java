@@ -5,7 +5,6 @@ import evilcraft.client.render.tileentity.RenderTileEntityDarkTank;
 import evilcraft.core.item.ItemBlockFluidContainer;
 import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileDarkTank;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;

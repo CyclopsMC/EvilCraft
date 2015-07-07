@@ -2,7 +2,6 @@ package evilcraft.block;
 
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.tileentity.TileSanguinaryPedestal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
@@ -22,6 +21,7 @@ import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.List;
 

@@ -3,8 +3,6 @@ package evilcraft.entity.item;
 import evilcraft.Configs;
 import evilcraft.block.InvisibleRedstoneBlock;
 import evilcraft.block.InvisibleRedstoneBlockConfig;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.RedstoneGrenade;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,6 +13,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Entity for the {@link RedstoneGrenade}.

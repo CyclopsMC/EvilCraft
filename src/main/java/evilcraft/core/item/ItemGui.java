@@ -3,8 +3,6 @@ package evilcraft.core.item;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.client.gui.GuiHandler;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.Helpers;
 import evilcraft.core.helper.Helpers.IDType;
 import evilcraft.core.inventory.IGuiContainerProvider;
@@ -16,6 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Configurable item that can show a GUI on right clicking.

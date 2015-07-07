@@ -2,7 +2,6 @@ package evilcraft.core.item;
 
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.helper.ItemHelpers;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -16,6 +15,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.List;
 
@@ -185,7 +185,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(block.isActivatable()) {
 	        L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, entityPlayer.worldObj, entityPlayer),
-	        		getUnlocalizedName() + ".info.autoSupply");
+                    getUnlocalizedName() + ".info.autoSupply");
         }
     }
 

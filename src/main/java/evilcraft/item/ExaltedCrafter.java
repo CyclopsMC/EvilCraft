@@ -1,9 +1,6 @@
 package evilcraft.item;
 
 import evilcraft.client.gui.container.GuiExaltedCrafter;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.core.inventory.NBTSimpleInventory;
 import evilcraft.core.item.ItemGui;
 import evilcraft.entity.item.EntityItemEmpowerable;
@@ -21,6 +18,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
 

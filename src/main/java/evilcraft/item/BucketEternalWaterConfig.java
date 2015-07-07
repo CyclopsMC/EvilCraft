@@ -1,8 +1,6 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableItemBucket;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -14,6 +12,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.*;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItemBucket;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemBucketConfig;
 
 /**

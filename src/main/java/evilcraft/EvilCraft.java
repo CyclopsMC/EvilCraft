@@ -7,7 +7,6 @@ import evilcraft.core.helper.LoggerHelper;
 import evilcraft.event.ServerStatusEventHook;
 import evilcraft.infobook.InfoBookRegistry;
 import evilcraft.item.DarkGemConfig;
-import evilcraft.proxy.CommonProxy;
 import evilcraft.world.gen.DarkTempleGenerator;
 import evilcraft.world.gen.EvilDungeonGenerator;
 import evilcraft.world.gen.OreGenerator;

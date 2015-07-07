@@ -2,12 +2,12 @@ package evilcraft;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import org.apache.commons.io.IOUtils;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,7 +43,7 @@ public class VersionStats {
 	 * @return The latest version.
 	 */
 	public static String getVersion() {
-		return L10NHelpers.localize("general.versionCurrent", Reference.MOD_VERSION, Reference.MOD_MC_VERSION);
+		return L10NHelpers.localize("general.evilcraft.versionCurrent", Reference.MOD_VERSION, Reference.MOD_MC_VERSION);
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class VersionStats {
                         }
                     }
 					if(GeneralConfig.versionChecker && needsUpdate(versionStats)) {
-                        sendMessage(player, L10NHelpers.localize("general.versionUpdate", versionStats.mod_version, Reference.MOD_NAME, Reference.MOD_VERSION, versionStats.update_link));
+                        sendMessage(player, L10NHelpers.localize("general.evilcraft.versionUpdate", versionStats.mod_version, Reference.MOD_NAME, Reference.MOD_VERSION, versionStats.update_link));
 					}
 			}
 		    

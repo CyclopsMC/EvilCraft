@@ -2,11 +2,11 @@ package evilcraft.item;
 
 import evilcraft.EvilCraft;
 import evilcraft.block.FluidBlockBlood;
+import evilcraft.fluid.Blood;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockFluidClassic;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableFluid;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItemBucket;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import evilcraft.fluid.Blood;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemBucketConfig;
 
 /**

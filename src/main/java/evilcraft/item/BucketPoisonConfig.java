@@ -2,11 +2,11 @@ package evilcraft.item;
 
 import evilcraft.EvilCraft;
 import evilcraft.block.FluidBlockPoison;
+import evilcraft.fluid.Poison;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockFluidClassic;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableFluid;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItemBucket;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import evilcraft.fluid.Poison;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemBucketConfig;
 
 /**

@@ -1,8 +1,6 @@
 package evilcraft.entity.item;
 
 import evilcraft.Configs;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.entity.item.EntityThrowable;
 import evilcraft.item.WeatherContainer;
 import evilcraft.item.WeatherContainer.WeatherContainerTypes;
@@ -14,6 +12,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
  * Entity for the {@link WeatherContainer}.

@@ -3,13 +3,13 @@ package evilcraft.infobook;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.pageelement.SectionAppendix;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.minecraft.client.gui.FontRenderer;
 import org.apache.commons.lang3.tuple.Pair;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.*;
 

@@ -6,7 +6,6 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.client.render.tileentity.RenderTileEntityModel;
-import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 /**
  * Renderer for the {@link BloodChest}.

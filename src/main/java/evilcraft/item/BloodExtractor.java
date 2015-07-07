@@ -7,9 +7,7 @@ import evilcraft.client.particle.EntityBloodSplashFX;
 import evilcraft.core.PlayerInventoryIterator;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.ItemHelpers;
-import evilcraft.core.helper.L10NHelpers;
 import evilcraft.fluid.Blood;
 import evilcraft.tileentity.TileBloodStainedBlock;
 import net.minecraft.block.Block;
@@ -25,7 +23,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.List;
 import java.util.Random;
@@ -91,7 +91,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-        		getUnlocalizedName() + ".info.autoSupply");
+                getUnlocalizedName() + ".info.autoSupply");
     }
     
     @Override

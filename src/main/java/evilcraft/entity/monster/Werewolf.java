@@ -1,9 +1,6 @@
 package evilcraft.entity.monster;
 
 import evilcraft.Configs;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import evilcraft.entity.villager.WerewolfVillagerConfig;
 import evilcraft.item.WerewolfBoneConfig;
 import evilcraft.item.WerewolfFurConfig;
@@ -20,6 +17,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.Random;
 

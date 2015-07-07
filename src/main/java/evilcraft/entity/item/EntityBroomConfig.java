@@ -3,14 +3,14 @@ package evilcraft.entity.item;
 import evilcraft.EvilCraft;
 import evilcraft.client.render.entity.RenderBroom;
 import net.minecraft.client.Minecraft;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
-import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
-import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 
 /**
  * Config for the {@link EntityBroom}.

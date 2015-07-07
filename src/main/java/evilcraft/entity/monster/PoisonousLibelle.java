@@ -1,8 +1,6 @@
 package evilcraft.entity.monster;
 
 import evilcraft.Configs;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.PoisonSacConfig;
 import net.minecraft.entity.*;
 import net.minecraft.entity.monster.IMob;
@@ -15,6 +13,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.List;
 

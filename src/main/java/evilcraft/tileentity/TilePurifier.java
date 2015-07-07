@@ -9,7 +9,6 @@ import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.EnchantmentHelpers;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.item.BlookConfig;
@@ -27,6 +26,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 

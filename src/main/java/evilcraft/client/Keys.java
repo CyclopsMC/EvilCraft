@@ -1,8 +1,9 @@
 package evilcraft.client;
 
-import evilcraft.core.helper.L10NHelpers;
+import evilcraft.Reference;
 import evilcraft.event.KeyInputEventHook;
 import net.minecraft.client.settings.KeyBinding;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -28,7 +29,7 @@ public enum Keys {
 	/**
 	 * Prefix in the i18n file for keys.
 	 */
-	public static final String KEY_PREFIX = "key.";
+	public static final String KEY_PREFIX = "key." + Reference.MOD_ID + ".";
 	
 	/**
 	 * {@link KeyBinding} for the custom key.
