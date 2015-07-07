@@ -66,6 +66,8 @@ public class Reference {
     
     // MOD ID's
     public static final String MOD_FORGE = "Forge";
+    public static final String MOD_CYCLOPSCORE = "cyclopscore";
+    public static final String MOD_CYCLOPSCORE_MINVERSION = "@CYCLOPSCORE_VERSION@";
     public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
     public static final String MOD_WAILA = "Waila";
     public static final String MOD_FMP = "ForgeMultipart";
@@ -79,5 +81,6 @@ public class Reference {
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "required-after:Forge@[10.13.3.1360,);" // See the Forge changelog
+            + "required-after:" + Reference.MOD_CYCLOPSCORE + "" // TODO: add min version requirements
             + "after:"+Reference.MOD_THERMALEXPANSION;
 }
