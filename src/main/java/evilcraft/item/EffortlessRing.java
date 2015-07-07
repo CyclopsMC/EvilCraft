@@ -36,17 +36,6 @@ public class EffortlessRing extends ConfigurableItem { // TODO: implements IBaub
     private static EffortlessRing _instance = null;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new EffortlessRing(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -54,7 +43,7 @@ public class EffortlessRing extends ConfigurableItem { // TODO: implements IBaub
         return _instance;
     }
 
-    private EffortlessRing(ExtendedConfig<ItemConfig> eConfig) {
+    public EffortlessRing(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setMaxStackSize(1);
         MinecraftForge.EVENT_BUS.register(this);

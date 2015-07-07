@@ -18,17 +18,6 @@ public class RedstoneGrenade extends AbstractGrenade {
     private static RedstoneGrenade _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new RedstoneGrenade(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -36,7 +25,7 @@ public class RedstoneGrenade extends AbstractGrenade {
         return _instance;
     }
 
-    protected RedstoneGrenade(ExtendedConfig<ItemConfig> eConfig) {
+    public RedstoneGrenade(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
 

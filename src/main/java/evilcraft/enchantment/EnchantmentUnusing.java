@@ -16,17 +16,6 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
     private static EnchantmentUnusing _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<EnchantmentConfig> eConfig) {
-        if(_instance == null)
-            _instance = new EnchantmentUnusing(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -34,7 +23,7 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
         return _instance;
     }
 
-    private EnchantmentUnusing(ExtendedConfig<EnchantmentConfig> eConfig) {
+    public EnchantmentUnusing(ExtendedConfig<EnchantmentConfig> eConfig) {
         super(eConfig, 1, EnumEnchantmentType.ALL);
     }
     

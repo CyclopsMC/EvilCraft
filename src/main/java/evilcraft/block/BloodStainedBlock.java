@@ -25,17 +25,6 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended {
     
     private static BloodStainedBlock _instance = null;
-
-    /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new BloodStainedBlock(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
     
     /**
      * Get the unique instance.
@@ -45,7 +34,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
         return _instance;
     }
 
-    private BloodStainedBlock(ExtendedConfig<BlockConfig> eConfig) {
+    public BloodStainedBlock(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.sponge, TileBloodStainedBlock.class);
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGravel);

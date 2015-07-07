@@ -53,15 +53,6 @@ public class Debug {
                     log(config.getElement()+" has no sub-instance, even though it is enabled.");
                 }
                 
-                // initInstance(ExtendedConfig eConfig) in the sub-instance of ExtendedConfig
-                try {
-                    config.getElement().getMethod("initInstance", ExtendedConfig.class);
-                } catch (NoSuchMethodException e) {
-                    log(config.getElement()+" has no static 'initInstance(ExtendedConfig eConfig)' method.");
-                } catch (SecurityException e) {
-                    log(config.getElement()+" has a non-public static 'initInstance(ExtendedConfig eConfig)' method, make it public.");
-                }
-                
                 // getInstance() in the sub-instance of ExtendedConfig
                 try {
                     config.getElement().getMethod("getInstance");

@@ -45,17 +45,6 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     private static final int CONTAINER_SIZE = FluidContainerRegistry.BUCKET_VOLUME;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new Kineticator(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -63,7 +52,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
         return _instance;
     }
 
-    private Kineticator(ExtendedConfig<ItemConfig> eConfig) {
+    public Kineticator(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, CONTAINER_SIZE, Blood.getInstance());
     }
     

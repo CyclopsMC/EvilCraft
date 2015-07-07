@@ -52,17 +52,6 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     private BlockTankComponent<DarkTank> tankComponent = new BlockTankComponent<DarkTank>(this);
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new DarkTank(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -70,7 +59,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         return _instance;
     }
 
-    private DarkTank(ExtendedConfig<BlockConfig> eConfig) {
+    public DarkTank(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.glass, TileDarkTank.class);
         this.setDefaultState(this.blockState.getBaseState().withProperty(DRAINING, false));
         this.setHardness(0.5F);

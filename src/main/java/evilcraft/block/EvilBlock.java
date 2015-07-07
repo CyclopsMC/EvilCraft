@@ -21,17 +21,6 @@ public class EvilBlock extends ConfigurableBlock {
     private static EvilBlock _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new EvilBlock(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -39,7 +28,7 @@ public class EvilBlock extends ConfigurableBlock {
         return _instance;
     }
 
-    private EvilBlock(ExtendedConfig<BlockConfig> eConfig) {
+    public EvilBlock(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
         this.setHardness(0.5F);
         this.setStepSound(Block.soundTypeMetal);

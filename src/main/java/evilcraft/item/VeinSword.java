@@ -28,17 +28,6 @@ public class VeinSword extends ConfigurableItemSword {
 	public static final int LOOTING_LEVEL = 2;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new VeinSword(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -46,7 +35,7 @@ public class VeinSword extends ConfigurableItemSword {
         return _instance;
     }
 
-    private VeinSword(ExtendedConfig<ItemConfig> eConfig) {
+    public VeinSword(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, Item.ToolMaterial.GOLD);
         this.setMaxDamage(VeinSwordConfig.durability);
     }

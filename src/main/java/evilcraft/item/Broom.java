@@ -23,17 +23,6 @@ public class Broom extends ConfigurableItem {
     private static final float Y_SPAWN_OFFSET = 1.5f;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new Broom(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -41,7 +30,7 @@ public class Broom extends ConfigurableItem {
         return _instance;
     }
 
-    private Broom(ExtendedConfig<ItemConfig> eConfig) {
+    public Broom(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.maxStackSize = 1;
     }

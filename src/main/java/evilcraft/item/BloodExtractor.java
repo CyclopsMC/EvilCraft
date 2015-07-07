@@ -40,17 +40,6 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     private static BloodExtractor _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new BloodExtractor(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -58,7 +47,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
         return _instance;
     }
 
-    private BloodExtractor(ExtendedConfig<ItemConfig> eConfig) {
+    public BloodExtractor(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, BloodExtractorConfig.containerSize, Blood.getInstance());
         setPlaceFluids(true);
     }

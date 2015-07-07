@@ -26,17 +26,6 @@ public class EnvironmentalAccumulator
         implements IMachine<EnvironmentalAccumulator, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> {
 	
 	private static EnvironmentalAccumulator _instance = null;
-	
-	/**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-	public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new EnvironmentalAccumulator(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
     
 	/**
      * Get the unique instance.
@@ -70,7 +59,7 @@ public class EnvironmentalAccumulator
      */
     public static final int STATE_FINISHED_PROCESSING_ITEM = 3;
 
-	private EnvironmentalAccumulator(ExtendedConfig<BlockConfig> eConfig) {
+	public EnvironmentalAccumulator(ExtendedConfig<BlockConfig> eConfig) {
 		super(eConfig, Material.iron, TileEnvironmentalAccumulator.class);
 		this.setRotatable(true);
 		this.setStepSound(soundTypeMetal);

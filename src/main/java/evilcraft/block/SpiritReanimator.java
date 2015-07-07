@@ -30,17 +30,6 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
     private static SpiritReanimator _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new SpiritReanimator(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -48,7 +37,7 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
         return _instance;
     }
 
-    private SpiritReanimator(ExtendedConfig<BlockConfig> eConfig) {
+    public SpiritReanimator(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock, TileSpiritReanimator.class);
         this.setHardness(5.0F);
         this.setStepSound(soundTypeStone);

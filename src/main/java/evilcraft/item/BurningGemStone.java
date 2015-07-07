@@ -18,17 +18,6 @@ public class BurningGemStone extends ConfigurableItem {
     private static BurningGemStone _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new BurningGemStone(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -36,7 +25,7 @@ public class BurningGemStone extends ConfigurableItem {
         return _instance;
     }
 
-    private BurningGemStone(ExtendedConfig<ItemConfig> eConfig) {
+    public BurningGemStone(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.maxStackSize = 1;
         this.setMaxDamage(BurningGemStoneConfig.maxDamage);

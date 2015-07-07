@@ -25,17 +25,6 @@ public class FluidBlockPoison extends ConfigurableBlockFluidClassic {
     private static final int POISON_DURATION = 5;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new FluidBlockPoison(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -43,7 +32,7 @@ public class FluidBlockPoison extends ConfigurableBlockFluidClassic {
         return _instance;
     }
 
-    private FluidBlockPoison(ExtendedConfig<BlockConfig> eConfig) {
+    public FluidBlockPoison(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Poison.getInstance(), Material.water);
         
         if (MinecraftHelpers.isClientSide())

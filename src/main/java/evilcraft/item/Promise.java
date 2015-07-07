@@ -62,17 +62,6 @@ public class Promise extends ConfigurableItem {
     private TextureAtlasSprite overlay;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new Promise(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -80,7 +69,7 @@ public class Promise extends ConfigurableItem {
         return _instance;
     }
 
-    private Promise(ExtendedConfig<ItemConfig> eConfig) {
+    public Promise(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setMaxStackSize(4);
         this.setHasSubtypes(true);

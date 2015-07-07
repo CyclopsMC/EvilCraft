@@ -24,17 +24,6 @@ public class BloodOrb extends ConfigurableItem {
     private TextureAtlasSprite filled;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new BloodOrb(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -42,7 +31,7 @@ public class BloodOrb extends ConfigurableItem {
         return _instance;
     }
 
-    private BloodOrb(ExtendedConfig<ItemConfig> eConfig) {
+    public BloodOrb(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);

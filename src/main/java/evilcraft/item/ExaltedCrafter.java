@@ -39,17 +39,6 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     private TextureAtlasSprite woodenIcon;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new ExaltedCrafter(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -57,7 +46,7 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
         return _instance;
     }
 
-    private ExaltedCrafter(ExtendedConfig<ItemConfig> eConfig) {
+    public ExaltedCrafter(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setMaxStackSize(1);
         

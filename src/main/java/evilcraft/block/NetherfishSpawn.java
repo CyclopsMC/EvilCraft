@@ -25,17 +25,6 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     private static NetherfishSpawn _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new NetherfishSpawn(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -43,7 +32,7 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
         return _instance;
     }
 
-    private NetherfishSpawn(ExtendedConfig<BlockConfig> eConfig) {
+    public NetherfishSpawn(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.clay);
         this.setHardness(0.0F);
     }

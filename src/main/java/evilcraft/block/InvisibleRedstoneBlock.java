@@ -27,18 +27,8 @@ import java.util.Random;
  *
  */
 public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
-    private static InvisibleRedstoneBlock _instance = null;
 
-    /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if (_instance == null)
-            _instance = new InvisibleRedstoneBlock(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
+    private static InvisibleRedstoneBlock _instance = null;
 
     /**
      * Get the unique instance.
@@ -48,7 +38,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
         return _instance;
     }
 
-    private InvisibleRedstoneBlock(ExtendedConfig<BlockConfig> eConfig) {
+    public InvisibleRedstoneBlock(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.air, TileInvisibleRedstoneBlock.class);
         setHardness(5.0F);
         setResistance(10.0F);

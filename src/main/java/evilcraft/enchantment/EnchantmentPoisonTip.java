@@ -20,17 +20,6 @@ public class EnchantmentPoisonTip extends ConfigurableEnchantment {
     private static final int POISON_BASE_DURATION = 2;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<EnchantmentConfig> eConfig) {
-        if(_instance == null)
-            _instance = new EnchantmentPoisonTip(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -38,7 +27,7 @@ public class EnchantmentPoisonTip extends ConfigurableEnchantment {
         return _instance;
     }
 
-    private EnchantmentPoisonTip(ExtendedConfig<EnchantmentConfig> eConfig) {
+    public EnchantmentPoisonTip(ExtendedConfig<EnchantmentConfig> eConfig) {
         super(eConfig, 1, EnumEnchantmentType.WEAPON);
     }
     

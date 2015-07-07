@@ -15,24 +15,13 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
- * Block that can collect the weather and stuff.
- * @author immortaleeb
+ * Portal for throwing in your book and stuff.
+ * @author rubensworks
  *
  */
 public class SpiritPortal extends ConfigurableBlockContainer {
 
 	private static SpiritPortal _instance = null;
-
-	/**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-	public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new SpiritPortal(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
 
 	/**
      * Get the unique instance.
@@ -42,7 +31,7 @@ public class SpiritPortal extends ConfigurableBlockContainer {
         return _instance;
     }
 
-	private SpiritPortal(ExtendedConfig<BlockConfig> eConfig) {
+	public SpiritPortal(ExtendedConfig<BlockConfig> eConfig) {
 		super(eConfig, Material.iron, TileSpiritPortal.class);
 		this.setRotatable(true);
 		this.setStepSound(soundTypeCloth);

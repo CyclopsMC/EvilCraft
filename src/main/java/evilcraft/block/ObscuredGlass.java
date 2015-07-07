@@ -26,17 +26,6 @@ public class ObscuredGlass extends ConfigurableBlock {
     private static ObscuredGlass _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new ObscuredGlass(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -44,7 +33,7 @@ public class ObscuredGlass extends ConfigurableBlock {
         return _instance;
     }
 
-    private ObscuredGlass(ExtendedConfig<BlockConfig> eConfig) {
+    public ObscuredGlass(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.glass);
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGlass);

@@ -25,17 +25,6 @@ public class DarkenedApple extends ConfigurableItemFood {
     private static DarkenedApple _instance = null;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new DarkenedApple(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -43,7 +32,7 @@ public class DarkenedApple extends ConfigurableItemFood {
         return _instance;
     }
 
-    private DarkenedApple(ExtendedConfig<ItemConfig> eConfig) {
+    public DarkenedApple(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, 0, 0, false);
         this.setAlwaysEdible();
         this.setPotionEffect(POTION_ID, POTION_DURATION, POTION_AMPLIFIER, 1);

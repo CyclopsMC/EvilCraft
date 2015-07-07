@@ -32,17 +32,6 @@ public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerab
     public static final int EMPOWERED_META = 1;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new InvertedPotentia(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -50,7 +39,7 @@ public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerab
         return _instance;
     }
 
-    private InvertedPotentia(ExtendedConfig<ItemConfig> eConfig) {
+    public InvertedPotentia(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setMaxStackSize(1);
     }

@@ -28,17 +28,6 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     private static FluidBlockBlood _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new FluidBlockBlood(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -46,7 +35,7 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
         return _instance;
     }
 
-    private FluidBlockBlood(ExtendedConfig<BlockConfig> eConfig) {
+    public FluidBlockBlood(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Blood.getInstance(), Material.water);
         
         if (MinecraftHelpers.isClientSide())

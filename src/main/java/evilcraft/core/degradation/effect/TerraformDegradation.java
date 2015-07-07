@@ -31,17 +31,6 @@ public class TerraformDegradation extends StochasticDegradationEffect {
 private static TerraformDegradation _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        if(_instance == null)
-            _instance = new TerraformDegradation(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -99,7 +88,7 @@ private static TerraformDegradation _instance = null;
         mapValue.put(value, chance);
     }
     
-    private TerraformDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+    public TerraformDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig, CHANCE);
     }
 

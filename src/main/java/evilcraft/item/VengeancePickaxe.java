@@ -32,17 +32,6 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
     private static VengeancePickaxe _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new VengeancePickaxe(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -50,7 +39,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
         return _instance;
     }
 
-    private VengeancePickaxe(ExtendedConfig<ItemConfig> eConfig) {
+    public VengeancePickaxe(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, Item.ToolMaterial.EMERALD);
         this.setMaxDamage(154);
         this.efficiencyOnProperMaterial *= 1.250F;

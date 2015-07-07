@@ -18,17 +18,6 @@ public class OriginsOfDarkness extends ItemGui {
     private static OriginsOfDarkness _instance = null;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new OriginsOfDarkness(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -36,7 +25,7 @@ public class OriginsOfDarkness extends ItemGui {
         return _instance;
     }
 
-    private OriginsOfDarkness(ExtendedConfig<ItemConfig> eConfig) {
+    public OriginsOfDarkness(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setMaxStackSize(1);
 

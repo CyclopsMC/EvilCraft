@@ -28,17 +28,6 @@ public class NecromancerStaff extends ConfigurableDamageIndicatedItemFluidContai
     private static final int CONTAINER_SIZE = NecromancerStaffConfig.capacity;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new NecromancerStaff(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -46,7 +35,7 @@ public class NecromancerStaff extends ConfigurableDamageIndicatedItemFluidContai
         return _instance;
     }
 
-    private NecromancerStaff(ExtendedConfig<ItemConfig> eConfig) {
+    public NecromancerStaff(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, CONTAINER_SIZE, Blood.getInstance());
     }
     

@@ -20,17 +20,6 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
     private static EnchantmentBreaking _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<EnchantmentConfig> eConfig) {
-        if(_instance == null)
-            _instance = new EnchantmentBreaking(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -38,7 +27,7 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
         return _instance;
     }
 
-    private EnchantmentBreaking(ExtendedConfig<EnchantmentConfig> eConfig) {
+    public EnchantmentBreaking(ExtendedConfig<EnchantmentConfig> eConfig) {
         super(eConfig, 10, EnumEnchantmentType.WEAPON);
     }
     

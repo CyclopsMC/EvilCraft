@@ -21,17 +21,6 @@ public class PalingDegradation extends ConfigurableDegradationEffect {
     private static PalingDegradation _instance = null;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        if(_instance == null)
-            _instance = new PalingDegradation(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -42,7 +31,7 @@ public class PalingDegradation extends ConfigurableDegradationEffect {
     private static final int MINIMUM_DEGRADATION = 10;
     private static final int PALING_DURATION_MULTIPLIER = 20 * 5;
 
-    private PalingDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+    public PalingDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig);
     }
 

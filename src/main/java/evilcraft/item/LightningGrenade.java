@@ -18,17 +18,6 @@ public class LightningGrenade extends AbstractGrenade {
     private static LightningGrenade _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new LightningGrenade(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -36,7 +25,7 @@ public class LightningGrenade extends AbstractGrenade {
         return _instance;
     }
 
-    private LightningGrenade(ExtendedConfig<ItemConfig> eConfig) {
+    public LightningGrenade(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
 

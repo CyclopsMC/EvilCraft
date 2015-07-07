@@ -35,17 +35,6 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     private static SpiritFurnace _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new SpiritFurnace(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -53,7 +42,7 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
         return _instance;
     }
 
-    private SpiritFurnace(ExtendedConfig<BlockConfig> eConfig) {
+    public SpiritFurnace(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock, TileSpiritFurnace.class);
         this.setHardness(5.0F);
         this.setStepSound(soundTypeStone);

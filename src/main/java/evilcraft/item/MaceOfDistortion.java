@@ -59,17 +59,6 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     private static final int POWER_LEVELS = 5;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new MaceOfDistortion(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -77,7 +66,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
         return _instance;
     }
 
-    private MaceOfDistortion(ExtendedConfig<ItemConfig> eConfig) {
+    public MaceOfDistortion(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, CONTAINER_SIZE, Blood.getInstance());
     }
     

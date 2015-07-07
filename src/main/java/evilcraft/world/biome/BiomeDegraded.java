@@ -20,17 +20,6 @@ public class BiomeDegraded extends ConfigurableBiome {
     private static BiomeDegraded _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BiomeConfig> eConfig) {
-        if(_instance == null)
-            _instance = new BiomeDegraded(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -38,7 +27,7 @@ public class BiomeDegraded extends ConfigurableBiome {
         return _instance;
     }
 
-    private BiomeDegraded(ExtendedConfig<BiomeConfig> eConfig) {
+    public BiomeDegraded(ExtendedConfig<BiomeConfig> eConfig) {
         super(eConfig.downCast());
         this.setHeight(height_MidPlains);
         this.setTemperatureRainfall(0.8F, 0.9F);

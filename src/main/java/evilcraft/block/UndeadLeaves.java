@@ -30,17 +30,6 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
     private EntityDropParticleFXBlockComponent entityDropParticleFXBlockComponent;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new UndeadLeaves(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -48,7 +37,7 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
         return _instance;
     }
 
-    private UndeadLeaves(ExtendedConfig<BlockConfig> eConfig) {
+    public UndeadLeaves(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig);
         
         setHardness(0.2F);

@@ -34,17 +34,6 @@ public class PromiseAcceptor extends ConfigurableItem {
     private TextureAtlasSprite overlay;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new PromiseAcceptor(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -52,7 +41,7 @@ public class PromiseAcceptor extends ConfigurableItem {
         return _instance;
     }
 
-    private PromiseAcceptor(ExtendedConfig<ItemConfig> eConfig) {
+    public PromiseAcceptor(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);

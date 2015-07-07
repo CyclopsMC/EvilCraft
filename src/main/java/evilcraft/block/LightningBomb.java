@@ -33,17 +33,6 @@ public class LightningBomb extends ConfigurableBlock {
     public static final PropertyBool PRIMED = PropertyBool.create("enabled");
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new LightningBomb(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -51,7 +40,7 @@ public class LightningBomb extends ConfigurableBlock {
         return _instance;
     }
 
-    private LightningBomb(ExtendedConfig<BlockConfig> eConfig) {
+    public LightningBomb(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.tnt);
         this.setDefaultState(this.blockState.getBaseState().withProperty(PRIMED, false));
         this.setHardness(0.0F);

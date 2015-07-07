@@ -42,17 +42,6 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     private static BoxOfEternalClosure _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new BoxOfEternalClosure(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -60,7 +49,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
         return _instance;
     }
 
-    private BoxOfEternalClosure(ExtendedConfig<BlockConfig> eConfig) {
+    public BoxOfEternalClosure(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileBoxOfEternalClosure.class);
         
         this.setHardness(2.5F);

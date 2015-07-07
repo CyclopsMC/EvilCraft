@@ -15,17 +15,6 @@ public class Poison extends ConfigurableFluid {
     private static Poison _instance = null;
     
     /**
-     * Make the unique instance.
-     * @param eConfig config
-     */
-    public static void initInstance(ExtendedConfig<FluidConfig> eConfig) {
-        if(_instance == null)
-            _instance = new Poison(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The unique instance.
      */
@@ -33,7 +22,7 @@ public class Poison extends ConfigurableFluid {
         return _instance;
     }
 
-    private Poison(ExtendedConfig<FluidConfig> eConfig) {
+    public Poison(ExtendedConfig<FluidConfig> eConfig) {
         super(eConfig);
         setDensity(1000); // How tick the fluid is, affects movement inside the liquid.
         setViscosity(1000); // How fast the fluid flows.

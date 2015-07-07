@@ -22,17 +22,6 @@ public class DarkPowerGemBlock extends ConfigurableBlock {
     private static DarkPowerGemBlock _instance = null;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new DarkPowerGemBlock(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -40,7 +29,7 @@ public class DarkPowerGemBlock extends ConfigurableBlock {
         return _instance;
     }
 
-    private DarkPowerGemBlock(ExtendedConfig<BlockConfig> eConfig) {
+    public DarkPowerGemBlock(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
         this.setHardness(5.0F);
         this.setStepSound(soundTypeMetal);

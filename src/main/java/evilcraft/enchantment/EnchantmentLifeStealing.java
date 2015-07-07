@@ -16,17 +16,6 @@ public class EnchantmentLifeStealing extends ConfigurableEnchantment {
     private static EnchantmentLifeStealing _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<EnchantmentConfig> eConfig) {
-        if(_instance == null)
-            _instance = new EnchantmentLifeStealing(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -34,7 +23,7 @@ public class EnchantmentLifeStealing extends ConfigurableEnchantment {
         return _instance;
     }
 
-    private EnchantmentLifeStealing(ExtendedConfig<EnchantmentConfig> eConfig) {
+    public EnchantmentLifeStealing(ExtendedConfig<EnchantmentConfig> eConfig) {
         super(eConfig, 3, EnumEnchantmentType.WEAPON);
     }
     

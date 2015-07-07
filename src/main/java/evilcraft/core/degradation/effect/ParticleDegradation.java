@@ -21,17 +21,6 @@ public class ParticleDegradation extends ConfigurableDegradationEffect {
     private static ParticleDegradation _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        if(_instance == null)
-            _instance = new ParticleDegradation(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -39,7 +28,7 @@ public class ParticleDegradation extends ConfigurableDegradationEffect {
         return _instance;
     }
     
-    private ParticleDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+    public ParticleDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig);
     }
     

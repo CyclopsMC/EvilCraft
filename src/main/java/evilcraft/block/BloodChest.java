@@ -26,17 +26,6 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
     private static BloodChest _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new BloodChest(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -44,7 +33,7 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
         return _instance;
     }
 
-    private BloodChest(ExtendedConfig<BlockConfig> eConfig) {
+    public BloodChest(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.wood, TileBloodChest.class);
         
         this.setHardness(2.5F);

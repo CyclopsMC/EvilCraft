@@ -23,17 +23,6 @@ public class WerewolfVillager extends ConfigurableVillager {
     private static WerewolfVillager _instance = null;
     
     /**
-     * Initialize the unique instance.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<VillagerConfig> eConfig) {
-        if(_instance == null)
-            _instance = new WerewolfVillager(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return Unique instance.
      */

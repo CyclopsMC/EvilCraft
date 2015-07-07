@@ -15,17 +15,6 @@ public class Blood extends ConfigurableFluid {
     private static Blood _instance = null;
     
     /**
-     * Make the unique instance.
-     * @param eConfig config
-     */
-    public static void initInstance(ExtendedConfig<FluidConfig> eConfig) {
-        if(_instance == null)
-            _instance = new Blood(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The unique instance.
      */
@@ -33,7 +22,7 @@ public class Blood extends ConfigurableFluid {
         return _instance;
     }
 
-    private Blood(ExtendedConfig<FluidConfig> eConfig) {
+    public Blood(ExtendedConfig<FluidConfig> eConfig) {
         super(eConfig);
         setDensity(1500); // How tick the fluid is, affects movement inside the liquid.
         setViscosity(3000); // How fast the fluid flows.

@@ -33,17 +33,6 @@ public class HardenedBlood extends ConfigurableBlock {
     private static HardenedBlood _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new HardenedBlood(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -51,7 +40,7 @@ public class HardenedBlood extends ConfigurableBlock {
         return _instance;
     }
 
-    private HardenedBlood(ExtendedConfig<BlockConfig> eConfig) {
+    public HardenedBlood(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.ice);
         this.setStepSound(soundTypeStone);
         this.setHardness(0.5F);

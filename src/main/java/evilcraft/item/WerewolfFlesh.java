@@ -38,17 +38,6 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     
     private boolean power = false;
     
-    /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new WerewolfFlesh(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
     	if(isHumanFlesh(itemStack)) {
@@ -65,7 +54,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
         return _instance;
     }
 
-    private WerewolfFlesh(ExtendedConfig<ItemConfig> eConfig) {
+    public WerewolfFlesh(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, -5, 0, false);
         setHasSubtypes(true);
         setAlwaysEdible();

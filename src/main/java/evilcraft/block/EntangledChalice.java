@@ -42,18 +42,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 	
     private static EntangledChalice _instance = null;
     
-    private BlockTankComponent<EntangledChalice> tankComponent = new BlockTankComponent<EntangledChalice>(this); 
-    
-    /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new EntangledChalice(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
+    private BlockTankComponent<EntangledChalice> tankComponent = new BlockTankComponent<EntangledChalice>(this);
     
     /**
      * Get the unique instance.
@@ -63,7 +52,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
         return _instance;
     }
 
-    private EntangledChalice(ExtendedConfig<BlockConfig> eConfig) {
+    public EntangledChalice(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileEntangledChalice.class);
         this.setDefaultState(this.blockState.getBaseState().withProperty(SUPPLY, false));
     }

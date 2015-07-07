@@ -20,17 +20,6 @@ public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
     private static KnockbackDistortDegradation _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        if(_instance == null)
-            _instance = new KnockbackDistortDegradation(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -41,7 +30,7 @@ public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
     private static final int MINIMUM_DEGRADATION = 3;
     private static final int POWER_LEVEL = 1;
     
-    private KnockbackDistortDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+    public KnockbackDistortDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig);
     }
 

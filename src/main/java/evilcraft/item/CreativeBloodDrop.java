@@ -42,17 +42,6 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
     private static final int MB_FILL_PERTICK = 1000;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new CreativeBloodDrop(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -60,7 +49,7 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
         return _instance;
     }
 
-    private CreativeBloodDrop(ExtendedConfig<ItemConfig> eConfig) {
+    public CreativeBloodDrop(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, MB_FILL_PERTICK, Blood.getInstance());
         setPlaceFluids(true);
     }

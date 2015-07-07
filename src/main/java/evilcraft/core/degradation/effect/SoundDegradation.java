@@ -20,17 +20,6 @@ public class SoundDegradation extends StochasticDegradationEffect {
     private static SoundDegradation _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        if(_instance == null)
-            _instance = new SoundDegradation(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -40,7 +29,7 @@ public class SoundDegradation extends StochasticDegradationEffect {
     
     private static final double CHANCE = 0.1D;
     
-    private SoundDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+    public SoundDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig, CHANCE);
     }
 

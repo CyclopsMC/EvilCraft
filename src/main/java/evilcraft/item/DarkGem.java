@@ -28,17 +28,6 @@ public class DarkGem extends ConfigurableItem {
     private static final int TICK_MODULUS = 5;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new DarkGem(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -46,7 +35,7 @@ public class DarkGem extends ConfigurableItem {
         return _instance;
     }
 
-    private DarkGem(ExtendedConfig<ItemConfig> eConfig) {
+    public DarkGem(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
     

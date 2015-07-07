@@ -31,17 +31,6 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
     private static DarkBloodBrick _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new DarkBloodBrick(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -49,7 +38,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
         return _instance;
     }
 
-    private DarkBloodBrick(ExtendedConfig<BlockConfig> eConfig) {
+    public DarkBloodBrick(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
         this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
         this.setHardness(5.0F);

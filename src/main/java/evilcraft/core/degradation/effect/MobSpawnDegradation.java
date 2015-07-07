@@ -23,17 +23,6 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
     private static MobSpawnDegradation _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        if(_instance == null)
-            _instance = new MobSpawnDegradation(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -43,7 +32,7 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
     
     private static final double CHANCE = 0.01D;
     
-    private MobSpawnDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+    public MobSpawnDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig, CHANCE);
     }
     

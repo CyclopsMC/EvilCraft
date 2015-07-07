@@ -37,17 +37,6 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
     private static SanguinaryPedestal _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new SanguinaryPedestal(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -55,7 +44,7 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
         return _instance;
     }
 
-    private SanguinaryPedestal(ExtendedConfig<BlockConfig> eConfig) {
+    public SanguinaryPedestal(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileSanguinaryPedestal.class);
         this.setDefaultState(this.blockState.getBaseState().withProperty(TIER, 0));
     }

@@ -21,17 +21,6 @@ public class NauseateDegradation extends ConfigurableDegradationEffect {
     private static NauseateDegradation _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        if(_instance == null)
-            _instance = new NauseateDegradation(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -42,7 +31,7 @@ public class NauseateDegradation extends ConfigurableDegradationEffect {
     private static final int MINIMUM_DEGRADATION = 5;
     private static final int NAUSEA_DURATION_MULTIPLIER = 20 * 4;
     
-    private NauseateDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+    public NauseateDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig);
     }
 

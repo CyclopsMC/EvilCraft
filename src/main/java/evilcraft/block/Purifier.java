@@ -34,17 +34,6 @@ public class Purifier extends ConfigurableBlockContainer {
     private static Purifier _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new Purifier(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -52,7 +41,7 @@ public class Purifier extends ConfigurableBlockContainer {
         return _instance;
     }
 
-    private Purifier(ExtendedConfig<BlockConfig> eConfig) {
+    public Purifier(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TilePurifier.class);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FILL, 0));
     }

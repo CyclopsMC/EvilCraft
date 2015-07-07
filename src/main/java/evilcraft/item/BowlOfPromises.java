@@ -31,17 +31,6 @@ public class BowlOfPromises extends ConfigurableItem {
     private TextureAtlasSprite active;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new BowlOfPromises(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -49,7 +38,7 @@ public class BowlOfPromises extends ConfigurableItem {
         return _instance;
     }
 
-    private BowlOfPromises(ExtendedConfig<ItemConfig> eConfig) {
+    public BowlOfPromises(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);

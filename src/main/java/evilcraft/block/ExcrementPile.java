@@ -52,17 +52,6 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     private static final int PIG_BOOST_DURATION = 3;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new ExcrementPile(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -70,7 +59,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
         return _instance;
     }
 
-    private ExcrementPile(ExtendedConfig<BlockConfig> eConfig) {
+    public ExcrementPile(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.clay);
         this.setDefaultState(this.blockState.getBaseState().withProperty(LAYERS_PROP, Integer.valueOf(1)));
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);

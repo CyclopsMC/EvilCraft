@@ -30,17 +30,6 @@ public class VengeanceFocus extends ConfigurableItem {
     private TextureAtlasSprite[] iconArray;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new VengeanceFocus(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -48,7 +37,7 @@ public class VengeanceFocus extends ConfigurableItem {
         return _instance;
     }
 
-    private VengeanceFocus(ExtendedConfig<ItemConfig> eConfig) {
+    public VengeanceFocus(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
     

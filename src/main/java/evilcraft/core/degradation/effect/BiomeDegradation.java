@@ -23,17 +23,6 @@ public class BiomeDegradation extends ConfigurableDegradationEffect implements I
     private static BiomeDegradation _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        if(_instance == null)
-            _instance = new BiomeDegradation(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -45,7 +34,7 @@ public class BiomeDegradation extends ConfigurableDegradationEffect implements I
     private static final BiomeGenBase BIOME = BiomeDegraded.getInstance();
     private static final int DIMENSIONS = 2;
     
-    private BiomeDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
+    public BiomeDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig);
     }
 

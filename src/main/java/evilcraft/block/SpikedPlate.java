@@ -34,17 +34,6 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
     private static SpikedPlate _instance = null;
     
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new SpikedPlate(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-    
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -52,7 +41,7 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
         return _instance;
     }
 
-    private SpikedPlate(ExtendedConfig<BlockConfig> eConfig) {
+    public SpikedPlate(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
         this.setDefaultState(this.blockState.getBaseState().withProperty(POWER, 0));
     }
