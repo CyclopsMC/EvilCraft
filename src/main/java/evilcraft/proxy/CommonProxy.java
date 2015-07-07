@@ -18,30 +18,22 @@ import org.cyclops.cyclopscore.proxy.CommonProxyComponent;
  *
  */
 public class CommonProxy extends CommonProxyComponent {
-	
-	protected static final String DEFAULT_RESOURCELOCATION_MOD = "minecraft";
 
     @Override
     protected ModBase getMod() {
         return EvilCraft._instance;
     }
 
-    /**
-     * Register renderers.
-     */
+    @Override
     public void registerRenderers() {
         // Nothing here as the server doesn't render graphics!
     }
     
-    /**
-     * Register key bindings.
-     */
+    @Override
     public void registerKeyBindings() {
     }
  
-    /**
-     * Register packet handlers.
-     */
+    @Override
     public void registerPacketHandlers() {
     	PacketHandler.init();
     	
@@ -58,16 +50,12 @@ public class CommonProxy extends CommonProxyComponent {
         EvilCraft.clog("Registered packet handler.");
     }
     
-    /**
-     * Register tick handlers.
-     */
+    @Override
     public void registerTickHandlers() {
         
     }
     
-    /**
-     * Register the event hooks
-     */
+    @Override
     public void registerEventHooks() {
     	MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());
     	MinecraftForge.EVENT_BUS.register(RetroGenRegistry.getInstance());

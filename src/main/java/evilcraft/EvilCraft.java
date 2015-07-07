@@ -49,7 +49,7 @@ public class EvilCraft extends ModBase {
      * @see net.minecraftforge.fml.common.SidedProxy
      */
     @SidedProxy(clientSide = "evilcraft.proxy.ClientProxy", serverSide = "evilcraft.proxy.CommonProxy")
-    public static CommonProxy proxy;
+    public static ICommonProxy proxy;
     
     /**
      * The unique instance of this mod.

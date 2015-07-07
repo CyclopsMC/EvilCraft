@@ -21,6 +21,8 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,9 +34,7 @@ import java.util.Map.Entry;
  * @author rubensworks
  * 
  */
-public class ClientProxy extends CommonProxy {
-	
-	private static final String SOUND_NONE = "none";
+public class ClientProxy extends ClientProxyComponent {
 
 	/**
 	 * Map for {@link Entity} renderers.
@@ -45,23 +45,11 @@ public class ClientProxy extends CommonProxy {
 	 */
 	public static Map<Class<? extends TileEntity>, TileEntitySpecialRenderer> TILE_ENTITY_RENDERERS = new HashMap<Class<? extends TileEntity>, TileEntitySpecialRenderer>();
 
-	@Override
-	public void registerRenderers() {
-		// Entity renderers
-		for (Entry<Class<? extends Entity>, Render> entry : ENTITY_RENDERERS
-				.entrySet()) {
-			RenderingRegistry.registerEntityRenderingHandler(entry.getKey(),
-					entry.getValue());
-			EvilCraft.clog("Registered " + entry.getKey() + " renderer");
-		}
+	private final CommonProxy commonProxy = new CommonProxy();
 
-		// Special TileEntity renderers
-		for (Entry<Class<? extends TileEntity>, TileEntitySpecialRenderer> entry : TILE_ENTITY_RENDERERS
-				.entrySet()) {
-			ClientRegistry.bindTileEntitySpecialRenderer(entry.getKey(),
-					entry.getValue());
-			EvilCraft.clog("Registered " + entry.getKey() + " special renderer");
-		}
+	@Override
+	protected ModBase getMod() {
+		return EvilCraft._instance;
 	}
 
 	@Override
@@ -83,37 +71,26 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void registerTickHandlers() {
-		EvilCraft.clog("Registered tick handlers");
+	public void registerPacketHandlers() {
+		super.registerPacketHandlers();
+        commonProxy.registerPacketHandlers();
 	}
+
+    @Override
+    public void registerTickHandlers() {
+        super.registerTickHandlers();
+        commonProxy.registerTickHandlers();
+    }
 
 	@Override
 	public void registerEventHooks() {
 		super.registerEventHooks();
+        commonProxy.registerEventHooks();
 
 		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
 
 		FMLCommonHandler.instance().bus().register(KeyInputEventHook.getInstance());
 		FMLCommonHandler.instance().bus().register(new PlayerTickEventHook());
 	}
-    
-    @Override
-    public void playSound(double x, double y, double z, String sound, float volume, float frequency,
-    		String mod) {
-    	if(!SOUND_NONE.equals(sound)) {
-	    	ResourceLocation soundLocation = new ResourceLocation(mod, sound);
-	    	PositionedSoundRecord record = new PositionedSoundRecord(soundLocation,
-					volume, frequency, (float) x, (float) y, (float) z);
-	    	
-	    	// If we notice this sound is no mod sound, relay it to the default MC sound system.
-	    	if(!mod.equals(DEFAULT_RESOURCELOCATION_MOD) && FMLClientHandler.instance().getClient()
-	    			.getSoundHandler().getSound(record.getSoundLocation()) == null) {
-	    		playSoundMinecraft(x, y, z, sound, volume, frequency);
-	    	} else {
-		    	FMLClientHandler.instance().getClient().getSoundHandler()
-		    		.playSound(record);
-	    	}
-    	}
-    }
     
 }
