@@ -81,6 +81,6 @@ public class Reference {
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "required-after:Forge@[10.13.3.1360,);" // See the Forge changelog
-            + "required-after:" + Reference.MOD_CYCLOPSCORE + "" // TODO: add min version requirements
+            + "required-after:" + Reference.MOD_CYCLOPSCORE + ";" // TODO: add min version requirements
             + "after:"+Reference.MOD_THERMALEXPANSION;
 }

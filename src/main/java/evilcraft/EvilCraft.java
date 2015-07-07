@@ -35,13 +35,14 @@ import java.util.Set;
  * @author rubensworks
  *
  */
-@Mod(modid = Reference.MOD_ID,
-    name = Reference.MOD_NAME,
-    useMetadata = true,
-    version = Reference.MOD_VERSION,
-    dependencies = Reference.MOD_DEPENDENCIES,
-    guiFactory = "evilcraft.core.client.gui.config.ExtendedConfigGuiFactory"
-    )
+@Mod(
+        modid = Reference.MOD_ID,
+        name = Reference.MOD_NAME,
+        useMetadata = true,
+        version = Reference.MOD_VERSION,
+        dependencies = Reference.MOD_DEPENDENCIES,
+        guiFactory = "evilcraft.GuiConfigOverview$ExtendedConfigGuiFactory"
+)
 public class EvilCraft extends ModBase {
     
     /**

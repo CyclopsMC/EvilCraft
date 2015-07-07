@@ -71,7 +71,6 @@ public class CommonProxy extends CommonProxyComponent {
         MinecraftForge.EVENT_BUS.register(new EntityItemPickupEventHook());
         MinecraftForge.EVENT_BUS.register(new BlockBreakEventHook());
         
-        FMLCommonHandler.instance().bus().register(new ConfigChangedEventHook());
         FMLCommonHandler.instance().bus().register(new PlayerRingOfFire());
         FMLCommonHandler.instance().bus().register(new ItemCraftedEventHook());
         FMLCommonHandler.instance().bus().register(WorldSharedTankCache.getInstance());
