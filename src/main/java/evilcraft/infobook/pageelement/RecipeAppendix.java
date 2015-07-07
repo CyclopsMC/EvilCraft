@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.tuple.Pair;
+import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.lwjgl.opengl.GL11;
@@ -169,7 +170,7 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
             this.itemStack = itemStack;
             InfoSection target = null;
             if(this.itemStack != null) {
-                ExtendedConfig<?> config = Configs.getConfigFromItem(itemStack.getItem());
+                ExtendedConfig<?> config = ConfigHandler.getConfigFromItem(itemStack.getItem());
                 if (config != null) {
                     Pair<InfoSection, Integer> pair = InfoBookParser.configLinks.get(config.getFullUnlocalizedName());
                     if(pair != null) {

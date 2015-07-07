@@ -1,6 +1,7 @@
 package evilcraft.modcompat.thermalexpansion;
 
 import evilcraft.*;
+import evilcraft.EvilCraft;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.*;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
@@ -152,7 +153,7 @@ public class ThermalExpansionModCompat implements IModCompat {
         }
 
         // Fluid Transposer: buckets
-        for(Entry<Item, FluidStack> entry : Recipes.BUCKETS.entrySet()) {
+        for(Entry<Item, FluidStack> entry : EvilCraft._instance.getRecipeHandler().getBuckets().entrySet()) {
             NBTTagCompound fill = new NBTTagCompound();
             fill.setInteger("energy", 2000);
             fill.setTag("input", new NBTTagCompound());

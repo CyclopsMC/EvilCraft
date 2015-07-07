@@ -24,6 +24,7 @@ import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigReference;
 import org.cyclops.cyclopscore.init.ItemCreativeTab;
 import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
 
 import java.io.File;
@@ -76,7 +77,20 @@ public class EvilCraft extends ModBase {
     public EvilCraft() {
         super(Reference.MOD_ID, Reference.MOD_NAME);
     }
-    
+
+    @Override
+    protected RecipeHandler constructRecipeHandler() {
+        return new ExtendedRecipeHandler(this,
+                "shaped.xml",
+                "shapeless.xml",
+                "smelting.xml",
+                "bloodinfuser.xml",
+                "bloodinfuser_convenience.xml",
+                "bloodinfuser_mods.xml",
+                "environmentalaccumulator.xml"
+        );
+    }
+
     /**
      * The pre-initialization, will register required configs.
      * @param event The Forge event required for this.
@@ -106,12 +120,6 @@ public class EvilCraft extends ModBase {
         if(event.getSide() == Side.CLIENT) {
             GuiMainMenuEvilifier.evilifyMainMenu();
         }
-        
-        // Register proxy related things.
-        proxy.registerRenderers();
-        proxy.registerKeyBindings();
-        proxy.registerPacketHandlers();
-        proxy.registerTickHandlers();
         
         // Register achievements
         Achievements.registerAchievements();

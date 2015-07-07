@@ -2,16 +2,13 @@ package evilcraft.infobook;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import evilcraft.Recipes;
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.core.helper.CraftingHelpers;
 import evilcraft.core.recipe.custom.*;
-import evilcraft.core.recipe.xml.ConfigRecipeConditionHandler;
-import evilcraft.core.recipe.xml.IRecipeConditionHandler;
-import evilcraft.core.recipe.xml.XmlRecipeLoader;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.infobook.pageelement.*;
 import net.minecraft.item.Item;
@@ -20,6 +17,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.tuple.Pair;
+import org.cyclops.cyclopscore.recipe.xml.ConfigRecipeConditionHandler;
+import org.cyclops.cyclopscore.recipe.xml.IRecipeConditionHandler;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -238,8 +237,8 @@ public class InfoBookParser {
                 if(tag.hasAttribute("type")) {
                     type = tag.getAttribute("type");
                 }
-                IRecipeConditionHandler conditionHandler = XmlRecipeLoader.RECIPE_CONDITION_HANDLERS.get(type);
-                if(!conditionHandler.isSatisfied(tag.getTextContent())) {
+                IRecipeConditionHandler conditionHandler = EvilCraft._instance.getRecipeHandler().getRecipeConditionHandlers().get(type);
+                if(!conditionHandler.isSatisfied(EvilCraft._instance.getRecipeHandler(), tag.getTextContent())) {
                     return null;
                 }
                 // Yes, I know this isn't very clean, I am currently more interested in eating grapes than abstracting
@@ -263,7 +262,7 @@ public class InfoBookParser {
             for (int j = 0; j < appendixLists.getLength(); j++) {
                 Element appendixListNode = (Element) appendixLists.item(j);
                 String type = appendixListNode.getAttribute("type");
-                Collection<ItemStack> itemStacks = Recipes.taggedOutput.get(appendixListNode.getTextContent());
+                Collection<ItemStack> itemStacks = EvilCraft._instance.getRecipeHandler().getTaggedOutput().get(appendixListNode.getTextContent());
                 for(ItemStack itemStack : itemStacks) {
                     try {
                         appendixList.add(createAppendix(appendixListNode.getAttribute("type"), itemStack));

@@ -4,11 +4,13 @@ import evilcraft.block.BloodInfuser;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
-import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.init.RecipeHandler;
+import org.cyclops.cyclopscore.recipe.xml.SuperRecipeTypeHandler;
+import org.cyclops.cyclopscore.recipe.xml.XmlRecipeLoader;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -20,8 +22,8 @@ import org.w3c.dom.Node;
 public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
 
 	@Override
-	protected ItemStack handleRecipe(Element input, Element output, Element properties)
-			throws XmlRecipeException {
+	protected ItemStack handleRecipe(RecipeHandler recipeHandler, Element input, Element output, Element properties)
+			throws XmlRecipeLoader.XmlRecipeException {
 		Node inputItem = input.getElementsByTagName("item").item(0);
 		String inputFluid = input.getElementsByTagName("fluid").item(0).getTextContent();
 		int inputAmount = Integer.parseInt(input.getElementsByTagName("fluidamount").item(0).getTextContent());
@@ -34,10 +36,10 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
 		
 		Fluid fluid = FluidRegistry.getFluid(inputFluid);
 		if(fluid == null) {
-			throw new XmlRecipeException(String.format("Fluid by name '%s' has not been found.", inputFluid));
+			throw new XmlRecipeLoader.XmlRecipeException(String.format("Fluid by name '%s' has not been found.", inputFluid));
 		}
 
-        Object item = getItem(inputItem);
+        Object item = getItem(recipeHandler, inputItem);
         ItemFluidStackAndTierRecipeComponent recipeComponent;
         if(item instanceof ItemStack) {
             recipeComponent = new ItemFluidStackAndTierRecipeComponent(
@@ -53,7 +55,7 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
             );
         }
 
-        ItemStack outputStack = (ItemStack) getItem(outputItem);
+        ItemStack outputStack = (ItemStack) getItem(recipeHandler, outputItem);
 		BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
                 recipeComponent,
                 new ItemStackRecipeComponent(outputStack),

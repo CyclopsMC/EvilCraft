@@ -176,25 +176,6 @@ public class Configs {
     }
 
     /**
-     * Get the config from a given item.
-     * It will internally also try to get the blockState from the item if it exists to get the config from.
-     * @param item The item, possibly IConfigurable.
-     * @return The config or null.
-     */
-    public static @Nullable ExtendedConfig<?> getConfigFromItem(Item item) {
-        if(item instanceof IConfigurable) {
-            return ((IConfigurable) item).getConfig();
-        } else {
-            Block block = Block.getBlockFromItem(item);
-            if(block != Blocks.air && block instanceof IConfigurable) {
-                return ((IConfigurable) block).getConfig();
-            } else {
-                return null;
-            }
-        }
-    }
-
-    /**
      * A safe way to check if a {@link org.cyclops.cyclopscore.config.configurable.IConfigurable} is enabled. @see ExtendedConfig#isEnabled()
      * @param config The config to check.
      * @return If the given config is enabled.
