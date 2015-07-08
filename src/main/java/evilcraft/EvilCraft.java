@@ -68,7 +68,6 @@ public class EvilCraft extends ModBase {
 
     public EvilCraft() {
         super(Reference.MOD_ID, Reference.MOD_NAME);
-        putGenericReference(REFKEY_RETROGEN, GeneralConfig.retrogen);
         // TODO: when modcompats are restored
         //addInitListeners(new ModCompatLoader());
     }
