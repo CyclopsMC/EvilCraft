@@ -1,0 +1,6 @@
+{
+  "parent": "evilcraft:block/blockPoison",
+  "textures": {
+    "all": "evilcraft:blocks/blockPoison_flow"
+  }
+}

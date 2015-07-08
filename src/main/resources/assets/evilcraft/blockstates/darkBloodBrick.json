@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "inactive=false": {
+      "model": "evilcraft:darkBloodBrick"
+    },
+    "inactive=true": {
+      "model": "evilcraft:darkBloodBrick_inactive"
+    },
+    "inventory": {
+      "model": "evilcraft:darkBloodBrick"
+    }
+  }
+}

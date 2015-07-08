@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "evilcraft:blocks/darkTank_side",
+    "up": "evilcraft:blocks/darkTank_top"
+  }
+}

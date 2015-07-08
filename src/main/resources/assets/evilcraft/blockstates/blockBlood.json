@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "flow=false": {
+      "model": "evilcraft:blockBlood"
+    },
+    "flow=true": {
+      "model": "evilcraft:blockBlood_flow"
+    },
+    "inventory": {
+      "model": "evilcraft:blockBlood"
+    }
+  }
+}

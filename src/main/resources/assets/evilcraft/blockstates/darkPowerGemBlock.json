@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:darkPowerGemBlock"
+    },
+    "inventory": {
+      "model": "evilcraft:darkPowerGemBlock"
+    }
+  }
+}

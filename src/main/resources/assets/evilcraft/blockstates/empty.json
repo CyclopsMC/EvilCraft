@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:empty"
+    },
+    "inventory": {
+      "model": "evilcraft:empty"
+    }
+  }
+}

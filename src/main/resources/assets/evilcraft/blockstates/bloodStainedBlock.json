@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "dirt=false": {
+      "model": "evilcraft:bloodStainedBlock"
+    },
+    "dirt=true": {
+      "model": "evilcraft:bloodStainedBlock_dirt"
+    },
+    "inventory": {
+      "model": "evilcraft:bloodStainedBlock"
+    }
+  }
+}

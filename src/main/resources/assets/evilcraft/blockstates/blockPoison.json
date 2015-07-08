@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "flow=false": {
+      "model": "evilcraft:blockPoison"
+    },
+    "flow=true": {
+      "model": "evilcraft:blockPoison_flow"
+    },
+    "inventory": {
+      "model": "evilcraft:blockPoison"
+    }
+  }
+}

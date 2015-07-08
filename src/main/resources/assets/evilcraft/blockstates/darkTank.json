@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "evilcraft:darkTank"
+    },
+    "active=true": {
+      "model": "evilcraft:darkTank_active"
+    },
+    "inventory": {
+      "model": "evilcraft:darkTank"
+    }
+  }
+}

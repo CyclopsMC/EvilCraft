@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:obscuredGlass"
+    },
+    "inventory": {
+      "model": "evilcraft:obscuredGlass"
+    }
+  }
+}
