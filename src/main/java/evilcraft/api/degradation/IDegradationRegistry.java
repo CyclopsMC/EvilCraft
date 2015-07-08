@@ -1,6 +1,6 @@
 package evilcraft.api.degradation;
 
-import evilcraft.api.IRegistry;
+import org.cyclops.cyclopscore.init.IRegistry;
 
 import java.util.Set;
 

@@ -1,12 +1,18 @@
 package evilcraft;
 
 import com.google.common.collect.Sets;
+import evilcraft.api.degradation.IDegradationRegistry;
+import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
+import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import evilcraft.command.CommandEvilCraft;
+import evilcraft.core.degradation.DegradationRegistry;
 import evilcraft.core.helper.LoggerHelper;
+import evilcraft.core.recipe.custom.SuperRecipeRegistry;
 import evilcraft.event.ServerStatusEventHook;
 import evilcraft.infobook.InfoBookRegistry;
 import evilcraft.item.DarkGemConfig;
+import evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import evilcraft.world.gen.DarkTempleGenerator;
 import evilcraft.world.gen.EvilDungeonGenerator;
 import evilcraft.world.gen.OreGenerator;
@@ -58,17 +64,6 @@ public class EvilCraft extends ModBase {
     @Instance(value = Reference.MOD_ID)
     public static EvilCraft _instance;
     
-    /**
-     * Root evilcraft config folder.
-     */
-    public static File CONFIG_FOLDER = null;
-    
-    /**
-     * Unique instance of the FMLEventChannel that is used to send EvilCraft messages between
-     * clients and server
-     */
-    public static FMLEventChannel channel;
-    
     private static final Set<IInitListener> initListeners = Sets.newHashSet();
     static {
         // TODO: when modcompats are restored
@@ -98,6 +93,10 @@ public class EvilCraft extends ModBase {
      */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        getRegistryManager().addRegistry(IDegradationRegistry.class, new DegradationRegistry());
+        getRegistryManager().addRegistry(ISuperRecipeRegistry.class, new SuperRecipeRegistry());
+        getRegistryManager().addRegistry(IBloodChestRepairActionRegistry.class, new BloodChestRepairActionRegistry());
+
         super.preInit(event);
 
         // Start fetching the version info

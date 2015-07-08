@@ -1,6 +1,6 @@
 package evilcraft.block;
 
-import evilcraft.api.RegistryManager;
+import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.recipes.custom.IMachine;
 import evilcraft.api.recipes.custom.IRecipeRegistry;
 import evilcraft.api.recipes.custom.ISuperRecipeRegistry;

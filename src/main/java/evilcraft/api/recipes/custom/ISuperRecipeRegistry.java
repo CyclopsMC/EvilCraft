@@ -1,6 +1,6 @@
 package evilcraft.api.recipes.custom;
 
-import evilcraft.api.IRegistry;
+import org.cyclops.cyclopscore.init.IRegistry;
 
 import java.util.List;
 

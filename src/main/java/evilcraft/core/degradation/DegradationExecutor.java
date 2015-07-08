@@ -1,6 +1,6 @@
 package evilcraft.core.degradation;
 
-import evilcraft.api.RegistryManager;
+import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.IDegradationEffect;
 import evilcraft.api.degradation.IDegradationRegistry;

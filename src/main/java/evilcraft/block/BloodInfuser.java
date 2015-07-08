@@ -1,6 +1,7 @@
 package evilcraft.block;
 
-import evilcraft.api.RegistryManager;
+import evilcraft.EvilCraft;
+import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.recipes.custom.IMachine;
 import evilcraft.api.recipes.custom.IRecipeRegistry;
 import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
@@ -68,7 +69,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
 
     @Override
     public IRecipeRegistry<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> getRecipeRegistry() {
-        return RegistryManager.getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
+        return EvilCraft._instance.getRegistryManager().getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
     }
 
     @Override

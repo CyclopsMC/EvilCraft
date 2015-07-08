@@ -1,6 +1,6 @@
 package evilcraft.core.recipe.custom;
 
-import evilcraft.api.RegistryManager;
+import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.recipes.custom.*;
 
 import java.util.ArrayList;

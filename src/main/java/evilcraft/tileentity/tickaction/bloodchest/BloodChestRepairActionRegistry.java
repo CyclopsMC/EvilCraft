@@ -1,6 +1,6 @@
 package evilcraft.tileentity.tickaction.bloodchest;
 
-import evilcraft.api.RegistryManager;
+import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import net.minecraft.item.Item;

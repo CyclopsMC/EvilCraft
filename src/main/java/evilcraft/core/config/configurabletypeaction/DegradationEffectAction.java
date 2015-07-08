@@ -1,6 +1,6 @@
 package evilcraft.core.config.configurabletypeaction;
 
-import evilcraft.api.RegistryManager;
+import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.degradation.IDegradationRegistry;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import net.minecraftforge.common.config.Configuration;

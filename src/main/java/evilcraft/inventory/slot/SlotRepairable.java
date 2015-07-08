@@ -1,6 +1,6 @@
 package evilcraft.inventory.slot;
 
-import evilcraft.api.RegistryManager;
+import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
