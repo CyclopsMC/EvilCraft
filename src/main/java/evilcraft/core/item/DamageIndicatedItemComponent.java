@@ -1,6 +1,6 @@
 package evilcraft.core.item;
 
-import evilcraft.core.IInformationProvider;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

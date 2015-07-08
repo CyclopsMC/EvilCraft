@@ -3,7 +3,6 @@ package evilcraft.modcompat;
 import com.google.common.collect.Sets;
 import evilcraft.EvilCraft;
 import evilcraft.GeneralConfig;
-import evilcraft.IInitListener;
 import evilcraft.core.config.ConfigHandler;
 import evilcraft.modcompat.baubles.BaublesModCompat;
 import evilcraft.modcompat.bloodmagic.BloodMagicModCompat;

@@ -1,7 +1,5 @@
 package evilcraft.modcompat;
 
-import evilcraft.IInitListener;
-
 /**
  * Interface for external mod compatibilities.
  * Implement this on classes that require external mod functionality

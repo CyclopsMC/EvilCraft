@@ -2,7 +2,7 @@ package evilcraft.block;
 
 import evilcraft.Achievements;
 import evilcraft.Configs;
-import evilcraft.core.IInformationProvider;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 import evilcraft.item.DarkGem;
 import evilcraft.item.DarkGemConfig;
 import evilcraft.item.DarkGemCrushedConfig;

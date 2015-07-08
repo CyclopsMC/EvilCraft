@@ -1,7 +1,7 @@
 package evilcraft.block;
 
 import evilcraft.Reference;
-import evilcraft.core.IInformationProvider;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;

@@ -1,6 +1,6 @@
 package evilcraft.core.item;
 
-import evilcraft.core.IInformationProvider;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 

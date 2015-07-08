@@ -1,7 +1,7 @@
 package evilcraft.block;
 
 import evilcraft.Configs;
-import evilcraft.core.IInformationProvider;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 import evilcraft.item.Broom;
 import evilcraft.item.BroomConfig;
 import net.minecraft.block.Block;

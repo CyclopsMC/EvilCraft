@@ -1,7 +1,6 @@
 package evilcraft.modcompat.thaumcraft;
 
 import evilcraft.Configs;
-import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
 

@@ -1,6 +1,5 @@
 package evilcraft.modcompat.fmp;
 
-import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
 

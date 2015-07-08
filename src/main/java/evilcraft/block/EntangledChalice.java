@@ -1,6 +1,6 @@
 package evilcraft.block;
 
-import evilcraft.core.IInformationProvider;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.block.component.BlockTankComponent;

@@ -1,7 +1,6 @@
 package evilcraft.modcompat.forestry;
 
 import evilcraft.Configs;
-import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.block.UndeadLogConfig;
 import evilcraft.block.UndeadSaplingConfig;

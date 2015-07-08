@@ -1,6 +1,6 @@
 package evilcraft.core.config.configurable;
 
-import evilcraft.core.IInformationProvider;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.block.component.BlockTankComponent;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;

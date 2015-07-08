@@ -65,16 +65,12 @@ public class EvilCraft extends ModBase {
      */
     @Instance(value = Reference.MOD_ID)
     public static EvilCraft _instance;
-    
-    private static final Set<IInitListener> initListeners = Sets.newHashSet();
-    static {
-        // TODO: when modcompats are restored
-    	//addInitListeners(new ModCompatLoader());
-    }
 
     public EvilCraft() {
         super(Reference.MOD_ID, Reference.MOD_NAME);
         putGenericReference(REFKEY_RETROGEN, GeneralConfig.retrogen);
+        // TODO: when modcompats are restored
+        //addInitListeners(new ModCompatLoader());
     }
 
     @Override

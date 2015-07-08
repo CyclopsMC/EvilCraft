@@ -1,6 +1,5 @@
 package evilcraft.modcompat.waila;
 
-import evilcraft.IInitListener;
 import evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
