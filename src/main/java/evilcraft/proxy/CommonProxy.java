@@ -3,7 +3,6 @@ package evilcraft.proxy;
 import evilcraft.EvilCraft;
 import evilcraft.core.BucketHandler;
 import evilcraft.core.fluid.WorldSharedTankCache;
-import evilcraft.core.world.gen.RetroGenRegistry;
 import evilcraft.event.*;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.*;
@@ -23,18 +22,10 @@ public class CommonProxy extends CommonProxyComponent {
     protected ModBase getMod() {
         return EvilCraft._instance;
     }
-
-    @Override
-    public void registerRenderers() {
-        // Nothing here as the server doesn't render graphics!
-    }
-    
-    @Override
-    public void registerKeyBindings() {
-    }
  
     @Override
     public void registerPacketHandlers() {
+        super.registerPacketHandlers();
     	PacketHandler.init();
     	
     	// Register packets.
@@ -51,14 +42,9 @@ public class CommonProxy extends CommonProxyComponent {
     }
     
     @Override
-    public void registerTickHandlers() {
-        
-    }
-    
-    @Override
     public void registerEventHooks() {
+        super.registerEventHooks();
     	MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());
-    	MinecraftForge.EVENT_BUS.register(RetroGenRegistry.getInstance());
         MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());

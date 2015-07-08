@@ -31,6 +31,8 @@ import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
 import org.cyclops.cyclopscore.recipe.custom.SuperRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
+import org.cyclops.cyclopscore.world.gen.IRetroGenRegistry;
+import org.cyclops.cyclopscore.world.gen.RetroGenRegistry;
 
 import java.util.Set;
 
@@ -70,6 +72,7 @@ public class EvilCraft extends ModBase {
 
     public EvilCraft() {
         super(Reference.MOD_ID, Reference.MOD_NAME);
+        putGenericReference(REFKEY_RETROGEN, GeneralConfig.retrogen);
     }
 
     @Override
@@ -94,6 +97,7 @@ public class EvilCraft extends ModBase {
         getRegistryManager().addRegistry(IDegradationRegistry.class, new DegradationRegistry());
         getRegistryManager().addRegistry(ISuperRecipeRegistry.class, new SuperRecipeRegistry(this));
         getRegistryManager().addRegistry(IBloodChestRepairActionRegistry.class, new BloodChestRepairActionRegistry());
+        getRegistryManager().addRegistry(IRetroGenRegistry.class, new RetroGenRegistry(this));
 
         super.preInit(event);
 

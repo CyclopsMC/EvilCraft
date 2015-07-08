@@ -2,15 +2,16 @@ package evilcraft.world.gen;
 
 import com.google.common.collect.Lists;
 import evilcraft.Configs;
+import evilcraft.EvilCraft;
 import evilcraft.GeneralConfig;
 import evilcraft.block.DarkOre;
 import evilcraft.block.DarkOreConfig;
 import evilcraft.block.NetherfishSpawnConfig;
-import evilcraft.core.world.gen.SimpleMinableWorldGenerator;
-import evilcraft.core.world.gen.WorldGenMinableExtended;
 import evilcraft.entity.monster.NetherfishConfig;
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.init.Blocks;
+import org.cyclops.cyclopscore.world.gen.SimpleMinableWorldGenerator;
+import org.cyclops.cyclopscore.world.gen.WorldGenMinableExtended;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class OreGenerator extends SimpleMinableWorldGenerator {
      * Make new instance.
      */
     public OreGenerator() {
-		super(getOreGenerators());
+		super(EvilCraft._instance, getOreGenerators());
     }
     
     private static List<WorldGenMinableExtended> getOreGenerators() {

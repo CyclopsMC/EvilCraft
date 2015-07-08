@@ -3,12 +3,12 @@ package evilcraft.world.gen;
 import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
-import evilcraft.core.world.gen.WorldGenMinableExtended;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.world.gen.WorldGenMinableExtended;
 
 import java.util.Random;
 
@@ -17,7 +17,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class NetherfishSpawnGenerator extends WorldGenMinableExtended{
+public class NetherfishSpawnGenerator extends WorldGenMinableExtended {
     
     /**
      * Make a new instance.
