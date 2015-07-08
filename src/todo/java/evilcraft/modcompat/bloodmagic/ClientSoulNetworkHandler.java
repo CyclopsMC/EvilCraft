@@ -4,7 +4,6 @@ import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.network.PacketHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;

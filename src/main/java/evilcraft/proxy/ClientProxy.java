@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.cyclops.cyclopscore.client.key.IKeyRegistry;
 import org.cyclops.cyclopscore.client.key.KeyRegistry;
 import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.network.PacketHandler;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
 import org.lwjgl.input.Keyboard;
 
@@ -54,9 +55,9 @@ public class ClientProxy extends ClientProxyComponent {
 	}
 
 	@Override
-	public void registerPacketHandlers() {
-		super.registerPacketHandlers();
-        commonProxy.registerPacketHandlers();
+	public void registerPacketHandlers(PacketHandler packetHandler) {
+		super.registerPacketHandlers(packetHandler);
+        commonProxy.registerPacketHandlers(packetHandler);
 	}
 
     @Override

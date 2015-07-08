@@ -3,11 +3,13 @@ package evilcraft.proxy;
 import evilcraft.EvilCraft;
 import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.event.*;
-import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.network.PacketHandler;
+import org.cyclops.cyclopscore.network.packet.RingOfFirePacket;
+import org.cyclops.cyclopscore.network.packet.SoundPacket;
 import org.cyclops.cyclopscore.proxy.CommonProxyComponent;
 
 /**
@@ -23,19 +25,16 @@ public class CommonProxy extends CommonProxyComponent {
     }
  
     @Override
-    public void registerPacketHandlers() {
-        super.registerPacketHandlers();
-    	PacketHandler.init();
+    public void registerPacketHandlers(PacketHandler packetHandler) {
+        super.registerPacketHandlers(packetHandler);
     	
     	// Register packets.
-    	PacketHandler.register(FartPacket.class);
-    	PacketHandler.register(RingOfFirePacket.class);
-    	PacketHandler.register(DetectionListenerPacket.class);
-    	PacketHandler.register(SoundPacket.class);
-    	PacketHandler.register(SanguinaryPedestalBlockReplacePacket.class);
-    	PacketHandler.register(ExaltedCrafterButtonPacket.class);
-    	PacketHandler.register(ExaltedCrafterOpenPacket.class);
-    	PacketHandler.register(UpdateWorldSharedTankClientCachePacket.class);
+        packetHandler.register(FartPacket.class);
+        packetHandler.register(DetectionListenerPacket.class);
+        packetHandler.register(SanguinaryPedestalBlockReplacePacket.class);
+        packetHandler.register(ExaltedCrafterButtonPacket.class);
+        packetHandler.register(ExaltedCrafterOpenPacket.class);
+        packetHandler.register(UpdateWorldSharedTankClientCachePacket.class);
     	
         EvilCraft.clog("Registered packet handler.");
     }
@@ -54,8 +53,7 @@ public class CommonProxy extends CommonProxyComponent {
         MinecraftForge.EVENT_BUS.register(new FillBucketEventHook());
         MinecraftForge.EVENT_BUS.register(new EntityItemPickupEventHook());
         MinecraftForge.EVENT_BUS.register(new BlockBreakEventHook());
-        
-        FMLCommonHandler.instance().bus().register(new PlayerRingOfFire());
+
         FMLCommonHandler.instance().bus().register(new ItemCraftedEventHook());
         FMLCommonHandler.instance().bus().register(WorldSharedTankCache.getInstance());
     }

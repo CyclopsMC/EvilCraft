@@ -1,8 +1,6 @@
 package evilcraft.modcompat.bloodmagic;
 
 import com.google.common.collect.Maps;
-import evilcraft.network.CodecField;
-import evilcraft.network.PacketCodec;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;

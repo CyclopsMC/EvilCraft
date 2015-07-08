@@ -1,10 +1,9 @@
 package evilcraft.client.key;
 
+import evilcraft.EvilCraft;
 import evilcraft.core.PlayerInventoryIterator;
 import evilcraft.item.ExaltedCrafter;
-import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.ExaltedCrafterOpenPacket;
-import evilcraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
@@ -13,6 +12,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.client.key.IKeyHandler;
+import org.cyclops.cyclopscore.network.PacketHandler;
 
 /**
  * A {@link IKeyHandler} which handles farts.
@@ -37,7 +37,7 @@ public class ExaltedCrafterKeyHandler implements IKeyHandler {
 			}
 			if(found != null) {
 				ExaltedCrafter.getInstance().openGuiForItemIndex(Minecraft.getMinecraft().theWorld, player, found.getLeft());
-				PacketHandler.sendToServer(new ExaltedCrafterOpenPacket(found.getLeft()));
+				EvilCraft._instance.getPacketHandler().sendToServer(new ExaltedCrafterOpenPacket(found.getLeft()));
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 package evilcraft.client.key;
 
-import evilcraft.network.PacketHandler;
+import evilcraft.EvilCraft;
 import evilcraft.network.packet.FartPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.client.key.IKeyHandler;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.network.PacketHandler;
 
 /**
  * A {@link IKeyHandler} which handles farts.
@@ -38,7 +39,7 @@ public class FartKeyHandler implements IKeyHandler {
 		}
 		
 		if (fartingEnabled && kb == settings.keyBindSneak) {
-			PacketHandler.sendToServer(new FartPacket(player));
+			EvilCraft._instance.getPacketHandler().sendToServer(new FartPacket(player));
 		}
 	}
 	

@@ -1,10 +1,8 @@
 package evilcraft.network.packet;
 
+import evilcraft.EvilCraft;
 import evilcraft.client.particle.EntityBloodBrickFX;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
-import evilcraft.network.CodecField;
-import evilcraft.network.PacketCodec;
-import evilcraft.network.PacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,6 +11,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.network.CodecField;
+import org.cyclops.cyclopscore.network.PacketCodec;
+import org.cyclops.cyclopscore.network.PacketHandler;
 
 /**
  * Packet for telling clients if a structure has been formed for a blockState location.
@@ -82,7 +83,7 @@ public class DetectionListenerPacket extends PacketCodec {
 	}
 	@Override
 	public void actionServer(World world, EntityPlayerMP player) {
-		PacketHandler.sendToAllAround(new DetectionListenerPacket(x, y, z, activation),
+		EvilCraft._instance.getPacketHandler().sendToAllAround(new DetectionListenerPacket(x, y, z, activation),
 				LocationHelpers.createTargetPointFromEntityPosition(player, RANGE));
 	}
 	

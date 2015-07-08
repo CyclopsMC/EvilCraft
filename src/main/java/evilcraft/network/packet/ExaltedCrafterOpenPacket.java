@@ -1,14 +1,14 @@
 package evilcraft.network.packet;
 
 import evilcraft.item.ExaltedCrafter;
-import evilcraft.network.CodecField;
-import evilcraft.network.PacketCodec;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.network.CodecField;
+import org.cyclops.cyclopscore.network.PacketCodec;
 
 /**
  * Packet for clearing the exalted crafting grid.

@@ -3,7 +3,6 @@ package evilcraft.modcompat.bloodmagic;
 import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
-import evilcraft.network.PacketHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 

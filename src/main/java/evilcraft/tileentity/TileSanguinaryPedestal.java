@@ -1,13 +1,14 @@
 package evilcraft.tileentity;
 
+import evilcraft.EvilCraft;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.PurifierConfig;
 import evilcraft.block.SanguinaryPedestal;
 import evilcraft.block.SanguinaryPedestalConfig;
 import evilcraft.core.algorithm.RegionIterator;
+import org.cyclops.cyclopscore.network.PacketHandler;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
-import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -63,7 +64,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
 			fillWithPotentialBonus(new FluidStack(FLUID, amount));
 		}
     	
-    	PacketHandler.sendToServer(new SanguinaryPedestalBlockReplacePacket(location, block));
+    	EvilCraft._instance.getPacketHandler().sendToServer(new SanguinaryPedestalBlockReplacePacket(location, block));
     }
 
     protected boolean hasEfficiency() {

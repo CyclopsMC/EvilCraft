@@ -1,14 +1,14 @@
 package evilcraft.network.packet;
 
 import evilcraft.core.fluid.WorldSharedTankCache;
-import evilcraft.network.CodecField;
-import evilcraft.network.PacketCodec;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.network.CodecField;
+import org.cyclops.cyclopscore.network.PacketCodec;
 
 /**
  * Updates the world shared tank cache for all clients.

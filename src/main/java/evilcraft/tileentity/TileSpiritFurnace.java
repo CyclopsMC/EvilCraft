@@ -2,6 +2,7 @@ package evilcraft.tileentity;
 
 import com.google.common.collect.Lists;
 import evilcraft.Configs;
+import evilcraft.EvilCraft;
 import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.block.BoxOfEternalClosureConfig;
 import evilcraft.block.DarkBloodBrick;
@@ -23,7 +24,6 @@ import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.core.world.FakeWorldItemDelegator;
 import evilcraft.core.world.FakeWorldItemDelegator.IItemDropListener;
 import evilcraft.fluid.Blood;
-import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.DetectionListenerPacket;
 import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
@@ -45,6 +45,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.network.PacketHandler;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 
 import java.util.LinkedHashMap;
@@ -306,8 +307,8 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 		boolean change = (Boolean) world.getBlockState(location).getValue(DarkBloodBrick.ACTIVE);
         world.setBlockState(location, world.getBlockState(location).withProperty(DarkBloodBrick.ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
 		if(change) {
-			PacketHandler.sendToAllAround(new DetectionListenerPacket(location, valid),
-					LocationHelpers.createTargetPointFromLocation(world, location, 50));
+            EvilCraft._instance.getPacketHandler().sendToAllAround(new DetectionListenerPacket(location, valid),
+                    LocationHelpers.createTargetPointFromLocation(world, location, 50));
 		}
     }
     

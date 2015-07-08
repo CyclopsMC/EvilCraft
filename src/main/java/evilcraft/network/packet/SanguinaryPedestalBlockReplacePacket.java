@@ -3,9 +3,6 @@ package evilcraft.network.packet;
 import evilcraft.EvilCraft;
 import evilcraft.client.particle.EntityBloodSplashFX;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
-import evilcraft.network.CodecField;
-import evilcraft.network.PacketCodec;
-import evilcraft.network.PacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,6 +10,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.network.CodecField;
+import org.cyclops.cyclopscore.network.PacketCodec;
+import org.cyclops.cyclopscore.network.PacketHandler;
 
 /**
  * Packet for playing a sound at a location.
@@ -72,7 +72,7 @@ public class SanguinaryPedestalBlockReplacePacket extends PacketCodec {
 	}
 	@Override
 	public void actionServer(World world, EntityPlayerMP player) {
-		PacketHandler.sendToAllAround(new SanguinaryPedestalBlockReplacePacket(x, y, z, blockID),
+		EvilCraft._instance.getPacketHandler().sendToAllAround(new SanguinaryPedestalBlockReplacePacket(x, y, z, blockID),
 				LocationHelpers.createTargetPointFromEntityPosition(player, RANGE));
 	}
 	

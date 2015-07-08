@@ -2,13 +2,13 @@ package evilcraft.inventory.container;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import evilcraft.EvilCraft;
 import evilcraft.client.gui.container.GuiExaltedCrafter;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.core.inventory.NBTCraftingGrid;
 import evilcraft.core.inventory.container.ItemInventoryContainer;
 import evilcraft.item.ExaltedCrafter;
 import evilcraft.item.ExaltedCrafterConfig;
-import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.ExaltedCrafterButtonPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -19,6 +19,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.cyclops.cyclopscore.network.PacketHandler;
 
 import java.util.List;
 import java.util.Map;
@@ -102,7 +103,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     public void sendPressButton(int buttonId) {
         if(ACTIONS.containsKey(buttonId)) {
             executePressButton(buttonId);
-            PacketHandler.sendToServer(new ExaltedCrafterButtonPacket(buttonId));
+            EvilCraft._instance.getPacketHandler().sendToServer(new ExaltedCrafterButtonPacket(buttonId));
         }
     }
 

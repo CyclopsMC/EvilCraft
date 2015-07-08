@@ -1,9 +1,9 @@
 package evilcraft.tileentity;
 
 import evilcraft.block.BloodInfuser;
-import evilcraft.core.algorithm.SingleCache;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
+import org.cyclops.cyclopscore.algorithm.SingleCache;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
@@ -82,7 +82,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     
     private int infuseTicker;
     private SingleCache<Triple<ItemStack, FluidStack, Integer>,
-            IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> recipeCache;
+                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> recipeCache;
     
     private static final Map<Class<?>, ITickAction<TileBloodInfuser>> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
     static {

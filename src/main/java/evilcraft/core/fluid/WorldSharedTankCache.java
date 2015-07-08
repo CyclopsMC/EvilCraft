@@ -1,7 +1,7 @@
 package evilcraft.core.fluid;
 
 import com.google.common.collect.Maps;
-import evilcraft.network.PacketHandler;
+import evilcraft.EvilCraft;
 import evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Type;
 import net.minecraftforge.fml.relauncher.Side;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.network.PacketHandler;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -122,7 +123,7 @@ public class WorldSharedTankCache {
 	    	if(event.side == Side.SERVER && getTickOffset() > INTERPOLATION_TICK_OFFSET) {
 		    	Iterator<Map.Entry<String, UpdateWorldSharedTankClientCachePacket>> it = packetBuffer.entrySet().iterator();
 		    	while(it.hasNext()) {
-                    PacketHandler.sendToAll(it.next().getValue());
+					EvilCraft._instance.getPacketHandler().sendToAll(it.next().getValue());
 		    		it.remove();
 		    	}
                 tick = 0;
@@ -134,8 +135,8 @@ public class WorldSharedTankCache {
     public void onLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if(!MinecraftHelpers.isClientSide()) {
             for(Map.Entry<String, FluidStack> entry: tankCache.entrySet()) {
-                PacketHandler.sendToPlayer(
-                        new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), event.player);
+				EvilCraft._instance.getPacketHandler().sendToPlayer(
+						new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), event.player);
             }
         }
     }
