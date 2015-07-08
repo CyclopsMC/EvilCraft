@@ -3,7 +3,7 @@ package evilcraft.network.packet;
 import evilcraft.Achievements;
 import evilcraft.GeneralConfig;
 import evilcraft.client.particle.EntityFartFX;
-import evilcraft.core.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;

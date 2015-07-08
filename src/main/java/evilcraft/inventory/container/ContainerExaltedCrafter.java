@@ -3,7 +3,7 @@ package evilcraft.inventory.container;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import evilcraft.client.gui.container.GuiExaltedCrafter;
-import evilcraft.core.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.core.inventory.NBTCraftingGrid;
 import evilcraft.core.inventory.container.ItemInventoryContainer;
 import evilcraft.item.ExaltedCrafter;

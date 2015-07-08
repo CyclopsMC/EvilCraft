@@ -2,8 +2,8 @@ package evilcraft.world.gen.structure;
 
 import evilcraft.GeneralConfig;
 import evilcraft.block.EnvironmentalAccumulator;
-import evilcraft.core.helper.DirectionHelpers;
-import evilcraft.core.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.DirectionHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.world.gen.nbt.DarkTempleData;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;

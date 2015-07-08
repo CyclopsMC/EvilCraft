@@ -4,9 +4,10 @@ import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.core.helper.Helpers;
-import evilcraft.core.helper.Helpers.IDType;
+import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.Helpers.IDType;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
@@ -72,7 +73,7 @@ public final class PacketHandler {
      * @param packetType The class of the packet.
      */
     public static void register(Class<? extends PacketBase> packetType) {
-    	CODEC.addDiscriminator(Helpers.getNewId(IDType.PACKET), packetType);
+    	CODEC.addDiscriminator(Helpers.getNewId(EvilCraft._instance, IDType.PACKET), packetType);
     }
     
     /**

@@ -1,7 +1,7 @@
 package evilcraft.core.world.gen;
 
 import com.google.common.base.Predicate;
-import evilcraft.core.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockHelper;

@@ -1,7 +1,7 @@
 package evilcraft.tileentity.tickaction.spiritreanimator;
 
 import evilcraft.block.SpiritReanimatorConfig;
-import evilcraft.core.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.core.helper.MathHelpers;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;

@@ -1,6 +1,6 @@
 package evilcraft.enchantment;
 
-import evilcraft.core.helper.EnchantmentHelpers;
+import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;

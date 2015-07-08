@@ -1,7 +1,7 @@
 package evilcraft.event;
 
 import evilcraft.Configs;
-import evilcraft.core.helper.EnchantmentHelpers;
+import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import evilcraft.enchantment.EnchantmentBreaking;
 import evilcraft.enchantment.EnchantmentBreakingConfig;
 import evilcraft.enchantment.EnchantmentUnusing;

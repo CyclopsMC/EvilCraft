@@ -7,7 +7,7 @@ import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import evilcraft.core.degradation.StochasticDegradationEffect;
-import evilcraft.core.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;

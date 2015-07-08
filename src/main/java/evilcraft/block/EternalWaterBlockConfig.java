@@ -1,7 +1,7 @@
 package evilcraft.block;
 
 import evilcraft.EvilCraft;
-import evilcraft.core.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.tileentity.TileEternalWaterBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

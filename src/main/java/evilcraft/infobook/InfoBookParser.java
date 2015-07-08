@@ -6,7 +6,7 @@ import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.block.BloodInfuser;
 import evilcraft.block.EnvironmentalAccumulator;
-import evilcraft.core.helper.CraftingHelpers;
+import org.cyclops.cyclopscore.helper.CraftingHelpers;
 import evilcraft.core.recipe.custom.*;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.infobook.pageelement.*;

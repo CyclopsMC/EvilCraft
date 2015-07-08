@@ -2,7 +2,7 @@ package evilcraft.network.packet;
 
 import evilcraft.EvilCraft;
 import evilcraft.client.particle.EntityBloodSplashFX;
-import evilcraft.core.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;

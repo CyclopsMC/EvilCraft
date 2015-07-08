@@ -10,7 +10,7 @@ import evilcraft.block.GemStoneTorchConfig;
 import evilcraft.client.particle.EntityBlurFX;
 import evilcraft.client.particle.EntityDarkSmokeFX;
 import evilcraft.client.particle.EntityDegradeFX;
-import evilcraft.core.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.item.BurningGemStone;
 import evilcraft.item.BurningGemStoneConfig;

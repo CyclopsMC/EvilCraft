@@ -3,8 +3,8 @@ package evilcraft.core.item;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.client.gui.GuiHandler;
-import evilcraft.core.helper.Helpers;
-import evilcraft.core.helper.Helpers.IDType;
+import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.Helpers.IDType;
 import evilcraft.core.inventory.IGuiContainerProvider;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,7 +37,7 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
     @SuppressWarnings({ "rawtypes" })
 	protected ItemGui(ExtendedConfig eConfig) {
 		super(eConfig);
-		this.guiID = Helpers.getNewId(IDType.GUI);
+		this.guiID = Helpers.getNewId(EvilCraft._instance, IDType.GUI);
 	}
     
     @Override

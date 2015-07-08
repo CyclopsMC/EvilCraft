@@ -3,7 +3,7 @@ package evilcraft.item;
 import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
-import evilcraft.core.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.fluid.Blood;
 import net.minecraft.entity.Entity;

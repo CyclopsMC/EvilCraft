@@ -1,6 +1,6 @@
 package evilcraft.event;
 
-import evilcraft.core.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.RingOfFirePacket;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,7 +1,7 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
-import evilcraft.core.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.entity.effect.EntityAntiVengeanceBeam;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

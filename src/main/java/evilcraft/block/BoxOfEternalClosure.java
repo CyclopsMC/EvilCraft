@@ -3,7 +3,7 @@ package evilcraft.block;
 import evilcraft.Reference;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
-import evilcraft.core.helper.EntityHelpers;
+import org.cyclops.cyclopscore.helper.EntityHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.core.world.FakeWorld;
 import evilcraft.entity.monster.VengeanceSpirit;

@@ -1,6 +1,6 @@
 package evilcraft.block;
 
-import evilcraft.core.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.fluid.Blood;
 import net.minecraft.block.material.Material;

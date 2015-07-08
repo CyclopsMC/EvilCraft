@@ -6,7 +6,6 @@ import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import evilcraft.command.CommandEvilCraft;
 import evilcraft.core.degradation.DegradationRegistry;
-import evilcraft.core.helper.LoggerHelper;
 import evilcraft.event.ServerStatusEventHook;
 import evilcraft.infobook.InfoBookRegistry;
 import evilcraft.item.DarkGemConfig;
@@ -25,6 +24,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigReference;
+import org.cyclops.cyclopscore.helper.LoggerHelper;
 import org.cyclops.cyclopscore.init.ItemCreativeTab;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
@@ -198,7 +198,7 @@ public class EvilCraft extends ModBase {
      * @param level The level in which the message must be shown.
      */
     public static void clog(String message, Level level) {
-        LoggerHelper.log(level, message);
+        EvilCraft._instance.getLoggerHelper().log(level, message);
     }
     
 }

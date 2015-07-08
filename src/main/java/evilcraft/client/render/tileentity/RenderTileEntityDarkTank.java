@@ -1,7 +1,7 @@
 package evilcraft.client.render.tileentity;
 
 import evilcraft.block.DarkTank;
-import evilcraft.core.helper.DirectionHelpers;
+import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.helper.RenderHelpers.IFluidContextRender;
 import evilcraft.tileentity.TileDarkTank;

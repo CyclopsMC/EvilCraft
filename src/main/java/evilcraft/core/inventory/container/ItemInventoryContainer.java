@@ -1,6 +1,6 @@
 package evilcraft.core.inventory.container;
 
-import evilcraft.core.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.core.item.ItemGui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

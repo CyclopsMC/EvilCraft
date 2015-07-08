@@ -1,7 +1,7 @@
 package evilcraft.command;
 
 import evilcraft.EvilCraft;
-import evilcraft.core.helper.Helpers;
+import org.cyclops.cyclopscore.helper.Helpers;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;

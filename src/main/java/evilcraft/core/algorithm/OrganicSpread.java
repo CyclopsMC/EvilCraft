@@ -1,6 +1,6 @@
 package evilcraft.core.algorithm;
 
-import evilcraft.core.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;

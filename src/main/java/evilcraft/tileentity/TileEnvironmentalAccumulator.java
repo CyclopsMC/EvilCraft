@@ -4,7 +4,7 @@ import evilcraft.api.degradation.IDegradable;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
 import evilcraft.core.degradation.DegradationExecutor;
-import evilcraft.core.helper.EntityHelpers;
+import org.cyclops.cyclopscore.helper.EntityHelpers;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;

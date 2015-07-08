@@ -1,6 +1,6 @@
 package evilcraft.command;
 
-import evilcraft.core.helper.ServerHelpers;
+import org.cyclops.cyclopscore.helper.ServerHelpers;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;

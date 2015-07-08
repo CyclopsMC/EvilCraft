@@ -1,6 +1,6 @@
 package evilcraft.core.inventory;
 
-import evilcraft.core.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;

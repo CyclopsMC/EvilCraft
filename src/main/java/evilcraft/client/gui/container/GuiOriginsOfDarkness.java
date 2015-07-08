@@ -3,7 +3,7 @@ package evilcraft.client.gui.container;
 import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.core.algorithm.EvictingStack;
-import evilcraft.core.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.HyperLink;

@@ -1,8 +1,8 @@
 package evilcraft.tileentity;
 
 import evilcraft.EvilCraft;
-import evilcraft.core.helper.EntityHelpers;
-import evilcraft.core.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.EntityHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.entity.monster.VengeanceSpirit;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;

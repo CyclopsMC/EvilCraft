@@ -1,6 +1,6 @@
 package evilcraft.entity.item;
 
-import evilcraft.core.helper.EntityHelpers;
+import org.cyclops.cyclopscore.helper.EntityHelpers;
 import evilcraft.item.LightningGrenade;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

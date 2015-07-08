@@ -3,7 +3,7 @@ package evilcraft.client.gui.container;
 import evilcraft.client.Keys;
 import evilcraft.core.client.gui.GuiButtonExtended;
 import evilcraft.core.client.gui.container.GuiContainerExtended;
-import evilcraft.core.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
 import evilcraft.item.ExaltedCrafter;
 import net.minecraft.client.gui.GuiButton;

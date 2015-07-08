@@ -2,8 +2,8 @@ package evilcraft.entity.effect;
 
 import com.google.common.collect.Lists;
 import evilcraft.Achievements;
-import evilcraft.core.helper.EntityHelpers;
-import evilcraft.core.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.EntityHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.item.NecromancerStaff;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;

@@ -1,7 +1,7 @@
 package evilcraft.network.packet;
 
 import evilcraft.client.particle.EntityFireShootFX;
-import evilcraft.core.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import evilcraft.network.CodecField;
 import evilcraft.network.PacketCodec;
 import evilcraft.network.PacketHandler;

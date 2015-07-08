@@ -3,7 +3,7 @@ package evilcraft.item;
 import com.google.common.base.Predicate;
 import evilcraft.Reference;
 import evilcraft.core.helper.ItemHelpers;
-import evilcraft.core.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
 import net.minecraft.entity.Entity;

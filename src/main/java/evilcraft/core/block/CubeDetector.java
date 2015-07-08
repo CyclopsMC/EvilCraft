@@ -3,7 +3,7 @@ package evilcraft.core.block;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import evilcraft.core.algorithm.Dimension;
-import evilcraft.core.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;

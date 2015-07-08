@@ -1,6 +1,6 @@
 package evilcraft.tileentity.tickaction.bloodinfuser;
 
-import evilcraft.core.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
 import evilcraft.core.tileentity.upgrade.Upgrades;

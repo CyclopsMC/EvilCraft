@@ -4,7 +4,7 @@ import evilcraft.Configs;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.DarkOre;
 import evilcraft.block.FluidBlockBlood;
-import evilcraft.core.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;

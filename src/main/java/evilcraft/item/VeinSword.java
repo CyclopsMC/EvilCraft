@@ -1,7 +1,7 @@
 package evilcraft.item;
 
 import evilcraft.core.config.configurable.ConfigurableItemSword;
-import evilcraft.core.helper.EnchantmentHelpers;
+import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;

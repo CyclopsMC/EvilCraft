@@ -5,7 +5,7 @@ import evilcraft.ExtendedDamageSource;
 import evilcraft.GeneralConfig;
 import evilcraft.block.ExcrementPile;
 import evilcraft.block.ExcrementPileConfig;
-import evilcraft.core.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.entity.monster.Werewolf;
 import evilcraft.entity.villager.WerewolfVillagerConfig;
 import net.minecraft.entity.passive.EntityAnimal;
