@@ -6,7 +6,6 @@ import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.*;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
-import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.fluid.Blood;
 import evilcraft.fluid.Poison;
 import evilcraft.item.*;

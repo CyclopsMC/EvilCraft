@@ -1,5 +1,6 @@
 package evilcraft.core.degradation;
 
+import evilcraft.EvilCraft;
 import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.degradation.IDegradationEffect;
@@ -41,7 +42,7 @@ public class DegradationExecutor {
         currentTick++;
         if(currentTick >= tickInterval) {
             currentTick = 0;
-            IDegradationEffect effect = RegistryManager.getRegistry(IDegradationRegistry.class).getRandomDegradationEffect();
+            IDegradationEffect effect = EvilCraft._instance.getRegistryManager().getRegistry(IDegradationRegistry.class).getRandomDegradationEffect();
             if(effect.canRun(degradable)) {
                 if(isRemote) {
                     effect.runClientSide(degradable);

@@ -1,5 +1,6 @@
 package evilcraft.core.config.configurabletypeaction;
 
+import evilcraft.EvilCraft;
 import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.degradation.IDegradationRegistry;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
@@ -33,7 +34,7 @@ public class DegradationEffectAction extends ConfigurableTypeAction<DegradationE
         eConfig.save();
         
         // Register effect
-        RegistryManager.getRegistry(IDegradationRegistry.class).registerDegradationEffect(
+        EvilCraft._instance.getRegistryManager().getRegistry(IDegradationRegistry.class).registerDegradationEffect(
                 eConfig.getNamedId(), eConfig.getDegradationEffect(), eConfig.getWeight());
     }
 

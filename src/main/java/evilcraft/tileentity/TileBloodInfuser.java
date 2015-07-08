@@ -1,6 +1,5 @@
 package evilcraft.tileentity;
 
-import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
 import evilcraft.core.algorithm.SingleCache;
 import evilcraft.core.fluid.BloodFluidConverter;
@@ -9,7 +8,6 @@ import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
-import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
 import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
@@ -33,6 +31,8 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
+import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -82,7 +82,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     
     private int infuseTicker;
     private SingleCache<Triple<ItemStack, FluidStack, Integer>,
-                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> recipeCache;
+            IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> recipeCache;
     
     private static final Map<Class<?>, ITickAction<TileBloodInfuser>> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
     static {

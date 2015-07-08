@@ -1,9 +1,6 @@
 package evilcraft.block;
 
-import org.cyclops.cyclopscore.init.RegistryManager;
-import evilcraft.api.recipes.custom.IMachine;
-import evilcraft.api.recipes.custom.IRecipeRegistry;
-import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
+import evilcraft.EvilCraft;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.tileentity.TileEnvironmentalAccumulator;
@@ -15,6 +12,9 @@ import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.recipe.custom.api.IMachine;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipeRegistry;
+import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
 
 /**
  * Block that can collect the weather and stuff.
@@ -92,6 +92,6 @@ public class EnvironmentalAccumulator
 
     @Override
     public IRecipeRegistry<EnvironmentalAccumulator, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> getRecipeRegistry() {
-        return RegistryManager.getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
+        return EvilCraft._instance.getRegistryManager().getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
     }
 }

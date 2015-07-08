@@ -1,7 +1,6 @@
 package evilcraft.tileentity;
 
 import evilcraft.api.degradation.IDegradable;
-import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
 import evilcraft.core.degradation.DegradationExecutor;
@@ -27,6 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.lwjgl.util.vector.Vector4f;
 
 import java.util.List;

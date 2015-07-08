@@ -14,7 +14,6 @@ import evilcraft.client.gui.container.GuiBloodInfuser;
 import evilcraft.core.client.gui.container.GuiWorking;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
-import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.inventory.container.ContainerBloodInfuser;
 import evilcraft.item.Promise;
 import evilcraft.tileentity.TileBloodInfuser;

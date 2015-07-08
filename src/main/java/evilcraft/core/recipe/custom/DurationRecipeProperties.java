@@ -1,10 +1,10 @@
 package evilcraft.core.recipe.custom;
 
-import evilcraft.api.recipes.custom.IRecipeProperties;
 import lombok.Data;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipeProperties;
 
 /**
- * Holds a duration (in ticks) for which a {@link evilcraft.api.recipes.custom.IRecipe} needs to be processed.
+ * Holds a duration (in ticks) for which a {@link org.cyclops.cyclopscore.recipe.custom.api.IRecipe} needs to be processed.
  * @author immortaleeb
  */
 @Data

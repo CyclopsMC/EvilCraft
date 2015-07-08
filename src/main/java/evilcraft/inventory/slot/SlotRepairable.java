@@ -1,5 +1,6 @@
 package evilcraft.inventory.slot;
 
+import evilcraft.EvilCraft;
 import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import net.minecraft.inventory.IInventory;
@@ -36,7 +37,7 @@ public class SlotRepairable extends Slot {
      * @return If the given item is valid.
      */
     public static boolean checkIsItemValid(ItemStack itemStack) {
-        return itemStack != null && RegistryManager.getRegistry(IBloodChestRepairActionRegistry.class).
+        return itemStack != null && EvilCraft._instance.getRegistryManager().getRegistry(IBloodChestRepairActionRegistry.class).
         		isItemValidForSlot(itemStack);
     }
 

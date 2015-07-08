@@ -1,5 +1,6 @@
 package evilcraft.tileentity.tickaction.bloodchest;
 
+import evilcraft.EvilCraft;
 import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.block.BloodChestConfig;
@@ -32,7 +33,7 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
                     && itemStack != null
                     ) {
                 // Call handlers registered via API.
-            	IBloodChestRepairActionRegistry actions = RegistryManager.
+            	IBloodChestRepairActionRegistry actions = EvilCraft._instance.getRegistryManager().
             			getRegistry(IBloodChestRepairActionRegistry.class);
                 int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {

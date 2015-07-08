@@ -1,15 +1,15 @@
 package evilcraft.tileentity.tickaction.bloodinfuser;
 
-import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
-import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.tileentity.TileBloodInfuser;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
+import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 
 /**
  * {@link ITickAction} that can infuse items with blood.

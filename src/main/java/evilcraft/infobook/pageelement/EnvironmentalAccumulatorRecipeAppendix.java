@@ -1,7 +1,6 @@
 package evilcraft.infobook.pageelement;
 
 import evilcraft.Reference;
-import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
@@ -12,6 +11,7 @@ import evilcraft.infobook.InfoSection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 
 import java.util.HashMap;
 import java.util.Map;

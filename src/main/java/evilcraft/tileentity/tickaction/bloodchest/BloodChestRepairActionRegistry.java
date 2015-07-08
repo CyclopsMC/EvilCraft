@@ -1,5 +1,6 @@
 package evilcraft.tileentity.tickaction.bloodchest;
 
+import evilcraft.EvilCraft;
 import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
@@ -90,7 +91,7 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
         @Override
         public void onChanged(Object value) {
             if(calledOnce) {
-                RegistryManager.getRegistry(IBloodChestRepairActionRegistry.class).setBlacklist((String[]) value);
+                EvilCraft._instance.getRegistryManager().getRegistry(IBloodChestRepairActionRegistry.class).setBlacklist((String[]) value);
             }
             calledOnce = true;
         }

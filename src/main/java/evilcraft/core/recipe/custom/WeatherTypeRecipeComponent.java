@@ -1,10 +1,10 @@
 package evilcraft.core.recipe.custom;
 
-import evilcraft.api.recipes.custom.IRecipeInput;
-import evilcraft.api.recipes.custom.IRecipeOutput;
-import evilcraft.api.recipes.custom.IRecipeProperties;
 import evilcraft.core.weather.WeatherType;
 import lombok.Data;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipeInput;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipeOutput;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipeProperties;
 
 /**
  * A recipe component that holds a {@link evilcraft.core.weather.WeatherType}.

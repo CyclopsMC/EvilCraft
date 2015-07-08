@@ -1,6 +1,5 @@
 package evilcraft.client.render.tileentity;
 
-import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
@@ -13,6 +12,7 @@ import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.lwjgl.opengl.GL11;
 
 /**

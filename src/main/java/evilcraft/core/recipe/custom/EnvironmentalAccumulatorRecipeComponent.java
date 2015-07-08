@@ -1,12 +1,14 @@
 package evilcraft.core.recipe.custom;
 
-import evilcraft.api.recipes.custom.IRecipeInput;
-import evilcraft.api.recipes.custom.IRecipeOutput;
 import evilcraft.core.weather.WeatherType;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipeInput;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipeOutput;
+import org.cyclops.cyclopscore.recipe.custom.component.IItemStackRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 
 /**
- * A recipe component that can be used in {@link evilcraft.api.recipes.custom.IRecipe}S for the
+ * A recipe component that can be used in {@link org.cyclops.cyclopscore.recipe.custom.api.IRecipe}S for the
  * {@link evilcraft.block.EnvironmentalAccumulator}.
  * @author immortaleeb
  */

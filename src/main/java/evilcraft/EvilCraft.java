@@ -2,13 +2,11 @@ package evilcraft;
 
 import com.google.common.collect.Sets;
 import evilcraft.api.degradation.IDegradationRegistry;
-import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import evilcraft.command.CommandEvilCraft;
 import evilcraft.core.degradation.DegradationRegistry;
 import evilcraft.core.helper.LoggerHelper;
-import evilcraft.core.recipe.custom.SuperRecipeRegistry;
 import evilcraft.event.ServerStatusEventHook;
 import evilcraft.infobook.InfoBookRegistry;
 import evilcraft.item.DarkGemConfig;
@@ -22,7 +20,6 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
@@ -32,8 +29,9 @@ import org.cyclops.cyclopscore.init.ItemCreativeTab;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
+import org.cyclops.cyclopscore.recipe.custom.SuperRecipeRegistry;
+import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
 
-import java.io.File;
 import java.util.Set;
 
 /**
@@ -94,7 +92,7 @@ public class EvilCraft extends ModBase {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         getRegistryManager().addRegistry(IDegradationRegistry.class, new DegradationRegistry());
-        getRegistryManager().addRegistry(ISuperRecipeRegistry.class, new SuperRecipeRegistry());
+        getRegistryManager().addRegistry(ISuperRecipeRegistry.class, new SuperRecipeRegistry(this));
         getRegistryManager().addRegistry(IBloodChestRepairActionRegistry.class, new BloodChestRepairActionRegistry());
 
         super.preInit(event);

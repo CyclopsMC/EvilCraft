@@ -1,11 +1,9 @@
 package evilcraft.infobook.pageelement;
 
-import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
-import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.InfoSection;
 import evilcraft.item.BucketBloodConfig;
@@ -13,6 +11,8 @@ import evilcraft.item.Promise;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
+import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 
 /**
  * Blood Infuser recipes.
