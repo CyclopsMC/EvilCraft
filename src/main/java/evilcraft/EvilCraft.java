@@ -1,10 +1,8 @@
 package evilcraft;
 
-import com.google.common.collect.Sets;
 import evilcraft.api.degradation.IDegradationRegistry;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.client.gui.container.GuiMainMenuEvilifier;
-import evilcraft.command.CommandEvilCraft;
 import evilcraft.core.degradation.DegradationRegistry;
 import evilcraft.event.ServerStatusEventHook;
 import evilcraft.infobook.InfoBookRegistry;
@@ -24,7 +22,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigReference;
-import org.cyclops.cyclopscore.helper.LoggerHelper;
 import org.cyclops.cyclopscore.init.ItemCreativeTab;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
@@ -35,8 +32,6 @@ import org.cyclops.cyclopscore.recipe.custom.SuperRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
 import org.cyclops.cyclopscore.world.gen.IRetroGenRegistry;
 import org.cyclops.cyclopscore.world.gen.RetroGenRegistry;
-
-import java.util.Set;
 
 /**
  * The main mod class of EvilCraft.
@@ -90,6 +85,7 @@ public class EvilCraft extends ModBase {
      * @param event The Forge event required for this.
      */
     @EventHandler
+    @Override
     public void preInit(FMLPreInitializationEvent event) {
         getRegistryManager().addRegistry(IDegradationRegistry.class, new DegradationRegistry());
         getRegistryManager().addRegistry(ISuperRecipeRegistry.class, new SuperRecipeRegistry(this));
@@ -108,6 +104,7 @@ public class EvilCraft extends ModBase {
      * @param event The Forge event required for this.
      */
     @EventHandler
+    @Override
     public void init(FMLInitializationEvent event) {
         super.init(event);
         
@@ -133,6 +130,7 @@ public class EvilCraft extends ModBase {
      * @param event The Forge event required for this.
      */
     @EventHandler
+    @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
     }
@@ -142,8 +140,9 @@ public class EvilCraft extends ModBase {
      * @param event The Forge event required for this.
      */
     @EventHandler
+    @Override
     public void onServerStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand(new CommandEvilCraft());
+        super.onServerStarting(event);
     }
 
     /**
@@ -151,6 +150,7 @@ public class EvilCraft extends ModBase {
      * @param event The Forge event required for this.
      */
     @EventHandler
+    @Override
     public void onServerStarted(FMLServerStartedEvent event) {
         super.onServerStarted(event);
         ServerStatusEventHook.getInstance().onStartedEvent(event);
@@ -161,6 +161,7 @@ public class EvilCraft extends ModBase {
      * @param event The Forge event required for this.
      */
     @EventHandler
+    @Override
     public void onServerStopping(FMLServerStoppingEvent event) {
         super.onServerStopping(event);
         ServerStatusEventHook.getInstance().onStoppingEvent(event);
