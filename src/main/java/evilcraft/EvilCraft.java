@@ -28,6 +28,8 @@ import org.cyclops.cyclopscore.helper.LoggerHelper;
 import org.cyclops.cyclopscore.init.ItemCreativeTab;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
+import org.cyclops.cyclopscore.item.BucketRegistry;
+import org.cyclops.cyclopscore.item.IBucketRegistry;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
 import org.cyclops.cyclopscore.recipe.custom.SuperRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
@@ -98,6 +100,7 @@ public class EvilCraft extends ModBase {
         getRegistryManager().addRegistry(ISuperRecipeRegistry.class, new SuperRecipeRegistry(this));
         getRegistryManager().addRegistry(IBloodChestRepairActionRegistry.class, new BloodChestRepairActionRegistry());
         getRegistryManager().addRegistry(IRetroGenRegistry.class, new RetroGenRegistry(this));
+        getRegistryManager().addRegistry(IBucketRegistry.class, new BucketRegistry());
 
         super.preInit(event);
 

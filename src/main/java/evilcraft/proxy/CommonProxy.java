@@ -1,7 +1,6 @@
 package evilcraft.proxy;
 
 import evilcraft.EvilCraft;
-import evilcraft.core.BucketHandler;
 import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.event.*;
 import evilcraft.network.PacketHandler;
@@ -44,7 +43,6 @@ public class CommonProxy extends CommonProxyComponent {
     @Override
     public void registerEventHooks() {
         super.registerEventHooks();
-    	MinecraftForge.EVENT_BUS.register(BucketHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
