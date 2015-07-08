@@ -1,9 +1,9 @@
 package evilcraft.core.client.gui.container;
 
 import evilcraft.client.gui.container.GuiUpgradeTab;
-import evilcraft.core.inventory.container.ExtendedInventoryContainer;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.tileentity.TileWorking;
+import org.cyclops.cyclopscore.inventory.container.ExtendedInventoryContainer;
 
 /**
  * A GUI container that has support for the display of {@link WorkingTileEntity}.
@@ -11,7 +11,7 @@ import evilcraft.tileentity.TileWorking;
  *
  * @param <T> The {@link WorkingTileEntity} class, mostly just the extension class.
  */
-public class GuiWorking<T extends TileWorking<?, ?>> extends GuiContainerTankInventory<T>
+public abstract class GuiWorking<T extends TileWorking<?, ?>> extends GuiContainerTankInventory<T>
         implements GuiUpgradeTab.SlotEnabledCallback {
 
     public static final int UPGRADES_OFFSET_X = 28;

@@ -1,8 +1,9 @@
 package evilcraft.core.client.gui.container;
 
+import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import evilcraft.core.helper.RenderHelpers;
-import evilcraft.core.inventory.container.ExtendedInventoryContainer;
+import org.cyclops.cyclopscore.inventory.container.ExtendedInventoryContainer;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.init.Blocks;
@@ -18,7 +19,7 @@ import java.util.List;
  *
  * @param <T> The {@link TankInventoryTileEntity} class, mostly just the extension class.
  */
-public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extends GuiContainerExtended {
+public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntity> extends GuiContainerExtended {
 	
     private boolean showTank = false;
     private int tankWidth;

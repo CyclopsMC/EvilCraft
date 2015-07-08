@@ -7,6 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.inventory.container.ExtendedInventoryContainer;
 
 /**
  * A container for an item.

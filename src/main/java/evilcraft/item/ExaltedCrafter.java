@@ -5,11 +5,13 @@ import evilcraft.core.inventory.NBTSimpleInventory;
 import evilcraft.core.item.ItemGui;
 import evilcraft.entity.item.EntityItemEmpowerable;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -49,11 +51,6 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     public ExaltedCrafter(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setMaxStackSize(1);
-        
-        if (MinecraftHelpers.isClientSide())
-            setGUI(GuiExaltedCrafter.class);
-        
-        setContainer(ContainerExaltedCrafter.class);
     }
     
     @Override
@@ -145,4 +142,14 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
         return false;
     }
 
+    @Override
+    public Class<? extends Container> getContainer() {
+        return ContainerExaltedCrafter.class;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Class<? extends GuiScreen> getGui() {
+        return GuiExaltedCrafter.class;
+    }
 }

@@ -2,8 +2,12 @@ package evilcraft.item;
 
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.item.ItemGui;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -28,16 +32,23 @@ public class OriginsOfDarkness extends ItemGui {
     public OriginsOfDarkness(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setMaxStackSize(1);
-
-        if (MinecraftHelpers.isClientSide())
-            setGUI(GuiOriginsOfDarkness.class);
-
-        // We don't set a container, since this book does not require any server component.
     }
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
         return EnumRarity.UNCOMMON;
+    }
+
+    @Override
+    public Class<? extends Container> getContainer() {
+        // We don't set a container, since this book does not require any server component.
+        return null;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Class<? extends GuiScreen> getGui() {
+        return GuiOriginsOfDarkness.class;
     }
 
     @Override

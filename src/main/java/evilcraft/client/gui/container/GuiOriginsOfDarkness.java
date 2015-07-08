@@ -37,7 +37,7 @@ import java.util.List;
  */
 public class GuiOriginsOfDarkness extends GuiScreen {
 
-    protected static ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, OriginsOfDarkness.getInstance().getGuiTexture());
+    protected static ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "originsOfDarkness_gui.png");
     private static final int BUTTON_NEXT = 1;
     private static final int BUTTON_PREVIOUS = 2;
     private static final int BUTTON_PARENT = 3;

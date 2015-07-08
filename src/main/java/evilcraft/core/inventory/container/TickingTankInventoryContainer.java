@@ -7,6 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.inventory.container.TileInventoryContainer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Map;
  *
  * @param <T> The TickingTankInventoryTileEntity class.
  */
-public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEntity<T>> extends TileInventoryContainer<T>{
+public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEntity<T>> extends TileInventoryContainer<T> {
 
     private Map<TickComponent<T, ITickAction<T>>, Integer> previousTicks;
     

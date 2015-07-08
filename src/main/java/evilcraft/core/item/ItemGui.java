@@ -1,11 +1,9 @@
 package evilcraft.core.item;
 
 import evilcraft.EvilCraft;
-import evilcraft.Reference;
-import evilcraft.client.gui.GuiHandler;
+import org.cyclops.cyclopscore.client.gui.GuiHandler;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.Helpers.IDType;
-import evilcraft.core.inventory.IGuiContainerProvider;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -16,19 +14,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.inventory.IGuiContainerProvider;
 
 /**
  * Configurable item that can show a GUI on right clicking.
  * @author rubensworks
  *
  */
-public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
+public abstract class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
 
 	private int guiID;
-	
-	private Class<? extends Container> container;
-    @SideOnly(Side.CLIENT)
-    private Class<? extends GuiScreen> gui;
 	
 	/**
      * Make a new item instance.
@@ -39,6 +35,11 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
 		super(eConfig);
 		this.guiID = Helpers.getNewId(EvilCraft._instance, IDType.GUI);
 	}
+
+    @Override
+    public ModBase getMod() {
+        return EvilCraft._instance;
+    }
     
     @Override
     public int getGuiID() {
@@ -46,26 +47,11 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
     }
     
     @Override
-	@SideOnly(Side.CLIENT)
-    public void setGUI(Class<? extends GuiScreen> gui) {
-        this.gui = gui;
-    }
-    
-    @Override
-	public void setContainer(Class<? extends Container> container) {
-        this.container = container;
-    }
-    
-    @Override
-	public Class<? extends Container> getContainer() {
-        return container;
-    }
+	public abstract Class<? extends Container> getContainer();
     
     @Override
 	@SideOnly(Side.CLIENT)
-    public Class<? extends GuiScreen> getGUI() {
-        return gui;
-    }
+    public abstract Class<? extends GuiScreen> getGui();
     
     @Override
 	public boolean onDroppedByPlayer(ItemStack itemstack, EntityPlayer player) {
@@ -78,16 +64,6 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
 		return super.onDroppedByPlayer(itemstack, player);
 	}
     
-    @Override
-    public String getGuiTexture() {
-        return getGuiTexture("");
-    }
-    
-    @Override
-    public String getGuiTexture(String suffix) {
-        return Reference.TEXTURE_PATH_GUI + eConfig.getNamedId() + "_gui" + suffix + ".png";
-    }
-    
     /**
      * Open the gui for a certain item index in the player inventory.
      * @param world The world.
@@ -95,7 +71,7 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
      * @param itemIndex The item index in the player inventory.
      */
     public void openGuiForItemIndex(World world, EntityPlayer player, int itemIndex) {
-    	GuiHandler.setTemporaryItemIndex(itemIndex);
+    	EvilCraft._instance.getGuiHandler().setTemporaryData(GuiHandler.GuiType.ITEM, itemIndex);
     	if(!world.isRemote || isClientSideOnlyGui()) {
     		player.openGui(EvilCraft._instance, getGuiID(), world, (int) player.posX, (int) player.posY, (int) player.posZ);
     	}

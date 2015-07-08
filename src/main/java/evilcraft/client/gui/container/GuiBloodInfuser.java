@@ -1,5 +1,6 @@
 package evilcraft.client.gui.container;
 
+import evilcraft.Reference;
 import evilcraft.block.BloodInfuser;
 import evilcraft.core.client.gui.container.GuiWorking;
 import evilcraft.inventory.container.ContainerBloodInfuser;
@@ -81,6 +82,11 @@ public class GuiBloodInfuser extends GuiWorking<TileBloodInfuser> {
         super(new ContainerBloodInfuser(inventory, tile), tile);
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
         this.setProgress(PROGRESSWIDTH, PROGRESSHEIGHT, PROGRESSX, PROGRESSY, PROGRESSTARGETX, PROGRESSTARGETY);
+    }
+
+    @Override
+    public String getGuiTexture() {
+        return Reference.TEXTURE_PATH_GUI + "bloodInfuser_gui.png";
     }
     
 }

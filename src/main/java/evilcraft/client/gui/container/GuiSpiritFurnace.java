@@ -1,5 +1,6 @@
 package evilcraft.client.gui.container;
 
+import evilcraft.Reference;
 import evilcraft.block.SpiritFurnace;
 import evilcraft.core.client.gui.container.GuiWorking;
 import evilcraft.inventory.container.ContainerSpiritFurnace;
@@ -95,6 +96,11 @@ public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
         super(new ContainerSpiritFurnace(inventory, tile), tile);
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
         this.setProgress(PROGRESSWIDTH, PROGRESSHEIGHT, PROGRESSX, PROGRESSY, PROGRESSTARGETX, PROGRESSTARGETY);
+    }
+
+    @Override
+    public String getGuiTexture() {
+        return Reference.TEXTURE_PATH_GUI + "spiritFurnace_gui.png";
     }
     
     private String prettyPrintSize(Vec3i size) {

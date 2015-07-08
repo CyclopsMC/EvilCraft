@@ -2,12 +2,12 @@ package evilcraft.inventory.container;
 
 import evilcraft.core.client.gui.container.GuiWorking;
 import evilcraft.core.inventory.container.ContainerWorking;
-import evilcraft.core.inventory.slot.SlotSingleItem;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.tileentity.TileWorking;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.inventory.slot.SlotSingleItem;
 
 /**
  * Container for TileWorking instances.

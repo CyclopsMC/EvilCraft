@@ -1,9 +1,9 @@
 package evilcraft.client.gui.container;
 
 import evilcraft.Reference;
-import evilcraft.core.client.gui.container.GuiContainerExtended;
 import evilcraft.core.client.gui.container.GuiTab;
 import net.minecraft.util.ResourceLocation;
+import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
 
 /**
  * Tab for upgrades in guis.

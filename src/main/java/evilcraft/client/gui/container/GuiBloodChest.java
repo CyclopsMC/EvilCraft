@@ -1,5 +1,6 @@
 package evilcraft.client.gui.container;
 
+import evilcraft.Reference;
 import evilcraft.block.BloodChest;
 import evilcraft.core.client.gui.container.GuiContainerTankInventory;
 import evilcraft.inventory.container.ContainerBloodChest;
@@ -33,5 +34,9 @@ public class GuiBloodChest extends GuiContainerTankInventory<TileBloodChest> {
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
     }
 
-    
+
+    @Override
+    public String getGuiTexture() {
+        return Reference.TEXTURE_PATH_GUI + "bloodChest_gui.png";
+    }
 }

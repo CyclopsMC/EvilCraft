@@ -3,13 +3,13 @@ package evilcraft.inventory.container;
 import evilcraft.api.gameevent.BloodInfuserRemoveEvent;
 import evilcraft.block.BloodInfuser;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
-import evilcraft.core.inventory.slot.SlotRemoveOnly;
 import evilcraft.core.inventory.slot.SlotWorking;
 import evilcraft.tileentity.TileBloodInfuser;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 
 /**
  * Container for the {@link BloodInfuser}.

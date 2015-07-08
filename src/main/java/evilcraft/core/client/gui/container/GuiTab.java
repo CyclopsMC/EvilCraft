@@ -2,6 +2,7 @@ package evilcraft.core.client.gui.container;
 
 import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.util.ResourceLocation;
+import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
 
 /**
  * Simple tab gui element.

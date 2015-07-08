@@ -1,5 +1,6 @@
 package evilcraft.client.gui.container;
 
+import evilcraft.Reference;
 import evilcraft.block.SpiritFurnace;
 import evilcraft.core.client.gui.container.GuiWorking;
 import evilcraft.inventory.container.ContainerSpiritReanimator;
@@ -96,6 +97,11 @@ public class GuiSpiritReanimator extends GuiWorking<TileSpiritReanimator> {
         super(new ContainerSpiritReanimator(inventory, tile), tile);
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
         this.setProgress(PROGRESSWIDTH, PROGRESSHEIGHT, PROGRESSX, PROGRESSY, PROGRESSTARGETX, PROGRESSTARGETY);
+    }
+
+    @Override
+    public String getGuiTexture() {
+        return Reference.TEXTURE_PATH_GUI + "spiritReanimator_gui.png";
     }
     
     @Override

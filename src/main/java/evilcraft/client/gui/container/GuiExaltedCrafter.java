@@ -1,8 +1,10 @@
 package evilcraft.client.gui.container;
 
+import evilcraft.Reference;
 import evilcraft.client.key.Keys;
 import evilcraft.core.client.gui.GuiButtonExtended;
-import evilcraft.core.client.gui.container.GuiContainerExtended;
+import net.minecraft.util.ResourceLocation;
+import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
 import evilcraft.item.ExaltedCrafter;
@@ -56,7 +58,12 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     	}
     	super.keyTyped(key, code);
     }
-    
+
+    @Override
+    public String getGuiTexture() {
+        return Reference.TEXTURE_PATH_GUI + "exaltedCrafter_gui.png";
+    }
+
     @SuppressWarnings("unchecked")
 	@Override
     public void initGui() {
