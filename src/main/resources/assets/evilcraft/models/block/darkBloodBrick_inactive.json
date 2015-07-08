@@ -1,0 +1,6 @@
+{
+  "parent": "evilcraft:block/darkBloodBrick",
+  "textures": {
+    "all": "evilcraft:blocks/darkBloodBrick_inactive"
+  }
+}

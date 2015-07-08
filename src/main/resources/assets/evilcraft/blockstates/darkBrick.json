@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:darkBrick"
+    },
+    "inventory": {
+      "model": "evilcraft:darkBrick"
+    }
+  }
+}

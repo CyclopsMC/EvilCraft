@@ -1,0 +1,7 @@
+{
+  "parent": "evilcraft:block/darkTank",
+  "textures": {
+    "all": "evilcraft:blocks/darkTank_side_active",
+    "up": "evilcraft:blocks/darkTank_top_active"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "evilcraft:blocks/bloodInfuser_side",
+    "up": "evilcraft:blocks/bloodInfuser_UP",
+    "north": "evilcraft:blocks/bloodInfuser_NORTH_off"
+  }
+}

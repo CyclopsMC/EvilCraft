@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:spikedPlate"
+    },
+    "inventory": {
+      "model": "evilcraft:spikedPlate"
+    }
+  }
+}

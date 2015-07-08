@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:bloodWaxedCoalBlock"
+    },
+    "inventory": {
+      "model": "evilcraft:bloodWaxedCoalBlock"
+    }
+  }
+}

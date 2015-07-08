@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:undeadPlank"
+    },
+    "inventory": {
+      "model": "evilcraft:undeadPlank"
+    }
+  }
+}

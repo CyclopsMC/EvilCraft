@@ -1,0 +1,6 @@
+{
+  "parent": "evilcraft:block/blockBlood",
+  "textures": {
+    "all": "evilcraft:blocks/blockBlood_still"
+  }
+}

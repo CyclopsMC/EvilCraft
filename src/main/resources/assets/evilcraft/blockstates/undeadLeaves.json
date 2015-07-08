@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "opaque=false": {
+      "model": "evilcraft:undeadLeaves"
+    },
+    "opaque=true": {
+      "model": "evilcraft:undeadLeaves_opaque"
+    },
+    "inventory": {
+      "model": "evilcraft:undeadLeaves"
+    }
+  }
+}

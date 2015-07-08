@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:hardenedBlood"
+    },
+    "inventory": {
+      "model": "evilcraft:hardenedBlood"
+    }
+  }
+}

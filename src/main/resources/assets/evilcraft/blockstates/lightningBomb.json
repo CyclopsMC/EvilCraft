@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:lightningBomb"
+    },
+    "inventory": {
+      "model": "evilcraft:lightningBomb"
+    }
+  }
+}

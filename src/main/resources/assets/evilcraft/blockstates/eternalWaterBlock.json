@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:eternalWaterBlock"
+    },
+    "inventory": {
+      "model": "evilcraft:eternalWaterBlock"
+    }
+  }
+}

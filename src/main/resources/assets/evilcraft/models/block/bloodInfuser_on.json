@@ -1,0 +1,6 @@
+{
+  "parent": "evilcraft:block/bloodInfuser",
+  "textures": {
+    "north": "evilcraft:blocks/bloodInfuser_NORTH_on"
+  }
+}

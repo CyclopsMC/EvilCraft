@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:gemStoneTorch"
+    },
+    "inventory": {
+      "model": "evilcraft:gemStoneTorch"
+    }
+  }
+}

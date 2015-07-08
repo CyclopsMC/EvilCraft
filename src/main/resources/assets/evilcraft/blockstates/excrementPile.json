@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": {
+      "model": "evilcraft:excrementPile"
+    },
+    "inventory": {
+      "model": "evilcraft:excrementPile"
+    }
+  }
+}
