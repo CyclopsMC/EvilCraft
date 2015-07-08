@@ -5,6 +5,7 @@ import evilcraft.core.tileentity.tickaction.TickComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.Fluid;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 
 import java.util.LinkedList;
 

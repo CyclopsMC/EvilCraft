@@ -1,9 +1,9 @@
 package evilcraft.tileentity;
 
-import evilcraft.core.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import evilcraft.core.fluid.WorldSharedTank;
 import evilcraft.core.fluid.WorldSharedTankCache;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 

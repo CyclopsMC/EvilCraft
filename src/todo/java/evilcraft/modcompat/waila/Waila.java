@@ -4,7 +4,6 @@ import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.block.*;
 import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
 import mcp.mobius.waila.api.IWailaRegistrar;
 

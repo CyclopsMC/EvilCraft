@@ -1,6 +1,6 @@
 package evilcraft.tileentity;
 
-import evilcraft.core.tileentity.TankInventoryTileEntity;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.item.Promise;

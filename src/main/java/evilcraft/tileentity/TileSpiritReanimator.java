@@ -6,7 +6,7 @@ import evilcraft.block.BoxOfEternalClosureConfig;
 import evilcraft.block.SpiritReanimator;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
-import evilcraft.core.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;

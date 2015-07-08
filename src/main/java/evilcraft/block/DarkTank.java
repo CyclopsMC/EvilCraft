@@ -4,7 +4,7 @@ import evilcraft.Configs;
 import evilcraft.core.IInformationProvider;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.block.component.BlockTankComponent;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.fluid.BloodConfig;
 import evilcraft.tileentity.TileDarkTank;

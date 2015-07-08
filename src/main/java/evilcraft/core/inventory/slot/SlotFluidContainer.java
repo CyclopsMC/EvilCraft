@@ -1,6 +1,6 @@
 package evilcraft.core.inventory.slot;
 
-import evilcraft.core.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;

@@ -2,7 +2,7 @@ package evilcraft.core.item;
 
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.helper.ItemHelpers;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

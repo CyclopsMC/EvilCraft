@@ -1,9 +1,9 @@
 package evilcraft.core.client.gui.container;
 
-import evilcraft.core.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.inventory.container.ExtendedInventoryContainer;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.FluidStack;

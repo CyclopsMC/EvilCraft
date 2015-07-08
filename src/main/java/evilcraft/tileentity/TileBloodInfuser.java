@@ -4,7 +4,7 @@ import evilcraft.block.BloodInfuser;
 import evilcraft.core.algorithm.SingleCache;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
-import evilcraft.core.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;

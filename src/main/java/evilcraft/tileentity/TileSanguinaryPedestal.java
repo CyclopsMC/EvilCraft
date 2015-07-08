@@ -5,7 +5,7 @@ import evilcraft.block.PurifierConfig;
 import evilcraft.block.SanguinaryPedestal;
 import evilcraft.block.SanguinaryPedestalConfig;
 import evilcraft.core.algorithm.RegionIterator;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;

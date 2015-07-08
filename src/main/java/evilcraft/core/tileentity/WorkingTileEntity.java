@@ -8,6 +8,7 @@ import evilcraft.core.tileentity.upgrade.IUpgradeBehaviour;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 
 import java.util.List;
 import java.util.Map;

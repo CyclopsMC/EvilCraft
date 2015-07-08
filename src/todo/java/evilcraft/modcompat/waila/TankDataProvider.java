@@ -1,6 +1,5 @@
 package evilcraft.modcompat.waila;
 
-import evilcraft.core.tileentity.TankInventoryTileEntity;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;

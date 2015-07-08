@@ -1,6 +1,6 @@
 package evilcraft.tileentity.tickaction;
 
-import evilcraft.core.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import net.minecraft.init.Items;

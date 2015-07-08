@@ -2,7 +2,7 @@ package evilcraft.tileentity;
 
 import evilcraft.GeneralConfig;
 import evilcraft.block.DarkTank;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

@@ -3,7 +3,7 @@ package evilcraft.core.block.component;
 import evilcraft.core.block.IBlockTank;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.core.item.DamageIndicatedItemComponent;
-import evilcraft.core.tileentity.TankInventoryTileEntity;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

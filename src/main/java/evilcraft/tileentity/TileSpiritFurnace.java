@@ -11,7 +11,7 @@ import evilcraft.core.block.CubeDetector;
 import evilcraft.core.block.HollowCubeDetector;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
-import evilcraft.core.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
