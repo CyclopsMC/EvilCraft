@@ -57,7 +57,7 @@ public class EnvironmentalAccumulatorConfig extends BlockContainerConfig {
 	@Override
 	public void onRegistered() {
 	    if(MinecraftHelpers.isClientSide()) {
-	        ClientProxy.TILE_ENTITY_RENDERERS.put(TileEnvironmentalAccumulator.class, new RenderTileEntityEnvironmentalAccumulator());
+			getMod().getProxy().registerRenderer(TileEnvironmentalAccumulator.class, new RenderTileEntityEnvironmentalAccumulator());
 	    }
 	}
 	

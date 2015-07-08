@@ -35,7 +35,7 @@ public class SpiritPortalConfig extends BlockContainerConfig {
 	@Override
 	public void onRegistered() {
 	    if(MinecraftHelpers.isClientSide()) {
-	        ClientProxy.TILE_ENTITY_RENDERERS.put(TileSpiritPortal.class, new RenderTileEntitySpiritPortal());
+			getMod().getProxy().registerRenderer(TileSpiritPortal.class, new RenderTileEntitySpiritPortal());
 	    }
 	}
 

@@ -37,7 +37,7 @@ public class PurifierConfig extends BlockContainerConfig {
         if(MinecraftHelpers.isClientSide()) {
             // TODO
             //ClientProxy.BLOCK_RENDERERS.add(new RenderPurifier());
-            ClientProxy.TILE_ENTITY_RENDERERS.put(TilePurifier.class, new RenderTileEntityPurifier());
+            getMod().getProxy().registerRenderer(TilePurifier.class, new RenderTileEntityPurifier());
         }
     }
     

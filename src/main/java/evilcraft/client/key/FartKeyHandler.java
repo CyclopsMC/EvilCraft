@@ -1,4 +1,4 @@
-package evilcraft.client;
+package evilcraft.client.key;
 
 import evilcraft.network.PacketHandler;
 import evilcraft.network.packet.FartPacket;
@@ -9,16 +9,17 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.client.key.IKeyHandler;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 /**
- * A {@link KeyHandler} which handles farts.
+ * A {@link IKeyHandler} which handles farts.
  * 
  * @author immortaleeb
  *
  */
 @SideOnly(Side.CLIENT)
-public class FartKeyHandler implements KeyHandler {
+public class FartKeyHandler implements IKeyHandler {
 	
 	private boolean fartingEnabled = false;
 	
@@ -27,7 +28,7 @@ public class FartKeyHandler implements KeyHandler {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		GameSettings settings = Minecraft.getMinecraft().gameSettings;
 		
-		if (kb == Keys.FART.keyBinding) {
+		if (kb == Keys.FART) {
 			fartingEnabled = !fartingEnabled;
 			
 			if (fartingEnabled)

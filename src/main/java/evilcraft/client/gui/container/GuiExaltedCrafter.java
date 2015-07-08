@@ -1,6 +1,6 @@
 package evilcraft.client.gui.container;
 
-import evilcraft.client.Keys;
+import evilcraft.client.key.Keys;
 import evilcraft.core.client.gui.GuiButtonExtended;
 import evilcraft.core.client.gui.container.GuiContainerExtended;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
@@ -51,7 +51,7 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     
     @Override
     protected void keyTyped(char key, int code) throws IOException {
-    	if(code == Keys.EXALTEDCRAFTING.keyBinding.getKeyCode()) {
+    	if(code == Keys.EXALTEDCRAFTING.getKeyCode()) {
             pressButton(MinecraftHelpers.isShifted() ? BUTTON_BALANCE : BUTTON_CLEAR);
     	}
     	super.keyTyped(key, code);

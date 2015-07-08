@@ -82,7 +82,7 @@ public class BloodChestConfig extends BlockContainerConfig {
     private void registerClientSide() {
     	ModelBase model = new ModelChest();
     	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "bloodChest.png");
-        ClientProxy.TILE_ENTITY_RENDERERS.put(TileBloodChest.class, new RenderTileEntityBloodChest(model, texture));
+        getMod().getProxy().registerRenderer(TileBloodChest.class, new RenderTileEntityBloodChest(model, texture));
         // TODO: item renderer
         //ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BloodChest.getInstance()), new RenderItemBloodChest(model, texture));
     }

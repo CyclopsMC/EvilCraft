@@ -1,27 +1,25 @@
 package evilcraft.proxy;
 
+import com.google.common.collect.Lists;
 import evilcraft.EvilCraft;
-import evilcraft.client.ExaltedCrafterKeyHandler;
-import evilcraft.client.FartKeyHandler;
-import evilcraft.client.KeyHandler;
-import evilcraft.client.Keys;
-import evilcraft.event.KeyInputEventHook;
+import evilcraft.client.key.ExaltedCrafterKeyHandler;
+import evilcraft.client.key.FartKeyHandler;
+import evilcraft.client.key.Keys;
 import evilcraft.event.PlayerTickEventHook;
 import evilcraft.event.TextureStitchEventHook;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.cyclops.cyclopscore.client.key.IKeyRegistry;
+import org.cyclops.cyclopscore.client.key.KeyRegistry;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
+import org.lwjgl.input.Keyboard;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Proxy for the client side.
@@ -31,15 +29,6 @@ import java.util.Map;
  */
 public class ClientProxy extends ClientProxyComponent {
 
-	/**
-	 * Map for {@link Entity} renderers.
-	 */
-	public static Map<Class<? extends Entity>, Render> ENTITY_RENDERERS = new HashMap<Class<? extends Entity>, Render>();
-	/**
-	 * Map for the {@link TileEntity} renderers.
-	 */
-	public static Map<Class<? extends TileEntity>, TileEntitySpecialRenderer> TILE_ENTITY_RENDERERS = new HashMap<Class<? extends TileEntity>, TileEntitySpecialRenderer>();
-
 	private final CommonProxy commonProxy = new CommonProxy();
 
 	@Override
@@ -48,19 +37,18 @@ public class ClientProxy extends ClientProxyComponent {
 	}
 
 	@Override
-	public void registerKeyBindings() {
+	public void registerKeyBindings(IKeyRegistry keyRegistry) {
 		GameSettings settings = Minecraft.getMinecraft().gameSettings;
 
-		for (Keys key : Keys.values())
-			ClientRegistry.registerKeyBinding(key.keyBinding);
+		for (KeyBinding key : Keys.KEYS)
+			ClientRegistry.registerKeyBinding(key);
 
 		// Fart key
-		KeyHandler fartKeyHandler = new FartKeyHandler();
+        FartKeyHandler fartKeyHandler = new FartKeyHandler();
 
-		Keys.FART.addKeyHandler(fartKeyHandler);
-		Keys.EXALTEDCRAFTING.addKeyHandler(new ExaltedCrafterKeyHandler());
-		KeyInputEventHook.getInstance().addKeyHandler(settings.keyBindSneak,
-				fartKeyHandler);
+        keyRegistry.addKeyHandler(Keys.FART, fartKeyHandler);
+        keyRegistry.addKeyHandler(Keys.EXALTEDCRAFTING, new ExaltedCrafterKeyHandler());
+        keyRegistry.addKeyHandler(settings.keyBindSneak, fartKeyHandler);
 
 		EvilCraft.clog("Registered key bindings");
 	}
@@ -84,7 +72,6 @@ public class ClientProxy extends ClientProxyComponent {
 
 		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
 
-		FMLCommonHandler.instance().bus().register(KeyInputEventHook.getInstance());
 		FMLCommonHandler.instance().bus().register(new PlayerTickEventHook());
 	}
     
