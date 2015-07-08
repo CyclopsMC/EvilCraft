@@ -225,16 +225,9 @@ enchantment.evilcraft.unusing=Unusing
 enchantment.evilcraft.poisonTip=Poison Tip
 
 # Chat messages
-chat.command.invalidArguments=Invalid Arguments
-chat.command.invalidSubcommand=Invalid Subcommand
-chat.command.onlyOneValue=Please define one new value
-chat.command.invalidNewValue=Invalid new value
-chat.command.updatedValue=Updated %s to: %s
-chat.command.fartingEnabled=Farting enabled
-chat.command.fartingDisabled=Farting disabled
-chat.command.invalidPlayer=The player '%s' was not found
-chat.command.ignitedPlayer=The player '%s' was lit on fire for %s seconds
-chat.bossDisplay.charge=%s Charge
+chat.evilcraft.command.fartingEnabled=Farting enabled
+chat.evilcraft.command.fartingDisabled=Farting disabled
+chat.evilcraft.bossDisplay.charge=%s Charge
 
 # Death messages
 death.attack.dieWithoutAnyReason=%1$s dies without any apparent reason!

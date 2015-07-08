@@ -31,9 +31,9 @@ public class FartKeyHandler implements KeyHandler {
 			fartingEnabled = !fartingEnabled;
 			
 			if (fartingEnabled)
-				player.addChatComponentMessage(new ChatComponentText(L10NHelpers.localize("chat.command.fartingEnabled")));
+				player.addChatComponentMessage(new ChatComponentText(L10NHelpers.localize("chat.evilcraft.command.fartingEnabled")));
 			else
-				player.addChatComponentMessage(new ChatComponentText(L10NHelpers.localize("chat.command.fartingDisabled")));
+				player.addChatComponentMessage(new ChatComponentText(L10NHelpers.localize("chat.evilcraft.command.fartingDisabled")));
 		}
 		
 		if (fartingEnabled && kb == settings.keyBindSneak) {
