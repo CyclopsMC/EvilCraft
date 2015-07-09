@@ -11,6 +11,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockConnectedTexture;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
@@ -18,11 +19,10 @@ import java.util.Random;
 
 /**
  * Glass that holds back some light.
- * TODO: connected textures
  * @author rubensworks
  *
  */
-public class ObscuredGlass extends ConfigurableBlock {
+public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     
     private static ObscuredGlass _instance = null;
     
@@ -48,7 +48,7 @@ public class ObscuredGlass extends ConfigurableBlock {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public boolean shouldSideBeRendered (IBlockAccess world, BlockPos blockPos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
         Block block = world.getBlockState(blockPos).getBlock();
         return block == this ? false : super.shouldSideBeRendered(world, blockPos, side);
     }

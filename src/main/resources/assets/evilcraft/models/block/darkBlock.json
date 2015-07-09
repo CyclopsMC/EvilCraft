@@ -1,6 +1,3 @@
 {
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "evilcraft:blocks/darkBlock_inventory"
-  }
+  "parent": "block/cube"
 }

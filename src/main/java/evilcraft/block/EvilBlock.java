@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockConnectedTexture;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
@@ -12,11 +12,10 @@ import java.util.Random;
 
 /**
  * A test blockState that is only used for testing stuff in development.
- * TODO: connected textures
  * @author rubensworks
  *
  */
-public class EvilBlock extends ConfigurableBlock {
+public class EvilBlock extends ConfigurableBlockConnectedTexture {
     
     private static EvilBlock _instance = null;
     

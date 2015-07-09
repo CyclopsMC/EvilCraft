@@ -17,6 +17,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockConnectedTexture;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
@@ -24,11 +25,10 @@ import java.util.Random;
 
 /**
  * A hardened version of {@link Blood}.
- * TODO: connected textures
  * @author rubensworks
  *
  */
-public class HardenedBlood extends ConfigurableBlock {
+public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     
     private static HardenedBlood _instance = null;
     

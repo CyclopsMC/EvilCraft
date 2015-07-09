@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockConnectedTexture;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
@@ -14,11 +15,10 @@ import java.util.Random;
 
 /**
  * A storage blockState for {@link DarkGem}.
- * TODO: connected textures
  * @author rubensworks
  *
  */
-public class DarkBlock extends ConfigurableBlock {
+public class DarkBlock extends ConfigurableBlockConnectedTexture {
     
     private static DarkBlock _instance = null;
     

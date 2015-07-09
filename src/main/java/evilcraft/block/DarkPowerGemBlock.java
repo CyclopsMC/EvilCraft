@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockConnectedTexture;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
@@ -13,11 +14,10 @@ import java.util.Random;
 
 /**
  * Storage blockState for the dark power gem.
- * TODO: connected textures
  * @author rubensworks
  *
  */
-public class DarkPowerGemBlock extends ConfigurableBlock {
+public class DarkPowerGemBlock extends ConfigurableBlockConnectedTexture {
 
     private static DarkPowerGemBlock _instance = null;
 
