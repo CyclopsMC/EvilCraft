@@ -1,10 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "evilcraft:lightningBomb"
-    },
-    "inventory": {
-      "model": "evilcraft:lightningBomb"
-    }
+    "primed=false": { "model": "evilcraft:lightningBomb" },
+    "primed=true": { "model": "evilcraft:lightningBomb" },
+    "inventory": { "model": "evilcraft:lightningBomb" }
   }
 }

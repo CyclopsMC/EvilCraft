@@ -42,7 +42,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     private static final int CRUSHEDCHANCE = 4; // The chance on a crushed dark gem with no fortune.
 
     @BlockProperty
-    public static final PropertyBool GLOWING = PropertyBool.create("enabled");
+    public static final PropertyBool GLOWING = PropertyBool.create("glowing");
     
     /**
      * Get the unique instance.

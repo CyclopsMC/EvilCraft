@@ -1,10 +1,6 @@
 {
   "variants": {
-    "normal": {
-      "model": "evilcraft:spiritPortal"
-    },
-    "inventory": {
-      "model": "evilcraft:spiritPortal"
-    }
+    "normal": { "model": "evilcraft:spiritPortal" },
+    "inventory": { "model": "evilcraft:spiritPortal_inventory" }
   }
 }

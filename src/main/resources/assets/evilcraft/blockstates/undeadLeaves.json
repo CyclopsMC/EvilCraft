@@ -1,13 +1,9 @@
 {
   "variants": {
-    "opaque=false": {
-      "model": "evilcraft:undeadLeaves"
-    },
-    "opaque=true": {
-      "model": "evilcraft:undeadLeaves_opaque"
-    },
-    "inventory": {
-      "model": "evilcraft:undeadLeaves"
-    }
+    "check_decay=false,decayable=false": { "model": "evilcraft:undeadLeaves" },
+    "check_decay=false,decayable=true": { "model": "evilcraft:undeadLeaves" },
+    "check_decay=true,decayable=false": { "model": "evilcraft:undeadLeaves" },
+    "check_decay=true,decayable=true": { "model": "evilcraft:undeadLeaves" },
+    "inventory": { "model": "evilcraft:undeadLeaves" }
   }
 }

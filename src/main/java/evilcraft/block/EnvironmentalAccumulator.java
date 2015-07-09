@@ -73,13 +73,6 @@ public class EnvironmentalAccumulator
 	}
 	
 	@Override
-    public int getRenderType() {
-        // TODO
-        //return RenderEnvironmentalAccumulator.ID;
-        return -1;
-    }
-	
-	@Override
 	public boolean isNormalCube() {
 	    return false;
 	}

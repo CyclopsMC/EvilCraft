@@ -1,13 +1,8 @@
 {
   "variants": {
-    "on=false": {
-      "model": "evilcraft:spiritReanimator"
-    },
-    "on=true": {
-      "model": "evilcraft:spiritReanimator_on"
-    },
-    "inventory": {
-      "model": "evilcraft:spiritReanimator"
-    }
+    "normal": { "model": "evilcraft:spiritReanimator" },
+    "on=false": { "model": "evilcraft:spiritReanimator" },
+    "on=true": { "model": "evilcraft:spiritReanimator_on" },
+    "inventory": { "model": "evilcraft:spiritReanimator" }
   }
 }

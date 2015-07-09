@@ -32,7 +32,7 @@ public class LightningBomb extends ConfigurableBlock {
     private static LightningBomb _instance = null;
 
     @BlockProperty
-    public static final PropertyBool PRIMED = PropertyBool.create("enabled");
+    public static final PropertyBool PRIMED = PropertyBool.create("primed");
     
     /**
      * Get the unique instance.

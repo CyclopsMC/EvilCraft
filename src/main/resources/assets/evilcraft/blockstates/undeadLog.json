@@ -1,10 +1,9 @@
 {
   "variants": {
-    "normal": {
-      "model": "evilcraft:undeadLog"
-    },
-    "inventory": {
-      "model": "evilcraft:undeadLog"
-    }
+    "axis=none": { "model": "evilcraft:undeadLog" },
+    "axis=x": { "model": "evilcraft:undeadLog" },
+    "axis=y": { "model": "evilcraft:undeadLog" },
+    "axis=z": { "model": "evilcraft:undeadLog" },
+    "inventory": { "model": "evilcraft:undeadLog" }
   }
 }

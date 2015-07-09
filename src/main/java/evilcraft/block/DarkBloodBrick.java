@@ -28,7 +28,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListener {
 
     @BlockProperty
-    public static final PropertyBool ACTIVE = PropertyBool.create("enabled");
+    public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
     private static DarkBloodBrick _instance = null;
     
