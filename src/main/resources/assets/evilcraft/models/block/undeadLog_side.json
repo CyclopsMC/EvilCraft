@@ -1,5 +1,5 @@
 {
-  "parent": "block/cube_column",
+  "parent": "block/column_side",
   "textures": {
     "end": "evilcraft:blocks/undeadLog_top",
     "side": "evilcraft:blocks/undeadLog"
