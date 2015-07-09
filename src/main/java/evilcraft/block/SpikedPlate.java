@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 
-    @BlockProperty
+    @BlockProperty(ignore = true)
     public static final PropertyInteger POWER = PropertyInteger.create("power", 0, 15);
 
     private static SpikedPlate _instance = null;

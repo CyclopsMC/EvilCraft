@@ -34,8 +34,10 @@ public class ConfigurableBlockSapling extends BlockSapling implements IConfigura
     }
 
     // This is to make sure that the MC properties are also loaded.
-    @BlockProperty
-    public static final IProperty[] _COMPAT = {TYPE, STAGE};
+    @BlockProperty(ignore = false)
+    public static final IProperty[] _COMPAT = {STAGE};
+    @BlockProperty(ignore = true)
+    public static final IProperty[] _COMPAT_IGNORED = {TYPE};
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;

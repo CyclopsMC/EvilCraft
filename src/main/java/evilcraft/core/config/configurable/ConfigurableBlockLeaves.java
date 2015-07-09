@@ -38,7 +38,7 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
     }
 
     // This is to make sure that the MC properties are also loaded.
-    @BlockProperty
+    @BlockProperty(ignore = true)
     public static final IProperty[] _COMPAT = {DECAYABLE, CHECK_DECAY};
 
     @SuppressWarnings("rawtypes")
