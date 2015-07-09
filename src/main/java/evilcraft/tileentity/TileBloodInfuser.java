@@ -3,7 +3,7 @@ package evilcraft.tileentity;
 import evilcraft.block.BloodInfuser;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
-import org.cyclops.cyclopscore.algorithm.SingleCache;
+import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
