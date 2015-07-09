@@ -6,6 +6,6 @@
     "facing=south": { "model": "evilcraft:gemStoneTorch_wall", "y": 90 },
     "facing=west": { "model": "evilcraft:gemStoneTorch_wall", "y": 180 },
     "facing=north": { "model": "evilcraft:gemStoneTorch_wall", "y": 270 },
-    "inventory": { "model": "evilcraft:gemStoneTorch" }
+    "inventory": { "model": "evilcraft:gemStoneTorch_inventory" }
   }
 }
