@@ -1,9 +1,9 @@
 {
   "variants": {
-    "active=false": {
+    "draining=false": {
       "model": "evilcraft:darkTank"
     },
-    "active=true": {
+    "draining=true": {
       "model": "evilcraft:darkTank_active"
     },
     "inventory": {

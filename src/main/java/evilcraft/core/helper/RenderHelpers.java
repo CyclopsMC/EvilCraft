@@ -2,6 +2,7 @@ package evilcraft.core.helper;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -13,53 +14,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * A helper for rendering.
  * @author rubensworks
  *
  */
 public class RenderHelpers {
-    
-    private static Map<EnumFacing, String> METHODS_RENDERFACE = new HashMap<EnumFacing, String>();
-    static {
-        METHODS_RENDERFACE.put(EnumFacing.DOWN, "renderFaceYNeg");
-        METHODS_RENDERFACE.put(EnumFacing.UP, "renderFaceYPos");
-        METHODS_RENDERFACE.put(EnumFacing.NORTH, "renderFaceZPos");
-        METHODS_RENDERFACE.put(EnumFacing.EAST, "renderFaceXPos");
-        METHODS_RENDERFACE.put(EnumFacing.SOUTH, "renderFaceZNeg");
-        METHODS_RENDERFACE.put(EnumFacing.WEST, "renderFaceXNeg");
-    }
-    private static Map<EnumFacing, String> FIELDS_UVROTATE = new HashMap<EnumFacing, String>();
-    static { // Note: the fields from the RenderBlock are INCORRECT! Very good read: http://greyminecraftcoder.blogspot.be/2013/07/rendering-non-standard-blocks.html
-        FIELDS_UVROTATE.put(EnumFacing.DOWN, "uvRotateBottom");
-        FIELDS_UVROTATE.put(EnumFacing.UP, "uvRotateTop");
-        FIELDS_UVROTATE.put(EnumFacing.NORTH, "uvRotateEast");
-        FIELDS_UVROTATE.put(EnumFacing.EAST, "uvRotateSouth");
-        FIELDS_UVROTATE.put(EnumFacing.SOUTH, "uvRotateWest");
-        FIELDS_UVROTATE.put(EnumFacing.WEST, "uvRotateNorth");
-    }
-    private static Map<EnumFacing, String> METHODS_RENDERFACE_OBFUSICATED = new HashMap<EnumFacing, String>();
-    static {
-        METHODS_RENDERFACE_OBFUSICATED.put(EnumFacing.DOWN, "func_147768_a");
-        METHODS_RENDERFACE_OBFUSICATED.put(EnumFacing.UP, "func_147806_b");
-        METHODS_RENDERFACE_OBFUSICATED.put(EnumFacing.NORTH, "func_147734_d");
-        METHODS_RENDERFACE_OBFUSICATED.put(EnumFacing.EAST, "func_147764_f");
-        METHODS_RENDERFACE_OBFUSICATED.put(EnumFacing.SOUTH, "func_147761_c");
-        METHODS_RENDERFACE_OBFUSICATED.put(EnumFacing.WEST, "func_147798_e");
-    }
-    private static Map<EnumFacing, String> FIELDS_UVROTATE_OBFUSICATED = new HashMap<EnumFacing, String>();
-    static { // Note: the fields from the RenderBlock are INCORRECT! Very good read: http://greyminecraftcoder.blogspot.be/2013/07/rendering-non-standard-blocks.html
-        FIELDS_UVROTATE_OBFUSICATED.put(EnumFacing.DOWN, "field_147865_v");
-        FIELDS_UVROTATE_OBFUSICATED.put(EnumFacing.UP, "field_147867_u");
-        FIELDS_UVROTATE_OBFUSICATED.put(EnumFacing.NORTH, "field_147875_q");
-        FIELDS_UVROTATE_OBFUSICATED.put(EnumFacing.EAST, "field_147871_s");
-        FIELDS_UVROTATE_OBFUSICATED.put(EnumFacing.SOUTH, "field_147873_r");
-        FIELDS_UVROTATE_OBFUSICATED.put(EnumFacing.WEST, "field_147869_t");
-    }
-    private static int[] ROTATE_UV_ROTATE = {0, 1, 3, 2}; // N, E, S, W -> N, E, W, S
     
     /**
      * An icon that contains to texture, useful for when you want to render nothing.
@@ -131,11 +91,14 @@ public class RenderHelpers {
 	/**
 	 * Prepare a GL context for rendering fluids.
 	 * @param fluid The fluid stack.
-	 * @param blockPos The position.
+	 * @param x X
+     * @param y Y
+     * @param z Z
 	 * @param render The actual fluid renderer.
 	 */
-	public static void renderFluidContext(FluidStack fluid, BlockPos blockPos, IFluidContextRender render) {
+	public static void renderFluidContext(FluidStack fluid, double x, double y, double z, IFluidContextRender render) {
 		if(fluid != null && fluid.amount > 0) {
+            // TODO: to glstatemanager
 			GL11.glPushMatrix();
 
 	        // Make sure both sides are rendered
@@ -149,7 +112,7 @@ public class RenderHelpers {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 	        // Set to current relative player location
-	        GL11.glTranslated(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+			GlStateManager.translate(x, y, z);
 	        
 	        // Set blockState textures
 	        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
@@ -175,18 +138,21 @@ public class RenderHelpers {
 	/**
 	 * Prepare a GL context for rendering fluids for tile entities.
 	 * @param fluid The fluid stack.
-	 * @param blockPos The position.
+	 * @param x X
+     * @param y Y
+     * @param z Z
 	 * @param tile The tile.
 	 * @param render The actual fluid renderer.
 	 */
-	public static void renderTileFluidContext(final FluidStack fluid, final BlockPos blockPos, final TileEntity tile, final IFluidContextRender render) {
-		renderFluidContext(fluid, blockPos, new IFluidContextRender() {
+	public static void renderTileFluidContext(final FluidStack fluid, final double x, final double y, final double z, final TileEntity tile, final IFluidContextRender render) {
+		renderFluidContext(fluid, x, y, z, new IFluidContextRender() {
 			
 			@Override
 			public void renderFluid(FluidStack fluid) {		        
 		        // Make sure our lighting is correct, otherwise everything will be black -_-
-		        Block block = tile.getWorld().getBlockState(blockPos).getBlock();
-		        setBrightness(2 * block.getMixedBrightnessForBlock(tile.getWorld(), blockPos));
+                BlockPos pos = new BlockPos(x, y, z);
+		        Block block = tile.getWorld().getBlockState(pos).getBlock();
+		        setBrightness(2 * block.getMixedBrightnessForBlock(tile.getWorld(), pos));
 		        
 		        // Call the actual render.
 		        render.renderFluid(fluid);
@@ -195,7 +161,7 @@ public class RenderHelpers {
 	}
 	
 	/**
-	 * Runnable for {@link RenderHelpers#renderFluidContext(FluidStack, BlockPos, IFluidContextRender)}.
+	 * Runnable for {@link RenderHelpers#renderFluidContext(FluidStack, double, double, double, IFluidContextRender)}.
 	 * @author rubensworks
 	 */
 	public static interface IFluidContextRender {

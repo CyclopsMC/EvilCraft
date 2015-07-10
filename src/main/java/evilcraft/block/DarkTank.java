@@ -1,6 +1,8 @@
 package evilcraft.block;
 
 import evilcraft.Configs;
+import net.minecraft.util.EnumWorldBlockLayer;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.block.component.BlockTankComponent;
@@ -105,22 +107,10 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     	return false;
     }
     
-    /*@Override
-    public int getRenderBlockPass() {
-    	return 1;
-    }*/
-    
     @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
     	return true;
-    }
-    
-    @Override
-    public int getRenderType() {
-        // TODO
-        //return RenderDarkTank.ID;
-        return -1;
     }
 
     @Override
@@ -261,5 +251,10 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
             }
         }
     }
+
+	@SideOnly(Side.CLIENT)
+	public EnumWorldBlockLayer getBlockLayer() {
+		return EnumWorldBlockLayer.TRANSLUCENT;
+	}
 
 }

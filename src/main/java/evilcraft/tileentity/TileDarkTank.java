@@ -2,6 +2,10 @@ package evilcraft.tileentity;
 
 import evilcraft.GeneralConfig;
 import evilcraft.block.DarkTank;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -15,7 +19,7 @@ import net.minecraftforge.fluids.IFluidHandler;
  * @author rubensworks
  *
  */
-public class TileDarkTank extends TankInventoryTileEntity {
+public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTileEntity.ITickingTile {
 	
 	/**
 	 * The base capacity of the tank.
