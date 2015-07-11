@@ -36,19 +36,4 @@ public class TextureStitchEventHook {
     public void onTextureHookPre(TextureStitchEvent.Pre event) {
         RenderHelpers.EMPTYICON = event.map.getAtlasSprite(Reference.MOD_ID+":"+EMPTY_ICON_NAME);
     }
-    
-    /**
-     * After the texture stitching.
-     * @param event The received event.
-     */
-    @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public void postStitch(TextureStitchEvent.Post event) {
-        for(Entry<Fluid, ConfigurableBlockFluidClassic> fluids : fluidMap.entrySet()) {
-            fluids.getKey().setIcons(
-                    fluids.getValue().getIconLocationStill(event.map),
-                    fluids.getValue().getIconLocationFlow(event.map)
-            );
-        }
-    }
 }
