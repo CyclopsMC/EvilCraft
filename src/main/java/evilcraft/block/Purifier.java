@@ -31,7 +31,7 @@ import java.util.List;
 public class Purifier extends ConfigurableBlockContainer {
 
     @BlockProperty
-    public static final PropertyInteger FILL = PropertyInteger.create("fill", 0, 2);
+    public static final PropertyInteger FILL = PropertyInteger.create("fill", 0, 3);
 
     private static Purifier _instance = null;
     
@@ -125,13 +125,6 @@ public class Purifier extends ConfigurableBlockContainer {
     @Override
     public boolean isOpaqueCube() {
         return false;
-    }
-
-    @Override
-    public int getRenderType() {
-        // TODO
-        //return RenderPurifier.ID;
-        return -1;
     }
 
     @Override

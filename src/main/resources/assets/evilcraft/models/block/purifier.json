@@ -1,8 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "down": "evilcraft:blocks/purifier_bottom",
-    "all": "evilcraft:blocks/purifier_side",
-    "up": "evilcraft:blocks/purifier_top"
-  }
-}

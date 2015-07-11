@@ -1,0 +1,11 @@
+{
+  "parent": "block/cauldron_level3",
+  "textures": {
+    "particle": "evilcraft:blocks/purifier_side",
+    "top": "evilcraft:blocks/purifier_top",
+    "bottom": "evilcraft:blocks/purifier_bottom",
+    "side": "evilcraft:blocks/purifier_side",
+    "inside": "evilcraft:blocks/purifier_inner",
+    "water": "evilcraft:blocks/evilcraftblood_still"
+  }
+}

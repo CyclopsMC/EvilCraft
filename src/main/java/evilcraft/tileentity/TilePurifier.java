@@ -9,6 +9,7 @@ import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.item.BlookConfig;
@@ -40,7 +41,7 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-public class TilePurifier extends TankInventoryTileEntity {
+public class TilePurifier extends TankInventoryTileEntity implements CyclopsTileEntity.ITickingTile {
     
     private static final int PURIFY_DURATION = 60;
     

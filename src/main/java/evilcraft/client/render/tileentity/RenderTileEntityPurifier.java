@@ -58,14 +58,13 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
 	private void renderItem(World world, ItemStack itemStack, float rotation) {
         GL11.glPushMatrix();
         if (itemStack.getItem() instanceof ItemBlock) {
-            GL11.glTranslatef(1F, 0.675F, 1F);
-            GL11.glScalef(1.8F, 1.8F, 1.8F);
+            GL11.glTranslatef(1F, 1.2F, 1F);
+            GL11.glScalef(1.2F, 1.2F, 1.2F);
         } else {
-            GL11.glTranslatef(1F, 0.875F, 0.8F);
+            GL11.glTranslatef(1F, 1.2F, 1F);
             GL11.glRotatef(25F, 1, 0, 0);
             GL11.glRotatef(25F, 0, 1, 0);
             GL11.glRotatef(rotation, 0, 1, 0);
-            GL11.glScalef(2F, 2F, 2F);
         }
         
         GlStateManager.pushAttrib();
