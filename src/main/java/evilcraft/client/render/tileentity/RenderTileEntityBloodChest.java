@@ -4,8 +4,11 @@ import evilcraft.block.BloodChest;
 import evilcraft.tileentity.TileBloodChest;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.client.render.tileentity.RenderTileEntityModel;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 
 /**
  * Renderer for the {@link BloodChest}.
@@ -24,10 +27,9 @@ public class RenderTileEntityBloodChest extends RenderTileEntityModel<TileBloodC
     }
     
     @Override
-    protected void renderModel(TileBloodChest tile, ModelBase model, float partialTick) {
-    	TileBloodChest chestTile = (TileBloodChest) tile;
-    	ModelChest modelchest = (ModelChest) model;
-    	float lidangle = chestTile.prevLidAngle + (chestTile.lidAngle - chestTile.prevLidAngle) * partialTick;
+    protected void renderModel(TileBloodChest tile, ModelBase model, float partialTick, int destroyStage) {
+        ModelChest modelchest = (ModelChest) model;
+    	float lidangle = tile.prevLidAngle + (tile.lidAngle - tile.prevLidAngle) * partialTick;
 
         lidangle = 1.0F - lidangle;
         lidangle = 1.0F - lidangle * lidangle * lidangle;

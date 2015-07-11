@@ -4,6 +4,7 @@ import evilcraft.block.BloodChest;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
@@ -131,6 +132,16 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         addSlotsToSide(EnumFacing.DOWN, inSlotsInventory);
         addSlotsToSide(EnumFacing.SOUTH, inSlotsInventory);
         addSlotsToSide(EnumFacing.WEST, inSlotsInventory);
+    }
+
+    @Override
+    public EnumFacing getRotation() {
+        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BloodChest.FACING, EnumFacing.NORTH);
+    }
+
+    @Override
+    public boolean canRenderBreaking() {
+        return true;
     }
     
     @Override

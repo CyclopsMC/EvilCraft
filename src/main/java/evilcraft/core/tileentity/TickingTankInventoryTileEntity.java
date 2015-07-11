@@ -5,6 +5,7 @@ import evilcraft.core.tileentity.tickaction.TickComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.Fluid;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 
 import java.util.LinkedList;
@@ -19,7 +20,8 @@ import java.util.LinkedList;
  * most cases just the extension class.
  * @see TickComponent
  */
-public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTileEntity> extends TankInventoryTileEntity {
+public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTileEntity> extends TankInventoryTileEntity
+        implements CyclopsTileEntity.ITickingTile {
     
     private LinkedList<TickComponent<T, ITickAction<T>>> tickers;
     private int currentState = -1;

@@ -5,12 +5,17 @@ import evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import evilcraft.inventory.container.ContainerBloodChest;
 import evilcraft.tileentity.TileBloodChest;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
@@ -22,6 +27,9 @@ import java.util.Random;
  *
  */
 public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
+
+    @BlockProperty(ignore = true)
+    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     
     private static BloodChest _instance = null;
     
@@ -41,10 +49,20 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
         this.setRotatable(true);
         setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
     }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube() {
+        return false;
+    }
     
     @Override
     public int getRenderType() {
-        return 22;
+        return 2;
     }
     
     @Override
