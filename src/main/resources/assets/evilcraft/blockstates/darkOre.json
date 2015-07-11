@@ -1,7 +1,6 @@
 {
   "variants": {
-    "glowing=false": { "model": "evilcraft:darkOre" },
-    "glowing=true": { "model": "evilcraft:darkOre" },
+    "normal"   : { "model": "evilcraft:darkOre" },
     "inventory": { "model": "evilcraft:darkOre" }
   }
 }

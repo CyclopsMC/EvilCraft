@@ -2,6 +2,12 @@ package evilcraft.block;
 
 import evilcraft.Achievements;
 import evilcraft.Configs;
+import net.minecraft.block.state.pattern.BlockHelper;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import evilcraft.item.DarkGem;
 import evilcraft.item.DarkGemConfig;
@@ -41,7 +47,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     private static final int INCREASE_XP = 5; // Amount of XP that can be gained from mining this blockState
     private static final int CRUSHEDCHANCE = 4; // The chance on a crushed dark gem with no fortune.
 
-    @BlockProperty
+    @BlockProperty(ignore = true)
     public static final PropertyBool GLOWING = PropertyBool.create("glowing");
     
     /**
@@ -58,6 +64,12 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
         this.setHardness(3.0F);
         this.setStepSound(soundTypeStone);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public EnumWorldBlockLayer getBlockLayer() {
+        return EnumWorldBlockLayer.CUTOUT_MIPPED;
     }
     
     @Override
@@ -123,7 +135,9 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
 
     @Override
     public void onEntityCollidedWithBlock(World world, BlockPos blockPos, IBlockState blockState, Entity entity) {
-        this.glow(world, blockPos);
+        if(!(entity instanceof EntityFX)) {
+            this.glow(world, blockPos);
+        }
         super.onEntityCollidedWithBlock(world, blockPos, blockState, entity);
     }
     
@@ -134,13 +148,13 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
     
     private boolean isGlowing(World world, BlockPos blockPos) {
-        return (Boolean) world.getBlockState(blockPos).getValue(GLOWING);
+        return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(blockPos), GLOWING, false);
     }
 
     private void glow(World world, BlockPos blockPos) {
     	if (!world.isRemote)
     		return;
-    	
+
         this.sparkle(world, blockPos);
 
         if (!isGlowing(world, blockPos)) {
@@ -164,7 +178,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
     
     private void sparkle(World world, BlockPos blockPos) {
-    	if (!world.isRemote)
+        if (!world.isRemote)
     		return;
     	
         Random random = world.rand;
