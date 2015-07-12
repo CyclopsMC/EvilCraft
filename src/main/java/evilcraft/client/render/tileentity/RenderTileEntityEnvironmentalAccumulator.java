@@ -13,7 +13,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
-import org.lwjgl.opengl.GL11;
+
 
 /**
  * Renderer for the {@link EnvironmentalAccumulator}.
@@ -35,12 +35,12 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
         
         // Render the an item moving up if we're currently processing one
         if (tile.getMovingItemY() != -1.0f) {
-            GL11.glPushMatrix();
-            GL11.glTranslatef((float)x - 0.5f, (float)y - 0.5f + tile.getMovingItemY(), (float)z - 0.5f);
+            GlStateManager.pushMatrix();
+            GlStateManager.translate((float) x - 0.5f, (float) y - 0.5f + tile.getMovingItemY(), (float) z - 0.5f);
             
             renderProcessingItem(tile.getRecipe(), tile.getWorld(), partialTickTime);
             
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
     }
     
@@ -57,22 +57,23 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
         
         // Calculate angle for the spinning item
         double totalTickTime = world.getTotalWorldTime() + partialTickTime;
-        double angle = ITEM_SPIN_SPEED * (totalTickTime % 360);
+        float angle = (float) (ITEM_SPIN_SPEED * (totalTickTime % 360));
         
         // Draw the actual item at the origin
         if (stack.getItem() instanceof ItemBlock) {
-            GL11.glTranslatef(1F, 0.675F, 1F);
-            GL11.glRotated(angle, 0, 1, 0);
+            GlStateManager.translate(1F, 0.675F, 1F);
+            GlStateManager.rotate(angle, 0, 1, 0);
+
         } else {
-            GL11.glTranslatef(1F, 1F, 1F);
-            GL11.glRotated(angle, 0, 1, 0);
+            GlStateManager.translate(1F, 1F, 1F);
+            GlStateManager.rotate(angle, 0, 1, 0);
         }
+        GlStateManager.scale(0.5, 0.5, 0.5);
 
         GlStateManager.pushAttrib();
         RenderHelper.enableStandardItemLighting();
         Minecraft.getMinecraft().getRenderItem().renderItemModel(stack);
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
-        //Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
     }
 }

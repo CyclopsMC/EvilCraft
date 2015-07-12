@@ -1,5 +1,6 @@
 package evilcraft.core.client.render;
 
+import evilcraft.core.entity.item.EntityThrowable;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
@@ -24,11 +25,11 @@ public class RenderThrowable extends RenderSnowball {
 
     @Override
     public ItemStack func_177082_d(Entity entity) {
-        return getItemStack((EntityItem) entity);
+        return getItemStack((EntityThrowable) entity);
     }
 
-    public ItemStack getItemStack(EntityItem entityItem) {
-        return entityItem.getEntityItem();
+    public ItemStack getItemStack(EntityThrowable entityItem) {
+        return entityItem.getItemStack();
     }
 
 }
