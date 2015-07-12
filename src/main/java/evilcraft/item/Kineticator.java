@@ -54,9 +54,10 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
 
     public Kineticator(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, CONTAINER_SIZE, Blood.getInstance());
+        this.setHasSubtypes(true);
     }
     
-    protected boolean isRepelling(ItemStack itemStack) {
+    public boolean isRepelling(ItemStack itemStack) {
     	return itemStack.getItemDamage() == 1;
     }
     

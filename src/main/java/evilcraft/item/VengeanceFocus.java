@@ -1,6 +1,8 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.entity.effect.EntityAntiVengeanceBeam;
@@ -27,7 +29,7 @@ public class VengeanceFocus extends ConfigurableItem {
     private static VengeanceFocus _instance = null;
     
     @SideOnly(Side.CLIENT)
-    private TextureAtlasSprite[] iconArray;
+    public ModelResourceLocation[] modelArray = new ModelResourceLocation[4];
     
     /**
      * Get the unique instance.
@@ -39,8 +41,19 @@ public class VengeanceFocus extends ConfigurableItem {
 
     public VengeanceFocus(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
+        this.setHasSubtypes(true);
     }
-    
+
+    @SideOnly(Side.CLIENT)
+    public ModelResourceLocation getModel(ItemStack itemStack, EntityPlayer player, int useRemaining) {
+        if(itemStack.getItem() == this && player.getItemInUse() != null
+                && getItemInUseDuration(player) != getMaxItemUseDuration(itemStack)) {
+            return modelArray[Math.min(this.modelArray.length - 1,
+                    (player.getItemInUseDuration() / 3))];
+        }
+        return super.getModel(itemStack, player, useRemaining);
+    }
+
     private int getItemInUseDuration(EntityPlayer player) {
     	return player.isUsingItem() ? ObfuscationHelpers.getItemInUse(player).getMaxItemUseDuration()
     			- ObfuscationHelpers.getItemInUseCount(player) : 0;

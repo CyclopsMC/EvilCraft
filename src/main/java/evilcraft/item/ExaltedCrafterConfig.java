@@ -1,6 +1,7 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
+import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -34,6 +35,14 @@ public class ExaltedCrafterConfig extends ItemConfig {
             null,
             ExaltedCrafter.class
         );
+    }
+
+    @Override
+    public String getModelName(ItemStack itemStack) {
+        if (((ExaltedCrafter) getItemInstance()).isWooden(itemStack)) {
+            return super.getModelName(itemStack) + "_wooden";
+        }
+        return super.getModelName(itemStack);
     }
     
 }

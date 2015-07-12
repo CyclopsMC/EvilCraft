@@ -39,6 +39,17 @@ public class BowlOfPromisesConfig extends ItemConfig {
     }
 
     @Override
+    public String getModelName(ItemStack itemStack) {
+        if(itemStack.getItemDamage() == 0) {
+            return super.getModelName(itemStack) + "_dusted";
+        } else if(itemStack.getItemDamage() == 1) {
+            return super.getModelName(itemStack) + "_empty";
+        } else {
+            return super.getModelName(itemStack);
+        }
+    }
+
+    @Override
     public void onRegistered() {
         super.onRegistered();
         for(int tier = 0; tier < getTiers(); tier++) {

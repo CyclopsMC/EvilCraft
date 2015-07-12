@@ -69,6 +69,11 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
     protected float getGravityVelocity() {
         return 0.0F;
     }
+
+    @Override
+    public AxisAlignedBB getBoundingBox() {
+        return AxisAlignedBB.fromBounds(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
+    }
     
     @SuppressWarnings("rawtypes")
 	@Override

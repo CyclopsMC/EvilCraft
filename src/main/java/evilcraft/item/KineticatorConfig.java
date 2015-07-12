@@ -1,6 +1,7 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
+import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -55,6 +56,14 @@ public class KineticatorConfig extends ItemConfig {
             null,
             Kineticator.class
         );
+    }
+
+    @Override
+    public String getModelName(ItemStack itemStack) {
+        if (((Kineticator) getItemInstance()).isRepelling(itemStack)) {
+            return super.getModelName(itemStack) + "_repelling";
+        }
+        return super.getModelName(itemStack);
     }
     
 }

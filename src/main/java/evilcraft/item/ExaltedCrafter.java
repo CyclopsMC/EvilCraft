@@ -51,6 +51,7 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     public ExaltedCrafter(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setMaxStackSize(1);
+        this.setHasSubtypes(true);
     }
     
     @Override
@@ -77,7 +78,7 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
         return itemStack;
     }
     
-    protected boolean isWooden(ItemStack itemStack) {
+    public boolean isWooden(ItemStack itemStack) {
     	return (itemStack.getItemDamage() & 1) == 1;
     }
     

@@ -25,11 +25,6 @@ public class BowlOfPromises extends ConfigurableItem {
     private static BowlOfPromises _instance = null;
     public static final int ACTIVE_META = 2;
 
-    private TextureAtlasSprite dusted;
-    private TextureAtlasSprite empty;
-    private TextureAtlasSprite active_overlay;
-    private TextureAtlasSprite active;
-
     /**
      * Get the unique instance.
      * @return The instance.

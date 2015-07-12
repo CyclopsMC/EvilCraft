@@ -42,7 +42,7 @@ public class EntityAntiVengeanceBeamConfig extends EntityConfig {
     @SideOnly(Side.CLIENT)
     @Override
     public Render getRender(RenderManager renderManager, RenderItem renderItem) {
-    	return new RenderNull();
+    	return new RenderNull(renderManager);
     }
     
     @Override

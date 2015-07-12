@@ -1,0 +1,7 @@
+{
+  "parent": "cyclopscore:item/flat",
+  "textures": {
+    "layer0": "evilcraft:items/bowlOfPromises_active_overlay",
+    "layer1": "evilcraft:items/bowlOfPromises_active"
+  }
+}

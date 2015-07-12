@@ -1,7 +1,13 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.init.IInitListener;
 
 /**
  * Config for the {@link VengeanceFocus}.
@@ -26,6 +32,20 @@ public class VengeanceFocusConfig extends ItemConfig {
             null,
             VengeanceFocus.class
         );
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void onInit(IInitListener.Step step) {
+        super.onInit(step);
+        if(step == Step.INIT) {
+            // Some fake meta hack to make sure our models are loaded, this could be improved with a custom loader.
+            ModelResourceLocation[] modelArray = VengeanceFocus.getInstance().modelArray;
+            for(int i = 0; i < modelArray.length; i++) {
+                Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(getItemInstance(), i + 1,
+                        new ModelResourceLocation(getMod().getModId() + ":" + getNamedId() + "_" + i, "inventory"));
+            }
+        }
     }
     
 }
