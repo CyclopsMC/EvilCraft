@@ -2,14 +2,14 @@ package evilcraft.block;
 
 
 import evilcraft.EvilCraft;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockFluidConfig;
 
 /**
  * Config for {@link FluidBlockPoison}.
  * @author rubensworks
  *
  */
-public class FluidBlockPoisonConfig extends BlockConfig {
+public class FluidBlockPoisonConfig extends BlockFluidConfig {
     
     /**
      * The unique instance.

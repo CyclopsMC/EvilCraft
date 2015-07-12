@@ -1,13 +1,9 @@
 {
+  "forge_marker": 1,
   "variants": {
-    "flow=false": {
-      "model": "evilcraft:blockPoison"
-    },
-    "flow=true": {
-      "model": "evilcraft:blockPoison_flow"
-    },
-    "inventory": {
-      "model": "evilcraft:blockPoison"
+    "fluid": {
+      "model": "forge:fluid",
+      "custom": { "fluid": "evilcraftpoison" }
     }
   }
 }
