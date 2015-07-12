@@ -101,11 +101,9 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     @SuppressWarnings("unchecked")
 	public static CubeDetector detector = new HollowCubeDetector(
     			new AllowedBlock[]{
-    					new AllowedBlock(DarkBloodBrick.getInstance().getDefaultState()),
-                        new AllowedBlock(DarkBloodBrick.getInstance().getDefaultState().withProperty(DarkBloodBrick.ACTIVE, true)),
-    					new AllowedBlock(SpiritFurnace.getInstance().getDefaultState()).setMaxOccurences(1),
-                        new AllowedBlock(SpiritFurnace.getInstance().getDefaultState().withProperty(DarkBloodBrick.ACTIVE, true)).setMaxOccurences(1)
-    					},
+                        new AllowedBlock(DarkBloodBrick.getInstance()).setMaxOccurences(1),
+    					new AllowedBlock(SpiritFurnace.getInstance()).setMaxOccurences(1),
+                },
     			Lists.newArrayList(SpiritFurnace.getInstance(), DarkBloodBrick.getInstance())
     		).setMinimumSize(new Vec3i(2, 2, 2));
     

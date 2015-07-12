@@ -3,12 +3,11 @@ package evilcraft.core.block;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import evilcraft.core.algorithm.Dimension;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -25,11 +24,11 @@ public class CubeDetector {
 	private static Vec3i NULL_SIZE = Vec3i.NULL_VECTOR;
 	
 	private Collection<AllowedBlock> allowedBlocks = Sets.newHashSet();
-	private Map<IBlockState, AllowedBlock> blockInfo = Maps.newHashMap();
+	private Map<Block, AllowedBlock> blockInfo = Maps.newHashMap();
 	private List<? extends IDetectionListener> listeners;
 	private Vec3i minimumSize = NULL_SIZE;
 	
-	private Map<IBlockState, Integer> blockOccurences;
+	private Map<Block, Integer> blockOccurences;
 
 	/**
 	 * Make a new instance.
@@ -236,10 +235,10 @@ public class CubeDetector {
 	 * @return If it conforms.
 	 */
 	protected boolean validateAllowedBlockConditions(World world, BlockPos location) {
-		IBlockState blockState = world.getBlockState(location);
-		if(blockInfo.containsKey(blockState)) {
-			int occurences = blockOccurences.get(blockState);
-			AllowedBlock allowed = blockInfo.get(blockState);
+		Block block = world.getBlockState(location).getBlock();
+		if(blockInfo.containsKey(block)) {
+			int occurences = blockOccurences.get(block);
+			AllowedBlock allowed = blockInfo.get(block);
 			
 			if(allowed.getMaxOccurences() >= 0) {
 				if(occurences >= allowed.getMaxOccurences()) {
@@ -247,7 +246,7 @@ public class CubeDetector {
 				}
 			}
 			
-			blockOccurences.put(blockState, occurences + 1);
+			blockOccurences.put(block, occurences + 1);
 		}
 		return true;
 	}
