@@ -1,18 +1,17 @@
 package evilcraft.block;
 
 import evilcraft.Configs;
-import net.minecraft.util.EnumWorldBlockLayer;
-import org.cyclops.cyclopscore.helper.TileHelpers;
-import org.cyclops.cyclopscore.item.IInformationProvider;
+import evilcraft.client.render.model.ModelDarkTank;
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.block.component.BlockTankComponent;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.fluid.BloodConfig;
 import evilcraft.tileentity.TileDarkTank;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,12 +22,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
@@ -36,6 +39,8 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.item.IInformationProvider;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 
 import java.util.List;
 
@@ -45,7 +50,7 @@ import java.util.List;
  *
  */
 public class DarkTank extends ConfigurableBlockContainer implements IInformationProvider, IBlockTank {
-	
+
 	private static final String NBT_TAG_CAPACITY = "tankCapacity";
 
 	@BlockProperty
@@ -54,6 +59,8 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     private static DarkTank _instance = null;
     
     private BlockTankComponent<DarkTank> tankComponent = new BlockTankComponent<DarkTank>(this);
+    @SideOnly(Side.CLIENT)
+    private ModelResourceLocation itemModel;
     
     /**
      * Get the unique instance.
@@ -67,6 +74,10 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         super(eConfig, Material.glass, TileDarkTank.class);
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGlass);
+        MinecraftForge.EVENT_BUS.register(this);
+        if(MinecraftHelpers.isClientSide()) {
+            itemModel = new ModelResourceLocation(eConfig.getMod().getModId() + ":" + eConfig.getNamedId(), "inventory");
+        }
     }
 
     @Override
@@ -256,5 +267,18 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	public EnumWorldBlockLayer getBlockLayer() {
 		return EnumWorldBlockLayer.TRANSLUCENT;
 	}
+
+	/**
+	 * Called for baking the model of the item version of the tank.
+	 * @param event The bake event.
+	 */
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onModelBakeEvent(ModelBakeEvent event) {
+        // Take the original tank model and replace it with a dynamic one but pass this original one to it as parent.
+        IBakedModel baseModel = (IBakedModel) event.modelRegistry.getObject(itemModel);
+        ModelDarkTank newModel = new ModelDarkTank(baseModel);
+        event.modelRegistry.putObject(itemModel, newModel);
+    }
 
 }
