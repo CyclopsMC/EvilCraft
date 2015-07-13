@@ -10,6 +10,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -244,6 +245,11 @@ public class EntityBroom extends Entity implements IConfigurable{
         }
         
         moveEntity(0, getHoverOffset(), 0);
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox() {
+        return AxisAlignedBB.fromBounds(0, 0, 0, this.width, this.height, this.width);
     }
     
     /**

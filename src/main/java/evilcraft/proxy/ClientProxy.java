@@ -5,11 +5,13 @@ import evilcraft.EvilCraft;
 import evilcraft.client.key.ExaltedCrafterKeyHandler;
 import evilcraft.client.key.FartKeyHandler;
 import evilcraft.client.key.Keys;
+import evilcraft.core.client.model.BroomPartLoader;
 import evilcraft.event.PlayerTickEventHook;
 import evilcraft.event.TextureStitchEventHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -70,6 +72,8 @@ public class ClientProxy extends ClientProxyComponent {
 	public void registerEventHooks() {
 		super.registerEventHooks();
         commonProxy.registerEventHooks();
+
+		ModelLoaderRegistry.registerLoader(new BroomPartLoader());
 
 		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
 

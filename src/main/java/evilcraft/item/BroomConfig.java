@@ -1,6 +1,7 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
+import evilcraft.core.broom.BroomParts;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
@@ -38,10 +39,8 @@ public class BroomConfig extends ItemConfig {
         for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
             ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(new ItemStack(Broom.getInstance()), 1, 2, 2));
         }
-        // TODO
-        /*if (MinecraftHelpers.isClientSide()) {
-            ClientProxy.ITEM_RENDERERS.put(this.getItemInstance(), new RenderItemBroom(this));
-        }*/
+        // TODO: for now, just load the broom parts in a hacky way
+        Object _ = BroomParts.ROD;
     }
     
 }

@@ -1,8 +1,10 @@
 package evilcraft;
 
+import evilcraft.api.broom.IBroomPartRegistry;
 import evilcraft.api.degradation.IDegradationRegistry;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.client.gui.container.GuiMainMenuEvilifier;
+import evilcraft.core.broom.BroomPartRegistry;
 import evilcraft.core.degradation.DegradationRegistry;
 import evilcraft.event.ServerStatusEventHook;
 import evilcraft.infobook.InfoBookRegistry;
@@ -92,6 +94,7 @@ public class EvilCraft extends ModBase {
         getRegistryManager().addRegistry(IBloodChestRepairActionRegistry.class, new BloodChestRepairActionRegistry());
         getRegistryManager().addRegistry(IRetroGenRegistry.class, new RetroGenRegistry(this));
         getRegistryManager().addRegistry(IBucketRegistry.class, new BucketRegistry());
+        getRegistryManager().addRegistry(IBroomPartRegistry.class, new BroomPartRegistry());
 
         super.preInit(event);
 
