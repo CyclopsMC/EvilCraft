@@ -49,7 +49,7 @@ public class EntityBloodSplashFX extends EntitySplashFX {
             float x_r = blockPos.getX() + random.nextFloat();
             float y_r = blockPos.getY() + random.nextFloat();
             float z_r = blockPos.getZ() + random.nextFloat();
-            EntityFX fx = new EntityBloodSplashFX(world, x_r, y_r, z_r, random.nextInt(velocity), random.nextInt(velocity), random.nextInt(velocity));
+            EntityFX fx = new EntityBloodSplashFX(world, x_r, y_r, z_r, velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity));
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
         }
     }

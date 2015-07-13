@@ -1,7 +1,6 @@
 package evilcraft.tileentity.tickaction.bloodchest;
 
 import evilcraft.EvilCraft;
-import org.cyclops.cyclopscore.init.RegistryManager;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import net.minecraft.item.Item;
@@ -66,7 +65,7 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
     protected boolean isNotBlacklisted(ItemStack itemStack) {
         if(itemStack == null) return false;
         for(String name : itemBlacklist) {
-            if(Item.itemRegistry.getNameForObject(itemStack.getItem()).equals(name)) {
+            if(Item.itemRegistry.getNameForObject(itemStack.getItem()).toString().equals(name)) {
                 return false;
             }
         }

@@ -30,25 +30,25 @@ public class ForestryModCompat implements IModCompat {
 	        // Register the Undead Sapling.
 	        if(Configs.isEnabled(UndeadSaplingConfig.class)) {
 	            FMLInterModComms.sendMessage(getModID(), "add-farmable-sapling",
-	                    "farmArboreal@" + Block.blockRegistry.getNameForObject(UndeadSaplingConfig._instance.getBlockInstance()) + ".0");
+	                    "farmArboreal@" + Block.blockRegistry.getNameForObject(UndeadSaplingConfig._instance.getBlockInstance()).toString() + ".0");
 	        }
 	        
 	        // Add dark gem to the miner backpack.
 	        if(Configs.isEnabled(DarkGemConfig.class)) {
 	            FMLInterModComms.sendMessage(getModID(), "add-backpack-items",
-	                    "miner@" + Item.itemRegistry.getNameForObject(DarkGem.getInstance()) + ":*");
+	                    "miner@" + Item.itemRegistry.getNameForObject(DarkGem.getInstance()).toString() + ":*");
 	        }
 	        
 	        // Add poison sac to hunter backpack.
 	        if(Configs.isEnabled(PoisonSacConfig.class)) {
 	            FMLInterModComms.sendMessage(getModID(), "add-backpack-items",
-	                    "hunter@" + Item.itemRegistry.getNameForObject(PoisonSacConfig._instance.getItemInstance()) + ":*");
+	                    "hunter@" + Item.itemRegistry.getNameForObject(PoisonSacConfig._instance.getItemInstance()).toString() + ":*");
 	        }
 	        
 	        // Add undead clog to forester backpack.
 	        if(Configs.isEnabled(UndeadLogConfig.class)) {
 	            FMLInterModComms.sendMessage(getModID(), "add-backpack-items",
-	                    "forester@" + Block.blockRegistry.getNameForObject(UndeadLogConfig._instance.getBlockInstance()) + ":*");
+	                    "forester@" + Block.blockRegistry.getNameForObject(UndeadLogConfig._instance.getBlockInstance()).toString() + ":*");
 	        }
 	        
 	        ForestryRecipeManager.register();

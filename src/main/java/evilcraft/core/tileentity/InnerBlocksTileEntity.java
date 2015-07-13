@@ -2,6 +2,7 @@ package evilcraft.core.tileentity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
@@ -23,7 +24,7 @@ public abstract class InnerBlocksTileEntity extends CyclopsTileEntity implements
 	 */
     public void setInnerBlockState(IBlockState blockState) {
         this.meta = blockState.getBlock().getMetaFromState(blockState);
-    	this.blockName = (String) Block.blockRegistry.getNameForObject(blockState.getBlock());
+    	this.blockName = Block.blockRegistry.getNameForObject(blockState.getBlock()).toString();
     }
     
     /**
@@ -31,6 +32,7 @@ public abstract class InnerBlocksTileEntity extends CyclopsTileEntity implements
      * @return The inner blockState.
      */
 	public IBlockState getInnerBlockState() {
+        if(blockName == null || blockName.isEmpty()) return Blocks.stone.getDefaultState();
 		return Block.getBlockFromName(blockName).getStateFromMeta(this.meta);
     }
 	

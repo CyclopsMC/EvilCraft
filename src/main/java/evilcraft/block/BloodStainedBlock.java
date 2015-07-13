@@ -1,21 +1,31 @@
 package evilcraft.block;
 
 import evilcraft.client.particle.EntityBloodSplashFX;
+import evilcraft.client.render.model.ModelBloodStainedBlock;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
 import evilcraft.tileentity.TileBloodStainedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
+import org.cyclops.cyclopscore.block.property.UnlistedProperty;
+import org.cyclops.cyclopscore.client.icon.Icon;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 
 /**
  * Multiple blockState types (defined by metadata) that have blood stains.
@@ -23,7 +33,21 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
  *
  */
 public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended {
-    
+
+    @BlockProperty
+    public static final IUnlistedProperty<IBlockState> INNERBLOCK = new UnlistedProperty<IBlockState>("innerblock", IBlockState.class);
+    @BlockProperty
+    public static final IUnlistedProperty<IBlockAccess> WORLD = new UnlistedProperty<IBlockAccess>("world", IBlockAccess.class);
+    @BlockProperty
+    public static final IUnlistedProperty<BlockPos> POS = new UnlistedProperty<BlockPos>("pos", BlockPos.class);
+
+    @Icon(location = "blocks/bloodStainedBlock_0")
+    public TextureAtlasSprite icon0;
+    @Icon(location = "blocks/bloodStainedBlock_1")
+    public TextureAtlasSprite icon1;
+    @Icon(location = "blocks/bloodStainedBlock_2")
+    public TextureAtlasSprite icon2;
+
     private static BloodStainedBlock _instance = null;
     
     /**
@@ -38,6 +62,8 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
         super(eConfig, Material.sponge, TileBloodStainedBlock.class);
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGravel);
+
+        eConfig.getMod().getIconProvider().registerIconHolderObject(this);
     }
     
     @SideOnly(Side.CLIENT)
@@ -107,8 +133,8 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     }
     
     protected boolean isBlacklisted(Block block) {
-    	String name = (String) Block.blockRegistry.getNameForObject(block);
-    	for(String blacklisted : BloodStainedBlockConfig.blockBlacklist) {
+    	String name = Block.blockRegistry.getNameForObject(block).toString();
+        for(String blacklisted : BloodStainedBlockConfig.blockBlacklist) {
     		if(blacklisted.equals(name)) return true;
     	}
     	return false;
@@ -117,6 +143,34 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     @Override
     public boolean canSetInnerBlock(Block block, IBlockAccess world, BlockPos blockPos) {
     	return super.canSetInnerBlock(block, world, blockPos) && !isBlacklisted(block);
+    }
+
+    @Override
+    public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+        IExtendedBlockState extendedBlockState = (IExtendedBlockState) super.getExtendedState(state, world, pos);
+        TileBloodStainedBlock tile = TileHelpers.getSafeTile(world, pos, TileBloodStainedBlock.class);
+        if(tile != null) {
+            extendedBlockState = extendedBlockState.withProperty(INNERBLOCK, tile.getInnerBlockState());
+            extendedBlockState = extendedBlockState.withProperty(WORLD, world);
+            extendedBlockState = extendedBlockState.withProperty(POS, pos);
+        }
+        return extendedBlockState;
+    }
+
+    @Override
+    public boolean hasDynamicModel() {
+        return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public IBakedModel createDynamicModel() {
+        return new ModelBloodStainedBlock();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public EnumWorldBlockLayer getBlockLayer() {
+        return EnumWorldBlockLayer.CUTOUT_MIPPED;
     }
     
     /**

@@ -14,6 +14,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -65,35 +67,23 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     	return (InnerBlocksTileEntity) tile;
     }
     
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getIcon(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
-    	try {
-			return getTile(world, x, y, z).getInnerBlockState().getIcon(side, world.getBlockMetadata(x, y, z));
-		} catch (InvalidInnerBlocksTileException e) {
-			return Blocks.stone.getIcon(world, x, y, z, side);
-		} catch (NullPointerException e) {
-            return Blocks.stone.getIcon(world, x, y, z, side);
-        }
-    }*/
-    
     @Override
     public boolean removedByPlayer(World world, BlockPos blockPos, EntityPlayer player, boolean willHarvest) {
     	unwrapInnerBlock(world, blockPos);
     	return false;
     }
     
-    /*@Override
+    @Override
     @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockAccess world, BlockPos blockPos) {
+    public int colorMultiplier(IBlockAccess world, BlockPos blockPos, int renderPass) {
         try {
-			return getTile(world, blockPos).getInnerBlockState().colorMultiplier(world, blockPos);
+			return getTile(world, blockPos).getInnerBlockState().getBlock().colorMultiplier(world, blockPos, renderPass);
 		} catch (InvalidInnerBlocksTileException e) {
 			return Blocks.stone.colorMultiplier(world, blockPos);
 		} catch (NullPointerException e) {
             return Blocks.stone.colorMultiplier(world, blockPos);
         }
-    }*/
+    }
     
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos blockPos) {
@@ -116,13 +106,13 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     public boolean setInnerBlock(World world, BlockPos blockPos) {
     	Block block = world.getBlockState(blockPos).getBlock();
     	if(canSetInnerBlock(block, world, blockPos)) {
-    		IBlockState state = world.getBlockState(blockPos);
-    		try {
-				getTile(world, blockPos).setInnerBlockState(state);
-			} catch (InvalidInnerBlocksTileException e) {
-				e.printStackTrace();
-			}
-    		world.setBlockState(blockPos, state, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            IBlockState state = world.getBlockState(blockPos);
+            world.setBlockState(blockPos, getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            try {
+                getTile(world, blockPos).setInnerBlockState(state);
+            } catch (InvalidInnerBlocksTileException e) {
+                e.printStackTrace();
+            }
     		return true;
     	}
     	return false;
@@ -146,7 +136,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
         IBlockState block = tile.getInnerBlockState();
     	if(block == null) return null;
     	IBlockState state = world.getBlockState(blockPos);
-    	world.setBlockState(blockPos, state, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+    	world.setBlockState(blockPos, block, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     	return state;
     }
     
@@ -162,7 +152,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     			&& !block.isAir(world, blockPos)
     			&& block.isOpaqueCube()
     			&& !block.hasTileEntity(world.getBlockState(blockPos))
-    			&& block.getRenderType() == 0;
+    			&& block.getRenderType() == 3;
     }
     
     /**
