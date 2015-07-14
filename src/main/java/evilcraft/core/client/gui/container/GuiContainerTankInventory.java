@@ -1,13 +1,14 @@
 package evilcraft.core.client.gui.container;
 
-import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
-import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import evilcraft.core.helper.RenderHelpers;
-import org.cyclops.cyclopscore.inventory.container.ExtendedInventoryContainer;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.inventory.container.ExtendedInventoryContainer;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -98,16 +99,16 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         drawForgegroundString();
         this.mc.renderEngine.bindTexture(texture);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         SingleUseTank tank = tile.getTank();
         if(shouldRenderTank()) {
             int tankSize = Math.min(tank.getCapacity(), tank.getFluidAmount()) * tankHeight / tank.getCapacity();
             drawTank(tankTargetX, tankTargetY, tank.getAcceptedFluid().getID(), tankSize);
         }
         drawAdditionalForeground(mouseX, mouseY);
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.disableBlend();
     }
     
 	protected void drawAdditionalForeground(int mouseX, int mouseY) {

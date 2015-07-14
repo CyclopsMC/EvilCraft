@@ -68,7 +68,7 @@ public class RenderTileEntityBoxOfEternalClosure extends RenderTileEntityModel<T
             RenderHelper.disableStandardItemLighting();
             GL11.glDisable(GL11.GL_CULL_FACE);
             this.bindTexture(beamTexture);
-            GL11.glShadeModel(GL11.GL_SMOOTH);
+            GlStateManager.shadeModel(GL11.GL_SMOOTH);
             worldRenderer.startDrawing(GL11.GL_TRIANGLE_STRIP);
             
             // Calculate UV coordinates for the beam
@@ -93,7 +93,7 @@ public class RenderTileEntityBoxOfEternalClosure extends RenderTileEntityModel<T
             // Finish drawing
             tessellator.draw();
             GL11.glEnable(GL11.GL_CULL_FACE);
-            GL11.glShadeModel(GL11.GL_FLAT);
+            GlStateManager.shadeModel(GL11.GL_FLAT);
             RenderHelper.enableStandardItemLighting();
             GL11.glPopMatrix();
         }

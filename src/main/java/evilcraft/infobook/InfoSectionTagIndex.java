@@ -2,6 +2,7 @@ package evilcraft.infobook;
 
 import com.google.common.collect.Maps;
 import evilcraft.EvilCraft;
+import evilcraft.Reference;
 import evilcraft.infobook.pageelement.SectionAppendix;
 import net.minecraft.client.gui.FontRenderer;
 import org.apache.commons.lang3.tuple.Pair;
@@ -19,7 +20,7 @@ import java.util.Map;
 public class InfoSectionTagIndex extends InfoSection {
 
     public InfoSectionTagIndex(InfoSection parent) {
-        super(parent, parent.getSubSections(), "infoBook.tagIndex", new ArrayList<String>(),
+        super(parent, parent.getSubSections(), "infoBook." + Reference.MOD_ID + ".tagIndex", new ArrayList<String>(),
                 new ArrayList<SectionAppendix>(), new ArrayList<String>());
 
         // treemap to ensure order by localized tag

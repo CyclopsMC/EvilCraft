@@ -4,6 +4,7 @@ import evilcraft.entity.block.EntityLightningBombPrimed;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderTNTPrimed;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -33,8 +34,8 @@ public class RenderBombPrimed extends RenderTNTPrimed {
     private void renderPrimedBomb(EntityLightningBombPrimed entity, double x, double y, double z, float yaw, float partialTickTime) {
         BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
 
-        GL11.glPushMatrix();
-        GL11.glTranslatef((float)x, (float)y, (float)z);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate((float) x, (float) y, (float) z);
         float f2;
 
         if ((float)entity.fuse - partialTickTime + 1.0F < 10.0F) {
@@ -51,7 +52,7 @@ public class RenderBombPrimed extends RenderTNTPrimed {
             f2 *= f2;
             f2 *= f2;
             float f3 = 1.0F + f2 * 0.3F;
-            GL11.glScalef(f3, f3, f3);
+            GlStateManager.scale(f3, f3, f3);
         }
 
         f2 = (1.0F - ((float)entity.fuse - partialTickTime + 1.0F) / 100.0F) * 0.8F;
@@ -59,19 +60,19 @@ public class RenderBombPrimed extends RenderTNTPrimed {
         blockrendererdispatcher.renderBlockBrightness(block.getDefaultState(), entity.getBrightness(partialTickTime));
 
         if (entity.fuse / 5 % 2 == 0) {
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_DST_ALPHA);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, f2);
+            GlStateManager.disableTexture2D();
+            GlStateManager.disableLighting();
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_DST_ALPHA);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, f2);
             blockrendererdispatcher.renderBlockBrightness(block.getDefaultState(), 1.0F);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.disableBlend();
+            GlStateManager.enableLighting();
+            GlStateManager.enableTexture2D();
         }
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
     
     @Override

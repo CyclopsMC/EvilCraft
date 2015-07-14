@@ -1,7 +1,7 @@
 package evilcraft.client.render.tileentity;
 
 import evilcraft.tileentity.EvilCraftBeaconTileEntity;
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -29,7 +29,7 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
 	
 	protected void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
 		float f1 = tileentity.getBeamRenderVariable();
-		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
 		
         if (tileentity.isBeamActive())
         {
@@ -41,11 +41,11 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
             this.bindTexture(BEACON_TEXTURE);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497.0F);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_CULL_FACE);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glDepthMask(true);
-            OpenGlHelper.glBlendFunc(770, 1, 1, 0);
+            GlStateManager.disableLighting();
+            GlStateManager.disableCull();
+            GlStateManager.disableBlend();
+            GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
             float f2 = (float)tileentity.getWorld().getTotalWorldTime() + partialTickTime;
             float f3 = -f2 * 0.2F - (float)MathHelper.floor_float(-f2 * 0.1F);
             byte b0 = 1;
@@ -83,9 +83,9 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
             worldRenderer.addVertexWithUV(x + d5, y, z + d6, d14, d16);
             worldRenderer.addVertexWithUV(x + d5, y + d13, z + d6, d14, d17);
             tessellator.draw();
-            GL11.glEnable(GL11.GL_BLEND);
-            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-            GL11.glDepthMask(false);
+            GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+            GlStateManager.disableDepth();
             worldRenderer.startDrawingQuads();
             worldRenderer.setColorRGBA_F(beamOuterColor.x, beamOuterColor.y, beamOuterColor.z, beamOuterColor.w);
             double d18 = 0.2D;
@@ -118,12 +118,12 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
             worldRenderer.addVertexWithUV(x + d18, y, z + d19, d27, d29);
             worldRenderer.addVertexWithUV(x + d18, y + d26, z + d19, d27, d30);
             tessellator.draw();
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glDepthMask(true);
+            GlStateManager.enableLighting();
+            GlStateManager.enableTexture2D();
+            GlStateManager.enableBlend();
         }
         
-        GL11.glAlphaFunc(GL11.GL_GREATER, 0.5F);
+        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.5F);
 	}
 
 }

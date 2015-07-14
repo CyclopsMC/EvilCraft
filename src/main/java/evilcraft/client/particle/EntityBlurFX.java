@@ -4,6 +4,7 @@ import evilcraft.Reference;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
@@ -97,15 +98,15 @@ public class EntityBlurFX extends EntityFX {
 		particleScale = originalScale * agescale;
 
         Tessellator.getInstance().draw();
-		GL11.glPushMatrix();
+		GlStateManager.pushMatrix();
 
-		GL11.glDepthMask(false);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		GlStateManager.disableDepth();
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE);
 
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 0.75F);
 
 		float f10 = 0.5F * particleScale;
 		float f11 = (float)(prevPosX + (posX - prevPosX) * f - interpPosX);
@@ -122,10 +123,10 @@ public class EntityBlurFX extends EntityFX {
 
         Tessellator.getInstance().draw();
 
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDepthMask(true);
+		GlStateManager.disableBlend();
+		GlStateManager.enableBlend();
 
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ObfuscationHelpers.getParticleTexture());
         worldRenderer.startDrawingQuads();
 	}

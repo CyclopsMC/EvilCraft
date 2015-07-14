@@ -2,7 +2,6 @@ package evilcraft.infobook.pageelement;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import evilcraft.Configs;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.AdvancedButton;
@@ -10,6 +9,7 @@ import evilcraft.infobook.InfoBookParser;
 import evilcraft.infobook.InfoSection;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
@@ -19,7 +19,6 @@ import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import java.util.List;
 import java.util.Map;
@@ -73,32 +72,32 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         if(renderOverlays) gui.drawOuterBorder(x, y, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
 
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-        GL11.glPushMatrix();
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         RenderHelper.enableGUIStandardItemLighting();
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GlStateManager.enableRescaleNormal();
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         renderItem.renderItemAndEffectIntoGUI(itemStack, x, y);
         if(renderOverlays) renderItem.renderItemOverlays(Minecraft.getMinecraft().fontRendererObj, itemStack, x, y);
         RenderHelper.disableStandardItemLighting();
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 
         if(buttonEnum != null && renderOverlays) renderItemHolders.get(buttonEnum).update(x, y, itemStack, gui);
     }
 
     protected void renderItemTooltip(GuiOriginsOfDarkness gui, int x, int y, ItemStack itemStack, int mx, int my) {
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
         if(mx >= x && my >= y && mx <= x + SLOT_SIZE && my <= y + SLOT_SIZE && itemStack != null ) {
             gui.renderToolTip(itemStack, mx, my);
         }
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 
-        GL11.glDisable(GL11.GL_LIGHTING);
+        GlStateManager.disableLighting();
 
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     }
 
     @Override

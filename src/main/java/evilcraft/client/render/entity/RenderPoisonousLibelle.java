@@ -3,12 +3,12 @@ package evilcraft.client.render.entity;
 import evilcraft.core.client.render.entity.RenderModelLiving;
 import evilcraft.entity.monster.PoisonousLibelle;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Renderer for a libelle
@@ -30,8 +30,8 @@ public class RenderPoisonousLibelle extends RenderModelLiving<ModelBase> {
 
     @Override
     protected void preRenderCallback(EntityLivingBase entity, float f){
-        GL11.glScalef(0.5F, 0.5F, 0.5F);
-        GL11.glTranslatef(0, 0.5F, 0);
+        GlStateManager.scale(0.5F, 0.5F, 0.5F);
+        GlStateManager.translate(0, 0.5F, 0);
     }
 	
 	private void renderLibelle(PoisonousLibelle libelle, double x, double y, double z, float yaw, float partialTickTime) {

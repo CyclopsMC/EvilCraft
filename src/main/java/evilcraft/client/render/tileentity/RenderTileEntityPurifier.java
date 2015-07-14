@@ -15,7 +15,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Renderer for the item inside the {@link Purifier}.
@@ -39,11 +38,11 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
             }
         }
 	    
-	    GL11.glPushMatrix();
+	    GlStateManager.pushMatrix();
 	    float var10 = (float) (x - 0.5F);
         float var11 = (float) (y - 0.5F);
         float var12 = (float) (z - 0.5F);
-        GL11.glTranslatef(var10, var11, var12);
+        GlStateManager.translate(var10, var11, var12);
 	    
 	    
         if(tile != null) {
@@ -52,19 +51,19 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
             }
         }
         
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 	}
 	
 	private void renderItem(World world, ItemStack itemStack, float rotation) {
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
         if (itemStack.getItem() instanceof ItemBlock) {
-            GL11.glTranslatef(1F, 1.2F, 1F);
-            GL11.glScalef(1.2F, 1.2F, 1.2F);
+            GlStateManager.translate(1F, 1.2F, 1F);
+            GlStateManager.scale(1.2F, 1.2F, 1.2F);
         } else {
-            GL11.glTranslatef(1F, 1.2F, 1F);
-            GL11.glRotatef(25F, 1, 0, 0);
-            GL11.glRotatef(25F, 0, 1, 0);
-            GL11.glRotatef(rotation, 0, 1, 0);
+            GlStateManager.translate(1F, 1.2F, 1F);
+            GlStateManager.rotate(25F, 1, 0, 0);
+            GlStateManager.rotate(25F, 0, 1, 0);
+            GlStateManager.rotate(rotation, 0, 1, 0);
         }
         
         GlStateManager.pushAttrib();
@@ -73,14 +72,14 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 	
 	private void renderBook(TilePurifier tile, World world, ItemStack itemStack, double x, double y, double z, float partialTickTime) {
-	    GL11.glPushMatrix();
-        GL11.glTranslatef((float)x + 0.5F, (float)y + 0.75F, (float)z + 0.5F);
+	    GlStateManager.pushMatrix();
+        GlStateManager.translate((float)x + 0.5F, (float)y + 0.75F, (float)z + 0.5F);
         float tick = (float)tile.tickCount + partialTickTime;
-        GL11.glTranslatef(0.0F, 0.1F + MathHelper.sin(tick * 0.1F) * 0.01F, 0.0F);
+        GlStateManager.translate(0.0F, 0.1F + MathHelper.sin(tick * 0.1F) * 0.01F, 0.0F);
         float speedUp;
 
         for (speedUp = tile.bookRotation2 - tile.bookRotationPrev; speedUp >= (float)Math.PI; speedUp -= ((float)Math.PI * 2F)) { }
@@ -90,17 +89,17 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         }
 
         float rotation = tile.bookRotationPrev + speedUp * partialTickTime;
-        GL11.glRotatef(-rotation * 180.0F / (float)Math.PI, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(80.0F, 0.0F, 0.0F, 1.0F);
+        GlStateManager.rotate(-rotation * 180.0F / (float) Math.PI, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(80.0F, 0.0F, 0.0F, 1.0F);
         
         if(itemStack.getItem() == TilePurifier.ALLOWED_BOOK)
             this.bindTexture(TEXTURE_BLOOK);
         else
             this.bindTexture(TEXTURE_ENCHANTEDBOOK);
-        
-        GL11.glEnable(GL11.GL_CULL_FACE);
+
+        GlStateManager.enableCull();
         this.enchantmentBook.render((Entity)null, tick, 0, 0, 0, 0.0F, 0.0625F);
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 	}
 
 }

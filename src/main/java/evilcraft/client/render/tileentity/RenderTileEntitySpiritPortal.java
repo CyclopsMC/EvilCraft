@@ -4,6 +4,7 @@ import evilcraft.Reference;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.tileentity.TileSpiritPortal;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -12,7 +13,6 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import java.util.Random;
 
@@ -34,22 +34,22 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
 	
 	protected void renderTileEntityAt(TileSpiritPortal tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
         float progress = tileentity.getProgress();
-        GL11.glPushMatrix();
-        GL11.glTranslatef(0.5F, 0.5f, 0.5F);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0.5F, 0.5f, 0.5F);
         renderPortalBase(Tessellator.getInstance().getWorldRenderer(), (float) x, (float) y, (float) z, progress);
-        GL11.glTranslatef((float)x, (float)y, (float)z);
+        GlStateManager.translate((float)x, (float)y, (float)z);
         Random random = new Random();
         long seed = tileentity.getPos().toLong();
         random.setSeed(seed);
         renderStar(seed, progress, Tessellator.getInstance(), partialTickTime, random);
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 	}
 
     private void renderStar(float rotation, float progress, Tessellator tessellator, float partialTicks, Random random) {
         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
 
 		/* Rotate opposite direction at 20% speed */
-        GL11.glRotatef(rotation * -0.2f % 360, 0.5f, 1, 0.5f);
+        GlStateManager.rotate(rotation * -0.2f % 360, 0.5f, 1, 0.5f);
 
 		/* Configuration tweaks */
         float BEAM_START_DISTANCE = 2F;
@@ -63,23 +63,23 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
             f2 = (progress - 0.8F) / 0.2F;
         }
 
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glShadeModel(GL11.GL_SMOOTH);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        GlStateManager.disableTexture2D();
+        GlStateManager.shadeModel(GL11.GL_SMOOTH);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glDepthMask(false);
+        GlStateManager.enableCull();
+        GlStateManager.disableDepth();
         int color1 = RenderHelpers.RGBToInt(171, 97, 210);
         int color2 = RenderHelpers.RGBToInt(175, 100, 215);
 
         for (int i = 0; i < (progress + progress * progress) / 2.0F * 60.0F; ++i) {
-            GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-            GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(random.nextFloat() * 360.0F + progress * 90.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(random.nextFloat() * 360.0F + progress * 90.0F, 0.0F, 0.0F, 1.0F);
             worldRenderer.startDrawing(6);
             float f3 = random.nextFloat() * BEAM_END_DISTANCE + 5.0F + f2 * 10.0F;
             float f4 = random.nextFloat() * BEAM_START_DISTANCE + 1.0F + f2 * 2.0F;
@@ -94,37 +94,37 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
             tessellator.draw();
         }
 
-        GL11.glDepthMask(true);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glShadeModel(GL11.GL_FLAT);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GlStateManager.enableBlend();
+        GlStateManager.disableCull();
+        GlStateManager.disableBlend();
+        GlStateManager.shadeModel(GL11.GL_FLAT);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableTexture2D();
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         RenderHelper.enableStandardItemLighting();
     }
 
     private void renderPortalBase(WorldRenderer worldRenderer, float x, float y, float z, float progress) {
-        GL11.glPushMatrix();
-        GL11.glTranslatef(x, y, z);
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        GL11.glDepthMask(false);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x, y, z);
+        GlStateManager.enableRescaleNormal();
+        GlStateManager.disableDepth();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 
-        GL11.glColor3f(0.72F, 0.5f, 0.83F);
+        GlStateManager.color(0.72F, 0.5f, 0.83F);
 
         bindTexture(PORTALBASE);
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
         float r = 180.0F - renderManager.playerViewY;
-        GL11.glRotatef(r, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-renderManager.playerViewX, 1F, 0F, 0F);
+        GlStateManager.rotate(r, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(-renderManager.playerViewX, 1F, 0F, 0F);
         renderIconForProgress(worldRenderer, ((int) (progress * 100)) % 4, progress);
 
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glDepthMask(true);
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        GL11.glPopMatrix();
+        GlStateManager.disableBlend();
+        GlStateManager.enableBlend();
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.popMatrix();
     }
 
     private void renderIconForProgress(WorldRenderer worldRenderer, int index, float progress) {
@@ -137,8 +137,8 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         float v1 = 0;
         float v2 = .0625f;
 
-        GL11.glScalef(0.5f * progress, 0.5f * progress, 0.5f * progress);
-        GL11.glTranslatef(-0.5F, -0.5f, 0);
+        GlStateManager.scale(0.5f * progress, 0.5f * progress, 0.5f * progress);
+        GlStateManager.translate(-0.5F, -0.5f, 0);
 
         worldRenderer.startDrawingQuads();
         worldRenderer.putPosition(0.0F, 1.0F, 0.0F);

@@ -3,7 +3,7 @@ package evilcraft.core.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.renderer.GlStateManager;
 
 /**
  * An extended {@link GuiButton} which is better resizable.
@@ -36,7 +36,7 @@ public class GuiButtonExtended extends GuiButton {
         if(visible) {
 	        FontRenderer fontrenderer = minecraft.fontRendererObj;
 	        minecraft.renderEngine.bindTexture(buttonTextures);
-	        GL11.glColor4f(1, 1, 1, 1);
+	        GlStateManager.color(1, 1, 1, 1);
 	        
 	        boolean mouseOver = i >= xPosition && j >= yPosition && i < xPosition + width && j < yPosition + height;
 	        int k = getHoverState(mouseOver);

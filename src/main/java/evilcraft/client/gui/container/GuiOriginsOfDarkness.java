@@ -3,13 +3,11 @@ package evilcraft.client.gui.container;
 import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.core.algorithm.EvictingStack;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.HyperLink;
 import evilcraft.infobook.InfoBookRegistry;
 import evilcraft.infobook.InfoSection;
-import evilcraft.item.OriginsOfDarkness;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -17,6 +15,7 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,6 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.lwjgl.opengl.GL11;
@@ -120,7 +120,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
 
     @Override
     public void drawScreen(int x, int y, float f) {
-        GL11.glColor4f(1F, 1F, 1F, 1F);
+        GlStateManager.color(1F, 1F, 1F, 1F);
         mc.renderEngine.bindTexture(texture);
 
         drawTexturedModalRect(left, top, 0, 0, pageWidth, guiHeight);
@@ -259,39 +259,39 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     }
 
     public void drawScaledCenteredString(String string, int x, int y, int width, float scale, int color) {
-        GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, 1.0f);
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(scale, scale, 1.0f);
         int titleLength = fontRendererObj.getStringWidth(string);
         int titleHeight = fontRendererObj.FONT_HEIGHT;
         fontRendererObj.drawString(string, Math.round((x + width / 2) / scale - titleLength / 2), Math.round(y / scale - titleHeight / 2), color);
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 
     public void drawHorizontalRule(int x, int y) {
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         mc.getTextureManager().bindTexture(texture);
         this.drawTexturedModalRect(x - HR_WIDTH / 2, y - HR_HEIGHT / 2, 52, 180, HR_WIDTH, HR_HEIGHT);
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.disableBlend();
     }
 
     public void drawTextBanner(int x, int y) {
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         mc.getTextureManager().bindTexture(texture);
         this.drawTexturedModalRect(x - BANNER_WIDTH / 2, y - BANNER_HEIGHT / 2, 52, 191, BANNER_WIDTH, BANNER_HEIGHT);
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.disableBlend();
     }
 
     public void drawArrowRight(int x, int y) {
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         mc.getTextureManager().bindTexture(texture);
         this.drawTexturedModalRect(x, y, 0, 210, ARROW_WIDTH, ARROW_HEIGHT);
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.disableBlend();
     }
 
     public void drawOuterBorder(int x, int y, int width, int height) {
@@ -299,9 +299,9 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     }
 
     public void drawOuterBorder(int x, int y, int width, int height, float r, float g, float b, float alpha) {
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(r, g, b, alpha);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(r, g, b, alpha);
         mc.getTextureManager().bindTexture(texture);
 
         // Corners
@@ -330,7 +330,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
             }
         }
 
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.disableBlend();
     }
 
     public void renderToolTip(ItemStack itemStack, int x, int y) {
@@ -368,7 +368,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
             if (this.visible) {
                 boolean isHover = mouseX >= this.xPosition && mouseY >= this.yPosition &&
                                mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 minecraft.getTextureManager().bindTexture(texture);
                 int k = x;
                 int l = y;
@@ -377,10 +377,10 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                     k += width;
                 }
 
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                GlStateManager.enableBlend();
+                GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 this.drawTexturedModalRect(this.xPosition, this.yPosition, k, l, width, height);
-                GL11.glDisable(GL11.GL_BLEND);
+                GlStateManager.disableBlend();
             }
         }
 
@@ -411,7 +411,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
             if (this.visible) {
                 boolean isHover = mouseX >= this.xPosition && mouseY >= this.yPosition &&
                         mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 boolean oldUnicode = minecraft.fontRendererObj.getUnicodeFlag();
                 minecraft.fontRendererObj.setUnicodeFlag(true);
                 minecraft.fontRendererObj.drawString((isHover ? "§n" : "") +

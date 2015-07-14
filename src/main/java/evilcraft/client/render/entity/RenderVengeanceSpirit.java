@@ -1,6 +1,7 @@
 package evilcraft.client.render.entity;
 
 import evilcraft.entity.monster.VengeanceSpirit;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -33,17 +34,17 @@ public class RenderVengeanceSpirit extends Render {
 		if(innerEntity != null && spirit.isVisible()) {
 			Render render = (Render) renderManager.entityRenderMap.get(innerEntity.getClass());
 			if(render != null && !spirit.isSwarm()) {
-				GL11.glEnable(GL11.GL_BLEND);
+				GlStateManager.enableBlend();
 				if(!spirit.isFrozen()) {
-					GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
+					GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
 				} else {
-					GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
+					GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
 				}
                 float c = Math.min(1F - (float) (spirit.getBuildupDuration()) / 30, 0.65F);
-                GL11.glColor3f(c, c, c);
+                GlStateManager.color(c, c, c);
 				//GL14.glBlendColor(0, 0, 0, 0);
-				//GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_CONSTANT_COLOR);
-				//GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_DST_COLOR);
+				//GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_CONSTANT_COLOR);
+				//GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_DST_COLOR);
 				
 				try {
 					render.doRender(innerEntity, x, y, z, yaw, 0);
@@ -51,7 +52,7 @@ public class RenderVengeanceSpirit extends Render {
 					// Invalid entity, so set as swarm.
 					spirit.setIsSwarm(true);
 				}
-				GL11.glDisable(GL11.GL_BLEND);
+				GlStateManager.disableBlend();
 			}
 		}
 	}

@@ -99,17 +99,17 @@ public class RenderHelpers {
 	public static void renderFluidContext(FluidStack fluid, double x, double y, double z, IFluidContextRender render) {
 		if(fluid != null && fluid.amount > 0) {
             // TODO: to glstatemanager
-			GL11.glPushMatrix();
+			GlStateManager.pushMatrix();
 
 	        // Make sure both sides are rendered
-	        GL11.glDepthMask(true);
-	        GL11.glDisable(GL11.GL_CULL_FACE);
+	        GlStateManager.enableBlend();
+	        GlStateManager.disableCull();
 	        
 	        // Correct color & lighting
-	        GL11.glColor4f(1, 1, 1, 1);
-	        GL11.glDisable(GL11.GL_LIGHTING);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        GlStateManager.color(1, 1, 1, 1);
+	        GlStateManager.disableLighting();
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 	        // Set to current relative player location
 			GlStateManager.translate(x, y, z);
@@ -119,11 +119,11 @@ public class RenderHelpers {
 	        
 	        render.renderFluid(fluid);
 	        
-	        //GL11.glEnable(GL11.GL_CULL_FACE);
-	        GL11.glEnable(GL11.GL_LIGHTING);
-	        GL11.glDisable(GL11.GL_BLEND);
-	        //GL11.glDepthMask(false);
-	        GL11.glPopMatrix();
+	        //GlStateManager.enableCull();
+	        GlStateManager.enableLighting();
+	        GlStateManager.disableBlend();
+	        //GlStateManager.disableDepth();
+	        GlStateManager.popMatrix();
 		}
 	}
 

@@ -3,6 +3,7 @@ package evilcraft.infobook.pageelement;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.infobook.InfoSection;
 import lombok.Data;
+import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -44,15 +45,15 @@ import org.lwjgl.opengl.GL11;
     public void drawScreen(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my, boolean pre) {
         int xc = x + width / 2 - getWidth() / 2;
         int yc = y + getOffsetY();
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(1F, 1F, 1F, 1F);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(1F, 1F, 1F, 1F);
         if(pre) {
             drawElement(gui, xc, yc, getWidth(), getHeight(), page, mx, my);
         } else {
             postDrawElement(gui, xc, yc, getWidth(), getHeight(), page, mx, my);
         }
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.disableBlend();
     }
 
     protected abstract void drawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my);
