@@ -1,7 +1,6 @@
 package evilcraft.block;
 
 import evilcraft.Configs;
-import org.cyclops.cyclopscore.item.IInformationProvider;
 import evilcraft.item.Broom;
 import evilcraft.item.BroomConfig;
 import net.minecraft.block.Block;
@@ -33,7 +32,6 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -41,10 +39,10 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class ExcrementPile extends ConfigurableBlock implements IInformationProvider {
+public class ExcrementPile extends ConfigurableBlock {
 
     @BlockProperty
-    public static final PropertyInteger LAYERS_PROP = PropertyInteger.create("layers", 1, 8);
+    public static final PropertyInteger LAYERS = PropertyInteger.create("layers", 1, 8);
 
     private static ExcrementPile _instance = null;
     
@@ -72,10 +70,17 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     public Item getItemDropped(IBlockState blockState, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
-    
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos blockPos, IBlockState blockState) {
-        return null;
+
+    public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
+    {
+        return ((Integer)worldIn.getBlockState(pos).getValue(LAYERS)) < 5;
+    }
+
+    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+    {
+        int i = ((Integer)state.getValue(LAYERS)) - 1;
+        float f = 0.125F;
+        return new AxisAlignedBB((double)pos.getX() + this.minX, (double)pos.getY() + this.minY, (double)pos.getZ() + this.minZ, (double)pos.getX() + this.maxX, (double)((float)pos.getY() + (float)i * f), (double)pos.getZ() + this.maxZ);
     }
     
     @Override
@@ -103,7 +108,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     }
 
     protected int getHeight(IBlockState blockState) {
-        return (Integer) blockState.getValue(LAYERS_PROP);
+        return (Integer) blockState.getValue(LAYERS);
     }
     
     protected void setBlockBoundsForPileDepth(IBlockState blockState) {
@@ -114,7 +119,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     public boolean canPlaceBlockAt(World world, BlockPos blockPos) {
         IBlockState blockState = world.getBlockState(blockPos.add(0, -1, 0));
         if (blockState == null) return false;
-        if (blockState.getBlock() == this && (Integer) blockState.getValue(LAYERS_PROP) == 8) return true;
+        if (blockState.getBlock() == this && (Integer) blockState.getValue(LAYERS) == 8) return true;
         return (blockState.getBlock().isLeaves(world, blockPos.add(0, -1, 0))
                 || blockState.getBlock().isOpaqueCube()) && blockState.getBlock().getMaterial().blocksMovement();
     }
@@ -247,17 +252,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
         IBlockState blockState = world.getBlockState(blockPos);
         int height = getHeight(blockState);
         if(height < 8)
-            world.setBlockState(blockPos, this.blockState.getBaseState().withProperty(LAYERS_PROP, height + 1), 2);
+            world.setBlockState(blockPos, this.blockState.getBaseState().withProperty(LAYERS, height + 1), 2);
     }
-    
-    @Override
-    public String getInfo(ItemStack itemStack) {
-        return IInformationProvider.INFO_PREFIX + "Will form below animals.";
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void provideInformation(ItemStack itemStack,
-            EntityPlayer entityPlayer, List list, boolean par4) {}
 
 }

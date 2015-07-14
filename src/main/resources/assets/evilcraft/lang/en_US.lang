@@ -22,6 +22,7 @@ tile.blocks.evilcraft.lightningBomb.name=Lightning Bomb
 tile.blocks.evilcraft.bloodyCobblestone.name=Bloody Cobblestone
 tile.blocks.evilcraft.netherMonsterBlock.name=Nether Monster Egg
 tile.blocks.evilcraft.excrementPile.name=Excrement Pile
+tile.blocks.evilcraft.excrementPile.info=Will form below animals.
 tile.blocks.evilcraft.hardenedBlood.name=Hardened Blood
 tile.blocks.evilcraft.hardenedBlood.info=Dried Blood. Liquidifies with rain or by breaking it.
 tile.blocks.evilcraft.obscuredGlass.name=Obscured Glass

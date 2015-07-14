@@ -1,0 +1,7 @@
+{
+  "parent": "block/snow_height14",
+  "textures": {
+    "texture" : "evilcraft:blocks/excrementPile",
+    "particle": "evilcraft:blocks/excrementPile"
+  }
+}
