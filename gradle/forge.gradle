@@ -22,7 +22,7 @@ dependencies {
     compile "org.cyclops.cyclopscore:CyclopsCore:${config.minecraft_version}-${config.cyclopscore_version}:deobf"
 
     //compile "tconstruct:TConstruct:${config.minecraft_version}-${config.tconstruct_version}:deobf" // http://dvs1.progwml6.com/files/maven
-    //compile "mcp.mobius.waila:Waila:${config.waila_version}" // http://mobiusstrip.eu/maven/mcp/mobius/waila/Waila/
+    compile "mcp.mobius.waila:Waila:${config.waila_version}:dev" // http://mobiusstrip.eu/maven/mcp/mobius/waila/Waila/
     //compile "codechicken:ForgeMultipart:${config.minecraft_version}-${config.FMP_version}:dev" // http://files.minecraftforge.net/ForgeMultipart/
     //compile "net.sengir.forestry:forestry_${config.minecraft_version}:${config.forestry_version}:dev" // http://maven.ic2.player.to/
     //compile "codechicken:NotEnoughItems:${config.minecraft_version}-${config.NEI_version}:dev" // http://chickenbones.net/maven/codechicken/NotEnoughItems/

@@ -3,9 +3,11 @@ package evilcraft.modcompat.waila;
 import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.block.*;
-import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.tileentity.TileBoxOfEternalClosure;
 import mcp.mobius.waila.api.IWailaRegistrar;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 
 /**
  * Waila support class.
