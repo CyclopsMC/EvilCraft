@@ -2,6 +2,7 @@ package evilcraft;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import evilcraft.modcompat.versionchecker.VersionCheckerModCompat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -56,8 +57,7 @@ public class VersionStats {
 	        public void run() {
 	        	VersionStats versionStats = getVersionStats();
 	        	if(needsUpdate(versionStats)) {
-					// TODO: version checker modcompat
-	        		//VersionCheckerModCompat.sendIMCOutdatedMessage(versionStats);
+	        		VersionCheckerModCompat.sendIMCOutdatedMessage(versionStats);
 	        	}
 			}
 		}).start();

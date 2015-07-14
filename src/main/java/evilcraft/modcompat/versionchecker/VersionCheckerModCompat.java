@@ -1,11 +1,11 @@
 package evilcraft.modcompat.versionchecker;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.VersionStats;
-import evilcraft.modcompat.IModCompat;
-import evilcraft.modcompat.ModCompatLoader;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
+import org.cyclops.cyclopscore.modcompat.IModCompat;
 
 /**
  * Mod compat for the Version Checker mod.
@@ -19,7 +19,7 @@ public class VersionCheckerModCompat implements IModCompat {
 	@Override
 	public void onInit(Step initStep) {
 		if(initStep == Step.PREINIT) {
-			canBeUsed = ModCompatLoader.shouldLoadModCompat(this);
+			canBeUsed = EvilCraft._instance.getModCompatLoader().shouldLoadModCompat(this);
 		}
 	}
 
