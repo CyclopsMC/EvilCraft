@@ -7,11 +7,14 @@ import evilcraft.inventory.container.ContainerSpiritFurnace;
 import evilcraft.tileentity.TileSpiritFurnace;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -19,8 +22,10 @@ import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.Random;
 
@@ -30,7 +35,10 @@ import java.util.Random;
  *
  */
 public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo implements IDetectionListener {
-    
+
+    @BlockProperty
+    public static final PropertyBool ACTIVE = PropertyBool.create("active");
+
     private static SpiritFurnace _instance = null;
     
     /**
@@ -73,28 +81,39 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     private void triggerDetector(World world, BlockPos blockPos, boolean valid) {
     	TileSpiritFurnace.detector.detect(world, blockPos, valid, true);
     }
-    
+
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
+        triggerDetector(world, pos, true);
+    }
+
     @Override
     public void onBlockAdded(World world, BlockPos blockPos, IBlockState blockState) {
-    	triggerDetector(world, blockPos, true);
+        super.onBlockAdded(world, blockPos, blockState);
+        triggerDetector(world, blockPos, true);
     }
-    
-    /*@Override
-    public void onBlockPreDestroy(World world, BlockPos blockPos, IBlockState blockState) {
-    	triggerDetector(world, blockPos, false);
-    	super.onBlockPreDestroy(world, blockPos, meta);
-    }*/
+
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        if((Boolean)state.getValue(ACTIVE)) triggerDetector(world, pos, false);
+        super.breakBlock(world, pos, state);
+    }
 
 	@Override
 	public void onDetect(World world, BlockPos location, Vec3i size, boolean valid) {
-		Block block = world.getBlockState(location).getBlock();
-		if(block == this) {
-			TileSpiritFurnace.detectStructure(world, location, size, valid);
-			TileEntity tile = world.getTileEntity(location);
-			if(tile != null) {
-				((TileSpiritFurnace) tile).setSize(valid ? size : Vec3i.NULL_VECTOR);
-			}
-		}
+        Block block = world.getBlockState(location).getBlock();
+        if(block == this) {
+            boolean change = (Boolean) world.getBlockState(location).getValue(ACTIVE);
+            world.setBlockState(location, world.getBlockState(location).withProperty(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            if(change) {
+                TileSpiritFurnace.detectStructure(world, location, size, valid);
+                TileEntity tile = world.getTileEntity(location);
+                if(tile != null) {
+                    ((TileSpiritFurnace) tile).setSize(valid ? size : Vec3i.NULL_VECTOR);
+                }
+            }
+        }
 	}
 
     @Override

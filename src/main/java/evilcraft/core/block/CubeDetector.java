@@ -116,11 +116,11 @@ public class CubeDetector {
 		
 		// Loop until we find a non-valid location.
 		while(isValidLocation(world, loopLocation)) {
-            LocationHelpers.addToDimension(loopLocation, dimension, direction);
+			loopLocation = LocationHelpers.addToDimension(loopLocation, dimension, direction);
 		}
 		
 		// Because we went one increment too far.
-        LocationHelpers.addToDimension(loopLocation, dimension, -direction);
+		loopLocation = LocationHelpers.addToDimension(loopLocation, dimension, -direction);
 		
 		return loopLocation;
 	}
@@ -329,7 +329,7 @@ public class CubeDetector {
 		// Next to the origin, we only need one corner for each dimension,
 		// we can easily derive if the structure is valid with these 4 corners.
 		
-		// First detect if the given location is a valid blockState.
+		// First detect if the given location is a valid block.
 		if(!isValidLocation(world, startLocation)) {
 			return LocationHelpers.copyLocation(NULL_SIZE);
 		}
@@ -358,7 +358,7 @@ public class CubeDetector {
 			// Distance measurement
             Vec3i sizeDifference = LocationHelpers.subtract(corners[i], originCorner);
 			distances[i] = LocationHelpers.toArray(sizeDifference)[i];
-			
+
 			// Start and stop coordinate measurement.
 			int addIndex = 0;
 			if(cOriginCorner[i] > cCorner[i]) {
@@ -383,7 +383,9 @@ public class CubeDetector {
 			// System.out.println("too small");
 			return LocationHelpers.copyLocation(NULL_SIZE);
 		}
-		postValidate(world, size, dimensionEgdes, valid);
+        if(changeState) {
+            postValidate(world, size, dimensionEgdes, valid);
+        }
 		return size;
 	}
 	

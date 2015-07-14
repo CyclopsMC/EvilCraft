@@ -12,9 +12,6 @@ import evilcraft.core.block.CubeDetector;
 import evilcraft.core.block.HollowCubeDetector;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
-import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.helper.EntityHelpers;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
@@ -23,6 +20,7 @@ import evilcraft.core.tileentity.upgrade.UpgradeBehaviour;
 import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.core.world.FakeWorldItemDelegator;
 import evilcraft.core.world.FakeWorldItemDelegator.IItemDropListener;
+import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.fluid.Blood;
 import evilcraft.network.packet.DetectionListenerPacket;
 import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
@@ -44,8 +42,9 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.network.PacketHandler;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.helper.EntityHelpers;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 
 import java.util.LinkedHashMap;
@@ -101,7 +100,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     @SuppressWarnings("unchecked")
 	public static CubeDetector detector = new HollowCubeDetector(
     			new AllowedBlock[]{
-                        new AllowedBlock(DarkBloodBrick.getInstance()).setMaxOccurences(1),
+                        new AllowedBlock(DarkBloodBrick.getInstance()),
     					new AllowedBlock(SpiritFurnace.getInstance()).setMaxOccurences(1),
                 },
     			Lists.newArrayList(SpiritFurnace.getInstance(), DarkBloodBrick.getInstance())
@@ -216,7 +215,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     	ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
     	if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
     		String id = BoxOfEternalClosure.getInstance().getSpiritName(boxStack);
-    		if(id != null) {
+    		if(id != null && !id.equals(VengeanceSpirit.DEFAULT_L10N_KEY)) {
     			// We cache the entity inside 'boxEntityCache' for obvious efficiency reasons.
     			if(boxEntityCache != null && id.equals(EntityList.getEntityString(boxEntityCache))) {
         			return boxEntityCache;
@@ -302,12 +301,8 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * @param valid If the structure is being validated(/created), otherwise invalidated.
      */
     public static void detectStructure(World world, BlockPos location, Vec3i size, boolean valid) {
-		boolean change = (Boolean) world.getBlockState(location).getValue(DarkBloodBrick.ACTIVE);
-        world.setBlockState(location, world.getBlockState(location).withProperty(DarkBloodBrick.ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-		if(change) {
-            EvilCraft._instance.getPacketHandler().sendToAllAround(new DetectionListenerPacket(location, valid),
-                    LocationHelpers.createTargetPointFromLocation(world, location, 50));
-		}
+		EvilCraft._instance.getPacketHandler().sendToAllAround(new DetectionListenerPacket(location, valid),
+                LocationHelpers.createTargetPointFromLocation(world, location, 50));
     }
     
     @Override

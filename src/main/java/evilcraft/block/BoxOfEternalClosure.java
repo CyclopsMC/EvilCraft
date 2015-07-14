@@ -1,9 +1,7 @@
 package evilcraft.block;
 
 import evilcraft.Reference;
-import org.cyclops.cyclopscore.item.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
-import org.cyclops.cyclopscore.helper.EntityHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.core.world.FakeWorld;
 import evilcraft.entity.monster.VengeanceSpirit;
@@ -26,7 +24,9 @@ import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 import java.util.List;
@@ -127,7 +127,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 				if(innerEntity != null && !innerEntity.isEmpty()) {
 					try {
 						Class<?> clazz = Class.forName(innerEntity);
-                        if(!VengeanceSpirit.canSustainClass(clazz)) return null;
+						if(!VengeanceSpirit.canSustainClass(clazz)) return null;
 						return (String) EntityList.classToStringMapping.get(clazz);
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();

@@ -4,6 +4,7 @@ import evilcraft.Reference;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
@@ -24,7 +25,7 @@ public class EntityBloodBrickFX extends EntityFX {
 			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "bloodBrickActivation.png");
 	private static final ResourceLocation TEXTURE_FLIPPED = new ResourceLocation(
 			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "bloodBrickActivation_flipped.png");
-	private static final int TESSELATOR_BRIGHTNESS = 240;
+	private static final int TESSELATOR_BRIGHTNESS = 120;
 	
 	private EnumFacing side;
 	
@@ -67,47 +68,48 @@ public class EntityBloodBrickFX extends EntityFX {
 	@Override
 	public void renderParticle(WorldRenderer worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         Tessellator.getInstance().draw();
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
 
-		GL11.glDepthMask(false);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        GlStateManager.depthMask(false);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        worldRenderer.startDrawingQuads();
 		
 		// Flipping to make sure the particle lines match the blockState lines.
 		boolean flip = side == EnumFacing.DOWN;
 		Minecraft.getMinecraft().renderEngine.bindTexture(flip ? TEXTURE_FLIPPED : TEXTURE);
 
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 0.75F);
 
 		float f11 = (float)(prevPosX + (posX - prevPosX) * f - interpPosX);
 		float f12 = (float)(prevPosY + (posY - prevPosY) * f - interpPosY);
 		float f13 = (float)(prevPosZ + (posZ - prevPosZ) * f - interpPosZ);
-		GL11.glTranslated(f11 + 0.5D, f12 + 0.5D, f13 + 0.5D);
+        GlStateManager.translate(f11 + 0.5D, f12 + 0.5D, f13 + 0.5D);
 		
 		// Several rotations to make sure the particle lines match the blockState lines.
 		if(side == EnumFacing.WEST) { // X-
-	    	GL11.glRotatef(180.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
 	    }
 		if(side == EnumFacing.NORTH) { // Z-
-			GL11.glRotatef(90.0F, 0.0F, 0.0F, -1.0F);
+            GlStateManager.rotate(90.0F, 0.0F, 0.0F, -1.0F);
 		}
 		if(side == EnumFacing.EAST) { // X+
-	    	GL11.glRotatef(180.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
 	    }
 		if(side == EnumFacing.SOUTH) { // Z+
-			GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
 		}
 		if(side == EnumFacing.DOWN) { // Y-
-			GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 		}
-		
-		GL11.glRotatef(90.0F, side.getFrontOffsetY(), -side.getFrontOffsetX(), side.getFrontOffsetZ());
+
+        GlStateManager.rotate(90.0F, side.getFrontOffsetY(), -side.getFrontOffsetX(), side.getFrontOffsetZ());
 		
 	    if(side.getFrontOffsetZ() > 0) {
-	    	GL11.glTranslated(0.0D, 0.0D, 0.5D);
-	    	GL11.glRotatef(180.0F, 0.0F, -1.0F, 0.0F);
+            GlStateManager.translate(0.0D, 0.0D, 0.5D);
+            GlStateManager.rotate(180.0F, 0.0F, -1.0F, 0.0F);
 	    } else {
-	    	GL11.glTranslated(0.0D, 0.0D, -0.5D);
+            GlStateManager.translate(0.0D, 0.0D, -0.5D);
 	    }
 
        	worldRenderer.setBrightness(TESSELATOR_BRIGHTNESS);
@@ -121,11 +123,11 @@ public class EntityBloodBrickFX extends EntityFX {
         worldRenderer.addVertexWithUV(0.5D * offsetter, -0.5D * offsetter, 0.0D, 1.0D, 0.0D);
         worldRenderer.addVertexWithUV(-0.5D * offsetter, -0.5D * offsetter, 0.0D, 0.0D, 0.0D);
 		Tessellator.getInstance().draw();
-		
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDepthMask(true);
 
-		GL11.glPopMatrix();
+        GlStateManager.disableBlend();
+        GlStateManager.depthMask(true);
+
+        GlStateManager.popMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ObfuscationHelpers.getParticleTexture());
         worldRenderer.startDrawingQuads();
 	}
