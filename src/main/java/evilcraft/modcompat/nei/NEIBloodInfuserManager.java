@@ -7,11 +7,11 @@ import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import com.google.common.collect.Lists;
 import evilcraft.Reference;
-import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
 import evilcraft.block.BloodInfuserConfig;
 import evilcraft.client.gui.container.GuiBloodInfuser;
 import evilcraft.core.client.gui.container.GuiWorking;
+import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.inventory.container.ContainerBloodInfuser;
@@ -21,10 +21,14 @@ import evilcraft.tileentity.TileWorking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
+import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -305,7 +309,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         int tankSize = bloodInfuserRecipe.fluidStack.amount * tankHeight / getMaxTankSize(bloodInfuserRecipe);
-        drawTank(tankTargetX, tankTargetY, TileBloodInfuser.ACCEPTED_FLUID.getID(), tankSize);
+        drawTank(tankTargetX, tankTargetY, TileBloodInfuser.ACCEPTED_FLUID, tankSize);
         GL11.glDisable(GL11.GL_BLEND);
     }
 
@@ -313,12 +317,11 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         return TileBloodInfuser.LIQUID_PER_SLOT * TileWorking.getTankTierMultiplier(bloodInfuserRecipe.tier);
     }
     
-    protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
+    protected void drawTank(int xOffset, int yOffset, Fluid fluid, int level) {
         Minecraft mc = Minecraft.getMinecraft();
-        FluidStack stack = new FluidStack(fluidID, 1);
-        if(fluidID > 0) {
-            TextureAtlasSprite icon = stack.getFluid().getIcon();
-            if (icon == null) icon = Blocks.water.getIcon(0, 0);
+        if(fluid != null) {
+            FluidStack stack = new FluidStack(fluid, 1);
+            TextureAtlasSprite icon = RenderHelpers.getFluidIcon(stack, EnumFacing.UP);
             
             int verticalOffset = 0;
             
@@ -333,7 +336,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                     level = 0;
                 }
                 
-                mc.renderEngine.bindTexture(mc.renderEngine.getResourceLocation(0));
+                mc.renderEngine.bindTexture(RenderHelpers.TEXTURE_MAP);
                 drawTexturedModelRectFromIcon(xOffset, yOffset - textureHeight - verticalOffset, icon, tankWidth, textureHeight);
                 verticalOffset = verticalOffset + 16;
             }
@@ -344,12 +347,13 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     }
 
     private void drawTexturedModelRectFromIcon(int x, int y, TextureAtlasSprite icon, int width, int height) {
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV((double)(x + 0), (double)(y + height), (double)this.zLevel, (double)icon.getMinU(), (double)icon.getMaxV());
-        tessellator.addVertexWithUV((double)(x + width), (double)(y + height), (double)this.zLevel, (double)icon.getMaxU(), (double)icon.getMaxV());
-        tessellator.addVertexWithUV((double)(x + width), (double)(y + 0), (double)this.zLevel, (double)icon.getMaxU(), (double)icon.getMinV());
-        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)this.zLevel, (double)icon.getMinU(), (double)icon.getMinV());
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+        worldRenderer.startDrawingQuads();
+        worldRenderer.addVertexWithUV((double)(x + 0), (double)(y + height), (double)this.zLevel, (double)icon.getMinU(), (double)icon.getMaxV());
+        worldRenderer.addVertexWithUV((double)(x + width), (double)(y + height), (double)this.zLevel, (double)icon.getMaxU(), (double)icon.getMaxV());
+        worldRenderer.addVertexWithUV((double)(x + width), (double)(y + 0), (double)this.zLevel, (double)icon.getMaxU(), (double)icon.getMinV());
+        worldRenderer.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)this.zLevel, (double)icon.getMinU(), (double)icon.getMinV());
         tessellator.draw();
     }
 

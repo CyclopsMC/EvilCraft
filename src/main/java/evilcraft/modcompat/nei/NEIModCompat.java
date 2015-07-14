@@ -1,8 +1,8 @@
 package evilcraft.modcompat.nei;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.modcompat.IModCompat;
-import evilcraft.modcompat.ModCompatLoader;
+import org.cyclops.cyclopscore.modcompat.IModCompat;
 
 /**
  * Config for the NEI integration of this mod.
@@ -19,7 +19,7 @@ public class NEIModCompat implements IModCompat {
 	@Override
 	public void onInit(Step initStep) {
 		if(initStep == Step.PREINIT) {
-			canBeUsed = ModCompatLoader.shouldLoadModCompat(this);
+			canBeUsed = EvilCraft._instance.getModCompatLoader().shouldLoadModCompat(this);
 		}
 	}
 

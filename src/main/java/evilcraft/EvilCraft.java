@@ -10,6 +10,7 @@ import evilcraft.event.ServerStatusEventHook;
 import evilcraft.infobook.InfoBookRegistry;
 import evilcraft.item.DarkGemConfig;
 import evilcraft.modcompat.baubles.BaublesModCompat;
+import evilcraft.modcompat.nei.NEIModCompat;
 import evilcraft.modcompat.waila.WailaModCompat;
 import evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import evilcraft.world.gen.DarkTempleGenerator;
@@ -74,6 +75,7 @@ public class EvilCraft extends ModBase {
     protected void loadModCompats(ModCompatLoader modCompatLoader) {
         modCompatLoader.addModCompat(new BaublesModCompat());
         modCompatLoader.addModCompat(new WailaModCompat());
+        modCompatLoader.addModCompat(new NEIModCompat());
     }
 
     @Override

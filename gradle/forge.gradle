@@ -25,9 +25,9 @@ dependencies {
     compile "mcp.mobius.waila:Waila:${config.waila_version}:dev" // http://mobiusstrip.eu/maven/mcp/mobius/waila/Waila/
     //compile "codechicken:ForgeMultipart:${config.minecraft_version}-${config.FMP_version}:dev" // http://files.minecraftforge.net/ForgeMultipart/
     //compile "net.sengir.forestry:forestry_${config.minecraft_version}:${config.forestry_version}:dev" // http://maven.ic2.player.to/
-    //compile "codechicken:NotEnoughItems:${config.minecraft_version}-${config.NEI_version}:dev" // http://chickenbones.net/maven/codechicken/NotEnoughItems/
-    //compile "codechicken:CodeChickenCore:${config.minecraft_version}-${config.CCC_version}:dev" // http://chickenbones.net/maven/codechicken/CodeChickenCore/
-    //compile "codechicken:CodeChickenLib:${config.minecraft_version}-${config.CCL_version}:dev" // http://files.minecraftforge.net/CodeChickenLib/
+    compile "codechicken:NotEnoughItems:${config.minecraft_version}-${config.NEI_version}:dev" // http://chickenbones.net/maven/codechicken/NotEnoughItems/
+    compile "codechicken:CodeChickenCore:${config.minecraft_version}-${config.CCC_version}:dev" // http://chickenbones.net/maven/codechicken/CodeChickenCore/
+    compile "codechicken:CodeChickenLib:${config.minecraft_version}-${config.CCL_version}:dev" // http://files.minecraftforge.net/CodeChickenLib/
     //compile files("${project.libs_path}/BloodMagic-${config.minecraft_version}-${config.BM_version}-deobf.jar") // https://www.dropbox.com/sh/0aqvalqobu61t44/AADZq-GuoDeuNzgg6zueVM_Ca
 
     // Project lombok

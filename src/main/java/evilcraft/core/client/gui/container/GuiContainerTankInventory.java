@@ -3,7 +3,8 @@ package evilcraft.core.client.gui.container;
 import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
@@ -105,7 +106,7 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
         SingleUseTank tank = tile.getTank();
         if(shouldRenderTank()) {
             int tankSize = Math.min(tank.getCapacity(), tank.getFluidAmount()) * tankHeight / tank.getCapacity();
-            drawTank(tankTargetX, tankTargetY, tank.getAcceptedFluid().getID(), tankSize);
+            drawTank(tankTargetX, tankTargetY, tank.getAcceptedFluid(), tankSize);
         }
         drawAdditionalForeground(mouseX, mouseY);
         GlStateManager.disableBlend();
@@ -128,11 +129,10 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
         return tank != null && tank.getAcceptedFluid() != null && tank.getFluidAmount() > 0;
     }
     
-	protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
-        FluidStack stack = new FluidStack(fluidID, 1);
-        if(fluidID > 0) {
-            TextureAtlasSprite icon = stack.getFluid().getIcon();
-            if (icon == null) icon = RenderHelpers.getBlockIcon(Blocks.water);
+	protected void drawTank(int xOffset, int yOffset, Fluid fluid, int level) {
+        if(fluid != null) {
+            FluidStack stack = new FluidStack(fluid, 1);
+            TextureAtlasSprite icon = RenderHelpers.getFluidIcon(stack, EnumFacing.UP);
             
             int verticalOffset = 0;
             

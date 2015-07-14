@@ -3,13 +3,13 @@ package evilcraft.modcompat.nei;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import evilcraft.Reference;
-import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -186,8 +186,8 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
     
     private List<CachedEnvironmentalAccumulatorRecipe> getRecipes() {
         List<CachedEnvironmentalAccumulatorRecipe> recipes = new LinkedList<CachedEnvironmentalAccumulatorRecipe>();
-        for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, 
-        		EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry()
+        for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent,
+                        EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry()
         		.allRecipes()) {
             EnvironmentalAccumulatorRecipeComponent input = (EnvironmentalAccumulatorRecipeComponent)recipe.getInput();
             EnvironmentalAccumulatorRecipeComponent output = (EnvironmentalAccumulatorRecipeComponent)recipe.getOutput();
