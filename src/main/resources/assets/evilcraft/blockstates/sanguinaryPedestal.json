@@ -1,0 +1,13 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "#texture": "evilcraft:pedestal"
+    },
+    "model": "evilcraft:sanguinaryPedestal"
+  },
+  "variants": {
+    "normal"   : { "dummy": ""},
+    "inventory": { "dummy": ""}
+  }
+}

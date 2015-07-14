@@ -1,6 +1,5 @@
 package evilcraft.block;
 
-import org.cyclops.cyclopscore.item.IInformationProvider;
 import evilcraft.core.block.IBlockRarityProvider;
 import evilcraft.tileentity.TileSanguinaryPedestal;
 import net.minecraft.block.material.Material;
@@ -17,11 +16,14 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.b3d.B3DLoader;
+import net.minecraftforge.common.property.IExtendedBlockState;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 
 import java.util.List;
 
@@ -35,6 +37,8 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     @BlockProperty
     public static final PropertyInteger TIER = PropertyInteger.create("tier", 0, 1);
+    @BlockProperty
+    public static final B3DLoader.B3DFrameProperty _MODEL = B3DLoader.B3DFrameProperty.instance; // TODO: abstract
 
     private static SanguinaryPedestal _instance = null;
     
@@ -48,6 +52,13 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     public SanguinaryPedestal(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileSanguinaryPedestal.class);
+    }
+
+    // TODO: abstract
+    @Override
+    public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+        B3DLoader.B3DState newState = new B3DLoader.B3DState(null, 1);
+        return ((IExtendedBlockState)getDefaultState()).withProperty(_MODEL, newState);
     }
 
     @Override

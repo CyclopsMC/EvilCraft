@@ -1,7 +1,7 @@
 package evilcraft.proxy;
 
-import com.google.common.collect.Lists;
 import evilcraft.EvilCraft;
+import evilcraft.Reference;
 import evilcraft.client.key.ExaltedCrafterKeyHandler;
 import evilcraft.client.key.FartKeyHandler;
 import evilcraft.client.key.Keys;
@@ -12,17 +12,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.client.model.b3d.B3DLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.cyclops.cyclopscore.client.key.IKeyRegistry;
-import org.cyclops.cyclopscore.client.key.KeyRegistry;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.network.PacketHandler;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
-import org.lwjgl.input.Keyboard;
-
-import java.util.List;
 
 /**
  * Proxy for the client side.
@@ -33,6 +30,9 @@ import java.util.List;
 public class ClientProxy extends ClientProxyComponent {
 
 	private final CommonProxy commonProxy = new CommonProxy();
+	static {
+		B3DLoader.instance.addDomain(Reference.MOD_ID); // To enable B3D model loading for EvilCraft
+	}
 
 	@Override
 	protected ModBase getMod() {
