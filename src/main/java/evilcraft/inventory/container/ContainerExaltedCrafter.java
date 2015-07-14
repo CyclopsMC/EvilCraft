@@ -4,22 +4,25 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import evilcraft.EvilCraft;
 import evilcraft.client.gui.container.GuiExaltedCrafter;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.core.inventory.NBTCraftingGrid;
 import evilcraft.core.inventory.container.ItemInventoryContainer;
 import evilcraft.item.ExaltedCrafter;
 import evilcraft.item.ExaltedCrafterConfig;
 import evilcraft.network.packet.ExaltedCrafterButtonPacket;
+import invtweaks.api.container.ChestContainer;
+import invtweaks.api.container.ContainerSection;
+import invtweaks.api.container.ContainerSectionCallback;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
+import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.cyclops.cyclopscore.network.PacketHandler;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 
 import java.util.List;
 import java.util.Map;
@@ -29,7 +32,7 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-// TODO: @ChestContainer
+@ChestContainer
 public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCrafter> {
     
 	private static final int GRID_OFFSET_X = 30;
@@ -234,8 +237,8 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     /**
      * @return Container selection options for inventory tweaks.
      */
-    // TODO: @ContainerSectionCallback
-    /*public Map<ContainerSection, List<Slot>> getContainerSelection() {
+    @ContainerSectionCallback
+    public Map<ContainerSection, List<Slot>> getContainerSelection() {
         Map<ContainerSection, List<Slot>> selection = Maps.newHashMap();
         List<Slot> craftingInSlots = Lists.newLinkedList();
         List<Slot> craftingOutSlots = Lists.newLinkedList();
@@ -251,7 +254,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         selection.put(ContainerSection.CHEST, craftingChest);
         return selection;
 
-    }*/
+    }
 
     /**
      * Action for pressing buttons.
