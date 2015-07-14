@@ -2,7 +2,6 @@ package evilcraft.world.gen;
 
 import evilcraft.block.NetherfishSpawn;
 import evilcraft.block.NetherfishSpawnConfig;
-import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -39,7 +38,7 @@ public class NetherfishSpawnGenerator extends WorldGenMinableExtended {
             if(meta != -1) {
                 world.setBlockState(
                         blockPos,
-                        block.getDefaultState().withProperty(ConfigurableBlockWithInnerBlocks.FAKEMETA, meta),
+                        block.getDefaultState().withProperty(NetherfishSpawn.FAKEMETA, meta),
                         MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             }
         }

@@ -7,6 +7,7 @@ general.evilcraft.versionCurrent=%s for Minecraft %s
 general.evilcraft.versionUpdate=Update %s of %s(%s): %s
 
 # Blocks
+tile.blocks.evilcraft.innerBlock.info=Block: %s
 tile.blocks.evilcraft.blockBlood.name=Blood
 tile.blocks.evilcraft.blockPoison.name=Poison
 tile.blocks.evilcraft.bloodChest.name=Blood Chest

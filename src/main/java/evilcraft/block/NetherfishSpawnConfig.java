@@ -1,11 +1,11 @@
 package evilcraft.block;
 
 import evilcraft.EvilCraft;
-import evilcraft.core.item.ItemBlockMetadata;
 import net.minecraft.item.ItemBlock;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.item.ItemBlockMetadata;
 
 /**
  * Config for the {@link NetherfishSpawn}.

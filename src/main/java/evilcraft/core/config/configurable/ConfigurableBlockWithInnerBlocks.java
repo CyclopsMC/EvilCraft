@@ -1,10 +1,11 @@
 package evilcraft.core.config.configurable;
 
-import org.cyclops.cyclopscore.item.IInformationProvider;
+import evilcraft.client.render.model.ModelInnerBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,9 +16,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 
 import java.util.List;
 import java.util.Random;
@@ -29,11 +31,8 @@ import java.util.Random;
  */
 public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock implements IInformationProvider{
 
-    @BlockProperty
-    public static final PropertyInteger FAKEMETA = PropertyInteger.create("meta", 0, 15);
-
     // No more than 16 different innerblocks allowed!
-    protected final Block[] INNER_BLOCKS;
+    protected final IBlockState[] INNER_BLOCKS;
     
     /**
      * Make a new blockState instance.
@@ -51,7 +50,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
      * non-null blockState instanced to work correctly.
      * @return The list of innerblocks
      */
-    protected abstract Block[] makeInnerBlockList();
+    protected abstract IBlockState[] makeInnerBlockList();
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
@@ -63,17 +62,17 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     
     @Override
     public Item getItemDropped(IBlockState blockState, Random random, int zero) {
-        return getBlockFromState(blockState).getItemDropped(blockState, random, zero);
+        return getBlockFromState(blockState).getBlock().getItemDropped(getBlockFromState(blockState), random, zero);
     }
     
     @Override
     protected ItemStack createStackedBlock(IBlockState blockState) {
-        return new ItemStack(getBlockFromState(blockState));
+        return new ItemStack(getBlockFromState(blockState).getBlock());
     }
     
     @Override
     public String getInfo(ItemStack itemStack) {
-        return "Block: "+EnumChatFormatting.ITALIC+ getBlockFromMeta(itemStack.getItemDamage()).getLocalizedName();
+        return L10NHelpers.localize("tile.blocks.evilcraft.innerBlock.info", EnumChatFormatting.ITALIC+ getBlockFromMeta(itemStack.getItemDamage()).getBlock().getLocalizedName());
     }
     
     @SuppressWarnings("rawtypes")
@@ -89,19 +88,21 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
      */
     public int getMetadataFromBlock(Block block) {
         for(int i = 0; i < INNER_BLOCKS.length; i++) {
-            if(INNER_BLOCKS[i] == block)
+            if(INNER_BLOCKS[i].getBlock() == block)
                 return i;
         }
         return -1;
     }
+
+    protected abstract PropertyInteger getMetaProperty();
 
     /**
      * Get the Block from the given (inner) blockState metadata
      * @param blockState state for the inner blockState.
      * @return The Block for the given metadata or the last available Block if the metadata was out of range.
      */
-    public Block getBlockFromState(IBlockState blockState) {
-        return getBlockFromMeta((Integer) blockState.getValue(FAKEMETA));
+    public IBlockState getBlockFromState(IBlockState blockState) {
+        return getBlockFromMeta((Integer) blockState.getValue(getMetaProperty()));
     }
 
     /**
@@ -109,7 +110,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
      * @param blockMeta meta for the inner blockState.
      * @return The Block for the given metadata or the last available Block if the metadata was out of range.
      */
-    public Block getBlockFromMeta(int blockMeta) {
+    public IBlockState getBlockFromMeta(int blockMeta) {
         return INNER_BLOCKS[Math.min(INNER_BLOCKS.length - 1, blockMeta)];
     }
     
@@ -124,35 +125,46 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     @Override
     public float getBlockHardness(World world, BlockPos blockPos) {
         IBlockState blockState = world.getBlockState(blockPos);
-        return getBlockFromState(blockState).getBlockHardness(world, blockPos);
+        return getBlockFromState(blockState).getBlock().getBlockHardness(world, blockPos);
     }
     
     @Override
     public int damageDropped(IBlockState blockState) {
-        return (Integer) blockState.getValue(FAKEMETA);
+        return (Integer) blockState.getValue(getMetaProperty());
     }
     
     @Override
     public boolean canHarvestBlock(IBlockAccess world, BlockPos blockPos, EntityPlayer player) {
-        return getBlockFromState(world.getBlockState(blockPos)).canHarvestBlock(world, blockPos, player);
+        return getBlockFromState(world.getBlockState(blockPos)).getBlock().canHarvestBlock(world, blockPos, player);
     }
     
     @Override
     public float getPlayerRelativeBlockHardness(EntityPlayer player, World world, BlockPos blockPos) {
         IBlockState blockState = world.getBlockState(blockPos);
-        return getBlockFromState(blockState).getPlayerRelativeBlockHardness(player, world, blockPos);
+        return getBlockFromState(blockState).getBlock().getPlayerRelativeBlockHardness(player, world, blockPos);
     }
     
     @Override
     @SideOnly(Side.CLIENT)
     public int colorMultiplier(IBlockAccess world, BlockPos blockPos, int renderPass) {
-        return getBlockFromState(world.getBlockState(blockPos)).colorMultiplier(world, blockPos, renderPass);
+        return getBlockFromState(world.getBlockState(blockPos)).getBlock().colorMultiplier(world, blockPos, renderPass);
     }
     
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderColor(IBlockState blockState) {
-        return getBlockFromState(blockState).getRenderColor(blockState);
+        return getBlockFromState(blockState).getBlock().getRenderColor(blockState);
+    }
+
+    @Override
+    public boolean hasDynamicModel() {
+        return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public IBakedModel createDynamicModel() {
+        return new ModelInnerBlock(this);
     }
     
 }

@@ -9,16 +9,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.item.ItemBlockMetadata;
 
 /**
- * An extended {@link ItemBlockExtended} that will add the NBT data that is stored inside
+ * An extended {@link ItemBlockMetadata} that will add the NBT data that is stored inside
  * the item to the placed {@link TileEntity} for the blockState.
  * Subinstances of {@link org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer} will perform the inverse operation, being
  * that broken blocks will save the NBT data inside the dropped {@link ItemBlock}.
  * @author rubensworks
  *
  */
-public class ItemBlockNBT extends ItemBlockExtended {
+public class ItemBlockNBT extends ItemBlockMetadata {
     
     /**
      * Make a new instance.

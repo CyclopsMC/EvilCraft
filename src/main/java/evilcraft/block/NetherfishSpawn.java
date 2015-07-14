@@ -4,12 +4,13 @@ import evilcraft.Configs;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
 import evilcraft.entity.monster.Netherfish;
 import evilcraft.entity.monster.NetherfishConfig;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
@@ -21,6 +22,9 @@ import java.util.Random;
  *
  */
 public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
+
+    @BlockProperty
+    public static final PropertyInteger FAKEMETA = PropertyInteger.create("meta", 0, 2);
     
     private static NetherfishSpawn _instance = null;
     
@@ -38,14 +42,19 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     }
     
     @Override
-    protected Block[] makeInnerBlockList() {
-        return new Block[]{
-                Blocks.netherrack,
-                Blocks.nether_brick, 
-                Blocks.soul_sand
-                };
+    protected IBlockState[] makeInnerBlockList() {
+        return new IBlockState[]{
+                Blocks.netherrack.getDefaultState(),
+                Blocks.nether_brick.getDefaultState(),
+                Blocks.soul_sand.getDefaultState()
+        };
     }
-    
+
+    @Override
+    protected PropertyInteger getMetaProperty() {
+        return FAKEMETA;
+    }
+
     @Override
     public void onBlockDestroyedByPlayer(World world, BlockPos blockPos, IBlockState blockState) {
         if (!world.isRemote && Configs.isEnabled(NetherfishConfig.class)) {
