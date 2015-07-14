@@ -1,7 +1,6 @@
 package evilcraft.client.key;
 
 import evilcraft.EvilCraft;
-import evilcraft.core.PlayerInventoryIterator;
 import evilcraft.item.ExaltedCrafter;
 import evilcraft.network.packet.ExaltedCrafterOpenPacket;
 import net.minecraft.client.Minecraft;
@@ -12,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.client.key.IKeyHandler;
-import org.cyclops.cyclopscore.network.PacketHandler;
+import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 
 /**
  * A {@link IKeyHandler} which handles farts.

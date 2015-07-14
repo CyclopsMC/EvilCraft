@@ -1,6 +1,5 @@
 package evilcraft.block;
 
-import evilcraft.core.PlayerExtendedInventoryIterator;
 import evilcraft.core.fluid.WorldSharedTank;
 import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.core.helper.ItemHelpers;
@@ -14,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 
 import java.util.Iterator;
 

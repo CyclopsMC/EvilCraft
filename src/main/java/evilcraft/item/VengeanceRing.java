@@ -1,11 +1,14 @@
 package evilcraft.item;
 
+import baubles.api.BaubleType;
+import baubles.api.BaublesApi;
+import baubles.api.IBauble;
 import com.google.common.base.Predicate;
 import evilcraft.Reference;
 import evilcraft.core.helper.ItemHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
+import evilcraft.modcompat.baubles.BaublesModCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,6 +27,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 
 import java.util.List;
 
@@ -33,7 +37,7 @@ import java.util.List;
  *
  */
 @Optional.Interface(iface = "baubles.api.IBauble", modid = Reference.MOD_BAUBLES, striprefs = true)
-public class VengeanceRing extends ConfigurableItem {
+public class VengeanceRing extends ConfigurableItem implements IBauble {
 
 	private static final int BONUS_TICK_MODULUS = 5;
 	private static final int BONUS_POTION_DURATION = 3 * 20;
@@ -72,15 +76,14 @@ public class VengeanceRing extends ConfigurableItem {
     
     @Optional.Method(modid = Reference.MOD_BAUBLES)
     private void equipBauble(ItemStack itemStack, EntityPlayer player) {
-    	IInventory inventory = null; //BaublesApi.getBaubles(player); TODO
+    	IInventory inventory = BaublesApi.getBaubles(player);
 		for(int i = 0; i < inventory.getSizeInventory(); i++) {
 			if(inventory.getStackInSlot(i) == null && inventory.isItemValidForSlot(i, itemStack)) {
 				inventory.setInventorySlotContents(i, itemStack.copy());
 				if(!player.capabilities.isCreativeMode){
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 				}
-				// TODO
-				//onEquipped(itemStack, player);
+				onEquipped(itemStack, player);
 				break;
 			}
 		}
@@ -181,13 +184,10 @@ public class VengeanceRing extends ConfigurableItem {
 				getUnlocalizedName() + ".info.status");
     }
 
-	// TODO
-	/*@Optional.Method(modid = Reference.MOD_BAUBLES)
+	@Optional.Method(modid = Reference.MOD_BAUBLES)
 	@Override
 	public boolean canEquip(ItemStack itemStack, EntityLivingBase entity) {
-		// TODO: re-enable when baubles is updated.
-		//return BaublesModCompat.canUse();
-		return true;
+		return BaublesModCompat.canUse();
 	}
 
 	@Optional.Method(modid = Reference.MOD_BAUBLES)
@@ -217,10 +217,9 @@ public class VengeanceRing extends ConfigurableItem {
 	@Optional.Method(modid = Reference.MOD_BAUBLES)
 	@Override
 	public void onWornTick(ItemStack itemStack, EntityLivingBase entity) {
-		// TODO: re-enable when baubles is updated.
 		if(BaublesModCompat.canUse()) {
 			this.onUpdate(itemStack, entity.worldObj, entity, 0, false);
 		}
-	}*/
+	}
 
 }

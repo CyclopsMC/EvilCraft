@@ -1,6 +1,5 @@
 package evilcraft.core.config.configurable;
 
-import evilcraft.core.PlayerExtendedInventoryIterator;
 import evilcraft.core.item.DamageIndicatedItemFluidContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
@@ -20,6 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 
 import java.util.List;
 

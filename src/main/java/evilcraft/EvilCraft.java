@@ -9,6 +9,7 @@ import evilcraft.core.degradation.DegradationRegistry;
 import evilcraft.event.ServerStatusEventHook;
 import evilcraft.infobook.InfoBookRegistry;
 import evilcraft.item.DarkGemConfig;
+import evilcraft.modcompat.baubles.BaublesModCompat;
 import evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import evilcraft.world.gen.DarkTempleGenerator;
 import evilcraft.world.gen.EvilDungeonGenerator;
@@ -29,6 +30,7 @@ import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.item.BucketRegistry;
 import org.cyclops.cyclopscore.item.IBucketRegistry;
+import org.cyclops.cyclopscore.modcompat.ModCompatLoader;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
 import org.cyclops.cyclopscore.recipe.custom.SuperRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
@@ -65,8 +67,11 @@ public class EvilCraft extends ModBase {
 
     public EvilCraft() {
         super(Reference.MOD_ID, Reference.MOD_NAME);
-        // TODO: when modcompats are restored
-        //addInitListeners(new ModCompatLoader());
+
+    }
+
+    protected void loadModCompats(ModCompatLoader modCompatLoader) {
+        modCompatLoader.addModCompat(new BaublesModCompat());
     }
 
     @Override

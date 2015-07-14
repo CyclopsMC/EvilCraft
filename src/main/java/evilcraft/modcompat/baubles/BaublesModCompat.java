@@ -1,8 +1,8 @@
 package evilcraft.modcompat.baubles;
 
+import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.modcompat.IModCompat;
-import evilcraft.modcompat.ModCompatLoader;
+import org.cyclops.cyclopscore.modcompat.IModCompat;
 
 /**
  * Mod compat for the Baubles mod.
@@ -16,7 +16,7 @@ public class BaublesModCompat implements IModCompat {
 	@Override
 	public void onInit(Step initStep) {
 		if(initStep == Step.PREINIT) {
-			canBeUsed = ModCompatLoader.shouldLoadModCompat(this);
+			canBeUsed = EvilCraft._instance.getModCompatLoader().shouldLoadModCompat(this);
 		}
 	}
 
@@ -32,7 +32,7 @@ public class BaublesModCompat implements IModCompat {
 
 	@Override
 	public String getComment() {
-		return "Vengeance Ring bauble.";
+		return "Vengeance Ring, Invigorating Pendant and Effortless Ring baubles.";
 	}
 	
 	/**

@@ -4,7 +4,6 @@ import evilcraft.Configs;
 import evilcraft.block.BloodStainedBlock;
 import evilcraft.block.BloodStainedBlockConfig;
 import evilcraft.client.particle.EntityBloodSplashFX;
-import evilcraft.core.PlayerInventoryIterator;
 import evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.core.helper.ItemHelpers;
@@ -26,6 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 
 import java.util.List;
 import java.util.Random;

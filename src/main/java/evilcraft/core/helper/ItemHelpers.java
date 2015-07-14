@@ -1,7 +1,6 @@
 package evilcraft.core.helper;
 
 import evilcraft.GeneralConfig;
-import evilcraft.core.PlayerExtendedInventoryIterator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -10,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 
 /**
  * Helpers for items.

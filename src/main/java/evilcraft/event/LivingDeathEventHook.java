@@ -7,7 +7,6 @@ import evilcraft.block.BloodStainedBlockConfig;
 import evilcraft.block.SpiritPortal;
 import evilcraft.block.SpiritPortalConfig;
 import evilcraft.client.particle.EntityBloodSplashFX;
-import evilcraft.core.PlayerExtendedInventoryIterator;
 import evilcraft.core.world.FakeWorld;
 import evilcraft.entity.monster.VengeanceSpirit;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
@@ -29,6 +28,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 
 import java.util.Random;
 
