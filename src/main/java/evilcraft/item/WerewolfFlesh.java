@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import evilcraft.Achievements;
 import evilcraft.Reference;
 import evilcraft.core.config.configurable.ConfigurableItemFood;
-import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
@@ -81,7 +81,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemStack, int pass) {
     	if(isHumanFlesh(itemStack)) {
-    		return RenderHelpers.RGBToInt(255, 200, 180);
+    		return Helpers.RGBToInt(255, 200, 180);
     	}
         return super.getColorFromItemStack(itemStack, pass);
     }

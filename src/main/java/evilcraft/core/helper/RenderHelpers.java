@@ -12,6 +12,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -19,6 +21,7 @@ import org.lwjgl.opengl.GL11;
  * @author rubensworks
  *
  */
+@SideOnly(Side.CLIENT)
 public class RenderHelpers {
     
     /**
@@ -30,25 +33,6 @@ public class RenderHelpers {
      * Texture sheet of all blocks.
      */
     public static ResourceLocation TEXTURE_MAP = TextureMap.locationBlocksTexture;
-    
-    /**
-     * Bind a texture to the rendering engine.
-     * @param texture The texture to bind.
-     */
-    public static void bindTexture(ResourceLocation texture) {
-    	Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-    }
-
-	/**
-	 * Convert r, g and b colors to an integer representation.
-	 * @param r red
-	 * @param g green
-	 * @param b blue
-	 * @return integer representation of the color.
-	 */
-	public static int RGBToInt(int r, int g, int b) {
-	    return (int)r << 16 | (int)g << 8 | (int)b;
-	}
 
     /**
      * Get the default icon from a block.

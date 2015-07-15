@@ -2,8 +2,9 @@ package evilcraft.block;
 
 import evilcraft.EvilCraft;
 import evilcraft.client.render.tileentity.RenderTileEntityEnvironmentalAccumulator;
-import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileEnvironmentalAccumulator;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
@@ -55,10 +56,10 @@ public class EnvironmentalAccumulatorConfig extends BlockContainerConfig {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void onRegistered() {
-	    if(MinecraftHelpers.isClientSide()) {
-			getMod().getProxy().registerRenderer(TileEnvironmentalAccumulator.class, new RenderTileEntityEnvironmentalAccumulator());
-	    }
+        super.onRegistered();
+	    getMod().getProxy().registerRenderer(TileEnvironmentalAccumulator.class, new RenderTileEntityEnvironmentalAccumulator());
 	}
 	
 	@Override

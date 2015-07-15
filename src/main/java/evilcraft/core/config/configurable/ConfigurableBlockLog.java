@@ -11,6 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.block.property.BlockPropertyManagerComponent;
 import org.cyclops.cyclopscore.block.property.IBlockPropertyManager;
@@ -39,7 +41,9 @@ public class ConfigurableBlockLog extends BlockLog implements IConfigurable {
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
 
+    @SideOnly(Side.CLIENT)
     private TextureAtlasSprite iconTop;
+    @SideOnly(Side.CLIENT)
     private TextureAtlasSprite iconSide;
 
     /**

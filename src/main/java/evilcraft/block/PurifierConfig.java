@@ -3,8 +3,9 @@ package evilcraft.block;
 import evilcraft.EvilCraft;
 import evilcraft.client.render.tileentity.RenderTileEntityPurifier;
 import evilcraft.tileentity.TilePurifier;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * Config for the {@link Purifier}.
@@ -32,10 +33,10 @@ public class PurifierConfig extends BlockContainerConfig {
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
     public void onRegistered() {
-        if(MinecraftHelpers.isClientSide()) {
-            getMod().getProxy().registerRenderer(TilePurifier.class, new RenderTileEntityPurifier());
-        }
+        super.onRegistered();
+        getMod().getProxy().registerRenderer(TilePurifier.class, new RenderTileEntityPurifier());
     }
     
 }

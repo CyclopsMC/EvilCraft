@@ -1,6 +1,5 @@
 package evilcraft.item;
 
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,8 +19,6 @@ import java.util.List;
 public class BloodOrb extends ConfigurableItem {
 
     private static BloodOrb _instance = null;
-
-    private TextureAtlasSprite filled;
 
     /**
      * Get the unique instance.

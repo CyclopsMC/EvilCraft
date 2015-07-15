@@ -2,7 +2,6 @@ package evilcraft.entity.monster;
 
 import evilcraft.EvilCraft;
 import evilcraft.client.render.entity.RenderNetherfish;
-import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
@@ -10,6 +9,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
 
 /**
  * Config for the {@link Netherfish}.
@@ -49,12 +49,12 @@ public class NetherfishConfig extends MobConfig {
 
     @Override
     public int getBackgroundEggColor() {
-        return RenderHelpers.RGBToInt(73, 27, 20);
+        return Helpers.RGBToInt(73, 27, 20);
     }
 
     @Override
     public int getForegroundEggColor() {
-        return RenderHelpers.RGBToInt(160, 45, 27);
+        return Helpers.RGBToInt(160, 45, 27);
     }
     
     @SideOnly(Side.CLIENT)

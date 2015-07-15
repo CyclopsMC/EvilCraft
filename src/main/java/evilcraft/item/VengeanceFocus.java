@@ -1,12 +1,9 @@
 package evilcraft.item;
 
 import evilcraft.EvilCraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.entity.effect.EntityAntiVengeanceBeam;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -16,6 +13,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 
 /**
  * Focus that is able to direct rays of the sun to entangle vengeance spirits.
@@ -29,7 +28,7 @@ public class VengeanceFocus extends ConfigurableItem {
     private static VengeanceFocus _instance = null;
     
     @SideOnly(Side.CLIENT)
-    public ModelResourceLocation[] modelArray = new ModelResourceLocation[4];
+    public ModelResourceLocation[] modelArray;
     
     /**
      * Get the unique instance.
@@ -42,6 +41,9 @@ public class VengeanceFocus extends ConfigurableItem {
     public VengeanceFocus(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setHasSubtypes(true);
+        if(MinecraftHelpers.isClientSide()) {
+            modelArray = new ModelResourceLocation[4];
+        }
     }
 
     @SideOnly(Side.CLIENT)

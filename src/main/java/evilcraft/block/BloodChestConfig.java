@@ -4,7 +4,6 @@ import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.client.render.tileentity.RenderTileEntityBloodChest;
 import evilcraft.core.item.ItemBlockNBT;
-import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileBloodChest;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
@@ -73,6 +72,7 @@ public class BloodChestConfig extends BlockContainerConfig {
     
     @Override
     public void onRegistered() {
+        super.onRegistered();
         if (MinecraftHelpers.isClientSide()) {
         	registerClientSide();
         }

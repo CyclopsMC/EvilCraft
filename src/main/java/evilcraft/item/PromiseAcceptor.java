@@ -1,8 +1,6 @@
 package evilcraft.item;
 
 import com.google.common.collect.Maps;
-import evilcraft.core.helper.RenderHelpers;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,6 +9,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
 
 import java.util.List;
 import java.util.Map;
@@ -26,12 +25,10 @@ public class PromiseAcceptor extends ConfigurableItem {
     private static PromiseAcceptor _instance = null;
     public static final Map<Integer, Integer> COLORS = Maps.newHashMap();
     static {
-        COLORS.put(0, RenderHelpers.RGBToInt(255, 255, 255));
-        COLORS.put(1, RenderHelpers.RGBToInt(230, 230, 160));
-        COLORS.put(2, RenderHelpers.RGBToInt(150, 250, 200));
+        COLORS.put(0, Helpers.RGBToInt(255, 255, 255));
+        COLORS.put(1, Helpers.RGBToInt(230, 230, 160));
+        COLORS.put(2, Helpers.RGBToInt(150, 250, 200));
     }
-
-    private TextureAtlasSprite overlay;
 
     /**
      * Get the unique instance.

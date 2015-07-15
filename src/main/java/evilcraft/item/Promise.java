@@ -1,10 +1,8 @@
 package evilcraft.item;
 
 import com.google.common.collect.Maps;
-import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.upgrade.Upgrades;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -17,6 +15,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.lwjgl.input.Keyboard;
 
@@ -43,23 +42,21 @@ public class Promise extends ConfigurableItem {
     public static final Map<Upgrades.Upgrade, Integer> MAIN_COLORS = Maps.newHashMap();
     public static final Map<Upgrades.Upgrade, Integer> SECONDARY_COLORS = Maps.newHashMap();
     static {
-        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_TIER1, RenderHelpers.RGBToInt(220, 220, 220));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_TIER1, RenderHelpers.RGBToInt(255, 255, 255));
+        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_TIER1, Helpers.RGBToInt(220, 220, 220));
+        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_TIER1, Helpers.RGBToInt(255, 255, 255));
 
-        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_TIER2, RenderHelpers.RGBToInt(234, 238, 87));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_TIER2, RenderHelpers.RGBToInt(230, 230, 160));
+        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_TIER2, Helpers.RGBToInt(234, 238, 87));
+        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_TIER2, Helpers.RGBToInt(230, 230, 160));
 
-        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_TIER3, RenderHelpers.RGBToInt(51, 235, 203));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_TIER3, RenderHelpers.RGBToInt(150, 250, 200));
+        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_TIER3, Helpers.RGBToInt(51, 235, 203));
+        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_TIER3, Helpers.RGBToInt(150, 250, 200));
 
-        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_SPEED, RenderHelpers.RGBToInt(200, 90, 80));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_SPEED, RenderHelpers.RGBToInt(240, 120, 110));
+        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_SPEED, Helpers.RGBToInt(200, 90, 80));
+        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_SPEED, Helpers.RGBToInt(240, 120, 110));
 
-        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_EFFICIENCY, RenderHelpers.RGBToInt(80, 70, 200));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_EFFICIENCY, RenderHelpers.RGBToInt(120, 120, 210));
+        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_EFFICIENCY, Helpers.RGBToInt(80, 70, 200));
+        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_EFFICIENCY, Helpers.RGBToInt(120, 120, 210));
     }
-
-    private TextureAtlasSprite overlay;
 
     /**
      * Get the unique instance.

@@ -3,7 +3,6 @@ package evilcraft.client.gui.container;
 import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.core.algorithm.EvictingStack;
-import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.HyperLink;
 import evilcraft.infobook.InfoBookRegistry;
@@ -23,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -416,7 +416,7 @@ public class GuiOriginsOfDarkness extends GuiScreen {
                 minecraft.fontRendererObj.setUnicodeFlag(true);
                 minecraft.fontRendererObj.drawString((isHover ? "§n" : "") +
                                 displayString + "§r", xPosition, yPosition,
-                        RenderHelpers.RGBToInt(isHover ? 100 : 0, isHover ? 100 : 0, isHover ? 150 : 125));
+                        Helpers.RGBToInt(isHover ? 100 : 0, isHover ? 100 : 0, isHover ? 150 : 125));
                 minecraft.fontRendererObj.setUnicodeFlag(oldUnicode);
             }
         }

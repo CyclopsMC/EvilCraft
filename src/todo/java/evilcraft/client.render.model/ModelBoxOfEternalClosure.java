@@ -1,7 +1,6 @@
 package evilcraft.client.render.model;
 
 import evilcraft.Reference;
-import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.ActiveRenderInfo;

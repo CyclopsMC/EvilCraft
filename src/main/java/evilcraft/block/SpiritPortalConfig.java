@@ -2,10 +2,10 @@ package evilcraft.block;
 
 import evilcraft.EvilCraft;
 import evilcraft.client.render.tileentity.RenderTileEntitySpiritPortal;
-import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileSpiritPortal;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * Config for the {@link evilcraft.block.SpiritPortal}.
@@ -33,10 +33,10 @@ public class SpiritPortalConfig extends BlockContainerConfig {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void onRegistered() {
-	    if(MinecraftHelpers.isClientSide()) {
-			getMod().getProxy().registerRenderer(TileSpiritPortal.class, new RenderTileEntitySpiritPortal());
-	    }
+        super.onRegistered();
+        getMod().getProxy().registerRenderer(TileSpiritPortal.class, new RenderTileEntitySpiritPortal());
 	}
 
 }

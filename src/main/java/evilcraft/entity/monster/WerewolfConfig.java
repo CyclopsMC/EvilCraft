@@ -3,7 +3,6 @@ package evilcraft.entity.monster;
 import evilcraft.EvilCraft;
 import evilcraft.client.render.entity.RenderWerewolf;
 import evilcraft.client.render.model.ModelWerewolf;
-import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
@@ -11,6 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
 
 /**
  * Config for the {@link Werewolf}.
@@ -50,12 +50,12 @@ public class WerewolfConfig extends MobConfig {
     
     @Override
     public int getBackgroundEggColor() {
-        return RenderHelpers.RGBToInt(105, 67, 18);
+        return Helpers.RGBToInt(105, 67, 18);
     }
 
     @Override
     public int getForegroundEggColor() {
-        return RenderHelpers.RGBToInt(57, 25, 10);
+        return Helpers.RGBToInt(57, 25, 10);
     }
 
     @SideOnly(Side.CLIENT)

@@ -1,7 +1,5 @@
 package evilcraft.item;
 
-import evilcraft.core.helper.RenderHelpers;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -11,6 +9,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.List;
@@ -65,7 +64,7 @@ public class BowlOfPromises extends ConfigurableItem {
             float division = (((float) ((((BowlOfPromisesConfig) eConfig).getTiers() -
                     (itemStack.getItemDamage() - 2)) - 1) / 3) + 1);
             int channel = (int) (255 / division);
-            return RenderHelpers.RGBToInt(channel, channel, channel);
+            return Helpers.RGBToInt(channel, channel, channel);
         }
         return super.getColorFromItemStack(itemStack, renderPass);
     }

@@ -42,10 +42,13 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     public static final IUnlistedProperty<BlockPos> POS = new UnlistedProperty<BlockPos>("pos", BlockPos.class);
 
     @Icon(location = "blocks/bloodStainedBlock_0")
+    @SideOnly(Side.CLIENT)
     public TextureAtlasSprite icon0;
     @Icon(location = "blocks/bloodStainedBlock_1")
+    @SideOnly(Side.CLIENT)
     public TextureAtlasSprite icon1;
     @Icon(location = "blocks/bloodStainedBlock_2")
+    @SideOnly(Side.CLIENT)
     public TextureAtlasSprite icon2;
 
     private static BloodStainedBlock _instance = null;
@@ -63,7 +66,9 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGravel);
 
-        eConfig.getMod().getIconProvider().registerIconHolderObject(this);
+        if(MinecraftHelpers.isClientSide()) {
+            eConfig.getMod().getIconProvider().registerIconHolderObject(this);
+        }
     }
     
     @SideOnly(Side.CLIENT)

@@ -1,7 +1,6 @@
 package evilcraft.client.render.tileentity;
 
 import evilcraft.Reference;
-import evilcraft.core.helper.RenderHelpers;
 import evilcraft.tileentity.TileSpiritPortal;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -12,6 +11,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Random;
@@ -70,8 +70,8 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GlStateManager.enableCull();
         GlStateManager.disableDepth();
-        int color1 = RenderHelpers.RGBToInt(171, 97, 210);
-        int color2 = RenderHelpers.RGBToInt(175, 100, 215);
+        int color1 = Helpers.RGBToInt(171, 97, 210);
+        int color2 = Helpers.RGBToInt(175, 100, 215);
 
         for (int i = 0; i < (progress + progress * progress) / 2.0F * 60.0F; ++i) {
             GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);

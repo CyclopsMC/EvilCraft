@@ -9,6 +9,7 @@ import evilcraft.api.broom.IBroomPartRegistry;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -24,7 +25,13 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     private final Set<IBroomPart> parts = Sets.newHashSet();
     private final Multimap<IBroomPart.BroomPartType, IBroomPart> partsByType = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     @SideOnly(Side.CLIENT)
-    private final Map<IBroomPart, ModelResourceLocation> partModels = Maps.newHashMap();
+    private Map<IBroomPart, ModelResourceLocation> partModels;
+
+    public BroomPartRegistry() {
+        if(MinecraftHelpers.isClientSide()) {
+            partModels = Maps.newHashMap();
+        }
+    }
 
     @Override
     public <P extends IBroomPart> P registerPart(P part) {

@@ -3,12 +3,12 @@ package evilcraft.infobook;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
-import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.pageelement.SectionAppendix;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.minecraft.client.gui.FontRenderer;
 import org.apache.commons.lang3.tuple.Pair;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.*;
@@ -281,14 +281,14 @@ public class InfoSection {
 
             // Draw title if on first page
             if (isTitlePage(page)) {
-                gui.drawScaledCenteredString(getLocalizedTitle(), x, y + Y_OFFSET + 10, width, 1.5f, width, RenderHelpers.RGBToInt(120, 20, 30));
+                gui.drawScaledCenteredString(getLocalizedTitle(), x, y + Y_OFFSET + 10, width, 1.5f, width, Helpers.RGBToInt(120, 20, 30));
                 gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET);
                 gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET + 21);
             }
             fontRenderer.setUnicodeFlag(oldUnicode);
 
             // Draw current page/section indication
-            gui.drawScaledCenteredString(getLocalizedTitle() + " - " + (page + 1) +  "/" + getPages(), x + ((page % 2 == 0) ? 10 : -10), y + height - Y_OFFSET, width, 0.6f, (int) (width * 0.75f), RenderHelpers.RGBToInt(190, 190, 190));
+            gui.drawScaledCenteredString(getLocalizedTitle() + " - " + (page + 1) +  "/" + getPages(), x + ((page % 2 == 0) ? 10 : -10), y + height - Y_OFFSET, width, 0.6f, (int) (width * 0.75f), Helpers.RGBToInt(190, 190, 190));
 
             // Draw appendixes
             for (SectionAppendix appendix : appendixes) {

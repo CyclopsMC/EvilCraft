@@ -1,6 +1,5 @@
 package evilcraft.proxy;
 
-import com.google.common.collect.Lists;
 import evilcraft.EvilCraft;
 import evilcraft.client.key.ExaltedCrafterKeyHandler;
 import evilcraft.client.key.FartKeyHandler;
@@ -16,13 +15,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.cyclops.cyclopscore.client.key.IKeyRegistry;
-import org.cyclops.cyclopscore.client.key.KeyRegistry;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.network.PacketHandler;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
-import org.lwjgl.input.Keyboard;
-
-import java.util.List;
 
 /**
  * Proxy for the client side.
@@ -35,7 +30,7 @@ public class ClientProxy extends ClientProxyComponent {
 	private final CommonProxy commonProxy = new CommonProxy();
 
 	@Override
-	protected ModBase getMod() {
+	public ModBase getMod() {
 		return EvilCraft._instance;
 	}
 

@@ -3,7 +3,6 @@ package evilcraft.infobook.pageelement;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
-import evilcraft.core.helper.RenderHelpers;
 import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.InfoBookParser;
 import evilcraft.infobook.InfoSection;
@@ -17,6 +16,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.lwjgl.opengl.GL11;
 
@@ -123,7 +123,7 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         int yOffset = getAdditionalHeight();
         gui.drawOuterBorder(x - 1, y - 1 - yOffset, getWidth() + 2, getHeight() + 2, 0.5F, 0.5F, 0.5F, 0.4f);
         gui.drawTextBanner(x + width / 2, y - 2 - yOffset);
-        gui.drawScaledCenteredString(L10NHelpers.localize(getUnlocalizedTitle()), x, y - 2 - yOffset, width, 0.9f, GuiOriginsOfDarkness.BANNER_WIDTH - 6, RenderHelpers.RGBToInt(120, 20, 30));
+        gui.drawScaledCenteredString(L10NHelpers.localize(getUnlocalizedTitle()), x, y - 2 - yOffset, width, 0.9f, GuiOriginsOfDarkness.BANNER_WIDTH - 6, Helpers.RGBToInt(120, 20, 30));
 
         drawElementInner(gui, x, y, width, height, page, mx, my);
     }

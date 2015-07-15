@@ -1,9 +1,9 @@
 package evilcraft.infobook;
 
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
-import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import org.cyclops.cyclopscore.helper.Helpers;
 
 /**
  * An advanced button type.
@@ -46,7 +46,7 @@ public class AdvancedButton extends GuiButton {
         if(isVisible() && isHover(mouseX, mouseY)) {
             minecraft.fontRendererObj.drawString(("§n") +
                             displayString + "§r", xPosition, xPosition,
-                    RenderHelpers.RGBToInt(100, 100, 150));
+                    Helpers.RGBToInt(100, 100, 150));
         }
     }
 

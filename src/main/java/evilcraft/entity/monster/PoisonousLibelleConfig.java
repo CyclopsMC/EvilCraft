@@ -3,7 +3,6 @@ package evilcraft.entity.monster;
 import evilcraft.EvilCraft;
 import evilcraft.client.render.entity.RenderPoisonousLibelle;
 import evilcraft.client.render.model.ModelPoisonousLibelle;
-import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EnumCreatureType;
@@ -14,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
 
 /**
  * Config for the {@link PoisonousLibelle}.
@@ -71,12 +71,12 @@ public class PoisonousLibelleConfig extends MobConfig {
     
     @Override
     public int getBackgroundEggColor() {
-        return RenderHelpers.RGBToInt(57, 125, 27);
+        return Helpers.RGBToInt(57, 125, 27);
     }
 
     @Override
     public int getForegroundEggColor() {
-        return RenderHelpers.RGBToInt(196, 213, 57);
+        return Helpers.RGBToInt(196, 213, 57);
     }
 
     @SideOnly(Side.CLIENT)

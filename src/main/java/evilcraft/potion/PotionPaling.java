@@ -1,11 +1,11 @@
 package evilcraft.potion;
 
 import evilcraft.ExtendedDamageSource;
-import evilcraft.core.helper.RenderHelpers;
 import net.minecraft.entity.EntityLivingBase;
 import org.cyclops.cyclopscore.config.configurable.ConfigurablePotion;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.PotionConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
 
 /**
  * Potion effect for letting entities fade away and leaving a portal behind in their place.
@@ -25,7 +25,7 @@ public class PotionPaling extends ConfigurablePotion {
     }
 
     public PotionPaling(ExtendedConfig<PotionConfig> eConfig) {
-        super(eConfig, true, RenderHelpers.RGBToInt(56, 25, 97), 0);
+        super(eConfig, true, Helpers.RGBToInt(56, 25, 97), 0);
     }
 
     @Override

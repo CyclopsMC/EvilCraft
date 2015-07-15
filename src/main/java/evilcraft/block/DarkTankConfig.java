@@ -3,13 +3,13 @@ package evilcraft.block;
 import evilcraft.EvilCraft;
 import evilcraft.client.render.tileentity.RenderTileEntityDarkTank;
 import evilcraft.core.item.ItemBlockFluidContainer;
-import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TileDarkTank;
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 /**
  * Config for the {@link DarkTank}.
@@ -58,11 +58,10 @@ public class DarkTankConfig extends BlockContainerConfig {
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
     public void onRegistered() {
-        if (MinecraftHelpers.isClientSide()) {
-            getMod().getProxy().registerRenderer(TileDarkTank.class,
-            		new RenderTileEntityDarkTank());
-        }
+        super.onRegistered();
+        getMod().getProxy().registerRenderer(TileDarkTank.class, new RenderTileEntityDarkTank());
     }
 
 }

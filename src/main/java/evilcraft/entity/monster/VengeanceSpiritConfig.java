@@ -2,7 +2,6 @@ package evilcraft.entity.monster;
 
 import evilcraft.EvilCraft;
 import evilcraft.client.render.entity.RenderVengeanceSpirit;
-import evilcraft.core.helper.RenderHelpers;
 import evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChanged;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -11,6 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
 
 /**
  * Config for the {@link Netherfish}.
@@ -78,12 +78,12 @@ public class VengeanceSpiritConfig extends MobConfig {
 
     @Override
     public int getBackgroundEggColor() {
-        return RenderHelpers.RGBToInt(64, 16, 93);
+        return Helpers.RGBToInt(64, 16, 93);
     }
 
     @Override
     public int getForegroundEggColor() {
-        return RenderHelpers.RGBToInt(134, 60, 169);
+        return Helpers.RGBToInt(134, 60, 169);
     }
     
     @SideOnly(Side.CLIENT)
