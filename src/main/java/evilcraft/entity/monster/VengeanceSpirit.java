@@ -111,7 +111,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speed);
         
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIWander(this, 1.0F));
+        this.tasks.addTask(1, new EntityAIWander(this, 0.6D));
         this.tasks.addTask(2, new EntityAILookIdle(this));
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, damage, false));
 
@@ -181,7 +181,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(10.0D);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(3.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3125D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
     }
     
