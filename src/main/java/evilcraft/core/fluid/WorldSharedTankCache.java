@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Type;
 import net.minecraftforge.fml.relauncher.Side;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.network.PacketHandler;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -73,7 +72,7 @@ public class WorldSharedTankCache {
 	 * @param tankID The tank.
 	 * @return The contents.
 	 */
-	public FluidStack getTankContent(String tankID) {
+	public synchronized FluidStack getTankContent(String tankID) {
 		FluidStack stack = tankCache.get(getMapID(tankID));
         return (stack == null) ? null : stack.copy();
 	}
@@ -87,7 +86,7 @@ public class WorldSharedTankCache {
 	 * @param tankID The id of the tank.
 	 * @param fluidStack The tank contents.
 	 */
-	public void setTankContent(String tankID, FluidStack fluidStack) {
+	public synchronized void setTankContent(String tankID, FluidStack fluidStack) {
         String key = getMapID(tankID);
 		boolean shouldRefresh = shouldRefreshFluid(tankCache.get(key), fluidStack);
 		if(fluidStack == null) {
