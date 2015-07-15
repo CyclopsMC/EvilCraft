@@ -4,6 +4,8 @@ import evilcraft.core.fluid.WorldSharedTankCache;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,7 +23,7 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 	@CodecField
 	private String tankID = null;
 	@CodecField
-	private int fluidId = 0;
+	private String fluidName = null;
 	@CodecField
 	private int fluidAmount = 0;
 
@@ -40,10 +42,10 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 	public UpdateWorldSharedTankClientCachePacket(String tankID, FluidStack fluidStack) {
 		this.tankID = tankID;
 		if(fluidStack == null) {
-			this.fluidId = -1;
+			this.fluidName = null;
 			this.fluidAmount = -1;
 		} else {
-			this.fluidId = fluidStack.getFluidID();
+			this.fluidName = fluidStack.getFluid().getName();
 			this.fluidAmount = fluidStack.amount;
 		}
 	}
@@ -52,9 +54,10 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 	@SideOnly(Side.CLIENT)
 	public void actionClient(World world, EntityPlayer player) {
 		FluidStack fluidStack = null;
-		if(fluidAmount >= 0 && fluidId >= 0) {
-			fluidStack = new FluidStack(fluidId, fluidAmount);
-		}
+		Fluid fluid;
+		if(fluidAmount >= 0 && fluidName != null && (fluid = FluidRegistry.getFluid(fluidName)) != null) {
+			fluidStack = new FluidStack(fluid, fluidAmount);
+        }
 		WorldSharedTankCache.getInstance().setTankContent(tankID, fluidStack);
 	}    
 
