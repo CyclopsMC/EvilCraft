@@ -98,7 +98,6 @@ public class RenderHelpers {
 	 */
 	public static void renderFluidContext(FluidStack fluid, double x, double y, double z, IFluidContextRender render) {
 		if(fluid != null && fluid.amount > 0) {
-            // TODO: to glstatemanager
 			GlStateManager.pushMatrix();
 
 	        // Make sure both sides are rendered

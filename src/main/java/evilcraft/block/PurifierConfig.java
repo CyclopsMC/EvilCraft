@@ -2,7 +2,6 @@ package evilcraft.block;
 
 import evilcraft.EvilCraft;
 import evilcraft.client.render.tileentity.RenderTileEntityPurifier;
-import evilcraft.proxy.ClientProxy;
 import evilcraft.tileentity.TilePurifier;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -35,8 +34,6 @@ public class PurifierConfig extends BlockContainerConfig {
     @Override
     public void onRegistered() {
         if(MinecraftHelpers.isClientSide()) {
-            // TODO
-            //ClientProxy.BLOCK_RENDERERS.add(new RenderPurifier());
             getMod().getProxy().registerRenderer(TilePurifier.class, new RenderTileEntityPurifier());
         }
     }

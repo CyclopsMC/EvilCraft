@@ -113,8 +113,6 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
 
     @Override
     public EnumWorldBlockLayer getBlockLayer() {
-        // TODO: set transparency properly
-        //return isTransparent ? EnumWorldBlockLayer.CUTOUT_MIPPED : EnumWorldBlockLayer.SOLID;
         return EnumWorldBlockLayer.CUTOUT_MIPPED;
     }
 }

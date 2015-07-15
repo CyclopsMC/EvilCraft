@@ -7,7 +7,6 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
  * {@link ReflectionHelper#getPrivateValue(Class, Object, String...)}.
  * These MCP mappings should be updated with every MC update!
  * @author rubensworks
- * TODO !!!
  *
  */
 public class ObfuscationData {

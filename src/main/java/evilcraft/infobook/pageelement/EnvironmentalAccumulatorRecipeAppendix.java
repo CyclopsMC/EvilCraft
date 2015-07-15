@@ -88,6 +88,5 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
         Minecraft.getMinecraft().getTextureManager().bindTexture(WEATHERS);
         gui.drawTexturedModalRect(x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
         gui.drawOuterBorder(x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
-        // TODO: add tooltips?
     }
 }
