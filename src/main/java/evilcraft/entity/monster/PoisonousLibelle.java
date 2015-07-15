@@ -184,7 +184,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
                     Yplus = 10.0D;
                 }
 
-                this.targetY = Math.min(this.target.getBoundingBox().minY + Yplus, MAXHEIGHT);
+                this.targetY = Math.min(this.target.getEntityBoundingBox().minY + Yplus, MAXHEIGHT);
             } else {
                 this.targetX += this.rand.nextGaussian() * 2.0D;
                 this.targetZ += this.rand.nextGaussian() * 2.0D;
@@ -265,7 +265,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
         this.renderYawOffset = this.rotationYaw;
         
         if (!this.worldObj.isRemote && this.hurtTime == 0 && !this.isDead) {
-            this.attackEntitiesInList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().expand(1.0D, 0.0D, 1.0D)));
+            this.attackEntitiesInList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(1.0D, 0.0D, 1.0D)));
         }
         
         // Update wing progress

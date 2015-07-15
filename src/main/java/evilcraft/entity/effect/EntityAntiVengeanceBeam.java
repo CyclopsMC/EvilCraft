@@ -69,11 +69,6 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
     protected float getGravityVelocity() {
         return 0.0F;
     }
-
-    @Override
-    public AxisAlignedBB getBoundingBox() {
-        return AxisAlignedBB.fromBounds(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
-    }
     
     @SuppressWarnings("rawtypes")
 	@Override
@@ -91,7 +86,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         
     	if (!this.worldObj.isRemote) {
             Entity entity = null;
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
 
             for (int j = 0; j < list.size(); ++j) {
@@ -99,7 +94,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
 
                 if (entity1 instanceof VengeanceSpirit && !((VengeanceSpirit) entity1).isSwarm()) {
                     float f = 0.3F;
-                    AxisAlignedBB axisalignedbb = entity1.getBoundingBox().expand((double)f, (double)f, (double)f);
+                    AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double)f, (double)f, (double)f);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
 
                     if (movingobjectposition1 != null) {

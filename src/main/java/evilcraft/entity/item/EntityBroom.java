@@ -10,7 +10,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -246,11 +245,6 @@ public class EntityBroom extends Entity implements IConfigurable{
         
         moveEntity(0, getHoverOffset(), 0);
     }
-
-    @Override
-    public AxisAlignedBB getBoundingBox() {
-        return AxisAlignedBB.fromBounds(0, 0, 0, this.width, this.height, this.width);
-    }
     
     /**
      * Called on the server side for all players or on the client side when the 
@@ -298,7 +292,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         
         // Apply collisions
         @SuppressWarnings("rawtypes")
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().expand(0.2, 0.0, 0.2));
+        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.2, 0.0, 0.2));
         int l;
 
         if (list != null && !list.isEmpty())

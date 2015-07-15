@@ -1,8 +1,6 @@
 package evilcraft.tileentity;
 
 import evilcraft.EvilCraft;
-import org.cyclops.cyclopscore.helper.EntityHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.entity.monster.VengeanceSpirit;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,6 +11,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.EntityHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
@@ -127,7 +127,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     		if(target.isDead || !target.isFrozen()) {
     			setTargetSpirit(null);
     		} else {
-                if(target.getBoundingBox().expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS).intersectsWith(getBlock().
+                if(target.getEntityBoundingBox().expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS).intersectsWith(getBlock().
                         getCollisionBoundingBox(worldObj, getPos(), worldObj.getBlockState(getPos())))) {
 	    			closing = true;
 	    			close(true);

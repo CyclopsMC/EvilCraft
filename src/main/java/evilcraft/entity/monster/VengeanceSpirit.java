@@ -10,7 +10,6 @@ import evilcraft.block.GemStoneTorchConfig;
 import evilcraft.client.particle.EntityBlurFX;
 import evilcraft.client.particle.EntityDarkSmokeFX;
 import evilcraft.client.particle.EntityDegradeFX;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.item.BurningGemStone;
 import evilcraft.item.BurningGemStoneConfig;
@@ -39,6 +38,7 @@ import org.cyclops.cyclopscore.config.IChangedCallback;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -696,9 +696,9 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
             
             if(World.doesBlockHaveSolidTopSurface(world, spawnPos.add(0, -1, 0))) {
                 spirit.setPosition((double) spawnPos.getX() + 0.5, (double) spawnPos.getY() + 0.5, (double) spawnPos.getZ() + 0.5);
-                if(world.checkNoEntityCollision(spirit.getBoundingBox())
-                		&& world.getCollidingBoundingBoxes(spirit, spirit.getBoundingBox()).isEmpty()
-                		&& !world.isAnyLiquid(spirit.getBoundingBox())) {
+                if(world.checkNoEntityCollision(spirit.getEntityBoundingBox())
+                		&& world.getCollidingBoundingBoxes(spirit, spirit.getEntityBoundingBox()).isEmpty()
+                		&& !world.isAnyLiquid(spirit.getEntityBoundingBox())) {
                     world.spawnEntityInWorld(spirit);
                     attempts = -1;
                     return spirit;
