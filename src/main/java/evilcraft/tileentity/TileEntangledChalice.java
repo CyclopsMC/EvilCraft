@@ -1,18 +1,19 @@
 package evilcraft.tileentity;
 
-import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import evilcraft.core.fluid.WorldSharedTank;
 import evilcraft.core.fluid.WorldSharedTankCache;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 
 /**
  * Tile Entity for the entangled chalice.
  * @author rubensworks
  *
  */
-public class TileEntangledChalice extends TankInventoryTileEntity {
+public class TileEntangledChalice extends TankInventoryTileEntity implements CyclopsTileEntity.ITickingTile {
 	
 	/**
 	 * The base capacity of the tank.

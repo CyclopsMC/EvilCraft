@@ -1,11 +1,12 @@
 package evilcraft.core.fluid;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.persist.world.WorldStorage;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 /**
@@ -131,41 +132,42 @@ public class WorldSharedTank extends SingleUseTank {
      * Tank data stored in the world.
      * @author rubensworks
      */
-    public static class TankData extends WorldSavedData {
+    public static class TankData extends WorldStorage {
 
         /**
          * NBT key.
          */
         public static final String KEY = "WorldSharedTanks";
     	
-    	private NBTTagCompound tankTag = null;
-    	
     	/**
     	 * Make a new instance.
-    	 * @param key The key.
     	 */
-    	public TankData(String key) {
-    		super(key);
-            this.tankTag = new NBTTagCompound();
+    	public TankData(ModBase mod) {
+    		super(mod);
     	}
-    	
-    	/**
-    	 * @return The tank tag.
-    	 */
-    	public NBTTagCompound getTankTag() {
-    		return this.tankTag;
-    	}
-    	
-    	@Override
+
+        @Override
+        public void reset() {
+            WorldSharedTankCache.getInstance().reset();
+        }
+
+        @Override
+        protected String getDataId() {
+            return KEY;
+        }
+
+        @Override
         public void readFromNBT(NBTTagCompound tag) {
-    		tankTag = tag.getCompoundTag("Tank");
+            super.readFromNBT(tag);
+            WorldSharedTankCache.getInstance().readFromNBT(tag);
         }
 
         @Override
         public void writeToNBT(NBTTagCompound tag) {
-        	tag.setTag("Tank", tankTag);
+            super.writeToNBT(tag);
+            WorldSharedTankCache.getInstance().writeToNBT(tag);
         }
-    	
+
     }
 	
 }

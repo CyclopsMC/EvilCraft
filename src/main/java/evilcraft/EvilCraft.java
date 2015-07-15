@@ -6,7 +6,7 @@ import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import evilcraft.core.broom.BroomPartRegistry;
 import evilcraft.core.degradation.DegradationRegistry;
-import evilcraft.event.ServerStatusEventHook;
+import evilcraft.core.fluid.WorldSharedTank;
 import evilcraft.infobook.InfoBookRegistry;
 import evilcraft.item.DarkGemConfig;
 import evilcraft.modcompat.baubles.BaublesModCompat;
@@ -34,6 +34,7 @@ import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.item.BucketRegistry;
 import org.cyclops.cyclopscore.item.IBucketRegistry;
 import org.cyclops.cyclopscore.modcompat.ModCompatLoader;
+import org.cyclops.cyclopscore.persist.world.GlobalCounters;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
 import org.cyclops.cyclopscore.recipe.custom.SuperRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
@@ -68,9 +69,14 @@ public class EvilCraft extends ModBase {
     @Instance(value = Reference.MOD_ID)
     public static EvilCraft _instance;
 
+    public static GlobalCounters globalCounters = null;
+
     public EvilCraft() {
         super(Reference.MOD_ID, Reference.MOD_NAME);
 
+        // Register world storages
+        registerWorldStorage(new WorldSharedTank.TankData(this));
+        registerWorldStorage(globalCounters = new GlobalCounters(this));
     }
 
     protected void loadModCompats(ModCompatLoader modCompatLoader) {
@@ -167,7 +173,6 @@ public class EvilCraft extends ModBase {
     @Override
     public void onServerStarted(FMLServerStartedEvent event) {
         super.onServerStarted(event);
-        ServerStatusEventHook.getInstance().onStartedEvent(event);
     }
 
     /**
@@ -178,7 +183,6 @@ public class EvilCraft extends ModBase {
     @Override
     public void onServerStopping(FMLServerStoppingEvent event) {
         super.onServerStopping(event);
-        ServerStatusEventHook.getInstance().onStoppingEvent(event);
     }
 
     @Override

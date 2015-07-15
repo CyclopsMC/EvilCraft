@@ -1,10 +1,10 @@
 package evilcraft.block;
 
+import evilcraft.EvilCraft;
 import evilcraft.core.fluid.WorldSharedTank;
 import evilcraft.core.fluid.WorldSharedTankCache;
 import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.item.ItemBlockFluidContainer;
-import evilcraft.core.world.GlobalCounter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -68,7 +68,7 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
      * @param container The chalice item container.
      */
     public void setNextTankID(ItemStack container) {
-        setTankID(container, Integer.toString(GlobalCounter.getInstance().getNext("EntangledChalice")));
+        setTankID(container, Integer.toString(EvilCraft.globalCounters.getNext("EntangledChalice")));
     }
     
     @Override
