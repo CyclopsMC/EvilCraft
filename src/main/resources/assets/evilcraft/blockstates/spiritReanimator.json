@@ -1,8 +1,13 @@
 {
   "variants": {
-    "normal": { "model": "evilcraft:spiritReanimator" },
-    "on=false": { "model": "evilcraft:spiritReanimator" },
-    "on=true": { "model": "evilcraft:spiritReanimator_on" },
+    "facing=south,on=false": { "model": "evilcraft:spiritReanimator" },
+    "facing=west,on=false" : { "model": "evilcraft:spiritReanimator", "y": 90 },
+    "facing=north,on=false": { "model": "evilcraft:spiritReanimator", "y": 180 },
+    "facing=east,on=false" : { "model": "evilcraft:spiritReanimator", "y": 270 },
+    "facing=south,on=true": { "model": "evilcraft:spiritReanimator_on" },
+    "facing=west,on=true" : { "model": "evilcraft:spiritReanimator_on", "y": 90 },
+    "facing=north,on=true": { "model": "evilcraft:spiritReanimator_on", "y": 180 },
+    "facing=east,on=true" : { "model": "evilcraft:spiritReanimator_on", "y": 270 },
     "inventory": { "model": "evilcraft:spiritReanimator" }
   }
 }

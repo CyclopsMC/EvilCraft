@@ -1,5 +1,5 @@
 {
-  "parent": "block/cube_all",
+  "parent": "cyclopscore:item/flat",
   "textures": {
     "all": "evilcraft:blocks/evilcraftpoison_still"
   }

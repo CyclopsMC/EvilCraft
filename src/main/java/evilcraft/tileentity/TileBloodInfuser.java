@@ -30,6 +30,7 @@ import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
@@ -194,6 +195,11 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
             }
         });
     }
+
+    @Override
+    public EnumFacing getRotation() {
+        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BloodInfuser.FACING, EnumFacing.NORTH);
+    }
     
     @Override
     protected SingleUseTank newTank(String tankName, int tankSize) {
@@ -272,6 +278,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     @Override
     public void onStateChanged() {
         sendUpdate();
+        worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(BloodInfuser.ON, isWorking()));
         worldObj.markBlockForUpdate(getPos()); // Update light
     }
 

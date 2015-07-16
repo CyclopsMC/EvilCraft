@@ -26,6 +26,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 
@@ -164,6 +165,11 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
             }
         });
     }
+
+    @Override
+    public EnumFacing getRotation() {
+        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), SpiritReanimator.FACING, EnumFacing.NORTH);
+    }
     
     @Override
     protected SingleUseTank newTank(String tankName, int tankSize) {
@@ -237,6 +243,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 	@Override
     public void onStateChanged() {
         sendUpdate();
+        worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(SpiritReanimator.ON, isWorking()));
     }
 
 }
