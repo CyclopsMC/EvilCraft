@@ -31,11 +31,11 @@ def loadProperties() {
         prop.load(it)
         ext.config = new ConfigSlurper().parse prop
     }
-    
+
     // grab buildNumber
     ext.buildnumber = "DEV" // this will be referenced as simply project.buildnumber from now on.
-    if (System.getenv().BUILD_NUMBER)
-        project.buildnumber = System.getenv().BUILD_NUMBER
+    if (System.getenv().TRAVIS_BUILD_NUMBER)
+        project.buildnumber = System.getenv().TRAVIS_BUILD_NUMBER
     if (System.getenv().CI)
         project.buildnumber += "-DEV"
     if (System.getenv().RELEASE)

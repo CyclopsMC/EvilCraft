@@ -1,18 +1,26 @@
 apply plugin: "curseforge"
 apply plugin: 'maven'
 
-if(project.hasProperty("curseforge_key") && project.hasProperty("changelog")) {
-    curse {
+curse {
+    dependsOn 'reobf'
+    projectId = "74610" // my project url is http://minecraft.curseforge.com/mc-mods/74610-evilcraft/
+    relatedProject 'cyclops-core': 'requiredLibrary'
+
+    if(project.hasProperty("curseforge_key") && project.hasProperty("changelog")) {
         apiKey = project.curseforge_key
-        projectId = "74610" // my project url is http://minecraft.curseforge.com/mc-mods/74610-evilcraft/
         changelog = new File(project.changelog).text
         releaseType = "release"
-
-        additionalArtifact deobfJar
-        //additionalArtifact apiJar
-        additionalArtifact sourceJar
-        additionalArtifact javadocJar
     }
+
+    if(System.getenv().TRAVIS && 'master'.equals(System.getenv().TRAVIS_BRANCH)) {
+        apiKey = System.getenv().CURSEFORGE_KEY_SECRET
+        changelog = "https://github.com/" + System.getenv().TRAVIS_REPO_SLUG + "/compare/" + System.getenv().TRAVIS_COMMIT_RANGE
+        releaseType = "alpha"
+    }
+
+    additionalArtifact deobfJar
+    additionalArtifact sourceJar
+    additionalArtifact javadocJar
 }
 
 configurations {
