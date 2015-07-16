@@ -2,7 +2,6 @@ package evilcraft.item;
 
 import com.google.common.base.Predicate;
 import evilcraft.client.particle.EntityBlurFX;
-import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.core.helper.ItemHelpers;
 import evilcraft.entity.item.EntityItemUndespawnable;
 import evilcraft.fluid.Blood;
@@ -22,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;

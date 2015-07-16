@@ -6,8 +6,6 @@ import evilcraft.block.BoxOfEternalClosureConfig;
 import evilcraft.block.SpiritReanimator;
 import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.fluid.ImplicitFluidConversionTank;
-import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
 import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
@@ -27,6 +25,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import org.apache.commons.lang3.mutable.MutableDouble;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 
 import java.util.LinkedHashMap;

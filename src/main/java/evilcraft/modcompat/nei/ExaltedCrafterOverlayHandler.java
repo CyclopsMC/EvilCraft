@@ -1,11 +1,11 @@
 package evilcraft.modcompat.nei;
 
 import codechicken.nei.recipe.DefaultOverlayHandler;
-import evilcraft.core.inventory.NBTSimpleInventory;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.inventory.Slot;
+import org.cyclops.cyclopscore.inventory.NBTSimpleInventory;
 
 /**
  * An overlay handler for the Exalted Crafter.

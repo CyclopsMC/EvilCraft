@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
 import evilcraft.EvilCraft;
 import evilcraft.client.gui.container.GuiExaltedCrafter;
 import evilcraft.core.inventory.NBTCraftingGrid;
-import evilcraft.core.inventory.container.ItemInventoryContainer;
 import evilcraft.item.ExaltedCrafter;
 import evilcraft.item.ExaltedCrafterConfig;
 import evilcraft.network.packet.ExaltedCrafterButtonPacket;
@@ -23,6 +22,7 @@ import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.inventory.container.ItemInventoryContainer;
 
 import java.util.List;
 import java.util.Map;

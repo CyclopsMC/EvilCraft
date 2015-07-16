@@ -1,11 +1,11 @@
 package evilcraft.inventory.container;
 
 import evilcraft.block.SpiritFurnace;
-import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.inventory.slot.SlotWorking;
 import evilcraft.core.inventory.slot.SlotWorkingRemoveOnly;
 import evilcraft.tileentity.TileSpiritFurnace;
 import net.minecraft.entity.player.InventoryPlayer;
+import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 
 /**
  * Container for the {@link SpiritFurnace}.

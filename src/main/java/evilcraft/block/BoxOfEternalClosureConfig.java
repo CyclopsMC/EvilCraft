@@ -2,7 +2,6 @@ package evilcraft.block;
 
 import evilcraft.Configs;
 import evilcraft.EvilCraft;
-import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.entity.monster.VengeanceSpiritConfig;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -11,6 +10,7 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.item.ItemBlockNBT;
 
 /**
  * Config for the {@link BoxOfEternalClosure}.

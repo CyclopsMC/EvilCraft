@@ -1,8 +1,6 @@
 package evilcraft.item;
 
 import evilcraft.client.gui.container.GuiExaltedCrafter;
-import evilcraft.core.inventory.NBTSimpleInventory;
-import evilcraft.core.item.ItemGui;
 import evilcraft.entity.item.EntityItemEmpowerable;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
 import net.minecraft.client.gui.GuiScreen;
@@ -22,6 +20,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.inventory.NBTSimpleInventory;
+import org.cyclops.cyclopscore.item.ItemGui;
 
 import java.util.List;
 

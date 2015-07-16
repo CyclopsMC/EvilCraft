@@ -2,7 +2,6 @@ package evilcraft.core.item;
 
 import evilcraft.core.block.IBlockTank;
 import evilcraft.core.helper.ItemHelpers;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +15,8 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.item.ItemBlockNBT;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 
 import java.util.List;
 

@@ -1,9 +1,6 @@
 package evilcraft.core.block.component;
 
 import evilcraft.core.block.IBlockTank;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
-import evilcraft.core.item.DamageIndicatedItemComponent;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,6 +12,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 
 /**
  * Component for blockState tanks.

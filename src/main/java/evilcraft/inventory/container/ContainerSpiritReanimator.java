@@ -1,11 +1,11 @@
 package evilcraft.inventory.container;
 
 import evilcraft.block.SpiritReanimator;
-import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.inventory.slot.SlotWorking;
 import evilcraft.tileentity.TileSpiritReanimator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
+import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 import org.cyclops.cyclopscore.inventory.slot.SlotSingleItem;
 

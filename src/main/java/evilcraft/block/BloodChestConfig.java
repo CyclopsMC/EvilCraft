@@ -3,7 +3,6 @@ package evilcraft.block;
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
 import evilcraft.client.render.tileentity.RenderTileEntityBloodChest;
-import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.tileentity.TileBloodChest;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
@@ -15,6 +14,7 @@ import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.item.ItemBlockNBT;
 
 /**
  * Config for the {@link BloodChest}.

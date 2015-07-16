@@ -2,13 +2,13 @@ package evilcraft.inventory.container;
 
 import evilcraft.block.BloodChest;
 import evilcraft.core.inventory.container.TickingChestContainer;
-import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.inventory.slot.SlotRepairable;
 import evilcraft.tileentity.TileBloodChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 
 /**
  * Container for the {@link BloodChest}.

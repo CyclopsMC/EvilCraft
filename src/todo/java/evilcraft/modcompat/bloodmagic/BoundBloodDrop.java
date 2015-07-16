@@ -2,7 +2,6 @@ package evilcraft.modcompat.bloodmagic;
 
 import WayofTime.alchemicalWizardry.AlchemicalWizardry;
 import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
-import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.fluid.BloodFluidConverter;
