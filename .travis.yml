@@ -11,14 +11,13 @@ env:
 before_install:
     - git submodule init
     - git submodule update
-    - echo "libs_path=." > gradle.properties
-    - wget https://www.dropbox.com/sh/0aqvalqobu61t44/AADiG9psYrYuZncFcXzsnfm2a/BloodMagic-1.7.10-1.3.1-7-deobf.jar?dl=1 -O BloodMagic-1.7.10-1.3.1-7-deobf.jar
-    - wget http://minecraft.curseforge.com/mc-mods/65509-ee3/files/2237288/download -O EquivalentExchange3-1.7.10-0.3.505-dev.jar
+    - ./download-libs.sh
 install: ./gradlew setupCIWorkspace -S
 script: ./gradlew build -S
 
 deploy:
   - provider: script
+    skip_cleanup: true
     script: ./gradlew curse -S
     on:
       all_branches: true
@@ -26,6 +25,7 @@ deploy:
       condition: "$TRAVIS_BRANCH =~ ^(master|release).*$"
       tags: true
   - provider: releases
+    skip_cleanup: true
     api_key:
       secure: A+23PDJUKg1CU28NmXw/YG7qmGDIrys1GuyuDuodK2AjBjT191GJWyr6mB0VV0uWo+/3H6FhDQNCLvKZ+0aphLRPMfLlNb4pBw31l7PFsJjsqF3/5BXNqXwCxxEWPLWAI85Pbt9bQX8BlTrQXeFast49opb0kWAlE3hh4E3yr1M=
     on:
@@ -34,6 +34,7 @@ deploy:
       condition: "$TRAVIS_BRANCH =~ ^(master|release).*$"
       tags: true
   - provider: script
+    skip_cleanup: true
     script: ./gradlew uploadArchives -S
     on:
       all_branches: true
