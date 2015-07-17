@@ -181,6 +181,7 @@ public class Configs {
         configs.add(new OriginsOfDarknessConfig());
         configs.add(new DarkenedAppleConfig());
         configs.add(new EffortlessRingConfig());
+        configs.add(new CondensedBloodConfig());
         
         // Entities
         // Item

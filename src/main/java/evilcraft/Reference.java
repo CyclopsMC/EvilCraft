@@ -16,6 +16,10 @@ public class Reference {
     public static final String MOD_BUILD_NUMBER = "@BUILD_NUMBER@";
     public static final String MOD_CHANNEL = MOD_ID;
     public static final String MOD_MC_VERSION = "@MC_VERSION@";
+
+    // IMC keys
+    public static final String IMC_BLACKLIST_VENGEANCESPIRIT = "blacklistVengeanceSpirit";
+    public static final String IMC_OVERRIDE_SPIRITFURNACE_DROPS = "overrideSpiritFurnaceDrops";
     
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";
@@ -76,6 +80,7 @@ public class Reference {
     public static final String MOD_NEI = "NotEnoughItems";
     public static final String MOD_BLOODMAGIC = "AWWayofTime";
     public static final String MOD_THAUMCRAFT = "Thaumcraft";
+    public static final String MOD_EE3 = "EE3";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES = "required-after:Forge@[10.13.3.1360,);" // See the Forge changelog

@@ -158,9 +158,11 @@
             <tag>hardenedBlood</tag>
             <tag>hardenedBloodShard</tag>
             <tag>darkPowerGem</tag>
+            <tag>condensedBlood</tag>
             <paragraph>infoBook.secondAge.powersOfBlood.text1</paragraph>
             <paragraph>infoBook.secondAge.powersOfBlood.text2</paragraph>
             <paragraph>infoBook.secondAge.powersOfBlood.text3</paragraph>
+            <paragraph>infoBook.secondAge.powersOfBlood.text4</paragraph>
             <appendix type="furnaceRecipe">evilcraft:hardenedBloodShard</appendix>
         </section>
         <section name="infoBook.secondAge.bloodInfusion">
@@ -229,6 +231,7 @@
                 <tag>bloodWaxedCoalBlock</tag>
                 <tag>bloodPotash</tag>
                 <paragraph>infoBook.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:bloodOrb</appendix>
                 <appendixList type="bloodInfuserRecipe">other</appendixList>
                 <appendixList type="bloodInfuserRecipe">convenience</appendixList>
             </section>
@@ -354,6 +357,10 @@
             <tag>boundBloodDrop</tag>
             <paragraph>infoBook.modIntegrations.bloodMagic.text</paragraph>
             <appendix type="bloodInfuserRecipe">evilcraft:boundBloodDrop</appendix>
+        </section>
+        <section name="infoBook.modIntegrations.ee3">
+            <tag type="mod">EE3</tag>
+            <paragraph>infoBook.modIntegrations.ee3.text</paragraph>
         </section>
         <section name="infoBook.modIntegrations.forestry">
             <tag type="mod">Forestry</tag>

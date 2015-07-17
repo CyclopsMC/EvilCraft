@@ -3,6 +3,7 @@ package evilcraft.core.config.configurable;
 import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.VillagerConfig;
+import evilcraft.core.helper.WeightedItemStack;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.village.MerchantRecipe;
@@ -140,62 +141,17 @@ public class ConfigurableVillager implements IConfigurable, IVillageTradeHandler
     protected float safeDivide(int i, float j) {
         return (float) i / (float) Math.max(1, j);
     }
-    
-    protected WeightedItemStack getRandomWeightedItemStack(List<WeightedItemStack> trades, Random random) {
-        return trades.get(random.nextInt(trades.size()));
-    }
-    
+
     protected WeightedItemStack getRandomInput(Random random) {
-        return getRandomWeightedItemStack(allowedTradeInputs, random);
+        return WeightedItemStack.getRandomWeightedItemStack(allowedTradeInputs, random);
     }
-    
+
     protected WeightedItemStack getRandomOutput(Random random) {
-        return getRandomWeightedItemStack(allowedTradeOutputs, random);
+        return WeightedItemStack.getRandomWeightedItemStack(allowedTradeOutputs, random);
     }
     
     protected int getRandomBetween(Random random, int min, int max) {
         return min + random.nextInt(max - min + 1);
-    }
-    
-    /**
-     * An ItemStack that has a certain weight that can be used to occur with a certain chance.
-     * @author rubensworks
-     *
-     */
-    public class WeightedItemStack{
-        private ItemStack itemStack;
-        private int weight;
-        
-        /**
-         * Make a new instance.
-         * @param itemStack The ItemStack to weigh.
-         * @param weight The weight of the ItemStack.
-         */
-        public WeightedItemStack(ItemStack itemStack, int weight) {
-            this.itemStack = itemStack;
-            this.weight = weight;
-        }
-        
-        /**
-         * Get the ItemStack.
-         * @return The ItemStack.
-         */
-        public ItemStack getItemStack() {
-            return itemStack;
-        }
-        
-        /**
-         * Get the weight.
-         * @return The weight.
-         */
-        public int getWeight() {
-            return weight;
-        }
-        
-        @Override
-        public String toString() {
-        	return "{ItemStack: " + itemStack + "; Weight: " + weight + "}";
-        }
     }
 
 }

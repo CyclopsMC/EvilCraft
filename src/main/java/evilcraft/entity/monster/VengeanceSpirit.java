@@ -61,6 +61,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 	private static final int SWARM_TIERS = 5;
 	
     private static final Set<Class<? extends EntityLivingBase>> BLACKLIST = Sets.newHashSet();
+    private static final Set<Class<? extends EntityLivingBase>> IMC_BLACKLIST = Sets.newHashSet();
     
     /**
      * The minimum life duration in ticks the spirits should have.
@@ -772,6 +773,17 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 			EvilCraft.log("Added entity class " + clazz.getCanonicalName()
 					+ " to the spirit blacklist.");
 	}
+
+    /**
+     * Add an entity class to the blacklist, every subinstance of this class will not
+     * be spirited anymore.
+     * This should only be called by IMC message handlers.
+     * @param clazz The root class that will be blocked from spiritation.
+     */
+    public static void addToBlacklistIMC(Class<? extends EntityLivingBase> clazz) {
+        IMC_BLACKLIST.add(clazz);
+        addToBlacklist(clazz);
+    }
 	
 	@SuppressWarnings("unchecked")
 	protected static void setBlacklist(String[] blacklist) {
@@ -785,6 +797,10 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
 				addToBlacklist(clazz);
 			}
 		}
+
+        for(Class<? extends EntityLivingBase> clazz : IMC_BLACKLIST) {
+            addToBlacklist(clazz);
+        }
 		
 		// Hard-code some entities
 		addToBlacklist(VengeanceSpirit.class);

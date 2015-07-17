@@ -1,12 +1,12 @@
 package evilcraft.tileentity.tickaction;
 
+import evilcraft.core.fluid.SingleUseTank;
+import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
+import evilcraft.core.tileentity.tickaction.ITickAction;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import evilcraft.core.fluid.SingleUseTank;
-import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
-import evilcraft.core.tileentity.tickaction.ITickAction;
 
 /**
  * {@link ITickAction} that can empty buckets in tanks.
@@ -19,13 +19,20 @@ public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileE
     @Override
     public void onTick(T tile, ItemStack itemStack, int slot, int tick) {
         if(tick >= getRequiredTicks(tile, slot)) {
-            ItemStack infuseStack = itemStack;
-            FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(infuseStack);
+            FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
             SingleUseTank tank = tile.getTank();
             if(fluidStack != null && tank.canTankAccept(fluidStack.getFluid())
             		&& tank.canCompletelyFill(fluidStack)) {
                 tank.fill(fluidStack, true);
-                tile.getInventory().setInventorySlotContents(slot, FluidContainerRegistry.EMPTY_BUCKET.copy());
+                ItemStack drained = FluidContainerRegistry.drainFluidContainer(itemStack);
+                if(drained.stackSize == 0) {
+                    drained = itemStack.copy();
+                    drained.stackSize--;
+                    if(drained.stackSize == 0) drained = null;
+                    tile.getInventory().setInventorySlotContents(slot, drained);
+                } else {
+                    tile.getInventory().setInventorySlotContents(slot, drained);
+                }
             }
         }
     }

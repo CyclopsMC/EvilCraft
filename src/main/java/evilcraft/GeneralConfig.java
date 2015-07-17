@@ -30,7 +30,7 @@ public class GeneralConfig extends DummyConfig {
      * If the recipe loader should crash when finding invalid recipes.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "If the recipe loader should crash when finding invalid recipes.", requiresMcRestart = true)
-    public static boolean crashOnInvalidRecipe = false;
+    public static boolean crashOnInvalidRecipe = true;
 
     /**
      * If mod compatibility loader should crash hard if errors occur in that process.

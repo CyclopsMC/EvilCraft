@@ -3,7 +3,7 @@ package evilcraft.infobook.pageelement;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
-import evilcraft.core.recipe.custom.DurationRecipeProperties;
+import evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.infobook.AdvancedButton;
@@ -18,7 +18,7 @@ import net.minecraftforge.fluids.FluidStack;
  * Blood Infuser recipes.
  * @author rubensworks
  */
-public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> {
+public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>> {
 
     private static final int SLOT_OFFSET_X = 16;
     private static final int SLOT_OFFSET_Y = 23;
@@ -28,7 +28,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
     private static final AdvancedButton.Enum RESULT = AdvancedButton.Enum.create();
     private static final AdvancedButton.Enum PROMISE = AdvancedButton.Enum.create();
 
-    public BloodInfuserRecipeAppendix(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
+    public BloodInfuserRecipeAppendix(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
         super(recipe);
     }
 

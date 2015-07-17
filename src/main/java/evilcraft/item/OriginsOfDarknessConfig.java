@@ -1,6 +1,10 @@
 package evilcraft.item;
 
 import evilcraft.core.config.extendedconfig.ItemConfig;
+import evilcraft.core.helper.MinecraftHelpers;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraftforge.common.ChestGenHooks;
 
 /**
  * Config for the Blood Orb.
@@ -24,6 +28,15 @@ public class OriginsOfDarknessConfig extends ItemConfig {
             null,
             OriginsOfDarkness.class
         );
+    }
+
+    @Override
+    public void onRegistered() {
+        super.onRegistered();
+        for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
+            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
+                    new ItemStack(OriginsOfDarkness.getInstance()), 1, 1, 6));
+        }
     }
     
 }

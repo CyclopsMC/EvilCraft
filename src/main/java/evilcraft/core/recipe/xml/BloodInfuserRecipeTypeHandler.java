@@ -1,7 +1,7 @@
 package evilcraft.core.recipe.xml;
 
 import evilcraft.block.BloodInfuser;
-import evilcraft.core.recipe.custom.DurationRecipeProperties;
+import evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
@@ -31,6 +31,10 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
         if(properties.getElementsByTagName("tier").getLength() > 0) {
             tier = Integer.parseInt(properties.getElementsByTagName("tier").item(0).getTextContent());
         }
+        float xp = 0;
+        if(properties.getElementsByTagName("xp").getLength() > 0) {
+            xp = Float.parseFloat(properties.getElementsByTagName("xp").item(0).getTextContent());
+        }
 		
 		Fluid fluid = FluidRegistry.getFluid(inputFluid);
 		if(fluid == null) {
@@ -57,7 +61,7 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
 		BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
                 recipeComponent,
                 new ItemStackRecipeComponent(outputStack),
-                new DurationRecipeProperties(duration)
+                new DurationXpRecipeProperties(duration, xp)
         );
         return outputStack;
 	}

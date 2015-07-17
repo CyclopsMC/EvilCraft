@@ -2,10 +2,15 @@ package evilcraft.inventory.container;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import evilcraft.api.gameevent.BloodInfuserRemoveEvent;
+import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
+import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.inventory.slot.SlotRemoveOnly;
 import evilcraft.core.inventory.slot.SlotWorking;
+import evilcraft.core.recipe.custom.DurationXpRecipeProperties;
+import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import evilcraft.tileentity.TileBloodInfuser;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -65,7 +70,13 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
         addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y) {
 
             public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
-                FMLCommonHandler.instance().bus().post(new BloodInfuserRemoveEvent(player, itemStack));
+                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>
+                        recipe = BloodInfuser.getInstance().getRecipeRegistry().
+                        findRecipeByOutput(new ItemStackRecipeComponent(itemStack));
+                if(recipe != null) {
+                    EntityHelpers.spawnXpAtPlayer(player.worldObj, player, (int) Math.floor(recipe.getProperties().getXp() * itemStack.stackSize));
+                    FMLCommonHandler.instance().bus().post(new BloodInfuserRemoveEvent(player, itemStack));
+                }
                 super.onPickupFromSlot(player, itemStack);
             }
 

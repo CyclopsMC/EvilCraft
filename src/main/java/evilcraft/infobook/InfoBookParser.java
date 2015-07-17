@@ -83,7 +83,7 @@ public class InfoBookParser {
             @Override
             public SectionAppendix create(Element node) throws InvalidAppendixException {
                 ItemStack itemStack = createStack(node);
-                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>>
+                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>
                         recipes = BloodInfuser.getInstance().getRecipeRegistry().
                         findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
                 int index = getIndex(node);
@@ -132,7 +132,7 @@ public class InfoBookParser {
 
             @Override
             public SectionAppendix create(ItemStack itemStack) throws InvalidAppendixException {
-                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>>
+                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>
                         recipes = BloodInfuser.getInstance().getRecipeRegistry().
                         findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
                 return new BloodInfuserRecipeAppendix(recipes.get(0));
