@@ -44,7 +44,7 @@ minecraft {
     replace "@BUILD_NUMBER@", project.buildnumber
 }
 
-if (System.getenv().RELEASE)
+if (project.buildnumber.equals("RELEASE"))
     version = "${config.minecraft_version}-${config.mod_version}"
 else
     version = "${config.minecraft_version}-${config.mod_version}-${buildnumber}"
