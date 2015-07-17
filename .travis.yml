@@ -5,9 +5,31 @@ notifications:
   slack:
     secure: DVv/YhOeWNj13mGjJJGyVXrgDLY9h7Md0DDwFSQo63NhQ3ygua29r4uUnNczpSUUtEoxma6jLofiaArVdJfXzKNXjdr9XNq6WC40yA6ksKvLTwkI2EAY4VoaRdyrk+8AddbKQai+IdDkWhUuhXAckICGDp6lHS/omcWeJeFDgcI=
 env:
-  global: TERM=dumb
-before_install:
-  - echo "libs_path=." > gradle.properties
+  global:
+  - TERM=dumb
+
 install: ./gradlew setupCIWorkspace -S
 script: ./gradlew build -S
-after_success: ./gradlew curse -S
+
+deploy:
+  - provider: script
+    script: ./gradlew curse -S
+    on:
+      all_branches: true
+      repo: rubensworks/EvilCraft
+      condition: "$TRAVIS_BRANCH =~ ^(master|release).*$"
+      tags: true
+  - provider: releases
+    api_key:
+      secure: A+23PDJUKg1CU28NmXw/YG7qmGDIrys1GuyuDuodK2AjBjT191GJWyr6mB0VV0uWo+/3H6FhDQNCLvKZ+0aphLRPMfLlNb4pBw31l7PFsJjsqF3/5BXNqXwCxxEWPLWAI85Pbt9bQX8BlTrQXeFast49opb0kWAlE3hh4E3yr1M=
+    on:
+      all_branches: true
+      repo: rubensworks/EvilCraft
+      condition: "$TRAVIS_BRANCH =~ ^(master|release).*$"
+      tags: true
+  - provider: script
+    script: ./gradlew uploadArchives -S
+    on:
+      all_branches: true
+      repo: rubensworks/EvilCraft
+      condition: "$TRAVIS_BRANCH =~ ^(master|release).*$"

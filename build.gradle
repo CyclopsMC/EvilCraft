@@ -38,9 +38,10 @@ def loadProperties() {
         project.buildnumber = System.getenv().BUILD_NUMBER
     if (System.getenv().TRAVIS_BUILD_NUMBER)
         project.buildnumber = System.getenv().TRAVIS_BUILD_NUMBER
-    if (System.getenv().CI)
-        project.buildnumber += "-DEV"
-    if (System.getenv().RELEASE)
+    if (System.getenv().CI) {
+        //project.buildnumber += "-DEV"
+    }
+    if (System.getenv().RELEASE || (System.getenv().TRAVIS_BRANCH && System.getenv().TRAVIS_BRANCH.indexOf("release") > -1))
         project.buildnumber = "RELEASE"
     logger.lifecycle "BUILDING VERSION: " + project.buildnumber
 }
@@ -58,6 +59,6 @@ idea {
 }
 
 // Resolve resources bug in IDEA 14.
-sourceSets {
+/*sourceSets {
     main { output.resourcesDir = output.classesDir }
-}
+}*/

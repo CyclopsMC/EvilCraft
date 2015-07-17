@@ -16,9 +16,9 @@ repositories {
         name 'Player Maven FS'
         url 'http://maven.ic2.player.to/'
     }
-    ivy {
-        name "Cyclops Core"
-        artifactPattern "http://addons-origin.cursecdn.com/files/2247/323/[module]-[revision].[ext]"
+    maven {
+        name "RubensWorks FS"
+        url "http://maven.rubensworks.net/"
     }
 }
 
@@ -27,7 +27,7 @@ dependencies {
     if(project.hasProperty("cyclopscore_version_local")) {
         compile "org.cyclops.cyclopscore:CyclopsCore:${config.minecraft_version}-${project.cyclopscore_version_local}:deobf"
     } else {
-        compile group: 'org.cyclops', name: 'CyclopsCore', version: "${config.minecraft_version}-${config.cyclopscore_version}-deobf", ext: 'jar'
+        compile "org.cyclops.cyclopscore:CyclopsCore:${config.minecraft_version}-${config.cyclopscore_version}:deobf"
     }
 
     //compile "tconstruct:TConstruct:${config.minecraft_version}-${config.tconstruct_version}:deobf" // http://dvs1.progwml6.com/files/maven
@@ -62,7 +62,7 @@ minecraft {
     mappings = "snapshot_20150401"
 }
 
-if (System.getenv().RELEASE)
+if (project.buildnumber.equals("RELEASE"))
     version = "${config.minecraft_version}-${config.mod_version}"
 else
     version = "${config.minecraft_version}-${config.mod_version}-${buildnumber}"
