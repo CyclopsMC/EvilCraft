@@ -2,10 +2,10 @@ package evilcraft.modcompat.versionchecker;
 
 import evilcraft.EvilCraft;
 import evilcraft.Reference;
-import evilcraft.VersionStats;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import org.cyclops.cyclopscore.modcompat.IModCompat;
+import org.cyclops.cyclopscore.tracking.IModVersion;
 
 /**
  * Mod compat for the Version Checker mod.
@@ -37,23 +37,23 @@ public class VersionCheckerModCompat implements IModCompat {
 	public String getComment() {
 		return "Version Checker mod support.";
 	}
-	
+
 	/**
 	 * Send a message to the Version Checker mod with the update info.
 	 * This is an integration with Dynious Version Checker See
 	 * http://www.minecraftforum.net/topic/2721902-
-	 * @param versionStats The version info holder.
+	 * @param modVersion The mod version holder.
 	 */
-	public static synchronized void sendIMCOutdatedMessage(VersionStats versionStats) {
+	public static synchronized void sendIMCOutdatedMessage(IModVersion modVersion) {
 		if(canBeUsed) {
 			NBTTagCompound compound = new NBTTagCompound();
 			compound.setString("modDisplayName", Reference.MOD_NAME);
 			compound.setString("oldVersion", Reference.MOD_VERSION);
-			compound.setString("newVersion", versionStats.mod_version);
+			compound.setString("newVersion", modVersion.getVersion());
 
-			compound.setString("updateUrl", versionStats.update_link);
+			compound.setString("updateUrl", modVersion.getUpdateUrl());
 			compound.setBoolean("isDirectLink", true);
-			compound.setString("changeLog", "");
+			compound.setString("changeLog", modVersion.getInfo());
 
 			FMLInterModComms.sendRuntimeMessage(Reference.MOD_ID, 
 					Reference.MOD_VERSION_CHECKER, "addUpdate", compound);

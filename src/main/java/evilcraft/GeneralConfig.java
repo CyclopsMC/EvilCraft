@@ -6,7 +6,8 @@ import org.cyclops.cyclopscore.config.ConfigurableType;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.DummyConfig;
 import org.cyclops.cyclopscore.init.ModBase;
-import org.cyclops.cyclopscore.version.Analytics;
+import org.cyclops.cyclopscore.tracking.Analytics;
+import org.cyclops.cyclopscore.tracking.Versions;
 
 /**
  * A config with general options for this mod.
@@ -179,6 +180,9 @@ public class GeneralConfig extends DummyConfig {
 
         if(analytics) {
             Analytics.registerMod(getMod(), Reference.GA_TRACKING_ID);
+        }
+        if(versionChecker) {
+            Versions.registerMod(getMod(), EvilCraft._instance, Reference.VERSION_URL);
         }
     }
     

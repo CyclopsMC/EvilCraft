@@ -38,6 +38,7 @@ import org.cyclops.cyclopscore.persist.world.GlobalCounters;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
 import org.cyclops.cyclopscore.recipe.custom.SuperRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
+import org.cyclops.cyclopscore.tracking.IModVersion;
 import org.cyclops.cyclopscore.world.gen.IRetroGenRegistry;
 import org.cyclops.cyclopscore.world.gen.RetroGenRegistry;
 
@@ -54,7 +55,7 @@ import org.cyclops.cyclopscore.world.gen.RetroGenRegistry;
         dependencies = Reference.MOD_DEPENDENCIES,
         guiFactory = "evilcraft.GuiConfigOverview$ExtendedConfigGuiFactory"
 )
-public class EvilCraft extends ModBase {
+public class EvilCraft extends ModBase implements IModVersion {
     
     /**
      * The proxy of this mod, depending on 'side' a different proxy will be inside this field.
@@ -70,6 +71,11 @@ public class EvilCraft extends ModBase {
     public static EvilCraft _instance;
 
     public static GlobalCounters globalCounters = null;
+
+    private boolean versionInfo = false;
+    private String version;
+    private String info;
+    private String updateUrl;
 
     public EvilCraft() {
         super(Reference.MOD_ID, Reference.MOD_NAME);
@@ -115,9 +121,6 @@ public class EvilCraft extends ModBase {
         getRegistryManager().addRegistry(IBroomPartRegistry.class, new BroomPartRegistry());
 
         super.preInit(event);
-
-        // Start fetching the version info
-        VersionStats.load();
     }
     
     /**
@@ -204,6 +207,42 @@ public class EvilCraft extends ModBase {
     @Override
     public ICommonProxy getProxy() {
         return proxy;
+    }
+
+    @Override
+    public void setVersionInfo(String version, String info, String updateUrl) {
+        versionInfo = true;
+        this.version = version;
+        this.info = info;
+        this.updateUrl = updateUrl;
+        if(needsUpdate()) {
+            VersionCheckerModCompat.sendIMCOutdatedMessage(this);
+        }
+    }
+
+    @Override
+    public boolean isVersionInfo() {
+        return versionInfo;
+    }
+
+    @Override
+    public String getVersion() {
+        return version;
+    }
+
+    @Override
+    public String getInfo() {
+        return info;
+    }
+
+    @Override
+    public String getUpdateUrl() {
+        return updateUrl;
+    }
+
+    @Override
+    public boolean needsUpdate() {
+        return !org.cyclops.cyclopscore.Reference.MOD_VERSION.equals(getVersion());
     }
 
     /**

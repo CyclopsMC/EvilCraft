@@ -1,10 +1,6 @@
 # General
 itemGroup.evilcraft=EvilCraft
 general.evilcraft.info.empty=Empty
-# mod-version; MC-version
-general.evilcraft.versionCurrent=%s for Minecraft %s
-# new-mod-version; mod-name; current-mod-version; update-link
-general.evilcraft.versionUpdate=Update %s of %s(%s): %s
 
 # Blocks
 tile.blocks.evilcraft.innerBlock.info=Block: %s
