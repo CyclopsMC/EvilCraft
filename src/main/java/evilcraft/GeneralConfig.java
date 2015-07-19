@@ -6,6 +6,7 @@ import org.cyclops.cyclopscore.config.ConfigurableType;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.DummyConfig;
 import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.version.Analytics;
 
 /**
  * A config with general options for this mod.
@@ -38,6 +39,12 @@ public class GeneralConfig extends DummyConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "If mod compatibility loader should crash hard if errors occur in that process.", requiresMcRestart = true)
     public static boolean crashOnModCompatCrash = false;
+
+    /**
+     * If an anonymous mod startup analytics request may be sent to our analytics service.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "If an anonymous mod startup analytics request may be sent to our analytics service.")
+    public static boolean analytics = true;
     
     /**
      * If players are able to die without any reason.
@@ -169,6 +176,10 @@ public class GeneralConfig extends DummyConfig {
         getMod().putGenericReference(ModBase.REFKEY_CRASH_ON_INVALID_RECIPE, GeneralConfig.crashOnInvalidRecipe);
         getMod().putGenericReference(ModBase.REFKEY_DEBUGCONFIG, GeneralConfig.debug);
         getMod().putGenericReference(ModBase.REFKEY_CRASH_ON_MODCOMPAT_CRASH, GeneralConfig.crashOnModCompatCrash);
+
+        if(analytics) {
+            Analytics.registerMod(getMod(), Reference.GA_TRACKING_ID);
+        }
     }
     
     @Override

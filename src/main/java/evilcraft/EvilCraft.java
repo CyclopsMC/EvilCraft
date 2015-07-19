@@ -73,6 +73,7 @@ public class EvilCraft extends ModBase {
 
     public EvilCraft() {
         super(Reference.MOD_ID, Reference.MOD_NAME);
+        putGenericReference(REFKEY_MOD_VERSION, Reference.MOD_VERSION);
 
         // Register world storages
         registerWorldStorage(new WorldSharedTank.TankData(this));

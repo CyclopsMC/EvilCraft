@@ -16,6 +16,7 @@ public class Reference {
     public static final String MOD_BUILD_NUMBER = "@BUILD_NUMBER@";
     public static final String MOD_CHANNEL = MOD_ID;
     public static final String MOD_MC_VERSION = "@MC_VERSION@";
+    public static final String GA_TRACKING_ID = "UA-65307010-2";
     
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";
