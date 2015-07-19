@@ -7,7 +7,7 @@ import evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import evilcraft.core.broom.BroomPartRegistry;
 import evilcraft.core.degradation.DegradationRegistry;
 import evilcraft.core.fluid.WorldSharedTank;
-import evilcraft.infobook.InfoBookRegistry;
+import evilcraft.infobook.OriginsOfDarknessBook;
 import evilcraft.item.DarkGemConfig;
 import evilcraft.modcompat.baubles.BaublesModCompat;
 import evilcraft.modcompat.nei.NEIModCompat;
@@ -28,6 +28,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigReference;
+import org.cyclops.cyclopscore.infobook.IInfoBookRegistry;
+import org.cyclops.cyclopscore.infobook.InfoBookRegistry;
 import org.cyclops.cyclopscore.init.ItemCreativeTab;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
@@ -119,6 +121,7 @@ public class EvilCraft extends ModBase implements IModVersion {
         getRegistryManager().addRegistry(IRetroGenRegistry.class, new RetroGenRegistry(this));
         getRegistryManager().addRegistry(IBucketRegistry.class, new BucketRegistry());
         getRegistryManager().addRegistry(IBroomPartRegistry.class, new BroomPartRegistry());
+        getRegistryManager().addRegistry(IInfoBookRegistry.class, new InfoBookRegistry());
 
         super.preInit(event);
     }
@@ -146,7 +149,8 @@ public class EvilCraft extends ModBase implements IModVersion {
         Achievements.registerAchievements();
 
         // Initialize info book
-        InfoBookRegistry.getInstance();
+        getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
+                OriginsOfDarknessBook.getInstance(), "/assets/" + Reference.MOD_ID + "/info/book.xml");
     }
     
     /**

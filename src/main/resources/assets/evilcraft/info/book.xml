@@ -39,9 +39,9 @@
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.darkTemple.text3</paragraph>
                 <appendix type="image" width="100" height="133">evilcraft:textures/gui/infobook/darkTemple.png</appendix>
                 <appendix type="craftingRecipe">evilcraft:weatherContainer</appendix>
-                <appendix type="envirAccRecipe" index="0">evilcraft:weatherContainer</appendix>
-                <appendix type="envirAccRecipe" index="1">evilcraft:weatherContainer</appendix>
-                <appendix type="envirAccRecipe" index="2">evilcraft:weatherContainer</appendix>
+                <appendix type="evilcraft:envirAccRecipe" index="0">evilcraft:weatherContainer</appendix>
+                <appendix type="evilcraft:envirAccRecipe" index="1">evilcraft:weatherContainer</appendix>
+                <appendix type="evilcraft:envirAccRecipe" index="2">evilcraft:weatherContainer</appendix>
             </section>
             <section name="infoBook.evilcraft.firstAge.newWorld.weatherContainerBenefits">
                 <tag>lightningGrenade</tag>
@@ -106,7 +106,7 @@
                 <paragraph>infoBook.evilcraft.firstAge.items.potentiaSphere.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:potentiaSphere</appendix>
                 <appendix type="craftingRecipe">evilcraft:invertedPotentia</appendix>
-                <appendix type="envirAccRecipe">evilcraft:invertedPotentia</appendix>
+                <appendix type="evilcraft:envirAccRecipe">evilcraft:invertedPotentia</appendix>
             </section>
             <section name="infoBook.evilcraft.firstAge.items.dullDust">
                 <tag>dullDust</tag>
@@ -124,8 +124,8 @@
                 <paragraph>infoBook.evilcraft.firstAge.items.exaltedCrafter.text2</paragraph>
                 <appendix type="craftingRecipe" index="0">evilcraft:exaltedCrafter</appendix>
                 <appendix type="craftingRecipe" index="1">evilcraft:exaltedCrafter</appendix>
-                <appendix type="envirAccRecipe" index="0">evilcraft:exaltedCrafter</appendix>
-                <appendix type="envirAccRecipe" index="1">evilcraft:exaltedCrafter</appendix>
+                <appendix type="evilcraft:envirAccRecipe" index="0">evilcraft:exaltedCrafter</appendix>
+                <appendix type="evilcraft:envirAccRecipe" index="1">evilcraft:exaltedCrafter</appendix>
             </section>
         </section>
         <section name="infoBook.evilcraft.firstAge.vengeanceSpirits">
@@ -187,10 +187,10 @@
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser.text1</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser.text2</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bloodInfuser</appendix>
-                <appendix type="bloodInfuserRecipe">evilcraft:darkPowerGem</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:darkPowerGem</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkPowerGem</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkPowerGemBlock</appendix>
-                <appendix type="bloodInfuserRecipe">evilcraft:darkPowerGemBlock</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:darkPowerGemBlock</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.bloodInfusion.undeadTree">
                 <tag>undeadSapling</tag>
@@ -199,7 +199,7 @@
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text2</paragraph>
                 <appendix type="image" width="70" height="130">evilcraft:textures/gui/infobook/undeadTree.png</appendix>
                 <appendix type="craftingRecipe">minecraft:deadBush</appendix>
-                <appendix type="bloodInfuserRecipe">evilcraft:undeadSapling</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:undeadSapling</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkStick</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion">
@@ -209,18 +209,18 @@
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion.text1</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion.text2</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bowlOfPromises</appendix>
-                <appendix type="bloodInfuserRecipe" index="0">evilcraft:bowlOfPromises</appendix>
-                <appendix type="bloodInfuserRecipe" index="1">evilcraft:bowlOfPromises</appendix>
-                <appendix type="bloodInfuserRecipe" index="2">evilcraft:bowlOfPromises</appendix>
-                <appendix type="bloodInfuserRecipe" index="3">evilcraft:bowlOfPromises</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe" index="0">evilcraft:bowlOfPromises</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe" index="1">evilcraft:bowlOfPromises</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe" index="2">evilcraft:bowlOfPromises</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe" index="3">evilcraft:bowlOfPromises</appendix>
                 <appendix type="craftingRecipe" index="0">evilcraft:promise</appendix>
                 <appendix type="craftingRecipe" index="1">evilcraft:promise</appendix>
                 <appendix type="craftingRecipe" index="2">evilcraft:promise</appendix>
                 <appendix type="craftingRecipe" index="3">evilcraft:promise</appendix>
                 <appendix type="craftingRecipe" index="4">evilcraft:promise</appendix>
-                <appendix type="bloodInfuserRecipe" index="0">evilcraft:promiseAcceptor</appendix>
-                <appendix type="bloodInfuserRecipe" index="1">evilcraft:promiseAcceptor</appendix>
-                <appendix type="bloodInfuserRecipe" index="2">evilcraft:promiseAcceptor</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe" index="0">evilcraft:promiseAcceptor</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe" index="1">evilcraft:promiseAcceptor</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe" index="2">evilcraft:promiseAcceptor</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusionRecipes">
                 <tag>bloodyCobblestone</tag>
@@ -229,8 +229,8 @@
                 <tag>bloodWaxedCoalBlock</tag>
                 <tag>bloodPotash</tag>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text</paragraph>
-                <appendixList type="bloodInfuserRecipe">other</appendixList>
-                <appendixList type="bloodInfuserRecipe">convenience</appendixList>
+                <appendixList type="evilcraft:bloodInfuserRecipe">other</appendixList>
+                <appendixList type="evilcraft:bloodInfuserRecipe">convenience</appendixList>
             </section>
         </section>
         <section name="infoBook.evilcraft.secondAge.evolvedBloodMachinery">
@@ -248,7 +248,7 @@
                 <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text1</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text2</paragraph>
                 <appendix type="craftingRecipe">evilcraft:purifier</appendix>
-                <appendix type="bloodInfuserRecipe">evilcraft:blook</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:blook</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice">
                 <tag>entangledChalice</tag>
@@ -256,7 +256,7 @@
                 <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text1</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text2</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text3</paragraph>
-                <appendix type="bloodInfuserRecipe">evilcraft:corruptedTear</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:corruptedTear</appendix>
                 <appendix type="craftingRecipe" index="0">evilcraft:entangledChalice</appendix>
                 <appendix type="craftingRecipe" index="1">evilcraft:entangledChalice</appendix>
             </section>
@@ -332,7 +332,7 @@
                 <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text2</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text3</paragraph>
                 <appendix type="image" width="120" height="135">evilcraft:textures/gui/infobook/spiritFurnace.png</appendix>
-                <appendix type="bloodInfuserRecipe">evilcraft:darkBloodBrick</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:darkBloodBrick</appendix>
                 <appendix type="craftingRecipe">evilcraft:spiritFurnace</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator">
@@ -353,7 +353,7 @@
             <tag type="mod">AWWayofTime</tag>
             <tag>boundBloodDrop</tag>
             <paragraph>infoBook.evilcraft.modIntegrations.bloodMagic.text</paragraph>
-            <appendix type="bloodInfuserRecipe">evilcraft:boundBloodDrop</appendix>
+            <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:boundBloodDrop</appendix>
         </section>
         <section name="infoBook.evilcraft.modIntegrations.forestry">
             <tag type="mod">Forestry</tag>
@@ -370,7 +370,7 @@
             <paragraph>infoBook.evilcraft.modIntegrations.thaumcraft.text</paragraph>
             <appendix type="craftingRecipe" index="0">evilcraft:veinedScribingTools</appendix>
             <appendix type="craftingRecipe" index="1">evilcraft:veinedScribingTools</appendix>
-            <appendix type="bloodInfuserRecipe">evilcraft:bloodWandCap</appendix>
+            <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:bloodWandCap</appendix>
         </section>
         <section name="infoBook.evilcraft.modIntegrations.thermalExpansion">
             <tag type="mod">ThermalExpansion</tag>

@@ -1,16 +1,18 @@
 package evilcraft.infobook.pageelement;
 
 import evilcraft.block.BloodInfuser;
-import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.recipe.custom.DurationRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
-import evilcraft.infobook.AdvancedButton;
-import evilcraft.infobook.InfoSection;
 import evilcraft.item.BucketBloodConfig;
 import evilcraft.item.Promise;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.infobook.AdvancedButton;
+import org.cyclops.cyclopscore.infobook.GuiInfoBook;
+import org.cyclops.cyclopscore.infobook.IInfoBook;
+import org.cyclops.cyclopscore.infobook.InfoSection;
+import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 
@@ -28,8 +30,8 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
     private static final AdvancedButton.Enum RESULT = AdvancedButton.Enum.create();
     private static final AdvancedButton.Enum PROMISE = AdvancedButton.Enum.create();
 
-    public BloodInfuserRecipeAppendix(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
-        super(recipe);
+    public BloodInfuserRecipeAppendix(IInfoBook infoBook, IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
+        super(infoBook, recipe);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
     }
 
     @Override
-    public void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
+    public void drawElementInner(GuiInfoBook gui, int x, int y, int width, int height, int page, int mx, int my) {
         int middle = (width - SLOT_SIZE) / 2;
         gui.drawArrowRight(x + middle - 3, y + SLOT_OFFSET_Y + 2);
 

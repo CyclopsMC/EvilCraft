@@ -2,15 +2,17 @@ package evilcraft.infobook.pageelement;
 
 import evilcraft.Reference;
 import evilcraft.block.EnvironmentalAccumulator;
-import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
-import evilcraft.infobook.AdvancedButton;
-import evilcraft.infobook.InfoSection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.cyclops.cyclopscore.infobook.AdvancedButton;
+import org.cyclops.cyclopscore.infobook.GuiInfoBook;
+import org.cyclops.cyclopscore.infobook.IInfoBook;
+import org.cyclops.cyclopscore.infobook.InfoSection;
+import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 
 import java.util.HashMap;
@@ -37,8 +39,8 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
     private static final AdvancedButton.Enum INPUT = AdvancedButton.Enum.create();
     private static final AdvancedButton.Enum RESULT = AdvancedButton.Enum.create();
 
-    public EnvironmentalAccumulatorRecipeAppendix(IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
-        super(recipe);
+    public EnvironmentalAccumulatorRecipeAppendix(IInfoBook infoBook, IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
+        super(infoBook, recipe);
     }
 
     @Override
@@ -64,7 +66,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
     }
 
     @Override
-    public void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
+    public void drawElementInner(GuiInfoBook gui, int x, int y, int width, int height, int page, int mx, int my) {
         int middle = (width - SLOT_SIZE) / 2;
         gui.drawArrowRight(x + middle - 3, y + SLOT_OFFSET_Y + 2);
 
