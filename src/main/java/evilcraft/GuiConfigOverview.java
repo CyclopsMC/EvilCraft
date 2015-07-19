@@ -20,7 +20,7 @@ public class GuiConfigOverview extends GuiConfigOverviewBase {
 
         @Override
         public Class<? extends GuiConfigOverviewBase> mainConfigGuiClass() {
-            return org.cyclops.cyclopscore.GuiConfigOverview.class;
+            return GuiConfigOverview.class;
         }
     }
 }
