@@ -1,10 +1,8 @@
 package evilcraft.world.gen.structure;
 
+import evilcraft.EvilCraft;
 import evilcraft.GeneralConfig;
 import evilcraft.block.EnvironmentalAccumulator;
-import org.cyclops.cyclopscore.helper.DirectionHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
-import evilcraft.world.gen.nbt.DarkTempleData;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
@@ -12,7 +10,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -29,24 +29,20 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	private static final int[] CORNER_INC = {-1, 1};
 	
 	private static DarkTempleStructure _instance = null;
-	
-	private DarkTempleData darkTempleData;
 
 	/**
 	 * Get the unique instance.
-	 * @param darkTempleData The data of the temple.
 	 * @return Unique instance.
 	 */
-	public static DarkTempleStructure getInstance(DarkTempleData darkTempleData) {
+	public static DarkTempleStructure getInstance() {
 		if (_instance == null)
-			_instance = new DarkTempleStructure(darkTempleData);
+			_instance = new DarkTempleStructure();
 		
 		return _instance;
 	}
 	
-	private DarkTempleStructure(DarkTempleData darkTempleData) {
+	private DarkTempleStructure() {
 		super(6, 6);
-		this.darkTempleData = darkTempleData;
 	}
 	
 	/**
@@ -88,7 +84,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
             @Nullable
             @Override
             public Boolean apply(@Nullable Boolean from, World world, BlockPos blockPos) {
-                return from && isSolidBlock(world, blockPos);
+                return from && !isSolidBlock(world, blockPos);
             }
         }, true);
 	}
@@ -103,7 +99,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	}
 	
 	private boolean isSolidBlock(Block block) {
-	    Material material =  block.getMaterial();
+	    Material material = block.getMaterial();
 		return material.isSolid() && material.isOpaque();
 	}
 
@@ -270,19 +266,18 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
         int x = blockPos.getX();
         int z = blockPos.getZ();
 		int groundHeight = findGround(world, x, z, getMinBuildHeight(), getMaxBuildHeight());
-		
+
 		while (groundHeight != -1) {
             BlockPos location = new BlockPos(x, groundHeight, z);
 			// Check if we have room to place the structure here
-			if (canPlaceStructure(world, location.add(0, 1, 0))) {
+            if (canPlaceStructure(world, location.add(0, 1, 0))) {
 				// Only place the structure if the pillars are not too long
 				if (getMaxPillarHeightAt(world, blockPos) > GeneralConfig.darkTempleMaxPillarLength) return false;
-
 				// If all is ok, generate the structure
 				super.generate(world, random, location);
 
 				// save position of the dark temple in NBT
-				darkTempleData.addStructureLocation(location);
+				EvilCraft.darkTempleData.addStructureLocation(location);
 
 				return true;
 			}

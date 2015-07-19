@@ -17,6 +17,7 @@ import evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry
 import evilcraft.world.gen.DarkTempleGenerator;
 import evilcraft.world.gen.EvilDungeonGenerator;
 import evilcraft.world.gen.OreGenerator;
+import evilcraft.world.gen.nbt.DarkTempleData;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -73,6 +74,7 @@ public class EvilCraft extends ModBase implements IModVersion {
     public static EvilCraft _instance;
 
     public static GlobalCounters globalCounters = null;
+    public static DarkTempleData darkTempleData = null;
 
     private boolean versionInfo = false;
     private String version;
@@ -86,6 +88,7 @@ public class EvilCraft extends ModBase implements IModVersion {
         // Register world storages
         registerWorldStorage(new WorldSharedTank.TankData(this));
         registerWorldStorage(globalCounters = new GlobalCounters(this));
+        registerWorldStorage(darkTempleData = new DarkTempleData(this));
     }
 
     protected void loadModCompats(ModCompatLoader modCompatLoader) {
