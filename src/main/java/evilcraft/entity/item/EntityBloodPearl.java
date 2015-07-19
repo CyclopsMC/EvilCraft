@@ -73,7 +73,7 @@ public class EntityBloodPearl extends EntityThrowable implements IConfigurable {
                     EnderTeleportEvent event = new EnderTeleportEvent(entityplayermp, this.posX, this.posY, this.posZ, 0.0F);
                     if (!MinecraftForge.EVENT_BUS.post(event)) {
                         if (this.getThrower().isRiding()) {
-                            this.getThrower().mountEntity((Entity)null);
+                            this.getThrower().mountEntity(null);
                         }
     
                         this.getThrower().setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);

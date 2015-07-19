@@ -79,7 +79,7 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
     	return false;
     }
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	protected int computeRedstoneStrength(World world, BlockPos blockPos) {
 		List list = world.getEntitiesWithinAABBExcludingEntity(null, this.getCollisionBoundingBox(world, blockPos,

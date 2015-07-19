@@ -6,7 +6,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockConnectedTexture;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;

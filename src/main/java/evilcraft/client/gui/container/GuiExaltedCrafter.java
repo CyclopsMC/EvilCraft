@@ -3,14 +3,13 @@ package evilcraft.client.gui.container;
 import evilcraft.Reference;
 import evilcraft.client.key.Keys;
 import evilcraft.core.client.gui.GuiButtonExtended;
-import net.minecraft.util.ResourceLocation;
-import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
 import evilcraft.item.ExaltedCrafter;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 

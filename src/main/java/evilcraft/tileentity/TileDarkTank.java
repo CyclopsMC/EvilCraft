@@ -2,17 +2,14 @@ package evilcraft.tileentity;
 
 import evilcraft.GeneralConfig;
 import evilcraft.block.DarkTank;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
-import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 
 /**
  * Tile Entity for the dark tank.

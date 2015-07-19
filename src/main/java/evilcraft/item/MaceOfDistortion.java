@@ -225,7 +225,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
             distortEntity(world, player, entity, x, y, z, itemUsedCount, power);
         }
         
-        if(player != null && entities.size() >= 10) {
+        if(entities.size() >= 10) {
         	player.addStat(Achievements.DISTORTER, 1);
         	if(onePlayer) {
         		player.addStat(Achievements.PLAYER_DISTORTER, 1);
@@ -261,13 +261,13 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
             double strength = (1.0D - inverseStrength) * knock;
             if(entity instanceof EntityLivingBase) {
                 // Attack the entity with the current power level.
-                DamageSource damageSource = null;
+                DamageSource damageSource;
                 if(player == null) {
                     damageSource = ExtendedDamageSource.distorted;
                 } else {
                     damageSource = DamageSource.causePlayerDamage(player);
                 }
-                entity.attackEntityFrom(damageSource, (float) (RADIAL_DAMAGE * power));
+                entity.attackEntityFrom(damageSource, RADIAL_DAMAGE * power);
                 
                 if(world.isRemote) {
                     showEntityDistored(world, player, entity, power);
@@ -302,16 +302,12 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
         double xCoord = player.posX;
         double yCoord = player.posY;
         double zCoord = player.posZ;
-        
-        double particleX = xCoord;
-        double particleY = yCoord;
-        double particleZ = zCoord;
 
         float particleMotionX = world.rand.nextFloat() * 0.2F - 0.1F;
         float particleMotionY = 0.2F;
         float particleMotionZ = world.rand.nextFloat() * 0.2F - 0.1F;
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                new EntitySmokeFX.Factory().getEntityFX(0, world, particleX, particleY, particleZ,
+                new EntitySmokeFX.Factory().getEntityFX(0, world, xCoord, yCoord, zCoord,
                         particleMotionX, particleMotionY, particleMotionZ)
                 );
         

@@ -169,7 +169,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
      */
     public void releaseSpirit() {
     	VengeanceSpirit spirit = new VengeanceSpirit(getWorld());
-    	spirit.copyDataFromOld((VengeanceSpirit) spiritInstance);
+    	spirit.copyDataFromOld(spiritInstance);
     	Random rand = worldObj.rand;
     	spirit.setPosition(getPos().getX() + rand.nextDouble(), getPos().getY() + rand.nextDouble(),
                 getPos().getZ() + rand.nextDouble());

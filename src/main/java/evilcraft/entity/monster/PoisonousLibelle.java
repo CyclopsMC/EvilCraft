@@ -321,7 +321,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
         }
         
         if(!targetSet) {
-            boolean flag = false;
+            boolean flag;
 
             do {
                 this.targetX = this.posX;

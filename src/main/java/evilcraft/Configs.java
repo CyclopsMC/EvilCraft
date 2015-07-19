@@ -20,14 +20,8 @@ import evilcraft.fluid.PoisonConfig;
 import evilcraft.item.*;
 import evilcraft.potion.PotionPalingConfig;
 import evilcraft.world.biome.BiomeDegradedConfig;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import org.cyclops.cyclopscore.config.ConfigHandler;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-
-import javax.annotation.Nullable;
 
 /**
  * This class holds a set of all the configs that need to be registered.

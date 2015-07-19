@@ -11,7 +11,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.client.key.IKeyHandler;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
-import org.cyclops.cyclopscore.network.PacketHandler;
 
 /**
  * A {@link IKeyHandler} which handles farts.

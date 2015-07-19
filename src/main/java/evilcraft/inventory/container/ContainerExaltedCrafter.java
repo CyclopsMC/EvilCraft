@@ -132,6 +132,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     /**
      * Balance the crafting grid.
      */
+    @SuppressWarnings("unchecked")
     public void balanceGrid() {
         // Init bins
         List<Pair<ItemStack, List<Pair<Integer, Integer>>>> bins = Lists.newArrayListWithExpectedSize(craftingGrid.getSizeInventory());

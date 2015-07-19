@@ -129,7 +129,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
     	if(eggList.size() > 0) {
 	    	EntityList.EntityEggInfo egg = eggList.get(rand.nextInt(eggList.size()));
 	    	if(egg != null) {
-		    	Class<Entity> clazz = (Class<Entity>) EntityList.idToClassMapping.get(egg.spawnedID);
+		    	Class<Entity> clazz = (Class<Entity>) EntityList.idToClassMapping.get(egg.name);
 		    	if(clazz != null) {
 		    		return clazz.getName();
 		    	}
@@ -145,7 +145,7 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
         this.dataWatcher.addObject(WATCHERID_REMAININGLIFE, 0);
         this.dataWatcher.addObject(WATCHERID_FROZENDURATION, 0);
         this.dataWatcher.addObject(WATCHERID_GLOBALVENGEANCE, 0);
-        this.dataWatcher.addObject(WATCHERID_VENGEANCEPLAYERS, new String());
+        this.dataWatcher.addObject(WATCHERID_VENGEANCEPLAYERS, "");
         this.dataWatcher.addObject(WATCHERID_ISSWARM, 0);
         this.dataWatcher.addObject(WATCHERID_SWARMTIER, rand.nextInt(SWARM_TIERS));
         this.dataWatcher.addObject(WATCHERID_BUILDUP, 0);
@@ -700,7 +700,6 @@ public class VengeanceSpirit extends EntityMob implements IConfigurable {
                 		&& world.getCollidingBoundingBoxes(spirit, spirit.getEntityBoundingBox()).isEmpty()
                 		&& !world.isAnyLiquid(spirit.getEntityBoundingBox())) {
                     world.spawnEntityInWorld(spirit);
-                    attempts = -1;
                     return spirit;
                 }
             }

@@ -189,9 +189,9 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
         for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent,
                         EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry()
         		.allRecipes()) {
-            EnvironmentalAccumulatorRecipeComponent input = (EnvironmentalAccumulatorRecipeComponent)recipe.getInput();
-            EnvironmentalAccumulatorRecipeComponent output = (EnvironmentalAccumulatorRecipeComponent)recipe.getOutput();
-            EnvironmentalAccumulatorRecipeProperties props = (EnvironmentalAccumulatorRecipeProperties)recipe.getProperties();
+            EnvironmentalAccumulatorRecipeComponent input = recipe.getInput();
+            EnvironmentalAccumulatorRecipeComponent output = recipe.getOutput();
+            EnvironmentalAccumulatorRecipeProperties props = recipe.getProperties();
 
             recipes.add(new CachedEnvironmentalAccumulatorRecipe(input, output, props));
         }
@@ -224,9 +224,9 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
 
         if (recipe != null) {
             arecipes.add(new CachedEnvironmentalAccumulatorRecipe(
-                    (EnvironmentalAccumulatorRecipeComponent) recipe.getInput(),
-                    (EnvironmentalAccumulatorRecipeComponent) recipe.getOutput(),
-                    (EnvironmentalAccumulatorRecipeProperties) recipe.getProperties()
+                    recipe.getInput(),
+                    recipe.getOutput(),
+                    recipe.getProperties()
             ));
         }
     }

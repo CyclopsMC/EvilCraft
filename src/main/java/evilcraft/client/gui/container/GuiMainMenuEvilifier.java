@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class GuiMainMenuEvilifier {
 
-    private static int EVIL_MAINMENU_CHANCE = 2;
+    private static final int EVIL_MAINMENU_CHANCE = 2;
 
     /**
      * Make the main menu evil with a certain chance.

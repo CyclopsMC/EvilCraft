@@ -4,16 +4,15 @@ import evilcraft.Achievements;
 import evilcraft.EvilCraft;
 import evilcraft.GeneralConfig;
 import evilcraft.client.particle.EntityFartFX;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
-import org.cyclops.cyclopscore.network.PacketHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +75,7 @@ public class FartPacket extends PacketCodec {
 	@SideOnly(Side.CLIENT)
 	public void actionClient(World world, EntityPlayer player) {
 		if(GeneralConfig.farting) {
-			boolean isRemotePlayer = !player.getDisplayName().equals(displayName);
+			boolean isRemotePlayer = !player.getDisplayNameString().equals(displayName);
 	         
 			if (isRemotePlayer) {
 				player = world.getPlayerEntityByName(displayName);

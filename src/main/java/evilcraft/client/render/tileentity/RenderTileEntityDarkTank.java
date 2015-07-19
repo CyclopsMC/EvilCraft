@@ -1,7 +1,6 @@
 package evilcraft.client.render.tileentity;
 
 import evilcraft.block.DarkTank;
-import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.helper.RenderHelpers.IFluidContextRender;
 import evilcraft.tileentity.TileDarkTank;
@@ -10,9 +9,9 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.helper.DirectionHelpers;
 
 /**
  * Renderer for the {@link DarkTank}.

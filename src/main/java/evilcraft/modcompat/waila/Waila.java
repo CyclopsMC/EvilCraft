@@ -35,8 +35,9 @@ public class Waila {
         
         // Other blocks
         if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
-        	registrar.registerSyncedNBTKey(TileBoxOfEternalClosure.NBTKEY_SPIRIT, TileBoxOfEternalClosure.class);
-            registrar.registerBodyProvider(new BoxOfEternalClosureDataProvider(), TileBoxOfEternalClosure.class);
+            BoxOfEternalClosureDataProvider dataProvider = new BoxOfEternalClosureDataProvider();
+            registrar.registerNBTProvider(dataProvider, TileBoxOfEternalClosure.class);
+            registrar.registerBodyProvider(dataProvider, TileBoxOfEternalClosure.class);
         }
 
         // Generic blockState info

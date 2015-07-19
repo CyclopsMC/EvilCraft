@@ -8,7 +8,6 @@ import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -98,7 +97,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
             this.bindTexture(TEXTURE_ENCHANTEDBOOK);
 
         GlStateManager.enableCull();
-        this.enchantmentBook.render((Entity)null, tick, 0, 0, 0, 0.0F, 0.0625F);
+        this.enchantmentBook.render(null, tick, 0, 0, 0, 0.0F, 0.0625F);
         GlStateManager.popMatrix();
 	}
 

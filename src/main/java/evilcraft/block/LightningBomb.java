@@ -79,7 +79,7 @@ public class LightningBomb extends ConfigurableBlock {
     
     @Override
     public void onBlockDestroyedByPlayer(World world, BlockPos blockPos, IBlockState blockState) {
-        this.primeBomb(world, blockPos, blockState, (EntityLivingBase)null);
+        this.primeBomb(world, blockPos, blockState, null);
     }
     
     /**

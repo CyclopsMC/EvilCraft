@@ -1,12 +1,12 @@
 package evilcraft.tileentity.tickaction;
 
-import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
 
 /**
  * {@link ITickAction} that can empty buckets in tanks.
@@ -19,8 +19,7 @@ public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileE
     @Override
     public void onTick(T tile, ItemStack itemStack, int slot, int tick) {
         if(tick >= getRequiredTicks(tile, slot)) {
-            ItemStack infuseStack = itemStack;
-            FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(infuseStack);
+            FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
             SingleUseTank tank = tile.getTank();
             if(fluidStack != null && tank.canTankAccept(fluidStack.getFluid())
             		&& tank.canCompletelyFill(fluidStack)) {

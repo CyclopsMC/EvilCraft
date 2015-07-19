@@ -2,19 +2,13 @@ package evilcraft.block;
 
 import evilcraft.Achievements;
 import evilcraft.Configs;
-import net.minecraft.block.state.pattern.BlockHelper;
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.item.IInformationProvider;
 import evilcraft.item.DarkGem;
 import evilcraft.item.DarkGemConfig;
 import evilcraft.item.DarkGemCrushedConfig;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -22,14 +16,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 
 import java.util.List;
 import java.util.Random;
@@ -225,7 +224,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
     
     @Override
-    public boolean canSilkHarvest() {
+    public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
         return true;
     }
 

@@ -89,12 +89,12 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
             List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
 
-            for (int j = 0; j < list.size(); ++j) {
-                Entity entity1 = (Entity)list.get(j);
+            for (Object element : list) {
+                Entity entity1 = (Entity) element;
 
                 if (entity1 instanceof VengeanceSpirit && !((VengeanceSpirit) entity1).isSwarm()) {
                     float f = 0.3F;
-                    AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double)f, (double)f, (double)f);
+                    AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f, (double) f);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
 
                     if (movingobjectposition1 != null) {

@@ -123,7 +123,7 @@ public class ResurgenceEgg extends ConfigurableItem {
                         Entity entity = spawnCreature(world, getEntityString(itemStack), (double)x, (double)y, (double)z);
                         if (entity != null) {
                             if (entity instanceof EntityLivingBase && itemStack.hasDisplayName()) {
-                                ((EntityLiving)entity).setCustomNameTag(itemStack.getDisplayName());
+                                entity.setCustomNameTag(itemStack.getDisplayName());
                             }
                             if (!player.capabilities.isCreativeMode) {
                                 --itemStack.stackSize;

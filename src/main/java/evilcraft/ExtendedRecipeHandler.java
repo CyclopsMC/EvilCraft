@@ -162,8 +162,8 @@ public class ExtendedRecipeHandler extends RecipeHandler {
         }
 
         if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
-            ItemStack outputStack = null;
-            String recipeName = null;
+            ItemStack outputStack;
+            String recipeName;
 
             // Add the different weather container recipes
             if (Configs.isEnabled(WeatherContainerConfig.class)) {

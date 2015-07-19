@@ -136,7 +136,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     private void kineticate(ItemStack itemStack, World world, Entity entity) {
         if(ItemHelpers.isActivated(itemStack) &&(getFluid(itemStack) != null ||
                 (entity instanceof EntityPlayer && canConsume(1, itemStack, (EntityPlayer) entity))) &&
-                (entity == null || !entity.isSneaking())) {
+                (entity != null || !entity.isSneaking())) {
         	boolean repelling = isRepelling(itemStack);
         	
             // Center of the attraction

@@ -16,7 +16,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockConnectedTexture;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -54,7 +53,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    protected boolean canSilkHarvest() {
+    public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
         return true;
     }
     

@@ -30,7 +30,8 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
     @NBTPersist
     private Float progress = 0f;
 
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	public void updateTileEntity() {
 		super.updateTileEntity();
         progress += 0.005f;

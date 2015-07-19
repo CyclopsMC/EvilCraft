@@ -11,7 +11,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockFluidClassic;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * Event hook for {@link TextureStitchEventHook}.

@@ -4,11 +4,8 @@ import evilcraft.block.BloodChest;
 import evilcraft.tileentity.TileBloodChest;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.client.render.tileentity.RenderTileEntityModel;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
 
 /**
  * Renderer for the {@link BloodChest}.

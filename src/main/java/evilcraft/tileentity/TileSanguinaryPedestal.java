@@ -6,8 +6,6 @@ import evilcraft.block.PurifierConfig;
 import evilcraft.block.SanguinaryPedestal;
 import evilcraft.block.SanguinaryPedestalConfig;
 import evilcraft.core.algorithm.RegionIterator;
-import org.cyclops.cyclopscore.network.PacketHandler;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import evilcraft.fluid.Blood;
 import evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
 import net.minecraft.block.Block;
@@ -20,6 +18,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
+import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 
 /**
  * Tile for the {@link SanguinaryPedestal}.

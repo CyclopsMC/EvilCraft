@@ -2,7 +2,6 @@ package evilcraft.network.packet;
 
 import evilcraft.EvilCraft;
 import evilcraft.client.particle.EntityBloodBrickFX;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -11,9 +10,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
-import org.cyclops.cyclopscore.network.PacketHandler;
 
 /**
  * Packet for telling clients if a structure has been formed for a blockState location.

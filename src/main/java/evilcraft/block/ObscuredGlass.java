@@ -10,7 +10,6 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockConnectedTexture;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;

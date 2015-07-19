@@ -5,7 +5,6 @@ import evilcraft.ExtendedDamageSource;
 import evilcraft.GeneralConfig;
 import evilcraft.block.ExcrementPile;
 import evilcraft.block.ExcrementPileConfig;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
 import evilcraft.entity.monster.Werewolf;
 import evilcraft.entity.villager.WerewolfVillagerConfig;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -13,11 +12,11 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 
 /**
  * Event hook for {@link LivingUpdateEvent}.
@@ -49,9 +48,6 @@ public class LivingUpdateEventHook {
             EntityAnimal entity = (EntityAnimal) event.entity;
             World world = entity.worldObj;
             BlockPos blockPos = entity.getPosition();
-            int x = MathHelper.floor_double(entity.posX);
-            int y = MathHelper.floor_double(entity.posY);
-            int z = MathHelper.floor_double(entity.posZ);
             if(world.getBlockState(blockPos).getBlock() == Blocks.air && world.getBlockState(blockPos.add(0, -1, 0)).getBlock().isNormalCube()) {
                 world.setBlockState(blockPos, ExcrementPile.getInstance().getDefaultState());
             } else if(world.getBlockState(blockPos).getBlock() == ExcrementPile.getInstance()) {

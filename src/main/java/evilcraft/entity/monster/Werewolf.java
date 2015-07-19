@@ -33,8 +33,8 @@ public class Werewolf extends EntityMob implements IConfigurable{
     private NBTTagCompound villagerNBTTagCompound = new NBTTagCompound();
     private boolean fromVillager = false;
     
-    private static int BARKCHANCE = 1000;
-    private static int BARKLENGTH = 40;
+    private static final int BARKCHANCE = 1000;
+    private static final int BARKLENGTH = 40;
     private static int barkprogress = -1;
 
     /**
@@ -105,7 +105,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
         world.removeEntity(old);
 
         world.spawnEntityInWorld(neww);
-        world.playAuxSFXAtEntity((EntityPlayer)null, 1016, old.getPosition(), 0);
+        world.playAuxSFXAtEntity(null, 1016, old.getPosition(), 0);
     }
     
     /**
