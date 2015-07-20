@@ -73,15 +73,16 @@ public class DarkTankConfig extends BlockContainerConfig {
     @SideOnly(Side.CLIENT)
     public void onInit(Step step) {
         super.onInit(step);
-
-        // Handle additional type of dark tank item rendering
-        for(int meta = 0; meta < 2; meta++) {
-            Item item = Item.getItemFromBlock(getBlockInstance());
-            String modId = getMod().getModId();
-            String itemName = getModelName(new ItemStack(item, 1, meta));
-            ModelBakery.addVariantName(item, modId + ":" + itemName);
-            Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta,
-                    new ModelResourceLocation(modId + ":" + itemName, "inventory"));
+        if(step == Step.INIT) {
+            // Handle additional type of dark tank item rendering
+            for (int meta = 0; meta < 2; meta++) {
+                Item item = Item.getItemFromBlock(getBlockInstance());
+                String modId = getMod().getModId();
+                String itemName = getModelName(new ItemStack(item, 1, meta));
+                ModelBakery.addVariantName(item, modId + ":" + itemName);
+                Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta,
+                        new ModelResourceLocation(modId + ":" + itemName, "inventory"));
+            }
         }
     }
 
