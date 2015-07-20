@@ -1,9 +1,9 @@
 package evilcraft.client.render.tileentity;
 
-import evilcraft.Reference;
-import evilcraft.block.BoxOfEternalClosure;
-import evilcraft.entity.monster.VengeanceSpirit;
-import evilcraft.tileentity.TileBoxOfEternalClosure;
+import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.block.BoxOfEternalClosure;
+import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
+import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;

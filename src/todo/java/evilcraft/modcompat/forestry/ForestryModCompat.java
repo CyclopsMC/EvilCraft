@@ -1,12 +1,12 @@
 package evilcraft.modcompat.forestry;
 
-import evilcraft.Configs;
-import evilcraft.Reference;
-import evilcraft.block.UndeadLogConfig;
-import evilcraft.block.UndeadSaplingConfig;
-import evilcraft.item.DarkGem;
-import evilcraft.item.DarkGemConfig;
-import evilcraft.item.PoisonSacConfig;
+import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.block.UndeadLogConfig;
+import org.cyclops.evilcraft.block.UndeadSaplingConfig;
+import org.cyclops.evilcraft.item.DarkGem;
+import org.cyclops.evilcraft.item.DarkGemConfig;
+import org.cyclops.evilcraft.item.PoisonSacConfig;
 import evilcraft.modcompat.IModCompat;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;

@@ -1,12 +1,12 @@
 package evilcraft.modcompat.forestry;
 
-import evilcraft.Configs;
-import evilcraft.block.UndeadLeaves;
-import evilcraft.block.UndeadLeavesConfig;
-import evilcraft.block.UndeadLogConfig;
-import evilcraft.fluid.Blood;
-import evilcraft.fluid.BloodConfig;
-import evilcraft.item.HardenedBloodShardConfig;
+import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.block.UndeadLeaves;
+import org.cyclops.evilcraft.block.UndeadLeavesConfig;
+import org.cyclops.evilcraft.block.UndeadLogConfig;
+import org.cyclops.evilcraft.fluid.Blood;
+import org.cyclops.evilcraft.fluid.BloodConfig;
+import org.cyclops.evilcraft.item.HardenedBloodShardConfig;
 import forestry.api.recipes.RecipeManagers;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;

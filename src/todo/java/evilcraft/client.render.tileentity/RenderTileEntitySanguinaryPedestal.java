@@ -3,12 +3,13 @@ package evilcraft.client.render.tileentity;
 import evilcraft.client.render.model.ModelPedestal;
 import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.client.render.tileentity.RenderTileEntityModelWavefront;
-import evilcraft.tileentity.TileSanguinaryPedestal;
+import org.cyclops.evilcraft.block.EntangledChalice;
+import org.cyclops.evilcraft.tileentity.TileSanguinaryPedestal;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * Renderer for the {@link evilcraft.block.EntangledChalice}.
+ * Renderer for the {@link EntangledChalice}.
  * @author rubensworks
  *
  */

@@ -1,7 +1,7 @@
 package evilcraft.client.render.model;
 
 import com.google.common.collect.Maps;
-import evilcraft.Reference;
+import org.cyclops.evilcraft.Reference;
 import evilcraft.core.client.render.model.ModelWavefront;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.WavefrontObject;

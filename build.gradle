@@ -20,7 +20,7 @@ apply plugin: 'forge'
 loadProperties()
 
 version = config.mod_version
-group = "evilcraft"
+group = "org.cyclops.evilcraft"
 archivesBaseName = "EvilCraft"
 
 def loadProperties() {

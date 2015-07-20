@@ -62,17 +62,17 @@ uploadArchives {
             name project.archivesBaseName
             packaging 'jar'
             description 'An evil mod for Minecraft'
-            url 'https://github.com/rubensworks/EvilCraft'
+            url 'https://github.com/CyclopsMC/EvilCraft'
 
             scm {
-                url 'https://github.com/rubensworks/EvilCraft'
-                connection 'scm:git:git://github.com/rubensworks/EvilCraft.git'
-                developerConnection 'scm:git:git@github.com:rubensworks/EvilCraft.git'
+                url 'https://github.com/CyclopsMC/EvilCraft'
+                connection 'scm:git:git://github.com/CyclopsMC/EvilCraft.git'
+                developerConnection 'scm:git:git@github.com:CyclopsMC/EvilCraft.git'
             }
 
             issueManagement {
                 system 'github'
-                url 'https://github.com/rubensworks/EvilCraft/issues'
+                url 'https://github.com/CyclopsMC/EvilCraft/issues'
             }
 
             developers {

@@ -1,13 +1,13 @@
 package evilcraft.client.render.tileentity;
 
-import evilcraft.block.EntangledChalice;
+import org.cyclops.evilcraft.block.EntangledChalice;
 import evilcraft.client.render.model.ModelChalice;
 import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.client.render.tileentity.RenderTileEntityModelWavefront;
-import evilcraft.core.fluid.WorldSharedTank;
-import evilcraft.core.helper.RenderHelpers;
-import evilcraft.core.helper.RenderHelpers.IFluidContextRender;
-import evilcraft.tileentity.TileEntangledChalice;
+import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
+import org.cyclops.evilcraft.core.helper.RenderHelpers;
+import org.cyclops.evilcraft.core.helper.RenderHelpers.IFluidContextRender;
+import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

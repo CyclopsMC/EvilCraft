@@ -1,6 +1,6 @@
 package evilcraft.modcompat.fmp;
 
-import evilcraft.Reference;
+import org.cyclops.evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
 
 /**

@@ -1,9 +1,9 @@
 package evilcraft.modcompat.tconstruct;
 
-import evilcraft.Configs;
-import evilcraft.Reference;
-import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
-import evilcraft.item.EnderTearConfig;
+import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
+import org.cyclops.evilcraft.item.EnderTearConfig;
 import evilcraft.modcompat.IModCompat;
 import net.minecraft.item.ItemStack;
 import tconstruct.library.crafting.FluidType;

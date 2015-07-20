@@ -1,7 +1,7 @@
 package evilcraft.modcompat.bloodmagic;
 
-import evilcraft.Configs;
-import evilcraft.Reference;
+import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;

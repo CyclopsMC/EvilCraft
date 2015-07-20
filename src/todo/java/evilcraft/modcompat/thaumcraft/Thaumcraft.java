@@ -1,18 +1,18 @@
 package evilcraft.modcompat.thaumcraft;
 
-import evilcraft.Configs;
-import evilcraft.Reference;
-import evilcraft.block.*;
+import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.Reference;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.config.extendedconfig.MobConfig;
-import evilcraft.entity.monster.NetherfishConfig;
-import evilcraft.entity.monster.PoisonousLibelleConfig;
-import evilcraft.entity.monster.WerewolfConfig;
-import evilcraft.item.*;
+import org.cyclops.evilcraft.block.*;
+import org.cyclops.evilcraft.entity.monster.NetherfishConfig;
+import org.cyclops.evilcraft.entity.monster.PoisonousLibelleConfig;
+import org.cyclops.evilcraft.entity.monster.WerewolfConfig;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.cyclops.evilcraft.item.*;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;

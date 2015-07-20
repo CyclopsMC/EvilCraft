@@ -1,7 +1,7 @@
 package evilcraft.modcompat.thaumcraft;
 
-import evilcraft.Configs;
-import evilcraft.Reference;
+import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
 
 /**
