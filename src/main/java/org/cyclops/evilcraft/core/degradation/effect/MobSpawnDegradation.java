@@ -44,7 +44,7 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
     @SuppressWarnings("unchecked")
     @Override
     public void runServerSide(IDegradable degradable) {
-        WorldServer world = (WorldServer) degradable.getWorld();
+        WorldServer world = (WorldServer) degradable.getDegradationWorld();
         BlockPos spawn = LocationHelpers.getRandomPointInSphere(degradable.getLocation(), degradable.getRadius());
         float x = spawn.getX() + 0.5F;
         float y = spawn.getY();

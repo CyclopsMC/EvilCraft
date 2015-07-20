@@ -426,7 +426,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
     @Override
     public List<Entity> getAreaEntities() {
-        return EntityHelpers.getEntitiesInArea(getWorld(), getPos(), getRadius());
+        return EntityHelpers.getEntitiesInArea(getDegradationWorld(), getPos(), getRadius());
     }
 
     @Override
@@ -435,8 +435,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     }
 
     @Override
-    public World getWorld() {
-        return this.worldObj;
+    public World getDegradationWorld() {
+        return getWorld();
     }
 
     @Override

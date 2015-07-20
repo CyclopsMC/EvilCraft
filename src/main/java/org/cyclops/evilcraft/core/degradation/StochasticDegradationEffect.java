@@ -40,7 +40,7 @@ public abstract class StochasticDegradationEffect extends ConfigurableDegradatio
     
     @Override
     public boolean canRun(IDegradable degradable) {
-        Random random = degradable.getWorld().rand;
+        Random random = degradable.getDegradationWorld().rand;
         return degradable.getDegradation() * getChance() > random.nextDouble();
     }
     

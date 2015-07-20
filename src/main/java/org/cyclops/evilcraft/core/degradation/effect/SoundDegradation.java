@@ -40,8 +40,8 @@ public class SoundDegradation extends StochasticDegradationEffect {
 
     @Override
     public void runServerSide(IDegradable degradable) {
-        Random random = degradable.getWorld().rand;
-        World world = degradable.getWorld();
+        Random random = degradable.getDegradationWorld().rand;
+        World world = degradable.getDegradationWorld();
         for(Entity entity : degradable.getAreaEntities()) {
             if(entity instanceof EntityPlayer) {
                 world.playSoundAtEntity((EntityPlayer) entity, "mob.blaze.breathe", 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));

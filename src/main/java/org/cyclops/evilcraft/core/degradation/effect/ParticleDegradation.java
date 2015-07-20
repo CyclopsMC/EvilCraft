@@ -41,7 +41,7 @@ public class ParticleDegradation extends ConfigurableDegradationEffect {
     @SideOnly(Side.CLIENT)
     public void runClientSide(IDegradable degradable) {
         BlockPos center = degradable.getLocation();
-        World world = degradable.getWorld();
+        World world = degradable.getDegradationWorld();
         int radius = degradable.getRadius();
         
         double xCoord = center.getX() - radius + 2 * radius * world.rand.nextFloat();

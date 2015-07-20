@@ -115,7 +115,7 @@ private static TerraformDegradation _instance = null;
 
     @Override
     public void runServerSide(IDegradable degradable) {
-        World world = degradable.getWorld();
+        World world = degradable.getDegradationWorld();
         
         BlockPos blockPos = LocationHelpers.getRandomPointInSphere(
                 degradable.getLocation(), degradable.getRadius());

@@ -51,7 +51,7 @@ public class BiomeDegradation extends ConfigurableDegradationEffect implements I
     @Override
     public void runServerSide(IDegradable degradable) {
         OrganicSpread spread =
-                new OrganicSpread(degradable.getWorld(), DIMENSIONS, degradable.getRadius(), this);
+                new OrganicSpread(degradable.getDegradationWorld(), DIMENSIONS, degradable.getRadius(), this);
         spread.spreadTick(LocationHelpers.copyLocation(degradable.getLocation()));
     }
 

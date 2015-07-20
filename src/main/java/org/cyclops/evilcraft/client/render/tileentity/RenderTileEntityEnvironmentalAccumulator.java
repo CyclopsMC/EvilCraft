@@ -38,7 +38,7 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
             GlStateManager.pushMatrix();
             GlStateManager.translate((float) x - 0.5f, (float) y - 0.5f + tile.getMovingItemY(), (float) z - 0.5f);
             
-            renderProcessingItem(tile.getRecipe(), tile.getWorld(), partialTickTime);
+            renderProcessingItem(tile.getRecipe(), tile.getDegradationWorld(), partialTickTime);
             
             GlStateManager.popMatrix();
         }

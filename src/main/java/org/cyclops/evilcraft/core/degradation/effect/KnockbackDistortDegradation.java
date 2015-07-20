@@ -53,7 +53,7 @@ public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
         double z = center.getZ();
         for(Entity entity : entities) {
             MaceOfDistortion.distortEntity(
-                    degradable.getWorld(),
+                    degradable.getDegradationWorld(),
                     null,
                     entity,
                     x, y, z,

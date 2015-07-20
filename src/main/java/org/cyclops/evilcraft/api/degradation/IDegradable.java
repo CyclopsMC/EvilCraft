@@ -38,6 +38,6 @@ public interface IDegradable {
      * Get the world in which the degradable instance is located.
      * @return The world.
      */
-    public World getWorld();
+    public World getDegradationWorld();
     
 }
