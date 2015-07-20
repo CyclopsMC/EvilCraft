@@ -44,7 +44,7 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
             GlStateManager.disableLighting();
             GlStateManager.disableCull();
             GlStateManager.disableBlend();
-            GlStateManager.enableBlend();
+            GlStateManager.depthMask(true);
             GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
             float f2 = (float)tileentity.getWorld().getTotalWorldTime() + partialTickTime;
             float f3 = -f2 * 0.2F - (float)MathHelper.floor_float(-f2 * 0.1F);
@@ -85,7 +85,7 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
             tessellator.draw();
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.disableDepth();
+            GlStateManager.depthMask(false);
             worldRenderer.startDrawingQuads();
             worldRenderer.setColorRGBA_F(beamOuterColor.x, beamOuterColor.y, beamOuterColor.z, beamOuterColor.w);
             double d18 = 0.2D;
@@ -120,7 +120,7 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
             tessellator.draw();
             GlStateManager.enableLighting();
             GlStateManager.enableTexture2D();
-            GlStateManager.enableBlend();
+            GlStateManager.depthMask(true);
         }
         
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.5F);
