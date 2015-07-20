@@ -39,7 +39,7 @@ public class ExtendedDamageSource extends DamageSource{
      * @return The unique ID.
      */
     public String getID() {
-        return "death.attack." + this.damageType;
+        return "death." + Reference.MOD_ID + ".attack." + this.damageType;
     }
 
 }
