@@ -1,7 +1,7 @@
 {
   "variants": {
-    "active=false": { "model": "evilcraft:darkBloodBrick_inactive" },
-    "active=true": { "model": "evilcraft:darkBloodBrick" },
-    "inventory": { "model": "evilcraft:darkBloodBrick_inactive" }
+    "active=false": { "model": "evilcraft:darkBloodBrick_off" },
+    "active=true": { "model": "evilcraft:darkBloodBrick_on" },
+    "inventory": { "model": "evilcraft:darkBloodBrick_off" }
   }
 }

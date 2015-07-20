@@ -1,7 +1,7 @@
 {
   "variants": {
-    "active=false": { "model": "evilcraft:spiritFurnace_inactive" },
-    "active=true": { "model": "evilcraft:spiritFurnace" },
-    "inventory": { "model": "evilcraft:spiritFurnace_inactive" }
+    "active=false": { "model": "evilcraft:spiritFurnace_off" },
+    "active=true": { "model": "evilcraft:spiritFurnace_on" },
+    "inventory": { "model": "evilcraft:spiritFurnace_off" }
   }
 }

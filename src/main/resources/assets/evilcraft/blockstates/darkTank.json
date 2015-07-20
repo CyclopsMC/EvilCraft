@@ -1,13 +1,13 @@
 {
   "variants": {
     "draining=false": {
-      "model": "evilcraft:darkTank"
+      "model": "evilcraft:darkTank_off"
     },
     "draining=true": {
-      "model": "evilcraft:darkTank_active"
+      "model": "evilcraft:darkTank_on"
     },
     "inventory": {
-      "model": "evilcraft:darkTank"
+      "model": "evilcraft:darkTank_off"
     }
   }
 }

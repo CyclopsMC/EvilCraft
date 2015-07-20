@@ -1,6 +1,0 @@
-{
-  "parent": "evilcraft:block/largeDoor",
-  "textures": {
-    "all": "evilcraft:blocks/largeDoor_upper"
-  }
-}

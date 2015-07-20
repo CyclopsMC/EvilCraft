@@ -60,8 +60,8 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     
     private BlockTankComponent<DarkTank> tankComponent = new BlockTankComponent<DarkTank>(this);
     @SideOnly(Side.CLIENT)
-    private ModelResourceLocation itemModel;
-    
+    private ModelResourceLocation[] itemModels;
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -76,7 +76,9 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         this.setStepSound(soundTypeGlass);
         MinecraftForge.EVENT_BUS.register(this);
         if(MinecraftHelpers.isClientSide()) {
-            itemModel = new ModelResourceLocation(eConfig.getMod().getModId() + ":" + eConfig.getNamedId(), "inventory");
+            itemModels = new ModelResourceLocation[2];
+            itemModels[0] = new ModelResourceLocation(eConfig.getMod().getModId() + ":" + eConfig.getNamedId() + "_off", "inventory");
+            itemModels[1] = new ModelResourceLocation(eConfig.getMod().getModId() + ":" + eConfig.getNamedId() + "_on", "inventory");
         }
     }
 
@@ -276,9 +278,11 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event) {
         // Take the original tank model and replace it with a dynamic one but pass this original one to it as parent.
-        IBakedModel baseModel = (IBakedModel) event.modelRegistry.getObject(itemModel);
-        ModelDarkTank newModel = new ModelDarkTank(baseModel);
-        event.modelRegistry.putObject(itemModel, newModel);
+        for(ModelResourceLocation itemModel : itemModels) {
+            IBakedModel baseModel = (IBakedModel) event.modelRegistry.getObject(itemModel);
+            ModelDarkTank newModel = new ModelDarkTank(baseModel);
+            event.modelRegistry.putObject(itemModel, newModel);
+        }
     }
 
 }

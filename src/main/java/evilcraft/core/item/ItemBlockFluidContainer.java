@@ -37,6 +37,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
      */
     public ItemBlockFluidContainer(Block block) {
         super(block);
+        this.setHasSubtypes(false);
         // Will crash if no valid instance of.
         this.block = (IBlockTank) block;
     }

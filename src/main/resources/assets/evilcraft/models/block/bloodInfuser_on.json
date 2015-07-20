@@ -1,6 +1,6 @@
 {
-  "parent": "evilcraft:block/bloodInfuser",
+  "parent": "evilcraft:block/bloodInfuser_off",
   "textures": {
-    "north": "evilcraft:blocks/bloodInfuser_NORTH_on"
+    "north": "evilcraft:blocks/bloodInfuser_north_on"
   }
 }

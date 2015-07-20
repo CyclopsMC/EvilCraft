@@ -1,7 +1,0 @@
-{
-  "parent": "evilcraft:block/spiritFurnace",
-  "textures": {
-    "all": "evilcraft:blocks/spiritFurnace_inactive",
-    "up": "evilcraft:blocks/spiritFurnace_inactive_UP"
-  }
-}

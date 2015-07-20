@@ -1,6 +1,7 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
+        "particle": "evilcraft:blocks/environmentalAccumulator_side",
         "0": "evilcraft:blocks/environmentalAccumulator_side",
         "1": "evilcraft:blocks/environmentalAccumulator_bottom",
         "2": "evilcraft:blocks/environmentalAccumulator_top"

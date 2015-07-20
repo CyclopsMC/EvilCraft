@@ -1,6 +1,0 @@
-{
-  "parent": "evilcraft:block/bloodStainedBlock",
-  "textures": {
-    "all": "evilcraft:blocks/bloodStainedBlock_dirt"
-  }
-}

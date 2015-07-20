@@ -1,6 +1,0 @@
-{
-  "parent": "evilcraft:block/undeadLeaves",
-  "textures": {
-    "all": "evilcraft:blocks/undeadLeaves_opaque"
-  }
-}
