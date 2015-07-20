@@ -134,7 +134,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
 
     @Override
     public void onEntityCollidedWithBlock(World world, BlockPos blockPos, IBlockState blockState, Entity entity) {
-        if(!(entity instanceof EntityFX)) {
+        if(world.isRemote && !(entity instanceof EntityFX)) {
             this.glow(world, blockPos);
         }
         super.onEntityCollidedWithBlock(world, blockPos, blockState, entity);
@@ -170,12 +170,14 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, BlockPos blockPos, IBlockState state, Random random) {
         if (isGlowing(world, blockPos)) {
             this.sparkle(world, blockPos);
         }
     }
-    
+
+    @SideOnly(Side.CLIENT)
     private void sparkle(World world, BlockPos blockPos) {
         if (!world.isRemote)
     		return;
