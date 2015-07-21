@@ -100,7 +100,7 @@ public class EntityBlurFX extends EntityFX {
         Tessellator.getInstance().draw();
 		GlStateManager.pushMatrix();
 
-		GlStateManager.disableDepth();
+		GlStateManager.depthMask(false);
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 
@@ -124,7 +124,7 @@ public class EntityBlurFX extends EntityFX {
         Tessellator.getInstance().draw();
 
 		GlStateManager.disableBlend();
-		GlStateManager.enableBlend();
+		GlStateManager.depthMask(true);
 
 		GlStateManager.popMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ObfuscationHelpers.getParticleTexture());
