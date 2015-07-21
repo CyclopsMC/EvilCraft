@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.tileentity;
 
-import lombok.experimental.Delegate;
 import net.minecraft.entity.EntityList;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -95,9 +94,6 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
-
-    @Delegate
-    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
 
     private int reanimateTicker;
     @NBTPersist
@@ -231,7 +227,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
             	/*&& ResurgenceEgg.getInstance().isEmpty(itemStack) also enable in acceptance slot in container*/;
         if(slot == SLOT_CONTAINER)
             return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
-        return false;
+        return super.isItemValidForSlot(slot, itemStack);
     }
 
 	@Override

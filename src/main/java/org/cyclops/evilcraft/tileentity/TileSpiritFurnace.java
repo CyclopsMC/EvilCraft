@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
 import com.google.common.collect.Lists;
-import lombok.experimental.Delegate;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -94,9 +93,6 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * The fluid that is accepted in the tank.
      */
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
-
-    @Delegate
-    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
     
     /**
      * The multiblock structure detector for this furnace.
@@ -336,7 +332,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
             return canConsume(itemStack);
         if(slot == SLOT_CONTAINER)
             return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
-        return false;
+        return super.isItemValidForSlot(slot, itemStack);
     }
 
 	/**

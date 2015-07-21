@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.Fluid;
@@ -22,6 +23,9 @@ import java.util.LinkedList;
  */
 public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTileEntity> extends TankInventoryTileEntity
         implements CyclopsTileEntity.ITickingTile {
+
+    @Delegate
+    protected final ITickingTile tickingTileComponent = new TickingTileComponent(this);
     
     private LinkedList<TickComponent<T, ITickAction<T>>> tickers;
     private int currentState = -1;
