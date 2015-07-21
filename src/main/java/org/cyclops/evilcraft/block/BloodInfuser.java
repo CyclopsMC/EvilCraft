@@ -90,7 +90,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     @Override
     public int getLightValue(IBlockAccess world, BlockPos blockPos) {
         TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(blockPos);
-        return tile.isVisuallyWorking() ? 4 : super.getLightValue(world, blockPos);
+        return tile != null && tile.isVisuallyWorking() ? 4 : super.getLightValue(world, blockPos);
     }
 
     @Override
