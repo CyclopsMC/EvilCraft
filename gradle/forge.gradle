@@ -1,5 +1,6 @@
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
         name "Mobius Repo"
         url "http://mobiusstrip.eu/maven"
