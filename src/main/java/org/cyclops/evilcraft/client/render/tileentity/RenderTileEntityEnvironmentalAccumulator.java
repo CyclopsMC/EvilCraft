@@ -75,5 +75,6 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
         Minecraft.getMinecraft().getRenderItem().renderItemModel(stack);
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
+        GlStateManager.enableLighting();
     }
 }

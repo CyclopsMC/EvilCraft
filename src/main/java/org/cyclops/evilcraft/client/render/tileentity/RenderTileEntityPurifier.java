@@ -70,7 +70,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         Minecraft.getMinecraft().getRenderItem().renderItemModel(itemStack);
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
-
+        GlStateManager.enableLighting();
         GlStateManager.popMatrix();
     }
 	
