@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.client.particle.EntityEnchantmentTableParticleFX;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
@@ -62,6 +63,9 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * Duration in ticks to show the 'poof' animation.
      */
     private static final int ANIMATION_FINISHED_DURATION = 2;
+
+    @Delegate
+    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
     
     @NBTPersist
     private Float randomRotation = 0F;

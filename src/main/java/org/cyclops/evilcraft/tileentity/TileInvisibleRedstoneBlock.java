@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
@@ -16,6 +17,9 @@ public class TileInvisibleRedstoneBlock extends CyclopsTileEntity implements IUp
     
     // Destroy redstone blockState after 1 redstone tick (= 2 game ticks)
     private static final int TICK_DESTRUCTION_THRESHOLD = 2;
+
+    @Delegate
+    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
     
     private final long tickCreated;
     

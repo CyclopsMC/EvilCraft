@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.*;
@@ -13,6 +14,9 @@ import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 public class TileEternalWaterBlock extends CyclopsTileEntity implements IFluidHandler, CyclopsTileEntity.ITickingTile {
 
     public static final FluidStack WATER = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
+
+    @Delegate
+    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
 
 	@Override
 	protected void updateTileEntity() {

@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -17,6 +18,9 @@ import org.cyclops.evilcraft.item.Promise;
 public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends WorkingTileEntity<T, O> {
 
     public static final Item UPGRADE_ITEM = Promise.getInstance();
+
+    @Delegate
+    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
 
     private int currentTier = -1;
 

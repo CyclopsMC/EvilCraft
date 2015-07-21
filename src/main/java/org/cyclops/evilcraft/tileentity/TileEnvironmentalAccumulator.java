@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
@@ -50,6 +51,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     
     private static final int DEGRADATION_RADIUS_BASE = 5;
     private static final int DEGRADATION_TICK_INTERVAL = 100;
+
+    @Delegate
+    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
     
     private DegradationExecutor degradationExecutor;
     // This number rises with the number of uses of the env. accum.

@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -10,6 +11,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.block.BloodStainedBlock;
@@ -25,7 +27,7 @@ import org.cyclops.evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket
  * @author rubensworks
  *
  */
-public class TileSanguinaryPedestal extends TankInventoryTileEntity {
+public class TileSanguinaryPedestal extends TankInventoryTileEntity implements CyclopsTileEntity.ITickingTile {
     
     /**
      * The fluid it uses.
@@ -37,6 +39,9 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity {
     private static final int OFFSET = 2;
     private static final int OFFSET_EFFICIENCY = 4;
     private static final int ACTIONS_PER_TICK_EFFICIENCY = 5;
+
+	@Delegate
+	private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
     
     private RegionIterator regionIterator;
     

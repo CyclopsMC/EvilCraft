@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -41,6 +42,9 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	 */
 	public static final float START_LID_ANGLE = 65F;
 	private static final float LID_STEP = 11.5F;
+
+	@Delegate
+	private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
 	
 	private EntityLivingBase spiritInstance = null;
 	

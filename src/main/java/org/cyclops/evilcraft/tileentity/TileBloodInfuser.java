@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
@@ -80,6 +81,9 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
      * The fluid that is accepted in the tank.
      */
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
+
+    @Delegate
+    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
     
     private int infuseTicker;
     private SingleCache<Triple<ItemStack, FluidStack, Integer>,

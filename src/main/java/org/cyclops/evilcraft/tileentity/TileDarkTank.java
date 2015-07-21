@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -26,6 +27,9 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 	 * The NBT tag name of the tank.
 	 */
 	public static final String NBT_TAG_TANK = "darkTank";
+
+	@Delegate
+	private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
 
 	/**
 	 * Make a new instance.

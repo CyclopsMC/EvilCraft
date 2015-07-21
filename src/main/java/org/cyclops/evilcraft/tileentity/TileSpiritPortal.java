@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -26,6 +27,9 @@ import java.util.Random;
  *
  */
 public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
+
+    @Delegate
+    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
 
     @NBTPersist
     private Float progress = 0f;

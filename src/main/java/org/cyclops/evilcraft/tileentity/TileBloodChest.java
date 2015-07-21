@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -71,6 +72,10 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
      * The fluid that is accepted in the tank.
      */
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
+
+    @Delegate
+    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
+
     /**
      * The previous angle of the lid.
      */

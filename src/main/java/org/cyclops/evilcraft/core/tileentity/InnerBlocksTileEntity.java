@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.tileentity;
 
+import lombok.experimental.Delegate;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -12,7 +13,10 @@ import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
  *
  */
 public abstract class InnerBlocksTileEntity extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
-    
+
+    @Delegate
+    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
+
 	@NBTPersist
 	private String blockName = null;
     @NBTPersist
