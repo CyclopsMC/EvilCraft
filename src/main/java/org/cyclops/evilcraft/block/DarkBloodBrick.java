@@ -61,13 +61,17 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
-        triggerDetector(world, pos, true);
+        if(!world.captureBlockSnapshots) {
+            triggerDetector(world, pos, true);
+        }
     }
     
     @Override
     public void onBlockAdded(World world, BlockPos blockPos, IBlockState blockState) {
         super.onBlockAdded(world, blockPos, blockState);
-        triggerDetector(world, blockPos, true);
+        if(!world.captureBlockSnapshots) {
+            triggerDetector(world, blockPos, true);
+        }
     }
 
     @Override
@@ -79,8 +83,8 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
     @Override
 	public void onDetect(World world, BlockPos location, Vec3i size, boolean valid) {
 		Block block = world.getBlockState(location).getBlock();
-		if(block == this) {
-            boolean change = (Boolean) world.getBlockState(location).getValue(ACTIVE);
+        if(block == this) {
+            boolean change = !(Boolean) world.getBlockState(location).getValue(ACTIVE);
             world.setBlockState(location, world.getBlockState(location).withProperty(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             if(change) {
                 TileSpiritFurnace.detectStructure(world, location, size, valid);

@@ -25,7 +25,7 @@ public class EntityBloodBrickFX extends EntityFX {
 			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "bloodBrickActivation.png");
 	private static final ResourceLocation TEXTURE_FLIPPED = new ResourceLocation(
 			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "bloodBrickActivation_flipped.png");
-	private static final int TESSELATOR_BRIGHTNESS = 120;
+	private static final int TESSELATOR_BRIGHTNESS = 160;
 	
 	private EnumFacing side;
 	
