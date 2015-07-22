@@ -79,7 +79,7 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     }
     
     private void triggerDetector(World world, BlockPos blockPos, boolean valid) {
-    	TileSpiritFurnace.detector.detect(world, blockPos, valid, true);
+        TileSpiritFurnace.detector.detect(world, blockPos, valid ? null : blockPos, true);
     }
 
     @Override

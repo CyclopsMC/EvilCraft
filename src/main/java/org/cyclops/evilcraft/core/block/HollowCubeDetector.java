@@ -23,12 +23,12 @@ public class HollowCubeDetector extends CubeDetector {
 	}
 	
 	@Override
-	protected void postValidate(World world, final Vec3i size, final int[][] dimensionEgdes, final boolean valid) {
+	protected void postValidate(World world, final Vec3i size, final int[][] dimensionEgdes, final boolean valid, final BlockPos excludeLocation) {
 		coordinateRecursion(world, dimensionEgdes, new BlockPosAction() {
 
 			@Override
 			public boolean run(World world, BlockPos location) {
-				if(isEdge(world, dimensionEgdes, location) && isValidLocation(world, location)) {
+				if(isEdge(world, dimensionEgdes, location) && isValidLocation(world, location, excludeLocation)) {
 					notifyListeners(world, location, size, valid);
 				}
 				return true;
@@ -38,10 +38,10 @@ public class HollowCubeDetector extends CubeDetector {
 	}
 	
 	@Override
-	protected boolean validateLocationInStructure(World world, int[][] dimensionEgdes, BlockPos location, IValidationAction action) {
+	protected boolean validateLocationInStructure(World world, int[][] dimensionEgdes, BlockPos location, IValidationAction action, BlockPos excludeLocation) {
 		// Validate edge or air.
 		if (isEdge(world, dimensionEgdes, location)) {
-			if (!isValidLocation(world, location, action)) {
+			if (!isValidLocation(world, location, action, excludeLocation)) {
 				//System.out.println("No edge at " + location);
 				return false;
 			}

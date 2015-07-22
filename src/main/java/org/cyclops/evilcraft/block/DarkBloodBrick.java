@@ -55,7 +55,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
     }
     
     private void triggerDetector(World world, BlockPos blockPos, boolean valid) {
-        TileSpiritFurnace.detector.detect(world, blockPos, valid, true);
+        TileSpiritFurnace.detector.detect(world, blockPos, valid ? null : blockPos, true);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-    	if((Boolean)state.getValue(ACTIVE)) triggerDetector(world, pos, false);
+        if((Boolean)state.getValue(ACTIVE)) triggerDetector(world, pos, false);
     	super.breakBlock(world, pos, state);
     }
     
@@ -93,7 +93,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
                                     float posX, float posY, float posZ) {
         if((Boolean) blockState.getValue(ACTIVE)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
-            TileSpiritFurnace.detector.detect(world, blockPos, true, new CubeDetector.IValidationAction() {
+            TileSpiritFurnace.detector.detect(world, blockPos, null, new CubeDetector.IValidationAction() {
 
                 @Override
                 public void onValidate(BlockPos location, Block block) {

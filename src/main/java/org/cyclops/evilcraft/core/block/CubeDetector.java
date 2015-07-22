@@ -88,15 +88,15 @@ public class CubeDetector {
 		}
 	}
 	
-	protected boolean isValidLocation(World world, BlockPos location, IValidationAction action) {
+	protected boolean isValidLocation(World world, BlockPos location, IValidationAction action, BlockPos excludeLocation) {
 		Block block = world.getBlockState(location).getBlock();
-		boolean contains = blockInfo.containsKey(block);
+		boolean contains = location.equals(excludeLocation) || blockInfo.containsKey(block);
         if(contains && action != null) action.onValidate(location, block);
         return contains;
 	}
 
-    protected boolean isValidLocation(World world, BlockPos location) {
-        return isValidLocation(world, location, null);
+    protected boolean isValidLocation(World world, BlockPos location, BlockPos excludeLocation) {
+        return isValidLocation(world, location, null, excludeLocation);
     }
 	
 	protected boolean isAir(World world, BlockPos location) {
@@ -109,13 +109,14 @@ public class CubeDetector {
 	 * @param startLocation The location to start looking from.
 	 * @param dimension The dimension to navigate in.
      * @param direction the distance to go by.
+     * @param excludeLocation The location of the block that is being removed, used for invalidating, null for validating.
 	 * @return The found border.
 	 */
-	protected BlockPos navigateToBorder(World world, BlockPos startLocation, int dimension, int direction) {
+	protected BlockPos navigateToBorder(World world, BlockPos startLocation, int dimension, int direction, BlockPos excludeLocation) {
 		BlockPos loopLocation = LocationHelpers.copyLocation(startLocation);
 		
 		// Loop until we find a non-valid location.
-		while(isValidLocation(world, loopLocation)) {
+		while(isValidLocation(world, loopLocation, excludeLocation)) {
 			loopLocation = LocationHelpers.addToDimension(loopLocation, dimension, direction);
 		}
 		
@@ -131,11 +132,12 @@ public class CubeDetector {
 	 * @param startLocation The location to start looking from.
 	 * @param dimension The dimension to navigate in.
 	 * @param max If the direction to look in for the given dimension should be positive
+     * @param excludeLocation The location of the block that is being removed, used for invalidating, null for validating.
 	 * otherwise negative.
 	 * @return The found border.
 	 */
-	protected BlockPos navigateToBorder(World world, BlockPos startLocation, int dimension, boolean max) {
-		return navigateToBorder(world, startLocation, dimension, max ? 1 : -1);
+	protected BlockPos navigateToBorder(World world, BlockPos startLocation, int dimension, boolean max, BlockPos excludeLocation) {
+		return navigateToBorder(world, startLocation, dimension, max ? 1 : -1, excludeLocation);
 	}
 	
 	/**
@@ -145,12 +147,13 @@ public class CubeDetector {
 	 * @param startLocation The location to start looking from.
 	 * @param dimensions The dimension to navigate in.
 	 * @param max If the maximum distance from the startLocation should be looked for.
+     * @param excludeLocation The location of the block that is being removed, used for invalidating, null for validating.
 	 * @return The corner location.
 	 */
-	protected BlockPos navigateToCorner(World world, BlockPos startLocation, int[] dimensions, boolean max) {
+	protected BlockPos navigateToCorner(World world, BlockPos startLocation, int[] dimensions, boolean max, BlockPos excludeLocation) {
 		BlockPos navigateLocation = LocationHelpers.copyLocation(startLocation);
 		for(int dimension : dimensions) {
-			navigateLocation = navigateToBorder(world, navigateLocation, dimension, max);
+			navigateLocation = navigateToBorder(world, navigateLocation, dimension, max, excludeLocation);
 		}
 		return navigateLocation;
 	}
@@ -174,11 +177,12 @@ public class CubeDetector {
 	 * @param dimensionEgdes The edges per dimension. [dimension][start=0 | stop=1]
 	 * @param location The location to check.
      * @param action The action to execute when a location has been validated.
+     * @param excludeLocation The location of the block that is being removed, used for invalidating, null for validating.
 	 * @return If the location was valid.
 	 */
 	protected boolean validateLocationInStructure(World world, int[][] dimensionEgdes, BlockPos location,
-                                                  IValidationAction action) {
-		if (!isValidLocation(world, location, action)) {
+                                                  IValidationAction action, BlockPos excludeLocation) {
+		if (!isValidLocation(world, location, action, excludeLocation)) {
 			//System.out.println("No valid blockState at " + location);
 			return false;
 		}
@@ -261,10 +265,11 @@ public class CubeDetector {
 	 * @param dimensionEgdes The edges per dimension. [dimension][start=0 | stop=1]
 	 * @param valid True if the structure should be validated, false if it should be invalidated.
      * @param action The action to execute when a location has been validated.
+     * @param excludeLocation The location of the block that is being removed, used for invalidating, null for validating.
 	 * @return If the structure is valid for the given edges.
 	 */
 	protected boolean validateDimensionEdges(World world, final int[][] dimensionEgdes,
-			final boolean valid, final IValidationAction action) {
+			final boolean valid, final IValidationAction action, final BlockPos excludeLocation) {
 		// Init the blockState occurences counter on zero for all blocks.
 		blockOccurences = Maps.newHashMap();
 		for(AllowedBlock block : allowedBlocks) {
@@ -279,14 +284,14 @@ public class CubeDetector {
 				// Only check the allowed blockState conditions if in validation mode,
 				// normally this 'valid' check is not needed, but bugs are always possible...
 				return !(valid && !validateAllowedBlockConditions(world, location)) &&
-                        validateLocationInStructure(world, dimensionEgdes, location, action);
+                        validateLocationInStructure(world, dimensionEgdes, location, action, excludeLocation);
 			}
 			
 		});
 	}
 	
 	protected void postValidate(World world, final Vec3i size, int[][] dimensionEgdes,
-			final boolean valid) {
+			final boolean valid, final BlockPos excludeLocation) {
 		coordinateRecursion(world, dimensionEgdes, new BlockPosAction() {
 
 			@Override
@@ -302,22 +307,22 @@ public class CubeDetector {
      * Detect a structure at the given start location.
      * @param world The world to look in.
      * @param startLocation The starting location.
-     * @param valid True if the structure should be validated, false if it should be invalidated.
+     * @param excludeLocation The location of the block that is being removed, used for invalidating, null for validating.
      * @param changeState If the post-validate actions should be called, and thus potentially change the world blockState
      *                    states.
      * @return The size of the found structure. Note that a size in a dimension
      * here starts counting from 0, so a 1x1x1 structure (=1 blockState) will return a
      * size of 0 in each dimension.
      */
-    public Vec3i detect(World world, BlockPos startLocation, boolean valid, boolean changeState) {
-        return detect(world, startLocation, valid, null, changeState);
+    public Vec3i detect(World world, BlockPos startLocation, BlockPos excludeLocation, boolean changeState) {
+        return detect(world, startLocation, excludeLocation, null, changeState);
     }
 	
 	/**
 	 * Detect a structure at the given start location.
 	 * @param world The world to look in.
 	 * @param startLocation The starting location.
-	 * @param valid True if the structure should be validated, false if it should be invalidated.
+	 * @param excludeLocation The location of the block that is being removed, used for invalidating, null for validating.
      * @param action The action to execute when a location has been validated.
      * @param changeState If the post-validate actions should be called, and thus potentially change the world blockState
      *                    states.
@@ -325,25 +330,25 @@ public class CubeDetector {
 	 * here starts counting from 0, so a 1x1x1 structure (=1 blockState) will return a
 	 * size of 0 in each dimension.
 	 */
-	public Vec3i detect(World world, BlockPos startLocation, boolean valid, IValidationAction action, boolean changeState) {
+	public Vec3i detect(World world, BlockPos startLocation, BlockPos excludeLocation, IValidationAction action, boolean changeState) {
 		// Next to the origin, we only need one corner for each dimension,
 		// we can easily derive if the structure is valid with these 4 corners.
 		
 		// First detect if the given location is a valid block.
-		if(!isValidLocation(world, startLocation)) {
+		if(!isValidLocation(world, startLocation, excludeLocation)) {
 			return LocationHelpers.copyLocation(NULL_SIZE);
 		}
-		
+
 		// Find a corner that can be used as an origin for the structure.
 		// We use a temp origin corner to first go to the completely opposite direction
 		// in each dimension to ensure we eventually find the actual origin.
-		BlockPos tempOriginCorner = navigateToCorner(world, startLocation, new int[]{2, 1, 0}, true);
-		BlockPos originCorner = navigateToCorner(world, tempOriginCorner, new int[]{0, 1, 2}, false);
+		BlockPos tempOriginCorner = navigateToCorner(world, startLocation, new int[]{2, 1, 0}, true, excludeLocation);
+		BlockPos originCorner = navigateToCorner(world, tempOriginCorner, new int[]{0, 1, 2}, false, excludeLocation);
 		
 		// Find corners in each dimension starting from the origin.
 		BlockPos[] corners = new BlockPos[Dimension.DIMENSIONS.length];
 		for(int i = 0; i < corners.length; i++) {
-			corners[i] = navigateToCorner(world, originCorner, new int[]{i}, true);
+			corners[i] = navigateToCorner(world, originCorner, new int[]{i}, true, excludeLocation);
 		}
 		
 		// Measure the size of the cube with the found corners.
@@ -369,7 +374,7 @@ public class CubeDetector {
 		}
 		
 		// Loop over each blockState of the cube and check if they have valid blocks or are air.
-		if(!validateDimensionEdges(world, dimensionEgdes, valid, action)) {
+		if(!validateDimensionEdges(world, dimensionEgdes, excludeLocation == null, action, excludeLocation)) {
 			return LocationHelpers.copyLocation(NULL_SIZE);
 		}
 		
@@ -379,12 +384,12 @@ public class CubeDetector {
 		// we skip this step because we always want to be able to invalidate existing structures.
 		// TODO: the 'valid' condition might be impossible to have influence if all structure
 		// handling goes according to plan.
-		if(compareVec3i(size, getMinimumSize()) < 0 && valid) {
+		if(compareVec3i(size, getMinimumSize()) < 0 && excludeLocation == null) {
 			// System.out.println("too small");
 			return LocationHelpers.copyLocation(NULL_SIZE);
 		}
         if(changeState) {
-            postValidate(world, size, dimensionEgdes, valid);
+            postValidate(world, size, dimensionEgdes, excludeLocation == null, excludeLocation);
         }
 		return size;
 	}
