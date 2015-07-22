@@ -4,7 +4,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockFluidClassic;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -47,12 +46,6 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     @Override
     public int tickRate(World par1World) {
         return 100;
-    }
-
-    // TODO: temporary fix, remove once Forge has accepted PR: https://github.com/MinecraftForge/MinecraftForge/pull/2035
-    @Override
-    public boolean isSourceBlock(IBlockAccess world, BlockPos pos) {
-        return world.getBlockState(pos).getBlock() == this && ((Integer)world.getBlockState(pos).getValue(LEVEL)).intValue() == 0;
     }
 
     @Override
