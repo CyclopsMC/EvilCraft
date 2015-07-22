@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
@@ -28,8 +29,8 @@ import java.util.UUID;
  *
  */
 public class FartPacket extends PacketCodec {
-	
-	private static final int FART_RANGE = 3000;
+
+    private static final int FART_RANGE = 3000;
     private static final int MAX_PARTICLES = 200;
     private static final int MIN_PARTICLES = 100;
     
@@ -43,50 +44,53 @@ public class FartPacket extends PacketCodec {
         ALLOW_RAINBOW_FARTS.add(UUID.fromString("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c")); // _EeB_
         ALLOW_RAINBOW_FARTS.add(UUID.fromString("777e7aa3-9373-4511-8d75-f99d23ebe252")); // Davivs69
     }
-	
-    @CodecField
-	private String displayName;
-    @CodecField
-	private double x = 0;
-    @CodecField
-	private double y = 0;
-    @CodecField
-	private double z = 0;
 
-	/**
-	 * Creates a packet with no content
-	 */
-	public FartPacket() {
-		
-	}
-	
-	/**
-	 * Creates a FartPacket which contains the player data.
-	 * @param player The player data.
-	 */
-	public FartPacket(EntityPlayer player) {
-		this.displayName = player.getDisplayName().getFormattedText();
-		this.x = player.posX;
-		this.y = player.posY;
-		this.z = player.posZ;
-	}
+    @CodecField
+    private String displayName;
+    @CodecField
+    private double x = 0;
+    @CodecField
+    private double y = 0;
+    @CodecField
+    private double z = 0;
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void actionClient(World world, EntityPlayer player) {
-		if(GeneralConfig.farting) {
-			boolean isRemotePlayer = !player.getDisplayNameString().equals(displayName);
-	         
-			if (isRemotePlayer) {
-				player = world.getPlayerEntityByName(displayName);
-				spawnFartParticles(world, player, x, y, z, true);
-			} else {
-				spawnFartParticles(world, player, false);
-			}
-		}
-	}
-	
-	@SideOnly(Side.CLIENT)
+    /**
+     * Creates a packet with no content
+     */
+    public FartPacket() {
+
+    }
+
+    /**
+     * Creates a FartPacket which contains the player data.
+     * @param player The player data.
+     */
+    public FartPacket(EntityPlayer player) {
+        this.displayName = player.getDisplayNameString();
+        this.x = player.posX;
+        this.y = player.posY;
+        this.z = player.posZ;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void actionClient(World world, EntityPlayer player) {
+        if(GeneralConfig.farting) {
+            boolean isRemotePlayer = !player.getDisplayNameString().equals(displayName);
+
+            if (isRemotePlayer) {
+                player = world.getPlayerEntityByName(displayName);
+                if (player == null)
+                    EvilCraft.clog("Received fart packet for player with displayName '" + displayName +"', but player doesn't exist", Level.WARN);
+                else
+                    spawnFartParticles(world, player, x, y, z, true);
+            } else {
+                spawnFartParticles(world, player, false);
+            }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
     private void spawnFartParticles(World world, EntityPlayer player, boolean isRemotePlayer) {
         spawnFartParticles(world, player, player.posX, player.posY, player.posZ, isRemotePlayer);
     }
@@ -136,12 +140,12 @@ public class FartPacket extends PacketCodec {
                 && ALLOW_RAINBOW_FARTS.contains(player.getGameProfile().getId());
     }
 
-	@Override
-	public void actionServer(World world, EntityPlayerMP player) {
-		if(GeneralConfig.farting) {
-			player.addStat(Achievements.FART, 1);
-			EvilCraft._instance.getPacketHandler().sendToAllAround(new FartPacket(player),
+    @Override
+    public void actionServer(World world, EntityPlayerMP player) {
+        if(GeneralConfig.farting) {
+            player.addStat(Achievements.FART, 1);
+            EvilCraft._instance.getPacketHandler().sendToAllAround(new FartPacket(player),
                     LocationHelpers.createTargetPointFromEntityPosition(player, FART_RANGE));
-		}
-	}
+        }
+    }
 }
