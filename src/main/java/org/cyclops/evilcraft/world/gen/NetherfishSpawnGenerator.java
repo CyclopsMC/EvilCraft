@@ -34,11 +34,12 @@ public class NetherfishSpawnGenerator extends WorldGenMinableExtended {
                     chunkZ + rand.nextInt(16));
             
             Block block = world.getBlockState(blockPos).getBlock();
+            Block spawnBlock = NetherfishSpawn.getInstance();
             int meta = NetherfishSpawn.getInstance().getMetadataFromBlock(block);
             if(meta != -1) {
                 world.setBlockState(
                         blockPos,
-                        block.getDefaultState().withProperty(NetherfishSpawn.FAKEMETA, meta),
+                        spawnBlock.getDefaultState().withProperty(NetherfishSpawn.FAKEMETA, meta),
                         MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             }
         }
