@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
@@ -35,18 +36,14 @@ public class SanguinaryPedestalConfig extends BlockContainerConfig {
             SanguinaryPedestal.class
         );
     }
-    
+
     @Override
-    public void onRegistered() {
-        // TODO
-        /*if(MinecraftHelpers.isClientSide()) {
-        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "pedestal.png");
-        	ModelWavefront model = new ModelPedestal(texture);
-            ClientProxy.TILE_ENTITY_RENDERERS.put(TileSanguinaryPedestal.class,
-            		new RenderTileEntitySanguinaryPedestal(model, texture));
-            ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(SanguinaryPedestal.getInstance()),
-            		new RenderItemSanguinaryPedestal(model, texture));
-        }*/
+    public String getModelName(ItemStack itemStack) {
+        if(itemStack.getItemDamage() == 0) {
+            return super.getModelName(itemStack) + "_tier0";
+        } else {
+            return super.getModelName(itemStack) + "_tier1";
+        }
     }
     
 }

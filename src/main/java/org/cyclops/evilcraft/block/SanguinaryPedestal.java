@@ -4,16 +4,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -48,22 +43,6 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     public SanguinaryPedestal(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileSanguinaryPedestal.class);
-    }
-
-    @Override
-    public void setBlockBoundsForItemRender() {
-        setBlockBounds(0.02F, 0F, 0.02F, 0.98F, 0.98F, 0.98F);
-    }
-
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
-        setBlockBoundsForItemRender();
-    }
-
-    @Override
-    public void addCollisionBoxesToList(World world, BlockPos blockPos, IBlockState blockState, AxisAlignedBB area, List list, Entity entity) {
-        setBlockBounds(0, 0, 0, 1, 1, 1);
-        super.addCollisionBoxesToList(world, blockPos, blockState, area, list, entity);
     }
     
     @Override
