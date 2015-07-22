@@ -204,6 +204,7 @@ public class EvilCraft extends ModBase implements IModVersion {
     @Override
     public void onGeneralConfigsRegister(ConfigHandler configHandler) {
         configHandler.add(new GeneralConfig());
+        Configs.registerVanillaDictionary();
     }
 
     @Override

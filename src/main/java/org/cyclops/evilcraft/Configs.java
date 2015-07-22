@@ -1,5 +1,9 @@
 package org.cyclops.evilcraft;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.block.*;
@@ -167,6 +171,16 @@ public class Configs {
         configs.add(new SoundDegradationConfig());
         configs.add(new TerraformDegradationConfig());
         configs.add(new PalingDegradationConfig());
+    }
+
+    /**
+     * Register ore dictionary keys for vanilla items/blocks.
+     */
+    public static void registerVanillaDictionary() {
+        OreDictionary.registerOre(Reference.DICT_BLOCKGLASS, new ItemStack(Blocks.glass));
+        OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Items.poisonous_potato));
+        OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Items.bone));
+        OreDictionary.registerOre(Reference.DICT_ITEMSKULL, new ItemStack(Items.skull, 1, OreDictionary.WILDCARD_VALUE));
     }
 
     /**
