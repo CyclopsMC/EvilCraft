@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.world.gen;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -153,12 +154,13 @@ public class WorldGeneratorUndeadTree extends WorldGenerator {
 
                     // Replace replacable blocks with logs
                     for(yOffset = 0; yOffset < treeHeight; ++yOffset) {
-                        BlockPos loopPos = blockPos.add(0, yOffset, z);
+                        BlockPos loopPos = blockPos.add(0, yOffset, 0);
 
                         if(block == null || block == Blocks.air  ||
                                 block.isLeaves(world, loopPos) ||
                                 block.isReplaceable(world, loopPos)) {
-                            this.setBlockAndNotifyAdequately(world, loopPos, logs.getDefaultState());
+                            this.setBlockAndNotifyAdequately(world, loopPos,
+                                    logs.getDefaultState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y));
                         }
                     }
                     return true;
