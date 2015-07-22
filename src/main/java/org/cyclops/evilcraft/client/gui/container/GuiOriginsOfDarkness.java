@@ -24,11 +24,6 @@ public class GuiOriginsOfDarkness extends GuiInfoBook {
     }
 
     @Override
-    protected int getPages() {
-        return 2;
-    }
-
-    @Override
     protected int getGuiWidth() {
         return 283;
     }

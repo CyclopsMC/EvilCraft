@@ -89,7 +89,7 @@ public class OriginsOfDarknessBook extends InfoBook {
     }
 
     private OriginsOfDarknessBook() {
-        super(EvilCraft._instance);
+        super(EvilCraft._instance, 2);
     }
 
     public static OriginsOfDarknessBook getInstance() {
