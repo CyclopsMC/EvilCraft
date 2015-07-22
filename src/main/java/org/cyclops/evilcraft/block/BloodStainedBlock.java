@@ -130,7 +130,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     		int foundAmount = tile.getAmount();
     		result.amount = Math.min(amount, foundAmount);
     		tile.addAmount(-result.amount);
-    		if(amount >= foundAmount) {
+    		if(result.amount > 0) {
     			result.block = unwrapInnerBlock(world, blockPos);
     		}
     	}
