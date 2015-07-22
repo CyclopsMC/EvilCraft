@@ -3,13 +3,12 @@ package org.cyclops.evilcraft.network.packet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.Level;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
-import org.cyclops.cyclopscore.network.CodecField;
-import org.cyclops.cyclopscore.network.PacketCodec;
+import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.network.packet.PlayerPositionPacket;
 import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.GeneralConfig;
@@ -28,9 +27,8 @@ import java.util.UUID;
  * @author immortaleeb
  *
  */
-public class FartPacket extends PacketCodec {
+public class FartPacket extends PlayerPositionPacket {
 
-    private static final int FART_RANGE = 3000;
     private static final int MAX_PARTICLES = 200;
     private static final int MIN_PARTICLES = 100;
     
@@ -45,15 +43,6 @@ public class FartPacket extends PacketCodec {
         ALLOW_RAINBOW_FARTS.add(UUID.fromString("777e7aa3-9373-4511-8d75-f99d23ebe252")); // Davivs69
     }
 
-    @CodecField
-    private String displayName;
-    @CodecField
-    private double x = 0;
-    @CodecField
-    private double y = 0;
-    @CodecField
-    private double z = 0;
-
     /**
      * Creates a packet with no content
      */
@@ -66,39 +55,26 @@ public class FartPacket extends PacketCodec {
      * @param player The player data.
      */
     public FartPacket(EntityPlayer player) {
-        this.displayName = player.getDisplayNameString();
-        this.x = player.posX;
-        this.y = player.posY;
-        this.z = player.posZ;
+        super(player);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void actionClient(World world, EntityPlayer player) {
-        if(GeneralConfig.farting) {
-            boolean isRemotePlayer = !player.getDisplayNameString().equals(displayName);
+        if(GeneralConfig.farting)
+            super.actionClient(world, player);
 
-            if (isRemotePlayer) {
-                player = world.getPlayerEntityByName(displayName);
-                if (player == null)
-                    EvilCraft.clog("Received fart packet for player with displayName '" + displayName +"', but player doesn't exist", Level.WARN);
-                else
-                    spawnFartParticles(world, player, x, y, z, true);
-            } else {
-                spawnFartParticles(world, player, false);
-            }
-        }
     }
 
-    @SideOnly(Side.CLIENT)
-    private void spawnFartParticles(World world, EntityPlayer player, boolean isRemotePlayer) {
-        spawnFartParticles(world, player, player.posX, player.posY, player.posZ, isRemotePlayer);
+    @Override
+    protected void performClientAction(World world, EntityPlayer player) {
+        spawnFartParticles(world, player, position, true);
     }
     
     @SideOnly(Side.CLIENT)
     private void spawnFartParticles(
             World world, EntityPlayer player, 
-            double posX, double posY, double posZ, boolean isRemotePlayer) {
+            Vec3 pos, boolean isRemotePlayer) {
         
         if (player == null)
             return;
@@ -118,9 +94,9 @@ public class FartPacket extends PacketCodec {
         for (int i=0; i < numParticles; i++) {
             double extraDistance = rand.nextFloat() % 0.3;
             
-            double particleX = posX + playerXOffset + extraDistance;
-            double particleY = posY + playerYOffset;
-            double particleZ = posZ + playerZOffset + extraDistance;
+            double particleX = pos.xCoord + playerXOffset + extraDistance;
+            double particleY = pos.yCoord + playerYOffset;
+            double particleZ = pos.zCoord + playerZOffset + extraDistance;
             
             float particleMotionX = -0.5F + rand.nextFloat();
             float particleMotionY = -0.5F + rand.nextFloat();
@@ -144,8 +120,17 @@ public class FartPacket extends PacketCodec {
     public void actionServer(World world, EntityPlayerMP player) {
         if(GeneralConfig.farting) {
             player.addStat(Achievements.FART, 1);
-            EvilCraft._instance.getPacketHandler().sendToAllAround(new FartPacket(player),
-                    LocationHelpers.createTargetPointFromEntityPosition(player, FART_RANGE));
+            super.actionServer(world, player);
         }
+    }
+
+    @Override
+    protected PlayerPositionPacket create(EntityPlayer player, int range) {
+        return new FartPacket(player);
+    }
+
+    @Override
+    protected ModBase getModInstance() {
+        return EvilCraft._instance;
     }
 }
