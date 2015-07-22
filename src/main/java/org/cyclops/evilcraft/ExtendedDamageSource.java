@@ -31,7 +31,7 @@ public class ExtendedDamageSource extends DamageSource{
     public static ExtendedDamageSource paling = (ExtendedDamageSource)((new ExtendedDamageSource("paling")));
 
     protected ExtendedDamageSource(String unlocalizedName) {
-        super(unlocalizedName);
+        super(Reference.MOD_ID + "." + unlocalizedName);
     }
     
     /**
@@ -39,7 +39,7 @@ public class ExtendedDamageSource extends DamageSource{
      * @return The unique ID.
      */
     public String getID() {
-        return "death." + Reference.MOD_ID + ".attack." + this.damageType;
+        return "death.attack." + this.damageType;
     }
 
 }

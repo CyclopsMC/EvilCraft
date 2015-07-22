@@ -225,10 +225,10 @@ chat.evilcraft.command.fartingDisabled=关闭放屁模式
 chat.evilcraft.bossDisplay.charge=%s 充能
 
 # Death messages
-death.attack.dieWithoutAnyReason=%1$s 死的毫无缘由!
-death.attack.distorted=%1$s 无法活在扭曲里了。
-death.attack.spiked=%1$s 被针扎死!
-death.attack.paling=%1$s 消逝了。
+death.attack.evilcraft.dieWithoutAnyReason=%1$s 死的毫无缘由!
+death.attack.evilcraft.distorted=%1$s 无法活在扭曲里了。
+death.attack.evilcraft.spiked=%1$s 被针扎死!
+death.attack.evilcraft.paling=%1$s 消逝了。
 
 # Biomes
 biomes.evilcraft.biomeDegraded=Degraded

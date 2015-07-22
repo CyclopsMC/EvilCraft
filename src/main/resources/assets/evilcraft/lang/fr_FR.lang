@@ -225,10 +225,10 @@ chat.evilcraft.command.fartingDisabled=Pétant inactif
 chat.evilcraft.bossDisplay.charge=Charge à %s
 
 # Death messages
-death.attack.dieWithoutAnyReason=%1$s est mort sans aucune raison apparente !
-death.attack.distorted=%1$s ne pouvait désormais pas manipuler la quantité d'altération.
-death.attack.spiked=%1$s a été tué par des pointes.
-death.attack.paling=%1$s a disparu.
+death.attack.evilcraft.dieWithoutAnyReason=%1$s est mort sans aucune raison apparente !
+death.attack.evilcraft.distorted=%1$s ne pouvait désormais pas manipuler la quantité d'altération.
+death.attack.evilcraft.spiked=%1$s a été tué par des pointes.
+death.attack.evilcraft.paling=%1$s a disparu.
 
 # Biomes
 biomes.evilcraft.biomeDegraded=Dégradé
