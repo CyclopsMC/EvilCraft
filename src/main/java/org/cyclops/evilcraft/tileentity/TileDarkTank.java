@@ -63,7 +63,7 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 	
 	@Override
 	protected void updateTileEntity() {
-		if(!getTank().isEmpty() && shouldAutoDrain() && !getWorld().isRemote) {
+		if(!getWorld().isRemote && !getTank().isEmpty() && shouldAutoDrain()) {
 			EnumFacing down = EnumFacing.DOWN;
             TileEntity tile = worldObj.getTileEntity(getPos().offset(down));
 			if(tile instanceof IFluidHandler) {
