@@ -4,10 +4,12 @@ import lombok.experimental.Delegate;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBasePressurePlate;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.block.property.BlockPropertyManagerComponent;
 import org.cyclops.cyclopscore.block.property.IBlockPropertyManager;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
@@ -24,6 +26,9 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
     @Override protected BlockState createBlockState() {
         return (propertyManager = new BlockPropertyManagerComponent(this)).createDelegatedBlockState();
     }
+
+    @BlockProperty
+    public static final PropertyBool POWERED = PropertyBool.create("powered");
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;

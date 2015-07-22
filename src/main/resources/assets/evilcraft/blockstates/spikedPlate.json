@@ -1,10 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "evilcraft:spikedPlate"
-    },
-    "inventory": {
-      "model": "evilcraft:spikedPlate"
-    }
+    "powered=false": { "model": "evilcraft:spikedPlate_up"   },
+    "powered=true":  { "model": "evilcraft:spikedPlate_down" },
+    "inventory":     { "model": "evilcraft:spikedPlate_up"   }
   }
 }

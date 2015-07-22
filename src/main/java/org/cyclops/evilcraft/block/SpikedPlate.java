@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
@@ -82,10 +83,10 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	protected int computeRedstoneStrength(World world, BlockPos blockPos) {
-		List list = world.getEntitiesWithinAABBExcludingEntity(null, this.getCollisionBoundingBox(world, blockPos,
-                world.getBlockState(blockPos)));
-		
-		int ret = 0;
+        AxisAlignedBB axisalignedbb = this.getSensitiveAABB(blockPos);
+		List list = world.getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb);
+
+        int ret = 0;
 		
 		if(list != null && !list.isEmpty()) {
             for(Entity entity : (List<Entity>) list) {
