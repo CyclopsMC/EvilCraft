@@ -69,7 +69,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GlStateManager.enableCull();
-        GlStateManager.disableDepth();
+        GlStateManager.depthMask(false);
         int color1 = Helpers.RGBToInt(171, 97, 210);
         int color2 = Helpers.RGBToInt(175, 100, 215);
 
@@ -94,7 +94,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
             tessellator.draw();
         }
 
-        GlStateManager.enableBlend();
+        GlStateManager.depthMask(true);
         GlStateManager.disableCull();
         GlStateManager.disableBlend();
         GlStateManager.shadeModel(GL11.GL_FLAT);
@@ -108,8 +108,8 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         GlStateManager.enableRescaleNormal();
-        GlStateManager.disableDepth();
         GlStateManager.enableBlend();
+        GlStateManager.depthMask(false);
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 
         GlStateManager.color(0.72F, 0.5f, 0.83F);
@@ -121,8 +121,8 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GlStateManager.rotate(-renderManager.playerViewX, 1F, 0F, 0F);
         renderIconForProgress(worldRenderer, ((int) (progress * 100)) % 4, progress);
 
+        GlStateManager.depthMask(true);
         GlStateManager.disableBlend();
-        GlStateManager.enableBlend();
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
     }
@@ -141,13 +141,12 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GlStateManager.translate(-0.5F, -0.5f, 0);
 
         worldRenderer.startDrawingQuads();
-        worldRenderer.putPosition(0.0F, 1.0F, 0.0F);
         worldRenderer.setBrightness(100);
         worldRenderer.addVertexWithUV(0, 1, 0.0D, u1, v2);
         worldRenderer.addVertexWithUV(0, 0, 0.0D, u1, v1);
         worldRenderer.addVertexWithUV(1, 0, 0.0D, u2, v1);
         worldRenderer.addVertexWithUV(1, 1, 0.0D, u2, v2);
-        worldRenderer.startDrawingQuads();
+        Tessellator.getInstance().draw();
     }
 
 }
