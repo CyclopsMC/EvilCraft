@@ -72,11 +72,6 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
     }
 
     @Override
-    public int getRenderType() {
-        return -1;
-    }
-
-    @Override
     public boolean isNormalCube() {
         return false;
     }

@@ -64,7 +64,7 @@ public class RegionIterator implements Iterator<BlockPos> {
 		return 2 * offset + 1;
 	}
 	
-	private void addTickOffset(BlockPos center) {
+	private BlockPos addTickOffset(BlockPos center) {
 		int tick = shuffledTicks.get(loopBlockTick);
         int[] c = new int[3];
 		for(int i = 0; i < 3; i++) {
@@ -73,7 +73,7 @@ public class RegionIterator implements Iterator<BlockPos> {
 			c[i] = -offset
 					+ ((tick % mod) - (tick % prevMod)) / prevMod;
 		}
-        center.add(c[0], c[1], c[2]);
+		return center.add(c[0], c[1], c[2]);
 	}
 	
 	@Override
@@ -85,8 +85,7 @@ public class RegionIterator implements Iterator<BlockPos> {
 	public BlockPos next() {
 		loopBlockTick = (loopBlockTick + 1) % maxTick;
 		BlockPos next = new BlockPos(center.getX(), center.getY(), center.getZ());
-		addTickOffset(next);
-		return next;
+		return addTickOffset(next);
 	}
 
 	@Override
