@@ -71,6 +71,7 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfi
                 this.explode(this.worldObj, this.posX, this.posY, this.posZ);
             }
         } else {
+            this.handleWaterMovement();
             this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
     }

@@ -53,7 +53,7 @@ public class LightningBomb extends ConfigurableBlock {
         super.onBlockAdded(world, blockPos, blockState);
 
         if (world.isBlockPowered(blockPos)) {
-            this.onBlockDestroyedByPlayer(world, blockPos, blockState);
+            this.onBlockDestroyedByPlayer(world, blockPos, blockState.withProperty(PRIMED, true));
             world.setBlockToAir(blockPos);
         }
     }
@@ -61,7 +61,7 @@ public class LightningBomb extends ConfigurableBlock {
     @Override
     public void onNeighborBlockChange(World world, BlockPos blockPos, IBlockState blockState, Block neighbour) {
         if (world.isBlockPowered(blockPos)) {
-            this.onBlockDestroyedByPlayer(world, blockPos, blockState);
+            this.onBlockDestroyedByPlayer(world, blockPos, blockState.withProperty(PRIMED, true));
             world.setBlockToAir(blockPos);
         }
     }
@@ -96,7 +96,7 @@ public class LightningBomb extends ConfigurableBlock {
                         (double)((float)blockPos.getX() + 0.5F), (double)((float)blockPos.getY() + 0.5F),
                         (double)((float)blockPos.getZ() + 0.5F), placer);
                 world.spawnEntityInWorld(entityprimed);
-                world.playSoundAtEntity(entityprimed, "random.fuse", 1.0F, 1.0F);
+                world.playSoundAtEntity(entityprimed, "game.tnt.primed", 1.0F, 1.0F);
             }
         }
     }
@@ -108,7 +108,8 @@ public class LightningBomb extends ConfigurableBlock {
     
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float coordX, float coordY, float coordZ) {
-        if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.flint_and_steel) {
+        if (player.getCurrentEquippedItem() != null &&
+                (player.getCurrentEquippedItem().getItem() == Items.flint_and_steel || player.getCurrentEquippedItem().getItem() == Items.fire_charge)) {
             this.primeBomb(world, blockPos, this.blockState.getBaseState().withProperty(PRIMED, true), player);
             world.setBlockToAir(blockPos);
             player.getCurrentEquippedItem().damageItem(1, player);
