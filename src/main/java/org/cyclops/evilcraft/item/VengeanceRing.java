@@ -134,7 +134,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	    			spirit.setAttackTarget(null);
 	    		}
 	    	}
-	    	
+
 	    	// If no spirits were found in an area, we spawn a new one and make him angry.
 	    	if(spirits.size() == 0 && enableVengeance) {
 	    		VengeanceSpirit spirit = VengeanceSpirit.spawnRandom(world, blockPos, area / 4);

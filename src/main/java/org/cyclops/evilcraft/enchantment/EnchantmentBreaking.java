@@ -7,6 +7,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
+import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
 
 import java.util.Random;
 
@@ -29,6 +30,7 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
 
     public EnchantmentBreaking(ExtendedConfig<EnchantmentConfig> eConfig) {
         super(eConfig, 10, EnumEnchantmentType.WEAPON);
+        DamageableItemRepairAction.BAD_ENCHANTS.add(this);
     }
     
     @Override
