@@ -37,8 +37,13 @@ public class SanguinaryPedestalBlockReplacePacket extends PacketCodec {
     public SanguinaryPedestalBlockReplacePacket() {
     	
     }
-    
-    /**
+
+	@Override
+	public boolean isAsync() {
+		return false;
+	}
+
+	/**
 	 * Creates a packet with coordinates.
      * @param x The X coordinate.
      * @param y The Y coordinate.

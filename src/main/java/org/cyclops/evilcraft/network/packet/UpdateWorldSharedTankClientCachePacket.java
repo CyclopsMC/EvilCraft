@@ -33,7 +33,12 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 	public UpdateWorldSharedTankClientCachePacket() {
 		
 	}
-	
+
+	@Override
+	public boolean isAsync() {
+		return true;
+	}
+
 	/**
 	 * Creates a packet which contains the fluid stack.
 	 * @param tankID The id of the shared tank.

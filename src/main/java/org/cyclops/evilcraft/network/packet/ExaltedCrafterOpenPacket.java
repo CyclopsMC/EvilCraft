@@ -34,7 +34,12 @@ public class ExaltedCrafterOpenPacket extends PacketCodec {
 	public ExaltedCrafterOpenPacket(int itemIndex) {
 		this.itemIndex = itemIndex;
 	}
-	
+
+	@Override
+	public boolean isAsync() {
+		return false;
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void actionClient(World world, EntityPlayer player) {

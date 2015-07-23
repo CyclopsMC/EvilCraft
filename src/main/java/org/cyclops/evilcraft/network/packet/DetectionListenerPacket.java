@@ -64,7 +64,12 @@ public class DetectionListenerPacket extends PacketCodec {
 		this.z = location.getZ();
 		this.activation = activation;
 	}
-    
+
+	@Override
+	public boolean isAsync() {
+		return false;
+	}
+
     @SideOnly(Side.CLIENT)
     private void showActivatedParticle(World world, int x, int y, int z, EnumFacing side) {
         EntityBloodBrickFX burst = new EntityBloodBrickFX(world, x, y, z, side);
