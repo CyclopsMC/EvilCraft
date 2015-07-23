@@ -62,3 +62,7 @@ idea {
 /*sourceSets {
     main { output.resourcesDir = output.classesDir }
 }*/
+
+javadoc {
+    include( "src/api/java" )
+}

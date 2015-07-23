@@ -61,6 +61,7 @@ public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEnt
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();

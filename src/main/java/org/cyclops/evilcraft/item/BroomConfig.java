@@ -40,7 +40,7 @@ public class BroomConfig extends ItemConfig {
             ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(new ItemStack(Broom.getInstance()), 1, 2, 2));
         }
         // TODO: for now, just load the broom parts in a hacky way
-        Object _ = BroomParts.ROD;
+        Object _unused = BroomParts.ROD;
     }
     
 }
