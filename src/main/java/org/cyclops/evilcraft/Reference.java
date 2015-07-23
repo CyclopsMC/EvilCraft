@@ -65,8 +65,11 @@ public class Reference {
     
     // MOD ID's
     public static final String MOD_FORGE = "Forge";
+    public static final String MOD_FORGE_VERSION = "@FORGE_VERSION@";
+    public static final String MOD_FORGE_VERSION_MIN = "11.14.3.1493";
     public static final String MOD_CYCLOPSCORE = "cyclopscore";
-    public static final String MOD_CYCLOPSCORE_MINVERSION = "@CYCLOPSCORE_VERSION@";
+    public static final String MOD_CYCLOPSCORE_VERSION = "@CYCLOPSCORE_VERSION@";
+    public static final String MOD_CYCLOPSCORE_VERSION_MIN = "0.1.0";
     public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
     public static final String MOD_WAILA = "Waila";
     public static final String MOD_FMP = "ForgeMultipart";
@@ -79,7 +82,7 @@ public class Reference {
     public static final String MOD_THAUMCRAFT = "Thaumcraft";
     
     // Dependencies
-    public static final String MOD_DEPENDENCIES = "required-after:Forge@[10.13.3.1360,);" // See the Forge changelog
-            + "required-after:" + Reference.MOD_CYCLOPSCORE + ";" // TODO: add min version requirements
-            + "after:"+Reference.MOD_THERMALEXPANSION;
+    public static final String MOD_DEPENDENCIES =
+            "required-after:" + MOD_FORGE       + "@[" + MOD_FORGE_VERSION_MIN       + ",);" +
+            "required-after:" + MOD_CYCLOPSCORE + "@[" + MOD_CYCLOPSCORE_VERSION_MIN + ",);";
 }
