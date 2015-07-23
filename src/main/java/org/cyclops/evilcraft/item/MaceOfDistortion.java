@@ -110,7 +110,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
                 int newPower = (getPower(itemStack) + 1) % POWER_LEVELS;
                 setPower(itemStack, newPower);
                 player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC
-                		+ L10NHelpers.localize("item.items.maceOfDistortion.setPower", newPower)));
+                		+ L10NHelpers.localize(getUnlocalizedName() + ".setPower", newPower)));
             }
             return itemStack;
         } else {
