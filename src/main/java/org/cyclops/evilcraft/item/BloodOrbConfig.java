@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -26,6 +27,14 @@ public class BloodOrbConfig extends ItemConfig {
             null,
             BloodOrb.class
         );
+    }
+
+    @Override
+    public String getModelName(ItemStack itemStack) {
+        if (itemStack.getMetadata() == 1) {
+            return super.getModelName(itemStack) + "_filled";
+        }
+        return super.getModelName(itemStack);
     }
     
 }
