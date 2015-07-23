@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -14,7 +13,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.ExtendedDamageSource;
@@ -30,9 +28,6 @@ import java.util.List;
  *
  */
 public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
-
-    @BlockProperty(ignore = true)
-    public static final PropertyInteger POWER = PropertyInteger.create("power", 0, 15);
 
     private static SpikedPlate _instance = null;
     
@@ -87,7 +82,7 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 		List list = world.getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb);
 
         int ret = 0;
-		
+
 		if(list != null && !list.isEmpty()) {
             for(Entity entity : (List<Entity>) list) {
                 if(!entity.doesEntityNotTriggerPressurePlate() && damageEntity(world, entity, blockPos)) {
@@ -100,11 +95,11 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 	}
 
     protected int getRedstoneStrength(IBlockState blockState) {
-        return (Integer) blockState.getValue(POWER);
+        return ((Boolean)blockState.getValue(POWERED)) ? 15 : 0;
     }
 
     protected IBlockState setRedstoneStrength(IBlockState blockState, int meta) {
-        return blockState.withProperty(POWER, meta);
+        return blockState.withProperty(POWERED, meta > 0);
     }
 	
 	@Override
