@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -18,6 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.client.render.model.ModelInnerBlock;
 
@@ -102,6 +105,9 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
      * @return The Block for the given metadata or the last available Block if the metadata was out of range.
      */
     public IBlockState getBlockFromState(IBlockState blockState) {
+        if(blockState.getBlock() != this) {
+            return INNER_BLOCKS[0];
+        }
         return getBlockFromMeta((Integer) blockState.getValue(getMetaProperty()));
     }
 
@@ -154,6 +160,13 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     @SideOnly(Side.CLIENT)
     public int getRenderColor(IBlockState blockState) {
         return getBlockFromState(blockState).getBlock().getRenderColor(blockState);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer) {
+        BlockPos pos = target.getBlockPos();
+        RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, getBlockFromState(worldObj.getBlockState(pos)), pos, target.sideHit);
+        return true;
     }
 
     @Override

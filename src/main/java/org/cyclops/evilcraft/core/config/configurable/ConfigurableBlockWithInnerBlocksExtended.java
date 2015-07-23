@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.core.config.configurable;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,6 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.core.tileentity.InnerBlocksTileEntity;
 
 import java.util.List;
@@ -82,6 +84,33 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
 			return Blocks.stone.colorMultiplier(world, blockPos);
 		} catch (NullPointerException e) {
             return Blocks.stone.colorMultiplier(world, blockPos);
+        }
+    }
+
+    @Override
+    public boolean canHarvestBlock(IBlockAccess world, BlockPos blockPos, EntityPlayer player) {
+        try {
+            return getTile(world, blockPos).getInnerBlockState().getBlock().canHarvestBlock(world, blockPos, player);
+        } catch (InvalidInnerBlocksTileException e) {
+            return Blocks.stone.canHarvestBlock(world, blockPos, player);
+        }
+    }
+
+    @Override
+    public float getBlockHardness(World world, BlockPos blockPos) {
+        try {
+            return getTile(world, blockPos).getInnerBlockState().getBlock().getBlockHardness(world, blockPos);
+        } catch (InvalidInnerBlocksTileException e) {
+            return Blocks.stone.getBlockHardness(world, blockPos);
+        }
+    }
+
+    @Override
+    public float getPlayerRelativeBlockHardness(EntityPlayer player, World world, BlockPos blockPos) {
+        try {
+            return getTile(world, blockPos).getInnerBlockState().getBlock().getPlayerRelativeBlockHardness(player, world, blockPos);
+        } catch (InvalidInnerBlocksTileException e) {
+            return Blocks.stone.getPlayerRelativeBlockHardness(player, world, blockPos);
         }
     }
     
@@ -153,6 +182,19 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     			&& block.isOpaqueCube()
     			&& !block.hasTileEntity(world.getBlockState(blockPos))
     			&& block.getRenderType() == 3;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer) {
+        IBlockState blockState;
+        try {
+            blockState = getTile(worldObj, target.getBlockPos()).getInnerBlockState();
+        } catch (InvalidInnerBlocksTileException e) {
+            blockState =  Blocks.stone.getDefaultState();
+        }
+        BlockPos pos = target.getBlockPos();
+        RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, blockState, pos, target.sideHit);
+        return true;
     }
     
     /**

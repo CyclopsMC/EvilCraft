@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.client.render.model;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import org.cyclops.cyclopscore.client.model.DynamicModel;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
 
 import java.util.List;
@@ -46,18 +46,18 @@ public class ModelInnerBlock extends DynamicModel {
     @Override
     public IBakedModel handleBlockState(IBlockState state) {
         IBlockState innerBlockState = block.getBlockFromState(state);
-        IBakedModel baseModel = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getModelManager().getBlockModelShapes().getModelForState(innerBlockState);
+        IBakedModel baseModel = RenderHelpers.getBakedModel(innerBlockState);
         return new ModelInnerBlock(block, baseModel);
     }
 
     @Override
     public IBakedModel handleItemState(ItemStack stack) {
         IBlockState innerBlockState = block.getBlockFromMeta(stack.getItemDamage());
-        return Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getModelManager().getBlockModelShapes().getModelForState(innerBlockState);
+        return RenderHelpers.getBakedModel(innerBlockState);
     }
 
     @Override
     public TextureAtlasSprite getTexture() {
-        return null;
+        return RenderHelpers.getBakedModel(block.getBlockFromMeta(0)).getTexture();
     }
 }

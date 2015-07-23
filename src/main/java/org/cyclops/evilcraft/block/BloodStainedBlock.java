@@ -38,8 +38,6 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     @BlockProperty
     public static final IUnlistedProperty<IBlockState> INNERBLOCK = new UnlistedProperty<IBlockState>("innerblock", IBlockState.class);
     @BlockProperty
-    public static final IUnlistedProperty<IBlockAccess> WORLD = new UnlistedProperty<IBlockAccess>("world", IBlockAccess.class);
-    @BlockProperty
     public static final IUnlistedProperty<BlockPos> POS = new UnlistedProperty<BlockPos>("pos", BlockPos.class);
 
     @Icon(location = "blocks/bloodStainedBlock_0")
@@ -63,9 +61,8 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     }
 
     public BloodStainedBlock(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.sponge, TileBloodStainedBlock.class);
+        super(eConfig, Material.clay, TileBloodStainedBlock.class);
         this.setHardness(0.5F);
-        this.setStepSound(soundTypeGravel);
 
         if(MinecraftHelpers.isClientSide()) {
             eConfig.getMod().getIconProvider().registerIconHolderObject(this);
@@ -160,7 +157,6 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
         } else {
             extendedBlockState = extendedBlockState.withProperty(INNERBLOCK, Blocks.stone.getDefaultState());
         }
-        extendedBlockState = extendedBlockState.withProperty(WORLD, world);
         extendedBlockState = extendedBlockState.withProperty(POS, pos);
         return extendedBlockState;
     }

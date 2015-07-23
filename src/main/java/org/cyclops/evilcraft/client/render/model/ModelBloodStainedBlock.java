@@ -2,17 +2,17 @@ package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.Lists;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import org.cyclops.cyclopscore.client.model.DynamicModel;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.block.BloodStainedBlock;
 
 import java.util.List;
@@ -66,10 +66,9 @@ public class ModelBloodStainedBlock extends DynamicModel {
     public IBakedModel handleBlockState(IBlockState state) {
         IExtendedBlockState extendedBlockState = (IExtendedBlockState) state;
         IBlockState blockState = BlockHelpers.getSafeBlockStateProperty(extendedBlockState, BloodStainedBlock.INNERBLOCK, null);
-        IBlockAccess world = BlockHelpers.getSafeBlockStateProperty(extendedBlockState, BloodStainedBlock.WORLD, null);
         BlockPos pos = BlockHelpers.getSafeBlockStateProperty(extendedBlockState, BloodStainedBlock.POS, null);
         TextureAtlasSprite overlayIcon = getIcon(pos);
-        IBakedModel baseModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getModelFromBlockState(blockState, world, pos);
+        IBakedModel baseModel = RenderHelpers.getBakedModel(blockState);
         return new ModelBloodStainedBlock(baseModel, overlayIcon);
     }
 
@@ -80,6 +79,6 @@ public class ModelBloodStainedBlock extends DynamicModel {
 
     @Override
     public TextureAtlasSprite getTexture() {
-        return null;
+        return RenderHelpers.getBakedModel(Blocks.stone.getDefaultState()).getTexture();
     }
 }
