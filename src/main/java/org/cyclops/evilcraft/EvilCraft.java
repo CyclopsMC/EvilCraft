@@ -250,7 +250,7 @@ public class EvilCraft extends ModBase implements IModVersion {
 
     @Override
     public boolean needsUpdate() {
-        return !org.cyclops.cyclopscore.Reference.MOD_VERSION.equals(getVersion());
+        return !Reference.MOD_VERSION.equals(getVersion());
     }
 
     /**
