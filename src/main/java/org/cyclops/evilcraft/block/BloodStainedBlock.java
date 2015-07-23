@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
@@ -156,9 +157,11 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
         TileBloodStainedBlock tile = TileHelpers.getSafeTile(world, pos, TileBloodStainedBlock.class);
         if(tile != null) {
             extendedBlockState = extendedBlockState.withProperty(INNERBLOCK, tile.getInnerBlockState());
-            extendedBlockState = extendedBlockState.withProperty(WORLD, world);
-            extendedBlockState = extendedBlockState.withProperty(POS, pos);
+        } else {
+            extendedBlockState = extendedBlockState.withProperty(INNERBLOCK, Blocks.stone.getDefaultState());
         }
+        extendedBlockState = extendedBlockState.withProperty(WORLD, world);
+        extendedBlockState = extendedBlockState.withProperty(POS, pos);
         return extendedBlockState;
     }
 
