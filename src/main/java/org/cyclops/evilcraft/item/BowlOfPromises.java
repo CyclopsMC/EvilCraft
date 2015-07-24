@@ -53,12 +53,6 @@ public class BowlOfPromises extends ConfigurableItem {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack itemStack) {
-        return itemStack.getItemDamage() >= ACTIVE_META;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
         if(itemStack.getItemDamage() > 1 && renderPass == 0) {
             float division = (((float) ((((BowlOfPromisesConfig) eConfig).getTiers() -

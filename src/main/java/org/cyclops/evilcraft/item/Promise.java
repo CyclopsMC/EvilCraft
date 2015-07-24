@@ -83,12 +83,6 @@ public class Promise extends ConfigurableItem {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack itemStack) {
-        return true;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
         Upgrades.Upgrade upgrade = getUpgrade(itemStack);
         return renderPass == 0 ? SECONDARY_COLORS.get(upgrade) : MAIN_COLORS.get(upgrade);
