@@ -6,10 +6,10 @@ curse {
     projectId = "74610" // my project url is http://minecraft.curseforge.com/mc-mods/74610-evilcraft/
     relatedProject 'cyclops-core': 'requiredLibrary'
 
-    if (project.buildnumber.equals("RELEASE")) {
-        changelog = new File("resources/changelog/${project.version}.txt").text
-    } else {
-        changelog = ""
+    changelog = ""
+    file = new File("resources/changelog/${project.version}.txt");
+    if(file.exists()) {
+        changelog = file.text
     }
 
     if(project.hasProperty("curseforge_key") && project.hasProperty("changelog")) {
