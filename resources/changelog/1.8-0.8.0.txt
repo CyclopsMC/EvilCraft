@@ -1,1 +1,8 @@
 initial 1.8 port
+
+Note that this is a beta version, so expect possible world-breaking bugs!
+
+Also note that the following this have not yet been implemented for this version:
+* Werewolf Villager
+* Models for the Entangled Chalice and Box of Eternal Closure
+* Correct third-person rendering of blocks
