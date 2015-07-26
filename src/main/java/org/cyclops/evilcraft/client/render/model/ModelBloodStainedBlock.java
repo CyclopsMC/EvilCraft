@@ -59,7 +59,7 @@ public class ModelBloodStainedBlock extends DynamicModel {
         icons[0] = BloodStainedBlock.getInstance().icon0;
         icons[1] = BloodStainedBlock.getInstance().icon1;
         icons[2] = BloodStainedBlock.getInstance().icon2;
-        return icons[pos == null ? 0 : pos.hashCode() % 3];
+        return icons[pos == null ? 0 : Math.abs(pos.hashCode()) % 3];
     }
 
     @Override
