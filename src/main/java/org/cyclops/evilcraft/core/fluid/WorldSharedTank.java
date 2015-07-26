@@ -141,6 +141,7 @@ public class WorldSharedTank extends SingleUseTank {
     	
     	/**
     	 * Make a new instance.
+         * @param mod The mod.
     	 */
     	public TankData(ModBase mod) {
     		super(mod);

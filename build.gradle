@@ -57,12 +57,3 @@ idea {
         sourceDirs += file('src/api/java')
     }
 }
-
-// Resolve resources bug in IDEA 14.
-/*sourceSets {
-    main { output.resourcesDir = output.classesDir }
-}*/
-
-javadoc {
-    include( "src/api/java" )
-}

@@ -16,6 +16,8 @@ public interface IBroomPartRegistry extends IRegistry {
     /**
      * Register a new broom part.
      * @param part The part.
+     * @param <P> The type of part.
+     * @return The registered part.
      */
     public <P extends IBroomPart> P registerPart(P part);
 

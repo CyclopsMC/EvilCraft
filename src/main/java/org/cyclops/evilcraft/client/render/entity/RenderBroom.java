@@ -25,6 +25,7 @@ public class RenderBroom extends Render {
     /**
      * Make a new instance.
      * @param renderManager The render manager
+     * @param config The config.
      */
 	public RenderBroom(RenderManager renderManager, ExtendedConfig<EntityConfig> config) {
 	    super(renderManager);

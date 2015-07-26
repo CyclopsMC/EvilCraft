@@ -20,6 +20,7 @@ public class RenderPoisonousLibelle extends RenderModelLiving<ModelBase> {
     
     /**
      * Make a new instance
+     * @param renderManager The render manager.
      * @param config The config.
      * @param model The model.
      * @param par2 No idea...

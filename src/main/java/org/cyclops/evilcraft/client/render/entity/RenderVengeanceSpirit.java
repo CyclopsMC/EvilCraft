@@ -21,6 +21,7 @@ public class RenderVengeanceSpirit extends Render {
     
     /**
      * Make a new instance.
+	 * @param renderManager The render manager.
      * @param config Then config.
      */
     public RenderVengeanceSpirit(RenderManager renderManager, ExtendedConfig<MobConfig> config) {

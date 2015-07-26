@@ -20,6 +20,7 @@ public class RenderNetherfish extends RenderSilverfish {
     
     /**
      * Make a new instance.
+     * @param renderManager The render manager.
      * @param config Then config.
      */
     public RenderNetherfish(RenderManager renderManager, ExtendedConfig<MobConfig> config) {

@@ -21,6 +21,7 @@ public abstract class RenderModelLiving<M extends ModelBase> extends RenderLivin
     
     /**
      * Make a new instance.
+     * @param renderManager The render manager
      * @param config The config.
      * @param model The model that must be rendered.
      * @param par2 No idea...
