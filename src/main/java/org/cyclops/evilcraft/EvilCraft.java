@@ -14,7 +14,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigReference;
 import org.cyclops.cyclopscore.infobook.IInfoBookRegistry;
 import org.cyclops.cyclopscore.infobook.InfoBookRegistry;
 import org.cyclops.cyclopscore.init.ItemCreativeTab;
-import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.init.ModBaseVersionable;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.item.BucketRegistry;
 import org.cyclops.cyclopscore.item.IBucketRegistry;
@@ -23,7 +23,6 @@ import org.cyclops.cyclopscore.persist.world.GlobalCounters;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
 import org.cyclops.cyclopscore.recipe.custom.SuperRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
-import org.cyclops.cyclopscore.tracking.IModVersion;
 import org.cyclops.cyclopscore.world.gen.IRetroGenRegistry;
 import org.cyclops.cyclopscore.world.gen.RetroGenRegistry;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
@@ -58,7 +57,7 @@ import org.cyclops.evilcraft.world.gen.nbt.DarkTempleData;
         dependencies = Reference.MOD_DEPENDENCIES,
         guiFactory = "org.cyclops.evilcraft.GuiConfigOverview$ExtendedConfigGuiFactory"
 )
-public class EvilCraft extends ModBase implements IModVersion {
+public class EvilCraft extends ModBaseVersionable {
     
     /**
      * The proxy of this mod, depending on 'side' a different proxy will be inside this field.
@@ -76,14 +75,8 @@ public class EvilCraft extends ModBase implements IModVersion {
     public static GlobalCounters globalCounters = null;
     public static DarkTempleData darkTempleData = null;
 
-    private boolean versionInfo = false;
-    private String version;
-    private String info;
-    private String updateUrl;
-
     public EvilCraft() {
-        super(Reference.MOD_ID, Reference.MOD_NAME);
-        putGenericReference(REFKEY_MOD_VERSION, Reference.MOD_VERSION);
+        super(Reference.MOD_ID, Reference.MOD_NAME, Reference.MOD_VERSION);
 
         // Register world storages
         registerWorldStorage(new WorldSharedTank.TankData(this));
@@ -219,38 +212,10 @@ public class EvilCraft extends ModBase implements IModVersion {
 
     @Override
     public void setVersionInfo(String version, String info, String updateUrl) {
-        versionInfo = true;
-        this.version = version;
-        this.info = info;
-        this.updateUrl = updateUrl;
+        super.setVersionInfo(version, info, updateUrl);
         if(needsUpdate()) {
             VersionCheckerModCompat.sendIMCOutdatedMessage(this);
         }
-    }
-
-    @Override
-    public boolean isVersionInfo() {
-        return versionInfo;
-    }
-
-    @Override
-    public String getVersion() {
-        return version;
-    }
-
-    @Override
-    public String getInfo() {
-        return info;
-    }
-
-    @Override
-    public String getUpdateUrl() {
-        return updateUrl;
-    }
-
-    @Override
-    public boolean needsUpdate() {
-        return getVersion() != null && !Reference.MOD_VERSION.equals(getVersion());
     }
 
     /**
