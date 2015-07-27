@@ -141,7 +141,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
      * @param maximumMB The maximum amount to fill. (exclusive)
      */
     public void fillForAllBloodExtractors(EntityPlayer player, int minimumMB, int maximumMB) {
-        int toFill = minimumMB + itemRand.nextInt(maximumMB - minimumMB);
+        int toFill = minimumMB + itemRand.nextInt(Math.max(1, maximumMB - minimumMB));
         PlayerInventoryIterator it = new PlayerInventoryIterator(player);
         while(it.hasNext() && toFill > 0) {
             ItemStack itemStack = it.next();
