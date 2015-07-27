@@ -17,6 +17,7 @@ import evilcraft.client.particle.EntityDegradeFX;
 import evilcraft.core.config.IChangedCallback;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.entity.monster.EntityNoMob;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
@@ -51,7 +52,7 @@ import java.util.Set;
  * @author rubensworks
  *
  */
-public class VengeanceSpirit extends EntityMob implements IConfigurable {
+public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	
 	/**
 	 * The default I18N key for when no inner entity exists.
