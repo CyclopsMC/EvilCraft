@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+
+Fixes:
+* Fix mobs targeting invisible Vengeance Spirits, Closes #246
+* Fix random bounds for Blood Extractor crash, Closes #249
+* Fix command permissions, Closes #244
+* Fix Dark Tank Z-fighting, Closes #243

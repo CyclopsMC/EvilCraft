@@ -4,6 +4,7 @@ import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.ServerHelpers;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 
 import java.util.HashMap;
@@ -98,7 +99,7 @@ public class CommandEvilCraft implements ICommand {
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
-        return ServerHelpers.isOp(icommandsender);
+        return icommandsender.canCommandSenderUseCommand(MinecraftServer.getServer().getOpPermissionLevel(), this.getCommandName());
     }
 
     @SuppressWarnings("rawtypes")

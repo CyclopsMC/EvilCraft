@@ -4,12 +4,11 @@ apply plugin: 'maven'
 curse {
     dependsOn 'reobf'
     projectId = "74610" // my project url is http://minecraft.curseforge.com/mc-mods/74610-evilcraft/
-    relatedProject 'cyclops-core': 'requiredLibrary'
+    releaseType = project.config.release_type
 
-    if (project.buildnumber.equals("RELEASE")) {
+    changelog = ""
+    if(new File("resources/changelog/${project.version}.txt").exists()) {
         changelog = new File("resources/changelog/${project.version}.txt").text
-    } else {
-        changelog = ""
     }
 
     if(project.hasProperty("curseforge_key") && project.hasProperty("changelog")) {
