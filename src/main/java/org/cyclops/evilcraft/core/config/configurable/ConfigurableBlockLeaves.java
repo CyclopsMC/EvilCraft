@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.block.property.BlockPropertyManagerComponent;
 import org.cyclops.cyclopscore.block.property.IBlockPropertyManager;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.configurable.IConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockLeaves extends BlockLeaves implements IConfigurable {
+public abstract class ConfigurableBlockLeaves extends BlockLeaves implements IConfigurableBlock {
 
     @Delegate private IBlockPropertyManager propertyManager;
     @Override protected BlockState createBlockState() {
@@ -43,6 +43,7 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
+    protected boolean hasGui = false;
     
     /**
      * Make a new blockState instance.
@@ -52,6 +53,11 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
     public ConfigurableBlockLeaves(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
         this.setUnlocalizedName(eConfig.getUnlocalizedName());
+    }
+
+    @Override
+    public boolean hasGui() {
+        return hasGui;
     }
 
     private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {

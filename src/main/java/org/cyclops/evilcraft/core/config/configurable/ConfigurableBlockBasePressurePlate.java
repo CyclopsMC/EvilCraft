@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.block.property.BlockPropertyManagerComponent;
 import org.cyclops.cyclopscore.block.property.IBlockPropertyManager;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.configurable.IConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
@@ -20,7 +20,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressurePlate implements IConfigurable {
+public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressurePlate implements IConfigurableBlock {
 
     @Delegate private IBlockPropertyManager propertyManager;
     @Override protected BlockState createBlockState() {
@@ -32,6 +32,7 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
+    protected boolean hasGui = false;
     
     /**
      * Make a new blockState instance.
@@ -45,6 +46,11 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
         this.setUnlocalizedName(eConfig.getUnlocalizedName());
         setHardness(2F);
         setStepSound(Block.soundTypeStone);
+    }
+
+    @Override
+    public boolean hasGui() {
+        return hasGui;
     }
     
     @Override

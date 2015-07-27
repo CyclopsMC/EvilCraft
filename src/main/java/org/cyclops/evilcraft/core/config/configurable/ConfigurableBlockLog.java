@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.block.property.BlockPropertyManagerComponent;
 import org.cyclops.cyclopscore.block.property.IBlockPropertyManager;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.configurable.IConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class ConfigurableBlockLog extends BlockLog implements IConfigurable {
+public class ConfigurableBlockLog extends BlockLog implements IConfigurableBlock {
 
     @Delegate private IBlockPropertyManager propertyManager;
     @Override protected BlockState createBlockState() {
@@ -40,6 +40,7 @@ public class ConfigurableBlockLog extends BlockLog implements IConfigurable {
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
+    protected boolean hasGui = false;
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite iconTop;
@@ -54,6 +55,11 @@ public class ConfigurableBlockLog extends BlockLog implements IConfigurable {
     public ConfigurableBlockLog(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
         this.setUnlocalizedName(eConfig.getUnlocalizedName());
+    }
+
+    @Override
+    public boolean hasGui() {
+        return hasGui;
     }
 
     @SuppressWarnings("rawtypes")
