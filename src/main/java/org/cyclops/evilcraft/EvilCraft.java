@@ -36,7 +36,6 @@ import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
 import org.cyclops.evilcraft.item.DarkGemConfig;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.modcompat.nei.NEIModCompat;
-import org.cyclops.evilcraft.modcompat.versionchecker.VersionCheckerModCompat;
 import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.world.gen.DarkTempleGenerator;
@@ -84,11 +83,11 @@ public class EvilCraft extends ModBaseVersionable {
         registerWorldStorage(darkTempleData = new DarkTempleData(this));
     }
 
+    @Override
     protected void loadModCompats(ModCompatLoader modCompatLoader) {
         modCompatLoader.addModCompat(new BaublesModCompat());
         modCompatLoader.addModCompat(new WailaModCompat());
         modCompatLoader.addModCompat(new NEIModCompat());
-        modCompatLoader.addModCompat(new VersionCheckerModCompat());
     }
 
     @Override
@@ -208,14 +207,6 @@ public class EvilCraft extends ModBaseVersionable {
     @Override
     public ICommonProxy getProxy() {
         return proxy;
-    }
-
-    @Override
-    public void setVersionInfo(String version, String info, String updateUrl) {
-        super.setVersionInfo(version, info, updateUrl);
-        if(needsUpdate()) {
-            VersionCheckerModCompat.sendIMCOutdatedMessage(this);
-        }
     }
 
     /**
