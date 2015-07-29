@@ -8,7 +8,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import org.cyclops.cyclopscore.client.key.IKeyRegistry;
 import org.cyclops.cyclopscore.init.ModBase;
-import org.cyclops.cyclopscore.network.PacketHandler;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.key.ExaltedCrafterKeyHandler;
@@ -25,7 +24,9 @@ import org.cyclops.evilcraft.event.TextureStitchEventHook;
  */
 public class ClientProxy extends ClientProxyComponent {
 
-	private final CommonProxy commonProxy = new CommonProxy();
+	public ClientProxy() {
+		super(new CommonProxy());
+	}
 
 	@Override
 	public ModBase getMod() {
@@ -50,21 +51,8 @@ public class ClientProxy extends ClientProxyComponent {
 	}
 
 	@Override
-	public void registerPacketHandlers(PacketHandler packetHandler) {
-		super.registerPacketHandlers(packetHandler);
-        commonProxy.registerPacketHandlers(packetHandler);
-	}
-
-    @Override
-    public void registerTickHandlers() {
-        super.registerTickHandlers();
-        commonProxy.registerTickHandlers();
-    }
-
-	@Override
 	public void registerEventHooks() {
 		super.registerEventHooks();
-        commonProxy.registerEventHooks();
 
 		ModelLoaderRegistry.registerLoader(new BroomPartLoader());
 
