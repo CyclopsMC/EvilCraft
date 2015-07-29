@@ -1,0 +1,6 @@
+Fixes:
+* Fix index out of bounds exception for random Blood Stained Block models
+* Add safety for when version checking failed
+
+Changes:
+* Use Version Checker modcompat from Cyclops Core
