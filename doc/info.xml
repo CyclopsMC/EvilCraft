@@ -88,7 +88,7 @@
 
 
             As of version 0.6.0, EvilCraft provides an extensive way for players and modpack creators to define their own recipes for both regular crafting and machine recipes.
-            More information about this can be found on the wiki: https://github.com/rubensworks/EvilCraft/wiki/Recipe-XML
+            More information about this can be found on the wiki: https://github.com/CyclopsMC/EvilCraft/wiki/Recipe-XML
         </element>
         <element name="Modpacks">
             Regarding modpacks, anyone is more than welcome to use this mod in any modpack, both public and private.
@@ -98,7 +98,7 @@
             [mod="1.7.10"]evilcraft[/mod]
             [mod="1.7.2"]evilcraft[/mod]
             [mod="1.6.4"]evilcraft[/mod]
-            Source code: https://github.com/rubensworks/EvilCraft
+            Source code: https://github.com/CyclopsMC/EvilCraft
         </element>
         <element name="Info Pre-0.8.0">
             <element name="Machines">
