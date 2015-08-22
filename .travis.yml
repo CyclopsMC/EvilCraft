@@ -3,7 +3,7 @@ jdk: openjdk7
 notifications:
   email: false
   slack:
-    secure: DVv/YhOeWNj13mGjJJGyVXrgDLY9h7Md0DDwFSQo63NhQ3ygua29r4uUnNczpSUUtEoxma6jLofiaArVdJfXzKNXjdr9XNq6WC40yA6ksKvLTwkI2EAY4VoaRdyrk+8AddbKQai+IdDkWhUuhXAckICGDp6lHS/omcWeJeFDgcI=
+    secure: cDk5pDTAn+wmceFI3leNmM6hPelpvHKSt6PhUvq83lH/6Lz4a/wgYz7bMS9LnnN1AEaIQOYYl4Ty/uqfciWlaCREFrkXD4x31zfI0eig91/wsraeBlo216DEHfwG0I82t3R2PhXR04EnYX+vTWZ7Qv0sLbBdb+H+KN59catWazc=
 env:
   global:
   - TERM=dumb

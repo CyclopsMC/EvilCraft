@@ -1,7 +1,8 @@
 ## EvilCraft
-[![Build Status](https://drone.io/github.com/rubensworks/EvilCraft/status.png)](https://drone.io/github.com/rubensworks/EvilCraft/latest)
-Dev builds: https://drone.io/github.com/rubensworks/EvilCraft/files
-Master: EvilCraft 0.7.0 for Minecraft 1.7.10 (Forge 10.13.2.1230)
+
+[![Build Status](https://travis-ci.org/CyclopsMC/EvilCraft.svg?branch=master-1.8)](https://travis-ci.org/rubensworks/EvilCraft)
+
+All stable releases (including deobfuscated builds) can be found on [CurseForge](http://minecraft.curseforge.com/mc-mods/74610-evilcraft/files).
 
 All downloads (including deobfuscated builds) can be found on [Curse](http://minecraft.curseforge.com/mc-mods/74610-evilcraft/files)
 
