@@ -20,7 +20,7 @@ import org.cyclops.evilcraft.tileentity.TileDarkTank;
  */
 public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
 	
-	private static final double OFFSET = 0.001D;
+	private static final double OFFSET = 0.01D;
 	private static final double MINY = 0.002D;
 	private static final double MIN = 0.125D + OFFSET;
 	private static final double MAX = 0.875D - OFFSET;

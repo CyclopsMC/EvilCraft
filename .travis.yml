@@ -13,12 +13,14 @@ script: ./gradlew build -S
 
 deploy:
   - provider: script
+    skip_cleanup: true
     script: ./gradlew curse -S
     on:
       all_branches: true
       repo: rubensworks/EvilCraft
       tags: true
   - provider: releases
+    skip_cleanup: true
     api_key:
       secure: A+23PDJUKg1CU28NmXw/YG7qmGDIrys1GuyuDuodK2AjBjT191GJWyr6mB0VV0uWo+/3H6FhDQNCLvKZ+0aphLRPMfLlNb4pBw31l7PFsJjsqF3/5BXNqXwCxxEWPLWAI85Pbt9bQX8BlTrQXeFast49opb0kWAlE3hh4E3yr1M=
     on:
@@ -26,6 +28,7 @@ deploy:
       repo: rubensworks/EvilCraft
       tags: true
   - provider: script
+    skip_cleanup: true
     script: ./gradlew uploadArchives -S
     on:
       all_branches: true
