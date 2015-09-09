@@ -183,11 +183,15 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     }
 
     public boolean isReturnToInnerInventory() {
-        return ExaltedCrafter.getInstance().isReturnToInner(getItemStack(player));
+        ItemStack itemStack = getItemStack(player);
+        return itemStack != null && ExaltedCrafter.getInstance().isReturnToInner(itemStack);
     }
 
     protected void setReturnToInnerInventory(boolean returnToInner) {
-        ExaltedCrafter.getInstance().setReturnToInner(getItemStack(player), returnToInner);
+        ItemStack itemStack = getItemStack(player);
+        if(itemStack != null) {
+            ExaltedCrafter.getInstance().setReturnToInner(itemStack, returnToInner);
+        }
     }
     
     @Override
