@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+
+Changes:
+* Add toggle button to choose Exalted Crafter return target inv. Closes #225 This allows players to choose between the inner inventory or the player inventory to send items to when shift-clicking them from the crafting grid.
+* Add blacklist for repairable Blood Chest items. Closes #240 Add new entries to the list S:bloodInfuser.itemBlacklist by item name in the config file.
+* Improve efficiency of recipes using oredict items. Closes #241
+
+Fixes:
+* Fix typo what caused part of the book not to be loaded. Fix #238
+* Fix missing Thaumcraft aspects

@@ -12,21 +12,21 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
 RELEASE=1
 export RELEASE
 
-./gradlew build
-./gradlew uploadArchives
-./gradlew curse
+#./gradlew build
+#./gradlew uploadArchives
+#./gradlew curse
 
 # Github release
 minecraft_version=$(grep minecraft_version= build.properties | sed s/minecraft_version=//)
 tag=$(grep mod_version= build.properties | sed s/mod_version=//)
 name="EvilCraft-"$minecraft_version"-"$tag
 changelog=$(cat changelog.txt)
-printf '{"tag_name": "%s","target_commitish": "master","name": "%s","body": "%s","draft": false,"prerelease": false}' $tag $name "Changelog can be found at: http://minecraft.curseforge.com/mc-mods/74610-evilcraft/files" > .tmp.json
+printf '{"tag_name": "%s","target_commitish": "master-1.7","name": "%s","body": "%s","draft": false,"prerelease": false}' $tag $name "Changelog can be found at: http://minecraft.curseforge.com/mc-mods/74610-evilcraft/files" > .tmp.json
 ACCESS_TOKEN=$(grep github_token= gradle.properties | sed s/github_token=//)
 
-creationresp=$(curl -d@.tmp.json https://api.github.com/repos/rubensworks/EvilCraft/releases?access_token=$ACCESS_TOKEN)
+creationresp=$(curl -d@.tmp.json https://api.github.com/repos/CyclopsMC/EvilCraft/releases?access_token=$ACCESS_TOKEN)
 RELEASEID=$(echo $creationresp | jsonval "id")
 echo $RELEASEID
-curl -H "Authorization: token $ACCESS_TOKEN" -H "Content-Type: application/zip" --data-binary @build/libs/$name.jar https://uploads.github.com/repos/rubensworks/EvilCraft/releases/$RELEASEID/assets?name=$name.jar
+curl -H "Authorization: token $ACCESS_TOKEN" -H "Content-Type: application/zip" --data-binary @build/libs/$name.jar https://uploads.github.com/repos/CyclopsMC/EvilCraft/releases/$RELEASEID/assets?name=$name.jar
 
 rm .tmp.json
