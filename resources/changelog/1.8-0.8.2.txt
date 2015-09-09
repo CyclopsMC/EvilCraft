@@ -1,0 +1,10 @@
+Fixes:
+* Add inner blocks safety for retrieving invalid inner blockstates, Closes #259
+* Fix Exalted Crafter NPE when checking item tag data
+* Fix calls to null tags on NBT inventories, Closes #252
+* Clamp values during biome color calculation, Closes #257
+* Remove incorrect call to codechickencore-code, Closes #251
+* Fix mobs targetting invisible Vengeance Spirits, Closes #246
+* Fix random bounds for Blood Extractor, Closes #249
+* Fix command permissions, Closes #244
+* Fix Dark Tank Z-fighting, Closes #243

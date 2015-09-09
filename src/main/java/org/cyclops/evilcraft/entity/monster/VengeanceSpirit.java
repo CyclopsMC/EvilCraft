@@ -2,13 +2,13 @@ package org.cyclops.evilcraft.entity.monster;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import org.cyclops.evilcraft.core.monster.EntityNoMob;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -51,7 +51,7 @@ import java.util.Set;
  * @author rubensworks
  *
  */
-public class VengeanceSpirit extends EntityMob implements IConfigurable {
+public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	
 	/**
 	 * The default I18N key for when no inner entity exists.

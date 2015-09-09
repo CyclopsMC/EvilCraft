@@ -74,7 +74,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     	unwrapInnerBlock(world, blockPos);
     	return false;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public int colorMultiplier(IBlockAccess world, BlockPos blockPos, int renderPass) {
@@ -83,6 +83,8 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
 		} catch (InvalidInnerBlocksTileException e) {
 			return Blocks.stone.colorMultiplier(world, blockPos);
 		} catch (NullPointerException e) {
+            return Blocks.stone.colorMultiplier(world, blockPos);
+        } catch (IllegalArgumentException e) {
             return Blocks.stone.colorMultiplier(world, blockPos);
         }
     }
@@ -93,6 +95,8 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
             return getTile(world, blockPos).getInnerBlockState().getBlock().canHarvestBlock(world, blockPos, player);
         } catch (InvalidInnerBlocksTileException e) {
             return Blocks.stone.canHarvestBlock(world, blockPos, player);
+        } catch (IllegalArgumentException e) {
+            return Blocks.stone.canHarvestBlock(world, blockPos, player);
         }
     }
 
@@ -102,6 +106,8 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
             return getTile(world, blockPos).getInnerBlockState().getBlock().getBlockHardness(world, blockPos);
         } catch (InvalidInnerBlocksTileException e) {
             return Blocks.stone.getBlockHardness(world, blockPos);
+        } catch (IllegalArgumentException e) {
+            return Blocks.stone.getBlockHardness(world, blockPos);
         }
     }
 
@@ -110,6 +116,8 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
         try {
             return getTile(world, blockPos).getInnerBlockState().getBlock().getPlayerRelativeBlockHardness(player, world, blockPos);
         } catch (InvalidInnerBlocksTileException e) {
+            return Blocks.stone.getPlayerRelativeBlockHardness(player, world, blockPos);
+        } catch (IllegalArgumentException e) {
             return Blocks.stone.getPlayerRelativeBlockHardness(player, world, blockPos);
         }
     }
