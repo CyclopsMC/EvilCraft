@@ -192,6 +192,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     			&& block.getRenderType() == 3;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer) {
         IBlockState blockState;

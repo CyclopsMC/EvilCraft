@@ -162,6 +162,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
         return getBlockFromState(blockState).getBlock().getRenderColor(blockState);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer) {
         BlockPos pos = target.getBlockPos();

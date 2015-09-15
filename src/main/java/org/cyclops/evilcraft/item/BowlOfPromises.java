@@ -55,7 +55,7 @@ public class BowlOfPromises extends ConfigurableItem {
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
         if(itemStack.getItemDamage() > 1 && renderPass == 0) {
-            float division = (((float) ((((BowlOfPromisesConfig) eConfig).getTiers() -
+            float division = (((float) ((((BowlOfPromisesConfig) getConfig()).getTiers() -
                     (itemStack.getItemDamage() - 2)) - 1) / 3) + 1);
             int channel = (int) (255 / division);
             return Helpers.RGBToInt(channel, channel, channel);
@@ -67,7 +67,7 @@ public class BowlOfPromises extends ConfigurableItem {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
-        for(int i = 0; i < ACTIVE_META + ((BowlOfPromisesConfig) eConfig).getTiers(); i++) {
+        for(int i = 0; i < ACTIVE_META + ((BowlOfPromisesConfig) getConfig()).getTiers(); i++) {
             list.add(new ItemStack(item, 1, i));
         }
     }
