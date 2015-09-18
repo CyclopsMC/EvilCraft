@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.entity.monster;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.cyclops.evilcraft.core.monster.EntityNoMob;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.*;
@@ -37,6 +36,7 @@ import org.cyclops.evilcraft.client.particle.EntityBlurFX;
 import org.cyclops.evilcraft.client.particle.EntityDarkSmokeFX;
 import org.cyclops.evilcraft.client.particle.EntityDegradeFX;
 import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+import org.cyclops.evilcraft.core.monster.EntityNoMob;
 import org.cyclops.evilcraft.item.BurningGemStone;
 import org.cyclops.evilcraft.item.BurningGemStoneConfig;
 
@@ -116,7 +116,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, damage, false));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, false));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true, false));
         
         setRemainingLife(remainingLife);
         setFrozenDuration(0);
@@ -341,7 +341,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return If it is visible
      */
     public boolean isVisible() {
-    	return worldObj.isRemote &&
+        return worldObj.isRemote &&
     			(isAlternativelyVisible() || isClientVisible());
     }
     
@@ -384,7 +384,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return If it should be visible.
      */
     public boolean isEnabledVengeance(EntityPlayer player) {
-		return isGlobalVengeance() || ArrayUtils.contains(getVengeancePlayers(), player.getDisplayName());
+        return isGlobalVengeance() || ArrayUtils.contains(getVengeancePlayers(), player.getDisplayName().getFormattedText());
 	}
     
     /**
@@ -394,7 +394,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      */
     public void setEnabledVengeance(EntityPlayer player, boolean enabled) {
     	String[] players = getVengeancePlayers();
-        int index = ArrayUtils.indexOf(players, player.getDisplayName());
+        int index = ArrayUtils.indexOf(players, player.getDisplayName().getFormattedText());
     	if(enabled && index == ArrayUtils.INDEX_NOT_FOUND)
     		players = ArrayUtils.add(players, player.getDisplayName().getFormattedText());
     	else if(!enabled && index != ArrayUtils.INDEX_NOT_FOUND)
