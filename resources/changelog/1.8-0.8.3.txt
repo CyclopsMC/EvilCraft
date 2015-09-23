@@ -1,0 +1,5 @@
+Fixes:
+* Fix Vengeance Spirits always attacking, even when not visible. Fix #263
+
+Changes:
+* Update to latest Cyclops Core version
