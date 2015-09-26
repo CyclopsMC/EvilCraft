@@ -20,6 +20,7 @@ import evilcraft.enchantment.EnchantmentPoisonTip;
 import evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import evilcraft.item.*;
 import evilcraft.item.WeatherContainer.WeatherContainerTypes;
+import evilcraft.recipe.BloodExtractorCombinationRecipe;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
@@ -182,6 +183,8 @@ public class Recipes {
                 RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
         RecipeSorter.register(Reference.MOD_ID + "containercombination", ItemBlockFluidContainerCombinationRecipe.class,
                 RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
+        RecipeSorter.register(Reference.MOD_ID + "bloodextractorcombination", BloodExtractorCombinationRecipe.class,
+                RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
 
     	loadPredefineds();
     	
@@ -287,6 +290,13 @@ public class Recipes {
         		ItemBlockFluidContainer tankItem = (ItemBlockFluidContainer) Item.getItemFromBlock(DarkTank.getInstance());
 	        	GameRegistry.addRecipe(new ItemBlockFluidContainerCombinationRecipe(i, tankItem));
         	}
+        }
+
+        // Blood Extractor upgrades
+        if(Configs.isEnabled(BloodExtractorConfig.class) && Configs.isEnabled(DarkTankConfig.class)) {
+            for(int i = 1; i < 9; i++) {
+                GameRegistry.addRecipe(new BloodExtractorCombinationRecipe(i));
+            }
         }
     	
         if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
