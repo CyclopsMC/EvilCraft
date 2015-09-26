@@ -115,6 +115,13 @@ public class Recipes {
 	        XmlRecipeLoader.registerPredefinedItem("evilcraft:empoweredInvertedPotentia",
 	        		empoweredInvertedPotentia);
     	}
+
+        if(Configs.isEnabled(DarkTankConfig.class)) {
+            ItemStack darkTankx9 = new ItemStack(DarkTank.getInstance());
+            ItemBlockFluidContainer item = ((ItemBlockFluidContainer) darkTankx9.getItem());
+            item.setCapacity(darkTankx9, item.getCapacity(darkTankx9) * 9);
+            XmlRecipeLoader.registerPredefinedItem("evilcraft:darkTankx9", darkTankx9);
+        }
     	
     	if(PotentiaSphereConfig.enderPearlRecipe) {
     		XmlRecipeLoader.registerPredefinedValue("evilcraft:enderPearlRecipe");

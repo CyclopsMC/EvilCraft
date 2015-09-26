@@ -658,6 +658,32 @@
             <item>evilcraft:darkTank</item>
         </output>
     </recipe>
+
+	<recipe type="shaped">
+		<condition type="config">darkTank</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item>evilcraft:darkBlock</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item>minecraft:iron_block</item>
+					<item type="oredict">blockGlass</item>
+					<item>minecraft:iron_block</item>
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>evilcraft:darkBlock</item>
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item type="predefined">evilcraft:darkTankx9</item>
+		</output>
+	</recipe>
     
 	<recipe type="shaped">
         <condition type="config">darkBlock</condition>
