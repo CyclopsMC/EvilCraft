@@ -197,6 +197,8 @@ item.items.effortlessRing.name=Effortless Ring
 item.items.effortlessRing.info=Walk faster and more efficient.
 item.items.condensedBlood.name=Condensed Blood
 item.items.condensedBlood.info=Insert into any machine for extra Blood.
+item.items.rejuvenatedFlesh.name=Rejuvenated Flesh
+item.items.rejuvenatedFlesh.info=Infinite source of food
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood

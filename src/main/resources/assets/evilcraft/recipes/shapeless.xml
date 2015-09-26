@@ -291,4 +291,15 @@
         </output>
     </recipe>
 
+    <recipe type="shapeless">
+        <condition type="config">rejuvenatedFlesh</condition>
+        <input>
+            <item type="oredict">materialFlesh</item>
+            <item type="oredict">materialBowlOfPromises1</item>
+        </input>
+        <output>
+            <item>evilcraft:rejuvenatedFlesh</item>
+        </output>
+    </recipe>
+
 </recipes>

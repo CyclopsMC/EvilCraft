@@ -1,5 +1,6 @@
 package evilcraft.item;
 
+import evilcraft.Reference;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -32,6 +33,11 @@ public class WerewolfFleshConfig extends ItemConfig {
             null,
             WerewolfFlesh.class
         );
+    }
+
+    @Override
+    public String getOreDictionaryId() {
+        return Reference.DICT_FLESH;
     }
     
 }

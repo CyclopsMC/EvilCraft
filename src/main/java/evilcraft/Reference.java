@@ -67,6 +67,7 @@ public class Reference {
     public static final String DICT_MATERIALSPIKE = "materialSpike";
     public static final String DICT_ITEMSKULL = "itemSkull";
     public static final String DICT_DUSTDULL = "dustDull";
+    public static final String DICT_FLESH = "materialFlesh";
     
     // MOD ID's
     public static final String MOD_FORGE = "Forge";

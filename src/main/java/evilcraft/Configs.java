@@ -78,6 +78,7 @@ public class Configs {
         OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Items.poisonous_potato));
         OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Items.bone));
         OreDictionary.registerOre(Reference.DICT_ITEMSKULL, new ItemStack(Items.skull, 1, OreDictionary.WILDCARD_VALUE));
+        OreDictionary.registerOre(Reference.DICT_FLESH, new ItemStack(Items.rotten_flesh, 1, OreDictionary.WILDCARD_VALUE));
     }
     
     /**
@@ -182,6 +183,7 @@ public class Configs {
         configs.add(new DarkenedAppleConfig());
         configs.add(new EffortlessRingConfig());
         configs.add(new CondensedBloodConfig());
+        configs.add(new RejuvenatedFleshConfig());
         
         // Entities
         // Item
