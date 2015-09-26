@@ -133,6 +133,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         outSlots.add(SLOT_INFUSE_RESULT);
         addSlotsToSide(ForgeDirection.EAST, inSlotsTank);
         addSlotsToSide(ForgeDirection.UP, inSlots);
+        addSlotsToSide(ForgeDirection.NORTH, inSlots);
         addSlotsToSide(ForgeDirection.DOWN, outSlots);
         addSlotsToSide(ForgeDirection.SOUTH, outSlots);
         addSlotsToSide(ForgeDirection.WEST, outSlots);
