@@ -1,6 +1,10 @@
 package evilcraft.core.item;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -88,7 +92,8 @@ public class DamageIndicatedItemComponent{
     	if(fluidStack != null) {
     		prefix = fluidStack.getFluid().getLocalizedName(fluidStack) + ": ";
     	}
-        return prefix + amount + " / " + capacity + " mB";
+        return prefix + String.format("%,d", amount) +
+                " / " + String.format("%,d", capacity) + " mB";
     }
     
     /**

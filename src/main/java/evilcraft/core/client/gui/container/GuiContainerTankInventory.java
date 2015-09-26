@@ -2,6 +2,7 @@ package evilcraft.core.client.gui.container;
 
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.inventory.container.ExtendedInventoryContainer;
+import evilcraft.core.item.DamageIndicatedItemComponent;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
@@ -158,14 +159,14 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
             SingleUseTank tank = tile.getTank();
             String fluidName = tank.getFluid().getLocalizedName();
-            drawBarTooltipTank(fluidName, "mB", tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
+            drawBarTooltipTank(fluidName, tank.getFluid(), tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
         }
     }
     
-	protected void drawBarTooltipTank(String name, String unit, int value, int max, int x, int y) {
+	protected void drawBarTooltipTank(String name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
         List<String> lines = new ArrayList<String>();
         lines.add(name);
-        lines.add(value + " / " + max + " " + unit);
+        lines.add(DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity));
         drawTooltip(lines, x, y);
     }
 

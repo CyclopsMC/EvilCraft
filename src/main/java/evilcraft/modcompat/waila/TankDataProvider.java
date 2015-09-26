@@ -1,6 +1,7 @@
 package evilcraft.modcompat.waila;
 
 import evilcraft.core.helper.L10NHelpers;
+import evilcraft.core.item.DamageIndicatedItemComponent;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -46,8 +47,7 @@ public class TankDataProvider implements IWailaDataProvider {
                 currenttip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty"));
             } else {
                 FluidStack fluidStack = tile.getTank().getFluid();
-                String name = fluidStack.getFluid().getLocalizedName(fluidStack);
-                currenttip.add(name + ": " + fluidStack.amount + " / " + tile.getTank().getCapacity());
+                currenttip.add(DamageIndicatedItemComponent.getInfo(fluidStack, fluidStack.amount, tile.getTank().getCapacity()));
             }
         }
         return currenttip;
