@@ -41,7 +41,7 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
     }
 
     @Override
-    public void repair(ItemStack itemStack, Random random) {
+    public float repair(ItemStack itemStack, Random random) {
         // Repair the item
         int newDamage = itemStack.getItemDamage() - 1;
         itemStack.setItemDamage(newDamage);
@@ -56,6 +56,7 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
                             enchantment.getMaxLevel() - enchantment.getMinLevel())
                     );
         }
+        return 1;
     }
 
 }

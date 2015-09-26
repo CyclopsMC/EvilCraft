@@ -27,13 +27,25 @@ public abstract class TankInventoryTileEntity extends InventoryTileEntity implem
      * @param inventoryName Internal name of the inventory.
      * @param tankSize Size (mB) of the tank.
      * @param tankName Internal name of the tank.
+     * @param stackSize The maximum stacksize each slot can have.
      */
-    public TankInventoryTileEntity(int inventorySize, String inventoryName, int tankSize, String tankName) {
-        super(inventorySize, inventoryName);
+    public TankInventoryTileEntity(int inventorySize, String inventoryName, int tankSize, String tankName, int stackSize) {
+        super(inventorySize, inventoryName, stackSize);
         this.tankSize = tankSize;
         this.tankName = tankName;
         this.setSendUpdateOnTankChanged(true);
         tank = newTank(tankName, tankSize);
+    }
+
+    /**
+     * Make new tile with a tank that can accept anything and an inventory.
+     * @param inventorySize Amount of slots in the inventory.
+     * @param inventoryName Internal name of the inventory.
+     * @param tankSize Size (mB) of the tank.
+     * @param tankName Internal name of the tank.
+     */
+    public TankInventoryTileEntity(int inventorySize, String inventoryName, int tankSize, String tankName) {
+        this(inventorySize, inventoryName, tankSize, tankName, 64);
     }
     
     protected SingleUseTank newTank(String tankName, int tankSize) {

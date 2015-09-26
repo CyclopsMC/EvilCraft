@@ -101,7 +101,8 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
                 BloodChest.getInstance().getLocalizedName(),
                 LIQUID_PER_SLOT,
                 TileBloodChest.TANKNAME,
-                ACCEPTED_FLUID);
+                ACCEPTED_FLUID,
+                1);
         for(int i = 0; i < SLOTS_CHEST; i++) {
             addTicker(
                     new TickComponent<

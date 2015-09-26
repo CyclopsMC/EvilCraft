@@ -19,8 +19,8 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
         return !tile.getTank().isEmpty() && itemStack != null;
     }
     
-    private void drainTank(TileBloodChest tile) {
-        tile.getTank().drain(BloodChestConfig.mBPerDamage, true);
+    private void drainTank(TileBloodChest tile, float usageMultiplier) {
+        tile.getTank().drain((int) Math.ceil((float) BloodChestConfig.mBPerDamage * usageMultiplier), true);
     }
 
     @Override
@@ -36,8 +36,8 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
             			getRegistry(IBloodChestRepairActionRegistry.class);
                 int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {
-                    drainTank(tile);
-                    actions.repair(itemStack, tile.getWorldObj().rand, actionID);
+                    float multiplier = actions.repair(itemStack, tile.getWorldObj().rand, actionID);
+                    drainTank(tile, multiplier);
                 }
                 
             }
