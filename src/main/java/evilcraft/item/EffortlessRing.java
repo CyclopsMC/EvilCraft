@@ -76,7 +76,7 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
     public void adjustParameters(ItemStack itemStack, EntityPlayer player) {
         // Speed
         if(player.moveForward > 0 && player.onGround) {
-            player.moveFlying(0, 1, player.isInWater() ? SPEED_BONUS / 4 : SPEED_BONUS);
+            player.moveFlying(0, 1, player.isInWater() ? SPEED_BONUS / 3 : SPEED_BONUS);
         }
 
         // Step height
