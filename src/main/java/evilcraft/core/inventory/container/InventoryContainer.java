@@ -1,5 +1,6 @@
 package evilcraft.core.inventory.container;
 
+import evilcraft.core.inventory.slot.SlotArmor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -61,6 +62,18 @@ public abstract class InventoryContainer extends Container {
         // Player hotbar
         offsetY += 58;
         addInventory(inventory, 0, offsetX, offsetY, 1, cols);
+    }
+
+    /**
+     * Add player armor inventory to the GUI.
+     * @param inventory Inventory of the player
+     * @param offsetX Offset to X
+     * @param offsetY Offset to Y
+     */
+    protected void addPlayerArmorInventory(InventoryPlayer inventory, int offsetX, int offsetY) {
+        for (int y = 0; y < 4; y++) {
+            addSlotToContainer(new SlotArmor(inventory, 4 * 9 + (3 - y), offsetX, offsetY + y * ITEMBOX, inventory.player, y));
+        }
     }
     
     protected abstract int getSizeInventory();

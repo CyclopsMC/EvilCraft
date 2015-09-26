@@ -13,14 +13,14 @@ import evilcraft.tileentity.TileBloodChest;
  */
 public class GuiBloodChest extends GuiContainerTankInventory<TileBloodChest> {
 
-    private static final int TEXTUREWIDTH = 176;
+    private static final int TEXTUREWIDTH = 196;
 	//private static final int TEXTUREHEIGHT = 166;
     
     private static final int TANKWIDTH = 16;
     private static final int TANKHEIGHT = 58;
     private static final int TANKX = TEXTUREWIDTH;
     private static final int TANKY = 0;
-    private static final int TANKTARGETX = 43;
+    private static final int TANKTARGETX = 63;
     private static final int TANKTARGETY = 72;
     
     /**
@@ -33,5 +33,14 @@ public class GuiBloodChest extends GuiContainerTankInventory<TileBloodChest> {
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
     }
 
+    @Override
+    protected int getBaseXSize() {
+        return TEXTUREWIDTH;
+    }
+
+    @Override
+    protected void drawForgegroundString() {
+        fontRendererObj.drawString(tile.getInventoryName(), 28 + offsetX, 4 + offsetY, 4210752);
+    }
     
 }
