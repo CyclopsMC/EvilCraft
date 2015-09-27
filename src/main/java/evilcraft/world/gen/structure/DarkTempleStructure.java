@@ -1,23 +1,23 @@
 package evilcraft.world.gen.structure;
 
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
 import evilcraft.GeneralConfig;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.StairSlabMetadataHelper;
 import evilcraft.core.helper.StairSlabMetadataHelper.SlabType;
 import evilcraft.core.helper.StairSlabMetadataHelper.StoneBrickType;
-import evilcraft.world.gen.nbt.DarkTempleData;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * Structure which generates Dark Temples.
  * 
  * @author immortaleeb
+ * @author rubensworks
  *
  */
 public class DarkTempleStructure extends QuarterSymmetricalStructure {
@@ -26,24 +26,20 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 	private static final int[] CORNER_INC = {-1, 1};
 	
 	private static DarkTempleStructure _instance = null;
-	
-	private DarkTempleData darkTempleData;
 
 	/**
 	 * Get the unique instance.
-	 * @param darkTempleData The data of the temple.
 	 * @return Unique instance.
 	 */
-	public static DarkTempleStructure getInstance(DarkTempleData darkTempleData) {
+	public static DarkTempleStructure getInstance() {
 		if (_instance == null)
-			_instance = new DarkTempleStructure(darkTempleData);
+			_instance = new DarkTempleStructure();
 		
 		return _instance;
 	}
 	
-	private DarkTempleStructure(DarkTempleData darkTempleData) {
+	private DarkTempleStructure() {
 		super(6, 6);
-		this.darkTempleData = darkTempleData;
 	}
 	
 	/**
@@ -277,9 +273,6 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 
 				// If all is ok, generate the structure
 				super.generate(world, random, x, groundHeight, z);
-
-				// save position of the dark temple in NBT
-				darkTempleData.addStructureLocation(x, groundHeight, z);
 
 				return true;
 			}

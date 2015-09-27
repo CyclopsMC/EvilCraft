@@ -1,21 +1,23 @@
 package evilcraft.world.gen.nbt;
 
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.Sets;
+import evilcraft.core.helper.MinecraftHelpers;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.WorldSavedData;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.Set;
 
 /**
  * Responsible for saving all dark temple locations in NBT format.
  * 
  * @author immortaleeb
+ * @author rubensworks
  *
  */
 public class DarkTempleData extends WorldSavedData {
-	// Locations of all the dark temples
-	private List<Position> structureLocations;
+	private Set<Pair<Integer, Integer>> failedLocations;
 
 	/**
 	 * Creates a new instance.
@@ -27,95 +29,44 @@ public class DarkTempleData extends WorldSavedData {
 	}
 	
 	private void initStructureLocations() {
-		structureLocations = new ArrayList<Position>();
+		failedLocations = Sets.newHashSet();
 	}
 	
 	/**
-	 * Add a location of a new dark temple.
-	 * @param x X-coordinate of the dark temple.
-	 * @param y Y-coordinate of the dark temple.
-	 * @param z Z-coordinate of the dark temple.
+	 * Add a failed location of a dark temple.
+	 * @param chunkX Chunk X
+	 * @param chunkZ Chunk Y
 	 */
-	public void addStructureLocation(int x, int y, int z) {
-		structureLocations.add(new Position(x, y, z));
+	public void addFailedLocation(int chunkX, int chunkZ) {
+		failedLocations.add(Pair.of(chunkX, chunkZ));
 		setDirty(true);
 	}
-	
-	/**
-	 * Check if a dark temple is in the range of the given coordinates.
-	 * NOTE: this function will ignores the Y-coordinate because those are
-	 * not interesting for dark temple spawning positions.
-	 * @param x The X-coordinate of the given location.
-	 * @param y The Y-coordinate of the given location.
-	 * @param z The Z-coordinate of the given location.
-	 * @param range The range in which we have to search for other dark temples
-	 *              around the given location.
-	 * @return true if there is a dark temple in the given range, otherwise false is returned.
-	 */
-	public boolean isStructureInRange(int x, int y, int z, int range) {
-		for (Position pos : structureLocations) {
-			if (inRange(pos, x, y, z, range))
-				return true;
-		}
-		
-		return false;
-	}
-	
-	private boolean inRange(Position pos, int x, int y, int z, int range) {
-		return (pos.x - x) * (pos.x - x) + (pos.z - z) * (pos.z - z) <= range * range;
+
+	public boolean isFailed(int chunkX, int chunkZ) {
+		return failedLocations.contains(Pair.of(chunkX, chunkZ));
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
-		if (!compound.hasKey("locations")) return;
-		
-		ByteBuffer buffer = ByteBuffer.wrap(compound.getByteArray("locations"));
+		if (!compound.hasKey("failedLocations")) return;
 		initStructureLocations();
-		
-		// Read the number of elements
-		int nelems = buffer.getInt();
-		
-		// Read the individual elements
-		for (int i=0; i < nelems; ++i) {
-			structureLocations.add(Position.fromByteBuffer(buffer));
+
+		NBTTagList list = compound.getTagList("failedLocations", MinecraftHelpers.NBTTag_Types.NBTTagCompound.ordinal());
+		for(int i = 0; i < list.tagCount(); i++) {
+			NBTTagCompound posTag = list.getCompoundTagAt(i);
+			failedLocations.add(Pair.of(posTag.getInteger("x"), posTag.getInteger("z")));
 		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
-		// TODO: this can be rewritten using an ILocation instance and using NBTTagList.
-		ByteBuffer buffer = ByteBuffer.allocate(4 + structureLocations.size() * Position.SIZE_IN_BYTES);
-		
-		// Write the number of elements in the list
-		buffer.putInt(structureLocations.size());
-		
-		// Write the individual elements
-		for (Position pos : structureLocations) {
-			pos.addToByteBuffer(buffer);
+		NBTTagList list = new NBTTagList();
+		for (Pair<Integer, Integer> pos : failedLocations) {
+			NBTTagCompound posTag = new NBTTagCompound();
+			posTag.setInteger("x", pos.getLeft());
+			posTag.setInteger("z", pos.getRight());
+			list.appendTag(posTag);
 		}
-		
-		compound.setByteArray("locations", buffer.array());
-	}
-	
-	private static class Position {
-		public static final int SIZE_IN_BYTES = 3 * 4;
-		
-		public int x, y, z;
-		
-		public Position(int x, int y, int z) {
-			this.x = x;
-			this.y = y;
-			this.z = z;
-		}
-		
-		public void addToByteBuffer(ByteBuffer buffer) {
-			buffer.putInt(x);
-			buffer.putInt(y);
-			buffer.putInt(z);
-		}
-		
-		public static Position fromByteBuffer(ByteBuffer buffer) {
-			return new Position(buffer.getInt(), buffer.getInt(), buffer.getInt());
-		}
+		compound.setTag("failedLocations", list);
 	}
 }

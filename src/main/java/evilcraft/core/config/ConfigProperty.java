@@ -270,6 +270,22 @@ public final class ConfigProperty {
                 } else {
                     getCallback().run(additionalProperty.getStringList());
                 }
+        } else if(value instanceof int[]) {
+            additionalProperty = config.get(
+                    category,
+                    name,
+                    (int[])value,
+                    comment
+            );
+            if(forceUpdate) {
+                additionalProperty.setValues((int[])value);
+            }
+            additionalProperty.comment = getComment();
+            if(forceUpdate) {
+                getCallback().run((int[])value);
+            } else {
+                getCallback().run(additionalProperty.getIntList());
+            }
         } else {
             EvilCraft.log("Invalid config property class. No match found for '"
             		+ name + "': '" + value + "'", Level.ERROR);
