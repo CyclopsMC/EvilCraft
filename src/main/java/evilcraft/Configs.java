@@ -194,6 +194,7 @@ public class Configs {
         configs.add(new EntityWeatherContainerConfig());
         configs.add(new EntityItemEmpowerableConfig());
         configs.add(new EntityItemUndespawnableConfig());
+        configs.add(new EntityItemDarkStickConfig());
         // Block
         configs.add(new EntityLightningBombPrimedConfig());
         // Monster

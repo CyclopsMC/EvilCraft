@@ -1,9 +1,10 @@
 package evilcraft.item;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.client.render.entity.RenderEntityItemDarkStick;
 import evilcraft.core.config.extendedconfig.ItemConfig;
-import evilcraft.entity.item.EntityItemDarkStick;
 import evilcraft.proxy.ClientProxy;
 
 /**
@@ -34,10 +35,12 @@ public class DarkStickConfig extends ItemConfig {
     public String getOreDictionaryId() {
         return Reference.DICT_WOODSTICK;
     }
-    
+
+    @SideOnly(Side.CLIENT)
     @Override
     public void onRegistered() {
-        ClientProxy.ENTITY_RENDERERS.put(EntityItemDarkStick.class, new RenderEntityItemDarkStick());
+        super.onRegistered();
+        ClientProxy.ITEM_RENDERERS.put(getItemInstance(), new RenderEntityItemDarkStick());
     }
 
 }

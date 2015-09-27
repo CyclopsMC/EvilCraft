@@ -1,10 +1,7 @@
 package evilcraft.entity.item;
 
-import net.minecraft.client.renderer.entity.Render;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.client.render.entity.RenderEntityItemDarkStick;
 import evilcraft.core.config.extendedconfig.EntityConfig;
+import net.minecraft.client.renderer.entity.Render;
 
 /**
  * Config for the {@link EntityItemDarkStick}.
@@ -29,11 +26,9 @@ public class EntityItemDarkStickConfig extends EntityConfig {
             EntityItemDarkStick.class
         );
     }
-    
-    @SideOnly(Side.CLIENT)
+
     @Override
     protected Render getRender() {
-        return new RenderEntityItemDarkStick();
+        return null;
     }
-    
 }

@@ -5,15 +5,21 @@ import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import evilcraft.Configs;
 import evilcraft.GeneralConfig;
+import evilcraft.api.ILocation;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
+import evilcraft.core.algorithm.Location;
+import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.helper.WorldHelpers;
 import evilcraft.world.gen.nbt.DarkTempleData;
 import evilcraft.world.gen.structure.DarkTempleStructure;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Random;
 
@@ -64,7 +70,7 @@ public class DarkTempleGenerator implements IWorldGenerator {
 		}
 	}
 
-	protected boolean canGenerate(World world) {
+	public static boolean canGenerate(World world) {
 		int id = world.provider.dimensionId;
 		for(int i = 0; i < GeneralConfig.darkTempleDimensions.length; i++) {
 			if(id == GeneralConfig.darkTempleDimensions[i]) {
@@ -74,10 +80,68 @@ public class DarkTempleGenerator implements IWorldGenerator {
 		return false;
 	}
 
-	protected boolean appliesAt(World world, int chunkX, int chunkZ) {
+	protected static boolean appliesAt(World world, int chunkX, int chunkZ) {
 		int frequency = GeneralConfig.darkTempleFrequency;
 		// Pseudo-random formula
 		return (chunkX * chunkZ + chunkX - chunkZ + world.getSeed()) % frequency == 0;
+	}
+
+	/**
+	 * Check if a temple exists at the given chunk.
+	 * @param world The world.
+	 * @param chunkX Chunk X
+	 * @param chunkZ Chunk Y
+	 * @return If a temple exists and has not failed (yet).
+	 */
+	public static boolean hasTemple(World world, int chunkX, int chunkZ) {
+		return appliesAt(world, chunkX, chunkZ) && !getCachedData(world).isFailed(chunkX, chunkZ);
+	}
+
+	/**
+	 * Get the closest temple chunk location.
+	 * @param world The world.
+	 * @param chunkX Chunk X
+	 * @param chunkZ Chunk Y
+	 * @param radius The maximum chunk distance to look for. The higher this is, the longer this will take.
+	 * @return The pair of closest chunk x and z coordinates.
+	 */
+	public static @Nullable Pair<Integer, Integer> getClosest(World world, int chunkX, int chunkZ, int radius) {
+		for(int r = 1; r < radius; r++) {
+			for (int x = chunkX - r; x <= chunkX + r; x += r) {
+				for (int z = chunkZ - r; z <= chunkZ + r; z += r) {
+					if (hasTemple(world, x, z)) {
+						return Pair.of(x, z);
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Get the closest temple chunk location.
+	 * @param world The world.
+	 * @param chunkX Chunk X
+	 * @param chunkZ Chunk Y
+	 * @return The pair of closest chunk x and z coordinates.
+	 */
+	public static @Nullable Pair<Integer, Integer> getClosest(World world, int chunkX, int chunkZ) {
+		return getClosest(world, chunkX, chunkZ, Math.min(500, GeneralConfig.darkTempleFrequency));
+	}
+
+	/**
+	 * Get the closest temple chunk location.
+	 * @param world The world.
+	 * @param x X
+	 * @param z Z
+	 * @return The pair location closest chunk in world coordinates.
+	 */
+	public static @Nullable ILocation getClosestForCoords(World world, int x, int z) {
+		Pair<Integer, Integer> closest = getClosest(world, x / WorldHelpers.CHUNK_SIZE, z / WorldHelpers.CHUNK_SIZE);
+		if(closest == null) {
+			return null;
+		}
+		return new Location(closest.getLeft() * WorldHelpers.CHUNK_SIZE, 0, closest.getRight() * WorldHelpers.CHUNK_SIZE);
 	}
 
 	@Override
