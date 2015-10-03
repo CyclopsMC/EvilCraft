@@ -45,6 +45,14 @@ public class RenderTileEntityModel extends TileEntitySpecialRenderer {
 	public ResourceLocation getTexture() {
 		return texture;
 	}
+
+    protected void preRotate(EvilCraftTileEntity tile) {
+        GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+    }
+
+    protected void postRotate(EvilCraftTileEntity tile) {
+        GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+    }
     
     protected void renderTileEntityAt(EvilCraftTileEntity tile, double x, double y, double z, float partialTick) {
         ForgeDirection direction = tile.getRotation();
@@ -55,7 +63,7 @@ public class RenderTileEntityModel extends TileEntitySpecialRenderer {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glTranslatef((float)x, (float)y + 1.0F, (float)z + 1.0F);
         GL11.glScalef(1.0F, -1.0F, -1.0F);
-        GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+        preRotate(tile);
         short rotation = 0;
 
         if (direction == ForgeDirection.SOUTH) {
@@ -72,7 +80,7 @@ public class RenderTileEntityModel extends TileEntitySpecialRenderer {
         }
 
         GL11.glRotatef((float)rotation, 0.0F, 1.0F, 0.0F);
-        GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+        postRotate(tile);
 
         renderModel(tile, getModel(), partialTick);
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);

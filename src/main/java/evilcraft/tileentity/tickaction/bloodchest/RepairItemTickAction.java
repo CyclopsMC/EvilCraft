@@ -26,18 +26,17 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
     @Override
     public void onTick(TileBloodChest tile, ItemStack itemStack, int slot, int tick) {
         if(tick >= getRequiredTicks(tile, slot)) {
-            if(
-                    !tile.getTank().isEmpty()
-                    && tile.getTank().getFluidAmount() >= BloodChestConfig.mBPerDamage
-                    && itemStack != null
-                    ) {
+            if(!tile.getTank().isEmpty() && itemStack != null) {
                 // Call handlers registered via API.
             	IBloodChestRepairActionRegistry actions = RegistryManager.
             			getRegistry(IBloodChestRepairActionRegistry.class);
                 int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {
-                    float multiplier = actions.repair(itemStack, tile.getWorldObj().rand, actionID);
-                    drainTank(tile, multiplier);
+                    float simulateMultiplier = actions.repair(itemStack, tile.getWorldObj().rand, actionID, false);
+                    if(tile.getTank().getFluidAmount() >= BloodChestConfig.mBPerDamage * simulateMultiplier) {
+                        float multiplier = actions.repair(itemStack, tile.getWorldObj().rand, actionID, true);
+                        drainTank(tile, multiplier);
+                    }
                 }
                 
             }

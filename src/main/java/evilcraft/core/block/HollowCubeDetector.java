@@ -23,13 +23,13 @@ public class HollowCubeDetector extends CubeDetector {
 	}
 	
 	@Override
-	protected void postValidate(World world, final Size size, final int[][] dimensionEgdes, final boolean valid) {
+	protected void postValidate(World world, final Size size, final int[][] dimensionEgdes, final boolean valid, final ILocation originCorner) {
 		coordinateRecursion(world, dimensionEgdes, new ILocationAction() {
 
 			@Override
 			public boolean run(World world, ILocation location) {
 				if(isEdge(world, dimensionEgdes, location) && isValidLocation(world, location)) {
-					notifyListeners(world, location, size, valid);
+					notifyListeners(world, location, size, valid, originCorner);
 				}
 				return true;
 			}

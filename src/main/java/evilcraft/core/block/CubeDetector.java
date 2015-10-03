@@ -29,6 +29,7 @@ public class CubeDetector {
 	private Map<Block, AllowedBlock> blockInfo = Maps.newHashMap();
 	private List<? extends IDetectionListener> listeners;
 	private Size minimumSize = NULL_SIZE;
+	private Size exactSize = NULL_SIZE;
 	
 	private Map<Block, Integer> blockOccurences;
 
@@ -74,6 +75,30 @@ public class CubeDetector {
 	 */
 	public CubeDetector setMinimumSize(Size minimumSize) {
 		this.minimumSize = minimumSize;
+		if(getExactSize() != NULL_SIZE) {
+			throw new IllegalStateException("Can not set both a minimum and exact size.");
+		}
+		return this;
+	}
+
+	/**
+	 * @return the exactSize
+	 */
+	public Size getExactSize() {
+		return exactSize;
+	}
+
+	/**
+	 * The size is the inner size -1 on each dimension, so 2x2x2 is one block in the middle open,
+	 * with edge blocks on the side forming a 3x3x3.
+	 * @param exactSize the exactSize to set
+	 * @return this instance.
+	 */
+	public CubeDetector setExactSize(Size exactSize) {
+		this.exactSize = exactSize;
+		if(getMinimumSize() != NULL_SIZE) {
+			throw new IllegalStateException("Can not set both a minimum and exact size.");
+		}
 		return this;
 	}
 	
@@ -84,9 +109,9 @@ public class CubeDetector {
 		return listeners;
 	}
 	
-	protected void notifyListeners(World world, ILocation location, Size size, boolean valid) {
+	protected void notifyListeners(World world, ILocation location, Size size, boolean valid, ILocation originCorner) {
 		for(IDetectionListener listener : getListeners()) {
-			listener.onDetect(world, location, size, valid);
+			listener.onDetect(world, location, size, valid, originCorner);
 		}
 	}
 	
@@ -276,7 +301,7 @@ public class CubeDetector {
 		}
 		
 		// Loop over all dimensions
-		return coordinateRecursion(world, dimensionEgdes, new ILocationAction() {
+		boolean minimumValid = coordinateRecursion(world, dimensionEgdes, new ILocationAction() {
 
 			@Override
 			public boolean run(World world, ILocation location) {
@@ -287,15 +312,27 @@ public class CubeDetector {
 			}
 			
 		});
+
+		if(minimumValid) {
+			for(AllowedBlock allowed : allowedBlocks) {
+				int occurences = blockOccurences.get(allowed.getBlock());
+				if(allowed.getExactOccurences() >= 0) {
+					if(occurences != allowed.getExactOccurences()) {
+						return !valid;
+					}
+				}
+			}
+		}
+		return minimumValid;
 	}
 	
 	protected void postValidate(World world, final Size size, int[][] dimensionEgdes,
-			final boolean valid) {
+			final boolean valid, final ILocation originCorner) {
 		coordinateRecursion(world, dimensionEgdes, new ILocationAction() {
 
 			@Override
 			public boolean run(World world, ILocation location) {
-				notifyListeners(world, location, size, valid);
+				notifyListeners(world, location, size, valid, originCorner);
 				return true;
 			}
 			
@@ -337,7 +374,7 @@ public class CubeDetector {
 		if(!isValidLocation(world, startLocation)) {
 			return NULL_SIZE.copy();
 		}
-		
+
 		// Find a corner that can be used as an origin for the structure.
 		// We use a temp origin corner to first go to the completely opposite direction
 		// in each dimension to ensure we eventually find the actual origin.
@@ -373,18 +410,31 @@ public class CubeDetector {
 		if(!validateDimensionEdges(world, dimensionEgdes, valid, action)) {
 			return NULL_SIZE.copy();
 		}
-		
+
 		Size size = new Size(distances);
-		// Check if the size is not smaller than the minimum required size.
-		// If it is smaller we immediately return a null-size, but if we are in invalidation-mode,
-		// we skip this step because we always want to be able to invalidate existing structures.
-		// TODO: the 'valid' condition might be impossible to have influence if all structure
-		// handling goes according to plan.
-		if(size.compareTo(getMinimumSize()) < 0 && valid) {
-			// System.out.println("too small");
-			return NULL_SIZE.copy();
+		if(getMinimumSize() != NULL_SIZE) {
+			// Check if the size is not smaller than the minimum required size.
+			// If it is smaller we immediately return a null-size, but if we are in invalidation-mode,
+			// we skip this step because we always want to be able to invalidate existing structures.
+			// TODO: the 'valid' condition might be impossible to have influence if all structure
+			// handling goes according to plan.
+			if (size.compareTo(getMinimumSize()) < 0 && valid) {
+				// System.out.println("too small");
+				return NULL_SIZE.copy();
+			}
 		}
-		postValidate(world, size, dimensionEgdes, valid);
+		if(getExactSize() != NULL_SIZE) {
+			// Check if the size is the exact required size.
+			// If it is not the same we immediately return a null-size, but if we are in invalidation-mode,
+			// we skip this step because we always want to be able to invalidate existing structures.
+			// TODO: the 'valid' condition might be impossible to have influence if all structure
+			// handling goes according to plan.
+			if (size.compareTo(getExactSize()) != 0 && valid) {
+				// System.out.println("too small");
+				return NULL_SIZE.copy();
+			}
+		}
+		postValidate(world, size, dimensionEgdes, valid, originCorner);
 		return size;
 	}
 	
@@ -401,8 +451,9 @@ public class CubeDetector {
 		 * @param location The location of a block of the structure.
 		 * @param size The size of the structure.
 		 * @param valid True if the structure should be validated, false if it should be invalidated.
+		 * @param originCorner The origin corner block of the structure.
 		 */
-		public void onDetect(World world, ILocation location, Size size, boolean valid);
+		public void onDetect(World world, ILocation location, Size size, boolean valid, ILocation originCorner);
 		
 	}
 	

@@ -24,10 +24,12 @@ public class AnvilRepairAction implements IBloodChestRepairAction {
     }
 
     @Override
-    public float repair(ItemStack itemStack, Random random) {
-        // Repair the item
-        int newDamage = itemStack.getItemDamage() - 1;
-        itemStack.setItemDamage(newDamage);
+    public float repair(ItemStack itemStack, Random random, boolean doAction) {
+        if(doAction) {
+            // Repair the item
+            int newDamage = itemStack.getItemDamage() - 1;
+            itemStack.setItemDamage(newDamage);
+        }
         return 25;
     }
 

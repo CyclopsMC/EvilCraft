@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import evilcraft.api.ILocation;
@@ -104,7 +105,7 @@ public class LocationHelpers {
 	 * @return The tile entity on that location.
 	 * @throws LocationException If the given location does not have exactly three dimensions.
 	 */
-	public static TileEntity getTile(World world, ILocation location) throws LocationException {
+	public static TileEntity getTile(IBlockAccess world, ILocation location) throws LocationException {
 		int[] c = validateLocation(location);
 		return world.getTileEntity(c[0], c[1], c[2]);
 	}

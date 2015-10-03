@@ -37,9 +37,10 @@ public interface IBloodChestRepairActionRegistry extends IRegistry {
      * @param itemStack The item to repair.
      * @param random A random instance.
      * @param actionID the ID of the action to call.
+     * @param doAction If the actual repair action should be performed, otherwise this is just a simulation.
      * @return Blood usage multiplier
      */
-    public float repair(ItemStack itemStack, Random random, int actionID);
+    public float repair(ItemStack itemStack, Random random, int actionID, boolean doAction);
 
     /**
      * Set the blacklist of item names.

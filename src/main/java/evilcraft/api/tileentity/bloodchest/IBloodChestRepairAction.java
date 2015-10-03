@@ -30,8 +30,9 @@ public interface IBloodChestRepairAction {
      * The repair logic for a given item for one tick.
      * @param itemStack The item to repair.
      * @param random A random instance.
+     * @param doAction If the actual repair action should be performed, otherwise this is just a simulation.
      * @return Blood usage multiplier
      */
-    public float repair(ItemStack itemStack, Random random);
+    public float repair(ItemStack itemStack, Random random, boolean doAction);
     
 }

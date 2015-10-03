@@ -12,11 +12,10 @@ import evilcraft.core.config.configurable.ConfigurableBlock;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.LocationHelpers;
-import evilcraft.item.DarkGem;
-import evilcraft.tileentity.TileSpiritFurnace;
+import evilcraft.core.helper.RenderHelpers;
+import evilcraft.tileentity.TileColossalBloodChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
@@ -24,56 +23,54 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 /**
- * Ore that drops {@link DarkGem}.
+ * Part of the Colossal Blood Chest multiblock structure.
  * @author rubensworks
  *
  */
-public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListener {
-    
-    private static DarkBloodBrick _instance = null;
-    
-    private IIcon blockIconInactive;
-    
+public class ReinforcedUndeadPlank extends ConfigurableBlock implements IDetectionListener {
+
+    private static ReinforcedUndeadPlank _instance = null;
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
         if(_instance == null)
-            _instance = new DarkBloodBrick(eConfig);
+            _instance = new ReinforcedUndeadPlank(eConfig);
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
      */
-    public static DarkBloodBrick getInstance() {
+    public static ReinforcedUndeadPlank getInstance() {
         return _instance;
     }
 
-    private DarkBloodBrick(ExtendedConfig<BlockConfig> eConfig) {
+    private ReinforcedUndeadPlank(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
         this.setHardness(5.0F);
-        this.setStepSound(soundTypeStone);
-        this.setHarvestLevel("pickaxe", 2); // Iron tier
+        this.setStepSound(soundTypeWood);
+        this.setHarvestLevel("axe", 2); // Iron tier
     }
-    
-    @Override
+
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-    	super.registerBlockIcons(iconRegister);
-        blockIconInactive = iconRegister.registerIcon(getTextureName() + "_inactive");
-    }
-    
     @Override
-    @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-    	if(meta == 0) {
-    		return blockIconInactive;
-    	}
-        return super.getIcon(side, meta);
+        return meta == 1 ? RenderHelpers.EMPTYICON : super.getIcon(side, meta);
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+        return false;
     }
     
     @Override
@@ -82,7 +79,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
     }
     
     private void triggerDetector(World world, int x, int y, int z, boolean valid) {
-    	TileSpiritFurnace.detector.detect(world, new Location(x, y, z), valid, true);
+    	TileColossalBloodChest.detector.detect(world, new Location(x, y, z), valid, true);
     }
     
     @Override
@@ -101,7 +98,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
 	public void onDetect(World world, ILocation location, Size size, boolean valid, ILocation originCorner) {
 		Block block = LocationHelpers.getBlock(world, location);
 		if(block == this) {
-			TileSpiritFurnace.detectStructure(world, location, size, valid);
+            TileColossalBloodChest.detectStructure(world, location, size, valid);
 		}
 	}
 
@@ -111,11 +108,11 @@ public class DarkBloodBrick extends ConfigurableBlock implements IDetectionListe
         int meta = world.getBlockMetadata(x, y, z);
         if(meta == 1) {
             final Wrapper<ILocation> tileLocationWrapper = new Wrapper<ILocation>();
-            TileSpiritFurnace.detector.detect(world, new Location(x, y, z), true, new CubeDetector.IValidationAction() {
+            TileColossalBloodChest.detector.detect(world, new Location(x, y, z), true, new CubeDetector.IValidationAction() {
 
                 @Override
                 public void onValidate(ILocation location, Block block) {
-                    if(block == SpiritFurnace.getInstance()) {
+                    if(block == ColossalBloodChest.getInstance()) {
                         tileLocationWrapper.set(location);
                     }
                 }

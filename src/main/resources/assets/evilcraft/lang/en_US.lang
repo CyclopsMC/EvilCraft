@@ -72,6 +72,9 @@ tile.blocks.eternalWaterBlock.name=Eternal Water Block
 tile.blocks.eternalWaterBlock.info=An infinite source of water.
 tile.blocks.bloodWaxedCoalBlock.name=Block of Blood-Waxed Coal
 tile.blocks.spiritPortal.name=Spirit Portal
+tile.blocks.reinforcedUndeadPlank.name=Reinforced Undead Plank
+tile.blocks.colossalBloodChest.name=Colossal Blood Chest
+tile.blocks.colossalBloodChest.info=An industry-sized Blood Chest.
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone

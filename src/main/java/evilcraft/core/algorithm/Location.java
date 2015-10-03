@@ -100,7 +100,7 @@ public class Location implements ILocation {
 			}
 			i++;
 		}
-		return validBuffer ? 0 : buffer;
+		return validBuffer ? buffer : 0;
 	}
 
 	@Override

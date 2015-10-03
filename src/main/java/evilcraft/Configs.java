@@ -130,6 +130,8 @@ public class Configs {
         configs.add(new EternalWaterBlockConfig());
         configs.add(new BloodWaxedCoalBlockConfig());
         configs.add(new SpiritPortalConfig());
+        configs.add(new ColossalBloodChestConfig());
+        configs.add(new ReinforcedUndeadPlankConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

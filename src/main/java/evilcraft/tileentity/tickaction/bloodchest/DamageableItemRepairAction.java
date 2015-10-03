@@ -41,20 +41,22 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
     }
 
     @Override
-    public float repair(ItemStack itemStack, Random random) {
-        // Repair the item
-        int newDamage = itemStack.getItemDamage() - 1;
-        itemStack.setItemDamage(newDamage);
-        
-        // Add bad enchant with a certain chance
-        if(BloodChestConfig.addRandomBadEnchants && random.nextInt(CHANCE_RANDOM_ENCHANT) == 0
-        		&& BAD_ENCHANTS.size() > 0) {
-            ConfigurableEnchantment enchantment = BAD_ENCHANTS.get(random.nextInt(BAD_ENCHANTS.size()));
-            itemStack.addEnchantment(
-                    enchantment,
-                    enchantment.getMinLevel() + random.nextInt(
-                            enchantment.getMaxLevel() - enchantment.getMinLevel())
-                    );
+    public float repair(ItemStack itemStack, Random random, boolean doAction) {
+        if(doAction) {
+            // Repair the item
+            int newDamage = itemStack.getItemDamage() - 1;
+            itemStack.setItemDamage(newDamage);
+
+            // Add bad enchant with a certain chance
+            if (BloodChestConfig.addRandomBadEnchants && random.nextInt(CHANCE_RANDOM_ENCHANT) == 0
+                    && BAD_ENCHANTS.size() > 0) {
+                ConfigurableEnchantment enchantment = BAD_ENCHANTS.get(random.nextInt(BAD_ENCHANTS.size()));
+                itemStack.addEnchantment(
+                        enchantment,
+                        enchantment.getMinLevel() + random.nextInt(
+                                enchantment.getMaxLevel() - enchantment.getMinLevel())
+                );
+            }
         }
         return 1;
     }
