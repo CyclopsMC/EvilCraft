@@ -59,8 +59,8 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
     }
 
     @Override
-    public float repair(ItemStack itemStack, Random random, int actionID, boolean doAction) {
-        return repairActions.get(actionID).repair(itemStack, random, doAction);
+    public float repair(ItemStack itemStack, Random random, int actionID, boolean doAction, boolean isBulk) {
+        return repairActions.get(actionID).repair(itemStack, random, doAction, isBulk);
     }
 
     protected boolean isNotBlacklisted(ItemStack itemStack) {

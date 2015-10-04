@@ -1,10 +1,12 @@
 package evilcraft.tileentity;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.ILocation;
 import evilcraft.block.ColossalBloodChest;
+import evilcraft.block.ColossalBloodChestConfig;
 import evilcraft.block.ReinforcedUndeadPlank;
 import evilcraft.core.algorithm.Location;
 import evilcraft.core.algorithm.Size;
@@ -20,6 +22,7 @@ import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.NBTPersist;
+import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
 import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
@@ -31,6 +34,8 @@ import evilcraft.inventory.slot.SlotRepairable;
 import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
 import evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
 import evilcraft.tileentity.tickaction.bloodchest.BulkRepairItemTickAction;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -88,10 +93,16 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
      */
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
 
+    public static final int MAX_EFFICIENCY = 200;
+
     @NBTPersist
     private Size size = Size.NULL_SIZE.copy();
     @NBTPersist
     private ILocation renderOffset = Size.NULL_SIZE.copy();
+    @Getter
+    @Setter
+    @NBTPersist
+    private Integer efficiency = 0;
     private int repairTicker;
     /**
      * The previous angle of the lid.
@@ -102,6 +113,8 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
      */
     public float lidAngle;
     private int playersUsing;
+    @Getter
+    private final Map<Integer, Boolean> slotTickHistory;
 
     private Block block = ReinforcedUndeadPlank.getInstance();
 
@@ -192,6 +205,15 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
                 }
             }
         });
+
+        slotTickHistory = Maps.newHashMap();
+        resetSlotHistory();
+    }
+
+    protected void resetSlotHistory() {
+        for(int i = WorkingTileEntity.INVENTORY_SIZE_UPGRADES; i < getSizeInventory(); i++) {
+            slotTickHistory.put(i, false);
+        }
     }
     
     @Override
@@ -265,7 +287,11 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
 
     @Override
     public void updateTileEntity() {
+        resetSlotHistory();
         super.updateTileEntity();
+        if(worldObj != null) {
+            efficiency = Math.max(0, efficiency - ColossalBloodChestConfig.baseConcurrentItems);
+        }
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.
         if(worldObj != null

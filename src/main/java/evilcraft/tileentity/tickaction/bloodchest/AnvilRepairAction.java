@@ -24,7 +24,7 @@ public class AnvilRepairAction implements IBloodChestRepairAction {
     }
 
     @Override
-    public float repair(ItemStack itemStack, Random random, boolean doAction) {
+    public float repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk) {
         if(doAction) {
             // Repair the item
             int newDamage = itemStack.getItemDamage() - 1;

@@ -5,6 +5,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Reference;
 import evilcraft.client.render.tileentity.RenderTileEntityColossalBloodChest;
+import evilcraft.core.config.ConfigurableProperty;
+import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
 import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.core.tileentity.upgrade.Upgrades;
@@ -29,6 +31,24 @@ public class ColossalBloodChestConfig extends BlockContainerConfig {
      * The unique instance.
      */
     public static ColossalBloodChestConfig _instance;
+
+    /**
+     * The amount Blood mB required for repairing one damage value.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The amount Blood mB required for repairing one damage value.", isCommandable = true)
+    public static int baseMBPerDamage = 10;
+
+    /**
+     * The amount of ticks required for repairing one damage value.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The amount of ticks required for repairing one damage value.", isCommandable = true)
+    public static int ticksPerDamage = 2;
+
+    /**
+     * The base amount of concurrent items that need to be available before efficiency can rise.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The base amount of concurrent items that need to be available before efficiency can rise.", isCommandable = true)
+    public static int baseConcurrentItems = 5;
 
     /**
      * Make a new instance.

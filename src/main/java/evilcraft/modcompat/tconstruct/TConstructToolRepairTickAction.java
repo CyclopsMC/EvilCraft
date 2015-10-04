@@ -30,7 +30,7 @@ public class TConstructToolRepairTickAction implements IBloodChestRepairAction {
     }
 
     @Override
-    public float repair(ItemStack itemStack, Random random, boolean doAction) {
+    public float repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk) {
         if(doAction) {
             AbilityHelper.healTool(itemStack, 1, null, true);
         }

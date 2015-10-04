@@ -116,13 +116,13 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 			int tick) {
 		// Drain the tank a bit.
 		tile.getTank().drain(getRequiredMb(tile, tick), true);
-		if(tick >= getRequiredTicks(tile, slot)) {
+		if(tick >= getRequiredTicks(tile, slot, tick)) {
 			doNextDrop(tile);
 		}
 	}
 
 	@Override
-	public int getRequiredTicks(TileSpiritFurnace tile, int slot) {
+	public float getRequiredTicks(TileSpiritFurnace tile, int slot, int tick) {
         int requiredTicksBase;
 		EntityLivingBase entity = tile.getEntity();
 		if(entity == null) {

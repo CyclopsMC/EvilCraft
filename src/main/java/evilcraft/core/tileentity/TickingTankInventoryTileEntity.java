@@ -86,7 +86,7 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
                 NBTTagCompound tag = tickerList.getCompoundTagAt(i);
                 if(tag != null) {
                     ticker.setTick(tag.getInteger("tick"));
-                    ticker.setRequiredTicks(tag.getInteger("requiredTicks"));
+                    ticker.setRequiredTicks(tag.getFloat("requiredTicks"));
                 }
             }
         }
@@ -100,7 +100,7 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
         for(TickComponent<T, ITickAction<T>> ticker : tickers) {
             NBTTagCompound tag = new NBTTagCompound();
             tag.setInteger("tick", ticker.getTick());
-            tag.setInteger("requiredTicks", ticker.getRequiredTicks());
+            tag.setFloat("requiredTicks", ticker.getRequiredTicks());
             tickerList.appendTag(tag);
         }
         data.setTag("tickers", tickerList);

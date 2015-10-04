@@ -98,7 +98,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
         return getTickers().get(getWorkTicker()).getTick();
     }
     
-    protected int getRequiredWorkTicks() {
+    protected float getRequiredWorkTicks() {
         return getTickers().get(getWorkTicker()).getRequiredTicks();
     }
     

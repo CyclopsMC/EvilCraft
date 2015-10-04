@@ -18,7 +18,7 @@ public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileE
 
     @Override
     public void onTick(T tile, ItemStack itemStack, int slot, int tick) {
-        if(tick >= getRequiredTicks(tile, slot)) {
+        if(tick >= getRequiredTicks(tile, slot, tick)) {
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
             SingleUseTank tank = tile.getTank();
             if(fluidStack != null && tank.canTankAccept(fluidStack.getFluid())
@@ -44,7 +44,7 @@ public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileE
     }
     
     @Override
-    public int getRequiredTicks(T tile, int slot) {
+    public float getRequiredTicks(T tile, int slot, int tick) {
         return FluidContainerRegistry.BUCKET_VOLUME / MB_PER_TICK;
     }
 

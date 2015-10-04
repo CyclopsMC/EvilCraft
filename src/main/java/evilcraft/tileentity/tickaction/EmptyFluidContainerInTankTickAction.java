@@ -29,7 +29,7 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
     }
     
     @Override
-    public int getRequiredTicks(T tile, int slot) {
+    public float getRequiredTicks(T tile, int slot, int tick) {
         return getRequiredTicks(tile, tile.getInventory().getStackInSlot(slot));
     }
     

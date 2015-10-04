@@ -51,7 +51,7 @@ public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEnt
                 icrafting.sendProgressBarUpdate(this, INDEX_OFFSET + index, ticker.getTick());
                 
                 // Send the required ticks to the client with an index offset
-                icrafting.sendProgressBarUpdate(this, INDEX_OFFSET + tile.getTickers().size() + index, ticker.getRequiredTicks());
+                icrafting.sendProgressBarUpdate(this, INDEX_OFFSET + tile.getTickers().size() + index, Math.round(ticker.getRequiredTicks()));
             
                 // And finally update the previous tick of this ticker.
                 previousTicks.put(ticker, ticker.getTick());

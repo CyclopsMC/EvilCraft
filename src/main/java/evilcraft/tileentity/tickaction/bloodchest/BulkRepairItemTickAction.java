@@ -2,7 +2,8 @@ package evilcraft.tileentity.tickaction.bloodchest;
 
 import evilcraft.api.RegistryManager;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
-import evilcraft.block.BloodChestConfig;
+import evilcraft.block.ColossalBloodChestConfig;
+import evilcraft.core.helper.MathHelpers;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
 import evilcraft.core.tileentity.upgrade.Upgrades;
@@ -19,33 +20,38 @@ public class BulkRepairItemTickAction implements ITickAction<TileColossalBloodCh
     
     @Override
     public boolean canTick(TileColossalBloodChest tile, ItemStack itemStack, int slot, int tick) {
-        return !tile.getTank().isEmpty() && itemStack != null;
+        return tile.canWork() && !tile.getTank().isEmpty() && itemStack != null;
     }
     
-    private void drainTank(TileColossalBloodChest tile, float usageMultiplier) {
-        tile.getTank().drain(getRequiredFluid(tile, usageMultiplier), true);
+    private void drainTank(TileColossalBloodChest tile, float usageMultiplier, int tick) {
+        tile.getTank().drain(getRequiredFluid(tile, usageMultiplier, tick), true);
     }
 
-    protected int getRequiredFluid(TileColossalBloodChest tile, float usageMultiplier) {
-        MutableFloat duration = new MutableFloat((float) BloodChestConfig.mBPerDamage * usageMultiplier);
-        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableFloat>(duration, TileColossalBloodChest.UPGRADEEVENT_BLOODUSAGE));
-        return (int) Math.ceil(duration.getValue());
+    protected int getRequiredFluid(TileColossalBloodChest tile, float usageMultiplier, int tick) {
+        MutableFloat drain = new MutableFloat(((float) ColossalBloodChestConfig.baseMBPerDamage * usageMultiplier) * (float) (TileColossalBloodChest.MAX_EFFICIENCY + 1 - tile.getEfficiency()) / TileColossalBloodChest.MAX_EFFICIENCY);
+        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableFloat>(drain, TileColossalBloodChest.UPGRADEEVENT_BLOODUSAGE));
+        return MathHelpers.factorToBursts(drain.getValue(), (int) tile.getWorldObj().getWorldTime() + tick % 100);
     }
 
     @Override
     public void onTick(TileColossalBloodChest tile, ItemStack itemStack, int slot, int tick) {
-        // TODO: the more you process, the more efficient. Base usage must be higher though.
-        if(tick >= getRequiredTicks(tile, slot)) {
+        if(tick >= getRequiredTicks(tile, slot, tick)) {
             if(!tile.getTank().isEmpty() && itemStack != null) {
                 // Call handlers registered via API.
                 IBloodChestRepairActionRegistry actions = RegistryManager.
                         getRegistry(IBloodChestRepairActionRegistry.class);
                 int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {
-                    float simulateMultiplier = actions.repair(itemStack, tile.getWorldObj().rand, actionID, false);
-                    if(tile.getTank().getFluidAmount() >= getRequiredFluid(tile, simulateMultiplier) * simulateMultiplier) {
-                        float multiplier = actions.repair(itemStack, tile.getWorldObj().rand, actionID, true);
-                        drainTank(tile, multiplier);
+                    float simulateMultiplier = actions.repair(itemStack, tile.getWorldObj().rand, actionID, false, true);
+                    if(tile.getTank().getFluidAmount() >= getRequiredFluid(tile, simulateMultiplier, tick) * simulateMultiplier) {
+                        // Make sure that increasing speed by upgrades does not increase efficiency any faster.
+                        Boolean slotHistory = tile.getSlotTickHistory().get(slot);
+                        if((slotHistory == null || !slotHistory)) {
+                            tile.setEfficiency(Math.min(tile.getEfficiency() + 1, TileColossalBloodChest.MAX_EFFICIENCY));
+                            tile.getSlotTickHistory().put(slot, true);
+                        }
+                        float multiplier = actions.repair(itemStack, tile.getWorldObj().rand, actionID, true, true);
+                        drainTank(tile, multiplier, tick);
                     }
                 }
 
@@ -54,10 +60,10 @@ public class BulkRepairItemTickAction implements ITickAction<TileColossalBloodCh
     }
 
     @Override
-    public int getRequiredTicks(TileColossalBloodChest tile, int slot) {
-        MutableFloat duration = new MutableFloat(BloodChestConfig.ticksPerDamage);
+    public float getRequiredTicks(TileColossalBloodChest tile, int slot, int tick) {
+        MutableFloat duration = new MutableFloat(ColossalBloodChestConfig.ticksPerDamage);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableFloat>(duration, TileColossalBloodChest.UPGRADEEVENT_SPEED));
-        return (int) Math.ceil(duration.getValue());
+        return duration.getValue();
     }
     
 }

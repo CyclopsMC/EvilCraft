@@ -16,7 +16,7 @@ public class ItemBucketTickAction extends BloodInfuserTickAction{
 
     @Override
     public void onTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
-        if(tick >= getRequiredTicks(tile, slot)) {
+        if(tick >= getRequiredTicks(tile, slot, tick)) {
             ItemStack infuseStack = getInfuseStack(tile);
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(infuseStack);
             if(tile.getTank().getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME && fluidStack == null) {

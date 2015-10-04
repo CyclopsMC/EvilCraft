@@ -31,8 +31,9 @@ public interface IBloodChestRepairAction {
      * @param itemStack The item to repair.
      * @param random A random instance.
      * @param doAction If the actual repair action should be performed, otherwise this is just a simulation.
+     * @param isBulk If the repairing container repairs things in bulk.
      * @return Blood usage multiplier
      */
-    public float repair(ItemStack itemStack, Random random, boolean doAction);
+    public float repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk);
     
 }
