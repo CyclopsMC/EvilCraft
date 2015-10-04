@@ -23,6 +23,8 @@ public class Waila {
     public static void callbackRegister(IWailaRegistrar registrar){
         registrar.addConfig(Reference.MOD_NAME, getTankConfigID(), L10NHelpers.localize("gui.waila.tankConfig"));
         registrar.addConfig(Reference.MOD_NAME, getInnerBlockConfigID(), L10NHelpers.localize("gui.waila.innerBlocksConfig"));
+        registrar.addConfig(Reference.MOD_NAME, getBoxOfEternalClosureConfigID(), L10NHelpers.localize("gui.waila.boxOfEternalClosureConfig"));
+        registrar.addConfig(Reference.MOD_NAME, getBlockInfoConfigID(), L10NHelpers.localize("gui.waila.blockInfoConfig"));
         
         // Tanks
         registrar.registerBodyProvider(new TankDataProvider(), TankInventoryTileEntity.class);
@@ -33,7 +35,7 @@ public class Waila {
         if(Configs.isEnabled(NetherfishSpawnConfig.class))
             registrar.registerStackProvider(new InnerBlockDataProvider(), NetherfishSpawn.class);
         
-        // Other blocks
+        // Box of Eternal Closure
         if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
         	registrar.registerSyncedNBTKey(TileBoxOfEternalClosure.NBTKEY_SPIRIT, TileBoxOfEternalClosure.class);
             registrar.registerBodyProvider(new BoxOfEternalClosureDataProvider(), TileBoxOfEternalClosure.class);
