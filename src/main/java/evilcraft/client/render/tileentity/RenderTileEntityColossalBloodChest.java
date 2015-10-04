@@ -1,5 +1,6 @@
 package evilcraft.client.render.tileentity;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import evilcraft.core.client.render.tileentity.RenderTileEntityModel;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.tileentity.TileColossalBloodChest;
@@ -7,6 +8,8 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.util.Random;
 
 /**
  * Renderer for the {@link evilcraft.block.ColossalBloodChest}.
@@ -26,12 +29,18 @@ public class RenderTileEntityColossalBloodChest extends RenderTileEntityModel {
 
     @Override
     protected void preRotate(EvilCraftTileEntity tile) {
-        GL11.glTranslatef(0.5F, 0, -0.5F);
+        TileColossalBloodChest chestTile = (TileColossalBloodChest) tile;
+        if(chestTile.canWork()) {
+            int[] renderOffset = chestTile.getRenderOffset().getCoordinates();
+            GL11.glTranslatef(-renderOffset[0], renderOffset[1], renderOffset[2]);
+        }
+        GL11.glTranslatef(0.5F, 0, 0.5F);
+        GL11.glScalef(3, 3, 3);
     }
 
     @Override
     protected void postRotate(EvilCraftTileEntity tile) {
-        GL11.glTranslatef(-0.5F, 0, 0.5F);
+        GL11.glTranslatef(-0.5F, 0, -0.5F);
     }
 
     @Override
@@ -40,13 +49,10 @@ public class RenderTileEntityColossalBloodChest extends RenderTileEntityModel {
         if(chestTile.canWork()) {
             ModelChest modelchest = (ModelChest) model;
             float lidangle = chestTile.prevLidAngle + (chestTile.lidAngle - chestTile.prevLidAngle) * partialTick;
-
             lidangle = 1.0F - lidangle;
             lidangle = 1.0F - lidangle * lidangle * lidangle;
             modelchest.chestLid.rotateAngleX = -(lidangle * (float) Math.PI / 2.0F);
-            int[] renderOffset = chestTile.getRenderOffset().getCoordinates();
-            GL11.glTranslatef(renderOffset[0] - 1, renderOffset[1] - 1, renderOffset[2] - 1);
-            GL11.glScalef(3, 3, 3);
+            GL11.glTranslatef(0, -0.3333F, 0);
             modelchest.renderAll();
             GL11.glScalef(1 / 3, 1 / 3, 1 / 3);
         }
