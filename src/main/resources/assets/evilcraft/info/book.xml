@@ -37,6 +37,7 @@
                 <paragraph>infoBook.firstAge.newWorld.darkTemple.text1</paragraph>
                 <paragraph>infoBook.firstAge.newWorld.darkTemple.text2</paragraph>
                 <paragraph>infoBook.firstAge.newWorld.darkTemple.text3</paragraph>
+                <paragraph>infoBook.firstAge.newWorld.darkTemple.text4</paragraph>
                 <appendix type="image" width="100" height="133">evilcraft:textures/gui/infobook/darkTemple.png</appendix>
                 <appendix type="craftingRecipe">evilcraft:weatherContainer</appendix>
                 <appendix type="envirAccRecipe" index="0">evilcraft:weatherContainer</appendix>
@@ -199,6 +200,7 @@
                 <tag>darkStick</tag>
                 <paragraph>infoBook.secondAge.bloodInfusion.undeadTree.text1</paragraph>
                 <paragraph>infoBook.secondAge.bloodInfusion.undeadTree.text2</paragraph>
+                <paragraph>infoBook.secondAge.bloodInfusion.undeadTree.text3</paragraph>
                 <appendix type="image" width="70" height="130">evilcraft:textures/gui/infobook/undeadTree.png</appendix>
                 <appendix type="craftingRecipe">minecraft:deadBush</appendix>
                 <appendix type="bloodInfuserRecipe">evilcraft:undeadSapling</appendix>

@@ -35,7 +35,7 @@ public class OriginsOfDarknessConfig extends ItemConfig {
         super.onRegistered();
         for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
             ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
-                    new ItemStack(OriginsOfDarkness.getInstance()), 1, 1, 6));
+                    new ItemStack(OriginsOfDarkness.getInstance()), 1, 1, 5));
         }
     }
     

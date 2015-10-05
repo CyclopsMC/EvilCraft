@@ -323,6 +323,7 @@ infoBook.firstAge.newWorld.darkTemple=Dark Temple
 infoBook.firstAge.newWorld.darkTemple.text1=There seem to be certain structures in this world that were built by some kind of ancient civilization that was able to infuse certain environmental powers into items. These processes however seem to degrade the natural balance of the environment the more this process is used. This is possibly the main reason why that civilization isn’t around anymore today...
 infoBook.firstAge.newWorld.darkTemple.text2=Using &1Dark Gems&0 I was able to enhance existing &1Glass Bottles&0 to be able to contain environmental weather. Throwing such a &1Weather Container&0 inside the core of such a temple will absorb the current weather into the bottle.
 infoBook.firstAge.newWorld.darkTemple.text3=I also discovered that certain items can be empowered using the special properties of thunderstorms. These items can also be empowered when they are directly struck by lightning, but it seems very unlikely to predict where lightning is going to strike, or is it...?
+infoBook.firstAge.newWorld.darkTemple.text4=These temples seem emit some kind of energy, maybe I can find some way to detect this and discover new temples in the world?
 
 infoBook.firstAge.newWorld.weatherContainerBenefits=Weather Container Benefits
 infoBook.firstAge.newWorld.weatherContainerBenefits.text=Weather that is contained in these bottles can be reactivated when the bottles are thrown against something. But instead of breaking them, it might be more interesting to use them to craft several other neat items.
@@ -426,6 +427,7 @@ infoBook.secondAge.bloodInfusion.bloodInfuser.text2=This machine finally allows 
 infoBook.secondAge.bloodInfusion.undeadTree=Undead Tree
 infoBook.secondAge.bloodInfusion.undeadTree.text1=I was able to reanimate dead saplings, the trees that grow from this process are remarkable to say the least. They seem to give off a lot of Blood, but the saplings that drop still seem to be dead somehow. Combining the wood with a Dark Gem will result in some sticks which will be useful some day.
 infoBook.secondAge.bloodInfusion.undeadTree.text2=Killing a sapling is as simple as shearing a living one in a crafting grid. &oIs that tree growing in a desert?&r
+infoBook.secondAge.bloodInfusion.undeadTree.text3=Dropping sticks made from this wood always seems to rotate in a certain direction. Could it be pointing to somewhere?
 
 infoBook.secondAge.bloodInfusion.advancedBloodInfusion=Advanced Blood Infusion
 infoBook.secondAge.bloodInfusion.advancedBloodInfusion.text1=Soon after my first &1Blood Infuser&0 was built, I started to think of some optimizations to make the machine faster and more efficient. Using the &1Crushed Dark Gems&0 I was able to construct materialized &1Promises&0 which the &1Blood Infuser&0 actually seems to adhere to, it looks like the machine is actually alive in some way...
