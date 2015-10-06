@@ -28,8 +28,8 @@ import java.util.Random;
 
 /**
  * A machine that can infuse stuff with blood.
- * @author rubensworks
  *
+ * @author rubensworks
  */
 public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo implements IDetectionListener {
 
@@ -37,10 +37,11 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
 
     /**
      * Initialise the configurable.
+     *
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
+        if (_instance == null)
             _instance = new ColossalBloodChest(eConfig);
         else
             eConfig.showDoubleInitError();
@@ -48,6 +49,7 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
 
     /**
      * Get the unique instance.
+     *
      * @return The instance.
      */
     public static ColossalBloodChest getInstance() {
@@ -60,7 +62,7 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
         this.setStepSound(soundTypeWood);
         this.setHarvestLevel("axe", 2); // Iron tier
         this.setRotatable(false);
-        
+
         if (MinecraftHelpers.isClientSide())
             setGUI(GuiColossalBloodChest.class);
         setContainer(ContainerColossalBloodChest.class);
@@ -71,13 +73,13 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
     public IIcon getIcon(int side, int meta) {
         return meta == 1 ? RenderHelpers.EMPTYICON : super.getIcon(side, meta);
     }
-    
+
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
         return !TileColossalBloodChest.canWork(world, new Location(x, y, z)) ||
                 super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
     }
-    
+
     @Override
     public Item getItemDropped(int par1, Random random, int zero) {
         return Item.getItemFromBlock(this);
@@ -92,33 +94,33 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
     public int getMaxCapacity() {
         return TileSpiritFurnace.LIQUID_PER_SLOT;
     }
-    
+
     private void triggerDetector(World world, int x, int y, int z, boolean valid) {
         TileColossalBloodChest.detector.detect(world, new Location(x, y, z), valid, true);
     }
-    
+
     @Override
     public void onBlockAdded(World world, int x, int y, int z) {
-    	triggerDetector(world, x, y, z, true);
-    }
-    
-    @Override
-    public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
-    	triggerDetector(world, x, y, z, false);
-    	super.onBlockPreDestroy(world, x, y, z, meta);
+        triggerDetector(world, x, y, z, true);
     }
 
-	@Override
-	public void onDetect(World world, ILocation location, Size size, boolean valid, ILocation originCorner) {
-		Block block = LocationHelpers.getBlock(world, location);
-		if(block == this) {
+    @Override
+    public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
+        triggerDetector(world, x, y, z, false);
+        super.onBlockPreDestroy(world, x, y, z, meta);
+    }
+
+    @Override
+    public void onDetect(World world, ILocation location, Size size, boolean valid, ILocation originCorner) {
+        Block block = LocationHelpers.getBlock(world, location);
+        if (block == this) {
             TileColossalBloodChest.detectStructure(world, location, size, valid);
-			TileEntity tile = LocationHelpers.getTile(world, location);
-			if(tile != null) {
-				((TileColossalBloodChest) tile).setSize(valid ? size : Size.NULL_SIZE);
+            TileEntity tile = LocationHelpers.getTile(world, location);
+            if (tile != null) {
+                ((TileColossalBloodChest) tile).setSize(valid ? size : Size.NULL_SIZE);
                 ((TileColossalBloodChest) tile).setCenter(originCorner.copy().subtract(new Location(-1, -1, -1)));
-			}
-		}
-	}
+            }
+        }
+    }
 
 }

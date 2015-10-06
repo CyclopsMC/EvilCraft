@@ -265,6 +265,18 @@
                 <appendix type="craftingRecipe" index="0">evilcraft:entangledChalice</appendix>
                 <appendix type="craftingRecipe" index="1">evilcraft:entangledChalice</appendix>
             </section>
+            <section name="infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest">
+                <tag>reinforcedUndeadPlank</tag>
+                <tag>colossalBloodChest</tag>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text1</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text2</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text3</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text4</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text5</paragraph>
+                <appendix type="image" width="120" height="118">evilcraft:textures/gui/infobook/colossalBloodChest.png</appendix>
+                <appendix type="bloodInfuserRecipe">evilcraft:reinforcedUndeadPlank</appendix>
+                <appendix type="craftingRecipe">evilcraft:colossalBloodChest</appendix>
+            </section>
         </section>
         <section name="infoBook.secondAge.tools">
             <section name="infoBook.secondAge.tools.introduction">

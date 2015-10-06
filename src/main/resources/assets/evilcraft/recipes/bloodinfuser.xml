@@ -282,5 +282,25 @@
             <xp>2.2</xp>
         </properties>
     </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="config">undeadPlank</condition>
+        <condition type="config">reinforcedUndeadPlank</condition>
+        <input>
+            <item>evilcraft:undeadPlank</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>1000</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:reinforcedUndeadPlank</item>
+        </output>
+        <properties>
+            <duration>250</duration>
+            <tier>2</tier>
+            <xp>1.2</xp>
+        </properties>
+    </recipe>
     
 </recipes>

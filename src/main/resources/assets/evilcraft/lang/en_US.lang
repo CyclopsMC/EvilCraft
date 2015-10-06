@@ -452,6 +452,13 @@ infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text1=When you have as
 infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text2=Normally, you will get two chalices sharing contents from the crafting recipe, but when replacing the center &4Gold Ingot&0 in the recipe with an existing chalice, it will expand the tear network to include another chalice.
 infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text3=These chalices can be placed in the world or held in your inventory. Shift + right-click with it in your hand to enable the Omni-Supply mode which will continuously try to fill all containers in your inventory with &4Blood&0.
 
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest=Colossal Blood Chest
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text1=&1Blood Chests&0 are great, throw in your damaged stuff, and they come out repaired. One downside of using that machine is the occasional bad effect your items can get, and it can be quite annoying to continuously clear that effect with your &1Purifier&0.
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text2=Actually, the disadvantes don't stop there. The &1Blood Chests&0 has a very small inventory to put your items in, it is slow, has a small tank size and is really slow. Worst of all, my &1Promises&0 can't even be used to boost the machine!
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text3=That is why I created the &1Colossal Blood Chest&0! It solves all of the problems I have mentioned As a logical consequence, this machine is quite a bit bigger than its regular variant. Because of this massive size, I had to make use the strange powers of &1Undead Planks&0 to be able to hold the structure together.
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text4=This &1Colossal Blood Chest&0 should only be used if you have a lot of items you need to repair at once. The reason for this is that its base &4Blood&0 usage is higher than the usage of the &1Blood Chests&0, but the more items that are being repaired simultaneously, the more efficient this &4Blood&0 usage becomes.
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text5=To build this, make a &1hollow&0 3x3x3 structure of &1Reinforced Undead Planks&0. For the structure to form, your need exactly one &1Colossal Blood Chest&0 block somewhere in the structure wall, make sure not to place it in the middle of the structure, as it must remain hollow.
+
 # - Tools -
 infoBook.secondAge.tools=Tools
 
