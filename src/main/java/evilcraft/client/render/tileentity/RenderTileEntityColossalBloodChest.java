@@ -1,6 +1,5 @@
 package evilcraft.client.render.tileentity;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import evilcraft.core.client.render.tileentity.RenderTileEntityModel;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.tileentity.TileColossalBloodChest;
@@ -8,8 +7,6 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-
-import java.util.Random;
 
 /**
  * Renderer for the {@link evilcraft.block.ColossalBloodChest}.

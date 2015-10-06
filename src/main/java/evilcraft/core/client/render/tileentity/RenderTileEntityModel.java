@@ -1,6 +1,5 @@
 package evilcraft.core.client.render.tileentity;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
