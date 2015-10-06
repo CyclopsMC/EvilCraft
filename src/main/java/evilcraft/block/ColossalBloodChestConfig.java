@@ -48,7 +48,7 @@ public class ColossalBloodChestConfig extends BlockContainerConfig {
      * The base amount of concurrent items that need to be available before efficiency can rise.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The base amount of concurrent items that need to be available before efficiency can rise.", isCommandable = true)
-    public static int baseConcurrentItems = 5;
+    public static int baseConcurrentItems = 4;
 
     /**
      * Make a new instance.

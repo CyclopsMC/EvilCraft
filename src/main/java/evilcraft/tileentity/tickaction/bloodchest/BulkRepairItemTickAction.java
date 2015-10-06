@@ -28,7 +28,7 @@ public class BulkRepairItemTickAction implements ITickAction<TileColossalBloodCh
     }
 
     protected int getRequiredFluid(TileColossalBloodChest tile, float usageMultiplier, int tick) {
-        MutableFloat drain = new MutableFloat(((float) ColossalBloodChestConfig.baseMBPerDamage * usageMultiplier) * (float) (TileColossalBloodChest.MAX_EFFICIENCY + 1 - tile.getEfficiency()) / TileColossalBloodChest.MAX_EFFICIENCY);
+        MutableFloat drain = new MutableFloat(((float) ColossalBloodChestConfig.baseMBPerDamage * usageMultiplier) * (float) (TileColossalBloodChest.MAX_EFFICIENCY + 10 - tile.getEfficiency()) / TileColossalBloodChest.MAX_EFFICIENCY);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableFloat>(drain, TileColossalBloodChest.UPGRADEEVENT_BLOODUSAGE));
         return MathHelpers.factorToBursts(drain.getValue(), (int) tile.getWorldObj().getWorldTime() + tick % 100);
     }

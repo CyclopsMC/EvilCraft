@@ -211,7 +211,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     }
 
     protected void resetSlotHistory() {
-        for(int i = WorkingTileEntity.INVENTORY_SIZE_UPGRADES; i < getSizeInventory(); i++) {
+        for(int i = 0; i < getBasicInventorySize(); i++) {
             slotTickHistory.put(i, false);
         }
     }
@@ -289,8 +289,12 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     public void updateTileEntity() {
         resetSlotHistory();
         super.updateTileEntity();
-        if(worldObj != null) {
+        if(worldObj != null && !this.worldObj.isRemote && this.worldObj.getWorldTime() % ColossalBloodChestConfig.ticksPerDamage == 0) {
+            int oldEfficiency = efficiency;
             efficiency = Math.max(0, efficiency - ColossalBloodChestConfig.baseConcurrentItems);
+            if(oldEfficiency != efficiency) {
+                sendUpdate();
+            }
         }
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.
