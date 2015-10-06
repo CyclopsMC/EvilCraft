@@ -79,7 +79,7 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
 	            MinecraftForgeClient.registerItemRenderer(this.getItemInstance(), new AlphaRenderItem());
 	        
 	        if(getOreDictionaryId() != null) {
-	            OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(this.getItemInstance()));
+	            OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(this.getItemInstance(), 1, OreDictionary.WILDCARD_VALUE));
 	        }
     	}
     }
