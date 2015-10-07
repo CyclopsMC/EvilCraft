@@ -39,15 +39,15 @@ import java.util.Set;
  *
  */
 public class Configs {
-    
+
     private static Configs _instance;
-    
+
     /**
      * The set of configs.
      */
     @SuppressWarnings("rawtypes")
     public Set<ExtendedConfig> configs = ConfigHandler.getInstance(); // Order is necessary for some registrations
-    
+
     /**
      * Get the unique instance.
      * @return Unique instance.
@@ -57,11 +57,11 @@ public class Configs {
             _instance = new Configs();
         return _instance;
     }
-    
+
     private Configs() {
-        
+
     }
-    
+
     /**
      * Register the general configs. They won't be checked with the config debugger.
      */
@@ -69,7 +69,7 @@ public class Configs {
         // General
         configs.add(new GeneralConfig());
     }
-    
+
     /**
      * Register ore dictionary keys for vanilla items/blocks.
      */
@@ -80,7 +80,7 @@ public class Configs {
         OreDictionary.registerOre(Reference.DICT_ITEMSKULL, new ItemStack(Items.skull, 1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre(Reference.DICT_FLESH, new ItemStack(Items.rotten_flesh, 1, OreDictionary.WILDCARD_VALUE));
     }
-    
+
     /**
      * Register all the configs.
      */
@@ -92,7 +92,7 @@ public class Configs {
         // Fluids
         configs.add(new BloodConfig());
         configs.add(new PoisonConfig());
-        
+
         // Blocks
         configs.add(new EvilBlockConfig());
         configs.add(new FluidBlockBloodConfig());
@@ -132,7 +132,8 @@ public class Configs {
         configs.add(new SpiritPortalConfig());
         configs.add(new ColossalBloodChestConfig());
         configs.add(new ReinforcedUndeadPlankConfig());
-        
+        configs.add(new FireBlasterConfig());
+
         // Items
         configs.add(new WerewolfBoneConfig());
         configs.add(new WerewolfFleshConfig());
@@ -143,7 +144,7 @@ public class Configs {
         configs.add(new DarkGemConfig());
         configs.add(new DarkStickConfig());
         configs.add(new LargeDoorItemConfig());
-        configs.add(new WeatherContainerConfig());        
+        configs.add(new WeatherContainerConfig());
         configs.add(new BloodPearlOfTeleportationConfig());
         configs.add(new BroomConfig());
         configs.add(new HardenedBloodShardConfig());
@@ -186,7 +187,7 @@ public class Configs {
         configs.add(new EffortlessRingConfig());
         configs.add(new CondensedBloodConfig());
         configs.add(new RejuvenatedFleshConfig());
-        
+
         // Entities
         // Item
         configs.add(new EntityLightningGrenadeConfig());
@@ -210,16 +211,16 @@ public class Configs {
         // Other
         configs.add(new EntityAntiVengeanceBeamConfig());
         configs.add(new EntityNecromancersHeadConfig());
-        
+
         // Enchantments
         configs.add(new EnchantmentUnusingConfig());
         configs.add(new EnchantmentBreakingConfig());
         configs.add(new EnchantmentLifeStealingConfig());
         configs.add(new EnchantmentPoisonTipConfig());
-        
+
         // Biomes
         configs.add(new BiomeDegradedConfig());
-        
+
         // Degradation Effects
         configs.add(new BiomeDegradationConfig());
         configs.add(new KnockbackDistortDegradationConfig());
@@ -271,5 +272,5 @@ public class Configs {
             }
         }
     }
-    
+
 }

@@ -1,13 +1,15 @@
 package evilcraft.core.helper;
 
+import evilcraft.core.DirectionCorner;
+import net.minecraft.block.BlockPistonBase;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.MathHelper;
-import net.minecraftforge.common.util.ForgeDirection;
-import evilcraft.core.DirectionCorner;
 
 /**
  * This class contains helper methods involving directions.
@@ -34,8 +36,8 @@ public class DirectionHelpers {
      * the block and the second argument is the side for which the texture is called.
      */
     public static ForgeDirection[][] TEXTURESIDE_ORIENTATION = {
-        {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST}, // DOWN
-        {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST}, // UP
+        {ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.WEST, ForgeDirection.EAST}, // DOWN
+        {ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.WEST, ForgeDirection.EAST}, // UP
         {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST}, // NORTH
         {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.WEST}, // SOUTH
         {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.EAST, ForgeDirection.WEST, ForgeDirection.NORTH, ForgeDirection.SOUTH}, // WEST
@@ -60,6 +62,16 @@ public class DirectionHelpers {
     public static ForgeDirection getEntityFacingDirection(EntityLivingBase entity) {
         int facingDirection = MathHelper.floor_double((entity.rotationYaw * 4F) / 360F + 0.5D) & 3;
         return ENTITYFACING[facingDirection];
+    }
+
+    /**
+     * Get the ForgeDirection the entity is facing for all directions.
+     * @param entity The entity that is facing a direction.
+     * @return The {@link ForgeDirection} the entity is facing.
+     */
+    public static ForgeDirection getFullEntityFacingDirection(World world, int x, int y, int z, EntityLivingBase entity) {
+        int id = BlockPistonBase.determineOrientation(world, x, y, z, entity);
+        return ForgeDirection.getOrientation(id);
     }
     
     /**

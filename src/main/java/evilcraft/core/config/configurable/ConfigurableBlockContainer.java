@@ -244,13 +244,19 @@ public class ConfigurableBlockContainer extends BlockContainer implements IConfi
             }
             
             if(tile.isRotatable()) {
-                ForgeDirection facing = DirectionHelpers.getEntityFacingDirection(entity);
+                ForgeDirection facing = getRotationHorizontalOnly()
+                        ? DirectionHelpers.getEntityFacingDirection(entity)
+                        : DirectionHelpers.getFullEntityFacingDirection(world, x, y, z, entity).getOpposite();
                 tile.setRotation(facing);
             }
             
             tile.sendUpdate();
         }
         super.onBlockPlacedBy(world, x, y, z, entity, stack);
+    }
+
+    protected boolean getRotationHorizontalOnly() {
+        return true;
     }
     
     /**

@@ -2,6 +2,7 @@ package evilcraft.core.algorithm;
 
 import evilcraft.api.ILocation;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Location class.
@@ -127,6 +128,28 @@ public class Location implements ILocation {
 			result[i] = getCoordinates()[i] - location.getCoordinates()[i];
 		}
 		
+		ILocation ret = copy();
+		ret.setCoordinates(result);
+		return ret;
+	}
+
+	@Override
+	public ILocation add(ILocation location) {
+		int[] c = location.getCoordinates();
+		return subtract(new Location(-c[0], -c[1], -c[2]));
+	}
+
+	@Override
+	public ILocation offset(ForgeDirection direction) {
+		if(getDimensions() != 3) {
+			throw new IllegalArgumentException("Can only add a direction to a location of three dimensions.");
+		}
+
+		int[] result = new int[getDimensions()];
+		result[0] = getCoordinates()[0] + direction.offsetX;
+		result[1] = getCoordinates()[1] + direction.offsetY;
+		result[2] = getCoordinates()[2] + direction.offsetZ;
+
 		ILocation ret = copy();
 		ret.setCoordinates(result);
 		return ret;

@@ -1,6 +1,7 @@
 package evilcraft.api;
 
 import evilcraft.api.tileentity.INBTSerializable;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Location interface.
@@ -49,6 +50,24 @@ public interface ILocation extends Comparable<ILocation>, INBTSerializable {
      * @throws IllegalArgumentException If the dimensions differ.
      */
     public ILocation subtract(ILocation location);
+
+    /**
+     * Add this location with a given location.
+     * This will not change this location, it will create a new location object.
+     * @param location The location to subtract with.
+     * @return The subtraction result.
+     * @throws IllegalArgumentException If the dimensions differ.
+     */
+    public ILocation add(ILocation location);
+
+    /**
+     * Add this location with a given direction.
+     * This will not change this location, it will create a new location object.
+     * @param direction The location to offset to.
+     * @return The subtraction result.
+     * @throws IllegalArgumentException If the dimensions differ.
+     */
+    public ILocation offset(ForgeDirection direction);
     
     /**
      * Copy this location.
