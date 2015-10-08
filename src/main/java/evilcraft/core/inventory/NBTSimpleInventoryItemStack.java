@@ -1,46 +1,42 @@
 package evilcraft.core.inventory;
 
+import evilcraft.core.helper.InventoryHelpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import evilcraft.core.helper.InventoryHelpers;
 
 /**
- * A simple inventory for a currently held item by a player that can be stored in NBT.
+ * A simple inventory for an ItemStack that can be stored in NBT.
  * @author rubensworks
  *
  */
-public class NBTSimpleInventory extends SimpleInventory {
+public class NBTSimpleInventoryItemStack extends SimpleInventory {
 
-private static final String NBT_TAG_ROOT = "NBTSimpleInventory";
-	
-	protected EntityPlayer player;
-	protected int itemIndex;
-	
+	private static final String NBT_TAG_ROOT = NBTSimpleInventoryItemHeld.NBT_TAG_ROOT;
+
+	protected ItemStack itemStack;
+
 	/**
      * Make a new instance.
-	 * @param player The player holding the item.
-	 * @param itemIndex The index of the item in use inside the player inventory.
+	 * @param itemStack The item stack.
      * @param size The amount of slots in the inventory.
      * @param stackLimit The stack limit for each slot.
      */
-	public NBTSimpleInventory(EntityPlayer player, int itemIndex, int size, int stackLimit) {
+	public NBTSimpleInventoryItemStack(ItemStack itemStack, int size, int stackLimit) {
 		super(size, NBT_TAG_ROOT, stackLimit);
-		this.player = player;
-		this.itemIndex = itemIndex;
-		InventoryHelpers.validateNBTStorage(this, InventoryHelpers.getItemFromIndex(player, itemIndex), NBT_TAG_ROOT);
+		this.itemStack = itemStack;
+		InventoryHelpers.validateNBTStorage(this, itemStack, NBT_TAG_ROOT);
 	}
 	
 	@Override
 	public void markDirty() {
-		ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex);
 		NBTTagCompound tag = itemStack.getTagCompound();
 		if(tag == null) {
 			tag = new NBTTagCompound();
 			itemStack.setTagCompound(tag);
 		}
 		writeToNBT(tag, NBT_TAG_ROOT);
-		InventoryHelpers.getItemFromIndex(player, itemIndex).setTagCompound(tag);
+		itemStack.setTagCompound(tag);
 	}
 	
 	@Override

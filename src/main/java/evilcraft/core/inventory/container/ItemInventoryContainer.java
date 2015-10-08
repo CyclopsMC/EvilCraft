@@ -1,11 +1,12 @@
 package evilcraft.core.inventory.container;
 
 import evilcraft.core.helper.InventoryHelpers;
-import evilcraft.core.item.ItemGui;
+import evilcraft.core.inventory.IGuiContainerProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -14,7 +15,7 @@ import net.minecraft.item.ItemStack;
  *
  * @param <I> The item instance.
  */
-public abstract class ItemInventoryContainer<I extends ItemGui> extends ExtendedInventoryContainer {
+public abstract class ItemInventoryContainer<I extends Item & IGuiContainerProvider> extends ExtendedInventoryContainer {
 	
 	protected I item;
 	protected int itemIndex;

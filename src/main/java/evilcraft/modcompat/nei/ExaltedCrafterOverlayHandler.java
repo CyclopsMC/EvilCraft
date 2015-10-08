@@ -1,7 +1,7 @@
 package evilcraft.modcompat.nei;
 
 import codechicken.nei.recipe.DefaultOverlayHandler;
-import evilcraft.core.inventory.NBTSimpleInventory;
+import evilcraft.core.inventory.NBTSimpleInventoryItemHeld;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.InventoryEnderChest;
@@ -17,7 +17,7 @@ public class ExaltedCrafterOverlayHandler extends DefaultOverlayHandler {
 	public boolean canMoveFrom(Slot slot, GuiContainer gui) {
         return slot.inventory instanceof InventoryPlayer
         		|| slot.inventory instanceof InventoryEnderChest
-                || slot.inventory instanceof NBTSimpleInventory;
+                || slot.inventory instanceof NBTSimpleInventoryItemHeld;
     }
 	
 }

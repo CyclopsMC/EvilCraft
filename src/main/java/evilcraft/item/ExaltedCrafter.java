@@ -6,7 +6,7 @@ import evilcraft.client.gui.container.GuiExaltedCrafter;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.inventory.NBTSimpleInventory;
+import evilcraft.core.inventory.NBTSimpleInventoryItemHeld;
 import evilcraft.core.item.ItemGui;
 import evilcraft.entity.item.EntityItemEmpowerable;
 import evilcraft.inventory.container.ContainerExaltedCrafter;
@@ -135,7 +135,7 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
      */
     public IInventory getSupplementaryInventory(EntityPlayer player, ItemStack itemStack, int itemIndex) {
     	if(isWooden(itemStack)) {
-    		return new NBTSimpleInventory(player, itemIndex, 27, 64);
+    		return new NBTSimpleInventoryItemHeld(player, itemIndex, 27, 64);
     	}
     	return player.getInventoryEnderChest();
     }

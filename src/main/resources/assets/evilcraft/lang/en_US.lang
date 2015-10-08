@@ -202,6 +202,9 @@ item.items.condensedBlood.name=Condensed Blood
 item.items.condensedBlood.info=Insert into any machine for extra Blood.
 item.items.rejuvenatedFlesh.name=Rejuvenated Flesh
 item.items.rejuvenatedFlesh.info=Infinite source of food
+item.items.primedPendant.name=Primed Pendant
+item.items.primedPendant.info=Applies the chosen potion effect.
+item.items.primedPendant.potion=§7Effect: %s (%s)
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
