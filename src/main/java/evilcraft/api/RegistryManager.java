@@ -4,9 +4,11 @@ import com.google.common.collect.Maps;
 import evilcraft.api.degradation.IDegradationRegistry;
 import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
+import evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
 import evilcraft.core.degradation.DegradationRegistry;
 import evilcraft.core.recipe.custom.SuperRecipeRegistry;
 import evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
+import evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
 
 import java.util.Map;
 
@@ -26,6 +28,7 @@ public class RegistryManager {
 		addRegistry(IDegradationRegistry.class, new DegradationRegistry());
 		addRegistry(ISuperRecipeRegistry.class, new SuperRecipeRegistry());
 		addRegistry(IBloodChestRepairActionRegistry.class, new BloodChestRepairActionRegistry());
+		addRegistry(IPurifierActionRegistry.class, new PurifierActionRegistry());
 	}
 	
 	private void addRegistry(Class<? extends IRegistry> clazz, IRegistry registry) {

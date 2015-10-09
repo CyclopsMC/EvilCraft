@@ -5,7 +5,7 @@ import java.util.Random;
 import net.minecraft.item.ItemStack;
 
 /**
- * Actions that can be registered in ...
+ * Actions that can be registered in the {@link IBloodChestRepairActionRegistry}.
  * @author rubensworks
  *
  */

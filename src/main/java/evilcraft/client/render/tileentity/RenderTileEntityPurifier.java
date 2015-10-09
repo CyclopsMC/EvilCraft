@@ -3,6 +3,7 @@ package evilcraft.client.render.tileentity;
 import evilcraft.Reference;
 import evilcraft.block.Purifier;
 import evilcraft.tileentity.TilePurifier;
+import evilcraft.tileentity.tickaction.purifier.DisenchantPurifyAction;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -24,7 +25,7 @@ import org.lwjgl.opengl.GL11;
  *
  */
 public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
-    
+
     private static final ResourceLocation TEXTURE_BLOOK = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "blook.png");
     private static final ResourceLocation TEXTURE_ENCHANTEDBOOK = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "enchantedBook.png");
     private ModelBook enchantmentBook = new ModelBook();
@@ -34,8 +35,8 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
 	    TilePurifier tile = (TilePurifier) tileEntity;
 	    
 	    if(tile != null) {
-            if(tile.getBookItem() != null) {
-                renderBook(tile, tile.getWorldObj(), tile.getBookItem(), x, y + 0.4, z, partialTickTime);
+            if(tile.getAdditionalItem() != null) {
+                renderBook(tile, tile.getWorldObj(), tile.getAdditionalItem(), x, y + 0.4, z, partialTickTime);
             }
         }
 	    
@@ -44,7 +45,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         float var11 = (float) (y - 0.5F);
         float var12 = (float) (z - 0.5F);
         GL11.glTranslatef(var10, var11, var12);
-	    
+
 	    
         if(tile != null) {
             if(tile.getPurifyItem() != null) {
@@ -76,7 +77,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
 
         GL11.glPopMatrix();
     }
-	
+
 	private void renderBook(TilePurifier tile, World world, ItemStack itemStack, double x, double y, double z, float partialTickTime) {
 	    GL11.glPushMatrix();
         GL11.glTranslatef((float)x + 0.5F, (float)y + 0.75F, (float)z + 0.5F);
@@ -84,21 +85,21 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         GL11.glTranslatef(0.0F, 0.1F + MathHelper.sin(tick * 0.1F) * 0.01F, 0.0F);
         float speedUp;
 
-        for (speedUp = tile.bookRotation2 - tile.bookRotationPrev; speedUp >= (float)Math.PI; speedUp -= ((float)Math.PI * 2F)) { }
+        for (speedUp = tile.additionalRotation2 - tile.additionalRotationPrev; speedUp >= (float)Math.PI; speedUp -= ((float)Math.PI * 2F)) { }
 
         while (speedUp < -(float)Math.PI) {
             speedUp += ((float)Math.PI * 2F);
         }
 
-        float rotation = tile.bookRotationPrev + speedUp * partialTickTime;
+        float rotation = tile.additionalRotationPrev + speedUp * partialTickTime;
         GL11.glRotatef(-rotation * 180.0F / (float)Math.PI, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(80.0F, 0.0F, 0.0F, 1.0F);
-        
-        if(itemStack.getItem() == TilePurifier.ALLOWED_BOOK)
+
+        if(itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK)
             this.bindTexture(TEXTURE_BLOOK);
         else
             this.bindTexture(TEXTURE_ENCHANTEDBOOK);
-        
+
         GL11.glEnable(GL11.GL_CULL_FACE);
         this.enchantmentBook.render((Entity)null, tick, 0, 0, 0, 0.0F, 0.0625F);
         GL11.glPopMatrix();
