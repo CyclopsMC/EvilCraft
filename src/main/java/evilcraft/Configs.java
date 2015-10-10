@@ -188,6 +188,7 @@ public class Configs {
         configs.add(new RejuvenatedFleshConfig());
         configs.add(new PrimedPendantConfig());
         configs.add(new GoldenStringConfig());
+        configs.add(new BiomeExtractConfig());
         
         // Entities
         // Item
@@ -199,6 +200,7 @@ public class Configs {
         configs.add(new EntityItemEmpowerableConfig());
         configs.add(new EntityItemUndespawnableConfig());
         configs.add(new EntityItemDarkStickConfig());
+        configs.add(new EntityBiomeExtractConfig());
         // Block
         configs.add(new EntityLightningBombPrimedConfig());
         // Monster

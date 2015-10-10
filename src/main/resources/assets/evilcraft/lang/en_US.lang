@@ -206,6 +206,9 @@ item.items.primedPendant.name=Primed Pendant
 item.items.primedPendant.info=Applies the chosen potion effect.
 item.items.primedPendant.potion=§7Effect: %s (%s)
 item.items.goldenString.name=Golden String
+item.items.biomeExtract.name=Biome Extract
+item.items.biomeExtract.info=Transforms the target area to the contained biome.
+item.items.biomeExtract.info.content=Contents: %s
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
