@@ -252,6 +252,7 @@
                 <tag>blook</tag>
                 <paragraph>infoBook.secondAge.evolvedBloodMachinery.purifier.text1</paragraph>
                 <paragraph>infoBook.secondAge.evolvedBloodMachinery.purifier.text2</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.purifier.text3</paragraph>
                 <appendix type="craftingRecipe">evilcraft:purifier</appendix>
                 <appendix type="bloodInfuserRecipe">evilcraft:blook</appendix>
             </section>
@@ -291,6 +292,11 @@
                 <tag>invigoratingPendant</tag>
                 <paragraph>infoBook.secondAge.tools.invigoratingPendant.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:invigoratingPendant</appendix>
+            </section>
+            <section name="infoBook.secondAge.tools.primedPendant">
+                <tag>primedPendant</tag>
+                <paragraph>infoBook.secondAge.tools.primedPendant.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:primedPendant</appendix>
             </section>
             <section name="infoBook.secondAge.tools.effortlessRing">
                 <tag>effortlessRing</tag>

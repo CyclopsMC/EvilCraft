@@ -450,6 +450,7 @@ infoBook.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text2=Placing a &1Sp
 infoBook.secondAge.evolvedBloodMachinery.purifier=Purifier
 infoBook.secondAge.evolvedBloodMachinery.purifier.text1=After the unfortunate side-effects of the &1Blood Chest&0, I decided to design a new machine that is able to remove these bad effects from your tools. Simply by placing a tool with a bad effect inside of this block together with at least one bucket worth of &4Blood&0 will remove this effect from the item.
 infoBook.secondAge.evolvedBloodMachinery.purifier.text2=An unintended benefit of this machine is that when filling it completely with &4Blood&0 and placing an enchanted item together with a &1Blook&0 (which is just a &1Book&0 infused with &1Blood&0), will move a random enchantment from the item to the book, at the cost of three &1Buckets of Blood&0.
+infoBook.secondAge.evolvedBloodMachinery.purifier.text3=Recently, I noticed that this machine also allows you to remove &1Potion Effects&0 from living creatures sitting inside of it by filling the &1Purifier&0 completely with &4Blood&0 and giving it an &1Empty Bottle&0. After a few seconds, the effect will be contained inside the bottle and the creature will be freed of it.
 
 infoBook.secondAge.evolvedBloodMachinery.entangledChalice=Entangled Chalice
 infoBook.secondAge.evolvedBloodMachinery.entangledChalice.text1=When you have as much experience as I have with infusing items with &4Blood&0, you will notice that by enhancing a tear of the fearsome &1Ghast&0 will result in a very special kind of tear. It seems to share all properties when split in half. This gave me the idea to build &lEntangled Chalices&0 with this tear with the goal of sharing the fluid contents of the chalice with all other chalices that are constructed from the same tear.
@@ -474,6 +475,9 @@ infoBook.secondAge.tools.bloodPearlOfTeleportation.text=Regular &1Ender Pearls&0
 
 infoBook.secondAge.tools.invigoratingPendant=Invigorating Pendant
 infoBook.secondAge.tools.invigoratingPendant.text=Getting rid of bad potion effects can be a pain. This pendant is able to remove any bad effect at the cost of some &4Blood&0. Worse effects cost more &4Blood&0. It even seems to extinguish fire, but I wouldn’t recommend swimming in lava just yet. You will need a special kind of string to craft this, which can be created by combining regular string with a small fragment of gold.
+
+infoBook.secondAge.tools.primedPendant=Primed Pendant
+infoBook.secondAge.tools.primedPendant.text=After making the &1Invigorating Pendant&0, I started thinking. What if it would be possible to not only remove, but also apply effects? This new pendant is able to hold one &1Potion&0, and by using &4Blood&0 it will continuously apply its effect to you. I noticed that some effects cost more &4Blood&0 than the others. You can insert new &1Potions&0 by simply right-clicking with the item.
 
 infoBook.secondAge.tools.effortlessRing=Effortless Ring
 infoBook.secondAge.tools.effortlessRing.text=I was able to construct a special ring that can apply the &1Promises&0 of &Productivity&0 and &1Velocity&0 which allows you to walk faster, jump higher and step more easily on blocks. Just hold this item anywhere inside your inventory to gain its effects. Note that this step assist can be avoided by holding &oShift&r.
