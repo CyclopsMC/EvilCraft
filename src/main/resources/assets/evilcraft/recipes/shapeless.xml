@@ -302,4 +302,15 @@
         </output>
     </recipe>
 
+    <recipe type="shapeless">
+        <condition type="config">goldenString</condition>
+        <input>
+            <item>minecraft:string</item>
+            <item type="oredict">nuggetGold</item>
+        </input>
+        <output>
+            <item>evilcraft:goldenString</item>
+        </output>
+    </recipe>
+
 </recipes>

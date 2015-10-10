@@ -205,6 +205,7 @@ item.items.rejuvenatedFlesh.info=Infinite source of food
 item.items.primedPendant.name=Primed Pendant
 item.items.primedPendant.info=Applies the chosen potion effect.
 item.items.primedPendant.potion=§7Effect: %s (%s)
+item.items.goldenString.name=Golden String
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
@@ -472,7 +473,7 @@ infoBook.secondAge.tools.bloodPearlOfTeleportation=Blood Pearl of Teleportation
 infoBook.secondAge.tools.bloodPearlOfTeleportation.text=Regular &1Ender Pearls&0 are fun for teleporting around, but this can get quite expensive. Using the powers of &4Blood&0, I was able to construct a special &1Ender Pearl&0 that is completely reusable at the cost of some &4Blood&0. It also seems much more potent than regular &1Ender Pearls&0, which can only be good.
 
 infoBook.secondAge.tools.invigoratingPendant=Invigorating Pendant
-infoBook.secondAge.tools.invigoratingPendant.text=Getting rid of bad potion effects can be a pain. This pendant is able to remove any bad effect at the cost of some &4Blood&0. Worse effects cost more &4Blood&0. It even seems to extinguish fire, but I wouldn’t recommend swimming in lava just yet.
+infoBook.secondAge.tools.invigoratingPendant.text=Getting rid of bad potion effects can be a pain. This pendant is able to remove any bad effect at the cost of some &4Blood&0. Worse effects cost more &4Blood&0. It even seems to extinguish fire, but I wouldn’t recommend swimming in lava just yet. You will need a special kind of string to craft this, which can be created by combining regular string with a small fragment of gold.
 
 infoBook.secondAge.tools.effortlessRing=Effortless Ring
 infoBook.secondAge.tools.effortlessRing.text=I was able to construct a special ring that can apply the &1Promises&0 of &Productivity&0 and &1Velocity&0 which allows you to walk faster, jump higher and step more easily on blocks. Just hold this item anywhere inside your inventory to gain its effects. Note that this step assist can be avoided by holding &oShift&r.

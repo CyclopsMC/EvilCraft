@@ -187,6 +187,7 @@ public class Configs {
         configs.add(new CondensedBloodConfig());
         configs.add(new RejuvenatedFleshConfig());
         configs.add(new PrimedPendantConfig());
+        configs.add(new GoldenStringConfig());
         
         // Entities
         // Item

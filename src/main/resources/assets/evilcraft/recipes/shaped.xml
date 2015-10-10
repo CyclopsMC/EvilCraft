@@ -869,13 +869,13 @@
             <grid>
                 <gridrow>
                     <item />
-                    <item>minecraft:string</item>
+                    <item>evilcraft:goldenString</item>
                     <item />
                 </gridrow>
                 <gridrow>
-                    <item>minecraft:string</item>
+					<item>evilcraft:goldenString</item>
                     <item />
-                    <item>minecraft:string</item>
+					<item>evilcraft:goldenString</item>
                 </gridrow>
                 <gridrow>
                     <item>evilcraft:darkGemCrushed</item>
