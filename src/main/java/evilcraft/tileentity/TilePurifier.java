@@ -123,18 +123,16 @@ public class TilePurifier extends TankInventoryTileEntity {
     public void updateTileEntity() {
     	super.updateTileEntity();
 
-        if(getPurifyItem() != null) {
-            int actionId = currentAction;
-            if(actionId < 0) {
-                actionId = getActions().canWork(this);
-            }
-            if(actionId >= 0) {
-                tick++;
-                if(getActions().work(actionId, this)) {
-                    tick = 0;
-                    currentAction = -1;
-                    onActionFinished();
-                }
+        int actionId = currentAction;
+        if(actionId < 0) {
+            actionId = getActions().canWork(this);
+        }
+        if(actionId >= 0) {
+            tick++;
+            if(getActions().work(actionId, this)) {
+                tick = 0;
+                currentAction = -1;
+                onActionFinished();
             }
         } else {
             tick = 0;

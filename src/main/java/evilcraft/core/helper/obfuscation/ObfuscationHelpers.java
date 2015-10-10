@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionHelper;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -24,6 +25,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -256,5 +258,30 @@ public class ObfuscationHelpers {
     public static int getShapedOreRecipeHeight(ShapedOreRecipe recipe) {
         return ReflectionHelper.getPrivateValue(ShapedOreRecipe.class, recipe, ObfuscationData.SHAPEDORERECIPE_HEIGHT);
     }
+
+	/**
+	 * Get the private 'potionRequirements' field from {@link PotionHelper}.
+	 * @return width
+	 */
+	public static HashMap<Integer, String> getPotionRequirements() {
+		return ReflectionHelper.getPrivateValue(PotionHelper.class, null, ObfuscationData.POTIONHELPER_POTIONREQUIREMENTS);
+	}
+
+	/**
+	 * Call the private 'parsePotionEffects' method from {@link PotionHelper}.
+	 */
+	public static int parsePotionEffects(String potionString, int start, int end, int p_77912_3_) {
+		Method method = ReflectionHelper.findMethod(PotionHelper.class, null, ObfuscationData.POTIONHELPER_PARSEPOTIONEFFECTS, String.class, int.class, int.class, int.class);
+		try {
+			return (Integer) method.invoke(null, potionString, start, end, p_77912_3_);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 	
 }

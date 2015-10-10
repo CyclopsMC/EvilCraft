@@ -18,6 +18,7 @@ public class PurifierActionRegistry implements IPurifierActionRegistry {
     public PurifierActionRegistry() {
         register(new ToolBadEnchantPurifyAction());
         register(new DisenchantPurifyAction());
+        register(new CollectPotionPurifyAction());
     }
 
     @Override

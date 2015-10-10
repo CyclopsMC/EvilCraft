@@ -34,7 +34,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
 
     @Override
     public boolean isItemValidForAdditionalSlot(ItemStack itemStack) {
-        return itemStack.getItem() == ALLOWED_BOOK;
+        return itemStack != null && itemStack.getItem() == ALLOWED_BOOK;
     }
 
     @Override
