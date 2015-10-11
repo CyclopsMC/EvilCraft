@@ -131,13 +131,17 @@ public class BiomeExtract extends ConfigurableItem {
         return renderpass == 0 ? this.overlay : super.getIconFromDamageForRenderPass(meta, renderpass);
     }
 
+    public BiomeGenBase[] getBiomes() {
+        return BiomeGenBase.getBiomeGenArray();
+    }
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
         super.getSubItems(item, creativeTabs, list);
         if(BiomeExtractConfig.creativeTabVariants) {
-            BiomeGenBase[] biomes = BiomeGenBase.getBiomeGenArray();
+            BiomeGenBase[] biomes = getBiomes();
             for (int i = 0; i < biomes.length; i++) {
                 if (biomes[i] != null) {
                     list.add(createItemStack(biomes[i], 1));

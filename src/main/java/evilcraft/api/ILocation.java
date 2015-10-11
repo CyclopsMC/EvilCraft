@@ -49,6 +49,15 @@ public interface ILocation extends Comparable<ILocation>, INBTSerializable {
      * @throws IllegalArgumentException If the dimensions differ.
      */
     public ILocation subtract(ILocation location);
+
+    /**
+     * Add this location to a given location.
+     * This will not change this location, it will create a new location object.
+     * @param location The location to subtract with.
+     * @return The addition result.
+     * @throws IllegalArgumentException If the dimensions differ.
+     */
+    public ILocation add(ILocation location);
     
     /**
      * Copy this location.

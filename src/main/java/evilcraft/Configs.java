@@ -132,6 +132,7 @@ public class Configs {
         configs.add(new SpiritPortalConfig());
         configs.add(new ColossalBloodChestConfig());
         configs.add(new ReinforcedUndeadPlankConfig());
+        configs.add(new SanguinaryEnvironmentalAccumulatorConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -189,6 +190,7 @@ public class Configs {
         configs.add(new PrimedPendantConfig());
         configs.add(new GoldenStringConfig());
         configs.add(new BiomeExtractConfig());
+        configs.add(new EnvironmentalAccumulationCoreConfig());
         
         // Entities
         // Item

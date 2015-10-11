@@ -159,6 +159,36 @@ public class LocationHelpers {
 	    }
 	    return randomPoint;
 	}
+
+	/**
+	 * Get yaw from the start location to the end location.
+	 * @param start Start
+	 * @param end End
+	 * @return The yaw
+	 */
+	public static double getYaw(ILocation start, ILocation end) {
+		int[] c1 = start.getCoordinates();
+		int[] c2 = end.getCoordinates();
+		double dX = c1[0] - c2[0];
+		double dY = c1[1] - c2[1];
+		double dZ = c1[2] - c2[2];
+		return Math.atan2(dZ, dX) * 180 / Math.PI;
+	}
+
+	/**
+	 * Get pitch from the start location to the end location.
+	 * @param start Start
+	 * @param end End
+	 * @return The pitch
+	 */
+	public static double getPitch(ILocation start, ILocation end) {
+		int[] c1 = start.getCoordinates();
+		int[] c2 = end.getCoordinates();
+		double dX = c1[0] - c2[0];
+		double dY = c1[1] - c2[1];
+		double dZ = c1[2] - c2[2];
+		return (Math.atan2(Math.sqrt(dZ * dZ + dX * dX), dY) + Math.PI) * 180 / Math.PI;
+	}
 	
 	/**
 	 * Exceptions that can occur with location manipulation.

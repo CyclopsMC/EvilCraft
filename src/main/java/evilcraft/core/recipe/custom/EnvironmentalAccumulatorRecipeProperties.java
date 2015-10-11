@@ -4,6 +4,8 @@ import evilcraft.api.recipes.custom.IRecipeProperties;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
 import evilcraft.tileentity.environmentalaccumulator.IEAProcessingFinishedEffect;
 import lombok.Getter;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.IBlockAccess;
 
 /**
  * Additional properties that are used to process {@link evilcraft.api.recipes.custom.IRecipe}S for the
@@ -16,13 +18,26 @@ public class EnvironmentalAccumulatorRecipeProperties implements IRecipeProperti
     @Getter
     private final IEAProcessingFinishedEffect finishedProcessingEffect;
     private final DurationRecipeProperties duration;
+    @Getter
+    private final IEAResultOverride resultOverride;
 
     public EnvironmentalAccumulatorRecipeProperties(int duration, int cooldownTime, double processingSpeed,
-                                                    IEAProcessingFinishedEffect finishedProcessingEffect) {
+                                                    IEAProcessingFinishedEffect finishedProcessingEffect, IEAResultOverride resultOverride) {
         this.duration = new DurationRecipeProperties(duration);
         this.processingSpeed = processingSpeed;
         this.cooldownTime = cooldownTime;
         this.finishedProcessingEffect = finishedProcessingEffect;
+        this.resultOverride = resultOverride;
+    }
+
+    public EnvironmentalAccumulatorRecipeProperties(int duration, int cooldownTime, double processingSpeed,
+                                                    IEAProcessingFinishedEffect finishedProcessingEffect) {
+        this(duration, cooldownTime, processingSpeed, finishedProcessingEffect, new IEAResultOverride() {
+            @Override
+            public ItemStack getResult(IBlockAccess world, int x, int y, int z, ItemStack originalResult) {
+                return originalResult;
+            }
+        });
     }
 
     public EnvironmentalAccumulatorRecipeProperties(int duration, int cooldownTime, double processingSpeed) {
@@ -71,4 +86,11 @@ public class EnvironmentalAccumulatorRecipeProperties implements IRecipeProperti
 
         return duration.getDuration();
     }
+
+    public interface IEAResultOverride {
+
+        public ItemStack getResult(IBlockAccess world, int x, int y, int z, ItemStack originalResult);
+
+    }
+
 }

@@ -68,11 +68,11 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
      * @param y Y
      * @param z Z
      * @param random Random instance.
+     * @param rotatedDirection The direction to emit the particles at.
      */
     @SideOnly(Side.CLIENT)
-    public static void randomDisplayTick(@Nullable WorkingTileEntity tile, World world, int x, int y, int z, Random random) {
+    public static void randomDisplayTick(@Nullable WorkingTileEntity tile, World world, int x, int y, int z, Random random, ForgeDirection rotatedDirection) {
         if(tile != null && random.nextInt(10) == 0) {
-            ForgeDirection rotatedDirection = tile.getRotation();
             if (tile.isVisuallyWorking()) {
                 for(int i = 0; i < 1 + random.nextInt(5); i++) {
                     double particleX = x - rotatedDirection.offsetX + (rotatedDirection == ForgeDirection.EAST ? 1 : 0)
@@ -93,6 +93,22 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
                     );
                 }
             }
+        }
+    }
+
+    /**
+     * Call this in machines that should display blood particles when working.
+     * @param tile The tile working entity.
+     * @param world The world.
+     * @param x X
+     * @param y Y
+     * @param z Z
+     * @param random Random instance.
+     */
+    @SideOnly(Side.CLIENT)
+    public static void randomDisplayTick(@Nullable WorkingTileEntity tile, World world, int x, int y, int z, Random random) {
+        if(tile != null) {
+            randomDisplayTick(tile, world, x, y, z, random, tile.getRotation());
         }
     }
 }

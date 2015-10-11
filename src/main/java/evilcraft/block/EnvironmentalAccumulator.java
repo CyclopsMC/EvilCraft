@@ -1,11 +1,5 @@
 package evilcraft.block;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.RegistryManager;
@@ -18,7 +12,15 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
+import evilcraft.item.EnvironmentalAccumulationCoreConfig;
 import evilcraft.tileentity.TileEnvironmentalAccumulator;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.Random;
 
 /**
  * Block that can collect the weather and stuff.
@@ -122,9 +124,8 @@ public class EnvironmentalAccumulator
 	}
 	
 	@Override
-	public void onBlockHarvested(World world, int x, int y, int z, int metadata, EntityPlayer player) {
-	    // Environmental Accumulators should not drop upon breaking
-	    world.setBlockToAir(x, y, z);
+	public Item getItemDropped(int meta, Random random, int zero) {
+		return EnvironmentalAccumulationCoreConfig._instance.getItemInstance();
 	}
 
     @Override

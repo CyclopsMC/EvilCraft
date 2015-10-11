@@ -132,4 +132,21 @@ public class Location implements ILocation {
 		return ret;
 	}
 
+	@Override
+	public ILocation add(ILocation location) {
+		if(getDimensions() != location.getDimensions()) {
+			throw new IllegalArgumentException("The dimensions differ: this: ["
+					+ getDimensions() + "] adder [" + location.getDimensions() + "]");
+		}
+
+		int[] result = new int[getDimensions()];
+		for(int i = 0; i < getDimensions(); i++) {
+			result[i] = getCoordinates()[i] + location.getCoordinates()[i];
+		}
+
+		ILocation ret = copy();
+		ret.setCoordinates(result);
+		return ret;
+	}
+
 }

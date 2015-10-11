@@ -1,18 +1,5 @@
 package evilcraft.modcompat.nei;
 
-import static codechicken.lib.gui.GuiDraw.changeTexture;
-import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
-
-import java.awt.Rectangle;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.item.ItemStack;
-
-import org.lwjgl.opengl.GL11;
-
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import evilcraft.Reference;
@@ -22,6 +9,17 @@ import evilcraft.block.EnvironmentalAccumulatorConfig;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
+import net.minecraft.item.ItemStack;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import static codechicken.lib.gui.GuiDraw.changeTexture;
+import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 /**
  * Manager for the recipes in {@link EnvironmentalAccumulator}.
@@ -270,12 +268,16 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
                 Math.max(2, cachedRecipe.duration / 10),
                 3);
         
-        int inputX = X_ICON_OFFSETS.get(cachedRecipe.inputWeather);
-        changeTexture(WEATHER_ICONS);
-        drawTexturedModalRect(36, 28, inputX, 0, 16, 16);
-        
-        int outputX = X_ICON_OFFSETS.get(cachedRecipe.outputWeather);
-        changeTexture(WEATHER_ICONS);
-        drawTexturedModalRect(114, 28, outputX, 0, 16, 16);
+        Integer inputX = X_ICON_OFFSETS.get(cachedRecipe.inputWeather);
+        if(inputX != null) {
+            changeTexture(WEATHER_ICONS);
+            drawTexturedModalRect(36, 28, inputX, 0, 16, 16);
+        }
+
+        Integer outputX = X_ICON_OFFSETS.get(cachedRecipe.outputWeather);
+        if(outputX != null) {
+            changeTexture(WEATHER_ICONS);
+            drawTexturedModalRect(114, 28, outputX, 0, 16, 16);
+        }
     }
 }
