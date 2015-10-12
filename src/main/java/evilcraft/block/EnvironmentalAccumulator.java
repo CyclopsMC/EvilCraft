@@ -2,6 +2,7 @@ package evilcraft.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import evilcraft.api.ILocation;
 import evilcraft.api.RegistryManager;
 import evilcraft.api.recipes.custom.IMachine;
 import evilcraft.api.recipes.custom.IRecipeRegistry;
@@ -10,14 +11,17 @@ import evilcraft.client.render.block.RenderEnvironmentalAccumulator;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.item.EnvironmentalAccumulationCoreConfig;
 import evilcraft.tileentity.TileEnvironmentalAccumulator;
+import evilcraft.world.gen.DarkTempleGenerator;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
@@ -132,4 +136,13 @@ public class EnvironmentalAccumulator
     public IRecipeRegistry<EnvironmentalAccumulator, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> getRecipeRegistry() {
         return RegistryManager.getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
     }
+
+	@Override
+	protected void onPreBlockDestroyed(World world, int x, int y, int z) {
+		if(!world.isRemote) {
+			ILocation closest = DarkTempleGenerator.getClosestForCoords(world, x, z);
+			DarkTempleGenerator.getCachedData(world).addFailedLocation(closest.getCoordinates()[0] / WorldHelpers.CHUNK_SIZE, closest.getCoordinates()[2] / WorldHelpers.CHUNK_SIZE);
+		}
+		super.onPreBlockDestroyed(world, x, y, z);
+	}
 }
