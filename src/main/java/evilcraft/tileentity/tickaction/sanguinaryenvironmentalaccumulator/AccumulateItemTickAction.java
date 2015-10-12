@@ -58,9 +58,13 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
         return duration.getValue();
     }
 
+    public static int getUsage(EnvironmentalAccumulatorRecipeProperties properties) {
+        return properties.getCooldownTime() * SanguinaryEnvironmentalAccumulatorConfig.baseUsage;
+    }
+
     protected int getRequiredFluidAmount(TileSanguinaryEnvironmentalAccumulator tile,
                                          IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
-        MutableInt amount = new MutableInt(recipe.getProperties().getCooldownTime() * SanguinaryEnvironmentalAccumulatorConfig.baseUsage);
+        MutableInt amount = new MutableInt(getUsage(recipe.getProperties()));
         Upgrades.sendEvent(tile,
                 new UpgradeSensitiveEvent<MutableInt>(amount, TileSanguinaryEnvironmentalAccumulator.UPGRADEEVENT_BLOODUSAGE));
         return Math.max(1, amount.getValue());

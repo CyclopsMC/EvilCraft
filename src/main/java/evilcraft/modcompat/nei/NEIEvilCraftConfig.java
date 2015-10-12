@@ -40,6 +40,11 @@ public class NEIEvilCraftConfig implements IConfigureNEI {
                 API.registerRecipeHandler(new NEIEnvironmentalAccumulatorManager());
                 API.registerUsageHandler(new NEIEnvironmentalAccumulatorManager());
             }
+
+            if(Configs.isEnabled(SanguinaryEnvironmentalAccumulatorConfig.class)) {
+                API.registerRecipeHandler(new NEISanguinaryEnvironmentalAccumulatorManager());
+                API.registerUsageHandler(new NEISanguinaryEnvironmentalAccumulatorManager());
+            }
             
             if(Configs.isEnabled(ExaltedCrafterConfig.class)) {
             	API.registerGuiOverlay(GuiExaltedCrafter.class, "crafting");
