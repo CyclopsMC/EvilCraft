@@ -77,6 +77,8 @@ tile.blocks.colossalBloodChest.name=Colossal Blood Chest
 tile.blocks.colossalBloodChest.info=An industry-sized Blood Chest.
 tile.blocks.sanguinaryEnvironmentalAccumulator.name=Sanguinary Environmental Accumulator
 tile.blocks.sanguinaryEnvironmentalAccumulator.info=Craftable Environmental Accumulator
+tile.blocks.sanguinaryEnvironmentalAccumulator.help.invalid=Unable to work
+tile.blocks.sanguinaryEnvironmentalAccumulator.help.invalid.invalidLocations=Tanks with Blood required at:
 
 # Items
 item.items.werewolfBone.name=Werewolf Bone

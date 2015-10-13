@@ -67,9 +67,13 @@ public class Location implements ILocation {
     public String toString() {
     	StringBuilder builder = new StringBuilder();
     	builder.append("[");
+		boolean first = true;
     	for(int coord : getCoordinates()) {
+			if(!first) {
+				builder.append(';');
+			}
+			first = false;
     		builder.append(coord);
-    		builder.append(';');
     	}
     	builder.append("]");
     	return builder.toString();

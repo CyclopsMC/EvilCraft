@@ -1,5 +1,6 @@
 package evilcraft.tileentity;
 
+import com.google.common.collect.Lists;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -13,6 +14,7 @@ import evilcraft.core.algorithm.SingleCache;
 import evilcraft.core.fluid.SingleUseTank;
 import evilcraft.core.fluid.VirtualTank;
 import evilcraft.core.helper.LocationHelpers;
+import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.tileentity.tickaction.ITickAction;
@@ -23,6 +25,8 @@ import evilcraft.core.tileentity.upgrade.Upgrades;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.fluid.Blood;
 import evilcraft.tileentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
+import lombok.Getter;
+import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -63,10 +67,14 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
      */
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
 
+    private static final int TANK_CHECK_TICK_OFFSET = 60;
+
     private int accumulateTicker;
     private SingleCache<Triple<ItemStack, FluidStack, WeatherType>,
             IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>> recipeCache;
     private VirtualTank virtualTank;
+    @Getter
+    private List<ILocation> invalidLocations = Lists.newArrayList();
 
     private static final Map<Class<?>, ITickAction<TileSanguinaryEnvironmentalAccumulator>> ACCUMULATE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSanguinaryEnvironmentalAccumulator>>();
     static {
@@ -195,6 +203,9 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
             if((getRequiredWorkTicks() - getWorkTick()) > TileEnvironmentalAccumulator.MAX_AGE) {
                 showAccumulatingParticles();
             }
+
+        } else if(worldObj.isRemote && !canWork()) {
+            showMissingTanks();
         }
     }
 
@@ -232,6 +243,28 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
                         new EntityBloodBubbleFX(worldObj, particleX, particleY, particleZ,
                                 particleMotionX, particleMotionY, particleMotionZ)
                 );
+            }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    protected void showMissingTanks() {
+        if(worldObj.getTotalWorldTime() % 10 == 0) {
+            Random random = worldObj.rand;
+            for (ILocation location : invalidLocations) {
+                double x = location.getCoordinates()[0] + 0.5;
+                double y = location.getCoordinates()[1] + 0.5;
+                double z = location.getCoordinates()[2] + 0.5;
+
+                for (int i = 0; i < 1 + random.nextInt(5); i++) {
+                    double particleX = x - 0.2 + random.nextDouble() * 0.4;
+                    double particleY = y - 0.2 + random.nextDouble() * 0.4;
+                    double particleZ = z - 0.2 + random.nextDouble() * 0.4;
+
+                    FMLClientHandler.instance().getClient().effectRenderer.addEffect(
+                            new EntitySmokeFX(worldObj, particleX, particleY, particleZ, 0, 0, 0)
+                    );
+                }
             }
         }
     }
@@ -277,6 +310,9 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
 	@Override
 	public boolean canWork() {
+        if(invalidLocations != null && !WorldHelpers.efficientTick(worldObj, TANK_CHECK_TICK_OFFSET, xCoord, yCoord, zCoord)) {
+            return invalidLocations.isEmpty();
+        }
 		return getVirtualTankChildren() != null;
 	}
 
@@ -293,12 +329,14 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     @Override
     public IFluidHandler[] getVirtualTankChildren() {
         IFluidHandler[] tanks = new IFluidHandler[tankOffsets.length];
+        invalidLocations.clear();
         for (int i = 0; i < tankOffsets.length; i++) {
             ILocation offset = tankOffsets[i];
             ILocation location = new Location(xCoord, yCoord, zCoord).add(offset);
             TileEntity tile = LocationHelpers.getTile(worldObj, location);
             if (tile == null || !(tile instanceof IFluidHandler)) {
-                return null;
+                invalidLocations.add(location);
+                continue;
             }
             IFluidHandler handler = (IFluidHandler) tile;
             FluidTankInfo[] info = handler.getTankInfo(VirtualTank.TARGETSIDE);
@@ -306,12 +344,16 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
             for(FluidTankInfo tank : info) {
                 if (tank.fluid != null && tank.fluid.getFluid() == ACCEPTED_FLUID) {
                     oneValid = true;
+                    break;
                 }
             }
             if(!oneValid) {
-                return null;
+                invalidLocations.add(location);
             }
             tanks[i] = handler;
+        }
+        if(!invalidLocations.isEmpty()) {
+            return null;
         }
         return tanks;
     }
