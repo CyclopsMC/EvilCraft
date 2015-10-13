@@ -8,7 +8,7 @@ import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
-import evilcraft.client.particle.EntityBloodBubbleFX;
+import evilcraft.client.particle.EntityTargettedBlurFX;
 import evilcraft.client.particle.ExtendedEntityBubbleFX;
 import evilcraft.core.algorithm.Location;
 import evilcraft.core.degradation.DegradationExecutor;
@@ -21,7 +21,6 @@ import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.tileentity.environmentalaccumulator.IEAProcessingFinishedEffect;
-import net.minecraft.client.particle.EntityBubbleFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
@@ -45,7 +44,10 @@ import java.util.Random;
  *
  */
 public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity implements IBossDisplayData, IDegradable, IInventory {
-    
+
+    public static final int MAX_AGE = 50;
+    public static final int SPREAD = 25;
+
     private static final int ITEM_MOVE_COOLDOWN_DURATION = 1;
     
     private static final double WEATHER_CONTAINER_MIN_DROP_HEIGHT = 0.0;
@@ -182,6 +184,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
         else if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM) {
             if(worldObj.isRemote) {
                 showWaterBeams();
+                if(tick > MAX_AGE) {
+                    showAccumulatingParticles();
+                }
             }
             // Are we done moving the item?
             if (tick == 0) {
@@ -226,7 +231,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             float rotationYaw = (float) LocationHelpers.getYaw(location, target);
             float rotationPitch = (float) LocationHelpers.getPitch(location, target);
 
-            for (int i = 0; i < 1 + random.nextInt(5); i++) {
+            for (int i = 0; i < random.nextInt(2); i++) {
                 double particleX = x - 0.2 + random.nextDouble() * 0.4;
                 double particleY = y - 0.2 + random.nextDouble() * 0.4;
                 double particleZ = z - 0.2 + random.nextDouble() * 0.4;
@@ -242,6 +247,32 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
                                 particleMotionX, particleMotionY, particleMotionZ, 0.02D)
                 );
             }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    protected void showAccumulatingParticles() {
+        showAccumulatingParticles(worldObj, xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D, SPREAD);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void showAccumulatingParticles(World world, double centerX, double centerY, double centerZ, double spread) {
+        Random rand = world.rand;
+        for (int j = 0; j < rand.nextInt(20); j++) {
+            float scale = 0.6F - rand.nextFloat() * 0.4F;
+            float red = rand.nextFloat() * 0.1F + 0.2F;
+            float green = rand.nextFloat() * 0.1F + 0.3F;
+            float blue = rand.nextFloat() * 0.1F + 0.2F;
+            float ageMultiplier = MAX_AGE + 10;
+
+            double motionX = spread - rand.nextDouble() * 2 * spread;
+            double motionY = spread - rand.nextDouble() * 2 * spread;
+            double motionZ = spread - rand.nextDouble() * 2 * spread;
+
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(
+                    new EntityTargettedBlurFX(world, scale, motionX, motionY, motionZ, red, green, blue,
+                            ageMultiplier, centerX, centerY, centerZ)
+            );
         }
     }
 	

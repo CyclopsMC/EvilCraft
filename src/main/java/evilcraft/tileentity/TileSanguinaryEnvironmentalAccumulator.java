@@ -192,7 +192,15 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
         super.updateTileEntity();
         if(worldObj.isRemote && isVisuallyWorking()) {
             showTankBeams();
+            if((getRequiredWorkTicks() - getWorkTick()) > TileEnvironmentalAccumulator.MAX_AGE) {
+                showAccumulatingParticles();
+            }
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    protected void showAccumulatingParticles() {
+        TileEnvironmentalAccumulator.showAccumulatingParticles(worldObj, xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D, TileEnvironmentalAccumulator.SPREAD);
     }
 
     @SideOnly(Side.CLIENT)
