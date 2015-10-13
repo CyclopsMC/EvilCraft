@@ -1,5 +1,6 @@
 package evilcraft.tileentity;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.ILocation;
@@ -7,16 +8,20 @@ import evilcraft.api.degradation.IDegradable;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
+import evilcraft.client.particle.EntityBloodBubbleFX;
+import evilcraft.client.particle.ExtendedEntityBubbleFX;
 import evilcraft.core.algorithm.Location;
 import evilcraft.core.degradation.DegradationExecutor;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.L10NHelpers;
+import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.inventory.SimpleInventory;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.tileentity.environmentalaccumulator.IEAProcessingFinishedEffect;
+import net.minecraft.client.particle.EntityBubbleFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
@@ -27,10 +32,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import org.lwjgl.util.vector.Vector4f;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Machine that can accumulate the weather and put it in a bottle.
@@ -56,6 +63,13 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     // This number rises with the number of uses of the env. accum.
     private int degradation = 0;
     private ILocation location = null;
+
+    private static final ILocation[] waterOffsets = new ILocation[]{
+            new Location(-2, -1, -2),
+            new Location(-2, -1,  2),
+            new Location( 2, -1, -2),
+            new Location( 2, -1,  2),
+    };
     
     /**
      * Holds the state of the environmental accumulator.
@@ -166,6 +180,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             updateEnvironmentalAccumulatorIdle();
         } // Are we processing an item?
         else if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM) {
+            if(worldObj.isRemote) {
+                showWaterBeams();
+            }
             // Are we done moving the item?
             if (tick == 0) {
                 dropItemStack();
@@ -194,6 +211,39 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	            activateIdleState();
 	    }
 	}
+
+    @SideOnly(Side.CLIENT)
+    protected void showWaterBeams() {
+        Random random = worldObj.rand;
+        ILocation target = new Location(xCoord, yCoord, zCoord);
+        for (int j = 0; j < waterOffsets.length; j++) {
+            ILocation offset = waterOffsets[j];
+            ILocation location = target.add(offset);
+            double x = location.getCoordinates()[0] + 0.5;
+            double y = location.getCoordinates()[1] + 0.5;
+            double z = location.getCoordinates()[2] + 0.5;
+
+            float rotationYaw = (float) LocationHelpers.getYaw(location, target);
+            float rotationPitch = (float) LocationHelpers.getPitch(location, target);
+
+            for (int i = 0; i < 1 + random.nextInt(5); i++) {
+                double particleX = x - 0.2 + random.nextDouble() * 0.4;
+                double particleY = y - 0.2 + random.nextDouble() * 0.4;
+                double particleZ = z - 0.2 + random.nextDouble() * 0.4;
+
+                double speed = 2;
+
+                double particleMotionX = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.cos(rotationYaw / 180.0F * (float)Math.PI) * speed;
+                double particleMotionY = MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI) * speed * 5;
+                double particleMotionZ = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.sin(rotationYaw / 180.0F * (float)Math.PI) * speed;
+
+                FMLClientHandler.instance().getClient().effectRenderer.addEffect(
+                        new ExtendedEntityBubbleFX(worldObj, particleX, particleY, particleZ,
+                                particleMotionX, particleMotionY, particleMotionZ, 0.02D)
+                );
+            }
+        }
+    }
 	
 	private void updateEnvironmentalAccumulatorIdle() {
         // Look for items thrown into the beam
