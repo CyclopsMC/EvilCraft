@@ -4,6 +4,7 @@ import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.EnvironmentalAccumulator;
@@ -11,6 +12,7 @@ import evilcraft.block.SanguinaryEnvironmentalAccumulator;
 import evilcraft.block.SanguinaryEnvironmentalAccumulatorConfig;
 import evilcraft.client.gui.container.GuiBloodInfuser;
 import evilcraft.client.gui.container.GuiSanguinaryEnvironmentalAccumulator;
+import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
@@ -25,6 +27,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -104,10 +107,11 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
                     );
             this.outputStack =
                     new PositionedStack(
-                        outputStack,
+                            ItemHelpers.getVariants(outputStack),
                             ContainerSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT_X + xOffset,
                             ContainerSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT_Y + yOffset
                     );
+            //this.outputStack.setPermutationToRender(1);
             this.inputWeather = inputWeather;
             this.duration = duration;
             this.fluidStack = fluidStack;
@@ -123,6 +127,7 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
 
         @Override
         public PositionedStack getResult() {
+            outputStack.setPermutationToRender((cycleticks / 32) % outputStack.items.length);
             return outputStack;
         }
 
@@ -182,7 +187,6 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
         private NEISanguinaryEnvironmentalAccumulatorManager getOuterType() {
             return NEISanguinaryEnvironmentalAccumulatorManager.this;
         }
-        
     }
 
     public NEISanguinaryEnvironmentalAccumulatorManager() {

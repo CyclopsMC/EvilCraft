@@ -2,12 +2,17 @@ package evilcraft.modcompat.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import com.google.common.collect.Lists;
 import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.block.*;
 import evilcraft.client.gui.container.GuiExaltedCrafter;
+import evilcraft.item.BiomeExtract;
+import evilcraft.item.BiomeExtractConfig;
 import evilcraft.item.ExaltedCrafterConfig;
 import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 /**
  * Helper for registering NEI manager.

@@ -2,14 +2,17 @@ package evilcraft.modcompat.nei;
 
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
+import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -71,8 +74,8 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
                     );
             this.outputStack =
                     new PositionedStack(
-                        outputStack,
-                        114, 48
+                            ItemHelpers.getVariants(outputStack),
+                            114, 48
                     );
             this.inputWeather = inputWeather;
             this.outputWeather = outputWeather;
@@ -86,6 +89,7 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
 
         @Override
         public PositionedStack getResult() {
+            outputStack.setPermutationToRender((cycleticks / 32) % outputStack.items.length);
             return outputStack;
         }
 
@@ -242,14 +246,6 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
             ));
         }
     }
-    
-    /*@Override
-    public void drawExtras(int recipeIndex) {
-        CachedEnvironmentalAccumulatorRecipe recipe = (CachedEnvironmentalAccumulatorRecipe)arecipes.get(recipeIndex);
-        
-        GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        GL11.glRectf(0.0f, 0.0f, 10f, 10f);
-    }*/
     
     private CachedEnvironmentalAccumulatorRecipe getRecipe(int recipe) {
         return (CachedEnvironmentalAccumulatorRecipe) arecipes.get(recipe);

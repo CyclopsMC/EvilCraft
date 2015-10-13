@@ -341,6 +341,7 @@ public class Recipes {
             if(Configs.isEnabled(BiomeExtractConfig.class) && BiomeExtractConfig.hasRecipes) {
                 ItemStack emptyContainer = new ItemStack(BiomeExtract.getInstance());
                 ItemStack filledContainer = BiomeExtract.getInstance().createItemStack(null, 1); // Still dummy!
+                filledContainer.setItemDamage(OreDictionary.WILDCARD_VALUE);
                 EnvironmentalAccumulator.getInstance().getRecipeRegistry().registerRecipe(
                         recipeName,
                         new EnvironmentalAccumulatorRecipeComponent(

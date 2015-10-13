@@ -68,6 +68,11 @@ public class BiomeExtract extends ConfigurableItem {
     }
 
     @Override
+    public String getUnlocalizedName(ItemStack itemStack) {
+        return super.getUnlocalizedName(itemStack) + (itemStack.getItemDamage() == 0 ? ".empty" : "");
+    }
+
+    @Override
     public EnumAction getItemUseAction(ItemStack itemStack) {
         return EnumAction.bow;
     }
@@ -80,13 +85,13 @@ public class BiomeExtract extends ConfigurableItem {
 
     @Override
     public int getRenderPasses(int metadata) {
-        return 2;
+        return metadata == 0 ? 1 : 2;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
-        if(renderPass == 0) {
+        if(renderPass == 0 && itemStack.getItemDamage() > 0) {
             BiomeGenBase biome = getBiome(itemStack);
             if(biome != null) {
                 return biome.color;
@@ -128,7 +133,7 @@ public class BiomeExtract extends ConfigurableItem {
 
     @Override
     public IIcon getIconFromDamageForRenderPass(int meta, int renderpass) {
-        return renderpass == 0 ? this.overlay : super.getIconFromDamageForRenderPass(meta, renderpass);
+        return renderpass == 0 && meta > 0 ? this.overlay : super.getIconFromDamageForRenderPass(meta, renderpass);
     }
 
     public BiomeGenBase[] getBiomes() {
@@ -186,7 +191,7 @@ public class BiomeExtract extends ConfigurableItem {
      * @return The stack.
      */
     public ItemStack createItemStack(BiomeGenBase biome, int amount) {
-        ItemStack itemStack = new ItemStack(getInstance(), amount);
+        ItemStack itemStack = new ItemStack(getInstance(), amount, biome == null ? 0 : 1);
         if(biome != null) {
             NBTTagCompound tag = new NBTTagCompound();
             tag.setInteger(NBT_BIOMEID, biome.biomeID);
@@ -197,7 +202,6 @@ public class BiomeExtract extends ConfigurableItem {
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return itemStack.getItemDamage() == 0 ? EnumRarity.common :
-                (itemStack.getItemDamage() > 2 ? EnumRarity.rare : EnumRarity.uncommon);
+        return itemStack.getItemDamage() == 0 ? EnumRarity.common : EnumRarity.uncommon;
     }
 }

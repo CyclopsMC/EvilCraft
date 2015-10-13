@@ -1,5 +1,6 @@
 package evilcraft.core.helper;
 
+import com.google.common.collect.Lists;
 import evilcraft.GeneralConfig;
 import evilcraft.core.PlayerExtendedInventoryIterator;
 import net.minecraft.entity.Entity;
@@ -10,6 +11,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.List;
 
 /**
  * Helpers for items.
@@ -125,6 +129,22 @@ public class ItemHelpers {
             }
         }
         return false;
+    }
+
+    /**
+     * Get a list of variants from the given stack if its damage value is the wildcard value,
+     * otherwise the list will only contain the given itemstack.
+     * @param itemStack The itemstack
+     * @return The list of variants.
+     */
+    public static List<ItemStack> getVariants(ItemStack itemStack) {
+        List<ItemStack> output = Lists.newLinkedList();
+        if(itemStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+            itemStack.getItem().getSubItems(itemStack.getItem(), null, output);
+        } else {
+            output.add(itemStack);
+        }
+        return output;
     }
 	
 }

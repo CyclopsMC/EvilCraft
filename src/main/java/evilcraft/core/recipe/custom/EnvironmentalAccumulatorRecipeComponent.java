@@ -5,6 +5,8 @@ import evilcraft.api.recipes.custom.IRecipeOutput;
 import evilcraft.core.weather.WeatherType;
 import net.minecraft.item.ItemStack;
 
+import java.util.List;
+
 /**
  * A recipe component that can be used in {@link evilcraft.api.recipes.custom.IRecipe}S for the
  * {@link evilcraft.block.EnvironmentalAccumulator}.
@@ -22,6 +24,10 @@ public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IR
     @Override
     public ItemStack getItemStack() {
         return itemStack.getItemStack();
+    }
+
+    public List<ItemStack> getItemStacks() {
+        return itemStack.getItemStacks();
     }
 
     @Override
