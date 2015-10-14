@@ -25,7 +25,7 @@ public class SanguinaryEnvironmentalAccumulatorConfig extends BlockContainerConf
      * The base blood usage in mB for recipes, this is multiplied with the cooldown time per recipe.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, isCommandable = true, comment = "The base blood usage in mB for recipes, this is multiplied with the cooldown time per recipe.")
-    public static int baseUsage = 100;
+    public static int baseUsage = 200;
 
     /**
      * Make a new instance.
@@ -47,6 +47,11 @@ public class SanguinaryEnvironmentalAccumulatorConfig extends BlockContainerConf
                 TileWorking.UPGRADE_TIER1,
                 TileWorking.UPGRADE_TIER2,
                 TileWorking.UPGRADE_TIER3);
+    }
+
+    @Override
+    protected String getConfigPropertyPrefix() {
+        return "sangEnvirAcc";
     }
     
 }
