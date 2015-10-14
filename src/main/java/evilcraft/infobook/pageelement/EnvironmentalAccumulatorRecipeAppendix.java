@@ -2,16 +2,23 @@ package evilcraft.infobook.pageelement;
 
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
+import evilcraft.block.BloodInfuser;
 import evilcraft.block.EnvironmentalAccumulator;
+import evilcraft.block.SanguinaryEnvironmentalAccumulator;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
 import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.InfoSection;
+import evilcraft.item.BucketBloodConfig;
+import evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
+import evilcraft.tileentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,6 +72,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
 
     @Override
     public void drawElementInner(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my) {
+        boolean sanguinary = (getTick(gui) % 2) == 1;
         int middle = (width - SLOT_SIZE) / 2;
         gui.drawArrowRight(x + middle - 3, y + SLOT_OFFSET_Y + 2);
 
@@ -77,7 +85,9 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
         renderItem(gui, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
         renderItem(gui, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
 
-        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(EnvironmentalAccumulator.getInstance()), mx, my, false, null);
+        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(sanguinary
+                ? SanguinaryEnvironmentalAccumulator.getInstance()
+                : EnvironmentalAccumulator.getInstance()), mx, my, false, null);
 
         // Draw weathers
         int inputX = X_ICON_OFFSETS.get(recipe.getInput().getWeatherType());
@@ -89,5 +99,21 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
         gui.drawTexturedModalRect(x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
         gui.drawOuterBorder(x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
         // TODO: add tooltips?
+
+        if(sanguinary) {
+            // Draw blood usage
+            renderIcon(gui, x + middle, y + 2, BucketBloodConfig._instance.getItemInstance().getIconFromDamage(0));
+
+            // Blood amount text
+            FontRenderer fontRenderer = gui.getFontRenderer();
+            boolean oldUnicode = fontRenderer.getUnicodeFlag();
+            fontRenderer.setUnicodeFlag(true);
+            fontRenderer.setBidiFlag(false);
+            int amount = AccumulateItemTickAction.getUsage(recipe.getProperties());
+            FluidStack fluidStack = new FluidStack(TileSanguinaryEnvironmentalAccumulator.ACCEPTED_FLUID, amount);
+            String line = fluidStack.amount + " mB";
+            fontRenderer.drawSplitString(line, x + middle - 5, y + SLOT_SIZE, 200, 0);
+            fontRenderer.setUnicodeFlag(oldUnicode);
+        }
     }
 }

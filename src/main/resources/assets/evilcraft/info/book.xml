@@ -278,6 +278,15 @@
                 <appendix type="bloodInfuserRecipe">evilcraft:reinforcedUndeadPlank</appendix>
                 <appendix type="craftingRecipe">evilcraft:colossalBloodChest</appendix>
             </section>
+            <section name="infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator">
+                <tag>sanguinaryEnvironmentalAccumulator</tag>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text1</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text2</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text3</paragraph>
+                <appendix type="image" width="120" height="82">evilcraft:textures/gui/infobook/sanguinaryEnvironmentalAccumulator.png</appendix>
+                <appendix type="craftingRecipe">evilcraft:sanguinaryEnvironmentalAccumulator</appendix>
+                <appendix type="envirAccRecipe">evilcraft:reinforcedUndeadPlank</appendix>
+            </section>
         </section>
         <section name="infoBook.secondAge.tools">
             <section name="infoBook.secondAge.tools.introduction">

@@ -474,6 +474,11 @@ infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text3=That is why I 
 infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text4=This &1Colossal Blood Chest&0 should only be used if you have a lot of items you need to repair at once. The reason for this is that its base &4Blood&0 usage is higher than the usage of the &1Blood Chests&0, but the more items that are being repaired simultaneously, the more efficient this &4Blood&0 usage becomes.
 infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text5=To build this, make a &1hollow&0 3x3x3 structure of &1Reinforced Undead Planks&0. For the structure to form, your need exactly one &1Colossal Blood Chest&0 block somewhere in the structure wall, make sure not to place it in the middle of the structure, as it must remain hollow.
 
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator=Sanguinary Environmental Acc.
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text1=I was getting tired of running to &1Dark Temples&0 every time I had to accumulate some environment to craft new items. One day, I was so tired of it that I just broke one the machines standing in there, and to my suprise it dropped a strange new item.
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text2=After some research, I was able to use this new item in a new kind of &1Environmental Accumulator&0 that is able to run on &4Blood&0. I was also able to make this machine completely bad-effect proof, so no more biome degradation or random deaths by walking near those temples.
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text3=This machine requires a hefty amount of &4Blood&0 to work, that is why you will need &18&0 &4Blood&0 tanks of any type spread around the machine as can be seen in the following image. This machine will not work without those tanks, smoke effects can be seen at the locations where the tanks are supposed to be placed.
+
 # - Tools -
 infoBook.secondAge.tools=Tools
 
