@@ -104,7 +104,7 @@ public class BiomeExtract extends ConfigurableItem {
 
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-        if(!world.isRemote && getBiome(itemStack) != null) {
+        if(!world.isRemote && getBiome(itemStack) != null && !BiomeExtractConfig._instance.isUsageBlacklisted(getBiome(itemStack).biomeID)) {
             world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             world.spawnEntityInWorld(new EntityBiomeExtract(world, player, itemStack.copy()));
             itemStack.stackSize--;

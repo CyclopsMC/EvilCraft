@@ -38,7 +38,7 @@ public class PrimedPendantConfig extends ItemConfig {
     public static int usage = 10;
 
     /**
-     * The allowed blood conversions with their ratio.
+     * Usage multipliers. Potion ids are first, followed by floating numbers. A number smaller than one blacklists that potion.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM,
             comment = "Usage multipliers. Potion ids are first, followed by floating numbers. A number smaller than one blacklists that potion.",
@@ -91,7 +91,7 @@ public class PrimedPendantConfig extends ItemConfig {
      * @param config The config where each element is in the form 'potionid:multiplier'.
      */
     public void registerFromConfig(String[] config) {
-        multipliers.clear();;
+        multipliers.clear();
         for(String line : config) {
             String[] split = line.split(DELIMITER);
             if(split.length != 2) {

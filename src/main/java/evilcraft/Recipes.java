@@ -28,6 +28,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -355,7 +356,12 @@ public class Recipes {
                         new EnvironmentalAccumulatorRecipeProperties(1000, BiomeExtractConfig.envirAccCooldownTime, -1.0D, null, new EnvironmentalAccumulatorRecipeProperties.IEAResultOverride() {
                             @Override
                             public ItemStack getResult(IBlockAccess world, int x, int y, int z, ItemStack originalResult) {
-                                return BiomeExtract.getInstance().createItemStack(world.getBiomeGenForCoords(x, z), 1);
+                                BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+                                if(BiomeExtractConfig._instance.isCraftingBlacklisted(biome.biomeID)) {
+                                    return BiomeExtract.getInstance().createItemStack(null, 1);
+                                } else {
+                                    return BiomeExtract.getInstance().createItemStack(biome, 1);
+                                }
                             }
                         })
                 );
