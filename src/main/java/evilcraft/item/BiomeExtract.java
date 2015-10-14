@@ -202,6 +202,11 @@ public class BiomeExtract extends ConfigurableItem {
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return itemStack.getItemDamage() == 0 ? EnumRarity.common : EnumRarity.uncommon;
+        BiomeGenBase biome = getBiome(itemStack);
+        if(biome == null) {
+            return EnumRarity.common;
+        } else {
+            return biome.getSpawningChance() <= 0.05F ? EnumRarity.epic : (biome.getSpawningChance() <= 0.1F ? EnumRarity.rare : EnumRarity.uncommon);
+        }
     }
 }
