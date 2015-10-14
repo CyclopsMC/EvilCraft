@@ -90,14 +90,16 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
                 : EnvironmentalAccumulator.getInstance()), mx, my, false, null);
 
         // Draw weathers
-        int inputX = X_ICON_OFFSETS.get(recipe.getInput().getWeatherType());
-        Minecraft.getMinecraft().getTextureManager().bindTexture(WEATHERS);
-        gui.drawTexturedModalRect(x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
-        gui.drawOuterBorder(x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
-        int outputX = X_ICON_OFFSETS.get(recipe.getOutput().getWeatherType());
-        Minecraft.getMinecraft().getTextureManager().bindTexture(WEATHERS);
-        gui.drawTexturedModalRect(x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
-        gui.drawOuterBorder(x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
+        Integer inputX = X_ICON_OFFSETS.get(recipe.getInput().getWeatherType());
+        if(inputX != null) {
+            Minecraft.getMinecraft().getTextureManager().bindTexture(WEATHERS);
+            gui.drawTexturedModalRect(x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
+            gui.drawOuterBorder(x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
+            int outputX = X_ICON_OFFSETS.get(recipe.getOutput().getWeatherType());
+            Minecraft.getMinecraft().getTextureManager().bindTexture(WEATHERS);
+            gui.drawTexturedModalRect(x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
+            gui.drawOuterBorder(x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
+        }
         // TODO: add tooltips?
 
         if(sanguinary) {

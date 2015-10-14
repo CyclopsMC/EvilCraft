@@ -51,6 +51,14 @@
                 <paragraph>infoBook.firstAge.newWorld.weatherContainerBenefits.text</paragraph>
                 <appendixList type="craftingRecipe">weatherCrafting</appendixList>
             </section>
+            <section name="infoBook.firstAge.newWorld.biomeExtract">
+                <tag>biomeExtract</tag>
+                <paragraph>infoBook.firstAge.newWorld.biomeExtract.text1</paragraph>
+                <paragraph>infoBook.firstAge.newWorld.biomeExtract.text2</paragraph>
+                <paragraph>infoBook.firstAge.newWorld.biomeExtract.text3</paragraph>
+                <appendix type="craftingRecipe">evilcraft:biomeExtract</appendix>
+                <appendix type="envirAccRecipe" meta="1">evilcraft:biomeExtract</appendix>
+            </section>
             <section name="infoBook.firstAge.newWorld.libelle">
                 <tag>bucketPoison</tag>
                 <paragraph>infoBook.firstAge.newWorld.libelle.text</paragraph>
@@ -299,7 +307,9 @@
             </section>
             <section name="infoBook.secondAge.tools.invigoratingPendant">
                 <tag>invigoratingPendant</tag>
+                <tag>goldenString</tag>
                 <paragraph>infoBook.secondAge.tools.invigoratingPendant.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:goldenString</appendix>
                 <appendix type="craftingRecipe">evilcraft:invigoratingPendant</appendix>
             </section>
             <section name="infoBook.secondAge.tools.primedPendant">
