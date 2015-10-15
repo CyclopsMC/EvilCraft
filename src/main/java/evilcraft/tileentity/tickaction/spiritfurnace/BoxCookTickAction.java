@@ -15,14 +15,17 @@ import evilcraft.tileentity.TileSpiritFurnace;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import org.apache.commons.lang3.mutable.MutableDouble;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * {@link ITickAction} that is able to cook boxes with spirits.
@@ -32,6 +35,7 @@ import java.util.Set;
 public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 
     public static Map<Class<? extends EntityLivingBase>, List<WeightedItemStack>> MOBDROP_OVERRIDES = Maps.newHashMap();
+    public static Map<UUID, List<WeightedItemStack>> PLAYERDROP_OVERRIDES = Maps.newHashMap();
 
     static {
         if(SpiritFurnaceConfig.villagerDropEmeraldChance > 0) {
@@ -40,6 +44,17 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                     new WeightedItemStack(null, SpiritFurnaceConfig.villagerDropEmeraldChance - 1)
             ));
         }
+        overridePlayerDrop("068d4de0-3a75-4c6a-9f01-8c37e16a394c", new ItemStack(Items.emerald)); // kroeserr
+        overridePlayerDrop("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c", new ItemStack(Items.wooden_sword)); // _EeB_
+        overridePlayerDrop("777e7aa3-9373-4511-8d75-f99d23ebe252", new ItemStack(Items.dye, 1, 3).setStackDisplayName("Lekkere Stront")); // Davivs69
+        overridePlayerDrop("3e13f558-fb72-4949-a842-07879924bc49", new ItemStack(Items.quartz)); // Jona
+        overridePlayerDrop("b5c31e33-8224-4f96-a4bf-73721be9d2ec", new ItemStack(Blocks.cobblestone)); // dodo3231
+        overridePlayerDrop("b2faeaab-fc87-4f91-98d3-836024f268ae", new ItemStack(Blocks.furnace).setStackDisplayName("Fuurnas")); // _KillaH229_
+        overridePlayerDrop("069a79f4-44e9-4726-a5be-fca90e38aaf5", new ItemStack(Items.golden_apple, 1, 1)); // Notch
+        overridePlayerDrop("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.spawn_egg, 1, 91).setStackDisplayName("jeb_")); // jeb_
+        overridePlayerDrop("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.spawn_egg, 1, 91).setStackDisplayName("Dinnerbone")); // Dinnerbone
+        overridePlayerDrop("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.cobblestone, 45).setStackDisplayName("direwolf20")); // direwolf20
+        overridePlayerDrop("0b7509f0-2458-4160-9ce1-2772b9a45ac2", new ItemStack(Items.porkchop)); // iChun
     }
 
     /**
@@ -50,6 +65,15 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
      */
     public static void overrideMobDrop(Class<? extends EntityLivingBase> entity, Set<WeightedItemStack> drops) {
         MOBDROP_OVERRIDES.put(entity, WeightedItemStack.createWeightedList(drops));
+    }
+
+    /**
+     * Override a player's drops inside the spirit furnace.
+     * @param playerId The player id.
+     * @param drop The drop
+     */
+    public static void overridePlayerDrop(String playerId, ItemStack drop) {
+        PLAYERDROP_OVERRIDES.put(UUID.fromString(playerId), WeightedItemStack.createWeightedList(Sets.newHashSet(new WeightedItemStack(drop, 1))));
     }
     
     @Override
@@ -70,6 +94,13 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     protected ItemStack getCookStack(TileSpiritFurnace tile) {
         return tile.getInventory().getStackInSlot(tile.getConsumeSlot());
     }
+
+    protected ItemStack getPlayerSkull(String playerName) {
+        ItemStack itemStack = new ItemStack(Items.skull, 1, 3);
+        itemStack.setTagCompound(new NBTTagCompound());
+        itemStack.getTagCompound().setString("SkullOwner", playerName);
+        return itemStack;
+    }
     
     protected void doNextDrop(TileSpiritFurnace tile) {
     	EntityLiving entity = tile.getEntity();
@@ -84,22 +115,33 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                         tile.zCoord + 0.5D, deathSound, 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
             }
 
-            if(MOBDROP_OVERRIDES.containsKey(entity.getClass())) {
-                List<WeightedItemStack> possibleDrops = MOBDROP_OVERRIDES.get(entity.getClass());
+            if(tile.isPlayer()) {
+                UUID playerUuid = UUID.fromString(tile.getPlayerId());
+                List<WeightedItemStack> possibleDrops = PLAYERDROP_OVERRIDES.get(playerUuid);
+                possibleDrops.add(new WeightedItemStack(getPlayerSkull(tile.getPlayerName()), 1));
                 WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
                 ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.rand);
-                if(drop != null) {
+                if (drop != null) {
                     tile.onItemDrop(drop);
                 }
             } else {
-                // To make sure the entity actually will drop something.
-                ObfuscationHelpers.setRecentlyHit(entity, 100);
+                if (MOBDROP_OVERRIDES.containsKey(entity.getClass())) {
+                    List<WeightedItemStack> possibleDrops = MOBDROP_OVERRIDES.get(entity.getClass());
+                    WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
+                    ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.rand);
+                    if (drop != null) {
+                        tile.onItemDrop(drop);
+                    }
+                } else {
+                    // To make sure the entity actually will drop something.
+                    ObfuscationHelpers.setRecentlyHit(entity, 100);
 
-                try {
-                    // Kill the entity to get the drops
-                    entity.onDeath(DamageSource.generic);
-                } catch (Exception e) { // Gotta catch 'em all
-                    tile.caughtError();
+                    try {
+                        // Kill the entity to get the drops
+                        entity.onDeath(DamageSource.generic);
+                    } catch (Exception e) { // Gotta catch 'em all
+                        tile.caughtError();
+                    }
                 }
             }
 		}

@@ -32,6 +32,14 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	 * The name of the NBT tag that will hold spirit entity data.
 	 */
 	public static final String NBTKEY_SPIRIT = "spiritTag";
+	/**
+	 * The name of the NBT tag that will hold the player id.
+	 */
+	public static final String NBTKEY_PLAYERID = "playerId";
+	/**
+	 * The name of the NBT tag that will hold the player name.
+	 */
+	public static final String NBTKEY_PLAYERNAME = "playerName";
 	
 	private static final int TICK_MODULUS = 10;
 	private static final int TARGET_RADIUS = 10;
@@ -47,6 +55,10 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	
 	@NBTPersist
 	private NBTTagCompound spiritTag = new NBTTagCompound();
+	@NBTPersist
+	private String playerId = "";
+	@NBTPersist
+	private String playerName = "";
 	
 	private VengeanceSpirit targetSpirit = null;
 	
@@ -135,6 +147,8 @@ public class TileBoxOfEternalClosure extends EvilCraftTileEntity {
 	    			close(true);
 	    			setSpiritInstance(targetSpirit);
 	    			worldObj.removeEntity(targetSpirit);
+					this.playerId = targetSpirit.getPlayerId();
+					this.playerName = targetSpirit.getPlayerName();
 	    			setTargetSpirit(null);
 	    		} else {
 		    		double strength = (1D / (distance)) / 50D + 0.01D;

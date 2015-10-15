@@ -233,6 +233,26 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     	}
     	return null;
     }
+
+    public String getPlayerId() {
+        ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
+        if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
+            return BoxOfEternalClosure.getInstance().getPlayerId(boxStack);
+        }
+        return "";
+    }
+
+    public String getPlayerName() {
+        ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
+        if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
+            return BoxOfEternalClosure.getInstance().getPlayerName(boxStack);
+        }
+        return "";
+    }
+
+    public boolean isPlayer() {
+        return !getPlayerId().isEmpty();
+    }
     
     /**
      * Get the size of the box entity.

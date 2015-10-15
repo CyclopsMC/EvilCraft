@@ -45,7 +45,8 @@ public class BoxOfEternalClosureDataProvider implements IWailaDataProvider {
             if(tile.getSpiritInstance() == null) {
                 currenttip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty"));
             } else {
-                String name = ((VengeanceSpirit) tile.getSpiritInstance()).getLocalizedInnerEntityName();
+                VengeanceSpirit spirit = ((VengeanceSpirit) tile.getSpiritInstance());
+                String name = spirit.getLocalizedInnerEntityName();
                 currenttip.add(name);
             }
         }

@@ -9,6 +9,7 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.L10NHelpers;
+import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.world.FakeWorld;
@@ -185,12 +186,34 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 		itemStack.setTagCompound(tag);
     }
 
+	public String getPlayerName(ItemStack itemStack) {
+		if(itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal())) {
+			return itemStack.getTagCompound().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME);
+		}
+		return "";
+	}
+
+	public String getPlayerId(ItemStack itemStack) {
+		if(itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(TileBoxOfEternalClosure.NBTKEY_PLAYERID, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal())) {
+			return itemStack.getTagCompound().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERID);
+		}
+		return "";
+	}
+
+	public boolean hasPlayer(ItemStack itemStack) {
+		return !getPlayerId(itemStack).isEmpty();
+	}
+
 	@Override
 	public String getInfo(ItemStack itemStack) {
 		String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty");
-		String id = getSpiritName(itemStack);
-		if(id != null) {
-			content = L10NHelpers.getLocalizedEntityName(id);
+		if(hasPlayer(itemStack)) {
+			content = getPlayerName(itemStack);
+		} else {
+			String id = getSpiritName(itemStack);
+			if (id != null) {
+				content = L10NHelpers.getLocalizedEntityName(id);
+			}
 		}
 		return EnumChatFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
 				EnumChatFormatting.RESET + content);
@@ -254,7 +277,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return EnumRarity.uncommon;
+        return hasPlayer(itemStack) ? EnumRarity.rare : EnumRarity.uncommon;
     }
 
     @Override
