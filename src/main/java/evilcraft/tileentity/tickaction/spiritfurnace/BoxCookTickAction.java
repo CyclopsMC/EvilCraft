@@ -1,5 +1,6 @@
 package evilcraft.tileentity.tickaction.spiritfurnace;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import evilcraft.EvilCraft;
@@ -34,9 +35,8 @@ import java.util.UUID;
  */
 public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 
-    public static Map<Class<? extends EntityLivingBase>, List<WeightedItemStack>> MOBDROP_OVERRIDES = Maps.newHashMap();
-    public static Map<UUID, List<WeightedItemStack>> PLAYERDROP_OVERRIDES = Maps.newHashMap();
-
+    public static final Map<Class<? extends EntityLivingBase>, List<WeightedItemStack>> MOBDROP_OVERRIDES = Maps.newHashMap();
+    public static final Map<UUID, List<WeightedItemStack>> PLAYERDROP_OVERRIDES = Maps.newHashMap();
     static {
         if(SpiritFurnaceConfig.villagerDropEmeraldChance > 0) {
             overrideMobDrop(EntityVillager.class, Sets.newHashSet(
@@ -56,6 +56,30 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
         overridePlayerDrop("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.cobblestone, 45).setStackDisplayName("direwolf20")); // direwolf20
         overridePlayerDrop("0b7509f0-2458-4160-9ce1-2772b9a45ac2", new ItemStack(Items.porkchop)); // iChun
     }
+    public static final ItemStack[] PLAYERDROP_RANDOM = new ItemStack[] {
+            new ItemStack(Items.book),
+            new ItemStack(Items.blaze_powder),
+            new ItemStack(Items.quartz),
+            new ItemStack(Items.chainmail_chestplate),
+            new ItemStack(Items.fermented_spider_eye),
+            new ItemStack(Items.glass_bottle),
+            new ItemStack(Items.item_frame),
+            new ItemStack(Items.minecart),
+            new ItemStack(Items.shears),
+            new ItemStack(Items.reeds),
+            new ItemStack(Items.pumpkin_pie),
+            new ItemStack(Items.magma_cream),
+            new ItemStack(Items.saddle),
+            new ItemStack(Items.speckled_melon),
+            new ItemStack(Items.iron_hoe),
+            new ItemStack(Items.carrot_on_a_stick),
+            new ItemStack(Items.redstone),
+            new ItemStack(Blocks.coal_block),
+            new ItemStack(Blocks.lapis_block),
+            new ItemStack(Blocks.soul_sand),
+            new ItemStack(Blocks.gravel),
+            new ItemStack(Blocks.hopper),
+    };
 
     /**
      * Override an entity's drops inside the spirit furnace.
@@ -101,6 +125,10 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
         itemStack.getTagCompound().setString("SkullOwner", playerName);
         return itemStack;
     }
+
+    protected ItemStack getPlayerDeterminedDrop(String playerId) {
+        return PLAYERDROP_RANDOM[Math.abs(playerId.hashCode() % PLAYERDROP_RANDOM.length)].copy();
+    }
     
     protected void doNextDrop(TileSpiritFurnace tile) {
     	EntityLiving entity = tile.getEntity();
@@ -117,7 +145,12 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 
             if(tile.isPlayer()) {
                 UUID playerUuid = UUID.fromString(tile.getPlayerId());
-                List<WeightedItemStack> possibleDrops = PLAYERDROP_OVERRIDES.get(playerUuid);
+                List<WeightedItemStack> possibleDrops = Lists.newLinkedList();
+                possibleDrops.add(new WeightedItemStack(getPlayerDeterminedDrop(tile.getPlayerId()), 1));
+                List<WeightedItemStack> overridenDrops = PLAYERDROP_OVERRIDES.get(playerUuid);
+                if(overridenDrops != null) {
+                    possibleDrops.addAll(overridenDrops);
+                }
                 possibleDrops.add(new WeightedItemStack(getPlayerSkull(tile.getPlayerName()), 1));
                 WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
                 ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.rand);
