@@ -7,6 +7,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Achievements;
 import evilcraft.ExtendedDamageSource;
 import evilcraft.client.particle.EntityDistortFX;
+import evilcraft.client.particle.EntityPlayerTargettedBlurFX;
+import evilcraft.client.particle.ExtendedEntityExplodeFX;
 import evilcraft.core.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -140,7 +142,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     @Override
     public void onUsingTick(ItemStack itemStack, EntityPlayer player, int duration) {
         World world = player.worldObj;
-        if(world.isRemote && duration % AOE_TICK_UPDATE == 0) {
+        if(world.isRemote && duration % 2 == 0) {
             showUsingItemTick(world, itemStack, player, duration);
         }
         super.onUsingTick(itemStack, player, duration);
@@ -157,19 +159,19 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
                 if(itemRand.nextInt(particleChance) == 0) {
                     double u = Math.PI * (point / points);
                     double v = -2 * Math.PI * (pointHeight / points);
-                    
+
                     double xOffset = Math.cos(u) * Math.sin(v) * area;
                     double yOffset = Math.sin(u) * area;
                     double zOffset = Math.cos(v) * area;
-                    
+
                     double xCoord = player.posX;
-                    double yCoord = player.posY;
+                    double yCoord = player.posY - 0.5D;
                     double zCoord = player.posZ;
-                    
-                    double particleX = xCoord + xOffset + world.rand.nextFloat() - 0.5F;
-                    double particleY = yCoord + yOffset + world.rand.nextFloat() - 0.5F;
-                    double particleZ = zCoord + zOffset + world.rand.nextFloat() - 0.5F;
-        
+
+                    double particleX = xCoord + xOffset - world.rand.nextFloat() * area / 4 - 0.5F;
+                    double particleY = yCoord + yOffset - world.rand.nextFloat() * area / 4 - 0.5F;
+                    double particleZ = zCoord + zOffset - world.rand.nextFloat() * area / 4 - 0.5F;
+
                     float particleMotionX = (float) (xOffset * 10);
                     float particleMotionY = (float) (yOffset * 10);
                     float particleMotionZ = (float) (zOffset * 10);
@@ -178,8 +180,49 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
                             new EntityDistortFX(world, particleX, particleY, particleZ,
                                     particleMotionX, particleMotionY, particleMotionZ, (float) area * 3)
                             );
+
+                    if(world.rand.nextInt(10) == 0) {
+                        int spread = 10;
+                        float scale2 = 0.3F - world.rand.nextFloat() * 0.2F;
+                        float r = 1.0F * world.rand.nextFloat();
+                        float g = 0.2F + 0.01F * world.rand.nextFloat();
+                        float b = 0.1F + 0.5F * world.rand.nextFloat();
+                        float ageMultiplier2 = 20;
+
+                        double motionX = spread - world.rand.nextDouble() * 2 * spread;
+                        double motionY = spread - world.rand.nextDouble() * 2 * spread;
+                        double motionZ = spread - world.rand.nextDouble() * 2 * spread;
+
+                        FMLClientHandler.instance().getClient().effectRenderer.addEffect(
+                                new EntityPlayerTargettedBlurFX(world, scale2, motionX, motionY, motionZ, r, g, b,
+                                        ageMultiplier2, player)
+                        );
+                    }
                 }
             }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    protected void showUsedItemTick(World world, EntityPlayer player, int power) {
+        int particles = (power + 1) * (power + 1) * (power + 1) * 10;
+        for(int i = 0; i < particles; i++) {
+            double x = player.posX - 0.5F + world.rand.nextDouble();
+            double y = player.posY - 1F + world.rand.nextDouble();
+            double z = player.posZ - 0.5F + world.rand.nextDouble();
+
+            double particleMotionX = (-1 + world.rand.nextDouble() * 2) * (power + 1) / 2;
+            double particleMotionY = (-1 + world.rand.nextDouble() * 2) * (power + 1) / 2;
+            double particleMotionZ = (-1 + world.rand.nextDouble() * 2) * (power + 1) / 2;
+
+            float r = 1.0F * world.rand.nextFloat();
+            float g = 0.2F + 0.01F * world.rand.nextFloat();
+            float b = 0.1F + 0.5F * world.rand.nextFloat();
+
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(
+                    new ExtendedEntityExplodeFX(world, x, y, z,
+                            particleMotionX, particleMotionY, particleMotionZ, r, g, b, 0.3F)
+            );
         }
     }
     
@@ -211,6 +254,9 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
             // This will perform a distortion effect to entities in a certain area,
             // depending on the itemUsedCount.
             distortEntities(world, player, itemUsedCount, getPower(itemStack));
+            if(world.isRemote) {
+                showUsedItemTick(world, player, getPower(itemStack));
+            }
         } else if(world.isRemote) {
             animateOutOfEnergy(world, player);
         }

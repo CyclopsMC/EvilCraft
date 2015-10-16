@@ -26,7 +26,7 @@ public class EntityDistortFX extends EntityFX {
         super(world, x, y, z, motionX, motionY, motionZ);
         
         particleScale = scale;
-        particleAlpha = 0.1F;
+        particleAlpha = 0.3F;
         particleMaxAge = MaceOfDistortion.AOE_TICK_UPDATE;
         
         particleRed = 1.0F * rand.nextFloat();

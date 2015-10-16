@@ -120,7 +120,8 @@ public class EntityBlurFX extends EntityFX {
 
 		tessellator.draw();
 
-		GL11.glDisable(GL11.GL_BLEND);
+		//GL11.glDisable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_DST_COLOR);
 		GL11.glDepthMask(true);
 
 		GL11.glPopMatrix();
