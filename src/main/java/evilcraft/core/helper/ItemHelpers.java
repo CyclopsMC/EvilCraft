@@ -1,6 +1,7 @@
 package evilcraft.core.helper;
 
 import com.google.common.collect.Lists;
+import cpw.mods.fml.common.registry.GameData;
 import evilcraft.GeneralConfig;
 import evilcraft.core.PlayerExtendedInventoryIterator;
 import net.minecraft.entity.Entity;
@@ -145,6 +146,40 @@ public class ItemHelpers {
             output.add(itemStack);
         }
         return output;
+    }
+
+    /**
+     * Parse a string to an itemstack.
+     * Expects the format "domain:itemname:amount:meta"
+     * The domain and itemname are mandatory, the rest is optional.
+     * @param itemStackString The string to parse.
+     * @return The itemstack.
+     * @throws IllegalArgumentException If the string was incorrectly formatted.
+     */
+    public static ItemStack parseItemStack(String itemStackString) {
+        String[] split = itemStackString.split(":");
+        String itemName = split[0] + ":" + split[1];
+        Item item =  GameData.getItemRegistry().getObject(itemName);
+        if(item == null) {
+            throw new IllegalArgumentException("Invalid ItemStack item: " + itemName);
+        }
+        int amount = 1;
+        int meta = 0;
+        if(split.length > 2) {
+            try {
+                amount = Integer.parseInt(split[2]);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid ItemStack amount: " + split[2]);
+            }
+            if(split.length > 3) {
+                try {
+                    meta = Integer.parseInt(split[3]);
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Invalid ItemStack meta: " + split[3]);
+                }
+            }
+        }
+        return new ItemStack(item, amount, meta);
     }
 	
 }

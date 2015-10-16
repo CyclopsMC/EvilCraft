@@ -8,11 +8,14 @@ import evilcraft.Reference;
 import evilcraft.core.IMCHandler;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
+import evilcraft.core.config.IChangedCallback;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
+import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.WeightedItemStack;
 import evilcraft.core.item.ItemBlockNBT;
 import evilcraft.core.tileentity.upgrade.Upgrades;
+import evilcraft.item.BiomeExtractConfig;
 import evilcraft.tileentity.TileWorking;
 import evilcraft.tileentity.tickaction.spiritfurnace.BoxCookTickAction;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,9 +23,12 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.potion.Potion;
+import net.minecraft.world.biome.BiomeGenBase;
 import org.apache.logging.log4j.Level;
 
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Config for the {@link SpiritFurnace}.
@@ -30,6 +36,8 @@ import java.util.Set;
  *
  */
 public class SpiritFurnaceConfig extends BlockContainerConfig {
+
+    private static final String DELIMITER = "\\|";
     
     /**
      * The unique instance.
@@ -59,6 +67,16 @@ public class SpiritFurnaceConfig extends BlockContainerConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The 1/X chance for villagers to drop emeralds. 0 means no drops.")
     public static int villagerDropEmeraldChance = 20;
+
+    /**
+     * Custom player drops. Maps player UUID to an itemstack. Expects the format domain:itemname:amount:meta for items where amount and meta are optional.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE,
+            comment = "Custom player drops. Maps player UUID to an itemstack. Expects the format domain:itemname:amount:meta for items where amount and meta are optional.",
+            changedCallback = OverridePlayerDrop.class)
+    public static String[] playerDrops = new String[]{
+            "93b459be-ce4f-4700-b457-c1aa91b3b687|minecraft:stone_slab", // Etho's Slab
+    };
 
     /**
      * Make a new instance.
@@ -131,6 +149,59 @@ public class SpiritFurnaceConfig extends BlockContainerConfig {
                 }
             });
         }
+    }
+
+    /**
+     * Callback for when the player drops property is changed.
+     * @author rubensworks
+     *
+     */
+    public static class OverridePlayerDrop implements IChangedCallback {
+
+        private static boolean calledOnce = false;
+
+        @Override
+        public void onChanged(Object value) {
+            if(calledOnce) {
+                for(String line : SpiritFurnaceConfig.playerDrops) {
+                    String[] split = line.split(DELIMITER);
+                    if(split.length != 2) {
+                        throw new IllegalArgumentException("Invalid line '" + line + "' found for "
+                                + "a Spirit Furnace player drop config.");
+                    }
+                    try {
+                        String playerId = split[0];
+                        boolean validId = true;
+                        try {
+                            UUID.fromString(playerId);
+                        } catch (IllegalArgumentException e) {
+                            validId = false;
+                        }
+                        if(!validId) {
+                            EvilCraft.log("Invalid line '" + line + "' found for "
+                                    + "a Spirit Furnace player drop config: " + split[0] + " does not refer to a valid player UUID; skipping.");
+                        }
+                        try {
+                            ItemStack itemStack = ItemHelpers.parseItemStack(split[1]);
+                            BoxCookTickAction.overridePlayerDrop(playerId, itemStack);
+                        } catch (IllegalArgumentException e) {
+                            EvilCraft.log("Invalid item '" + split[1] + "' in "
+                                    + "a Spirit Furnace player drop config; skipping:" + e.getMessage(), Level.ERROR);
+                        }
+                    } catch (NumberFormatException e) {
+                        EvilCraft.log("Invalid line '" + line + "' found for "
+                                + "a Spirit Furnace player drop config: " + split[0] + " is not a number; skipping.");
+                    }
+                }
+            }
+            calledOnce = true;
+        }
+
+        @Override
+        public void onRegisteredPostInit(Object value) {
+            onChanged(value);
+        }
+
     }
     
 }
