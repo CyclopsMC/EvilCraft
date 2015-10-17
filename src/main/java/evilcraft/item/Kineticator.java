@@ -20,7 +20,10 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
@@ -35,8 +38,7 @@ import java.util.Random;
 public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     private static Kineticator _instance = null;
-    
-    private static final String NBT_KEY_POWER = "power";
+
     private static final int POWER_LEVELS = 5;
     private static final int RANGE_PER_LEVEL = 2;
     private static final double USAGE_PER_D = 0.1;
@@ -97,15 +99,8 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-        if(!world.isRemote) {
-            if(player.isSneaking()) {
-                ItemHelpers.toggleActivation(itemStack);
-            } else {
-                int newPower = (getPower(itemStack) + 1) % POWER_LEVELS;
-                setPower(itemStack, newPower);
-                player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC
-                		+ L10NHelpers.localize("item.items.kineticator.setPower", newPower)));
-            }
+        if(!ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, POWER_LEVELS, false) && !world.isRemote) {
+            ItemHelpers.toggleActivation(itemStack);
         }
         return itemStack;
     }
@@ -125,23 +120,23 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
         list.add(EnumChatFormatting.BOLD
         		+ L10NHelpers.localize(getUnlocalizedName() + ".info.area", getArea(itemStack)));
     }
-    
+
     /**
      * Get the power level of the given ItemStack.
      * @param itemStack The item to check.
      * @return The power this Mace currently has.
      */
-    public static int getPower(ItemStack itemStack) {
-        return ItemHelpers.getNBTInt(itemStack, NBT_KEY_POWER);
+    public int getPower(ItemStack itemStack) {
+        return ItemPowerableHelpers.getPower(itemStack);
     }
-    
+
     /**
      * Set the power level of the given ItemStack.
      * @param itemStack The item to change.
      * @param power The new power level.
      */
-    public static void setPower(ItemStack itemStack, int power) {
-        ItemHelpers.setNBTInt(itemStack, power, NBT_KEY_POWER);
+    public void setPower(ItemStack itemStack, int power) {
+        ItemPowerableHelpers.setPower(itemStack, power);
     }
     
     @Override

@@ -1,14 +1,14 @@
 package evilcraft.core.degradation.effect;
 
-import java.util.List;
-
-import net.minecraft.entity.Entity;
 import evilcraft.api.ILocation;
 import evilcraft.api.degradation.IDegradable;
 import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.item.MaceOfDistortion;
+import net.minecraft.entity.Entity;
+
+import java.util.List;
 
 /**
  * An effect that will knockback the entities within the range of the degradable.
@@ -63,7 +63,7 @@ public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
         double y = center.getCoordinates()[1];
         double z = center.getCoordinates()[2];
         for(Entity entity : entities) {
-            MaceOfDistortion.distortEntity(
+            MaceOfDistortion.getInstance().distortEntity(
                     degradable.getWorld(),
                     null,
                     entity,

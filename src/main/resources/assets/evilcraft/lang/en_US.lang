@@ -117,12 +117,8 @@ item.items.potentiaSphere.info=Infuse with blood to make an Ender Pearl.
 item.items.invertedPotentia.name=Inverted Potentia
 item.items.invertedPotentia.info=Strike with lightning to empower.
 item.items.maceOfDistortion.name=Mace of Distortion
-item.items.maceOfDistortion.setPower=Set power to %s
-item.items.maceOfDistortion.info=Shift + Right click to change power level.
-item.items.maceOfDistortion.info.power=Power: %s
 item.items.kineticator.name=Kineticator
 item.items.kineticator.repelling.name=Repelling Kineticator
-item.items.kineticator.setPower=Set power to %s
 item.items.kineticator.info=Shift + Right click to toggle kinetication.\nRight click to change area.
 item.items.kineticator.info.attraction=Attraction: %s
 item.items.kineticator.info.repelling.attraction=Repelling: %s
@@ -216,6 +212,10 @@ item.items.biomeExtract.info=Transforms the target area to the contained biome. 
 item.items.biomeExtract.info.content=Contents: %s
 item.items.environmentalAccumulationCore.name=Environmental Accumulation Core
 item.items.environmentalAccumulationCore.info=Obtained when breaking a regular Environmental Accumulator.
+
+item.powerable.setPower=Set power to %s
+item.powerable.info.power=Power: %s
+item.powerable.info=Shift + Right click to change power level.
 
 # Fluids
 fluid.fluids.evilcraftblood=Blood
