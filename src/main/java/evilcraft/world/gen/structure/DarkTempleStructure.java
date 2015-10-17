@@ -162,12 +162,13 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
         lc.action = new IBlockAction() {
             @Override
             public void run(World world, ILocation location) {
+                Random rand = new Random();
                 int[] c = location.getCoordinates();
-                world.setBlockMetadataWithNotify(c[0], c[1], c[2], 1 + world.rand.nextInt(4), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                world.setBlockMetadataWithNotify(c[0], c[1], c[2], 1 + rand.nextInt(4), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                 TileEntityChest tile = (TileEntityChest) world.getTileEntity(c[0], c[1], c[2]);
                 if (tile != null) {
                     ChestGenHooks info = ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST);
-                    WeightedRandomChestContent.generateChestContents(world.rand, info.getItems(world.rand), tile, info.getCount(world.rand));
+                    WeightedRandomChestContent.generateChestContents(rand, info.getItems(rand), tile, info.getCount(rand));
                 }
             }
         };

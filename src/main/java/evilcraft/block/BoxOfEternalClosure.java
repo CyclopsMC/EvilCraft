@@ -20,6 +20,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
@@ -33,6 +34,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * A box that can hold beings from higher dimensions.
@@ -185,6 +187,29 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 		tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
 		itemStack.setTagCompound(tag);
     }
+
+	/**
+	 * Put a player inside the given box.
+	 * @param itemStack The box.
+	 */
+	public static void setPlayerContent(ItemStack itemStack, UUID playerId) {
+		NBTTagCompound tag = new NBTTagCompound();
+		NBTTagCompound spiritTag = new NBTTagCompound();
+
+		VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
+		spirit.setInnerEntity(new EntityZombie(FakeWorld.getInstance()));
+		spirit.setPlayerId(playerId.toString());
+		spirit.setPlayerName("Forgotten Player");
+		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, spirit.getPlayerId());
+		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, spirit.getPlayerName());
+		spirit.setGlobalVengeance(true);
+		spirit.writeToNBT(spiritTag);
+		String entityId = EntityList.getEntityString(spirit);
+
+		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
+		tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
+		itemStack.setTagCompound(tag);
+	}
 
 	public String getPlayerName(ItemStack itemStack) {
 		if(itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal())) {

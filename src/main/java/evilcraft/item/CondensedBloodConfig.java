@@ -45,7 +45,7 @@ public class CondensedBloodConfig extends ItemConfig {
         // Register in loot chests
         for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
             ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
-                    new ItemStack(OriginsOfDarkness.getInstance()), 10, 64, 10));
+                    getItemInstance(), 0, 5, 32, 10));
         }
     }
     

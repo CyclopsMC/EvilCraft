@@ -45,6 +45,11 @@ public class Thaumcraft {
             ThaumcraftApi.addLootBagItem(new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 2), 60, 0, 1, 2);
             ThaumcraftApi.addLootBagItem(new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 5), 20, 0, 1, 2);
         }
+        if(Configs.isEnabled(GarmonboziaConfig.class)) {
+            ThaumcraftApi.addLootBagItem(new ItemStack(GarmonboziaConfig._instance.getItemInstance()), 5, 1, 2);
+            ThaumcraftApi.addLootBagItem(new ItemStack(GarmonboziaConfig._instance.getItemInstance(), 2), 3, 1, 2);
+            ThaumcraftApi.addLootBagItem(new ItemStack(GarmonboziaConfig._instance.getItemInstance(), 3), 1, 1, 2);
+        }
     }
 
     private static void registerAspects() {
