@@ -212,6 +212,7 @@ item.items.biomeExtract.info=Transforms the target area to the contained biome. 
 item.items.biomeExtract.info.content=Contents: %s
 item.items.environmentalAccumulationCore.name=Environmental Accumulation Core
 item.items.environmentalAccumulationCore.info=Obtained when breaking a regular Environmental Accumulator.
+item.items.maceOfDestruction.name=Mace of Destruction
 
 item.powerable.setPower=Set power to %s
 item.powerable.info.power=Power: %s

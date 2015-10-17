@@ -191,6 +191,7 @@ public class Configs {
         configs.add(new GoldenStringConfig());
         configs.add(new BiomeExtractConfig());
         configs.add(new EnvironmentalAccumulationCoreConfig());
+        configs.add(new MaceOfDestructionConfig());
         
         // Entities
         // Item
