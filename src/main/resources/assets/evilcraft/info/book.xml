@@ -88,6 +88,10 @@
                 <paragraph>infoBook.firstAge.relics.enchantments.poisonTip.text</paragraph>
                 <paragraph>infoBook.firstAge.relics.enchantments.unusing.text</paragraph>
             </section>
+            <section name="infoBook.firstAge.relics.garmonbozia">
+                <tag>garmonbozia</tag>
+                <paragraph>infoBook.firstAge.relics.garmonbozia.text</paragraph>
+            </section>
         </section>
         <section name="infoBook.firstAge.items">
             <section name="infoBook.firstAge.items.darkTank">
@@ -361,6 +365,11 @@
                 <paragraph>infoBook.secondAge.weapons.necromancerStaff.text1</paragraph>
                 <paragraph>infoBook.secondAge.weapons.necromancerStaff.text2</paragraph>
                 <appendix type="craftingRecipe">evilcraft:necromancerStaff</appendix>
+            </section>
+            <section name="infoBook.secondAge.weapons.maceOfDestruction">
+                <tag>maceOfDestruction</tag>
+                <paragraph>infoBook.secondAge.weapons.maceOfDestruction.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:maceOfDestruction</appendix>
             </section>
         </section>
         <section name="infoBook.secondAge.abusingSpirits">

@@ -374,6 +374,9 @@ infoBook.firstAge.relics.enchantments.lifeStealing.text=&l&nLife Stealing&r&NThe
 infoBook.firstAge.relics.enchantments.poisonTip.text=&l&nPoison Tip&r&NWhen applying some poison to your weapons, you have a chance of poisoning your victims.This enchantment exists in three stages. It looks like you can make a basic version of this enchantment by adding a poisonous material to a regular book.
 infoBook.firstAge.relics.enchantments.unusing.text=&l&nUnusing&r&NI was getting tired of my favorite tools breaking everytime I wasn’t paying attention to them. This I why I devised a new enchantment that makes tools unusable when they are about to break, giving myself enough time to repair it to its former glory.
 
+infoBook.firstAge.relics.garmonbozia=Garmonbozia
+infoBook.firstAge.relics.garmonbozia.text=This strange spiritual energy seems to take on the physical form of creamed corn. It can sometimes be found in ancient chests or traded with certain villagers. This substance seems to be very rare, as I did not come across it a lot, but its powers are quite useful. Maybe in the future I will be able to produce this energy myself...
+
 # - Items -
 infoBook.firstAge.items=Items
 
@@ -530,6 +533,9 @@ infoBook.secondAge.weapons.maceOfDistortion.text=Holding right-click with this m
 infoBook.secondAge.weapons.necromancerStaff=Necromancer Staff
 infoBook.secondAge.weapons.necromancerStaff.text1=&1Zombies&0 seem to be controllable once you have a skull of some kind. After mounting such a skull on a staff I discovered that I can spawn zombies that will attack any entity I target for a limited amount of time.
 infoBook.secondAge.weapons.necromancerStaff.text2=These &1zombies&0 are not easily tamed though, sometimes they just won’t attack mobs, and they will even completely ignore mobs of certain types they aren't used to attacking. But this weapon is certainly worth the effort.
+
+infoBook.secondAge.weapons.maceOfDestruction=Mace of Destruction
+infoBook.secondAge.weapons.maceOfDestruction.text=This is a variant of the &1Mace of Distortion&0, the force that is released by this mace is actually a powerful explosion. The longer you charge the mace, the bigger the explosion will be. Increasing the power level of this mace will increase the starting power of the explosion, so you can charge even more.
 
 # - Abusing Spirits -
 infoBook.secondAge.abusingSpirits=Abusing Spirits
