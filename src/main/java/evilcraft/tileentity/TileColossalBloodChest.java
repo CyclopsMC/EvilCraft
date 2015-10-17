@@ -335,7 +335,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
                     (double) zCoord + 0.5D,
                     "random.chestopen",
                     0.5F,
-                    worldObj.rand.nextFloat() * 0.1F + 0.9F
+                    worldObj.rand.nextFloat() * 0.1F + 0.5F
             );
         }
         if (playersUsing == 0 && lidAngle > 0.0F || playersUsing > 0 && lidAngle < 1.0F) {
@@ -356,7 +356,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
                         (double) zCoord + 0.5D,
                         "random.chestclosed",
                         0.5F,
-                        worldObj.rand.nextFloat() * 0.1F + 0.9F
+                        worldObj.rand.nextFloat() * 0.1F + 0.5F
                 );
             }
             if (lidAngle < 0.0F) {
