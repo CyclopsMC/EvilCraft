@@ -90,5 +90,8 @@ public class WerewolfVillager extends ConfigurableVillager{
         if(Configs.isEnabled(UndeadSaplingConfig.class)) {
             allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(UndeadSaplingConfig._instance.getBlockInstance(), 1), 25));
         }
+        if(Configs.isEnabled(GarmonboziaConfig.class)) {
+            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(GarmonboziaConfig._instance.getItemInstance(), 1), 300));
+        }
     }
 }

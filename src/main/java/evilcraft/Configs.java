@@ -192,6 +192,7 @@ public class Configs {
         configs.add(new BiomeExtractConfig());
         configs.add(new EnvironmentalAccumulationCoreConfig());
         configs.add(new MaceOfDestructionConfig());
+        configs.add(new GarmonboziaConfig());
         
         // Entities
         // Item

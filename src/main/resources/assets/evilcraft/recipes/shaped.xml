@@ -1195,6 +1195,7 @@
 	<recipe type="shaped">
 		<condition type="config">bloodInfusionCore</condition>
 		<condition type="config">darkGemCrushed</condition>
+		<condition type="config">garmonbozia</condition>
 		<condition type="config">primedPendant</condition>
 		<input>
 			<grid>
@@ -1205,7 +1206,7 @@
 				</gridrow>
 				<gridrow>
 					<item>evilcraft:goldenString</item>
-					<item>minecraft:diamond</item>
+					<item>evilcraft:garmonbozia</item>
 					<item>evilcraft:goldenString</item>
 				</gridrow>
 				<gridrow>
@@ -1272,6 +1273,35 @@
 		</input>
 		<output>
 			<item>evilcraft:sanguinaryEnvironmentalAccumulator</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">maceOfDestruction</condition>
+		<condition type="config">darkStick</condition>
+		<condition type="config">invertedPotentia</condition>
+		<condition type="config">garmonbozia</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item>evilcraft:garmonbozia</item>
+					<item type="predefined">evilcraft:invertedPotentiaEmpowered</item>
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>evilcraft:darkStick</item>
+					<item>evilcraft:garmonbozia</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:darkStick</item>
+					<item />
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:maceOfDestruction</item>
 		</output>
 	</recipe>
 
