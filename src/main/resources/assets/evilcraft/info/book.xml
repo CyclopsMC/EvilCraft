@@ -189,6 +189,7 @@
                 <paragraph>infoBook.secondAge.bloodInfusion.bloodExtraction.text1</paragraph>
                 <paragraph>infoBook.secondAge.bloodInfusion.bloodExtraction.text2</paragraph>
                 <paragraph>infoBook.secondAge.bloodInfusion.bloodExtraction.text3</paragraph>
+                <paragraph>infoBook.secondAge.bloodInfusion.bloodExtraction.text4</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bloodExtractor</appendix>
             </section>
             <section name="infoBook.secondAge.bloodInfusion.bloodChest">
