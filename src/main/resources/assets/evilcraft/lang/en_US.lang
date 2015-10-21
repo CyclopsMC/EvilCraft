@@ -244,6 +244,7 @@ entity.werewolf.name=Werewolf
 entity.poisonousLibelle.name=Poisonous Libelle
 entity.netherfish.name=Nether Fish
 entity.vengeanceSpirit.name=Vengeance Spirit
+entity.controlledZombie.name=Controlled Zombie
 
 # Enchantments
 enchantment.breaking=Breaking
@@ -532,8 +533,7 @@ infoBook.secondAge.weapons.maceOfDistortion=Mace of Distortion
 infoBook.secondAge.weapons.maceOfDistortion.text=Holding right-click with this mace will build up a circular sphere around it that, when released, will trigger a force upon all other entities within that sphere knocking them back and causing some damage as long as the mace has enough &4Blood&0. Shift + right-clicking it will cycle through the different power levels, each higher level will cause more damage, but at the same time cost more &4Blood&0.
 
 infoBook.secondAge.weapons.necromancerStaff=Necromancer Staff
-infoBook.secondAge.weapons.necromancerStaff.text1=&1Zombies&0 seem to be controllable once you have a skull of some kind. After mounting such a skull on a staff I discovered that I can spawn zombies that will attack any entity I target for a limited amount of time.
-infoBook.secondAge.weapons.necromancerStaff.text2=These &1zombies&0 are not easily tamed though, sometimes they just won’t attack mobs, and they will even completely ignore mobs of certain types they aren't used to attacking. But this weapon is certainly worth the effort.
+infoBook.secondAge.weapons.necromancerStaff.text=&1Zombies&0 seem to be controllable once you have a skull of some kind. After mounting such a skull on a staff I discovered that I can spawn zombies that will attack any entity I target for a limited amount of time.
 
 infoBook.secondAge.weapons.maceOfDestruction=Mace of Destruction
 infoBook.secondAge.weapons.maceOfDestruction.text=This is a variant of the &1Mace of Distortion&0, the force that is released by this mace is actually a powerful explosion. The longer you charge the mace, the bigger the explosion will be. Increasing the power level of this mace will increase the starting power of the explosion, so you can charge even more.

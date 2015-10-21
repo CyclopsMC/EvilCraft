@@ -32,7 +32,11 @@ public class MobAction extends ConfigurableTypeAction<MobConfig>{
         Class<? extends EntityLiving> clazz = (Class<? extends EntityLiving>) eConfig.getElement();
         if (MinecraftHelpers.isClientSide())
             ClientProxy.ENTITY_RENDERERS.put(clazz, eConfig.getRender());
-        EntityRegistry.registerGlobalEntityID(clazz, eConfig.getNamedId(), EntityRegistry.findGlobalUniqueEntityId(), eConfig.getBackgroundEggColor(), eConfig.getForegroundEggColor());
+        if(eConfig.hasSpawnEgg()) {
+            EntityRegistry.registerGlobalEntityID(clazz, eConfig.getNamedId(), EntityRegistry.findGlobalUniqueEntityId(), eConfig.getBackgroundEggColor(), eConfig.getForegroundEggColor());
+        } else {
+            EntityRegistry.registerGlobalEntityID(clazz, eConfig.getNamedId(), EntityRegistry.findGlobalUniqueEntityId());
+        }
 		EntityRegistry.registerModEntity(clazz, eConfig.getNamedId(), Helpers.getNewId(IDType.ENTITY), EvilCraft._instance, 80, 3, true);
     }
 

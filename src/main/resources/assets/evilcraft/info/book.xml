@@ -363,8 +363,7 @@
             </section>
             <section name="infoBook.secondAge.weapons.necromancerStaff">
                 <tag>necromancerStaff</tag>
-                <paragraph>infoBook.secondAge.weapons.necromancerStaff.text1</paragraph>
-                <paragraph>infoBook.secondAge.weapons.necromancerStaff.text2</paragraph>
+                <paragraph>infoBook.secondAge.weapons.necromancerStaff.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:necromancerStaff</appendix>
             </section>
             <section name="infoBook.secondAge.weapons.maceOfDestruction">

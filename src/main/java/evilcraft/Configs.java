@@ -13,10 +13,7 @@ import evilcraft.entity.block.EntityLightningBombPrimedConfig;
 import evilcraft.entity.effect.EntityAntiVengeanceBeamConfig;
 import evilcraft.entity.effect.EntityNecromancersHeadConfig;
 import evilcraft.entity.item.*;
-import evilcraft.entity.monster.NetherfishConfig;
-import evilcraft.entity.monster.PoisonousLibelleConfig;
-import evilcraft.entity.monster.VengeanceSpiritConfig;
-import evilcraft.entity.monster.WerewolfConfig;
+import evilcraft.entity.monster.*;
 import evilcraft.entity.villager.WerewolfVillagerConfig;
 import evilcraft.fluid.BloodConfig;
 import evilcraft.fluid.PoisonConfig;
@@ -213,6 +210,7 @@ public class Configs {
         configs.add(new PoisonousLibelleConfig());
         configs.add(new VengeanceSpiritConfig());
         configs.add(new BoxOfEternalClosureConfig()); // This is a block, but depends on vengeance spirit.
+        configs.add(new ControlledZombieConfig());
         // Villager
         configs.add(new WerewolfVillagerConfig());
         // Other

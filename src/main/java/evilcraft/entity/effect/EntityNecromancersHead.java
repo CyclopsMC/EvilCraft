@@ -8,22 +8,18 @@ import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.WorldHelpers;
+import evilcraft.entity.monster.ControlledZombie;
 import evilcraft.item.NecromancerStaff;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,13 +30,12 @@ import java.util.List;
  */
 public class EntityNecromancersHead extends EntityThrowable implements IConfigurable{
     
-	private static final int DURATION = 20;
+	private static final int DURATION = 200;
 
 	protected boolean observing = false;
 	protected EntityLivingBase target = null;
-	protected List<EntityLiving> observables = Lists.newLinkedList();
-	protected int timeLeft = DURATION;
-	protected Class<? extends EntityLiving> mobType = EntityZombie.class;
+	protected List<ControlledZombie> observables = Lists.newLinkedList();
+	protected Class<? extends EntityLiving> mobType = ControlledZombie.class;
 	
     /**
      * Make a new instance in the given world.
@@ -83,45 +78,16 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     	World world = target.worldObj;
     	int amount = world.rand.nextInt(2) + 3;
     	for(int i = 0; i < amount; i++) {
-			try {
-				Constructor<? extends EntityLiving> constructor = mobType.getConstructor(World.class);
-				EntityLiving mob = constructor.newInstance(world);
-	    		if(mob.canAttackClass(target.getClass())) {
-			    	mob.copyLocationAndAnglesFrom(necromancer);
-			    	mob.moveEntity(world.rand.nextInt(20) - 10, 0, world.rand.nextInt(20) - 10);
-			    	mob.setHealth(mob.getHealth() / 2);
-			    	mob.setRevengeTarget(target);
-			    	mob.addPotionEffect(new PotionEffect(Potion.confusion.id, 2000, 0));
-			    	mob.captureDrops = true; // Don't drop loot on death
-	            	if(EntityHelpers.spawnEntity(world, mob)) {
-                        observables.add(mob);
-			    	}
-                    mob.getNavigator().setAvoidsWater(false);
-                    boolean res = mob.getNavigator().tryMoveToEntityLiving(target, 1);
-                    if(!res) {
-                        mob.getNavigator().tryMoveToXYZ(target.posX, target.posY + 1, target.posZ, 1);
-                    }
-	    		}
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-				setDead();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-				setDead();
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-				setDead();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-				setDead();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-				setDead();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				setDead();
+			ControlledZombie mob = new ControlledZombie(world);
+			if(mob.canAttackClass(target.getClass())) {
+				mob.copyLocationAndAnglesFrom(necromancer);
+				mob.moveEntity(world.rand.nextInt(20) - 10, 0, world.rand.nextInt(20) - 10);
+				if(EntityHelpers.spawnEntity(world, mob)) {
+					observables.add(mob);
+				}
+				mob.setAttackTarget(target);
+				mob.setTtl(DURATION);
 			}
-    		
     	}
     	this.target = target;
     	setObserverMode();
@@ -134,21 +100,17 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     public void onUpdate() {
     	super.onUpdate();
     	if(observing && !worldObj.isRemote && WorldHelpers.efficientTick(worldObj, 10)) {
-    		timeLeft--;
     		if(!observables.isEmpty()) {
-    			Iterator<EntityLiving> it = observables.iterator();
+    			Iterator<ControlledZombie> it = observables.iterator();
     			while(it.hasNext()) {
-    				EntityLiving mob = it.next();
-    				if(!mob.isEntityAlive() || !target.isEntityAlive() || timeLeft <= 0) {
+    				ControlledZombie mob = it.next();
+    				if(!mob.isEntityAlive() || !target.isEntityAlive()) {
     					if(mob.isEntityAlive()) {
                             mob.setDead();
-    					}
+						}
     					it.remove();
-    				} else {
-                        mob.setLastAttacker(target);
-                        mob.setRevengeTarget(target);
     				}
-    			}
+				}
     		}
     		if(observables.isEmpty()) {
     			observing = false;
@@ -178,7 +140,6 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
 	        if(position.entityHit != null) {
 	            position.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
 	        }
-	
 	        if(this.getThrower() != null && !getThrower().worldObj.isRemote
 	        		&& getThrower() instanceof EntityPlayerMP && position.entityHit instanceof EntityLivingBase) {
 	        	spawnSwarm(this.getThrower(), (EntityLivingBase) position.entityHit);

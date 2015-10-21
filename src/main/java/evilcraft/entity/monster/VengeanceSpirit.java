@@ -869,6 +869,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 		
 		// Hard-code some entities
 		addToBlacklist(VengeanceSpirit.class);
+        addToBlacklist(ControlledZombie.class);
     	addToBlacklist(EntityDragon.class);
 	}
 	
