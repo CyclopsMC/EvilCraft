@@ -190,6 +190,7 @@ public class Configs {
         configs.add(new EnvironmentalAccumulationCoreConfig());
         configs.add(new MaceOfDestructionConfig());
         configs.add(new GarmonboziaConfig());
+        configs.add(new PoisonBottleConfig());
         
         // Entities
         // Item

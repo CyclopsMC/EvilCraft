@@ -215,6 +215,7 @@ item.items.environmentalAccumulationCore.info=Obtained when breaking a regular E
 item.items.maceOfDestruction.name=Mace of Destruction
 item.items.garmonbozia.name=Garmonbozia
 item.items.garmonbozia.info="Pain and Sorrow"
+item.items.poisonBottle.name=Poison Bottle
 
 item.powerable.setPower=Set power to %s
 item.powerable.info.power=Power: %s
