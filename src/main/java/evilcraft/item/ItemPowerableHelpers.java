@@ -44,6 +44,7 @@ public class ItemPowerableHelpers {
      * @param world The world.
      * @param player The player
      * @param powerLevels The maximum power levels.
+     * @param onSneak If the action should be executed for a sneaking player.
      * @return If the power level was changed.
      */
     public static boolean onPowerableItemItemRightClick(ItemStack itemStack, World world, EntityPlayer player, int powerLevels, boolean onSneak) {

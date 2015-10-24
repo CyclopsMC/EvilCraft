@@ -24,6 +24,9 @@ public class EntityTargettedBlurFX extends EntityBlurFX {
 	 * @param green Green tint.
 	 * @param blue Blue tint.
 	 * @param ageMultiplier The multiplier of the maximum age (this will be multiplied with
+	 * @param targetX The target X
+	 * @param targetY The target Y
+	 * @param targetZ The target Z
 	 * a partially random factor).
 	 */
 	public EntityTargettedBlurFX(World world, float scale,

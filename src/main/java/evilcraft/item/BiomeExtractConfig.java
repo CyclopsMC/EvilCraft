@@ -126,6 +126,7 @@ public class BiomeExtractConfig extends ItemConfig {
     /**
      * Register the usage multipliers config from the given string array.
      * @param config The config where each element is in the form 'potionid:multiplier'.
+     * @param blacklistIds The set of ids to set
      */
     public void setBlacklist(String[] config, Set<Integer> blacklistIds) {
         blacklistIds.clear();

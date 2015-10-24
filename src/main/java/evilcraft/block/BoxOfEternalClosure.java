@@ -191,6 +191,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 	/**
 	 * Put a player inside the given box.
 	 * @param itemStack The box.
+	 * @param playerId The player id to set.
 	 */
 	public static void setPlayerContent(ItemStack itemStack, UUID playerId) {
 		NBTTagCompound tag = new NBTTagCompound();

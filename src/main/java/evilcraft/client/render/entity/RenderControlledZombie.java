@@ -20,6 +20,7 @@ public class RenderControlledZombie extends RenderBiped {
 
     /**
      * Make a new instance.
+     * @param config The config
      */
     public RenderControlledZombie(ExtendedConfig<MobConfig> config) {
         super(new ModelZombie(), 0.5F, 1.0F);

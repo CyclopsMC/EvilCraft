@@ -112,15 +112,5 @@ public class ObfuscationData {
      * Field from net.minecraftforge.oredict.ShapedOreRecipe.
      */
     public static final String[] SHAPEDORERECIPE_HEIGHT = new String[] { "height" };
-
-	/**
-	 * Field from {@link net.minecraft.potion.PotionHelper}.
-	 */
-	public static final String[] POTIONHELPER_POTIONREQUIREMENTS = new String[] { "potionRequirements", "field_77927_l", "l" };
-
-	/**
-	 * Method from {@link net.minecraft.potion.PotionHelper}.
-	 */
-	public static final String[] POTIONHELPER_PARSEPOTIONEFFECTS = new String[] { "parsePotionEffects", "func_77912_a", "a" };
 	
 }
