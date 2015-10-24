@@ -419,6 +419,10 @@
             <tag type="mod">Forestry</tag>
             <paragraph>infoBook.modIntegrations.forestry.text</paragraph>
         </section>
+        <section name="infoBook.modIntegrations.ic2">
+            <tag type="mod">IC2</tag>
+            <paragraph>infoBook.modIntegrations.ic2.text</paragraph>
+        </section>
         <section name="infoBook.modIntegrations.nei">
             <tag type="mod">NotEnoughItems</tag>
             <paragraph>infoBook.modIntegrations.nei.text</paragraph>

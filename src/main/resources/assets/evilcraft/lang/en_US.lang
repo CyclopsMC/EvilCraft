@@ -573,6 +573,9 @@ infoBook.modIntegrations.ee3.text=Magicians have discovered that almost all thin
 infoBook.modIntegrations.forestry=Forestry
 infoBook.modIntegrations.forestry.text=When &ovisiting&r some of my friends working with trees and bees, I noticed that some of their bags allow me to insert some of my items. I also noticed that their machine called the &1Squeezer&0 is able to extract &4Blood&0 from parts of the &1Undead Tree&0, which can be easily grown using their tree growing system.
 
+infoBook.modIntegrations.ic2=IndustrialCraft 2
+infoBook.modIntegrations.ic2.text=There is a group of odd people who constantly work with buzzing machines. I have no idea what these machines do, except for the &1Macerator&0. I am able to insert &1Dark Ore&0 into it to immediately retrieve &1Dark Gems&0 and their crushed variant. Regular &1Dark Gems&0 can also be inserted to crush.
+
 infoBook.modIntegrations.nei=Not Enough Items
 infoBook.modIntegrations.nei.text=All these people keep talking about "&oNot Enough Items&r", which I really don't understand, since I just have "&oToo Many Items&r"! But it sounds like the former group seems to understand my knowledge...
 
