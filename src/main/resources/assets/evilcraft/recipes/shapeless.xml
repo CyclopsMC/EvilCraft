@@ -293,9 +293,10 @@
 
     <recipe type="shapeless">
         <condition type="config">rejuvenatedFlesh</condition>
+        <condition type="config">garmonbozia</condition>
         <input>
             <item type="oredict">materialFlesh</item>
-            <item type="oredict">materialBowlOfPromises1</item>
+            <item>evilcraft:garmonbozia</item>
         </input>
         <output>
             <item>evilcraft:rejuvenatedFlesh</item>

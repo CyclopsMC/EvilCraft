@@ -1252,6 +1252,7 @@
 		<condition type="config">sanguinaryEnvironmentalAccumulator</condition>
 		<condition type="config">environmentalAccumulationCore</condition>
 		<condition type="config">bloodInfusionCore</condition>
+		<condition type="config">garmonbozia</condition>
 		<input>
 			<grid>
 				<gridrow>
@@ -1261,7 +1262,7 @@
 				</gridrow>
 				<gridrow>
 					<item>minecraft:iron_block</item>
-					<item>minecraft:diamond_block</item>
+					<item>evilcraft:garmonbozia</item>
 					<item>minecraft:iron_block</item>
 				</gridrow>
 				<gridrow>
