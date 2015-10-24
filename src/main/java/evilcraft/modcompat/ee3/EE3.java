@@ -45,6 +45,10 @@ public class EE3 {
         registerObjectSafe(WeatherContainerConfig._instance, 3, 7500);
         registerObjectSafe(WeatherContainerConfig._instance, 2, 4529);
 
+        registerObjectSafe(GarmonboziaConfig._instance, 50000);
+        registerObjectSafe(EnvironmentalAccumulationCoreConfig._instance, 10000);
+        registerObjectSafe(OriginsOfDarknessConfig._instance, 2000);
+
         EnergyValueRegistryProxy.addPreAssignedEnergyValue(Blood.getInstance(), 72);
         EnergyValueRegistryProxy.addPreAssignedEnergyValue(Poison.getInstance(), 64);
     }
