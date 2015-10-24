@@ -327,7 +327,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         }
 
         prevLidAngle = lidAngle;
-        float increaseAngle = 0.1F;
+        float increaseAngle = 0.05F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
             worldObj.playSoundEffect(
                     (double) xCoord + 0.5D,
