@@ -49,4 +49,13 @@ public class PlayerInventoryIterator implements Iterator<ItemStack>{
             player.inventory.mainInventory[i - 1] = null;
     }
 
+    /**
+     * Replaces the itemstack on the position of the last returned itemstack.
+     * @param itemStack The itemstack to place.
+     */
+    public void replace(ItemStack itemStack) {
+        if(i - 1 >= 0 && i - 1 < player.inventory.mainInventory.length)
+            player.inventory.mainInventory[i - 1] = itemStack;
+    }
+
 }
