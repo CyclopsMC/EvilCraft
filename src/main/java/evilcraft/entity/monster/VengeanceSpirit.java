@@ -901,5 +901,10 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     public ExtendedConfig<?> getConfig() {
         return null;
     }
-    
+
+    @Override
+    public boolean handleWaterMovement() {
+        // Ignore water movement and particles
+        return this.inWater;
+    }
 }
