@@ -349,6 +349,11 @@
                 <paragraph>infoBook.secondAge.tools.gemstoneTorch.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:gemStoneTorch</appendix>
             </section>
+            <section name="infoBook.secondAge.tools.rejuvenatedFlesh">
+                <tag>rejuvenatedFlesh</tag>
+                <paragraph>infoBook.secondAge.tools.rejuvenatedFlesh.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:rejuvenatedFlesh</appendix>
+            </section>
         </section>
         <section name="infoBook.secondAge.weapons">
             <section name="infoBook.secondAge.weapons.veinSword">

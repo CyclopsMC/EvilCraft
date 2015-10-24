@@ -524,6 +524,9 @@ infoBook.secondAge.tools.vengeancePickaxe.text=I’ve discovered a way to reuse 
 infoBook.secondAge.tools.gemstoneTorch=Gemstone Torch
 infoBook.secondAge.tools.gemstoneTorch.text=I was able to combine the &1Burning Gemstone&0 with a &1Dark Stick&0 to make a special torch that seems to absorb any spawning &1Vengeance Spirits&0 in its light area. Note that any spirits spawned outside the area will still be able to wander in this area though, but a simple mundane wall should be able to solve that.
 
+infoBook.secondAge.tools.rejuvenatedFlesh=Rejuvenated Flesh
+infoBook.secondAge.tools.rejuvenatedFlesh.text=&1Flesh&0 can be combined with &1Garmonbozia&0 to make it an infinite source of food. You will however need to supply it with &4Blood&0 to be able to eat from it.
+
 # - Weapons -
 infoBook.secondAge.weapons=Weapons
 
