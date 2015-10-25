@@ -22,7 +22,6 @@ import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.inventory.slot.SlotFluidContainer;
 import evilcraft.core.tileentity.NBTPersist;
-import evilcraft.core.tileentity.WorkingTileEntity;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.tickaction.TickComponent;
 import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
@@ -116,7 +115,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     @Getter
     private final Map<Integer, Boolean> slotTickHistory;
 
-    private Block block = ReinforcedUndeadPlank.getInstance();
+    private Block block = ColossalBloodChest.getInstance();
 
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
