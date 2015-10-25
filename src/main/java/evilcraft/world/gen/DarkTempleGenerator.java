@@ -99,6 +99,8 @@ public class DarkTempleGenerator implements IWorldGenerator {
 
 	/**
 	 * Get the closest temple chunk location.
+	 * It will search for the temple in a spiral iteration around the center position so that closer temples will be
+	 * returned first.
 	 * @param world The world.
 	 * @param chunkX Chunk X
 	 * @param chunkZ Chunk Y
@@ -106,14 +108,23 @@ public class DarkTempleGenerator implements IWorldGenerator {
 	 * @return The pair of closest chunk x and z coordinates.
 	 */
 	public static @Nullable Pair<Integer, Integer> getClosest(World world, int chunkX, int chunkZ, int radius) {
-		for(int r = 1; r < radius; r++) {
-			for (int x = chunkX - r; x <= chunkX + r; x += r) {
-				for (int z = chunkZ - r; z <= chunkZ + r; z += r) {
-					if (hasTemple(world, x, z)) {
-						return Pair.of(x, z);
-					}
+		int x = 0;
+		int z = 0;
+		int dx = 0;
+		int dz = -1;
+		for(int r = 0; r < radius * radius; r++) {
+			if ((-r / 2 <= x) && (x <= r / 2) && (-r / 2 <= z) && (z <= r / 2)) {
+				if (hasTemple(world, chunkX + x, chunkZ + z)) {
+					return Pair.of(chunkX + x, chunkZ + z);
 				}
 			}
+			if( (x == z) || ((x < 0) && (x == -z)) || ((x > 0) && (x == 1 - z))){
+				int t = dx;
+				dx = -dz;
+				dz = t;
+			}
+			x += dx;
+			z += dz;
 		}
 		return null;
 	}

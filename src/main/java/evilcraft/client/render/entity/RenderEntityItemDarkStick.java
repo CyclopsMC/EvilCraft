@@ -121,10 +121,7 @@ public class RenderEntityItemDarkStick implements IItemRenderer {
                 // Makes items offset when in 3D, like when in 2D, looks much better. Considered a vanilla bug...
                 if (k > 0)
                 {
-                    float x = (random.nextFloat() * 2.0F - 1.0F) * 0.3F / 0.5F;
-                    float y = (random.nextFloat() * 2.0F - 1.0F) * 0.3F / 0.5F;
-                    float z = (random.nextFloat() * 2.0F - 1.0F) * 0.3F / 0.5F;
-                    GL11.glTranslatef(x, y, f9 + f10);
+                    GL11.glTranslatef(0, 0, f9 + f10);
                 }
                 else
                 {

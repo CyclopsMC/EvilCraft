@@ -1,6 +1,7 @@
 package evilcraft.entity.item;
 
 import evilcraft.core.helper.MinecraftHelpers;
+import evilcraft.core.helper.WorldHelpers;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -95,7 +96,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
         if(closest != null) {
 			closest.getCoordinates()[1] = 0;
 			double d = LocationHelpers.getDistance(closest, new Location((int) posX, 0, (int) posZ));
-            if(d <= 4F) {
+            if(d <= WorldHelpers.CHUNK_SIZE * 2) {
                 return null;
             }
 			ILocation normalized = new Location(closest.getCoordinates()[0] - (int) posX, 0,

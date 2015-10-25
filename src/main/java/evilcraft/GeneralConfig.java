@@ -90,7 +90,7 @@ public class GeneralConfig extends DummyConfig {
      * Minimum height at which a dark temple can spawn.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Minimum block height at which a dark temple can spawn.")
-    public static int darkTempleMinHeight = 75;
+    public static int darkTempleMinHeight = 60;
     
     /**
      * Maximum height at which a dark temple can spawn.
@@ -102,7 +102,7 @@ public class GeneralConfig extends DummyConfig {
      * Frequency at which dark temples should occur. 1 means every chunk, 100 means every 100th chunk.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Frequency at which dark temples should occur. 1 means every chunk, 0.01 means every 100th chunk.")
-    public static int darkTempleFrequency = 100;
+    public static int darkTempleFrequency = 200;
 
     /**
      * Maximal length of the pillars of a dark temple.
