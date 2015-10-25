@@ -276,6 +276,10 @@ biomes.biomeDegraded=Degraded
 
 # Potion Effects
 potions.paling=Paling
+potions.paling.postfix=Potion of Paling
+potion.potency.2=III
+potion.potency.3=IV
+potion.potency.4=V
 
 # Achievements
 achievement.evilcraft.evilSource=A True Source of Evil
