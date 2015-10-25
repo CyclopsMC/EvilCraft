@@ -1,12 +1,17 @@
 package evilcraft.entity.item;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.Configs;
 import evilcraft.api.ILocation;
+import evilcraft.client.particle.EntityBlurFX;
 import evilcraft.core.algorithm.Location;
 import evilcraft.core.algorithm.OrganicSpread;
 import evilcraft.core.config.configurable.IConfigurable;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.entity.item.EntityThrowable;
+import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.item.BiomeExtract;
 import evilcraft.item.BiomeExtractConfig;
@@ -18,6 +23,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import org.apache.commons.lang3.tuple.Triple;
+
+import java.util.Random;
 
 /**
  * Entity for the {@link WeatherContainer}.
@@ -58,38 +66,63 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition movingobjectposition) {
+    protected void onImpact(final MovingObjectPosition movingobjectposition) {
         ItemStack itemStack = getItemStack();
 
-        if(!worldObj.isRemote) {
-            final BiomeGenBase biome = BiomeExtract.getInstance().getBiome(itemStack);
-            if(biome != null) {
-                OrganicSpread spread = new OrganicSpread(worldObj, 2, 5, new OrganicSpread.IOrganicSpreadable() {
-                    @Override
-                    public boolean isDone(World world, ILocation location) {
-                        return world.getBiomeGenForCoords(location.getCoordinates()[0], location.getCoordinates()[1]) == biome;
-                    }
+        final BiomeGenBase biome = BiomeExtract.getInstance().getBiome(itemStack);
+        if(biome != null) {
+            OrganicSpread spread = new OrganicSpread(worldObj, 2, 5, new OrganicSpread.IOrganicSpreadable() {
+                @Override
+                public boolean isDone(World world, ILocation location) {
+                    return world.getBiomeGenForCoords(location.getCoordinates()[0], location.getCoordinates()[1]) == biome;
+                }
 
-                    @Override
-                    public void spreadTo(World world, ILocation location) {
+                @Override
+                public void spreadTo(World world, ILocation location) {
+                    if(worldObj.isRemote) {
+                        showChangedBiome(worldObj, location.getCoordinates()[0], movingobjectposition.blockY,
+                                location.getCoordinates()[1], biome.color);
+                    } else {
                         WorldHelpers.setBiome(worldObj, location.getCoordinates()[0], location.getCoordinates()[1], biome);
                     }
-                });
-                for(int i = 0; i < 50; i++) {
-                    spread.spreadTick(new Location(movingobjectposition.blockX, movingobjectposition.blockZ));
                 }
+            });
+            for(int i = 0; i < 50; i++) {
+                spread.spreadTick(new Location(movingobjectposition.blockX, movingobjectposition.blockZ));
             }
         }
-
-        worldObj.playSound(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ,
-                "mob.ghast.moan", 0.5F, 0.4F / (worldObj.rand.nextFloat() * 0.4F + 0.8F), true);
         
         // Play sound and show particles of splash potion of harming
-        this.worldObj.playAuxSFX(2002, (int)Math.round(this.posX), (int)Math.round(this.posY), (int)Math.round(this.posZ), 16428);
+        this.worldObj.playAuxSFX(2002, (int) Math.round(this.posX), (int) Math.round(this.posY), (int) Math.round(this.posZ), 16428);
         
         setDead();
     }
-    
+
+    @SideOnly(Side.CLIENT)
+    private void showChangedBiome(World world, int xStart, int yStart, int zStart, int color) {
+        Triple<Float, Float, Float> c = RenderHelpers.intToRGB(color);
+        Random rand = world.rand;
+        for (int j = 0; j < 2 + rand.nextInt(5); j++) {
+            float x = xStart + -0.5F + rand.nextFloat();
+            float y = yStart + -0.5F + rand.nextFloat();
+            float z = zStart + -0.5F + rand.nextFloat();
+
+            float scale = 0.2F - rand.nextFloat() * 0.2F;
+            float red = c.getLeft() + rand.nextFloat() * 0.1F;
+            float green = c.getMiddle() + rand.nextFloat() * 0.1F;
+            float blue = c.getRight() + rand.nextFloat() * 0.1F;
+            float ageMultiplier = 10 + rand.nextInt(15);
+
+            double motionX = -0.1F + rand.nextFloat() * 0.2F;
+            double motionY = 0.1F + rand.nextFloat() * 0.2F;
+            double motionZ = -0.1F + rand.nextFloat() * 0.2F;
+
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(
+                    new EntityBlurFX(world, x, y, z, scale, motionX, motionY, motionZ, red, green, blue, ageMultiplier)
+            );
+        }
+    }
+
     @Override
     protected float getGravityVelocity() {
         // The bigger, the faster the entity falls to the ground

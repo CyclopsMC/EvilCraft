@@ -1,10 +1,6 @@
 package evilcraft.core.helper;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-
+import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -16,10 +12,13 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
-
+import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.opengl.GL11;
 
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A helper for rendering.
@@ -143,6 +142,20 @@ public class RenderHelpers {
 	 */
 	public static int RGBToInt(int r, int g, int b) {
 	    return (int)r << 16 | (int)g << 8 | (int)b;
+	}
+
+	/**
+	 * Convert a color in integer representation to seperated r, g and b colors.
+	 * @param color The color in integer representation.
+	 * @return The separated r, g and b colors.
+	 */
+	public static Triple<Float, Float, Float> intToRGB(int color) {
+		float red, green, blue;
+		red = (float)(color >> 16 & 255) / 255.0F;
+		green = (float)(color >> 8 & 255) / 255.0F;
+		blue = (float)(color & 255) / 255.0F;
+		//this.alpha = (float)(color >> 24 & 255) / 255.0F;
+		return Triple.of(red, green, blue);
 	}
 	
 	/**
