@@ -1,7 +1,11 @@
 package evilcraft.client.render.entity;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import com.mojang.authlib.properties.Property;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.MobConfig;
 import evilcraft.entity.monster.VengeanceSpirit;
@@ -9,18 +13,18 @@ import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Map;
-import java.util.UUID;
+import java.util.Set;
 
 /**
  * Renderer for a vengeance spirit
@@ -31,8 +35,9 @@ import java.util.UUID;
 public class RenderVengeanceSpirit extends Render {
 
 	private final RenderPlayerSpirit playerRenderer = new RenderPlayerSpirit();
-    
-    /**
+	private final Map<GameProfile, GameProfile> checkedProfiles = Maps.newHashMap();
+
+	/**
      * Make a new instance.
      * @param config Then config.
      */
@@ -61,12 +66,22 @@ public class RenderVengeanceSpirit extends Render {
 				
 				try {
 					if(spirit.isPlayer()) {
-						GameProfile gameProfile = new GameProfile(null, spirit.getPlayerName());
+						GameProfile gameProfile = new GameProfile(spirit.getPlayerUUID(), spirit.getPlayerName());
 						ResourceLocation resourcelocation = AbstractClientPlayer.locationStevePng;
 						Minecraft minecraft = Minecraft.getMinecraft();
-						Map map = minecraft.func_152342_ad().func_152788_a(gameProfile);
-						if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) {
-							resourcelocation = minecraft.func_152342_ad().func_152792_a((MinecraftProfileTexture)map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
+						// Check if we have loaded the (texturized) profile before, otherwise we load it and cache it.
+						if(!checkedProfiles.containsKey(gameProfile)) {
+							Property property = (Property) Iterables.getFirst(gameProfile.getProperties().get("textures"), (Object) null);
+							if (property == null) {
+								// The game profile enchanced with texture information.
+								GameProfile newGameProfile = Minecraft.getMinecraft().func_152347_ac().fillProfileProperties(gameProfile, true);
+								checkedProfiles.put(gameProfile, newGameProfile);
+							}
+						} else {
+							Map map = minecraft.func_152342_ad().func_152788_a(checkedProfiles.get(gameProfile));
+							if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) {
+								resourcelocation = minecraft.func_152342_ad().func_152792_a((MinecraftProfileTexture) map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
+							}
 						}
 						playerRenderer.setRenderManager(this.renderManager);
 						playerRenderer.setPlayerTexture(resourcelocation);
