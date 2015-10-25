@@ -90,17 +90,17 @@ public class PoisonBottle extends ConfigurableItem {
     @SubscribeEvent
     public void onPoisonRightClick(PlayerInteractEvent event) {
         // Return poison bottle instead of water bottle when right clicking poison fluid source with empty bottle.
-        if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && event.entityPlayer.getHeldItem() != null) {
+        if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && event.entityPlayer.getHeldItem() != null &&
+                event.entityPlayer.getHeldItem().getItem() == Items.glass_bottle && Configs.isEnabled(PoisonConfig.class)) {
             MovingObjectPosition pos = this.getMovingObjectPositionFromPlayer(event.world, event.entityPlayer, true);
-            if(pos.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+            if(pos != null && pos.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 int x = pos.blockX;
                 int y = pos.blockY;
                 int z = pos.blockZ;
                 if(event.world.canMineBlock(event.entityPlayer, x, y, z) &&
                         event.entityPlayer.canPlayerEdit(x, y, z, pos.sideHit, event.entityPlayer.getHeldItem()) &&
                         event.world.getBlock(x, y, z).getMaterial() == Material.water) {
-                    if(event.entityPlayer.getHeldItem().getItem() == Items.glass_bottle && Configs.isEnabled(PoisonConfig.class) &&
-                            event.world.getBlock(x, y, z) == FluidBlockPoison.getInstance()) {
+                    if(event.world.getBlock(x, y, z) == FluidBlockPoison.getInstance()) {
                         InventoryHelpers.tryReAddToStack(event.entityPlayer, event.entityPlayer.getHeldItem(), new ItemStack(this));
                         event.world.setBlockToAir(x, y, z);
                     }
