@@ -105,7 +105,8 @@ public class TileDarkTank extends TankInventoryTileEntity {
 						while(!getTank().isEmpty() && it.hasNext()) {
 							ItemStack itemStack = it.next();
 							ItemStack fillItemStack;
-							if(itemStack != null && (fillItemStack = fill(itemStack)) != null) {
+							if(itemStack != null && itemStack.getItem() instanceof IFluidContainerItem &&
+									(fillItemStack = fill(itemStack)) != null) {
 								it.replace(fillItemStack);
 							}
 						}
