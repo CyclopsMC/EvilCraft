@@ -22,7 +22,6 @@ deploy:
     on:
       all_branches: true
       repo: CyclopsMC/EvilCraft
-      condition: "$TRAVIS_BRANCH =~ ^(master|release).*$"
       tags: true
   - provider: releases
     skip_cleanup: true
@@ -31,7 +30,6 @@ deploy:
     on:
       all_branches: true
       repo: CyclopsMC/EvilCraft
-      condition: "$TRAVIS_BRANCH =~ ^(master|release).*$"
       tags: true
   - provider: script
     skip_cleanup: true
