@@ -189,8 +189,11 @@ public class GuiOriginsOfDarkness extends GuiScreen {
     }
 
     private void updateButtons() {
-        this.buttonNextPage.visible = currentSection.getNext(page + 1, false) != null;
-        this.buttonPreviousPage.visible = currentSection.getPrevious(page, false) != null;
+        InfoSection.Location current1 = new InfoSection.Location(page, currentSection);
+        InfoSection.Location current2 = new InfoSection.Location(page + 1, currentSection);
+        InfoSection.Location wouldBeNext = currentSection.getNext(page + 1, false);
+        this.buttonNextPage.visible = !current1.equals(wouldBeNext) && !current2.equals(wouldBeNext);
+        this.buttonPreviousPage.visible = !current1.equals(currentSection.getPrevious(page, false));
         this.buttonParent.visible = currentSection != null && currentSection.getParent() != null;
         this.buttonBack.visible = history.currentSize() > 0;
     }
