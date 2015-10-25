@@ -118,7 +118,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
                     }
                     if((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
                         player.addPotionEffect(
-                                new PotionEffect(potionEffect.getPotionID(), TICK_MODULUS * 2, potionEffect.getAmplifier(),
+                                new PotionEffect(potionEffect.getPotionID(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
                                         !potionEffect.getCurativeItems().isEmpty()));
                         consume(toDrain, itemStack, player);
                     }
