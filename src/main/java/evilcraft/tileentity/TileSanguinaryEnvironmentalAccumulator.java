@@ -73,6 +73,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     private SingleCache<Triple<ItemStack, FluidStack, WeatherType>,
             IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>> recipeCache;
     private VirtualTank virtualTank;
+    private boolean forceLoadTanks;
     @Getter
     private List<ILocation> invalidLocations = Lists.newArrayList();
 
@@ -176,6 +177,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
         });
 
         this.virtualTank = new VirtualTank(this, true);
+        this.forceLoadTanks = true;
     }
 
     protected SingleUseTank newTank(String tankName, int tankSize) {
@@ -310,9 +312,10 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
 	@Override
 	public boolean canWork() {
-        if(invalidLocations != null && !WorldHelpers.efficientTick(worldObj, TANK_CHECK_TICK_OFFSET, xCoord, yCoord, zCoord)) {
+        if(!forceLoadTanks && invalidLocations != null && !WorldHelpers.efficientTick(worldObj, TANK_CHECK_TICK_OFFSET, xCoord, yCoord, zCoord)) {
             return invalidLocations.isEmpty();
         }
+        forceLoadTanks = false;
 		return getVirtualTankChildren() != null;
 	}
 
