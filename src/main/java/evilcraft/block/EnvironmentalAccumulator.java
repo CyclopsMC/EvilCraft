@@ -141,7 +141,9 @@ public class EnvironmentalAccumulator
 	protected void onPreBlockDestroyed(World world, int x, int y, int z) {
 		if(!world.isRemote) {
 			ILocation closest = DarkTempleGenerator.getClosestForCoords(world, x, z);
-			DarkTempleGenerator.getCachedData(world).addFailedLocation(closest.getCoordinates()[0] / WorldHelpers.CHUNK_SIZE, closest.getCoordinates()[2] / WorldHelpers.CHUNK_SIZE);
+			if(closest != null) {
+				DarkTempleGenerator.getCachedData(world).addFailedLocation(closest.getCoordinates()[0] / WorldHelpers.CHUNK_SIZE, closest.getCoordinates()[2] / WorldHelpers.CHUNK_SIZE);
+			}
 		}
 		super.onPreBlockDestroyed(world, x, y, z);
 	}
