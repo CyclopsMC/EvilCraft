@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import evilcraft.EvilCraft;
+import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.block.SpiritFurnaceConfig;
 import evilcraft.core.helper.MathHelpers;
 import evilcraft.core.helper.WeightedItemStack;
@@ -151,7 +152,9 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                 if(overridenDrops != null) {
                     possibleDrops.addAll(overridenDrops);
                 }
-                possibleDrops.add(new WeightedItemStack(getPlayerSkull(tile.getPlayerName()), 1));
+                if(!BoxOfEternalClosure.FORGOTTEN_PLAYER.equals(tile.getPlayerName())) {
+                    possibleDrops.add(new WeightedItemStack(getPlayerSkull(tile.getPlayerName()), 1));
+                }
                 WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
                 ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.rand);
                 if (drop != null) {

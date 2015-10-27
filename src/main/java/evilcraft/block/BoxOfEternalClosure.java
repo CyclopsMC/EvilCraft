@@ -42,7 +42,9 @@ import java.util.UUID;
  *
  */
 public class BoxOfEternalClosure extends ConfigurableBlockContainer implements IInformationProvider, IBlockRarityProvider {
-	
+
+	public static final String FORGOTTEN_PLAYER = "Forgotten Player";
+
 	private static final int LIGHT_LEVEL = 6;
 	
     private static BoxOfEternalClosure _instance = null;
@@ -205,7 +207,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
 		VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
 		spirit.setPlayerId(playerId.toString());
-		spirit.setPlayerName("Forgotten Player");
+		spirit.setPlayerName(FORGOTTEN_PLAYER);
 		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, spirit.getPlayerId());
 		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, spirit.getPlayerName());
 		spirit.setGlobalVengeance(true);
