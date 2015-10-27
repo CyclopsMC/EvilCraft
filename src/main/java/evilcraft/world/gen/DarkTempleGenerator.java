@@ -8,7 +8,6 @@ import evilcraft.GeneralConfig;
 import evilcraft.api.ILocation;
 import evilcraft.block.EnvironmentalAccumulatorConfig;
 import evilcraft.core.algorithm.Location;
-import evilcraft.core.helper.LocationHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.world.gen.nbt.DarkTempleData;
@@ -40,10 +39,16 @@ public class DarkTempleGenerator implements IWorldGenerator {
 	}
 
 	public static DarkTempleData getCachedData(World world) {
-		return darkTemples.get(world.provider.dimensionId);
+		DarkTempleData data = darkTemples.get(world.provider.dimensionId);
+		// If we have no data at this point, the onWorldLoad event has not been called yet, forcefully call it ourselves
+		if(data == null) {
+			data = loadData(world);
+			darkTemples.put(world.provider.dimensionId, data);
+		}
+		return data;
 	}
 
-	private DarkTempleData loadData(World world) {
+	private static DarkTempleData loadData(World world) {
 		DarkTempleData data = (DarkTempleData) world.perWorldStorage.loadData(DarkTempleData.class, DARK_TEMPLE_MAP_NAME);
 		if(data == null) {
 			data = new DarkTempleData(DARK_TEMPLE_MAP_NAME);
