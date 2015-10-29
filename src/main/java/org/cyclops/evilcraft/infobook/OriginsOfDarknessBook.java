@@ -11,7 +11,7 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BloodInfuser;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
-import org.cyclops.evilcraft.core.recipe.custom.DurationRecipeProperties;
+import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
@@ -36,7 +36,7 @@ public class OriginsOfDarknessBook extends InfoBook {
             @Override
             public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
                 ItemStack itemStack = InfoBookParser.createStack(node);
-                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>>
+                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>
                         recipes = BloodInfuser.getInstance().getRecipeRegistry().
                         findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
                 int index = InfoBookParser.getIndex(node);
@@ -67,7 +67,7 @@ public class OriginsOfDarknessBook extends InfoBook {
 
             @Override
             public SectionAppendix create(IInfoBook infoBook, ItemStack itemStack) throws InfoBookParser.InvalidAppendixException {
-                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>>
+                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>
                         recipes = BloodInfuser.getInstance().getRecipeRegistry().
                         findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
                 return new BloodInfuserRecipeAppendix(infoBook, recipes.get(0));

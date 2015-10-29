@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.modcompat.nei;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
@@ -71,8 +72,8 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
                     );
             this.outputStack =
                     new PositionedStack(
-                        outputStack,
-                        114, 48
+                            ItemStackHelpers.getVariants(outputStack),
+                            114, 48
                     );
             this.inputWeather = inputWeather;
             this.outputWeather = outputWeather;
@@ -86,6 +87,7 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
 
         @Override
         public PositionedStack getResult() {
+            outputStack.setPermutationToRender((cycleticks / 32) % outputStack.items.length);
             return outputStack;
         }
 
@@ -243,14 +245,6 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
         }
     }
     
-    /*@Override
-    public void drawExtras(int recipeIndex) {
-        CachedEnvironmentalAccumulatorRecipe recipe = (CachedEnvironmentalAccumulatorRecipe)arecipes.get(recipeIndex);
-        
-        GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        GL11.glRectf(0.0f, 0.0f, 10f, 10f);
-    }*/
-    
     private CachedEnvironmentalAccumulatorRecipe getRecipe(int recipe) {
         return (CachedEnvironmentalAccumulatorRecipe) arecipes.get(recipe);
     }
@@ -268,12 +262,16 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
                 Math.max(2, cachedRecipe.duration / 10),
                 3);
         
-        int inputX = X_ICON_OFFSETS.get(cachedRecipe.inputWeather);
-        changeTexture(WEATHER_ICONS);
-        drawTexturedModalRect(36, 28, inputX, 0, 16, 16);
-        
-        int outputX = X_ICON_OFFSETS.get(cachedRecipe.outputWeather);
-        changeTexture(WEATHER_ICONS);
-        drawTexturedModalRect(114, 28, outputX, 0, 16, 16);
+        Integer inputX = X_ICON_OFFSETS.get(cachedRecipe.inputWeather);
+        if(inputX != null) {
+            changeTexture(WEATHER_ICONS);
+            drawTexturedModalRect(36, 28, inputX, 0, 16, 16);
+        }
+
+        Integer outputX = X_ICON_OFFSETS.get(cachedRecipe.outputWeather);
+        if(outputX != null) {
+            changeTexture(WEATHER_ICONS);
+            drawTexturedModalRect(114, 28, outputX, 0, 16, 16);
+        }
     }
 }

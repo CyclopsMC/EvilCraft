@@ -67,11 +67,11 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
      * @param world The world.
      * @param blockPos The blockState position.
      * @param random Random instance.
+     * @param rotatedDirection The direction to emit the particles at.
      */
     @SideOnly(Side.CLIENT)
-    public static void randomDisplayTick(@Nullable WorkingTileEntity tile, World world, BlockPos blockPos, Random random) {
+    public static void randomDisplayTick(@Nullable WorkingTileEntity tile, World world, BlockPos blockPos, Random random, EnumFacing rotatedDirection) {
         if(tile != null && random.nextInt(10) == 0) {
-            EnumFacing rotatedDirection = tile.getRotation();
             if (tile.isVisuallyWorking()) {
                 for(int i = 0; i < 1 + random.nextInt(5); i++) {
                     double particleX = blockPos.getX() - rotatedDirection.getFrontOffsetX() + (rotatedDirection == EnumFacing.EAST ? 1 : 0)

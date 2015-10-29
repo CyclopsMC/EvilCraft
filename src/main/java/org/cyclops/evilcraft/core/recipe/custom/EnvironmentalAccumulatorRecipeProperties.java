@@ -1,6 +1,9 @@
 package org.cyclops.evilcraft.core.recipe.custom;
 
 import lombok.Getter;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipeProperties;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulatorConfig;
@@ -17,13 +20,26 @@ public class EnvironmentalAccumulatorRecipeProperties implements IRecipeProperti
     @Getter
     private final IEAProcessingFinishedEffect finishedProcessingEffect;
     private final DurationRecipeProperties duration;
+    @Getter
+    private final IEAResultOverride resultOverride;
 
     public EnvironmentalAccumulatorRecipeProperties(int duration, int cooldownTime, double processingSpeed,
-                                                    IEAProcessingFinishedEffect finishedProcessingEffect) {
+                                                    IEAProcessingFinishedEffect finishedProcessingEffect, IEAResultOverride resultOverride) {
         this.duration = new DurationRecipeProperties(duration);
         this.processingSpeed = processingSpeed;
         this.cooldownTime = cooldownTime;
         this.finishedProcessingEffect = finishedProcessingEffect;
+        this.resultOverride = resultOverride;
+    }
+
+    public EnvironmentalAccumulatorRecipeProperties(int duration, int cooldownTime, double processingSpeed,
+                                                    IEAProcessingFinishedEffect finishedProcessingEffect) {
+        this(duration, cooldownTime, processingSpeed, finishedProcessingEffect, new IEAResultOverride() {
+            @Override
+            public ItemStack getResult(IBlockAccess world, BlockPos pos, ItemStack originalResult) {
+                return originalResult;
+            }
+        });
     }
 
     public EnvironmentalAccumulatorRecipeProperties(int duration, int cooldownTime, double processingSpeed) {
@@ -72,4 +88,11 @@ public class EnvironmentalAccumulatorRecipeProperties implements IRecipeProperti
 
         return duration.getDuration();
     }
+
+    public interface IEAResultOverride {
+
+        public ItemStack getResult(IBlockAccess world, BlockPos pos, ItemStack originalResult);
+
+    }
+
 }

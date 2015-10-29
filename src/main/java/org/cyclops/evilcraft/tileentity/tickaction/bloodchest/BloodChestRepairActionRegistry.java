@@ -28,6 +28,7 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
      */
     public BloodChestRepairActionRegistry() {
     	register(new DamageableItemRepairAction());
+        register(new AnvilRepairAction());
     }
     
     @Override
@@ -58,8 +59,8 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
     }
 
     @Override
-    public void repair(ItemStack itemStack, Random random, int actionID) {
-        repairActions.get(actionID).repair(itemStack, random);
+    public float repair(ItemStack itemStack, Random random, int actionID, boolean doAction, boolean isBulk) {
+        return repairActions.get(actionID).repair(itemStack, random, doAction, isBulk);
     }
 
     protected boolean isNotBlacklisted(ItemStack itemStack) {

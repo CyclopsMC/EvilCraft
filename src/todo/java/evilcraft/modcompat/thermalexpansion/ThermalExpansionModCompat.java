@@ -1,15 +1,6 @@
 package evilcraft.modcompat.thermalexpansion;
 
-import evilcraft.*;
-import org.cyclops.evilcraft.Configs;
-import org.cyclops.evilcraft.EvilCraft;
 import evilcraft.api.recipes.custom.IRecipe;
-import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.block.*;
-import org.cyclops.evilcraft.core.recipe.custom.DurationRecipeProperties;
-import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
-import org.cyclops.evilcraft.fluid.Blood;
-import org.cyclops.evilcraft.fluid.Poison;
 import evilcraft.modcompat.IModCompat;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -20,7 +11,12 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.oredict.OreDictionary;
-import org.cyclops.evilcraft.item.*;
+import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import org.cyclops.evilcraft.fluid.Blood;
+import org.cyclops.evilcraft.fluid.Poison;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -133,7 +129,7 @@ public class ThermalExpansionModCompat implements IModCompat {
 
         // Fluid Transposer: blood infuse
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
-            for (IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe :
+            for (IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe :
                     BloodInfuser.getInstance().getRecipeRegistry().allRecipes()) {
                 if(recipe.getInput().getTier() == 0) {
                     NBTTagCompound bloodInfuse = new NBTTagCompound();

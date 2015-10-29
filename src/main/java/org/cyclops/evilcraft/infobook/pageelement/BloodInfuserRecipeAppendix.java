@@ -11,7 +11,7 @@ import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.cyclops.evilcraft.block.BloodInfuser;
-import org.cyclops.evilcraft.core.recipe.custom.DurationRecipeProperties;
+import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import org.cyclops.evilcraft.item.BucketBloodConfig;
 import org.cyclops.evilcraft.item.Promise;
@@ -20,7 +20,7 @@ import org.cyclops.evilcraft.item.Promise;
  * Blood Infuser recipes.
  * @author rubensworks
  */
-public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties>> {
+public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>> {
 
     private static final int SLOT_OFFSET_X = 16;
     private static final int SLOT_OFFSET_Y = 23;
@@ -30,7 +30,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
     private static final AdvancedButton.Enum RESULT = AdvancedButton.Enum.create();
     private static final AdvancedButton.Enum PROMISE = AdvancedButton.Enum.create();
 
-    public BloodInfuserRecipeAppendix(IInfoBook infoBook, IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> recipe) {
+    public BloodInfuserRecipeAppendix(IInfoBook infoBook, IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
         super(infoBook, recipe);
     }
 
@@ -65,7 +65,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
         // Prepare items
         int tick = getTick(gui);
         ItemStack input = prepareItemStacks(recipe.getInput().getItemStacks(), tick);
-        ItemStack result = prepareItemStack(recipe.getOutput().getItemStack(), tick);
+        ItemStack result = prepareItemStacks(recipe.getOutput().getItemStacks(), tick);
         ItemStack promise = null;
         if(recipe.getInput().getTier() > 0) {
             promise = new ItemStack(Promise.getInstance(), 1, recipe.getInput().getTier() - 1);

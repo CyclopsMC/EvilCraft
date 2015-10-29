@@ -8,6 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.inventory.container.ExtendedInventoryContainer;
+import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.core.helper.RenderHelpers;
 import org.lwjgl.opengl.GL11;
@@ -161,14 +162,14 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
         if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
             SingleUseTank tank = tile.getTank();
             String fluidName = tank.getFluid().getLocalizedName();
-            drawBarTooltipTank(fluidName, "mB", tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
+            drawBarTooltipTank(fluidName, tank.getFluid(), tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
         }
     }
     
-	protected void drawBarTooltipTank(String name, String unit, int value, int max, int x, int y) {
+	protected void drawBarTooltipTank(String name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
         List<String> lines = new ArrayList<String>();
         lines.add(name);
-        lines.add(value + " / " + max + " " + unit);
+        lines.add(DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity));
         drawTooltip(lines, x, y);
     }
 

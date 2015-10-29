@@ -658,6 +658,32 @@
             <item>evilcraft:darkTank</item>
         </output>
     </recipe>
+
+	<recipe type="shaped">
+		<condition type="config">darkTank</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item>evilcraft:darkBlock</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item>minecraft:iron_block</item>
+					<item type="oredict">blockGlass</item>
+					<item>minecraft:iron_block</item>
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>evilcraft:darkBlock</item>
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item type="predefined">evilcraft:darkTankx9</item>
+		</output>
+	</recipe>
     
 	<recipe type="shaped">
         <condition type="config">darkBlock</condition>
@@ -843,13 +869,13 @@
             <grid>
                 <gridrow>
                     <item />
-                    <item>minecraft:string</item>
+                    <item>evilcraft:goldenString</item>
                     <item />
                 </gridrow>
                 <gridrow>
-                    <item>minecraft:string</item>
+					<item>evilcraft:goldenString</item>
                     <item />
-                    <item>minecraft:string</item>
+					<item>evilcraft:goldenString</item>
                 </gridrow>
                 <gridrow>
                     <item>evilcraft:darkGemCrushed</item>
@@ -1137,5 +1163,147 @@
             <item>evilcraft:effortlessRing</item>
         </output>
     </recipe>
+
+	<recipe type="shaped">
+		<condition type="config">reinforcedUndeadPlank</condition>
+		<condition type="config">colossalBloodChest</condition>
+		<condition type="config">bloodInfusionCore</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item/>
+					<item>evilcraft:reinforcedUndeadPlank</item>
+					<item/>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:reinforcedUndeadPlank</item>
+					<item>evilcraft:bloodInfusionCore</item>
+					<item>evilcraft:reinforcedUndeadPlank</item>
+				</gridrow>
+				<gridrow>
+					<item/>
+					<item>evilcraft:reinforcedUndeadPlank</item>
+					<item/>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:colossalBloodChest</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">bloodInfusionCore</condition>
+		<condition type="config">darkGemCrushed</condition>
+		<condition type="config">garmonbozia</condition>
+		<condition type="config">primedPendant</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item>evilcraft:goldenString</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:goldenString</item>
+					<item>evilcraft:garmonbozia</item>
+					<item>evilcraft:goldenString</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:darkGemCrushed</item>
+					<item>evilcraft:bloodInfusionCore</item>
+					<item>evilcraft:darkGemCrushed</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:primedPendant</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">biomeExtract</condition>
+		<condition type="config">darkGemCrushed</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item type="oredict">gemDark</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item type="oredict">blockGlass</item>
+					<item>evilcraft:darkGemCrushed</item>
+					<item type="oredict">blockGlass</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item amount="3">evilcraft:biomeExtract</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">sanguinaryEnvironmentalAccumulator</condition>
+		<condition type="config">environmentalAccumulationCore</condition>
+		<condition type="config">bloodInfusionCore</condition>
+		<condition type="config">garmonbozia</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item type="oredict">cobblestone</item>
+					<item>evilcraft:environmentalAccumulationCore</item>
+					<item type="oredict">cobblestone</item>
+				</gridrow>
+				<gridrow>
+					<item>minecraft:iron_block</item>
+					<item>evilcraft:garmonbozia</item>
+					<item>minecraft:iron_block</item>
+				</gridrow>
+				<gridrow>
+					<item type="oredict">cobblestone</item>
+					<item>evilcraft:bloodInfusionCore</item>
+					<item type="oredict">cobblestone</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:sanguinaryEnvironmentalAccumulator</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">maceOfDestruction</condition>
+		<condition type="config">darkStick</condition>
+		<condition type="config">invertedPotentia</condition>
+		<condition type="config">garmonbozia</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item />
+					<item>evilcraft:garmonbozia</item>
+					<item type="predefined">evilcraft:invertedPotentiaEmpowered</item>
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>evilcraft:darkStick</item>
+					<item>evilcraft:garmonbozia</item>
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:darkStick</item>
+					<item />
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:maceOfDestruction</item>
+		</output>
+	</recipe>
 
 </recipes>

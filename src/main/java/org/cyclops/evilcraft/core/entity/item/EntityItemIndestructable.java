@@ -11,15 +11,15 @@ import net.minecraft.world.World;
  * @author rubensworks
  *
  */
-public abstract class EntityItemIndestructable extends EntityItem {
+public abstract class EntityItemIndestructable extends EntityItemExtended {
     
     /**
      * New instance.
      * @param world The world.
-     * @param original The original entity item/
+     * @param original The original entity item.
      */
 	public EntityItemIndestructable(World world, EntityItem original) {
-        super(world, original.posX, original.posY, original.posZ, original.getEntityItem());
+        super(world, original);
         motionX = original.motionX;
         motionY = original.motionY;
         motionZ = original.motionZ;

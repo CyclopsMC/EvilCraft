@@ -7,25 +7,21 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.ExtendedDamageSource;
-import org.cyclops.evilcraft.client.particle.EntityDistortFX;
-import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
-import org.cyclops.evilcraft.fluid.Blood;
 
 import java.util.List;
 
@@ -40,7 +36,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContainer {
+public class MaceOfDistortion extends Mace {
     
     private static MaceOfDistortion _instance = null;
     
@@ -48,8 +44,6 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
      * The amount of ticks that should go between each update of the area of effect particles.
      */
     public static final int AOE_TICK_UPDATE = 20;
-    
-    private static final String NBT_KEY_POWER = "power";
     
     private static final int MAXIMUM_CHARGE = 100;
     private static final float MELEE_DAMAGE = 7.0F;
@@ -66,142 +60,8 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
         return _instance;
     }
 
-    public MaceOfDistortion(ExtendedConfig<ItemConfig> eConfig) {
-        super(eConfig, CONTAINER_SIZE, Blood.getInstance());
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean isFull3D() {
-        return true;
-    }
-    
-    private boolean isUsable(ItemStack itemStack, EntityPlayer player) {
-        return canConsume(1, itemStack, player);
-    }
-    
-    @Override
-    public boolean hitEntity(ItemStack itemStack, EntityLivingBase attacked, EntityLivingBase attacker) {
-        if(attacker instanceof EntityPlayer && isUsable(itemStack, (EntityPlayer) attacker)) {
-            this.drain(itemStack, HIT_USAGE, true);
-        }
-        return true;
-    }
-    
-    @Override
-    public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity) {
-        return !isUsable(itemStack, player);
-    }
-    
-    @Override
-    public EnumAction getItemUseAction(ItemStack itemStack) {
-        return EnumAction.BOW;
-    }
-    
-    @Override
-    public int getMaxItemUseDuration(ItemStack itemStack) {
-        return MAXIMUM_CHARGE * (POWER_LEVELS - getPower(itemStack));
-    }
-    
-    @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-        if(player.isSneaking()) {
-            if(!world.isRemote) {
-                int newPower = (getPower(itemStack) + 1) % POWER_LEVELS;
-                setPower(itemStack, newPower);
-                player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC
-                		+ L10NHelpers.localize(getUnlocalizedName() + ".setPower", newPower)));
-            }
-            return itemStack;
-        } else {
-            if(isUsable(itemStack, player)) {
-                player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
-            } else {
-                if(world.isRemote) {
-                    animateOutOfEnergy(world, player);
-                }
-            }
-        }
-        return itemStack;
-    }
-    
-    @Override
-    public void onUsingTick(ItemStack itemStack, EntityPlayer player, int duration) {
-        World world = player.worldObj;
-        if(world.isRemote && duration % AOE_TICK_UPDATE == 0) {
-            showUsingItemTick(world, itemStack, player, duration);
-        }
-        super.onUsingTick(itemStack, player, duration);
-    }
-    
-    @SideOnly(Side.CLIENT)
-    protected void showUsingItemTick(World world, ItemStack itemStack, EntityPlayer player, int duration) {
-        int itemUsedCount = getMaxItemUseDuration(itemStack) - duration;
-        double area = getArea(itemUsedCount);
-        int points = (int) (Math.pow(area, 0.55)) * 2 + 1;
-        int particleChance = 5 * (POWER_LEVELS - getPower(itemStack));
-        for(double point = -points; point <= points; point++) {
-            for(double pointHeight = -points; pointHeight <= points; pointHeight+=0.5F) {
-                if(itemRand.nextInt(particleChance) == 0) {
-                    double u = Math.PI * (point / points);
-                    double v = -2 * Math.PI * (pointHeight / points);
-                    
-                    double xOffset = Math.cos(u) * Math.sin(v) * area;
-                    double yOffset = Math.sin(u) * area;
-                    double zOffset = Math.cos(v) * area;
-                    
-                    double xCoord = player.posX;
-                    double yCoord = player.posY;
-                    double zCoord = player.posZ;
-                    
-                    double particleX = xCoord + xOffset + world.rand.nextFloat() - 0.5F;
-                    double particleY = yCoord + yOffset + world.rand.nextFloat() - 0.5F;
-                    double particleZ = zCoord + zOffset + world.rand.nextFloat() - 0.5F;
-        
-                    float particleMotionX = (float) (xOffset * 10);
-                    float particleMotionY = (float) (yOffset * 10);
-                    float particleMotionZ = (float) (zOffset * 10);
-        
-                    FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                            new EntityDistortFX(world, particleX, particleY, particleZ,
-                                    particleMotionX, particleMotionY, particleMotionZ, (float) area * 3)
-                            );
-                }
-            }
-        }
-    }
-    
-    /**
-     * The area of effect for the given in use count (counting up per tick).
-     * @param itemUsedCount The amount of ticks the item was active.
-     * @return The area of effect.
-     */
-    private double getArea(int itemUsedCount) {
-        return itemUsedCount / 5 + 2.0D;
-    }
-
-    @Override
-    public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityPlayer player, int itemInUseCount) {
-        // Actual usage length
-        int itemUsedCount = getMaxItemUseDuration(itemStack) - itemInUseCount;
-        
-        // Calculate how much blood to drain
-        int toDrain = itemUsedCount * getCapacity(itemStack) * (getPower(itemStack) + 1)
-                / (getMaxItemUseDuration(itemStack) * POWER_LEVELS);
-        FluidStack consumed = consume(toDrain, itemStack, player);
-        int consumedAmount = consumed == null ? 0 : consumed.amount;
-        
-        // Recalculate the itemUsedCount depending on how much blood is available
-        itemUsedCount = consumedAmount * getMaxItemUseDuration(itemStack) / getCapacity(itemStack);
-        
-        // Only do something if there is some blood left
-        if(consumedAmount > 0) {
-            // This will perform a distortion effect to entities in a certain area,
-            // depending on the itemUsedCount.
-            distortEntities(world, player, itemUsedCount, getPower(itemStack));
-        } else if(world.isRemote) {
-            animateOutOfEnergy(world, player);
-        }
+    private MaceOfDistortion(ExtendedConfig<ItemConfig> eConfig) {
+        super(eConfig, CONTAINER_SIZE, HIT_USAGE, MAXIMUM_CHARGE, POWER_LEVELS, MELEE_DAMAGE);
     }
     
     @SuppressWarnings("unchecked")
@@ -244,7 +104,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
      * @param itemUsedCount The distortion usage power.
      * @param power The current power.
      */
-    public static void distortEntity(World world, EntityPlayer player, Entity entity, double x, double y, double z, int itemUsedCount, int power) {
+    public void distortEntity(World world, EntityPlayer player, Entity entity, double x, double y, double z, int itemUsedCount, int power) {
         double inverseStrength = entity.getDistance(x, y, z) / (itemUsedCount + 1);
         double knock = power + itemUsedCount / 200 + 1.0D;
 
@@ -330,28 +190,7 @@ public class MaceOfDistortion extends ConfigurableDamageIndicatedItemFluidContai
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
-        list.add(EnumChatFormatting.BOLD
-        		+ L10NHelpers.localize(getUnlocalizedName() + ".info.power", getPower(itemStack)));
+    protected void use(World world, EntityPlayer player, int itemUsedCount, int power) {
+        distortEntities(world, player, itemUsedCount, power);
     }
-    
-    /**
-     * Get the power level of the given ItemStack.
-     * @param itemStack The item to check.
-     * @return The power this Mace currently has.
-     */
-    public static int getPower(ItemStack itemStack) {
-        return ItemHelpers.getNBTInt(itemStack, NBT_KEY_POWER);
-    }
-    
-    /**
-     * Set the power level of the given ItemStack.
-     * @param itemStack The item to change.
-     * @param power The new power level.
-     */
-    public static void setPower(ItemStack itemStack, int power) {
-        ItemHelpers.setNBTInt(itemStack, power, NBT_KEY_POWER);
-    }
-
 }

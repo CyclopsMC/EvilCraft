@@ -1,13 +1,13 @@
 package evilcraft.modcompat.bloodmagic;
 
-import org.cyclops.evilcraft.Configs;
-import org.cyclops.evilcraft.Reference;
 import evilcraft.modcompat.IModCompat;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.Reference;
 
 /**
- * Compatibility plugin for Forestry.
+ * Compatibility plugin for Blood Magic.
  * @author rubensworks
  *
  */

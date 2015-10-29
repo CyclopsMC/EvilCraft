@@ -2,7 +2,6 @@ package evilcraft.modcompat.bloodmagic;
 
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
-import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * Config for the {@link BoundBloodDrop}.

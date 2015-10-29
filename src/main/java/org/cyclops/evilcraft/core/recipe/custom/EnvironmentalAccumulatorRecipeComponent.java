@@ -8,6 +8,8 @@ import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
+import java.util.List;
+
 /**
  * A recipe component that can be used in {@link org.cyclops.cyclopscore.recipe.custom.api.IRecipe}S for the
  * {@link EnvironmentalAccumulator}.
@@ -25,6 +27,10 @@ public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IR
     @Override
     public ItemStack getItemStack() {
         return itemStack.getItemStack();
+    }
+
+    public List<ItemStack> getItemStacks() {
+        return itemStack.getItemStacks();
     }
 
     @Override

@@ -26,7 +26,7 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
             ItemStack willProduce = willProduceItem(tile);
             if(production == null) {
                 return true;
-            } else if(willProduce != null && production.getItem() == willProduceItem(tile).getItem()) {
+            } else if(willProduce != null && production.getItem() == willProduceItem(tile).getItem() && production.getItemDamage() == willProduceItem(tile).getItemDamage()) {
                 if(production.stackSize + willProduce.stackSize <= production.getMaxStackSize())
                     return true;
             }                
@@ -69,7 +69,7 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
     public abstract int getUnmodifiedRequiredTicks(TileBloodInfuser tile, int slot);
 
     @Override
-    public final int getRequiredTicks(TileBloodInfuser tile, int slot) {
+    public final float getRequiredTicks(TileBloodInfuser tile, int slot, int tick) {
         MutableInt duration = new MutableInt(getUnmodifiedRequiredTicks(tile, slot));
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(duration, TileBloodInfuser.UPGRADEEVENT_SPEED));
         return duration.getValue();

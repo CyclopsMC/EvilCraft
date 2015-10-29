@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -17,7 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.inventory.NBTSimpleInventory;
+import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemHeld;
 import org.cyclops.cyclopscore.item.ItemGui;
 import org.cyclops.evilcraft.client.gui.container.GuiExaltedCrafter;
 import org.cyclops.evilcraft.entity.item.EntityItemEmpowerable;
@@ -35,9 +34,6 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     private static final String NBT_RETURNTOINNER = "returnToInner";
     
     private static ExaltedCrafter _instance = null;
-    
-    @SideOnly(Side.CLIENT)
-    private TextureAtlasSprite woodenIcon;
     
     /**
      * Get the unique instance.
@@ -105,7 +101,7 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
      */
     public IInventory getSupplementaryInventory(EntityPlayer player, ItemStack itemStack, int itemIndex) {
     	if(isWooden(itemStack)) {
-    		return new NBTSimpleInventory(player, itemIndex, 27, 64);
+    		return new NBTSimpleInventoryItemHeld(player, itemIndex, 27, 64);
     	}
     	return player.getInventoryEnderChest();
     }

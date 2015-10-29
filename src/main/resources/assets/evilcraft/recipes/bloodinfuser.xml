@@ -16,6 +16,7 @@
         </output>
         <properties>
             <duration>200</duration>
+            <xp>0.5</xp>
         </properties>
     </recipe>
     
@@ -33,6 +34,7 @@
         </output>
         <properties>
             <duration>200</duration>
+            <xp>1.5</xp>
         </properties>
     </recipe>
     
@@ -51,6 +53,7 @@
         <properties>
             <duration>500</duration>
             <tier>1</tier>
+            <xp>1</xp>
         </properties>
     </recipe>
     
@@ -71,6 +74,7 @@
         <properties>
             <duration>250</duration>
             <tier>2</tier>
+            <xp>1.2</xp>
         </properties>
     </recipe>
 
@@ -89,6 +93,7 @@
         <properties>
             <duration>500</duration>
             <tier>3</tier>
+            <xp>2.5</xp>
         </properties>
     </recipe>
 
@@ -107,6 +112,7 @@
         <properties>
             <duration>1000</duration>
             <tier>0</tier>
+            <xp>2</xp>
         </properties>
     </recipe>
 
@@ -125,6 +131,7 @@
         <properties>
             <duration>1000</duration>
             <tier>1</tier>
+            <xp>2</xp>
         </properties>
     </recipe>
 
@@ -143,6 +150,7 @@
         <properties>
             <duration>1000</duration>
             <tier>2</tier>
+            <xp>2</xp>
         </properties>
     </recipe>
 
@@ -161,6 +169,7 @@
         <properties>
             <duration>1000</duration>
             <tier>3</tier>
+            <xp>2</xp>
         </properties>
     </recipe>
 
@@ -197,6 +206,7 @@
         </output>
         <properties>
             <duration>1800</duration>
+            <xp>5</xp>
         </properties>
     </recipe>
 
@@ -214,6 +224,7 @@
         <properties>
             <duration>500</duration>
             <tier>0</tier>
+            <xp>5</xp>
         </properties>
     </recipe>
 
@@ -231,6 +242,7 @@
         <properties>
             <duration>2000</duration>
             <tier>1</tier>
+            <xp>8</xp>
         </properties>
     </recipe>
 
@@ -248,6 +260,7 @@
         <properties>
             <duration>5000</duration>
             <tier>2</tier>
+            <xp>10</xp>
         </properties>
     </recipe>
 
@@ -266,6 +279,27 @@
         <properties>
             <duration>3000</duration>
             <tier>1</tier>
+            <xp>2.2</xp>
+        </properties>
+    </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="config">undeadPlank</condition>
+        <condition type="config">reinforcedUndeadPlank</condition>
+        <input>
+            <item>evilcraft:undeadPlank</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>1000</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:reinforcedUndeadPlank</item>
+        </output>
+        <properties>
+            <duration>250</duration>
+            <tier>2</tier>
+            <xp>1.2</xp>
         </properties>
     </recipe>
     

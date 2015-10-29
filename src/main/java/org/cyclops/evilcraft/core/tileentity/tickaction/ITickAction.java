@@ -33,8 +33,9 @@ public interface ITickAction<T extends TileEntity> {
      * Get the required conditions for the given conditions.
      * @param tile The tile entity that ticks.
      * @param slot The slot ID for the ticker.
+     * @param tick The current tick.
      * @return Get the required ticks for the given slot for the given tile.
      */
-    public int getRequiredTicks(T tile, int slot);
+    public float getRequiredTicks(T tile, int slot, int tick);
     
 }

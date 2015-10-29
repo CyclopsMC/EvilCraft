@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
@@ -36,6 +37,8 @@ import java.util.Random;
  *
  */
 public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContainer {
+
+    private static final String NBT_TAG_CAPACITY = "tankCapacity";
     
     private static BloodExtractor _instance = null;
     
@@ -148,6 +151,24 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     		ItemHelpers.updateAutoFill(this, itemStack, world, entity);
     	}
         super.onUpdate(itemStack, world, entity, par4, par5);
+    }
+
+    public void setCapacity(ItemStack itemStack, int capacity) {
+        NBTTagCompound tag = itemStack.getTagCompound();
+        if(tag == null) {
+            tag = new NBTTagCompound();
+            itemStack.setTagCompound(tag);
+        }
+        tag.setInteger(NBT_TAG_CAPACITY, capacity);
+    }
+
+    @Override
+    public int getCapacity(ItemStack itemStack) {
+        NBTTagCompound tag = itemStack.getTagCompound();
+        if(tag == null || !tag.hasKey(NBT_TAG_CAPACITY)) {
+            return super.getCapacity(itemStack);
+        }
+        return tag.getInteger(NBT_TAG_CAPACITY);
     }
 
 }

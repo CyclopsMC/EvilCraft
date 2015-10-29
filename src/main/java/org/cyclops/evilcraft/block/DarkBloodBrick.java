@@ -81,13 +81,13 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
     }
     
     @Override
-	public void onDetect(World world, BlockPos location, Vec3i size, boolean valid) {
+	public void onDetect(World world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
 		Block block = world.getBlockState(location).getBlock();
         if(block == this) {
             boolean change = !(Boolean) world.getBlockState(location).getValue(ACTIVE);
             world.setBlockState(location, world.getBlockState(location).withProperty(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             if(change) {
-                TileSpiritFurnace.detectStructure(world, location, size, valid);
+                TileSpiritFurnace.detectStructure(world, location, size, valid, originCorner);
             }
 		}
 	}

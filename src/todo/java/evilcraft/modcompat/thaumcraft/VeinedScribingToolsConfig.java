@@ -1,7 +1,5 @@
 package evilcraft.modcompat.thaumcraft;
 
-import evilcraft.core.config.extendedconfig.ItemConfig;
-
 /**
  * Config for the {@link evilcraft.modcompat.thaumcraft.VeinedScribingTools}.
  * @author rubensworks

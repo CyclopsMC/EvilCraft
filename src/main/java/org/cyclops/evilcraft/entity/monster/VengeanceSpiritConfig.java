@@ -1,14 +1,20 @@
 package org.cyclops.evilcraft.entity.monster;
 
+import evilcraft.core.IMCHandler;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.init.IInitListener;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.entity.RenderVengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChanged;
 
@@ -90,6 +96,32 @@ public class VengeanceSpiritConfig extends MobConfig {
     @Override
     public Render getRender(RenderManager renderManager) {
         return new RenderVengeanceSpirit(renderManager, this);
+    }
+
+    @Override
+    public void onInit(IInitListener.Step step) {
+        super.onInit(step);
+        if(step == IInitListener.Step.INIT) {
+            EvilCraft.IMC_HANDLER.registerAction(Reference.IMC_BLACKLIST_VENGEANCESPIRIT, new IMCHandler.IIMCAction() {
+
+                @Override
+                public boolean handle(FMLInterModComms.IMCMessage message) {
+                    if(!message.isStringMessage()) return false;
+                    try {
+                        Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(message.getStringValue());
+                        VengeanceSpirit.addToBlacklistIMC(clazz);
+                    } catch (ClassNotFoundException e) {
+                        EvilCraft.clog("IMC blacklist vengeance spirit did not provide an existing class.", Level.ERROR);
+                        return false;
+                    } catch (ClassCastException e) {
+                        EvilCraft.clog("IMC blacklist vengeance spirit did not provide a class of type EntityLivingBase.",
+                                Level.ERROR);
+                        return false;
+                    }
+                    return true;
+                }
+            });
+        }
     }
     
 }

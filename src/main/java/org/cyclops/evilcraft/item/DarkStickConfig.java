@@ -1,7 +1,11 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.client.render.item.RenderEntityItemDarkStick;
 
 /**
  * Config for the {@link DarkStick}.
@@ -27,5 +31,18 @@ public class DarkStickConfig extends ItemConfig {
             DarkStick.class
         );
     }
-    
+
+    @Override
+    public String getOreDictionaryId() {
+        return Reference.DICT_WOODSTICK;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void onRegistered() {
+        super.onRegistered();
+        // TODO: register item renderer
+        //EvilCraft.proxy.registerRenderer(getItemInstance(), new RenderEntityItemDarkStick());
+    }
+
 }

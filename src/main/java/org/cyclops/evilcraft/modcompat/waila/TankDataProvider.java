@@ -7,6 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.Reference;
 
@@ -36,8 +37,7 @@ public class TankDataProvider implements IWailaDataProvider {
                 currenttip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("general." + Reference.MOD_ID + ".info.empty"));
             } else {
                 FluidStack fluidStack = tile.getTank().getFluid();
-                String name = fluidStack.getFluid().getLocalizedName(fluidStack);
-                currenttip.add(name + ": " + fluidStack.amount + " / " + tile.getTank().getCapacity());
+                currenttip.add(DamageIndicatedItemComponent.getInfo(fluidStack, fluidStack.amount, tile.getTank().getCapacity()));
             }
         }
         return currenttip;

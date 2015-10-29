@@ -41,6 +41,11 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
     public int getMaxLevel() {
         return 1;
     }
+
+    @Override
+    public boolean canApply(ItemStack itemStack) {
+        return itemStack != null && itemStack.getItem().isItemTool(itemStack);
+    }
     
     /**
      * Check if the given item can be used.

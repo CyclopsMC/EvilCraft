@@ -67,6 +67,13 @@ tile.blocks.evilcraft.eternalWaterBlock.name=Eternal Water Block
 tile.blocks.evilcraft.eternalWaterBlock.info=An infinite source of water.
 tile.blocks.evilcraft.bloodWaxedCoalBlock.name=Block of Blood-Waxed Coal
 tile.blocks.evilcraft.spiritPortal.name=Spirit Portal
+tile.blocks.evilcraft.reinforcedUndeadPlank.name=Reinforced Undead Plank
+tile.blocks.evilcraft.colossalBloodChest.name=Colossal Blood Chest
+tile.blocks.evilcraft.colossalBloodChest.info=An industry-sized Blood Chest.
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.name=Sanguinary Environmental Acc.
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.info=Craftable Environmental Accumulator
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.help.invalid=Unable to work
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.help.invalid.invalidLocations=Tanks with Blood required at:
 
 # Items
 item.items.evilcraft.werewolfBone.name=Werewolf Bone
@@ -105,12 +112,8 @@ item.items.evilcraft.potentiaSphere.info=Infuse with blood to make an Ender Pear
 item.items.evilcraft.invertedPotentia.name=Inverted Potentia
 item.items.evilcraft.invertedPotentia.info=Strike with lightning to empower.
 item.items.evilcraft.maceOfDistortion.name=Mace of Distortion
-item.items.evilcraft.maceOfDistortion.setPower=Set power to %s
-item.items.evilcraft.maceOfDistortion.info=Shift + Right click to change power level.
-item.items.evilcraft.maceOfDistortion.info.power=Power: %s
 item.items.evilcraft.kineticator.name=Kineticator
 item.items.evilcraft.kineticator.repelling.name=Repelling Kineticator
-item.items.evilcraft.kineticator.setPower=Set power to %s
 item.items.evilcraft.kineticator.info=Shift + Right click to toggle kinetication.\nRight click to change area.
 item.items.evilcraft.kineticator.info.attraction=Attraction: %s
 item.items.evilcraft.kineticator.info.repelling.attraction=Repelling: %s
@@ -191,6 +194,29 @@ item.Wand.blood.cap=Blood Banded
 item.items.evilcraft.effortlessRing.name=Effortless Ring
 item.items.evilcraft.effortlessRing.info=Walk faster and more efficient.
 
+item.items.evilcraft.condensedBlood.name=Condensed Blood
+item.items.evilcraft.condensedBlood.info=Insert into any machine for extra Blood.
+item.items.evilcraft.rejuvenatedFlesh.name=Rejuvenated Flesh
+item.items.evilcraft.rejuvenatedFlesh.info=Infinite source of food
+item.items.evilcraft.primedPendant.name=Primed Pendant
+item.items.evilcraft.primedPendant.info=Applies the chosen potion effect.
+item.items.evilcraft.primedPendant.potion=§7Effect: %s (%s)
+item.items.evilcraft.goldenString.name=Golden String
+item.items.evilcraft.biomeExtract.name=Biome Extract
+item.items.evilcraft.biomeExtract.empty.name=Biome Extract Bottle
+item.items.evilcraft.biomeExtract.info=Transforms the target area to the contained biome. Crafted in Environmental Accumulator at desired biome.
+item.items.evilcraft.biomeExtract.info.content=Contents: %s
+item.items.evilcraft.environmentalAccumulationCore.name=Environmental Accumulation Core
+item.items.evilcraft.environmentalAccumulationCore.info=Obtained when breaking a regular Environmental Accumulator.
+item.items.evilcraft.maceOfDestruction.name=Mace of Destruction
+item.items.evilcraft.garmonbozia.name=Garmonbozia
+item.items.evilcraft.garmonbozia.info="Pain and Sorrow"
+item.items.evilcraft.poisonBottle.name=Poison Bottle
+
+item.evilcraft.powerable.setPower=Set power to %s
+item.evilcraft.powerable.info.power=Power: %s
+item.evilcraft.powerable.info=Shift + Right click to change power level.
+
 # Fluids
 fluid.fluids.evilcraft.evilcraftblood=Blood
 fluid.fluids.evilcraft.evilcraftpoison=Poison
@@ -215,6 +241,7 @@ entity.werewolf.name=Werewolf
 entity.poisonousLibelle.name=Poisonous Libelle
 entity.netherfish.name=Nether Fish
 entity.vengeanceSpirit.name=Vengeance Spirit
+entity.controlledZombie.name=Controlled Zombie
 
 # Enchantments
 enchantment.evilcraft.breaking=Breaking
@@ -238,6 +265,10 @@ biomes.evilcraft.biomeDegraded=Degraded
 
 # Potion Effects
 potions.evilcraft.paling=Paling
+potions.evilcraft.paling.postfix=Potion of Paling
+potion.potency.2=III
+potion.potency.3=IV
+potion.potency.4=V
 
 # Achievements
 achievement.evilcraft.evilSource=A True Source of Evil
@@ -267,6 +298,9 @@ achievement.evilcraft.cannibal.desc=Eat some Humanoid Flesh.
 gui.exaltedCrafting=Exalted Crafting
 gui.waila.tankConfig=Tank contents
 gui.waila.innerBlocksConfig=Actual inner blocks
+gui.waila.boxOfEternalClosureConfig=Box of Eternal Closure contents
+gui.waila.blockInfoConfig=Shift-info for blocks
+gui.nei.fluids=Fluids
 
 # ------ Origins of Darkness contents ------
 infoBook.evilcraft.section.main=Origins of Darkness
@@ -297,16 +331,34 @@ infoBook.evilcraft.firstAge.newWorld.darkenedApple.text=As you are reading this 
 infoBook.evilcraft.firstAge.newWorld.evilDungeon=Evil Dungeon
 infoBook.evilcraft.firstAge.newWorld.evilDungeon.text=While caving, I occasionally encounter these grim rooms with &4Blood&0 spread all over the floor. These &4Blood&0 traces are probably caused by the battles of previous explorers with the countless mobs inhabiting these dungeons.
 
+<<<<<<< HEAD
 infoBook.evilcraft.firstAge.newWorld.darkTemple=Dark Temple
 infoBook.evilcraft.firstAge.newWorld.darkTemple.text1=There seem to be certain structures in this world that were built by some kind of ancient civilization that was able to infuse certain environmental powers into items. These processes however seem to degrade the natural balance of the environment the more this process is used. This is possibly the main reason why that civilization isn’t around anymore today...
 infoBook.evilcraft.firstAge.newWorld.darkTemple.text2=Using &1Dark Gems&0 I was able to enhance existing &1Glass Bottles&0 to be able to contain environmental weather. Throwing such a &1Weather Container&0 inside the core of such a temple will absorb the current weather into the bottle.
 infoBook.evilcraft.firstAge.newWorld.darkTemple.text3=I also discovered that certain items can be empowered using the special properties of thunderstorms. These items can also be empowered when they are directly struck by lightning, but it seems very unlikely to predict where lightning is going to strike, or is it...?
+=======
+infoBook.firstAge.newWorld.darkTemple=Dark Temple
+infoBook.firstAge.newWorld.darkTemple.text1=There seem to be certain structures in this world that were built by some kind of ancient civilization that was able to infuse certain environmental powers into items. These processes however seem to degrade the natural balance of the environment the more this process is used. This is possibly the main reason why that civilization isn’t around anymore today...
+infoBook.firstAge.newWorld.darkTemple.text2=Using &1Dark Gems&0 I was able to enhance existing &1Glass Bottles&0 to be able to contain environmental weather. Throwing such a &1Weather Container&0 inside the core of such a temple will absorb the current weather into the bottle.
+infoBook.firstAge.newWorld.darkTemple.text3=I also discovered that certain items can be empowered using the special properties of thunderstorms. These items can also be empowered when they are directly struck by lightning, but it seems very unlikely to predict where lightning is going to strike, or is it...?
+infoBook.firstAge.newWorld.darkTemple.text4=These temples seem emit some kind of energy, maybe I can find some way to detect this and discover new temples in the world?
+>>>>>>> origin/master-1.7
 
 infoBook.evilcraft.firstAge.newWorld.weatherContainerBenefits=Weather Container Benefits
 infoBook.evilcraft.firstAge.newWorld.weatherContainerBenefits.text=Weather that is contained in these bottles can be reactivated when the bottles are thrown against something. But instead of breaking them, it might be more interesting to use them to craft several other neat items.
 
+<<<<<<< HEAD
 infoBook.evilcraft.firstAge.newWorld.libelle=Poisonous Libelle
 infoBook.evilcraft.firstAge.newWorld.libelle.text=It seems that there are some new creatures in this world. This creature appears to be a pretty large type of dragonfly. During the day time it is a rather peaceful creature, but do not be fooled, for if you would venture too close in proximity of this insect, it will try to poison you as though it being some kind of self defense. At night however, this beasty becomes subdued by an ancient evil and kills everything in its path. I deem myself lucky they have no other weapons besides actively looking me up at night to come and poison me. I managed to kill quite a few of these annoying things and carved some interesting poison sacs from their bodies. I have thrown them in a &1Bucket of Water&0 and the water really absorbs the poison well when I throw in four of these. I have long done the same with &lPoisonous Potato’s&r as well. It can be useful in a pinch for defending my evil lair... Ehm, I mean house... I named this creature after the dutch word for it’s kind, because I did not want to let it be confused with ordinary dragon flies, for obvious reasons...
+=======
+infoBook.firstAge.newWorld.biomeExtract=Biome Extract
+infoBook.firstAge.newWorld.biomeExtract.text1=Our world is made up of &1Biomes&0, many different variantions exist. Unfortunately, we can not choose the location of these &1Biomes&0, or at least not always.
+infoBook.firstAge.newWorld.biomeExtract.text2=One of the abilities of the &1Environmental Accumulator&0 is that it can accept special &1Biome Extract Bottles&0 which it can fill with the &1Biome&0 the machine is currently placed in. These bottles can be thrown anywhere on the ground to transform that area to the given biome.
+infoBook.firstAge.newWorld.biomeExtract.text3=One major disadvantage of the &1Environmental Accumulator&0 is that it will degrade its biome over time, so the bottles coming out of it will become pretty useless. If only there was an alternative way to craft these &1Biome Extracts&0 without bad effects...
+
+infoBook.firstAge.newWorld.libelle=Poisonous Libelle
+infoBook.firstAge.newWorld.libelle.text=It seems that there are some new creatures in this world. This creature appears to be a pretty large type of dragonfly. During the day time it is a rather peaceful creature, but do not be fooled, for if you would venture too close in proximity of this insect, it will try to poison you as though it being some kind of self defense. At night however, this beasty becomes subdued by an ancient evil and kills everything in its path. I deem myself lucky they have no other weapons besides actively looking me up at night to come and poison me. I managed to kill quite a few of these annoying things and carved some interesting poison sacs from their bodies. I have thrown them in a &1Bucket of Water&0 and the water really absorbs the poison well when I throw in four of these. I have long done the same with &lPoisonous Potato’s&r as well. It can be useful in a pinch for defending my evil lair... Ehm, I mean house... I named this creature after the dutch word for it’s kind, because I did not want to let it be confused with ordinary dragon flies, for obvious reasons...
+>>>>>>> origin/master-1.7
 
 infoBook.evilcraft.firstAge.newWorld.werewolf=Werewolf
 infoBook.evilcraft.firstAge.newWorld.werewolf.text=Whilest I was exploring this world, I have taken rest in many villages. One of the towns I rested in had a strange looking fellow in it. I started talking to him and it soon struck me he was not as interested in emeralds as the other people in his town. In fact he started asking more and more questions about the dark ore I had discovered, we talked away hours and hours. He was so keen about getting his hands on them and other objects I have discovered that we ended up trading things for most of the rest of the day. When night had fallen, he took me to his house in the village and he said I was most welcome to spend the night in his spare bedroom. I said I already rented a room at the local inn but thanked him for his kindness anyway. As I crawled into bed in the inn, I took a last glance at the moon, as I usually do before going to sleep and I saw it was a nice full moon. As I closed my eyes, all of a sudden, I heard a loud distressed shout and after that a wolf-like growl. The whole village was looking through their windows and we saw a tall wolf, walking on its hindlegs. Everyone cowered in fear, but I, without fear nor doubt, took up my trusty dagger and gave it a pretty good beating. It was a very strong creature, his fur will make a nice memento to his great fight...When I woke up the next morning to conclude my trading session of the day before, my strange trading friend had taken a leave. There where claw marks all over his house and there was &4Blood&0 on the floor, I still wonder if the strange wolve ate him... Or if perhaps he was a werewolf, as the villagers gossip on... It looks like I can convert his drops to regular items when just placing them inside a &1Crafting Table&0.
@@ -329,12 +381,15 @@ infoBook.evilcraft.firstAge.relics.enchantments.lifeStealing.text=&l&nLife Steal
 infoBook.evilcraft.firstAge.relics.enchantments.poisonTip.text=&l&nPoison Tip&r&NWhen applying some poison to your weapons, you have a chance of poisoning your victims.This enchantment exists in three stages. It looks like you can make a basic version of this enchantment by adding a poisonous material to a regular book.
 infoBook.evilcraft.firstAge.relics.enchantments.unusing.text=&l&nUnusing&r&NI was getting tired of my favorite tools breaking everytime I wasn’t paying attention to them. This I why I devised a new enchantment that makes tools unusable when they are about to break, giving myself enough time to repair it to its former glory.
 
+infoBook.firstAge.relics.garmonbozia=Garmonbozia
+infoBook.firstAge.relics.garmonbozia.text=This strange spiritual energy seems to take on the physical form of creamed corn. It can sometimes be found in ancient chests or traded with certain villagers. This substance seems to be very rare, as I did not come across it a lot, but its powers are quite useful. Maybe in the future I will be able to produce this energy myself...
+
 # - Items -
 infoBook.evilcraft.firstAge.items=Items
 
 infoBook.evilcraft.firstAge.items.darkTank=Dark Tank
 infoBook.evilcraft.firstAge.items.darkTank.text1=Using some &1Iron&0, &1Dark Gems&0 and a piece of &1Glass&0, it is possible to construct a strong container that is able to hold fluids. It is possible to place these tanks somewhere, or hold them in your inventory.
-infoBook.evilcraft.firstAge.items.darkTank.text2=When it is placed somewhere, you can right-click which gives it a purple-ish glow, and it seems to open up a hole at the bottom of the tank which is able to automatically fill containers underneath it.
+infoBook.evilcraft.firstAge.items.darkTank.text2=When it is placed somewhere, you can right-click which gives it a purple-ish glow, and it seems to open up a hole at the bottom of the tank which is able to automatically fill tanks, item containers and players carrying containers underneath it.
 infoBook.evilcraft.firstAge.items.darkTank.text3=Shift + right-clicking with the tank in your hand and not aiming at a block (because you know you will just place the tank down if you would do so) will enable a special mode to make it automatically try to fill any container you are currently holding if it can accept that fluid.
 infoBook.evilcraft.firstAge.items.darkTank.text4=It looks like it can hold about sixteen buckets. If that is too limiting for you, these tanks seem to be expandable by placing multiple ones inside a crafting table, no fluids seem to go lost in this process.
 
@@ -381,6 +436,7 @@ infoBook.evilcraft.secondAge.powersOfBlood=The Powers of Blood
 infoBook.evilcraft.secondAge.powersOfBlood.text1=Everyone knows that &4Blood&0 is a key element of every living being. Combining the magical properties of &1Dark Gems&0 and the vitalizing &4Blood&0 allowed me to come up with some really amazing new tools and machines. Some of my peers say I’m a bit too enthusiastic about this discovery, I guess they’re not open-minded enough.
 infoBook.evilcraft.secondAge.powersOfBlood.text2=&1Dark Gems&0 seem to be very open to accept &4Blood&0. Tossing one in a pool of &4Blood&0 results in a &1Dark Power Gem&0. Note that you will need at least five source &4Blood&0 blocks, you will need to do this at least once, in the next chapter I will explain how to more cheaply craft &1Dark Power Gems&0.
 infoBook.evilcraft.secondAge.powersOfBlood.text3=As we all know, &4Blood&0 will dry out after a while when it is in a dry area. Using some &1Flint and Steel&0 on such &1Hardened Blood&0 will give some &1Hardened Blood Shards&0 which might come in handy later on. It looks like these shards can also be obtained when cooking such a &1Hardened Blood&0 block, if you can obtain it in some way ... maybe a soft touch can help?
+infoBook.evilcraft.secondAge.powersOfBlood.text4=It appears that &1Condensed Blood&0 can be found in some rare places. These can be inserted into any &4Blood&0-accepting machines to gain half a bucket of extra &4Blood&0 for your pleasure.
 
 # - Blood Infusion -
 infoBook.evilcraft.secondAge.bloodInfusion=Blood Infusion
@@ -392,6 +448,7 @@ infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction=Blood Extraction
 infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text1=Using some &1Spikes&0, I was able to make a simple utility to obtain some &4Blood&0 from various places. When killing certain beasts, this item will fill up with &4Blood&0 when it is somewhere within your inventory. Sometimes you might come across some &4Blood&0 stains on the ground, a simple shift + right click will put some of the &4Blood&0 in your extractor. These &4Blood&0 stains seem to form when something falls to death from a great height, this might come in handy one day...
 infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text2=A simple right click with this item will place one bucket of &4Blood&0 on the ground.
 infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text3=This will be useful until I find some less manual ways to get my hands on some &4Blood&0.
+infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text4=By default, the size of these extractors are a bit limited. But it looks like I can just combine multiple &1Blood Extractors&0 inside a crafting grid to increase the capacity, it can even be combined with &1Dark Tanks&0 for even more storage capacity.
 
 infoBook.evilcraft.secondAge.bloodInfusion.bloodChest=Blood Chest
 infoBook.evilcraft.secondAge.bloodInfusion.bloodChest.text=My first simple attempt to infuse items with &4Blood&0 resulted in a simple chest in which tools can bathe in. This bathing causes damage to the tools to slowly disappear. There is however a minor issue which causes tools to rarely attain bad effects, like the &1Breaking&0 enchant. I’ll certainly discover another way to purify these tools to get rid of these bad effects.
@@ -403,6 +460,7 @@ infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser.text2=This machine final
 infoBook.evilcraft.secondAge.bloodInfusion.undeadTree=Undead Tree
 infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text1=I was able to reanimate dead saplings, the trees that grow from this process are remarkable to say the least. They seem to give off a lot of Blood, but the saplings that drop still seem to be dead somehow. Combining the wood with a Dark Gem will result in some sticks which will be useful some day.
 infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text2=Killing a sapling is as simple as shearing a living one in a crafting grid. &oIs that tree growing in a desert?&r
+infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text3=Dropping sticks made from this wood always seems to rotate in a certain direction. Could it be pointing to somewhere?
 
 infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion=Advanced Blood Infusion
 infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion.text1=Soon after my first &1Blood Infuser&0 was built, I started to think of some optimizations to make the machine faster and more efficient. Using the &1Crushed Dark Gems&0 I was able to construct materialized &1Promises&0 which the &1Blood Infuser&0 actually seems to adhere to, it looks like the machine is actually alive in some way...
@@ -421,11 +479,24 @@ infoBook.evilcraft.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text2=Plac
 infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier=Purifier
 infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text1=After the unfortunate side-effects of the &1Blood Chest&0, I decided to design a new machine that is able to remove these bad effects from your tools. Simply by placing a tool with a bad effect inside of this block together with at least one bucket worth of &4Blood&0 will remove this effect from the item.
 infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text2=An unintended benefit of this machine is that when filling it completely with &4Blood&0 and placing an enchanted item together with a &1Blook&0 (which is just a &1Book&0 infused with &1Blood&0), will move a random enchantment from the item to the book, at the cost of three &1Buckets of Blood&0.
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text3=Recently, I noticed that this machine also allows you to remove &1Potion Effects&0 from living creatures sitting inside of it by filling the &1Purifier&0 completely with &4Blood&0 and giving it an &1Empty Bottle&0. After a few seconds, the effect will be contained inside the bottle and the creature will be freed of it.
 
 infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice=Entangled Chalice
 infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text1=When you have as much experience as I have with infusing items with &4Blood&0, you will notice that by enhancing a tear of the fearsome &1Ghast&0 will result in a very special kind of tear. It seems to share all properties when split in half. This gave me the idea to build &lEntangled Chalices&0 with this tear with the goal of sharing the fluid contents of the chalice with all other chalices that are constructed from the same tear.
 infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text2=Normally, you will get two chalices sharing contents from the crafting recipe, but when replacing the center &4Gold Ingot&0 in the recipe with an existing chalice, it will expand the tear network to include another chalice.
 infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text3=These chalices can be placed in the world or held in your inventory. Shift + right-click with it in your hand to enable the Omni-Supply mode which will continuously try to fill all containers in your inventory with &4Blood&0.
+
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest=Colossal Blood Chest
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text1=&1Blood Chests&0 are great, throw in your damaged stuff, and they come out repaired. One downside of using that machine is the occasional bad effect your items can get, and it can be quite annoying to continuously clear that effect with your &1Purifier&0.
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text2=Actually, the disadvantes don't stop there. The &1Blood Chests&0 has a very small inventory to put your items in, it is slow, has a small tank size and is really slow. Worst of all, my &1Promises&0 can't even be used to boost the machine!
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text3=That is why I created the &1Colossal Blood Chest&0! It solves all of the problems I have mentioned As a logical consequence, this machine is quite a bit bigger than its regular variant. Because of this massive size, I had to make use the strange powers of &1Undead Planks&0 to be able to hold the structure together.
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text4=This &1Colossal Blood Chest&0 should only be used if you have a lot of items you need to repair at once. The reason for this is that its base &4Blood&0 usage is higher than the usage of the &1Blood Chests&0, but the more items that are being repaired simultaneously, the more efficient this &4Blood&0 usage becomes.
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text5=To build this, make a &1hollow&0 3x3x3 structure of &1Reinforced Undead Planks&0. For the structure to form, your need exactly one &1Colossal Blood Chest&0 block somewhere in the structure wall, make sure not to place it in the middle of the structure, as it must remain hollow.
+
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator=Sanguinary Environmental Acc.
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text1=I was getting tired of running to &1Dark Temples&0 every time I had to accumulate some environment to craft new items. One day, I was so tired of it that I just broke one the machines standing in there, and to my suprise it dropped a strange new item.
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text2=After some research, I was able to use this new item in a new kind of &1Environmental Accumulator&0 that is able to run on &4Blood&0. I was also able to make this machine completely bad-effect proof, so no more biome degradation or random deaths by walking near those temples.
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text3=This machine requires a hefty amount of &4Blood&0 to work, that is why you will need &18&0 &4Blood&0 tanks of any type spread around the machine as can be seen in the following image. This machine will not work without those tanks, smoke effects can be seen at the locations where the tanks are supposed to be placed.
 
 # - Tools -
 infoBook.evilcraft.secondAge.tools=Tools
@@ -437,7 +508,10 @@ infoBook.evilcraft.secondAge.tools.bloodPearlOfTeleportation=Blood Pearl of Tele
 infoBook.evilcraft.secondAge.tools.bloodPearlOfTeleportation.text=Regular &1Ender Pearls&0 are fun for teleporting around, but this can get quite expensive. Using the powers of &4Blood&0, I was able to construct a special &1Ender Pearl&0 that is completely reusable at the cost of some &4Blood&0. It also seems much more potent than regular &1Ender Pearls&0, which can only be good.
 
 infoBook.evilcraft.secondAge.tools.invigoratingPendant=Invigorating Pendant
-infoBook.evilcraft.secondAge.tools.invigoratingPendant.text=Getting rid of bad potion effects can be a pain. This pendant is able to remove any bad effect at the cost of some &4Blood&0. Worse effects cost more &4Blood&0. It even seems to extinguish fire, but I wouldn’t recommend swimming in lava just yet.
+infoBook.evilcraft.secondAge.tools.invigoratingPendant.text=Getting rid of bad potion effects can be a pain. This pendant is able to remove any bad effect at the cost of some &4Blood&0. Worse effects cost more &4Blood&0. It even seems to extinguish fire, but I wouldn’t recommend swimming in lava just yet. You will need a special kind of string to craft this, which can be created by combining regular string with a small fragment of gold.
+
+infoBook.evilcraft.secondAge.tools.primedPendant=Primed Pendant
+infoBook.evilcraft.secondAge.tools.primedPendant.text=After making the &1Invigorating Pendant&0, I started thinking. What if it would be possible to not only remove, but also apply effects? This new pendant is able to hold one &1Potion&0, and by using &4Blood&0 it will continuously apply its effect to you. I noticed that some effects cost more &4Blood&0 than the others. You can insert new &1Potions&0 by simply right-clicking with the item.
 
 infoBook.evilcraft.secondAge.tools.effortlessRing=Effortless Ring
 infoBook.evilcraft.secondAge.tools.effortlessRing.text=I was able to construct a special ring that can apply the &1Promises&0 of &Productivity&0 and &1Velocity&0 which allows you to walk faster, jump higher and step more easily on blocks. Just hold this item anywhere inside your inventory to gain its effects. Note that this step assist can be avoided by holding &oShift&r.
@@ -455,6 +529,9 @@ infoBook.evilcraft.secondAge.tools.vengeancePickaxe.text=I’ve discovered a way
 infoBook.evilcraft.secondAge.tools.gemstoneTorch=Gemstone Torch
 infoBook.evilcraft.secondAge.tools.gemstoneTorch.text=I was able to combine the &1Burning Gemstone&0 with a &1Dark Stick&0 to make a special torch that seems to absorb any spawning &1Vengeance Spirits&0 in its light area. Note that any spirits spawned outside the area will still be able to wander in this area though, but a simple mundane wall should be able to solve that.
 
+infoBook.secondAge.tools.rejuvenatedFlesh=Rejuvenated Flesh
+infoBook.secondAge.tools.rejuvenatedFlesh.text=&1Flesh&0 can be combined with &1Garmonbozia&0 to make it an infinite source of food. You will however need to supply it with &4Blood&0 to be able to eat from it.
+
 # - Weapons -
 infoBook.evilcraft.secondAge.weapons=Weapons
 
@@ -465,8 +542,10 @@ infoBook.evilcraft.secondAge.weapons.maceOfDistortion=Mace of Distortion
 infoBook.evilcraft.secondAge.weapons.maceOfDistortion.text=Holding right-click with this mace will build up a circular sphere around it that, when released, will trigger a force upon all other entities within that sphere knocking them back and causing some damage as long as the mace has enough &4Blood&0. Shift + right-clicking it will cycle through the different power levels, each higher level will cause more damage, but at the same time cost more &4Blood&0.
 
 infoBook.evilcraft.secondAge.weapons.necromancerStaff=Necromancer Staff
-infoBook.evilcraft.secondAge.weapons.necromancerStaff.text1=&1Zombies&0 seem to be controllable once you have a skull of some kind. After mounting such a skull on a staff I discovered that I can spawn zombies that will attack any entity I target for a limited amount of time.
-infoBook.evilcraft.secondAge.weapons.necromancerStaff.text2=These &1zombies&0 are not easily tamed though, sometimes they just won’t attack mobs, and they will even completely ignore mobs of certain types they aren't used to attacking. But this weapon is certainly worth the effort.
+infoBook.evilcraft.secondAge.weapons.necromancerStaff.text=&1Zombies&0 seem to be controllable once you have a skull of some kind. After mounting such a skull on a staff I discovered that I can spawn zombies that will attack any entity I target for a limited amount of time.
+
+infoBook.evilcraft.secondAge.weapons.maceOfDestruction=Mace of Destruction
+infoBook.evilcraft.secondAge.weapons.maceOfDestruction.text=This is a variant of the &1Mace of Distortion&0, the force that is released by this mace is actually a powerful explosion. The longer you charge the mace, the bigger the explosion will be. Increasing the power level of this mace will increase the starting power of the explosion, so you can charge even more.
 
 # - Abusing Spirits -
 infoBook.evilcraft.secondAge.abusingSpirits=Abusing Spirits
@@ -493,8 +572,14 @@ infoBook.evilcraft.modIntegrations.baubles.text=The mod that adds several conven
 infoBook.evilcraft.modIntegrations.bloodMagic=Blood Magic
 infoBook.evilcraft.modIntegrations.bloodMagic.text=One day I discovered a very strange &1Blood Orb&0 that must have been owned by some kind of &1Magician&0. When using it I felt like I was somehow connected to it. After a while I discovered that it was in fact connected to my &4Blood&0 stream. By forcing a large amount of &4Blood&0 through it using the &1Blood Infuser&0, I've managed to create an item that is both connected to my &4Blood&0 stream and can be used as a simple container, allowing me to place it in my favorite machines and using it with my items.
 
+infoBook.evilcraft.modIntegrations.ee3=Equivalent Exchange 3
+infoBook.evilcraft.modIntegrations.ee3.text=Magicians have discovered that almost all things in this world have some kind of &1value&0 relative to other things. These people have mastered the act of &1transmuting&0 these things to each other. Their strange methods even seem to work with my items.
+
 infoBook.evilcraft.modIntegrations.forestry=Forestry
 infoBook.evilcraft.modIntegrations.forestry.text=When &ovisiting&r some of my friends working with trees and bees, I noticed that some of their bags allow me to insert some of my items. I also noticed that their machine called the &1Squeezer&0 is able to extract &4Blood&0 from parts of the &1Undead Tree&0, which can be easily grown using their tree growing system.
+
+infoBook.evilcraft.modIntegrations.ic2=IndustrialCraft 2
+infoBook.evilcraft.modIntegrations.ic2.text=There is a group of odd people who constantly work with buzzing machines. I have no idea what these machines do, except for the &1Macerator&0. I am able to insert &1Dark Ore&0 into it to immediately retrieve &1Dark Gems&0 and their crushed variant. Regular &1Dark Gems&0 can also be inserted to crush.
 
 infoBook.evilcraft.modIntegrations.nei=Not Enough Items
 infoBook.evilcraft.modIntegrations.nei.text=All these people keep talking about "&oNot Enough Items&r", which I really don't understand, since I just have "&oToo Many Items&r"! But it sounds like the former group seems to understand my knowledge...

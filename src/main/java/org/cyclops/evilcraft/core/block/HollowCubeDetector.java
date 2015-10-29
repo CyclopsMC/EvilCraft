@@ -23,13 +23,13 @@ public class HollowCubeDetector extends CubeDetector {
 	}
 	
 	@Override
-	protected void postValidate(World world, final Vec3i size, final int[][] dimensionEgdes, final boolean valid, final BlockPos excludeLocation) {
+	protected void postValidate(World world, final Vec3i size, final int[][] dimensionEgdes, final boolean valid, final BlockPos originCorner, final BlockPos excludeLocation) {
 		coordinateRecursion(world, dimensionEgdes, new BlockPosAction() {
 
 			@Override
 			public boolean run(World world, BlockPos location) {
 				if(isEdge(world, dimensionEgdes, location) && isValidLocation(world, location, excludeLocation)) {
-					notifyListeners(world, location, size, valid);
+					notifyListeners(world, location, size, valid, originCorner);
 				}
 				return true;
 			}

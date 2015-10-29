@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import java.util.Random;
 
 /**
- * Actions that can be registered in ...
+ * Actions that can be registered in the {@link IBloodChestRepairActionRegistry}.
  * @author rubensworks
  *
  */
@@ -29,8 +29,11 @@ public interface IBloodChestRepairAction {
     /**
      * The repair logic for a given item for one tick.
      * @param itemStack The item to repair.
-     * @param random A random instance.O
+     * @param random A random instance.
+     * @param doAction If the actual repair action should be performed, otherwise this is just a simulation.
+     * @param isBulk If the repairing container repairs things in bulk.
+     * @return Blood usage multiplier
      */
-    public void repair(ItemStack itemStack, Random random);
+    public float repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk);
     
 }

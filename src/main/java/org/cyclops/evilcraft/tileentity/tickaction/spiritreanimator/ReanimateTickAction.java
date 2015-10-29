@@ -34,7 +34,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 			int tick) {
 		// Drain the tank a bit.
 		tile.getTank().drain(getRequiredMb(tile, tick), true);
-		if(tick >= getRequiredTicks(tile, slot)) {
+		if(tick >= getRequiredTicks(tile, slot, tick)) {
 			int entityID = tile.getEntityID();
 			if(SpiritReanimatorConfig.clearBoxContents) {
 				itemStack.setTagCompound(new NBTTagCompound());
@@ -55,7 +55,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
     }
 
 	@Override
-	public int getRequiredTicks(TileSpiritReanimator tile, int slot) {
+	public float getRequiredTicks(TileSpiritReanimator tile, int slot, int tick) {
         MutableDouble drain = new MutableDouble(SpiritReanimatorConfig.requiredTicks);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(drain, TileSpiritReanimator.UPGRADEEVENT_SPEED));
         return (int) (double) drain.getValue();

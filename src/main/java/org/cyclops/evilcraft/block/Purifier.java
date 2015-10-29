@@ -58,9 +58,9 @@ public class Purifier extends ConfigurableBlockContainer {
                 if (itemStack == null && tile.getPurifyItem() != null) {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getPurifyItem());
                     tile.setPurifyItem(null);
-                } else if (itemStack == null && tile.getBookItem() != null) {
-                    player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getBookItem());
-                    tile.setBookItem(null);
+                } else if (itemStack == null && tile.getAdditionalItem() != null) {
+                    player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getAdditionalItem());
+                    tile.setAdditionalItem(null);
                 } else if(itemStack != null && itemStack.getItem() instanceof ItemBucket) {
                     FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
                     if(fluidStack != null && tile.getTank().canTankAccept(fluidStack.getFluid())
@@ -82,13 +82,13 @@ public class Purifier extends ConfigurableBlockContainer {
                         }
                         return true;
                     }
-                }  else if(itemStack != null && itemStack.getItem() == TilePurifier.ALLOWED_BOOK && tile.getBookItem() == null) {
+                }  else if(itemStack != null && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem() == null) {
                     ItemStack copy = itemStack.copy();
                     copy.stackSize = 1;
-                    tile.setBookItem(copy);
+                    tile.setAdditionalItem(copy);
                     itemStack.stackSize--;
                     return true;
-                } else if(itemStack != null && tile.getPurifyItem() == null) {
+                } else if(itemStack != null && tile.getActions().isItemValidForMainSlot(itemStack) && tile.getPurifyItem() == null) {
                     ItemStack copy = itemStack.copy();
                     copy.stackSize = 1;
                     tile.setPurifyItem(copy);

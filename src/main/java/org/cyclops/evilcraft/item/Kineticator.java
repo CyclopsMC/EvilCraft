@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -37,8 +36,7 @@ import java.util.Random;
 public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     private static Kineticator _instance = null;
-    
-    private static final String NBT_KEY_POWER = "power";
+
     private static final int POWER_LEVELS = 5;
     private static final int RANGE_PER_LEVEL = 2;
     private static final double USAGE_PER_D = 0.1;
@@ -71,15 +69,8 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-        if(!world.isRemote) {
-            if(player.isSneaking()) {
-                ItemHelpers.toggleActivation(itemStack);
-            } else {
-                int newPower = (getPower(itemStack) + 1) % POWER_LEVELS;
-                setPower(itemStack, newPower);
-                player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC
-                		+ L10NHelpers.localize("item.items.kineticator.setPower", newPower)));
-            }
+        if(!ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, POWER_LEVELS, false) && !world.isRemote) {
+            ItemHelpers.toggleActivation(itemStack);
         }
         return itemStack;
     }
@@ -99,23 +90,23 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
         list.add(EnumChatFormatting.BOLD
         		+ L10NHelpers.localize(getUnlocalizedName() + ".info.area", getArea(itemStack)));
     }
-    
+
     /**
      * Get the power level of the given ItemStack.
      * @param itemStack The item to check.
      * @return The power this Mace currently has.
      */
-    public static int getPower(ItemStack itemStack) {
-        return ItemHelpers.getNBTInt(itemStack, NBT_KEY_POWER);
+    public int getPower(ItemStack itemStack) {
+        return ItemPowerableHelpers.getPower(itemStack);
     }
-    
+
     /**
      * Set the power level of the given ItemStack.
      * @param itemStack The item to change.
      * @param power The new power level.
      */
-    public static void setPower(ItemStack itemStack, int power) {
-        ItemHelpers.setNBTInt(itemStack, power, NBT_KEY_POWER);
+    public void setPower(ItemStack itemStack, int power) {
+        ItemPowerableHelpers.setPower(itemStack, power);
     }
     
     @Override
@@ -138,6 +129,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                 (entity instanceof EntityPlayer && canConsume(1, itemStack, (EntityPlayer) entity))) &&
                 (entity != null || !entity.isSneaking())) {
         	boolean repelling = isRepelling(itemStack);
+            boolean isPlayer = entity instanceof EntityPlayer;
         	
             // Center of the attraction
             double x = entity.posX;
@@ -166,15 +158,15 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                                     && canKineticateItem(((EntityItem) moveEntity).getEntityItem())) ||
                             (moveEntity instanceof EntityXPOrb)) {
                         double dx = moveEntity.posX - x;
-                        double dy = moveEntity.posY - (y + (world.isRemote ? -1 : 1));
+                        double dy = moveEntity.posY - (isPlayer ? (y + (world.isRemote ? -1 : 1)) : y);
                         double dz = moveEntity.posZ - z;
-                        double strength = -0.1;
-                        if (entity instanceof EntityPlayer) {
+                        double strength = -0.3;
+                        if (isPlayer) {
                             strength = -1;
                         }
                         if (repelling) {
                             strength /= -1;
-                            if (entity instanceof EntityPlayer) {
+                            if (isPlayer) {
                                 strength = 0.3;
                             }
                         }
@@ -182,7 +174,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                         double d = (double) MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
                         int usage = (int) Math.round(d * USAGE_PER_D);
                         if((repelling || d > 0.5D) && (usage == 0 || (this.drain(itemStack, usage, false) != null) ||
-                                (entity instanceof EntityPlayer && this.canConsume(usage, itemStack, (EntityPlayer) entity)))) {
+                                (isPlayer && this.canConsume(usage, itemStack, (EntityPlayer) entity)))) {
                             double m = 1 / (2 * (Math.max(1, d)));
                             dx *= m;
                             dy *= m;
@@ -196,10 +188,13 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                                 moveEntity.motionX = dx * strength;
                                 moveEntity.motionY = dy * strength;
                                 moveEntity.motionZ = dz * strength;
+                                if(moveEntity.isCollidedHorizontally) {
+                                    moveEntity.motionY = 0.3;
+                                }
                             }
                             // Not ticking every tick.
                             if(0 == world.getWorldTime() % KineticatorConfig.consumeHoldoff) {
-                                if(entity instanceof EntityPlayer) {
+                                if(isPlayer) {
                                     this.consume(usage, itemStack, (EntityPlayer) entity);
                                 } else {
                                     this.drain(itemStack, usage, true);

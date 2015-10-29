@@ -25,9 +25,8 @@ printf '{"tag_name": "%s","target_commitish": "master-1.7","name": "%s","body": 
 ACCESS_TOKEN=$(grep github_token= gradle.properties | sed s/github_token=//)
 
 creationresp=$(curl -d@.tmp.json https://api.github.com/repos/CyclopsMC/EvilCraft/releases?access_token=$ACCESS_TOKEN)
-echo $creationresp
 RELEASEID=$(echo $creationresp | jsonval "id")
-echo "Release: $RELEASEID"
-curl -H "Authorization: token $ACCESS_TOKEN" -H "Content-Type: application/zip" --data-binary @build/libs/$name.jar https://api.github.com/repos/CyclopsMC/EvilCraft/releases/$RELEASEID/?name=$name.jar
+echo $RELEASEID
+curl -H "Authorization: token $ACCESS_TOKEN" -H "Content-Type: application/zip" --data-binary @build/libs/$name.jar https://uploads.github.com/repos/CyclopsMC/EvilCraft/releases/$RELEASEID/assets?name=$name.jar
 
 rm .tmp.json

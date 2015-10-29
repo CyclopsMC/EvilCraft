@@ -101,7 +101,7 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     }
 
 	@Override
-	public void onDetect(World world, BlockPos location, Vec3i size, boolean valid) {
+	public void onDetect(World world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
             boolean change = (Boolean) world.getBlockState(location).getValue(ACTIVE);

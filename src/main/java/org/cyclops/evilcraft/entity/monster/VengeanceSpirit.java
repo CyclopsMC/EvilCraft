@@ -8,6 +8,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -41,10 +42,7 @@ import org.cyclops.evilcraft.item.BurningGemStone;
 import org.cyclops.evilcraft.item.BurningGemStoneConfig;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A silverfish for the nether.
@@ -61,6 +59,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	private static final int SWARM_TIERS = 5;
 	
     private static final Set<Class<? extends EntityLivingBase>> BLACKLIST = Sets.newHashSet();
+    private static final Set<Class<? extends EntityLivingBase>> IMC_BLACKLIST = Sets.newHashSet();
     
     /**
      * The minimum life duration in ticks the spirits should have.
@@ -79,6 +78,8 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     private static final int WATCHERID_ISSWARM = 25;
     private static final int WATCHERID_SWARMTIER = 26;
     private static final int WATCHERID_BUILDUP = 27;
+    private static final int WATCHERID_PLAYERID = 28;
+    private static final int WATCHERID_PLAYERNAME = 29;
     
     /**
      * The NBT key used to store the inner entity name.
@@ -149,6 +150,8 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         this.dataWatcher.addObject(WATCHERID_ISSWARM, 0);
         this.dataWatcher.addObject(WATCHERID_SWARMTIER, rand.nextInt(SWARM_TIERS));
         this.dataWatcher.addObject(WATCHERID_BUILDUP, 0);
+        this.dataWatcher.addObject(WATCHERID_PLAYERID, "");
+        this.dataWatcher.addObject(WATCHERID_PLAYERNAME, "");
     }
     
     @Override
@@ -161,6 +164,8 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     	tag.setBoolean("isSwarm", isSwarm());
     	tag.setInteger("swarmTier", getSwarmTier());
         tag.setInteger("buildupDuration", getBuildupDuration());
+        tag.setString("playerId", getPlayerId());
+        tag.setString("playerName", getPlayerName());
     }
     
     @Override
@@ -174,6 +179,8 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     	setIsSwarm(tag.getBoolean("isSwarm"));
     	setSwarmTier(tag.getInteger("swarmTier"));
         setBuildupDuration(tag.getInteger("buildupDuration"));
+        setPlayerId(tag.getString("playerId"));
+        setPlayerName(tag.getString("playerName"));
     }
 
     @Override
@@ -444,6 +451,11 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @param innerEntity inner entity
      */
     public void setInnerEntity(EntityLivingBase innerEntity) {
+        if(innerEntity instanceof EntityPlayer) {
+            setPlayerId(((EntityPlayer) innerEntity).getGameProfile().getId().toString());
+            setPlayerName(((EntityPlayer) innerEntity).getGameProfile().getName());
+            innerEntity = new EntityZombie(worldObj);
+        }
 		this.dataWatcher.updateObject(WATCHERID_INNER, innerEntity.getClass().getName());
 	}
 
@@ -477,6 +489,57 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      */
     public void setBuildupDuration(int buildupDuration) {
         this.dataWatcher.updateObject(WATCHERID_BUILDUP, buildupDuration);
+    }
+
+    /**
+     * Get the playerId.
+     * @return The playerId.
+     */
+    public String getPlayerId() {
+        return dataWatcher.getWatchableObjectString(WATCHERID_PLAYERID);
+    }
+
+    /**
+     * Get the player UUID or null.
+     * @return The player UUID
+     */
+    public UUID getPlayerUUID() {
+        try {
+            return UUID.fromString(getPlayerId());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    /**
+     * @return If this spirit is a player spirit.
+     */
+    public boolean isPlayer() {
+        return getPlayerUUID() != null;
+    }
+
+    /**
+     * Set the playerId.
+     * @param playerId The playerId.
+     */
+    public void setPlayerId(String playerId) {
+        this.dataWatcher.updateObject(WATCHERID_PLAYERID, playerId);
+    }
+
+    /**
+     * Get the playerName.
+     * @return The playerName.
+     */
+    public String getPlayerName() {
+        return dataWatcher.getWatchableObjectString(WATCHERID_PLAYERNAME);
+    }
+
+    /**
+     * Set the playerName.
+     * @param playerName The playerName.
+     */
+    public void setPlayerName(String playerName) {
+        this.dataWatcher.updateObject(WATCHERID_PLAYERNAME, playerName);
     }
 
 	/**
@@ -713,6 +776,9 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * @return The L10N name.
 	 */
 	public String getLocalizedInnerEntityName() {
+        if(isPlayer()) {
+            return getPlayerName();
+        }
 		String key = DEFAULT_L10N_KEY;
 		if(getInnerEntity() != null) {
 			key = (String) EntityList.classToStringMapping.get(getInnerEntity().getClass()); 
@@ -766,6 +832,17 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 			EvilCraft.clog("Added entity class " + clazz.getCanonicalName()
                     + " to the spirit blacklist.");
 	}
+
+    /**
+     * Add an entity class to the blacklist, every subinstance of this class will not
+     * be spirited anymore.
+     * This should only be called by IMC message handlers.
+     * @param clazz The root class that will be blocked from spiritation.
+     */
+    public static void addToBlacklistIMC(Class<? extends EntityLivingBase> clazz) {
+        IMC_BLACKLIST.add(clazz);
+        addToBlacklist(clazz);
+    }
 	
 	@SuppressWarnings("unchecked")
 	protected static void setBlacklist(String[] blacklist) {
@@ -779,10 +856,14 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 				addToBlacklist(clazz);
 			}
 		}
+
+        for(Class<? extends EntityLivingBase> clazz : IMC_BLACKLIST) {
+            addToBlacklist(clazz);
+        }
 		
 		// Hard-code some entities
 		addToBlacklist(VengeanceSpirit.class);
-    	addToBlacklist(EntityPlayer.class);
+        addToBlacklist(ControlledZombie.class);
     	addToBlacklist(EntityDragon.class);
 	}
 	
@@ -814,5 +895,10 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     public ExtendedConfig<?> getConfig() {
         return null;
     }
-    
+
+    @Override
+    public boolean handleWaterMovement() {
+        // Ignore water movement and particles
+        return this.inWater;
+    }
 }

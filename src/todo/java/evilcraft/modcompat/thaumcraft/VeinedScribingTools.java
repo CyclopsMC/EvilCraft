@@ -1,7 +1,6 @@
 package evilcraft.modcompat.thaumcraft;
 
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.fluid.Blood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;

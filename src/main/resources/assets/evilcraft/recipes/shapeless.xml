@@ -198,7 +198,7 @@
         <condition type="config">promise</condition>
         <input>
             <item type="oredict">materialBowlOfPromises1</item>
-            <item type="oredict">materialPromiseAcceptor</item>
+            <item meta="0">evilcraft:promiseAcceptor</item>
             <item>minecraft:redstone_block</item>
         </input>
         <output>
@@ -211,7 +211,7 @@
         <condition type="config">promise</condition>
         <input>
             <item type="oredict">materialBowlOfPromises1</item>
-            <item type="oredict">materialPromiseAcceptor</item>
+            <item meta="0">evilcraft:promiseAcceptor</item>
             <item>minecraft:lapis_block</item>
         </input>
         <output>
@@ -288,6 +288,29 @@
         </input>
         <output>
             <item>evilcraft:veinedScribingTools</item>
+        </output>
+    </recipe>
+
+    <recipe type="shapeless">
+        <condition type="config">rejuvenatedFlesh</condition>
+        <condition type="config">garmonbozia</condition>
+        <input>
+            <item type="oredict">materialFlesh</item>
+            <item>evilcraft:garmonbozia</item>
+        </input>
+        <output>
+            <item>evilcraft:rejuvenatedFlesh</item>
+        </output>
+    </recipe>
+
+    <recipe type="shapeless">
+        <condition type="config">goldenString</condition>
+        <input>
+            <item>minecraft:string</item>
+            <item type="oredict">nuggetGold</item>
+        </input>
+        <output>
+            <item>evilcraft:goldenString</item>
         </output>
     </recipe>
 

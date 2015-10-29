@@ -11,7 +11,7 @@ public class WeatherTypeRain extends WeatherType {
 
     @Override
     public boolean isActive(World world) {
-        return world.isRaining();
+        return world.isRaining() && !world.isThundering();
     }
 
     @Override

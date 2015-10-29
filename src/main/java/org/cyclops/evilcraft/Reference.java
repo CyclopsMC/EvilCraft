@@ -18,6 +18,10 @@ public class Reference {
     public static final String MOD_MC_VERSION = "@MC_VERSION@";
     public static final String GA_TRACKING_ID = "UA-65307010-2";
     public static final String VERSION_URL = "https://raw.githubusercontent.com/CyclopsMC/Versions/master/1.8/EvilCraft.txt";
+
+    // IMC keys
+    public static final String IMC_BLACKLIST_VENGEANCESPIRIT = "blacklistVengeanceSpirit";
+    public static final String IMC_OVERRIDE_SPIRITFURNACE_DROPS = "overrideSpiritFurnaceDrops";
     
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";
@@ -62,6 +66,7 @@ public class Reference {
     public static final String DICT_MATERIALSPIKE = "materialSpike";
     public static final String DICT_ITEMSKULL = "itemSkull";
     public static final String DICT_DUSTDULL = "dustDull";
+    public static final String DICT_FLESH = "materialFlesh";
     
     // MOD ID's
     public static final String MOD_FORGE = "Forge";
@@ -79,6 +84,8 @@ public class Reference {
     public static final String MOD_NEI = "NotEnoughItems";
     public static final String MOD_BLOODMAGIC = "AWWayofTime";
     public static final String MOD_THAUMCRAFT = "Thaumcraft";
+    public static final String MOD_EE3 = "EE3";
+    public static final String MOD_IC2 = "IC2";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES =

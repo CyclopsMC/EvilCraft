@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -24,7 +25,6 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.gui.container.GuiBloodInfuser;
 import org.cyclops.evilcraft.client.particle.EntityBloodBubbleFX;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
-import org.cyclops.evilcraft.core.recipe.custom.DurationRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.inventory.container.ContainerBloodInfuser;
@@ -37,7 +37,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implements IMachine<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> {
+public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implements IMachine<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> {
 
     @BlockProperty
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
@@ -76,7 +76,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     }
 
     @Override
-    public IRecipeRegistry<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationRecipeProperties> getRecipeRegistry() {
+    public IRecipeRegistry<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> getRecipeRegistry() {
         return EvilCraft._instance.getRegistryManager().getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
     }
 

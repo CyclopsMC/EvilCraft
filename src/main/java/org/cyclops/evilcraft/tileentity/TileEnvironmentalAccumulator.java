@@ -8,21 +8,23 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulatorConfig;
+import org.cyclops.evilcraft.client.particle.EntityTargettedBlurFX;
+import org.cyclops.evilcraft.client.particle.ExtendedEntityBubbleFX;
 import org.cyclops.evilcraft.core.degradation.DegradationExecutor;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
@@ -31,6 +33,7 @@ import org.cyclops.evilcraft.tileentity.environmentalaccumulator.IEAProcessingFi
 import org.lwjgl.util.vector.Vector4f;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Machine that can accumulate the weather and put it in a bottle.
@@ -38,7 +41,10 @@ import java.util.List;
  *
  */
 public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity implements IBossDisplayData, IDegradable, IInventory {
-    
+
+    public static final int MAX_AGE = 50;
+    public static final int SPREAD = 25;
+
     private static final int ITEM_MOVE_COOLDOWN_DURATION = 1;
     
     private static final double WEATHER_CONTAINER_MIN_DROP_HEIGHT = 0.0;
@@ -53,12 +59,18 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     private static final int DEGRADATION_TICK_INTERVAL = 100;
 
     @Delegate
-    private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
+    private final CyclopsTileEntity.ITickingTile tickingTileComponent = new CyclopsTileEntity.TickingTileComponent(this);
     
     private DegradationExecutor degradationExecutor;
     // This number rises with the number of uses of the env. accum.
     private int degradation = 0;
     private BlockPos location = null;
+    private static final BlockPos[] waterOffsets = new BlockPos[]{
+            new BlockPos(-2, -1, -2),
+            new BlockPos(-2, -1,  2),
+            new BlockPos( 2, -1, -2),
+            new BlockPos( 2, -1,  2),
+    };
     
     /**
      * Holds the state of the environmental accumulator.
@@ -169,6 +181,12 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             updateEnvironmentalAccumulatorIdle();
         } // Are we processing an item?
         else if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM) {
+            if(worldObj.isRemote) {
+                showWaterBeams();
+                if(tick > MAX_AGE) {
+                    showAccumulatingParticles();
+                }
+            }
             // Are we done moving the item?
             if (tick == 0) {
                 dropItemStack();
@@ -197,6 +215,65 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	            activateIdleState();
 	    }
 	}
+
+    @SideOnly(Side.CLIENT)
+    protected void showWaterBeams() {
+        Random random = worldObj.rand;
+        BlockPos target = getPos();
+        for (int j = 0; j < waterOffsets.length; j++) {
+            BlockPos offset = waterOffsets[j];
+            BlockPos location = target.add(offset);
+            double x = location.getX() + 0.5;
+            double y = location.getY() + 0.5;
+            double z = location.getZ() + 0.5;
+
+            float rotationYaw = (float) LocationHelpers.getYaw(location, target);
+            float rotationPitch = (float) LocationHelpers.getPitch(location, target);
+
+            for (int i = 0; i < random.nextInt(2); i++) {
+                double particleX = x - 0.2 + random.nextDouble() * 0.4;
+                double particleY = y - 0.2 + random.nextDouble() * 0.4;
+                double particleZ = z - 0.2 + random.nextDouble() * 0.4;
+
+                double speed = 2;
+
+                double particleMotionX = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.cos(rotationYaw / 180.0F * (float)Math.PI) * speed;
+                double particleMotionY = MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI) * speed * 5;
+                double particleMotionZ = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.sin(rotationYaw / 180.0F * (float)Math.PI) * speed;
+
+                FMLClientHandler.instance().getClient().effectRenderer.addEffect(
+                        new ExtendedEntityBubbleFX(worldObj, particleX, particleY, particleZ,
+                                particleMotionX, particleMotionY, particleMotionZ, 0.02D)
+                );
+            }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    protected void showAccumulatingParticles() {
+        showAccumulatingParticles(worldObj, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, SPREAD);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void showAccumulatingParticles(World world, double centerX, double centerY, double centerZ, double spread) {
+        Random rand = world.rand;
+        for (int j = 0; j < rand.nextInt(20); j++) {
+            float scale = 0.6F - rand.nextFloat() * 0.4F;
+            float red = rand.nextFloat() * 0.1F + 0.2F;
+            float green = rand.nextFloat() * 0.1F + 0.3F;
+            float blue = rand.nextFloat() * 0.1F + 0.2F;
+            float ageMultiplier = MAX_AGE + 10;
+
+            double motionX = spread - rand.nextDouble() * 2 * spread;
+            double motionY = spread - rand.nextDouble() * 2 * spread;
+            double motionZ = spread - rand.nextDouble() * 2 * spread;
+
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(
+                    new EntityTargettedBlurFX(world, scale, motionX, motionY, motionZ, red, green, blue,
+                            ageMultiplier, centerX, centerY, centerZ)
+            );
+        }
+    }
 	
 	private void updateEnvironmentalAccumulatorIdle() {
         // Look for items thrown into the beam
@@ -263,7 +340,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	            entity.setEntityItemStack(this.getStackInSlot(0));
 	        } else {
 	            // Recipe found, throw back the result
-	            entity.setEntityItemStack(recipe.getOutput().getItemStack().copy());
+	            entity.setEntityItemStack(recipe.getProperties().getResultOverride().getResult(getWorld(),
+                        getPos(), recipe.getOutput().getItemStack().copy()));
 	            
 	            // Change the weather to the resulting weather
 	            WeatherType weatherSource = recipe.getInput().getWeatherType();

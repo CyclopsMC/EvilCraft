@@ -52,6 +52,12 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
     public boolean canApplyAtEnchantingTable(ItemStack itemStack) {
         return false;
     }
+
+    @Override
+    public boolean isAllowedOnBooks()
+    {
+        return true;
+    }
     
     /**
      * Used by ItemStack.attemptDamageItem. Randomly determines if a point of damage should be amplified using the

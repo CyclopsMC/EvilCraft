@@ -1,12 +1,9 @@
 package org.cyclops.evilcraft.tileentity;
 
+import lombok.Getter;
 import lombok.experimental.Delegate;
 import net.minecraft.client.particle.EntityEnchantmentTableParticleFX;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -14,14 +11,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
-import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
+import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
 import org.cyclops.evilcraft.block.Purifier;
 import org.cyclops.evilcraft.block.PurifierConfig;
 import org.cyclops.evilcraft.client.particle.EntityBloodBubbleFX;
@@ -29,13 +26,9 @@ import org.cyclops.evilcraft.client.particle.EntityMagicFinishFX;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
 import org.cyclops.evilcraft.fluid.Blood;
-import org.cyclops.evilcraft.item.BlookConfig;
-import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Tile for the {@link Purifier}..
@@ -43,8 +36,6 @@ import java.util.Map;
  *
  */
 public class TilePurifier extends TankInventoryTileEntity implements CyclopsTileEntity.ITickingTile {
-    
-    private static final int PURIFY_DURATION = 60;
     
     /**
      * The amount of slots.
@@ -55,9 +46,9 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      */
     public static final int SLOT_PURIFY = 0;
     /**
-     * The book slot.
+     * The additional slot.
      */
-    public static final int SLOT_BOOK = 1;
+    public static final int SLOT_ADDITIONAL = 1;
     
     /**
      * Duration in ticks to show the 'poof' animation.
@@ -69,13 +60,9 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     
     @NBTPersist
     private Float randomRotation = 0F;
-    
+
+    @Getter
     private int tick = 0;
-    
-    /**
-     * The allowed book instance.
-     */
-    public static final Item ALLOWED_BOOK = BlookConfig._instance.downCast().getItemInstance();
     
     /**
      * The fluid it uses.
@@ -90,23 +77,27 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     @NBTPersist
     public Integer tickCount = 0;
     /**
-     * The next book rotation.
+     * The next additional item rotation.
      */
     @NBTPersist
-    public Float bookRotation2 = 0F;
+    public Float additionalRotation2 = 0F;
     /**
-     * The previous book rotation.
+     * The previous additional item rotation.
      */
     @NBTPersist
-    public Float bookRotationPrev = 0F;
+    public Float additionalRotationPrev = 0F;
     /**
-     * The book rotation.
+     * The additional item rotation.
      */
     @NBTPersist
-    public Float bookRotation = 0F;
+    public Float additionalRotation = 0F;
     
     @NBTPersist
     private Integer finishedAnimation = 0;
+
+    @NBTPersist
+    @Getter
+    private Integer currentAction = -1;
     
     /**
      * Make a new instance.
@@ -115,7 +106,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
         super(SLOTS, PurifierConfig._instance.getNamedId(), 1, FluidContainerRegistry.BUCKET_VOLUME * MAX_BUCKETS, PurifierConfig._instance.getNamedId() + "tank", FLUID);
         
         List<Integer> slots = new LinkedList<Integer>();
-        slots.add(SLOT_BOOK);
+        slots.add(SLOT_ADDITIONAL);
         slots.add(SLOT_PURIFY);
         for(EnumFacing direction : DirectionHelpers.DIRECTIONS)
             addSlotsToSide(direction, slots);
@@ -128,72 +119,29 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     protected SingleUseTank newTank(String tankName, int tankSize) {
     	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
     }
+
+    public IPurifierActionRegistry getActions() {
+        return EvilCraft._instance.getRegistryManager().getRegistry(IPurifierActionRegistry.class);
+    }
     
     @Override
     public void updateTileEntity() {
     	super.updateTileEntity();
-    	
-        int buckets = getBucketsFloored();
-        if(getPurifyItem() != null && buckets > 0) {
+
+        int actionId = currentAction;
+        if(actionId < 0) {
+            actionId = getActions().canWork(this);
+        }
+        if(actionId >= 0) {
             tick++;
-            boolean done = false;
-            
-            // Try removing bad enchants.
-            for(ConfigurableEnchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
-                if(!done) {
-                    int enchantmentListID = EnchantmentHelpers.doesEnchantApply(getPurifyItem(), enchant.effectId);
-                    if(enchantmentListID > -1) {
-                        if(tick >= PURIFY_DURATION) {
-                            if(!worldObj.isRemote) {
-                                int level = EnchantmentHelpers.getEnchantmentLevel(getPurifyItem(), enchantmentListID);
-                                EnchantmentHelpers.setEnchantmentLevel(getPurifyItem(), enchantmentListID, level - 1);
-                            }
-                            setBuckets(buckets - 1, getBucketsRest());
-                            finishedAnimation = ANIMATION_FINISHED_DURATION;
-                        }
-                        if(worldObj.isRemote)
-                            showEffect();
-                        done = true;
-                    }
-                }
-            }
-            
-            // If no bad enchants were found/removed, try disenchanting.
-            if(!done && buckets == getMaxBuckets()
-                    && getBookItem() != null && getBookItem().getItem() == ALLOWED_BOOK) {
-                NBTTagList enchantmentList = getPurifyItem().getEnchantmentTagList();
-                if(enchantmentList != null && enchantmentList.tagCount() > 0) {
-                    if(tick >= PURIFY_DURATION) {
-                        if(!worldObj.isRemote) {
-                            // Init enchantment data.
-                            int enchantmentListID = worldObj.rand.nextInt(enchantmentList.tagCount());
-                            int level = EnchantmentHelpers.getEnchantmentLevel(getPurifyItem(), enchantmentListID);
-                            int id = EnchantmentHelpers.getEnchantmentID(getPurifyItem(), enchantmentListID);
-                            ItemStack enchantedItem = new ItemStack(Items.enchanted_book, 1);
-                            
-                            // Set the enchantment book.
-                            Map<Integer, Integer> enchantments = new HashMap<Integer, Integer>();
-                            enchantments.put(id, level);
-                            EnchantmentHelper.setEnchantments(enchantments, enchantedItem);
-                            
-                            // Define the enchanted book level.
-                            EnchantmentHelpers.setEnchantmentLevel(getPurifyItem(), enchantmentListID, 0);
-                            
-                            // Put the enchanted book in the book slot.
-                            setBookItem(enchantedItem);
-                        }
-                        finishedAnimation = ANIMATION_FINISHED_DURATION;
-                        setBuckets(0, getBucketsRest());
-                    }
-                    if(worldObj.isRemote) {
-                        showEffect();
-                        showEnchantingEffect();
-                    }
-                    done = true;
-                }
+            if(getActions().work(actionId, this)) {
+                tick = 0;
+                currentAction = -1;
+                onActionFinished();
             }
         } else {
             tick = 0;
+            currentAction = -1;
         }
         
         // Animation tick/display.
@@ -204,10 +152,11 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
             }
         }
         
-        updateBook();
-        
-        if(tick >= PURIFY_DURATION)
-            tick = 0;
+        updateAdditionalItem();
+    }
+
+    public void onActionFinished() {
+        finishedAnimation = ANIMATION_FINISHED_DURATION;
     }
     
     /**
@@ -251,36 +200,36 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
         worldObj.setBlockState(getPos(), Purifier.getInstance().getDefaultState().withProperty(Purifier.FILL, getBucketsFloored()), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     }
     
-    private void updateBook() {
-        this.bookRotationPrev = this.bookRotation2;
+    private void updateAdditionalItem() {
+        this.additionalRotationPrev = this.additionalRotation2;
         
-        this.bookRotation += 0.02F;
+        this.additionalRotation += 0.02F;
         
-        while (this.bookRotation2 >= (float)Math.PI) {
-            this.bookRotation2 -= ((float)Math.PI * 2F);
+        while (this.additionalRotation2 >= (float)Math.PI) {
+            this.additionalRotation2 -= ((float)Math.PI * 2F);
         }
 
-        while (this.bookRotation2 < -(float)Math.PI) {
-            this.bookRotation2 += ((float)Math.PI * 2F);
+        while (this.additionalRotation2 < -(float)Math.PI) {
+            this.additionalRotation2 += ((float)Math.PI * 2F);
         }
 
-        while (this.bookRotation >= (float)Math.PI) {
-            this.bookRotation -= ((float)Math.PI * 2F);
+        while (this.additionalRotation >= (float)Math.PI) {
+            this.additionalRotation -= ((float)Math.PI * 2F);
         }
 
-        while (this.bookRotation < -(float)Math.PI) {
-            this.bookRotation += ((float)Math.PI * 2F);
+        while (this.additionalRotation < -(float)Math.PI) {
+            this.additionalRotation += ((float)Math.PI * 2F);
         }
 
         float baseNextRotation;
 
-        for (baseNextRotation = this.bookRotation - this.bookRotation2; baseNextRotation >= (float)Math.PI; baseNextRotation -= ((float)Math.PI * 2F)) { }
+        for (baseNextRotation = this.additionalRotation - this.additionalRotation2; baseNextRotation >= (float)Math.PI; baseNextRotation -= ((float)Math.PI * 2F)) { }
 
         while (baseNextRotation < -(float)Math.PI) {
             baseNextRotation += ((float)Math.PI * 2F);
         }
 
-        this.bookRotation2 += baseNextRotation * 0.4F;
+        this.additionalRotation2 += baseNextRotation * 0.4F;
 
         ++this.tickCount;
     }
@@ -306,20 +255,20 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * Get the book item.
      * @return The book item.
      */
-    public ItemStack getBookItem() {
-        return getStackInSlot(SLOT_BOOK);
+    public ItemStack getAdditionalItem() {
+        return getStackInSlot(SLOT_ADDITIONAL);
     }
     
     /**
      * Set the book item.
      * @param itemStack The book item.
      */
-    public void setBookItem(ItemStack itemStack) {
-        setInventorySlotContents(SLOT_BOOK, itemStack);
+    public void setAdditionalItem(ItemStack itemStack) {
+        setInventorySlotContents(SLOT_ADDITIONAL, itemStack);
     }
     
     @SideOnly(Side.CLIENT)
-    private void showEffect() {
+    public void showEffect() {
         for (int i=0; i < 1; i++) {                
             double particleX = getPos().getX() + 0.2 + worldObj.rand.nextDouble() * 0.6;
             double particleY = getPos().getY() + 0.2 + worldObj.rand.nextDouble() * 0.6;
@@ -337,7 +286,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     }
     
     @SideOnly(Side.CLIENT)
-    private void showEnchantingEffect() {
+    public void showEnchantingEffect() {
         if(worldObj.rand.nextInt(10) == 0) {
             for (int i=0; i < 1; i++) {                
                 double particleX = getPos().getX() + 0.45 + worldObj.rand.nextDouble() * 0.1;
@@ -385,9 +334,9 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack) {
         if(i == 0) {
-            return itemStack.stackSize == 1;
+            return itemStack.stackSize == 1 && getActions().isItemValidForMainSlot(itemStack);
         } else if(i == 1) {
-            return itemStack.stackSize == 1 && itemStack.getItem() == ALLOWED_BOOK;
+            return itemStack.stackSize == 1 && getActions().isItemValidForAdditionalSlot(itemStack);
         }
         return false;
     }

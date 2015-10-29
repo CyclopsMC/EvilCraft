@@ -2,7 +2,6 @@ package evilcraft.modcompat.thaumcraft;
 
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ItemConfig;
 
 /**
  * Blood Infused Golden Wand cap that has a slightly higher discount.

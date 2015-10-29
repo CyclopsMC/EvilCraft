@@ -31,7 +31,7 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
     private boolean redstoneDisableable;
     private int tick = 0;
     
-    private int requiredTicks = 0;
+    private float requiredTicks = 0;
     private int slot;
     
     /**
@@ -88,9 +88,13 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
             if(action != null){
                 if(action.canTick(tile, itemStack, slot, tick)) {
                     if (tick == 0)
-                        requiredTicks = action.getRequiredTicks(tile, slot);
+                        requiredTicks = action.getRequiredTicks(tile, slot, tick);
                     tick++;
-                    action.onTick(tile, itemStack, slot, tick);
+                    // We repeat the tick when requiredTicks is smaller than one.
+                    int repeatFor = requiredTicks == 0 ? 1 : Math.max(1, (int) Math.ceil((float) 1 / requiredTicks));
+                    for(int i = 0; i < repeatFor; i++) {
+                        action.onTick(tile, itemStack, slot, tick);
+                    }
                     if (tick >= requiredTicks)
                         tick = 0;
                 }
@@ -120,7 +124,7 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
      * Get the required ticks for this ticker, will be zero if not defined.
      * @return Required ticks.
      */
-    public int getRequiredTicks() {
+    public float getRequiredTicks() {
         return requiredTicks;
     }
 
@@ -136,7 +140,7 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
      * Set the required ticks, should only be called client side, for display purposes.
      * @param requiredTicks The new required ticks.
      */
-    public void setRequiredTicks(int requiredTicks) {
+    public void setRequiredTicks(float requiredTicks) {
         this.requiredTicks = requiredTicks;
     }
 

@@ -22,7 +22,6 @@ repositories {
         url "http://maven.rubensworks.net/"
     }
 }
-
 dependencies {
     // Add something like 'cyclopscore_version_local=0.1.0-DEV' to your gradle.properties if you want to use a custom local CyclopsCore version.
     if(project.hasProperty("cyclopscore_version_local")) {
@@ -38,11 +37,14 @@ dependencies {
     compile "codechicken:NotEnoughItems:${config.minecraft_version}-${config.NEI_version}:dev" // http://chickenbones.net/maven/codechicken/NotEnoughItems/
     compile "codechicken:CodeChickenCore:${config.minecraft_version}-${config.CCC_version}:dev" // http://chickenbones.net/maven/codechicken/CodeChickenCore/
     compile "codechicken:CodeChickenLib:${config.minecraft_version}-${config.CCL_version}:dev" // http://files.minecraftforge.net/CodeChickenLib/
+    //compile "com.pahimar.ee3:EquivalentExchange3:${config.minecraft_version}-${config.EE3_version}:dev" // http://files.minecraftforge.net/maven/com/pahimar/ee3/EquivalentExchange3
+    //compile "net.industrial-craft:industrialcraft-2:${config.IC2_version}:dev" // http://maven.ic2.player.to/
     //compile files("${project.libs_path}/BloodMagic-${config.minecraft_version}-${config.BM_version}-deobf.jar") // https://www.dropbox.com/sh/0aqvalqobu61t44/AADZq-GuoDeuNzgg6zueVM_Ca
 
     // Project lombok
     compile "org.projectlombok:lombok:1.14.4"
 }
+
 
 minecraft {
     version = "${config.minecraft_version}-${config.forge_version}"

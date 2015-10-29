@@ -1,16 +1,25 @@
 package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
+import net.minecraft.command.IEntitySelector;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.IFluidHandler;
+import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.block.DarkTank;
+
+import java.util.List;
 
 /**
  * Tile Entity for the dark tank.
@@ -74,8 +83,50 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 					int filled = handler.fill(down.getOpposite(), fluidStack, true);
 					drain(filled, true);
 				}
+			} else {
+				// Try to fill fluid container items below
+				List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class,
+						new AxisAlignedBB(getPos().offset(down), getPos().offset(down).add(1, 1, 1)),
+						IEntitySelector.selectAnything);
+				for(Entity entity : entities) {
+					if(!getTank().isEmpty() && entity instanceof EntityItem) {
+						EntityItem item = (EntityItem) entity;
+						if (item.getEntityItem() != null && item.getEntityItem().getItem() instanceof IFluidContainerItem &&
+								item.getEntityItem().stackSize == 1) {
+							ItemStack itemStack = item.getEntityItem().copy();
+							ItemStack fillItemStack;
+							if((fillItemStack = fill(itemStack)) != null) {
+								item.setEntityItemStack(fillItemStack);
+							}
+						}
+					} else if(entity instanceof EntityPlayer) {
+						EntityPlayer player = (EntityPlayer) entity;
+						PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
+						while(!getTank().isEmpty() && it.hasNext()) {
+							ItemStack itemStack = it.next();
+							ItemStack fillItemStack;
+							if(itemStack != null && itemStack.getItem() instanceof IFluidContainerItem &&
+									(fillItemStack = fill(itemStack)) != null) {
+								it.replace(fillItemStack);
+							}
+						}
+					}
+				}
 			}
 		}
+	}
+
+	protected ItemStack fill(ItemStack itemStack) {
+		ItemStack fillItemStack = itemStack.copy();
+		IFluidContainerItem container = (IFluidContainerItem) itemStack.getItem();
+		FluidStack fluidStack = new FluidStack(getTank().getFluidType(),
+				Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
+		if (container.fill(fillItemStack, fluidStack, false) > 0) {
+			int filled = container.fill(fillItemStack, fluidStack, true);
+			drain(filled, true);
+			return fillItemStack;
+		}
+		return null;
 	}
 	
 	@Override

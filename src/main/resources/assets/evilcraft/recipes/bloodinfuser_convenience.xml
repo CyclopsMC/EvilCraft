@@ -18,6 +18,7 @@
         <properties>
             <duration>1000</duration>
             <tier>1</tier>
+            <xp>1</xp>
         </properties>
     </recipe>
     
@@ -36,6 +37,7 @@
         <properties>
             <tier>1</tier>
             <duration>200</duration>
+            <xp>0.25</xp>
         </properties>
     </recipe>
 
@@ -55,6 +57,7 @@
         <properties>
             <tier>1</tier>
             <duration>200</duration>
+            <xp>0.25</xp>
         </properties>
     </recipe>
 
@@ -73,6 +76,7 @@
         <properties>
             <tier>2</tier>
             <duration>500</duration>
+            <xp>0.5</xp>
         </properties>
     </recipe>
 
@@ -91,6 +95,7 @@
         <properties>
             <tier>2</tier>
             <duration>500</duration>
+            <xp>0.3</xp>
         </properties>
     </recipe>
 
@@ -109,6 +114,7 @@
         <properties>
             <tier>1</tier>
             <duration>150</duration>
+            <xp>0.1</xp>
         </properties>
     </recipe>
 
@@ -127,6 +133,7 @@
         <properties>
             <tier>1</tier>
             <duration>300</duration>
+            <xp>0.1</xp>
         </properties>
     </recipe>
 
@@ -145,6 +152,7 @@
         <properties>
             <tier>3</tier>
             <duration>500</duration>
+            <xp>1.2</xp>
         </properties>
     </recipe>
 
@@ -163,6 +171,7 @@
         <properties>
             <tier>3</tier>
             <duration>1000</duration>
+            <xp>0.1</xp>
         </properties>
     </recipe>
 
@@ -181,6 +190,7 @@
         <properties>
             <tier>3</tier>
             <duration>1000</duration>
+            <xp>0.2</xp>
         </properties>
     </recipe>
 
@@ -199,6 +209,7 @@
         <properties>
             <tier>2</tier>
             <duration>500</duration>
+            <xp>0.05</xp>
         </properties>
     </recipe>
 
@@ -217,6 +228,7 @@
         <properties>
             <tier>1</tier>
             <duration>500</duration>
+            <xp>1</xp>
         </properties>
     </recipe>
 
@@ -235,6 +247,7 @@
         <properties>
             <tier>2</tier>
             <duration>1000</duration>
+            <xp>2</xp>
         </properties>
     </recipe>
 
@@ -253,6 +266,7 @@
         <properties>
             <tier>3</tier>
             <duration>1000</duration>
+            <xp>5</xp>
         </properties>
     </recipe>
 
@@ -272,6 +286,7 @@
         <properties>
             <tier>2</tier>
             <duration>100</duration>
+            <xp>0.2</xp>
         </properties>
     </recipe>
 
@@ -291,6 +306,7 @@
         <properties>
             <tier>1</tier>
             <duration>100</duration>
+            <xp>0.2</xp>
         </properties>
     </recipe>
 
@@ -310,6 +326,7 @@
         <properties>
             <tier>1</tier>
             <duration>900</duration>
+            <xp>2</xp>
         </properties>
     </recipe>
 
@@ -329,6 +346,7 @@
         <properties>
             <tier>3</tier>
             <duration>500</duration>
+            <xp>1.5</xp>
         </properties>
     </recipe>
 
@@ -348,6 +366,7 @@
         <properties>
             <tier>1</tier>
             <duration>50</duration>
+            <xp>0.05</xp>
         </properties>
     </recipe>
     

@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -37,7 +36,7 @@ public class BroomConfig extends ItemConfig {
     public void onRegistered() {
         super.onRegistered();
         for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
-            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(new ItemStack(Broom.getInstance()), 1, 2, 2));
+            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(Broom.getInstance(), 0, 1, 1, 2));
         }
         // TODO: for now, just load the broom parts in a hacky way
         Object _unused = BroomParts.ROD;

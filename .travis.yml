@@ -7,6 +7,7 @@ notifications:
 env:
   global:
   - TERM=dumb
+
 install: ./gradlew setupCIWorkspace -S
 script: ./gradlew build -S
 deploy:

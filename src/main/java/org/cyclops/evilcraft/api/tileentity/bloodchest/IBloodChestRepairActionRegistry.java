@@ -37,8 +37,11 @@ public interface IBloodChestRepairActionRegistry extends IRegistry {
      * @param itemStack The item to repair.
      * @param random A random instance.
      * @param actionID the ID of the action to call.
+     * @param doAction If the actual repair action should be performed, otherwise this is just a simulation.
+     * @param isBulk If the repairing container repairs things in bulk.
+     * @return Blood usage multiplier
      */
-    public void repair(ItemStack itemStack, Random random, int actionID);
+    public float repair(ItemStack itemStack, Random random, int actionID, boolean doAction, boolean isBulk);
 
     /**
      * Set the blacklist of item names.

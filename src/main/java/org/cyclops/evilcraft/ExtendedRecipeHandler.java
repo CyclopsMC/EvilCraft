@@ -6,6 +6,10 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -17,6 +21,7 @@ import org.cyclops.cyclopscore.recipe.xml.IRecipeConditionHandler;
 import org.cyclops.cyclopscore.recipe.xml.IRecipeTypeHandler;
 import org.cyclops.evilcraft.block.*;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
+import org.cyclops.evilcraft.core.recipe.BloodExtractorCombinationRecipe;
 import org.cyclops.evilcraft.core.recipe.ItemBlockFluidContainerCombinationRecipe;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
@@ -52,6 +57,8 @@ public class ExtendedRecipeHandler extends RecipeHandler {
     protected void registerRecipeSorters() {
         super.registerRecipeSorters();
         RecipeSorter.register(Reference.MOD_ID + "containercombination", ItemBlockFluidContainerCombinationRecipe.class,
+                RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
+        RecipeSorter.register(Reference.MOD_ID + "bloodextractorcombination", BloodExtractorCombinationRecipe.class,
                 RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
     }
 
@@ -161,9 +168,16 @@ public class ExtendedRecipeHandler extends RecipeHandler {
             }
         }
 
+        // Blood Extractor upgrades
+        if(Configs.isEnabled(BloodExtractorConfig.class) && Configs.isEnabled(DarkTankConfig.class)) {
+            for(int i = 1; i < 9; i++) {
+                GameRegistry.addRecipe(new BloodExtractorCombinationRecipe(i));
+            }
+        }
+
         if (Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
-            ItemStack outputStack;
-            String recipeName;
+            ItemStack outputStack = null;
+            String recipeName = null;
 
             // Add the different weather container recipes
             if (Configs.isEnabled(WeatherContainerConfig.class)) {
@@ -189,6 +203,36 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                             new EnvironmentalAccumulatorRecipeProperties()
                     );
                 }
+            }
+
+            // Add biome extract recipes
+            if(Configs.isEnabled(BiomeExtractConfig.class) && BiomeExtractConfig.hasRecipes) {
+                ItemStack emptyContainer = new ItemStack(BiomeExtract.getInstance());
+                ItemStack filledContainer = BiomeExtract.getInstance().createItemStack(null, 1); // Still dummy!
+                filledContainer.setItemDamage(OreDictionary.WILDCARD_VALUE);
+                EnvironmentalAccumulator.getInstance().getRecipeRegistry().registerRecipe(
+                        recipeName,
+                        new EnvironmentalAccumulatorRecipeComponent(
+                                emptyContainer,
+                                WeatherType.ANY
+                        ),
+                        new EnvironmentalAccumulatorRecipeComponent(
+                                filledContainer,
+                                WeatherType.ANY
+                        ),
+                        new EnvironmentalAccumulatorRecipeProperties(1000, BiomeExtractConfig.envirAccCooldownTime, -1.0D, null, new EnvironmentalAccumulatorRecipeProperties.IEAResultOverride() {
+                            @Override
+                            public ItemStack getResult(IBlockAccess world, BlockPos pos, ItemStack originalResult) {
+                                World worldSafe = (World) world;
+                                BiomeGenBase biome = worldSafe.getBiomeGenForCoords(pos);
+                                if(BiomeExtractConfig._instance.isCraftingBlacklisted(biome.biomeID)) {
+                                    return BiomeExtract.getInstance().createItemStack(null, 1);
+                                } else {
+                                    return BiomeExtract.getInstance().createItemStack(biome, 1);
+                                }
+                            }
+                        })
+                );
             }
         }
     }

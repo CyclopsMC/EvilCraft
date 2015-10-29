@@ -11,6 +11,9 @@ import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpiritConfig;
+import org.cyclops.evilcraft.tileentity.tickaction.spiritfurnace.BoxCookTickAction;
+
+import java.util.UUID;
 
 /**
  * Config for the {@link BoxOfEternalClosure}.
@@ -53,12 +56,19 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
             //ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()),
             //		new RenderItemBoxOfEternalClosure(model, texture));
         }
-        
-        ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()));
-        BoxOfEternalClosure.setVengeanceSwarmContent(spiritStack);
+
+        ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);
+        ItemStack swarmStack = spiritStack.copy();
+        BoxOfEternalClosure.setVengeanceSwarmContent(swarmStack);
         for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
+            for(UUID playerId : BoxCookTickAction.PLAYERDROP_OVERRIDES.keySet()) {
+                ItemStack playerStack = spiritStack.copy();
+                BoxOfEternalClosure.setPlayerContent(playerStack, playerId);
+                ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
+                        playerStack, 1, 1, 1));
+            }
             ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
-            		spiritStack, 1, 1, 4));
+                    swarmStack, 1, 1, 3));
         }
     }
     

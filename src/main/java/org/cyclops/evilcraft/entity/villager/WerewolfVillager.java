@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableVillager;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.VillagerConfig;
+import org.cyclops.cyclopscore.item.WeightedItemStack;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.BoxOfEternalClosure;
 import org.cyclops.evilcraft.block.BoxOfEternalClosureConfig;
@@ -77,6 +78,9 @@ public class WerewolfVillager extends ConfigurableVillager {
         }
         if(Configs.isEnabled(UndeadSaplingConfig.class)) {
             allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(UndeadSaplingConfig._instance.getBlockInstance(), 1), 25));
+        }
+        if(Configs.isEnabled(GarmonboziaConfig.class)) {
+            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(GarmonboziaConfig._instance.getItemInstance(), 1), 300));
         }
     }
 }

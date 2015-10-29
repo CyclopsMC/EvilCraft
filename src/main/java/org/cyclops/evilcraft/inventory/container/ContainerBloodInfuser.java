@@ -4,11 +4,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
+import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.cyclops.evilcraft.api.gameevent.BloodInfuserRemoveEvent;
 import org.cyclops.evilcraft.block.BloodInfuser;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
+import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
+import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import org.cyclops.evilcraft.tileentity.TileBloodInfuser;
 
 /**
@@ -65,7 +70,13 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
         addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y) {
 
             public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
-                FMLCommonHandler.instance().bus().post(new BloodInfuserRemoveEvent(player, itemStack));
+                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>
+                        recipe = BloodInfuser.getInstance().getRecipeRegistry().
+                        findRecipeByOutput(new ItemStackRecipeComponent(itemStack));
+                if(recipe != null) {
+                    EntityHelpers.spawnXpAtPlayer(player.worldObj, player, (int) Math.floor(recipe.getProperties().getXp() * itemStack.stackSize));
+                    FMLCommonHandler.instance().bus().post(new BloodInfuserRemoveEvent(player, itemStack));
+                }
                 super.onPickupFromSlot(player, itemStack);
             }
 

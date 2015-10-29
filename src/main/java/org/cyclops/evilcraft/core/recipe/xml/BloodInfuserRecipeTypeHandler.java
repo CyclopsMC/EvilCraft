@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.recipe.xml;
 
+import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -9,7 +10,6 @@ import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.cyclops.cyclopscore.recipe.xml.SuperRecipeTypeHandler;
 import org.cyclops.cyclopscore.recipe.xml.XmlRecipeLoader;
 import org.cyclops.evilcraft.block.BloodInfuser;
-import org.cyclops.evilcraft.core.recipe.custom.DurationRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -32,6 +32,10 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
         int tier = 0;
         if(properties.getElementsByTagName("tier").getLength() > 0) {
             tier = Integer.parseInt(properties.getElementsByTagName("tier").item(0).getTextContent());
+        }
+        float xp = 0;
+        if(properties.getElementsByTagName("xp").getLength() > 0) {
+            xp = Float.parseFloat(properties.getElementsByTagName("xp").item(0).getTextContent());
         }
 		
 		Fluid fluid = FluidRegistry.getFluid(inputFluid);
@@ -59,7 +63,7 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
 		BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
                 recipeComponent,
                 new ItemStackRecipeComponent(outputStack),
-                new DurationRecipeProperties(duration)
+                new DurationXpRecipeProperties(duration, xp)
         );
         return outputStack;
 	}

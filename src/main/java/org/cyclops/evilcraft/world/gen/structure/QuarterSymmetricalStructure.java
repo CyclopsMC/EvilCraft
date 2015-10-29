@@ -46,6 +46,7 @@ public abstract class QuarterSymmetricalStructure {
 	}
 
 	protected void buildCorner(World world, BlockPos blockPos, int incX, int incZ) {
+		Random r = new Random();
 		for (int i = 0; i < layerHeights.size(); ++i) {
 			int layerHeight = layerHeights.get(i);
 			BlockWrapper[] layer = layers.get(i);
@@ -56,18 +57,39 @@ public abstract class QuarterSymmetricalStructure {
 			for (int zr = start; zr < quarterHeight; ++zr) {
 				for (int xr = start; xr < quarterWidth; ++xr) {
 					BlockWrapper wrapper = layer[(quarterWidth - xr - 1) * quarterHeight + zr];
-
+					BlockPos posOffset = blockPos.add(xr * incX, layerHeight, zr * incZ);
 					if (wrapper != null) // not an air blockState?
 						world.setBlockState(blockPos.add(xr * incX, layerHeight, zr * incZ), wrapper.blockState, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+					if(wrapper.action != null) {
+						wrapper.action.run(world, posOffset);
+					}
 				}
 			}
 		}
 		
 		postBuildCorner(world, blockPos, incX, incZ);
 	}
-	
-	protected void postBuildCorner(World world, BlockPos blockPos, int incX, int incZ) {
-		
+
+	protected void postBuildCorner(World world, BlockPos pos, int incX, int incZ) {
+		for (int i = 0; i < layerHeights.size(); ++i) {
+			int layerHeight = layerHeights.get(i);
+			BlockWrapper[] layer = layers.get(i);
+
+			// Don't overwrite the borders everytime we place blocks
+			int start = (incX == incZ) ? 0 : 1;
+
+			for (int zr = start; zr < quarterHeight; ++zr) {
+				for (int xr = start; xr < quarterWidth; ++xr) {
+					BlockWrapper wrapper = layer[(quarterWidth - xr - 1) * quarterHeight + zr];
+					if (wrapper != null) {
+						BlockPos posOffset = pos.add(xr * incX, layerHeight, zr * incZ);
+						if(wrapper.action != null && world.getBlockState(posOffset) == wrapper.blockState) {
+							wrapper.action.run(world, posOffset);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -98,6 +120,14 @@ public abstract class QuarterSymmetricalStructure {
 		 * {@link IBlockState} for which this instance is a wrapper.
 		 */
 		public IBlockState blockState;
+		/**
+		 * Chance of spawning
+		 */
+		public float chance = 1;
+		/**
+		 * An optional action after a block has been placed.
+		 */
+		public IBlockAction action = null;
 		
 		/**
 		 * Creates a new wrapper around the specified {@link Block} with metadata 0.
@@ -114,5 +144,22 @@ public abstract class QuarterSymmetricalStructure {
 		public BlockWrapper(IBlockState blockState) {
 			this.blockState = blockState;
 		}
+
+		/**
+		 * Creates a new wrapper around the specified {@link Block} with the specified metadata and a certain chance.
+		 * @param blockState The block to wrap.
+		 * @param chance The chance on spawning.
+		 */
+		public BlockWrapper(IBlockState blockState, float chance) {
+			this(blockState);
+			this.chance = chance;
+		}
 	}
+
+	public static interface IBlockAction {
+
+		public void run(World world, BlockPos pos);
+
+	}
+
 }

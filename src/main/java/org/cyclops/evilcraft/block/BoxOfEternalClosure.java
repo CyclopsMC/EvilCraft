@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -20,9 +21,9 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
-import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import org.cyclops.evilcraft.core.world.FakeWorld;
@@ -30,6 +31,7 @@ import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * A box that can hold beings from higher dimensions.
@@ -159,12 +161,58 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 		itemStack.setTagCompound(tag);
     }
 
+	/**
+	 * Put a player inside the given box.
+	 * @param itemStack The box.
+	 * @param playerId The player id to set.
+	 */
+	public static void setPlayerContent(ItemStack itemStack, UUID playerId) {
+		NBTTagCompound tag = new NBTTagCompound();
+		NBTTagCompound spiritTag = new NBTTagCompound();
+
+		VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
+		spirit.setInnerEntity(new EntityZombie(FakeWorld.getInstance()));
+		spirit.setPlayerId(playerId.toString());
+		spirit.setPlayerName("Forgotten Player");
+		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, spirit.getPlayerId());
+		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, spirit.getPlayerName());
+		spirit.setGlobalVengeance(true);
+		spirit.writeToNBT(spiritTag);
+		String entityId = EntityList.getEntityString(spirit);
+
+		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
+		tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
+		itemStack.setTagCompound(tag);
+	}
+
+	public String getPlayerName(ItemStack itemStack) {
+		if(itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal())) {
+			return itemStack.getTagCompound().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME);
+		}
+		return "";
+	}
+
+	public String getPlayerId(ItemStack itemStack) {
+		if(itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(TileBoxOfEternalClosure.NBTKEY_PLAYERID, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal())) {
+			return itemStack.getTagCompound().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERID);
+		}
+		return "";
+	}
+
+	public boolean hasPlayer(ItemStack itemStack) {
+		return !getPlayerId(itemStack).isEmpty();
+	}
+
 	@Override
 	public String getInfo(ItemStack itemStack) {
-		String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general." + Reference.MOD_ID + ".info.empty");
-		String id = getSpiritName(itemStack);
-		if(id != null) {
-			content = L10NHelpers.getLocalizedEntityName(id);
+		String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty");
+		if(hasPlayer(itemStack)) {
+			content = getPlayerName(itemStack);
+		} else {
+			String id = getSpiritName(itemStack);
+			if (id != null) {
+				content = L10NHelpers.getLocalizedEntityName(id);
+			}
 		}
 		return EnumChatFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
 				EnumChatFormatting.RESET + content);
@@ -229,7 +277,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return EnumRarity.UNCOMMON;
+        return hasPlayer(itemStack) ? EnumRarity.RARE : EnumRarity.UNCOMMON;
     }
 
     @Override

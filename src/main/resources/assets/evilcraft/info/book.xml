@@ -37,6 +37,7 @@
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.darkTemple.text1</paragraph>
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.darkTemple.text2</paragraph>
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.darkTemple.text3</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.darkTemple.text4</paragraph>
                 <appendix type="image" width="100" height="133">evilcraft:textures/gui/infobook/darkTemple.png</appendix>
                 <appendix type="craftingRecipe">evilcraft:weatherContainer</appendix>
                 <appendix type="evilcraft:envirAccRecipe" index="0">evilcraft:weatherContainer</appendix>
@@ -50,7 +51,15 @@
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.weatherContainerBenefits.text</paragraph>
                 <appendixList type="craftingRecipe">weatherCrafting</appendixList>
             </section>
-            <section name="infoBook.evilcraft.firstAge.newWorld.libelle">
+            <section name="infoBook.firstAge.newWorld.biomeExtract">
+                <tag>biomeExtract</tag>
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.biomeExtract.text1</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.biomeExtract.text2</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.newWorld.biomeExtract.text3</paragraph>
+                <appendix type="craftingRecipe">evilcraft:biomeExtract</appendix>
+                <appendix type="envirAccRecipe" meta="1">evilcraft:biomeExtract</appendix>
+            </section>
+            <section name="infoBook.firstAge.newWorld.libelle">
                 <tag>bucketPoison</tag>
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.libelle.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bucketPoison</appendix>
@@ -78,6 +87,10 @@
                 <paragraph>infoBook.evilcraft.firstAge.relics.enchantments.lifeStealing.text</paragraph>
                 <paragraph>infoBook.evilcraft.firstAge.relics.enchantments.poisonTip.text</paragraph>
                 <paragraph>infoBook.evilcraft.firstAge.relics.enchantments.unusing.text</paragraph>
+            </section>
+            <section name="infoBook.firstAge.relics.garmonbozia">
+                <tag>garmonbozia</tag>
+                <paragraph>infoBook.firstAge.relics.garmonbozia.text</paragraph>
             </section>
         </section>
         <section name="infoBook.evilcraft.firstAge.items">
@@ -158,6 +171,7 @@
             <tag>hardenedBlood</tag>
             <tag>hardenedBloodShard</tag>
             <tag>darkPowerGem</tag>
+            <tag>condensedBlood</tag>
             <paragraph>infoBook.evilcraft.secondAge.powersOfBlood.text1</paragraph>
             <paragraph>infoBook.evilcraft.secondAge.powersOfBlood.text2</paragraph>
             <paragraph>infoBook.evilcraft.secondAge.powersOfBlood.text3</paragraph>
@@ -174,6 +188,7 @@
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text1</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text2</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text3</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text4</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bloodExtractor</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.bloodInfusion.bloodChest">
@@ -197,6 +212,7 @@
                 <tag>darkStick</tag>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text1</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text3</paragraph>
                 <appendix type="image" width="70" height="130">evilcraft:textures/gui/infobook/undeadTree.png</appendix>
                 <appendix type="craftingRecipe">minecraft:deadBush</appendix>
                 <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:undeadSapling</appendix>
@@ -229,6 +245,7 @@
                 <tag>bloodWaxedCoalBlock</tag>
                 <tag>bloodPotash</tag>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:bloodOrb</appendix>
                 <appendixList type="evilcraft:bloodInfuserRecipe">other</appendixList>
                 <appendixList type="evilcraft:bloodInfuserRecipe">convenience</appendixList>
             </section>
@@ -247,6 +264,8 @@
                 <tag>blook</tag>
                 <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text1</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text3</paragraph>
+
                 <appendix type="craftingRecipe">evilcraft:purifier</appendix>
                 <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:blook</appendix>
             </section>
@@ -260,6 +279,27 @@
                 <appendix type="craftingRecipe" index="0">evilcraft:entangledChalice</appendix>
                 <appendix type="craftingRecipe" index="1">evilcraft:entangledChalice</appendix>
             </section>
+            <section name="infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest">
+                <tag>reinforcedUndeadPlank</tag>
+                <tag>colossalBloodChest</tag>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text1</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text2</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text3</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text4</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text5</paragraph>
+                <appendix type="image" width="120" height="118">evilcraft:textures/gui/infobook/colossalBloodChest.png</appendix>
+                <appendix type="bloodInfuserRecipe">evilcraft:reinforcedUndeadPlank</appendix>
+                <appendix type="craftingRecipe">evilcraft:colossalBloodChest</appendix>
+            </section>
+            <section name="infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator">
+                <tag>sanguinaryEnvironmentalAccumulator</tag>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text1</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text2</paragraph>
+                <paragraph>infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text3</paragraph>
+                <appendix type="image" width="120" height="82">evilcraft:textures/gui/infobook/sanguinaryEnvironmentalAccumulator.png</appendix>
+                <appendix type="craftingRecipe">evilcraft:sanguinaryEnvironmentalAccumulator</appendix>
+                <appendix type="envirAccRecipe">evilcraft:reinforcedUndeadPlank</appendix>
+            </section>
         </section>
         <section name="infoBook.evilcraft.secondAge.tools">
             <section name="infoBook.evilcraft.secondAge.tools.introduction">
@@ -272,8 +312,15 @@
             </section>
             <section name="infoBook.evilcraft.secondAge.tools.invigoratingPendant">
                 <tag>invigoratingPendant</tag>
+                <tag>goldenString</tag>
                 <paragraph>infoBook.evilcraft.secondAge.tools.invigoratingPendant.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:goldenString</appendix>
                 <appendix type="craftingRecipe">evilcraft:invigoratingPendant</appendix>
+            </section>
+            <section name="infoBook.evilcraft.secondAge.tools.primedPendant">
+                <tag>primedPendant</tag>
+                <paragraph>infoBook.evilcraft.secondAge.tools.primedPendant.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:primedPendant</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.tools.effortlessRing">
                 <tag>effortlessRing</tag>
@@ -302,6 +349,11 @@
                 <paragraph>infoBook.evilcraft.secondAge.tools.gemstoneTorch.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:gemStoneTorch</appendix>
             </section>
+            <section name="infoBook.secondAge.tools.rejuvenatedFlesh">
+                <tag>rejuvenatedFlesh</tag>
+                <paragraph>infoBook.secondAge.tools.rejuvenatedFlesh.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:rejuvenatedFlesh</appendix>
+            </section>
         </section>
         <section name="infoBook.evilcraft.secondAge.weapons">
             <section name="infoBook.evilcraft.secondAge.weapons.veinSword">
@@ -316,9 +368,13 @@
             </section>
             <section name="infoBook.evilcraft.secondAge.weapons.necromancerStaff">
                 <tag>necromancerStaff</tag>
-                <paragraph>infoBook.evilcraft.secondAge.weapons.necromancerStaff.text1</paragraph>
-                <paragraph>infoBook.evilcraft.secondAge.weapons.necromancerStaff.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.weapons.necromancerStaff.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:necromancerStaff</appendix>
+            </section>
+            <section name="infoBook.secondAge.weapons.maceOfDestruction">
+                <tag>maceOfDestruction</tag>
+                <paragraph>infoBook.secondAge.weapons.maceOfDestruction.text</paragraph>
+                <appendix type="craftingRecipe">evilcraft:maceOfDestruction</appendix>
             </section>
         </section>
         <section name="infoBook.evilcraft.secondAge.abusingSpirits">
@@ -355,9 +411,17 @@
             <paragraph>infoBook.evilcraft.modIntegrations.bloodMagic.text</paragraph>
             <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:boundBloodDrop</appendix>
         </section>
+        <section name="infoBook.evilcraft.modIntegrations.ee3">
+            <tag type="mod">EE3</tag>
+            <paragraph>infoBook.evilcraft.modIntegrations.ee3.text</paragraph>
+        </section>
         <section name="infoBook.evilcraft.modIntegrations.forestry">
             <tag type="mod">Forestry</tag>
             <paragraph>infoBook.evilcraft.modIntegrations.forestry.text</paragraph>
+        </section>
+        <section name="infoBook.evilcraft.modIntegrations.ic2">
+            <tag type="mod">IC2</tag>
+            <paragraph>infoBook.evilcraft.modIntegrations.ic2.text</paragraph>
         </section>
         <section name="infoBook.evilcraft.modIntegrations.nei">
             <tag type="mod">NotEnoughItems</tag>

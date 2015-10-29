@@ -1,5 +1,11 @@
 package org.cyclops.evilcraft;
 
+import org.cyclops.evilcraft.block.ColossalBloodChestConfig;
+import org.cyclops.evilcraft.block.ReinforcedUndeadPlankConfig;
+import org.cyclops.evilcraft.block.SanguinaryEnvironmentalAccumulatorConfig;
+import org.cyclops.evilcraft.entity.monster.*;
+import org.cyclops.evilcraft.item.CondensedBloodConfig;
+import org.cyclops.evilcraft.item.RejuvenatedFleshConfig;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -16,10 +22,6 @@ import org.cyclops.evilcraft.entity.block.EntityLightningBombPrimedConfig;
 import org.cyclops.evilcraft.entity.effect.EntityAntiVengeanceBeamConfig;
 import org.cyclops.evilcraft.entity.effect.EntityNecromancersHeadConfig;
 import org.cyclops.evilcraft.entity.item.*;
-import org.cyclops.evilcraft.entity.monster.NetherfishConfig;
-import org.cyclops.evilcraft.entity.monster.PoisonousLibelleConfig;
-import org.cyclops.evilcraft.entity.monster.VengeanceSpiritConfig;
-import org.cyclops.evilcraft.entity.monster.WerewolfConfig;
 import org.cyclops.evilcraft.entity.villager.WerewolfVillagerConfig;
 import org.cyclops.evilcraft.fluid.BloodConfig;
 import org.cyclops.evilcraft.fluid.PoisonConfig;
@@ -79,6 +81,9 @@ public class Configs {
         configs.add(new EternalWaterBlockConfig());
         configs.add(new BloodWaxedCoalBlockConfig());
         configs.add(new SpiritPortalConfig());
+        configs.add(new ColossalBloodChestConfig());
+        configs.add(new ReinforcedUndeadPlankConfig());
+        configs.add(new SanguinaryEnvironmentalAccumulatorConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
@@ -129,6 +134,15 @@ public class Configs {
         configs.add(new OriginsOfDarknessConfig());
         configs.add(new DarkenedAppleConfig());
         configs.add(new EffortlessRingConfig());
+        configs.add(new CondensedBloodConfig());
+        configs.add(new RejuvenatedFleshConfig());
+        configs.add(new PrimedPendantConfig());
+        configs.add(new GoldenStringConfig());
+        configs.add(new BiomeExtractConfig());
+        configs.add(new EnvironmentalAccumulationCoreConfig());
+        configs.add(new MaceOfDestructionConfig());
+        configs.add(new GarmonboziaConfig());
+        configs.add(new PoisonBottleConfig());
         
         // Entities
         // Item
@@ -139,6 +153,8 @@ public class Configs {
         configs.add(new EntityWeatherContainerConfig());
         configs.add(new EntityItemEmpowerableConfig());
         configs.add(new EntityItemUndespawnableConfig());
+        configs.add(new EntityItemDarkStickConfig());
+        configs.add(new EntityBiomeExtractConfig());
         // Block
         configs.add(new EntityLightningBombPrimedConfig());
         // Monster
@@ -146,7 +162,8 @@ public class Configs {
         configs.add(new NetherfishConfig());
         configs.add(new PoisonousLibelleConfig());
         configs.add(new VengeanceSpiritConfig());
-        configs.add(new BoxOfEternalClosureConfig()); // This is a blockState, but depends on vengeance spirit.
+        configs.add(new BoxOfEternalClosureConfig()); // This is a block, but depends on vengeance spirit.
+        configs.add(new ControlledZombieConfig());
         // Villager
         configs.add(new WerewolfVillagerConfig());
         // Other
@@ -181,6 +198,7 @@ public class Configs {
         OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Items.poisonous_potato));
         OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Items.bone));
         OreDictionary.registerOre(Reference.DICT_ITEMSKULL, new ItemStack(Items.skull, 1, OreDictionary.WILDCARD_VALUE));
+        OreDictionary.registerOre(Reference.DICT_FLESH, new ItemStack(Items.rotten_flesh, 1, OreDictionary.WILDCARD_VALUE));
     }
 
     /**

@@ -47,7 +47,6 @@ public class WeatherContainer extends ConfigurableItem {
 
     public WeatherContainer(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
-        this.setMaxStackSize(1);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
     }

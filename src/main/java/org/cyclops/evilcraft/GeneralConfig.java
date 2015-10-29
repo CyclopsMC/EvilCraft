@@ -33,7 +33,7 @@ public class GeneralConfig extends DummyConfig {
      * If the recipe loader should crash when finding invalid recipes.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "If the recipe loader should crash when finding invalid recipes.", requiresMcRestart = true)
-    public static boolean crashOnInvalidRecipe = false;
+    public static boolean crashOnInvalidRecipe = true;
 
     /**
      * If mod compatibility loader should crash hard if errors occur in that process.
@@ -96,16 +96,10 @@ public class GeneralConfig extends DummyConfig {
     public static boolean extraSilverfish = false;
     
     /**
-     * Rarity of a dark temple spawning.
-     */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Chance of a dark temple spawning is equal to 1 divided by this number (the higher this number, the lower the spawn chance).")
-    public static int darkTempleRarity = 100;
-    
-    /**
      * Minimum height at which a dark temple can spawn.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Minimum blockState height at which a dark temple can spawn.")
-    public static int darkTempleMinHeight = 75;
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Minimum block height at which a dark temple can spawn.")
+    public static int darkTempleMinHeight = 60;
     
     /**
      * Maximum height at which a dark temple can spawn.
@@ -114,16 +108,24 @@ public class GeneralConfig extends DummyConfig {
     public static int darkTempleMaxHeight = 256;
     
     /**
-     * Minimal distance between two dark temples.
+     * Frequency at which dark temples should occur. 1 means every chunk, 100 means every 100th chunk.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Minimal distance between two dark temples.")
-    public static int darkTempleMinDistance = 300;
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Frequency at which dark temples should occur. 1 means every chunk, 0.01 means every 100th chunk.")
+    public static int darkTempleFrequency = 200;
 
     /**
      * Maximal length of the pillars of a dark temple.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Maximal length of the pillars of a dark temple.")
     public static int darkTempleMaxPillarLength = 20;
+
+    /**
+     * Whitelisted dimensions in which dark temples can generate.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Whitelisted dimensions in which dark temples can generate.")
+    public static int[] darkTempleDimensions = new int[]{
+            0
+    };
 
     /**
      * The amount of mB that can flow per tick.

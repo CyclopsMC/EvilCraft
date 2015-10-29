@@ -4,6 +4,7 @@ import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
 
 /**
  * Config for the {@link WerewolfFlesh}
@@ -34,6 +35,11 @@ public class WerewolfFleshConfig extends ItemConfig {
             null,
             WerewolfFlesh.class
         );
+    }
+
+    @Override
+    public String getOreDictionaryId() {
+        return Reference.DICT_FLESH;
     }
     
 }

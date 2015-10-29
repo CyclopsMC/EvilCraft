@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft;
 
+import org.cyclops.evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -28,6 +29,7 @@ import org.cyclops.cyclopscore.world.gen.RetroGenRegistry;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.api.degradation.IDegradationRegistry;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
+import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
 import org.cyclops.evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import org.cyclops.evilcraft.core.broom.BroomPartRegistry;
 import org.cyclops.evilcraft.core.degradation.DegradationRegistry;
@@ -117,6 +119,7 @@ public class EvilCraft extends ModBaseVersionable {
         getRegistryManager().addRegistry(IBucketRegistry.class, new BucketRegistry());
         getRegistryManager().addRegistry(IBroomPartRegistry.class, new BroomPartRegistry());
         getRegistryManager().addRegistry(IInfoBookRegistry.class, new InfoBookRegistry());
+        getRegistryManager().addRegistry(IPurifierActionRegistry.class, new PurifierActionRegistry());
 
         super.preInit(event);
     }

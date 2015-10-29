@@ -1,8 +1,10 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.infobook.AdvancedButton;
 import org.cyclops.cyclopscore.infobook.GuiInfoBook;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
@@ -11,9 +13,13 @@ import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
+import org.cyclops.evilcraft.block.SanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import org.cyclops.evilcraft.core.weather.WeatherType;
+import org.cyclops.evilcraft.item.BucketBloodConfig;
+import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
+import org.cyclops.evilcraft.tileentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,28 +73,48 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
 
     @Override
     public void drawElementInner(GuiInfoBook gui, int x, int y, int width, int height, int page, int mx, int my) {
+        boolean sanguinary = (getTick(gui) % 2) == 1;
         int middle = (width - SLOT_SIZE) / 2;
         gui.drawArrowRight(x + middle - 3, y + SLOT_OFFSET_Y + 2);
 
         // Prepare items
         int tick = getTick(gui);
-        ItemStack input = prepareItemStack(recipe.getInput().getItemStack(), tick);
-        ItemStack result = prepareItemStack(recipe.getOutput().getItemStack(), tick);
+        ItemStack input = prepareItemStacks(recipe.getInput().getItemStacks(), tick);
+        ItemStack result = prepareItemStacks(recipe.getOutput().getItemStacks(), tick);
 
         // Items
         renderItem(gui, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
         renderItem(gui, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
 
-        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(EnvironmentalAccumulator.getInstance()), mx, my, false, null);
+        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(sanguinary
+                ? SanguinaryEnvironmentalAccumulator.getInstance()
+                : EnvironmentalAccumulator.getInstance()), mx, my, false, null);
 
         // Draw weathers
-        int inputX = X_ICON_OFFSETS.get(recipe.getInput().getWeatherType());
-        Minecraft.getMinecraft().getTextureManager().bindTexture(WEATHERS);
-        gui.drawTexturedModalRect(x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
-        gui.drawOuterBorder(x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
-        int outputX = X_ICON_OFFSETS.get(recipe.getOutput().getWeatherType());
-        Minecraft.getMinecraft().getTextureManager().bindTexture(WEATHERS);
-        gui.drawTexturedModalRect(x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
-        gui.drawOuterBorder(x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
+        Integer inputX = X_ICON_OFFSETS.get(recipe.getInput().getWeatherType());
+        if(inputX != null) {
+            Minecraft.getMinecraft().getTextureManager().bindTexture(WEATHERS);
+            gui.drawTexturedModalRect(x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
+            gui.drawOuterBorder(x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
+            Integer outputX = X_ICON_OFFSETS.get(recipe.getOutput().getWeatherType());
+            Minecraft.getMinecraft().getTextureManager().bindTexture(WEATHERS);
+            gui.drawTexturedModalRect(x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
+            gui.drawOuterBorder(x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
+        }
+        if(sanguinary) {
+            // Draw blood usage
+            renderItem(gui, x + middle, y + 2, new ItemStack(BucketBloodConfig._instance.getItemInstance()), mx, my, false, null);
+
+            // Blood amount text
+            FontRenderer fontRenderer = gui.getFontRenderer();
+            boolean oldUnicode = fontRenderer.getUnicodeFlag();
+            fontRenderer.setUnicodeFlag(true);
+            fontRenderer.setBidiFlag(false);
+            int amount = AccumulateItemTickAction.getUsage(recipe.getProperties());
+            FluidStack fluidStack = new FluidStack(TileSanguinaryEnvironmentalAccumulator.ACCEPTED_FLUID, amount);
+            String line = fluidStack.amount + " mB";
+            fontRenderer.drawSplitString(line, x + middle - 5, y + SLOT_SIZE, 200, 0);
+            fontRenderer.setUnicodeFlag(oldUnicode);
+        }
     }
 }
