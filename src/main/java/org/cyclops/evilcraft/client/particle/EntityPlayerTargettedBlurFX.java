@@ -51,7 +51,7 @@ public class EntityPlayerTargettedBlurFX extends EntityBlurFX {
 		//f = 1.0F - f;
 		motionY -= 0.04D * particleGravity;
 		posX = player.posX + motionX * f;
-		posY = player.posY - 0.5F + motionY * f + (double)(1.0F - f1) + (Minecraft.getMinecraft().thePlayer == player ? 0 : 1);
+		posY = player.posY + player.eyeHeight - 0.5F + motionY * f + (double)(1.0F - f1) + (Minecraft.getMinecraft().thePlayer == player ? 0 : 1);
 		posZ = player.posZ + motionZ * f;
 	}
 

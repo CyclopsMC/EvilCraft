@@ -120,7 +120,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
                     double zOffset = Math.cos(v) * area;
 
                     double xCoord = player.posX;
-                    double yCoord = player.posY - 0.5D;
+                    double yCoord = player.posY + player.eyeHeight - 0.5D;
                     double zCoord = player.posZ;
 
                     double particleX = xCoord + xOffset - world.rand.nextFloat() * area / 4 - 0.5F;
@@ -163,7 +163,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
         int particles = (power + 1) * (power + 1) * (power + 1) * 10;
         for(int i = 0; i < particles; i++) {
             double x = player.posX - 0.5F + world.rand.nextDouble();
-            double y = player.posY - 1F + world.rand.nextDouble();
+            double y = player.posY + player.eyeHeight - 1F + world.rand.nextDouble();
             double z = player.posZ - 0.5F + world.rand.nextDouble();
 
             double particleMotionX = (-1 + world.rand.nextDouble() * 2) * (power + 1) / 2;

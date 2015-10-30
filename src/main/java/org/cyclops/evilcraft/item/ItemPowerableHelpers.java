@@ -6,6 +6,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class ItemPowerableHelpers {
                 int newPower = (getPower(itemStack) + 1) % powerLevels;
                 setPower(itemStack, newPower);
                 player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC
-                        + L10NHelpers.localize("item.powerable.setPower", newPower)));
+                        + L10NHelpers.localize("item." + Reference.MOD_ID + ".powerable.setPower", newPower)));
             }
             return true;
         }
@@ -65,7 +66,7 @@ public class ItemPowerableHelpers {
      * @param lines The lines to add the information to.
      */
     public static void addPreInformation(ItemStack itemStack, List<String> lines) {
-        L10NHelpers.addOptionalInfo(lines, "item.powerable");
+        L10NHelpers.addOptionalInfo(lines, "item." + Reference.MOD_ID + ".powerable");
     }
 
     /**
@@ -74,7 +75,7 @@ public class ItemPowerableHelpers {
      * @param lines The lines to add the information to.
      */
     public static void addPostInformation(ItemStack itemStack, List<String> lines) {
-        lines.add(EnumChatFormatting.BOLD + L10NHelpers.localize("item.powerable.info.power", getPower(itemStack)));
+        lines.add(EnumChatFormatting.BOLD + L10NHelpers.localize("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack)));
     }
 	
 }
