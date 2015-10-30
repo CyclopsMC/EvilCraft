@@ -1,9 +1,5 @@
 package org.cyclops.evilcraft.core.recipe;
 
-import evilcraft.block.DarkTank;
-import evilcraft.core.item.ItemBlockFluidContainer;
-import evilcraft.fluid.Blood;
-import evilcraft.item.BloodExtractor;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,6 +7,10 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.evilcraft.block.DarkTank;
+import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
+import org.cyclops.evilcraft.fluid.Blood;
+import org.cyclops.evilcraft.item.BloodExtractor;
 
 /**
  * Recipe for combining blood extractors with dark tanks in a shapeless manner for a larger blood extractor.
@@ -43,7 +43,19 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 	public ItemStack getRecipeOutput() {
 		return new ItemStack(BloodExtractor.getInstance());
 	}
-	
+
+	@Override
+	public ItemStack[] getRemainingItems(InventoryCrafting inventory) {
+		ItemStack[] aitemstack = new ItemStack[inventory.getSizeInventory()];
+
+		for (int i = 0; i < aitemstack.length; ++i) {
+			ItemStack itemstack = inventory.getStackInSlot(i);
+			aitemstack[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack);
+		}
+
+		return aitemstack;
+	}
+
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting grid) {						
 		ItemStack output = getRecipeOutput().copy();

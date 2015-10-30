@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.block;
 
-import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -17,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.recipe.custom.api.IMachine;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
@@ -25,6 +25,7 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.gui.container.GuiBloodInfuser;
 import org.cyclops.evilcraft.client.particle.EntityBloodBubbleFX;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
+import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.inventory.container.ContainerBloodInfuser;
@@ -83,7 +84,8 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, BlockPos blockPos, IBlockState state, Random random) {
-        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(blockPos), world, blockPos, random);
+        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(blockPos), world, blockPos,
+                random, BlockHelpers.getSafeBlockStateProperty(state, FACING, EnumFacing.NORTH));
         super.randomDisplayTick(world, blockPos, state, random);
     }
 

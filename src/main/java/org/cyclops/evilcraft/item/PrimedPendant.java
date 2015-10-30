@@ -51,10 +51,6 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
 
     private int guiID;
 
-    private Class<? extends Container> container;
-    @SideOnly(Side.CLIENT)
-    private Class<? extends GuiScreen> gui;
-
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -116,7 +112,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
                     if((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
                         player.addPotionEffect(
                                 new PotionEffect(potionEffect.getPotionID(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
-                                        !potionEffect.getCurativeItems().isEmpty()));
+                                        !potionEffect.getCurativeItems().isEmpty(), true));
                         consume(toDrain, itemStack, player);
                     }
                 }
@@ -221,12 +217,6 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public Class<? extends GuiScreen> getGUI() {
-        return gui;
-    }
-
-    @Override
     public boolean onDroppedByPlayer(ItemStack itemstack, EntityPlayer player) {
         if(itemstack != null
                 && player instanceof EntityPlayerMP
@@ -237,16 +227,6 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
         return super.onDroppedByPlayer(itemstack, player);
     }
 
-    @Override
-    public String getGuiTexture() {
-        return getGuiTexture("");
-    }
-
-    @Override
-    public String getGuiTexture(String suffix) {
-        return Reference.TEXTURE_PATH_GUI + eConfig.getNamedId() + "_gui" + suffix + ".png";
-    }
-
     /**
      * Open the gui for a certain item index in the player inventory.
      * @param world The world.
@@ -254,7 +234,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
      * @param itemIndex The item index in the player inventory.
      */
     public void openGuiForItemIndex(World world, EntityPlayer player, int itemIndex) {
-        GuiHandler.setTemporaryItemIndex(itemIndex);
+        EvilCraft._instance.getGuiHandler().setTemporaryData(GuiHandler.GuiType.ITEM, itemIndex);
         if(!world.isRemote || isClientSideOnlyGui()) {
             player.openGui(EvilCraft._instance, getGuiID(), world, (int) player.posX, (int) player.posY, (int) player.posZ);
         }

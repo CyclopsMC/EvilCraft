@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.client.gui.container.GuiSpiritReanimator;
 import org.cyclops.evilcraft.client.particle.EntityBloodBubbleFX;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
@@ -66,7 +67,8 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, BlockPos blockPos, IBlockState blockState, Random random) {
-        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(blockPos), world, blockPos, random);
+        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(blockPos), world, blockPos,
+                random, BlockHelpers.getSafeBlockStateProperty(blockState, FACING, EnumFacing.NORTH));
         super.randomDisplayTick(world, blockPos, blockState, random);
     }
 

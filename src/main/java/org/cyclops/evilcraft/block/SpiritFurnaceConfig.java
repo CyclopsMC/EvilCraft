@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Sets;
-import evilcraft.core.IMCHandler;
+import org.cyclops.evilcraft.core.IMCHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -12,13 +12,14 @@ import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.IChangedCallback;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.init.IInitListener;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
+import org.cyclops.cyclopscore.item.WeightedItemStack;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
-import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.tileentity.TileWorking;
 import org.cyclops.evilcraft.tileentity.tickaction.spiritfurnace.BoxCookTickAction;
@@ -181,18 +182,18 @@ public class SpiritFurnaceConfig extends UpgradableBlockContainerConfig {
                             validId = false;
                         }
                         if(!validId) {
-                            EvilCraft.log("Invalid line '" + line + "' found for "
+                            EvilCraft.clog("Invalid line '" + line + "' found for "
                                     + "a Spirit Furnace player drop config: " + split[0] + " does not refer to a valid player UUID; skipping.");
                         }
                         try {
-                            ItemStack itemStack = ItemHelpers.parseItemStack(split[1]);
+                            ItemStack itemStack = ItemStackHelpers.parseItemStack(split[1]);
                             BoxCookTickAction.overridePlayerDrop(playerId, itemStack);
                         } catch (IllegalArgumentException e) {
-                            EvilCraft.log("Invalid item '" + split[1] + "' in "
+                            EvilCraft.clog("Invalid item '" + split[1] + "' in "
                                     + "a Spirit Furnace player drop config; skipping:" + e.getMessage(), Level.ERROR);
                         }
                     } catch (NumberFormatException e) {
-                        EvilCraft.log("Invalid line '" + line + "' found for "
+                        EvilCraft.clog("Invalid line '" + line + "' found for "
                                 + "a Spirit Furnace player drop config: " + split[0] + " is not a number; skipping.");
                     }
                 }

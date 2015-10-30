@@ -1,12 +1,5 @@
 package org.cyclops.evilcraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.core.config.configurable.ConfigurableItem;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.L10NHelpers;
-import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -14,9 +7,16 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
 
 import java.util.List;
 
@@ -37,8 +37,6 @@ public class BiomeExtract extends ConfigurableItem {
     private static final String NBT_BIOMEID = "biomeId";
 
     private static BiomeExtract _instance = null;
-
-    private IIcon overlay;
 
     /**
      * Initialise the configurable.
@@ -72,18 +70,7 @@ public class BiomeExtract extends ConfigurableItem {
 
     @Override
     public EnumAction getItemUseAction(ItemStack itemStack) {
-        return EnumAction.bow;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses() {
-        return true;
-    }
-
-    @Override
-    public int getRenderPasses(int metadata) {
-        return metadata == 0 ? 1 : 2;
+        return EnumAction.BOW;
     }
 
     @Override
@@ -94,7 +81,7 @@ public class BiomeExtract extends ConfigurableItem {
             if(biome != null) {
                 return biome.color;
             } else {
-                return RenderHelpers.RGBToInt(125, 125, 125);
+                return Helpers.RGBToInt(125, 125, 125);
             }
         }
         return 16777215;
@@ -120,18 +107,6 @@ public class BiomeExtract extends ConfigurableItem {
         if(biome != null) {
             list.add(L10NHelpers.localize(getUnlocalizedName() + ".info.content", biome.biomeName));
         }
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IIconRegister iconRegister) {
-        itemIcon = iconRegister.registerIcon(getIconString());
-        overlay = iconRegister.registerIcon(getIconString() + "_overlay");
-    }
-
-    @Override
-    public IIcon getIconFromDamageForRenderPass(int meta, int renderpass) {
-        return renderpass == 0 && meta > 0 ? this.overlay : super.getIconFromDamageForRenderPass(meta, renderpass);
     }
 
     public BiomeGenBase[] getBiomes() {
@@ -202,9 +177,9 @@ public class BiomeExtract extends ConfigurableItem {
     public EnumRarity getRarity(ItemStack itemStack) {
         BiomeGenBase biome = getBiome(itemStack);
         if(biome == null) {
-            return EnumRarity.common;
+            return EnumRarity.COMMON;
         } else {
-            return biome.getSpawningChance() <= 0.05F ? EnumRarity.epic : (biome.getSpawningChance() <= 0.1F ? EnumRarity.rare : EnumRarity.uncommon);
+            return biome.getSpawningChance() <= 0.05F ? EnumRarity.EPIC : (biome.getSpawningChance() <= 0.1F ? EnumRarity.RARE : EnumRarity.UNCOMMON);
         }
     }
 }

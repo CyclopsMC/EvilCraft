@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import evilcraft.core.IMCHandler;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,6 +15,7 @@ import org.cyclops.cyclopscore.init.IInitListener;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.entity.RenderVengeanceSpirit;
+import org.cyclops.evilcraft.core.IMCHandler;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChanged;
 
 /**

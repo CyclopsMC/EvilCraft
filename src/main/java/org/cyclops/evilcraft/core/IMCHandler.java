@@ -1,4 +1,4 @@
-package evilcraft.core;
+package org.cyclops.evilcraft.core;
 
 import com.google.common.collect.Maps;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
@@ -32,15 +32,15 @@ public class IMCHandler {
     }
 
     public void handle(FMLInterModComms.IMCMessage message) {
-        EvilCraft.log(String.format("Handling IMC message from %s.", message.getSender()), Level.INFO);
+        EvilCraft.clog(String.format("Handling IMC message from %s.", message.getSender()), Level.INFO);
         IIMCAction action = actions.get(message.key);
         if(action != null) {
             if(!action.handle(message)) {
-                EvilCraft.log(String.format("The IMC message for key %s was rejected. " +
+                EvilCraft.clog(String.format("The IMC message for key %s was rejected. " +
                         "It may have been incorrectly formatted or has resulted in an error.", message.key), Level.ERROR);
             }
         } else {
-            EvilCraft.log(String.format("An IMC message with invalid key %s was received.", message.key), Level.ERROR);
+            EvilCraft.clog(String.format("An IMC message with invalid key %s was received.", message.key), Level.ERROR);
         }
     }
 

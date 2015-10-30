@@ -1,14 +1,13 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import evilcraft.block.BloodChest;
-import evilcraft.core.inventory.container.ItemInventoryContainer;
-import evilcraft.core.inventory.slot.SlotSingleItem;
-import org.cyclops.evilcraft.item.PrimedPendant;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import org.cyclops.cyclopscore.inventory.container.ItemInventoryContainer;
+import org.cyclops.cyclopscore.inventory.slot.SlotSingleItem;
+import org.cyclops.evilcraft.item.PrimedPendant;
 
 /**
- * Container for the {@link BloodChest}.
+ * Container for the {@link PrimedPendant}.
  * @author rubensworks
  *
  */

@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import evilcraft.core.client.gui.container.GuiWorking;
+import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.core.client.gui.container.GuiWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -88,13 +89,18 @@ public class GuiColossalBloodChest extends GuiWorking<TileColossalBloodChest> {
     }
 
     @Override
+    public String getGuiTexture() {
+        return Reference.TEXTURE_PATH_GUI + "colossalBloodChest_gui.png";
+    }
+
+    @Override
     protected int getBaseXSize() {
         return TEXTUREWIDTH;
     }
 
     @Override
     protected void drawForgegroundString() {
-        fontRendererObj.drawString(tile.getInventoryName(), 8 + offsetX, 4 + offsetY, 4210752);
+        fontRendererObj.drawString(tile.getCommandSenderName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
 
     @Override

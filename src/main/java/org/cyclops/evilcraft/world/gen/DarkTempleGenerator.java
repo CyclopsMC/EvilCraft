@@ -25,7 +25,7 @@ public class DarkTempleGenerator implements IWorldGenerator {
 			return;
 
 		// Add some randomness to spawning
-		if (random.nextInt(GeneralConfig.darkTempleRarity) == 0) {
+		/*if (random.nextInt(GeneralConfig.darkTempleRarity) == 0) {
             BlockPos blockPos = new BlockPos(chunkX * 16 + random.nextInt(16), 0, chunkZ * 16 + random.nextInt(16));
 
 			// Check if there is no dark temple in the neighbourhood
@@ -33,6 +33,7 @@ public class DarkTempleGenerator implements IWorldGenerator {
 				// Generate the dark temple if possible (height checks are performed inside generate)
 			    DarkTempleStructure.getInstance().generate(world, random, blockPos);
 			}
-		}
+		}*/
+		// TODO: rewrite
     }
 }

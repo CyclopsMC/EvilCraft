@@ -52,7 +52,7 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
     public ContainerColossalBloodChest(InventoryPlayer inventory, TileColossalBloodChest tile) {
         super(inventory, tile);
 
-        tile.openInventory();
+        tile.openInventory(inventory.player);
 
         // Adding inventory
         addSlotToContainer(new SlotFluidContainer(tile, TileColossalBloodChest.SLOT_CONTAINER,
@@ -82,7 +82,7 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
     @Override
     public void onContainerClosed(EntityPlayer entityplayer) {
         super.onContainerClosed(entityplayer);
-        tile.closeInventory();
+        tile.closeInventory(entityplayer);
     }
     
 }

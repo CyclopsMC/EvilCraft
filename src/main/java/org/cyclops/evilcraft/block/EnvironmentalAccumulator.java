@@ -1,23 +1,23 @@
 package org.cyclops.evilcraft.block;
 
-import evilcraft.world.gen.DarkTempleGenerator;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.dispenser.ILocation;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.recipe.custom.api.IMachine;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
+import org.cyclops.evilcraft.item.EnvironmentalAccumulationCoreConfig;
 import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
+
+import java.util.Random;
 
 /**
  * Block that can collect the weather and stuff.
@@ -82,13 +82,19 @@ public class EnvironmentalAccumulator
 
 	@Override
 	protected void onPreBlockDestroyed(World world, BlockPos blockPos) {
-		if(!world.isRemote) {
+		/*if(!world.isRemote) {
 			BlockPos closest = DarkTempleGenerator.getClosestForCoords(world, blockPos.getX(), blockPos.getZ());
 			if(closest != null) {
 				DarkTempleGenerator.getCachedData(world).addFailedLocation(closest.getX() / WorldHelpers.CHUNK_SIZE, closest.getZ() / WorldHelpers.CHUNK_SIZE);
 			}
-		}
+		}*/
+		// TODO: enable when
 		super.onPreBlockDestroyed(world, blockPos);
+	}
+
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return EnvironmentalAccumulationCoreConfig._instance.getItemInstance();
 	}
 
 	@Override

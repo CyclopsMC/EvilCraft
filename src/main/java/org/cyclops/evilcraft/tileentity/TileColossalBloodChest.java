@@ -2,47 +2,48 @@ package org.cyclops.evilcraft.tileentity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import org.cyclops.evilcraft.block.ColossalBloodChest;
-import org.cyclops.evilcraft.block.ColossalBloodChestConfig;
-import org.cyclops.evilcraft.block.ReinforcedUndeadPlank;
-import evilcraft.core.algorithm.Size;
-import evilcraft.core.block.AllowedBlock;
-import evilcraft.core.block.CubeDetector;
-import evilcraft.core.block.HollowCubeDetector;
-import evilcraft.core.fluid.BloodFluidConverter;
-import evilcraft.core.fluid.ImplicitFluidConversionTank;
-import evilcraft.core.fluid.SingleUseTank;
-import evilcraft.core.helper.DirectionHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.helper.WorldHelpers;
-import evilcraft.core.tileentity.NBTPersist;
-import evilcraft.core.tileentity.tickaction.ITickAction;
-import evilcraft.core.tileentity.tickaction.TickComponent;
-import evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
-import evilcraft.core.tileentity.upgrade.UpgradeBehaviour;
-import evilcraft.core.tileentity.upgrade.Upgrades;
-import evilcraft.fluid.Blood;
-import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
-import evilcraft.inventory.slot.SlotRepairable;
-import evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
-import evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
-import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BulkRepairItemTickAction;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.mutable.MutableFloat;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.helper.DirectionHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
+import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
+import org.cyclops.evilcraft.block.ColossalBloodChest;
+import org.cyclops.evilcraft.block.ColossalBloodChestConfig;
+import org.cyclops.evilcraft.block.ReinforcedUndeadPlank;
+import org.cyclops.evilcraft.core.block.AllowedBlock;
+import org.cyclops.evilcraft.core.block.CubeDetector;
+import org.cyclops.evilcraft.core.block.HollowCubeDetector;
+import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
+import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
+import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
+import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
+import org.cyclops.evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
+import org.cyclops.evilcraft.core.tileentity.upgrade.UpgradeBehaviour;
+import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
+import org.cyclops.evilcraft.fluid.Blood;
+import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
+import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
+import org.cyclops.evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
+import org.cyclops.evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
+import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BulkRepairItemTickAction;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -91,9 +92,9 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     public static final int MAX_EFFICIENCY = 200;
 
     @NBTPersist
-    private Size size = Size.NULL_SIZE.copy();
+    private Vec3i size = Vec3i.NULL_VECTOR;
     @NBTPersist
-    private ILocation renderOffset = Size.NULL_SIZE.copy();
+    private BlockPos renderOffset = new BlockPos(0, 0, 0);
     @Getter
     @Setter
     @NBTPersist
@@ -137,7 +138,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
                     new AllowedBlock(ColossalBloodChest.getInstance()).setExactOccurences(1)
             },
             Lists.newArrayList(ColossalBloodChest.getInstance(), ReinforcedUndeadPlank.getInstance())
-    ).setExactSize(new Size(2, 2, 2));
+    ).setExactSize(new Vec3i(2, 2, 2));
 
     /**
      * Make a new instance.
@@ -152,9 +153,9 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         for(int i = 0; i < SLOTS_CHEST; i++) {
             addTicker(
                     new TickComponent<
-                            TileColossalBloodChest,
-                            ITickAction<TileColossalBloodChest>
-                            >(this, REPAIR_TICK_ACTIONS, i)
+                                                TileColossalBloodChest,
+                                                ITickAction<TileColossalBloodChest>
+                                                >(this, REPAIR_TICK_ACTIONS, i)
             );
         }
         addTicker(
@@ -171,11 +172,11 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         for(int i = 0; i < SLOTS_CHEST; i++) {
             inSlotsInventory.add(i);
         }
-        addSlotsToSide(ForgeDirection.EAST, inSlotsTank);
-        addSlotsToSide(ForgeDirection.UP, inSlotsInventory);
-        addSlotsToSide(ForgeDirection.DOWN, inSlotsInventory);
-        addSlotsToSide(ForgeDirection.SOUTH, inSlotsInventory);
-        addSlotsToSide(ForgeDirection.WEST, inSlotsInventory);
+        addSlotsToSide(EnumFacing.EAST, inSlotsTank);
+        addSlotsToSide(EnumFacing.UP, inSlotsInventory);
+        addSlotsToSide(EnumFacing.DOWN, inSlotsInventory);
+        addSlotsToSide(EnumFacing.SOUTH, inSlotsInventory);
+        addSlotsToSide(EnumFacing.WEST, inSlotsInventory);
 
         // Upgrade behaviour
         upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileColossalBloodChest, MutableFloat>(2) {
@@ -233,21 +234,21 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     /**
      * @return the size
      */
-    public Size getSize() {
+    public Vec3i getSize() {
         return size;
     }
 
     /**
      * @param size the size to set
      */
-    public void setSize(Size size) {
+    public void setSize(Vec3i size) {
         this.size = size;
         sendUpdate();
     }
 
     @Override
     public boolean canWork() {
-        Size size = getSize();
+        Vec3i size = getSize();
         return size.compareTo(TileColossalBloodChest.detector.getExactSize()) == 0;
     }
 
@@ -257,12 +258,9 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
      * @param location The location.
      * @return If it is valid.
      */
-    public static boolean canWork(World world, ILocation location) {
-        TileEntity tile = LocationHelpers.getTile(world, location);
-        if(tile != null) {
-            return ((TileColossalBloodChest) tile).canWork();
-        }
-        return false;
+    public static boolean canWork(World world, BlockPos location) {
+        TileColossalBloodChest tile = TileHelpers.getSafeTile(world, location, TileColossalBloodChest.class);
+        return tile != null && tile.canWork();
     }
 
     @Override
@@ -296,19 +294,15 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         if(worldObj != null
                 && !this.worldObj.isRemote
                 && this.playersUsing != 0
-                && WorldHelpers.efficientTick(worldObj, TICK_MODULUS, this.xCoord, this.yCoord, this.zCoord)/*(this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0*/) {
+                && WorldHelpers.efficientTick(worldObj, TICK_MODULUS, getPos().hashCode())) {
             this.playersUsing = 0;
             float range = 5.0F;
             @SuppressWarnings("unchecked")
             List<EntityPlayer> entities = this.worldObj.getEntitiesWithinAABB(
                     EntityPlayer.class,
-                    AxisAlignedBB.getBoundingBox(
-                            (double) ((float) this.xCoord - range),
-                            (double) ((float) this.yCoord - range),
-                            (double) ((float) this.zCoord - range),
-                            (double) ((float) (this.xCoord + 1) + range),
-                            (double) ((float) (this.yCoord + 1) + range),
-                            (double) ((float) (this.zCoord + 1) + range)
+                    new AxisAlignedBB(
+                            getPos().subtract(new Vec3i(range, range, range)),
+                            getPos().add(new Vec3i(1 + range, 1 + range, 1 + range))
                     )
             );
 
@@ -318,16 +312,16 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
                 }
             }
 
-            worldObj.addBlockEvent(xCoord, yCoord, zCoord, block, 1, playersUsing);
+            worldObj.addBlockEvent(getPos(), block, 1, playersUsing);
         }
 
         prevLidAngle = lidAngle;
         float increaseAngle = 0.05F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
             worldObj.playSoundEffect(
-                    (double) xCoord + 0.5D,
-                    (double) yCoord + 0.5D,
-                    (double) zCoord + 0.5D,
+                    (double) getPos().getX() + 0.5D,
+                    (double) getPos().getY() + 0.5D,
+                    (double) getPos().getZ() + 0.5D,
                     "random.chestopen",
                     0.5F,
                     worldObj.rand.nextFloat() * 0.1F + 0.5F
@@ -346,9 +340,9 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
             float closedAngle = 0.5F;
             if (lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
                 worldObj.playSoundEffect(
-                        (double) xCoord + 0.5D,
-                        (double) yCoord + 0.5D,
-                        (double) zCoord + 0.5D,
+                        (double) getPos().getX() + 0.5D,
+                        (double) getPos().getY() + 0.5D,
+                        (double) getPos().getZ() + 0.5D,
                         "random.chestclosed",
                         0.5F,
                         worldObj.rand.nextFloat() * 0.1F + 0.5F
@@ -369,47 +363,46 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     }
 
     @Override
-    public void openInventory() {
+    public void openInventory(EntityPlayer entityPlayer) {
         triggerPlayerUsageChange(1);
     }
 
     @Override
-    public void closeInventory() {
+    public void closeInventory(EntityPlayer entityPlayer) {
         triggerPlayerUsageChange(-1);
     }
 
     private void triggerPlayerUsageChange(int change) {
         if (worldObj != null) {
             playersUsing += change;
-            worldObj.addBlockEvent(xCoord, yCoord, zCoord, block, 1, playersUsing);
+            worldObj.addBlockEvent(getPos(), block, 1, playersUsing);
         }
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
         return super.isUseableByPlayer(entityPlayer)
-                && (worldObj == null || worldObj.getTileEntity(xCoord, yCoord, zCoord) != this);
+                && (worldObj == null || worldObj.getTileEntity(getPos()) != this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
-        return AxisAlignedBB.getBoundingBox(xCoord - 3, yCoord - 3, zCoord - 3, xCoord + 3, yCoord + 6, zCoord + 3);
+        return new AxisAlignedBB(getPos().subtract(new Vec3i(3, 3, 3)), getPos().add(3, 6, 3));
     }
 
-    public void setCenter(ILocation center) {
-        ForgeDirection rotation = ForgeDirection.NORTH;
-        int[] c = center.getCoordinates();
-        if(c[0] != this.xCoord) {
-            rotation = DirectionHelpers.getForgeDirectionFromXSign(c[0] - this.xCoord);
-        } else if(c[2] != this.zCoord) {
-            rotation = DirectionHelpers.getForgeDirectionFromZSing(c[2] - this.zCoord);
+    public void setCenter(BlockPos center) {
+        EnumFacing rotation = EnumFacing.NORTH;
+        if(center.getX() != getPos().getX()) {
+            rotation = DirectionHelpers.getEnumFacingFromXSign(center.getX() - getPos().getX());
+        } else if(center.getZ() != getPos().getZ()) {
+            rotation = DirectionHelpers.getEnumFacingFromZSing(center.getZ() - getPos().getZ());
         }
         this.setRotation(rotation);
-        this.renderOffset = new Location(this.xCoord, this.yCoord, this.zCoord).subtract(center);
+        this.renderOffset = getPos().subtract(center);
     }
 
-    public ILocation getRenderOffset() {
+    public BlockPos getRenderOffset() {
         return this.renderOffset;
     }
 
@@ -419,11 +412,10 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
      * @param location The location of one block of the structure.
      * @param size The size of the structure.
      * @param valid If the structure is being validated(/created), otherwise invalidated.
+     * @param originCorner The origin corner
      */
-    public static void detectStructure(World world, ILocation location, Size size, boolean valid) {
-        int newMeta = valid ? 1 : 0;
-        boolean change = LocationHelpers.getBlockMeta(world, location) != newMeta;
-        LocationHelpers.setBlockMetadata(world, location, newMeta, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+    public static void detectStructure(World world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
+
     }
 
 }

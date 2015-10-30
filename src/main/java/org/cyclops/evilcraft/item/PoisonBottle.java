@@ -1,24 +1,23 @@
 package org.cyclops.evilcraft.item;
 
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Configs;
-import evilcraft.block.FluidBlockPoison;
-import evilcraft.core.config.configurable.ConfigurableItem;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.InventoryHelpers;
-import evilcraft.fluid.PoisonConfig;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionHelper;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.block.FluidBlockPoison;
+import org.cyclops.evilcraft.fluid.PoisonConfig;
 
 /**
  * Bottle that is retrieved when right-clicking a poison source.
@@ -57,32 +56,8 @@ public class PoisonBottle extends ConfigurableItem {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage(int meta) {
-        return Items.potionitem.getIconFromDamage(0);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
-        return Items.potionitem.getIconFromDamageForRenderPass(meta, pass);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemStack, int pass) {
-        return pass == 0 ? RenderHelpers.RGBToInt(77, 117, 15) : super.getColorFromItemStack(itemStack, pass);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses() {
-        return true;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        // Do nothing
+        return pass == 0 ? Helpers.RGBToInt(77, 117, 15) : super.getColorFromItemStack(itemStack, pass);
     }
 
     @SubscribeEvent
@@ -92,15 +67,12 @@ public class PoisonBottle extends ConfigurableItem {
                 event.entityPlayer.getHeldItem().getItem() == Items.glass_bottle && Configs.isEnabled(PoisonConfig.class)) {
             MovingObjectPosition pos = this.getMovingObjectPositionFromPlayer(event.world, event.entityPlayer, true);
             if(pos != null && pos.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                int x = pos.blockX;
-                int y = pos.blockY;
-                int z = pos.blockZ;
-                if(event.world.canMineBlock(event.entityPlayer, x, y, z) &&
-                        event.entityPlayer.canPlayerEdit(x, y, z, pos.sideHit, event.entityPlayer.getHeldItem()) &&
-                        event.world.getBlock(x, y, z).getMaterial() == Material.water) {
-                    if(event.world.getBlock(x, y, z) == FluidBlockPoison.getInstance()) {
+                if(event.world.isBlockModifiable(event.entityPlayer, pos.getBlockPos()) &&
+                        event.entityPlayer.canPlayerEdit(pos.getBlockPos(), pos.sideHit, event.entityPlayer.getHeldItem()) &&
+                        event.world.getBlockState(pos.getBlockPos()).getBlock().getMaterial() == Material.water) {
+                    if(event.world.getBlockState(pos.getBlockPos()).getBlock() == FluidBlockPoison.getInstance()) {
                         InventoryHelpers.tryReAddToStack(event.entityPlayer, event.entityPlayer.getHeldItem(), new ItemStack(this));
-                        event.world.setBlockToAir(x, y, z);
+                        event.world.setBlockToAir(pos.getBlockPos());
                     }
                 }
             }

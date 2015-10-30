@@ -1,11 +1,13 @@
 package org.cyclops.evilcraft.client.gui.container;
 
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.BlockPos;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.SanguinaryEnvironmentalAccumulator;
-import evilcraft.core.client.gui.container.GuiWorking;
-import evilcraft.core.helper.L10NHelpers;
+import org.cyclops.evilcraft.core.client.gui.container.GuiWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerSanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
-import net.minecraft.entity.player.InventoryPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +80,7 @@ public class GuiSanguinaryEnvironmentalAccumulator extends GuiWorking<TileSangui
         lines.add(L10NHelpers.localize(prefix));
         if(!tile.canWork()) {
             lines.add(L10NHelpers.localize(prefix + ".invalidLocations"));
-            for(ILocation location : tile.getInvalidLocations()) {
+            for(BlockPos location : tile.getInvalidLocations()) {
                 lines.add("  " + location);
             }
         }
@@ -93,5 +95,9 @@ public class GuiSanguinaryEnvironmentalAccumulator extends GuiWorking<TileSangui
             }
         }
     }
-    
+
+    @Override
+    public String getGuiTexture() {
+        return Reference.TEXTURE_PATH_GUI + "sanguinaryEnvironmentalAccumulator_gui.png";
+    }
 }

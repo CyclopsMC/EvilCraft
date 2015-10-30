@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import evilcraft.core.inventory.slot.SlotRemoveOnly;
-import evilcraft.core.inventory.slot.SlotWorking;
+import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
+import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
 import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.cyclops.evilcraft.block.SanguinaryEnvironmentalAccumulator;

@@ -5,7 +5,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.client.render.item.RenderEntityItemDarkStick;
 
 /**
  * Config for the {@link DarkStick}.

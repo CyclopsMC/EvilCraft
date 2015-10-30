@@ -311,15 +311,16 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
         }
         return allowedItem;
     }
-    
+
     /**
-     * Callback for when a structure has been detected for a spirit furnace blockState.
+     * Callback for when a structure has been detected for a spirit furnace block.
      * @param world The world.
-     * @param location The location of one blockState of the structure.
+     * @param location The location of one block of the structure.
      * @param size The size of the structure.
      * @param valid If the structure is being validated(/created), otherwise invalidated.
+     * @param originCorner The origin corner
      */
-    public static void detectStructure(World world, BlockPos location, Vec3i size, boolean valid) {
+    public static void detectStructure(World world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
 		EvilCraft._instance.getPacketHandler().sendToAllAround(new DetectionListenerPacket(location, valid),
                 LocationHelpers.createTargetPointFromLocation(world, location, 50));
     }

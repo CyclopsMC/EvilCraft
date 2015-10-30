@@ -20,7 +20,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
 import org.cyclops.evilcraft.core.block.CubeDetector;
-import org.cyclops.evilcraft.tileentity.TileSpiritFurnace;
+import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
 
 /**
  * Part of the Colossal Blood Chest multiblock structure.
@@ -71,7 +71,7 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
     }
 
     private void triggerDetector(World world, BlockPos blockPos, boolean valid) {
-        TileSpiritFurnace.detector.detect(world, blockPos, valid ? null : blockPos, true);
+        TileColossalBloodChest.detector.detect(world, blockPos, valid ? null : blockPos, true);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
             boolean change = !(Boolean) world.getBlockState(location).getValue(ACTIVE);
             world.setBlockState(location, world.getBlockState(location).withProperty(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             if(change) {
-                TileSpiritFurnace.detectStructure(world, location, size, valid, originCorner);
+                TileColossalBloodChest.detectStructure(world, location, size, valid, originCorner);
             }
         }
     }
@@ -113,11 +113,11 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
                                     float posX, float posY, float posZ) {
         if((Boolean) blockState.getValue(ACTIVE)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
-            TileSpiritFurnace.detector.detect(world, blockPos, null, new CubeDetector.IValidationAction() {
+            TileColossalBloodChest.detector.detect(world, blockPos, null, new CubeDetector.IValidationAction() {
 
                 @Override
                 public void onValidate(BlockPos location, Block block) {
-                    if(block == SpiritFurnace.getInstance()) {
+                    if(block == ColossalBloodChest.getInstance()) {
                         tileLocationWrapper.set(location);
                     }
                 }

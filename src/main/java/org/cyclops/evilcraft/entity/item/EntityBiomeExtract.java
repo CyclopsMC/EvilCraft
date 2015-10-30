@@ -1,31 +1,32 @@
 package org.cyclops.evilcraft.entity.item;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import evilcraft.Configs;
-import evilcraft.client.particle.EntityBlurFX;
-import evilcraft.core.algorithm.OrganicSpread;
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.entity.item.EntityThrowable;
-import evilcraft.core.helper.WorldHelpers;
-import org.cyclops.evilcraft.item.BiomeExtract;
-import org.cyclops.evilcraft.item.BiomeExtractConfig;
-import evilcraft.item.WeatherContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Triple;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.client.particle.EntityBlurFX;
+import org.cyclops.evilcraft.core.algorithm.OrganicSpread;
+import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
+import org.cyclops.evilcraft.item.BiomeExtract;
+import org.cyclops.evilcraft.item.BiomeExtractConfig;
 
 import java.util.Random;
 
 /**
- * Entity for the {@link WeatherContainer}.
+ * Entity for the {@link BiomeExtract}.
  * @author rubensworks
  *
  */
@@ -45,7 +46,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
      * Make a new instance in a world by a placer {@link EntityLivingBase}.
      * @param world The world.
      * @param entity The {@link EntityLivingBase} that placed this {@link Entity}.
-     * @param damage The damage value for the {@link WeatherContainer} to be rendered.
+     * @param damage The damage value for the {@link BiomeExtract} to be rendered.
      */
     public EntityBiomeExtract(World world, EntityLivingBase entity, int damage) {
         this(world, entity, new ItemStack(Configs.isEnabled(BiomeExtractConfig.class) ? BiomeExtract.getInstance() : Items.coal, 1, damage));
@@ -70,39 +71,39 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
         if(biome != null) {
             OrganicSpread spread = new OrganicSpread(worldObj, 2, 5, new OrganicSpread.IOrganicSpreadable() {
                 @Override
-                public boolean isDone(World world, ILocation location) {
-                    return world.getBiomeGenForCoords(location.getCoordinates()[0], location.getCoordinates()[1]) == biome;
+                public boolean isDone(World world, BlockPos location) {
+                    return world.getBiomeGenForCoords(location) == biome;
                 }
 
                 @Override
-                public void spreadTo(World world, ILocation location) {
+                public void spreadTo(World world, BlockPos location) {
                     if(worldObj.isRemote) {
-                        showChangedBiome(worldObj, location.getCoordinates()[0], movingobjectposition.blockY,
-                                location.getCoordinates()[1], biome.color);
+                        showChangedBiome(worldObj, new BlockPos(location.getX(), movingobjectposition.getBlockPos().getY(),
+                                location.getZ()), biome.color);
                     } else {
-                        WorldHelpers.setBiome(worldObj, location.getCoordinates()[0], location.getCoordinates()[1], biome);
+                        WorldHelpers.setBiome(worldObj, location, biome);
                     }
                 }
             });
             for(int i = 0; i < 50; i++) {
-                spread.spreadTick(new Location(movingobjectposition.blockX, movingobjectposition.blockZ));
+                spread.spreadTick(movingobjectposition.getBlockPos());
             }
         }
         
         // Play sound and show particles of splash potion of harming
-        this.worldObj.playAuxSFX(2002, (int) Math.round(this.posX), (int) Math.round(this.posY), (int) Math.round(this.posZ), 16428);
+        this.worldObj.playAuxSFX(2002, getPosition(), 16428);
         
         setDead();
     }
 
     @SideOnly(Side.CLIENT)
-    private void showChangedBiome(World world, int xStart, int yStart, int zStart, int color) {
-        Triple<Float, Float, Float> c = RenderHelpers.intToRGB(color);
+    private void showChangedBiome(World world, BlockPos pos, int color) {
+        Triple<Float, Float, Float> c = Helpers.intToRGB(color);
         Random rand = world.rand;
         for (int j = 0; j < 2 + rand.nextInt(5); j++) {
-            float x = xStart + -0.5F + rand.nextFloat();
-            float y = yStart + -0.5F + rand.nextFloat();
-            float z = zStart + -0.5F + rand.nextFloat();
+            float x = pos.getX() + -0.5F + rand.nextFloat();
+            float y = pos.getY() + -0.5F + rand.nextFloat();
+            float z = pos.getZ() + -0.5F + rand.nextFloat();
 
             float scale = 0.2F - rand.nextFloat() * 0.2F;
             float red = c.getLeft() + rand.nextFloat() * 0.1F;
@@ -123,17 +124,17 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
     @Override
     protected float getGravityVelocity() {
         // The bigger, the faster the entity falls to the ground
-        return 0.01F;
+        return 0.1F;
     }
 
     @Override
-    protected float func_70182_d() {
+    protected float getVelocity() {
         // Determines the distance of the throw
         return 1.0F;
     }
 
     @Override
-    protected float func_70183_g() {
+    protected float getInaccuracy() {
         // Offset for the start height at which the entity is thrown
         return 0.0F;
     }

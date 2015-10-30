@@ -3,8 +3,8 @@ package org.cyclops.evilcraft.block;
 import com.google.common.collect.Sets;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.tileentity.TileWorking;
 
@@ -15,7 +15,7 @@ import java.util.Set;
  * @author rubensworks
  *
  */
-public class SanguinaryEnvironmentalAccumulatorConfig extends BlockContainerConfig {
+public class SanguinaryEnvironmentalAccumulatorConfig extends UpgradableBlockContainerConfig {
 
     /**
      * The unique instance.

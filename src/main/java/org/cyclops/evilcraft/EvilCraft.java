@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft;
 
+import org.cyclops.evilcraft.core.IMCHandler;
 import org.cyclops.evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
@@ -75,6 +76,7 @@ public class EvilCraft extends ModBaseVersionable {
 
     public static GlobalCounters globalCounters = null;
     public static DarkTempleData darkTempleData = null;
+    public static IMCHandler IMC_HANDLER = new IMCHandler(); // TODO: abstract to cyclops
 
     public EvilCraft() {
         super(Reference.MOD_ID, Reference.MOD_NAME, Reference.MOD_VERSION);

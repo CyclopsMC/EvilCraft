@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
@@ -84,7 +85,7 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {
         if(event.entityLiving instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.entityLiving;
-            if(ItemHelpers.hasPlayerItem(player, this)) {
+            if(ItemStackHelpers.hasPlayerItem(player, this)) {
                 // Jump height and fall distance.
                 player.motionY += JUMP_HEIGHT_FACTOR;
                 player.fallDistance -= FALLDISTANCE_REDUCTION;
@@ -98,7 +99,7 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
         if(event.entityLiving instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.entityLiving;
             if(player.getEntityData().hasKey(PLAYER_NBT_KEY)) {
-                if (!ItemHelpers.hasPlayerItem(player, this)) {
+                if (!ItemStackHelpers.hasPlayerItem(player, this)) {
                     player.stepHeight = player.getEntityData().getFloat(PLAYER_NBT_KEY);
                     player.getEntityData().removeTag(PLAYER_NBT_KEY);
                 }

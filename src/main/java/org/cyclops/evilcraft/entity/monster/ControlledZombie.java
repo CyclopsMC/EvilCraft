@@ -1,19 +1,20 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import evilcraft.core.config.configurable.IConfigurable;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 /**
- * A zombie that is controlled by the player that spawned them with the {@link evilcraft.item.NecromancerStaff}.
+ * A zombie that is controlled by the player that spawned them with the {@link org.cyclops.evilcraft.item.NecromancerStaff}.
  * @author rubensworks
  *
  */
@@ -28,8 +29,8 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
     public ControlledZombie(World world) {
         super(world);
         addPotionEffect(new PotionEffect(Potion.confusion.id, 2000, 0));
-        this.getNavigator().setAvoidsWater(false);
-        this.getNavigator().setBreakDoors(true);
+        ((PathNavigateGround)this.getNavigator()).setAvoidsWater(true);
+        ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
 
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIAttackOnCollide(this, EntityLiving.class, 1.0D, true));
@@ -40,11 +41,6 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
         this.tasks.addTask(8, new EntityAILookIdle(this));
 
         this.setSize(0.6F, 1.8F);
-    }
-
-    @Override
-    protected boolean isAIEnabled() {
-        return true;
     }
 
     @Override

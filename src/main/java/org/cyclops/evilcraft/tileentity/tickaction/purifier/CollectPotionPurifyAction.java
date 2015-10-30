@@ -1,7 +1,5 @@
 package org.cyclops.evilcraft.tileentity.tickaction.purifier;
 
-import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
-import evilcraft.tileentity.TilePurifier;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -11,6 +9,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
+import org.cyclops.evilcraft.tileentity.TilePurifier;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,12 +43,9 @@ public class CollectPotionPurifyAction implements IPurifierAction {
     public boolean canWork(TilePurifier tile) {
         if(tile.getPurifyItem() == null && tile.getAdditionalItem() != null &&
                 tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
-            int x = tile.xCoord;
-            int y = tile.yCoord;
-            int z = tile.zCoord;
             @SuppressWarnings({"rawtypes", "unchecked"})
-            List<EntityLivingBase> entities = tile.getWorldObj().getEntitiesWithinAABB(EntityLivingBase.class,
-                    AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 2, z + 1)
+            List<EntityLivingBase> entities = tile.getWorld().getEntitiesWithinAABB(EntityLivingBase.class,
+                    new AxisAlignedBB(tile.getPos(), tile.getPos().add(1, 2, 1))
             );
             for(EntityLivingBase entity : entities) {
                 for(PotionEffect potionEffect : (Collection<PotionEffect>) entity.getActivePotionEffects()) {
@@ -64,18 +61,15 @@ public class CollectPotionPurifyAction implements IPurifierAction {
     @SuppressWarnings("unchecked")
     @Override
     public boolean work(TilePurifier tile) {
-        World world = tile.getWorldObj();
+        World world = tile.getWorld();
         int tick = tile.getTick();
 
         // Try removing bad enchants.
         if(tile.getPurifyItem() == null && tile.getAdditionalItem() != null
                 && tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
-            int x = tile.xCoord;
-            int y = tile.yCoord;
-            int z = tile.zCoord;
             @SuppressWarnings({"rawtypes", "unchecked"})
-            List<EntityLivingBase> entities = tile.getWorldObj().getEntitiesWithinAABB(EntityLivingBase.class,
-                    AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 2, z + 1)
+            List<EntityLivingBase> entities = tile.getWorld().getEntitiesWithinAABB(EntityLivingBase.class,
+                    new AxisAlignedBB(tile.getPos(), tile.getPos().add(1, 2, 1))
             );
             for(EntityLivingBase entity : entities) {
                 if(!entity.getActivePotionEffects().isEmpty()) {

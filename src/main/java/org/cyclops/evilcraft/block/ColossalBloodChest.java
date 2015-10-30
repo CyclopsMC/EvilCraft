@@ -1,23 +1,32 @@
 package org.cyclops.evilcraft.block;
 
 
-import org.cyclops.evilcraft.client.gui.container.GuiColossalBloodChest;
-import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
-import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.dispenser.ILocation;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.evilcraft.client.gui.container.GuiColossalBloodChest;
+import org.cyclops.evilcraft.core.block.CubeDetector;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
+import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
+import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
 import org.cyclops.evilcraft.tileentity.TileSpiritFurnace;
 
 import java.util.Random;
@@ -27,7 +36,10 @@ import java.util.Random;
  *
  * @author rubensworks
  */
-public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo implements IDetectionListener {
+public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo implements CubeDetector.IDetectionListener {
+
+    @BlockProperty
+    public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
     private static ColossalBloodChest _instance = null;
 
@@ -60,20 +72,14 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
         this.setRotatable(false);
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
-    public IIcon getIcon(int side, int meta) {
-        return meta == 1 ? RenderHelpers.EMPTYICON : super.getIcon(side, meta);
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer entityplayer, EnumFacing side, float par7, float par8, float par9) {
+        return !TileColossalBloodChest.canWork(world, blockPos) ||
+                super.onBlockActivated(world, blockPos, blockState, entityplayer, side, par7, par8, par9);
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
-        return !TileColossalBloodChest.canWork(world, new Location(x, y, z)) ||
-                super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
-    }
-
-    @Override
-    public Item getItemDropped(int par1, Random random, int zero) {
+    public Item getItemDropped(IBlockState blockState, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
 
@@ -87,30 +93,41 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
         return TileSpiritFurnace.LIQUID_PER_SLOT;
     }
 
-    private void triggerDetector(World world, int x, int y, int z, boolean valid) {
-        TileColossalBloodChest.detector.detect(world, new Location(x, y, z), valid, true);
+    private void triggerDetector(World world, BlockPos blockPos, boolean valid) {
+        TileColossalBloodChest.detector.detect(world, blockPos, valid ? null : blockPos, true);
     }
 
     @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
-        triggerDetector(world, x, y, z, true);
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
+        triggerDetector(world, pos, true);
     }
 
     @Override
-    public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
-        triggerDetector(world, x, y, z, false);
-        super.onBlockPreDestroy(world, x, y, z, meta);
+    public void onBlockAdded(World world, BlockPos blockPos, IBlockState blockState) {
+        super.onBlockAdded(world, blockPos, blockState);
+        triggerDetector(world, blockPos, true);
     }
 
     @Override
-    public void onDetect(World world, ILocation location, Size size, boolean valid, ILocation originCorner) {
-        Block block = LocationHelpers.getBlock(world, location);
-        if (block == this) {
-            TileColossalBloodChest.detectStructure(world, location, size, valid);
-            TileEntity tile = LocationHelpers.getTile(world, location);
-            if (tile != null) {
-                ((TileColossalBloodChest) tile).setSize(valid ? size : Size.NULL_SIZE);
-                ((TileColossalBloodChest) tile).setCenter(originCorner.copy().subtract(new Location(-1, -1, -1)));
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        if((Boolean)state.getValue(ACTIVE)) triggerDetector(world, pos, false);
+        super.breakBlock(world, pos, state);
+    }
+
+    @Override
+    public void onDetect(World world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
+        Block block = world.getBlockState(location).getBlock();
+        if(block == this) {
+            boolean change = (Boolean) world.getBlockState(location).getValue(ACTIVE);
+            world.setBlockState(location, world.getBlockState(location).withProperty(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            if(change) {
+                TileColossalBloodChest.detectStructure(world, location, size, valid, originCorner);
+                TileColossalBloodChest tile = TileHelpers.getSafeTile(world, location, TileColossalBloodChest.class);
+                if(tile != null) {
+                    tile.setSize(valid ? size : Vec3i.NULL_VECTOR);
+                    tile.setCenter(originCorner.add(1, 1, 1));
+                }
             }
         }
     }

@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.tileentity.tickaction.purifier;
 
+import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
+import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
-import evilcraft.core.config.configurable.ConfigurableEnchantment;
-import evilcraft.core.helper.EnchantmentHelpers;
-import evilcraft.tileentity.TilePurifier;
-import evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.cyclops.evilcraft.tileentity.TilePurifier;
+import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
 
 /**
  * Purifier action to remove enchantments from tools.
@@ -42,7 +42,7 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
         boolean done = false;
 
         ItemStack purifyItem = tile.getPurifyItem();
-        World world = tile.getWorldObj();
+        World world = tile.getWorld();
         int tick = tile.getTick();
 
         // Try removing bad enchants.

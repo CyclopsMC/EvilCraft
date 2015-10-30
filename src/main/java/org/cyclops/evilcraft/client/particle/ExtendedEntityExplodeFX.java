@@ -1,16 +1,7 @@
 package org.cyclops.evilcraft.client.particle;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import evilcraft.Reference;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityExplodeFX;
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
 
 /**
  * An extended {@link EntityExplodeFX}

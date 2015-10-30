@@ -2,19 +2,20 @@ package org.cyclops.evilcraft.modcompat.nei;
 
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import evilcraft.api.recipes.custom.IRecipe;
-import evilcraft.core.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
+import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
+import org.cyclops.evilcraft.block.BloodInfuser;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
-import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
-import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
 import net.minecraft.item.ItemStack;
+import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Manager for fluid usages in the {@link evilcraft.block.BloodInfuser}.
+ * Manager for fluid usages in the {@link BloodInfuser}.
  * @author rubensworks
  */
 public class NEIBloodInfuserFluidsManager extends NEIBloodInfuserManager {

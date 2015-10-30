@@ -3,8 +3,8 @@ package org.cyclops.evilcraft.tileentity.tickaction.purifier;
 import com.google.common.collect.Lists;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
-import evilcraft.tileentity.TilePurifier;
 import net.minecraft.item.ItemStack;
+import org.cyclops.evilcraft.tileentity.TilePurifier;
 
 import java.util.List;
 

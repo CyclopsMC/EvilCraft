@@ -1,9 +1,6 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Sets;
-import org.cyclops.evilcraft.client.render.tileentity.RenderTileEntityColossalBloodChest;
-import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
@@ -14,8 +11,10 @@ import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.client.render.tileentity.RenderTileEntityColossalBloodChest;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
+import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
 import org.cyclops.evilcraft.tileentity.TileWorking;
 
 import java.util.Set;
@@ -82,7 +81,7 @@ public class ColossalBloodChestConfig extends UpgradableBlockContainerConfig {
     @SideOnly(Side.CLIENT)
     public void onRegistered() {
         super.onRegistered();
-        ModelBase model = new ModelChest();
+        ModelChest model = new ModelChest();
         ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "colossalBloodChest.png");
         EvilCraft._instance.getProxy().registerRenderer(TileColossalBloodChest.class, new RenderTileEntityColossalBloodChest(model, texture));
     }

@@ -102,7 +102,7 @@ public class PrimedPendantConfig extends ItemConfig {
             try {
                 int potionId = Integer.parseInt(split[0]);
                 if(potionId >= Potion.potionTypes.length || Potion.potionTypes[potionId] == null) {
-                    EvilCraft.log("Invalid line '" + line + "' found for "
+                    EvilCraft.clog("Invalid line '" + line + "' found for "
                             + "a Primed Pendant potion multiplier config: " + split[0] + " does not refer to an existing potion; skipping.");
                 }
                 Potion potion = Potion.potionTypes[potionId];
@@ -110,12 +110,12 @@ public class PrimedPendantConfig extends ItemConfig {
                 try {
                     multiplier = Double.parseDouble(split[1]);
                 } catch (NumberFormatException e) {
-                    EvilCraft.log("Invalid ratio '" + split[1] + "' in "
+                    EvilCraft.clog("Invalid ratio '" + split[1] + "' in "
                             + "a Primed Pendant potion multiplier config, using 1.0.", Level.ERROR);
                 }
                 multipliers.put(potion.getId(), multiplier);
             } catch (NumberFormatException e) {
-                EvilCraft.log("Invalid line '" + line + "' found for "
+                EvilCraft.clog("Invalid line '" + line + "' found for "
                         + "a Primed Pendant potion multiplier config: " + split[0] + " is not a number; skipping.");
             }
         }
