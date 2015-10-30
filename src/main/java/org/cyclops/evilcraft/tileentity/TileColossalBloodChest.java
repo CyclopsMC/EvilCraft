@@ -21,6 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.mutable.MutableFloat;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
@@ -92,9 +93,9 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     public static final int MAX_EFFICIENCY = 200;
 
     @NBTPersist
-    private Vec3i size = Vec3i.NULL_VECTOR;
+    private Vec3i size = LocationHelpers.copyLocation(Vec3i.NULL_VECTOR);
     @NBTPersist
-    private BlockPos renderOffset = new BlockPos(0, 0, 0);
+    private Vec3i renderOffset = new Vec3i(0, 0, 0);
     @Getter
     @Setter
     @NBTPersist
@@ -402,7 +403,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         this.renderOffset = getPos().subtract(center);
     }
 
-    public BlockPos getRenderOffset() {
+    public Vec3i getRenderOffset() {
         return this.renderOffset;
     }
 

@@ -414,7 +414,7 @@ public class CubeDetector {
 		if(!validateDimensionEdges(world, dimensionEgdes, excludeLocation == null, action, excludeLocation)) {
 			return LocationHelpers.copyLocation(NULL_SIZE);
 		}
-		
+
 		Vec3i size = LocationHelpers.fromArray(distances);
 		if(getMinimumSize() != NULL_SIZE) {
 			// Check if the size is not smaller than the minimum required size.
@@ -433,8 +433,8 @@ public class CubeDetector {
 			// we skip this step because we always want to be able to invalidate existing structures.
 			// TODO: the 'valid' condition might be impossible to have influence if all structure
 			// handling goes according to plan.
-			if (compareVec3i(size, getMinimumSize()) != 0 && excludeLocation == null) {
-				// System.out.println("too small");
+			if (compareVec3i(size, getExactSize()) != 0 && excludeLocation == null) {
+				// System.out.println(size + " is not exactly " + getExactSize());
 				return LocationHelpers.copyLocation(NULL_SIZE);
 			}
 		}
@@ -462,7 +462,7 @@ public class CubeDetector {
             }
             i++;
         }
-        return validBuffer ? 0 : buffer;
+        return validBuffer ? buffer: 0;
     }
 	
 	/**

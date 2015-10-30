@@ -10,9 +10,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -49,8 +52,21 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
         this.setHarvestLevel("axe", 2); // Iron tier
     }
 
+    @SideOnly(Side.CLIENT)
+    @Override
+    public EnumWorldBlockLayer getBlockLayer() {
+        return EnumWorldBlockLayer.CUTOUT_MIPPED;
+    }
+
+    @SideOnly(Side.CLIENT)
     @Override
     public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean isFullCube() {
         return false;
     }
 

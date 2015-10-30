@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -58,6 +59,24 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
         this.setStepSound(soundTypeWood);
         this.setHarvestLevel("axe", 2); // Iron tier
         this.setRotatable(false);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean isFullCube() {
+        return false;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public EnumWorldBlockLayer getBlockLayer() {
+        return EnumWorldBlockLayer.CUTOUT_MIPPED;
     }
 
     @Override
@@ -107,15 +126,11 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
     public void onDetect(World world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
-            boolean change = (Boolean) world.getBlockState(location).getValue(ACTIVE);
             world.setBlockState(location, world.getBlockState(location).withProperty(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-            if(change) {
-                TileColossalBloodChest.detectStructure(world, location, size, valid, originCorner);
-                TileColossalBloodChest tile = TileHelpers.getSafeTile(world, location, TileColossalBloodChest.class);
-                if(tile != null) {
-                    tile.setSize(valid ? size : Vec3i.NULL_VECTOR);
-                    tile.setCenter(originCorner.add(1, 1, 1));
-                }
+            TileColossalBloodChest tile = TileHelpers.getSafeTile(world, location, TileColossalBloodChest.class);
+            if(tile != null) {
+                tile.setSize(valid ? size : Vec3i.NULL_VECTOR);
+                tile.setCenter(originCorner.add(1, 1, 1));
             }
         }
     }

@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.client.render.tileentity;
 
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3i;
 import org.cyclops.cyclopscore.client.render.tileentity.RenderTileEntityModel;
 import org.cyclops.evilcraft.block.ColossalBloodChest;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
@@ -26,10 +26,9 @@ public class RenderTileEntityColossalBloodChest extends RenderTileEntityModel<Ti
     }
 
     @Override
-    protected void preRotate(TileColossalBloodChest tile) {
-        TileColossalBloodChest chestTile = (TileColossalBloodChest) tile;
+    protected void preRotate(TileColossalBloodChest chestTile) {
         if(chestTile.canWork()) {
-            BlockPos renderOffset = chestTile.getRenderOffset();
+            Vec3i renderOffset = chestTile.getRenderOffset();
             GlStateManager.translate(-renderOffset.getX(), renderOffset.getY(), renderOffset.getZ());
         }
         GlStateManager.translate(0.5F, 0, 0.5F);
