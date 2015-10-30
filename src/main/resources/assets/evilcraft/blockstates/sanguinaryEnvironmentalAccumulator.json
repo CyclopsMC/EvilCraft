@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "on=false": { "model": "evilcraft:sanguinaryEnvironmentalAccumulator_off" },
+    "on=true": { "model": "evilcraft:sanguinaryEnvironmentalAccumulator_on" },
+    "inventory": { "model": "evilcraft:sanguinaryEnvironmentalAccumulator_off" }
+  }
+}

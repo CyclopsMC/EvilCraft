@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Sets;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
@@ -74,6 +75,14 @@ public class BiomeExtractConfig extends ItemConfig {
                 null,
                 BiomeExtract.class
         );
+    }
+
+    @Override
+    public String getModelName(ItemStack itemStack) {
+        if(((BiomeExtract) getItemInstance()).isEmpty(itemStack)) {
+            return super.getModelName(itemStack) + "_empty";
+        }
+        return super.getModelName(itemStack);
     }
 
     /**

@@ -306,6 +306,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     @Override
     public void onStateChanged() {
         sendUpdate();
+        worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(SanguinaryEnvironmentalAccumulator.ON, isWorking()));
         worldObj.markBlockForUpdate(getPos()); // Update light
     }
 
