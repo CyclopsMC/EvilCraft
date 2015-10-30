@@ -57,7 +57,7 @@
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.biomeExtract.text2</paragraph>
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.biomeExtract.text3</paragraph>
                 <appendix type="craftingRecipe">evilcraft:biomeExtract</appendix>
-                <appendix type="envirAccRecipe" meta="1">evilcraft:biomeExtract</appendix>
+                <appendix type="evilcraft:envirAccRecipe" meta="1">evilcraft:biomeExtract</appendix>
             </section>
             <section name="infoBook.firstAge.newWorld.libelle">
                 <tag>bucketPoison</tag>
@@ -288,7 +288,7 @@
                 <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text4</paragraph>
                 <paragraph>infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text5</paragraph>
                 <appendix type="image" width="120" height="118">evilcraft:textures/gui/infobook/colossalBloodChest.png</appendix>
-                <appendix type="bloodInfuserRecipe">evilcraft:reinforcedUndeadPlank</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:reinforcedUndeadPlank</appendix>
                 <appendix type="craftingRecipe">evilcraft:colossalBloodChest</appendix>
             </section>
             <section name="infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator">
@@ -298,7 +298,7 @@
                 <paragraph>infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text3</paragraph>
                 <appendix type="image" width="120" height="82">evilcraft:textures/gui/infobook/sanguinaryEnvironmentalAccumulator.png</appendix>
                 <appendix type="craftingRecipe">evilcraft:sanguinaryEnvironmentalAccumulator</appendix>
-                <appendix type="envirAccRecipe">evilcraft:reinforcedUndeadPlank</appendix>
+                <appendix type="evilcraft:envirAccRecipe">evilcraft:reinforcedUndeadPlank</appendix>
             </section>
         </section>
         <section name="infoBook.evilcraft.secondAge.tools">

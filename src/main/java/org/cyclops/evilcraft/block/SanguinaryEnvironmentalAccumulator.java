@@ -1,8 +1,5 @@
 package org.cyclops.evilcraft.block;
 
-import org.cyclops.evilcraft.client.gui.container.GuiSanguinaryEnvironmentalAccumulator;
-import org.cyclops.evilcraft.inventory.container.ContainerSanguinaryEnvironmentalAccumulator;
-import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
@@ -15,6 +12,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainerGui;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.evilcraft.client.gui.container.GuiSanguinaryEnvironmentalAccumulator;
+import org.cyclops.evilcraft.inventory.container.ContainerSanguinaryEnvironmentalAccumulator;
+import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
 
 import java.util.Random;
 
@@ -28,17 +28,6 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
     private static SanguinaryEnvironmentalAccumulator _instance = null;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new SanguinaryEnvironmentalAccumulator(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -46,7 +35,7 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
         return _instance;
     }
 
-    private SanguinaryEnvironmentalAccumulator(ExtendedConfig<BlockConfig> eConfig) {
+    public SanguinaryEnvironmentalAccumulator(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock, TileSanguinaryEnvironmentalAccumulator.class);
         this.setStepSound(soundTypeStone);
         this.setRotatable(true);

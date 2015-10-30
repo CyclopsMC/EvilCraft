@@ -35,17 +35,6 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
     private static ReinforcedUndeadPlank _instance = null;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if(_instance == null)
-            _instance = new ReinforcedUndeadPlank(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -53,7 +42,7 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
         return _instance;
     }
 
-    private ReinforcedUndeadPlank(ExtendedConfig<BlockConfig> eConfig) {
+    public ReinforcedUndeadPlank(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
         this.setHardness(5.0F);
         this.setStepSound(soundTypeWood);

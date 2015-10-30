@@ -60,7 +60,7 @@ public class MaceOfDistortion extends Mace {
         return _instance;
     }
 
-    private MaceOfDistortion(ExtendedConfig<ItemConfig> eConfig) {
+    public MaceOfDistortion(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, CONTAINER_SIZE, HIT_USAGE, MAXIMUM_CHARGE, POWER_LEVELS, MELEE_DAMAGE);
     }
     

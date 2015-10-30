@@ -28,17 +28,6 @@ public class MaceOfDestruction extends Mace {
     private static final int POWER_LEVELS = 5;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new MaceOfDestruction(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -46,7 +35,7 @@ public class MaceOfDestruction extends Mace {
         return _instance;
     }
 
-    private MaceOfDestruction(ExtendedConfig<ItemConfig> eConfig) {
+    public MaceOfDestruction(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, CONTAINER_SIZE, HIT_USAGE, MAXIMUM_CHARGE, POWER_LEVELS, MELEE_DAMAGE);
     }
 

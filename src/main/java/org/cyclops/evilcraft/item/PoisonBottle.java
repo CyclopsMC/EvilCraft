@@ -29,17 +29,6 @@ public class PoisonBottle extends ConfigurableItem {
     private static PoisonBottle _instance = null;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new PoisonBottle(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -47,7 +36,7 @@ public class PoisonBottle extends ConfigurableItem {
         return _instance;
     }
 
-    private PoisonBottle(ExtendedConfig<ItemConfig> eConfig) {
+    public PoisonBottle(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setPotionEffect(PotionHelper.spiderEyeEffect);
         this.setMaxStackSize(1);

@@ -1,14 +1,14 @@
 package org.cyclops.evilcraft.tileentity.tickaction.purifier;
 
-import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
-import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import org.cyclops.evilcraft.item.BlookConfig;
+import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
+import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
+import org.cyclops.evilcraft.core.algorithm.Wrapper;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
     /**
      * The allowed book instance.
      */
-    public static final Item ALLOWED_BOOK = BlookConfig._instance.downCast().getItemInstance();
+    public static final Wrapper<Item> ALLOWED_BOOK = new Wrapper<Item>();
 
     private static final int PURIFY_DURATION = 60;
 
@@ -34,13 +34,13 @@ public class DisenchantPurifyAction implements IPurifierAction {
 
     @Override
     public boolean isItemValidForAdditionalSlot(ItemStack itemStack) {
-        return itemStack != null && itemStack.getItem() == ALLOWED_BOOK;
+        return itemStack != null && itemStack.getItem() == ALLOWED_BOOK.get();
     }
 
     @Override
     public boolean canWork(TilePurifier tile) {
         if(tile.getBucketsFloored() == tile.getMaxBuckets() && tile.getAdditionalItem() != null &&
-                tile.getAdditionalItem().getItem() == ALLOWED_BOOK) {
+                tile.getAdditionalItem().getItem() == ALLOWED_BOOK.get()) {
             NBTTagList enchantmentList = tile.getPurifyItem().getEnchantmentTagList();
             return enchantmentList != null && enchantmentList.tagCount() > 0;
         }

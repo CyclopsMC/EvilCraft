@@ -15,8 +15,8 @@ import net.minecraft.world.World;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.Purifier;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
-import org.lwjgl.opengl.GL11;
 import org.cyclops.evilcraft.tileentity.tickaction.purifier.DisenchantPurifyAction;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Renderer for the item inside the {@link Purifier}.
@@ -37,7 +37,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
 	    if(tile != null) {
             ItemStack additionalItem = tile.getAdditionalItem();
             if(additionalItem != null) {
-                if(additionalItem.getItem() == DisenchantPurifyAction.ALLOWED_BOOK || additionalItem.getItem() == Items.enchanted_book) {
+                if(additionalItem.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() || additionalItem.getItem() == Items.enchanted_book) {
                     renderBook(tile, tile.getWorld(), additionalItem, x, y + 0.4, z, partialTickTime);
                 } else {
                     renderAdditionalItem(tile, tile.getWorld(), additionalItem, x, y + 0.4, z, partialTickTime);
@@ -144,7 +144,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         GlStateManager.rotate(-rotation * 180.0F / (float) Math.PI, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(80.0F, 0.0F, 0.0F, 1.0F);
         
-        if(itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK)
+        if(itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get())
             this.bindTexture(TEXTURE_BLOOK);
         else
             this.bindTexture(TEXTURE_ENCHANTEDBOOK);
