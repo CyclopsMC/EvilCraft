@@ -12,10 +12,10 @@ import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.init.IInitListener;
+import org.cyclops.cyclopscore.modcompat.IMCHandler;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.entity.RenderVengeanceSpirit;
-import org.cyclops.evilcraft.core.IMCHandler;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChanged;
 
 /**
@@ -102,7 +102,7 @@ public class VengeanceSpiritConfig extends MobConfig {
     public void onInit(IInitListener.Step step) {
         super.onInit(step);
         if(step == IInitListener.Step.INIT) {
-            EvilCraft.IMC_HANDLER.registerAction(Reference.IMC_BLACKLIST_VENGEANCESPIRIT, new IMCHandler.IIMCAction() {
+            EvilCraft._instance.getImcHandler().registerAction(Reference.IMC_BLACKLIST_VENGEANCESPIRIT, new IMCHandler.IIMCAction() {
 
                 @Override
                 public boolean handle(FMLInterModComms.IMCMessage message) {

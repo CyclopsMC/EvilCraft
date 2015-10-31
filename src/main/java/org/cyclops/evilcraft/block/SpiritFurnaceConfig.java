@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Sets;
-import org.cyclops.evilcraft.core.IMCHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -17,6 +16,7 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.init.IInitListener;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
+import org.cyclops.cyclopscore.modcompat.IMCHandler;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
@@ -113,7 +113,7 @@ public class SpiritFurnaceConfig extends UpgradableBlockContainerConfig {
     public void onInit(IInitListener.Step step) {
         super.onInit(step);
         if(step == IInitListener.Step.INIT) {
-            EvilCraft.IMC_HANDLER.registerAction(Reference.IMC_OVERRIDE_SPIRITFURNACE_DROPS, new IMCHandler.IIMCAction() {
+            EvilCraft._instance.getImcHandler().registerAction(Reference.IMC_OVERRIDE_SPIRITFURNACE_DROPS, new IMCHandler.IIMCAction() {
 
                 @Override
                 public boolean handle(FMLInterModComms.IMCMessage message) {
