@@ -10,11 +10,6 @@ task apiJar(type: Jar) {
     include 'evilcraft/api/**'
 }
 
-task sourceJar(type: Jar, dependsOn: "sourceMainJava") {
-    from "build/sources/java"
-    classifier = 'sources'
-}
-
 task javadocJar(type: Jar, dependsOn: javadoc) {
     from 'build/docs/javadoc'
     classifier 'javadoc'
