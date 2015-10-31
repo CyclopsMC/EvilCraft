@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.client.gui.container;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.inventory.container.ContainerPrimedPendant;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import org.cyclops.evilcraft.item.PrimedPendant;
 
 /**
@@ -28,7 +28,7 @@ public class GuiPrimedPendant extends GuiContainerExtended {
 
     @Override
     public String getGuiTexture() {
-        return Reference.TEXTURE_PATH_GUI + "primedPedant_gui.png";
+        return Reference.TEXTURE_PATH_GUI + "primedPendant_gui.png";
     }
 
     @Override

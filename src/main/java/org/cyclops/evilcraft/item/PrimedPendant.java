@@ -119,8 +119,9 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
         return inventory.getStackInSlot(0);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack itemStack, int pass) {
+    public boolean hasEffect(ItemStack itemStack) {
         return hasPotionStack(itemStack);
     }
 
@@ -202,7 +203,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
 
     @Override
     public ModBase getMod() {
-        return null;
+        return EvilCraft._instance;
     }
 
     @Override
