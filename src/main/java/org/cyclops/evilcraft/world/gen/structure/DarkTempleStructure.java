@@ -11,7 +11,6 @@ import net.minecraftforge.common.ChestGenHooks;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 
@@ -308,9 +307,6 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
                 if (getMaxPillarHeightAt(world, blockPos) > GeneralConfig.darkTempleMaxPillarLength) return false;
                 // If all is ok, generate the structure
                 super.generate(world, random, location);
-
-                // save position of the dark temple in NBT
-                EvilCraft.darkTempleData.addStructureLocation(location);
 
                 return true;
             }
