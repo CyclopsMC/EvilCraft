@@ -4,12 +4,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import org.cyclops.cyclopscore.client.key.IKeyRegistry;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.key.ExaltedCrafterKeyHandler;
 import org.cyclops.evilcraft.client.key.FartKeyHandler;
 import org.cyclops.evilcraft.client.key.Keys;
@@ -26,6 +28,7 @@ public class ClientProxy extends ClientProxyComponent {
 
 	public ClientProxy() {
 		super(new CommonProxy());
+		OBJLoader.instance.addDomain(Reference.MOD_ID);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
@@ -16,6 +17,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.OBJModel;
+import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -41,6 +45,8 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 	 */
     @BlockProperty
     public static final PropertyBool SUPPLY = PropertyBool.create("supply");
+    @BlockProperty
+    public static final IUnlistedProperty<OBJModel.OBJState> OBJ_STATE = OBJModel.OBJProperty.instance;
 	
     private static EntangledChalice _instance = null;
     
@@ -185,5 +191,12 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
         return EnumRarity.RARE;
+    }
+
+    @Override
+    public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+        TileEntangledChalice tileEntity = (TileEntangledChalice) world.getTileEntity(pos);
+        OBJModel.OBJState retState = new OBJModel.OBJState(tileEntity == null ? Lists.newArrayList(OBJModel.Group.ALL) : Lists.<String>newArrayList(), true);
+        return ((IExtendedBlockState) getDefaultState()).withProperty(OBJModel.OBJProperty.instance, retState);
     }
 }
