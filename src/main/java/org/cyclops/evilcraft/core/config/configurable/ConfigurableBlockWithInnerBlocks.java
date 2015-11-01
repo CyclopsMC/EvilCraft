@@ -141,7 +141,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     
     @Override
     public boolean canHarvestBlock(IBlockAccess world, BlockPos blockPos, EntityPlayer player) {
-        return getBlockFromState(world.getBlockState(blockPos)).getBlock().canHarvestBlock(world, blockPos, player);
+        return true;
     }
     
     @Override
