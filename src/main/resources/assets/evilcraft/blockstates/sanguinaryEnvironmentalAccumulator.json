@@ -1,4 +1,8 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
   "variants": {
     "on=false": { "model": "evilcraft:sanguinaryEnvironmentalAccumulator_off" },
     "on=true": { "model": "evilcraft:sanguinaryEnvironmentalAccumulator_on" },
