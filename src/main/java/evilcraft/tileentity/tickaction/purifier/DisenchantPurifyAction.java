@@ -39,8 +39,8 @@ public class DisenchantPurifyAction implements IPurifierAction {
 
     @Override
     public boolean canWork(TilePurifier tile) {
-        if(tile.getBucketsFloored() == tile.getMaxBuckets() && tile.getAdditionalItem() != null &&
-                tile.getAdditionalItem().getItem() == ALLOWED_BOOK) {
+        if(tile.getBucketsFloored() == tile.getMaxBuckets() && tile.getPurifyItem() != null &&
+                tile.getAdditionalItem() != null && tile.getAdditionalItem().getItem() == ALLOWED_BOOK) {
             NBTTagList enchantmentList = tile.getPurifyItem().getEnchantmentTagList();
             return enchantmentList != null && enchantmentList.tagCount() > 0;
         }
