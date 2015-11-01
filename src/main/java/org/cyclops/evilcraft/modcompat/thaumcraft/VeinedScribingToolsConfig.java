@@ -1,7 +1,10 @@
-package evilcraft.modcompat.thaumcraft;
+package org.cyclops.evilcraft.modcompat.thaumcraft;
+
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.evilcraft.EvilCraft;
 
 /**
- * Config for the {@link evilcraft.modcompat.thaumcraft.VeinedScribingTools}.
+ * Config for the {@link VeinedScribingTools}.
  * @author rubensworks
  *
  */
@@ -17,6 +20,7 @@ public class VeinedScribingToolsConfig extends ItemConfig {
      */
     public VeinedScribingToolsConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "veinedScribingTools",
             null,

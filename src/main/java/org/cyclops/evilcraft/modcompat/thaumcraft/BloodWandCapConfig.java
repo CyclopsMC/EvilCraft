@@ -1,7 +1,9 @@
-package evilcraft.modcompat.thaumcraft;
+package org.cyclops.evilcraft.modcompat.thaumcraft;
 
-import evilcraft.core.config.configurable.ConfigurableItem;
-import evilcraft.core.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.evilcraft.EvilCraft;
 
 /**
  * Blood Infused Golden Wand cap that has a slightly higher discount.
@@ -21,6 +23,7 @@ public class BloodWandCapConfig extends ItemConfig {
      */
     public BloodWandCapConfig() {
         super(
+                EvilCraft._instance,
         	true,
             "bloodWandCap",
             null,

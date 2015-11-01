@@ -1,8 +1,9 @@
-package evilcraft.modcompat.thaumcraft;
+package org.cyclops.evilcraft.modcompat.thaumcraft;
 
-import org.cyclops.evilcraft.Configs;
+import org.cyclops.cyclopscore.init.IInitListener;
+import org.cyclops.cyclopscore.modcompat.IModCompat;
+import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
-import evilcraft.modcompat.IModCompat;
 
 /**
  * Compatibility plugin for Thaumcraft.
@@ -19,8 +20,8 @@ public class ThaumcraftModCompat implements IModCompat {
     @Override
     public void onInit(Step step) {
         if(step == IInitListener.Step.PREINIT) {
-            Configs.getInstance().configs.add(new VeinedScribingToolsConfig());
-            Configs.getInstance().configs.add(new BloodWandCapConfig());
+            EvilCraft._instance.getConfigHandler().add(new VeinedScribingToolsConfig());
+            EvilCraft._instance.getConfigHandler().add(new BloodWandCapConfig());
         } else if(step == Step.INIT) {
             Thaumcraft.register();
     	}
