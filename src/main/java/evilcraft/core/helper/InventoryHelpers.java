@@ -37,7 +37,7 @@ public class InventoryHelpers {
         		player.inventory.setInventorySlotContents(player.inventory.currentItem, newStackPart);
         	} else {
                 --originalStack.stackSize;
-        		if(!player.inventory.addItemStackToInventory(newStackPart)) {
+        		if(newStackPart != null && !player.inventory.addItemStackToInventory(newStackPart)) {
         			player.dropPlayerItemWithRandomChoice(newStackPart, false);
         		}
         	}

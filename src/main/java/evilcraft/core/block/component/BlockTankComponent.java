@@ -58,6 +58,7 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 	                    tile.fill(fluidStack, true);
 	                    if(!player.capabilities.isCreativeMode) {
 	                    	ItemStack drainedItem = FluidContainerRegistry.drainFluidContainer(itemStack);
+                            if(drainedItem.stackSize == 0) drainedItem = null;
 	                    	InventoryHelpers.tryReAddToStack(player, itemStack, drainedItem);
 	                    }
                 	}
