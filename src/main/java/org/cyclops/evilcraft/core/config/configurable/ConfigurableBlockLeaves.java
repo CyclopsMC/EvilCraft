@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.config.configurable;
 
+import com.google.common.collect.Lists;
 import lombok.experimental.Delegate;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks;
@@ -120,5 +121,10 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
     @Override
     public EnumWorldBlockLayer getBlockLayer() {
         return EnumWorldBlockLayer.CUTOUT_MIPPED;
+    }
+
+    @Override
+    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+        return Lists.newArrayList(new ItemStack(this));
     }
 }
