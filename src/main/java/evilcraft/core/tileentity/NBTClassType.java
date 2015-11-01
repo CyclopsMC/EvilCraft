@@ -3,6 +3,7 @@ package evilcraft.core.tileentity;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -141,11 +142,17 @@ public abstract class NBTClassType<T> {
 	        NBTClassType<?> action = NBTClassType.NBTYPES.get(type);
 	        if(action != null) {
 	            try {
+                    Field modifiersField = Field.class.getDeclaredField("modifiers");
+                    modifiersField.setAccessible(true);
+                    modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+                    field.setAccessible(true);
 	                action.persistedFieldAction(tile, field, tag, write);
 	            } catch (IllegalAccessException e) {
 	                throw new RuntimeException("Could not access field " + fieldName + " in " + tile.getClass());
-	            }
-	        } else {
+	            } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                }
+            } else {
 	            throw new RuntimeException("No NBT persist action found for field " + fieldName + " of class " + type + " in " + tile.getClass());
 	        }
         }
