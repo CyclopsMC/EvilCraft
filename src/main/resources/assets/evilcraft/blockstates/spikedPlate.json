@@ -1,4 +1,8 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
   "variants": {
     "powered=false": { "model": "evilcraft:spikedPlate_up"   },
     "powered=true":  { "model": "evilcraft:spikedPlate_down" },
