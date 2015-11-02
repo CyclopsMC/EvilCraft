@@ -40,8 +40,6 @@ public class DarkStickConfig extends ItemConfig {
     @Override
     public void onRegistered() {
         super.onRegistered();
-        // TODO: register item renderer
-        //EvilCraft.proxy.registerRenderer(getItemInstance(), new RenderEntityItemDarkStick());
     }
 
 }
