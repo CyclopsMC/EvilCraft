@@ -2,8 +2,11 @@ package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.evilcraft.world.gen.DarkTempleGenerator;
 
 /**
  * Entity for the dark stick item.
@@ -86,22 +89,23 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	}
 	
 	private Float loadRotation() {
-		/*BlockPos closest = DarkTempleGenerator.getClosestForCoords(worldObj, (int) posX, (int) posZ);
+		BlockPos closest = DarkTempleGenerator.getClosestForCoords(worldObj, (int) posX, (int) posZ);
         if(closest != null) {
 			closest = new BlockPos(closest.getX(), 0, closest.getZ());
 			double d = closest.distanceSq(new BlockPos((int) posX, 0, (int) posZ));
             if(d <= WorldHelpers.CHUNK_SIZE * 2) {
                 return null;
             }
-			return (float) LocationHelpers.getPitch(closest, new BlockPos((int) posX, 0, (int) posZ));
-		}*/
-		// TODO: rewrite
+			BlockPos normalized = new BlockPos(closest.getX() - (int) posX, 0,
+					closest.getZ() - (int) posZ);
+			return (float) (Math.atan2(normalized.getX(), normalized.getZ()) * 180 / Math.PI);
+		}
 		return null;
 	}
 	
 	@Override
 	protected boolean hasCustomRotation() {
-		return isValid() && false;// TODO: DarkTempleGenerator.canGenerate(worldObj);
+		return isValid() && DarkTempleGenerator.canGenerate(worldObj);
 	}
 
 	public float getAngle() {
