@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.core.algorithm;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
 
 import java.util.Random;
 
@@ -82,8 +81,9 @@ public class OrganicSpread {
      * @param startLocation The location to start spreading from.
      */
     public void spreadTick(BlockPos startLocation) {
-        BlockPos newLocation = startLocation;
-        
+        Vec3 newLocation = new Vec3(startLocation.getX(), startLocation.getY(), startLocation.getZ());
+        BlockPos newLocationConcrete = new BlockPos(newLocation);
+
         // Safely get a random direction.
         Vec3 direction = getRandomDirection();
         int attempts = 10;
@@ -93,34 +93,25 @@ public class OrganicSpread {
         }
         if(!isBigEnough(direction)) return;
 
-        // Copy old coordinates.
-        BlockPos oldCoordinates = LocationHelpers.copyLocation(newLocation);
-
         // Loop in that direction.
-        while (getSpreadable().isDone(world, newLocation) && isInArea(startLocation, oldCoordinates)) {
-            // Calculate the new coordinates
-            BlockPos newCoordinates = oldCoordinates.add(direction.xCoord, direction.yCoord, direction.zCoord);
-
-            // Set the new coordinates
-            newLocation = LocationHelpers.copyLocation(newCoordinates);
-
-            // Swap
-            oldCoordinates = newCoordinates;
+        while (getSpreadable().isDone(world, newLocationConcrete) && isInArea(startLocation, newLocationConcrete)) {
+            newLocation = newLocation.add(direction);
+            newLocationConcrete = new BlockPos(newLocation);
         }
 
         // Spread to the new blockState.
-        if (!getSpreadable().isDone(world, newLocation)) {
-            getSpreadable().spreadTo(world, newLocation);
+        if (!getSpreadable().isDone(world, newLocationConcrete)) {
+            getSpreadable().spreadTo(world, newLocationConcrete);
         }
     }
-    
+
     protected boolean isInArea(BlockPos center, BlockPos location) {
         return Math.sqrt(center.distanceSq(location)) <= getRadius();
     }
 
     protected boolean isBigEnough(Vec3 direction) {
         float MIN = 0.3F;
-        return direction.xCoord >= MIN && direction.yCoord >= MIN && direction.zCoord >= MIN;
+        return Math.abs(direction.xCoord) >= MIN || Math.abs(direction.yCoord) >= MIN || Math.abs(direction.zCoord) >= MIN;
     }
     
     /**
