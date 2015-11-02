@@ -830,7 +830,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	public static void addToBlacklist(Class<? extends EntityLivingBase> clazz) {
 		if(BLACKLIST.add(clazz))
 			EvilCraft.clog("Added entity class " + clazz.getCanonicalName()
-                    + " to the spirit blacklist.");
+                    + " to the spirit blacklist.", Level.TRACE);
 	}
 
     /**
@@ -851,7 +851,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) EntityList.stringToClassMapping.get(entity);
 			if(clazz == null) {
 				EvilCraft.clog("Could not find entity by name '" + entity
-                        + "' for spirit blacklist.", Level.ERROR);
+                        + "' for spirit blacklist.", Level.WARN);
 			} else {
 				addToBlacklist(clazz);
 			}

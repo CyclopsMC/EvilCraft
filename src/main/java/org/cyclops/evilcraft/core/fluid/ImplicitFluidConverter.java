@@ -111,7 +111,7 @@ public class ImplicitFluidConverter {
 			Fluid fluid = FluidRegistry.getFluid(split[0]);
 			if(fluid == null) {
 				EvilCraft.clog("Could not find a fluid by name '" + split[0] + "' for "
-						+ "a fluid converter config.", Level.ERROR);
+						+ "a fluid converter config.", Level.WARN);
 			}
 			double ratio = 1.0D;
 			try {
