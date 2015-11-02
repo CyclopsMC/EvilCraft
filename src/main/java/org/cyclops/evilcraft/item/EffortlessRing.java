@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
@@ -17,7 +18,6 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 
 /**
@@ -35,7 +35,7 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
     private static final float STEP_SIZE = 1F;
     private static final float JUMP_DISTANCE_FACTOR = 0.05F;
     private static final float JUMP_HEIGHT_FACTOR = 0.3F;
-    private static final float FALLDISTANCE_REDUCTION = 1.5F;
+    private static final float FALLDISTANCE_REDUCTION = 2F;
 
     private static EffortlessRing _instance = null;
 
@@ -86,9 +86,7 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
         if(event.entityLiving instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.entityLiving;
             if(ItemStackHelpers.hasPlayerItem(player, this)) {
-                // Jump height and fall distance.
                 player.motionY += JUMP_HEIGHT_FACTOR;
-                player.fallDistance -= FALLDISTANCE_REDUCTION;
             }
         }
     }
@@ -103,6 +101,16 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
                     player.stepHeight = player.getEntityData().getFloat(PLAYER_NBT_KEY);
                     player.getEntityData().removeTag(PLAYER_NBT_KEY);
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerFall(LivingFallEvent event) {
+        if(event.entityLiving instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) event.entityLiving;
+            if(ItemStackHelpers.hasPlayerItem(player, this)) {
+                event.distance -= FALLDISTANCE_REDUCTION;
             }
         }
     }

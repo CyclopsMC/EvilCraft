@@ -105,7 +105,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	
 	@Override
 	protected boolean hasCustomRotation() {
-		return isValid() && DarkTempleGenerator.canGenerate(worldObj);
+		return isValid() && DarkTempleGenerator.canGenerate(getEntityWorld());
 	}
 
 	public float getAngle() {

@@ -213,9 +213,13 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         for (ItemStack item : ItemList.items) {
             if(item.getItem() instanceof IFluidContainerItem) {
                 IFluidContainerItem containerItem = (IFluidContainerItem) item.getItem();
-                FluidStack fluidStack = containerItem.getFluid(item);
-                if(fluidStack != null && BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
-                    afluids.add(new FluidPair(item.copy(), fluidStack));
+                try {
+                    FluidStack fluidStack = containerItem.getFluid(item);
+                    if (fluidStack != null && BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
+                        afluids.add(new FluidPair(item.copy(), fluidStack));
+                    }
+                } catch (Exception e) {
+                    // Just ignore that fluid
                 }
             }
         }
