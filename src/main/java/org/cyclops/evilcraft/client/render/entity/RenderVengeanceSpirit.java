@@ -7,12 +7,15 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.properties.Property;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.layers.LayerArrow;
+import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
+import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -24,6 +27,7 @@ import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Renderer for a vengeance spirit
@@ -110,7 +114,22 @@ public class RenderVengeanceSpirit extends Render {
 		private ResourceLocation playerTexture;
 
 		public RenderPlayerSpirit(RenderManager renderManager) {
-			super(renderManager, new ModelBiped(0.0F), 0.5F);
+			super(renderManager, new ModelPlayer(0.0F, false), 0.5F);
+			ModelPlayer modelPlayer = ((ModelPlayer) this.getMainModel());
+			this.addLayer(new LayerBipedArmor(this));
+			this.addLayer(new LayerHeldItem(this));
+			this.addLayer(new LayerArrow(this));
+			this.addLayer(new LayerCustomHead(modelPlayer.bipedHead));
+
+			modelPlayer.setInvisible(true);
+			Random rand = new Random();
+			modelPlayer.bipedHeadwear.showModel = rand.nextBoolean();
+			modelPlayer.bipedBodyWear.showModel = rand.nextBoolean();
+			modelPlayer.bipedLeftLegwear.showModel = rand.nextBoolean();
+			modelPlayer.bipedRightLegwear.showModel = rand.nextBoolean();
+			modelPlayer.bipedLeftArmwear.showModel = rand.nextBoolean();
+			modelPlayer.bipedRightArmwear.showModel = rand.nextBoolean();
+			modelPlayer.heldItemLeft = 0;
 		}
 
 		protected ResourceLocation getEntityTexture(EntityLiving entity) {
