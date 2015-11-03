@@ -99,7 +99,7 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 			}
 		}
 		
-		if(((extractors + tanks) < 2 && extractors < 1)
+		if((extractors + tanks) < 2 || extractors < 1
 				|| totalCapacity > darkTank.getBlockTank().getMaxCapacity()) {
 			return null;
 		}
