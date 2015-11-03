@@ -1,0 +1,64 @@
+As always, don't forget to backup your world before updating!
+This requires CyclopsCore 0.3.0 or higher
+
+Features:
+* Add Rejuvenated Flesh, food item that runs on Blood.
+* Add Garmonbozia as end-game crafting element
+For now it can only be found in loot chests or traded with Werewolf Villagers
+* Add Mace of Destruction
+Like the Mace of Distortion, but it creates explosions.
+* Add player Vengeance Spirits
+They have specific drops in the Spirit Furnace as well.
+* Add Sanguinary Environmental Accumulator
+An Environmental Accumulator that runs on Blood and doesn't produce any secondary effects.
+* Add Biome Extract, can contain any biome type
+They are crafted in an Environmental Accumulator
+* Add Purifier ability to move PotionEffects from entities to bottles
+* Add Primed Pendant
+Insert any potion to continuously have its effect applied to you.
+Specific potion id multipliers and possible for balancing.
+By default instant health is disabled and regen consumes ten times the base amount.
+* Add Colossal Blood Chest
+A Blood Chest that is much larger, is upgradable, and is just much better in any way.
+* Make Dark Stick a temple locator when dropped on the ground.
+* Add convenience Dark Tank recipe for an increased capacity.
+
+Changes:
+* Effortless Ring reduces all types of fall damage, Closes #293
+* Slightly lower temple spawning rate, Closes #292
+* Use new DarkTemple spawning algorithm
+* Restore waila version for 1.8
+* Make activated Dark Tanks fill fluid containers in player inventories and dropped items under it
+* Make Poison return Poison Bottles when using Empty Bottles
+* Use custom zombies when using Necromancer Staff
+It will now spawn Controlled Zombies which are a bit more flexible and can attack any target.
+* Allow Blood Extractor capacity to be increased, Closes #233
+This is done by adding other Blood Extractors or Dark Tanks in a crafting grid.
+* Rebalance loot chest items
+* Enhance Mace of Distortion particle effects
+* Add water bubble effects and other fancyness when the Envir Acc is working
+* Remove Weather Container stacksize limitation
+* Add Golden String to be used in the recipe for the pendants
+* Improve Dark Temples and update infobook entry
+Dark Temples now spawn loot chests and have vines growing on them.
+* Tweak Kineticator parameters
+* Make Dark Temple spawning deterministic
+It is now possible to determine where Dark Temples will spawn and have spawned.
+* Show armor slots in Blood Chest gui
+* Improve formatting of fluid amount and capacity printing
+* Allow damaged anvils to be repaired inside the Blood Chest
+* Increase Effortless Ring swimming speed, Closes #248
+
+Fixes:
+* Add safety for null directions in OrganicSpread
+* Potential fix #295 for inaccessible fields
+* Fix shearing of Undead Leaves, Closes #270
+* Fix NetherfishSpawn breaking crash, Closes #268
+* Fix Vengeance Spirit server crash, Closes #265
+* Fix third-person block transformations
+* Disable water particle spawning for Vengeance Spirits, Closes #271
+* Remove debug output of Blood Chest repairing
+* Fix Exalted Crafter NPE when checking item tag data
+* Fix calls to null tags on NBT inventories, Closes #252
+* Clamp values during biome color calculation, Closes #257
+* Remove incorrect call to codechickencore-code, Closes #251
