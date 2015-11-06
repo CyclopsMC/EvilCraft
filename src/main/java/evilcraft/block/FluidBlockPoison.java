@@ -1,4 +1,5 @@
 package evilcraft.block;
+import evilcraft.core.helper.WorldHelpers;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -51,7 +52,7 @@ public class FluidBlockPoison extends ConfigurableBlockFluidClassic {
     
     @Override
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
-        if(entity instanceof EntityLivingBase) {
+        if(entity instanceof EntityLivingBase && WorldHelpers.efficientTick(world, (POISON_DURATION / 2) * 20)) {
             ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
         }
         super.onEntityCollidedWithBlock(world, x, y, z, entity);
