@@ -1,0 +1,17 @@
+As always, don't forget to backup your world before updating!
+
+Changes:
+* Effortless Ring reduces all types of fall damage, Closes #293
+* Slightly lower temple spawning rate, Closes #292
+* Don't drop skulls in the furnace for Forgotten Players
+* Update zh_CN.lang
+
+Fixes:
+* Fix Blood Extractor combination recipe edge case, Closes #298
+* Potential fix #295 for inaccessible fields
+* Fix #297 Purifier crash
+* Fix #296 Condensed Blood infinite filling
+* Disable fast rendering of Dark Sticks, Closes #287
+* Avoid using zombies as player spirit base, Fix #290
+* Fix #291, Dark Temple gen NPE
+* Fix #286, catch invalid NEI fluids

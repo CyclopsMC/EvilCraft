@@ -74,7 +74,7 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 			ItemStack element = grid.getStackInSlot(j);
 			if(element != null) {
 				if(element.getItem() == darkTank) {
-					extractors++;
+					tanks++;
 					FluidStack fluidStack = darkTank.getFluid(element);
 					if(fluidStack != null) {
 						if(!blood.equals(fluidStack.getFluid())) {
@@ -84,7 +84,7 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 					}
 					totalCapacity += darkTank.getCapacity(element);
 				} else if(element.getItem() == bloodExtractor) {
-					tanks++;
+					extractors++;
 					FluidStack fluidStack = bloodExtractor.getFluid(element);
 					if(fluidStack != null) {
 						if(!blood.equals(fluidStack.getFluid())) {

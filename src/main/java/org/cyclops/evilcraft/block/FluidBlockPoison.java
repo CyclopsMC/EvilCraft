@@ -11,6 +11,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockFluidClassic
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.fluid.Poison;
 
 /**
@@ -42,7 +43,7 @@ public class FluidBlockPoison extends ConfigurableBlockFluidClassic {
     
     @Override
     public void onEntityCollidedWithBlock(World world, BlockPos blockPos, Entity entity) {
-        if(entity instanceof EntityLivingBase) {
+        if(entity instanceof EntityLivingBase && WorldHelpers.efficientTick(world, (POISON_DURATION / 2) * 20)) {
             ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
         }
         super.onEntityCollidedWithBlock(world, blockPos, entity);
