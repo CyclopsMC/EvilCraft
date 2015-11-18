@@ -401,9 +401,9 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      */
     public void setEnabledVengeance(EntityPlayer player, boolean enabled) {
     	String[] players = getVengeancePlayers();
-        int index = ArrayUtils.indexOf(players, player.getDisplayName().getFormattedText());
+        int index = ArrayUtils.indexOf(players, player.getCommandSenderName());
     	if(enabled && index == ArrayUtils.INDEX_NOT_FOUND)
-    		players = ArrayUtils.add(players, player.getDisplayName().getFormattedText());
+    		players = ArrayUtils.add(players, player.getCommandSenderName());
     	else if(!enabled && index != ArrayUtils.INDEX_NOT_FOUND)
     		players = ArrayUtils.remove(players, index);
     	setVengeancePlayers(players);
