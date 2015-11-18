@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+
+Additions:
+* Create zh_TW.lang
+
+Fixes:
+* Make Poison Fluid do poison damage when standing in it, Closes #301
+* Correctly count tanks and extractors when combining, Closes #298 again
