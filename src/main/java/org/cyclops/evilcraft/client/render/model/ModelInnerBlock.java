@@ -10,6 +10,7 @@ import org.cyclops.cyclopscore.client.model.DynamicModel;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,12 +35,14 @@ public class ModelInnerBlock extends DynamicModel {
     @SuppressWarnings("unchecked")
     @Override
     public List<BakedQuad> getFaceQuads(EnumFacing side) {
+        if(baseModel == null) return Collections.emptyList();
         return baseModel.getFaceQuads(side);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<BakedQuad> getGeneralQuads() {
+        if(baseModel == null) return Collections.emptyList();
         return baseModel.getGeneralQuads();
     }
 
