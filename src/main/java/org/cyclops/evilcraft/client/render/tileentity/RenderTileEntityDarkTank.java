@@ -86,6 +86,7 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
 	 * Render the fluid sides of the tank. (Not the tank itself!)
 	 * @param height The fluid level.
 	 * @param fluid The fluid.
+     * @param brightness The brightness to render the fluid with.
 	 */
 	public static void renderFluidSides(double height, FluidStack fluid, int brightness) {
         int l2 = brightness >> 16 & 65535;
