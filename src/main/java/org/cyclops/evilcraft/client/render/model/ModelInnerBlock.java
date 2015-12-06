@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.client.model.ISmartBlockModel;
 import org.cyclops.cyclopscore.client.model.DynamicModel;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
@@ -50,6 +51,9 @@ public class ModelInnerBlock extends DynamicModel {
     public IBakedModel handleBlockState(IBlockState state) {
         IBlockState innerBlockState = block.getBlockFromState(state);
         IBakedModel baseModel = RenderHelpers.getBakedModel(innerBlockState);
+        if(baseModel instanceof ISmartBlockModel) {
+            baseModel = ((ISmartBlockModel) baseModel).handleBlockState(innerBlockState);
+        }
         return new ModelInnerBlock(block, baseModel);
     }
 
