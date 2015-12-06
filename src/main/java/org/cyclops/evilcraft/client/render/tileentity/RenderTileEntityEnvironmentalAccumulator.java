@@ -27,8 +27,6 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
     
     @Override
     public void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
-        super.renderBeacon(tileentity, x, y, z, partialTickTime, partialDamage);
-        
         TileEnvironmentalAccumulator tile = (TileEnvironmentalAccumulator)tileentity;
         if(tile.getHealth() != tile.getMaxHealth())
             BossStatus.setBossStatus(tile, false);
@@ -42,6 +40,8 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
             
             GlStateManager.popMatrix();
         }
+
+        super.renderBeacon(tileentity, x, y, z, partialTickTime, partialDamage);
     }
     
     private void renderProcessingItem(
