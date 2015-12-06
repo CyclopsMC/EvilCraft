@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.tileentity.tickaction.spiritreanimator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.block.SpiritReanimatorConfig;
@@ -40,7 +41,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 				itemStack.setTagCompound(new NBTTagCompound());
 			}
 			if(entityID > -1) {
-				ItemStack eggStack = new ItemStack((Item)Item.itemRegistry.getObject("spawn_egg"), 1, entityID);
+				ItemStack eggStack = new ItemStack((Item)Item.itemRegistry.getObject(new ResourceLocation("spawn_egg")), 1, entityID);
 				if(addToProduceSlot(tile, eggStack)) {
 					tile.getInventory().decrStackSize(TileSpiritReanimator.SLOT_EGG, 1);
 				}

@@ -60,7 +60,7 @@ public class ModelInnerBlock extends DynamicModel {
     }
 
     @Override
-    public TextureAtlasSprite getTexture() {
-        return RenderHelpers.getBakedModel(block.getBlockFromMeta(0)).getTexture();
+    public TextureAtlasSprite getParticleTexture() {
+        return RenderHelpers.getBakedModel(block.getBlockFromMeta(0)).getParticleTexture();
     }
 }

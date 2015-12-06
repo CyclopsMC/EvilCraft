@@ -36,8 +36,6 @@ import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
 import org.cyclops.evilcraft.item.DarkGemConfig;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
-import org.cyclops.evilcraft.modcompat.nei.NEIModCompat;
-import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
 import org.cyclops.evilcraft.world.gen.DarkTempleGenerator;
@@ -88,8 +86,8 @@ public class EvilCraft extends ModBaseVersionable {
     @Override
     protected void loadModCompats(ModCompatLoader modCompatLoader) {
         modCompatLoader.addModCompat(new BaublesModCompat());
-        modCompatLoader.addModCompat(new WailaModCompat());
-        modCompatLoader.addModCompat(new NEIModCompat());
+        //modCompatLoader.addModCompat(new WailaModCompat()); TODO
+        //modCompatLoader.addModCompat(new NEIModCompat()); TODO
     }
 
     @Override

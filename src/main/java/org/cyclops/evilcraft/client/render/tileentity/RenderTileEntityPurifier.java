@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -12,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.Purifier;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
@@ -74,7 +74,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         
         GlStateManager.pushAttrib();
         RenderHelper.enableStandardItemLighting();
-        Minecraft.getMinecraft().getRenderItem().renderItemModel(itemStack);
+        RenderHelpers.renderItem(itemStack);
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
         GlStateManager.enableLighting();
@@ -118,7 +118,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
 
         GlStateManager.pushAttrib();
         RenderHelper.enableStandardItemLighting();
-        Minecraft.getMinecraft().getRenderItem().renderItemModel(itemStack);
+        RenderHelpers.renderItem(itemStack);
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
         GlStateManager.enableLighting();

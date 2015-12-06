@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.client.render.entity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -9,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.entity.item.EntityItemDarkStick;
 import org.lwjgl.opengl.GL11;
 
@@ -52,7 +52,7 @@ public class RenderDarkStick extends Render {
         
         bindEntityTexture(entity);
 
-        Minecraft.getMinecraft().getRenderItem().renderItemModel(getItemStack(entity));
+        RenderHelpers.renderItem(getItemStack(entity));
         
         GlStateManager.popMatrix();
 	}

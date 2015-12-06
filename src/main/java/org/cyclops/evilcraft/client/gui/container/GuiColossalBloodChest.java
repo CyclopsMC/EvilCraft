@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.client.gui.container;
 
+import net.minecraft.entity.player.InventoryPlayer;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.block.ColossalBloodChest;
 import org.cyclops.evilcraft.core.client.gui.container.GuiWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
-import net.minecraft.entity.player.InventoryPlayer;
-import org.cyclops.evilcraft.block.ColossalBloodChest;
 
 /**
  * GUI for the {@link ColossalBloodChest}.
@@ -100,7 +100,7 @@ public class GuiColossalBloodChest extends GuiWorking<TileColossalBloodChest> {
 
     @Override
     protected void drawForgegroundString() {
-        fontRendererObj.drawString(tile.getCommandSenderName(), 8 + offsetX, 4 + offsetY, 4210752);
+        fontRendererObj.drawString(tile.getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
 
     @Override

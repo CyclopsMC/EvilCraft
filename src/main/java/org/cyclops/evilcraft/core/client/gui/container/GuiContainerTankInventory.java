@@ -94,7 +94,7 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
     }
     
 	protected void drawForgegroundString() {
-    	fontRendererObj.drawString(tile.getCommandSenderName(), 8 + offsetX, 4 + offsetY, 4210752);
+    	fontRendererObj.drawString(tile.getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
     
     @Override

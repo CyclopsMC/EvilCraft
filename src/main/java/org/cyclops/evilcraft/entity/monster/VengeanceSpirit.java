@@ -391,7 +391,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return If it should be visible.
      */
     public boolean isEnabledVengeance(EntityPlayer player) {
-        return isGlobalVengeance() || ArrayUtils.contains(getVengeancePlayers(), player.getCommandSenderName());
+        return isGlobalVengeance() || ArrayUtils.contains(getVengeancePlayers(), player.getName());
 	}
     
     /**
@@ -401,9 +401,9 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      */
     public void setEnabledVengeance(EntityPlayer player, boolean enabled) {
     	String[] players = getVengeancePlayers();
-        int index = ArrayUtils.indexOf(players, player.getCommandSenderName());
+        int index = ArrayUtils.indexOf(players, player.getName());
     	if(enabled && index == ArrayUtils.INDEX_NOT_FOUND)
-    		players = ArrayUtils.add(players, player.getCommandSenderName());
+    		players = ArrayUtils.add(players, player.getName());
     	else if(!enabled && index != ArrayUtils.INDEX_NOT_FOUND)
     		players = ArrayUtils.remove(players, index);
     	setVengeancePlayers(players);

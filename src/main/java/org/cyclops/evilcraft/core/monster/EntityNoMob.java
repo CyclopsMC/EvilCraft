@@ -137,7 +137,7 @@ public class EntityNoMob extends EntityCreature {
                 entityIn.setFire(j * 4);
             }
 
-            this.func_174815_a(this, entityIn);
+            this.applyEnchantments(this, entityIn);
         }
 
         return flag;
