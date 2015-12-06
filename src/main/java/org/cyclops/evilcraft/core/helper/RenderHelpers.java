@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.core.helper;
 
+import com.google.common.base.Function;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Blocks;
@@ -33,6 +33,12 @@ public class RenderHelpers {
      */
     public static ResourceLocation TEXTURE_MAP = TextureMap.locationBlocksTexture;
 
+	public static final Function<ResourceLocation, TextureAtlasSprite> TEXTURE_GETTER = new Function<ResourceLocation, TextureAtlasSprite>() {
+		public TextureAtlasSprite apply(ResourceLocation location) {
+			return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
+		}
+	};
+
     /**
      * Get the default icon from a block.
      * @param block The block.
@@ -57,9 +63,9 @@ public class RenderHelpers {
 		
 		if(side == null) side = EnumFacing.UP;
 
-        TextureAtlasSprite icon = Minecraft.getMinecraft().getTextureMapBlocks().registerSprite(fluid.getFluid().getFlowing(fluid));
+        TextureAtlasSprite icon = TEXTURE_GETTER.apply(fluid.getFluid().getFlowing(fluid));
 		if(icon == null || (side == EnumFacing.UP || side == EnumFacing.DOWN)) {
-			icon = Minecraft.getMinecraft().getTextureMapBlocks().registerSprite(fluid.getFluid().getStill(fluid));
+			icon = TEXTURE_GETTER.apply(fluid.getFluid().getStill(fluid));
 		}
 		if(icon == null) {
 			icon = getBlockIcon(block);
@@ -108,14 +114,6 @@ public class RenderHelpers {
 	        GlStateManager.popMatrix();
 		}
 	}
-
-    /**
-     * Set the brightness of the world renderer.
-     * @param brightness The brightness.
-     */
-    public static void setBrightness(int brightness) {
-        Tessellator.getInstance().getWorldRenderer().putBrightness4(brightness, brightness, brightness, brightness);
-    }
 	
 	/**
 	 * Prepare a GL context for rendering fluids for tile entities.
