@@ -40,7 +40,7 @@ public class PlayerInventoryIterator implements Iterator<ItemStack>{
      * @return The indexed item.
      */
     public Pair<Integer, ItemStack> nextIndexed() {
-    	return Pair.of(i, player.inventory.mainInventory[i++]);
+    	return Pair.of(i, next());
     }
 
     @Override
