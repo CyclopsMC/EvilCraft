@@ -89,7 +89,7 @@ public class WorldSharedTankCache {
 	public void setTankContent(String tankID, FluidStack fluidStack) {
         String key = getMapID(tankID);
 		boolean shouldRefresh = shouldRefreshFluid(tankCache.get(key), fluidStack);
-		if(fluidStack == null) {
+		if(fluidStack == null || fluidStack.amount == 0) {
 			tankCache.remove(key);
 		} else if(shouldRefresh) {
             tankCache.put(key, fluidStack.copy());
