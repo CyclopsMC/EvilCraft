@@ -1,6 +1,7 @@
 package evilcraft.recipe;
 
 import evilcraft.block.DarkTank;
+import evilcraft.core.helper.Helpers;
 import evilcraft.core.item.ItemBlockFluidContainer;
 import evilcraft.fluid.Blood;
 import evilcraft.item.BloodExtractor;
@@ -68,9 +69,9 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 						if(!blood.equals(fluidStack.getFluid())) {
 							return null;
 						}
-						totalContent += fluidStack.amount;
+						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
-					totalCapacity += darkTank.getCapacity(element);
+					totalCapacity = Helpers.addSafe(totalCapacity, darkTank.getCapacity(element));
 				} else if(element.getItem() == bloodExtractor) {
 					extractors++;
 					FluidStack fluidStack = bloodExtractor.getFluid(element);
@@ -78,9 +79,9 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 						if(!blood.equals(fluidStack.getFluid())) {
 							return null;
 						}
-						totalContent += fluidStack.amount;
+						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
-					totalCapacity += bloodExtractor.getCapacity(element);
+					totalCapacity = Helpers.addSafe(totalCapacity, bloodExtractor.getCapacity(element));
 				} else {
 					return null;
 				}

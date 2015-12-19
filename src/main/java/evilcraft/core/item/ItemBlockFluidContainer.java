@@ -3,6 +3,7 @@ package evilcraft.core.item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.core.block.IBlockTank;
+import evilcraft.core.helper.Helpers;
 import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.tileentity.TankInventoryTileEntity;
@@ -130,7 +131,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
 
         int filled = capacity - stack.amount;
         if(resource.amount < filled) {
-            stack.amount += resource.amount;
+            stack.amount = Helpers.addSafe(stack.amount, resource.amount);
             filled = resource.amount;
         } else {
             stack.amount = capacity;

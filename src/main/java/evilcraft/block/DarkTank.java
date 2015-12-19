@@ -267,6 +267,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 
         int capacityOriginal = TileDarkTank.BASE_CAPACITY;
 		int capacity = capacityOriginal;
+        int lastCapacity;
 		do{
             setTankCapacity(itemStack, capacity);
         	list.add(itemStack.copy());
@@ -276,8 +277,9 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         		container.fill(itemStackFilled, new FluidStack(Blood.getInstance(), capacity), true);
         		list.add(itemStackFilled);
         	}
+            lastCapacity = capacity;
         	capacity = capacity << 2;
-        } while(capacity << 2 < DarkTankConfig.maxTankSize);
+        } while(capacity < Math.min(DarkTankConfig.maxTankCreativeSize, DarkTankConfig.maxTankSize) && capacity > lastCapacity);
 
         // Add filled basic tanks for all fluids.
         if(DarkTankConfig.creativeTabFluids) {
@@ -287,7 +289,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
                         ItemStack itemStackFilled = itemStack.copy();
                         setTankCapacity(itemStackFilled, capacityOriginal);
                         IFluidContainerItem container = (IFluidContainerItem) itemStackFilled.getItem();
-                        container.fill(itemStackFilled, new FluidStack(fluid, capacity), true);
+                        container.fill(itemStackFilled, new FluidStack(fluid, capacityOriginal), true);
                         list.add(itemStackFilled);
                     } catch (NullPointerException e) {
                         // Skip registering tanks for invalid fluids.

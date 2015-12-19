@@ -1,6 +1,7 @@
 package evilcraft.core.recipe;
 
 import evilcraft.block.DarkTank;
+import evilcraft.core.helper.Helpers;
 import evilcraft.core.item.ItemBlockFluidContainer;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -66,9 +67,9 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 						} else if(!commonFluid.equals(fluidStack.getFluid())) {
 							return null;
 						}
-						totalContent += fluidStack.amount;
+						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
-					totalCapacity += tankItem.getCapacity(element);
+					totalCapacity = Helpers.addSafe(totalCapacity, tankItem.getCapacity(element));
 				} else {
 					return null;
 				}
