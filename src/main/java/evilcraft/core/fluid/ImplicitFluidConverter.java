@@ -96,6 +96,15 @@ public class ImplicitFluidConverter {
 		}
 		return null;
 	}
+
+	/**
+	 * The conversion ratio to the given target fluid.
+	 * @param target The target fluid.
+	 * @return The conversion ratio.
+	 */
+	public double getRatio(Fluid target) {
+		return converters.get(target);
+	}
 	
 	/**
 	 * Register the converters config from the given string array.
