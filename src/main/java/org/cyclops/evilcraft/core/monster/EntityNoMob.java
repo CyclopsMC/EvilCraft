@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -138,7 +137,7 @@ public class EntityNoMob extends EntityCreature {
                 entityIn.setFire(j * 4);
             }
 
-            this.func_174815_a(this, entityIn);
+            this.applyEnchantments(this, entityIn);
         }
 
         return flag;
@@ -150,7 +149,7 @@ public class EntityNoMob extends EntityCreature {
     }
 
     /**
-     * Checks to make sure the light is not too bright where the mob is spawning
+     * @return Checks to make sure the light is not too bright where the mob is spawning
      */
     protected boolean isValidLightLevel()
     {

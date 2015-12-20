@@ -141,7 +141,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                 // Get items in calculated area.
                 int area = getArea(itemStack);
                 AxisAlignedBB box = AxisAlignedBB.fromBounds(x, y, z, x, y, z).expand(area, area, area);
-                List<EntityItem> entities = world.getEntitiesInAABBexcluding(entity, box, new Predicate<Entity>() {
+                List<Entity> entities = world.getEntitiesInAABBexcluding(entity, box, new Predicate<Entity>() {
 
                     @Override
                     public boolean apply(Entity entity) {

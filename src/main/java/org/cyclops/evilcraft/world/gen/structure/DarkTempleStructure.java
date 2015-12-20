@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
@@ -165,17 +166,16 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
         vi.action = new IBlockAction() {
             @Override
             public void run(World world, BlockPos pos) {
-                if (world.isAirBlock(pos.add(-1, 0, 0))) {
-                    world.setBlockState(pos, Blocks.vine.getDefaultState().withProperty(BlockVine.EAST, true), 2);
+                boolean atLeastOne = false;
+                for(EnumFacing side : EnumFacing.HORIZONTALS) {
+                    if(world.isSideSolid(pos.offset(side), side.getOpposite(), true)) {
+                        world.setBlockState(pos, Blocks.vine.getDefaultState().withProperty(
+                                BlockVine.ALL_FACES[side.ordinal() - 1], true), 2);
+                        atLeastOne = true;
+                    }
                 }
-                if (world.isAirBlock(pos.add(1, 0, 0))) {
-                    world.setBlockState(pos, Blocks.vine.getDefaultState().withProperty(BlockVine.WEST, true), 2);
-                }
-                if (world.isAirBlock(pos.add(0, 0, -1))) {
-                    world.setBlockState(pos, Blocks.vine.getDefaultState().withProperty(BlockVine.SOUTH, true), 2);
-                }
-                if (world.isAirBlock(pos.add(0, 0, 1))) {
-                    world.setBlockState(pos, Blocks.vine.getDefaultState().withProperty(BlockVine.NORTH, true), 2);
+                if(!atLeastOne) {
+                    world.setBlockToAir(pos);
                 }
             }
         };

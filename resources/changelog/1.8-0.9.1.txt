@@ -1,0 +1,12 @@
+As always, don't forget to backup your world before updating!
+This requires CyclopsCore 0.3.0 or higher
+
+Additions:
+* Create zh_TW.lang
+
+Fixes:
+* Use correct sanguinary envir acc texture names
+* Make Poison Fluid do poison damage when standing in it, Closes #301
+* Correctly count tanks and extractors when combining, Closes #298 again
+* Fix visibility of Vengeance Spirits
+* Fix infobook section of the Mace of Destruction, Closes #306

@@ -7,9 +7,9 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.tileentity.TileSpiritPortal;
 import org.lwjgl.opengl.GL11;
@@ -70,8 +70,6 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GlStateManager.enableCull();
         GlStateManager.depthMask(false);
-        int color1 = Helpers.RGBToInt(171, 97, 210);
-        int color2 = Helpers.RGBToInt(175, 100, 215);
 
         for (int i = 0; i < (progress + progress * progress) / 2.0F * 60.0F; ++i) {
             GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
@@ -80,17 +78,14 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
             GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotate(random.nextFloat() * 360.0F + progress * 90.0F, 0.0F, 0.0F, 1.0F);
-            worldRenderer.startDrawing(6);
+            worldRenderer.begin(GL11.GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
             float f3 = random.nextFloat() * BEAM_END_DISTANCE + 5.0F + f2 * 10.0F;
             float f4 = random.nextFloat() * BEAM_START_DISTANCE + 1.0F + f2 * 2.0F;
-            worldRenderer.setBrightness(255);
-            worldRenderer.setColorRGBA_I(color1, (int) (MAX_OPACITY * (1.0F - f2)));
-            worldRenderer.addVertex(0.0D, 0.0D, 0.0D);
-            worldRenderer.setColorRGBA_I(color2, 0);
-            worldRenderer.addVertex(-0.866D * f4, f3, -0.5F * f4);
-            worldRenderer.addVertex(0.866D * f4, f3, -0.5F * f4);
-            worldRenderer.addVertex(0.0D, f3, 1.0F * f4);
-            worldRenderer.addVertex(-0.866D * f4, f3, -0.5F * f4);
+            worldRenderer.pos(0.0D, 0.0D, 0.0D).color(171, 97, 210, (int)(MAX_OPACITY * (1.0F - f2))).endVertex();
+            worldRenderer.pos(-0.866D * (double)f4, (double)f3, (double)(-0.5F * f4)).color(175, 100, 215, 0).endVertex();
+            worldRenderer.pos(0.866D * (double)f4, (double)f3, (double)(-0.5F * f4)).color(175, 100, 215, 0).endVertex();
+            worldRenderer.pos(0.0D, (double)f3, (double)(1.0F * f4)).color(175, 100, 215, 0).endVertex();
+            worldRenderer.pos(-0.866D * (double)f4, (double)f3, (double)(-0.5F * f4)).color(175, 100, 215, 0).endVertex();
             tessellator.draw();
         }
 
@@ -137,16 +132,24 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         float v1 = 0;
         float v2 = .0625f;
 
+        GlStateManager.pushMatrix();
         GlStateManager.scale(0.5f * progress, 0.5f * progress, 0.5f * progress);
         GlStateManager.translate(-0.5F, -0.5f, 0);
+        GlStateManager.depthMask(false);
+        GlStateManager.enableBlend();
 
-        worldRenderer.startDrawingQuads();
-        worldRenderer.setBrightness(100);
-        worldRenderer.addVertexWithUV(0, 1, 0.0D, u1, v2);
-        worldRenderer.addVertexWithUV(0, 0, 0.0D, u1, v1);
-        worldRenderer.addVertexWithUV(1, 0, 0.0D, u2, v1);
-        worldRenderer.addVertexWithUV(1, 1, 0.0D, u2, v2);
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+        int j = 150;
+        int k = 150;
+        worldRenderer.pos(0, 1, 0.0D).tex(u1, v2).color(0.72F, 0.5f, 0.23F, 0.9F).lightmap(j, k).endVertex();
+        worldRenderer.pos(0, 0, 0.0D).tex(u1, v1).color(0.72F, 0.5f, 0.83F, 0.9F).lightmap(j, k).endVertex();
+        worldRenderer.pos(1, 0, 0.0D).tex(u2, v1).color(0.72F, 0.5f, 0.83F, 0.9F).lightmap(j, k).endVertex();
+        worldRenderer.pos(1, 1, 0.0D).tex(u2, v2).color(0.72F, 0.5f, 0.83F, 0.9F).lightmap(j, k).endVertex();
         Tessellator.getInstance().draw();
+
+        GlStateManager.disableBlend();
+        GlStateManager.depthMask(true);
+        GlStateManager.popMatrix();
     }
 
 }

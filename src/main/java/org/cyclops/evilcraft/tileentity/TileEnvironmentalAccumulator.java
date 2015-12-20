@@ -480,8 +480,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     }
 
     @Override
-    public String getCommandSenderName() {
-        return inventory.getCommandSenderName();
+    public String getName() {
+        return inventory.getName();
     }
 
     @Override
@@ -539,8 +539,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int i) {
-        return inventory.getStackInSlotOnClosing(i);
+    public ItemStack removeStackFromSlot(int i) {
+        return inventory.removeStackFromSlot(i);
     }
 
     @Override

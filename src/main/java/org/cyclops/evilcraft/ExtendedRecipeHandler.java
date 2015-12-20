@@ -107,6 +107,13 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                     empoweredInvertedPotentia);
         }
 
+        if(Configs.isEnabled(DarkTankConfig.class)) {
+            ItemStack darkTankx9 = new ItemStack(DarkTank.getInstance());
+            ItemBlockFluidContainer item = ((ItemBlockFluidContainer) darkTankx9.getItem());
+            item.setCapacity(darkTankx9, item.getCapacity(darkTankx9) * 9);
+            predefinedItems.put("evilcraft:darkTankx9", darkTankx9);
+        }
+
         if(PotentiaSphereConfig.enderPearlRecipe) {
             predefinedValues.add("evilcraft:enderPearlRecipe");
         }

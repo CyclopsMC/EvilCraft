@@ -1,6 +1,6 @@
 {
   "parent": "cyclopscore:item/flat",
   "textures": {
-    "all": "evilcraft:blocks/evilcraftpoison_still"
+    "layer0": "evilcraft:blocks/evilcraftpoison_still"
   }
 }

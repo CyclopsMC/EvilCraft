@@ -130,7 +130,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     	if(eggList.size() > 0) {
 	    	EntityList.EntityEggInfo egg = eggList.get(rand.nextInt(eggList.size()));
 	    	if(egg != null) {
-		    	Class<Entity> clazz = (Class<Entity>) EntityList.idToClassMapping.get(egg.name);
+		    	Class<Entity> clazz = (Class<Entity>) EntityList.stringToClassMapping.get(egg.name);
 		    	if(clazz != null) {
 		    		return clazz.getName();
 		    	}
@@ -251,7 +251,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     @Override
     public void onLivingUpdate() {
     	super.onLivingUpdate();
-    	
+
         if(isVisible()) {
         	if(innerEntity != null) {
 	        	innerEntity.isDead = isDead;
@@ -289,7 +289,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         	addFrozenDuration(-1);
         	// TODO: render entangled particles
         } else {
-	        setRemainingLife(getRemainingLife() - 1);
+            setRemainingLife(getRemainingLife() - 1);
 	        if(getRemainingLife() <= 0) {
 	        	this.setDead();
 	        	worldObj.removeEntity(this);
@@ -391,7 +391,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return If it should be visible.
      */
     public boolean isEnabledVengeance(EntityPlayer player) {
-        return isGlobalVengeance() || ArrayUtils.contains(getVengeancePlayers(), player.getDisplayName().getFormattedText());
+        return isGlobalVengeance() || ArrayUtils.contains(getVengeancePlayers(), player.getName());
 	}
     
     /**
@@ -401,9 +401,9 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      */
     public void setEnabledVengeance(EntityPlayer player, boolean enabled) {
     	String[] players = getVengeancePlayers();
-        int index = ArrayUtils.indexOf(players, player.getDisplayName().getFormattedText());
+        int index = ArrayUtils.indexOf(players, player.getName());
     	if(enabled && index == ArrayUtils.INDEX_NOT_FOUND)
-    		players = ArrayUtils.add(players, player.getDisplayName().getFormattedText());
+    		players = ArrayUtils.add(players, player.getName());
     	else if(!enabled && index != ArrayUtils.INDEX_NOT_FOUND)
     		players = ArrayUtils.remove(players, index);
     	setVengeancePlayers(players);
@@ -424,7 +424,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     		return innerEntity;
     	try {
 			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(dataWatcher.getWatchableObjectString(WATCHERID_INNER));
-			if(!clazz.equals(VengeanceSpirit.class)) {
+            if(!clazz.equals(VengeanceSpirit.class)) {
 				String name = (String) EntityList.classToStringMapping.get(clazz);
 				Entity entity = EntityList.createEntityByName(name, worldObj);
                 if(canSustain((EntityLivingBase) entity)) {
@@ -464,7 +464,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return The remaining life.
      */
     public int getRemainingLife() {
-		return dataWatcher.getWatchableObjectInt(WATCHERID_REMAININGLIFE);
+        return dataWatcher.getWatchableObjectInt(WATCHERID_REMAININGLIFE);
 	}
 
     /**
@@ -472,7 +472,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @param remainingLife The remaining life.
      */
 	public void setRemainingLife(int remainingLife) {
-		this.dataWatcher.updateObject(WATCHERID_REMAININGLIFE, remainingLife);
+        this.dataWatcher.updateObject(WATCHERID_REMAININGLIFE, remainingLife);
 	}
 
     /**
@@ -830,7 +830,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	public static void addToBlacklist(Class<? extends EntityLivingBase> clazz) {
 		if(BLACKLIST.add(clazz))
 			EvilCraft.clog("Added entity class " + clazz.getCanonicalName()
-                    + " to the spirit blacklist.");
+                    + " to the spirit blacklist.", Level.TRACE);
 	}
 
     /**
@@ -851,7 +851,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) EntityList.stringToClassMapping.get(entity);
 			if(clazz == null) {
 				EvilCraft.clog("Could not find entity by name '" + entity
-                        + "' for spirit blacklist.", Level.ERROR);
+                        + "' for spirit blacklist.", Level.WARN);
 			} else {
 				addToBlacklist(clazz);
 			}

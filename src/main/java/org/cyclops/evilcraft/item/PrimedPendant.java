@@ -25,7 +25,7 @@ import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.init.ModBase;
-import org.cyclops.cyclopscore.inventory.IGuiContainerProvider;
+import org.cyclops.cyclopscore.inventory.IGuiContainerProviderConfigurable;
 import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemHeld;
 import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemStack;
 import org.cyclops.evilcraft.EvilCraft;
@@ -43,7 +43,7 @@ import java.util.List;
  *
  */
 @Optional.Interface(iface = "baubles.api.IBauble", modid = Reference.MOD_BAUBLES, striprefs = true)
-public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer implements IBauble, IGuiContainerProvider {
+public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer implements IBauble, IGuiContainerProviderConfigurable {
 
     private static final int TICK_MODULUS = MinecraftHelpers.SECOND_IN_TICKS / 2;
 

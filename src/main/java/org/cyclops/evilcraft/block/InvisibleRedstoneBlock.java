@@ -74,7 +74,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     }
 
     @Override
-    public int isProvidingWeakPower(IBlockAccess blockAccess, BlockPos blockPos, IBlockState blockState, EnumFacing side) {
+    public int getWeakPower(IBlockAccess blockAccess, BlockPos blockPos, IBlockState blockState, EnumFacing side) {
         return 15;
     }
     

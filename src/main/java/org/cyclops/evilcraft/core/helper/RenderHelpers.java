@@ -1,14 +1,13 @@
 package org.cyclops.evilcraft.core.helper;
 
+import com.google.common.base.Function;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
@@ -34,6 +33,12 @@ public class RenderHelpers {
      */
     public static ResourceLocation TEXTURE_MAP = TextureMap.locationBlocksTexture;
 
+	public static final Function<ResourceLocation, TextureAtlasSprite> TEXTURE_GETTER = new Function<ResourceLocation, TextureAtlasSprite>() {
+		public TextureAtlasSprite apply(ResourceLocation location) {
+			return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
+		}
+	};
+
     /**
      * Get the default icon from a block.
      * @param block The block.
@@ -58,9 +63,9 @@ public class RenderHelpers {
 		
 		if(side == null) side = EnumFacing.UP;
 
-        TextureAtlasSprite icon = fluid.getFluid().getFlowingIcon();
+        TextureAtlasSprite icon = TEXTURE_GETTER.apply(fluid.getFluid().getFlowing(fluid));
 		if(icon == null || (side == EnumFacing.UP || side == EnumFacing.DOWN)) {
-			icon = fluid.getFluid().getStillIcon();
+			icon = TEXTURE_GETTER.apply(fluid.getFluid().getStill(fluid));
 		}
 		if(icon == null) {
 			icon = getBlockIcon(block);
@@ -109,14 +114,6 @@ public class RenderHelpers {
 	        GlStateManager.popMatrix();
 		}
 	}
-
-    /**
-     * Set the brightness of the world renderer.
-     * @param brightness The brightness.
-     */
-    public static void setBrightness(int brightness) {
-        Tessellator.getInstance().getWorldRenderer().setBrightness(brightness);
-    }
 	
 	/**
 	 * Prepare a GL context for rendering fluids for tile entities.
@@ -128,19 +125,7 @@ public class RenderHelpers {
 	 * @param render The actual fluid renderer.
 	 */
 	public static void renderTileFluidContext(final FluidStack fluid, final double x, final double y, final double z, final TileEntity tile, final IFluidContextRender render) {
-		renderFluidContext(fluid, x, y, z, new IFluidContextRender() {
-			
-			@Override
-			public void renderFluid(FluidStack fluid) {		        
-		        // Make sure our lighting is correct, otherwise everything will be black -_-
-                BlockPos pos = new BlockPos(x, y, z);
-		        Block block = tile.getWorld().getBlockState(pos).getBlock();
-		        setBrightness(2 * block.getMixedBrightnessForBlock(tile.getWorld(), pos));
-		        
-		        // Call the actual render.
-		        render.renderFluid(fluid);
-			}
-		});
+		renderFluidContext(fluid, x, y, z, render);
 	}
 	
 	/**

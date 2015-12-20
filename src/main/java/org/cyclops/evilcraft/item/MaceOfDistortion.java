@@ -188,7 +188,6 @@ public class MaceOfDistortion extends Mace {
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
     @Override
     protected void use(World world, EntityPlayer player, int itemUsedCount, int power) {
         distortEntities(world, player, itemUsedCount, power);

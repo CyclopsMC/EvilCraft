@@ -3,9 +3,7 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.component.EntityDropParticleFXBlockComponent;
 import org.cyclops.cyclopscore.block.component.IEntityDropParticleFXBlock;
@@ -14,7 +12,6 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockLeaves;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -60,8 +57,4 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
         entityDropParticleFXBlockComponent.randomDisplayTick(world, blockPos, blockState, rand);
     }
 
-    @Override
-    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
-        return null;
-    }
 }

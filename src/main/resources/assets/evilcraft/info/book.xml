@@ -371,9 +371,9 @@
                 <paragraph>infoBook.evilcraft.secondAge.weapons.necromancerStaff.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:necromancerStaff</appendix>
             </section>
-            <section name="infoBook.secondAge.weapons.maceOfDestruction">
+            <section name="infoBook.evilcraft.secondAge.weapons.maceOfDestruction">
                 <tag>maceOfDestruction</tag>
-                <paragraph>infoBook.secondAge.weapons.maceOfDestruction.text</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.weapons.maceOfDestruction.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:maceOfDestruction</appendix>
             </section>
         </section>

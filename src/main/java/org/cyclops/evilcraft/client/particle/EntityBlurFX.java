@@ -5,6 +5,8 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
@@ -97,6 +99,8 @@ public class EntityBlurFX extends EntityFX {
 
 		particleScale = originalScale * agescale;
 
+		int oldDrawMode = worldRenderer.getDrawMode();
+		VertexFormat oldVertexFormat = worldRenderer.getVertexFormat();
         Tessellator.getInstance().draw();
 		GlStateManager.pushMatrix();
 
@@ -113,13 +117,18 @@ public class EntityBlurFX extends EntityFX {
 		float f12 = (float)(prevPosY + (posY - prevPosY) * f - interpPosY);
 		float f13 = (float)(prevPosZ + (posZ - prevPosZ) * f - interpPosZ);
 
-        worldRenderer.startDrawingQuads();
-        worldRenderer.setBrightness(TESSELATOR_BRIGHTNESS);
-        worldRenderer.setColorRGBA_F(particleRed, particleGreen, particleBlue, 0.9F);
-        worldRenderer.addVertexWithUV(f11 - f1 * f10 - f4 * f10, f12 - f2 * f10, f13 - f3 * f10 - f5 * f10, 0, 1);
-        worldRenderer.addVertexWithUV(f11 - f1 * f10 + f4 * f10, f12 + f2 * f10, f13 - f3 * f10 + f5 * f10, 1, 1);
-        worldRenderer.addVertexWithUV(f11 + f1 * f10 + f4 * f10, f12 + f2 * f10, f13 + f3 * f10 + f5 * f10, 1, 0);
-        worldRenderer.addVertexWithUV(f11 + f1 * f10 - f4 * f10, f12 - f2 * f10, f13 + f3 * f10 - f5 * f10, 0, 0);
+		worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+		int i = this.getBrightnessForRender(f5);
+		int j = i >> 16 & 65535;
+		int k = i & 65535;
+        worldRenderer.pos(f11 - f1 * f10 - f4 * f10, f12 - f2 * f10, f13 - f3 * f10 - f5 * f10).tex(0, 1).
+				color(particleRed, particleGreen, particleBlue, 0.9F).lightmap(j, k).endVertex();
+        worldRenderer.pos(f11 - f1 * f10 + f4 * f10, f12 + f2 * f10, f13 - f3 * f10 + f5 * f10).tex(1, 1).
+				color(particleRed, particleGreen, particleBlue, 0.9F).lightmap(j, k).endVertex();
+        worldRenderer.pos(f11 + f1 * f10 + f4 * f10, f12 + f2 * f10, f13 + f3 * f10 + f5 * f10).tex(1, 0).
+				color(particleRed, particleGreen, particleBlue, 0.9F).lightmap(j, k).endVertex();
+        worldRenderer.pos(f11 + f1 * f10 - f4 * f10, f12 - f2 * f10, f13 + f3 * f10 - f5 * f10).tex(0, 0).
+				color(particleRed, particleGreen, particleBlue, 0.9F).lightmap(j, k).endVertex();
 
         Tessellator.getInstance().draw();
 
@@ -128,7 +137,7 @@ public class EntityBlurFX extends EntityFX {
 
 		GlStateManager.popMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ObfuscationHelpers.getParticleTexture());
-        worldRenderer.startDrawingQuads();
+		worldRenderer.begin(oldDrawMode, oldVertexFormat);
 	}
 	
 	@Override

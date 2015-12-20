@@ -3,6 +3,9 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -47,11 +50,16 @@ public class BurningGemStone extends ConfigurableItem {
 	public static boolean damageForPlayer(EntityPlayer player, int swarmTier, boolean simulate) {
 		PlayerInventoryIterator it = new PlayerInventoryIterator(player);
 		while(it.hasNext()) {
-			ItemStack itemStack = it.next();
+            Pair<Integer, ItemStack> current = it.nextIndexed();
+            ItemStack itemStack = current.getRight();
 			if(itemStack != null && itemStack.getItem() == BurningGemStone.getInstance()) {
 				if(!simulate) {
 					itemStack.damageItem(1 + swarmTier, player);
-					player.addExhaustion(10);
+                    player.addExhaustion(10);
+                    if(itemStack.stackSize <= 0) {
+                        player.inventory.setInventorySlotContents(current.getLeft(), null);
+                        MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(player, itemStack));
+                    }
 				}
 				return true;
 			}

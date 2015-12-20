@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "evilcraft:blocks/empty"
+    "all": "cyclopscore:blocks/empty"
   }
 }

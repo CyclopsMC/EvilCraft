@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
@@ -27,8 +27,6 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
     
     @Override
     public void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
-        super.renderBeacon(tileentity, x, y, z, partialTickTime, partialDamage);
-        
         TileEnvironmentalAccumulator tile = (TileEnvironmentalAccumulator)tileentity;
         if(tile.getHealth() != tile.getMaxHealth())
             BossStatus.setBossStatus(tile, false);
@@ -42,6 +40,8 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
             
             GlStateManager.popMatrix();
         }
+
+        super.renderBeacon(tileentity, x, y, z, partialTickTime, partialDamage);
     }
     
     private void renderProcessingItem(
@@ -72,7 +72,7 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
 
         GlStateManager.pushAttrib();
         RenderHelper.enableStandardItemLighting();
-        Minecraft.getMinecraft().getRenderItem().renderItemModel(stack);
+        RenderHelpers.renderItem(stack);
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
         GlStateManager.enableLighting();

@@ -110,8 +110,8 @@ public class GeneralConfig extends DummyConfig {
     /**
      * Frequency at which dark temples should occur. 1 means every chunk, 100 means every 100th chunk.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Frequency at which dark temples should occur. 1 means every chunk, 0.01 means every 100th chunk.")
-    public static int darkTempleFrequency = 200;
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Frequency at which dark temples should occur. 1 means every chunk, 100 means every 100th chunk.")
+    public static int darkTempleFrequency = 250;
 
     /**
      * Maximal length of the pillars of a dark temple.

@@ -46,11 +46,11 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
         }
 
         return new SimpleBakedModel(quads, ModelHelpers.EMPTY_FACE_QUADS, this.isAmbientOcclusion(), this.isGui3d(),
-                this.getTexture(), this.getItemCameraTransforms());
+                this.getParticleTexture(), this.getItemCameraTransforms());
     }
 
     @Override
-    public TextureAtlasSprite getTexture() {
+    public TextureAtlasSprite getParticleTexture() {
         return null;
     }
 }

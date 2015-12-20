@@ -96,6 +96,15 @@ public class ImplicitFluidConverter {
 		}
 		return null;
 	}
+
+	/**
+	 * The conversion ratio to the given target fluid.
+	 * @param target The target fluid.
+	 * @return The conversion ratio.
+	 */
+	public double getRatio(Fluid target) {
+		return converters.get(target);
+	}
 	
 	/**
 	 * Register the converters config from the given string array.
@@ -111,7 +120,7 @@ public class ImplicitFluidConverter {
 			Fluid fluid = FluidRegistry.getFluid(split[0]);
 			if(fluid == null) {
 				EvilCraft.clog("Could not find a fluid by name '" + split[0] + "' for "
-						+ "a fluid converter config.", Level.ERROR);
+						+ "a fluid converter config.", Level.WARN);
 			}
 			double ratio = 1.0D;
 			try {

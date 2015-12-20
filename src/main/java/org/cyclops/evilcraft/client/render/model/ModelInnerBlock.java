@@ -6,10 +6,12 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.client.model.ISmartBlockModel;
 import org.cyclops.cyclopscore.client.model.DynamicModel;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,12 +36,14 @@ public class ModelInnerBlock extends DynamicModel {
     @SuppressWarnings("unchecked")
     @Override
     public List<BakedQuad> getFaceQuads(EnumFacing side) {
+        if(baseModel == null) return Collections.emptyList();
         return baseModel.getFaceQuads(side);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<BakedQuad> getGeneralQuads() {
+        if(baseModel == null) return Collections.emptyList();
         return baseModel.getGeneralQuads();
     }
 
@@ -47,6 +51,9 @@ public class ModelInnerBlock extends DynamicModel {
     public IBakedModel handleBlockState(IBlockState state) {
         IBlockState innerBlockState = block.getBlockFromState(state);
         IBakedModel baseModel = RenderHelpers.getBakedModel(innerBlockState);
+        if(baseModel instanceof ISmartBlockModel) {
+            baseModel = ((ISmartBlockModel) baseModel).handleBlockState(innerBlockState);
+        }
         return new ModelInnerBlock(block, baseModel);
     }
 
@@ -57,7 +64,7 @@ public class ModelInnerBlock extends DynamicModel {
     }
 
     @Override
-    public TextureAtlasSprite getTexture() {
-        return RenderHelpers.getBakedModel(block.getBlockFromMeta(0)).getTexture();
+    public TextureAtlasSprite getParticleTexture() {
+        return RenderHelpers.getBakedModel(block.getBlockFromMeta(0)).getParticleTexture();
     }
 }

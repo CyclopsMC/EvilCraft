@@ -21,7 +21,6 @@ import java.util.Random;
  *
  */
 public class DarkTempleGenerator implements IWorldGenerator {
-
 	@Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
 		if (canGenerate(world) && Configs.isEnabled(EnvironmentalAccumulatorConfig.class) && appliesAt(world, chunkX, chunkZ)) {

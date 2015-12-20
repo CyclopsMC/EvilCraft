@@ -9,6 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.client.model.ISmartBlockModel;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import org.cyclops.cyclopscore.client.model.DynamicModel;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -69,6 +70,9 @@ public class ModelBloodStainedBlock extends DynamicModel {
         BlockPos pos = BlockHelpers.getSafeBlockStateProperty(extendedBlockState, BloodStainedBlock.POS, null);
         TextureAtlasSprite overlayIcon = getIcon(pos);
         IBakedModel baseModel = RenderHelpers.getBakedModel(blockState);
+        if(baseModel instanceof ISmartBlockModel) {
+            baseModel = ((ISmartBlockModel) baseModel).handleBlockState(blockState);
+        }
         return new ModelBloodStainedBlock(baseModel, overlayIcon);
     }
 
@@ -78,7 +82,7 @@ public class ModelBloodStainedBlock extends DynamicModel {
     }
 
     @Override
-    public TextureAtlasSprite getTexture() {
-        return RenderHelpers.getBakedModel(Blocks.stone.getDefaultState()).getTexture();
+    public TextureAtlasSprite getParticleTexture() {
+        return RenderHelpers.getBakedModel(Blocks.stone.getDefaultState()).getParticleTexture();
     }
 }

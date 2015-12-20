@@ -9,42 +9,46 @@ import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
-import org.cyclops.evilcraft.item.Broom;
+import org.cyclops.evilcraft.entity.item.EntityItemDarkStick;
+import org.lwjgl.opengl.GL11;
 
 /**
- * Renderer for a broom
+ * Renderer for a dark stick
  * 
- * @author immortaleeb
+ * @author rubensworks
  *
  */
-public class RenderBroom extends Render {
+public class RenderDarkStick extends Render {
 
-    // TODO: temporary static way of rendering brooms.
-    private static final ItemStack BROOM = new ItemStack(Broom.getInstance());
-	
     /**
      * Make a new instance.
      * @param renderManager The render manager
      * @param config The config.
      */
-	public RenderBroom(RenderManager renderManager, ExtendedConfig<EntityConfig> config) {
+	public RenderDarkStick(RenderManager renderManager, ExtendedConfig<EntityConfig> config) {
 	    super(renderManager);
 	}
 
     protected ItemStack getItemStack(Entity entity) {
-        return BROOM;
+        return ((EntityItemDarkStick) entity).getEntityItem();
     }
 
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
+        EntityItemDarkStick darkStick = (EntityItemDarkStick) entity;
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y + 0.2F, z);
-        GlStateManager.scale(2, 2, 2);
-        
-        // Note: using entity.rotationYaw instead of yaw seems to fix some glitchyness when rendering
-        // In case this causes other problems, you can replace it by the yaw again
-        GlStateManager.rotate(-entity.rotationYaw, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(entity.rotationPitch, 1.0F, 0.0F, 0.0F);
+
+        float rotation;
+        if(darkStick.isValid()) {
+            rotation = darkStick.getAngle();
+        } else {
+            rotation = (((float)darkStick.getAge()) / 20.0F + darkStick.hoverStart) * (180F / (float)Math.PI);
+        }
+
+        GL11.glRotatef(rotation, 0, 1, 0);
+        GL11.glRotatef(-90F, 0, 1, 0);
+        GL11.glRotatef(25F, 1, 0, 0);
         
         bindEntityTexture(entity);
 

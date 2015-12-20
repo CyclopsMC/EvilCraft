@@ -7,6 +7,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.block.DarkTank;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.fluid.Blood;
@@ -74,32 +75,32 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 			ItemStack element = grid.getStackInSlot(j);
 			if(element != null) {
 				if(element.getItem() == darkTank) {
-					extractors++;
+					tanks++;
 					FluidStack fluidStack = darkTank.getFluid(element);
 					if(fluidStack != null) {
 						if(!blood.equals(fluidStack.getFluid())) {
 							return null;
 						}
-						totalContent += fluidStack.amount;
+						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
-					totalCapacity += darkTank.getCapacity(element);
+					totalCapacity = Helpers.addSafe(totalCapacity, darkTank.getCapacity(element));
 				} else if(element.getItem() == bloodExtractor) {
-					tanks++;
+					extractors++;
 					FluidStack fluidStack = bloodExtractor.getFluid(element);
 					if(fluidStack != null) {
 						if(!blood.equals(fluidStack.getFluid())) {
 							return null;
 						}
-						totalContent += fluidStack.amount;
+						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
-					totalCapacity += bloodExtractor.getCapacity(element);
+					totalCapacity = Helpers.addSafe(totalCapacity, bloodExtractor.getCapacity(element));
 				} else {
 					return null;
 				}
 			}
 		}
 		
-		if(((extractors + tanks) < 2 && extractors < 1)
+		if((extractors + tanks) < 2 || extractors < 1
 				|| totalCapacity > darkTank.getBlockTank().getMaxCapacity()) {
 			return null;
 		}

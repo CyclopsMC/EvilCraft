@@ -75,7 +75,7 @@ public class RenderBombPrimed extends RenderTNTPrimed {
     }
     
     @Override
-    protected ResourceLocation func_180563_a(EntityTNTPrimed par1Entity) {
+    protected ResourceLocation getEntityTexture(EntityTNTPrimed par1Entity) {
         return TextureMap.locationBlocksTexture;
     }
     

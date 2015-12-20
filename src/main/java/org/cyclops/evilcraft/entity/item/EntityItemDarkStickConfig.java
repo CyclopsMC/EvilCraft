@@ -3,8 +3,11 @@ package org.cyclops.evilcraft.entity.item;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.client.render.entity.RenderDarkStick;
 
 /**
  * Config for the {@link EntityItemDarkStick}.
@@ -32,7 +35,8 @@ public class EntityItemDarkStickConfig extends EntityConfig {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     protected Render getRender(RenderManager renderManager, RenderItem renderItem) {
-        return null;
+        return new RenderDarkStick(renderManager, this);
     }
 }

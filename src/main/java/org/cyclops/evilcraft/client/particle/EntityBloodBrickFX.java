@@ -5,6 +5,7 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -73,7 +74,7 @@ public class EntityBloodBrickFX extends EntityFX {
         GlStateManager.depthMask(false);
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        worldRenderer.startDrawingQuads();
+		worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 		
 		// Flipping to make sure the particle lines match the blockState lines.
 		boolean flip = side == EnumFacing.DOWN;
@@ -112,16 +113,16 @@ public class EntityBloodBrickFX extends EntityFX {
             GlStateManager.translate(0.0D, 0.0D, -0.5D);
 	    }
 
-       	worldRenderer.setBrightness(TESSELATOR_BRIGHTNESS);
+       	worldRenderer.putBrightness4(TESSELATOR_BRIGHTNESS, TESSELATOR_BRIGHTNESS, TESSELATOR_BRIGHTNESS, TESSELATOR_BRIGHTNESS);
 		float brightness = (float) particleAge / (float) (particleMaxAge / 2);
 		if(brightness > 1) brightness = (float) (particleMaxAge - particleAge) / 2 / (float) (particleMaxAge / 2);
-        worldRenderer.setColorRGBA_F(particleRed, particleGreen, particleBlue, brightness);
+        worldRenderer.color(particleRed, particleGreen, particleBlue, brightness);
 
 		float offsetter = 1.0F;
-        worldRenderer.addVertexWithUV(-0.5D * offsetter, 0.5D * offsetter, 0.0D, 0.0D, 1.0D);
-        worldRenderer.addVertexWithUV(0.5D * offsetter, 0.5D * offsetter, 0.0D, 1.0D, 1.0D);
-        worldRenderer.addVertexWithUV(0.5D * offsetter, -0.5D * offsetter, 0.0D, 1.0D, 0.0D);
-        worldRenderer.addVertexWithUV(-0.5D * offsetter, -0.5D * offsetter, 0.0D, 0.0D, 0.0D);
+        worldRenderer.pos(-0.5D * offsetter, 0.5D * offsetter, 0.0D).tex(0.0D, 1.0D).endVertex();
+        worldRenderer.pos(0.5D * offsetter, 0.5D * offsetter, 0.0D).tex(1.0D, 1.0D).endVertex();
+        worldRenderer.pos(0.5D * offsetter, -0.5D * offsetter, 0.0D).tex(1.0D, 0.0D).endVertex();
+        worldRenderer.pos(-0.5D * offsetter, -0.5D * offsetter, 0.0D).tex(0.0D, 0.0D).endVertex();
 		Tessellator.getInstance().draw();
 
         GlStateManager.disableBlend();
@@ -129,9 +130,9 @@ public class EntityBloodBrickFX extends EntityFX {
 
         GlStateManager.popMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ObfuscationHelpers.getParticleTexture());
-        worldRenderer.startDrawingQuads();
+        worldRenderer.finishDrawing();
 	}
-	
+
 	@Override
 	public void onUpdate() {
 		prevPosX = posX;

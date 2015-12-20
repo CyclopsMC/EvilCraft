@@ -22,6 +22,7 @@ public class RenderControlledZombie extends RenderBiped {
     /**
      * Make a new instance.
      * @param config The config
+     * @param renderManager The rendermanager
      */
     public RenderControlledZombie(ExtendedConfig<MobConfig> config, RenderManager renderManager) {
         super(renderManager, new ModelZombie(), 0.5F, 1.0F);

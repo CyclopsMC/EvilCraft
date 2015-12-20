@@ -15,6 +15,7 @@ import net.minecraft.util.DamageSource;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.block.BoxOfEternalClosure;
 import org.cyclops.evilcraft.block.SpiritFurnaceConfig;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
@@ -153,7 +154,9 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                 if(overridenDrops != null) {
                     possibleDrops.addAll(overridenDrops);
                 }
-                possibleDrops.add(new WeightedItemStack(getPlayerSkull(tile.getPlayerName()), 1));
+                if(!BoxOfEternalClosure.FORGOTTEN_PLAYER.equals(tile.getPlayerName())) {
+                    possibleDrops.add(new WeightedItemStack(getPlayerSkull(tile.getPlayerName()), 1));
+                }
                 WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
                 ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.rand);
                 if (drop != null) {
