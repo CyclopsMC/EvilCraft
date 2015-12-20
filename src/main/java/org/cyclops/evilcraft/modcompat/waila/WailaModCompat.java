@@ -14,7 +14,7 @@ public class WailaModCompat implements IModCompat {
 
     @Override
     public String getModID() {
-        return Reference.MOD_WAILA;// + "disabled";
+        return Reference.MOD_WAILA;
     }
 
     @Override

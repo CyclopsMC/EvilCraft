@@ -69,7 +69,6 @@ sourceSets {
     main {
         java {
             exclude '**/modcompat/nei/**'
-            exclude '**/modcompat/waila/**'
         }
     }
 }

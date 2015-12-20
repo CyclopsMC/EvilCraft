@@ -1,14 +1,21 @@
 package org.cyclops.evilcraft.modcompat.waila;
 
-import mcp.mobius.waila.api.*;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocks;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
 import org.cyclops.evilcraft.core.tileentity.InnerBlocksTileEntity;
+
+import java.util.List;
 
 /**
  * Waila data provider for blocks with inner blocks.
@@ -36,22 +43,22 @@ public class InnerBlockDataProvider implements IWailaDataProvider {
     }
 
     @Override
-    public ITaggedList.ITipList getWailaHead(ItemStack itemStack, ITaggedList.ITipList currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 
     @Override
-    public ITaggedList.ITipList getWailaTail(ItemStack itemStack, ITaggedList.ITipList currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 
     @Override
-    public ITaggedList.ITipList getWailaBody(ItemStack itemStack, ITaggedList.ITipList currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 
     @Override
-    public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, IWailaDataAccessorServer accessor) {
+    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         return tag;
     }
 
