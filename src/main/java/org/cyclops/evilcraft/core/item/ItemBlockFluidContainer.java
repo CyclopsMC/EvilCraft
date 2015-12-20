@@ -12,6 +12,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
@@ -132,7 +133,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
 
         int filled = capacity - stack.amount;
         if(resource.amount < filled) {
-            stack.amount += resource.amount;
+            stack.amount = Helpers.addSafe(stack.amount, resource.amount);
             filled = resource.amount;
         } else {
             stack.amount = capacity;

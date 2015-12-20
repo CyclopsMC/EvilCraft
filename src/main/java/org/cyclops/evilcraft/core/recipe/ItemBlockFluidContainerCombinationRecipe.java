@@ -6,6 +6,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.block.DarkTank;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 
@@ -78,9 +79,9 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 						} else if(!commonFluid.equals(fluidStack.getFluid())) {
 							return null;
 						}
-						totalContent += fluidStack.amount;
+						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
-					totalCapacity += tankItem.getCapacity(element);
+					totalCapacity = Helpers.addSafe(totalCapacity, tankItem.getCapacity(element));
 				} else {
 					return null;
 				}

@@ -7,6 +7,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.block.DarkTank;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.fluid.Blood;
@@ -80,9 +81,9 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 						if(!blood.equals(fluidStack.getFluid())) {
 							return null;
 						}
-						totalContent += fluidStack.amount;
+						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
-					totalCapacity += darkTank.getCapacity(element);
+					totalCapacity = Helpers.addSafe(totalCapacity, darkTank.getCapacity(element));
 				} else if(element.getItem() == bloodExtractor) {
 					extractors++;
 					FluidStack fluidStack = bloodExtractor.getFluid(element);
@@ -90,9 +91,9 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 						if(!blood.equals(fluidStack.getFluid())) {
 							return null;
 						}
-						totalContent += fluidStack.amount;
+						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
-					totalCapacity += bloodExtractor.getCapacity(element);
+					totalCapacity = Helpers.addSafe(totalCapacity, bloodExtractor.getCapacity(element));
 				} else {
 					return null;
 				}
