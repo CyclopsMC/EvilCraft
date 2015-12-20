@@ -30,6 +30,19 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
         return tile.getInventory().getStackInSlot(tile.getConsumeSlot());
     }
 
+	protected ItemStack getSpawnEgg(int entityId) {
+		return new ItemStack(Item.itemRegistry.getObject(new ResourceLocation("spawn_egg")), 1, entityId);
+	}
+
+	protected ItemStack getSpawnEgg(String entityName) {
+		ItemStack itemStack = new ItemStack((Item)Item.itemRegistry.getObject(new ResourceLocation("spawn_egg")));
+		net.minecraft.nbt.NBTTagCompound nbt = new net.minecraft.nbt.NBTTagCompound();
+		nbt.setString("entity_name", entityName);
+		itemStack.setTagCompound(nbt);
+		return itemStack;
+
+	}
+
 	@Override
 	public void onTick(TileSpiritReanimator tile, ItemStack itemStack, int slot,
 			int tick) {
@@ -37,14 +50,20 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 		tile.getTank().drain(getRequiredMb(tile, tick), true);
 		if(tick >= getRequiredTicks(tile, slot, tick)) {
 			int entityID = tile.getEntityID();
+			ItemStack spawnEgg = null;
+			if(entityID < 0) {
+				String entityName = tile.getEntityName();
+				if(entityName != null) {
+					spawnEgg = getSpawnEgg(entityName);
+				}
+			} else {
+				spawnEgg = getSpawnEgg(entityID);
+			}
+			if(spawnEgg != null && addToProduceSlot(tile, spawnEgg)) {
+				tile.getInventory().decrStackSize(TileSpiritReanimator.SLOT_EGG, 1);
+			}
 			if(SpiritReanimatorConfig.clearBoxContents) {
 				itemStack.setTagCompound(new NBTTagCompound());
-			}
-			if(entityID > -1) {
-				ItemStack eggStack = new ItemStack((Item)Item.itemRegistry.getObject(new ResourceLocation("spawn_egg")), 1, entityID);
-				if(addToProduceSlot(tile, eggStack)) {
-					tile.getInventory().decrStackSize(TileSpiritReanimator.SLOT_EGG, 1);
-				}
 			}
 		}
 	}

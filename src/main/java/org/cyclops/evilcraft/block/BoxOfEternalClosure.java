@@ -5,7 +5,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -24,6 +23,7 @@ import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import org.cyclops.evilcraft.core.world.FakeWorld;
@@ -212,7 +212,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
 	@Override
 	public String getInfo(ItemStack itemStack) {
-		String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty");
+		String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general." + Reference.MOD_ID + ".info.empty");
 		if(hasPlayer(itemStack)) {
 			content = getPlayerName(itemStack);
 		} else {

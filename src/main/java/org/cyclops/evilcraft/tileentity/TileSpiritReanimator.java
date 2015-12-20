@@ -3,11 +3,13 @@ package org.cyclops.evilcraft.tileentity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -179,7 +181,19 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 	protected int getWorkTicker() {
 		return reanimateTicker;
 	}
-    
+
+    /**
+     * Get the entity name that is contained in a box.
+     * @return The entity or null if no box or invalid box.
+     */
+    public String getEntityName() {
+        ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
+        if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
+            return BoxOfEternalClosure.getInstance().getSpiritName(boxStack);
+        }
+        return null;
+    }
+
     /**
      * Get the entity id that is contained in a box.
      * @return The entity or null if no box or invalid box.
@@ -233,10 +247,16 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 	public boolean canWork() {
 		ItemStack eggStack = getStackInSlot(SLOT_EGG);
 		ItemStack outputStack = getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
+        boolean validIdStack = getEntityID() != -1 && EntityList.entityEggs.get(getEntityID()) != null
+                && (outputStack == null ||
+                    (outputStack.getMaxStackSize() > outputStack.stackSize
+                        && outputStack.getItemDamage() == getEntityID()));
+        boolean validNameStack = getEntityName() != null && EntityRegistry.getEggs().containsKey(getEntityName())
+                && (outputStack == null ||
+                    (outputStack.getMaxStackSize() > outputStack.stackSize
+                        && getEntityName().equals(ItemMonsterPlacer.getEntityName(outputStack))));
         return eggStack != null /*&& ResurgenceEgg.getInstance().isEmpty(eggStack)*/
-				&& getEntityID() != -1 && EntityList.entityEggs.get(getEntityID()) != null
-				&& (outputStack == null || (outputStack.getMaxStackSize() > outputStack.stackSize)
-					&& outputStack.getItemDamage() == getEntityID());
+				&& (validIdStack || validNameStack);
 	}
 	
 	@Override
