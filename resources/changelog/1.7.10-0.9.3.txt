@@ -1,0 +1,7 @@
+Fixes:
+
+* Fix implicit fluid conversion ignoring ratio, Closes #315
+* Fix incorrect fluid removal for empty chalices
+* Fix integer overflows with Dark Tanks and Blood Extractors, Closes #312
+* Correctly break Burning Gemstone, Closes #262
+
