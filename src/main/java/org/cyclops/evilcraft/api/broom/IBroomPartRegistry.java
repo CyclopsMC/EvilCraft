@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.api.broom;
 
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.init.IRegistry;
@@ -38,7 +38,7 @@ public interface IBroomPartRegistry extends IRegistry {
      * @param modelLocation The model resource location.
      */
     @SideOnly(Side.CLIENT)
-    public void registerPartModel(IBroomPart part, ModelResourceLocation modelLocation);
+    public void registerPartModel(IBroomPart part, ResourceLocation modelLocation);
 
     /**
      * Get the model resource location of the given part.
@@ -46,13 +46,13 @@ public interface IBroomPartRegistry extends IRegistry {
      * @return The model resource location.
      */
     @SideOnly(Side.CLIENT)
-    public  ModelResourceLocation getPartModel(IBroomPart part);
+    public ResourceLocation getPartModel(IBroomPart part);
 
     /**
      * Get all registered model resource locations for the parts.
      * @return All model resource locations.
      */
     @SideOnly(Side.CLIENT)
-    public Collection<ModelResourceLocation> getPartModels();
+    public Collection<ResourceLocation> getPartModels();
 
 }

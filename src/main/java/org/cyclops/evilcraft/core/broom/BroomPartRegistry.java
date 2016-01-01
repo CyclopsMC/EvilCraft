@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -25,7 +25,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     private final Set<IBroomPart> parts = Sets.newHashSet();
     private final Multimap<IBroomPart.BroomPartType, IBroomPart> partsByType = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     @SideOnly(Side.CLIENT)
-    private Map<IBroomPart, ModelResourceLocation> partModels;
+    private Map<IBroomPart, ResourceLocation> partModels;
 
     public BroomPartRegistry() {
         if(MinecraftHelpers.isClientSide()) {
@@ -52,19 +52,19 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerPartModel(IBroomPart part, ModelResourceLocation modelLocation) {
+    public void registerPartModel(IBroomPart part, ResourceLocation modelLocation) {
         partModels.put(part, modelLocation);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ModelResourceLocation getPartModel(IBroomPart part) {
+    public ResourceLocation getPartModel(IBroomPart part) {
         return partModels.get(part);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Collection<ModelResourceLocation> getPartModels() {
+    public Collection<ResourceLocation> getPartModels() {
         return Collections.unmodifiableCollection(partModels.values());
     }
 }

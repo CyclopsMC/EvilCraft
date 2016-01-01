@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.broom;
 
 import lombok.Data;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -31,6 +31,6 @@ public class BroomPartBase implements IBroomPart {
     @SideOnly(Side.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
-                new ModelResourceLocation(getModId() + ":broomPart/" + getType().name().toLowerCase()));
+                new ResourceLocation(getModId() + ":broomPart/" + getType().name().toLowerCase()));
     }
 }
