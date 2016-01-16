@@ -51,7 +51,7 @@
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.weatherContainerBenefits.text</paragraph>
                 <appendixList type="craftingRecipe">weatherCrafting</appendixList>
             </section>
-            <section name="infoBook.firstAge.newWorld.biomeExtract">
+            <section name="infoBook.evilcraft.firstAge.newWorld.biomeExtract">
                 <tag>biomeExtract</tag>
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.biomeExtract.text1</paragraph>
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.biomeExtract.text2</paragraph>
