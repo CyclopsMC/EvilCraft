@@ -10,7 +10,6 @@ import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.client.model.DynamicChildItemModel;
 import org.cyclops.evilcraft.block.DarkTank;
 import org.cyclops.evilcraft.core.block.IBlockTank;
-import org.cyclops.evilcraft.core.helper.RenderHelpers;
 
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class ModelDarkTank extends DynamicChildItemModel {
         float height = Math.min(1.0F, ((float) fluidStack.amount / (float) capacity)) / 1.01F;
         List<BakedQuad> quads = Lists.newArrayList();
         for(EnumFacing side : EnumFacing.VALUES) {
-            TextureAtlasSprite texture = RenderHelpers.getFluidIcon(fluidStack, side);
+            TextureAtlasSprite texture = org.cyclops.cyclopscore.helper.RenderHelpers.getFluidIcon(fluidStack, side);
             if(side == EnumFacing.DOWN || side == EnumFacing.UP) {
                 addBakedQuadRotated(quads, 0.126F, 0.874F, 0.126F, 0.874F, height, texture, side, ROTATION_FIX[side.ordinal()]);
             } else {
