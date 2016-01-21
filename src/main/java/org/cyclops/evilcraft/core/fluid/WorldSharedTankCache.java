@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.fluid;
 
 import com.google.common.collect.Maps;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.FluidStack;
@@ -135,7 +136,7 @@ public class WorldSharedTankCache {
         if(!MinecraftHelpers.isClientSide()) {
             for(Map.Entry<String, FluidStack> entry: tankCache.entrySet()) {
 				EvilCraft._instance.getPacketHandler().sendToPlayer(
-						new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), event.player);
+						new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), (EntityPlayerMP) event.player);
             }
         }
     }

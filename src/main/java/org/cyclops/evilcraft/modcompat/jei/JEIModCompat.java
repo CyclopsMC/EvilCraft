@@ -9,7 +9,7 @@ import org.cyclops.evilcraft.Reference;
  * @author rubensworks
  *
  */
-public class NEIModCompat implements IModCompat {
+public class JEIModCompat implements IModCompat {
 	
 	/**
 	 * If the modcompat can be used.
