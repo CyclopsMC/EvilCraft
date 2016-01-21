@@ -7,10 +7,10 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.inventory.container.ExtendedInventoryContainer;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
-import org.cyclops.evilcraft.core.helper.RenderHelpers;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -148,7 +148,7 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
                     level = 0;
                 }
                 
-                mc.renderEngine.bindTexture(RenderHelpers.TEXTURE_MAP);
+                mc.renderEngine.bindTexture(org.cyclops.evilcraft.core.helper.RenderHelpers.TEXTURE_MAP);
                 drawTexturedModalRect(xOffset, yOffset - textureHeight - verticalOffset, icon, tankWidth, textureHeight);
                 verticalOffset = verticalOffset + 16;
             }

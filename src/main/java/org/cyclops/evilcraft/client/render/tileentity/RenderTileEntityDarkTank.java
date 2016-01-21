@@ -72,13 +72,13 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
 			FluidStack fluid = tank.getTank().getFluid();
 			RenderHelpers.renderTileFluidContext(fluid, x, y, z, tileEntity, new IFluidContextRender() {
 
-				@Override
-				public void renderFluid(FluidStack fluid) {
-					double height = tank.getFillRatio() * 0.99D;
-			        renderFluidSides(height, fluid, 240);
-				}
-				
-			});
+                @Override
+                public void renderFluid(FluidStack fluid) {
+                    double height = tank.getFillRatio() * 0.99D;
+                    renderFluidSides(height, fluid, 240);
+                }
+
+            });
 		}
 	}
 	
@@ -93,7 +93,7 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
         int i3 = brightness & 65535;
 
 		for(EnumFacing side : DirectionHelpers.DIRECTIONS) {
-			TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, side);
+			TextureAtlasSprite icon = org.cyclops.cyclopscore.helper.RenderHelpers.getFluidIcon(fluid, side);
 
             Tessellator t = Tessellator.getInstance();
             WorldRenderer worldRenderer = t.getWorldRenderer();
