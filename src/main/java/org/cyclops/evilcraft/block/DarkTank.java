@@ -119,7 +119,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     public boolean isNormalCube() {
     	return false;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess world, BlockPos blockPos, EnumFacing side) {

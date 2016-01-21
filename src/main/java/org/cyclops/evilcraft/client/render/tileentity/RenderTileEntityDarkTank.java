@@ -66,7 +66,7 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
     };
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f, int partialDamage) {
+	public void renderTileEntityAt(final TileEntity tileEntity, final double x, final double y, final double z, float f, int partialDamage) {
 		if(tileEntity instanceof TileDarkTank) {
 			final TileDarkTank tank = ((TileDarkTank) tileEntity);
 			FluidStack fluid = tank.getTank().getFluid();
@@ -75,7 +75,7 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
                 @Override
                 public void renderFluid(FluidStack fluid) {
                     double height = tank.getFillRatio() * 0.99D;
-                    renderFluidSides(height, fluid, 240);
+                    renderFluidSides(height, fluid, tileEntity.getWorld().getCombinedLight(tileEntity.getPos(), fluid.getFluid().getLuminosity(fluid)));
                 }
 
             });
@@ -89,8 +89,8 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
      * @param brightness The brightness to render the fluid with.
 	 */
 	public static void renderFluidSides(double height, FluidStack fluid, int brightness) {
-        int l2 = brightness >> 16 & 65535;
-        int i3 = brightness & 65535;
+        int l2 = brightness >> 0x10 & 0xFFFF;
+        int i3 = brightness & 0xFFFF;
 
 		for(EnumFacing side : DirectionHelpers.DIRECTIONS) {
 			TextureAtlasSprite icon = org.cyclops.cyclopscore.helper.RenderHelpers.getFluidIcon(fluid, side);
