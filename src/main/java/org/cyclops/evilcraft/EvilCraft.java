@@ -37,6 +37,7 @@ import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
 import org.cyclops.evilcraft.item.DarkGemConfig;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
+import org.cyclops.evilcraft.modcompat.thaumcraft.ThaumcraftModCompat;
 import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
@@ -90,6 +91,7 @@ public class EvilCraft extends ModBaseVersionable {
         modCompatLoader.addModCompat(new BaublesModCompat());
         modCompatLoader.addModCompat(new WailaModCompat());
         modCompatLoader.addModCompat(new JEIModCompat());
+        modCompatLoader.addModCompat(new ThaumcraftModCompat());
         //modCompatLoader.addModCompat(new NEIModCompat()); TODO
     }
 

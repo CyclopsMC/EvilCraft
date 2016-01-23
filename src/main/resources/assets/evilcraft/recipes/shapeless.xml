@@ -282,7 +282,7 @@
         <condition type="mod">Thaumcraft</condition>
         <condition type="config">veinedScribingTools</condition>
         <input>
-            <item>Thaumcraft:ItemEssence</item>
+            <item>Thaumcraft:phial</item>
             <item>minecraft:feather</item>
             <item meta="1">evilcraft:bloodOrb</item>
         </input>

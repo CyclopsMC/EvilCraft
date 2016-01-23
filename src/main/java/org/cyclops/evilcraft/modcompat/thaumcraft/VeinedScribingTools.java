@@ -1,11 +1,13 @@
-package evilcraft.modcompat.thaumcraft;
+package org.cyclops.evilcraft.modcompat.thaumcraft;
 
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import org.cyclops.evilcraft.fluid.Blood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import thaumcraft.api.IScribeTools;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.evilcraft.fluid.Blood;
+import thaumcraft.api.items.IScribeTools;
 
 /**
  * Scribing tools that run on Blood.
@@ -21,17 +23,6 @@ public class VeinedScribingTools extends ConfigurableDamageIndicatedItemFluidCon
     private static VeinedScribingTools _instance = null;
 
     /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new VeinedScribingTools(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
-
-    /**
      * Get the unique instance.
      * @return The instance.
      */
@@ -39,7 +30,7 @@ public class VeinedScribingTools extends ConfigurableDamageIndicatedItemFluidCon
         return _instance;
     }
 
-    private VeinedScribingTools(ExtendedConfig<ItemConfig> eConfig) {
+    public VeinedScribingTools(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, CAPACITY, Blood.getInstance());
         setMaxDamage(CAPACITY / USAGE);
         this.canPickUp = false;

@@ -46,7 +46,7 @@
         <condition type="config">evilcraftblood</condition>
         <condition type="config">bloodWandCap</condition>
         <input>
-            <item meta="1">Thaumcraft:WandCap</item>
+            <item meta="1">Thaumcraft:wand_cap</item>
             <fluid>evilcraftblood</fluid>
             <fluidamount>2500</fluidamount>
         </input>
