@@ -85,7 +85,7 @@ public class BloodInfuserRecipeCategory implements IRecipeCategory {
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper) {
         recipeLayout.getItemStacks().init(INPUT_SLOT, true, 41, 27);
-        recipeLayout.getItemStacks().init(UPGRADE_SLOT, true, 41, 7);
+        recipeLayout.getItemStacks().init(UPGRADE_SLOT, false, 41, 7);
         recipeLayout.getItemStacks().init(OUTPUT_SLOT, false, 95, 27);
 
         if(recipeWrapper instanceof BloodInfuserRecipeJEI) {
