@@ -5,7 +5,7 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 
 /**
- * Config for the NEI integration of this mod.
+ * Config for the JEI integration of this mod.
  * @author rubensworks
  *
  */
@@ -25,7 +25,7 @@ public class JEIModCompat implements IModCompat {
 
 	@Override
 	public String getModID() {
-		return Reference.MOD_NEI;
+		return Reference.MOD_JEI;
 	}
 
 	@Override
