@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
@@ -53,7 +52,7 @@ public class RenderVengeanceSpirit extends Render {
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
 		VengeanceSpirit spirit = (VengeanceSpirit) entity;
-		EntityLivingBase innerEntity = spirit.getInnerEntity();
+		EntityLiving innerEntity = (EntityLiving) spirit.getInnerEntity();
 		if(innerEntity != null && spirit.isVisible()) {
 			Render render = (Render) renderManager.entityRenderMap.get(innerEntity.getClass());
 			if(render != null && !spirit.isSwarm()) {
