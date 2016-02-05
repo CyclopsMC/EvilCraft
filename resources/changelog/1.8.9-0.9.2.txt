@@ -1,0 +1,28 @@
+Make sure to backup your world before updating!
+Requires CyclopsCore version 0.5.0.
+
+Additions:
+* Restore Thaumcraft integration
+* Add JEI support
+* Update Primed Pendant gui interface
+* Update Waila compat
+
+Fixes:
+* Fix client error spawn when forming spirit furnaces
+* Fix Spirit Furnace activation effect
+* Fix vengeance spirit compilation error
+* Fix Dark Tank z-fighting, Closes #322
+* Make Dark Tanks take into account light level, Closes #321
+* Fix incorrect infobook localization entries
+* Fix Spirit Reanimator for mod mobs, Closes #313
+* Fix spawning of Vengeance Spirits with spawn egg
+* Fix inventory textures for fluids
+* Fix implicit fluid conversion ignoring ratio, Closes #315
+* Fix incorrect fluid removal for empty chalices
+* Fix integer overflows with Dark Tanks and Blood Extractors, Closes #312
+* Correctly break Burning Gemstone, Closes #262
+* Correctly handle nested ISmartBlockModels
+* Fix Envir Acc renderer
+* Fix Spirit Portal rendering
+* Fix Dark Tank fluid rendering
+* Possible fix for rare nested DynamicModel crash
