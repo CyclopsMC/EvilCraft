@@ -104,10 +104,14 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
 	public void onDetect(World world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
+            boolean change = !(Boolean) world.getBlockState(location).getValue(ACTIVE);
             world.setBlockState(location, world.getBlockState(location).withProperty(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             TileEntity tile = world.getTileEntity(location);
             if(tile != null) {
                 ((TileSpiritFurnace) tile).setSize(valid ? size : Vec3i.NULL_VECTOR);
+            }
+            if(change) {
+                TileSpiritFurnace.detectStructure(world, location, size, valid, originCorner);
             }
         }
 	}
