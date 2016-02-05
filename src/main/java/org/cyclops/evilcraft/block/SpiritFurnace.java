@@ -85,13 +85,17 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
-        triggerDetector(world, pos, true);
+        if(!world.isRemote) {
+            triggerDetector(world, pos, true);
+        }
     }
 
     @Override
     public void onBlockAdded(World world, BlockPos blockPos, IBlockState blockState) {
         super.onBlockAdded(world, blockPos, blockState);
-        triggerDetector(world, blockPos, true);
+        if(!world.isRemote) {
+            triggerDetector(world, blockPos, true);
+        }
     }
 
     @Override

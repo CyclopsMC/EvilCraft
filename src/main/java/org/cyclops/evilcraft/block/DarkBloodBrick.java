@@ -61,7 +61,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
-        if(!world.captureBlockSnapshots) {
+        if(!world.isRemote && !world.captureBlockSnapshots) {
             triggerDetector(world, pos, true);
         }
     }
@@ -69,7 +69,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
     @Override
     public void onBlockAdded(World world, BlockPos blockPos, IBlockState blockState) {
         super.onBlockAdded(world, blockPos, blockState);
-        if(!world.captureBlockSnapshots) {
+        if(!world.isRemote && !world.captureBlockSnapshots) {
             triggerDetector(world, blockPos, true);
         }
     }
