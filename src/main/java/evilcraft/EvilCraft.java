@@ -10,6 +10,7 @@ import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
+import evilcraft.block.EnvironmentalAccumulatorConfig;
 import evilcraft.client.gui.GuiHandler;
 import evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import evilcraft.command.CommandEvilCraft;
@@ -134,7 +135,9 @@ public class EvilCraft {
         // Register world generation
         GameRegistry.registerWorldGenerator(new OreGenerator(), 5);
         GameRegistry.registerWorldGenerator(new EvilDungeonGenerator(), 2);
-        GameRegistry.registerWorldGenerator(new DarkTempleGenerator(), 1);
+        if(Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
+            GameRegistry.registerWorldGenerator(new DarkTempleGenerator(), 1);
+        }
         
         // Gui Handlers
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());

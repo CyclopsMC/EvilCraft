@@ -3,6 +3,7 @@ package evilcraft.modcompat.ee3;
 import com.google.common.collect.Lists;
 import com.pahimar.ee3.api.exchange.EnergyValueRegistryProxy;
 import com.pahimar.ee3.api.exchange.RecipeRegistryProxy;
+import evilcraft.Configs;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.*;
 import evilcraft.core.config.extendedconfig.BlockConfig;
@@ -55,18 +56,22 @@ public class EE3 {
 
     public static void registerCrafting() {
         // Blood Infuser recipes
-        for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe :
-                BloodInfuser.getInstance().getRecipeRegistry().allRecipes()) {
-            List l = Lists.newArrayList(recipe.getInput().getItemStacks());
-            l.add(recipe.getInput().getFluidStack());
-            RecipeRegistryProxy.addRecipe(recipe.getOutput().getItemStack(), l);
+        if(Configs.isEnabled(BloodInfuserConfig.class)) {
+            for (IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe :
+                    BloodInfuser.getInstance().getRecipeRegistry().allRecipes()) {
+                List l = Lists.newArrayList(recipe.getInput().getItemStacks());
+                l.add(recipe.getInput().getFluidStack());
+                RecipeRegistryProxy.addRecipe(recipe.getOutput().getItemStack(), l);
+            }
         }
 
         // Environmental Accumulator recipes
-        for(IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent,
-                EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().
-                getRecipeRegistry().allRecipes()) {
-            RecipeRegistryProxy.addRecipe(recipe.getOutput().getItemStack(), Arrays.asList((recipe.getInput().getItemStack())));
+        if(Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
+            for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent,
+                    EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().
+                    getRecipeRegistry().allRecipes()) {
+                RecipeRegistryProxy.addRecipe(recipe.getOutput().getItemStack(), Arrays.asList((recipe.getInput().getItemStack())));
+            }
         }
     }
 

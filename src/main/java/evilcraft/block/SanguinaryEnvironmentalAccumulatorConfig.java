@@ -1,6 +1,7 @@
 package evilcraft.block;
 
 import com.google.common.collect.Sets;
+import evilcraft.Configs;
 import evilcraft.core.config.ConfigurableProperty;
 import evilcraft.core.config.ConfigurableTypeCategory;
 import evilcraft.core.config.extendedconfig.BlockContainerConfig;
@@ -53,5 +54,13 @@ public class SanguinaryEnvironmentalAccumulatorConfig extends BlockContainerConf
     protected String getConfigPropertyPrefix() {
         return "sangEnvirAcc";
     }
-    
+
+    @Override
+    public void onRegistered() {
+        super.onRegistered();
+        if(!Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
+            throw new RuntimeException("Enabling the Sanguinary Environmental Accumulator requires the regular " +
+                    "Environmental Accumulator to be enabled!");
+        }
+    }
 }
