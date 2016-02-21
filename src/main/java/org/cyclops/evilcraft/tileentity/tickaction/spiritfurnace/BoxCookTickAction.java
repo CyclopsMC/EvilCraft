@@ -208,7 +208,11 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 		if(entity == null) {
             requiredTicksBase = SpiritFurnaceConfig.requiredTicksPerHp;
 		} else {
-            requiredTicksBase = (int) ((entity.getHealth() + entity.getTotalArmorValue()) * SpiritFurnaceConfig.requiredTicksPerHp);
+            try {
+                requiredTicksBase = (int) ((entity.getHealth() + entity.getTotalArmorValue()) * SpiritFurnaceConfig.requiredTicksPerHp);
+            } catch (Exception e) {
+                requiredTicksBase = 40 * SpiritFurnaceConfig.requiredTicksPerHp;
+            }
         }
         MutableDouble duration = new MutableDouble(requiredTicksBase);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(duration, TileSpiritFurnace.UPGRADEEVENT_SPEED));
