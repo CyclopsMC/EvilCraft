@@ -214,7 +214,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
      */
     public IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>
         getRecipe(ItemStack itemStack) {
-        return recipeCache.get(new ImmutableTriple<ItemStack, FluidStack, Integer>(
+        return recipeCache.get(Triple.of(
                 itemStack == null ? null : itemStack.copy(),
                 getTank().getFluid() == null ? null : getTank().getFluid().copy(),
                 getTier()));

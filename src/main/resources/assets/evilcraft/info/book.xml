@@ -59,7 +59,7 @@
                 <appendix type="craftingRecipe">evilcraft:biomeExtract</appendix>
                 <appendix type="evilcraft:envirAccRecipe" meta="1">evilcraft:biomeExtract</appendix>
             </section>
-            <section name="infoBook.firstAge.newWorld.libelle">
+            <section name="infoBook.evilcraft.firstAge.newWorld.libelle">
                 <tag>bucketPoison</tag>
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.libelle.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bucketPoison</appendix>

@@ -29,6 +29,7 @@ import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.api.degradation.IDegradationRegistry;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
+import org.cyclops.evilcraft.block.EnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import org.cyclops.evilcraft.core.broom.BroomPartRegistry;
 import org.cyclops.evilcraft.core.degradation.DegradationRegistry;
@@ -139,7 +140,9 @@ public class EvilCraft extends ModBaseVersionable {
         // Register world generation
         GameRegistry.registerWorldGenerator(new OreGenerator(), 5);
         GameRegistry.registerWorldGenerator(new EvilDungeonGenerator(), 2);
-        GameRegistry.registerWorldGenerator(new DarkTempleGenerator(), 1);
+        if(Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
+            GameRegistry.registerWorldGenerator(new DarkTempleGenerator(), 1);
+        }
         
         // Add custom panorama's
         if(event.getSide() == Side.CLIENT) {

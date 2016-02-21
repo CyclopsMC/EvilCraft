@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.modcompat.thaumcraft;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -111,7 +110,7 @@ public class Thaumcraft {
         registerObjectTagSafe(BloodPotashConfig._instance, new AspectList().add(Aspect.SENSES, 2).add(bloodLists.copy()));
         registerObjectTagSafe(EnderTearConfig._instance, new AspectList().add(Aspect.MOTION, 8).add(Aspect.ELDRITCH, 8).add(Aspect.ELDRITCH, 4));
         registerObjectTagSafe(BloodOrbConfig._instance, 1, new AspectList().add(Aspect.ORDER, 1).add(bloodLists.copy()));
-        registerObjectTagSafe(OriginsOfDarknessConfig._instance, new AspectList(new ItemStack(Items.book)).add(Aspect.DARKNESS, 4));
+        registerObjectTagSafe(OriginsOfDarknessConfig._instance, new AspectList().add(Aspect.MIND, 4).add(Aspect.DARKNESS, 4));
         ThaumcraftApi.registerObjectTag(DarkSpikeConfig._instance.getOreDictionaryId(), new AspectList().add(Aspect.METAL, 2).add(Aspect.DARKNESS, 2).add(Aspect.DEATH, 1));
         registerObjectTagSafe(ObscuredGlassConfig._instance, new AspectList().add(Aspect.DARKNESS, 4).add(Aspect.LIGHT, 4));
         registerObjectTagSafe(BurningGemStoneConfig._instance, new AspectList().add(Aspect.CRYSTAL, 10).add(Aspect.DARKNESS, 10).add(Aspect.FIRE, 4).add(Aspect.SOUL, 2));

@@ -94,7 +94,10 @@ public class ThermalExpansionModCompat implements IModCompat {
             cruciblePoison.setInteger("energy", 2000);
             cruciblePoison.setTag("input", new NBTTagCompound());
             cruciblePoison.setTag("output", new NBTTagCompound());
-
+            if(materialPoisonous.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+                materialPoisonous = materialPoisonous.copy();
+                materialPoisonous.setItemDamage(0);
+            }
             materialPoisonous.writeToNBT(cruciblePoison.getCompoundTag("input"));
             new FluidStack(Poison.getInstance(), 250).writeToNBT(cruciblePoison.getCompoundTag("output"));
             FMLInterModComms.sendMessage(TE, "CrucibleRecipe", cruciblePoison);

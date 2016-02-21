@@ -45,7 +45,7 @@ public class RenderTileEntityEntangledChalice extends RenderTileEntityModelWavef
             super.renderTileEntityAt(tile, x, y, z, f, partialDamage);
 	
 			FluidStack fluid = chalice.getTank().getFluid();
-			RenderHelpers.renderTileFluidContext(fluid, new BlockPos(x, y, z), tile, new IFluidContextRender() {
+			RenderHelpers.renderTileFluidContext(fluid, new BlockPos(x, y, z), false, tile, new IFluidContextRender() {
 
 				@Override
 				public void renderFluid(FluidStack fluid) {

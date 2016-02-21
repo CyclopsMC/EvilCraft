@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.block;
 import com.google.common.collect.Sets;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
@@ -55,5 +56,13 @@ public class SanguinaryEnvironmentalAccumulatorConfig extends UpgradableBlockCon
     protected String getConfigPropertyPrefix() {
         return "sangEnvirAcc";
     }
-    
+
+    @Override
+    public void onRegistered() {
+        super.onRegistered();
+        if(!Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
+            throw new RuntimeException("Enabling the Sanguinary Environmental Accumulator requires the regular " +
+                    "Environmental Accumulator to be enabled!");
+        }
+    }
 }
