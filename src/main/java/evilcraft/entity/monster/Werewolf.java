@@ -58,7 +58,9 @@ public class Werewolf extends EntityMob implements IConfigurable{
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
     
         // This sets the default villager profession ID.
-        this.villagerNBTTagCompound.setInteger("Profession", WerewolfVillagerConfig._instance.getId());
+        if(Configs.isEnabled(WerewolfVillagerConfig.class)) {
+            this.villagerNBTTagCompound.setInteger("Profession", WerewolfVillagerConfig._instance.getId());
+        }
     }
     
     @Override
