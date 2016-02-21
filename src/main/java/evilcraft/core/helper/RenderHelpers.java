@@ -205,9 +205,9 @@ public class RenderHelpers {
 		
 		return icon;
 	}
-	
+
 	/**
-	 * Prepare a GL context for rendering fluids.
+	 * Prepare a GL context for rendering fluids with alpha rendering enabled.
 	 * @param fluid The fluid stack.
 	 * @param x X
 	 * @param y Y
@@ -215,6 +215,19 @@ public class RenderHelpers {
 	 * @param render The actual fluid renderer.
 	 */
 	public static void renderFluidContext(FluidStack fluid, double x, double y, double z, IFluidContextRender render) {
+		renderFluidContext(fluid, x, y, z, true, render);
+	}
+	
+	/**
+	 * Prepare a GL context for rendering fluids.
+	 * @param fluid The fluid stack.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 * @param enableAlpha If alpha rendering should be enabled.
+	 * @param render The actual fluid renderer.
+	 */
+	public static void renderFluidContext(FluidStack fluid, double x, double y, double z, boolean enableAlpha, IFluidContextRender render) {
 		if(fluid != null && fluid.amount > 0) {
 			GL11.glPushMatrix();
 
@@ -225,8 +238,10 @@ public class RenderHelpers {
 	        // Correct color & lighting
 	        GL11.glColor4f(1, 1, 1, 1);
 	        GL11.glDisable(GL11.GL_LIGHTING);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			if(enableAlpha) {
+				GL11.glEnable(GL11.GL_BLEND);
+				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			}
 
 	        // Set to current relative player location
 	        GL11.glTranslated(x, y, z);
@@ -243,9 +258,9 @@ public class RenderHelpers {
 	        GL11.glPopMatrix();
 		}
 	}
-	
+
 	/**
-	 * Prepare a GL context for rendering fluids for tile entities.
+	 * Prepare a GL context for rendering fluids for tile entities with alpha rendering enabled.
 	 * @param fluid The fluid stack.
 	 * @param x X
 	 * @param y Y
@@ -254,8 +269,23 @@ public class RenderHelpers {
 	 * @param render The actual fluid renderer.
 	 */
 	public static void renderTileFluidContext(final FluidStack fluid, final double x, final double y,
-			final double z, final TileEntity tile, final IFluidContextRender render) {
-		renderFluidContext(fluid, x, y, z, new IFluidContextRender() {
+											  final double z, final TileEntity tile, final IFluidContextRender render) {
+		renderTileFluidContext(fluid, x, y, z, true, tile, render);
+	}
+	
+	/**
+	 * Prepare a GL context for rendering fluids for tile entities.
+	 * @param fluid The fluid stack.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 * @param enableAlpha If alpha rendering should be enabled.
+	 * @param tile The tile.
+	 * @param render The actual fluid renderer.
+	 */
+	public static void renderTileFluidContext(final FluidStack fluid, final double x, final double y,
+			final double z, boolean enableAlpha, final TileEntity tile, final IFluidContextRender render) {
+		renderFluidContext(fluid, x, y, z, enableAlpha, new IFluidContextRender() {
 			
 			@Override
 			public void renderFluid(FluidStack fluid) {		        
@@ -270,7 +300,7 @@ public class RenderHelpers {
 	}
 	
 	/**
-	 * Runnable for {@link RenderHelpers#renderFluidContext(FluidStack, double, double, double, IFluidContextRender)}.
+	 * Runnable for {@link RenderHelpers#renderFluidContext(FluidStack, double, double, double, boolean, IFluidContextRender)}.
 	 * @author rubensworks
 	 */
 	public static interface IFluidContextRender {

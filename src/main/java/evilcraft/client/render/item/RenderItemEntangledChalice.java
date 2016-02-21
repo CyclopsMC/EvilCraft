@@ -35,7 +35,7 @@ public class RenderItemEntangledChalice extends RenderModelWavefrontItem {
     	final EntangledChaliceItem chalice = (EntangledChaliceItem) currentItemStack.getItem();
     	FluidStack fluidStack = chalice.getFluid(currentItemStack);
     	ModelChalice.setColorSeed(chalice.getTankID(currentItemStack));
-    	RenderHelpers.renderFluidContext(fluidStack, 0, 0, 0, new IFluidContextRender() {
+    	RenderHelpers.renderFluidContext(fluidStack, 0, 0, 0, false, new IFluidContextRender() {
 			
 			@Override
 			public void renderFluid(FluidStack fluid) {
