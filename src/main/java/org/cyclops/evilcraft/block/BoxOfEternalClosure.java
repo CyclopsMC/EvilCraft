@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
@@ -15,6 +16,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -22,7 +25,6 @@ import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
-import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
@@ -41,8 +43,10 @@ import java.util.UUID;
 public class BoxOfEternalClosure extends ConfigurableBlockContainer implements IInformationProvider, IBlockRarityProvider {
 
 	public static final String FORGOTTEN_PLAYER = "Forgotten Player";
-
 	private static final int LIGHT_LEVEL = 6;
+
+	@BlockProperty
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
     private static BoxOfEternalClosure _instance = null;
     
@@ -60,15 +64,17 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
         this.setHardness(2.5F);
         this.setStepSound(soundTypePiston);
         this.setRotatable(true);
+
+		MinecraftForge.EVENT_BUS.register(this);
     }
     
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
-    	CyclopsTileEntity tile = (CyclopsTileEntity) world.getTileEntity(blockPos);
-        if(tile.getRotation() == EnumFacing.EAST || tile.getRotation() == EnumFacing.WEST) {
-        	setBlockBounds(0.2F, 0F, 0.0F, 0.8F, 0.43F, 1.0F);
+    	EnumFacing rotation = world.getBlockState(blockPos).getValue(FACING);
+        if(rotation == EnumFacing.EAST || rotation == EnumFacing.WEST) {
+        	setBlockBounds(0.25F, 0F, 0.0F, 0.75F, 0.43F, 1.0F);
         } else {
-        	setBlockBounds(0.0F, 0F, 0.2F, 1.0F, 0.43F, 0.8F);
+        	setBlockBounds(0.0F, 0F, 0.25F, 1.0F, 0.43F, 0.75F);
         }
     }
     

@@ -1,42 +1,84 @@
-package evilcraft.client.render.tileentity;
+package org.cyclops.evilcraft.client.render.tileentity;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BoxOfEternalClosure;
-import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
+import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosureBaked;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import org.cyclops.cyclopscore.client.render.tileentity.RenderTileEntityModel;
-import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Renderer for the {@link BoxOfEternalClosure}.
  * @author rubensworks
  *
  */
-public class RenderTileEntityBoxOfEternalClosure extends RenderTileEntityModel<TileBoxOfEternalClosure, ModelBase> {
+public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRenderer<TileBoxOfEternalClosure> {
 
 	private static final ResourceLocation beamTexture =
 			new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
-	
-	/**
-     * Make a new instance.
-     * @param model The model to render.
-     * @param texture The texture to render the model with.
-     */
-    public RenderTileEntityBoxOfEternalClosure(ModelBase model, ResourceLocation texture) {
-        super(model, texture);
-    }
     
     @Override
-    protected void renderTileEntityAt(TileBoxOfEternalClosure tile, double x, double y, double z, float partialTick, int partialDamage) {
-    	super.renderTileEntityAt(tile, x, y, z, partialTick, partialDamage);
-    	
+    public void renderTileEntityAt(TileBoxOfEternalClosure tile, double x, double y, double z, float partialTick, int destroyStage) {
+        ResourceLocation texture = TextureMap.locationBlocksTexture;
+
+        if (destroyStage >= 0) {
+            this.bindTexture(DESTROY_STAGES[destroyStage]);
+            GlStateManager.matrixMode(5890);
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(4.0F, 4.0F, 1.0F);
+            GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
+            GlStateManager.matrixMode(5888);
+        } else if(texture != null) {
+            this.bindTexture(texture);
+        }
+
+        GlStateManager.enableRescaleNormal();
+        GlStateManager.alphaFunc(516, 0.1F);
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.pushMatrix();
+        GlStateManager.pushAttrib();
+
+        GlStateManager.enableRescaleNormal();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.translate((float) x, (float) y, (float) z);
+        GlStateManager.disableRescaleNormal();
+
+        GlStateManager.translate(0.5F, 0.5F, 0.5F);
+        EnumFacing direction = tile.getWorld().getBlockState(tile.getPos()).getValue(BoxOfEternalClosure.FACING);
+        short rotation = 0;
+        if (direction == EnumFacing.SOUTH) {
+            rotation = 180;
+        }
+        if (direction == EnumFacing.NORTH) {
+            rotation = 0;
+        }
+        if (direction == EnumFacing.WEST) {
+            rotation = 90;
+        }
+        if (direction == EnumFacing.EAST) {
+            rotation = -90;
+        }
+        GlStateManager.rotate((float) rotation, 0.0F, 1.0F, 0.0F);
+        GlStateManager.translate(-0.5F, -0.5F, -0.5F);
+
+        Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().
+                renderModelBrightnessColor(ModelBoxOfEternalClosureBaked.boxModel, 1.0F, 1.0F, 1.0F, 1.0F);
+
+        float angle = tile.getPreviousLidAngle()
+                + (tile.getLidAngle() - tile.getPreviousLidAngle()) * partialTick;
+        GlStateManager.translate(0F, 0.375F, 0.25F);
+        GlStateManager.rotate(-angle, 1F, 0F, 0);
+        GlStateManager.translate(0F, -0.375F, -0.25F);
+        Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().
+                renderModelBrightnessColor(ModelBoxOfEternalClosureBaked.boxLidModel, 1.0F, 1.0F, 1.0F, 1.0F);
+
+        // TODO: render beam
+    	/*
     	// Make sure the beam originates from the center of the box.
     	x += 0.5D;
     	y -= 0.5D;
@@ -96,17 +138,19 @@ public class RenderTileEntityBoxOfEternalClosure extends RenderTileEntityModel<T
             GlStateManager.shadeModel(GL11.GL_FLAT);
             RenderHelper.enableStandardItemLighting();
             GL11.glPopMatrix();
-        }
-    }
+        }*/
 
-    @Override
-    protected void renderModel(TileBoxOfEternalClosure tile, ModelBase model, float partialTick) {
-    	// Render box
-    	ModelBoxOfEternalClosure boxModel = (ModelBoxOfEternalClosure)model;
-    	float angle = box.getPreviousLidAngle()
-    			+ (box.getLidAngle() - box.getPreviousLidAngle()) * partialTick;
-    	boxModel.setCoverAngle(angle);
-    	((ModelBoxOfEternalClosure)model).renderAll();
+        GlStateManager.popAttrib();
+        GlStateManager.popMatrix();
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.disableBlend();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+        if (destroyStage >= 0) {
+            GlStateManager.matrixMode(5890);
+            GlStateManager.popMatrix();
+            GlStateManager.matrixMode(5888);
+        }
     }
     
 }

@@ -1,0 +1,35 @@
+{
+    "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
+    "textures": {
+        "0": "evilcraft:blocks/boxOfEternalClosure",
+        "particle": "evilcraft:blocks/boxOfEternalClosure"
+    },
+    "elements": [
+        {
+            "name": "top",
+            "from": [ 0.0, 6.0, 4.0 ], 
+            "to": [ 16.0, 7.0, 12.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 2.0, 16.0, 3.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 2.0, 8.0, 3.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 2.0, 16.0, 3.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 2.0, 8.0, 3.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 2.0, 16.0, 10.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 2.0, 16.0, 10.0 ] }
+            }
+        },
+        {
+            "name": "button",
+            "from": [ 7.0, 5.0, 12.0 ], 
+            "to": [ 9.0, 7.0, 13.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 1.0, 0.0, 3.0, 2.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 2.0 ] },
+                "south": { "texture": "#0", "uv": [ 1.0, 0.0, 3.0, 2.0 ] },
+                "west": { "texture": "#0", "uv": [ 3.0, 0.0, 4.0, 2.0 ] },
+                "up": { "texture": "#0", "uv": [ 1.0, 0.0, 3.0, 1.0 ] },
+                "down": { "texture": "#0", "uv": [ 4.0, 0.0, 6.0, 1.0 ] }
+            }
+        }
+    ]
+}

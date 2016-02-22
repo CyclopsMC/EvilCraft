@@ -3,14 +3,19 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.client.render.tileentity.RenderTileEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpiritConfig;
+import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
 import org.cyclops.evilcraft.tileentity.tickaction.spiritfurnace.BoxCookTickAction;
 
 import java.util.UUID;
@@ -26,6 +31,11 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
      * The unique instance.
      */
     public static BoxOfEternalClosureConfig _instance;
+
+    @SideOnly(Side.CLIENT)
+    public static ResourceLocation boxModel;
+    @SideOnly(Side.CLIENT)
+    public static ResourceLocation boxLidModel;
 
     /**
      * Make a new instance.
@@ -48,13 +58,11 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
     @Override
     public void onRegistered() {
         if (MinecraftHelpers.isClientSide()) {
-        	/*ModelBase model = new ModelBoxOfEternalClosure();
-        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "box.png");
-            ClientProxy.TILE_ENTITY_RENDERERS.put(TileBoxOfEternalClosure.class,
-            		new RenderTileEntityBoxOfEternalClosure(model, texture));*/
-            // TODO
-            //ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()),
-            //		new RenderItemBoxOfEternalClosure(model, texture));
+            EvilCraft._instance.getProxy().registerRenderer(TileBoxOfEternalClosure.class,
+                    new RenderTileEntityBoxOfEternalClosure());
+
+            boxModel = new ResourceLocation(getMod().getModId() + ":block/box");
+            boxLidModel = new ResourceLocation(getMod().getModId() + ":block/box_lid");
         }
 
         ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);
