@@ -46,6 +46,8 @@ public class ModelBoxOfEternalClosure implements IModel {
             ModelBoxOfEternalClosureBaked.boxModel = boxModel.bake(state, format, bakedTextureGetter);
             IModel boxLidModel = ModelLoaderRegistry.getModel(BoxOfEternalClosureConfig.boxLidModel);
             ModelBoxOfEternalClosureBaked.boxLidModel = boxLidModel.bake(state, format, bakedTextureGetter);
+            IModel boxLidRotatedModel = ModelLoaderRegistry.getModel(BoxOfEternalClosureConfig.boxLidRotatedModel);
+            ModelBoxOfEternalClosureBaked.boxLidRotatedModel = boxLidRotatedModel.bake(state, format, bakedTextureGetter);
         } catch (IOException e) {
             e.printStackTrace();
         }

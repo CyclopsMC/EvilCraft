@@ -36,6 +36,8 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
     public static ResourceLocation boxModel;
     @SideOnly(Side.CLIENT)
     public static ResourceLocation boxLidModel;
+    @SideOnly(Side.CLIENT)
+    public static ResourceLocation boxLidRotatedModel;
 
     /**
      * Make a new instance.
@@ -63,6 +65,7 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
 
             boxModel = new ResourceLocation(getMod().getModId() + ":block/box");
             boxLidModel = new ResourceLocation(getMod().getModId() + ":block/box_lid");
+            boxLidRotatedModel = new ResourceLocation(getMod().getModId() + ":block/box_lid_rotated");
         }
 
         ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);
