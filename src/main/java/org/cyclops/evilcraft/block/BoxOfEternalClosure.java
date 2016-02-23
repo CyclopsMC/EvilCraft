@@ -45,7 +45,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 	public static final String FORGOTTEN_PLAYER = "Forgotten Player";
 	private static final int LIGHT_LEVEL = 6;
 
-	@BlockProperty
+	@BlockProperty(ignore = true)
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
     private static BoxOfEternalClosure _instance = null;
