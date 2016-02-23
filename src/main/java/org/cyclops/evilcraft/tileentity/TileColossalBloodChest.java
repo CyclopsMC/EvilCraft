@@ -224,7 +224,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
             return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
         else if(slot <= SLOTS_CHEST && slot >= 0)
             return SlotRepairable.checkIsItemValid(itemStack);
-        return false;
+        return super.isItemValidForSlot(slot, itemStack);
     }
 
     @Override
