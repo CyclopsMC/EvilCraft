@@ -46,10 +46,10 @@ public class ModelBoxOfEternalClosureBaked extends DynamicBaseModel implements I
     public static IBakedModel boxLidModel;
     public static IBakedModel boxLidRotatedModel;
 
-    private boolean isOpen = false;
+    private final boolean isOpen;
 
     public ModelBoxOfEternalClosureBaked() {
-
+        this.isOpen = false;
     }
 
     public ModelBoxOfEternalClosureBaked(boolean isOpen) {

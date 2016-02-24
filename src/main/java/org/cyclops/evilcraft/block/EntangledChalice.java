@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -16,7 +15,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -35,12 +33,6 @@ import java.util.List;
  *
  */
 public class EntangledChalice extends ConfigurableBlockContainer implements IInformationProvider, IBlockTank, IBlockRarityProvider {
-    
-	/**
-	 * Meta data for supplying.
-	 */
-    @BlockProperty
-    public static final PropertyBool SUPPLY = PropertyBool.create("supply");
 	
     private static EntangledChalice _instance = null;
     
@@ -60,7 +52,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 
     @Override
     public void setBlockBoundsForItemRender() {
-        setBlockBounds(0.16F, 0F, 0.16F, 0.84F, 0.98F, 0.84F);
+        setBlockBounds(0.125F, 0F, 0.125F, 0.875F, 1.0F, 0.875F);
     }
 
     @Override
@@ -77,11 +69,6 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
     @Override
     public boolean isOpaqueCube() {
         return false;
-    }
-
-    @Override
-    public int getRenderType() {
-        return -1;
     }
 
     @Override

@@ -5,14 +5,18 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.client.model.SingleModelLoader;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosure;
 import org.cyclops.evilcraft.client.render.tileentity.RenderTileEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpiritConfig;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
@@ -66,6 +70,9 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
             boxModel = new ResourceLocation(getMod().getModId() + ":block/box");
             boxLidModel = new ResourceLocation(getMod().getModId() + ":block/box_lid");
             boxLidRotatedModel = new ResourceLocation(getMod().getModId() + ":block/box_lid_rotated");
+
+            ModelLoaderRegistry.registerLoader(new SingleModelLoader(
+                    Reference.MOD_ID, "models/item/boxOfEternalClosure", new ModelBoxOfEternalClosure()));
         }
 
         ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);

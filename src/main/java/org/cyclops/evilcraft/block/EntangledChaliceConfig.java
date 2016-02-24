@@ -1,9 +1,18 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.client.model.SingleModelLoader;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.client.render.model.ModelEntangledChalice;
+import org.cyclops.evilcraft.client.render.tileentity.RenderTileEntityEntangledChalice;
+import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
 
 /**
  * Config for the {@link EntangledChalice}.
@@ -11,7 +20,10 @@ import org.cyclops.evilcraft.EvilCraft;
  *
  */
 public class EntangledChaliceConfig extends BlockContainerConfig {
-    
+
+    @SideOnly(Side.CLIENT)
+    public static ResourceLocation chaliceModel;
+
     /**
      * The unique instance.
      */
@@ -38,17 +50,18 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
     @Override
     public void onRegistered() {
         if(MinecraftHelpers.isClientSide()) {
-        	/*ResourceLocation textureGem = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "gem.png");
-        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "chalice.png");
-        	ModelGem gem = new ModelGem(textureGem);
-        	ModelChalice model = new ModelChalice(texture, gem);
-        	*/
-            // TODO
-            //ClientProxy.TILE_ENTITY_RENDERERS.put(TileEntangledChalice.class,
-            //		new RenderTileEntityEntangledChalice(model, texture));
-            // TODO
-            //ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(EntangledChalice.getInstance()),
-            //		new RenderItemEntangledChalice(model, texture));
+            if (MinecraftHelpers.isClientSide()) {
+                EvilCraft._instance.getProxy().registerRenderer(TileEntangledChalice.class,
+                        new RenderTileEntityEntangledChalice());
+
+                chaliceModel = new ResourceLocation(getMod().getModId() + ":block/chalice");
+
+                ModelEntangledChalice modelEntangledChalice = new ModelEntangledChalice();
+                ModelLoaderRegistry.registerLoader(new SingleModelLoader(
+                        Reference.MOD_ID, "models/item/entangledChalice", modelEntangledChalice));
+                ModelLoaderRegistry.registerLoader(new SingleModelLoader(
+                        Reference.MOD_ID, "models/block/entangledChalice", modelEntangledChalice));
+            }
         }
     }
     
