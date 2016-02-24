@@ -23,6 +23,8 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
 
     @SideOnly(Side.CLIENT)
     public static ResourceLocation chaliceModel;
+    @SideOnly(Side.CLIENT)
+    public static ResourceLocation gemsModel;
 
     /**
      * The unique instance.
@@ -55,6 +57,7 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
                         new RenderTileEntityEntangledChalice());
 
                 chaliceModel = new ResourceLocation(getMod().getModId() + ":block/chalice");
+                gemsModel = new ResourceLocation(getMod().getModId() + ":block/gems");
 
                 ModelEntangledChalice modelEntangledChalice = new ModelEntangledChalice();
                 ModelLoaderRegistry.registerLoader(new SingleModelLoader(

@@ -26,6 +26,7 @@ public class ModelEntangledChalice implements IModel {
     public Collection<ResourceLocation> getDependencies() {
         ImmutableSet.Builder<ResourceLocation> builder = ImmutableSet.builder();
         builder.add(EntangledChaliceConfig.chaliceModel);
+        builder.add(EntangledChaliceConfig.gemsModel);
         return builder.build();
     }
 
@@ -43,6 +44,8 @@ public class ModelEntangledChalice implements IModel {
         try {
             IModel chaliceModel = ModelLoaderRegistry.getModel(EntangledChaliceConfig.chaliceModel);
             ModelEntangledChaliceBaked.chaliceModel = chaliceModel.bake(state, format, bakedTextureGetter);
+            IModel gemsModel = ModelLoaderRegistry.getModel(EntangledChaliceConfig.gemsModel);
+            ModelEntangledChaliceBaked.gemsModel = gemsModel.bake(state, format, bakedTextureGetter);
         } catch (IOException e) {
             e.printStackTrace();
         }
