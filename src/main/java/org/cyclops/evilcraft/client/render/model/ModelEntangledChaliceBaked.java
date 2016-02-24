@@ -17,6 +17,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import org.cyclops.cyclopscore.client.model.DynamicBaseModel;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.block.EntangledChalice;
 import org.cyclops.evilcraft.block.EntangledChaliceItem;
 import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
@@ -116,6 +117,7 @@ public class ModelEntangledChaliceBaked extends DynamicBaseModel implements ISma
     @Override
     public IBakedModel handleBlockState(IBlockState state) {
         String tankId = ((IExtendedBlockState) state).getValue(EntangledChalice.TANK_ID);
-        return new ModelEntangledChaliceBaked(tankId, null);
+        FluidStack fluidStack = BlockHelpers.getSafeBlockStateProperty((IExtendedBlockState) state, EntangledChalice.TANK_FLUID, null);
+        return new ModelEntangledChaliceBaked(tankId, fluidStack);
     }
 }

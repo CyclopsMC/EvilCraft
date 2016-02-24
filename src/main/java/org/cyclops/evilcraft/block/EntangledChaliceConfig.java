@@ -11,8 +11,6 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.model.ModelEntangledChalice;
-import org.cyclops.evilcraft.client.render.tileentity.RenderTileEntityEntangledChalice;
-import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
 
 /**
  * Config for the {@link EntangledChalice}.
@@ -53,9 +51,6 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
     public void onRegistered() {
         if(MinecraftHelpers.isClientSide()) {
             if (MinecraftHelpers.isClientSide()) {
-                EvilCraft._instance.getProxy().registerRenderer(TileEntangledChalice.class,
-                        new RenderTileEntityEntangledChalice());
-
                 chaliceModel = new ResourceLocation(getMod().getModId() + ":block/chalice");
                 gemsModel = new ResourceLocation(getMod().getModId() + ":block/gems");
 

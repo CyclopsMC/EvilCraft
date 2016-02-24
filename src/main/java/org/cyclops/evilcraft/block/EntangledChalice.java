@@ -17,6 +17,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.block.property.UnlistedProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
@@ -44,6 +45,8 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 
 	@BlockProperty
 	public static final IUnlistedProperty<String> TANK_ID = new UnlistedProperty<String>("tank_id", String.class);
+	@BlockProperty
+	public static final IUnlistedProperty<FluidStack> TANK_FLUID = new UnlistedProperty<FluidStack>("tank_capacity", FluidStack.class);
 
     private BlockTankComponent<EntangledChalice> tankComponent = new BlockTankComponent<EntangledChalice>(this);
     
@@ -188,7 +191,11 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 		IExtendedBlockState extendedBlockState = (IExtendedBlockState) super.getExtendedState(state, world, pos);
 		TileEntangledChalice tile = TileHelpers.getSafeTile(world, pos, TileEntangledChalice.class);
 		if(tile != null) {
+			FluidStack fluidStack = tile.getTank().getFluid();
 			extendedBlockState = extendedBlockState.withProperty(TANK_ID, ((WorldSharedTank) tile.getTank()).getTankID());
+			if(fluidStack != null) {
+				extendedBlockState = extendedBlockState.withProperty(TANK_FLUID, fluidStack);
+			}
 		}
 		return extendedBlockState;
 	}

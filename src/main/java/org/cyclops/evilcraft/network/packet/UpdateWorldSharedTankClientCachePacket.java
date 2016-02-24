@@ -47,7 +47,7 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 	public UpdateWorldSharedTankClientCachePacket(String tankID, FluidStack fluidStack) {
 		this.tankID = tankID;
 		if(fluidStack == null) {
-			this.fluidName = null;
+			this.fluidName = "";
 			this.fluidAmount = -1;
 		} else {
 			this.fluidName = fluidStack.getFluid().getName();
