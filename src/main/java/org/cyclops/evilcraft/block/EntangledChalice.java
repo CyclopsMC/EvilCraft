@@ -46,7 +46,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 	@BlockProperty
 	public static final IUnlistedProperty<String> TANK_ID = new UnlistedProperty<String>("tank_id", String.class);
 	@BlockProperty
-	public static final IUnlistedProperty<FluidStack> TANK_FLUID = new UnlistedProperty<FluidStack>("tank_capacity", FluidStack.class);
+	public static final IUnlistedProperty<FluidStack> TANK_FLUID = new UnlistedProperty<FluidStack>("tank_fluidstack", FluidStack.class);
 
     private BlockTankComponent<EntangledChalice> tankComponent = new BlockTankComponent<EntangledChalice>(this);
     

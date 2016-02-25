@@ -43,6 +43,11 @@ public class DarkTankConfig extends BlockContainerConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "If creative versions for all fluids should be added to the creative tab.")
     public static boolean creativeTabFluids = true;
+    /**
+     * If the fluid should be rendered statically. Fluids won't be shown fluently, but more efficiently.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "If the fluid should be rendered statically. Fluids won't be shown fluently, but more efficiently.tab.", requiresMcRestart = true)
+    public static boolean staticBlockRendering = false;
 
     /**
      * Make a new instance.
@@ -66,7 +71,9 @@ public class DarkTankConfig extends BlockContainerConfig {
     @SideOnly(Side.CLIENT)
     public void onRegistered() {
         super.onRegistered();
-        getMod().getProxy().registerRenderer(TileDarkTank.class, new RenderTileEntityDarkTank());
+        if(!DarkTankConfig.staticBlockRendering) {
+            getMod().getProxy().registerRenderer(TileDarkTank.class, new RenderTileEntityDarkTank());
+        }
     }
 
     @Override

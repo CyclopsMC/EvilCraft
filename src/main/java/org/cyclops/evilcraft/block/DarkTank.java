@@ -20,6 +20,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -28,13 +30,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
+import org.cyclops.cyclopscore.block.property.UnlistedProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.model.ModelDarkTank;
 import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.block.component.BlockTankComponent;
@@ -55,6 +60,10 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 
 	@BlockProperty
 	public static final PropertyBool DRAINING = PropertyBool.create("draining");
+	@BlockProperty
+	public static final IUnlistedProperty<FluidStack> TANK_FLUID = new UnlistedProperty<FluidStack>("tank_fluidstack", FluidStack.class);
+	@BlockProperty
+	public static final IUnlistedProperty<Integer> TANK_CAPACITY = new UnlistedProperty<Integer>("tank_capacity", Integer.class);
 	
     private static DarkTank _instance = null;
     
@@ -269,7 +278,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.TRANSLUCENT;
+		return EnumWorldBlockLayer.CUTOUT;
 	}
 
 	/**
@@ -279,12 +288,34 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event) {
-        // Take the original tank model and replace it with a dynamic one but pass this original one to it as parent.
+        // Take the original item tank model and replace it with a dynamic one but pass this original one to it as parent.
         for(ModelResourceLocation itemModel : itemModels) {
-            IBakedModel baseModel = (IBakedModel) event.modelRegistry.getObject(itemModel);
+            IBakedModel baseModel = event.modelRegistry.getObject(itemModel);
             ModelDarkTank newModel = new ModelDarkTank(baseModel);
             event.modelRegistry.putObject(itemModel, newModel);
         }
+
+		// Do the same for block models
+		if(DarkTankConfig.staticBlockRendering) {
+			ModelResourceLocation blockDrainingOf = new ModelResourceLocation(Reference.MOD_ID + ":darkTank", "draining=false");
+			ModelResourceLocation blockDrainingOn = new ModelResourceLocation(Reference.MOD_ID + ":darkTank", "draining=true");
+			event.modelRegistry.putObject(blockDrainingOf, new ModelDarkTank(event.modelRegistry.getObject(blockDrainingOf)));
+			event.modelRegistry.putObject(blockDrainingOn, new ModelDarkTank(event.modelRegistry.getObject(blockDrainingOn)));
+		}
     }
+
+	@Override
+	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+		IExtendedBlockState extendedBlockState = (IExtendedBlockState) super.getExtendedState(state, world, pos);
+		TileDarkTank tile = TileHelpers.getSafeTile(world, pos, TileDarkTank.class);
+		if(tile != null) {
+			FluidStack fluidStack = tile.getTank().getFluid();
+			if(fluidStack != null) {
+				extendedBlockState = extendedBlockState.withProperty(TANK_FLUID, fluidStack);
+			}
+			extendedBlockState = extendedBlockState.withProperty(TANK_CAPACITY, tile.getTank().getCapacity());
+		}
+		return extendedBlockState;
+	}
 
 }
