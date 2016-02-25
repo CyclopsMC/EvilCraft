@@ -156,7 +156,7 @@
                 <paragraph>infoBook.firstAge.vengeanceSpirits.catchingSpirits.text1</paragraph>
                 <paragraph>infoBook.firstAge.vengeanceSpirits.catchingSpirits.text2</paragraph>
                 <appendix type="image" width="110" height="60">evilcraft:textures/gui/infobook/catchSpirits.png</appendix>
-                <appendix type="craftingRecipe">evilcraft:boxOfExternalClosure</appendix>
+                <appendix type="craftingRecipe">evilcraft:boxOfEternalClosure</appendix>
                 <appendix type="craftingRecipe">evilcraft:vengeanceFocus</appendix>
             </section>
             <section name="infoBook.firstAge.vengeanceSpirits.spiritProtection">
