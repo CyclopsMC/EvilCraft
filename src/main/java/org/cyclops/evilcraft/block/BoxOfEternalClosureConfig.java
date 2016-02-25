@@ -80,9 +80,10 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
             onRegisteredClient();
         }
 
+        BoxOfEternalClosure.boxOfEternalClosureFilled = new ItemStack(BoxOfEternalClosure.getInstance());
+        BoxOfEternalClosure.setVengeanceSwarmContent(BoxOfEternalClosure.boxOfEternalClosureFilled);
+
         ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);
-        ItemStack swarmStack = spiritStack.copy();
-        BoxOfEternalClosure.setVengeanceSwarmContent(swarmStack);
         for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
             for(UUID playerId : BoxCookTickAction.PLAYERDROP_OVERRIDES.keySet()) {
                 ItemStack playerStack = spiritStack.copy();
@@ -91,7 +92,7 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
                         playerStack, 1, 1, 1));
             }
             ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
-                    swarmStack, 1, 1, 3));
+                    BoxOfEternalClosure.boxOfEternalClosureFilled, 1, 1, 3));
         }
     }
     

@@ -49,6 +49,8 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
     private static BoxOfEternalClosure _instance = null;
+
+	public static ItemStack boxOfEternalClosureFilled;
     
     /**
      * Get the unique instance.
@@ -283,9 +285,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     @Override
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(item));
-        ItemStack swarmStack = new ItemStack(item);
-        setVengeanceSwarmContent(swarmStack);
-        list.add(swarmStack);
+        list.add(BoxOfEternalClosure.boxOfEternalClosureFilled);
     }
 
     @Override

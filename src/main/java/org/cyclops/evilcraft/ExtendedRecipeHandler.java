@@ -94,10 +94,8 @@ public class ExtendedRecipeHandler extends RecipeHandler {
         }
 
         if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
-            ItemStack boxOfEternalClosureFilled = new ItemStack(BoxOfEternalClosure.getInstance());
-            BoxOfEternalClosure.setVengeanceSwarmContent(boxOfEternalClosureFilled);
             predefinedItems.put("evilcraft:boxOfEternalClosureFilled",
-                    boxOfEternalClosureFilled);
+                    BoxOfEternalClosure.boxOfEternalClosureFilled);
         }
 
         if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
