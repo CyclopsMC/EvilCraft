@@ -9,7 +9,6 @@ import org.cyclops.cyclopscore.client.model.SingleModelLoader;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.model.ModelEntangledChalice;
@@ -57,24 +56,21 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
     public void onRegistered() {
-        if(MinecraftHelpers.isClientSide()) {
-            if (MinecraftHelpers.isClientSide()) {
-                if(!EntangledChaliceConfig.staticBlockRendering) {
-                    EvilCraft._instance.getProxy().registerRenderer(TileEntangledChalice.class,
-                            new RenderTileEntityEntangledChalice());
-                }
-
-                chaliceModel = new ResourceLocation(getMod().getModId() + ":block/chalice");
-                gemsModel = new ResourceLocation(getMod().getModId() + ":block/gems");
-
-                ModelEntangledChalice modelEntangledChalice = new ModelEntangledChalice();
-                ModelLoaderRegistry.registerLoader(new SingleModelLoader(
-                        Reference.MOD_ID, "models/item/entangledChalice", modelEntangledChalice));
-                ModelLoaderRegistry.registerLoader(new SingleModelLoader(
-                        Reference.MOD_ID, "models/block/entangledChalice", modelEntangledChalice));
-            }
+        if(!EntangledChaliceConfig.staticBlockRendering) {
+            EvilCraft._instance.getProxy().registerRenderer(TileEntangledChalice.class,
+                    new RenderTileEntityEntangledChalice());
         }
+
+        chaliceModel = new ResourceLocation(getMod().getModId() + ":block/chalice");
+        gemsModel = new ResourceLocation(getMod().getModId() + ":block/gems");
+
+        ModelEntangledChalice modelEntangledChalice = new ModelEntangledChalice();
+        ModelLoaderRegistry.registerLoader(new SingleModelLoader(
+                Reference.MOD_ID, "models/item/entangledChalice", modelEntangledChalice));
+        ModelLoaderRegistry.registerLoader(new SingleModelLoader(
+                Reference.MOD_ID, "models/block/entangledChalice", modelEntangledChalice));
     }
     
 }

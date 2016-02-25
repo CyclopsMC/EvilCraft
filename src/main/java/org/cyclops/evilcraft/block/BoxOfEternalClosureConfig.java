@@ -60,19 +60,24 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
     public Class<? extends ItemBlock> getItemBlockClass() {
         return ItemBlockNBT.class;
     }
-    
+
+    @SideOnly(Side.CLIENT)
+    public void onRegisteredClient() {
+        EvilCraft._instance.getProxy().registerRenderer(TileBoxOfEternalClosure.class,
+                new RenderTileEntityBoxOfEternalClosure());
+
+        boxModel = new ResourceLocation(getMod().getModId() + ":block/box");
+        boxLidModel = new ResourceLocation(getMod().getModId() + ":block/box_lid");
+        boxLidRotatedModel = new ResourceLocation(getMod().getModId() + ":block/box_lid_rotated");
+
+        ModelLoaderRegistry.registerLoader(new SingleModelLoader(
+                Reference.MOD_ID, "models/item/boxOfEternalClosure", new ModelBoxOfEternalClosure()));
+    }
+
     @Override
     public void onRegistered() {
         if (MinecraftHelpers.isClientSide()) {
-            EvilCraft._instance.getProxy().registerRenderer(TileBoxOfEternalClosure.class,
-                    new RenderTileEntityBoxOfEternalClosure());
-
-            boxModel = new ResourceLocation(getMod().getModId() + ":block/box");
-            boxLidModel = new ResourceLocation(getMod().getModId() + ":block/box_lid");
-            boxLidRotatedModel = new ResourceLocation(getMod().getModId() + ":block/box_lid_rotated");
-
-            ModelLoaderRegistry.registerLoader(new SingleModelLoader(
-                    Reference.MOD_ID, "models/item/boxOfEternalClosure", new ModelBoxOfEternalClosure()));
+            onRegisteredClient();
         }
 
         ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);
