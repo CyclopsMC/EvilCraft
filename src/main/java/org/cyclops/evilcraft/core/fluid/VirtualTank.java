@@ -5,6 +5,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fluids.IFluidTank;
+import org.cyclops.cyclopscore.helper.Helpers;
 
 import javax.annotation.Nullable;
 
@@ -80,23 +81,13 @@ public class VirtualTank implements IFluidTank {
 
     @Override
     public int getCapacity() {
-        if(isSpreadEvenly()) {
-            int min = Integer.MAX_VALUE;
-            for (IFluidHandler tank : getTanks()) {
-                for (FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
-                    min = Math.min(min, info.capacity);
-                }
+        int total = 0;
+        for (IFluidHandler tank : getTanks()) {
+            for (FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
+                total = Helpers.addSafe(total, info.capacity);
             }
-            return min * getTanks().length;
-        } else {
-            int total = 0;
-            for (IFluidHandler tank : getTanks()) {
-                for (FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
-                    total += info.capacity;
-                }
-            }
-            return total;
         }
+        return total;
     }
 
     @Override

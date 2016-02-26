@@ -82,7 +82,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
      * @return If the state is working.
      */
     public boolean isVisuallyWorking() {
-        return getCurrentState() == 1;
+        return getCurrentState() == 1 && canWork();
     }
     
     /**

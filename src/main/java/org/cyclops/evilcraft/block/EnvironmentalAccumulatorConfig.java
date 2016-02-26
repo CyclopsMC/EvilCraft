@@ -26,7 +26,7 @@ public class EnvironmentalAccumulatorConfig extends BlockContainerConfig {
 	 * The cooldown tick for accumulating the weather.
 	 */
 	@ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, isCommandable = true, comment = "Sets the default amount of ticks the environmental accumulator takes to cool down")
-	public static int defaultTickCooldown = MinecraftHelpers.MINECRAFT_DAY / 2;
+	public static int defaultTickCooldown = MinecraftHelpers.MINECRAFT_DAY / 20;
 	
 	/**
 	 * The default number of ticks it takes to process
