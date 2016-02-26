@@ -1,0 +1,25 @@
+Make sure to backup your world before updating!
+Requires CyclopsCore version 0.5.1.
+
+Additions:
+* Reimplement Entangled Chalice model
+* Reimplement Box of Eternal Closure model
+* Add optional static dark tank rendering
+
+Changes:
+* Rebalance Sanguinary Envir Acc blood usage. Requires config to be reset!
+* Make Thaumcraft aspect registration safer, Closes #339
+* Make Envir Acc disableable, Closes #336
+
+Fixes:
+* Fix machines shown as working when out of blood
+* Fix Sanguinary Envir Acc incorrectly checking req fluid, Closes #341
+* Fix BOEC recipe not showing up in infobook
+* Fix BOEC recipe not showing up in book and jei
+* Fix server crashes due to client-side-only calls
+* Fix vengeance spirit blacklist ignoring the werewolf
+* Fix promises not being insertable into Colossal Blood Chest, Closes #340
+* Fix Spirit Furnace crash for mobs with funky health props, Closes #314
+* Fix Werewolf init error, Closes #317
+* Fix ImmutableTriple class not found crash when the Forge libs are outdated
+* Use CyclopsCore fluid context rendering helpers
