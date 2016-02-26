@@ -38,7 +38,7 @@ public class BiomeExtractConfig extends ItemConfig {
      * The cooldown time int the Environmental Accumulator recipe.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The cooldown time int the Environmental Accumulator recipe.", requiresMcRestart = true)
-    public static int envirAccCooldownTime = 50;
+    public static int envirAccCooldownTime = 500;
 
     /**
      * A list of biome ids for which no Biome Extracts may be created.

@@ -26,7 +26,7 @@ public class SanguinaryEnvironmentalAccumulatorConfig extends BlockContainerConf
      * The base blood usage in mB for recipes, this is multiplied with the cooldown time per recipe.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, isCommandable = true, comment = "The base blood usage in mB for recipes, this is multiplied with the cooldown time per recipe.")
-    public static int baseUsage = 200;
+    public static int baseUsage = 50;
 
     /**
      * Make a new instance.
