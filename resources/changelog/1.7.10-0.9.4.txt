@@ -1,0 +1,15 @@
+Make sure to backup your world before updating!
+
+Changes:
+* Rebalance Sanguinary Envir Acc blood usage. Requires config to be reset!
+* Make Thaumcraft aspect registration safer, Closes #339
+* Make Envir Acc disableable, Closes #336
+
+Fixes:
+* Fix machines shown as working when out of blood
+* Fix Sanguinary Envir Acc incorrectly checking req fluid, Closes #341
+* Fix BOEC recipe not showing up in infobook
+* Fix chalice item alpha rendering issue, Closes #332
+* Fix Poison Sacs not smeltable in TE's Magma Crucible, Closes #330
+* Fix Werewolf init error, Closes #317
+* Fix ImmutableTriple class not found crash when the Forge libs are outdated
