@@ -60,7 +60,7 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
         this(tile, tickActions, slot, true);
     }
 
-    protected T getTickAction(Item item) {
+    public T getTickAction(Item item) {
         for(Entry<Class<?>, T> entry : tickActions.entrySet()) {
         	Object instance = item;
             if(entry.getKey().isInstance(instance)) {

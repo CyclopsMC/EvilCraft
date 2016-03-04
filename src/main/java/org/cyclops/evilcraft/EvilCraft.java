@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -9,6 +10,7 @@ import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
+import org.cyclops.commoncapabilities.api.capability.work.IWorker;
 import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigReference;
 import org.cyclops.cyclopscore.infobook.IInfoBookRegistry;
@@ -18,6 +20,7 @@ import org.cyclops.cyclopscore.init.ModBaseVersionable;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.item.BucketRegistry;
 import org.cyclops.cyclopscore.item.IBucketRegistry;
+import org.cyclops.cyclopscore.modcompat.ICapabilityCompat;
 import org.cyclops.cyclopscore.modcompat.ModCompatLoader;
 import org.cyclops.cyclopscore.persist.world.GlobalCounters;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
@@ -34,12 +37,16 @@ import org.cyclops.evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import org.cyclops.evilcraft.core.broom.BroomPartRegistry;
 import org.cyclops.evilcraft.core.degradation.DegradationRegistry;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
+import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
 import org.cyclops.evilcraft.item.DarkGemConfig;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
+import org.cyclops.evilcraft.modcompat.capabilities.WorkerEnvirAccTileCompat;
+import org.cyclops.evilcraft.modcompat.capabilities.WorkerWorkingTileCompat;
 import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
 import org.cyclops.evilcraft.modcompat.thaumcraft.ThaumcraftModCompat;
 import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
+import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
 import org.cyclops.evilcraft.world.gen.DarkTempleGenerator;
@@ -89,11 +96,22 @@ public class EvilCraft extends ModBaseVersionable {
 
     @Override
     protected void loadModCompats(ModCompatLoader modCompatLoader) {
+        // Mod compats
         modCompatLoader.addModCompat(new BaublesModCompat());
         modCompatLoader.addModCompat(new WailaModCompat());
         modCompatLoader.addModCompat(new JEIModCompat());
         modCompatLoader.addModCompat(new ThaumcraftModCompat());
         //modCompatLoader.addModCompat(new NEIModCompat()); TODO
+
+        // Capabilities
+        ICapabilityCompat.ICapabilityReference<IWorker> workerReference = new ICapabilityCompat.ICapabilityReference<IWorker>() {
+            @Override
+            public Capability<IWorker> getCapability() {
+                return Capabilities.WORKER;
+            }
+        };
+        modCompatLoader.addCapabilityCompat(TickingTankInventoryTileEntity.class, workerReference, new WorkerWorkingTileCompat());
+        modCompatLoader.addCapabilityCompat(TileEnvironmentalAccumulator.class, workerReference, new WorkerEnvirAccTileCompat());
     }
 
     @Override

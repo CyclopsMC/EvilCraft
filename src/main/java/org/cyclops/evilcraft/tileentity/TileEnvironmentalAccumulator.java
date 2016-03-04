@@ -393,6 +393,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    
 	    tick = getMaxCooldownTick();
 	    state = EnvironmentalAccumulator.STATE_COOLING_DOWN;
+
+        recipe = null;
 	    
 	    if (!worldObj.isRemote)
 	        sendUpdate();

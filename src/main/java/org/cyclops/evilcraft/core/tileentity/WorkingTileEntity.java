@@ -53,7 +53,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
 		super(inventorySize + INVENTORY_SIZE_UPGRADES, inventoryName, tankSize, tankName, acceptedFluid);
         this.basicInventorySize = inventorySize;
 	}
-	
+
 	 /**
      * Check if the given item can be infused.
      * @param itemStack The item to check.
