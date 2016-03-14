@@ -1,6 +1,7 @@
 ## EvilCraft
 
 [![Build Status](https://travis-ci.org/CyclopsMC/EvilCraft.svg?branch=master-1.8)](https://travis-ci.org/rubensworks/EvilCraft)
+[![Download](https://api.bintray.com/packages/cyclopsmc/dev/EvilCraft/images/download.svg) ](https://bintray.com/cyclopsmc/dev/EvilCraft/_latestVersion)
 
 All stable releases (including deobfuscated builds) can be found on [CurseForge](http://minecraft.curseforge.com/mc-mods/74610-evilcraft/files).
 
