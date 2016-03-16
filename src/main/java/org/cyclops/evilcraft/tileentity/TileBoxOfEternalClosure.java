@@ -221,6 +221,9 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     	EntityLivingBase old = this.spiritInstance;
     	this.spiritInstance = spiritInstance;
     	if(spiritInstance != null) {
+			if(spiritTag == null) {
+				spiritTag = new NBTTagCompound();
+			}
     		spiritInstance.writeToNBT(spiritTag);
     		String entityId = EntityList.getEntityString(spiritInstance);
     		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
