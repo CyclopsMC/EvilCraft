@@ -303,8 +303,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
                         && (weatherType == null || weatherType.isActive(worldObj))) {
 
                     // Save the required input items in the inventory
-                    ItemStack inputStack = recipeStack.copy();
-                    this.setInventorySlotContents(0, inputStack);
+                    this.setInventorySlotContents(0, stack.copy());
 
                     // Save the recipe
                     this.recipe = recipe;
@@ -341,7 +340,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	        } else {
 	            // Recipe found, throw back the result
 	            entity.setEntityItemStack(recipe.getProperties().getResultOverride().getResult(getWorld(),
-                        getPos(), recipe.getOutput().getItemStack().copy()));
+                        getPos(), recipe.getOutput().getConditionalItemStack(this.getStackInSlot(0))));
 	            
 	            // Change the weather to the resulting weather
 	            WeatherType weatherSource = recipe.getInput().getWeatherType();
