@@ -4,8 +4,10 @@ import evilcraft.api.recipes.custom.IRecipeInput;
 import evilcraft.api.recipes.custom.IRecipeOutput;
 import evilcraft.core.weather.WeatherType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * A recipe component that can be used in {@link evilcraft.api.recipes.custom.IRecipe}S for the
@@ -24,6 +26,26 @@ public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IR
     @Override
     public ItemStack getItemStack() {
         return itemStack.getItemStack();
+    }
+
+    /**
+     * Get the itemstack and merge its nbt data from the given itemstack.
+     * @param inputStack The stack to copy nbt data from.
+     * @return The new itemstack.
+     */
+    public ItemStack getConditionalItemStack(ItemStack inputStack) {
+        ItemStack itemStack = getItemStack().copy();
+        if(inputStack.hasTagCompound()) {
+            if(!itemStack.hasTagCompound()) {
+                itemStack.setTagCompound(new NBTTagCompound());
+            }
+            for (String key : (Set<String>) inputStack.getTagCompound().func_150296_c()) {
+                if(!itemStack.getTagCompound().hasKey(key)) {
+                    itemStack.getTagCompound().setTag(key, inputStack.getTagCompound().getTag(key));
+                }
+            }
+        }
+        return itemStack;
     }
 
     public List<ItemStack> getItemStacks() {

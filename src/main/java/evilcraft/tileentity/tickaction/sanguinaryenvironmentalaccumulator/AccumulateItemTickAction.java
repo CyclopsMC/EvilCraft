@@ -43,7 +43,7 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
         if(tick >= getRequiredTicks(tile, recipe)) {
             if(recipe != null) {
                 if(addToProduceSlot(tile, recipe.getProperties().getResultOverride().getResult(tile.getWorldObj(),
-                        tile.xCoord, tile.yCoord, tile.zCoord, recipe.getOutput().getItemStack().copy()))) {
+                        tile.xCoord, tile.yCoord, tile.zCoord, recipe.getOutput().getConditionalItemStack(itemStack)))) {
                     tile.getInventory().decrStackSize(tile.getConsumeSlot(), 1);
                     tile.getVirtualTank().drain(getRequiredFluidAmount(tile, recipe), true);
                 }
@@ -92,7 +92,7 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
     }
 
     protected ItemStack willProduceItem(TileSanguinaryEnvironmentalAccumulator tile) {
-        return getRecipe(tile).getOutput().getItemStack();
+        return getRecipe(tile).getOutput().getConditionalItemStack(tile.getStackInSlot(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE));
     }
 
     /**
