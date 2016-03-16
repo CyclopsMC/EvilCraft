@@ -47,7 +47,7 @@ public class SlotFluidContainer extends Slot {
     public boolean isItemValid(ItemStack itemStack) {
         return checkIsItemValid(itemStack, tank);
     }
-    
+
     /**
      * Check if the given item is valid and the fluid equals the fluid inside the
      * container (or the fluid in the container is null).
