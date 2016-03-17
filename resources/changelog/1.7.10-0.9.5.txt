@@ -1,0 +1,5 @@
+Make sure to backup your world before updating!
+
+Fixes:
+* Allow Condensed Blood to be stacked in the Blood Chest, Closes #343
+* Fix Exalted Crafters losing inventory when empowering in machine, Closes #342
