@@ -1,16 +1,17 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.component.EntityDropParticleFXBlockComponent;
 import org.cyclops.cyclopscore.block.component.IEntityDropParticleFXBlock;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockLeaves;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockLeaves;
 
 import java.util.Random;
 
@@ -38,13 +39,17 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
         
         setHardness(0.2F);
         setLightOpacity(1);
-        setStepSound(soundTypeGrass);
         
         if (MinecraftHelpers.isClientSide()) {
             entityDropParticleFXBlockComponent = new EntityDropParticleFXBlockComponent(1.0F, 0.0F, 0.0F);
             entityDropParticleFXBlockComponent.setOffset(0);
             entityDropParticleFXBlockComponent.setChance(50);
         }
+    }
+
+    @Override
+    public SoundType getStepSound() {
+        return SoundType.GROUND;
     }
 
     @Override

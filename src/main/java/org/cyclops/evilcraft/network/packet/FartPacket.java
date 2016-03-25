@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.network.packet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -74,7 +74,7 @@ public class FartPacket extends PlayerPositionPacket {
     @SideOnly(Side.CLIENT)
     private void spawnFartParticles(
             World world, EntityPlayer player, 
-            Vec3 pos, boolean isRemotePlayer) {
+            Vec3d pos, boolean isRemotePlayer) {
         
         if (player == null)
             return;

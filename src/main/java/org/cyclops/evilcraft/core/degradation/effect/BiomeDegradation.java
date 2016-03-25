@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;

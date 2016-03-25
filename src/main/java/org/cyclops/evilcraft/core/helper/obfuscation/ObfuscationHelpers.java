@@ -6,11 +6,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
@@ -49,10 +48,10 @@ public class ObfuscationHelpers {
 	 * @param entity The entity instance.
 	 * @return The death sound.
 	 */
-	public static String getDeathSound(EntityLivingBase entity) {
+	public static SoundEvent getDeathSound(EntityLivingBase entity) {
 		Method method = ReflectionHelper.findMethod(EntityLivingBase.class, entity, ObfuscationData.ENTITYLIVINGBASE_GETDEATHSOUND);
 		try {
-			return (String) method.invoke(entity);
+			return (SoundEvent) method.invoke(entity);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
@@ -64,14 +63,14 @@ public class ObfuscationHelpers {
 	}
 	
 	/**
-	 * Call the protected getter 'getLivingSound' {@link net.minecraft.entity.EntityLiving}.
+	 * Call the protected getter 'getAmbientSound' {@link net.minecraft.entity.EntityLiving}.
 	 * @param entity The entity instance.
 	 * @return The living sound.
 	 */
-	public static String getLivingSound(EntityLiving entity) {
-		Method method = ReflectionHelper.findMethod(EntityLiving.class, entity, ObfuscationData.ENTITYLIVING_GETLIVINGSOUND);
+	public static SoundEvent getAmbientSound(EntityLiving entity) {
+		Method method = ReflectionHelper.findMethod(EntityLiving.class, entity, ObfuscationData.ENTITYLIVING_GETAMBIENTSOUND);
 		try {
-			return (String) method.invoke(entity);
+			return (SoundEvent) method.invoke(entity);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
@@ -80,24 +79,6 @@ public class ObfuscationHelpers {
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	/**
-	 * Set the private 'itemInUseCount' field from {@link net.minecraft.entity.player.EntityPlayer}.
-	 * @param player The player.
-	 * @return itemInUseCount
-	 */
-	public static int getItemInUseCount(EntityPlayer player) {
-		return ReflectionHelper.getPrivateValue(EntityPlayer.class, player, ObfuscationData.ENTITYPLAYER_ITEMINUSECOUNT);
-	}
-	
-	/**
-	 * Get the private 'itemInUse' field from {@link net.minecraft.entity.player.EntityPlayer}.
-	 * @param player The player.
-	 * @return itemInUse
-	 */
-	public static ItemStack getItemInUse(EntityPlayer player) {
-		return ReflectionHelper.getPrivateValue(EntityPlayer.class, player, ObfuscationData.ENTITYPLAYER_ITEMINUSE);
 	}
 	
 	/**

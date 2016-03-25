@@ -1,12 +1,13 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -42,7 +43,7 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
 
     public SanguinaryEnvironmentalAccumulator(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock, TileSanguinaryEnvironmentalAccumulator.class);
-        this.setStepSound(soundTypeStone);
+        this.setStepSound(SoundType.STONE);
         this.setRotatable(true);
     }
 
@@ -52,9 +53,9 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
     }
 
     @Override
-    public int getLightValue(IBlockAccess world, BlockPos pos) {
+    public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos pos) {
         TileSanguinaryEnvironmentalAccumulator tile = (TileSanguinaryEnvironmentalAccumulator) world.getTileEntity(pos);
-        return tile.isVisuallyWorking() ? 4 : super.getLightValue(world, pos);
+        return tile.isVisuallyWorking() ? 4 : super.getLightValue(blockState, world, pos);
     }
 
     @Override

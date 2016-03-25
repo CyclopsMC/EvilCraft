@@ -7,11 +7,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -65,16 +65,16 @@ public class MaceOfDistortion extends Mace {
     }
     
     @SuppressWarnings("unchecked")
-    protected void distortEntities(World world, EntityPlayer player, int itemUsedCount, int power) {
+    protected void distortEntities(World world, EntityLivingBase initiator, int itemUsedCount, int power) {
         // Center of the knockback
-        double x = player.posX;
-        double y = player.posY;
-        double z = player.posZ;
+        double x = initiator.posX;
+        double y = initiator.posY;
+        double z = initiator.posZ;
         
         // Get the entities in the given area
         double area = getArea(itemUsedCount);
-        AxisAlignedBB box = AxisAlignedBB.fromBounds(x, y, z, x, y, z).expand(area, area, area);
-        List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(player, box);
+        AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).expand(area, area, area);
+        List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(initiator, box);
         
         // Do knockback and damage to the list of entities
         boolean onePlayer = false;
@@ -82,13 +82,16 @@ public class MaceOfDistortion extends Mace {
         	if(entity instanceof EntityPlayer) {
         		onePlayer = true;
         	}
-            distortEntity(world, player, entity, x, y, z, itemUsedCount, power);
+            distortEntity(world, initiator, entity, x, y, z, itemUsedCount, power);
         }
         
-        if(entities.size() >= 10) {
-        	player.addStat(Achievements.DISTORTER, 1);
+        if(entities.size() >= 1 && initiator instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) initiator;
+            if(entities.size() >= 10) {
+                player.addStat(Achievements.DISTORTER, 1);
+            }
         	if(onePlayer) {
-        		player.addStat(Achievements.PLAYER_DISTORTER, 1);
+                player.addStat(Achievements.PLAYER_DISTORTER, 1);
         	}
         }
     }
@@ -96,7 +99,7 @@ public class MaceOfDistortion extends Mace {
     /**
      * Distort an entity.
      * @param world The world.
-     * @param player The player distoring the entity, can be null.
+     * @param initiator The player distoring the entity, can be null.
      * @param entity The distorted entity.
      * @param x Center X coordinate.
      * @param y Center Y coordinate.
@@ -104,7 +107,7 @@ public class MaceOfDistortion extends Mace {
      * @param itemUsedCount The distortion usage power.
      * @param power The current power.
      */
-    public void distortEntity(World world, EntityPlayer player, Entity entity, double x, double y, double z, int itemUsedCount, int power) {
+    public void distortEntity(World world, EntityLivingBase initiator, Entity entity, double x, double y, double z, int itemUsedCount, int power) {
         double inverseStrength = entity.getDistance(x, y, z) / (itemUsedCount + 1);
         double knock = power + itemUsedCount / 200 + 1.0D;
 
@@ -122,22 +125,26 @@ public class MaceOfDistortion extends Mace {
             if(entity instanceof EntityLivingBase) {
                 // Attack the entity with the current power level.
                 DamageSource damageSource;
-                if(player == null) {
+                if(initiator == null) {
                     damageSource = ExtendedDamageSource.distorted;
                 } else {
-                    damageSource = DamageSource.causePlayerDamage(player);
+                    if(initiator instanceof EntityPlayer) {
+                        damageSource = DamageSource.causePlayerDamage((EntityPlayer) initiator);
+                    } else {
+                        damageSource = DamageSource.causeMobDamage(initiator);
+                    }
                 }
                 entity.attackEntityFrom(damageSource, RADIAL_DAMAGE * power);
                 
                 if(world.isRemote) {
-                    showEntityDistored(world, player, entity, power);
+                    showEntityDistored(world, initiator, entity, power);
                 }
             }
             if(entity instanceof VengeanceSpirit) {
             	((VengeanceSpirit) entity).setIsSwarm(true);
             }
-            if(player != null && entity instanceof EntityPlayer) {
-            	player.addStat(Achievements.PLAYER_DISTORTER, 1);
+            if(initiator != null && entity instanceof EntityPlayer && initiator instanceof EntityPlayer) {
+                ((EntityPlayer) initiator).addStat(Achievements.PLAYER_DISTORTER, 1);
             }
             strength /= 2;
             entity.motionX += dx * strength;
@@ -147,11 +154,11 @@ public class MaceOfDistortion extends Mace {
     }
     
     @SideOnly(Side.CLIENT)
-    protected static void showEntityDistored(World world, EntityPlayer player, Entity entity, int power) {
+    protected static void showEntityDistored(World world, EntityLivingBase initiator, Entity entity, int power) {
         // Play a nice sound with the volume depending on the power.
-        world.playSoundAtEntity(entity, "random.explode", (float)(power + 1) / (float)POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-        if(player != null) {
-            world.playSoundAtEntity(player, "random.explode", (float)(power + 1) / (float)POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, entity.posX, entity.posY, entity.posZ, new SoundEvent(new ResourceLocation("entity.generic.explode")), SoundCategory.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        if(initiator != null) {
+            world.playSound(null, entity.posX, entity.posY, entity.posZ, new SoundEvent(new ResourceLocation("entity.generic.explode")), SoundCategory.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         }
         // Fake explosion effect.
         world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, entity.posX, entity.posY + itemRand.nextFloat(), entity.posZ, 1.0D, 0.0D, 0.0D);
@@ -171,7 +178,7 @@ public class MaceOfDistortion extends Mace {
                         particleMotionX, particleMotionY, particleMotionZ)
                 );
         
-        world.playSoundAtEntity(player, "note.bd", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playSound(player, xCoord, yCoord, zCoord, new SoundEvent(new ResourceLocation("note.bd")), SoundCategory.RECORDS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
     }
     
     @Override
@@ -181,15 +188,15 @@ public class MaceOfDistortion extends Mace {
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public Multimap getAttributeModifiers(ItemStack itemStack) {
-        Multimap multimap = super.getAttributeModifiers(itemStack);
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", (double)MELEE_DAMAGE, 0));
+    public Multimap getAttributeModifiers(EntityEquipmentSlot slot, ItemStack itemStack) {
+        Multimap multimap = super.getAttributeModifiers(slot, itemStack);
+        multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)MELEE_DAMAGE, 0));
         return multimap;
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    protected void use(World world, EntityPlayer player, int itemUsedCount, int power) {
-        distortEntities(world, player, itemUsedCount, power);
+    protected void use(World world, EntityLivingBase entity, int itemUsedCount, int power) {
+        distortEntities(world, entity, itemUsedCount, power);
     }
 }

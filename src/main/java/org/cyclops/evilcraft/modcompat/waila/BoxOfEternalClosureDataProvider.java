@@ -7,8 +7,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.Reference;
@@ -41,7 +41,7 @@ public class BoxOfEternalClosureDataProvider implements IWailaDataProvider {
         		&& config.getConfig(Waila.getBoxOfEternalClosureConfigID(), true)) {
         	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) accessor.getTileEntity();
             if(tile.getSpiritInstance() == null) {
-                currenttip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("general." + Reference.MOD_ID + ".info.empty"));
+                currenttip.add(TextFormatting.ITALIC + L10NHelpers.localize("general." + Reference.MOD_ID + ".info.empty"));
             } else {
                 VengeanceSpirit spirit = ((VengeanceSpirit) tile.getSpiritInstance());
                 String name = spirit.getLocalizedInnerEntityName();

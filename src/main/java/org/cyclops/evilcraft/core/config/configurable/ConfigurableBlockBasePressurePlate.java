@@ -3,11 +3,12 @@ package org.cyclops.evilcraft.core.config.configurable;
 import lombok.experimental.Delegate;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBasePressurePlate;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.block.property.BlockPropertyManagerComponent;
@@ -23,7 +24,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressurePlate implements IConfigurableBlock {
 
     @Delegate private IBlockPropertyManager propertyManager;
-    @Override protected BlockState createBlockState() {
+    @Override protected BlockStateContainer createBlockState() {
         return (propertyManager = new BlockPropertyManagerComponent(this)).createDelegatedBlockState();
     }
 
@@ -45,7 +46,7 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
         this.setConfig(eConfig);
         this.setUnlocalizedName(eConfig.getUnlocalizedName());
         setHardness(2F);
-        setStepSound(Block.soundTypeStone);
+        setStepSound(SoundType.STONE);
     }
 
     @Override

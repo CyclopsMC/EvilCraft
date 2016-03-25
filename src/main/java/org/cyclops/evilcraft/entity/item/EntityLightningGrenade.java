@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -53,7 +53,7 @@ public class EntityLightningGrenade extends EntityThrowable implements IConfigur
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition par1MovingObjectPosition) {        
+    protected void onImpact(RayTraceResult par1MovingObjectPosition) {
         if (par1MovingObjectPosition.entityHit != null) {
             par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
         }
@@ -65,7 +65,7 @@ public class EntityLightningGrenade extends EntityThrowable implements IConfigur
         if (!this.worldObj.isRemote) {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {    
                 EntityHelpers.onEntityCollided(this.worldObj, par1MovingObjectPosition.getBlockPos(), this);
-                this.worldObj.addWeatherEffect(new EntityLightningBolt(this.worldObj, this.posX, this.posY, this.posZ));
+                this.worldObj.addWeatherEffect(new EntityLightningBolt(this.worldObj, this.posX, this.posY, this.posZ, true));
             }
 
             this.setDead();

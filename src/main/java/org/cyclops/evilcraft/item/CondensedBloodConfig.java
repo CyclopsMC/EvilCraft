@@ -1,8 +1,9 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraftforge.common.ChestGenHooks;
+import net.minecraft.world.storage.loot.LootEntryItem;
+import net.minecraft.world.storage.loot.conditions.LootCondition;
+import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -45,10 +46,8 @@ public class CondensedBloodConfig extends ItemConfig {
         FluidContainerRegistry.registerFluidContainer(fluidStack, filledContainer, emptyContainer);
 
         // Register in loot chests
-        for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
-            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
-                    getItemInstance(), 0, 5, 32, 10));
-        }
+        MinecraftHelpers.addVanillaLootChestLootEntry(
+                new LootEntryItem(getItemInstance(), 10, 10, new LootFunction[0], new LootCondition[0]));
     }
     
 }

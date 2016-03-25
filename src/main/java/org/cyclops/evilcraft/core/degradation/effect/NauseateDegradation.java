@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.core.degradation.effect;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.Potion;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
@@ -52,7 +52,7 @@ public class NauseateDegradation extends ConfigurableDegradationEffect {
             if(entity instanceof EntityLivingBase) {
                 ((EntityLivingBase) entity).addPotionEffect(
                         new PotionEffect(
-                                Potion.confusion.id,
+                                MobEffects.confusion,
                                 (int) degradable.getDegradation() * NAUSEA_DURATION_MULTIPLIER, 1)
                         );
             }

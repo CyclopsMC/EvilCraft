@@ -10,7 +10,6 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import org.apache.commons.lang3.mutable.MutableInt;
-import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
@@ -280,7 +279,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     public void onStateChanged() {
         sendUpdate();
         worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(BloodInfuser.ON, isWorking()));
-        worldObj.markBlockForUpdate(getPos()); // Update light
+        BlockHelpers.markForUpdate(getWorld(), getPos());
     }
 
 	@Override

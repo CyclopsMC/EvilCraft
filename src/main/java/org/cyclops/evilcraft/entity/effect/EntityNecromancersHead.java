@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -135,7 +135,7 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition position) {
+    protected void onImpact(RayTraceResult position) {
     	if(!observing) {
 	        if(position.entityHit != null) {
 	            position.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);

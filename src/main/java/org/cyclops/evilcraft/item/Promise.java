@@ -1,12 +1,13 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Maps;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
@@ -29,7 +30,7 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-public class Promise extends ConfigurableItem {
+public class Promise extends ConfigurableItem implements IItemColor {
 
     private static Promise _instance = null;
     public static final Upgrades.Upgrade[] UPGRADES = new Upgrades.Upgrade[]{
@@ -83,7 +84,7 @@ public class Promise extends ConfigurableItem {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
+    public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
         Upgrades.Upgrade upgrade = getUpgrade(itemStack);
         return renderPass == 0 ? SECONDARY_COLORS.get(upgrade) : MAIN_COLORS.get(upgrade);
     }
@@ -94,9 +95,9 @@ public class Promise extends ConfigurableItem {
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            list.add(EnumChatFormatting.DARK_GREEN + L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".useIn"));
+            list.add(TextFormatting.DARK_GREEN + L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".useIn"));
             for(BlockConfig upgradable : getUpgrade(itemStack).getUpgradables()) {
-                list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("tile." + upgradable.getUnlocalizedName() + ".name"));
+                list.add(TextFormatting.ITALIC + L10NHelpers.localize("tile." + upgradable.getUnlocalizedName() + ".name"));
             }
         }
     }

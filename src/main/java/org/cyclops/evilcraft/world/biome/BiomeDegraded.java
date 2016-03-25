@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.world.biome;
 
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,19 +29,17 @@ public class BiomeDegraded extends ConfigurableBiome {
     }
 
     public BiomeDegraded(ExtendedConfig<BiomeConfig> eConfig) {
-        super(eConfig.downCast());
-        this.setHeight(height_MidPlains);
-        this.setTemperatureRainfall(0.8F, 0.9F);
-        this.setColor(Helpers.RGBToInt(0, 30, 20));
-        this.func_150563_c(Helpers.RGBToInt(20, 50, 30));
-        this.waterColorMultiplier = Helpers.RGBToInt(60, 50, 20);
+        super(constructProperties(eConfig.downCast())
+                .setBaseHeight(0.125F).setTemperature(0.8F)
+                .setRainfall(0.9F).setWaterColor(Helpers.RGBToInt(60, 50, 20)),
+                eConfig.downCast());
     }
     
     @SideOnly(Side.CLIENT)
     @Override
     public int getGrassColorAtPos(BlockPos blockPos) {
         double d0 = (double) MathHelper.clamp_float(this.getFloatTemperature(blockPos), 0.0F, 1.0F);
-        double d1 = (double) MathHelper.clamp_float(this.getFloatRainfall(), 0.0F, 1.0F);
+        double d1 = (double) MathHelper.clamp_float(this.getRainfall(), 0.0F, 1.0F);
         return ((ColorizerGrass.getGrassColor(d0, d1) & Helpers.RGBToInt(10, 20, 5)) + 5115470) / 2;
     }
 
@@ -49,7 +47,7 @@ public class BiomeDegraded extends ConfigurableBiome {
     @Override
     public int getFoliageColorAtPos(BlockPos blockPos) {
         double d0 = (double) MathHelper.clamp_float(this.getFloatTemperature(blockPos), 0.0F, 1.0F);
-        double d1 = (double) MathHelper.clamp_float(this.getFloatRainfall(), 0.0F, 1.0F);
+        double d1 = (double) MathHelper.clamp_float(this.getRainfall(), 0.0F, 1.0F);
         return ((ColorizerFoliage.getFoliageColor(d0, d1) & Helpers.RGBToInt(10, 20, 50)) + 5115470) / 2;
     }
 

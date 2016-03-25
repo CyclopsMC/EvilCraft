@@ -2,7 +2,8 @@ package org.cyclops.evilcraft.enchantment;
 
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.Potion;
+import net.minecraft.init.MobEffects;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.potion.PotionEffect;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
@@ -28,7 +29,7 @@ public class EnchantmentPoisonTip extends ConfigurableEnchantment {
     }
 
     public EnchantmentPoisonTip(ExtendedConfig<EnchantmentConfig> eConfig) {
-        super(eConfig, 1, EnumEnchantmentType.WEAPON);
+        super(eConfig, Rarity.RARE, EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
     }
     
     @Override
@@ -52,7 +53,7 @@ public class EnchantmentPoisonTip extends ConfigurableEnchantment {
      * @param level The level of the enchant.
      */
     public static void poison(EntityLivingBase entity, int level) {
-        entity.addPotionEffect(new PotionEffect(Potion.poison.id, POISON_BASE_DURATION * 20 * (level + 1), 1));
+        entity.addPotionEffect(new PotionEffect(MobEffects.poison, POISON_BASE_DURATION * 20 * (level + 1), 1));
     }
 
 }

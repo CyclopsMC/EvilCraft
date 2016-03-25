@@ -6,10 +6,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -21,6 +24,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedIt
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.BloodStainedBlock;
 import org.cyclops.evilcraft.block.BloodStainedBlockConfig;
@@ -91,18 +95,20 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
             FluidStack tickFluid = item.getFluid(itemStack);
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;
-                ItemStack held = player.getCurrentEquippedItem();
-                if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
-                    IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
-                    FluidStack heldFluid = fluidContainer.getFluid(held);
-                    if(/*tickFluid.amount >= MB_FILL_PERTICK Not required for creative mode filling
+                for(EnumHand hand : EnumHand.values()) {
+                    ItemStack held = player.getHeldItem(hand);
+                    if (held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && player.getItemInUseCount() == 0) {
+                        IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
+                        FluidStack heldFluid = fluidContainer.getFluid(held);
+                        if (/*tickFluid.amount >= MB_FILL_PERTICK Not required for creative mode filling
                             && */(heldFluid == null || (heldFluid.isFluidEqual(tickFluid)
-                                                    && heldFluid.amount < fluidContainer.getCapacity(held)
-                                                    )
-                               )
-                            ) {
-                        int filled = fluidContainer.fill(held, new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), true);
-                        item.drain(itemStack, filled, true);
+                                && heldFluid.amount < fluidContainer.getCapacity(held)
+                        )
+                        )
+                                ) {
+                            int filled = fluidContainer.fill(held, new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), true);
+                            item.drain(itemStack, filled, true);
+                        }
                     }
                 }
             }
@@ -141,34 +147,34 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
     }
     
     @Override
-    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         Block block = world.getBlockState(blockPos).getBlock();
         if(player.isSneaking()) {
 	        if(Configs.isEnabled(BloodStainedBlockConfig.class)
-	        		&& (BloodStainedBlock.getInstance().canSetInnerBlock(block, world, blockPos) || block == BloodStainedBlock.getInstance())) {
+	        		&& (BloodStainedBlock.getInstance().canSetInnerBlock(world.getBlockState(blockPos), block, world, blockPos) || block == BloodStainedBlock.getInstance())) {
 	        	BloodStainedBlock.getInstance().stainBlock(world, blockPos, FluidContainerRegistry.BUCKET_VOLUME);
 		        if(world.isRemote) {
 		        	EntityBloodSplashFX.spawnParticles(world, blockPos.add(0, 1, 0), 5, 1 + world.rand.nextInt(2));
 		        }
-		        return false;
+		        return EnumActionResult.PASS;
 	        }
 	    }
-        return super.onItemUseFirst(itemStack, player, world, blockPos, side, hitX, hitY, hitZ);
+        return super.onItemUseFirst(itemStack, player, world, blockPos, side, hitX, hitY, hitZ, hand);
     }
     
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(!player.isSneaking()) {
-            return super.onItemRightClick(itemStack, world, player);
+            return super.onItemRightClick(itemStack, world, player, hand);
         } else {
-        	MovingObjectPosition target = this.getMovingObjectPositionFromPlayer(world, player, false);
-        	if(target == null || target.typeOfHit == MovingObjectType.MISS) {
+        	RayTraceResult target = this.getMovingObjectPositionFromPlayer(world, player, false);
+        	if(target == null || target.typeOfHit == Type.MISS) {
         		if(!world.isRemote) {
 		            ItemHelpers.toggleActivation(itemStack);
 		    	}
         	}
         }
-        return itemStack;
+        return MinecraftHelpers.successAction(itemStack);
     }
 
 }

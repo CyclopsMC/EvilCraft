@@ -37,10 +37,10 @@ public class FakeWorld extends World {
 		return new FakeChunkProvider();
 	}
 
-    @Override
-    protected int getRenderDistanceChunks() {
-        return 0;
-    }
+	@Override
+	protected boolean isChunkLoaded(int x, int z, boolean allowEmpty) {
+		return false;
+	}
 
     @Override
 	public Entity getEntityByID(int var1) {

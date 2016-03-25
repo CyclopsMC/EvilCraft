@@ -6,6 +6,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -114,25 +115,24 @@ public class EntityBroom extends Entity implements IConfigurable{
     
     @Override
 	public boolean canBeCollidedWith() {
-		return !isDead && riddenByEntity == null;
+		return !isDead && isBeingRidden();
 	}
     
     @Override
-    public boolean interactFirst(EntityPlayer player) {
-        if (riddenByEntity == null) {
-            mountEntity(player);
-            return true;
+    public boolean processInitialInteract(EntityPlayer player, ItemStack stack, EnumHand hand) {
+        if (!this.worldObj.isRemote && !isBeingRidden() && !player.isSneaking()) {
+            player.startRiding(this);
         }
         
     	return false;
     }
-    
+
     @Override
-    public void mountEntity(Entity entity) {
-        if (!worldObj.isRemote && riddenByEntity == null && entity instanceof EntityPlayer) {
+    public void updatePassenger(Entity entity) {
+        if (!worldObj.isRemote && !isBeingRidden() && entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer)entity;
-            
-            player.mountEntity(this);
+
+            player.startRiding(this);
             lastMounted = player;
         }
     }
@@ -186,7 +186,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     public void onUpdate() {
     	super.onUpdate();
 
-        if (!worldObj.isRemote && riddenByEntity == null && lastMounted != null) {
+        if (!worldObj.isRemote && !isBeingRidden() && lastMounted != null) {
     		// The player dismounted, give him his broom back if he's not in creative mode
     		if (!lastMounted.capabilities.isCreativeMode && Configs.isEnabled(BroomConfig.class)) {
     		    // Return to inventory if we have space and the player is not dead, otherwise drop it on the ground
@@ -200,7 +200,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     		
     		worldObj.removeEntity(this);
     		
-    	} else if (riddenByEntity != null && riddenByEntity instanceof EntityPlayer) {
+    	} else if (isBeingRidden() && getRidingEntity() instanceof EntityPlayer) {
             /*
              * TODO: if we ever have the problem that a player can dismount without
              * getting the broom back in his inventory and removing the entity from the world
@@ -208,7 +208,7 @@ public class EntityBroom extends Entity implements IConfigurable{
              * the player is dismounted, thus lastMounted is not updated before the player dismounts
              * and thus the dismounting code is never executed
              */
-            lastMounted = (EntityPlayer)riddenByEntity;
+            lastMounted = (EntityPlayer)getRidingEntity();
             
             prevPosX = posX;
             prevPosY = posY;
@@ -265,15 +265,15 @@ public class EntityBroom extends Entity implements IConfigurable{
         setRotation(rotationYaw, rotationPitch);
         
         // Handle player movement
-        double pitch = ((riddenByEntity.rotationPitch + 90) * Math.PI) / 180;
-        double yaw = ((riddenByEntity.rotationYaw + 90) * Math.PI) / 180;
+        double pitch = ((getRidingEntity().rotationPitch + 90) * Math.PI) / 180;
+        double yaw = ((getRidingEntity().rotationYaw + 90) * Math.PI) / 180;
         
         double x = Math.sin(pitch) * Math.cos(yaw);
         double z = Math.sin(pitch) * Math.sin(yaw);
         double y = Math.cos(pitch);
         
         if (lastMounted.moveForward != 0) {
-            double playerSpeed = 10 * lastMounted.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+            double playerSpeed = 10 * lastMounted.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue();
             
             motionX = x * SPEED * playerSpeed * lastMounted.moveForward;
             motionY = y * SPEED * playerSpeed * lastMounted.moveForward;
@@ -301,7 +301,7 @@ public class EntityBroom extends Entity implements IConfigurable{
             {
                 Entity entity = (Entity)list.get(l);
 
-                if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityBroom)
+                if (entity != this.getRidingEntity() && entity.canBePushed() && entity instanceof EntityBroom)
                 {
                     entity.applyEntityCollision(this);
                 }

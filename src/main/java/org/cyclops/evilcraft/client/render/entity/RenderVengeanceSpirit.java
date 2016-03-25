@@ -128,7 +128,6 @@ public class RenderVengeanceSpirit extends Render {
 			modelPlayer.bipedRightLegwear.showModel = rand.nextBoolean();
 			modelPlayer.bipedLeftArmwear.showModel = rand.nextBoolean();
 			modelPlayer.bipedRightArmwear.showModel = rand.nextBoolean();
-			modelPlayer.heldItemLeft = 0;
 		}
 
 		protected ResourceLocation getEntityTexture(EntityLiving entity) {

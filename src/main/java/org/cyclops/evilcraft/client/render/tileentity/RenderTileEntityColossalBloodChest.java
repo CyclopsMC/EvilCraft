@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.client.render.tileentity;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.math.Vec3i;
 import org.cyclops.cyclopscore.client.render.tileentity.RenderTileEntityModel;
 import org.cyclops.evilcraft.block.ColossalBloodChest;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;

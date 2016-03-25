@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Maps;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-public class PromiseAcceptor extends ConfigurableItem {
+public class PromiseAcceptor extends ConfigurableItem implements IItemColor {
 
     private static PromiseAcceptor _instance = null;
     public static final Map<Integer, Integer> COLORS = Maps.newHashMap();
@@ -52,7 +53,7 @@ public class PromiseAcceptor extends ConfigurableItem {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
+    public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
         return COLORS.get(itemStack.getItemDamage());
     }
     

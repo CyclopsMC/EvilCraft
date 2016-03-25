@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -36,7 +36,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         float progress = tileentity.getProgress();
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5F, 0.5f, 0.5F);
-        renderPortalBase(Tessellator.getInstance().getWorldRenderer(), (float) x, (float) y, (float) z, progress);
+        renderPortalBase(Tessellator.getInstance().getBuffer(), (float) x, (float) y, (float) z, progress);
         GlStateManager.translate((float)x, (float)y, (float)z);
         Random random = new Random();
         long seed = tileentity.getPos().toLong();
@@ -46,7 +46,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
 	}
 
     private void renderStar(float rotation, float progress, Tessellator tessellator, float partialTicks, Random random) {
-        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+        VertexBuffer worldRenderer = tessellator.getBuffer();
 
 		/* Rotate opposite direction at 20% speed */
         GlStateManager.rotate(rotation * -0.2f % 360, 0.5f, 1, 0.5f);
@@ -99,7 +99,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         RenderHelper.enableStandardItemLighting();
     }
 
-    private void renderPortalBase(WorldRenderer worldRenderer, float x, float y, float z, float progress) {
+    private void renderPortalBase(VertexBuffer worldRenderer, float x, float y, float z, float progress) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         GlStateManager.enableRescaleNormal();
@@ -122,7 +122,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GlStateManager.popMatrix();
     }
 
-    private void renderIconForProgress(WorldRenderer worldRenderer, int index, float progress) {
+    private void renderIconForProgress(VertexBuffer worldRenderer, int index, float progress) {
         if(progress > 0.8F) {
             progress -= (progress - 0.8F) * 4;
         }

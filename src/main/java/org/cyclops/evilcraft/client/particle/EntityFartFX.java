@@ -30,13 +30,13 @@ public class EntityFartFX extends EntityFX {
      * @param x X coordinate.
      * @param y Y coordinate.
      * @param z Z coordinate.
-     * @param motionX X axis speed.
-     * @param motionY Y axis speed.
-     * @param motionZ Z axis speed.
+     * @param xSpeed X axis speed.
+     * @param ySpeed Y axis speed.
+     * @param zSpeed Z axis speed.
      * @param rainbow If it should have rainbow colors.
      */
-    public EntityFartFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow) {
-        super(world, x, y, z, motionX, motionY, motionZ);
+    public EntityFartFX(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean rainbow) {
+        super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         
         setParticleSettings(rainbow);
     }

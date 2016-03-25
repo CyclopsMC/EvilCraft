@@ -4,11 +4,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenDungeons;
-import net.minecraftforge.common.ChestGenHooks;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.DungeonHooks;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Configs;
@@ -49,11 +48,12 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                 	BlockPos loopPos = new BlockPos(xr, yr, zr);
 
                 	// Skip invalid chunk generation positions.
-                	if(!world.getChunkProvider().chunkExists(xr / 16, yr / 16)) {
+                    // chunkExists does not exist in 1.9 anymore
+                	/*if(!world.getChunkProvider().chunkExists(xr / 16, yr / 16)) {
                 		return false;
-                	}
+                	}*/
                 	
-                    Material material = world.getBlockState(loopPos).getBlock().getMaterial();
+                    Material material = world.getBlockState(loopPos).getMaterial();
                     if (yr == y - 1 && !material.isSolid())
                         return false;
                     if (yr == y + height + 1 && !material.isSolid())
@@ -77,9 +77,9 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                                 && yr != y + height + 1
                                 && zr != z + radiusZ + 1) {
                             world.setBlockToAir(loopPos);
-                        } else if (yr >= 0 && !world.getBlockState(loopPos.add(0, -1, 0)).getBlock().getMaterial().isSolid()) {
+                        } else if (yr >= 0 && !world.getBlockState(loopPos.add(0, -1, 0)).getMaterial().isSolid()) {
                             world.setBlockToAir(loopPos);
-                        } else if (world.getBlockState(loopPos).getBlock().getMaterial().isSolid()) {
+                        } else if (world.getBlockState(loopPos).getMaterial().isSolid()) {
                             if (yr == y - 1 && random.nextInt(4) != 0) {
 								if(Configs.isEnabled(BloodyCobblestoneConfig.class)) {
 									world.setBlockState(loopPos, BloodyCobblestoneConfig._instance.getBlockInstance().getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
@@ -102,16 +102,16 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                 if (world.isAirBlock(loopPos)) {
                     int wallCounter = 0;
 
-                    if (world.getBlockState(loopPos.add(-1, 0, 0)).getBlock().getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.add(-1, 0, 0)).getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockState(loopPos.add(1, 0, 0)).getBlock().getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.add(1, 0, 0)).getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockState(loopPos.add(0, 0, -1)).getBlock().getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.add(0, 0, -1)).getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockState(loopPos.add(0, 0, 1)).getBlock().getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.add(0, 0, 1)).getMaterial().isSolid())
                         ++wallCounter;
 
                     if (wallCounter == 1) {
@@ -119,8 +119,7 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                         TileEntityChest tileentitychest = (TileEntityChest)world.getTileEntity(loopPos);
 
                         if (tileentitychest != null) {
-                            ChestGenHooks info = ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST);
-                            WeightedRandomChestContent.generateChestContents(random, info.getItems(random), tileentitychest, info.getCount(random) * 2);
+                            tileentitychest.setLoot(LootTableList.CHESTS_SPAWN_BONUS_CHEST, world.rand.nextLong());
                         }
 
                         chests--;

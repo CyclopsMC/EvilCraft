@@ -10,9 +10,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
 import org.cyclops.evilcraft.EvilCraft;
@@ -140,11 +140,11 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 			world.setItemDropListener(tile);
 			
 			// Send sound to client
-			String deathSound = ObfuscationHelpers.getDeathSound(entity);
-            if(SpiritFurnaceConfig.mobDeathSounds && !StringUtils.isNullOrEmpty(deathSound)) {
+			SoundEvent deathSound = ObfuscationHelpers.getDeathSound(entity);
+            if(SpiritFurnaceConfig.mobDeathSounds && deathSound != null) {
                 BlockPos pos = tile.getPos();
                 EvilCraft.proxy.sendSoundMinecraft(pos.getX() + 0.5D, pos.getY() + 0.5D,
-                        pos.getZ() + 0.5D, deathSound, 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
+                        pos.getZ() + 0.5D, deathSound.toString(), entity.getSoundCategory(), 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
             }
 
             if(tile.isPlayer()) {

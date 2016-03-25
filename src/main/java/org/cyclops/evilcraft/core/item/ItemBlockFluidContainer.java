@@ -7,6 +7,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -14,6 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.core.block.IBlockTank;
@@ -162,11 +165,11 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
 	}
 	
 	@Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(block.isActivatable()) {
-        	return block.toggleActivation(itemStack, world, player);
+        	return MinecraftHelpers.successAction(block.toggleActivation(itemStack, world, player));
         }
-        return super.onItemRightClick(itemStack, world, player);
+        return super.onItemRightClick(itemStack, world, player, hand);
     }
 
     protected void autofill(IFluidContainerItem item, ItemStack itemStack, World world, Entity entity) {

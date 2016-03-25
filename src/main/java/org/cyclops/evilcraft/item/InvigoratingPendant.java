@@ -68,11 +68,11 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
 			Iterator<PotionEffect> it = Lists.newLinkedList(player.getActivePotionEffects()).iterator();
 	    	while(reducableDuration > 0 && it.hasNext() && canConsume(amount, itemStack, player)) {
 	    		PotionEffect effect = it.next();
-	    		int potionID = effect.getPotionID();
+	    		Potion potion = effect.getPotion();
 	    		
 	    		boolean shouldClear = true;
-	    		if(potionID >= 0 && potionID < Potion.potionTypes.length) {
-	    			shouldClear = ObfuscationHelpers.isPotionBadEffect(Potion.potionTypes[potionID]);
+	    		if(potion != null) {
+	    			shouldClear = ObfuscationHelpers.isPotionBadEffect(potion);
 	    		}
                 shouldClear = shouldClear & !effect.getIsAmbient();
 	    		
@@ -85,7 +85,7 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
 	    			
 	    			reducableDuration -= toReduce;
 	    			if(remaining == toReduce) {
-	    				player.removePotionEffect(potionID);
+	    				player.removePotionEffect(potion);
 	    			} else {
 	    				ObfuscationHelpers.setPotionEffectDuration(effect, remaining - toReduce);
                         ObfuscationHelpers.onChangedPotionEffect(player, effect, true);

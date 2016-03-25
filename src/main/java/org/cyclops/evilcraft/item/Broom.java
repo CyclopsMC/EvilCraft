@@ -3,12 +3,16 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 
 /**
@@ -36,24 +40,24 @@ public class Broom extends ConfigurableItem {
     }
     
     @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-        if (!world.isRemote && player.ridingEntity == null) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+        if (!world.isRemote && player.getRidingEntity() == null) {
             player.posY += Y_SPAWN_OFFSET;
             
             EntityBroom broom = new EntityBroom(world, player.posX, player.posY, player.posZ);
             
             // Spawn and mount the broom
             world.spawnEntityInWorld(broom);
-            broom.mountEntity(player);
+            broom.updatePassenger(player);
             
             stack.stackSize--;
         }
         
-        return stack;
+        return MinecraftHelpers.successAction(stack);
     }
-    
+
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
     	if (!world.isRemote && player.isSneaking()) {
     		world.spawnEntityInWorld(new EntityBroom(world, blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5));
     		
@@ -61,10 +65,10 @@ public class Broom extends ConfigurableItem {
     		if (!player.capabilities.isCreativeMode)
     		    stack.stackSize--;
     		
-    		return true;
+    		return EnumActionResult.SUCCESS;
     	}
     	
-    	return false;
+    	return EnumActionResult.PASS;
     }
 
     @Override

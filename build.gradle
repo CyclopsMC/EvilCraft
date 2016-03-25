@@ -69,6 +69,9 @@ sourceSets {
     main {
         java {
             exclude '**/modcompat/nei/**'
+            // TODO: remove when waila is updated to 1.9
+            exclude 'org/cyclops/evilcraft/modcompat/waila/**'
+            exclude 'org/cyclops/evilcraft/modcompat/thaumcraft/**'
         }
     }
 }

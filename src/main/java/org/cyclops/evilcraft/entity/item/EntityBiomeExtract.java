@@ -1,11 +1,15 @@
 package org.cyclops.evilcraft.entity.item;
 
+import com.google.common.base.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -32,7 +36,7 @@ import java.util.Random;
  */
 public class EntityBiomeExtract extends EntityThrowable implements IConfigurable {
 
-    private static final int ITEMSTACK_INDEX = 15;
+    private static final DataParameter<Optional<ItemStack>> ITEMSTACK_INDEX = EntityDataManager.<Optional<ItemStack>>createKey(EntityWeatherContainer.class, DataSerializers.OPTIONAL_ITEM_STACK);
 
     /**
      * Make a new instance in the given world.
@@ -64,7 +68,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
     }
 
     @Override
-    protected void onImpact(final MovingObjectPosition movingobjectposition) {
+    protected void onImpact(final RayTraceResult movingobjectposition) {
         ItemStack itemStack = getItemStack();
 
         final BiomeGenBase biome = BiomeExtract.getInstance().getBiome(itemStack);
@@ -79,7 +83,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
                 public void spreadTo(World world, BlockPos location) {
                     if(worldObj.isRemote) {
                         showChangedBiome(worldObj, new BlockPos(location.getX(), movingobjectposition.getBlockPos().getY(),
-                                location.getZ()), biome.color);
+                                location.getZ()), biome.getWaterColor());
                     } else {
                         WorldHelpers.setBiome(worldObj, location, biome);
                     }
@@ -128,31 +132,20 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
     }
 
     @Override
-    protected float getVelocity() {
-        // Determines the distance of the throw
-        return 1.0F;
-    }
-
-    @Override
-    protected float getInaccuracy() {
-        // Offset for the start height at which the entity is thrown
-        return 0.0F;
-    }
-
-    @Override
     public ItemStack getItemStack() {
-        return dataWatcher.getWatchableObjectItemStack(ITEMSTACK_INDEX);
+        Optional<ItemStack> optional = dataWatcher.get(ITEMSTACK_INDEX);
+        return optional.isPresent() ? optional.get() : null;
     }
     
     private void setItemStack(ItemStack stack) {
-        dataWatcher.updateObject(ITEMSTACK_INDEX, stack);
+        dataWatcher.set(ITEMSTACK_INDEX, Optional.of(stack));
     }
     
     @Override
     protected void entityInit() {
         super.entityInit();
         
-        dataWatcher.addObject(ITEMSTACK_INDEX, BiomeExtract.getInstance().createItemStack(null, 1));
+        dataWatcher.register(ITEMSTACK_INDEX, Optional.of(BiomeExtract.getInstance().createItemStack(null, 1)));
     }
 
     @Override

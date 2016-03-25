@@ -7,9 +7,9 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
@@ -48,7 +48,17 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
         return super.canPlaceBlockAt(world, blockPos) ||
                 world.getBlockState(blockPos.add(0, -1, 0)).getBlock() == SanguinaryPedestal.getInstance();
     }
-    
+
+    @Override
+    protected void playClickOnSound(World worldIn, BlockPos color) {
+
+    }
+
+    @Override
+    protected void playClickOffSound(World worldIn, BlockPos pos) {
+
+    }
+
     /**
      * Damage the given entity.
      * @param world The world.
@@ -78,7 +88,7 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	protected int computeRedstoneStrength(World world, BlockPos blockPos) {
-        AxisAlignedBB axisalignedbb = this.getSensitiveAABB(blockPos);
+        AxisAlignedBB axisalignedbb = this.getBoundingBox(world.getBlockState(blockPos), world, blockPos);
 		List list = world.getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb);
 
         int ret = 0;
@@ -95,34 +105,34 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 	}
 
     protected int getRedstoneStrength(IBlockState blockState) {
-        return ((Boolean)blockState.getValue(POWERED)) ? 15 : 0;
+        return blockState.getValue(POWERED) ? 15 : 0;
     }
 
     protected IBlockState setRedstoneStrength(IBlockState blockState, int meta) {
         return blockState.withProperty(POWERED, meta > 0);
     }
-	
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos blockPos) {
         IBlockState blockState = world.getBlockState(blockPos);
         boolean flag = this.getRedstoneStrength(blockState) > 0;
         float offset = 0F;
         float f = 0.0775F;
-        
+
         TileEntity tile = world.getTileEntity(blockPos.add(0, -1, 0));
-		if(tile != null && tile instanceof TileSanguinaryPedestal) {
-			offset = -0.025F;
-		}
+        if(tile != null && tile instanceof TileSanguinaryPedestal) {
+            offset = -0.025F;
+        }
 
         if (flag) {
-            this.setBlockBounds(f, offset, f, 1.0F - f, 0.03125F + offset, 1.0F - f);
+            return new AxisAlignedBB(f, offset, f, 1.0F - f, 0.03125F + offset, 1.0F - f);
         } else {
-            this.setBlockBounds(f, offset, f, 1.0F - f, 0.0625F + offset, 1.0F - f);
+            return new AxisAlignedBB(f, offset, f, 1.0F - f, 0.0625F + offset, 1.0F - f);
         }
     }
 	
 	@Override
-	public boolean canCreatureSpawn(IBlockAccess world, BlockPos blockPos, EntityLiving.SpawnPlacementType type) {
+	public boolean canCreatureSpawn(IBlockState blockState, IBlockAccess world, BlockPos blockPos, EntityLiving.SpawnPlacementType type) {
 		return true;
     }
 

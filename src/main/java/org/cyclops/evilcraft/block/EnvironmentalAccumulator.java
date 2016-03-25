@@ -1,9 +1,10 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -65,18 +66,18 @@ public class EnvironmentalAccumulator
 	public EnvironmentalAccumulator(ExtendedConfig<BlockConfig> eConfig) {
 		super(eConfig, Material.iron, TileEnvironmentalAccumulator.class);
 		this.setRotatable(true);
-		this.setStepSound(soundTypeMetal);
+		this.setStepSound(SoundType.METAL);
 		this.setHardness(50.0F);
 		this.setResistance(6000000.0F);   // Can not be destroyed by explosions
 	}
 	
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState blockState) {
 		return false;
 	}
 	
 	@Override
-	public boolean isNormalCube() {
+	public boolean isNormalCube(IBlockState blockState) {
 	    return false;
 	}
 

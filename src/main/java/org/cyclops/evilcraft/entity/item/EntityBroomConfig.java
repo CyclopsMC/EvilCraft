@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -19,7 +20,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class BowlOfPromises extends ConfigurableItem {
+public class BowlOfPromises extends ConfigurableItem implements IItemColor {
 
     private static BowlOfPromises _instance = null;
     public static final int ACTIVE_META = 2;
@@ -53,14 +54,14 @@ public class BowlOfPromises extends ConfigurableItem {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
+    public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
         if(itemStack.getItemDamage() > 1 && renderPass == 0) {
             float division = (((float) ((((BowlOfPromisesConfig) getConfig()).getTiers() -
                     (itemStack.getItemDamage() - 2)) - 1) / 3) + 1);
             int channel = (int) (255 / division);
             return Helpers.RGBToInt(channel, channel, channel);
         }
-        return super.getColorFromItemStack(itemStack, renderPass);
+        return -1;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

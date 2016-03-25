@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
@@ -34,7 +35,12 @@ public class DarkBrickConfig extends BlockConfig {
 
     @Override
     protected IConfigurable initSubInstance() {
-        Block block = new ConfigurableBlock(this, Material.rock).setHardness(5.0F).setStepSound(Block.soundTypeStone);
+        Block block = new ConfigurableBlock(this, Material.rock) {
+            @Override
+            public SoundType getStepSound() {
+                return SoundType.STONE;
+            }
+        }.setHardness(5.0F);
         block.setHarvestLevel("pickaxe", 2);
         return (ConfigurableBlock) block;
     }

@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.world;
 
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 
 /**
@@ -10,13 +11,12 @@ import net.minecraft.world.WorldProvider;
 public class FakeWorldProvider extends WorldProvider {
 
 	@Override
-	public String getDimensionName() {
+	public String getSaveFolder() {
 		return "FakeWorld";
 	}
 
     @Override
-    public String getInternalNameSuffix() {
-        return "FakeWorld";
+    public DimensionType getDimensionType() {
+        return DimensionType.OVERWORLD;
     }
-
 }

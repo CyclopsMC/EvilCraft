@@ -6,9 +6,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -87,7 +87,7 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 				// Try to fill fluid container items below
 				List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class,
 						new AxisAlignedBB(getPos().offset(down), getPos().offset(down).add(1, 1, 1)),
-						EntitySelectors.selectAnything);
+						EntitySelectors.IS_ALIVE);
 				for(Entity entity : entities) {
 					if(!getTank().isEmpty() && entity instanceof EntityItem) {
 						EntityItem item = (EntityItem) entity;

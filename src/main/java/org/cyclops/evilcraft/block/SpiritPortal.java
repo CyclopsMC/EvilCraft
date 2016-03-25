@@ -1,11 +1,13 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -34,26 +36,30 @@ public class SpiritPortal extends ConfigurableBlockContainer {
 	public SpiritPortal(ExtendedConfig<BlockConfig> eConfig) {
 		super(eConfig, Material.iron, TileSpiritPortal.class);
 		this.setRotatable(true);
-		this.setStepSound(soundTypeCloth);
+		this.setStepSound(SoundType.CLOTH);
 		this.setHardness(50.0F);
 		this.setResistance(6000000.0F);   // Can not be destroyed by explosions
-        this.setBlockBounds(0.4F, 0.4F, 0.4F, 0.6F, 0.6F, 0.6F);
         this.setLightLevel(0.5F);
         this.setRotatable(false);
 	}
 
     @Override
-    public boolean isOpaqueCube() {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState worldIn, World pos, BlockPos state) {
+        return new AxisAlignedBB(0.4F, 0.4F, 0.4F, 0.6F, 0.6F, 0.6F);
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }
 
     @Override
-    public int getRenderType() {
-        return -1;
+    public EnumBlockRenderType getRenderType(IBlockState blockState) {
+        return EnumBlockRenderType.INVISIBLE;
     }
 
     @Override
-    public boolean isNormalCube() {
+    public boolean isNormalCube(IBlockState blockState) {
         return false;
     }
 	
@@ -63,15 +69,15 @@ public class SpiritPortal extends ConfigurableBlockContainer {
 	    world.setBlockToAir(blockPos);
 	}
 
-    protected static boolean canReplaceBlock(Block block) {
-        return block != null && (block == Blocks.air || block.getMaterial().isReplaceable());
+    protected static boolean canReplaceBlock(IBlockState blockState, IBlockAccess world, BlockPos pos) {
+        return blockState != null && (blockState.getBlock().isAir(blockState, world, pos)|| blockState.getMaterial().isReplaceable());
     }
 
     public static boolean tryPlacePortal(World world, BlockPos blockPos) {
         int attempts = 9;
         for(RegionIterator it = new RegionIterator(blockPos, 1, true); it.hasNext() && attempts >= 0;) {
             BlockPos location = it.next();
-            if(canReplaceBlock(world.getBlockState(location).getBlock())) {
+            if(canReplaceBlock(world.getBlockState(location), world, blockPos)) {
                 world.setBlockState(location, SpiritPortal.getInstance().getDefaultState(),
                         MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                 return true;

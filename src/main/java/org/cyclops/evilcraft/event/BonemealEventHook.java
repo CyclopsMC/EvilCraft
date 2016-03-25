@@ -5,7 +5,7 @@ import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockSapling;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockSapling;
 
 /**
  * Event hook for {@link BonemealEvent}.

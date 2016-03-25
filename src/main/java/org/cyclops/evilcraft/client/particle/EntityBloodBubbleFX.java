@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.particle.EntitySplashFX;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -41,9 +41,9 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
         this.particleGreen = 0.0F;
         this.particleBlue = 0.0F;
 
-        this.motionX = speedX;
-        this.motionY = speedY + 0.1D;
-        this.motionZ = speedZ;
+        this.xSpeed = speedX;
+        this.ySpeed = speedY + 0.1D;
+        this.zSpeed = speedZ;
     }
 
     @Override
@@ -51,13 +51,13 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-        this.motionY += 0.002D;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.85D;
-        this.motionY *= 0.85D;
-        this.motionZ *= 0.85D;
+        this.ySpeed += 0.002D;
+        this.moveEntity(this.xSpeed, this.ySpeed, this.zSpeed);
+        this.xSpeed *= 0.85D;
+        this.ySpeed *= 0.85D;
+        this.zSpeed *= 0.85D;
         if (this.particleMaxAge-- <= 0) {
-            this.setDead();
+            this.setExpired();
         }
     }
 
@@ -82,13 +82,13 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
                             + (rotatedDirection == EnumFacing.EAST || rotatedDirection == EnumFacing.WEST ?
                             (0.3 + random.nextDouble() * 0.4) : 0);
 
-                    float particleMotionX = -0.1F + random.nextFloat() * 0.2F;
-                    float particleMotionY = 0.01F;
-                    float particleMotionZ = -0.1F + random.nextFloat() * 0.2F;
+                    float particlexSpeed = -0.1F + random.nextFloat() * 0.2F;
+                    float particleySpeed = 0.01F;
+                    float particlezSpeed = -0.1F + random.nextFloat() * 0.2F;
 
                     FMLClientHandler.instance().getClient().effectRenderer.addEffect(
                             new EntityBloodBubbleFX(world, particleX, particleY, particleZ,
-                                    particleMotionX, particleMotionY, particleMotionZ)
+                                    particlexSpeed, particleySpeed, particlezSpeed)
                     );
                 }
             }

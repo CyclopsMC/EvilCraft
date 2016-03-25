@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
@@ -11,9 +12,13 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,13 +26,14 @@ import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
+import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
-import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import org.cyclops.evilcraft.core.world.FakeWorld;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
@@ -64,68 +70,35 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
         super(eConfig, Material.iron, TileBoxOfEternalClosure.class);
         
         this.setHardness(2.5F);
-        this.setStepSound(soundTypePiston);
+        this.setStepSound(SoundType.METAL);
         this.setRotatable(true);
 
 		MinecraftForge.EVENT_BUS.register(this);
     }
+
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World world, BlockPos blockPos) {
+		EnumFacing rotation = world.getBlockState(blockPos).getValue(FACING);
+		if(rotation == EnumFacing.EAST || rotation == EnumFacing.WEST) {
+			return new AxisAlignedBB(0.25F, 0F, 0.0F, 0.75F, 0.43F, 1.0F);
+		} else {
+			return new AxisAlignedBB(0.0F, 0F, 0.25F, 1.0F, 0.43F, 0.75F);
+		}
+	}
     
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
-    	EnumFacing rotation = world.getBlockState(blockPos).getValue(FACING);
-        if(rotation == EnumFacing.EAST || rotation == EnumFacing.WEST) {
-        	setBlockBounds(0.25F, 0F, 0.0F, 0.75F, 0.43F, 1.0F);
-        } else {
-        	setBlockBounds(0.0F, 0F, 0.25F, 1.0F, 0.43F, 0.75F);
-        }
+    public EnumBlockRenderType getRenderType(IBlockState blockState) {
+    	return EnumBlockRenderType.MODEL;
     }
     
     @Override
-    public int getRenderType() {
-    	return -1;
-    }
-    
-    @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState blockState) {
     	return false;
     }
     
     @Override
-    public boolean isNormalCube() {
+    public boolean isNormalCube(IBlockState blockState) {
     	return false;
-    }
-    
-    /**
-     * Get the ID of an inner spirit, can be -1.
-     * @param itemStack The item stack.
-     * @return The ID or -1.
-     */
-    public int getSpiritID(ItemStack itemStack) {
-		if(hasPlayer(itemStack)) {
-			return -1;
-		}
-    	NBTTagCompound tag = itemStack.getTagCompound();
-		if(tag != null) {
-			NBTTagCompound spiritTag = tag.getCompoundTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT);
-			if(spiritTag != null) {
-				String innerEntity = spiritTag.getString(VengeanceSpirit.NBTKEY_INNER_SPIRIT);
-				if(innerEntity != null && !innerEntity.isEmpty()) {
-					try {
-						Class<?> clazz = Class.forName(innerEntity);
-                        if(!VengeanceSpirit.canSustainClass(clazz)) return -1;
-						Integer ret = ObfuscationHelpers.getClassToID().get(clazz);
-						if(ret == null) {
-							return -1;
-						} else {
-							return ret;
-						}
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		return -1;
     }
     
     /**
@@ -220,7 +193,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
 	@Override
 	public String getInfo(ItemStack itemStack) {
-		String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general." + Reference.MOD_ID + ".info.empty");
+		String content = TextFormatting.ITALIC + L10NHelpers.localize("general." + Reference.MOD_ID + ".info.empty");
 		if(hasPlayer(itemStack)) {
 			content = getPlayerName(itemStack);
 		} else {
@@ -229,8 +202,8 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 				content = L10NHelpers.getLocalizedEntityName(id);
 			}
 		}
-		return EnumChatFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
-				EnumChatFormatting.RESET + content);
+		return TextFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
+				TextFormatting.RESET + content);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -242,7 +215,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
     @Override
 	public boolean canPlaceBlockAt(World world, BlockPos blockPos) {
-    	return World.doesBlockHaveSolidTopSurface(world, blockPos.add(0, -1, 0));
+		return BlockHelpers.doesBlockHaveSolidTopSurface(world, blockPos);
     }
     
     @Override
@@ -255,30 +228,37 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     }
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityplayer, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityplayer, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
     	if(world.getTileEntity(blockPos) != null) {
 	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
 	    	if(tile.getSpiritInstance() != null) {
-	    		world.playSoundEffect(blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, "random.chestopen",
-	    				0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+				EvilCraft.proxy.playSound(
+						(double) blockPos.getX() + 0.5D,
+						(double) blockPos.getY() + 0.5D,
+						(double) blockPos.getZ() + 0.5D,
+						"block.chest.open",
+						SoundCategory.BLOCKS,
+						0.5F,
+						world.rand.nextFloat() * 0.1F + 0.5F
+				);
 	    		if(!world.isRemote) {
 	    			tile.releaseSpirit();
 	    		}
 	    		return true;
 	    	}
     	}
-    	return super.onBlockActivated(world, blockPos, state, entityplayer, side, hitX, hitY, hitZ);
+    	return super.onBlockActivated(world, blockPos, state, entityplayer, hand, heldItem, side, hitX, hitY, hitZ);
     }
     
     @Override
-    public int getLightValue(IBlockAccess world, BlockPos blockPos) {
+    public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos blockPos) {
     	if(world.getTileEntity(blockPos) != null) {
 	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
 	    	if(tile.getLidAngle() > 0) {
 	    		return LIGHT_LEVEL;
 	    	}
     	}
-        return super.getLightValue(world, blockPos);
+        return super.getLightValue(blockState, world, blockPos);
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -294,19 +274,19 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     }
 
     @Override
-    public boolean hasComparatorInputOverride() {
+    public boolean hasComparatorInputOverride(IBlockState blockState) {
         return true;
     }
 
     @Override
-    public int getComparatorInputOverride(World world, BlockPos blockPos) {
+    public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos blockPos) {
         if(world.getTileEntity(blockPos) != null) {
             TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
             if(tile.getSpiritInstance() != null) {
                 return 15;
             }
         }
-        return super.getComparatorInputOverride(world, blockPos);
+        return super.getComparatorInputOverride(blockState, world, blockPos);
     }
 
 }

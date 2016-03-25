@@ -2,13 +2,14 @@ package org.cyclops.evilcraft.tileentity;
 
 import com.google.common.collect.Lists;
 import lombok.Getter;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -22,6 +23,7 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
@@ -238,7 +240,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
                 double particleMotionX = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.cos(rotationYaw / 180.0F * (float)Math.PI) * speed;
                 double particleMotionY = MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI) * -speed;
-                double particleMotionZ = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.sin(rotationYaw / 180.0F * (float)Math.PI) * speed;
+                double particleMotionZ = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * speed;
 
                 FMLClientHandler.instance().getClient().effectRenderer.addEffect(
                         new EntityBloodBubbleFX(worldObj, particleX, particleY, particleZ,
@@ -309,8 +311,9 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     @Override
     public void onStateChanged() {
         sendUpdate();
-        worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(SanguinaryEnvironmentalAccumulator.ON, isWorking()));
-        worldObj.markBlockForUpdate(getPos()); // Update light
+        IBlockState blockState = worldObj.getBlockState(getPos()).withProperty(SanguinaryEnvironmentalAccumulator.ON, isWorking());
+        worldObj.setBlockState(getPos(), blockState);
+        worldObj.notifyBlockUpdate(getPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT); // Update light
     }
 
 	@Override

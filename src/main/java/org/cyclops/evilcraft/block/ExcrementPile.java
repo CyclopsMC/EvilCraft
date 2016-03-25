@@ -10,16 +10,16 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -61,58 +61,47 @@ public class ExcrementPile extends ConfigurableBlock {
 
     public ExcrementPile(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.clay);
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
         this.setTickRandomly(true);
-        this.setBlockBoundsForPileDepth(0);
     }
-    
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
+    }
+
     @Override
     public Item getItemDropped(IBlockState blockState, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
 
-    public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
-    {
-        return ((Integer)worldIn.getBlockState(pos).getValue(LAYERS)) < 5;
+    public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
+        return worldIn.getBlockState(pos).getValue(LAYERS) < 5;
     }
 
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
-    {
-        int i = ((Integer)state.getValue(LAYERS)) - 1;
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+        AxisAlignedBB bb = getBoundingBox(blockState, worldIn, pos);
+        int i = blockState.getValue(LAYERS) - 1;
         float f = 0.125F;
-        return new AxisAlignedBB((double)pos.getX() + this.minX, (double)pos.getY() + this.minY, (double)pos.getZ() + this.minZ, (double)pos.getX() + this.maxX, (double)((float)pos.getY() + (float)i * f), (double)pos.getZ() + this.maxZ);
+        return new AxisAlignedBB((double)pos.getX() + bb.minX, (double)pos.getY() + bb.minY, (double)pos.getZ() + bb.minZ, (double)pos.getX() + bb.maxX, (double)((float)pos.getY() + (float)i * f), (double)pos.getZ() + bb.maxZ);
     }
     
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }
     
     @Override
-    public boolean isNormalCube() {
+    public boolean isNormalCube(IBlockState blockState) {
         return false;
-    }
-    
-    @Override
-    public void setBlockBoundsForItemRender() {
-        this.setBlockBoundsForPileDepth(0);
-    }
-    
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
-        this.setBlockBoundsForPileDepth(world.getBlockState(blockPos));
     }
 
-    protected void setBlockBoundsForPileDepth(int height) {
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, (float)height / 8.0F, 1.0F);
+    @Override
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+        return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, (float)getHeight(blockState) / 8.0F, 1.0F);
     }
 
     protected int getHeight(IBlockState blockState) {
-        return (Integer) blockState.getValue(LAYERS);
-    }
-    
-    protected void setBlockBoundsForPileDepth(IBlockState blockState) {
-        setBlockBoundsForPileDepth(getHeight(blockState));
+        return blockState.getValue(LAYERS);
     }
 
     @Override
@@ -120,20 +109,20 @@ public class ExcrementPile extends ConfigurableBlock {
         IBlockState blockState = world.getBlockState(blockPos.add(0, -1, 0));
         if (blockState == null) return false;
         if (blockState.getBlock() == this && (Integer) blockState.getValue(LAYERS) == 8) return true;
-        return (blockState.getBlock().isLeaves(world, blockPos.add(0, -1, 0))
-                || blockState.getBlock().isOpaqueCube()) && blockState.getBlock().getMaterial().blocksMovement();
+        return (blockState.getBlock().isLeaves(blockState, world, blockPos.add(0, -1, 0))
+                || blockState.isOpaqueCube()) && blockState.getBlock().getMaterial(blockState).blocksMovement();
     }
     
     @Override
     public boolean canHarvestBlock(IBlockAccess world, BlockPos blockPos, EntityPlayer player) {
-        return player.getCurrentEquippedItem() != null
+        return player.getActiveItemStack() != null
                 && Configs.isEnabled(BroomConfig.class)
-                && player.getCurrentEquippedItem().getItem() == Broom.getInstance();
+                && player.getActiveItemStack().getItem() == Broom.getInstance();
     }
 
     @Override
-    public void harvestBlock(World world, EntityPlayer player, BlockPos blockPos, IBlockState blockState, TileEntity tile) {
-        super.harvestBlock(world, player, blockPos, blockState, tile);
+    public void harvestBlock(World world, EntityPlayer player, BlockPos blockPos, IBlockState blockState, TileEntity tile, ItemStack heldItem) {
+        super.harvestBlock(world, player, blockPos, blockState, tile, heldItem);
         world.setBlockToAir(blockPos);
     }
 
@@ -171,7 +160,7 @@ public class ExcrementPile extends ConfigurableBlock {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public void randomDisplayTick(World world, BlockPos blockPos, IBlockState blockState, Random random) {
+    public void randomDisplayTick(IBlockState blockState, World world, BlockPos blockPos, Random random) {
         if(random.nextInt(100) == 0) {
             float height = (float)(getHeight(blockState)) / 8.0F;
             double d0 = (double)blockPos.getX() + 0.5D + ((double)random.nextFloat() - 0.5D) * 0.2D;
@@ -187,8 +176,8 @@ public class ExcrementPile extends ConfigurableBlock {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
-        return side == EnumFacing.UP || super.shouldSideBeRendered(world, blockPos, side);
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos blockPos, EnumFacing side) {
+        return side == EnumFacing.UP || super.shouldSideBeRendered(blockState, world, blockPos, side);
     }
 
     @Override
@@ -197,7 +186,7 @@ public class ExcrementPile extends ConfigurableBlock {
     }
 
     @Override
-    public boolean isReplaceable(World world, BlockPos blockPos) {
+    public boolean isReplaceable(IBlockAccess world, BlockPos blockPos) {
         return true;
     }
     
@@ -214,13 +203,13 @@ public class ExcrementPile extends ConfigurableBlock {
             // Pigs love excrement
             if(entity instanceof EntityPig) {
                 if(isChanceWithHeight(world, blockPos)) {
-                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.heal.id, PIG_BOOST_DURATION * 20, 1));
-                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.moveSpeed.id, PIG_BOOST_DURATION * 20, 1));
+                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.heal, PIG_BOOST_DURATION * 20, 1));
+                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.moveSpeed, PIG_BOOST_DURATION * 20, 1));
                 }
             } else if(entity instanceof EntityPlayer || ExcrementPileConfig.poisonEntities) {
                 // Poison player or mob with a chance depending on the height of the pile.
                 if(isChanceWithHeight(world, blockPos))
-                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
+                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.poison, POISON_DURATION * 20, 1));
             }
         }
         super.onEntityCollidedWithBlock(world, blockPos, entity);

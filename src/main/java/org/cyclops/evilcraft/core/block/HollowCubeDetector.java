@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.block;
 
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
 import java.util.List;

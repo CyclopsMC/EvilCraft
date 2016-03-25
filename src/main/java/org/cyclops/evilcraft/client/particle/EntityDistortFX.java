@@ -17,13 +17,13 @@ public class EntityDistortFX extends EntityFX {
      * @param x X coordinate.
      * @param y Y coordinate.
      * @param z Z coordinate.
-     * @param motionX X axis speed.
-     * @param motionY Y axis speed.
-     * @param motionZ Z axis speed.
+     * @param xSpeed X axis speed.
+     * @param ySpeed Y axis speed.
+     * @param zSpeed Z axis speed.
      * @param scale Scale of the particle.
      */
-    public EntityDistortFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale) {
-        super(world, x, y, z, motionX, motionY, motionZ);
+    public EntityDistortFX(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float scale) {
+        super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         
         particleScale = scale;
         particleAlpha = 0.3F;
@@ -32,8 +32,6 @@ public class EntityDistortFX extends EntityFX {
         particleRed = 1.0F * rand.nextFloat();
         particleGreen = 0.01F * rand.nextFloat();
         particleBlue = 0.5F * rand.nextFloat();
-        
-        this.noClip = false;
     }
     
     @Override

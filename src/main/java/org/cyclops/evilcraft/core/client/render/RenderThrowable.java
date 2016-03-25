@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.client.render;
 
-import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.Entity;
@@ -23,7 +23,7 @@ public class RenderThrowable extends RenderSnowball {
     }
 
     @Override
-    public ItemStack func_177082_d(Entity entity) {
+    public ItemStack getPotion(Entity entity) {
         return getItemStack((EntityThrowable) entity);
     }
 

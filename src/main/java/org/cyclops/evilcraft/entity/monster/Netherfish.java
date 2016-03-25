@@ -6,9 +6,9 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -45,18 +45,12 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
     }
     
     @Override
-    protected void entityInit() {
-        super.entityInit();
-        this.dataWatcher.addObject(16, new Byte((byte) 0));
-    }
-    
-    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         // A bit stronger than those normal silverfish...
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(12.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
     }
     
     @Override
@@ -75,12 +69,6 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
             }
         }
         super.onLivingUpdate();
-    }
-    
-    @Override
-    public boolean isBurning() {
-        // A line copied from EntityBlaze
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Vec3;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -40,10 +40,10 @@ public class MaceOfDestruction extends Mace {
     }
 
     @Override
-    protected void use(World world, EntityPlayer player, int itemUsedCount, int power) {
+    protected void use(World world, EntityLivingBase entity, int itemUsedCount, int power) {
         if(!world.isRemote) {
-            Vec3 v = player.getLookVec();
-            world.createExplosion(player, player.posX + v.xCoord * 2, player.posY + player.eyeHeight + v.yCoord * 2, player.posZ + v.zCoord * 2, ((float) itemUsedCount) / 20 + power, true);
+            Vec3d v = entity.getLookVec();
+            world.createExplosion(entity, entity.posX + v.xCoord * 2, entity.posY + entity.getEyeHeight() + v.yCoord * 2, entity.posZ + v.zCoord * 2, ((float) itemUsedCount) / 20 + power, true);
         }
     }
 }

@@ -52,7 +52,7 @@ public class PalingDegradation extends ConfigurableDegradationEffect {
             if(entity instanceof EntityLivingBase) {
                 ((EntityLivingBase) entity).addPotionEffect(
                         new PotionEffect(
-                                PotionPalingConfig._instance.ID,
+                                PotionPalingConfig._instance.getPotion(),
                                 (int) degradable.getDegradation() * PALING_DURATION_MULTIPLIER, Math.min(10, (int) degradable.getDegradation() / 10))
                         );
             }

@@ -2,7 +2,10 @@ package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
@@ -15,8 +18,8 @@ import org.cyclops.evilcraft.world.gen.DarkTempleGenerator;
  */
 public class EntityItemDarkStick extends EntityItemDefinedRotation {
 
-	private static final int WATCHERID_VALID = 20;
-	private static final int WATCHERID_ANGLE = 21;
+	private static final DataParameter<Integer> WATCHERID_VALID = EntityDataManager.<Integer>createKey(EntityItemDarkStick.class, DataSerializers.VARINT);
+	private static final DataParameter<Float> WATCHERID_ANGLE = EntityDataManager.<Float>createKey(EntityItemDarkStick.class, DataSerializers.FLOAT);
 
     private double lastPosX = -1;
     private double lastPosY = -1;
@@ -66,8 +69,8 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	public void entityInit() {
 		super.entityInit();
         Float angle = MinecraftHelpers.isClientSide() ? null : loadRotation();
-		this.dataWatcher.addObject(WATCHERID_VALID, angle != null ? 1 : 0);
-		this.dataWatcher.addObject(WATCHERID_ANGLE, angle == null ? 0 : angle);
+		this.dataWatcher.register(WATCHERID_VALID, angle != null ? 1 : 0);
+		this.dataWatcher.register(WATCHERID_ANGLE, angle == null ? 0 : angle);
 	}
 
     protected boolean hasMoved() {
@@ -109,19 +112,19 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	}
 
 	public float getAngle() {
-		return dataWatcher.getWatchableObjectFloat(WATCHERID_ANGLE);
+		return dataWatcher.get(WATCHERID_ANGLE);
 	}
 
 	protected void setAngle(float angle) {
-		this.dataWatcher.updateObject(WATCHERID_ANGLE, angle);
+		this.dataWatcher.set(WATCHERID_ANGLE, angle);
 	}
 
 	public boolean isValid() {
-		return dataWatcher.getWatchableObjectInt(WATCHERID_VALID) == 1;
+		return dataWatcher.get(WATCHERID_VALID) == 1;
 	}
 
 	protected void setValid(boolean valid) {
-		this.dataWatcher.updateObject(WATCHERID_VALID, valid ? 1 : 0);
+		this.dataWatcher.set(WATCHERID_VALID, valid ? 1 : 0);
 	}
 	
 }

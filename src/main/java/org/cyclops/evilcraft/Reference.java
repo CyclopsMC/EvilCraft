@@ -17,7 +17,7 @@ public class Reference {
     public static final String MOD_CHANNEL = MOD_ID;
     public static final String MOD_MC_VERSION = "@MC_VERSION@";
     public static final String GA_TRACKING_ID = "UA-65307010-2";
-    public static final String VERSION_URL = "https://raw.githubusercontent.com/CyclopsMC/Versions/master/1.8/EvilCraft.txt";
+    public static final String VERSION_URL = "https://raw.githubusercontent.com/CyclopsMC/Versions/master/1.9/EvilCraft.txt";
 
     // IMC keys
     public static final String IMC_BLACKLIST_VENGEANCESPIRIT = "blacklistVengeanceSpirit";
@@ -71,10 +71,10 @@ public class Reference {
     // MOD ID's
     public static final String MOD_FORGE = "Forge";
     public static final String MOD_FORGE_VERSION = "@FORGE_VERSION@";
-    public static final String MOD_FORGE_VERSION_MIN = "11.15.1.1722";
+    public static final String MOD_FORGE_VERSION_MIN = "12.16.0.1767";
     public static final String MOD_CYCLOPSCORE = "cyclopscore";
     public static final String MOD_CYCLOPSCORE_VERSION = "@CYCLOPSCORE_VERSION@";
-    public static final String MOD_CYCLOPSCORE_VERSION_MIN = "0.5.1";
+    public static final String MOD_CYCLOPSCORE_VERSION_MIN = "0.5.3";
     public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
     public static final String MOD_WAILA = "Waila";
     public static final String MOD_FMP = "ForgeMultipart";

@@ -4,7 +4,7 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -48,7 +48,7 @@ public class LivingUpdateEventHook {
             EntityAnimal entity = (EntityAnimal) event.entity;
             World world = entity.worldObj;
             BlockPos blockPos = entity.getPosition();
-            if(world.getBlockState(blockPos).getBlock() == Blocks.air && world.getBlockState(blockPos.add(0, -1, 0)).getBlock().isNormalCube()) {
+            if(world.getBlockState(blockPos).getBlock() == Blocks.air && world.getBlockState(blockPos.add(0, -1, 0)).isNormalCube()) {
                 world.setBlockState(blockPos, ExcrementPile.getInstance().getDefaultState());
             } else if(world.getBlockState(blockPos).getBlock() == ExcrementPile.getInstance()) {
                 ExcrementPile.getInstance().heightenPileAt(world, blockPos);

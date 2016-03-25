@@ -24,22 +24,12 @@ public class ObfuscationData {
 	/**
 	 * Method from net.minecraft.entity.EntityLivingBase.
 	 */
-	public static final String[] ENTITYLIVINGBASE_GETDEATHSOUND = new String[] { "getDeathSound", "func_70673_aS", "aS" };
+	public static final String[] ENTITYLIVINGBASE_GETDEATHSOUND = new String[] { "getDeathSound", "func_184615_bR", "bR" };
 	
 	/**
 	 * Method from net.minecraft.entity.EntityLiving.
 	 */
-	public static final String[] ENTITYLIVING_GETLIVINGSOUND = new String[] { "getLivingSound", "func_70639_aQ", "aQ" };
-	
-	/**
-	 * Field from net.minecraft.entity.player.EntityPlayer.
-	 */
-	public static final String[] ENTITYPLAYER_ITEMINUSECOUNT = new String[] { "itemInUseCount", "field_71072_f", "f" };
-	
-	/**
-	 * Field from net.minecraft.entity.player.EntityPlayer.
-	 */
-	public static final String[] ENTITYPLAYER_ITEMINUSE = new String[] { "itemInUse", "field_71074_e", "e" };
+	public static final String[] ENTITYLIVING_GETAMBIENTSOUND = new String[] { "getAmbientSound", "func_184639_G", "G" };
 	
 	/**
 	 * Field from net.minecraft.client.gui.GuiMainMenu.

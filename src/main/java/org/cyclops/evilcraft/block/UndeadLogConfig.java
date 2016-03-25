@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.init.Blocks;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockLog;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockLog;
 
 /**
  * Config for the Undead Log.
@@ -35,8 +35,12 @@ public class UndeadLogConfig extends BlockConfig {
 
     @Override
     protected IConfigurable initSubInstance() {
-        return (ConfigurableBlockLog) new ConfigurableBlockLog(this).
-                setHardness(2.0F).setStepSound(Block.soundTypeWood);
+        return (ConfigurableBlockLog) new ConfigurableBlockLog(this) {
+            @Override
+            public SoundType getStepSound() {
+                return SoundType.WOOD;
+            }
+        }.setHardness(2.0F);
     }
     
     @Override

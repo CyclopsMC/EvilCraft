@@ -5,8 +5,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -39,6 +40,8 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 	 * @param world The world.
 	 * @param blockPos The position.
 	 * @param player Player
+     * @param hand The hand
+     * @param itemStack The held item
 	 * @param side Side integer
 	 * @param motionX X motion
 	 * @param motionY Y motion
@@ -46,9 +49,8 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 	 * @return If the event should be halted.
 	 */
 	public boolean onBlockActivatedTank(World world, BlockPos blockPos,
-			EntityPlayer player, EnumFacing side, float motionX, float motionY,
+			EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float motionX, float motionY,
 			float motionZ) {
-        ItemStack itemStack = player.inventory.getCurrentItem();
         TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
         if(tile != null) {
             if(itemStack != null) {

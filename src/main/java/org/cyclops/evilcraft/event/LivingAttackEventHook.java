@@ -34,12 +34,13 @@ public class LivingAttackEventHook {
     private void stealLife(LivingAttackEvent event) {
         if(Configs.isEnabled(EnchantmentLifeStealingConfig.class) && event.source.getEntity() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.source.getEntity();
-            ItemStack itemStack = player.getCurrentEquippedItem();
-            int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentLifeStealingConfig._instance.ID);
-            if(enchantmentListID > -1) {
+            ItemStack itemStack = player.getActiveItemStack();
+            int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentLifeStealingConfig._instance.getEnchantment());
+            if (enchantmentListID > -1) {
                 float damage = event.ammount;
                 int level = EnchantmentHelpers.getEnchantmentLevel(itemStack, enchantmentListID);
                 EnchantmentLifeStealing.stealLife(player, damage, level);
+                return;
             }
         }
     }
@@ -47,11 +48,12 @@ public class LivingAttackEventHook {
     private void unusingEvent(LivingAttackEvent event) {
         if(Configs.isEnabled(EnchantmentUnusingConfig.class) && event.source.getEntity() instanceof EntityLivingBase) {
             EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
-            ItemStack itemStack = entity.getEquipmentInSlot(0);
-            if(EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentUnusingConfig._instance.ID) > -1) {
-                if(EnchantmentUnusing.unuseTool(itemStack)) {
+            ItemStack itemStack = entity.getActiveItemStack();
+            if (EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentUnusingConfig._instance.getEnchantment()) > -1) {
+                if (EnchantmentUnusing.unuseTool(itemStack)) {
                     event.setCanceled(true);
                     //player.stopUsingItem();
+                    return;
                 }
             }
         }
@@ -60,10 +62,11 @@ public class LivingAttackEventHook {
     private void breakingEvent(LivingAttackEvent event) {
         if(Configs.isEnabled(EnchantmentBreakingConfig.class) && event.source.getEntity() instanceof EntityLivingBase) {
             EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
-            ItemStack itemStack = entity.getEquipmentInSlot(0);
-            int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentBreakingConfig._instance.ID);
-            if(enchantmentListID > -1) {
+            ItemStack itemStack = entity.getActiveItemStack();
+            int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentBreakingConfig._instance.getEnchantment());
+            if (enchantmentListID > -1) {
                 EnchantmentBreaking.amplifyDamage(itemStack, enchantmentListID, new Random());
+                return;
             }
         }
     }
@@ -71,11 +74,12 @@ public class LivingAttackEventHook {
     private void poisonTipEvent(LivingAttackEvent event) {
         if(Configs.isEnabled(EnchantmentPoisonTipConfig.class) && event.source.getEntity() instanceof EntityLivingBase) {
             EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
-            ItemStack itemStack = entity.getEquipmentInSlot(0);
-            int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentPoisonTipConfig._instance.ID);
-            if(enchantmentListID > -1) {
+            ItemStack itemStack = entity.getActiveItemStack();;
+            int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentPoisonTipConfig._instance.getEnchantment());
+            if (enchantmentListID > -1) {
                 int level = EnchantmentHelpers.getEnchantmentLevel(itemStack, enchantmentListID);
-                EnchantmentPoisonTip.poison((EntityLivingBase)event.entity, level);
+                EnchantmentPoisonTip.poison((EntityLivingBase) event.entity, level);
+                return;
             }
         }
     }

@@ -11,10 +11,15 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
@@ -26,6 +31,7 @@ import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.IChangedCallback;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.Configs;
@@ -69,17 +75,17 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * The maximum life duration in ticks the spirits should have.
      */
     public static final int REMAININGLIFE_MAX = 1000;
-    
-    private static final int WATCHERID_INNER = 20;
-    private static final int WATCHERID_REMAININGLIFE = 21;
-    private static final int WATCHERID_FROZENDURATION = 22;
-    private static final int WATCHERID_GLOBALVENGEANCE = 23;
-    private static final int WATCHERID_VENGEANCEPLAYERS = 24;
-    private static final int WATCHERID_ISSWARM = 25;
-    private static final int WATCHERID_SWARMTIER = 26;
-    private static final int WATCHERID_BUILDUP = 27;
-    private static final int WATCHERID_PLAYERID = 28;
-    private static final int WATCHERID_PLAYERNAME = 29;
+
+    private static final DataParameter<String> WATCHERID_INNER = EntityDataManager.<String>createKey(VengeanceSpirit.class, DataSerializers.STRING);
+    private static final DataParameter<Integer> WATCHERID_REMAININGLIFE = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> WATCHERID_FROZENDURATION = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> WATCHERID_GLOBALVENGEANCE = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
+    private static final DataParameter<String> WATCHERID_VENGEANCEPLAYERS = EntityDataManager.<String>createKey(VengeanceSpirit.class, DataSerializers.STRING);
+    private static final DataParameter<Integer> WATCHERID_ISSWARM = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> WATCHERID_SWARMTIER = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> WATCHERID_BUILDUP = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
+    private static final DataParameter<String> WATCHERID_PLAYERID = EntityDataManager.<String>createKey(VengeanceSpirit.class, DataSerializers.STRING);
+    private static final DataParameter<String> WATCHERID_PLAYERNAME = EntityDataManager.<String>createKey(VengeanceSpirit.class, DataSerializers.STRING);
     
     /**
      * The NBT key used to store the inner entity name.
@@ -100,7 +106,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         this.setSize(1, 1); // Dummy size, to avoid rare bounding box crashes before inner entity is init.
         
         double speed = 0.5D;
-        double damage = 0.5D;
+        float damage = 0.5F;
         int remainingLife = MathHelper.getRandomIntegerInRange(world.rand, REMAININGLIFE_MIN,
         		REMAININGLIFE_MAX);
         if(isSwarm()) {
@@ -109,12 +115,12 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         	remainingLife += (REMAININGLIFE_MAX - REMAININGLIFE_MIN) * getSwarmTier();
         }
         
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speed);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(speed);
         
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIWander(this, 0.6D));
         this.tasks.addTask(2, new EntityAILookIdle(this));
-        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, damage, false));
+        this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, damage));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true, false));
@@ -130,7 +136,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     	if(eggList.size() > 0) {
 	    	EntityList.EntityEggInfo egg = eggList.get(rand.nextInt(eggList.size()));
 	    	if(egg != null) {
-		    	Class<Entity> clazz = (Class<Entity>) EntityList.stringToClassMapping.get(egg.name);
+		    	Class<Entity> clazz = (Class<Entity>) EntityList.stringToClassMapping.get(egg.spawnedID);
 		    	if(clazz != null) {
 		    		return clazz.getName();
 		    	}
@@ -142,16 +148,16 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     @Override
 	public void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(WATCHERID_INNER, getRandomInnerEntity());
-        this.dataWatcher.addObject(WATCHERID_REMAININGLIFE, 0);
-        this.dataWatcher.addObject(WATCHERID_FROZENDURATION, 0);
-        this.dataWatcher.addObject(WATCHERID_GLOBALVENGEANCE, 0);
-        this.dataWatcher.addObject(WATCHERID_VENGEANCEPLAYERS, "");
-        this.dataWatcher.addObject(WATCHERID_ISSWARM, 0);
-        this.dataWatcher.addObject(WATCHERID_SWARMTIER, rand.nextInt(SWARM_TIERS));
-        this.dataWatcher.addObject(WATCHERID_BUILDUP, 0);
-        this.dataWatcher.addObject(WATCHERID_PLAYERID, "");
-        this.dataWatcher.addObject(WATCHERID_PLAYERNAME, "");
+        this.dataWatcher.register(WATCHERID_INNER, getRandomInnerEntity());
+        this.dataWatcher.register(WATCHERID_REMAININGLIFE, 0);
+        this.dataWatcher.register(WATCHERID_FROZENDURATION, 0);
+        this.dataWatcher.register(WATCHERID_GLOBALVENGEANCE, 0);
+        this.dataWatcher.register(WATCHERID_VENGEANCEPLAYERS, "");
+        this.dataWatcher.register(WATCHERID_ISSWARM, 0);
+        this.dataWatcher.register(WATCHERID_SWARMTIER, rand.nextInt(SWARM_TIERS));
+        this.dataWatcher.register(WATCHERID_BUILDUP, 0);
+        this.dataWatcher.register(WATCHERID_PLAYERID, "");
+        this.dataWatcher.register(WATCHERID_PLAYERNAME, "");
     }
     
     @Override
@@ -173,7 +179,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     	super.readEntityFromNBT(tag);
     	String name = tag.getString(NBTKEY_INNER_SPIRIT);
     	if(name != null)
-    		this.dataWatcher.updateObject(WATCHERID_INNER, name);
+    		this.dataWatcher.set(WATCHERID_INNER, name);
     	setRemainingLife(tag.getInteger("remainingLife"));
     	setFrozenDuration(tag.getInteger("frozenDuration"));
     	setIsSwarm(tag.getBoolean("isSwarm"));
@@ -186,10 +192,10 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(10.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(3.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3125D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(10.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(3.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3125D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
     }
     
     @Override
@@ -423,7 +429,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     	if(innerEntity != null)
     		return innerEntity;
     	try {
-			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(dataWatcher.getWatchableObjectString(WATCHERID_INNER));
+			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(dataWatcher.get(WATCHERID_INNER));
             if(!clazz.equals(VengeanceSpirit.class)) {
 				String name = (String) EntityList.classToStringMapping.get(clazz);
 				Entity entity = EntityList.createEntityByName(name, worldObj);
@@ -456,7 +462,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             setPlayerName(((EntityPlayer) innerEntity).getGameProfile().getName());
             innerEntity = new EntityZombie(worldObj);
         }
-		this.dataWatcher.updateObject(WATCHERID_INNER, innerEntity.getClass().getName());
+		this.dataWatcher.set(WATCHERID_INNER, innerEntity.getClass().getName());
 	}
 
     /**
@@ -464,7 +470,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return The remaining life.
      */
     public int getRemainingLife() {
-        return dataWatcher.getWatchableObjectInt(WATCHERID_REMAININGLIFE);
+        return dataWatcher.get(WATCHERID_REMAININGLIFE);
 	}
 
     /**
@@ -472,7 +478,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @param remainingLife The remaining life.
      */
 	public void setRemainingLife(int remainingLife) {
-        this.dataWatcher.updateObject(WATCHERID_REMAININGLIFE, remainingLife);
+        this.dataWatcher.set(WATCHERID_REMAININGLIFE, remainingLife);
 	}
 
     /**
@@ -480,7 +486,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return The remaining life.
      */
     public int getBuildupDuration() {
-        return dataWatcher.getWatchableObjectInt(WATCHERID_BUILDUP);
+        return dataWatcher.get(WATCHERID_BUILDUP);
     }
 
     /**
@@ -488,7 +494,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @param buildupDuration The remaining life.
      */
     public void setBuildupDuration(int buildupDuration) {
-        this.dataWatcher.updateObject(WATCHERID_BUILDUP, buildupDuration);
+        this.dataWatcher.set(WATCHERID_BUILDUP, buildupDuration);
     }
 
     /**
@@ -496,7 +502,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return The playerId.
      */
     public String getPlayerId() {
-        return dataWatcher.getWatchableObjectString(WATCHERID_PLAYERID);
+        return dataWatcher.get(WATCHERID_PLAYERID);
     }
 
     /**
@@ -523,7 +529,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @param playerId The playerId.
      */
     public void setPlayerId(String playerId) {
-        this.dataWatcher.updateObject(WATCHERID_PLAYERID, playerId);
+        this.dataWatcher.set(WATCHERID_PLAYERID, playerId);
     }
 
     /**
@@ -531,7 +537,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return The playerName.
      */
     public String getPlayerName() {
-        return dataWatcher.getWatchableObjectString(WATCHERID_PLAYERNAME);
+        return dataWatcher.get(WATCHERID_PLAYERNAME);
     }
 
     /**
@@ -539,7 +545,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @param playerName The playerName.
      */
     public void setPlayerName(String playerName) {
-        this.dataWatcher.updateObject(WATCHERID_PLAYERNAME, playerName);
+        this.dataWatcher.set(WATCHERID_PLAYERNAME, playerName);
     }
 
 	/**
@@ -547,7 +553,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * @return The frozen duration.
 	 */
 	public int getFrozenDuration() {
-		return dataWatcher.getWatchableObjectInt(WATCHERID_FROZENDURATION);
+		return dataWatcher.get(WATCHERID_FROZENDURATION);
 	}
 
 	/**
@@ -555,7 +561,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * @param frozenDuration The frozen duration.
 	 */
 	public void setFrozenDuration(int frozenDuration) {
-		this.dataWatcher.updateObject(WATCHERID_FROZENDURATION, frozenDuration);
+		this.dataWatcher.set(WATCHERID_FROZENDURATION, frozenDuration);
 	}
 	
 	/**
@@ -563,7 +569,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * @return Is globally vengeancable.
 	 */
 	public boolean isGlobalVengeance() {
-		return dataWatcher.getWatchableObjectInt(WATCHERID_GLOBALVENGEANCE) == 1;
+		return dataWatcher.get(WATCHERID_GLOBALVENGEANCE) == 1;
 	}
 
 	/**
@@ -571,7 +577,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * @param globalVengeance Is globally vengeancable.
 	 */
 	public void setGlobalVengeance(boolean globalVengeance) {
-		this.dataWatcher.updateObject(WATCHERID_GLOBALVENGEANCE, globalVengeance?1:0);
+		this.dataWatcher.set(WATCHERID_GLOBALVENGEANCE, globalVengeance ? 1 : 0);
 	}
 	
 	/**
@@ -579,7 +585,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * @return Is a swarm.
 	 */
 	public boolean isSwarm() {
-		return dataWatcher.getWatchableObjectInt(WATCHERID_ISSWARM) == 1;
+		return dataWatcher.get(WATCHERID_ISSWARM) == 1;
 	}
 
 	/**
@@ -587,7 +593,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * @param isSwarm Is a swarm.
 	 */
 	public void setIsSwarm(boolean isSwarm) {
-		this.dataWatcher.updateObject(WATCHERID_ISSWARM, isSwarm?1:0);
+		this.dataWatcher.set(WATCHERID_ISSWARM, isSwarm ? 1 : 0);
 	}
 	
 	/**
@@ -595,7 +601,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * @return The swarm tier.
 	 */
 	public int getSwarmTier() {
-		return dataWatcher.getWatchableObjectInt(WATCHERID_SWARMTIER);
+		return dataWatcher.get(WATCHERID_SWARMTIER);
 	}
 
 	/**
@@ -603,7 +609,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * @param swarmTier The tier to set.
 	 */
 	public void setSwarmTier(int swarmTier) {
-		this.dataWatcher.updateObject(WATCHERID_SWARMTIER, swarmTier);
+		this.dataWatcher.set(WATCHERID_SWARMTIER, swarmTier);
 	}
 	
 	/**
@@ -611,7 +617,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * @return The vengeanced players by display name.
 	 */
 	public String[] getVengeancePlayers() {
-		String encodedPlayers = dataWatcher.getWatchableObjectString(WATCHERID_VENGEANCEPLAYERS);
+		String encodedPlayers = dataWatcher.get(WATCHERID_VENGEANCEPLAYERS);
         if(encodedPlayers.length() == 0) {
             return new String[0];
         }
@@ -623,7 +629,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * @param vengeancePlayers The vengeanced players by display name.
 	 */
 	public void setVengeancePlayers(String[] vengeancePlayers) {
-        this.dataWatcher.updateObject(WATCHERID_VENGEANCEPLAYERS, StringUtils.join(vengeancePlayers, "&"));
+        this.dataWatcher.set(WATCHERID_VENGEANCEPLAYERS, StringUtils.join(vengeancePlayers, "&"));
 	}
 
 	/**
@@ -666,7 +672,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	public static boolean canSpawnNew(World world, BlockPos blockPos) {
 		int area = VengeanceSpiritConfig.spawnLimitArea;
 		int threshold = VengeanceSpiritConfig.spawnLimit;
-		AxisAlignedBB box = AxisAlignedBB.fromBounds(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ()).expand(area, area, area);
+		AxisAlignedBB box = new AxisAlignedBB(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ()).expand(area, area, area);
     	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABB(VengeanceSpirit.class, box);
 		if(spirits.size() >= threshold) {
             return false;
@@ -757,10 +763,10 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
                     MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1)
             );
             
-            if(World.doesBlockHaveSolidTopSurface(world, spawnPos.add(0, -1, 0))) {
+            if(BlockHelpers.doesBlockHaveSolidTopSurface(world, spawnPos.add(0, -1, 0))) {
                 spirit.setPosition((double) spawnPos.getX() + 0.5, (double) spawnPos.getY() + 0.5, (double) spawnPos.getZ() + 0.5);
                 if(world.checkNoEntityCollision(spirit.getEntityBoundingBox())
-                		&& world.getCollidingBoundingBoxes(spirit, spirit.getEntityBoundingBox()).isEmpty()
+                		&& spirit.isNotColliding()
                 		&& !world.isAnyLiquid(spirit.getEntityBoundingBox())) {
                     world.spawnEntityInWorld(spirit);
                     return spirit;
@@ -785,34 +791,23 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 		}
 		return L10NHelpers.getLocalizedEntityName(key);
 	}
-	
-	@Override
-	protected String getDeathSound() {
+
+    @Override
+	protected SoundEvent getDeathSound() {
 		if(getInnerEntity() != null) {
 			return ObfuscationHelpers.getDeathSound(getInnerEntity());
 		}
-		return "vengeanceSpiritDeath";
+		return new SoundEvent(new ResourceLocation(Reference.MOD_ID, "vengeanceSpiritDeath"));
 	}
 	
 	@Override
-	protected String getLivingSound() {
+	protected SoundEvent getAmbientSound() {
 		EntityLivingBase entity = getInnerEntity();
 		if(entity != null && entity instanceof EntityLiving) {
-			return ObfuscationHelpers.getLivingSound((EntityLiving) getInnerEntity());
+			return ObfuscationHelpers.getAmbientSound((EntityLiving) getInnerEntity());
 		}
-		return "vengeanceSpirit";
+		return new SoundEvent(new ResourceLocation("vengeanceSpirit"));
 	}
-	
-	@Override
-	public void playSound(String sound, float volume, float frequency) {
-		if(isVisible() && sound != null) {
-			if(isSwarm()) {
-				EvilCraft.proxy.playSound(posX, posY, posZ, sound, volume, frequency);
-			} else {
-				EvilCraft.proxy.playSoundMinecraft(posX, posY, posZ, sound, volume, frequency);
-			}
-		}
-    }
 
     @Optional.Method(modid = Reference.MOD_THAUMCRAFT)
     private void addWarp(EntityPlayer player) {

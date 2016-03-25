@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -30,7 +30,7 @@ public class EvilBlock extends ConfigurableBlockConnectedTexture {
     public EvilBlock(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
         this.setHardness(0.5F);
-        this.setStepSound(Block.soundTypeMetal);
+        this.setStepSound(SoundType.METAL);
         this.setHarvestLevel("pickaxe", 0);
     }
     

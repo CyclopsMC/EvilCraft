@@ -16,18 +16,18 @@ public class ExtendedEntityExplodeFX extends EntityExplodeFX {
 	 * @param x X coordinate.
 	 * @param y Y coordinate.
 	 * @param z Z coordinate.
-	 * @param motionX The X motion speed.
-	 * @param motionY The Y motion speed.
-	 * @param motionZ The Z motion speed.
+	 * @param xSpeed The X motion speed.
+	 * @param ySpeed The Y motion speed.
+	 * @param zSpeed The Z motion speed.
 	 * @param red Red tint.
 	 * @param green Green tint.
 	 * @param blue Blue tint.
 	 * @param alpha The particle alpha.
 	 */
 	public ExtendedEntityExplodeFX(World world, double x, double y, double z,
-								   double motionX, double motionY, double motionZ,
+								   double xSpeed, double ySpeed, double zSpeed,
 								   float red, float green, float blue, float alpha) {
-		super(world, x, y, z, motionX, motionY, motionZ);
+		super(world, x, y, z, xSpeed, ySpeed, zSpeed);
 		this.particleRed = red;
 		this.particleGreen = green;
 		this.particleBlue = blue;

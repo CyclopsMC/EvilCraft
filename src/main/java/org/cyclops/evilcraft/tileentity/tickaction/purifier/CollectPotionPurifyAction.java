@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
@@ -78,7 +78,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                             for(PotionEffect potionEffect : (Collection<PotionEffect>) entity.getActivePotionEffects()) {
                                 if(!potionEffect.getIsAmbient()) {
                                     // Remove effect from entity
-                                    entity.removePotionEffect(potionEffect.getPotionID());
+                                    entity.removePotionEffect(potionEffect.getPotion());
 
                                     ItemStack itemStack = new ItemStack(Items.potionitem);
 

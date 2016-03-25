@@ -15,8 +15,8 @@ public class ExtendedEntityBubbleFX extends EntityBubbleFX {
 
     private final double gravity;
 
-    public ExtendedEntityBubbleFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, double gravity) {
-        super(world, x, y, z, motionX, motionY, motionZ);
+    public ExtendedEntityBubbleFX(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, double gravity) {
+        super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.gravity = gravity;
     }
 
@@ -25,14 +25,14 @@ public class ExtendedEntityBubbleFX extends EntityBubbleFX {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-        this.motionY -= gravity;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.85D;
-        this.motionY *= 0.85D;
-        this.motionZ *= 0.85D;
+        this.ySpeed -= gravity;
+        this.moveEntity(this.xSpeed, this.ySpeed, this.zSpeed);
+        this.xSpeed *= 0.85D;
+        this.ySpeed *= 0.85D;
+        this.zSpeed *= 0.85D;
 
         if (this.particleMaxAge-- <= 0) {
-            this.setDead();
+            this.setExpired();
         }
     }
 }

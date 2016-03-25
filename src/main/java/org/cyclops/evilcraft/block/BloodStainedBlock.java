@@ -3,13 +3,13 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
@@ -144,8 +144,8 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     }
     
     @Override
-    public boolean canSetInnerBlock(Block block, IBlockAccess world, BlockPos blockPos) {
-    	return super.canSetInnerBlock(block, world, blockPos) && !isBlacklisted(block);
+    public boolean canSetInnerBlock(IBlockState blockState, Block block, IBlockAccess world, BlockPos blockPos) {
+    	return super.canSetInnerBlock(blockState, block, world, blockPos) && !isBlacklisted(block);
     }
 
     @Override
@@ -173,8 +173,8 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     }
 
     @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer() {
-        return EnumWorldBlockLayer.CUTOUT_MIPPED;
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT_MIPPED;
     }
     
     /**

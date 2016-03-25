@@ -5,8 +5,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.evilcraft.block.ExcrementPile;
 import org.cyclops.evilcraft.block.ExcrementPileConfig;
@@ -27,7 +29,7 @@ public class ExcrementPileItemBlock extends ItemBlock {
     }
     
     @Override
-    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float coordX, float coordY, float coordZ) {
+    public EnumActionResult onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumHand hand, EnumFacing side, float coordX, float coordY, float coordZ) {
 		Block block = world.getBlockState(blockPos).getBlock();
         if(player.isSneaking()) {
             boolean done = false;
@@ -41,19 +43,19 @@ public class ExcrementPileItemBlock extends ItemBlock {
                 if (!world.isRemote) {
                     world.playAuxSFX(2005, blockPos, 0);
                 }
-                return true;
+                return EnumActionResult.SUCCESS;
             }
         } else {
             if (block == ExcrementPile.getInstance() && itemStack != null) {
                 if(ExcrementPile.getInstance().canHeightenPileAt(world, blockPos)) {
                     ExcrementPile.getInstance().heightenPileAt(world, blockPos);
                     itemStack.stackSize--;
-                    return true;
+                    return EnumActionResult.SUCCESS;
                 }
-                return false;
+                return EnumActionResult.PASS;
             }
         }
-        return super.onItemUse(itemStack, player, world, blockPos, side, coordX, coordY, coordZ);
+        return super.onItemUse(itemStack, player, world, blockPos, hand, side, coordX, coordY, coordZ);
     }
 
 }

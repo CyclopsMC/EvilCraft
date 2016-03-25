@@ -9,7 +9,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -193,18 +192,6 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
         }
         return null;
     }
-
-    /**
-     * Get the entity id that is contained in a box.
-     * @return The entity or null if no box or invalid box.
-     */
-    public int getEntityID() {
-    	ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
-    	if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
-    		return BoxOfEternalClosure.getInstance().getSpiritID(boxStack);
-    	}
-    	return -1;
-    }
     
     /**
      * Get the allowed cooking item for this furnace.
@@ -247,16 +234,12 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 	public boolean canWork() {
 		ItemStack eggStack = getStackInSlot(SLOT_EGG);
 		ItemStack outputStack = getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
-        boolean validIdStack = getEntityID() != -1 && EntityList.entityEggs.get(getEntityID()) != null
+        boolean validNameStack = getEntityName() != null && EntityList.entityEggs.containsKey(getEntityName())
                 && (outputStack == null ||
                     (outputStack.getMaxStackSize() > outputStack.stackSize
-                        && outputStack.getItemDamage() == getEntityID()));
-        boolean validNameStack = getEntityName() != null && EntityRegistry.getEggs().containsKey(getEntityName())
-                && (outputStack == null ||
-                    (outputStack.getMaxStackSize() > outputStack.stackSize
-                        && getEntityName().equals(ItemMonsterPlacer.getEntityName(outputStack))));
+                        && getEntityName().equals(ItemMonsterPlacer.getEntityIdFromItem(outputStack))));
         return eggStack != null /*&& ResurgenceEgg.getInstance().isEmpty(eggStack)*/
-				&& (validIdStack || validNameStack);
+				&& validNameStack;
 	}
 	
 	@Override

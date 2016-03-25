@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -95,7 +95,7 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
 			TextureAtlasSprite icon = org.cyclops.cyclopscore.helper.RenderHelpers.getFluidIcon(fluid, side);
 
             Tessellator t = Tessellator.getInstance();
-            WorldRenderer worldRenderer = t.getWorldRenderer();
+            VertexBuffer worldRenderer = t.getBuffer();
             worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
 			
 			double[][] c = coordinates[side.ordinal()];

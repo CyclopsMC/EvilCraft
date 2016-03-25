@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
@@ -8,9 +9,10 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
@@ -45,12 +47,12 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
     public DarkBloodBrick(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
         this.setHardness(5.0F);
-        this.setStepSound(soundTypeStone);
+        this.setStepSound(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
     }
     
     @Override
-    public boolean canCreatureSpawn(IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type) {
+    public boolean canCreatureSpawn(IBlockState blockState, IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type) {
     	return false;
     }
     
@@ -93,7 +95,7 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
 	}
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side,
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side,
                                     float posX, float posY, float posZ) {
         if((Boolean) blockState.getValue(ACTIVE)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
@@ -111,11 +113,11 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
             if(tileLocation != null) {
                 world.getBlockState(tileLocation).getBlock().
                         onBlockActivated(world, tileLocation, world.getBlockState(tileLocation),
-                                player, side, posX, posY, posZ);
+                                player, hand, heldItem, side, posX, posY, posZ);
                 return true;
             }
         }
-        return super.onBlockActivated(world, blockPos, blockState, player, side, posX, posY, posZ);
+        return super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, posX, posY, posZ);
     }
 
 }

@@ -7,8 +7,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -17,6 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.client.particle.EntityDistortFX;
 import org.cyclops.evilcraft.client.particle.EntityPlayerTargettedBlurFX;
 import org.cyclops.evilcraft.client.particle.ExtendedEntityExplodeFX;
@@ -79,23 +86,25 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     }
     
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, this.powerLevels, true)) {
-            return itemStack;
+            return MinecraftHelpers.successAction(itemStack);
         } else {
             if(isUsable(itemStack, player)) {
-                player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
+                player.setActiveHand(hand);
+                return MinecraftHelpers.successAction(itemStack);
             } else {
                 if(world.isRemote) {
                     animateOutOfEnergy(world, player);
+                    return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemStack);
                 }
             }
         }
-        return itemStack;
+        return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
     }
     
     @Override
-    public void onUsingTick(ItemStack itemStack, EntityPlayer player, int duration) {
+    public void onUsingTick(ItemStack itemStack, EntityLivingBase player, int duration) {
         World world = player.worldObj;
         if(world.isRemote && duration % 2 == 0) {
             showUsingItemTick(world, itemStack, player, duration);
@@ -104,7 +113,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     }
     
     @SideOnly(Side.CLIENT)
-    protected void showUsingItemTick(World world, ItemStack itemStack, EntityPlayer player, int duration) {
+    protected void showUsingItemTick(World world, ItemStack itemStack, EntityLivingBase entity, int duration) {
         int itemUsedCount = getMaxItemUseDuration(itemStack) - duration;
         double area = getArea(itemUsedCount);
         int points = (int) (Math.pow(area, 0.55)) * 2 + 1;
@@ -119,9 +128,9 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
                     double yOffset = Math.sin(u) * area;
                     double zOffset = Math.cos(v) * area;
 
-                    double xCoord = player.posX;
-                    double yCoord = player.posY + player.eyeHeight - 0.5D;
-                    double zCoord = player.posZ;
+                    double xCoord = entity.posX;
+                    double yCoord = entity.posY + entity.getEyeHeight() - 0.5D;
+                    double zCoord = entity.posZ;
 
                     double particleX = xCoord + xOffset - world.rand.nextFloat() * area / 4 - 0.5F;
                     double particleY = yCoord + yOffset - world.rand.nextFloat() * area / 4 - 0.5F;
@@ -150,7 +159,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
 
                         FMLClientHandler.instance().getClient().effectRenderer.addEffect(
                                 new EntityPlayerTargettedBlurFX(world, scale2, motionX, motionY, motionZ, r, g, b,
-                                        ageMultiplier2, player)
+                                        ageMultiplier2, entity)
                         );
                     }
                 }
@@ -159,11 +168,11 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     }
 
     @SideOnly(Side.CLIENT)
-    protected void showUsedItemTick(World world, EntityPlayer player, int power) {
+    protected void showUsedItemTick(World world, EntityLivingBase player, int power) {
         int particles = (power + 1) * (power + 1) * (power + 1) * 10;
         for(int i = 0; i < particles; i++) {
             double x = player.posX - 0.5F + world.rand.nextDouble();
-            double y = player.posY + player.eyeHeight - 1F + world.rand.nextDouble();
+            double y = player.posY + player.getEyeHeight() - 1F + world.rand.nextDouble();
             double z = player.posZ - 0.5F + world.rand.nextDouble();
 
             double particleMotionX = (-1 + world.rand.nextDouble() * 2) * (power + 1) / 2;
@@ -191,46 +200,49 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     }
 
     @Override
-    public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityPlayer player, int itemInUseCount) {
-        // Actual usage length
-        int itemUsedCount = getMaxItemUseDuration(itemStack) - itemInUseCount;
-        
-        // Calculate how much blood to drain
-        int toDrain = itemUsedCount * getCapacity(itemStack) * (getPower(itemStack) + 1)
-                / (getMaxItemUseDuration(itemStack) * this.powerLevels);
-        FluidStack consumed = consume(toDrain, itemStack, player);
-        int consumedAmount = consumed == null ? 0 : consumed.amount;
-        
-        // Recalculate the itemUsedCount depending on how much blood is available
-        itemUsedCount = consumedAmount * getMaxItemUseDuration(itemStack) / getCapacity(itemStack);
-        
-        // Only do something if there is some blood left
-        if(consumedAmount > 0) {
-            // This will perform an effect to entities in a certain area,
-            // depending on the itemUsedCount.
-            use(world, player, itemUsedCount, getPower(itemStack));
-            if(world.isRemote) {
-                showUsedItemTick(world, player, getPower(itemStack));
+    public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityLivingBase entity, int itemInUseCount) {
+        if(entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            // Actual usage length
+            int itemUsedCount = getMaxItemUseDuration(itemStack) - itemInUseCount;
+
+            // Calculate how much blood to drain
+            int toDrain = itemUsedCount * getCapacity(itemStack) * (getPower(itemStack) + 1)
+                    / (getMaxItemUseDuration(itemStack) * this.powerLevels);
+            FluidStack consumed = consume(toDrain, itemStack, player);
+            int consumedAmount = consumed == null ? 0 : consumed.amount;
+
+            // Recalculate the itemUsedCount depending on how much blood is available
+            itemUsedCount = consumedAmount * getMaxItemUseDuration(itemStack) / getCapacity(itemStack);
+
+            // Only do something if there is some blood left
+            if (consumedAmount > 0) {
+                // This will perform an effect to entities in a certain area,
+                // depending on the itemUsedCount.
+                use(world, entity, itemUsedCount, getPower(itemStack));
+                if (world.isRemote) {
+                    showUsedItemTick(world, entity, getPower(itemStack));
+                }
+            } else if (world.isRemote) {
+                animateOutOfEnergy(world, entity);
             }
-        } else if(world.isRemote) {
-            animateOutOfEnergy(world, player);
         }
     }
 
     /**
      * The usage action after charging the mace.
      * @param world The world
-     * @param player The using player
+     * @param entity The using entity
      * @param itemUsedCount The charge count
      * @param power The configured power level
      */
-    protected abstract void use(World world, EntityPlayer player, int itemUsedCount, int power);
+    protected abstract void use(World world, EntityLivingBase entity, int itemUsedCount, int power);
     
     @SideOnly(Side.CLIENT)
-    protected void animateOutOfEnergy(World world, EntityPlayer player) {
-        double xCoord = player.posX;
-        double yCoord = player.posY;
-        double zCoord = player.posZ;
+    protected void animateOutOfEnergy(World world, EntityLivingBase entity) {
+        double xCoord = entity.posX;
+        double yCoord = entity.posY;
+        double zCoord = entity.posZ;
 
         float particleMotionX = world.rand.nextFloat() * 0.2F - 0.1F;
         float particleMotionY = 0.2F;
@@ -240,19 +252,20 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
                         particleMotionX, particleMotionY, particleMotionZ)
         );
         
-        world.playSoundAtEntity(player, "note.bd", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.block_note_basedrum,
+                SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
     }
     
     @Override
     public int getItemEnchantability() {
         return 15;
     }
-    
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public Multimap getAttributeModifiers(ItemStack itemStack) {
-        Multimap multimap = super.getAttributeModifiers(itemStack);
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", (double) this.meleeDamage, 0));
+    public Multimap getAttributeModifiers(EntityEquipmentSlot slot, ItemStack itemStack) {
+        Multimap multimap = super.getAttributeModifiers(slot, itemStack);
+        multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) this.meleeDamage, 0));
         return multimap;
     }
     

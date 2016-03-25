@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -44,7 +44,7 @@ public class VengeanceFocusConfig extends ItemConfig {
             for(int i = 0; i < modelArray.length; i++) {
                 String identifier = getMod().getModId() + ":" + getNamedId() + "_" + i;
                 modelArray[i] = new ModelResourceLocation(identifier, "inventory");
-                ModelBakery.addVariantName(getItemInstance(), identifier);
+                ModelBakery.registerItemVariants(getItemInstance(), modelArray[i]);
                 Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(
                         getItemInstance(), i + 1, modelArray[i]);
             }

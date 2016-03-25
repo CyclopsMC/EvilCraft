@@ -80,7 +80,7 @@ public class ItemHelpers {
             FluidStack tickFluid = item.getFluid(itemStack);
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;
-                ItemStack held = player.getCurrentEquippedItem();
+                ItemStack held = player.getActiveItemStack();
                 tryFillContainerForPlayer(item, itemStack, held, tickFluid, player);
             }
         }
@@ -95,7 +95,7 @@ public class ItemHelpers {
      * @param player The player that is the owner of toFill.
      */
     public static void tryFillContainerForPlayer(IFluidContainerItem item, ItemStack itemStack, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
-        if(toFill != null && toFill != itemStack && toFill.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
+        if(toFill != null && toFill != itemStack && toFill.getItem() instanceof IFluidContainerItem && player.getItemInUseCount() == 0) {
             IFluidContainerItem fluidContainer = (IFluidContainerItem) toFill.getItem();
             FluidStack heldFluid = fluidContainer.getFluid(toFill);
             if(heldFluid == null ||

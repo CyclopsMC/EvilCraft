@@ -8,9 +8,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -58,8 +59,9 @@ public class LivingDeathEventHook {
                 && event.entityLiving != null && Configs.isEnabled(BloodExtractorConfig.class)) {
         	float boost = 1.0F;
             EntityPlayerMP player = (EntityPlayerMP) e;
-            if(Configs.isEnabled(VeinSwordConfig.class) && player.getHeldItem() != null
-            		&& player.getHeldItem().getItem() == VeinSword.getInstance()) {
+            EnumHand hand = player.getActiveHand();
+            if(Configs.isEnabled(VeinSwordConfig.class) && player.getHeldItem(hand) != null
+            		&& player.getHeldItem(hand).getItem() == VeinSword.getInstance()) {
             	boost = (float) VeinSwordConfig.extractionBoost;
             }
             float health = event.entityLiving.getMaxHealth();
@@ -78,7 +80,7 @@ public class LivingDeathEventHook {
             int z = MathHelper.floor_double(event.entity.posZ);
             BlockPos pos = new BlockPos(x, y, z);
             Block block = event.entity.worldObj.getBlockState(pos).getBlock();
-            if(BloodStainedBlock.getInstance().canSetInnerBlock(block, event.entity.worldObj, pos)
+            if(BloodStainedBlock.getInstance().canSetInnerBlock(event.entity.worldObj.getBlockState(pos), block, event.entity.worldObj, pos)
             		|| block == BloodStainedBlock.getInstance()) {
                 if (!event.entity.worldObj.isRemote) {
                     // Transform blockState into blood stained version

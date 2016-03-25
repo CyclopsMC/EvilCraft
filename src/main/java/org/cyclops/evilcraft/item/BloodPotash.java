@@ -3,8 +3,10 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -32,7 +34,7 @@ public class BloodPotash extends ConfigurableItem {
     }
 
     @Override
-    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float coordX, float coordY, float coordZ) {
+    public EnumActionResult onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumHand hand, EnumFacing side, float coordX, float coordY, float coordZ) {
         boolean done = false;
         int attempts = 0;
         while (attempts < 2) {
@@ -44,9 +46,9 @@ public class BloodPotash extends ConfigurableItem {
             if (!world.isRemote) {
                 world.playAuxSFX(2005, blockPos, 0);
             }
-            return true;
+            return EnumActionResult.SUCCESS;
         }
-        return super.onItemUse(itemStack, player, world, blockPos, side, coordX, coordY, coordZ);
+        return super.onItemUse(itemStack, player, world, blockPos, hand, side, coordX, coordY, coordZ);
     }
 
 }

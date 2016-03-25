@@ -7,12 +7,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.StatCollector;
+import net.minecraft.potion.PotionUtils;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
@@ -72,13 +74,13 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
         super.addInformation(itemStack, entityPlayer, list, par4);
         ItemStack potionStack = getPotionStack(itemStack);
         if(potionStack != null) {
-            List<PotionEffect> potionEffects = Items.potionitem.getEffects(potionStack);
+            List<PotionEffect> potionEffects = PotionUtils.getEffectsFromStack(potionStack);
             for(PotionEffect potionEffect : potionEffects) {
-                Double multiplier =  PrimedPendantConfig._instance.getMultiplier(potionEffect.getPotionID());
+                Double multiplier =  PrimedPendantConfig._instance.getMultiplier(potionEffect.getPotion());
                 String striked = multiplier != null && multiplier < 0 ? "§m" : "";
                 list.add(L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".potion",
                         striked + L10NHelpers.localize(potionEffect.getEffectName()),
-                        StatCollector.translateToLocal("enchantment.level." + (potionEffect.getAmplifier() + 1))));
+                        I18n.translateToLocal("enchantment.level." + (potionEffect.getAmplifier() + 1))));
             }
         }
     }
@@ -91,16 +93,16 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
             EntityPlayer player = (EntityPlayer) entity;
             ItemStack potionStack = getPotionStack(itemStack);
             if(potionStack != null) {
-                List<PotionEffect> potionEffects = Items.potionitem.getEffects(potionStack);
+                List<PotionEffect> potionEffects = PotionUtils.getEffectsFromStack(potionStack);
                 for(PotionEffect potionEffect : potionEffects) {
                     int toDrain = PrimedPendantConfig.usage * (potionEffect.getAmplifier() + 1);
-                    Double multiplier = PrimedPendantConfig._instance.getMultiplier(potionEffect.getPotionID());
+                    Double multiplier = PrimedPendantConfig._instance.getMultiplier(potionEffect.getPotion());
                     if(multiplier != null) {
                         toDrain *= multiplier;
                     }
                     if((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
                         player.addPotionEffect(
-                                new PotionEffect(potionEffect.getPotionID(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
+                                new PotionEffect(potionEffect.getPotion(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
                                         !potionEffect.getCurativeItems().isEmpty(), true));
                         consume(toDrain, itemStack, player);
                     }
@@ -235,9 +237,9 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         openGuiForItemIndex(world, player, player.inventory.currentItem);
-        return itemStack;
+        return MinecraftHelpers.successAction(itemStack);
     }
 
 }

@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Maps;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.apache.logging.log4j.Level;
@@ -44,8 +45,8 @@ public class PrimedPendantConfig extends ItemConfig {
             comment = "Usage multipliers. Potion ids are first, followed by floating numbers. A number smaller than one blacklists that potion.",
             changedCallback = PotionMultipliersChanged.class)
     public static String[] potionMultipliers = new String[]{
-            Potion.heal.getId() + DELIMITER + "-1",
-            Potion.regeneration.getId() + DELIMITER + "10",
+            Potion.getIdFromPotion(MobEffects.heal) + DELIMITER + "-1",
+            Potion.getIdFromPotion(MobEffects.regeneration) + DELIMITER + "10",
     };
 
     private Map<Integer, Double> multipliers = Maps.newHashMap();
@@ -101,11 +102,11 @@ public class PrimedPendantConfig extends ItemConfig {
             }
             try {
                 int potionId = Integer.parseInt(split[0]);
-                if(potionId >= Potion.potionTypes.length || Potion.potionTypes[potionId] == null) {
+                if(Potion.getPotionById(potionId) == null) {
                     EvilCraft.clog("Invalid line '" + line + "' found for "
                             + "a Primed Pendant potion multiplier config: " + split[0] + " does not refer to an existing potion; skipping.");
                 }
-                Potion potion = Potion.potionTypes[potionId];
+                Potion potion = Potion.getPotionById(potionId);
                 double multiplier = 1.0D;
                 try {
                     multiplier = Double.parseDouble(split[1]);
@@ -113,7 +114,7 @@ public class PrimedPendantConfig extends ItemConfig {
                     EvilCraft.clog("Invalid ratio '" + split[1] + "' in "
                             + "a Primed Pendant potion multiplier config, using 1.0.", Level.ERROR);
                 }
-                multipliers.put(potion.getId(), multiplier);
+                multipliers.put(Potion.getIdFromPotion(potion), multiplier);
             } catch (NumberFormatException e) {
                 EvilCraft.clog("Invalid line '" + line + "' found for "
                         + "a Primed Pendant potion multiplier config: " + split[0] + " is not a number; skipping.");
@@ -121,8 +122,8 @@ public class PrimedPendantConfig extends ItemConfig {
         }
     }
 
-    public Double getMultiplier(int potionId) {
-        return multipliers.get(potionId);
+    public Double getMultiplier(Potion potion) {
+        return multipliers.get(Potion.getIdFromPotion(potion));
     }
     
 }

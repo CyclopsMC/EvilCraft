@@ -3,6 +3,7 @@ package evilcraft.modcompat.bloodmagic;
 import WayofTime.alchemicalWizardry.AlchemicalWizardry;
 import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import net.minecraft.util.text.TextFormatting;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
@@ -13,7 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -88,7 +88,7 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
         if(itemStack.getTagCompound() != null) {
         	String owner = getOwnerName(itemStack);
         	if(owner == null || owner.isEmpty()) {
-        		owner = EnumChatFormatting.ITALIC + L10NHelpers.localize(getUnlocalizedName() + ".info.currentOwner.none");
+        		owner = TextFormatting.ITALIC + L10NHelpers.localize(getUnlocalizedName() + ".info.currentOwner.none");
         	}
         	list.add(L10NHelpers.localize(getUnlocalizedName() + ".info.currentOwner", owner));
         }

@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.entity.monster;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.init.Biomes;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -87,7 +87,7 @@ public class PoisonousLibelleConfig extends MobConfig {
     
     @Override
     public void onRegistered() {
-        EntityRegistry.addSpawn(PoisonousLibelle.class, 1, 1, 2, EnumCreatureType.MONSTER, BiomeGenBase.river);
+        EntityRegistry.addSpawn(PoisonousLibelle.class, 1, 1, 2, EnumCreatureType.MONSTER, Biomes.river);
     }
     
 }

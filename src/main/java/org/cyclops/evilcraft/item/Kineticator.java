@@ -9,9 +9,11 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,6 +22,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedIt
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.client.particle.EntityBlurFX;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.entity.item.EntityItemUndespawnable;
@@ -68,11 +71,11 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     }
     
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(!ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, POWER_LEVELS, false) && !world.isRemote) {
             ItemHelpers.toggleActivation(itemStack);
         }
-        return itemStack;
+        return MinecraftHelpers.successAction(itemStack);
     }
     
     @Override
@@ -87,7 +90,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
         super.addInformation(itemStack, entityPlayer, list, par4);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getUnlocalizedName() + ".info" + (isRepelling(itemStack) ? ".repelling" : "") + ".attraction");
-        list.add(EnumChatFormatting.BOLD
+        list.add(TextFormatting.BOLD
         		+ L10NHelpers.localize(getUnlocalizedName() + ".info.area", getArea(itemStack)));
     }
 
@@ -140,7 +143,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
             if(0 == world.getWorldTime() % KineticatorConfig.tickHoldoff) {
                 // Get items in calculated area.
                 int area = getArea(itemStack);
-                AxisAlignedBB box = AxisAlignedBB.fromBounds(x, y, z, x, y, z).expand(area, area, area);
+                AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).expand(area, area, area);
                 List<Entity> entities = world.getEntitiesInAABBexcluding(entity, box, new Predicate<Entity>() {
 
                     @Override

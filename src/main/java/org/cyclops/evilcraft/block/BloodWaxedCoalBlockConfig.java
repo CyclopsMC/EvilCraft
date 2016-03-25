@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -39,8 +39,12 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
 
     @Override
     protected IConfigurable initSubInstance() {
-        return (ConfigurableBlock) new ConfigurableBlock(this, Material.rock).
-                setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston);
+        return (ConfigurableBlock) new ConfigurableBlock(this, Material.rock) {
+            @Override
+            public SoundType getStepSound() {
+                return SoundType.METAL;
+            }
+        }.setHardness(3.0F).setResistance(5.0F);
     }
 
     @Override

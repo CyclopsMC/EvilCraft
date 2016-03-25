@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -38,7 +38,7 @@ public class RenderTileEntityEntangledChalice extends TileEntitySpecialRenderer<
         TextureAtlasSprite icon = RenderHelpers.getFluidIcon(lastTile.getTank().getFluid(), EnumFacing.UP);
 
         Tessellator t = Tessellator.getInstance();
-        WorldRenderer worldRenderer = t.getWorldRenderer();
+        VertexBuffer worldRenderer = t.getBuffer();
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
 
         worldRenderer.pos(0.1875F, height, 0.1875F).tex(icon.getMinU(), icon.getMaxV()).lightmap(l2, i3).color(1F, 1, 1, 1).endVertex();

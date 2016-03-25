@@ -1,11 +1,17 @@
 package org.cyclops.evilcraft.entity.item;
 
+import com.google.common.base.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -20,8 +26,8 @@ import org.cyclops.evilcraft.item.WeatherContainerConfig;
  *
  */
 public class EntityWeatherContainer extends EntityThrowable implements IConfigurable {
-    
-    private static final int ITEMSTACK_INDEX = 15;
+
+    private static final DataParameter<Optional<ItemStack>> ITEMSTACK_INDEX = EntityDataManager.<Optional<ItemStack>>createKey(EntityWeatherContainer.class, DataSerializers.OPTIONAL_ITEM_STACK);
     
     /**
      * Make a new instance in the given world.
@@ -57,15 +63,15 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
             // Play evil sounds at the players in that world
             for(Object o : world.playerEntities) {
                 EntityPlayer entityPlayer = (EntityPlayer) o;
-                world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
-                world.playSoundAtEntity(entityPlayer, "mob.ghast.moan", 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
-                world.playSoundAtEntity(entityPlayer, "mob.wither.death", 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.block_portal_travel, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.entity_ghast_ambient, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.entity_wither_death, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
             }
         }
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition movingobjectposition) {
+    protected void onImpact(RayTraceResult movingobjectposition) {
         ItemStack stack = getItemStack();
         WeatherContainer.WeatherContainerTypes containerType = WeatherContainer.getWeatherContainerType(stack);
         containerType.onUse(worldObj, stack);
@@ -86,31 +92,20 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
     }
 
     @Override
-    protected float getVelocity() {
-        // Determines the distance of the throw
-        return 1.0F;
-    }
-
-    @Override
-    protected float getInaccuracy() {
-        // Offset for the start height at which the entity is thrown
-        return 0.0F;
-    }
-
-    @Override
     public ItemStack getItemStack() {
-        return dataWatcher.getWatchableObjectItemStack(ITEMSTACK_INDEX);
+        Optional<ItemStack> optional = dataWatcher.get(ITEMSTACK_INDEX);
+        return optional.isPresent() ? optional.get() : null;
     }
     
     private void setItemStack(ItemStack stack) {
-        dataWatcher.updateObject(ITEMSTACK_INDEX, stack);
+        dataWatcher.set(ITEMSTACK_INDEX, Optional.of(stack));
     }
     
     @Override
     protected void entityInit() {
         super.entityInit();
         
-        dataWatcher.addObject(ITEMSTACK_INDEX, WeatherContainer.createItemStack(WeatherContainer.WeatherContainerTypes.EMPTY, 1));
+        dataWatcher.register(ITEMSTACK_INDEX, Optional.of(WeatherContainer.createItemStack(WeatherContainer.WeatherContainerTypes.EMPTY, 1)));
     }
 
     @Override

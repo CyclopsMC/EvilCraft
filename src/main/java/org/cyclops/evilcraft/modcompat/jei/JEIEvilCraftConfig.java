@@ -22,6 +22,8 @@ import org.cyclops.evilcraft.modcompat.jei.sanguinaryenvironmentalaccumulator.Sa
 import org.cyclops.evilcraft.modcompat.jei.sanguinaryenvironmentalaccumulator.SanguinaryEnvironmentalAccumulatorRecipeJEI;
 import org.cyclops.evilcraft.modcompat.jei.sanguinaryenvironmentalaccumulator.SanguinaryEnvironmentalAccumulatorRecipeTransferInfo;
 
+import javax.annotation.Nonnull;
+
 /**
  * Helper for registering JEI manager.
  * @author rubensworks
@@ -33,17 +35,8 @@ public class JEIEvilCraftConfig implements IModPlugin {
     public static IJeiHelpers JEI_HELPER;
 
     @Override
-    public void onJeiHelpersAvailable(IJeiHelpers jeiHelpers) {
-        JEI_HELPER = jeiHelpers;
-    }
-
-    @Override
-    public void onItemRegistryAvailable(IItemRegistry itemRegistry) {
-
-    }
-
-    @Override
-    public void register(IModRegistry registry) {
+    public void register(@Nonnull IModRegistry registry) {
+        JEI_HELPER = registry.getJeiHelpers();
         if(JEIModCompat.canBeUsed) {
             // Blood Infuser
             registry.addRecipes(BloodInfuserRecipeJEI.getAllRecipes());
@@ -81,7 +74,7 @@ public class JEIEvilCraftConfig implements IModPlugin {
     }
 
     @Override
-    public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {
+    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
 
     }
 }

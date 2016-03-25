@@ -5,10 +5,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ItemFluidContainer;
@@ -18,6 +20,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedIt
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.BloodStainedBlock;
@@ -56,7 +59,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     }
     
     @Override
-    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
     	Block block = world.getBlockState(blockPos).getBlock();
         if(player.isSneaking()) {
 	        if(Configs.isEnabled(BloodStainedBlockConfig.class) && block == BloodStainedBlock.getInstance()) {
@@ -77,10 +80,10 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
 	                // Init particles
 	                EntityBloodSplashFX.spawnParticles(world, blockPos.add(0, 1, 1), 5, 1 + random.nextInt(2));
 	            }
-	            return false;
+	            return EnumActionResult.SUCCESS;
 	        }
         }
-        return super.onItemUseFirst(itemStack, player, world, blockPos, side, hitX, hitY, hitZ);
+        return super.onItemUseFirst(itemStack, player, world, blockPos, side, hitX, hitY, hitZ, hand);
     }
     
     @Override
@@ -98,18 +101,18 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     }
     
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(!player.isSneaking()) {
-            return super.onItemRightClick(itemStack, world, player);
+            return super.onItemRightClick(itemStack, world, player, hand);
         } else {
-        	MovingObjectPosition target = this.getMovingObjectPositionFromPlayer(world, player, false);
-        	if(target == null || target.typeOfHit == MovingObjectType.MISS) {
+        	RayTraceResult target = this.getMovingObjectPositionFromPlayer(world, player, false);
+        	if(target == null || target.typeOfHit == RayTraceResult.Type.MISS) {
         		if(!world.isRemote) {
 		            ItemHelpers.toggleActivation(itemStack);
 		    	}
         	}
         }
-        return itemStack;
+        return MinecraftHelpers.successAction(itemStack);
     }
     
     /**

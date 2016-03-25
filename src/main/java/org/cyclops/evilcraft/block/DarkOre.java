@@ -1,17 +1,18 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -61,14 +62,14 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
         super(eConfig, Material.rock);
         this.setTickRandomly(true);
         this.setHardness(3.0F);
-        this.setStepSound(soundTypeStone);
+        this.setStepSound(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public EnumWorldBlockLayer getBlockLayer() {
-        return EnumWorldBlockLayer.CUTOUT_MIPPED;
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT_MIPPED;
     }
     
     @Override
@@ -134,16 +135,16 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
 
     @Override
     public void onEntityCollidedWithBlock(World world, BlockPos blockPos, IBlockState blockState, Entity entity) {
-        if(world.isRemote && !(entity instanceof EntityFX)) {
+        if(world.isRemote) {
             this.glow(world, blockPos);
         }
         super.onEntityCollidedWithBlock(world, blockPos, blockState, entity);
     }
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side,  float motionX, float motionY, float motionZ) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side,  float motionX, float motionY, float motionZ) {
         this.glow(world, blockPos);
-        return super.onBlockActivated(world, blockPos, blockState, player, side, motionX, motionY, motionZ);
+        return super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, motionX, motionY, motionZ);
     }
     
     private boolean isGlowing(World world, BlockPos blockPos) {
@@ -171,7 +172,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, BlockPos blockPos, IBlockState state, Random random) {
+    public void randomDisplayTick(IBlockState state, World world, BlockPos blockPos, Random random) {
         if (isGlowing(world, blockPos)) {
             this.sparkle(world, blockPos);
         }
@@ -190,27 +191,27 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
             double sparkY = (double)((float)blockPos.getY() + random.nextFloat());
             double sparkZ = (double)((float)blockPos.getZ() + random.nextFloat());
 
-            if (l == 0 && !world.getBlockState(blockPos.add(0, 1, 0)).getBlock().isNormalCube()) {
+            if (l == 0 && !world.getBlockState(blockPos.add(0, 1, 0)).isNormalCube()) {
                 sparkY = (double)(blockPos.getY() + 1) + offset;
             }
 
-            if (l == 1 && !world.getBlockState(blockPos.add(0, -1, 0)).getBlock().isNormalCube()) {
+            if (l == 1 && !world.getBlockState(blockPos.add(0, -1, 0)).isNormalCube()) {
                 sparkY = (double)(blockPos.getY()) - offset;
             }
 
-            if (l == 2 && !world.getBlockState(blockPos.add(0, 0, 1)).getBlock().isNormalCube()) {
+            if (l == 2 && !world.getBlockState(blockPos.add(0, 0, 1)).isNormalCube()) {
                 sparkZ = (double)(blockPos.getZ() + 1) + offset;
             }
 
-            if (l == 3 && !world.getBlockState(blockPos.add(0, 0, -1)).getBlock().isNormalCube()) {
+            if (l == 3 && !world.getBlockState(blockPos.add(0, 0, -1)).isNormalCube()) {
                 sparkZ = (double)(blockPos.getZ()) - offset;
             }
 
-            if (l == 4 && !world.getBlockState(blockPos.add(1, 0, 0)).getBlock().isNormalCube()) {
+            if (l == 4 && !world.getBlockState(blockPos.add(1, 0, 0)).isNormalCube()) {
                 sparkX = (double)(blockPos.getX() + 1) + offset;
             }
 
-            if (l == 5 && !world.getBlockState(blockPos.add(-1, 0, 0)).getBlock().isNormalCube()) {
+            if (l == 5 && !world.getBlockState(blockPos.add(-1, 0, 0)).isNormalCube()) {
                 sparkX = (double)(blockPos.getX()) - offset;
             }
 
