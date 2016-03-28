@@ -3,13 +3,12 @@ package org.cyclops.evilcraft.client.render.entity;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
-import org.cyclops.evilcraft.item.Broom;
+import org.cyclops.evilcraft.entity.item.EntityBroom;
 
 /**
  * Renderer for a broom
@@ -17,10 +16,7 @@ import org.cyclops.evilcraft.item.Broom;
  * @author immortaleeb
  *
  */
-public class RenderBroom extends Render {
-
-    // TODO: temporary static way of rendering brooms.
-    private static final ItemStack BROOM = new ItemStack(Broom.getInstance());
+public class RenderBroom extends Render<EntityBroom> {
 	
     /**
      * Make a new instance.
@@ -31,12 +27,12 @@ public class RenderBroom extends Render {
 	    super(renderManager);
 	}
 
-    protected ItemStack getItemStack(Entity entity) {
-        return BROOM;
+    protected ItemStack getItemStack(EntityBroom entity) {
+        return entity.getBroomStack();
     }
 
 	@Override
-	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
+	public void doRender(EntityBroom entity, double x, double y, double z, float yaw, float partialTickTime) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y + 0.2F, z);
         GlStateManager.scale(2, 2, 2);
@@ -54,7 +50,7 @@ public class RenderBroom extends Render {
 	}
 
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity) {
+    protected ResourceLocation getEntityTexture(EntityBroom entity) {
         return null;
     }
 

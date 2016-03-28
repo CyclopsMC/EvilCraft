@@ -26,7 +26,9 @@ import java.util.List;
  *
  */
 public class EntityBroom extends Entity implements IConfigurable{
-    
+
+    private static final int ITEMSTACK_INDEX = 15;
+
     /**
      * Speed for the broom (in all directions)
      */
@@ -331,7 +333,7 @@ public class EntityBroom extends Entity implements IConfigurable{
 
     @Override
     protected void entityInit() {
-    	
+        dataWatcher.addObject(ITEMSTACK_INDEX, new ItemStack(Broom.getInstance()));
     }
 
     @Override
@@ -347,6 +349,14 @@ public class EntityBroom extends Entity implements IConfigurable{
     @Override
     public ExtendedConfig<?> getConfig() {
         return null;
+    }
+
+    public void setBroomStack(ItemStack itemStack) {
+        dataWatcher.updateObject(ITEMSTACK_INDEX, itemStack);
+    }
+
+    public ItemStack getBroomStack() {
+        return dataWatcher.getWatchableObjectItemStack(ITEMSTACK_INDEX);
     }
     
 }

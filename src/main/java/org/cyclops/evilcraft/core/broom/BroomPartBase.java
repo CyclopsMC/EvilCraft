@@ -5,7 +5,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 
 /**
@@ -15,22 +14,20 @@ import org.cyclops.evilcraft.api.broom.IBroomPart;
 @Data
 public class BroomPartBase implements IBroomPart {
 
+    private final ResourceLocation id;
     private final BroomPartType type;
 
-    public BroomPartBase(BroomPartType type) {
+    public BroomPartBase(ResourceLocation id, BroomPartType type) {
+        this.id = id;
         this.type = type;
         if(MinecraftHelpers.isClientSide()) {
             registerModelResourceLocation();
         }
     }
 
-    protected String getModId() {
-        return Reference.MOD_ID;
-    }
-
     @SideOnly(Side.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
-                new ResourceLocation(getModId() + ":broomPart/" + getType().name().toLowerCase()));
+                new ResourceLocation(id.getResourceDomain(), "broomPart/" + id.getResourcePath().toLowerCase()));
     }
 }

@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.api.broom;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,6 +26,13 @@ public interface IBroomPartRegistry extends IRegistry {
      * @return All broom parts.
      */
     public Collection<IBroomPart> getParts();
+
+    /**
+     * Get the part from the given id.
+     * @param partId The unique part id.
+     * @return The corresponding part or null.
+     */
+    public IBroomPart getPart(ResourceLocation partId);
 
     /**
      * @param type The type of parts to retrieve.
@@ -54,5 +62,19 @@ public interface IBroomPartRegistry extends IRegistry {
      */
     @SideOnly(Side.CLIENT)
     public Collection<ResourceLocation> getPartModels();
+
+    /**
+     * Get the broom parts in the given itemstack.
+     * @param broomStack The broom item stack
+     * @return The broom parts.
+     */
+    public Collection<IBroomPart> getBroomParts(ItemStack broomStack);
+
+    /**
+     * Apply the given broom parts to the given itemstack.
+     * @param broomStack The broom item stack
+     * @param broomParts The broom parts.
+     */
+    public void setBroomParts(ItemStack broomStack, Collection<IBroomPart> broomParts);
 
 }

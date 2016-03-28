@@ -13,6 +13,7 @@ import net.minecraftforge.client.model.ISmartItemModel;
 import org.cyclops.cyclopscore.client.model.DynamicBaseModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
+import org.cyclops.evilcraft.core.broom.BroomParts;
 
 import java.util.List;
 import java.util.Map;
@@ -39,10 +40,8 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
     public IBakedModel handleItemState(ItemStack itemStack) {
         List<BakedQuad> quads = Lists.newLinkedList();
 
-        // TODO: check the broom parts and render accordingly
-        // TODO: For now we just render all parts
-        for(IBakedModel model : broomPartModels.values()) {
-            quads.addAll(model.getGeneralQuads());
+        for (IBroomPart part : BroomParts.REGISTRY.getBroomParts(itemStack)) {
+            quads.addAll(broomPartModels.get(part).getGeneralQuads());
         }
 
         return new SimpleBakedModel(quads, ModelHelpers.EMPTY_FACE_QUADS, this.isAmbientOcclusion(), this.isGui3d(),

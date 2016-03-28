@@ -55,7 +55,9 @@ public class Broom extends ConfigurableItem {
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ) {
     	if (!world.isRemote && player.isSneaking()) {
-    		world.spawnEntityInWorld(new EntityBroom(world, blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5));
+            EntityBroom entityBroom = new EntityBroom(world, blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
+            entityBroom.setBroomStack(stack);
+    		world.spawnEntityInWorld(entityBroom);
     		
     		// We don't consume the broom when in creative mode
     		if (!player.capabilities.isCreativeMode)

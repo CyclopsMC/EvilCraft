@@ -35,6 +35,7 @@ import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.client.gui.container.GuiMainMenuEvilifier;
 import org.cyclops.evilcraft.core.broom.BroomPartRegistry;
+import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.degradation.DegradationRegistry;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
@@ -142,6 +143,8 @@ public class EvilCraft extends ModBaseVersionable {
         getRegistryManager().addRegistry(IBroomPartRegistry.class, new BroomPartRegistry());
         getRegistryManager().addRegistry(IInfoBookRegistry.class, new InfoBookRegistry());
         getRegistryManager().addRegistry(IPurifierActionRegistry.class, new PurifierActionRegistry());
+
+        BroomParts.load();
 
         super.preInit(event);
     }
