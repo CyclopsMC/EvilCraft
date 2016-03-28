@@ -193,7 +193,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     		if (!lastMounted.capabilities.isCreativeMode && Configs.isEnabled(BroomConfig.class)) {
     		    // Return to inventory if we have space and the player is not dead, otherwise drop it on the ground
                 if (!lastMounted.isDead && !MinecraftHelpers.isPlayerInventoryFull(lastMounted))
-    		        lastMounted.inventory.addItemStackToInventory(new ItemStack(Broom.getInstance(), 1));
+    		        lastMounted.inventory.addItemStackToInventory(getBroomStack());
     		    else
     		        dropItem(Broom.getInstance(), 1);
     		}

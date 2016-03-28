@@ -49,7 +49,7 @@ public class BroomPart extends ConfigurableItem {
     public String getUnlocalizedName(ItemStack itemStack) {
         IBroomPart part = getPart(itemStack);
         if(part != null) {
-            return "broom.parts." + part.getId().getResourceDomain() + "." + part.getId().getResourcePath();
+            return part.getUnlocalizedName();
         }
         return super.getUnlocalizedName(itemStack);
     }
@@ -90,7 +90,7 @@ public class BroomPart extends ConfigurableItem {
                 event.toolTip.add(L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".type.name",
                         L10NHelpers.localize(part.getType().getUnlocalizedName())));
             } else {
-                event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts.evilcraft.shiftinfo"));
+                event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.evilcraft.shiftinfo"));
             }
         }
     }

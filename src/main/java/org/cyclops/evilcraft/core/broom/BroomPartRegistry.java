@@ -22,7 +22,7 @@ import java.util.*;
  */
 public class BroomPartRegistry implements IBroomPartRegistry {
 
-    private static final String NBT_TAG_NAME = "broom_tag";
+    private static final String NBT_TAG_NAME = "broom_parts_tag";
 
     private final Map<ResourceLocation, IBroomPart> parts = Maps.newHashMap();
     private final Map<IBroomPart, ItemStack> partItems = Maps.newHashMap();

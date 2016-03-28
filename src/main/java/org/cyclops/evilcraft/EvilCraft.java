@@ -28,12 +28,15 @@ import org.cyclops.cyclopscore.recipe.custom.SuperRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
 import org.cyclops.cyclopscore.world.gen.IRetroGenRegistry;
 import org.cyclops.cyclopscore.world.gen.RetroGenRegistry;
+import org.cyclops.evilcraft.api.broom.BroomModifiers;
+import org.cyclops.evilcraft.api.broom.IBroomModifierRegistry;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.api.degradation.IDegradationRegistry;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.client.gui.container.GuiMainMenuEvilifier;
+import org.cyclops.evilcraft.core.broom.BroomModifierRegistry;
 import org.cyclops.evilcraft.core.broom.BroomPartRegistry;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.degradation.DegradationRegistry;
@@ -141,10 +144,12 @@ public class EvilCraft extends ModBaseVersionable {
         getRegistryManager().addRegistry(IRetroGenRegistry.class, new RetroGenRegistry(this));
         getRegistryManager().addRegistry(IBucketRegistry.class, new BucketRegistry());
         getRegistryManager().addRegistry(IBroomPartRegistry.class, new BroomPartRegistry());
+        getRegistryManager().addRegistry(IBroomModifierRegistry.class, new BroomModifierRegistry());
         getRegistryManager().addRegistry(IInfoBookRegistry.class, new InfoBookRegistry());
         getRegistryManager().addRegistry(IPurifierActionRegistry.class, new PurifierActionRegistry());
 
         BroomParts.loadPre();
+        BroomModifiers.load();
 
         super.preInit(event);
     }

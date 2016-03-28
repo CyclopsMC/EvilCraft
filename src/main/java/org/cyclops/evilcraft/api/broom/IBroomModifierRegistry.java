@@ -1,0 +1,41 @@
+package org.cyclops.evilcraft.api.broom;
+
+import net.minecraft.item.ItemStack;
+import org.cyclops.cyclopscore.init.IRegistry;
+
+import java.util.Collection;
+import java.util.Map;
+
+/**
+ * Registry for broom modifiers.
+ * @author rubensworks
+ */
+public interface IBroomModifierRegistry extends IRegistry {
+
+    /**
+     * Register a new modifier.
+     * @param modifier The modifier.
+     * @return The registered modifier.
+     */
+    public BroomModifier registerModifier(BroomModifier modifier);
+
+    /**
+     * @return All modifiers.
+     */
+    public Collection<BroomModifier> getModifiers();
+
+    /**
+     * Get all applied modifiers on then given broom.
+     * @param broomStack The broom.
+     * @return The applied modifiers
+     */
+    public Map<BroomModifier, Float> getModifiers(ItemStack broomStack);
+
+    /**
+     * Apply the given modifiers to the given broom.
+     * @param broomStack The broom.
+     * @param modifiers The modifiers to set.
+     */
+    public void setModifiers(ItemStack broomStack, Map<BroomModifier, Float> modifiers);
+
+}

@@ -41,4 +41,9 @@ public class BroomPartBase implements IBroomPart {
         BroomParts.REGISTRY.registerPartModel(this,
                 new ResourceLocation(id.getResourceDomain(), "broomPart/" + id.getResourcePath().toLowerCase()));
     }
+
+    @Override
+    public String getUnlocalizedName() {
+        return "broom.parts." + getId().getResourceDomain() + "." + getId().getResourcePath();
+    }
 }

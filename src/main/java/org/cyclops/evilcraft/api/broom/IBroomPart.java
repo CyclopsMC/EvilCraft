@@ -21,6 +21,11 @@ public interface IBroomPart {
     public ResourceLocation getId();
 
     /**
+     * @return The unlocalized name.
+     */
+    public String getUnlocalizedName();
+
+    /**
      * @return The length of this part (1.0F = 1 block)
      */
     public float getLength();

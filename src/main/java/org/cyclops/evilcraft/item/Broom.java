@@ -4,12 +4,23 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.evilcraft.api.broom.BroomModifier;
+import org.cyclops.evilcraft.api.broom.BroomModifiers;
+import org.cyclops.evilcraft.api.broom.IBroomPart;
+import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Item for the {@link EntityBroom}.
@@ -73,5 +84,30 @@ public class Broom extends ConfigurableItem {
     public EnumRarity getRarity(ItemStack itemStack) {
         return EnumRarity.RARE;
     }
-    
+
+    public Collection<IBroomPart> getParts(ItemStack itemStack) {
+        return BroomParts.REGISTRY.getBroomParts(itemStack);
+    }
+
+    public Map<BroomModifier, Float> getModifiers(ItemStack itemStack) {
+        return BroomModifiers.REGISTRY.getModifiers(itemStack);
+    }
+
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+        super.addInformation(itemStack, entityPlayer, list, par4);
+        if(MinecraftHelpers.isShifted()) {
+            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts.evilcraft.types.name"));
+            for (IBroomPart part : getParts(itemStack)) {
+                list.add("  " + L10NHelpers.localize(part.getUnlocalizedName() + ".name"));
+            }
+            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers.evilcraft.name"));
+            for (Map.Entry<BroomModifier, Float> entry : getModifiers(itemStack).entrySet()) {
+                list.add("  " + L10NHelpers.localize(entry.getKey().getUnlocalizedName()) + ": " + entry.getValue());
+            }
+
+        } else {
+            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.evilcraft.shiftinfo"));
+        }
+    }
 }
