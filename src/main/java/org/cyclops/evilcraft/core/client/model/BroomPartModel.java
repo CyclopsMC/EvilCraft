@@ -19,10 +19,10 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Model for a variant of a broom item.
+ * Model for a variant of a broom part item.
  * @author rubensworks
  */
-public class BroomModel implements IModel {
+public class BroomPartModel implements IModel {
 
     @Override
     public Collection<ResourceLocation> getDependencies() {
@@ -40,14 +40,14 @@ public class BroomModel implements IModel {
     @Override
     public IFlexibleBakedModel bake(IModelState state, VertexFormat format,
                                     Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-        BroomModelBaked bakedModel = new BroomModelBaked();
+        BroomPartModelBaked bakedModel = new BroomPartModelBaked();
 
         // Add aspects to baked model.
         for(IBroomPart part : BroomParts.REGISTRY.getParts()) {
             try {
                 IModel model = ModelLoaderRegistry.getModel(BroomParts.REGISTRY.getPartModel(part));
                 IBakedModel bakedAspectModel = model.bake(state, format, bakedTextureGetter);
-                bakedModel.addBroomModel(part, bakedAspectModel);
+                bakedModel.addBroomPartModel(part, bakedAspectModel);
             } catch (IOException e) {
                 e.printStackTrace();
             }

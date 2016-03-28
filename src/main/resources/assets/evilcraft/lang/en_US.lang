@@ -302,6 +302,18 @@ gui.waila.boxOfEternalClosureConfig=Box of Eternal Closure contents
 gui.waila.blockInfoConfig=Shift-info for blocks
 gui.nei.fluids=Fluids
 
+# Broom parts
+broom.parts.evilcraft.rod_wood.name=Wooden Rod
+broom.parts.evilcraft.brush_wheat.name=Wheat Brush
+broom.parts.evilcraft.cap_darkgem.name=Dark Gem Cap
+
+# Broom part types
+broom.parts.evilcraft.shiftinfo=<Shift for broom info>
+broom.parts.evilcraft.type.name=Type: %s
+broom.parts.evilcraft.type.rod.name=Rod
+broom.parts.evilcraft.type.brush.name=Brush
+broom.parts.evilcraft.type.cap.name=Cap
+
 # ------ Origins of Darkness contents ------
 infoBook.evilcraft.section.main=Origins of Darkness
 infoBook.evilcraft.tagIndex=&oIndex&r

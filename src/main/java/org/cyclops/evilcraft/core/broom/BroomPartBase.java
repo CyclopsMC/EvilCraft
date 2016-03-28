@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.broom;
 
 import lombok.Data;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -17,11 +18,19 @@ public class BroomPartBase implements IBroomPart {
     private final ResourceLocation id;
     private final BroomPartType type;
     private final float length;
+    private final EnumRarity rarity;
+    private final boolean effect;
 
     public BroomPartBase(ResourceLocation id, BroomPartType type, float length) {
+        this(id, type, length, EnumRarity.COMMON, false);
+    }
+
+    public BroomPartBase(ResourceLocation id, BroomPartType type, float length, EnumRarity rarity, boolean effect) {
         this.id = id;
         this.type = type;
         this.length = length;
+        this.rarity = rarity;
+        this.effect = effect;
         if(MinecraftHelpers.isClientSide()) {
             registerModelResourceLocation();
         }

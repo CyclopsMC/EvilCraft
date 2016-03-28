@@ -23,6 +23,30 @@ public interface IBroomPartRegistry extends IRegistry {
     public <P extends IBroomPart> P registerPart(P part);
 
     /**
+     * Assign a part item to the given part.
+     * @param part The part.
+     * @param item The item-form of this part.
+     * @param <P> The type of part.
+     */
+    public <P extends IBroomPart> void registerPartItem(P part, ItemStack item);
+
+    /**
+     * Get the item-form of the given part.
+     * @param part The part.
+     * @param <P> The part type.
+     * @return The item-form or null.
+     */
+    public <P extends IBroomPart> ItemStack getItemFromPart(P part);
+
+    /**
+     * Get the part of the given item-form.
+     * @param item The item-form of this part.
+     * @param <P> The part type.
+     * @return The part or null.
+     */
+    public <P extends IBroomPart> P getPartFromItem(ItemStack item);
+
+    /**
      * @return All broom parts.
      */
     public Collection<IBroomPart> getParts();

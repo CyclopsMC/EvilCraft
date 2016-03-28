@@ -1,6 +1,8 @@
 package org.cyclops.evilcraft.api.broom;
 
+import net.minecraft.item.EnumRarity;
 import net.minecraft.util.ResourceLocation;
+import org.cyclops.evilcraft.Reference;
 
 /**
  * A broom part.
@@ -22,6 +24,16 @@ public interface IBroomPart {
      * @return The length of this part (1.0F = 1 block)
      */
     public float getLength();
+
+    /**
+     * @return The rarity.
+     */
+    public EnumRarity getRarity();
+
+    /**
+     * @return If the item has an effect overlay.
+     */
+    public boolean isEffect();
 
     /**
      * All types of broom parts.
@@ -57,6 +69,10 @@ public interface IBroomPart {
 
         public String getName() {
             return name;
+        }
+
+        public String getUnlocalizedName() {
+            return "broom.parts." + Reference.MOD_ID + ".type." + getName() + ".name";
         }
 
         public IBroomPartTypeModelOffsetter getOffsetter() {

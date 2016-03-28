@@ -144,7 +144,7 @@ public class EvilCraft extends ModBaseVersionable {
         getRegistryManager().addRegistry(IInfoBookRegistry.class, new InfoBookRegistry());
         getRegistryManager().addRegistry(IPurifierActionRegistry.class, new PurifierActionRegistry());
 
-        BroomParts.load();
+        BroomParts.loadPre();
 
         super.preInit(event);
     }
@@ -186,6 +186,8 @@ public class EvilCraft extends ModBaseVersionable {
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
+
+        BroomParts.loadPost();
     }
     
     /**

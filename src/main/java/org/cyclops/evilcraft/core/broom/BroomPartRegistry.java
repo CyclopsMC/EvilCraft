@@ -14,10 +14,7 @@ import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.item.Broom;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Default registry for broom parts.
@@ -28,6 +25,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     private static final String NBT_TAG_NAME = "broom_tag";
 
     private final Map<ResourceLocation, IBroomPart> parts = Maps.newHashMap();
+    private final Map<IBroomPart, ItemStack> partItems = Maps.newHashMap();
     private final Multimap<IBroomPart.BroomPartType, IBroomPart> partsByType = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     @SideOnly(Side.CLIENT)
     private Map<IBroomPart, ResourceLocation> partModels;
@@ -43,6 +41,27 @@ public class BroomPartRegistry implements IBroomPartRegistry {
         parts.put(part.getId(), part);
         partsByType.put(part.getType(), part);
         return part;
+    }
+
+    @Override
+    public <P extends IBroomPart> void registerPartItem(P part, ItemStack item) {
+        Objects.requireNonNull(item.getItem());
+        partItems.put(part, item);
+    }
+
+    @Override
+    public <P extends IBroomPart> ItemStack getItemFromPart(P part) {
+        return partItems.get(part);
+    }
+
+    @Override
+    public <P extends IBroomPart> P getPartFromItem(ItemStack item) {
+        for (Map.Entry<IBroomPart, ItemStack> entry : partItems.entrySet()) {
+            if (ItemStack.areItemsEqual(item, entry.getValue()) && ItemStack.areItemStackTagsEqual(item, entry.getValue())) {
+                return (P) entry.getKey();
+            }
+        }
+        return null;
     }
 
     @Override

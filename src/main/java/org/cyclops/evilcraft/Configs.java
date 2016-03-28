@@ -1,11 +1,5 @@
 package org.cyclops.evilcraft;
 
-import org.cyclops.evilcraft.block.ColossalBloodChestConfig;
-import org.cyclops.evilcraft.block.ReinforcedUndeadPlankConfig;
-import org.cyclops.evilcraft.block.SanguinaryEnvironmentalAccumulatorConfig;
-import org.cyclops.evilcraft.entity.monster.*;
-import org.cyclops.evilcraft.item.CondensedBloodConfig;
-import org.cyclops.evilcraft.item.RejuvenatedFleshConfig;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -22,6 +16,7 @@ import org.cyclops.evilcraft.entity.block.EntityLightningBombPrimedConfig;
 import org.cyclops.evilcraft.entity.effect.EntityAntiVengeanceBeamConfig;
 import org.cyclops.evilcraft.entity.effect.EntityNecromancersHeadConfig;
 import org.cyclops.evilcraft.entity.item.*;
+import org.cyclops.evilcraft.entity.monster.*;
 import org.cyclops.evilcraft.entity.villager.WerewolfVillagerConfig;
 import org.cyclops.evilcraft.fluid.BloodConfig;
 import org.cyclops.evilcraft.fluid.PoisonConfig;
@@ -143,6 +138,7 @@ public class Configs {
         configs.add(new MaceOfDestructionConfig());
         configs.add(new GarmonboziaConfig());
         configs.add(new PoisonBottleConfig());
+        configs.add(new BroomPartConfig());
         
         // Entities
         // Item
