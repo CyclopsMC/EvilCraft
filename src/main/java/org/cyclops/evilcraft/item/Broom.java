@@ -41,7 +41,7 @@ public class Broom extends ConfigurableItem {
             player.posY += Y_SPAWN_OFFSET;
             
             EntityBroom broom = new EntityBroom(world, player.posX, player.posY, player.posZ);
-            
+            broom.setBroomStack(stack);
             // Spawn and mount the broom
             world.spawnEntityInWorld(broom);
             broom.mountEntity(player);

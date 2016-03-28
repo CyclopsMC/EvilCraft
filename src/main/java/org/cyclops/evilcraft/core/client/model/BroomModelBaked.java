@@ -15,6 +15,8 @@ import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -40,12 +42,49 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
     public IBakedModel handleItemState(ItemStack itemStack) {
         List<BakedQuad> quads = Lists.newLinkedList();
 
-        for (IBroomPart part : BroomParts.REGISTRY.getBroomParts(itemStack)) {
-            quads.addAll(broomPartModels.get(part).getGeneralQuads());
+        IBroomPart rod = null;
+        Collection<IBroomPart> parts = BroomParts.REGISTRY.getBroomParts(itemStack);
+        for (IBroomPart part : parts) {
+            if (part.getType() == IBroomPart.BroomPartType.ROD && rod == null) {
+                rod = part;
+            } else {
+                // TODO: invalid broom
+            }
+        }
+
+        if (rod == null) {
+            // TODO: invalid broom
+        }
+
+        for (IBroomPart part : parts) {
+            float offset = part.getType().getOffsetter().getOffset(rod.getLength(), part.getLength());
+            quads.addAll(offset(broomPartModels.get(part).getGeneralQuads(), offset));
         }
 
         return new SimpleBakedModel(quads, ModelHelpers.EMPTY_FACE_QUADS, this.isAmbientOcclusion(), this.isGui3d(),
                 this.getParticleTexture(), this.getItemCameraTransforms());
+    }
+
+    /**
+     * Offsets the z coordinate
+     * @param quads The original quads
+     * @param offset The offset to apply
+     * @return The offsetted quads
+     */
+    private Collection<? extends BakedQuad> offset(List<BakedQuad> quads, float offset) {
+        List<BakedQuad> offsetQuads = Lists.newArrayListWithExpectedSize(quads.size());
+        for (BakedQuad quad : quads) {
+            int[] vertexData = Arrays.copyOf(quad.getVertexData(), quad.getVertexData().length);
+            for(int i = 0; i < vertexData.length / 7; i++) {
+                float originalZ = Float.intBitsToFloat(vertexData[i * 7 + 2]);
+                originalZ += offset;
+                vertexData[i * 7 + 2] = Float.floatToIntBits(originalZ);
+            }
+
+            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getFace()));
+        }
+
+        return offsetQuads;
     }
 
     @Override

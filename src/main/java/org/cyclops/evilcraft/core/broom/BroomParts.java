@@ -15,13 +15,23 @@ public final class BroomParts {
     public static final IBroomPartRegistry REGISTRY = EvilCraft._instance.getRegistryManager().getRegistry(IBroomPartRegistry.class);
 
     public static IBroomPart ROD_WOOD;
+
     public static IBroomPart BRUSH_WHEAT;
+
     public static IBroomPart CAP_DARKGEM;
 
     public static void load() {
-        ROD_WOOD = REGISTRY.registerPart(new BroomPartBase(new ResourceLocation(Reference.MOD_ID, "rod_wood"), IBroomPart.BroomPartType.ROD));
-        BRUSH_WHEAT = REGISTRY.registerPart(new BroomPartBase(new ResourceLocation(Reference.MOD_ID, "brush_wheat"), IBroomPart.BroomPartType.BRUSH));
-        CAP_DARKGEM = REGISTRY.registerPart(new BroomPartBase(new ResourceLocation(Reference.MOD_ID, "cap_darkgem"), IBroomPart.BroomPartType.CAP));
+        ROD_WOOD = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_wood"),
+                IBroomPart.BroomPartType.ROD, 1F));
+
+        BRUSH_WHEAT = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "brush_wheat"),
+                IBroomPart.BroomPartType.BRUSH, 0.4375F));
+
+        CAP_DARKGEM = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "cap_darkgem"),
+                IBroomPart.BroomPartType.CAP, 0.0625F));
     }
 
 }

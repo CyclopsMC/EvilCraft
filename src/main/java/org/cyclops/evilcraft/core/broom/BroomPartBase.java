@@ -16,10 +16,12 @@ public class BroomPartBase implements IBroomPart {
 
     private final ResourceLocation id;
     private final BroomPartType type;
+    private final float length;
 
-    public BroomPartBase(ResourceLocation id, BroomPartType type) {
+    public BroomPartBase(ResourceLocation id, BroomPartType type, float length) {
         this.id = id;
         this.type = type;
+        this.length = length;
         if(MinecraftHelpers.isClientSide()) {
             registerModelResourceLocation();
         }
