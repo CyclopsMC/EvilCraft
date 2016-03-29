@@ -5,11 +5,19 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.item.Broom;
@@ -31,6 +39,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     private Map<IBroomPart, ResourceLocation> partModels;
 
     public BroomPartRegistry() {
+        MinecraftForge.EVENT_BUS.register(this);
         if(MinecraftHelpers.isClientSide()) {
             partModels = Maps.newHashMap();
         }
@@ -51,7 +60,11 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public <P extends IBroomPart> ItemStack getItemFromPart(P part) {
-        return partItems.get(part);
+        ItemStack result = partItems.get(part);
+        if (result == null) {
+            return null;
+        }
+        return result.copy();
     }
 
     @Override
@@ -71,7 +84,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public IBroomPart getPart(ResourceLocation partId) {
-        return null;
+        return parts.get(partId);
     }
 
     @Override
@@ -107,8 +120,9 @@ public class BroomPartRegistry implements IBroomPartRegistry {
                 IBroomPart part = getPart(new ResourceLocation(id));
                 if(part == null) {
                     // TODO: fallback to default
+                } else {
+                    parts.add(part);
                 }
-                parts.add(part);
             }
             return parts;
         }
@@ -123,6 +137,26 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public void setBroomParts(ItemStack broomStack, Collection<IBroomPart> broomParts) {
+        NBTTagList list = new NBTTagList();
+        for (IBroomPart broomPart : broomParts) {
+            list.appendTag(new NBTTagString(broomPart.getId().toString()));
+        }
+        if(!broomStack.hasTagCompound()) {
+            broomStack.setTagCompound(new NBTTagCompound());
+        }
+        broomStack.getTagCompound().setTag(NBT_TAG_NAME, list);
+    }
 
+    @SubscribeEvent
+    public void onTooltipEvent(ItemTooltipEvent event) {
+        IBroomPart part = getPartFromItem(event.itemStack);
+        if(part != null) {
+            if(MinecraftHelpers.isShifted()) {
+                event.toolTip.add(L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".type.name",
+                        L10NHelpers.localize(part.getType().getUnlocalizedName())));
+            } else {
+                event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".shiftinfo"));
+            }
+        }
     }
 }

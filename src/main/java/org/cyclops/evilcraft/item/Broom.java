@@ -12,6 +12,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
@@ -97,17 +98,17 @@ public class Broom extends ConfigurableItem {
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(MinecraftHelpers.isShifted()) {
-            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts.evilcraft.types.name"));
+            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".types.name"));
             for (IBroomPart part : getParts(itemStack)) {
                 list.add("  " + L10NHelpers.localize(part.getUnlocalizedName() + ".name"));
             }
-            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers.evilcraft.name"));
+            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
             for (Map.Entry<BroomModifier, Float> entry : getModifiers(itemStack).entrySet()) {
                 list.add("  " + L10NHelpers.localize(entry.getKey().getUnlocalizedName()) + ": " + entry.getValue());
             }
 
         } else {
-            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.evilcraft.shiftinfo"));
+            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom." + Reference.MOD_ID + ".shiftinfo"));
         }
     }
 }

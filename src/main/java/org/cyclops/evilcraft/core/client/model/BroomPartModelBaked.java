@@ -42,7 +42,9 @@ public class BroomPartModelBaked extends DynamicBaseModel implements ISmartItemM
 
         IBroomPart part = BroomParts.REGISTRY.getPartFromItem(itemStack);
         IBakedModel model = broomPartModels.get(part);
-        quads.addAll(model.getGeneralQuads());
+        if (model != null) {
+            quads.addAll(model.getGeneralQuads());
+        }
 
         return new SimpleBakedModel(quads, ModelHelpers.EMPTY_FACE_QUADS, this.isAmbientOcclusion(), this.isGui3d(),
                 this.getParticleTexture(), this.getItemCameraTransforms());

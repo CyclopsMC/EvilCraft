@@ -41,13 +41,18 @@ public final class BroomParts {
     }
 
     public static void loadPost() {
-        ItemStack rodWoodStack = new ItemStack(BroomPart.getInstance());
-        REGISTRY.setBroomParts(rodWoodStack, Collections.singleton(ROD_WOOD));
-        REGISTRY.registerPartItem(ROD_WOOD, rodWoodStack);
-
         REGISTRY.registerPartItem(BRUSH_WHEAT, new ItemStack(Blocks.hay_block));
-
         REGISTRY.registerPartItem(CAP_DARKGEM, new ItemStack(DarkGem.getInstance()));
+
+        // Automatically register remaining parts for parts that don't have a custom item.
+        for (IBroomPart part : REGISTRY.getParts()) {
+            if(REGISTRY.getItemFromPart(part) == null) {
+                ItemStack itemStack = new ItemStack(BroomPart.getInstance());
+                REGISTRY.setBroomParts(itemStack, Collections.singleton(part));
+                REGISTRY.registerPartItem(part, itemStack);
+            }
+        }
+
     }
 
 }

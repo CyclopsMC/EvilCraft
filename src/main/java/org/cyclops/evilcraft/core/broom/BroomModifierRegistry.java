@@ -4,14 +4,21 @@ import com.google.common.collect.Maps;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomModifierRegistry;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Default registry for broom modifiers.
@@ -24,11 +31,32 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     private static final String NBT_TAG_VALUE = "value";
 
     private final Map<ResourceLocation, BroomModifier> broomModifiers = Maps.newHashMap();
+    private final Map<Map<BroomModifier, Float>, ItemStack> broomItems = Maps.newHashMap();
+
+    public BroomModifierRegistry() {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
 
     @Override
     public BroomModifier registerModifier(BroomModifier modifier) {
         broomModifiers.put(modifier.getId(), modifier);
         return modifier;
+    }
+
+    @Override
+    public void registerModifiersItem(Map<BroomModifier, Float> modifiers, ItemStack item) {
+        Objects.requireNonNull(item.getItem());
+        broomItems.put(modifiers, item);
+    }
+
+    @Override
+    public Map<BroomModifier, Float> getModifiersFromItem(ItemStack item) {
+        for (Map.Entry<Map<BroomModifier, Float>, ItemStack> entry : broomItems.entrySet()) {
+            if (ItemStack.areItemsEqual(item, entry.getValue()) && ItemStack.areItemStackTagsEqual(item, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -72,7 +100,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
         NBTTagList list = new NBTTagList();
         for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
             NBTTagCompound tag = new NBTTagCompound();
-            tag.setString(NBT_TAG_NAME, entry.getKey().getId().toString());
+            tag.setString(NBT_TAG_KEY, entry.getKey().getId().toString());
             tag.setFloat(NBT_TAG_VALUE, entry.getValue());
             list.appendTag(tag);
         }
@@ -80,5 +108,20 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
             broomStack.setTagCompound(new NBTTagCompound());
         }
         broomStack.getTagCompound().setTag(NBT_TAG_NAME, list);
+    }
+
+    @SubscribeEvent
+    public void onTooltipEvent(ItemTooltipEvent event) {
+        Map<BroomModifier, Float> modifiers = getModifiersFromItem(event.itemStack);
+        if(modifiers != null) {
+            if(MinecraftHelpers.isShifted()) {
+                event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
+                for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
+                    event.toolTip.add(L10NHelpers.localize(L10NHelpers.localize(entry.getKey().getUnlocalizedName()) + ": " + entry.getValue()));
+                }
+            } else {
+                event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".shiftinfo"));
+            }
+        }
     }
 }

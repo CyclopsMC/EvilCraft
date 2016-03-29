@@ -20,6 +20,20 @@ public interface IBroomModifierRegistry extends IRegistry {
     public BroomModifier registerModifier(BroomModifier modifier);
 
     /**
+     * Assign an item to the given modifiers.
+     * @param modifiers The modifiers.
+     * @param item The item-form of this modifiers.
+     */
+    public void registerModifiersItem(Map<BroomModifier, Float> modifiers, ItemStack item);
+
+    /**
+     * Get the modifier of the given item-form.
+     * @param item The item containing modifiers.
+     * @return The modifier or null.
+     */
+    public Map<BroomModifier, Float> getModifiersFromItem(ItemStack item);
+
+    /**
      * @return All modifiers.
      */
     public Collection<BroomModifier> getModifiers();

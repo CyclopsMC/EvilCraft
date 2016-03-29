@@ -192,10 +192,11 @@ public class EntityBroom extends Entity implements IConfigurable{
     		// The player dismounted, give him his broom back if he's not in creative mode
     		if (!lastMounted.capabilities.isCreativeMode && Configs.isEnabled(BroomConfig.class)) {
     		    // Return to inventory if we have space and the player is not dead, otherwise drop it on the ground
-                if (!lastMounted.isDead && !MinecraftHelpers.isPlayerInventoryFull(lastMounted))
-    		        lastMounted.inventory.addItemStackToInventory(getBroomStack());
-    		    else
-    		        dropItem(Broom.getInstance(), 1);
+                if (!lastMounted.isDead && !MinecraftHelpers.isPlayerInventoryFull(lastMounted)) {
+                    lastMounted.inventory.addItemStackToInventory(getBroomStack());
+                } else {
+                    entityDropItem(getBroomStack(), 0);
+                }
     		}
     		
             lastMounted = null;
@@ -356,7 +357,9 @@ public class EntityBroom extends Entity implements IConfigurable{
     }
 
     public ItemStack getBroomStack() {
-        return dataWatcher.getWatchableObjectItemStack(ITEMSTACK_INDEX);
+        ItemStack itemStack = dataWatcher.getWatchableObjectItemStack(ITEMSTACK_INDEX);
+        itemStack.stackSize = 1;
+        return itemStack;
     }
     
 }

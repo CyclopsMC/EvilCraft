@@ -1,8 +1,12 @@
 package org.cyclops.evilcraft.api.broom;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.evilcraft.Reference;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A broom part.
@@ -45,6 +49,8 @@ public interface IBroomPart {
      */
     public static class BroomPartType {
 
+        private static final List<BroomPartType> ALL_TYPES = Lists.newArrayList();
+
         public static final BroomPartType ROD = new BroomPartType("rod", new IBroomPartTypeModelOffsetter() {
             @Override
             public float getOffset(float rodLength, float selfLength) {
@@ -67,9 +73,16 @@ public interface IBroomPart {
         private final String name;
         private final IBroomPartTypeModelOffsetter offsetter;
 
+        public static final BroomPartType[] BASE_TYPES = {ROD, BRUSH, CAP};
+
+        public static List<BroomPartType> getAllTypes() {
+            return Collections.unmodifiableList(ALL_TYPES);
+        }
+
         public BroomPartType(String name, IBroomPartTypeModelOffsetter offsetter) {
             this.name = name;
             this.offsetter = offsetter;
+            ALL_TYPES.add(this);
         }
 
         public String getName() {
@@ -82,6 +95,11 @@ public interface IBroomPart {
 
         public IBroomPartTypeModelOffsetter getOffsetter() {
             return offsetter;
+        }
+
+        @Override
+        public String toString() {
+            return getName();
         }
     }
 

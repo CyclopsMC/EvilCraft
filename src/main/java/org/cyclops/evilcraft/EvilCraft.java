@@ -149,7 +149,7 @@ public class EvilCraft extends ModBaseVersionable {
         getRegistryManager().addRegistry(IPurifierActionRegistry.class, new PurifierActionRegistry());
 
         BroomParts.loadPre();
-        BroomModifiers.load();
+        BroomModifiers.loadPre();
 
         super.preInit(event);
     }
@@ -193,6 +193,7 @@ public class EvilCraft extends ModBaseVersionable {
         super.postInit(event);
 
         BroomParts.loadPost();
+        BroomModifiers.loadPost();
     }
     
     /**

@@ -304,6 +304,7 @@ gui.nei.fluids=Fluids
 
 # Broom parts
 broom.evilcraft.shiftinfo=<Shift for broom info>
+broom.parts.evilcraft.shiftinfo=<Shift for broom parts info>
 broom.parts.evilcraft.rod_wood.name=Wooden Rod
 broom.parts.evilcraft.brush_wheat.name=Wheat Brush
 broom.parts.evilcraft.cap_darkgem.name=Dark Gem Cap
@@ -316,10 +317,11 @@ broom.parts.evilcraft.type.brush.name=Brush
 broom.parts.evilcraft.type.cap.name=Cap
 
 # Broom modifiers
-broom.modifiers.evilcraft.name=Modifiers:
-broom.modifiers.evilcraft.speed.name=Speed
-broom.modifiers.evilcraft.acceleration.name=Acceleration
-broom.modifiers.evilcraft.maneuverability.name=Maneuverability
+broom.modifiers.evilcraft.shiftinfo=<Shift for broom info>
+broom.modifiers.evilcraft.types.name=Modifier:
+broom.modifiers.evilcraft.type.speed.name=Speed
+broom.modifiers.evilcraft.type.acceleration.name=Acceleration
+broom.modifiers.evilcraft.type.maneuverability.name=Maneuverability
 
 # ------ Origins of Darkness contents ------
 infoBook.evilcraft.section.main=Origins of Darkness

@@ -22,6 +22,7 @@ import org.cyclops.cyclopscore.recipe.xml.IRecipeTypeHandler;
 import org.cyclops.evilcraft.block.*;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.core.recipe.BloodExtractorCombinationRecipe;
+import org.cyclops.evilcraft.core.recipe.BroomPartCombinationRecipe;
 import org.cyclops.evilcraft.core.recipe.ItemBlockFluidContainerCombinationRecipe;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
@@ -59,6 +60,8 @@ public class ExtendedRecipeHandler extends RecipeHandler {
         RecipeSorter.register(Reference.MOD_ID + "containercombination", ItemBlockFluidContainerCombinationRecipe.class,
                 RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
         RecipeSorter.register(Reference.MOD_ID + "bloodextractorcombination", BloodExtractorCombinationRecipe.class,
+                RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
+        RecipeSorter.register(Reference.MOD_ID + "broomcombination", BroomPartCombinationRecipe.class,
                 RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
     }
 
@@ -177,6 +180,13 @@ public class ExtendedRecipeHandler extends RecipeHandler {
         if(Configs.isEnabled(BloodExtractorConfig.class) && Configs.isEnabled(DarkTankConfig.class)) {
             for(int i = 1; i < 9; i++) {
                 GameRegistry.addRecipe(new BloodExtractorCombinationRecipe(i));
+            }
+        }
+
+        // Broom crafting
+        if(Configs.isEnabled(BroomConfig.class)) {
+            for(int i = 1; i < 9; i++) {
+                GameRegistry.addRecipe(new BroomPartCombinationRecipe(i));
             }
         }
 

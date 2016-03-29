@@ -50,7 +50,12 @@ public class BroomModifier {
     }
 
     public String getUnlocalizedName() {
-        return "broom.modifiers." + id.getResourceDomain() + "." + getName() + ".name";
+        return "broom.modifiers." + id.getResourceDomain() + ".type." + getName() + ".name";
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
     public boolean isBaseModifier() {
