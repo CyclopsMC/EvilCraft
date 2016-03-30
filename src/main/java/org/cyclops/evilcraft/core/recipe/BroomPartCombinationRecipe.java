@@ -96,9 +96,6 @@ public class BroomPartCombinationRecipe implements IRecipe {
 						existingBroomParts = currentExistingBroomParts;
 						output = element.copy();
 						existingBroomSlot = j;
-						for (IBroomPart existingBroomPart : existingBroomParts.values()) {
-							parts.put(existingBroomPart.getType(), existingBroomPart);
-						}
 					} else {
 						return null;
 					}
