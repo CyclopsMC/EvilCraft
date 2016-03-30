@@ -99,12 +99,14 @@ public class Broom extends ConfigurableItem {
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(MinecraftHelpers.isShifted()) {
             list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".types.name"));
+            Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(itemStack);
             for (IBroomPart part : getParts(itemStack)) {
-                list.add("  " + L10NHelpers.localize(part.getUnlocalizedName() + ".name"));
+                list.add(part.getTooltipLine("  "));
             }
             list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
             for (Map.Entry<BroomModifier, Float> entry : getModifiers(itemStack).entrySet()) {
-                list.add("  " + L10NHelpers.localize(entry.getKey().getUnlocalizedName()) + ": " + entry.getValue());
+                list.add(entry.getKey().getTooltipLine("  ", entry.getValue(),
+                        baseModifiers.containsKey(entry.getKey()) ? baseModifiers.get(entry.getKey()) : 0));
             }
 
         } else {

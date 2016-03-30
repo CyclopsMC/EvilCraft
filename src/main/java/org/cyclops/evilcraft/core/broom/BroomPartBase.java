@@ -5,6 +5,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 
@@ -45,5 +46,10 @@ public class BroomPartBase implements IBroomPart {
     @Override
     public String getUnlocalizedName() {
         return "broom.parts." + getId().getResourceDomain() + "." + getId().getResourcePath();
+    }
+
+    @Override
+    public String getTooltipLine(String prefix) {
+        return prefix + L10NHelpers.localize(getUnlocalizedName() + ".name");
     }
 }

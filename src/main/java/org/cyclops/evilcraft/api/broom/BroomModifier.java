@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.api.broom;
 import com.google.common.base.Function;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.tuple.Pair;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -16,12 +17,17 @@ public class BroomModifier {
     private final ResourceLocation id;
     private final Type type;
     private final float defaultValue;
+    private final float tierValue;
+    private final int maxTiers;
     private final boolean baseModifier;
 
-    public BroomModifier(ResourceLocation id, Type type, float defaultValue, boolean baseModifier) {
+    public BroomModifier(ResourceLocation id, Type type, float defaultValue,
+                         float tierValue, int maxTiers, boolean baseModifier) {
         this.id = id;
         this.type = type;
         this.defaultValue = defaultValue;
+        this.tierValue = tierValue;
+        this.maxTiers = maxTiers;
         this.baseModifier = baseModifier;
     }
 
@@ -49,8 +55,32 @@ public class BroomModifier {
         return defaultValue;
     }
 
+    public float getTierValue() {
+        return tierValue;
+    }
+
+    public int getMaxTiers() {
+        return maxTiers;
+    }
+
+    public float getMaxTierValue() {
+        return getTierValue() * getMaxTiers();
+    }
+
     public String getUnlocalizedName() {
         return "broom.modifiers." + id.getResourceDomain() + ".type." + getName() + ".name";
+    }
+
+    public String getTooltipLine(String prefix, float value, float bonusValue) {
+        String suffix;
+        if(bonusValue > 0) {
+            suffix = String.format("%s: %s (+%s) / %s", L10NHelpers.localize(getUnlocalizedName()),
+                    value, bonusValue, getMaxTierValue());
+        } else {
+            suffix = String.format("%s: %s / %s", L10NHelpers.localize(getUnlocalizedName()),
+                    value, getMaxTierValue());
+        }
+        return L10NHelpers.localize(prefix + suffix);
     }
 
     @Override

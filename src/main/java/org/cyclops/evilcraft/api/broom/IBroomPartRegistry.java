@@ -7,6 +7,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.init.IRegistry;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Registry for broom parts.
@@ -29,6 +30,29 @@ public interface IBroomPartRegistry extends IRegistry {
      * @param <P> The type of part.
      */
     public <P extends IBroomPart> void registerPartItem(P part, ItemStack item);
+
+    /**
+     * Assign base modifiers to the given part.
+     * @param part The part.
+     * @param modifiers The modifiers.
+     * @param <P> The type of part.
+     */
+    public <P extends IBroomPart> void registerBaseModifiers(P part, Map<BroomModifier, Float> modifiers);
+
+    /**
+     * Get the base modifiers for the given part.
+     * @param part The part.
+     * @param <P> The part type.
+     * @return The base modifiers.
+     */
+    public <P extends IBroomPart> Map<BroomModifier, Float> getBaseModifiersFromPart(P part);
+
+    /**
+     * Get the broom base modifiers from the given itemstack.
+     * @param broomStack The broom item stack
+     * @return The broom base modifiers.
+     */
+    public Map<BroomModifier, Float> getBaseModifiersFromBroom(ItemStack broomStack);
 
     /**
      * Get the item-form of the given part.

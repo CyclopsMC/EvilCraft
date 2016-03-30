@@ -318,7 +318,8 @@ broom.parts.evilcraft.type.cap.name=Cap
 
 # Broom modifiers
 broom.modifiers.evilcraft.shiftinfo=<Shift for broom info>
-broom.modifiers.evilcraft.types.name=Modifier:
+broom.modifiers.evilcraft.types.name=Max Modifiers:
+broom.modifiers.evilcraft.type.modifier_count.name=Modifiers
 broom.modifiers.evilcraft.type.speed.name=Speed
 broom.modifiers.evilcraft.type.acceleration.name=Acceleration
 broom.modifiers.evilcraft.type.maneuverability.name=Maneuverability

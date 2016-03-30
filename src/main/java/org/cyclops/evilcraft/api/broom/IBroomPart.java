@@ -30,6 +30,13 @@ public interface IBroomPart {
     public String getUnlocalizedName();
 
     /**
+     * The line to be added to tooltips.
+     * @param prefix A line prefix
+     * @return The line
+     */
+    public String getTooltipLine(String prefix);
+
+    /**
      * @return The length of this part (1.0F = 1 block)
      */
     public float getLength();

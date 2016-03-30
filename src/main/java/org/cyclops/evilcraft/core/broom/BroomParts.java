@@ -1,16 +1,20 @@
 package org.cyclops.evilcraft.core.broom;
 
+import com.google.common.collect.Maps;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.api.broom.BroomModifier;
+import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.item.BroomPart;
 import org.cyclops.evilcraft.item.DarkGem;
 
 import java.util.Collections;
+import java.util.Map;
 
 /**
  * Collection of all broom parts.
@@ -42,7 +46,18 @@ public final class BroomParts {
 
     public static void loadPost() {
         REGISTRY.registerPartItem(BRUSH_WHEAT, new ItemStack(Blocks.hay_block));
+        Map<BroomModifier, Float> hayBlockMap = Maps.newHashMap();
+        hayBlockMap.put(BroomModifiers.SPEED, 10F);
+        REGISTRY.registerBaseModifiers(BRUSH_WHEAT, hayBlockMap);
+
         REGISTRY.registerPartItem(CAP_DARKGEM, new ItemStack(DarkGem.getInstance()));
+        Map<BroomModifier, Float> darkGemMap = Maps.newHashMap();
+        hayBlockMap.put(BroomModifiers.MANEUVERABILITY, 10F);
+        REGISTRY.registerBaseModifiers(CAP_DARKGEM, darkGemMap);
+
+        Map<BroomModifier, Float> woodRodMap = Maps.newHashMap();
+        woodRodMap.put(BroomModifiers.MODIFIER_COUNT, 4F);
+        REGISTRY.registerBaseModifiers(ROD_WOOD, woodRodMap);
 
         // Automatically register remaining parts for parts that don't have a custom item.
         for (IBroomPart part : REGISTRY.getParts()) {

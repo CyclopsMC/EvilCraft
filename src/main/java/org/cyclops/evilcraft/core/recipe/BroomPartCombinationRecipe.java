@@ -116,7 +116,7 @@ public class BroomPartCombinationRecipe implements IRecipe {
 					parts.put(part.getType(), part);
 				} else if (modifier != null) {
 					rawModifiers.add(modifier);
-				} else if(j != existingBroomSlot) {
+				} else if (j != existingBroomSlot) {
 					return null;
 				}
 			}
@@ -138,10 +138,18 @@ public class BroomPartCombinationRecipe implements IRecipe {
 			return null;
 		}
 
-		// Write broom data
+		// Write broom parts
 		BroomParts.REGISTRY.setBroomParts(output, parts.values());
+
+		// Validate modifiers
 		Map<BroomModifier, Float> broomModifiers = BroomModifiers.REGISTRY.getModifiers(output);
+		Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(output);
 		applyNewModifiers(broomModifiers, rawModifiers);
+		if (!areValidBroomModifiers(broomModifiers, baseModifiers)) {
+			return null;
+		}
+
+		// Write broom modifiers
 		BroomModifiers.REGISTRY.setModifiers(output, broomModifiers);
 
 		return Pair.of(output, extraOutputs);
@@ -176,6 +184,28 @@ public class BroomPartCombinationRecipe implements IRecipe {
 			remainingRequiredTypes.remove(part.getType());
 		}
 		return remainingRequiredTypes.isEmpty();
+	}
+
+	private boolean areValidBroomModifiers(Map<BroomModifier, Float> broomModifiers, Map<BroomModifier, Float> baseModifiers) {
+		int baseMaxModifiers = 0;
+		if(baseModifiers.containsKey(BroomModifiers.MODIFIER_COUNT)) {
+			baseMaxModifiers = (int) (float) baseModifiers.get(BroomModifiers.MODIFIER_COUNT);
+		}
+		int maxModifiers = baseMaxModifiers;
+		int modifiers = 0;
+		for (Map.Entry<BroomModifier, Float> entry : broomModifiers.entrySet()) {
+			int tier = (int) Math.ceil(entry.getValue() / entry.getKey().getTierValue());
+			if(tier > entry.getKey().getMaxTiers()) {
+				return false;
+			}
+			if(entry.getKey() == BroomModifiers.MODIFIER_COUNT) {
+				maxModifiers += (int) (float) entry.getValue();
+			} else {
+				modifiers += tier;
+			}
+		}
+		broomModifiers.put(BroomModifiers.MODIFIER_COUNT, (float) maxModifiers - baseMaxModifiers);
+		return modifiers <= maxModifiers;
 	}
 
 }

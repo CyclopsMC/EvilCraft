@@ -31,7 +31,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     private static final String NBT_TAG_VALUE = "value";
 
     private final Map<ResourceLocation, BroomModifier> broomModifiers = Maps.newHashMap();
-    private final Map<Map<BroomModifier, Float>, ItemStack> broomItems = Maps.newHashMap();
+    private final Map<ItemStack, Map<BroomModifier, Float>> broomItems = Maps.newHashMap();
 
     public BroomModifierRegistry() {
         MinecraftForge.EVENT_BUS.register(this);
@@ -46,14 +46,14 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     @Override
     public void registerModifiersItem(Map<BroomModifier, Float> modifiers, ItemStack item) {
         Objects.requireNonNull(item.getItem());
-        broomItems.put(modifiers, item);
+        broomItems.put(item, modifiers);
     }
 
     @Override
     public Map<BroomModifier, Float> getModifiersFromItem(ItemStack item) {
-        for (Map.Entry<Map<BroomModifier, Float>, ItemStack> entry : broomItems.entrySet()) {
-            if (ItemStack.areItemsEqual(item, entry.getValue()) && ItemStack.areItemStackTagsEqual(item, entry.getValue())) {
-                return entry.getKey();
+        for (Map.Entry<ItemStack, Map<BroomModifier, Float>> entry : broomItems.entrySet()) {
+            if (ItemStack.areItemsEqual(item, entry.getKey()) && ItemStack.areItemStackTagsEqual(item, entry.getKey())) {
+                return entry.getValue();
             }
         }
         return null;
@@ -117,7 +117,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
             if(MinecraftHelpers.isShifted()) {
                 event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
                 for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
-                    event.toolTip.add(L10NHelpers.localize(L10NHelpers.localize(entry.getKey().getUnlocalizedName()) + ": " + entry.getValue()));
+                    event.toolTip.add("  " + L10NHelpers.localize(entry.getKey().getUnlocalizedName()) + ": " + entry.getValue());
                 }
             } else {
                 event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".shiftinfo"));

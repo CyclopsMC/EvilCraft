@@ -18,6 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.item.Broom;
@@ -35,6 +36,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     private final Map<ResourceLocation, IBroomPart> parts = Maps.newHashMap();
     private final Map<IBroomPart, ItemStack> partItems = Maps.newHashMap();
     private final Multimap<IBroomPart.BroomPartType, IBroomPart> partsByType = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
+    private final Map<IBroomPart, Map<BroomModifier, Float>> baseModifers = Maps.newHashMap();
     @SideOnly(Side.CLIENT)
     private Map<IBroomPart, ResourceLocation> partModels;
 
@@ -56,6 +58,35 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     public <P extends IBroomPart> void registerPartItem(P part, ItemStack item) {
         Objects.requireNonNull(item.getItem());
         partItems.put(part, item);
+    }
+
+    @Override
+    public <P extends IBroomPart> void registerBaseModifiers(P part, Map<BroomModifier, Float> modifiers) {
+        baseModifers.put(part, modifiers);
+    }
+
+    @Override
+    public <P extends IBroomPart> Map<BroomModifier, Float> getBaseModifiersFromPart(P part) {
+        if(baseModifers.containsKey(part)) {
+            return baseModifers.get(part);
+        }
+        return Collections.emptyMap();
+    }
+
+    @Override
+    public Map<BroomModifier, Float> getBaseModifiersFromBroom(ItemStack broomStack) {
+        Map<BroomModifier, Float> baseModifiers = Maps.newHashMap();
+        for (IBroomPart part : getBroomParts(broomStack)) {
+            for (Map.Entry<BroomModifier, Float> entry : BroomParts.REGISTRY.getBaseModifiersFromPart(part).entrySet()) {
+                BroomModifier modifier = entry.getKey();
+                if(baseModifiers.containsKey(modifier)) {
+                    baseModifiers.put(modifier, entry.getValue() + baseModifiers.get(modifier));
+                } else{
+                    baseModifiers.put(modifier, entry.getValue());
+                }
+            }
+        }
+        return baseModifiers;
     }
 
     @Override
@@ -152,8 +183,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
         IBroomPart part = getPartFromItem(event.itemStack);
         if(part != null) {
             if(MinecraftHelpers.isShifted()) {
-                event.toolTip.add(L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".type.name",
-                        L10NHelpers.localize(part.getType().getUnlocalizedName())));
+                event.toolTip.add(part.getTooltipLine(""));
             } else {
                 event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".shiftinfo"));
             }
