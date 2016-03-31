@@ -33,11 +33,20 @@ public interface IBroomPartRegistry extends IRegistry {
 
     /**
      * Assign base modifiers to the given part.
-     * @param part The part.
      * @param modifiers The modifiers.
+     * @param part The part.
      * @param <P> The type of part.
      */
-    public <P extends IBroomPart> void registerBaseModifiers(P part, Map<BroomModifier, Float> modifiers);
+    public <P extends IBroomPart> void registerBaseModifiers(Map<BroomModifier, Float> modifiers, P part);
+
+    /**
+     * Assign base modifier to the given part.
+     * @param modifier The modifier.
+     * @param modifierValue The modifier value.
+     * @param part The part.
+     * @param <P> The type of part.
+     */
+    public <P extends IBroomPart> void registerBaseModifiers(BroomModifier modifier, float modifierValue, P part);
 
     /**
      * Get the base modifiers for the given part.

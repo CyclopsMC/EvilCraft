@@ -50,6 +50,13 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     }
 
     @Override
+    public void registerModifiersItem(BroomModifier modifier, float modifierValue, ItemStack item) {
+        Map<BroomModifier, Float> map = Maps.newHashMap();
+        map.put(modifier, modifierValue);
+        registerModifiersItem(map, item);
+    }
+
+    @Override
     public Map<BroomModifier, Float> getModifiersFromItem(ItemStack item) {
         for (Map.Entry<ItemStack, Map<BroomModifier, Float>> entry : broomItems.entrySet()) {
             if (ItemStack.areItemsEqual(item, entry.getKey()) && ItemStack.areItemStackTagsEqual(item, entry.getKey())) {

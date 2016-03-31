@@ -25,6 +25,11 @@ public final class BroomParts {
     public static final IBroomPartRegistry REGISTRY = EvilCraft._instance.getRegistryManager().getRegistry(IBroomPartRegistry.class);
 
     public static IBroomPart ROD_WOOD;
+    public static IBroomPart ROD_STONE;
+    public static IBroomPart ROD_BONE;
+    public static IBroomPart ROD_BLAZE;
+    public static IBroomPart ROD_REED;
+    public static IBroomPart ROD_NETHERRACK;
 
     public static IBroomPart BRUSH_WHEAT;
 
@@ -33,6 +38,21 @@ public final class BroomParts {
     public static void loadPre() {
         ROD_WOOD = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "rod_wood"),
+                IBroomPart.BroomPartType.ROD, 1F));
+        ROD_STONE = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_stone"),
+                IBroomPart.BroomPartType.ROD, 1F));
+        ROD_BONE = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_bone"),
+                IBroomPart.BroomPartType.ROD, 1F));
+        ROD_BLAZE = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_blaze"),
+                IBroomPart.BroomPartType.ROD, 1F));
+        ROD_REED = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_reed"),
+                IBroomPart.BroomPartType.ROD, 1F));
+        ROD_NETHERRACK = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_netherrack"),
                 IBroomPart.BroomPartType.ROD, 1F));
 
         BRUSH_WHEAT = REGISTRY.registerPart(new BroomPartBase(
@@ -46,18 +66,53 @@ public final class BroomParts {
 
     public static void loadPost() {
         REGISTRY.registerPartItem(BRUSH_WHEAT, new ItemStack(Blocks.hay_block));
-        Map<BroomModifier, Float> hayBlockMap = Maps.newHashMap();
-        hayBlockMap.put(BroomModifiers.SPEED, 10F);
-        REGISTRY.registerBaseModifiers(BRUSH_WHEAT, hayBlockMap);
+        REGISTRY.registerBaseModifiers(BroomModifiers.SPEED, 10F, BRUSH_WHEAT);
 
         REGISTRY.registerPartItem(CAP_DARKGEM, new ItemStack(DarkGem.getInstance()));
-        Map<BroomModifier, Float> darkGemMap = Maps.newHashMap();
-        hayBlockMap.put(BroomModifiers.MANEUVERABILITY, 10F);
-        REGISTRY.registerBaseModifiers(CAP_DARKGEM, darkGemMap);
+        REGISTRY.registerBaseModifiers(BroomModifiers.MANEUVERABILITY, 10F, CAP_DARKGEM);
 
-        Map<BroomModifier, Float> woodRodMap = Maps.newHashMap();
-        woodRodMap.put(BroomModifiers.MODIFIER_COUNT, 4F);
-        REGISTRY.registerBaseModifiers(ROD_WOOD, woodRodMap);
+        // Rod modifiers
+        Map<BroomModifier, Float> rodWoodModifiers = Maps.newHashMap();
+        rodWoodModifiers.put(BroomModifiers.MODIFIER_COUNT, 4F);
+        rodWoodModifiers.put(BroomModifiers.SPEED, 100F);
+        rodWoodModifiers.put(BroomModifiers.MANEUVERABILITY, 150F);
+        rodWoodModifiers.put(BroomModifiers.ACCELERATION, 50F);
+        REGISTRY.registerBaseModifiers(rodWoodModifiers, ROD_WOOD);
+
+        Map<BroomModifier, Float> rodStoneModifiers = Maps.newHashMap();
+        rodStoneModifiers.put(BroomModifiers.MODIFIER_COUNT, 8F);
+        rodStoneModifiers.put(BroomModifiers.SPEED, 50F);
+        rodStoneModifiers.put(BroomModifiers.MANEUVERABILITY, 30F);
+        rodStoneModifiers.put(BroomModifiers.ACCELERATION, 10F);
+        REGISTRY.registerBaseModifiers(rodStoneModifiers, ROD_STONE);
+
+        Map<BroomModifier, Float> rodBoneModifiers = Maps.newHashMap();
+        rodBoneModifiers.put(BroomModifiers.MODIFIER_COUNT, 4F);
+        rodBoneModifiers.put(BroomModifiers.SPEED, 150F);
+        rodBoneModifiers.put(BroomModifiers.MANEUVERABILITY, 150F);
+        rodBoneModifiers.put(BroomModifiers.ACCELERATION, 100F);
+        REGISTRY.registerBaseModifiers(rodStoneModifiers, ROD_BONE);
+
+        Map<BroomModifier, Float> rodBlazeModifiers = Maps.newHashMap();
+        rodBlazeModifiers.put(BroomModifiers.MODIFIER_COUNT, 3F);
+        rodBlazeModifiers.put(BroomModifiers.SPEED, 250F);
+        rodBlazeModifiers.put(BroomModifiers.MANEUVERABILITY, 100F);
+        rodBlazeModifiers.put(BroomModifiers.ACCELERATION, 100F);
+        REGISTRY.registerBaseModifiers(rodBlazeModifiers, ROD_BLAZE);
+
+        Map<BroomModifier, Float> rodReedModifiers = Maps.newHashMap();
+        rodReedModifiers.put(BroomModifiers.MODIFIER_COUNT, 5F);
+        rodReedModifiers.put(BroomModifiers.SPEED, 50F);
+        rodReedModifiers.put(BroomModifiers.MANEUVERABILITY, 200F);
+        rodReedModifiers.put(BroomModifiers.ACCELERATION, 200F);
+        REGISTRY.registerBaseModifiers(rodBlazeModifiers, ROD_REED);
+
+        Map<BroomModifier, Float> rodNetherrackModifiers = Maps.newHashMap();
+        rodNetherrackModifiers.put(BroomModifiers.MODIFIER_COUNT, 8F);
+        rodNetherrackModifiers.put(BroomModifiers.SPEED, 100F);
+        rodNetherrackModifiers.put(BroomModifiers.MANEUVERABILITY, 50F);
+        rodNetherrackModifiers.put(BroomModifiers.ACCELERATION, 100F);
+        REGISTRY.registerBaseModifiers(rodNetherrackModifiers, ROD_NETHERRACK);
 
         // Automatically register remaining parts for parts that don't have a custom item.
         for (IBroomPart part : REGISTRY.getParts()) {

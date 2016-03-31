@@ -109,7 +109,7 @@ public class BroomPartCombinationRecipe implements IRecipe {
 			if (element != null) {
 				IBroomPart part = BroomParts.REGISTRY.getPartFromItem(element);
 				Map<BroomModifier, Float> modifier = BroomModifiers.REGISTRY.getModifiersFromItem(element);
-				if (part != null && element.stackSize == 1) {
+				if (part != null) {
 					if (parts.containsKey(part.getType())) {
 						return null;
 					}

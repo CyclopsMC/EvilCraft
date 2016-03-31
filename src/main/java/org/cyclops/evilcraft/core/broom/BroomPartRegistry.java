@@ -61,8 +61,15 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     }
 
     @Override
-    public <P extends IBroomPart> void registerBaseModifiers(P part, Map<BroomModifier, Float> modifiers) {
+    public <P extends IBroomPart> void registerBaseModifiers(Map<BroomModifier, Float> modifiers, P part) {
         baseModifers.put(part, modifiers);
+    }
+
+    @Override
+    public <P extends IBroomPart> void registerBaseModifiers(BroomModifier modifier, float modifierValue, P part) {
+        Map<BroomModifier, Float> map = Maps.newHashMap();
+        map.put(modifier, modifierValue);
+        registerBaseModifiers(map, part);
     }
 
     @Override
@@ -184,6 +191,11 @@ public class BroomPartRegistry implements IBroomPartRegistry {
         if(part != null) {
             if(MinecraftHelpers.isShifted()) {
                 event.toolTip.add(part.getTooltipLine(""));
+                event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
+                Map<BroomModifier, Float> modifiers = getBaseModifiersFromPart(part);
+                for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
+                    event.toolTip.add("  " + L10NHelpers.localize(entry.getKey().getUnlocalizedName()) + ": " + entry.getValue());
+                }
             } else {
                 event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".shiftinfo"));
             }

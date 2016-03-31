@@ -306,6 +306,11 @@ gui.nei.fluids=Fluids
 broom.evilcraft.shiftinfo=<Shift for broom info>
 broom.parts.evilcraft.shiftinfo=<Shift for broom parts info>
 broom.parts.evilcraft.rod_wood.name=Wooden Rod
+broom.parts.evilcraft.rod_stone.name=Stone Rod
+broom.parts.evilcraft.rod_bone.name=Bone Rod
+broom.parts.evilcraft.rod_blaze.name=Blaze Rod
+broom.parts.evilcraft.rod_reed.name=Reed Rod
+broom.parts.evilcraft.rod_netherrack.name=Netherrack Rod
 broom.parts.evilcraft.brush_wheat.name=Wheat Brush
 broom.parts.evilcraft.cap_darkgem.name=Dark Gem Cap
 
