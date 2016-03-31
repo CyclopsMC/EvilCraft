@@ -83,7 +83,11 @@ public class Broom extends ConfigurableItem {
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        return EnumRarity.RARE;
+        int maxRarity = 0;
+        for (IBroomPart part : getParts(itemStack)) {
+            maxRarity = Math.max(maxRarity, part.getRarity().ordinal());
+        }
+        return EnumRarity.values()[maxRarity];
     }
 
     public Collection<IBroomPart> getParts(ItemStack itemStack) {
