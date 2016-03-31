@@ -91,7 +91,7 @@ public final class BroomParts {
         rodBoneModifiers.put(BroomModifiers.SPEED, 150F);
         rodBoneModifiers.put(BroomModifiers.MANEUVERABILITY, 150F);
         rodBoneModifiers.put(BroomModifiers.ACCELERATION, 100F);
-        REGISTRY.registerBaseModifiers(rodStoneModifiers, ROD_BONE);
+        REGISTRY.registerBaseModifiers(rodBoneModifiers, ROD_BONE);
 
         Map<BroomModifier, Float> rodBlazeModifiers = Maps.newHashMap();
         rodBlazeModifiers.put(BroomModifiers.MODIFIER_COUNT, 3F);
@@ -105,7 +105,7 @@ public final class BroomParts {
         rodReedModifiers.put(BroomModifiers.SPEED, 50F);
         rodReedModifiers.put(BroomModifiers.MANEUVERABILITY, 200F);
         rodReedModifiers.put(BroomModifiers.ACCELERATION, 200F);
-        REGISTRY.registerBaseModifiers(rodBlazeModifiers, ROD_REED);
+        REGISTRY.registerBaseModifiers(rodReedModifiers, ROD_REED);
 
         Map<BroomModifier, Float> rodNetherrackModifiers = Maps.newHashMap();
         rodNetherrackModifiers.put(BroomModifiers.MODIFIER_COUNT, 8F);

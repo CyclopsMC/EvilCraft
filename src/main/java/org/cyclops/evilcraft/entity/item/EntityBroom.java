@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.entity.item;
 
+import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -13,11 +14,15 @@ import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.api.broom.BroomModifier;
+import org.cyclops.evilcraft.api.broom.BroomModifiers;
+import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.item.Broom;
 import org.cyclops.evilcraft.item.BroomConfig;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Entity for a broom
@@ -276,7 +281,8 @@ public class EntityBroom extends Entity implements IConfigurable{
         double y = Math.cos(pitch);
         
         if (lastMounted.moveForward != 0) {
-            double playerSpeed = 10 * lastMounted.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+            double playerSpeed = lastMounted.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+            playerSpeed += getModifiers(BroomModifiers.SPEED) / 100;
             
             motionX = x * SPEED * playerSpeed * lastMounted.moveForward;
             motionY = y * SPEED * playerSpeed * lastMounted.moveForward;
@@ -360,6 +366,20 @@ public class EntityBroom extends Entity implements IConfigurable{
         ItemStack itemStack = dataWatcher.getWatchableObjectItemStack(ITEMSTACK_INDEX);
         itemStack.stackSize = 1;
         return itemStack;
+    }
+
+    public float getModifiers(BroomModifier modifier) {
+        ItemStack broomStack = getBroomStack();
+        Map<BroomModifier, Float> modifiers = BroomModifiers.REGISTRY.getModifiers(broomStack);
+        Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(broomStack);
+        float value = modifier.getDefaultValue();
+        if(baseModifiers.containsKey(modifier)) {
+            value = baseModifiers.get(modifier);
+        }
+        if (modifiers.containsKey(modifier)) {
+            value = modifier.apply(value, Lists.newArrayList(modifiers.get(modifier)));
+        }
+        return value;
     }
     
 }
