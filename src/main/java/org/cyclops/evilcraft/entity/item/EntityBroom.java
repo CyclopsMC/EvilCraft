@@ -61,7 +61,8 @@ public class EntityBroom extends Entity implements IConfigurable{
      * The player that last mounted this broom (used to detect dismounting)
      */
     public EntityPlayer lastMounted = null;
-    
+
+    private double lastPlayerSpeed = 0D;
     private double newPosX;
     private double newPosY;
     private double newPosZ;
@@ -281,16 +282,24 @@ public class EntityBroom extends Entity implements IConfigurable{
         double y = Math.cos(pitch);
         
         if (lastMounted.moveForward != 0) {
+            // Apply speed modifier
             double playerSpeed = lastMounted.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
             playerSpeed += getModifiers(BroomModifiers.SPEED) / 100;
+
+            // Apply acceleration modifier
+            double slowingFactor = 1D / Math.max(1D, getModifiers(BroomModifiers.ACCELERATION));
+            slowingFactor = Math.pow(slowingFactor, 0.01D);
+            playerSpeed = playerSpeed * (1D - slowingFactor) + lastPlayerSpeed * slowingFactor;
             
             motionX = x * SPEED * playerSpeed * lastMounted.moveForward;
             motionY = y * SPEED * playerSpeed * lastMounted.moveForward;
             motionZ = z * SPEED * playerSpeed * lastMounted.moveForward;
+            lastPlayerSpeed = playerSpeed;
         } else {
             motionX = 0;
             motionY = 0;
             motionZ = 0;
+            lastPlayerSpeed = 0;
         }
         
         // Update motion on client side to provide a hovering effect
