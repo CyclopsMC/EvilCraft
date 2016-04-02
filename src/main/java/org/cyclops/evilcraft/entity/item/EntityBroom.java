@@ -62,7 +62,10 @@ public class EntityBroom extends Entity implements IConfigurable{
      */
     public EntityPlayer lastMounted = null;
 
-    private double lastPlayerSpeed = 0D;
+    private double lastPlayerSpeed = -1D;
+    private float lastRotationPitch = -1F;
+    private float lastRotationYaw = -1F;
+
     private double newPosX;
     private double newPosY;
     private double newPosZ;
@@ -137,11 +140,17 @@ public class EntityBroom extends Entity implements IConfigurable{
     
     @Override
     public void mountEntity(Entity entity) {
-        if (!worldObj.isRemote && riddenByEntity == null && entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer)entity;
-            
-            player.mountEntity(this);
-            lastMounted = player;
+        if (riddenByEntity == null && entity instanceof EntityPlayer) {
+            if(!worldObj.isRemote) {
+                EntityPlayer player = (EntityPlayer) entity;
+
+                player.mountEntity(this);
+                lastMounted = player;
+            }
+            rotationPitch = entity.rotationPitch;
+            rotationYaw = entity.rotationYaw;
+            lastRotationPitch = rotationPitch;
+            lastRotationYaw = rotationYaw;
         }
     }
 
@@ -264,6 +273,21 @@ public class EntityBroom extends Entity implements IConfigurable{
         // Rotate broom
         rotationPitch = MathHelpers.normalizeAngle_180(lastMounted.rotationPitch);
         rotationYaw = MathHelpers.normalizeAngle_180(lastMounted.rotationYaw);
+
+        // Apply maneuverability modifier
+        float maneuverabilityFactor = 1F / Math.max(1F, getModifiers(BroomModifiers.MANEUVERABILITY));
+        maneuverabilityFactor = (float) Math.pow(maneuverabilityFactor, 0.01F);
+        rotationPitch = rotationPitch * (1F - maneuverabilityFactor) + lastRotationPitch * maneuverabilityFactor;
+        // These if's are necessary to fix rotation when the yaw goes over the border of -180F;+180F
+        if(lastRotationYaw - rotationYaw > 180F) {
+            lastRotationYaw -= 360F;
+        }
+        if(lastRotationYaw - rotationYaw < -180F) {
+            lastRotationYaw += 360F;
+        }
+        rotationYaw = rotationYaw * (1F - maneuverabilityFactor) + lastRotationYaw * maneuverabilityFactor;
+        lastRotationPitch = rotationPitch;
+        lastRotationYaw = rotationYaw;
         
         // Limit the angle under which the player can move up or down
         if (rotationPitch > MAX_ANGLE)
@@ -274,8 +298,8 @@ public class EntityBroom extends Entity implements IConfigurable{
         setRotation(rotationYaw, rotationPitch);
         
         // Handle player movement
-        double pitch = ((riddenByEntity.rotationPitch + 90) * Math.PI) / 180;
-        double yaw = ((riddenByEntity.rotationYaw + 90) * Math.PI) / 180;
+        double pitch = ((rotationPitch + 90) * Math.PI) / 180;
+        double yaw = ((rotationYaw + 90) * Math.PI) / 180;
         
         double x = Math.sin(pitch) * Math.cos(yaw);
         double z = Math.sin(pitch) * Math.sin(yaw);
