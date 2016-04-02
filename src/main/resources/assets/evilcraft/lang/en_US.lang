@@ -336,6 +336,7 @@ broom.modifiers.evilcraft.type.speed.name=Speed
 broom.modifiers.evilcraft.type.acceleration.name=Acceleration
 broom.modifiers.evilcraft.type.maneuverability.name=Maneuverability
 broom.modifiers.evilcraft.type.damage.name=Collision Damage
+broom.modifiers.evilcraft.type.particles.name=Particles
 
 # ------ Origins of Darkness contents ------
 infoBook.evilcraft.section.main=Origins of Darkness

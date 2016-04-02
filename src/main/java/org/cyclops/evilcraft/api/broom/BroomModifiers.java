@@ -23,6 +23,7 @@ public class BroomModifiers {
     public static BroomModifier MANEUVERABILITY;
 
     public static BroomModifier DAMAGE;
+    public static BroomModifier PARTICLES;
 
     public static void loadPre() {
         MODIFIER_COUNT = REGISTRY.registerModifier(new BroomModifier(
@@ -41,6 +42,9 @@ public class BroomModifiers {
         DAMAGE = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "damage"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false));
+        PARTICLES = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "particles"),
+                BroomModifier.Type.ADDITIVE, 0F, 10F, 5, false));
     }
 
     public static void loadPost() {
@@ -58,6 +62,8 @@ public class BroomModifiers {
 
         REGISTRY.registerModifiersItem(DAMAGE, 2F, new ItemStack(DarkSpikeConfig._instance.getItemInstance()));
         REGISTRY.registerModifiersItem(DAMAGE, 1F, new ItemStack(Items.quartz));
+
+        REGISTRY.registerModifiersItem(PARTICLES, 1F, new ItemStack(Items.gunpowder));
     }
 
 }

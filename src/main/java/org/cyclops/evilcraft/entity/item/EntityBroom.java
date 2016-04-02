@@ -8,6 +8,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -340,6 +341,16 @@ public class EntityBroom extends Entity implements IConfigurable{
                     }
                     entity.applyEntityCollision(this);
                 }
+            }
+        }
+
+        if (worldObj.isRemote && lastMounted.moveForward != 0) {
+            // Emit particles
+            int particles = (int) (getModifiers(BroomModifiers.PARTICLES) * (float) playerSpeed);
+            for(int i = 0; i < particles; i++) {
+                worldObj.spawnParticle(EnumParticleTypes.CLOUD,
+                        posX - x * 1.5D, posY - y * 1.5D, posZ - z * 1.5D,
+                        motionX / 10, motionY / 10, motionZ / 10);
             }
         }
     }
