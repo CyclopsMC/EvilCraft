@@ -259,6 +259,8 @@ death.attack.evilcraft.dieWithoutAnyReason=%1$s dies without any apparent reason
 death.attack.evilcraft.distorted=%1$s couldn't handle the amount of distortion anymore.
 death.attack.evilcraft.spiked=%1$s was killed by spikes.
 death.attack.evilcraft.paling=%1$s faded away.
+death.attack.evilcraft.broom=%1$s was run over by a broom.
+death.attack.evilcraft.broom.player=%1$s was run over by %s on a broom.
 
 # Biomes
 biomes.evilcraft.biomeDegraded=Degraded
@@ -332,6 +334,7 @@ broom.modifiers.evilcraft.type.modifier_count.name=Max Modifiers
 broom.modifiers.evilcraft.type.speed.name=Speed
 broom.modifiers.evilcraft.type.acceleration.name=Acceleration
 broom.modifiers.evilcraft.type.maneuverability.name=Maneuverability
+broom.modifiers.evilcraft.type.damage.name=Collision Damage
 
 # ------ Origins of Darkness contents ------
 infoBook.evilcraft.section.main=Origins of Darkness

@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.item.DarkSpikeConfig;
 import org.cyclops.evilcraft.item.GarmonboziaConfig;
 
 /**
@@ -21,6 +22,8 @@ public class BroomModifiers {
     public static BroomModifier ACCELERATION;
     public static BroomModifier MANEUVERABILITY;
 
+    public static BroomModifier DAMAGE;
+
     public static void loadPre() {
         MODIFIER_COUNT = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "modifier_count"),
@@ -34,6 +37,10 @@ public class BroomModifiers {
         MANEUVERABILITY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "maneuverability"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true));
+
+        DAMAGE = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "damage"),
+                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false));
     }
 
     public static void loadPost() {
@@ -48,6 +55,9 @@ public class BroomModifiers {
 
         REGISTRY.registerModifiersItem(MANEUVERABILITY, 2F, new ItemStack(Items.glowstone_dust));
         REGISTRY.registerModifiersItem(MANEUVERABILITY, 8F, new ItemStack(Blocks.glowstone));
+
+        REGISTRY.registerModifiersItem(DAMAGE, 2F, new ItemStack(DarkSpikeConfig._instance.getItemInstance()));
+        REGISTRY.registerModifiersItem(DAMAGE, 1F, new ItemStack(Items.quartz));
     }
 
 }

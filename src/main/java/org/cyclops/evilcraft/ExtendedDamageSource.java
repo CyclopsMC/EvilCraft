@@ -1,6 +1,10 @@
 package org.cyclops.evilcraft;
 
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.StatCollector;
 
 /**
  * An extension of the Minecraft {@code DamageSource}.
@@ -29,6 +33,19 @@ public class ExtendedDamageSource extends DamageSource{
      * DamageSource for paling entities.
      */
     public static ExtendedDamageSource paling = (ExtendedDamageSource)((new ExtendedDamageSource("paling")));
+
+    public static ExtendedDamageSource broomDamage(final EntityLivingBase attacker) {
+        return new ExtendedDamageSource("broom") {
+            @Override
+            public IChatComponent getDeathMessage(EntityLivingBase defender) {
+                String s = "death.attack." + this.damageType;
+                String s1 = s + ".player";
+                return attacker != null && StatCollector.canTranslate(s1)
+                        ? new ChatComponentTranslation(s1, new Object[] {defender.getDisplayName(), attacker.getDisplayName()})
+                        : new ChatComponentTranslation(s, new Object[] {defender.getDisplayName()});
+            }
+        };
+    }
 
     protected ExtendedDamageSource(String unlocalizedName) {
         super(Reference.MOD_ID + "." + unlocalizedName);

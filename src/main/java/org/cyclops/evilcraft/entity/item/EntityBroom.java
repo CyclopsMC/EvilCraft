@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.entity.item;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,6 +15,7 @@ import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.core.broom.BroomParts;
@@ -327,18 +329,15 @@ public class EntityBroom extends Entity implements IConfigurable{
         moveEntity(motionX, motionY, motionZ);
         
         // Apply collisions
-        @SuppressWarnings("rawtypes")
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.2, 0.0, 0.2));
-        int l;
-
-        if (list != null && !list.isEmpty())
-        {
-            for (l = 0; l < list.size(); ++l)
-            {
-                Entity entity = (Entity)list.get(l);
-
-                if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityBroom)
-                {
+        List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.2, 0.0, 0.2));
+        if (list != null && !list.isEmpty()) {
+            float damage = (getModifiers(BroomModifiers.DAMAGE) * (float) playerSpeed) / 50F;
+            for (int l = 0; l < list.size(); ++l) {
+                Entity entity = list.get(l);
+                if (entity != this.riddenByEntity && entity.canBePushed() && !(entity instanceof EntityBroom)) {
+                    if (damage > 0) {
+                        entity.attackEntityFrom(ExtendedDamageSource.broomDamage((EntityLivingBase) riddenByEntity), damage);
+                    }
                     entity.applyEntityCollision(this);
                 }
             }
