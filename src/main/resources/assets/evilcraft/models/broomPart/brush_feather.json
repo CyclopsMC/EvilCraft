@@ -1,6 +1,6 @@
 {
     "parent": "evilcraft:broomPart/brush",
     "textures": {
-        "base": "evilcraft:broomParts/brush_wheat"
+        "base": "evilcraft:broomParts/brush_feather"
     }
 }

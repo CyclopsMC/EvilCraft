@@ -32,6 +32,10 @@ public final class BroomParts {
     public static IBroomPart ROD_NETHERRACK;
 
     public static IBroomPart BRUSH_WHEAT;
+    public static IBroomPart BRUSH_WOOL;
+    public static IBroomPart BRUSH_FEATHER;
+    public static IBroomPart BRUSH_TWIG;
+    public static IBroomPart BRUSH_LEAVES;
 
     public static IBroomPart CAP_DARKGEM;
 
@@ -58,6 +62,18 @@ public final class BroomParts {
         BRUSH_WHEAT = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "brush_wheat"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
+        BRUSH_WOOL = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "brush_wool"),
+                IBroomPart.BroomPartType.BRUSH, 0.4375F));
+        BRUSH_FEATHER = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "brush_feather"),
+                IBroomPart.BroomPartType.BRUSH, 0.4375F));
+        BRUSH_TWIG = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "brush_twig"),
+                IBroomPart.BroomPartType.BRUSH, 0.4375F));
+        BRUSH_LEAVES = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "brush_leaves"),
+                IBroomPart.BroomPartType.BRUSH, 0.4375F));
 
         CAP_DARKGEM = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "cap_darkgem"),
@@ -66,7 +82,12 @@ public final class BroomParts {
 
     public static void loadPost() {
         REGISTRY.registerPartItem(BRUSH_WHEAT, new ItemStack(Blocks.hay_block));
-        REGISTRY.registerBaseModifiers(BroomModifiers.SPEED, 10F, BRUSH_WHEAT);
+        REGISTRY.registerBaseModifiers(BroomModifiers.SPEED, 100F, BRUSH_WHEAT);
+        REGISTRY.registerPartItem(BRUSH_WOOL, new ItemStack(Blocks.wool));
+        REGISTRY.registerBaseModifiers(BroomModifiers.SPEED, 80F, BRUSH_WOOL);
+        REGISTRY.registerBaseModifiers(BroomModifiers.MANEUVERABILITY, 100F, BRUSH_TWIG);
+        REGISTRY.registerPartItem(BRUSH_LEAVES, new ItemStack(Blocks.leaves));
+        REGISTRY.registerBaseModifiers(BroomModifiers.SPEED, 20F, BRUSH_LEAVES);
 
         REGISTRY.registerPartItem(CAP_DARKGEM, new ItemStack(DarkGem.getInstance()));
         REGISTRY.registerBaseModifiers(BroomModifiers.MANEUVERABILITY, 10F, CAP_DARKGEM);

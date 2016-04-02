@@ -312,6 +312,10 @@ broom.parts.evilcraft.rod_blaze.name=Blaze Rod
 broom.parts.evilcraft.rod_reed.name=Reed Rod
 broom.parts.evilcraft.rod_netherrack.name=Netherrack Rod
 broom.parts.evilcraft.brush_wheat.name=Wheat Brush
+broom.parts.evilcraft.brush_wool.name=Wool Brush
+broom.parts.evilcraft.brush_feather.name=Feather Brush
+broom.parts.evilcraft.brush_twig.name=Twig Brush
+broom.parts.evilcraft.brush_leaves.name=Leaves Brush
 broom.parts.evilcraft.cap_darkgem.name=Dark Gem Cap
 
 # Broom part types
