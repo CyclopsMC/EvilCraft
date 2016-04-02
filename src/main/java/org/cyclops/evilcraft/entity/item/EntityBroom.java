@@ -422,5 +422,21 @@ public class EntityBroom extends Entity implements IConfigurable{
         }
         return value;
     }
-    
+
+    @Override
+    public void writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
+        NBTTagCompound broomItemTag = new NBTTagCompound();
+        getBroomStack().writeToNBT(broomItemTag);
+        tagCompound.setTag("broomItem", broomItemTag);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
+        ItemStack broomStack = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("broomItem"));
+        if (broomStack != null) {
+            setBroomStack(broomStack);
+        }
+    }
 }
