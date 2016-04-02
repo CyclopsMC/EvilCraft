@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -108,18 +109,44 @@ public class Broom extends ConfigurableItem {
         if(MinecraftHelpers.isShifted()) {
             list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".types.name"));
             Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(itemStack);
+            Map<BroomModifier, Float> modifiers = getModifiers(itemStack);
             for (IBroomPart part : getParts(itemStack)) {
                 list.add(part.getTooltipLine("  "));
             }
-            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
-            for (Map.Entry<BroomModifier, Float> entry : getModifiers(itemStack).entrySet()) {
-                list.add(entry.getKey().getTooltipLine("  ", entry.getValue(),
-                        baseModifiers.containsKey(entry.getKey()) ? baseModifiers.get(entry.getKey()) : 0));
+            Pair<Integer, Integer> modifiersAndMax = getModifiersAndMax(modifiers, baseModifiers);
+            int modifierCount = modifiersAndMax.getLeft();
+            int maxModifiers = modifiersAndMax.getRight();
+            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize(
+                    "broom.modifiers." + Reference.MOD_ID + ".types.nameparam", modifierCount, maxModifiers));
+            for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
+                if(entry.getKey().showTooltip()) {
+                    list.add(entry.getKey().getTooltipLine("  ", entry.getValue(),
+                            baseModifiers.containsKey(entry.getKey()) ? baseModifiers.get(entry.getKey()) : 0));
+                }
             }
 
         } else {
             list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom." + Reference.MOD_ID + ".shiftinfo"));
         }
+    }
+
+    private Pair<Integer, Integer> getModifiersAndMax(Map<BroomModifier, Float> broomModifiers,
+                                                      Map<BroomModifier, Float> baseModifiers) {
+        int baseMaxModifiers = 0;
+        if(baseModifiers.containsKey(BroomModifiers.MODIFIER_COUNT)) {
+            baseMaxModifiers = (int) (float) baseModifiers.get(BroomModifiers.MODIFIER_COUNT);
+        }
+        int maxModifiers = baseMaxModifiers;
+        int modifiers = 0;
+        for (Map.Entry<BroomModifier, Float> entry : broomModifiers.entrySet()) {
+            int tier = (int) Math.ceil(entry.getValue() / entry.getKey().getTierValue());
+            if(entry.getKey() == BroomModifiers.MODIFIER_COUNT) {
+                maxModifiers += (int) (float) entry.getValue();
+            } else {
+                modifiers += tier;
+            }
+        }
+        return Pair.of(modifiers, maxModifiers);
     }
 
     @SubscribeEvent

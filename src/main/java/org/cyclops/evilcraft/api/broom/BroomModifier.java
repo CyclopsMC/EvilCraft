@@ -71,6 +71,10 @@ public class BroomModifier {
         return "broom.modifiers." + id.getResourceDomain() + ".type." + getName() + ".name";
     }
 
+    public boolean showTooltip() {
+        return this != BroomModifiers.MODIFIER_COUNT;
+    }
+
     public String getTooltipLine(String prefix, float value, float bonusValue) {
         String suffix;
         if(bonusValue > 0) {
