@@ -7,6 +7,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -45,6 +48,7 @@ public class Broom extends ConfigurableItem {
     public Broom(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.maxStackSize = 1;
+        MinecraftForge.EVENT_BUS.register(this);
     }
     
     @Override
@@ -115,6 +119,15 @@ public class Broom extends ConfigurableItem {
 
         } else {
             list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom." + Reference.MOD_ID + ".shiftinfo"));
+        }
+    }
+
+    @SubscribeEvent
+    public void onFovEvent(FOVUpdateEvent event) {
+        if(event.entity.ridingEntity instanceof EntityBroom) {
+            EntityBroom broom = (EntityBroom) event.entity.ridingEntity;
+            double speed = broom.getLastPlayerSpeed();
+            event.newfov += speed / 10;
         }
     }
 }
