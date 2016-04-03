@@ -125,6 +125,7 @@ public final class BroomParts {
         rodBlazeModifiers.put(BroomModifiers.MANEUVERABILITY, 100F);
         rodBlazeModifiers.put(BroomModifiers.ACCELERATION, 100F);
         rodBlazeModifiers.put(BroomModifiers.LEVITATION, 50F);
+        rodBlazeModifiers.put(BroomModifiers.FLAME, 2F);
         REGISTRY.registerBaseModifiers(rodBlazeModifiers, ROD_BLAZE);
 
         Map<BroomModifier, Float> rodReedModifiers = Maps.newHashMap();

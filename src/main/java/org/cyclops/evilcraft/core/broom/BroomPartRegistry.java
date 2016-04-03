@@ -36,7 +36,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     private final Map<ResourceLocation, IBroomPart> parts = Maps.newHashMap();
     private final Map<IBroomPart, ItemStack> partItems = Maps.newHashMap();
     private final Multimap<IBroomPart.BroomPartType, IBroomPart> partsByType = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
-    private final Map<IBroomPart, Map<BroomModifier, Float>> baseModifers = Maps.newHashMap();
+    private final Map<IBroomPart, Map<BroomModifier, Float>> baseModifiers = Maps.newHashMap();
     @SideOnly(Side.CLIENT)
     private Map<IBroomPart, ResourceLocation> partModels;
 
@@ -62,7 +62,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public <P extends IBroomPart> void registerBaseModifiers(Map<BroomModifier, Float> modifiers, P part) {
-        baseModifers.put(part, modifiers);
+        baseModifiers.put(part, modifiers);
     }
 
     @Override
@@ -74,8 +74,8 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public <P extends IBroomPart> Map<BroomModifier, Float> getBaseModifiersFromPart(P part) {
-        if(baseModifers.containsKey(part)) {
-            return baseModifers.get(part);
+        if(baseModifiers.containsKey(part)) {
+            return baseModifiers.get(part);
         }
         return Collections.emptyMap();
     }

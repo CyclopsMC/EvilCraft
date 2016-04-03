@@ -1,9 +1,10 @@
 package org.cyclops.evilcraft.entity.item;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,7 +17,6 @@ import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Configs;
-import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.core.broom.BroomParts;
@@ -26,6 +26,7 @@ import org.cyclops.evilcraft.item.BroomConfig;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Entity for a broom
@@ -88,6 +89,8 @@ public class EntityBroom extends Entity implements IConfigurable{
      */
     @SideOnly(Side.CLIENT)
     private double oldHoverOffset;
+
+    private Map<BroomModifier, Float> cachedModifiers = null;
 
     /**
      * Make a new instance in the given world.
@@ -347,12 +350,13 @@ public class EntityBroom extends Entity implements IConfigurable{
         // Apply collisions
         List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.2, 0.0, 0.2));
         if (list != null && !list.isEmpty()) {
-            float damage = (getModifier(BroomModifiers.DAMAGE) * (float) playerSpeed) / 50F;
             for (int l = 0; l < list.size(); ++l) {
                 Entity entity = list.get(l);
                 if (entity != this.riddenByEntity && entity.canBePushed() && !(entity instanceof EntityBroom)) {
-                    if (damage > 0) {
-                        entity.attackEntityFrom(ExtendedDamageSource.broomDamage((EntityLivingBase) riddenByEntity), damage);
+                    for (Map.Entry<BroomModifier, Float> entry : getModifiers().entrySet()) {
+                        for (BroomModifier.ICollisionListener listener : entry.getKey().getCollisionListeners()) {
+                            listener.onCollide(this, entity, entry.getValue());
+                        }
                     }
                     entity.applyEntityCollision(this);
                 }
@@ -363,9 +367,19 @@ public class EntityBroom extends Entity implements IConfigurable{
             // Emit particles
             int particles = (int) (getModifier(BroomModifiers.PARTICLES) * (float) playerSpeed);
             for(int i = 0; i < particles; i++) {
-                worldObj.spawnParticle(EnumParticleTypes.CLOUD,
-                        posX - x * 1.5D, posY - y * 1.5D, posZ - z * 1.5D,
+                EnumParticleTypes particle = EnumParticleTypes.CLOUD;
+                if(getModifier(BroomModifiers.FLAME) > 0) {
+                    particle = EnumParticleTypes.FLAME;
+                }
+                worldObj.spawnParticle(particle,
+                        posX - x * 1.5D + Math.random() * 0.4D - 0.2D, posY - y * 1.5D + Math.random() * 0.4D - 0.2D, posZ - z * 1.5D + Math.random() * 0.4D - 0.2D,
                         motionX / 10, motionY / 10, motionZ / 10);
+            }
+        }
+
+        for (Map.Entry<BroomModifier, Float> entry : getModifiers().entrySet()) {
+            for (BroomModifier.ITickListener listener : entry.getKey().getTickListeners()) {
+                listener.onTick(this, entry.getValue());
             }
         }
     }
@@ -424,16 +438,34 @@ public class EntityBroom extends Entity implements IConfigurable{
         return itemStack;
     }
 
-    public float getModifier(BroomModifier modifier) {
-        ItemStack broomStack = getBroomStack();
-        Map<BroomModifier, Float> modifiers = BroomModifiers.REGISTRY.getModifiers(broomStack);
-        Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(broomStack);
-        float value = modifier.getDefaultValue();
-        if(baseModifiers.containsKey(modifier)) {
-            value = baseModifiers.get(modifier);
+    public Map<BroomModifier, Float> getModifiers() {
+        if (cachedModifiers == null) {
+            cachedModifiers = Maps.newHashMap();
+            ItemStack broomStack = getBroomStack();
+            Map<BroomModifier, Float> modifiers = BroomModifiers.REGISTRY.getModifiers(broomStack);
+            Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(broomStack);
+            Set<BroomModifier> modifierTypes = Sets.newHashSet();
+            modifierTypes.addAll(modifiers.keySet());
+            modifierTypes.addAll(baseModifiers.keySet());
+
+            for (BroomModifier modifier : modifierTypes) {
+                float value = modifier.getDefaultValue();
+                if (baseModifiers.containsKey(modifier)) {
+                    value = baseModifiers.get(modifier);
+                }
+                if (modifiers.containsKey(modifier)) {
+                    value = modifier.apply(value, Lists.newArrayList(modifiers.get(modifier)));
+                }
+                cachedModifiers.put(modifier, value);
+            }
         }
-        if (modifiers.containsKey(modifier)) {
-            value = modifier.apply(value, Lists.newArrayList(modifiers.get(modifier)));
+        return cachedModifiers;
+    }
+
+    public float getModifier(BroomModifier modifier) {
+        Float value = getModifiers().get(modifier);
+        if(value == null) {
+            return modifier.getDefaultValue();
         }
         return value;
     }

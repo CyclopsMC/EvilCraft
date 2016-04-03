@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.item;
 
+import com.google.common.collect.Sets;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -26,6 +27,7 @@ import org.cyclops.evilcraft.entity.item.EntityBroom;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Item for the {@link EntityBroom}.
@@ -112,6 +114,9 @@ public class Broom extends ConfigurableItem {
             list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".types.name"));
             Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(itemStack);
             Map<BroomModifier, Float> modifiers = getModifiers(itemStack);
+            Set<BroomModifier> modifierTypes = Sets.newHashSet();
+            modifierTypes.addAll(baseModifiers.keySet());
+            modifierTypes.addAll(modifiers.keySet());
             for (IBroomPart part : getParts(itemStack)) {
                 list.add(part.getTooltipLine("  "));
             }
@@ -120,10 +125,13 @@ public class Broom extends ConfigurableItem {
             int maxModifiers = modifiersAndMax.getRight();
             list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize(
                     "broom.modifiers." + Reference.MOD_ID + ".types.nameparam", modifierCount, maxModifiers));
-            for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
-                if(entry.getKey().showTooltip()) {
-                    list.add(entry.getKey().getTooltipLine("  ", entry.getValue(),
-                            baseModifiers.containsKey(entry.getKey()) ? baseModifiers.get(entry.getKey()) : 0));
+            for (BroomModifier modifier : modifierTypes) {
+                if(modifier.showTooltip()) {
+                    Float value = modifiers.get(modifier);
+                    Float baseValue = baseModifiers.get(modifier);
+                    list.add(modifier.getTooltipLine("  ",
+                            value     == null ? 0 : value,
+                            baseValue == null ? 0 : baseValue));
                 }
             }
 
