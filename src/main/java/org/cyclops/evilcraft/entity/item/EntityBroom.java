@@ -1,14 +1,18 @@
 package org.cyclops.evilcraft.entity.item;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -64,7 +68,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     /**
      * The player that last mounted this broom (used to detect dismounting)
      */
-    public EntityPlayer lastMounted = null;
+    public EntityLivingBase lastMounted = null;
 
     private boolean setLast = false;
     private double lastPlayerSpeed = 0D;
@@ -129,7 +133,12 @@ public class EntityBroom extends Entity implements IConfigurable{
     public double getMountedYOffset() {
         return 0.0;
     }
-    
+
+    @Override
+    protected boolean canTriggerWalking() {
+        return false;
+    }
+
     @Override
 	public boolean canBeCollidedWith() {
 		return !isDead && riddenByEntity == null;
@@ -144,7 +153,23 @@ public class EntityBroom extends Entity implements IConfigurable{
         
     	return false;
     }
-    
+
+    @Override
+    public void applyEntityCollision(Entity entityIn) {
+        if (!this.worldObj.isRemote) {
+            if (!entityIn.noClip && !this.noClip) {
+                if (entityIn != this.riddenByEntity) {
+                    if (entityIn instanceof EntityLivingBase
+                            && !(entityIn instanceof EntityPlayer)
+                            && this.riddenByEntity == null
+                            && entityIn.ridingEntity == null) {
+                        entityIn.mountEntity(this);
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void mountEntity(Entity entity) {
         if (riddenByEntity == null && entity instanceof EntityPlayer) {
@@ -211,21 +236,20 @@ public class EntityBroom extends Entity implements IConfigurable{
     	super.onUpdate();
 
         if (!worldObj.isRemote && riddenByEntity == null && lastMounted != null) {
-    		// The player dismounted, give him his broom back if he's not in creative mode
-    		if (!lastMounted.capabilities.isCreativeMode && Configs.isEnabled(BroomConfig.class)) {
-    		    // Return to inventory if we have space and the player is not dead, otherwise drop it on the ground
-                if (!lastMounted.isDead && !MinecraftHelpers.isPlayerInventoryFull(lastMounted)) {
-                    lastMounted.inventory.addItemStackToInventory(getBroomStack());
-                } else {
-                    entityDropItem(getBroomStack(), 0);
+            if(lastMounted instanceof EntityPlayer && Configs.isEnabled(BroomConfig.class)) {
+                EntityPlayer player = (EntityPlayer) lastMounted;
+                // The player dismounted, give him his broom back if he's not dead and if we have space
+                if (!player.isDead && (!MinecraftHelpers.isPlayerInventoryFull(player) || player.capabilities.isCreativeMode)) {
+                    // Return to inventory if he's not in creative mode
+                    if (!player.capabilities.isCreativeMode) {
+                        player.inventory.addItemStackToInventory(getBroomStack());
+                    }
+                    worldObj.removeEntity(this);
                 }
-    		}
-    		
+            }
             lastMounted = null;
     		
-    		worldObj.removeEntity(this);
-    		
-    	} else if (riddenByEntity != null && riddenByEntity instanceof EntityPlayer) {
+    	} else if (riddenByEntity != null && riddenByEntity instanceof EntityLivingBase) {
             /*
              * TODO: if we ever have the problem that a player can dismount without
              * getting the broom back in his inventory and removing the entity from the world
@@ -233,7 +257,7 @@ public class EntityBroom extends Entity implements IConfigurable{
              * the player is dismounted, thus lastMounted is not updated before the player dismounts
              * and thus the dismounting code is never executed
              */
-            lastMounted = (EntityPlayer)riddenByEntity;
+            lastMounted = (EntityLivingBase)riddenByEntity;
             
             prevPosX = posX;
             prevPosY = posY;
@@ -247,9 +271,25 @@ public class EntityBroom extends Entity implements IConfigurable{
     	        updateMountedClient();
     	    }
     	} else {
+            if(!this.worldObj.isRemote && riddenByEntity == null) {
+                this.collideWithNearbyEntities();
+            }
     	    updateUnmounted();
     	}
-    	
+    }
+
+    protected void collideWithNearbyEntities() {
+        List<Entity> list = this.worldObj.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox().expand(0.20000000298023224D, 0.0D, 0.20000000298023224D), Predicates.<Entity>and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>() {
+            public boolean apply(Entity p_apply_1_) {
+                return p_apply_1_.canBePushed();
+            }
+        }));
+
+        if (!list.isEmpty()){
+            for (Entity entity : list) {
+                this.applyEntityCollision(entity);
+            }
+        }
     }
     
     protected void updateMountedClient() {
@@ -281,6 +321,13 @@ public class EntityBroom extends Entity implements IConfigurable{
             setLast = true;
             lastRotationYaw = rotationYaw;
             lastRotationPitch = rotationPitch;
+        }
+
+        if (!(lastMounted instanceof EntityPlayer)) {
+            lastMounted.rotationYaw = lastMounted.rotationYawHead;
+            // We have to hardcode this speed because the entity may already have ticked,
+            // so we can't count on it having a predictable speed
+            lastMounted.moveForward = 0.5F;
         }
 
         // Rotate broom
