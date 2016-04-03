@@ -39,8 +39,10 @@ public class RenderBroom extends Render<EntityBroom> {
         
         // Note: using entity.rotationYaw instead of yaw seems to fix some glitchyness when rendering
         // In case this causes other problems, you can replace it by the yaw again
-        GlStateManager.rotate(-entity.rotationYaw, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(entity.rotationPitch, 1.0F, 0.0F, 0.0F);
+        float rotationYaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTickTime;
+        float rotationPitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTickTime;
+        GlStateManager.rotate(-rotationYaw, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(rotationPitch, 1.0F, 0.0F, 0.0F);
         
         bindEntityTexture(entity);
 
