@@ -84,7 +84,11 @@ public final class BroomParts {
         REGISTRY.registerPartItem(BRUSH_WHEAT, new ItemStack(Blocks.hay_block));
         REGISTRY.registerBaseModifiers(BroomModifiers.SPEED, 100F, BRUSH_WHEAT);
         REGISTRY.registerPartItem(BRUSH_WOOL, new ItemStack(Blocks.wool));
-        REGISTRY.registerBaseModifiers(BroomModifiers.SPEED, 80F, BRUSH_WOOL);
+        Map<BroomModifier, Float> brushWoolModifiers = Maps.newHashMap();
+        brushWoolModifiers.put(BroomModifiers.SPEED, 80F);
+        brushWoolModifiers.put(BroomModifiers.LEVITATION, 100F);
+        REGISTRY.registerBaseModifiers(brushWoolModifiers, BRUSH_WOOL);
+        REGISTRY.registerBaseModifiers(BroomModifiers.LEVITATION, 200F, BRUSH_FEATHER);
         REGISTRY.registerBaseModifiers(BroomModifiers.MANEUVERABILITY, 100F, BRUSH_TWIG);
         REGISTRY.registerPartItem(BRUSH_LEAVES, new ItemStack(Blocks.leaves));
         REGISTRY.registerBaseModifiers(BroomModifiers.SPEED, 20F, BRUSH_LEAVES);
@@ -98,6 +102,7 @@ public final class BroomParts {
         rodWoodModifiers.put(BroomModifiers.SPEED, 100F);
         rodWoodModifiers.put(BroomModifiers.MANEUVERABILITY, 150F);
         rodWoodModifiers.put(BroomModifiers.ACCELERATION, 50F);
+        rodWoodModifiers.put(BroomModifiers.LEVITATION, 20F);
         REGISTRY.registerBaseModifiers(rodWoodModifiers, ROD_WOOD);
 
         Map<BroomModifier, Float> rodStoneModifiers = Maps.newHashMap();
@@ -119,6 +124,7 @@ public final class BroomParts {
         rodBlazeModifiers.put(BroomModifiers.SPEED, 250F);
         rodBlazeModifiers.put(BroomModifiers.MANEUVERABILITY, 100F);
         rodBlazeModifiers.put(BroomModifiers.ACCELERATION, 100F);
+        rodBlazeModifiers.put(BroomModifiers.LEVITATION, 50F);
         REGISTRY.registerBaseModifiers(rodBlazeModifiers, ROD_BLAZE);
 
         Map<BroomModifier, Float> rodReedModifiers = Maps.newHashMap();
@@ -126,6 +132,7 @@ public final class BroomParts {
         rodReedModifiers.put(BroomModifiers.SPEED, 50F);
         rodReedModifiers.put(BroomModifiers.MANEUVERABILITY, 200F);
         rodReedModifiers.put(BroomModifiers.ACCELERATION, 200F);
+        rodReedModifiers.put(BroomModifiers.LEVITATION, 30F);
         REGISTRY.registerBaseModifiers(rodReedModifiers, ROD_REED);
 
         Map<BroomModifier, Float> rodNetherrackModifiers = Maps.newHashMap();

@@ -21,6 +21,7 @@ public class BroomModifiers {
     public static BroomModifier SPEED;
     public static BroomModifier ACCELERATION;
     public static BroomModifier MANEUVERABILITY;
+    public static BroomModifier LEVITATION;
 
     public static BroomModifier DAMAGE;
     public static BroomModifier PARTICLES;
@@ -37,6 +38,9 @@ public class BroomModifiers {
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true));
         MANEUVERABILITY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "maneuverability"),
+                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true));
+        LEVITATION = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "levitation"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true));
 
         DAMAGE = REGISTRY.registerModifier(new BroomModifier(
@@ -59,6 +63,8 @@ public class BroomModifiers {
 
         REGISTRY.registerModifiersItem(MANEUVERABILITY, 2F, new ItemStack(Items.glowstone_dust));
         REGISTRY.registerModifiersItem(MANEUVERABILITY, 8F, new ItemStack(Blocks.glowstone));
+
+        REGISTRY.registerModifiersItem(LEVITATION, 1F, new ItemStack(Items.feather));
 
         REGISTRY.registerModifiersItem(DAMAGE, 2F, new ItemStack(DarkSpikeConfig._instance.getItemInstance()));
         REGISTRY.registerModifiersItem(DAMAGE, 1F, new ItemStack(Items.quartz));

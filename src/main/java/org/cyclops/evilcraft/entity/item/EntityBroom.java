@@ -285,7 +285,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         rotationYaw = MathHelpers.normalizeAngle_180(lastMounted.rotationYaw);
 
         // Apply maneuverability modifier
-        float maneuverabilityFactor = 1F / Math.max(1F, getModifiers(BroomModifiers.MANEUVERABILITY));
+        float maneuverabilityFactor = 1F / Math.max(1F, getModifier(BroomModifiers.MANEUVERABILITY));
         maneuverabilityFactor = (float) Math.pow(maneuverabilityFactor, 0.01F);
         rotationPitch = rotationPitch * (1F - maneuverabilityFactor) + lastRotationPitch * maneuverabilityFactor;
         // These if's are necessary to fix rotation when the yaw goes over the border of -180F;+180F
@@ -317,16 +317,24 @@ public class EntityBroom extends Entity implements IConfigurable{
 
         // Apply speed modifier
         double playerSpeed = lastMounted.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
-        playerSpeed += getModifiers(BroomModifiers.SPEED) / 100;
+        playerSpeed += getModifier(BroomModifiers.SPEED) / 100;
         playerSpeed *= lastMounted.moveForward;
 
         // Apply acceleration modifier
-        double slowingFactor = 1D / Math.max(1D, getModifiers(BroomModifiers.ACCELERATION));
+        double slowingFactor = 1D / Math.max(1D, getModifier(BroomModifiers.ACCELERATION));
         slowingFactor = Math.pow(slowingFactor, 0.01D);
         playerSpeed = playerSpeed * (1D - slowingFactor) + lastPlayerSpeed * slowingFactor;
 
+        // Apply levitation modifier
+        float levitationModifier = 1;
+        if(y > 0) {
+            float levitation = getModifier(BroomModifiers.LEVITATION);
+            levitationModifier = Math.min(1F, ((levitation * 50F) / Math.max(1F, (float) posY - 64F))
+                    / BroomModifiers.LEVITATION.getMaxTierValue());
+        }
+
         motionX = x * SPEED * playerSpeed;
-        motionY = y * SPEED * playerSpeed;
+        motionY = y * SPEED * playerSpeed * levitationModifier;
         motionZ = z * SPEED * playerSpeed;
         lastPlayerSpeed = playerSpeed;
         
@@ -339,7 +347,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         // Apply collisions
         List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.2, 0.0, 0.2));
         if (list != null && !list.isEmpty()) {
-            float damage = (getModifiers(BroomModifiers.DAMAGE) * (float) playerSpeed) / 50F;
+            float damage = (getModifier(BroomModifiers.DAMAGE) * (float) playerSpeed) / 50F;
             for (int l = 0; l < list.size(); ++l) {
                 Entity entity = list.get(l);
                 if (entity != this.riddenByEntity && entity.canBePushed() && !(entity instanceof EntityBroom)) {
@@ -353,7 +361,7 @@ public class EntityBroom extends Entity implements IConfigurable{
 
         if (worldObj.isRemote && lastMounted.moveForward != 0) {
             // Emit particles
-            int particles = (int) (getModifiers(BroomModifiers.PARTICLES) * (float) playerSpeed);
+            int particles = (int) (getModifier(BroomModifiers.PARTICLES) * (float) playerSpeed);
             for(int i = 0; i < particles; i++) {
                 worldObj.spawnParticle(EnumParticleTypes.CLOUD,
                         posX - x * 1.5D, posY - y * 1.5D, posZ - z * 1.5D,
@@ -416,7 +424,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         return itemStack;
     }
 
-    public float getModifiers(BroomModifier modifier) {
+    public float getModifier(BroomModifier modifier) {
         ItemStack broomStack = getBroomStack();
         Map<BroomModifier, Float> modifiers = BroomModifiers.REGISTRY.getModifiers(broomStack);
         Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(broomStack);
