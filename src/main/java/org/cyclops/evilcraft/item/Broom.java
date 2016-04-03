@@ -54,14 +54,15 @@ public class Broom extends ConfigurableItem {
     
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-        if (!world.isRemote && player.ridingEntity == null) {
+        if (!world.isRemote && player.ridingEntity == null && !player.isSneaking()) {
             player.posY += Y_SPAWN_OFFSET;
             
-            EntityBroom broom = new EntityBroom(world, player.posX, player.posY, player.posZ);
-            broom.setBroomStack(stack);
+            EntityBroom entityBroom = new EntityBroom(world, player.posX, player.posY, player.posZ);
+            entityBroom.setBroomStack(stack);
+            entityBroom.rotationYaw = player.rotationYaw;
             // Spawn and mount the broom
-            world.spawnEntityInWorld(broom);
-            broom.mountEntity(player);
+            world.spawnEntityInWorld(entityBroom);
+            entityBroom.mountEntity(player);
             
             stack.stackSize--;
         }
@@ -74,6 +75,7 @@ public class Broom extends ConfigurableItem {
     	if (!world.isRemote && player.isSneaking()) {
             EntityBroom entityBroom = new EntityBroom(world, blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
             entityBroom.setBroomStack(stack);
+            entityBroom.rotationYaw = player.rotationYaw;
     		world.spawnEntityInWorld(entityBroom);
     		
     		// We don't consume the broom when in creative mode

@@ -65,6 +65,7 @@ public class EntityBroom extends Entity implements IConfigurable{
      */
     public EntityPlayer lastMounted = null;
 
+    private boolean setLast = false;
     private double lastPlayerSpeed = 0D;
     private float lastRotationPitch = -1F;
     private float lastRotationYaw = -1F;
@@ -273,6 +274,12 @@ public class EntityBroom extends Entity implements IConfigurable{
      * possible.
      */
     protected void updateMountedServer() {
+        if (!setLast) {
+            setLast = true;
+            lastRotationYaw = rotationYaw;
+            lastRotationPitch = rotationPitch;
+        }
+
         // Rotate broom
         rotationPitch = MathHelpers.normalizeAngle_180(lastMounted.rotationPitch);
         rotationYaw = MathHelpers.normalizeAngle_180(lastMounted.rotationYaw);
