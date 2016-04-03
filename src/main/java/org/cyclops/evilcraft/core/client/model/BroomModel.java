@@ -47,7 +47,7 @@ public class BroomModel implements IModel {
             try {
                 IModel model = ModelLoaderRegistry.getModel(BroomParts.REGISTRY.getPartModel(part));
                 IBakedModel bakedAspectModel = model.bake(state, format, bakedTextureGetter);
-                bakedModel.addBroomModel(part, bakedAspectModel);
+                BroomModelBaked.addBroomModel(part, bakedAspectModel);
             } catch (IOException e) {
                 e.printStackTrace();
             }

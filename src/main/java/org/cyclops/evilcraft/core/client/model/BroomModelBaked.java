@@ -1,20 +1,26 @@
 package org.cyclops.evilcraft.core.client.model;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.model.IFlexibleBakedModel;
+import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ISmartItemModel;
+import net.minecraftforge.client.model.TRSRTransformation;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.client.model.DynamicBaseModel;
-import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
+import javax.vecmath.Matrix4f;
+import javax.vecmath.Vector3f;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -28,12 +34,41 @@ import java.util.Map;
 @Data
 public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel {
 
-    private final Map<IBroomPart, IBakedModel> broomPartModels = Maps.newHashMap();
+    private static final TRSRTransformation THIRD_PERSON = TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
+            new Vector3f(0, 0, 0),
+            TRSRTransformation.quatFromYXZDegrees(new Vector3f(10, 180, 170)),
+            new Vector3f(1, 1, 1),
+            null));
+    private static final TRSRTransformation FIRST_PERSON = TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
+            new Vector3f(0.25F, -0.025F, 0),
+            TRSRTransformation.quatFromYXZDegrees(new Vector3f(10, 135, 170)),
+            new Vector3f(2, 2, 2),
+            null));
+
+    // Default perspective transforms
+    private static final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> PERSPECTIVE_TRANSFORMS =
+            ImmutableMap.of(
+                    ItemCameraTransforms.TransformType.THIRD_PERSON, THIRD_PERSON,
+                    ItemCameraTransforms.TransformType.FIRST_PERSON, FIRST_PERSON);
+
+    private static final Map<IBroomPart, IBakedModel> broomPartModels = Maps.newHashMap();
+
+    private final List<BakedQuad> quads;
 
     public BroomModelBaked() {
+        this.quads = null;
     }
 
-    public void addBroomModel(IBroomPart part, IBakedModel bakedModel) {
+    public BroomModelBaked(List<BakedQuad> quads) {
+        this.quads = quads;
+    }
+
+    @Override
+    public List<BakedQuad> getGeneralQuads() {
+        return this.quads;
+    }
+
+    public static void addBroomModel(IBroomPart part, IBakedModel bakedModel) {
         broomPartModels.put(part, bakedModel);
     }
 
@@ -61,8 +96,7 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
             quads.addAll(offset(broomPartModels.get(part).getGeneralQuads(), offset));
         }
 
-        return new SimpleBakedModel(quads, ModelHelpers.EMPTY_FACE_QUADS, this.isAmbientOcclusion(), this.isGui3d(),
-                this.getParticleTexture(), this.getItemCameraTransforms());
+        return new BroomModelBaked(quads);
     }
 
     /**
@@ -90,5 +124,10 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
     @Override
     public TextureAtlasSprite getParticleTexture() {
         return null;
+    }
+
+    @Override
+    public Pair<? extends IFlexibleBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
+        return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, PERSPECTIVE_TRANSFORMS, cameraTransformType);
     }
 }
