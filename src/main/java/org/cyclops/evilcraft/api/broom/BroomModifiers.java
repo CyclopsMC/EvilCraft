@@ -1,11 +1,14 @@
 package org.cyclops.evilcraft.api.broom;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.Reference;
@@ -30,6 +33,7 @@ public class BroomModifiers {
     public static BroomModifier DAMAGE;
     public static BroomModifier PARTICLES;
     public static BroomModifier FLAME;
+    public static BroomModifier SMASH;
 
     public static void loadPre() {
         // Base modifiers
@@ -59,6 +63,9 @@ public class BroomModifiers {
         FLAME = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "flame"),
                 BroomModifier.Type.ADDITIVE, 0F, 1F, 10, false));
+        SMASH = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "smash"),
+                BroomModifier.Type.ADDITIVE, 0F, 2F, 10, false));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {
@@ -75,6 +82,49 @@ public class BroomModifiers {
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
                 if (modifierValue > 0) {
                     entity.setFire((int) modifierValue);
+                }
+            }
+        });
+        SMASH.addTickListener(new BroomModifier.ITickListener() {
+            @Override
+            public void onTick(EntityBroom broom, float modifierValue) {
+                if (!broom.worldObj.isRemote) {
+                    double pitch = ((broom.rotationPitch + 90) * Math.PI) / 180;
+                    double yaw = ((broom.rotationYaw + 90) * Math.PI) / 180;
+                    double x = Math.sin(pitch) * Math.cos(yaw);
+                    double z = Math.sin(pitch) * Math.sin(yaw);
+                    double y = Math.cos(pitch);
+
+                    double r = -0.1D;
+                    BlockPos blockpos = new BlockPos(
+                            broom.getEntityBoundingBox().minX + x + r,
+                            broom.getEntityBoundingBox().minY + y + r,
+                            broom.getEntityBoundingBox().minZ + z + r);
+                    BlockPos blockpos1 = new BlockPos(
+                            broom.getEntityBoundingBox().maxX + x - r,
+                            broom.getEntityBoundingBox().maxY + y - r + 1D,
+                            broom.getEntityBoundingBox().maxZ + z - r);
+                    World world = broom.worldObj;
+                    float maxHardness = modifierValue;
+                    float breakEfficiency = (SMASH.getMaxTierValue() - modifierValue) / SMASH.getMaxTierValue() + 1F;
+
+                    if (world.isAreaLoaded(blockpos, blockpos1)) {
+                        for (int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
+                            for (int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
+                                for (int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
+                                    BlockPos pos = new BlockPos(i, j, k);
+                                    IBlockState blockState = world.getBlockState(pos);
+                                    if (!blockState.getBlock().isAir(world, pos)) {
+                                        float hardness = blockState.getBlock().getBlockHardness(world, pos);
+                                        if (hardness > 0F && hardness <= maxHardness) {
+                                            world.destroyBlock(pos, true);
+                                            broom.setLastPlayerSpeed(broom.getLastPlayerSpeed() / breakEfficiency);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -101,6 +151,9 @@ public class BroomModifiers {
         REGISTRY.registerModifiersItem(PARTICLES, 1F, new ItemStack(Items.gunpowder));
 
         REGISTRY.registerModifiersItem(FLAME, 1F, new ItemStack(Items.blaze_powder));
+
+        REGISTRY.registerModifiersItem(SMASH, 1F, new ItemStack(Items.iron_pickaxe));
+        REGISTRY.registerModifiersItem(SMASH, 2F, new ItemStack(Items.diamond_pickaxe));
     }
 
 }

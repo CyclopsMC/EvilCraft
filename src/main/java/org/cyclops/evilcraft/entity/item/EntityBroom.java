@@ -388,6 +388,10 @@ public class EntityBroom extends Entity implements IConfigurable{
         return lastPlayerSpeed;
     }
 
+    public void setLastPlayerSpeed(double lastPlayerSpeed) {
+        this.lastPlayerSpeed = lastPlayerSpeed;
+    }
+
     protected void updateUnmounted() {
         if (worldObj.isRemote) {
             moveEntity(0, getHoverOffset(), 0);
