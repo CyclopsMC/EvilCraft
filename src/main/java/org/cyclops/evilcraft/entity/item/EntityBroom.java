@@ -52,13 +52,13 @@ public class EntityBroom extends Entity implements IConfigurable{
      * (in degrees, -90 = completely up, +90 = completely down)
      * This limits the angle under which the player can move up or down
      */
-    public static final float MAX_ANGLE = 45.0F;	
+    public static final float MAX_ANGLE = 60.0F;
     /**
      * Minimum angle of the broom between the XZ-plane and the Y-axis 
      * (in degrees, -90 = completely up, +90 = completely down)
      * This limits the angle under which the player can move up or down
      */
-    public static final float MIN_ANGLE = -45.0F;
+    public static final float MIN_ANGLE = -60.0F;
     
     /**
      * Maximum amplitude of the cosine functions which generate the hovering effect
