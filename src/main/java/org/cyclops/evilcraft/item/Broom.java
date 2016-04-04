@@ -1,28 +1,37 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Sets;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
+import org.cyclops.evilcraft.fluid.Blood;
+import org.lwjgl.opengl.GL11;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,8 +43,11 @@ import java.util.Set;
  * @author rubensworks
  *
  */
-public class Broom extends ConfigurableItem {
-    
+public class Broom extends ConfigurableDamageIndicatedItemFluidContainer {
+
+    @SideOnly(Side.CLIENT)
+    protected static final ResourceLocation OVERLAY = new ResourceLocation(Reference.MOD_ID, "textures/gui/overlay.png");
+
     private static Broom _instance = null;
     
     private static final float Y_SPAWN_OFFSET = 1.5f;
@@ -49,11 +61,21 @@ public class Broom extends ConfigurableItem {
     }
 
     public Broom(ExtendedConfig<ItemConfig> eConfig) {
-        super(eConfig);
+        super(eConfig, 10 * FluidContainerRegistry.BUCKET_VOLUME, Blood.getInstance());
         this.maxStackSize = 1;
         MinecraftForge.EVENT_BUS.register(this);
     }
-    
+
+    @Override
+    public boolean isPlaceFluids() {
+        return false;
+    }
+
+    @Override
+    public boolean isPickupFluids() {
+        return false;
+    }
+
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
         if (!world.isRemote && player.ridingEntity == null && !player.isSneaking()) {
@@ -166,5 +188,95 @@ public class Broom extends ConfigurableItem {
             double speed = broom.getLastPlayerSpeed();
             event.newfov += speed / 10;
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent
+    public void onRenderOverlayEvent(RenderGameOverlayEvent event) {
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        if (player.ridingEntity instanceof EntityBroom
+                && event.type == RenderGameOverlayEvent.ElementType.ALL) {
+            EntityBroom broom = (EntityBroom) player.ridingEntity;
+            ItemStack broomStack = broom.getBroomStack();
+            ScaledResolution resolution = event.resolution;
+            int height = 21;
+            int width = 21;
+            OverlayPosition overlayPosition = OverlayPosition.values()[
+                    MathHelper.clamp_int(BroomConfig.guiOverlayPosition, 0, OverlayPosition.values().length - 1)];
+            int x = overlayPosition.getX(resolution, width, height) + BroomConfig.guiOverlayPositionOffsetX;
+            int y = overlayPosition.getY(resolution, width, height) + BroomConfig.guiOverlayPositionOffsetY;
+
+            GlStateManager.pushMatrix();
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            RenderHelpers.bindTexture(OVERLAY);
+
+            // Render slot
+            Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(x, y, 11, 0, 24, 24);
+
+            // Render item
+            GlStateManager.enableLighting();
+            RenderHelper.enableGUIStandardItemLighting();
+            Minecraft.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(broomStack, x + 3, y + 3);
+            Minecraft.getMinecraft().getRenderItem().renderItemOverlayIntoGUI(
+                    Minecraft.getMinecraft().ingameGUI.getFontRenderer(), broomStack, x + 3, y + 3, "");
+            RenderHelper.enableStandardItemLighting();
+            GlStateManager.disableLighting();
+
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
+        }
+    }
+
+    public static enum OverlayPosition {
+
+        NE {
+            @Override
+            public int getX(ScaledResolution resolution, int width, int height) {
+                return resolution.getScaledWidth() - width;
+            }
+
+            @Override
+            public int getY(ScaledResolution resolution, int width, int height) {
+                return 0;
+            }
+        },
+        SE {
+            @Override
+            public int getX(ScaledResolution resolution, int width, int height) {
+                return resolution.getScaledWidth() - width;
+            }
+
+            @Override
+            public int getY(ScaledResolution resolution, int width, int height) {
+                return resolution.getScaledHeight() - height;
+            }
+        },
+        SW {
+            @Override
+            public int getX(ScaledResolution resolution, int width, int height) {
+                return 0;
+            }
+
+            @Override
+            public int getY(ScaledResolution resolution, int width, int height) {
+                return resolution.getScaledHeight() - height;
+            }
+        },
+        NW {
+            @Override
+            public int getX(ScaledResolution resolution, int width, int height) {
+                return 0;
+            }
+
+            @Override
+            public int getY(ScaledResolution resolution, int width, int height) {
+                return 0;
+            }
+        };
+
+        public abstract int getX(ScaledResolution resolution, int width, int height);
+        public abstract int getY(ScaledResolution resolution, int width, int height);
+
     }
 }

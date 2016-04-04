@@ -310,6 +310,16 @@ public class EntityBroom extends Entity implements IConfigurable{
         
         moveEntity(0, getHoverOffset(), 0);
     }
+
+    protected boolean canConsume(int amount, EntityPlayer player) {
+        return Broom.getInstance().canConsume(amount, getBroomStack(), player);
+    }
+
+    protected void consume(int amount, EntityPlayer player) {
+        ItemStack broomStack = getBroomStack();
+        Broom.getInstance().consume(amount, broomStack, player);
+        setBroomStack(broomStack);
+    }
     
     /**
      * Called on the server side for all players or on the client side when the 
@@ -368,7 +378,13 @@ public class EntityBroom extends Entity implements IConfigurable{
         // Apply speed modifier
         double playerSpeed = lastMounted.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
         playerSpeed += getModifier(BroomModifiers.SPEED) / 100;
-        playerSpeed *= lastMounted.moveForward;
+        int amount = BroomConfig.bloodUsage;
+        EntityPlayer player = lastMounted instanceof EntityPlayer ? (EntityPlayer) lastMounted : null;
+        float moveForward = canConsume(amount, player) ? lastMounted.moveForward : lastMounted.moveForward / 10F;
+        playerSpeed *= moveForward;
+        if(moveForward != 0) {
+            consume(amount, player);
+        }
 
         // Apply acceleration modifier
         double slowingFactor = 1D / Math.max(1D, getModifier(BroomModifiers.ACCELERATION));
