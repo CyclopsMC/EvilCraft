@@ -29,6 +29,9 @@ public class ImplicitFluidConversionTank extends SingleUseTank {
     @Override
     public int fill(FluidStack resource, boolean doFill) {
     	FluidStack converted = converter.convert(resource);
+        if(converted == null) {
+            return 0;
+        }
         double ratio = resource != null ? converter.getRatio(resource.getFluid()) : 1;
         return (int) Math.ceil(super.fill(converted, doFill) / ratio);
     }
