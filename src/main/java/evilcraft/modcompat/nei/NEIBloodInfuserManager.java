@@ -17,6 +17,7 @@ import evilcraft.core.fluid.BloodFluidConverter;
 import evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import evilcraft.core.recipe.custom.ItemStackRecipeComponent;
+import evilcraft.fluid.Blood;
 import evilcraft.inventory.container.ContainerBloodInfuser;
 import evilcraft.item.Promise;
 import evilcraft.tileentity.TileBloodInfuser;
@@ -242,7 +243,8 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                                 GuiBloodInfuser.TANKTARGETY - tankHeight - 15,
                                 tankWidth, tankHeight
                         ),
-                    getFluidOverlayIdentifier()
+                    getFluidOverlayIdentifier(),
+                    Blood.getInstance()
                 )
         );
     }
