@@ -209,15 +209,19 @@ public abstract class ConfigurableDamageIndicatedItemFluidContainer extends Dama
         FluidStack drained = null;
         while(it.hasNext() && amount > 0) {
             ItemStack current = it.next();
-            if(current != null &&current != itemStack && current.getItem() instanceof IFluidContainerItem) {
-                FluidStack thisDrained = ((IFluidContainerItem) current.getItem()).drain(current, amount, doDrain);
-                if(thisDrained != null && thisDrained.getFluid() == fluid) {
-                    if(drained == null) {
-                        drained = thisDrained;
-                    } else {
-                        drained.amount += drained.amount;
+            if(current != null && current != itemStack && current.getItem() instanceof IFluidContainerItem) {
+                IFluidContainerItem containerItem = (IFluidContainerItem) current.getItem();
+                FluidStack totalFluid = containerItem.getFluid(current);
+                if(totalFluid != null && totalFluid.getFluid() == fluid) {
+                    FluidStack thisDrained = containerItem.drain(current, amount, doDrain);
+                    if (thisDrained != null && thisDrained.getFluid() == fluid) {
+                        if (drained == null) {
+                            drained = thisDrained;
+                        } else {
+                            drained.amount += drained.amount;
+                        }
+                        amount -= drained.amount;
                     }
-                    amount -= drained.amount;
                 }
             }
         }
