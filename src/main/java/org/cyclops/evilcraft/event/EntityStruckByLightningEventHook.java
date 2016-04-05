@@ -26,22 +26,22 @@ public class EntityStruckByLightningEventHook {
     }
     
     private void empowerItem(EntityStruckByLightningEvent event) {
-        if(event.entity instanceof EntityItem) {
-            EntityItem entity = (EntityItem) event.entity;
+        if(event.getEntity() instanceof EntityItem) {
+            EntityItem entity = (EntityItem) event.getEntity();
             if(entity.getEntityItem().getItem() instanceof IItemEmpowerable) {
             	IItemEmpowerable empowerable = (IItemEmpowerable) entity.getEntityItem().getItem();
             	if(!empowerable.isEmpowered(entity.getEntityItem())) {
             		entity.setEntityItemStack(empowerable.empower(entity.getEntityItem()));
             		event.setCanceled(true);
-            		event.lightning.setDead();
+            		event.getLightning().setDead();
             	}
             }
         }
     }
     
     private void transformVillager(EntityStruckByLightningEvent event) {
-        if(event.entity instanceof EntityVillager) {
-        	EntityVillager entity = (EntityVillager) event.entity;
+        if(event.getEntity() instanceof EntityVillager) {
+        	EntityVillager entity = (EntityVillager) event.getEntity();
             if(entity.getProfession() != WerewolfVillagerConfig.villagerID) {
             	entity.setProfession(WerewolfVillagerConfig.villagerID);
             }

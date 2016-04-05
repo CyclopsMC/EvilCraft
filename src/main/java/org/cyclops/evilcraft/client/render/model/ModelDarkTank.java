@@ -65,7 +65,7 @@ public class ModelDarkTank extends DelegatingChildDynamicItemAndBlockModel {
     @Override
     public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
         final IBlockTank tank = getBlockTank(itemStack);
-        if(itemStack.getTagCompound() != null) {
+        if(itemStack != null && itemStack.getTagCompound() != null) {
             int capacity = tank.getTankCapacity(itemStack);
             FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(itemStack.getTagCompound().getCompoundTag(tank.getTankNBTName()));
             return new ModelDarkTank(baseModel, capacity, fluidStack, true, null, null, 0);

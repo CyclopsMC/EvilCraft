@@ -24,11 +24,11 @@ public class BonemealEventHook {
     }
     
     private void bonemealCustomSaplings(BonemealEvent event) {
-        if(!event.world.isRemote) {
-            Block block = event.world.getBlockState(event.pos).getBlock();
+        if(!event.getWorld().isRemote) {
+            Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
             if(block instanceof ConfigurableBlockSapling) {
                 ConfigurableBlockSapling sapling = (ConfigurableBlockSapling) block;
-                sapling.grow(event.world, event.pos, event.world.getBlockState(event.pos), event.world.rand);
+                sapling.grow(event.getWorld(), event.getPos(), event.getWorld().getBlockState(event.getPos()), event.getWorld().rand);
                 event.setResult(Result.ALLOW);
             }
         }

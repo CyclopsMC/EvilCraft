@@ -55,14 +55,14 @@ public class ModelInnerBlock extends DynamicItemAndBlockModel {
 
     @Override
     public IBakedModel handleBlockState(IBlockState state, EnumFacing side, long rand) {
-        IBlockState innerBlockState = block.getBlockFromState(state);
+        IBlockState innerBlockState = block.getBlockFromState(blockState);
         IBakedModel baseModel = RenderHelpers.getBakedModel(innerBlockState);
         return new ModelInnerBlock(block, baseModel, false, innerBlockState, side, rand);
     }
 
     @Override
     public IBakedModel handleItemState(ItemStack stack, World world, EntityLivingBase entity) {
-        IBlockState innerBlockState = block.getBlockFromMeta(stack.getItemDamage());
+        IBlockState innerBlockState = block.getBlockFromMeta(stack != null ? stack.getItemDamage() : 0);
         return RenderHelpers.getBakedModel(innerBlockState);
     }
 

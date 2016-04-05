@@ -76,9 +76,9 @@ public class EntityBloodPearl extends EntityThrowable implements IConfigurable {
                             this.getThrower().dismountRidingEntity();
                         }
     
-                        this.getThrower().setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);
+                        this.getThrower().setPositionAndUpdate(event.getTargetX(), event.getTargetY(), event.getTargetZ());
                         this.getThrower().fallDistance = 0.0F;
-                        this.getThrower().attackEntityFrom(DamageSource.fall, event.attackDamage);
+                        this.getThrower().attackEntityFrom(DamageSource.fall, event.getAttackDamage());
                         this.getThrower().addPotionEffect(new PotionEffect(MobEffects.moveSlowdown,
                         		BloodPearlOfTeleportationConfig.slownessDuration * 20, 2));
                     }

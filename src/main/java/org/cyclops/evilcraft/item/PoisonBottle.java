@@ -51,19 +51,19 @@ public class PoisonBottle extends ConfigurableItem implements IItemColor {
     }
 
     @SubscribeEvent
-    public void onPoisonRightClick(PlayerInteractEvent event) {
-        EnumHand hand = event.entityPlayer.getActiveHand();
+    public void onPoisonRightClick(PlayerInteractEvent.RightClickBlock event) {
+        EnumHand hand = event.getEntityPlayer().getActiveHand();
         // Return poison bottle instead of water bottle when right clicking poison fluid source with empty bottle.
-        if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && event.entityPlayer.getHeldItem(hand) != null &&
-                event.entityPlayer.getHeldItem(hand).getItem() == Items.glass_bottle && Configs.isEnabled(PoisonConfig.class)) {
-            RayTraceResult pos = this.getMovingObjectPositionFromPlayer(event.world, event.entityPlayer, true);
+        if(hand != null && event.getEntityPlayer().getHeldItem(hand) != null &&
+                event.getEntityPlayer().getHeldItem(hand).getItem() == Items.glass_bottle && Configs.isEnabled(PoisonConfig.class)) {
+            RayTraceResult pos = this.getMovingObjectPositionFromPlayer(event.getWorld(), event.getEntityPlayer(), true);
             if(pos != null && pos.typeOfHit == RayTraceResult.Type.BLOCK) {
-                if(event.world.isBlockModifiable(event.entityPlayer, pos.getBlockPos()) &&
-                        event.entityPlayer.canPlayerEdit(pos.getBlockPos(), pos.sideHit, event.entityPlayer.getHeldItem(hand)) &&
-                        event.world.getBlockState(pos.getBlockPos()).getMaterial() == Material.water) {
-                    if(event.world.getBlockState(pos.getBlockPos()).getBlock() == FluidBlockPoison.getInstance()) {
-                        InventoryHelpers.tryReAddToStack(event.entityPlayer, event.entityPlayer.getHeldItem(hand), new ItemStack(this));
-                        event.world.setBlockToAir(pos.getBlockPos());
+                if(event.getWorld().isBlockModifiable(event.getEntityPlayer(), pos.getBlockPos()) &&
+                        event.getEntityPlayer().canPlayerEdit(pos.getBlockPos(), pos.sideHit, event.getEntityPlayer().getHeldItem(hand)) &&
+                        event.getWorld().getBlockState(pos.getBlockPos()).getMaterial() == Material.water) {
+                    if(event.getWorld().getBlockState(pos.getBlockPos()).getBlock() == FluidBlockPoison.getInstance()) {
+                        InventoryHelpers.tryReAddToStack(event.getEntityPlayer(), event.getEntityPlayer().getHeldItem(hand), new ItemStack(this));
+                        event.getWorld().setBlockToAir(pos.getBlockPos());
                     }
                 }
             }
