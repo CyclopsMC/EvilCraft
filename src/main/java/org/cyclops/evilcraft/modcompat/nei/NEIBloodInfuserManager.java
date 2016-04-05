@@ -245,7 +245,8 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                                 GuiBloodInfuser.TANKTARGETY - tankHeight - 15,
                                 tankWidth, tankHeight
                         ),
-                    getFluidOverlayIdentifier()
+                    getFluidOverlayIdentifier(),
+                    Blood.getInstance()
                 )
         );
     }

@@ -9,6 +9,7 @@ import org.cyclops.evilcraft.block.BloodInfuser;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import net.minecraft.item.ItemStack;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -70,7 +71,8 @@ public class NEIBloodInfuserFluidsManager extends NEIBloodInfuserManager {
 
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
-        if(outputId.equals(getOverlayIdentifier()) && getClass() == NEIBloodInfuserFluidsManager.class)
+        if(outputId.equals(getOverlayIdentifier()) && getClass() == NEIBloodInfuserFluidsManager.class
+                && results[0] instanceof FluidStack && ((FluidStack) results[0]).getFluid() != null)
             for(FluidPair fuel : afluids)
                 arecipes.add(new CachedFluidRecipe(fuel));
     }
