@@ -13,6 +13,7 @@ import evilcraft.core.helper.WorldHelpers;
 import evilcraft.world.gen.nbt.DarkTempleData;
 import evilcraft.world.gen.structure.DarkTempleStructure;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
@@ -86,6 +87,10 @@ public class DarkTempleGenerator implements IWorldGenerator {
 	}
 
 	protected static boolean appliesAt(World world, int chunkX, int chunkZ) {
+		if(world.getBiomeGenForCoords(chunkX * WorldHelpers.CHUNK_SIZE, chunkZ * WorldHelpers.CHUNK_SIZE)
+				.getTempCategory() == BiomeGenBase.TempCategory.OCEAN) {
+			return false;
+		}
 		int frequency = GeneralConfig.darkTempleFrequency;
 		// Pseudo-random formula
 		return (chunkX * chunkZ + chunkX - chunkZ + world.getSeed()) % frequency == 0;
