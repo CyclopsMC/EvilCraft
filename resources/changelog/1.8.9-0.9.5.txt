@@ -1,0 +1,13 @@
+Make sure to backup your world before updating!
+Requires CyclopsCore version 0.5.4.
+
+Additions
+* Add config option to remove Brooms from loot chest spawning, Closes #351
+
+Changes:
+* Don't spawn dark temples in ocean biomes, Closes #347
+
+Fixes:
+* Fix ImplicitFluidConverter crash with non expected fluids, Closes #350
+* Fix crash when looking up Blood recipes in NEI, Closes #349
+* Fix fluid consumption of the wrong fluid type, Closes #348
