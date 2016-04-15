@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
 import org.cyclops.evilcraft.item.BloodPearlOfTeleportation;
 
 /**
@@ -15,7 +15,7 @@ import org.cyclops.evilcraft.item.BloodPearlOfTeleportation;
  * @author rubensworks
  *
  */
-public class EntityBloodPearlConfig extends EntityConfig {
+public class EntityBloodPearlConfig extends EntityConfig<EntityThrowable> {
     
     /**
      * The unique instance.
@@ -37,7 +37,7 @@ public class EntityBloodPearlConfig extends EntityConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
+    public RenderSnowball getRender(RenderManager renderManager, RenderItem renderItem) {
         return new RenderSnowball(renderManager, BloodPearlOfTeleportation.getInstance(), renderItem);
     }
     

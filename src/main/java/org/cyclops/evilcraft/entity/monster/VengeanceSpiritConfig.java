@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
@@ -23,7 +22,7 @@ import org.cyclops.evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChang
  * @author rubensworks
  *
  */
-public class VengeanceSpiritConfig extends MobConfig {
+public class VengeanceSpiritConfig extends MobConfig<VengeanceSpirit> {
     
     /**
      * The unique instance.
@@ -95,7 +94,7 @@ public class VengeanceSpiritConfig extends MobConfig {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager) {
+    public RenderVengeanceSpirit getRender(RenderManager renderManager) {
         return new RenderVengeanceSpirit(renderManager, this);
     }
 

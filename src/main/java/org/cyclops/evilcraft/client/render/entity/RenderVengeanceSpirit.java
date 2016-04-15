@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -34,7 +33,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class RenderVengeanceSpirit extends Render {
+public class RenderVengeanceSpirit extends Render<VengeanceSpirit> {
 
 	private final RenderPlayerSpirit playerRenderer;
 	private final Map<GameProfile, GameProfile> checkedProfiles = Maps.newHashMap();
@@ -44,14 +43,13 @@ public class RenderVengeanceSpirit extends Render {
 	 * @param renderManager The render manager.
      * @param config Then config.
      */
-    public RenderVengeanceSpirit(RenderManager renderManager, ExtendedConfig<MobConfig> config) {
+    public RenderVengeanceSpirit(RenderManager renderManager, ExtendedConfig<MobConfig<VengeanceSpirit>> config) {
         super(renderManager);
 		playerRenderer = new RenderPlayerSpirit(renderManager);
     }
 
 	@Override
-	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
-		VengeanceSpirit spirit = (VengeanceSpirit) entity;
+	public void doRender(VengeanceSpirit spirit, double x, double y, double z, float yaw, float partialTickTime) {
 		EntityLiving innerEntity = (EntityLiving) spirit.getInnerEntity();
 		if(innerEntity != null && spirit.isVisible()) {
 			Render render = (Render) renderManager.entityRenderMap.get(innerEntity.getClass());
@@ -103,7 +101,7 @@ public class RenderVengeanceSpirit extends Render {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity var1) {
+	protected ResourceLocation getEntityTexture(VengeanceSpirit entity) {
 		return null;
 	}
 

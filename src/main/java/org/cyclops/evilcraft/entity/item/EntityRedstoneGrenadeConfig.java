@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,7 +14,7 @@ import org.cyclops.evilcraft.item.RedstoneGrenade;
  * @author rubensworks
  *
  */
-public class EntityRedstoneGrenadeConfig extends EntityConfig {
+public class EntityRedstoneGrenadeConfig extends EntityConfig<EntityRedstoneGrenade> {
     
     /**
      * The unique instance.
@@ -37,8 +36,8 @@ public class EntityRedstoneGrenadeConfig extends EntityConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderSnowball(renderManager, RedstoneGrenade.getInstance(), renderItem);
+    public RenderSnowball<EntityRedstoneGrenade> getRender(RenderManager renderManager, RenderItem renderItem) {
+        return new RenderSnowball<EntityRedstoneGrenade>(renderManager, RedstoneGrenade.getInstance(), renderItem);
     }
     
     @Override

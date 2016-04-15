@@ -1,8 +1,6 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -17,7 +15,7 @@ import org.cyclops.evilcraft.client.render.entity.RenderBroom;
  * @author rubensworks
  *
  */
-public class EntityBroomConfig extends EntityConfig {
+public class EntityBroomConfig extends EntityConfig<EntityBroom> {
     
     /**
      * The unique instance.
@@ -57,8 +55,8 @@ public class EntityBroomConfig extends EntityConfig {
     
     @SideOnly(Side.CLIENT)
     @Override
-    protected Render getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderBroom(Minecraft.getMinecraft().getRenderManager(), this);
+    public RenderBroom getRender(RenderManager renderManager, RenderItem renderItem) {
+        return new RenderBroom(renderManager, this);
     }
     
     @Override

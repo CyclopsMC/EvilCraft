@@ -16,7 +16,7 @@ import org.cyclops.evilcraft.client.render.entity.RenderNetherfish;
  * @author rubensworks
  *
  */
-public class NetherfishConfig extends MobConfig {
+public class NetherfishConfig extends MobConfig<Netherfish> {
     
     /**
      * The unique instance.

@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.entity.item;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -11,7 +12,7 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class EntityItemUndespawnableConfig extends EntityConfig {
+public class EntityItemUndespawnableConfig extends EntityConfig<Entity> {
     
     /**
      * The unique instance.
@@ -37,7 +38,7 @@ public class EntityItemUndespawnableConfig extends EntityConfig {
     }
 
 	@Override
-	protected Render getRender(RenderManager renderManager, RenderItem renderItem) {
+	public Render<Entity> getRender(RenderManager renderManager, RenderItem renderItem) {
 		return null;
 	}
 }

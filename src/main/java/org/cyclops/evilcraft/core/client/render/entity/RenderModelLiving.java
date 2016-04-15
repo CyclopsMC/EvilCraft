@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.client.render.entity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.Reference;
@@ -13,9 +13,10 @@ import org.cyclops.evilcraft.Reference;
  * It will automatically take care of the texture.
  * @author rubensworks
  *
+ * @param <T> The type of entity.
  * @param <M> The model that will be rendered.
  */
-public abstract class RenderModelLiving<M extends ModelBase> extends RenderLiving {
+public abstract class RenderModelLiving<T extends EntityLiving, M extends ModelBase> extends RenderLiving<T> {
 
     private ResourceLocation texture;
     
@@ -33,7 +34,7 @@ public abstract class RenderModelLiving<M extends ModelBase> extends RenderLivin
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity) {
+    protected ResourceLocation getEntityTexture(T entity) {
         return texture;
     }
     

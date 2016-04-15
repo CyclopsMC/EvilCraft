@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.client.render.entity;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
@@ -18,32 +17,31 @@ import org.lwjgl.opengl.GL11;
  * @author rubensworks
  *
  */
-public class RenderDarkStick extends Render {
+public class RenderDarkStick extends Render<EntityItemDarkStick> {
 
     /**
      * Make a new instance.
      * @param renderManager The render manager
      * @param config The config.
      */
-	public RenderDarkStick(RenderManager renderManager, ExtendedConfig<EntityConfig> config) {
+	public RenderDarkStick(RenderManager renderManager, ExtendedConfig<EntityConfig<EntityItemDarkStick>> config) {
 	    super(renderManager);
 	}
 
-    protected ItemStack getItemStack(Entity entity) {
-        return ((EntityItemDarkStick) entity).getEntityItem();
+    protected ItemStack getItemStack(EntityItemDarkStick entity) {
+        return entity.getEntityItem();
     }
 
 	@Override
-	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
-        EntityItemDarkStick darkStick = (EntityItemDarkStick) entity;
+	public void doRender(EntityItemDarkStick entity, double x, double y, double z, float yaw, float partialTickTime) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y + 0.2F, z);
 
         float rotation;
-        if(darkStick.isValid()) {
-            rotation = darkStick.getAngle();
+        if(entity.isValid()) {
+            rotation = entity.getAngle();
         } else {
-            rotation = (((float)darkStick.getAge()) / 20.0F + darkStick.hoverStart) * (180F / (float)Math.PI);
+            rotation = (((float)entity.getAge()) / 20.0F + entity.hoverStart) * (180F / (float)Math.PI);
         }
 
         GL11.glRotatef(rotation, 0, 1, 0);
@@ -58,7 +56,7 @@ public class RenderDarkStick extends Render {
 	}
 
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity) {
+    protected ResourceLocation getEntityTexture(EntityItemDarkStick entity) {
         return null;
     }
 

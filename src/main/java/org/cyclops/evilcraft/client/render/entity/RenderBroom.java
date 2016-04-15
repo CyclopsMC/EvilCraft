@@ -3,12 +3,12 @@ package org.cyclops.evilcraft.client.render.entity;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
+import org.cyclops.evilcraft.entity.item.EntityBroom;
 import org.cyclops.evilcraft.item.Broom;
 
 /**
@@ -17,7 +17,7 @@ import org.cyclops.evilcraft.item.Broom;
  * @author immortaleeb
  *
  */
-public class RenderBroom extends Render {
+public class RenderBroom extends Render<EntityBroom> {
 
     // TODO: temporary static way of rendering brooms.
     private static final ItemStack BROOM = new ItemStack(Broom.getInstance());
@@ -27,19 +27,18 @@ public class RenderBroom extends Render {
      * @param renderManager The render manager
      * @param config The config.
      */
-	public RenderBroom(RenderManager renderManager, ExtendedConfig<EntityConfig> config) {
+	public RenderBroom(RenderManager renderManager, ExtendedConfig<EntityConfig<EntityBroom>> config) {
 	    super(renderManager);
 	}
 
-    protected ItemStack getItemStack(Entity entity) {
+    protected ItemStack getItemStack(EntityBroom entity) {
         return BROOM;
     }
 
 	@Override
-	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
+	public void doRender(EntityBroom entity, double x, double y, double z, float yaw, float partialTickTime) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y + 0.2F, z);
-        GlStateManager.scale(2, 2, 2);
         
         // Note: using entity.rotationYaw instead of yaw seems to fix some glitchyness when rendering
         // In case this causes other problems, you can replace it by the yaw again
@@ -54,7 +53,7 @@ public class RenderBroom extends Render {
 	}
 
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity) {
+    protected ResourceLocation getEntityTexture(EntityBroom entity) {
         return null;
     }
 

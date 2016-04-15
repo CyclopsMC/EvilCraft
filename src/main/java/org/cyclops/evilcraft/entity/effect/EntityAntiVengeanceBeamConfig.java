@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.entity.effect;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
@@ -14,7 +15,7 @@ import org.cyclops.evilcraft.core.client.render.RenderNull;
  * @author rubensworks
  *
  */
-public class EntityAntiVengeanceBeamConfig extends EntityConfig {
+public class EntityAntiVengeanceBeamConfig extends EntityConfig<Entity> {
     
     /**
      * The unique instance.
@@ -41,7 +42,7 @@ public class EntityAntiVengeanceBeamConfig extends EntityConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
+    public Render<Entity> getRender(RenderManager renderManager, RenderItem renderItem) {
     	return new RenderNull(renderManager);
     }
     

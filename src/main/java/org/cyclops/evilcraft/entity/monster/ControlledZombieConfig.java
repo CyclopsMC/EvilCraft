@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,7 +14,7 @@ import org.cyclops.evilcraft.item.NecromancerStaffConfig;
  * @author rubensworks
  *
  */
-public class ControlledZombieConfig extends MobConfig {
+public class ControlledZombieConfig extends MobConfig<ControlledZombie> {
 
     /**
      * The unique instance.
@@ -57,7 +56,7 @@ public class ControlledZombieConfig extends MobConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager) {
+    public RenderControlledZombie getRender(RenderManager renderManager) {
         return new RenderControlledZombie(this, renderManager);
     }
     
