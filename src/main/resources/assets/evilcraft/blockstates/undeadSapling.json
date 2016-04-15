@@ -1,8 +1,5 @@
 {
   "forge_marker": 1,
-  "defaults": {
-    "transform": "forge:default-block"
-  },
   "variants": {
     "stage=0": { "model": "evilcraft:undeadSapling" },
     "stage=1": { "model": "evilcraft:undeadSapling" },

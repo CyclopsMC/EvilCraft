@@ -12,7 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
-import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
+import org.cyclops.cyclopscore.client.model.DelegatingChildDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.block.BloodStainedBlock;
@@ -23,29 +23,26 @@ import java.util.List;
  * Dynamic model for blood stained blocks.
  * @author rubensworks
  */
-public class ModelBloodStainedBlock extends DelegatingDynamicItemAndBlockModel {
+public class ModelBloodStainedBlock extends DelegatingChildDynamicItemAndBlockModel {
 
-    private final IBakedModel baseModel;
     private final TextureAtlasSprite overlayIcon;
 
     public ModelBloodStainedBlock() {
-        super();
-        this.baseModel = null;
+        super(null);
         this.overlayIcon = null;
     }
 
     public ModelBloodStainedBlock(IBakedModel baseModel, TextureAtlasSprite overlayIcon, boolean item,
                                   IBlockState blockState, EnumFacing facing, long rand) {
-        super(item, blockState, facing, rand);
-        this.baseModel = baseModel;
+        super(baseModel, blockState, facing, rand);
         this.overlayIcon = overlayIcon;
     }
 
     @Override
     public List<BakedQuad> getGeneralQuads() {
-        List<BakedQuad> quads = Lists.newArrayList(baseModel.getQuads(blockState, facing, rand));
-        if(facing == EnumFacing.UP) {
-            addBakedQuad(quads, 0, 1, 0, 1, 1, overlayIcon, EnumFacing.UP);
+        List<BakedQuad> quads = Lists.newArrayList(baseModel.getQuads(blockState, getRenderingSide(), rand));
+        if(facing == EnumFacing.UP || facing == null) {
+            addBakedQuad(quads, 0, 1, 0, 1, 1.01F, overlayIcon, EnumFacing.UP);
         }
         return quads;
     }

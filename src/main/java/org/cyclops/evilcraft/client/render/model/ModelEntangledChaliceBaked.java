@@ -49,8 +49,14 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         fluidStack = null;
     }
 
-    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, boolean item, IBlockState blockState, EnumFacing facing, long rand) {
-        super(item, blockState, facing, rand);
+    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, IBlockState blockState, EnumFacing facing, long rand) {
+        super(blockState, facing, rand);
+        this.id = id != null ? id : "";
+        this.fluidStack = fluidStack;
+    }
+
+    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, ItemStack itemStack, World world, EntityLivingBase entity) {
+        super(itemStack, world, entity);
         this.id = id != null ? id : "";
         this.fluidStack = fluidStack;
     }
@@ -104,13 +110,13 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         if(!EntangledChaliceConfig.staticBlockRendering) {
             fluidStack = null;
         }
-        return new ModelEntangledChaliceBaked(tankId, fluidStack, false, state, side, rand);
+        return new ModelEntangledChaliceBaked(tankId, fluidStack, state, side, rand);
     }
 
     @Override
     public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
         String id = itemStack != null ? ((EntangledChaliceItem) itemStack.getItem()).getTankID(itemStack) : "";
-        return new ModelEntangledChaliceBaked(id, itemStack != null ? ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack) : null, true, null, null, 0);
+        return new ModelEntangledChaliceBaked(id, itemStack != null ? ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack) : null, itemStack, world, entity);
     }
 
     @Override

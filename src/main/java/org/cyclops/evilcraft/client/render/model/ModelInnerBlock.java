@@ -54,7 +54,7 @@ public class ModelInnerBlock extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public IBakedModel handleBlockState(IBlockState state, EnumFacing side, long rand) {
+    public IBakedModel handleBlockState(IBlockState blockState, EnumFacing side, long rand) {
         IBlockState innerBlockState = block.getBlockFromState(blockState);
         IBakedModel baseModel = RenderHelpers.getBakedModel(innerBlockState);
         return new ModelInnerBlock(block, baseModel, false, innerBlockState, side, rand);

@@ -17,7 +17,7 @@ import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.common.model.TRSRTransformation;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
-import org.cyclops.cyclopscore.client.model.DynamicBaseModel;
+import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.block.BoxOfEternalClosure;
 
 import javax.vecmath.Matrix4f;
@@ -32,18 +32,14 @@ import java.util.List;
 @Data
 public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlockModel {
 
-    // Gui person transform for block items
-    private static final TRSRTransformation GUI = TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
-            new Vector3f(0, 0, 0),
-            TRSRTransformation.quatFromXYZDegrees(new Vector3f(0, 180, 0)),
-            new Vector3f(1, 1, 1),
-            null));
-
     // Default perspective transforms
     protected static final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> PERSPECTIVE_TRANSFORMS =
-            ImmutableMap.of(
-                    ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, DynamicBaseModel.THIRD_PERSON_LEFT_HAND,
-                    ItemCameraTransforms.TransformType.GUI, GUI);
+            ModelHelpers.modifyDefaultTransforms(ImmutableMap.of(ItemCameraTransforms.TransformType.GUI,
+                    TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
+                            new Vector3f(0, 0, 0),
+                            TRSRTransformation.quatFromXYZDegrees(new Vector3f(30, 45, 0)),
+                            new Vector3f(0.625f, 0.625f, 0.625f),
+                            null))));
 
     public static IBakedModel boxModel;
     public static IBakedModel boxLidModel;
@@ -57,12 +53,12 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
     }
 
     public ModelBoxOfEternalClosureBaked(IBlockState blockState, EnumFacing facing, long rand) {
-        super(false, blockState, facing, rand);
+        super(blockState, facing, rand);
         this.isOpen = false;
     }
 
-    public ModelBoxOfEternalClosureBaked(boolean isOpen) {
-        super(true, null, null, 0);
+    public ModelBoxOfEternalClosureBaked(boolean isOpen, ItemStack itemStack, World world, EntityLivingBase entity) {
+        super(itemStack, world, entity);
         this.isOpen = isOpen;
     }
 
@@ -87,7 +83,8 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
 
     @Override
     public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
-        return new ModelBoxOfEternalClosureBaked(BoxOfEternalClosure.getInstance().getSpiritName(itemStack) == null);
+        return new ModelBoxOfEternalClosureBaked(BoxOfEternalClosure.getInstance().getSpiritName(itemStack) == null,
+                itemStack, world, entity);
     }
 
     @Override

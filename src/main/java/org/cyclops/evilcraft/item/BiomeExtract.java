@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.relauncher.Side;
@@ -71,7 +72,7 @@ public class BiomeExtract extends ConfigurableItem implements IItemColor {
         if(renderPass == 0 && itemStack.getItemDamage() > 0) {
             BiomeGenBase biome = getBiome(itemStack);
             if(biome != null) {
-                return biome.getWaterColor(); // TODO: is this correct?
+                return biome.getFoliageColorAtPos(new BlockPos(0, 0, 0));
             } else {
                 return Helpers.RGBToInt(125, 125, 125);
             }

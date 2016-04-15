@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.core.config.configurable;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.creativetab.CreativeTabs;
@@ -82,9 +83,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     public int colorMultiplier(IBlockState blockState, IBlockAccess world, BlockPos blockPos, int renderPass) {
         try {
             IBlockState innerBlockState = getTile(world, blockPos).getInnerBlockState();
-            if(innerBlockState.getBlock() instanceof IBlockColor) {
-                return ((IBlockColor) innerBlockState.getBlock()).colorMultiplier(blockState, world, blockPos, renderPass);
-            }
+            return Minecraft.getMinecraft().getBlockColors().colorMultiplier(innerBlockState, world, blockPos, renderPass);
 		} catch (InvalidInnerBlocksTileException e) {
 			return -1;
 		} catch (NullPointerException e) {
@@ -92,7 +91,6 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
         } catch (IllegalArgumentException e) {
             return -1;
         }
-        return -1;
     }
 
     @Override
