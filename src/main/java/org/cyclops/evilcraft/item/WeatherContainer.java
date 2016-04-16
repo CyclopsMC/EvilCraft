@@ -82,7 +82,10 @@ public class WeatherContainer extends ConfigurableItem implements IItemColor {
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(!world.isRemote && getWeatherContainerType(itemStack) != WeatherContainerTypes.EMPTY) {
             world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_arrow_shoot, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-            world.spawnEntityInWorld(new EntityWeatherContainer(world, player, itemStack.copy()));
+            EntityWeatherContainer entity = new EntityWeatherContainer(world, player, itemStack.copy());
+            // Last three params: pitch offset, velocity, inaccuracy
+            entity.func_184538_a(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            world.spawnEntityInWorld(entity);
             
             itemStack.stackSize--;
         }

@@ -84,7 +84,10 @@ public class BiomeExtract extends ConfigurableItem implements IItemColor {
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(!world.isRemote && getBiome(itemStack) != null && !BiomeExtractConfig._instance.isUsageBlacklisted(getBiome(itemStack))) {
             world.playSound(player, player.posX, player.posY, player.posZ, new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-            world.spawnEntityInWorld(new EntityBiomeExtract(world, player, itemStack.copy()));
+            EntityBiomeExtract entity = new EntityBiomeExtract(world, player, itemStack.copy());
+            // Last three params: pitch offset, velocity, inaccuracy
+            entity.func_184538_a(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            world.spawnEntityInWorld(entity);
             itemStack.stackSize--;
         }
 

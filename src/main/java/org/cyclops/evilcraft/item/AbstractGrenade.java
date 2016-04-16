@@ -23,14 +23,17 @@ public abstract class AbstractGrenade extends ConfigurableItem {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(!world.isRemote) {
-            if (!entityPlayer.capabilities.isCreativeMode) {
+            if (!player.capabilities.isCreativeMode) {
                 --itemStack.stackSize;
             }
-            world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.MASTER, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-    
-            world.spawnEntityInWorld(getThrowableEntity(itemStack, world, entityPlayer));
+            world.playSound(player, player.posX, player.posY, player.posZ, new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.MASTER, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+
+            EntityThrowable entity = getThrowableEntity(itemStack, world, player);
+            // Last three params: pitch offset, velocity, inaccuracy
+            entity.func_184538_a(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            world.spawnEntityInWorld(entity);
         }
         return MinecraftHelpers.successAction(itemStack);
     }

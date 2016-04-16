@@ -52,6 +52,8 @@ public class NecromancerStaff extends ConfigurableDamageIndicatedItemFluidContai
     	EntityNecromancersHead head = new EntityNecromancersHead(entityLiving.worldObj, entityLiving);
     	if(!entityLiving.worldObj.isRemote) {
     		head.setMobType(mobType);
+            // Last three params: pitch offset, velocity, inaccuracy
+            head.func_184538_a(entityLiving, entityLiving.rotationPitch, entityLiving.rotationYaw, -20.0F, 0.5F, 1.0F);
     		entityLiving.worldObj.spawnEntityInWorld(head);
         }
     }

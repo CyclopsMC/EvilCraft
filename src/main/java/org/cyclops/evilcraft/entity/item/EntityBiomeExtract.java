@@ -83,7 +83,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
                 public void spreadTo(World world, BlockPos location) {
                     if(worldObj.isRemote) {
                         showChangedBiome(worldObj, new BlockPos(location.getX(), movingobjectposition.getBlockPos().getY(),
-                                location.getZ()), biome.getWaterColor());
+                                location.getZ()), biome.getFoliageColorAtPos(new BlockPos(0, 0, 0)));
                     } else {
                         WorldHelpers.setBiome(worldObj, location, biome);
                     }

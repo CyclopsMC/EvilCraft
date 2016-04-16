@@ -38,7 +38,7 @@ public class EntityWeatherContainerConfig extends EntityConfig<EntityWeatherCont
     @SideOnly(Side.CLIENT)
     @Override
     public RenderThrowable getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderThrowable(Minecraft.getMinecraft().getRenderManager(), WeatherContainer.getInstance(), Minecraft.getMinecraft().getRenderItem());
+        return new RenderThrowable(renderManager, WeatherContainer.getInstance(), Minecraft.getMinecraft().getRenderItem());
     }
     
     @Override
