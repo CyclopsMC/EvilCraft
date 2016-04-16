@@ -1,14 +1,11 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,9 +28,6 @@ public class VengeanceFocus extends ConfigurableItem {
     
     private static VengeanceFocus _instance = null;
     
-    @SideOnly(Side.CLIENT)
-    public ModelResourceLocation[] modelArray;
-    
     /**
      * Get the unique instance.
      * @return The instance.
@@ -45,21 +39,24 @@ public class VengeanceFocus extends ConfigurableItem {
     public VengeanceFocus(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
         this.setHasSubtypes(true);
-        if(MinecraftHelpers.isClientSide()) {
-            modelArray = new ModelResourceLocation[4];
-        }
+        this.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter() {
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
+                if (entityIn == null) {
+                    return 0.0F;
+                } else {
+                    ItemStack itemstack = entityIn.getActiveItemStack();
+                    return itemstack != null && itemstack.getItem() == VengeanceFocus.this ? (float)(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F : 0.0F;
+                }
+            }
+        });
+        this.addPropertyOverride(new ResourceLocation("pulling"), new IItemPropertyGetter() {
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
+                return entityIn != null && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
+            }
+        });
     }
-
-    // TODO
-    /*@SideOnly(Side.CLIENT)
-    public ModelResourceLocation getModel(ItemStack itemStack, EntityPlayer player, int useRemaining, EnumHand hand) {
-        if(itemStack.getItem() == this && player.getHeldItem(hand) != null
-                && getItemInUseDuration(player) != getMaxItemUseDuration(itemStack)) {
-            return modelArray[Math.min(this.modelArray.length - 1,
-                    (player.getItemInUseDuration() / 3))];
-        }
-        return super.getModel(itemStack, player, useRemaining);
-    }*/
 
     private int getItemInUseDuration(EntityLivingBase player) {
     	return Math.max(0, player.getItemInUseMaxCount() - player.getItemInUseCount());
@@ -95,16 +92,19 @@ public class VengeanceFocus extends ConfigurableItem {
     }
 
     @Override
-    public void onUsingTick(ItemStack itemStack, EntityLivingBase player, int duration) {
-    	if(getItemInUseDuration(player) > 6) {
+    public void onUsingTick(ItemStack itemStack, EntityLivingBase player, int remaining) {
+        int duration = getMaxItemUseDuration(itemStack) - remaining;
+        if(duration > 6) {
     		if(WorldHelpers.efficientTick(player.worldObj, TICK_MODULUS, player.getEntityId())) {
 		    	EntityAntiVengeanceBeam beam = new EntityAntiVengeanceBeam(player.worldObj, player);
 		    	if(!player.worldObj.isRemote) {
+                    // Last three params: pitch offset, velocity, inaccuracy
+                    beam.func_184538_a(player, player.rotationPitch, player.rotationYaw, 0F, 0.5F, 1.0F);
 		    		player.worldObj.spawnEntityInWorld(beam);
 		        }
     		}
     	} else {
-    		if(getItemInUseDuration(player) == 3 && player.worldObj.isRemote) {
+    		if(duration == 3 && player.worldObj.isRemote) {
 			// Play start sound
     		EvilCraft.proxy.playSound(player.posX, player.posY, player.posZ,
         			"vengeanceBeamStart", SoundCategory.AMBIENT, 0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);

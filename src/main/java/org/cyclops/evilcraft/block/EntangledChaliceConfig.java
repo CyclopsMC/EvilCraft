@@ -1,6 +1,11 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -72,5 +77,19 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
         ModelLoaderRegistry.registerLoader(new SingleModelLoader(
                 Reference.MOD_ID, "models/block/entangledChalice", modelEntangledChalice));
     }
-    
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void onInit(Step step) {
+        super.onInit(step);
+        if (step == Step.INIT) {
+            // Make sure that the chalice's model is available when activated.
+            Item item = Item.getItemFromBlock(getBlockInstance());
+            ItemStack itemStack = new ItemStack(item, 1, 1);
+            String itemName = getModelName(itemStack);
+            ModelResourceLocation model = new ModelResourceLocation(getMod().getModId() + ":" + itemName, "inventory");
+            ModelBakery.registerItemVariants(item, model);
+            Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, itemStack.getMetadata(), model);
+        }
+    }
 }

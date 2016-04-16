@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
@@ -16,7 +17,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.core.block.IBlockTank;
@@ -167,7 +167,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
 	@Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(block.isActivatable()) {
-        	return MinecraftHelpers.successAction(block.toggleActivation(itemStack, world, player));
+            return new ActionResult<ItemStack>(EnumActionResult.PASS, block.toggleActivation(itemStack, world, player));
         }
         return super.onItemRightClick(itemStack, world, player, hand);
     }
@@ -195,4 +195,8 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
         }
     }
 
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return oldStack.getItem() != newStack.getItem();
+    }
 }

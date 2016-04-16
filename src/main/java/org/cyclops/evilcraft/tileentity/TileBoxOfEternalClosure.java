@@ -146,7 +146,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     		if(target.isDead || !target.isFrozen()) {
     			setTargetSpirit(null);
     		} else {
-                if(target.getEntityBoundingBox().expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS).intersectsWith(getBlock().
+				if(target.getEntityBoundingBox().expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS).intersectsWith(getBlock().
                         getCollisionBoundingBox(worldObj.getBlockState(getPos()), worldObj, getPos()))) {
 	    			closing = true;
 	    			close(true);

@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -80,8 +81,10 @@ public class ItemHelpers {
             FluidStack tickFluid = item.getFluid(itemStack);
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;
-                ItemStack held = player.getActiveItemStack();
-                tryFillContainerForPlayer(item, itemStack, held, tickFluid, player);
+                for (EnumHand hand : EnumHand.values()) {
+                    ItemStack held = player.getHeldItem(hand);
+                    tryFillContainerForPlayer(item, itemStack, held, tickFluid, player);
+                }
             }
         }
     }

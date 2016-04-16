@@ -74,13 +74,13 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
 				}
 	            int filled = fillBloodExtractor(itemStack, amount, !world.isRemote);
 	            BloodStainedBlock.getInstance().unstainBlock(world, blockPos, filled);
-	            
+
 	            // Transform bloody dirt into regular dirt if we used some of the blood
 	            if(filled > 0 && world.isRemote) {
 	                // Init particles
 	                EntityBloodSplashFX.spawnParticles(world, blockPos.add(0, 1, 1), 5, 1 + random.nextInt(2));
 	            }
-	            return EnumActionResult.SUCCESS;
+	            return EnumActionResult.PASS;
 	        }
         }
         return super.onItemUseFirst(itemStack, player, world, blockPos, side, hitX, hitY, hitZ, hand);
@@ -172,6 +172,11 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
             return super.getCapacity(itemStack);
         }
         return tag.getInteger(NBT_TAG_CAPACITY);
+    }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return oldStack.getItem() != newStack.getItem();
     }
 
 }

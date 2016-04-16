@@ -51,7 +51,12 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
         this.powerLevels = powerLevels;
         this.meleeDamage = meleeDamage;
     }
-    
+
+    @Override
+    public boolean isValidArmor(ItemStack stack, EntityEquipmentSlot armorType, Entity entity) {
+        return armorType == EntityEquipmentSlot.MAINHAND || armorType == EntityEquipmentSlot.OFFHAND;
+    }
+
     @SideOnly(Side.CLIENT)
     @Override
     public boolean isFull3D() {
