@@ -84,13 +84,15 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
                     if(worldObj.isRemote) {
                         showChangedBiome(worldObj, new BlockPos(location.getX(), movingobjectposition.getBlockPos().getY(),
                                 location.getZ()), biome.getFoliageColorAtPos(new BlockPos(0, 0, 0)));
-                    } else {
-                        WorldHelpers.setBiome(worldObj, location, biome);
                     }
+                    WorldHelpers.setBiome(worldObj, location, biome);
                 }
             });
+            BlockPos pos = movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK
+                    ? movingobjectposition.getBlockPos()
+                    : movingobjectposition.entityHit.getPosition();
             for(int i = 0; i < 50; i++) {
-                spread.spreadTick(movingobjectposition.getBlockPos());
+                spread.spreadTick(pos);
             }
         }
         
