@@ -48,7 +48,7 @@ public class Broom extends ConfigurableItem {
             
             // Spawn and mount the broom
             world.spawnEntityInWorld(broom);
-            broom.updatePassenger(player);
+            player.startRiding(broom);
             
             stack.stackSize--;
         }

@@ -103,7 +103,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         this.prevPosZ = z;
         initBroomHoverTickOffset();
     }
-    
+
     protected void initBroomHoverTickOffset() {
         broomHoverTickOffset = rand.nextInt((int)Math.PI);
     }
@@ -115,26 +115,16 @@ public class EntityBroom extends Entity implements IConfigurable{
     
     @Override
 	public boolean canBeCollidedWith() {
-		return !isDead && isBeingRidden();
+		return !isDead;
 	}
     
     @Override
     public boolean processInitialInteract(EntityPlayer player, ItemStack stack, EnumHand hand) {
         if (!this.worldObj.isRemote && !isBeingRidden() && !player.isSneaking()) {
             player.startRiding(this);
-        }
-        
-    	return false;
-    }
-
-    @Override
-    public void updatePassenger(Entity entity) {
-        if (!worldObj.isRemote && !isBeingRidden() && entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer)entity;
-
-            player.startRiding(this);
             lastMounted = player;
         }
+    	return true;
     }
 
     @Override
@@ -148,44 +138,19 @@ public class EntityBroom extends Entity implements IConfigurable{
         this.newRotationYaw = (double)yaw;
         this.newRotationPitch = (double)pitch;
         this.newPosRotationIncrements = posRotationIncrements;
-        
-        /**
-         * If the player on the broom is the same as the client player,
-         * then make some corrections for its position based on what the server
-         * sent us
-         */
-        if (worldObj.isRemote && Minecraft.getMinecraft().thePlayer == lastMounted) {
-            double dx = newPosX - posX;
-            double dy = newPosY - posY + oldHoverOffset;
-            double dz = newPosZ - posZ;
-            
-            boolean changePosition = false;
-            
-            // Correct positions when the difference between the server and client position gets too big
-            if (Math.abs(dx) > EntityBroomConfig.desyncThreshold) {
-                posX += dx * EntityBroomConfig.desyncCorrectionValue;
-                changePosition = true;
-            }
-            
-            if (Math.abs(dy) > EntityBroomConfig.desyncThreshold) {
-                posY += dy * EntityBroomConfig.desyncCorrectionValue;
-                changePosition = true;
-            }
-            
-            if (Math.abs(dz) > EntityBroomConfig.desyncThreshold) {
-                posZ += dz * EntityBroomConfig.desyncCorrectionValue;
-                changePosition = true;
-            }
-            
-            if (changePosition)
-                setPosition(posX, posY, posZ);
-        }
+    }
+
+    @Override
+    public Entity getControllingPassenger() {
+        List<Entity> list = this.getPassengers();
+        return list.isEmpty() ? null : list.get(0);
     }
     
     @Override
     public void onUpdate() {
     	super.onUpdate();
 
+        Entity entity = getControllingPassenger();
         if (!worldObj.isRemote && !isBeingRidden() && lastMounted != null) {
     		// The player dismounted, give him his broom back if he's not in creative mode
     		if (!lastMounted.capabilities.isCreativeMode && Configs.isEnabled(BroomConfig.class)) {
@@ -200,7 +165,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     		
     		worldObj.removeEntity(this);
     		
-    	} else if (isBeingRidden() && getRidingEntity() instanceof EntityPlayer) {
+    	} else if (entity instanceof EntityPlayer) {
             /*
              * TODO: if we ever have the problem that a player can dismount without
              * getting the broom back in his inventory and removing the entity from the world
@@ -208,7 +173,7 @@ public class EntityBroom extends Entity implements IConfigurable{
              * the player is dismounted, thus lastMounted is not updated before the player dismounts
              * and thus the dismounting code is never executed
              */
-            lastMounted = (EntityPlayer)getRidingEntity();
+            lastMounted = (EntityPlayer) entity;
             
             prevPosX = posX;
             prevPosY = posY;
@@ -217,9 +182,9 @@ public class EntityBroom extends Entity implements IConfigurable{
             prevRotationYaw = rotationYaw;
             
     	    if (!worldObj.isRemote || Minecraft.getMinecraft().thePlayer == lastMounted) {
-    	        updateMountedServer();   
+    	        updateMountedServer();
     	    } else {
-    	        updateMountedClient();
+    	        //updateMountedClient();
     	    }
     	} else {
     	    updateUnmounted();
@@ -227,7 +192,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     	
     }
     
-    protected void updateMountedClient() {
+    protected void updateMountedClient() { // TODO: rm?
         if (newPosRotationIncrements > 0) {
             double x = posX + (newPosX - posX) / newPosRotationIncrements;
             double y = posY + (newPosY - posY) / newPosRotationIncrements;
@@ -265,8 +230,8 @@ public class EntityBroom extends Entity implements IConfigurable{
         setRotation(rotationYaw, rotationPitch);
         
         // Handle player movement
-        double pitch = ((getRidingEntity().rotationPitch + 90) * Math.PI) / 180;
-        double yaw = ((getRidingEntity().rotationYaw + 90) * Math.PI) / 180;
+        double pitch = ((lastMounted.rotationPitch + 90) * Math.PI) / 180;
+        double yaw = ((lastMounted.rotationYaw + 90) * Math.PI) / 180;
         
         double x = Math.sin(pitch) * Math.cos(yaw);
         double z = Math.sin(pitch) * Math.sin(yaw);
