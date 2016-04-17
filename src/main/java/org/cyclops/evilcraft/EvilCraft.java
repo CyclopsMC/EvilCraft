@@ -100,7 +100,6 @@ public class EvilCraft extends ModBaseVersionable {
         modCompatLoader.addModCompat(new WailaModCompat());
         modCompatLoader.addModCompat(new JEIModCompat());
         //modCompatLoader.addModCompat(new ThaumcraftModCompat()); TODO
-        //modCompatLoader.addModCompat(new NEIModCompat()); TODO
 
         // Capabilities
         ICapabilityCompat.ICapabilityReference<IWorker> workerReference = new ICapabilityCompat.ICapabilityReference<IWorker>() {

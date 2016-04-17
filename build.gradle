@@ -68,7 +68,6 @@ idea {
 sourceSets {
     main {
         java {
-            exclude '**/modcompat/nei/**'
             exclude '**/modcompat/thaumcraft/**'
         }
     }
