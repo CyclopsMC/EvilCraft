@@ -146,8 +146,8 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 			SoundEvent deathSound = ObfuscationHelpers.getDeathSound(entity);
             if(SpiritFurnaceConfig.mobDeathSounds && deathSound != null) {
                 BlockPos pos = tile.getPos();
-                EvilCraft.proxy.sendSoundMinecraft(pos.getX() + 0.5D, pos.getY() + 0.5D,
-                        pos.getZ() + 0.5D, deathSound.toString(), entity.getSoundCategory(), 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
+                EvilCraft.proxy.sendSound(pos.getX() + 0.5D, pos.getY() + 0.5D,
+                        pos.getZ() + 0.5D, deathSound, entity.getSoundCategory(), 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
             }
 
             if(tile.isPlayer()) {

@@ -15,7 +15,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -34,10 +33,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
-import org.cyclops.evilcraft.Configs;
-import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.GeneralConfig;
-import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.*;
 import org.cyclops.evilcraft.block.GemStoneTorchConfig;
 import org.cyclops.evilcraft.client.particle.EntityBlurFX;
 import org.cyclops.evilcraft.client.particle.EntityDarkSmokeFX;
@@ -797,7 +793,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 		if(getInnerEntity() != null) {
 			return ObfuscationHelpers.getDeathSound(getInnerEntity());
 		}
-		return new SoundEvent(new ResourceLocation(Reference.MOD_ID, "vengeanceSpiritDeath"));
+		return EvilCraftSoundEvents.mob_vengeancespirit_death;
 	}
 	
 	@Override
@@ -806,7 +802,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 		if(entity != null && entity instanceof EntityLiving) {
 			return ObfuscationHelpers.getAmbientSound((EntityLiving) getInnerEntity());
 		}
-		return new SoundEvent(new ResourceLocation("vengeanceSpirit"));
+		return EvilCraftSoundEvents.mob_vengeancespirit_ambient;
 	}
 
     @Optional.Method(modid = Reference.MOD_THAUMCRAFT)

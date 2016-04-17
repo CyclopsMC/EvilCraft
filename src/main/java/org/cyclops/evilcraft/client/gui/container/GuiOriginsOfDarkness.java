@@ -4,8 +4,8 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 import org.cyclops.cyclopscore.infobook.GuiInfoBook;
+import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
 
@@ -46,6 +46,11 @@ public class GuiOriginsOfDarkness extends GuiInfoBook {
 
     @Override
     public void playPageFlipSound(SoundHandler soundHandler) {
-        soundHandler.playSound(PositionedSoundRecord.getMasterRecord(new SoundEvent(new ResourceLocation(Reference.MOD_ID, "pageFlip")), 1.0F));
+        soundHandler.playSound(PositionedSoundRecord.getMasterRecord(EvilCraftSoundEvents.effect_page_flipsingle, 1.0F));
+    }
+
+    @Override
+    public void playPagesFlipSound(SoundHandler soundHandler) {
+        soundHandler.playSound(PositionedSoundRecord.getMasterRecord(EvilCraftSoundEvents.effect_page_flipmultiple, 1.0F));
     }
 }

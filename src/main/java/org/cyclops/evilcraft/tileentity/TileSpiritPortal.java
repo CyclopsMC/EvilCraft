@@ -15,6 +15,7 @@ import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.client.particle.EntityBlurFX;
 import org.cyclops.evilcraft.item.OriginsOfDarkness;
 import org.cyclops.evilcraft.item.OriginsOfDarknessConfig;
@@ -47,7 +48,8 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
             int progressModifier = (int) (getProgress() * 40f) + 1;
             if(worldObj.rand.nextInt(5) == 0) {
                 EvilCraft.proxy.playSound(getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F,
-                        "vengeanceBeam", SoundCategory.AMBIENT, 0.5F + worldObj.rand.nextFloat() * 0.2F, 1.0F);
+                        EvilCraftSoundEvents.effect_vengeancebeam_base, SoundCategory.AMBIENT,
+                        0.5F + worldObj.rand.nextFloat() * 0.2F, 1.0F);
             }
             for(int i = 0; i < worldObj.rand.nextInt(progressModifier); i++) {
                 showNewBlurParticle();

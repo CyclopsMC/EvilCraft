@@ -1,10 +1,54 @@
 {
-    "vengeanceBeam": {"category": "master","sounds": [{"name": "vengeanceBeam1", "stream": false}, {"name": "vengeanceBeam2", "stream": false}]},
-    "vengeanceBeamStart": {"category": "master","sounds": [{"name": "vengeanceBeamStart", "stream": false}]},
-    "vengeanceBeamStop": {"category": "master","sounds": [{"name": "vengeanceBeamStop", "stream": false}]},
-    "vengeanceSpirit": {"category": "master","sounds": [{"name": "vengeanceSpirit1", "stream": false}, {"name": "vengeanceSpirit2", "stream": false}]},
-    "vengeanceSpiritDeath": {"category": "master","sounds": [{"name": "vengeanceSpiritDeath", "stream": false}]},
-    "boxBeam": {"category": "master","sounds": [{"name": "boxBeam", "stream": false}]},
-    "pageFlip": {"category": "master","sounds": [{"name": "pageFlip1", "stream": false}, {"name": "pageFlip2", "stream": false}, {"name": "pageFlip3", "stream": false}]},
-    "pagesFlip": {"category": "master","sounds": [{"name": "pagesFlip", "stream": false}]}
+    "effect.vengeancebeam.base": {
+        "sounds": [
+            "evilcraft:vengeanceBeam1",
+            "evilcraft:vengeanceBeam2"
+        ],
+        "subtitle": "subtitles.evilcraft.effect.vengeancebeam.base"
+    },
+    "effect.vengeancebeam.start": {
+        "sounds": [
+            "evilcraft:vengeanceBeamStart"
+        ],
+        "subtitle": "subtitles.evilcraft.effect.vengeancebeam.start"
+    },
+    "effect.vengeancebeam.stop": {
+        "sounds": [
+            "evilcraft:vengeanceBeamStop"
+        ],
+        "subtitle": "subtitles.evilcraft.effect.vengeancebeam.stop"
+    },
+    "mob.vengeancespirit.ambient": {
+        "sounds": [
+            "evilcraft:vengeanceSpirit1",
+            "evilcraft:vengeanceSpirit2"
+        ],
+        "subtitle": "subtitles.evilcraft.mob.vengeancespirit.ambient"
+    },
+    "mob.vengeancespirit.death": {
+        "sounds": [
+            "evilcraft:vengeanceSpiritDeath"
+        ],
+        "subtitle": "subtitles.evilcraft.mob.vengeancespirit.death"
+    },
+    "effect.box.beam": {
+        "sounds": [
+            "evilcraft:boxBeam"
+        ],
+        "subtitle": "subtitles.evilcraft.effect.box.beam"
+    },
+    "effect.page.flipsingle": {
+        "sounds": [
+            "evilcraft:pageFlip1",
+            "evilcraft:pageFlip2",
+            "evilcraft:pageFlip3"
+        ],
+        "subtitle": "subtitles.evilcraft.effect.page.flipsingle"
+    },
+    "effect.page.flipmultiple": {
+        "sounds": [
+            "evilcraft:pagesFlip"
+        ],
+        "subtitle": "subtitles.evilcraft.effect.page.flipmultiple"
+    }
 }

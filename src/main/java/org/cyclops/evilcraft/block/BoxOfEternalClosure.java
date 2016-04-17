@@ -8,6 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -236,7 +237,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 						(double) blockPos.getX() + 0.5D,
 						(double) blockPos.getY() + 0.5D,
 						(double) blockPos.getZ() + 0.5D,
-						"block.chest.open",
+						SoundEvents.block_chest_open,
 						SoundCategory.BLOCKS,
 						0.5F,
 						world.rand.nextFloat() * 0.1F + 0.5F

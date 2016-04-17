@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.tileentity;
 import lombok.experimental.Delegate;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -218,7 +219,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
                     (double) x + 0.5D,
                     (double) y + 0.5D,
                     (double) z + 0.5D,
-                    "block.chest.open",
+                    SoundEvents.block_chest_open,
                     SoundCategory.BLOCKS,
                     0.5F,
                     worldObj.rand.nextFloat() * 0.1F + 0.9F
@@ -240,7 +241,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
                         (double) x + 0.5D,
                         (double) y + 0.5D,
                         (double) z + 0.5D,
-                        "block.chest.close",
+                        SoundEvents.block_chest_close,
                         SoundCategory.BLOCKS,
                         0.5F,
                         worldObj.rand.nextFloat() * 0.1F + 0.9F

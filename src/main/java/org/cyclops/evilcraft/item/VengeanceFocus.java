@@ -15,6 +15,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.entity.effect.EntityAntiVengeanceBeam;
 
 /**
@@ -87,7 +88,8 @@ public class VengeanceFocus extends ConfigurableItem {
     	if(player.worldObj.isRemote && getItemInUseDuration(player) > 6) {
 	    	// Play stop sound
 	    	EvilCraft.proxy.playSound(player.posX, player.posY, player.posZ,
-	    			"vengeanceBeamStop", SoundCategory.AMBIENT, 0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
+                    EvilCraftSoundEvents.effect_vengeancebeam_stop, SoundCategory.AMBIENT,
+                    0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
     	}
     }
 
@@ -107,7 +109,8 @@ public class VengeanceFocus extends ConfigurableItem {
     		if(duration == 3 && player.worldObj.isRemote) {
 			// Play start sound
     		EvilCraft.proxy.playSound(player.posX, player.posY, player.posZ,
-        			"vengeanceBeamStart", SoundCategory.AMBIENT, 0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
+                    EvilCraftSoundEvents.effect_vengeancebeam_start, SoundCategory.AMBIENT,
+                    0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
     		}
     	}
     }
