@@ -54,7 +54,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
 
     @Override
     public boolean isValidArmor(ItemStack stack, EntityEquipmentSlot armorType, Entity entity) {
-        return armorType == EntityEquipmentSlot.MAINHAND || armorType == EntityEquipmentSlot.OFFHAND;
+        return armorType == EntityEquipmentSlot.MAINHAND;
     }
 
     @SideOnly(Side.CLIENT)
@@ -270,7 +270,9 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     @Override
     public Multimap getAttributeModifiers(EntityEquipmentSlot slot, ItemStack itemStack) {
         Multimap multimap = super.getAttributeModifiers(slot, itemStack);
-        multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) this.meleeDamage, 0));
+        if (slot == EntityEquipmentSlot.MAINHAND) {
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) this.meleeDamage, 0));
+        }
         return multimap;
     }
     

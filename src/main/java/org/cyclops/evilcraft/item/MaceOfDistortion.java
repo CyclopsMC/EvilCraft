@@ -190,7 +190,9 @@ public class MaceOfDistortion extends Mace {
     @Override
     public Multimap getAttributeModifiers(EntityEquipmentSlot slot, ItemStack itemStack) {
         Multimap multimap = super.getAttributeModifiers(slot, itemStack);
-        multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)MELEE_DAMAGE, 0));
+        if (slot == EntityEquipmentSlot.MAINHAND) {
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) MELEE_DAMAGE, 0));
+        }
         return multimap;
     }
     
