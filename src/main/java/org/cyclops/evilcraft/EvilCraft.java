@@ -44,6 +44,7 @@ import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerEnvirAccTileCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerWorkingTileCompat;
 import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
+import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
 import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
@@ -96,7 +97,7 @@ public class EvilCraft extends ModBaseVersionable {
     protected void loadModCompats(ModCompatLoader modCompatLoader) {
         // Mod compats
         modCompatLoader.addModCompat(new BaublesModCompat());
-        //modCompatLoader.addModCompat(new WailaModCompat()); TODO
+        modCompatLoader.addModCompat(new WailaModCompat());
         modCompatLoader.addModCompat(new JEIModCompat());
         //modCompatLoader.addModCompat(new ThaumcraftModCompat()); TODO
         //modCompatLoader.addModCompat(new NEIModCompat()); TODO
