@@ -25,6 +25,16 @@ public class ObfuscationData {
 	 * Method from net.minecraft.entity.EntityLivingBase.
 	 */
 	public static final String[] ENTITYLIVINGBASE_GETDEATHSOUND = new String[] { "getDeathSound", "func_184615_bR", "bR" };
+
+	/**
+	 * Field from net.minecraft.entity.EntityLivingBase.
+	 */
+	public static final String[] ENTITYLIVINGBASE_DEAD = new String[] { "dead", "field_70729_aU", "aU" };
+
+	/**
+	 * Field from net.minecraft.entity.EntityLiving.
+	 */
+	public static final String[] ENTITYLIVINGBASE_GETLOOTTABLE = new String[] { "getLootTable", "func_184276_b", "b" };
 	
 	/**
 	 * Method from net.minecraft.entity.EntityLiving.

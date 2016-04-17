@@ -11,8 +11,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootTable;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
 import org.cyclops.evilcraft.EvilCraft;
@@ -23,7 +28,6 @@ import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.core.world.FakeWorldItemDelegator;
 import org.cyclops.evilcraft.tileentity.TileSpiritFurnace;
 
 import java.util.List;
@@ -136,8 +140,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     protected void doNextDrop(TileSpiritFurnace tile) {
     	EntityLiving entity = tile.getEntity();
     	if(entity != null) {
-    		FakeWorldItemDelegator world = FakeWorldItemDelegator.getInstance();
-			world.setItemDropListener(tile);
+            World world = tile.getWorld();
 			
 			// Send sound to client
 			SoundEvent deathSound = ObfuscationHelpers.getDeathSound(entity);
@@ -172,14 +175,21 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                         tile.onItemDrop(drop);
                     }
                 } else {
-                    // To make sure the entity actually will drop something.
-                    ObfuscationHelpers.setRecentlyHit(entity, 100);
+                    ResourceLocation deathLootTable = ObfuscationHelpers.getLootTable(entity);
+                    if(deathLootTable != null) {
+                        LootTable loottable = world.getLootTableManager().getLootTableFromLocation(deathLootTable);
+                        LootContext.Builder lootcontext$builder = (new LootContext.Builder((WorldServer) tile.getWorld()))
+                                .withLootedEntity(entity)
+                                .withDamageSource(DamageSource.generic);
 
-                    try {
-                        // Kill the entity to get the drops
-                        entity.onDeath(DamageSource.generic);
-                    } catch (Exception e) { // Gotta catch 'em all
-                        tile.caughtError();
+                        // If we want to do something with fortune later...
+                        /*if (p_184610_1_ && this.attackingPlayer != null) {
+                            lootcontext$builder = lootcontext$builder.withPlayer(this.attackingPlayer).withLuck(this.attackingPlayer.getLuck());
+                        }*/
+
+                        for (ItemStack itemstack : loottable.generateLootForPools(world.rand, lootcontext$builder.build())) {
+                            tile.onItemDrop(itemstack);
+                        }
                     }
                 }
             }

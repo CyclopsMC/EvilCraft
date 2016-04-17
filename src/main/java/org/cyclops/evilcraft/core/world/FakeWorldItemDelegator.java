@@ -16,7 +16,7 @@ public class FakeWorldItemDelegator extends FakeWorld {
 	private IItemDropListener itemDropListener;
 	
 	private FakeWorldItemDelegator() {
-		
+
 	}
 	
 	/**

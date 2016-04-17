@@ -135,6 +135,35 @@ public class ObfuscationHelpers {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * Get the private 'dead' field from {@link net.minecraft.entity.EntityLiving}.
+	 * @param entity The entity instance.
+	 * @return The loot table.
+	 */
+	public static ResourceLocation getLootTable(EntityLiving entity) {
+		Method method = ReflectionHelper.findMethod(EntityLiving.class, entity,
+				ObfuscationData.ENTITYLIVINGBASE_GETLOOTTABLE);
+		try {
+			return (ResourceLocation) method.invoke(entity);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * Get the private 'dead' field from {@link net.minecraft.entity.EntityLivingBase}.
+	 * @param entity The entity instance.
+	 * @param dead The dead value to set.
+	 */
+	public static void setDead(EntityLivingBase entity, boolean dead) {
+		ReflectionHelper.setPrivateValue(EntityLivingBase.class, entity, dead, ObfuscationData.ENTITYLIVINGBASE_DEAD);
+	}
 	
 	/**
 	 * Get the private 'classToIDMapping' field from {@link net.minecraft.entity.EntityList}.
