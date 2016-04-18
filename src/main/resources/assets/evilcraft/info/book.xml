@@ -406,7 +406,7 @@
             <paragraph>infoBook.evilcraft.modIntegrations.baubles.text</paragraph>
         </section>
         <section name="infoBook.evilcraft.modIntegrations.bloodMagic">
-            <tag type="mod">AWWayofTime</tag>
+            <tag type="mod">BloodMagic</tag>
             <tag>boundBloodDrop</tag>
             <paragraph>infoBook.evilcraft.modIntegrations.bloodMagic.text</paragraph>
             <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:boundBloodDrop</appendix>

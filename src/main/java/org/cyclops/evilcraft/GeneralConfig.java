@@ -74,7 +74,7 @@ public class GeneralConfig extends DummyConfig {
     		changedCallback = BloodFluidConverter.BloodConvertersChanged.class)
     public static String[] bloodConverters = new String[]{
     	"blood:1.0",
-    	"life essence:1.0",
+    	"lifeessence:1.0",
         "hell_blood:1.0",
     };
     

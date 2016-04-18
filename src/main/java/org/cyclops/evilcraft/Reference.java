@@ -82,7 +82,7 @@ public class Reference {
     public static final String MOD_TCONSTRUCT = "TConstruct";
     public static final String MOD_BAUBLES = "Baubles";
     public static final String MOD_NEI = "NotEnoughItems";
-    public static final String MOD_BLOODMAGIC = "AWWayofTime";
+    public static final String MOD_BLOODMAGIC = "BloodMagic";
     public static final String MOD_THAUMCRAFT = "Thaumcraft";
     public static final String MOD_EE3 = "EE3";
     public static final String MOD_IC2 = "IC2";

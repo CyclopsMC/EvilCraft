@@ -1,9 +1,10 @@
-package evilcraft.modcompat.bloodmagic;
+package org.cyclops.evilcraft.modcompat.bloodmagic;
 
-import evilcraft.modcompat.IModCompat;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import org.cyclops.evilcraft.Configs;
+import org.cyclops.cyclopscore.init.IInitListener;
+import org.cyclops.cyclopscore.modcompat.IModCompat;
+import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 
 /**
@@ -22,13 +23,14 @@ public class BloodMagicModCompat implements IModCompat {
     public void onInit(IInitListener.Step step) {
     	if(step == IInitListener.Step.PREINIT) {
     		ClientSoulNetworkHandler.reset();
-	        Configs.getInstance().configs.add(new BoundBloodDropConfig());
+			EvilCraft._instance.getConfigHandler().add(new BoundBloodDropConfig());
     	} else if(step == IInitListener.Step.INIT) {
     		FMLCommonHandler.instance().bus().register(ClientSoulNetworkHandler.getInstance());
     		MinecraftForge.EVENT_BUS.register(ClientSoulNetworkHandler.getInstance());
-	        PacketHandler.register(UpdateSoulNetworkCachePacket.class);
-	        PacketHandler.register(RequestSoulNetworkUpdatesPacket.class);
-    	}
+    	} else if(step == IInitListener.Step.POSTINIT) {
+			EvilCraft._instance.getPacketHandler().register(UpdateSoulNetworkCachePacket.class);
+			EvilCraft._instance.getPacketHandler().register(RequestSoulNetworkUpdatesPacket.class);
+		}
     }
     
     @Override

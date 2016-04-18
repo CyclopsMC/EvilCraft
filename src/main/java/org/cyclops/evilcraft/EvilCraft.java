@@ -41,6 +41,7 @@ import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
 import org.cyclops.evilcraft.item.DarkGemConfig;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
+import org.cyclops.evilcraft.modcompat.bloodmagic.BloodMagicModCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerEnvirAccTileCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerWorkingTileCompat;
 import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
@@ -102,6 +103,7 @@ public class EvilCraft extends ModBaseVersionable {
         modCompatLoader.addModCompat(new JEIModCompat());
         modCompatLoader.addModCompat(new ThaumcraftModCompat());
         //modCompatLoader.addModCompat(new NEIModCompat()); TODO
+        modCompatLoader.addModCompat(new BloodMagicModCompat());
 
         // Capabilities
         ICapabilityCompat.ICapabilityReference<IWorker> workerReference = new ICapabilityCompat.ICapabilityReference<IWorker>() {
