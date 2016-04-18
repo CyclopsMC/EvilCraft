@@ -79,7 +79,7 @@ public class Reference {
     public static final String MOD_WAILA = "Waila";
     public static final String MOD_FMP = "ForgeMultipart";
     public static final String MOD_FORESTRY = "Forestry";
-    public static final String MOD_TCONSTRUCT = "TConstruct";
+    public static final String MOD_TCONSTRUCT = "tconstruct";
     public static final String MOD_BAUBLES = "Baubles";
     public static final String MOD_NEI = "NotEnoughItems";
     public static final String MOD_BLOODMAGIC = "BloodMagic";

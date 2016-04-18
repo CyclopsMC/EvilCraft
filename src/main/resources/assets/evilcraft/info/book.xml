@@ -445,7 +445,7 @@
             <paragraph>infoBook.evilcraft.modIntegrations.thermalExpansion.text</paragraph>
         </section>
         <section name="infoBook.evilcraft.modIntegrations.tinkersConstruct">
-            <tag type="mod">TConstruct</tag>
+            <tag type="mod">tconstruct</tag>
             <paragraph>infoBook.evilcraft.modIntegrations.tinkersConstruct.text</paragraph>
         </section>
         <section name="infoBook.evilcraft.modIntegrations.waila">

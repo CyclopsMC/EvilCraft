@@ -45,6 +45,7 @@ import org.cyclops.evilcraft.modcompat.bloodmagic.BloodMagicModCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerEnvirAccTileCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerWorkingTileCompat;
 import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
+import org.cyclops.evilcraft.modcompat.tconstruct.TConstructModCompat;
 import org.cyclops.evilcraft.modcompat.thaumcraft.ThaumcraftModCompat;
 import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
 import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
@@ -104,6 +105,7 @@ public class EvilCraft extends ModBaseVersionable {
         modCompatLoader.addModCompat(new ThaumcraftModCompat());
         //modCompatLoader.addModCompat(new NEIModCompat()); TODO
         modCompatLoader.addModCompat(new BloodMagicModCompat());
+        modCompatLoader.addModCompat(new TConstructModCompat());
 
         // Capabilities
         ICapabilityCompat.ICapabilityReference<IWorker> workerReference = new ICapabilityCompat.ICapabilityReference<IWorker>() {
