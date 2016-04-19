@@ -1,15 +1,17 @@
-package evilcraft.modcompat.bloodmagic;
+package org.cyclops.evilcraft.modcompat.bloodmagic;
 
-import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
+import WayofTime.bloodmagic.api.util.helper.NetworkHelper;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import evilcraft.core.helper.MinecraftHelpers;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.evilcraft.EvilCraft;
 
 import java.util.Map;
 import java.util.Set;
@@ -49,39 +51,38 @@ public class ClientSoulNetworkHandler {
 	 * Get the cached current essence.
 	 * Clients will automatically send a request packet to the server to stay updated for this player's essence.
 	 * Servers will always delegate to the SoulNetworkHandler.
-	 * @param owner The owner.
+	 * @param uuid The owner uuid.
 	 * @return The essence.
 	 */
-	public int getCurrentEssence(String owner) {
+	public int getCurrentEssence(String uuid) {
 		if(MinecraftHelpers.isClientSide()) {
-			Integer ret = PLAYER_CACHE.get(owner);
+			Integer ret = PLAYER_CACHE.get(uuid);
 			if(ret == null) {
-				PacketHandler.sendToServer(new RequestSoulNetworkUpdatesPacket(owner));
+				EvilCraft._instance.getPacketHandler().sendToServer(new RequestSoulNetworkUpdatesPacket(uuid));
 				return 0;
 			}
 			return ret;
 		} else {
-			int essence = SoulNetworkHandler.getCurrentEssence(owner);
-			return essence;
+			return NetworkHelper.getSoulNetwork(uuid).getCurrentEssence();
 		}
 	}
 	
 	/**
 	 * Set the essence for the player.
-	 * @param owner The player.
+	 * @param uuid The player uuid.
 	 * @param currentEssence The essence.
 	 */
-	public void setCurrentEssence(String owner, int currentEssence) {
-		PLAYER_CACHE.put(owner, currentEssence);
+	public void setCurrentEssence(String uuid, int currentEssence) {
+		PLAYER_CACHE.put(uuid, currentEssence);
 	}
 	
 	/**
 	 * Add the given player to the server list of essence watchers.
-	 * @param player Player
+	 * @param uuid Player uuid
 	 */
 	//@SideOnly(Side.SERVER)
-	public void addUpdatePlayer(String player) {
-		UPDATE_PLAYERS.add(player);
+	public void addUpdatePlayer(String uuid) {
+		UPDATE_PLAYERS.add(uuid);
 	}
 	
 	/**
@@ -90,14 +91,16 @@ public class ClientSoulNetworkHandler {
      */
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onServerTick(ServerTickEvent event) {
-        if(event.phase == Phase.START && WorldHelpers.efficientTick(MinecraftServer.getServer().worldServers[0], BoundBloodDropConfig.maxUpdateTicks)) {
+        if(event.phase == Phase.START && WorldHelpers.efficientTick(
+				FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0],
+				BoundBloodDropConfig.maxUpdateTicks)) {
         	Map<String, Integer> toSend = Maps.newHashMap();
-        	for(String player : UPDATE_PLAYERS) {
-        		int essence = SoulNetworkHandler.getCurrentEssence(player);
-        		Integer found = PLAYER_CACHE.get(player);
+        	for(String uuid : UPDATE_PLAYERS) {
+        		int essence = NetworkHelper.getSoulNetwork(uuid).getCurrentEssence();
+        		Integer found = PLAYER_CACHE.get(uuid);
         		if(found == null || essence != found) {
-        			toSend.put(player, essence);
-        			setCurrentEssence(player, essence);
+        			toSend.put(uuid, essence);
+        			setCurrentEssence(uuid, essence);
         		}
         	}
         	sendUpdates(toSend);
@@ -105,7 +108,7 @@ public class ClientSoulNetworkHandler {
     }
     
     private void sendUpdates(Map<String, Integer> toSend) {
-    	PacketHandler.sendToAll(new UpdateSoulNetworkCachePacket(toSend));
+    	EvilCraft._instance.getPacketHandler().sendToAll(new UpdateSoulNetworkCachePacket(toSend));
 	}
 	
     /**

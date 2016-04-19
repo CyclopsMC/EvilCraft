@@ -77,4 +77,9 @@ public class JEIEvilCraftConfig implements IModPlugin {
     public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
 
     }
+
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+
+    }
 }

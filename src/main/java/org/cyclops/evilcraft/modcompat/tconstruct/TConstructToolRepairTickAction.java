@@ -1,10 +1,10 @@
-package evilcraft.modcompat.tconstruct;
+package org.cyclops.evilcraft.modcompat.tconstruct;
 
+import net.minecraft.item.ItemStack;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 import org.cyclops.evilcraft.block.BloodChestConfig;
-import net.minecraft.item.ItemStack;
-import tconstruct.library.tools.AbilityHelper;
-import tconstruct.library.tools.ToolCore;
+import slimeknights.tconstruct.library.tools.ToolCore;
+import slimeknights.tconstruct.library.utils.ToolHelper;
 
 import java.util.Random;
 
@@ -23,8 +23,7 @@ public class TConstructToolRepairTickAction implements IBloodChestRepairAction {
     @Override
     public boolean canRepair(ItemStack itemStack, int tick) {
         if(isItemValidForSlot(itemStack)) {
-            ToolCore tool = (ToolCore) itemStack.getItem();
-            return tool.getDamage(itemStack) > 0;
+            return itemStack.getItem().getDamage(itemStack) > 0;
         }
         return false;
     }
@@ -32,7 +31,7 @@ public class TConstructToolRepairTickAction implements IBloodChestRepairAction {
     @Override
     public float repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk) {
         if(doAction) {
-            AbilityHelper.healTool(itemStack, 1, null, true);
+            ToolHelper.healTool(itemStack, 1, null);
         }
         return 1;
     }

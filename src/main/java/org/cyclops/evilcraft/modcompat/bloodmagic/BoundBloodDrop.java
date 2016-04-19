@@ -1,24 +1,29 @@
-package evilcraft.modcompat.bloodmagic;
+package org.cyclops.evilcraft.modcompat.bloodmagic;
 
-import WayofTime.alchemicalWizardry.AlchemicalWizardry;
-import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
-import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import net.minecraft.util.text.TextFormatting;
-import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
-import org.cyclops.evilcraft.core.helper.ItemHelpers;
-import evilcraft.core.helper.MinecraftHelpers;
-import org.cyclops.evilcraft.fluid.Blood;
+import WayofTime.bloodmagic.api.BloodMagicAPI;
+import WayofTime.bloodmagic.api.Constants;
+import WayofTime.bloodmagic.api.iface.IBindable;
+import WayofTime.bloodmagic.api.util.helper.NetworkHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
+import org.cyclops.evilcraft.core.helper.ItemHelpers;
+import org.cyclops.evilcraft.fluid.Blood;
 
 import java.util.List;
 
@@ -27,20 +32,9 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContainer {
+public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContainer implements IBindable {
     
     private static BoundBloodDrop _instance = null;
-    
-    /**
-     * Initialise the configurable.
-     * @param eConfig The config.
-     */
-    public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
-        if(_instance == null)
-            _instance = new BoundBloodDrop(eConfig);
-        else
-            eConfig.showDoubleInitError();
-    }
     
     /**
      * Get the unique instance.
@@ -50,24 +44,38 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
         return _instance;
     }
 
-    private BoundBloodDrop(ExtendedConfig<ItemConfig> eConfig) {
+    public BoundBloodDrop(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, FluidContainerRegistry.BUCKET_VOLUME, Blood.getInstance());
         setPlaceFluids(true);
     }
-    
-    private static String getOwnerName(ItemStack item) {
+
+    @Override
+    public String getOwnerName(ItemStack item) {
         if(item.getTagCompound() == null) {
             item.setTagCompound(new NBTTagCompound());
         }
-        return item.getTagCompound().getString("ownerName");
+        return item.getTagCompound().getString(Constants.NBT.OWNER_NAME);
     }
-    
-    private static int getCurrentEssence(String owner) {
-    	return ClientSoulNetworkHandler.getInstance().getCurrentEssence(owner);
-    }
-    
+
     @Override
-    public boolean hasEffect(ItemStack itemStack, int pass){
+    public String getOwnerUUID(ItemStack item) {
+        if(item.getTagCompound() == null) {
+            item.setTagCompound(new NBTTagCompound());
+        }
+        return item.getTagCompound().getString(Constants.NBT.OWNER_UUID);
+    }
+
+    @Override
+    public boolean onBind(EntityPlayer player, ItemStack stack) {
+        return true;
+    }
+
+    private static int getCurrentEssence(String uuid) {
+    	return ClientSoulNetworkHandler.getInstance().getCurrentEssence(uuid);
+    }
+
+    @Override
+    public boolean hasEffect(ItemStack itemStack) {
         return ItemHelpers.isActivated(itemStack);
     }
     
@@ -84,7 +92,7 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-        		getUnlocalizedName() + ".info.autoSupply");
+                getUnlocalizedName() + ".info.autoSupply");
         if(itemStack.getTagCompound() != null) {
         	String owner = getOwnerName(itemStack);
         	if(owner == null || owner.isEmpty()) {
@@ -96,7 +104,6 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-    	SoulNetworkHandler.checkAndSetItemOwner(itemStack, player);
     	if(player.isSneaking()) {
             if(!world.isRemote)
             	ItemHelpers.toggleActivation(itemStack);
@@ -122,44 +129,44 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public FluidStack getFluid(ItemStack container) {
-    	String owner = getOwnerName(container);
+    	String uuid = getOwnerUUID(container);
     	int essence = 0;
-    	if(!(owner == null || owner.isEmpty())) {
-    		essence = getCurrentEssence(owner);
+    	if(!(uuid == null || uuid.isEmpty())) {
+    		essence = getCurrentEssence(uuid);
     	}
-    	FluidStack drainedEssence = new FluidStack(AlchemicalWizardry.lifeEssenceFluid, essence);
+    	FluidStack drainedEssence = new FluidStack(BloodMagicAPI.getLifeEssence(), essence);
     	return BloodFluidConverter.getInstance().convert(drainedEssence);
     }
     
     @Override
     public int fill(ItemStack container, FluidStack resource, boolean doFill) {
-    	String owner = getOwnerName(container);
-    	if(owner == null || owner.isEmpty()) {
+    	String uuid = getOwnerUUID(container);
+    	if(uuid == null || uuid.isEmpty()) {
     		return 0;
     	}
-    	int essence = getCurrentEssence(owner);
-    	FluidStack essenceFluid = BloodFluidConverter.getInstance().convertReverse(AlchemicalWizardry.lifeEssenceFluid, resource);
-    	int filled = essenceFluid == null ? 0 : essenceFluid.amount;
+    	int essence = getCurrentEssence(uuid);
+        FluidStack essenceFluid = BloodFluidConverter.getInstance().convertReverse(BloodMagicAPI.getLifeEssence(), resource);
+        int filled = essenceFluid == null ? 0 : essenceFluid.amount;
     	if(doFill && !MinecraftHelpers.isClientSide()) {
-    		SoulNetworkHandler.setCurrentEssence(owner, essence + filled);
+            NetworkHelper.getSoulNetwork(uuid).setCurrentEssence(essence + filled);
     	}
     	return filled;
     }
     
     @Override
     public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
-    	String owner = getOwnerName(container);
-    	if(owner == null || owner.isEmpty()) {
+    	String uuid = getOwnerUUID(container);
+    	if(uuid == null || uuid.isEmpty()) {
     		return null;
     	}
-    	int essence = getCurrentEssence(owner);
+    	int essence = getCurrentEssence(uuid);
     	FluidStack toDrain = new FluidStack(Blood.getInstance(), maxDrain);
-    	FluidStack toDrainEssence = BloodFluidConverter.getInstance().convertReverse(AlchemicalWizardry.lifeEssenceFluid, toDrain);
+    	FluidStack toDrainEssence = BloodFluidConverter.getInstance().convertReverse(BloodMagicAPI.getLifeEssence(), toDrain);
     	int drainEssence = Math.min(essence, toDrainEssence == null ? 0 : toDrainEssence.amount);
     	if(doDrain && !MinecraftHelpers.isClientSide()) {
-    		SoulNetworkHandler.setCurrentEssence(owner, essence - drainEssence);
+            NetworkHelper.getSoulNetwork(uuid).setCurrentEssence(essence - drainEssence);
     	}
-    	FluidStack drainedEssence = new FluidStack(AlchemicalWizardry.lifeEssenceFluid, drainEssence);
+    	FluidStack drainedEssence = new FluidStack(BloodMagicAPI.getLifeEssence(), drainEssence);
     	return BloodFluidConverter.getInstance().convert(drainedEssence);
     }
 

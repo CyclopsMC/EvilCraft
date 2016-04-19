@@ -1,7 +1,9 @@
-package evilcraft.modcompat.bloodmagic;
+package org.cyclops.evilcraft.modcompat.bloodmagic;
 
-import evilcraft.core.config.ConfigurableProperty;
-import evilcraft.core.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.evilcraft.EvilCraft;
 
 /**
  * Config for the {@link BoundBloodDrop}.
@@ -32,10 +34,11 @@ public class BoundBloodDropConfig extends ItemConfig {
      */
     public BoundBloodDropConfig() {
         super(
-        	true,
-            "boundBloodDrop",
-            null,
-            BoundBloodDrop.class
+                EvilCraft._instance,
+                true,
+                "boundBloodDrop",
+                null,
+                BoundBloodDrop.class
         );
     }
     

@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.world.gen;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkGenerator;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import org.apache.commons.lang3.tuple.Pair;
@@ -47,6 +48,10 @@ public class DarkTempleGenerator implements IWorldGenerator {
 	}
 
 	protected static boolean appliesAt(World world, int chunkX, int chunkZ) {
+		if(world.getBiomeGenForCoords(new BlockPos(chunkX * WorldHelpers.CHUNK_SIZE, 0, chunkZ * WorldHelpers.CHUNK_SIZE))
+				.getTempCategory() == BiomeGenBase.TempCategory.OCEAN) {
+			return false;
+		}
 		int frequency = GeneralConfig.darkTempleFrequency;
 		// Pseudo-random formula
 		return (chunkX * chunkZ + chunkX - chunkZ + world.getSeed()) % frequency == 0;
