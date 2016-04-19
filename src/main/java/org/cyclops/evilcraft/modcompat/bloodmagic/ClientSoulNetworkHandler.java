@@ -117,7 +117,7 @@ public class ClientSoulNetworkHandler {
      */
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onWorldLoad(WorldEvent.Load event) {
-        if(event.world.isRemote) {
+        if(event.getWorld().isRemote) {
         	reset();
         }
     }
