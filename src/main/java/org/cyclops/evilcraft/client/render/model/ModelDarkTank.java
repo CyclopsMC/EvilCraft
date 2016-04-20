@@ -85,7 +85,7 @@ public class ModelDarkTank extends DynamicChildItemModel implements ISmartBlockM
                 } else {
                     uvs = new float[][]{{1, 0}, {1, height}, {0, height}, {0, 0}};
                 }
-                addBakedQuadRotated(quads, x1, x2, z1, z2, 0.87F, texture, side, ROTATION_FIX[side.ordinal()], true, uvs);
+                addBakedQuadRotated(quads, x1, x2, z1, z2, 0.87F, texture, side, ROTATION_FIX[side.ordinal()], false, -1, uvs);
             }
         }
         return quads;
