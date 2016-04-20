@@ -26,6 +26,7 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.Reference;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class WerewolfFlesh extends ConfigurableItemFood implements IItemColor {
+public class WerewolfFlesh extends ConfigurableItemFood {
     
     private static WerewolfFlesh _instance = null;
     
@@ -79,15 +80,6 @@ public class WerewolfFlesh extends ConfigurableItemFood implements IItemColor {
     @Override
     public boolean hasEffect(ItemStack itemStack){
         return isPower();
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemstack(ItemStack itemStack, int pass) {
-    	if(isHumanFlesh(itemStack)) {
-    		return Helpers.RGBToInt(255, 200, 180);
-    	}
-        return -1;
     }
     
     @Override
@@ -181,6 +173,24 @@ public class WerewolfFlesh extends ConfigurableItemFood implements IItemColor {
     		}
     		list.add("Player: " + TextFormatting.WHITE + player);
     	}
+    }
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            if(WerewolfFlesh.getInstance().isHumanFlesh(itemStack)) {
+                return Helpers.RGBToInt(255, 200, 180);
+            }
+            return -1;
+        }
     }
 
 }

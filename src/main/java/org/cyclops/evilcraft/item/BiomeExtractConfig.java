@@ -175,5 +175,4 @@ public class BiomeExtractConfig extends ItemConfig {
     public boolean isUsageBlacklisted(BiomeGenBase biome) {
         return usageBlacklistIds.contains(BiomeGenBase.biomeRegistry.getNameForObject(biome).toString());
     }
-
 }

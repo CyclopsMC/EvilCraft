@@ -20,12 +20,14 @@ import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.FluidBlockPoison;
 import org.cyclops.evilcraft.fluid.PoisonConfig;
 
+import javax.annotation.Nullable;
+
 /**
  * Bottle that is retrieved when right-clicking a poison source.
  * @author rubensworks
  *
  */
-public class PoisonBottle extends ConfigurableItem implements IItemColor {
+public class PoisonBottle extends ConfigurableItem {
 
     private static PoisonBottle _instance = null;
 
@@ -42,12 +44,6 @@ public class PoisonBottle extends ConfigurableItem implements IItemColor {
         //this.setPotionEffect(PotionHelper.spiderEyeEffect); TODO
         this.setMaxStackSize(1);
         MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemstack(ItemStack itemStack, int pass) {
-        return pass == 0 ? Helpers.RGBToInt(77, 117, 15) : -1;
     }
 
     @SubscribeEvent
@@ -67,6 +63,21 @@ public class PoisonBottle extends ConfigurableItem implements IItemColor {
                     }
                 }
             }
+        }
+    }
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            return renderPass == 0 ? Helpers.RGBToInt(77, 117, 15) : -1;
         }
     }
 

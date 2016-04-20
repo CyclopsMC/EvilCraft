@@ -20,6 +20,7 @@ import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 import org.lwjgl.input.Keyboard;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-public class Promise extends ConfigurableItem implements IItemColor {
+public class Promise extends ConfigurableItem {
 
     private static Promise _instance = null;
     public static final Upgrades.Upgrade[] UPGRADES = new Upgrades.Upgrade[]{
@@ -81,13 +82,6 @@ public class Promise extends ConfigurableItem implements IItemColor {
         }
         return super.getItemStackLimit(itemStack);
     }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
-        Upgrades.Upgrade upgrade = getUpgrade(itemStack);
-        return renderPass == 0 ? SECONDARY_COLORS.get(upgrade) : MAIN_COLORS.get(upgrade);
-    }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
@@ -136,6 +130,22 @@ public class Promise extends ConfigurableItem implements IItemColor {
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
         return itemStack.getItemDamage() < 3 ? EnumRarity.RARE : EnumRarity.UNCOMMON;
+    }
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            Upgrades.Upgrade upgrade = Promise.getInstance().getUpgrade(itemStack);
+            return renderPass == 0 ? SECONDARY_COLORS.get(upgrade) : MAIN_COLORS.get(upgrade);
+        }
     }
 
 }

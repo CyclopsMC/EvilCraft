@@ -25,6 +25,7 @@ import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.client.render.model.ModelInnerBlock;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
@@ -33,7 +34,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock implements IInformationProvider, IBlockColor {
+public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock implements IInformationProvider {
 
     // No more than 16 different innerblocks allowed!
     protected final IBlockState[] INNER_BLOCKS;
@@ -151,17 +152,6 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockState blockState, IBlockAccess world, BlockPos blockPos, int renderPass) {
-        IBlockState blockStateInner = getBlockFromState(world.getBlockState(blockPos));
-        Block block = blockStateInner.getBlock();
-        if(block instanceof IBlockColor) {
-            return ((IBlockColor) block).colorMultiplier(blockStateInner, world, blockPos, renderPass);
-        }
-        return -1;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public boolean addHitEffects(IBlockState blockState, World worldObj, RayTraceResult target, EffectRenderer effectRenderer) {
         BlockPos pos = target.getBlockPos();
         RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, getBlockFromState(blockState), pos, target.sideHit);
@@ -178,5 +168,26 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     public IBakedModel createDynamicModel() {
         return new ModelInnerBlock(this);
     }
-    
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IBlockColor getBlockColorHandler() {
+        return new BlockColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class BlockColor implements IBlockColor {
+        @Override
+        @SideOnly(Side.CLIENT)
+        public int colorMultiplier(IBlockState blockState, IBlockAccess world, BlockPos blockPos, int renderPass) {
+            ConfigurableBlockWithInnerBlocks thisBlock = (ConfigurableBlockWithInnerBlocks) blockState.getBlock();
+            IBlockState blockStateInner = thisBlock.getBlockFromState(world.getBlockState(blockPos));
+            Block block = blockStateInner.getBlock();
+            if(block instanceof IBlockColor) {
+                return ((IBlockColor) block).colorMultiplier(blockStateInner, world, blockPos, renderPass);
+            }
+            return -1;
+        }
+    }
 }

@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
@@ -15,6 +16,8 @@ import org.cyclops.cyclopscore.block.property.BlockPropertyManagerComponent;
 import org.cyclops.cyclopscore.block.property.IBlockPropertyManager;
 import org.cyclops.cyclopscore.config.configurable.IConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+
+import javax.annotation.Nullable;
 
 /**
  * {@link BlockBasePressurePlate} that can hold ExtendedConfigs.
@@ -53,7 +56,13 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
     public boolean hasGui() {
         return hasGui;
     }
-    
+
+    @Nullable
+    @Override
+    public IBlockColor getBlockColorHandler() {
+        return null;
+    }
+
     @Override
     public void onNeighborBlockChange(World world, BlockPos blockPos, IBlockState blockState, Block block) {
         if(!canPlaceBlockAt(world, blockPos)) {

@@ -25,6 +25,7 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.core.tileentity.InnerBlocksTileEntity;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockWithInnerBlocksExtended extends ConfigurableBlockContainer implements IBlockColor {
+public abstract class ConfigurableBlockWithInnerBlocksExtended extends ConfigurableBlockContainer {
     
     /**
      * Make a new blockState instance.
@@ -64,7 +65,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
      * @return The tile.
      * @throws InvalidInnerBlocksTileException If the found tile was invalid or no {@link InnerBlocksTileEntity}.
      */
-    public InnerBlocksTileEntity getTile(IBlockAccess world, BlockPos blockPos) throws InvalidInnerBlocksTileException {
+    public static InnerBlocksTileEntity getTile(IBlockAccess world, BlockPos blockPos) throws InvalidInnerBlocksTileException {
     	TileEntity tile = world.getTileEntity(blockPos);
     	if(tile == null || !(tile instanceof InnerBlocksTileEntity)) {
     		throw new InvalidInnerBlocksTileException();
@@ -76,21 +77,6 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     public boolean removedByPlayer(IBlockState blockState, World world, BlockPos blockPos, EntityPlayer player, boolean willHarvest) {
     	unwrapInnerBlock(world, blockPos);
     	return false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockState blockState, IBlockAccess world, BlockPos blockPos, int renderPass) {
-        try {
-            IBlockState innerBlockState = getTile(world, blockPos).getInnerBlockState();
-            return Minecraft.getMinecraft().getBlockColors().colorMultiplier(innerBlockState, world, blockPos, renderPass);
-		} catch (InvalidInnerBlocksTileException e) {
-			return -1;
-		} catch (NullPointerException e) {
-            return -1;
-        } catch (IllegalArgumentException e) {
-            return -1;
-        }
     }
 
     @Override
@@ -210,7 +196,32 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
         RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, blockState, pos, target.sideHit);
         return true;
     }
-    
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IBlockColor getBlockColorHandler() {
+        return new BlockColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class BlockColor implements IBlockColor {
+        @Override
+        @SideOnly(Side.CLIENT)
+        public int colorMultiplier(IBlockState blockState, IBlockAccess world, BlockPos blockPos, int renderPass) {
+            try {
+                IBlockState innerBlockState = getTile(world, blockPos).getInnerBlockState();
+                return Minecraft.getMinecraft().getBlockColors().colorMultiplier(innerBlockState, world, blockPos, renderPass);
+            } catch (InvalidInnerBlocksTileException e) {
+                return -1;
+            } catch (NullPointerException e) {
+                return -1;
+            } catch (IllegalArgumentException e) {
+                return -1;
+            }
+        }
+    }
+
     /**
      * Exception that can occur when the tile is invalid.
      * @author rubensworks

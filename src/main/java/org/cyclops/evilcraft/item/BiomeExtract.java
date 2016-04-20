@@ -22,6 +22,7 @@ import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ import java.util.List;
  * @author immortaleeb
  *
  */
-public class BiomeExtract extends ConfigurableItem implements IItemColor {
+public class BiomeExtract extends ConfigurableItem {
 
     private static final String NBT_BIOMEKEY = "biomeKey";
 
@@ -64,20 +65,6 @@ public class BiomeExtract extends ConfigurableItem implements IItemColor {
     @Override
     public EnumAction getItemUseAction(ItemStack itemStack) {
         return EnumAction.BOW;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
-        if(renderPass == 0 && itemStack.getItemDamage() > 0) {
-            BiomeGenBase biome = getBiome(itemStack);
-            if(biome != null) {
-                return biome.getFoliageColorAtPos(new BlockPos(0, 0, 0));
-            } else {
-                return Helpers.RGBToInt(125, 125, 125);
-            }
-        }
-        return 16777215;
     }
 
     @Override
@@ -172,6 +159,29 @@ public class BiomeExtract extends ConfigurableItem implements IItemColor {
             return EnumRarity.COMMON;
         } else {
             return biome.getSpawningChance() <= 0.05F ? EnumRarity.EPIC : (biome.getSpawningChance() <= 0.1F ? EnumRarity.RARE : EnumRarity.UNCOMMON);
+        }
+    }
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            if(renderPass == 0 && itemStack.getItemDamage() > 0) {
+                BiomeGenBase biome = BiomeExtract.getInstance().getBiome(itemStack);
+                if(biome != null) {
+                    return biome.getFoliageColorAtPos(new BlockPos(0, 0, 0));
+                } else {
+                    return Helpers.RGBToInt(125, 125, 125);
+                }
+            }
+            return 16777215;
         }
     }
 }

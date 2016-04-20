@@ -12,6 +12,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-public class PromiseAcceptor extends ConfigurableItem implements IItemColor {
+public class PromiseAcceptor extends ConfigurableItem {
 
     private static PromiseAcceptor _instance = null;
     public static final Map<Integer, Integer> COLORS = Maps.newHashMap();
@@ -50,12 +51,6 @@ public class PromiseAcceptor extends ConfigurableItem implements IItemColor {
     public boolean hasEffect(ItemStack itemStack) {
         return true;
     }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
-        return COLORS.get(itemStack.getItemDamage());
-    }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
@@ -69,6 +64,21 @@ public class PromiseAcceptor extends ConfigurableItem implements IItemColor {
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
         return super.getUnlocalizedName(itemStack) + "." + itemStack.getItemDamage();
+    }
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            return COLORS.get(itemStack.getItemDamage());
+        }
     }
 
 }

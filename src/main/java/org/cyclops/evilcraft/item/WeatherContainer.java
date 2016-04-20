@@ -25,6 +25,7 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.entity.item.EntityWeatherContainer;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ import java.util.List;
  * @author immortaleeb
  *
  */
-public class WeatherContainer extends ConfigurableItem implements IItemColor {
+public class WeatherContainer extends ConfigurableItem {
     
     private static WeatherContainer _instance = null;
     
@@ -70,12 +71,6 @@ public class WeatherContainer extends ConfigurableItem implements IItemColor {
     @SideOnly(Side.CLIENT)
     public int getColorFromDamage(int damage) {
         return getWeatherContainerType(damage).damageRenderColor;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
-        return renderPass > 0 ? 16777215 : this.getColorFromDamage(itemStack.getItemDamage());
     }
     
     @Override
@@ -268,5 +263,20 @@ public class WeatherContainer extends ConfigurableItem implements IItemColor {
     public EnumRarity getRarity(ItemStack itemStack) {
         return itemStack.getItemDamage() == 0 ? EnumRarity.COMMON :
                 (itemStack.getItemDamage() > 2 ? EnumRarity.RARE : EnumRarity.UNCOMMON);
+    }
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            return renderPass > 0 ? 16777215 : WeatherContainer.getInstance().getColorFromDamage(itemStack.getItemDamage());
+        }
     }
 }

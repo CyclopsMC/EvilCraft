@@ -37,5 +37,4 @@ public class PromiseAcceptorConfig extends ItemConfig {
             OreDictionary.registerOre("materialPromiseAcceptor", new ItemStack(PromiseAcceptor.getInstance(), 1, tier));
         }
     }
-    
 }
