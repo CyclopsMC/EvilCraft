@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,7 +37,7 @@ public class EntityLightningGrenadeConfig extends EntityConfig<EntityLightningGr
 
     @SideOnly(Side.CLIENT)
     @Override
-    public RenderSnowball<EntityLightningGrenade> getRender(RenderManager renderManager, RenderItem renderItem) {
+    public Render<EntityLightningGrenade> getRender(RenderManager renderManager, RenderItem renderItem) {
         return new RenderSnowball<EntityLightningGrenade>(renderManager, LightningGrenade.getInstance(), renderItem);
     }
     

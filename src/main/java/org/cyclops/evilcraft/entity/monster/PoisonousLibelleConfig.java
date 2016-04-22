@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.entity.monster;
 
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
@@ -80,7 +81,7 @@ public class PoisonousLibelleConfig extends MobConfig<PoisonousLibelle> {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public RenderPoisonousLibelle getRender(RenderManager renderManager) {
+    public Render<PoisonousLibelle> getRender(RenderManager renderManager) {
         return new RenderPoisonousLibelle(renderManager, this, new ModelPoisonousLibelle(), 0.5F);
     }
     

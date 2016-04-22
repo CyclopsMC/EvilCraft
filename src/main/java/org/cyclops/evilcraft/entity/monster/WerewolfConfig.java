@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.entity.monster;
 
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -59,7 +60,7 @@ public class WerewolfConfig extends MobConfig<Werewolf> {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public RenderWerewolf getRender(RenderManager renderManager) {
+    public Render<Werewolf> getRender(RenderManager renderManager) {
         return new RenderWerewolf(renderManager, this, new ModelWerewolf(), 0.5F);
     }
     

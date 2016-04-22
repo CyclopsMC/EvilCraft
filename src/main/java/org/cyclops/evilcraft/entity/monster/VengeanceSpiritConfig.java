@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.entity.monster;
 
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
@@ -94,7 +95,7 @@ public class VengeanceSpiritConfig extends MobConfig<VengeanceSpirit> {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public RenderVengeanceSpirit getRender(RenderManager renderManager) {
+    public Render<VengeanceSpirit> getRender(RenderManager renderManager) {
         return new RenderVengeanceSpirit(renderManager, this);
     }
 

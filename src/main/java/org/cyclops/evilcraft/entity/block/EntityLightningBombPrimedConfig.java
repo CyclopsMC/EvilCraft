@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.entity.block;
 
 import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraftforge.fml.relauncher.Side;
@@ -45,7 +46,7 @@ public class EntityLightningBombPrimedConfig extends EntityConfig<EntityTNTPrime
 
     @SideOnly(Side.CLIENT)
     @Override
-    public RenderBombPrimed getRender(RenderManager renderManager, RenderItem renderItem) {
+    public Render<EntityTNTPrimed> getRender(RenderManager renderManager, RenderItem renderItem) {
         return new RenderBombPrimed(renderManager, LightningBomb.getInstance());
     }
     

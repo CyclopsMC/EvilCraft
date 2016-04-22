@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.entity.monster;
 
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -56,7 +57,7 @@ public class ControlledZombieConfig extends MobConfig<ControlledZombie> {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public RenderControlledZombie getRender(RenderManager renderManager) {
+    public Render<ControlledZombie> getRender(RenderManager renderManager) {
         return new RenderControlledZombie(this, renderManager);
     }
     

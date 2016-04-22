@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraftforge.fml.relauncher.Side;
@@ -37,7 +38,7 @@ public class EntityBloodPearlConfig extends EntityConfig<EntityThrowable> {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public RenderSnowball getRender(RenderManager renderManager, RenderItem renderItem) {
+    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
         return new RenderSnowball(renderManager, BloodPearlOfTeleportation.getInstance(), renderItem);
     }
     
