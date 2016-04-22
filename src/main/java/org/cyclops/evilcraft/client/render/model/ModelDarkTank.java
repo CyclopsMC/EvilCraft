@@ -13,6 +13,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.client.model.DelegatingChildDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.block.DarkTank;
 import org.cyclops.evilcraft.core.block.IBlockTank;
 
@@ -85,10 +86,11 @@ public class ModelDarkTank extends DelegatingChildDynamicItemAndBlockModel {
         List<BakedQuad> quads = Lists.newArrayList();
         for(EnumFacing side : EnumFacing.VALUES) {
             TextureAtlasSprite texture = org.cyclops.cyclopscore.helper.RenderHelpers.getFluidIcon(fluidStack, side);
+            int color = RenderHelpers.getFluidBakedQuadColor(fluidStack);
             if(side == EnumFacing.UP) {
-                addBakedQuadRotated(quads, 0.13F, 0.87F, 0.13F, 0.87F, height, texture, side, ROTATION_FIX[side.ordinal()]);
+                addBakedQuadRotated(quads, 0.13F, 0.87F, 0.13F, 0.87F, height, texture, side, ROTATION_FIX[side.ordinal()], true, color, ROTATION_UV);
             } else if(side == EnumFacing.DOWN) {
-                addBakedQuadRotated(quads, 0.13F, 0.87F, 0.13F, 0.87F, 0.95F, texture, side, ROTATION_FIX[side.ordinal()]);
+                addBakedQuadRotated(quads, 0.13F, 0.87F, 0.13F, 0.87F, 0.95F, texture, side, ROTATION_FIX[side.ordinal()], true, color, ROTATION_UV);
             } else {
                 float x1 = 0.13F;
                 float x2 = 0.87F;
@@ -112,7 +114,7 @@ public class ModelDarkTank extends DelegatingChildDynamicItemAndBlockModel {
                 } else {
                     uvs = new float[][]{{1, 0}, {1, height}, {0, height}, {0, 0}};
                 }
-                addBakedQuadRotated(quads, x1, x2, z1, z2, 0.87F, texture, side, ROTATION_FIX[side.ordinal()], false, -1, uvs);
+                addBakedQuadRotated(quads, x1, x2, z1, z2, 0.87F, texture, side, ROTATION_FIX[side.ordinal()], true, color, uvs);
             }
         }
         return quads;
