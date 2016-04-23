@@ -3,6 +3,7 @@ package evilcraft.modcompat.tconstruct;
 import java.util.Random;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import tconstruct.library.tools.AbilityHelper;
 import tconstruct.library.tools.ToolCore;
 import evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
@@ -17,7 +18,11 @@ public class TConstructToolRepairTickAction implements IBloodChestRepairAction {
 
     @Override
     public boolean isItemValidForSlot(ItemStack itemStack) {
-        return BloodChestConfig.repairTConstructTools && itemStack.getItem() instanceof ToolCore;
+        if(BloodChestConfig.repairTConstructTools && itemStack.getItem() instanceof ToolCore) {
+            NBTTagCompound tags = itemStack.getTagCompound();
+            return tags == null || !tags.hasKey("Energy");
+        }
+        return false;
     }
 
     @Override
