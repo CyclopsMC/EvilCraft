@@ -19,6 +19,11 @@ public class BroomConfig extends ItemConfig {
      * The unique instance.
      */
     public static BroomConfig _instance;
+    /**
+     * If the broom should spawn in loot chests.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "If the broom should spawn in loot chests.")
+    public static boolean lootChests = true;
 
     /**
      * The position to render the broom gui overlay at. (0=NE, 1=SE, 2=SW,3=NW)
@@ -57,8 +62,10 @@ public class BroomConfig extends ItemConfig {
     @Override
     public void onRegistered() {
         super.onRegistered();
-        for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
-            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(Broom.getInstance(), 0, 1, 1, 2));
+        if(BroomConfig.lootChests) {
+            for (String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
+                ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(Broom.getInstance(), 0, 1, 1, 2));
+            }
         }
     }
     

@@ -1,13 +1,16 @@
-package evilcraft.modcompat.tconstruct;
+package org.cyclops.evilcraft.modcompat.tconstruct;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import org.cyclops.cyclopscore.init.IInitListener;
+import org.cyclops.cyclopscore.modcompat.IModCompat;
 import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.item.EnderTearConfig;
-import evilcraft.modcompat.IModCompat;
-import net.minecraft.item.ItemStack;
-import tconstruct.library.crafting.FluidType;
-import tconstruct.library.crafting.Smeltery;
+import slimeknights.tconstruct.library.TinkerRegistry;
 
 /**
  * Compatibility plugin for Tinkers' Construct.
@@ -24,10 +27,11 @@ public class TConstructModCompat implements IModCompat {
     @Override
     public void onInit(IInitListener.Step step) {
     	if(step == IInitListener.Step.POSTINIT) {
-    		RegistryManager.getRegistry(IBloodChestRepairActionRegistry.class).
+    		EvilCraft._instance.getRegistryManager().getRegistry(IBloodChestRepairActionRegistry.class).
     			register(new TConstructToolRepairTickAction());
-            if(Configs.isEnabled(EnderTearConfig.class)) {
-                Smeltery.addMelting(FluidType.getFluidType("Ender"), new ItemStack(EnderTearConfig._instance.getItemInstance()), 0,
+            Fluid ender = FluidRegistry.getFluid("Ender");
+            if(Configs.isEnabled(EnderTearConfig.class) && ender != null) {
+                TinkerRegistry.registerMelting(new ItemStack(EnderTearConfig._instance.getItemInstance()), ender,
                         EnderTearConfig.mbLiquidEnder);
             }
     	}
