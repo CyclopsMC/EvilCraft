@@ -147,7 +147,7 @@ public class MaceOfDistortion extends Mace {
     }
     
     @SideOnly(Side.CLIENT)
-    protected static void showEntityDistored(World world, EntityPlayer player, Entity entity, int power) {
+    public static void showEntityDistored(World world, EntityPlayer player, Entity entity, int power) {
         // Play a nice sound with the volume depending on the power.
         world.playSoundAtEntity(entity, "random.explode", (float)(power + 1) / (float)POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         if(player != null) {

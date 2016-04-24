@@ -8,6 +8,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -17,6 +18,7 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 import org.cyclops.evilcraft.item.DarkSpikeConfig;
 import org.cyclops.evilcraft.item.GarmonboziaConfig;
+import org.cyclops.evilcraft.item.MaceOfDistortion;
 
 /**
  * A list of broom modifiers.
@@ -36,6 +38,7 @@ public class BroomModifiers {
     public static BroomModifier PARTICLES;
     public static BroomModifier FLAME;
     public static BroomModifier SMASH;
+    public static BroomModifier BOUNCY;
 
     public static void loadPre() {
         // Base modifiers
@@ -77,6 +80,10 @@ public class BroomModifiers {
                 new ResourceLocation(Reference.MOD_ID, "smash"),
                 BroomModifier.Type.ADDITIVE, 0F, 2F, 10, false,
                 EnumChatFormatting.AQUA, Helpers.RGBToInt(20, 60, 60)));
+        BOUNCY = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "bouncy"),
+                BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
+                EnumChatFormatting.GREEN, Helpers.RGBToInt(20, 200, 60)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {
@@ -139,6 +146,29 @@ public class BroomModifiers {
                 }
             }
         });
+        BOUNCY.addCollisionListener(new BroomModifier.ICollisionListener() {
+            @Override
+            public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
+                float power = (modifierValue * (float) broom.getLastPlayerSpeed()) / 20F;
+                if (power > 0) {
+                    double dx = entity.posX - broom.posX;
+                    double dy = entity.posY + (double)entity.getEyeHeight() - broom.posY;
+                    double dz = entity.posZ - broom.posZ;
+                    double d = (double) MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
+                    if (d != 0.0D) {
+                        dx /= d;
+                        dy /= d;
+                        dz /= d;
+                        entity.motionX += dx * power;
+                        entity.motionY += dy * power;
+                        entity.motionZ += dz * power;
+                        if (broom.worldObj.isRemote) {
+                            MaceOfDistortion.showEntityDistored(broom.worldObj, null, entity, (int) (power / 10F));
+                        }
+                    }
+                }
+            }
+        });
     }
 
     public static void loadPost() {
@@ -165,6 +195,9 @@ public class BroomModifiers {
 
         REGISTRY.registerModifiersItem(SMASH, 1F, new ItemStack(Items.iron_pickaxe));
         REGISTRY.registerModifiersItem(SMASH, 2F, new ItemStack(Items.diamond_pickaxe));
+
+        REGISTRY.registerModifiersItem(BOUNCY, 1F, new ItemStack(Items.slime_ball));
+        REGISTRY.registerModifiersItem(BOUNCY, 9F, new ItemStack(Blocks.slime_block));
     }
 
 }
