@@ -145,7 +145,7 @@ public final class BroomParts {
 
         // Automatically register remaining parts for parts that don't have a custom item.
         for (IBroomPart part : REGISTRY.getParts()) {
-            if(REGISTRY.getItemFromPart(part) == null) {
+            if (part.shouldAutoRegisterMissingItem() && REGISTRY.getItemFromPart(part) == null) {
                 ItemStack itemStack = new ItemStack(BroomPart.getInstance());
                 REGISTRY.setBroomParts(itemStack, Collections.singleton(part));
                 REGISTRY.registerPartItem(part, itemStack);

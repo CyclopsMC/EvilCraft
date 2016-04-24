@@ -14,7 +14,9 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomModifierRegistry;
+import org.cyclops.evilcraft.api.broom.IBroomPart;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -31,6 +33,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     private static final String NBT_TAG_VALUE = "value";
 
     private final Map<ResourceLocation, BroomModifier> broomModifiers = Maps.newHashMap();
+    private final Map<BroomModifier, IBroomPart> broomModifierParts = Maps.newHashMap();
     private final Map<ItemStack, Map<BroomModifier, Float>> broomItems = Maps.newHashMap();
 
     public BroomModifierRegistry() {
@@ -39,8 +42,22 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
 
     @Override
     public BroomModifier registerModifier(BroomModifier modifier) {
-        broomModifiers.put(modifier.getId(), modifier);
+        BroomPartModifier broomPart = new BroomPartModifier(modifier);
+        overrideDefaultModifierPart(modifier, broomPart);
         return modifier;
+    }
+
+    @Override
+    public void overrideDefaultModifierPart(BroomModifier modifier, @Nullable IBroomPart broomPart) {
+        broomModifierParts.put(modifier, broomPart);
+        if (broomPart != null) {
+            BroomParts.REGISTRY.registerPart(broomPart);
+        }
+    }
+
+    @Override
+    public @Nullable IBroomPart getModifierPart(BroomModifier modifier) {
+        return broomModifierParts.get(modifier);
     }
 
     @Override
@@ -104,6 +121,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
 
     @Override
     public void setModifiers(ItemStack broomStack, Map<BroomModifier, Float> modifiers) {
+        // Write modifiers
         NBTTagList list = new NBTTagList();
         for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
             NBTTagCompound tag = new NBTTagCompound();
@@ -115,6 +133,16 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
             broomStack.setTagCompound(new NBTTagCompound());
         }
         broomStack.getTagCompound().setTag(NBT_TAG_NAME, list);
+
+        // Write corresponding modifier parts
+        Collection<IBroomPart> parts = BroomParts.REGISTRY.getBroomParts(broomStack);
+        for (BroomModifier modifier : modifiers.keySet()) {
+            IBroomPart part = getModifierPart(modifier);
+            if (part != null) {
+                parts.add(part);
+            }
+        }
+        BroomParts.REGISTRY.setBroomParts(broomStack, parts);
     }
 
     @SubscribeEvent

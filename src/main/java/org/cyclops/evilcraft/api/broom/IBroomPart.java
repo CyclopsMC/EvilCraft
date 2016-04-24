@@ -5,6 +5,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.evilcraft.Reference;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,9 +33,9 @@ public interface IBroomPart {
     /**
      * The line to be added to tooltips.
      * @param prefix A line prefix
-     * @return The line
+     * @return The line, null if no line should be shown
      */
-    public String getTooltipLine(String prefix);
+    public @Nullable String getTooltipLine(String prefix);
 
     /**
      * @return The length of this part (1.0F = 1 block)
@@ -52,6 +53,16 @@ public interface IBroomPart {
     public boolean isEffect();
 
     /**
+     * @return The tint of this part's model.
+     */
+    public int getModelColor();
+
+    /**
+     * @return If an item for this part should be automatically registered if none has been provided.
+     */
+    public boolean shouldAutoRegisterMissingItem();
+
+    /**
      * All types of broom parts.
      */
     public static class BroomPartType {
@@ -60,20 +71,26 @@ public interface IBroomPart {
 
         public static final BroomPartType ROD = new BroomPartType("rod", new IBroomPartTypeModelOffsetter() {
             @Override
-            public float getOffset(float rodLength, float selfLength) {
+            public float getOffset(float rodLength, float selfLength, int typeIndex) {
                 return 0;
             }
         });
         public static final BroomPartType BRUSH = new BroomPartType("brush", new IBroomPartTypeModelOffsetter() {
             @Override
-            public float getOffset(float rodLength, float selfLength) {
+            public float getOffset(float rodLength, float selfLength, int typeIndex) {
                 return -selfLength;
             }
         });
         public static final BroomPartType CAP = new BroomPartType("cap", new IBroomPartTypeModelOffsetter() {
             @Override
-            public float getOffset(float rodLength, float selfLength) {
+            public float getOffset(float rodLength, float selfLength, int typeIndex) {
                 return rodLength;
+            }
+        });
+        public static final BroomPartType MODIFIER = new BroomPartType("modifier", new IBroomPartTypeModelOffsetter() {
+            @Override
+            public float getOffset(float rodLength, float selfLength, int typeIndex) {
+                return rodLength - selfLength * (1 + typeIndex);
             }
         });
 
@@ -112,7 +129,7 @@ public interface IBroomPart {
 
     public static interface IBroomPartTypeModelOffsetter {
 
-        public float getOffset(float rodLength, float selfLength);
+        public float getOffset(float rodLength, float selfLength, int typeIndex);
 
     }
 

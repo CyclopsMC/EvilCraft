@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.api.broom;
 import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.init.IRegistry;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
 
@@ -18,6 +19,20 @@ public interface IBroomModifierRegistry extends IRegistry {
      * @return The registered modifier.
      */
     public BroomModifier registerModifier(BroomModifier modifier);
+
+    /**
+     * Override the default modifier broom part.
+     * @param modifier The modifier.
+     * @param broomPart The broom part for the modifier.
+     */
+    public void overrideDefaultModifierPart(BroomModifier modifier, @Nullable IBroomPart broomPart);
+
+    /**
+     * Get the broom part for the given modifier.
+     * @param modifier The modifier.
+     * @return The broom part.
+     */
+    public @Nullable IBroomPart getModifierPart(BroomModifier modifier);
 
     /**
      * Assign an item to the given modifiers.

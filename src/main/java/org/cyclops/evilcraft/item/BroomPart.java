@@ -68,7 +68,7 @@ public class BroomPart extends ConfigurableItem {
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
         for (IBroomPart part : BroomParts.REGISTRY.getParts()) {
             ItemStack itemStack = BroomParts.REGISTRY.getItemFromPart(part);
-            if (itemStack.getItem() == this) {
+            if (itemStack != null && itemStack.getItem() == this) {
                 subItems.add(itemStack);
             }
         }

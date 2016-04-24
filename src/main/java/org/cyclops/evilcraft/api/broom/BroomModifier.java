@@ -6,6 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 
@@ -47,7 +49,15 @@ public class BroomModifier {
     public BroomModifier(ResourceLocation id, Type type, float defaultValue,
                          float tierValue, int maxTiers, boolean baseModifier,
                          EnumChatFormatting singleFormat, int modelColor) {
-        this(id, type, defaultValue, tierValue, maxTiers, baseModifier, singleFormat.toString(), modelColor);
+        this(id, type, defaultValue, tierValue, maxTiers, baseModifier, singleFormat.toString(), prepareColor(modelColor, baseModifier));
+    }
+
+    protected static int prepareColor(int modelColor, boolean baseModifier) {
+        Triple<Float, Float, Float> color = Helpers.intToRGB(modelColor);
+        // RGB to BGR
+        return Helpers.RGBAToInt(
+                (int) (float) (color.getRight() * 255F), (int) (float) (color.getMiddle() * 255F), (int) (float) (color.getLeft() * 255F),
+                baseModifier ? 255 : 200);
     }
 
     public ResourceLocation getId() {
@@ -116,7 +126,7 @@ public class BroomModifier {
     }
 
     public String getTooltipFormat() {
-        return (isBaseModifier() ? "" : EnumChatFormatting.ITALIC.toString()) + tooltipFormat;
+        return tooltipFormat + (isBaseModifier() ? "" : EnumChatFormatting.ITALIC.toString());
     }
 
     public int getModelColor() {

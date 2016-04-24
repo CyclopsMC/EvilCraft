@@ -5,9 +5,12 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
+
+import javax.annotation.Nullable;
 
 /**
  * Base implementation for broom parts.
@@ -37,10 +40,14 @@ public class BroomPartBase implements IBroomPart {
         }
     }
 
+    public ResourceLocation getId() {
+        return this.id;
+    }
+
     @SideOnly(Side.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
-                new ResourceLocation(id.getResourceDomain(), "broomPart/" + id.getResourcePath().toLowerCase()));
+                new ResourceLocation(getId().getResourceDomain(), "broomPart/" + getId().getResourcePath().toLowerCase()));
     }
 
     @Override
@@ -49,7 +56,17 @@ public class BroomPartBase implements IBroomPart {
     }
 
     @Override
-    public String getTooltipLine(String prefix) {
+    public @Nullable String getTooltipLine(String prefix) {
         return prefix + L10NHelpers.localize(getUnlocalizedName() + ".name");
+    }
+
+    @Override
+    public boolean shouldAutoRegisterMissingItem() {
+        return true;
+    }
+
+    @Override
+    public int getModelColor() {
+        return Helpers.RGBAToInt(255, 255, 255, 255);
     }
 }

@@ -1,9 +1,6 @@
 package org.cyclops.evilcraft.core.broom;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -151,7 +148,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     @Override
     public Collection<IBroomPart> getBroomParts(ItemStack broomStack) {
         if(broomStack != null && broomStack.hasTagCompound()) {
-            List<IBroomPart> parts = Lists.newLinkedList();
+            Set<IBroomPart> parts = Sets.newLinkedHashSet();
             NBTTagList tags = broomStack.getTagCompound().getTagList(NBT_TAG_NAME, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal());
             for(int i = 0; i < tags.tagCount(); i++) {
                 String id = tags.getStringTagAt(i);

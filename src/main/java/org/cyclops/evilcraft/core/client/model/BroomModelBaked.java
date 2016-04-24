@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.core.client.model;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.util.concurrent.AtomicLongMap;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -10,10 +11,7 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.model.IFlexibleBakedModel;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
-import net.minecraftforge.client.model.ISmartItemModel;
-import net.minecraftforge.client.model.TRSRTransformation;
+import net.minecraftforge.client.model.*;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.client.model.DynamicBaseModel;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
@@ -91,21 +89,28 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
             // TODO: invalid broom
         }
 
+        AtomicLongMap<IBroomPart.BroomPartType> partTypeOccurences = AtomicLongMap.create();
         for (IBroomPart part : parts) {
-            float offset = part.getType().getOffsetter().getOffset(rod.getLength(), part.getLength());
-            quads.addAll(offset(broomPartModels.get(part).getGeneralQuads(), offset));
+            List<BakedQuad> originalQuads = broomPartModels.get(part).getGeneralQuads();
+            if (originalQuads != null) {
+                int typeIndex = (int) partTypeOccurences.getAndIncrement(part.getType());
+                float offset = part.getType().getOffsetter().getOffset(rod.getLength(), part.getLength(), typeIndex);
+                int color = part.getModelColor();
+                quads.addAll(offsetAndColor(originalQuads, offset, color));
+            }
         }
 
         return new BroomModelBaked(quads);
     }
 
     /**
-     * Offsets the z coordinate
+     * Offsets the z coordinate and color the quads
      * @param quads The original quads
      * @param offset The offset to apply
+     * @param color The color
      * @return The offsetted quads
      */
-    private Collection<? extends BakedQuad> offset(List<BakedQuad> quads, float offset) {
+    private Collection<? extends BakedQuad> offsetAndColor(List<BakedQuad> quads, float offset, int color) {
         List<BakedQuad> offsetQuads = Lists.newArrayListWithExpectedSize(quads.size());
         for (BakedQuad quad : quads) {
             int[] vertexData = Arrays.copyOf(quad.getVertexData(), quad.getVertexData().length);
@@ -113,9 +118,10 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
                 float originalZ = Float.intBitsToFloat(vertexData[i * 7 + 2]);
                 originalZ += offset;
                 vertexData[i * 7 + 2] = Float.floatToIntBits(originalZ);
+                vertexData[i * 7 + 3] = color;
             }
 
-            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getFace()));
+            offsetQuads.add(new IColoredBakedQuad.ColoredBakedQuad(vertexData, quad.getTintIndex(), quad.getFace()));
         }
 
         return offsetQuads;

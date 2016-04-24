@@ -140,7 +140,10 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer {
             modifierTypes.addAll(baseModifiers.keySet());
             modifierTypes.addAll(modifiers.keySet());
             for (IBroomPart part : getParts(itemStack)) {
-                list.add(part.getTooltipLine("  "));
+                String line = part.getTooltipLine("  ");
+                if (line != null) {
+                    list.add(line);
+                }
             }
             Pair<Integer, Integer> modifiersAndMax = getModifiersAndMax(modifiers, baseModifiers);
             int modifierCount = modifiersAndMax.getLeft();

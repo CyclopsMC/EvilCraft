@@ -45,7 +45,8 @@ public class BroomModifiers {
         MODIFIER_COUNT = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "modifier_count"),
                 BroomModifier.Type.ADDITIVE, 0F, 1F, 3, true,
-                EnumChatFormatting.BOLD, 0));
+                EnumChatFormatting.BOLD, Helpers.RGBToInt(0, 0, 0)));
+        REGISTRY.overrideDefaultModifierPart(MODIFIER_COUNT, null);
         SPEED = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "speed"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
