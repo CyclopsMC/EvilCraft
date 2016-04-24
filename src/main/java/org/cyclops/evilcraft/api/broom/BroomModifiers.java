@@ -7,8 +7,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.Reference;
@@ -39,33 +41,42 @@ public class BroomModifiers {
         // Base modifiers
         MODIFIER_COUNT = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "modifier_count"),
-                BroomModifier.Type.ADDITIVE, 0F, 1F, 3, true));
+                BroomModifier.Type.ADDITIVE, 0F, 1F, 3, true,
+                EnumChatFormatting.BOLD, 0));
         SPEED = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "speed"),
-                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true));
+                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
+                EnumChatFormatting.RED, Helpers.RGBToInt(230, 20, 20)));
         ACCELERATION = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "acceleration"),
-                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true));
+                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
+                EnumChatFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
         MANEUVERABILITY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "maneuverability"),
-                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true));
+                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
+                EnumChatFormatting.YELLOW, Helpers.RGBToInt(60, 60, 20)));
         LEVITATION = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "levitation"),
-                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true));
+                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
+                EnumChatFormatting.WHITE, Helpers.RGBToInt(230, 230, 230)));
 
         // Optional modifiers
         DAMAGE = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "damage"),
-                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false));
+                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
+                EnumChatFormatting.GRAY, Helpers.RGBToInt(60, 60, 60)));
         PARTICLES = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "particles"),
-                BroomModifier.Type.ADDITIVE, 0F, 10F, 5, false));
+                BroomModifier.Type.ADDITIVE, 0F, 10F, 5, false,
+                EnumChatFormatting.LIGHT_PURPLE, Helpers.RGBToInt(60, 20, 60)));
         FLAME = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "flame"),
-                BroomModifier.Type.ADDITIVE, 0F, 1F, 10, false));
+                BroomModifier.Type.ADDITIVE, 0F, 1F, 10, false,
+                EnumChatFormatting.GOLD, Helpers.RGBToInt(40, 40, 0)));
         SMASH = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "smash"),
-                BroomModifier.Type.ADDITIVE, 0F, 2F, 10, false));
+                BroomModifier.Type.ADDITIVE, 0F, 2F, 10, false,
+                EnumChatFormatting.AQUA, Helpers.RGBToInt(20, 60, 60)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {

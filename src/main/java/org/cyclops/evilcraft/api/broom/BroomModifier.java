@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.api.broom;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
@@ -24,18 +25,29 @@ public class BroomModifier {
     private final float tierValue;
     private final int maxTiers;
     private final boolean baseModifier;
+    private final String tooltipFormat;
+    private final int modelColor;
 
     private final List<ITickListener> tickListeners = Lists.newLinkedList();
     private final List<ICollisionListener> collisionListeners = Lists.newLinkedList();
 
     public BroomModifier(ResourceLocation id, Type type, float defaultValue,
-                         float tierValue, int maxTiers, boolean baseModifier) {
+                         float tierValue, int maxTiers, boolean baseModifier,
+                         String tooltipFormat, int modelColor) {
         this.id = id;
         this.type = type;
         this.defaultValue = defaultValue;
         this.tierValue = tierValue;
         this.maxTiers = maxTiers;
         this.baseModifier = baseModifier;
+        this.tooltipFormat = tooltipFormat;
+        this.modelColor = modelColor;
+    }
+
+    public BroomModifier(ResourceLocation id, Type type, float defaultValue,
+                         float tierValue, int maxTiers, boolean baseModifier,
+                         EnumChatFormatting singleFormat, int modelColor) {
+        this(id, type, defaultValue, tierValue, maxTiers, baseModifier, singleFormat.toString(), modelColor);
     }
 
     public ResourceLocation getId() {
@@ -91,7 +103,7 @@ public class BroomModifier {
             suffix = String.format("%s: %s / %s", L10NHelpers.localize(getUnlocalizedName()),
                     value, getMaxTierValue());
         }
-        return L10NHelpers.localize(prefix + suffix);
+        return L10NHelpers.localize(prefix + getTooltipFormat() + suffix);
     }
 
     @Override
@@ -101,6 +113,14 @@ public class BroomModifier {
 
     public boolean isBaseModifier() {
         return baseModifier;
+    }
+
+    public String getTooltipFormat() {
+        return (isBaseModifier() ? "" : EnumChatFormatting.ITALIC.toString()) + tooltipFormat;
+    }
+
+    public int getModelColor() {
+        return modelColor;
     }
 
     public void addTickListener(ITickListener listener) {
