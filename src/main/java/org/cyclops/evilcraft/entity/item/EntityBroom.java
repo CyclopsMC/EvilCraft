@@ -12,6 +12,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
@@ -230,7 +231,28 @@ public class EntityBroom extends Entity implements IConfigurable{
                 setPosition(posX, posY, posZ);
         }
     }
-    
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+        if (!this.worldObj.isRemote && !this.isDead) {
+            if (this.isEntityInvulnerable(source)) {
+                return false;
+            }
+            if (source.getEntity() instanceof EntityPlayer) {
+                if (this.riddenByEntity != null) {
+                    this.riddenByEntity.mountEntity(null);
+                }
+                setDead();
+                EntityPlayer player = (EntityPlayer) source.getEntity();
+                if (!player.capabilities.isCreativeMode) {
+                    ItemStack itemStack = getBroomStack().copy();
+                    this.entityDropItem(itemStack, 0.0F);
+                }
+            }
+        }
+        return true;
+    }
+
     @Override
     public void onUpdate() {
     	super.onUpdate();
