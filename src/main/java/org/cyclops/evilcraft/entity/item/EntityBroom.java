@@ -421,9 +421,9 @@ public class EntityBroom extends Entity implements IConfigurable{
                     / BroomModifiers.LEVITATION.getMaxTierValue());
         }
 
-        motionX = x * SPEED * playerSpeed;
-        motionY = y * SPEED * playerSpeed * levitationModifier;
-        motionZ = z * SPEED * playerSpeed;
+        motionX = motionX / 10 + x * SPEED * playerSpeed;
+        motionY = motionY / 10 + y * SPEED * playerSpeed * levitationModifier;
+        motionZ = motionZ / 10 + z * SPEED * playerSpeed;
         lastPlayerSpeed = playerSpeed;
         
         // Update motion on client side to provide a hovering effect
