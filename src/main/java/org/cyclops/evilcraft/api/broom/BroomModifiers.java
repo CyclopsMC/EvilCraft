@@ -3,18 +3,24 @@ package org.cyclops.evilcraft.api.broom;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IProjectile;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.core.broom.PotionEffectBroomCollision;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 import org.cyclops.evilcraft.item.DarkSpikeConfig;
 import org.cyclops.evilcraft.item.GarmonboziaConfig;
@@ -39,8 +45,14 @@ public class BroomModifiers {
     public static BroomModifier FLAME;
     public static BroomModifier SMASH;
     public static BroomModifier BOUNCY;
+    public static BroomModifier WITHERER;
+    public static BroomModifier HUNGERER;
+    public static BroomModifier KAMIKAZE;
+    public static BroomModifier WITHERSHIELD;
 
     public static void loadPre() {
+        MinecraftForge.EVENT_BUS.register(new BroomModifiers());
+
         // Base modifiers
         MODIFIER_COUNT = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "modifier_count"),
@@ -85,6 +97,22 @@ public class BroomModifiers {
                 new ResourceLocation(Reference.MOD_ID, "bouncy"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
                 EnumChatFormatting.GREEN, Helpers.RGBToInt(20, 200, 60)));
+        WITHERER = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "witherer"),
+                BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
+                EnumChatFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
+        HUNGERER = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "hungerer"),
+                BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
+                EnumChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 70, 20)));
+        KAMIKAZE = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "kamikaze"),
+                BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
+                EnumChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 90, 20)));
+        WITHERSHIELD = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "withershield"),
+                BroomModifier.Type.ADDITIVE, 0F, 5F, 4, false,
+                EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(20, 20, 90)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {
@@ -170,6 +198,19 @@ public class BroomModifiers {
                 }
             }
         });
+        WITHERER.addCollisionListener(new PotionEffectBroomCollision(Potion.wither));
+        HUNGERER.addCollisionListener(new PotionEffectBroomCollision(Potion.hunger));
+        KAMIKAZE.addCollisionListener(new BroomModifier.ICollisionListener() {
+            @Override
+            public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
+                World world = broom.worldObj;
+                float power = (modifierValue * (float) broom.getLastPlayerSpeed()) / 5F;
+                if (power > 0 && broom.riddenByEntity != null) {
+                    broom.riddenByEntity.mountEntity(null);
+                    world.createExplosion(null, broom.posX, broom.posY, broom.posZ, power, true);
+                }
+            }
+        });
     }
 
     public static void loadPost() {
@@ -199,6 +240,18 @@ public class BroomModifiers {
 
         REGISTRY.registerModifiersItem(BOUNCY, 1F, new ItemStack(Items.slime_ball));
         REGISTRY.registerModifiersItem(BOUNCY, 9F, new ItemStack(Blocks.slime_block));
+    }
+
+    @SubscribeEvent
+    public void onLivingHurt(LivingHurtEvent event) {
+        if (event.entityLiving != null && event.entityLiving.ridingEntity instanceof EntityBroom
+                && event.source.getSourceOfDamage() instanceof IProjectile) {
+            EntityBroom broom = (EntityBroom) event.entityLiving.ridingEntity;
+            float modifierValue = broom.getModifier(BroomModifiers.WITHERSHIELD);
+            if (modifierValue > 0 && modifierValue > broom.worldObj.rand.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
+                event.setCanceled(true);
+            }
+        }
     }
 
 }

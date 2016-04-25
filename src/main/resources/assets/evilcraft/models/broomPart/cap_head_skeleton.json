@@ -1,0 +1,6 @@
+{
+    "parent": "evilcraft:broomPart/head",
+    "textures": {
+        "base": "evilcraft:broomParts/cap_head_skeleton"
+    }
+}

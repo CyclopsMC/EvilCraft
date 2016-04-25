@@ -1,7 +1,9 @@
 package org.cyclops.evilcraft.core.broom;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.evilcraft.EvilCraft;
@@ -38,6 +40,12 @@ public final class BroomParts {
     public static IBroomPart BRUSH_LEAVES;
 
     public static IBroomPart CAP_DARKGEM;
+    public static IBroomPart CAP_HEAD_SKELETON;
+    public static IBroomPart CAP_HEAD_WITHERSKELETON;
+    public static IBroomPart CAP_HEAD_ZOMBIE;
+    public static IBroomPart CAP_HEAD_PLAYER;
+    public static IBroomPart CAP_HEAD_CREEPER;
+    public static IBroomPart CAP_HEAD_WITHER;
 
     public static void loadPre() {
         ROD_WOOD = REGISTRY.registerPart(new BroomPartBase(
@@ -78,16 +86,34 @@ public final class BroomParts {
         CAP_DARKGEM = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "cap_darkgem"),
                 IBroomPart.BroomPartType.CAP, 0.0625F));
+        CAP_HEAD_SKELETON = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "cap_head_skeleton"),
+                IBroomPart.BroomPartType.CAP, 0.5F));
+        CAP_HEAD_WITHERSKELETON = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "cap_head_witherskeleton"),
+                IBroomPart.BroomPartType.CAP, 0.5F));
+        CAP_HEAD_ZOMBIE = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "cap_head_zombie"),
+                IBroomPart.BroomPartType.CAP, 0.5F));
+        CAP_HEAD_PLAYER = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "cap_head_player"),
+                IBroomPart.BroomPartType.CAP, 0.5F));
+        CAP_HEAD_CREEPER = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "cap_head_creeper"),
+                IBroomPart.BroomPartType.CAP, 0.5F));
+        CAP_HEAD_WITHER = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "cap_head_wither"),
+                IBroomPart.BroomPartType.CAP, 0.5F));
     }
 
     public static void loadPost() {
         REGISTRY.registerPartItem(BRUSH_WHEAT, new ItemStack(Blocks.hay_block));
         REGISTRY.registerBaseModifiers(BroomModifiers.SPEED, 100F, BRUSH_WHEAT);
         REGISTRY.registerPartItem(BRUSH_WOOL, new ItemStack(Blocks.wool));
-        Map<BroomModifier, Float> brushWoolModifiers = Maps.newHashMap();
-        brushWoolModifiers.put(BroomModifiers.SPEED, 80F);
-        brushWoolModifiers.put(BroomModifiers.LEVITATION, 100F);
-        REGISTRY.registerBaseModifiers(brushWoolModifiers, BRUSH_WOOL);
+        REGISTRY.registerBaseModifiers(ImmutableMap.of(
+                BroomModifiers.SPEED, 80F,
+                BroomModifiers.LEVITATION, 100F
+        ), BRUSH_WOOL);
         REGISTRY.registerBaseModifiers(BroomModifiers.LEVITATION, 200F, BRUSH_FEATHER);
         REGISTRY.registerBaseModifiers(BroomModifiers.MANEUVERABILITY, 100F, BRUSH_TWIG);
         REGISTRY.registerPartItem(BRUSH_LEAVES, new ItemStack(Blocks.leaves));
@@ -95,6 +121,23 @@ public final class BroomParts {
 
         REGISTRY.registerPartItem(CAP_DARKGEM, new ItemStack(DarkGem.getInstance()));
         REGISTRY.registerBaseModifiers(BroomModifiers.MANEUVERABILITY, 10F, CAP_DARKGEM);
+
+        REGISTRY.registerPartItem(CAP_HEAD_SKELETON, new ItemStack(Items.skull, 1, 0));
+        REGISTRY.registerBaseModifiers(BroomModifiers.MANEUVERABILITY, 150F, CAP_HEAD_SKELETON);
+        REGISTRY.registerPartItem(CAP_HEAD_WITHERSKELETON, new ItemStack(Items.skull, 1, 1));
+        REGISTRY.registerBaseModifiers(BroomModifiers.WITHERER, 5F, CAP_HEAD_WITHERSKELETON);
+        REGISTRY.registerPartItem(CAP_HEAD_ZOMBIE, new ItemStack(Items.skull, 1, 2));
+        REGISTRY.registerBaseModifiers(ImmutableMap.of(
+                BroomModifiers.HUNGERER, 10F,
+                BroomModifiers.DAMAGE, 2F
+        ), CAP_HEAD_ZOMBIE);
+        // Later on, we could apply player skin textures, but that'd require a lot of hacking.
+        // Because textures are applied at bake time, and player skins may require downloading time, so yeah...
+        REGISTRY.registerPartItem(CAP_HEAD_PLAYER, new ItemStack(Items.skull, 1, 3));
+        REGISTRY.registerBaseModifiers(BroomModifiers.SPEED, 50F, CAP_HEAD_PLAYER);
+        REGISTRY.registerPartItem(CAP_HEAD_CREEPER, new ItemStack(Items.skull, 1, 4));
+        REGISTRY.registerBaseModifiers(BroomModifiers.KAMIKAZE, 10F, CAP_HEAD_CREEPER);
+        REGISTRY.registerBaseModifiers(BroomModifiers.WITHERSHIELD, 20F, CAP_HEAD_WITHER);
 
         // Rod modifiers
         Map<BroomModifier, Float> rodWoodModifiers = Maps.newHashMap();

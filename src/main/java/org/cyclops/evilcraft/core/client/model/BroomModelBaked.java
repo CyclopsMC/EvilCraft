@@ -39,7 +39,7 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
             null));
     private static final TRSRTransformation FIRST_PERSON = TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
             new Vector3f(0.25F, -0.025F, 0),
-            TRSRTransformation.quatFromYXZDegrees(new Vector3f(10, 135, 170)),
+            TRSRTransformation.quatFromYXZDegrees(new Vector3f(190, 135, 170)),
             new Vector3f(2, 2, 2),
             null));
 

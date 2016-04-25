@@ -237,11 +237,8 @@ entity.evilcraft.werewolf.name=Werewolf
 entity.evilcraft.poisonousLibelle.name=Poisonous Libelle
 entity.evilcraft.netherfish.name=Nether Fish
 entity.evilcraft.vengeanceSpirit.name=Vengeance Spirit
-entity.werewolf.name=Werewolf
-entity.poisonousLibelle.name=Poisonous Libelle
-entity.netherfish.name=Nether Fish
-entity.vengeanceSpirit.name=Vengeance Spirit
-entity.controlledZombie.name=Controlled Zombie
+entity.evilcraft.controlledZombie.name=Controlled Zombie
+entity.evilcraft.broomEntity.name=Broom
 
 # Enchantments
 enchantment.evilcraft.breaking=Breaking
@@ -319,6 +316,12 @@ broom.parts.evilcraft.brush_feather.name=Feather Brush
 broom.parts.evilcraft.brush_twig.name=Twig Brush
 broom.parts.evilcraft.brush_leaves.name=Leaves Brush
 broom.parts.evilcraft.cap_darkgem.name=Dark Gem Cap
+broom.parts.evilcraft.cap_head_skeleton.name=Skeleton Skull Cap
+broom.parts.evilcraft.cap_head_witherskeleton.name=Wither Skeleton Skull Cap
+broom.parts.evilcraft.cap_head_zombie.name=Zombie Skull Cap
+broom.parts.evilcraft.cap_head_player.name=Player Skull Cap
+broom.parts.evilcraft.cap_head_creeper.name=Creeper Skull Cap
+broom.parts.evilcraft.cap_head_wither.name=Wither Skull Cap
 
 # Broom part types
 broom.parts.evilcraft.type.name=Type: %s
@@ -341,6 +344,10 @@ broom.modifiers.evilcraft.type.particles.name=Particles
 broom.modifiers.evilcraft.type.flame.name=Flame
 broom.modifiers.evilcraft.type.smash.name=Smash
 broom.modifiers.evilcraft.type.bouncy.name=Bouncy
+broom.modifiers.evilcraft.type.witherer.name=Witherer
+broom.modifiers.evilcraft.type.hungerer.name=Hungerer
+broom.modifiers.evilcraft.type.kamikaze.name=Kamikaze
+broom.modifiers.evilcraft.type.withershield.name=Wither Shield
 
 # ------ Origins of Darkness contents ------
 infoBook.evilcraft.section.main=Origins of Darkness

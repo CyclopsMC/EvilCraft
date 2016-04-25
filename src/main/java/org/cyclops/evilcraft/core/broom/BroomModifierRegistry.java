@@ -42,6 +42,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
 
     @Override
     public BroomModifier registerModifier(BroomModifier modifier) {
+        broomModifiers.put(modifier.getId(), modifier);
         BroomPartModifier broomPart = new BroomPartModifier(modifier);
         overrideDefaultModifierPart(modifier, broomPart);
         return modifier;

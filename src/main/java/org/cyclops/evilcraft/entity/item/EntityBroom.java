@@ -292,6 +292,42 @@ public class EntityBroom extends Entity implements IConfigurable{
     	    } else {
     	        updateMountedClient();
     	    }
+
+            // Apply collisions
+            List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.2, 0.0, 0.2));
+            if (list != null && !list.isEmpty()) {
+                for (int l = 0; l < list.size(); ++l) {
+                    Entity entity = list.get(l);
+                    if (entity != this.riddenByEntity && entity.canBePushed() && !(entity instanceof EntityBroom)) {
+                        for (Map.Entry<BroomModifier, Float> entry : getModifiers().entrySet()) {
+                            for (BroomModifier.ICollisionListener listener : entry.getKey().getCollisionListeners()) {
+                                listener.onCollide(this, entity, entry.getValue());
+                            }
+                        }
+                        entity.applyEntityCollision(this);
+                    }
+                }
+            }
+
+            if (worldObj.isRemote && lastMounted.moveForward != 0) {
+                // Emit particles
+                int particles = (int) (getModifier(BroomModifiers.PARTICLES) * (float) getLastPlayerSpeed());
+                for(int i = 0; i < particles; i++) {
+                    EnumParticleTypes particle = EnumParticleTypes.CLOUD;
+                    if(getModifier(BroomModifiers.FLAME) > 0) {
+                        particle = EnumParticleTypes.FLAME;
+                    }
+                    worldObj.spawnParticle(particle,
+                            posX - motionX * 1.5D + Math.random() * 0.4D - 0.2D, posY - motionY * 1.5D + Math.random() * 0.4D - 0.2D, posZ - motionZ * 1.5D + Math.random() * 0.4D - 0.2D,
+                            motionX / 10, motionY / 10, motionZ / 10);
+                }
+            }
+
+            for (Map.Entry<BroomModifier, Float> entry : getModifiers().entrySet()) {
+                for (BroomModifier.ITickListener listener : entry.getKey().getTickListeners()) {
+                    listener.onTick(this, entry.getValue());
+                }
+            }
     	} else {
             if(!this.worldObj.isRemote && riddenByEntity == null) {
                 this.collideWithNearbyEntities();
@@ -431,42 +467,6 @@ public class EntityBroom extends Entity implements IConfigurable{
             motionY += getHoverOffset();
 
         moveEntity(motionX, motionY, motionZ);
-        
-        // Apply collisions
-        List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.2, 0.0, 0.2));
-        if (list != null && !list.isEmpty()) {
-            for (int l = 0; l < list.size(); ++l) {
-                Entity entity = list.get(l);
-                if (entity != this.riddenByEntity && entity.canBePushed() && !(entity instanceof EntityBroom)) {
-                    for (Map.Entry<BroomModifier, Float> entry : getModifiers().entrySet()) {
-                        for (BroomModifier.ICollisionListener listener : entry.getKey().getCollisionListeners()) {
-                            listener.onCollide(this, entity, entry.getValue());
-                        }
-                    }
-                    entity.applyEntityCollision(this);
-                }
-            }
-        }
-
-        if (worldObj.isRemote && lastMounted.moveForward != 0) {
-            // Emit particles
-            int particles = (int) (getModifier(BroomModifiers.PARTICLES) * (float) playerSpeed);
-            for(int i = 0; i < particles; i++) {
-                EnumParticleTypes particle = EnumParticleTypes.CLOUD;
-                if(getModifier(BroomModifiers.FLAME) > 0) {
-                    particle = EnumParticleTypes.FLAME;
-                }
-                worldObj.spawnParticle(particle,
-                        posX - x * 1.5D + Math.random() * 0.4D - 0.2D, posY - y * 1.5D + Math.random() * 0.4D - 0.2D, posZ - z * 1.5D + Math.random() * 0.4D - 0.2D,
-                        motionX / 10, motionY / 10, motionZ / 10);
-            }
-        }
-
-        for (Map.Entry<BroomModifier, Float> entry : getModifiers().entrySet()) {
-            for (BroomModifier.ITickListener listener : entry.getKey().getTickListeners()) {
-                listener.onTick(this, entry.getValue());
-            }
-        }
     }
 
     public double getLastPlayerSpeed() {
