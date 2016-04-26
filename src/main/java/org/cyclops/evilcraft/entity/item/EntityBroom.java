@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -306,20 +305,6 @@ public class EntityBroom extends Entity implements IConfigurable{
                         }
                         entity.applyEntityCollision(this);
                     }
-                }
-            }
-
-            if (worldObj.isRemote && lastMounted.moveForward != 0) {
-                // Emit particles
-                int particles = (int) (getModifier(BroomModifiers.PARTICLES) * (float) getLastPlayerSpeed());
-                for(int i = 0; i < particles; i++) {
-                    EnumParticleTypes particle = EnumParticleTypes.CLOUD;
-                    if(getModifier(BroomModifiers.FLAME) > 0) {
-                        particle = EnumParticleTypes.FLAME;
-                    }
-                    worldObj.spawnParticle(particle,
-                            posX - motionX * 1.5D + Math.random() * 0.4D - 0.2D, posY - motionY * 1.5D + Math.random() * 0.4D - 0.2D, posZ - motionZ * 1.5D + Math.random() * 0.4D - 0.2D,
-                            motionX / 10, motionY / 10, motionZ / 10);
                 }
             }
 

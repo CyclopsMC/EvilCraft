@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.api.broom;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
@@ -16,10 +17,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.client.particle.EntityColoredSmokeFX;
 import org.cyclops.evilcraft.core.broom.PotionEffectBroomCollision;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 import org.cyclops.evilcraft.item.DarkSpikeConfig;
@@ -70,7 +73,7 @@ public class BroomModifiers {
         MANEUVERABILITY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "maneuverability"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                EnumChatFormatting.YELLOW, Helpers.RGBToInt(60, 60, 20)));
+                EnumChatFormatting.YELLOW, Helpers.RGBToInt(160, 160, 20)));
         LEVITATION = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "levitation"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
@@ -80,15 +83,15 @@ public class BroomModifiers {
         DAMAGE = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "damage"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                EnumChatFormatting.GRAY, Helpers.RGBToInt(60, 60, 60)));
+                EnumChatFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
         PARTICLES = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "particles"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 5, false,
-                EnumChatFormatting.LIGHT_PURPLE, Helpers.RGBToInt(60, 20, 60)));
+                EnumChatFormatting.LIGHT_PURPLE, Helpers.RGBToInt(160, 20, 160)));
         FLAME = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "flame"),
                 BroomModifier.Type.ADDITIVE, 0F, 1F, 10, false,
-                EnumChatFormatting.GOLD, Helpers.RGBToInt(40, 40, 0)));
+                EnumChatFormatting.GOLD, Helpers.RGBToInt(100, 100, 0)));
         SMASH = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "smash"),
                 BroomModifier.Type.ADDITIVE, 0F, 2F, 10, false,
@@ -104,15 +107,15 @@ public class BroomModifiers {
         HUNGERER = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "hungerer"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                EnumChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 70, 20)));
+                EnumChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
         KAMIKAZE = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "kamikaze"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                EnumChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 90, 20)));
+                EnumChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
         WITHERSHIELD = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "withershield"),
                 BroomModifier.Type.ADDITIVE, 0F, 5F, 4, false,
-                EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(20, 20, 90)));
+                EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(20, 20, 120)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {
@@ -121,6 +124,29 @@ public class BroomModifiers {
                 float damage = (modifierValue * (float) broom.getLastPlayerSpeed()) / 50F;
                 if (damage > 0) {
                     entity.attackEntityFrom(ExtendedDamageSource.broomDamage((EntityLivingBase) broom.riddenByEntity), damage);
+                }
+            }
+        });
+        PARTICLES.addTickListener(new BroomModifier.ITickListener() {
+            @Override
+            public void onTick(EntityBroom broom, float modifierValue) {
+                World world = broom.worldObj;
+                if (world.isRemote && broom.lastMounted.moveForward != 0) {
+                    // Emit particles
+                    int particles = (int) (broom.getModifier(BroomModifiers.PARTICLES) * (float) broom.getLastPlayerSpeed());
+                    Triple<Float, Float, Float> color = BroomModifier.getAverageColor(broom.getModifiers());
+                    for(int i = 0; i < particles; i++) {
+                        float r = color.getLeft();
+                        float g = color.getMiddle();
+                        float b = color.getRight();
+                        EntityColoredSmokeFX smoke = new EntityColoredSmokeFX(world,
+                                broom.posX - broom.motionX * 1.5D + Math.random() * 0.4D - 0.2D,
+                                broom.posY - broom.motionY * 1.5D + Math.random() * 0.4D - 0.2D,
+                                broom.posZ - broom.motionZ * 1.5D + Math.random() * 0.4D - 0.2D,
+                                r, g, b,
+                                broom.motionX / 10, broom.motionY / 10, broom.motionZ / 10);
+                        Minecraft.getMinecraft().effectRenderer.addEffect(smoke);
+                    }
                 }
             }
         });

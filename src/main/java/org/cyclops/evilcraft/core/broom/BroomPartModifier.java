@@ -37,6 +37,6 @@ public class BroomPartModifier extends BroomPartBase {
 
     @Override
     public int getModelColor() {
-        return modifier.getModelColor();
+        return modifier.getBakedQuadModelColor();
     }
 }

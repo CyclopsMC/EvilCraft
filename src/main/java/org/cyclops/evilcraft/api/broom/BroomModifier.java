@@ -14,6 +14,7 @@ import org.cyclops.evilcraft.entity.item.EntityBroom;
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Modifier for brooms
@@ -29,6 +30,7 @@ public class BroomModifier {
     private final boolean baseModifier;
     private final String tooltipFormat;
     private final int modelColor;
+    private final int bakedQuadModelColor;
 
     private final List<ITickListener> tickListeners = Lists.newLinkedList();
     private final List<ICollisionListener> collisionListeners = Lists.newLinkedList();
@@ -44,12 +46,13 @@ public class BroomModifier {
         this.baseModifier = baseModifier;
         this.tooltipFormat = tooltipFormat;
         this.modelColor = modelColor;
+        this.bakedQuadModelColor = prepareColor(modelColor, baseModifier);
     }
 
     public BroomModifier(ResourceLocation id, Type type, float defaultValue,
                          float tierValue, int maxTiers, boolean baseModifier,
                          EnumChatFormatting singleFormat, int modelColor) {
-        this(id, type, defaultValue, tierValue, maxTiers, baseModifier, singleFormat.toString(), prepareColor(modelColor, baseModifier));
+        this(id, type, defaultValue, tierValue, maxTiers, baseModifier, singleFormat.toString(), modelColor);
     }
 
     protected static int prepareColor(int modelColor, boolean baseModifier) {
@@ -133,6 +136,10 @@ public class BroomModifier {
         return modelColor;
     }
 
+    public int getBakedQuadModelColor() {
+        return bakedQuadModelColor;
+    }
+
     public void addTickListener(ITickListener listener) {
         this.tickListeners.add(listener);
     }
@@ -157,6 +164,28 @@ public class BroomModifier {
      */
     public static int getTier(BroomModifier modifier, float value) {
         return (int) Math.ceil(value / modifier.getTierValue());
+    }
+
+    /**
+     * Calculate a weighted average color of the given modifiers.
+     * @param modifiers The modifiers.
+     * @return The weighted average color.
+     */
+    public static Triple<Float, Float, Float> getAverageColor(Map<BroomModifier, Float> modifiers) {
+        float r = 0;
+        float g = 0;
+        float b = 0;
+        float count = 0;
+        for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
+            BroomModifier modifier = entry.getKey();
+            Triple<Float, Float, Float> color = Helpers.intToRGB(modifier.getModelColor());
+            float factor = entry.getValue() / modifier.getMaxTierValue();
+            r += color.getLeft() * factor;
+            g += color.getMiddle() * factor;
+            b += color.getRight() * factor;
+            count += factor;
+        }
+        return Triple.of(r / count, g / count, b / count);
     }
 
     public static enum Type {
