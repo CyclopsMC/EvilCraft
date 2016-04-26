@@ -67,10 +67,20 @@ public class BroomPart extends ConfigurableItem {
     @Override
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
         for (IBroomPart part : BroomParts.REGISTRY.getParts()) {
-            ItemStack itemStack = BroomParts.REGISTRY.getItemFromPart(part);
-            if (itemStack != null && itemStack.getItem() == this) {
-                subItems.add(itemStack);
+            for (ItemStack itemStack : BroomParts.REGISTRY.getItemsFromPart(part)) {
+                if (itemStack.getItem() == this) {
+                    subItems.add(itemStack);
+                }
             }
         }
+    }
+
+    @Override
+    public int getColorFromItemStack(ItemStack stack, int renderPass) {
+        IBroomPart part = getPart(stack);
+        if (part != null) {
+            return part.getModelColor();
+        }
+        return super.getColorFromItemStack(stack, renderPass);
     }
 }

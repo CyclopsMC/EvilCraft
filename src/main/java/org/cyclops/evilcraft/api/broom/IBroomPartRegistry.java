@@ -6,6 +6,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.init.IRegistry;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
 
@@ -29,24 +30,24 @@ public interface IBroomPartRegistry extends IRegistry {
      * @param item The item-form of this part.
      * @param <P> The type of part.
      */
-    public <P extends IBroomPart> void registerPartItem(P part, ItemStack item);
+    public <P extends IBroomPart> void registerPartItem(@Nullable P part, ItemStack item);
 
     /**
      * Assign base modifiers to the given part.
-     * @param modifiers The modifiers.
-     * @param part The part.
      * @param <P> The type of part.
+     * @param part The part.
+     * @param modifiers The modifiers.
      */
-    public <P extends IBroomPart> void registerBaseModifiers(Map<BroomModifier, Float> modifiers, P part);
+    public <P extends IBroomPart> void registerBaseModifiers(@Nullable P part, Map<BroomModifier, Float> modifiers);
 
     /**
      * Assign base modifier to the given part.
+     * @param <P> The type of part.
+     * @param part The part.
      * @param modifier The modifier.
      * @param modifierValue The modifier value.
-     * @param part The part.
-     * @param <P> The type of part.
      */
-    public <P extends IBroomPart> void registerBaseModifiers(BroomModifier modifier, float modifierValue, P part);
+    public <P extends IBroomPart> void registerBaseModifiers(@Nullable P part, BroomModifier modifier, float modifierValue);
 
     /**
      * Get the base modifiers for the given part.
@@ -64,12 +65,12 @@ public interface IBroomPartRegistry extends IRegistry {
     public Map<BroomModifier, Float> getBaseModifiersFromBroom(ItemStack broomStack);
 
     /**
-     * Get the item-form of the given part.
+     * Get the identifying items of the given part.
      * @param part The part.
      * @param <P> The part type.
-     * @return The item-form or null.
+     * @return The identifying items
      */
-    public <P extends IBroomPart> ItemStack getItemFromPart(P part);
+    public <P extends IBroomPart> Collection<ItemStack> getItemsFromPart(P part);
 
     /**
      * Get the part of the given item-form.

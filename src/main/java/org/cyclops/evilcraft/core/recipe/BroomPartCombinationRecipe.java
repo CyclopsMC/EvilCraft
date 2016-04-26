@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.recipe;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -128,7 +129,7 @@ public class BroomPartCombinationRecipe implements IRecipe {
 		if (existingBroomParts != null) {
 			for (Map.Entry<IBroomPart.BroomPartType, IBroomPart> entry : existingBroomParts.entrySet()) {
 				if(parts.containsKey(entry.getKey())) {
-					extraOutputs.add(BroomParts.REGISTRY.getItemFromPart(entry.getValue()));
+					extraOutputs.add(Iterables.get(BroomParts.REGISTRY.getItemsFromPart(entry.getValue()), 0));
 				} else {
 					parts.put(entry.getKey(), entry.getValue());
 				}

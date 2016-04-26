@@ -23,6 +23,7 @@ import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.item.Broom;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -34,7 +35,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     private static final String NBT_TAG_NAME = "broom_parts_tag";
 
     private final Map<ResourceLocation, IBroomPart> parts = Maps.newHashMap();
-    private final Map<IBroomPart, ItemStack> partItems = Maps.newHashMap();
+    private final Multimap<IBroomPart, ItemStack> partItems = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Multimap<IBroomPart.BroomPartType, IBroomPart> partsByType = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Map<IBroomPart, Map<BroomModifier, Float>> baseModifiers = Maps.newHashMap();
     @SideOnly(Side.CLIENT)
@@ -55,21 +56,25 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     }
 
     @Override
-    public <P extends IBroomPart> void registerPartItem(P part, ItemStack item) {
-        Objects.requireNonNull(item.getItem());
-        partItems.put(part, item);
+    public <P extends IBroomPart> void registerPartItem(@Nullable P part, ItemStack item) {
+        if (part != null) {
+            Objects.requireNonNull(item.getItem());
+            partItems.put(part, item);
+        }
     }
 
     @Override
-    public <P extends IBroomPart> void registerBaseModifiers(Map<BroomModifier, Float> modifiers, P part) {
-        baseModifiers.put(part, modifiers);
+    public <P extends IBroomPart> void registerBaseModifiers(@Nullable P part, Map<BroomModifier, Float> modifiers) {
+        if (part != null) {
+            baseModifiers.put(part, modifiers);
+        }
     }
 
     @Override
-    public <P extends IBroomPart> void registerBaseModifiers(BroomModifier modifier, float modifierValue, P part) {
+    public <P extends IBroomPart> void registerBaseModifiers(@Nullable P part, BroomModifier modifier, float modifierValue) {
         Map<BroomModifier, Float> map = Maps.newHashMap();
         map.put(modifier, modifierValue);
-        registerBaseModifiers(map, part);
+        registerBaseModifiers(part, map);
     }
 
     @Override
@@ -97,17 +102,13 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     }
 
     @Override
-    public <P extends IBroomPart> ItemStack getItemFromPart(P part) {
-        ItemStack result = partItems.get(part);
-        if (result == null) {
-            return null;
-        }
-        return result.copy();
+    public <P extends IBroomPart> Collection<ItemStack> getItemsFromPart(P part) {
+        return Collections.unmodifiableCollection(partItems.get(part));
     }
 
     @Override
     public <P extends IBroomPart> P getPartFromItem(ItemStack item) {
-        for (Map.Entry<IBroomPart, ItemStack> entry : partItems.entrySet()) {
+        for (Map.Entry<IBroomPart, ItemStack> entry : partItems.entries()) {
             if (ItemStack.areItemsEqual(item, entry.getValue()) && ItemStack.areItemStackTagsEqual(item, entry.getValue())) {
                 return (P) entry.getKey();
             }
@@ -167,7 +168,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
         // Backwards compatibility: the "old" broom
         if(broomStack != null && broomStack.getItem() == Broom.getInstance() && !broomStack.hasTagCompound()) {
-            return Lists.newArrayList(BroomParts.BRUSH_WHEAT, BroomParts.CAP_DARKGEM, BroomParts.ROD_WOOD);
+            return Lists.newArrayList(BroomParts.BRUSH_WHEAT, BroomParts.CAP_GEM_DARKGEM, BroomParts.ROD_WOOD);
         }
 
         return Collections.emptyList();

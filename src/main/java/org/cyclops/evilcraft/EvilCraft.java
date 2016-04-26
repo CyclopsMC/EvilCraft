@@ -152,9 +152,6 @@ public class EvilCraft extends ModBaseVersionable {
         getRegistryManager().addRegistry(IInfoBookRegistry.class, new InfoBookRegistry());
         getRegistryManager().addRegistry(IPurifierActionRegistry.class, new PurifierActionRegistry());
 
-        BroomParts.loadPre();
-        BroomModifiers.loadPre();
-
         super.preInit(event);
     }
     
@@ -166,6 +163,9 @@ public class EvilCraft extends ModBaseVersionable {
     @Override
     public void init(FMLInitializationEvent event) {
         super.init(event);
+
+        BroomParts.loadPre();
+        BroomModifiers.loadPre();
         
         // Register world generation
         GameRegistry.registerWorldGenerator(new OreGenerator(), 5);

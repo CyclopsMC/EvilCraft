@@ -52,6 +52,7 @@ public class BroomModifiers {
     public static BroomModifier HUNGERER;
     public static BroomModifier KAMIKAZE;
     public static BroomModifier WITHERSHIELD;
+    public static BroomModifier TOUGHNESS;
 
     public static void loadPre() {
         MinecraftForge.EVENT_BUS.register(new BroomModifiers());
@@ -116,6 +117,10 @@ public class BroomModifiers {
                 new ResourceLocation(Reference.MOD_ID, "withershield"),
                 BroomModifier.Type.ADDITIVE, 0F, 5F, 4, false,
                 EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(20, 20, 120)));
+        TOUGHNESS = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "toughness"),
+                BroomModifier.Type.ADDITIVE, 0F, 1F, 100, false,
+                EnumChatFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {

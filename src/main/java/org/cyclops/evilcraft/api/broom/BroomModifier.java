@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 
 import javax.annotation.Nullable;
@@ -56,11 +57,7 @@ public class BroomModifier {
     }
 
     protected static int prepareColor(int modelColor, boolean baseModifier) {
-        Triple<Float, Float, Float> color = Helpers.intToRGB(modelColor);
-        // RGB to BGR
-        return Helpers.RGBAToInt(
-                (int) (float) (color.getRight() * 255F), (int) (float) (color.getMiddle() * 255F), (int) (float) (color.getLeft() * 255F),
-                baseModifier ? 255 : 200);
+        return ModelHelpers.rgbToBgra(modelColor, baseModifier ? 255 : 200);
     }
 
     public ResourceLocation getId() {

@@ -315,13 +315,21 @@ broom.parts.evilcraft.brush_wool.name=Wool Brush
 broom.parts.evilcraft.brush_feather.name=Feather Brush
 broom.parts.evilcraft.brush_twig.name=Twig Brush
 broom.parts.evilcraft.brush_leaves.name=Leaves Brush
-broom.parts.evilcraft.cap_darkgem.name=Dark Gem Cap
+broom.parts.evilcraft.cap_gem_darkgem.name=Dark Gem Cap
 broom.parts.evilcraft.cap_head_skeleton.name=Skeleton Skull Cap
 broom.parts.evilcraft.cap_head_witherskeleton.name=Wither Skeleton Skull Cap
 broom.parts.evilcraft.cap_head_zombie.name=Zombie Skull Cap
 broom.parts.evilcraft.cap_head_player.name=Player Skull Cap
 broom.parts.evilcraft.cap_head_creeper.name=Creeper Skull Cap
 broom.parts.evilcraft.cap_head_wither.name=Wither Skull Cap
+broom.parts.evilcraft.cap_metal_iron.name=Iron Metal Cap
+broom.parts.evilcraft.cap_metal_gold.name=Gold Metal Cap
+broom.parts.evilcraft.cap_metal_thaumium.name=Thaumium Metal Cap
+broom.parts.evilcraft.cap_metal_copper.name=Copper Metal Cap
+broom.parts.evilcraft.cap_metal_silver.name=Silver Metal Cap
+broom.parts.evilcraft.cap_metal_ardite.name=Ardite Metal Cap
+broom.parts.evilcraft.cap_metal_cobalt.name=Cobalt Metal Cap
+broom.parts.evilcraft.cap_metal_manyullyn.name=Manyullyn Metal Cap
 
 # Broom part types
 broom.parts.evilcraft.type.name=Type: %s
@@ -348,6 +356,7 @@ broom.modifiers.evilcraft.type.witherer.name=Witherer
 broom.modifiers.evilcraft.type.hungerer.name=Hungerer
 broom.modifiers.evilcraft.type.kamikaze.name=Kamikaze
 broom.modifiers.evilcraft.type.withershield.name=Wither Shield
+broom.modifiers.evilcraft.type.toughness.name=Toughness
 
 # ------ Origins of Darkness contents ------
 infoBook.evilcraft.section.main=Origins of Darkness
