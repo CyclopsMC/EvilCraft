@@ -39,7 +39,7 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
             null));
     private static final TRSRTransformation FIRST_PERSON = TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
             new Vector3f(0.25F, -0.025F, 0),
-            TRSRTransformation.quatFromYXZDegrees(new Vector3f(190, 135, 170)),
+            TRSRTransformation.quatFromYXZDegrees(new Vector3f(10, 135, 10)),
             new Vector3f(2, 2, 2),
             null));
 
@@ -91,8 +91,9 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
 
         AtomicLongMap<IBroomPart.BroomPartType> partTypeOccurences = AtomicLongMap.create();
         for (IBroomPart part : parts) {
-            List<BakedQuad> originalQuads = broomPartModels.get(part).getGeneralQuads();
-            if (originalQuads != null) {
+            IBakedModel model = broomPartModels.get(part);
+            if (model != null) {
+                List<BakedQuad> originalQuads = model.getGeneralQuads();
                 int typeIndex = (int) partTypeOccurences.getAndIncrement(part.getType());
                 float offset = part.getType().getOffsetter().getOffset(rod.getLength(), part.getLength(), typeIndex);
                 int color = part.getModelColor();

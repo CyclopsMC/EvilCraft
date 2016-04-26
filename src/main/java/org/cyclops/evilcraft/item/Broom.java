@@ -174,7 +174,7 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer {
         int maxModifiers = baseMaxModifiers;
         int modifiers = 0;
         for (Map.Entry<BroomModifier, Float> entry : broomModifiers.entrySet()) {
-            int tier = (int) Math.ceil(entry.getValue() / entry.getKey().getTierValue());
+            int tier = BroomModifier.getTier(entry.getKey(), entry.getValue());
             if(entry.getKey() == BroomModifiers.MODIFIER_COUNT) {
                 maxModifiers += (int) (float) entry.getValue();
             } else {

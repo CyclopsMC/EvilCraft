@@ -71,7 +71,9 @@ public class BroomPartCombinationRecipe implements IRecipe {
 	protected Map<IBroomPart.BroomPartType, IBroomPart> indexifyParts(Collection<IBroomPart> parts) {
 		Map<IBroomPart.BroomPartType, IBroomPart> map = Maps.newHashMap();
 		for (IBroomPart part : parts) {
-			map.put(part.getType(), part);
+			if (part.getType() != IBroomPart.BroomPartType.MODIFIER) {
+				map.put(part.getType(), part);
+			}
 		}
 
 		return map;

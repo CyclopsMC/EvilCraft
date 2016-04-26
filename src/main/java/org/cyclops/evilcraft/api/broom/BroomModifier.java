@@ -149,6 +149,16 @@ public class BroomModifier {
         return Collections.unmodifiableList(collisionListeners);
     }
 
+    /**
+     * Get the tier for the given modifier value.
+     * @param modifier The modifier type.
+     * @param value The modifier value.
+     * @return The tier.
+     */
+    public static int getTier(BroomModifier modifier, float value) {
+        return (int) Math.ceil(value / modifier.getTierValue());
+    }
+
     public static enum Type {
 
         ADDITIVE(new Function<Pair<Float, Float>, Float>() {

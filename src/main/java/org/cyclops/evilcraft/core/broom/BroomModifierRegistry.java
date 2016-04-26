@@ -137,10 +137,15 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
 
         // Write corresponding modifier parts
         Collection<IBroomPart> parts = BroomParts.REGISTRY.getBroomParts(broomStack);
-        for (BroomModifier modifier : modifiers.keySet()) {
-            IBroomPart part = getModifierPart(modifier);
-            if (part != null) {
-                parts.add(part);
+        for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
+            if (entry.getValue() > 0) {
+                IBroomPart part = getModifierPart(entry.getKey());
+                int tier = BroomModifier.getTier(entry.getKey(), entry.getValue());
+                if (part != null) {
+                    for (int i = 0; i < tier; i++) {
+                        parts.add(part);
+                    }
+                }
             }
         }
         BroomParts.REGISTRY.setBroomParts(broomStack, parts);
