@@ -1,19 +1,25 @@
 package org.cyclops.evilcraft.api.broom;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -171,38 +177,75 @@ public class BroomModifiers {
         SMASH.addTickListener(new BroomModifier.ITickListener() {
             @Override
             public void onTick(EntityBroom broom, float modifierValue) {
-                if (!broom.worldObj.isRemote) {
-                    double pitch = ((broom.rotationPitch + 90) * Math.PI) / 180;
-                    double yaw = ((broom.rotationYaw + 90) * Math.PI) / 180;
-                    double x = Math.sin(pitch) * Math.cos(yaw);
-                    double z = Math.sin(pitch) * Math.sin(yaw);
-                    double y = Math.cos(pitch);
+                double pitch = ((broom.rotationPitch + 90) * Math.PI) / 180;
+                double yaw = ((broom.rotationYaw + 90) * Math.PI) / 180;
+                double x = Math.sin(pitch) * Math.cos(yaw);
+                double z = Math.sin(pitch) * Math.sin(yaw);
+                double y = Math.cos(pitch);
 
-                    double r = -0.1D;
-                    BlockPos blockpos = new BlockPos(
-                            broom.getEntityBoundingBox().minX + x + r,
-                            broom.getEntityBoundingBox().minY + y + r,
-                            broom.getEntityBoundingBox().minZ + z + r);
-                    BlockPos blockpos1 = new BlockPos(
-                            broom.getEntityBoundingBox().maxX + x - r,
-                            broom.getEntityBoundingBox().maxY + y - r + 1D,
-                            broom.getEntityBoundingBox().maxZ + z - r);
-                    World world = broom.worldObj;
-                    float maxHardness = modifierValue;
-                    float breakEfficiency = (SMASH.getMaxTierValue() - modifierValue) / SMASH.getMaxTierValue() + 1F;
+                double r = -0.1D;
+                BlockPos blockpos = new BlockPos(
+                        broom.getEntityBoundingBox().minX + x + r,
+                        broom.getEntityBoundingBox().minY + y + r,
+                        broom.getEntityBoundingBox().minZ + z + r);
+                BlockPos blockpos1 = new BlockPos(
+                        broom.getEntityBoundingBox().maxX + x - r,
+                        broom.getEntityBoundingBox().maxY + y - r + 1D,
+                        broom.getEntityBoundingBox().maxZ + z - r);
+                World world = broom.worldObj;
+                float maxHardness = modifierValue;
+                float breakEfficiency = (SMASH.getMaxTierValue() - modifierValue) / SMASH.getMaxTierValue() + 1F;
+                EntityPlayer player = broom.ridingEntity instanceof EntityPlayer ? (EntityPlayer) broom.ridingEntity : null;
 
-                    if (world.isAreaLoaded(blockpos, blockpos1)) {
-                        for (int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
-                            for (int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
-                                for (int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
-                                    BlockPos pos = new BlockPos(i, j, k);
-                                    IBlockState blockState = world.getBlockState(pos);
-                                    if (!blockState.getBlock().isAir(world, pos)) {
-                                        float hardness = blockState.getBlock().getBlockHardness(world, pos);
-                                        if (hardness > 0F && hardness <= maxHardness) {
+                if (world.isAreaLoaded(blockpos, blockpos1)) {
+                    for (int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
+                        for (int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
+                            for (int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
+                                BlockPos pos = new BlockPos(i, j, k);
+                                IBlockState blockState = world.getBlockState(pos);
+                                Block block = blockState.getBlock();
+                                if (!blockState.getBlock().isAir(world, pos)) {
+                                    float hardness = blockState.getBlock().getBlockHardness(world, pos);
+                                    if (hardness > 0F && hardness <= maxHardness && (player == null || ForgeHooks.canHarvestBlock(block, player, world, pos))) {
+                                        if (player == null) {
+                                            // The mounted entity is no player, do regular block breaking
                                             world.destroyBlock(pos, true);
-                                            broom.setLastPlayerSpeed(broom.getLastPlayerSpeed() / breakEfficiency);
+                                        } else {
+                                            // The mounted entity is a player, apply fortune and drop xp
+                                            // Inspired by TCon's block breaking code
+
+                                            // Destroy the block
+                                            if (!broom.worldObj.isRemote) {
+                                                EntityPlayerMP playerMp = (EntityPlayerMP) player;
+                                                int expToDrop = ForgeHooks.onBlockBreakEvent(world, playerMp.theItemInWorldManager.getGameType(), (EntityPlayerMP) player, pos);
+                                                if (expToDrop >= 0) {
+                                                    // Block breaking sequence
+                                                    block.onBlockHarvested(world, pos, blockState, player);
+                                                    if(block.removedByPlayer(world, pos, player, true)) {
+                                                        block.onBlockDestroyedByPlayer(world, pos, blockState);
+                                                        block.harvestBlock(world, player, pos, blockState, world.getTileEntity(pos));
+                                                        block.dropXpOnBlockBreak(world, pos, expToDrop);
+                                                    }
+
+                                                    // Send block change packet to the client
+                                                    playerMp.playerNetServerHandler.sendPacket(new S23PacketBlockChange(world, pos));
+                                                }
+                                            } else {
+                                                // Play sound and client-side block breaking sequence
+                                                world.playAuxSFX(2001, pos, Block.getStateId(blockState));
+                                                if(block.removedByPlayer(world, pos, player, true)) {
+                                                    block.onBlockDestroyedByPlayer(world, pos, blockState);
+                                                }
+
+                                                // Tell the server we are done with breaking this block
+                                                Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(
+                                                        C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pos,
+                                                        Minecraft.getMinecraft().objectMouseOver.sideHit));
+                                            }
                                         }
+
+                                        // Slow the broom down a bit
+                                        broom.setLastPlayerSpeed(broom.getLastPlayerSpeed() / breakEfficiency);
                                     }
                                 }
                             }
