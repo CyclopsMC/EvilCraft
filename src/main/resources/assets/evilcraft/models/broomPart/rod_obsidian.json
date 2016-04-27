@@ -1,0 +1,6 @@
+{
+    "parent": "evilcraft:broomPart/rod",
+    "textures": {
+        "base": "blocks/obsidian"
+    }
+}

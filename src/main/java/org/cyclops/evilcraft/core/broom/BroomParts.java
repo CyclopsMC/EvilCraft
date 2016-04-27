@@ -32,6 +32,7 @@ public final class BroomParts {
     public static IBroomPart ROD_BLAZE;
     public static IBroomPart ROD_REED;
     public static IBroomPart ROD_NETHERRACK;
+    public static IBroomPart ROD_OBSIDIAN;
 
     public static IBroomPart BRUSH_WHEAT;
     public static IBroomPart BRUSH_WOOL;
@@ -82,6 +83,9 @@ public final class BroomParts {
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_NETHERRACK = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "rod_netherrack"),
+                IBroomPart.BroomPartType.ROD, 1F));
+        ROD_OBSIDIAN = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_obsidian"),
                 IBroomPart.BroomPartType.ROD, 1F));
 
         BRUSH_WHEAT = REGISTRY.registerPart(new BroomPartBase(
@@ -138,7 +142,7 @@ public final class BroomParts {
                 BroomModifiers.LEVITATION, 20F
         ));
         REGISTRY.registerBaseModifiers(ROD_STONE, ImmutableMap.of(
-                BroomModifiers.MODIFIER_COUNT, 8F,
+                BroomModifiers.MODIFIER_COUNT, 6F,
                 BroomModifiers.SPEED, 50F,
                 BroomModifiers.MANEUVERABILITY, 30F,
                 BroomModifiers.ACCELERATION, 10F,
@@ -171,6 +175,13 @@ public final class BroomParts {
                 BroomModifiers.SPEED, 100F,
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.ACCELERATION, 100F
+        ));
+        REGISTRY.registerBaseModifiers(ROD_OBSIDIAN, ImmutableMap.of(
+                BroomModifiers.MODIFIER_COUNT, 8F,
+                BroomModifiers.SPEED, 70F,
+                BroomModifiers.MANEUVERABILITY, 50F,
+                BroomModifiers.ACCELERATION, 10F,
+                BroomModifiers.TOUGHNESS, 100F
         ));
 
         // ---------- Brushes ----------
