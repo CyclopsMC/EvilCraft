@@ -33,6 +33,7 @@ public final class BroomParts {
     public static IBroomPart ROD_REED;
     public static IBroomPart ROD_NETHERRACK;
     public static IBroomPart ROD_OBSIDIAN;
+    public static IBroomPart ROD_UNDEAD;
 
     public static IBroomPart BRUSH_WHEAT;
     public static IBroomPart BRUSH_WOOL;
@@ -45,6 +46,7 @@ public final class BroomParts {
     public static IBroomPart CAP_GEM_EMERALD;
     public static IBroomPart CAP_GEM_QUARTZ;
     public static IBroomPart CAP_GEM_LAPIS;
+    public static IBroomPart CAP_GEM_DARKPOWER;
 
     public static IBroomPart CAP_HEAD_SKELETON;
     public static IBroomPart CAP_HEAD_WITHERSKELETON;
@@ -87,6 +89,9 @@ public final class BroomParts {
         ROD_OBSIDIAN = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "rod_obsidian"),
                 IBroomPart.BroomPartType.ROD, 1F));
+        ROD_UNDEAD = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_undead"),
+                IBroomPart.BroomPartType.ROD, 1F));
 
         BRUSH_WHEAT = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "brush_wheat"),
@@ -109,6 +114,7 @@ public final class BroomParts {
         CAP_GEM_EMERALD = registerCapGemOredict("emerald", 66, 216, 109);
         CAP_GEM_QUARTZ = registerCapGemOredict("quartz", 237, 235, 228);
         CAP_GEM_LAPIS = registerCapGemOredict("lapis", 38, 79, 162);
+        CAP_GEM_DARKPOWER = registerCapGemOredict("darkPower", 92, 29, 29);
 
         CAP_HEAD_SKELETON = registerCapHead("skeleton");
         CAP_HEAD_WITHERSKELETON = registerCapHead("witherskeleton");
@@ -183,6 +189,15 @@ public final class BroomParts {
                 BroomModifiers.ACCELERATION, 10F,
                 BroomModifiers.TOUGHNESS, 100F
         ));
+        REGISTRY.registerBaseModifiers(ROD_UNDEAD, new ImmutableMap.Builder<BroomModifier, Float>()
+                        .put(BroomModifiers.MODIFIER_COUNT, 4F)
+                        .put(BroomModifiers.SPEED, 120F)
+                        .put(BroomModifiers.MANEUVERABILITY, 150F)
+                        .put(BroomModifiers.ACCELERATION, 50F)
+                        .put(BroomModifiers.LEVITATION, 20F)
+                        .put(BroomModifiers.EFFICIENCY, 10F)
+                        .build()
+        );
 
         // ---------- Brushes ----------
         REGISTRY.registerPartItem(BRUSH_WHEAT, new ItemStack(Blocks.hay_block));
@@ -198,7 +213,7 @@ public final class BroomParts {
         REGISTRY.registerBaseModifiers(BRUSH_LEAVES, BroomModifiers.SPEED, 20F);
 
         // ---------- Caps ----------
-        registerPartOredictItem(CAP_GEM_DARK, "gemDark");
+        registerPartOredictItem(CAP_GEM_DARK, Reference.DICT_GEMDARK);
         REGISTRY.registerBaseModifiers(CAP_GEM_DARK, ImmutableMap.of(
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.MODIFIER_COUNT, 1F
@@ -224,6 +239,12 @@ public final class BroomParts {
         REGISTRY.registerBaseModifiers(CAP_GEM_LAPIS, ImmutableMap.of(
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.LUCK, 50F
+        ));
+        registerPartOredictItem(CAP_GEM_DARKPOWER, Reference.DICT_GEMDARKPOWER);
+        REGISTRY.registerBaseModifiers(CAP_GEM_DARKPOWER, ImmutableMap.of(
+                BroomModifiers.MANEUVERABILITY, 50F,
+                BroomModifiers.MODIFIER_COUNT, 1F,
+                BroomModifiers.EFFICIENCY, 10F
         ));
 
         REGISTRY.registerPartItem(CAP_HEAD_SKELETON, new ItemStack(Items.skull, 1, 0));
@@ -336,6 +357,10 @@ public final class BroomParts {
 
     public static void registerPartOredictItem(IBroomPart part, String name) {
         for (ItemStack itemStack : OreDictionary.getOres(name)) {
+            itemStack = itemStack.copy();
+            if(itemStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+                itemStack.setItemDamage(0);
+            }
             REGISTRY.registerPartItem(part, itemStack);
         }
     }

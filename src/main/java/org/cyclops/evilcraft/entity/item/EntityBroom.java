@@ -363,9 +363,12 @@ public class EntityBroom extends Entity implements IConfigurable{
     }
 
     public void consume(int amount, EntityPlayer player) {
-        ItemStack broomStack = getBroomStack();
-        Broom.getInstance().consume(amount, broomStack, player);
-        setBroomStack(broomStack);
+        float efficiencyFactor = Math.min(0.9F, Math.max(0.0F, getModifier(BroomModifiers.EFFICIENCY) / BroomModifiers.EFFICIENCY.getMaxTierValue()));
+        if(worldObj.rand.nextFloat() > efficiencyFactor) {
+            ItemStack broomStack = getBroomStack();
+            Broom.getInstance().consume(amount, broomStack, player);
+            setBroomStack(broomStack);
+        }
     }
     
     /**

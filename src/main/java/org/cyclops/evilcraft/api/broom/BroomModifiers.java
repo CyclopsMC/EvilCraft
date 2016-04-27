@@ -62,6 +62,7 @@ public class BroomModifiers {
     public static BroomModifier WITHERSHIELD;
     public static BroomModifier TOUGHNESS;
     public static BroomModifier LUCK;
+    public static BroomModifier EFFICIENCY;
 
     public static void loadPre() {
         MinecraftForge.EVENT_BUS.register(new BroomModifiers());
@@ -134,6 +135,10 @@ public class BroomModifiers {
                 new ResourceLocation(Reference.MOD_ID, "luck"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
                 EnumChatFormatting.BLUE, Helpers.RGBToInt(30, 20, 210)));
+        EFFICIENCY = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "efficiency"),
+                BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
+                EnumChatFormatting.DARK_RED, Helpers.RGBToInt(92, 29, 29)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {
@@ -325,6 +330,8 @@ public class BroomModifiers {
 
         registerModifierOredictItem(TOUGHNESS, 1F, "stone");
         REGISTRY.registerModifiersItem(TOUGHNESS, 10F, new ItemStack(Blocks.obsidian));
+
+        registerModifierOredictItem(EFFICIENCY, 1F, Reference.DICT_GEMDARKPOWER);
     }
 
     @SubscribeEvent

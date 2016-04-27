@@ -311,12 +311,14 @@ broom.parts.evilcraft.rod_blaze.name=Blaze Rod
 broom.parts.evilcraft.rod_reed.name=Reed Rod
 broom.parts.evilcraft.rod_netherrack.name=Netherrack Rod
 broom.parts.evilcraft.rod_obsidian.name=Obsidian Rod
+broom.parts.evilcraft.rod_undead.name=Undead Rod
 broom.parts.evilcraft.brush_wheat.name=Wheat Brush
 broom.parts.evilcraft.brush_wool.name=Wool Brush
 broom.parts.evilcraft.brush_feather.name=Feather Brush
 broom.parts.evilcraft.brush_twig.name=Twig Brush
 broom.parts.evilcraft.brush_leaves.name=Leaves Brush
 broom.parts.evilcraft.cap_gem_dark.name=Dark Gem Cap
+broom.parts.evilcraft.cap_gem_darkPower.name=Dark Power Gem Cap
 broom.parts.evilcraft.cap_gem_diamond.name=Diamond Gem Cap
 broom.parts.evilcraft.cap_gem_emerald.name=Emerald Gem Cap
 broom.parts.evilcraft.cap_gem_quartz.name=Quartz Gem Cap
@@ -364,6 +366,7 @@ broom.modifiers.evilcraft.type.kamikaze.name=Kamikaze
 broom.modifiers.evilcraft.type.withershield.name=Wither Shield
 broom.modifiers.evilcraft.type.toughness.name=Toughness
 broom.modifiers.evilcraft.type.luck.name=Luck
+broom.modifiers.evilcraft.type.efficiency.name=Efficiency
 
 # ------ Origins of Darkness contents ------
 infoBook.evilcraft.section.main=Origins of Darkness

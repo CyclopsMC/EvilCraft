@@ -4,6 +4,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
 
 /**
  * Config for the Dark Power Gem.
@@ -33,6 +34,11 @@ public class DarkPowerGemConfig extends ItemConfig {
     @Override
     protected IConfigurable initSubInstance() {
         return(ConfigurableItem) new ConfigurableItem(this).setMaxStackSize(16);
+    }
+
+    @Override
+    public String getOreDictionaryId() {
+        return Reference.DICT_GEMDARKPOWER;
     }
     
 }
