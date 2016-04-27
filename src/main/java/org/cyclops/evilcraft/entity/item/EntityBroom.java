@@ -388,8 +388,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         rotationYaw = MathHelpers.normalizeAngle_180(lastMounted.rotationYaw);
 
         // Apply maneuverability modifier
-        float maneuverabilityFactor = 1F / Math.max(1F, getModifier(BroomModifiers.MANEUVERABILITY));
-        maneuverabilityFactor = (float) Math.pow(maneuverabilityFactor, 0.01F);
+        float maneuverabilityFactor = 1F - (getModifier(BroomModifiers.MANEUVERABILITY) / 2000F);
         rotationPitch = rotationPitch * (1F - maneuverabilityFactor) + lastRotationPitch * maneuverabilityFactor;
         // These if's are necessary to fix rotation when the yaw goes over the border of -180F;+180F
         if(lastRotationYaw - rotationYaw > 180F) {
