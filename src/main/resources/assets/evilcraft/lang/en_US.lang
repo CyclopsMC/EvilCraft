@@ -334,6 +334,7 @@ broom.parts.evilcraft.cap_metal_silver.name=Silver Metal Cap
 broom.parts.evilcraft.cap_metal_ardite.name=Ardite Metal Cap
 broom.parts.evilcraft.cap_metal_cobalt.name=Cobalt Metal Cap
 broom.parts.evilcraft.cap_metal_manyullyn.name=Manyullyn Metal Cap
+broom.parts.evilcraft.cap_slime.name=Slime Cap
 
 # Broom part types
 broom.parts.evilcraft.type.name=Type: %s

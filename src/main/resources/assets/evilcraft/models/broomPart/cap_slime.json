@@ -1,6 +1,6 @@
 {
     "parent": "evilcraft:broomPart/cap",
     "textures": {
-        "base": "evilcraft:broomParts/cap_gem"
+        "base": "blocks/slime"
     }
 }

@@ -62,6 +62,8 @@ public final class BroomParts {
     public static IBroomPart CAP_METAL_COBALT;
     public static IBroomPart CAP_METAL_MANYULLYN;
 
+    public static IBroomPart CAP_SLIME;
+
     public static void loadPre() {
         ROD_WOOD = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "rod_wood"),
@@ -120,9 +122,57 @@ public final class BroomParts {
         CAP_METAL_ARDITE = registerCapMetalOredict("ardite", 214, 71, 0);
         CAP_METAL_COBALT = registerCapMetalOredict("cobalt", 31, 126, 239);
         CAP_METAL_MANYULLYN = registerCapMetalOredict("manyullyn", 117, 58, 159);
+
+        CAP_SLIME = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "cap_slime"),
+                IBroomPart.BroomPartType.CAP, 0.0625F));
     }
 
     public static void loadPost() {
+        // ---------- Rod modifiers ----------
+        REGISTRY.registerBaseModifiers(ROD_WOOD, ImmutableMap.of(
+                BroomModifiers.MODIFIER_COUNT, 4F,
+                BroomModifiers.SPEED, 100F,
+                BroomModifiers.MANEUVERABILITY, 150F,
+                BroomModifiers.ACCELERATION, 50F,
+                BroomModifiers.LEVITATION, 20F
+        ));
+        REGISTRY.registerBaseModifiers(ROD_STONE, ImmutableMap.of(
+                BroomModifiers.MODIFIER_COUNT, 8F,
+                BroomModifiers.SPEED, 50F,
+                BroomModifiers.MANEUVERABILITY, 30F,
+                BroomModifiers.ACCELERATION, 10F,
+                BroomModifiers.TOUGHNESS, 20F
+        ));
+        REGISTRY.registerBaseModifiers(ROD_BONE, ImmutableMap.of(
+                BroomModifiers.MODIFIER_COUNT, 4F,
+                BroomModifiers.SPEED, 150F,
+                BroomModifiers.MANEUVERABILITY, 150F,
+                BroomModifiers.ACCELERATION, 100F
+        ));
+        REGISTRY.registerBaseModifiers(ROD_BLAZE, new ImmutableMap.Builder<BroomModifier, Float>()
+                        .put(BroomModifiers.MODIFIER_COUNT, 3F)
+                        .put(BroomModifiers.SPEED, 250F)
+                        .put(BroomModifiers.MANEUVERABILITY, 100F)
+                        .put(BroomModifiers.ACCELERATION, 100F)
+                        .put(BroomModifiers.LEVITATION, 50F)
+                        .put(BroomModifiers.FLAME, 2F)
+                        .build()
+        );
+        REGISTRY.registerBaseModifiers(ROD_REED, ImmutableMap.of(
+                BroomModifiers.MODIFIER_COUNT, 5F,
+                BroomModifiers.SPEED, 50F,
+                BroomModifiers.MANEUVERABILITY, 200F,
+                BroomModifiers.ACCELERATION, 200F,
+                BroomModifiers.LEVITATION, 30F
+        ));
+        REGISTRY.registerBaseModifiers(ROD_NETHERRACK, ImmutableMap.of(
+                BroomModifiers.MODIFIER_COUNT, 8F,
+                BroomModifiers.SPEED, 100F,
+                BroomModifiers.MANEUVERABILITY, 50F,
+                BroomModifiers.ACCELERATION, 100F
+        ));
+
         // ---------- Brushes ----------
         REGISTRY.registerPartItem(BRUSH_WHEAT, new ItemStack(Blocks.hay_block));
         REGISTRY.registerBaseModifiers(BRUSH_WHEAT, BroomModifiers.SPEED, 100F);
@@ -231,48 +281,12 @@ public final class BroomParts {
                 BroomModifiers.MANEUVERABILITY, 20F
         ));
 
-        // ---------- Rod modifiers ----------
-        REGISTRY.registerBaseModifiers(ROD_WOOD, ImmutableMap.of(
-                BroomModifiers.MODIFIER_COUNT, 4F,
-                BroomModifiers.SPEED, 100F,
-                BroomModifiers.MANEUVERABILITY, 150F,
-                BroomModifiers.ACCELERATION, 50F,
-                BroomModifiers.LEVITATION, 20F
-        ));
-        REGISTRY.registerBaseModifiers(ROD_STONE, ImmutableMap.of(
-                BroomModifiers.MODIFIER_COUNT, 8F,
+        registerPartOredictItem(CAP_SLIME, "slimeball");
+        REGISTRY.registerBaseModifiers(CAP_SLIME, ImmutableMap.of(
                 BroomModifiers.SPEED, 50F,
-                BroomModifiers.MANEUVERABILITY, 30F,
-                BroomModifiers.ACCELERATION, 10F,
-                BroomModifiers.TOUGHNESS, 20F
-        ));
-        REGISTRY.registerBaseModifiers(ROD_BONE, ImmutableMap.of(
-                BroomModifiers.MODIFIER_COUNT, 4F,
-                BroomModifiers.SPEED, 150F,
-                BroomModifiers.MANEUVERABILITY, 150F,
-                BroomModifiers.ACCELERATION, 100F
-        ));
-        REGISTRY.registerBaseModifiers(ROD_BLAZE, new ImmutableMap.Builder<BroomModifier, Float>()
-                        .put(BroomModifiers.MODIFIER_COUNT, 3F)
-                        .put(BroomModifiers.SPEED, 250F)
-                        .put(BroomModifiers.MANEUVERABILITY, 100F)
-                        .put(BroomModifiers.ACCELERATION, 100F)
-                        .put(BroomModifiers.LEVITATION, 50F)
-                        .put(BroomModifiers.FLAME, 2F)
-                        .build()
-        );
-        REGISTRY.registerBaseModifiers(ROD_REED, ImmutableMap.of(
-                BroomModifiers.MODIFIER_COUNT, 5F,
-                BroomModifiers.SPEED, 50F,
-                BroomModifiers.MANEUVERABILITY, 200F,
-                BroomModifiers.ACCELERATION, 200F,
-                BroomModifiers.LEVITATION, 30F
-        ));
-        REGISTRY.registerBaseModifiers(ROD_NETHERRACK, ImmutableMap.of(
-                BroomModifiers.MODIFIER_COUNT, 8F,
-                BroomModifiers.SPEED, 100F,
-                BroomModifiers.MANEUVERABILITY, 50F,
-                BroomModifiers.ACCELERATION, 100F
+                BroomModifiers.ACCELERATION, 150F,
+                BroomModifiers.TOUGHNESS, 30F,
+                BroomModifiers.BOUNCY, 15F
         ));
 
         // Automatically register remaining parts for parts that don't have a custom item.
