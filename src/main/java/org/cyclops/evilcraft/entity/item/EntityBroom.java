@@ -429,8 +429,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         }
 
         // Apply acceleration modifier
-        double slowingFactor = 1D / Math.max(1D, getModifier(BroomModifiers.ACCELERATION));
-        slowingFactor = Math.pow(slowingFactor, 0.01D);
+        float slowingFactor = 1F - (getModifier(BroomModifiers.ACCELERATION) / 2500F);
         playerSpeed = playerSpeed * (1D - slowingFactor) + lastPlayerSpeed * slowingFactor;
 
         // Apply levitation modifier
