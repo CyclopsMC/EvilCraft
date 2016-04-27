@@ -53,6 +53,7 @@ public class BroomModifiers {
     public static BroomModifier KAMIKAZE;
     public static BroomModifier WITHERSHIELD;
     public static BroomModifier TOUGHNESS;
+    public static BroomModifier LUCK;
 
     public static void loadPre() {
         MinecraftForge.EVENT_BUS.register(new BroomModifiers());
@@ -121,6 +122,10 @@ public class BroomModifiers {
                 new ResourceLocation(Reference.MOD_ID, "toughness"),
                 BroomModifier.Type.ADDITIVE, 0F, 1F, 100, false,
                 EnumChatFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
+        LUCK = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "luck"),
+                BroomModifier.Type.ADDITIVE, 0F, 1F, 100, false,
+                EnumChatFormatting.BLUE, Helpers.RGBToInt(30, 20, 210)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {

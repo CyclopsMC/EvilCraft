@@ -15,7 +15,6 @@ import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.item.BroomPart;
-import org.cyclops.evilcraft.item.DarkGem;
 
 import java.util.Collections;
 
@@ -40,7 +39,12 @@ public final class BroomParts {
     public static IBroomPart BRUSH_TWIG;
     public static IBroomPart BRUSH_LEAVES;
 
-    public static IBroomPart CAP_GEM_DARKGEM;
+    public static IBroomPart CAP_GEM_DARK;
+    public static IBroomPart CAP_GEM_DIAMOND;
+    public static IBroomPart CAP_GEM_EMERALD;
+    public static IBroomPart CAP_GEM_QUARTZ;
+    public static IBroomPart CAP_GEM_LAPIS;
+
     public static IBroomPart CAP_HEAD_SKELETON;
     public static IBroomPart CAP_HEAD_WITHERSKELETON;
     public static IBroomPart CAP_HEAD_ZOMBIE;
@@ -94,9 +98,11 @@ public final class BroomParts {
                 new ResourceLocation(Reference.MOD_ID, "brush_leaves"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
 
-        CAP_GEM_DARKGEM = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "cap_gem_darkgem"),
-                IBroomPart.BroomPartType.CAP, 0.0625F));
+        CAP_GEM_DARK = registerCapGemOredict("dark", 5, 5, 5);
+        CAP_GEM_DIAMOND = registerCapGemOredict("diamond", 105, 223, 218);
+        CAP_GEM_EMERALD = registerCapGemOredict("emerald", 66, 216, 109);
+        CAP_GEM_QUARTZ = registerCapGemOredict("quartz", 237, 235, 228);
+        CAP_GEM_LAPIS = registerCapGemOredict("lapis", 38, 79, 162);
 
         CAP_HEAD_SKELETON = registerCapHead("skeleton");
         CAP_HEAD_WITHERSKELETON = registerCapHead("witherskeleton");
@@ -131,8 +137,33 @@ public final class BroomParts {
         REGISTRY.registerBaseModifiers(BRUSH_LEAVES, BroomModifiers.SPEED, 20F);
 
         // ---------- Caps ----------
-        REGISTRY.registerPartItem(CAP_GEM_DARKGEM, new ItemStack(DarkGem.getInstance()));
-        REGISTRY.registerBaseModifiers(CAP_GEM_DARKGEM, BroomModifiers.MANEUVERABILITY, 10F);
+        registerPartOredictItem(CAP_GEM_DARK, "gemDark");
+        REGISTRY.registerBaseModifiers(CAP_GEM_DARK, ImmutableMap.of(
+                BroomModifiers.MANEUVERABILITY, 50F,
+                BroomModifiers.MODIFIER_COUNT, 1F
+        ));
+        registerPartOredictItem(CAP_GEM_DIAMOND, "gemDiamond");
+        REGISTRY.registerBaseModifiers(CAP_GEM_DIAMOND, ImmutableMap.of(
+                BroomModifiers.MANEUVERABILITY, 50F,
+                BroomModifiers.MODIFIER_COUNT, 2F,
+                BroomModifiers.TOUGHNESS, 100F
+        ));
+        registerPartOredictItem(CAP_GEM_EMERALD, "gemEmerald");
+        REGISTRY.registerBaseModifiers(CAP_GEM_EMERALD, ImmutableMap.of(
+                BroomModifiers.MANEUVERABILITY, 50F,
+                BroomModifiers.MODIFIER_COUNT, 2F,
+                BroomModifiers.ACCELERATION, 100F
+        ));
+        registerPartOredictItem(CAP_GEM_QUARTZ, "gemQuartz");
+        REGISTRY.registerBaseModifiers(CAP_GEM_QUARTZ, ImmutableMap.of(
+                BroomModifiers.MANEUVERABILITY, 50F,
+                BroomModifiers.DAMAGE, 50F
+        ));
+        registerPartOredictItem(CAP_GEM_LAPIS, "gemLapis");
+        REGISTRY.registerBaseModifiers(CAP_GEM_LAPIS, ImmutableMap.of(
+                BroomModifiers.MANEUVERABILITY, 50F,
+                BroomModifiers.LUCK, 50F
+        ));
 
         REGISTRY.registerPartItem(CAP_HEAD_SKELETON, new ItemStack(Items.skull, 1, 0));
         REGISTRY.registerBaseModifiers(CAP_HEAD_SKELETON, BroomModifiers.MANEUVERABILITY, 150F);
@@ -153,49 +184,49 @@ public final class BroomParts {
 
         registerPartOredictItem(CAP_METAL_IRON, "ingotIron");
         REGISTRY.registerBaseModifiers(CAP_METAL_IRON, ImmutableMap.of(
-                BroomModifiers.SPEED, 40F,
+                BroomModifiers.SPEED, 100F,
                 BroomModifiers.TOUGHNESS, 40F,
                 BroomModifiers.MANEUVERABILITY, 10F
         ));
         registerPartOredictItem(CAP_METAL_GOLD, "ingotGold");
         REGISTRY.registerBaseModifiers(CAP_METAL_GOLD, ImmutableMap.of(
-                BroomModifiers.SPEED, 30F,
+                BroomModifiers.SPEED, 80F,
                 BroomModifiers.TOUGHNESS, 70F,
                 BroomModifiers.MANEUVERABILITY, 30F
         ));
         registerPartOredictItem(CAP_METAL_THAUMIUM, "ingotThaumium");
         REGISTRY.registerBaseModifiers(CAP_METAL_THAUMIUM, ImmutableMap.of(
-                BroomModifiers.SPEED, 40F,
+                BroomModifiers.SPEED, 100F,
                 BroomModifiers.TOUGHNESS, 70F,
                 BroomModifiers.MANEUVERABILITY, 30F
         ));
         registerPartOredictItem(CAP_METAL_COPPER, "ingotCopper");
         REGISTRY.registerBaseModifiers(CAP_METAL_COPPER, ImmutableMap.of(
-                BroomModifiers.SPEED, 45F,
+                BroomModifiers.SPEED, 120F,
                 BroomModifiers.TOUGHNESS, 50F,
                 BroomModifiers.MANEUVERABILITY, 10F
         ));
         registerPartOredictItem(CAP_METAL_SILVER, "ingotSilver");
         REGISTRY.registerBaseModifiers(CAP_METAL_SILVER, ImmutableMap.of(
-                BroomModifiers.SPEED, 50F,
+                BroomModifiers.SPEED, 130F,
                 BroomModifiers.TOUGHNESS, 50F,
                 BroomModifiers.MANEUVERABILITY, 10F
         ));
         registerPartOredictItem(CAP_METAL_ARDITE, "ingotArdite");
         REGISTRY.registerBaseModifiers(CAP_METAL_ARDITE, ImmutableMap.of(
-                BroomModifiers.SPEED, 60F,
+                BroomModifiers.SPEED, 150F,
                 BroomModifiers.TOUGHNESS, 50F,
                 BroomModifiers.MANEUVERABILITY, 20F
         ));
         registerPartOredictItem(CAP_METAL_COBALT, "ingotCobalt");
         REGISTRY.registerBaseModifiers(CAP_METAL_COBALT, ImmutableMap.of(
-                BroomModifiers.SPEED, 50F,
+                BroomModifiers.SPEED, 130F,
                 BroomModifiers.TOUGHNESS, 60F,
                 BroomModifiers.MANEUVERABILITY, 20F
         ));
         registerPartOredictItem(CAP_METAL_MANYULLYN, "ingotManyullyn");
         REGISTRY.registerBaseModifiers(CAP_METAL_MANYULLYN, ImmutableMap.of(
-                BroomModifiers.SPEED, 60F,
+                BroomModifiers.SPEED, 150F,
                 BroomModifiers.TOUGHNESS, 60F,
                 BroomModifiers.MANEUVERABILITY, 20F
         ));
@@ -252,6 +283,15 @@ public final class BroomParts {
                 REGISTRY.registerPartItem(part, itemStack);
             }
         }
+    }
+
+    public static IBroomPart registerCapGemOredict(String name, int r, int g, int b) {
+        if(OreDictionary.doesOreNameExist("gem" + StringUtils.capitalize(name))) {
+            return REGISTRY.registerPart(new BroomPartCapGem(
+                    new ResourceLocation(Reference.MOD_ID, "cap_gem_" + name),
+                    Helpers.RGBToInt(r, g, b)));
+        }
+        return null;
     }
 
     public static IBroomPart registerCapHead(String name) {

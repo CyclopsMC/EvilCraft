@@ -168,7 +168,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
         // Backwards compatibility: the "old" broom
         if(broomStack != null && broomStack.getItem() == Broom.getInstance() && !broomStack.hasTagCompound()) {
-            return Lists.newArrayList(BroomParts.BRUSH_WHEAT, BroomParts.CAP_GEM_DARKGEM, BroomParts.ROD_WOOD);
+            return Lists.newArrayList(BroomParts.BRUSH_WHEAT, BroomParts.CAP_GEM_DARK, BroomParts.ROD_WOOD);
         }
 
         return Collections.emptyList();

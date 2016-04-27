@@ -315,7 +315,11 @@ broom.parts.evilcraft.brush_wool.name=Wool Brush
 broom.parts.evilcraft.brush_feather.name=Feather Brush
 broom.parts.evilcraft.brush_twig.name=Twig Brush
 broom.parts.evilcraft.brush_leaves.name=Leaves Brush
-broom.parts.evilcraft.cap_gem_darkgem.name=Dark Gem Cap
+broom.parts.evilcraft.cap_gem_dark.name=Dark Gem Cap
+broom.parts.evilcraft.cap_gem_diamond.name=Diamond Gem Cap
+broom.parts.evilcraft.cap_gem_emerald.name=Emerald Gem Cap
+broom.parts.evilcraft.cap_gem_quartz.name=Quartz Gem Cap
+broom.parts.evilcraft.cap_gem_lapis.name=Lapis Gem Cap
 broom.parts.evilcraft.cap_head_skeleton.name=Skeleton Skull Cap
 broom.parts.evilcraft.cap_head_witherskeleton.name=Wither Skeleton Skull Cap
 broom.parts.evilcraft.cap_head_zombie.name=Zombie Skull Cap
@@ -357,6 +361,7 @@ broom.modifiers.evilcraft.type.hungerer.name=Hungerer
 broom.modifiers.evilcraft.type.kamikaze.name=Kamikaze
 broom.modifiers.evilcraft.type.withershield.name=Wither Shield
 broom.modifiers.evilcraft.type.toughness.name=Toughness
+broom.modifiers.evilcraft.type.luck.name=Luck
 
 # ------ Origins of Darkness contents ------
 infoBook.evilcraft.section.main=Origins of Darkness
