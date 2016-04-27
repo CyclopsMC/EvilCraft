@@ -23,6 +23,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
@@ -31,6 +32,7 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.particle.EntityColoredSmokeFX;
 import org.cyclops.evilcraft.core.broom.PotionEffectBroomCollision;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
+import org.cyclops.evilcraft.item.BroomConfig;
 import org.cyclops.evilcraft.item.DarkSpikeConfig;
 import org.cyclops.evilcraft.item.GarmonboziaConfig;
 import org.cyclops.evilcraft.item.MaceOfDistortion;
@@ -126,11 +128,11 @@ public class BroomModifiers {
                 EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(20, 20, 120)));
         TOUGHNESS = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "toughness"),
-                BroomModifier.Type.ADDITIVE, 0F, 1F, 100, false,
+                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
                 EnumChatFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
         LUCK = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "luck"),
-                BroomModifier.Type.ADDITIVE, 0F, 1F, 100, false,
+                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
                 EnumChatFormatting.BLUE, Helpers.RGBToInt(30, 20, 210)));
 
         // Set modifier events
@@ -194,7 +196,7 @@ public class BroomModifiers {
                         broom.getEntityBoundingBox().maxZ + z - r);
                 World world = broom.worldObj;
                 float maxHardness = modifierValue;
-                float breakEfficiency = (SMASH.getMaxTierValue() - modifierValue) / SMASH.getMaxTierValue() + 1F;
+                float toughnessModifier = Math.min(1F, 0.5F + (broom.getModifier(BroomModifiers.TOUGHNESS) / (BroomModifiers.TOUGHNESS.getMaxTierValue() * 1.5F) / 2F));
                 EntityPlayer player = broom.ridingEntity instanceof EntityPlayer ? (EntityPlayer) broom.ridingEntity : null;
 
                 if (world.isAreaLoaded(blockpos, blockpos1)) {
@@ -204,9 +206,10 @@ public class BroomModifiers {
                                 BlockPos pos = new BlockPos(i, j, k);
                                 IBlockState blockState = world.getBlockState(pos);
                                 Block block = blockState.getBlock();
-                                if (!blockState.getBlock().isAir(world, pos)) {
+                                if (!blockState.getBlock().isAir(world, pos) && broom.canConsume(BroomConfig.bloodUsageBlockBreak, player)) {
                                     float hardness = blockState.getBlock().getBlockHardness(world, pos);
                                     if (hardness > 0F && hardness <= maxHardness && (player == null || ForgeHooks.canHarvestBlock(block, player, world, pos))) {
+                                        broom.consume(BroomConfig.bloodUsageBlockBreak, player);
                                         if (player == null) {
                                             // The mounted entity is no player, do regular block breaking
                                             world.destroyBlock(pos, true);
@@ -245,7 +248,7 @@ public class BroomModifiers {
                                         }
 
                                         // Slow the broom down a bit
-                                        broom.setLastPlayerSpeed(broom.getLastPlayerSpeed() / breakEfficiency);
+                                        broom.setLastPlayerSpeed(broom.getLastPlayerSpeed() * toughnessModifier);
                                     }
                                 }
                             }
@@ -319,6 +322,9 @@ public class BroomModifiers {
 
         REGISTRY.registerModifiersItem(BOUNCY, 1F, new ItemStack(Items.slime_ball));
         REGISTRY.registerModifiersItem(BOUNCY, 9F, new ItemStack(Blocks.slime_block));
+
+        registerModifierOredictItem(TOUGHNESS, 1F, "stone");
+        REGISTRY.registerModifiersItem(TOUGHNESS, 10F, new ItemStack(Blocks.obsidian));
     }
 
     @SubscribeEvent
@@ -330,6 +336,12 @@ public class BroomModifiers {
             if (modifierValue > 0 && modifierValue > broom.worldObj.rand.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
                 event.setCanceled(true);
             }
+        }
+    }
+
+    public static void registerModifierOredictItem(BroomModifier modifier, float value, String name) {
+        for (ItemStack itemStack : OreDictionary.getOres(name)) {
+            REGISTRY.registerModifiersItem(modifier, value, itemStack);
         }
     }
 

@@ -45,6 +45,11 @@ public class BroomConfig extends ItemConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The blood usage in mB per tick.")
     public static int bloodUsage = 1;
+    /**
+     * The blood usage in mB per block break.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The blood usage in mB per block break.")
+    public static int bloodUsageBlockBreak = 1;
 
     /**
      * Make a new instance.
