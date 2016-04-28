@@ -1,0 +1,6 @@
+{
+    "parent": "evilcraft:broomPart/cap",
+    "textures": {
+        "base": "evilcraft:broomParts/bare"
+    }
+}

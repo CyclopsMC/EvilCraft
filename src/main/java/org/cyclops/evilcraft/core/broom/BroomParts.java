@@ -26,6 +26,7 @@ public final class BroomParts {
 
     public static final IBroomPartRegistry REGISTRY = EvilCraft._instance.getRegistryManager().getRegistry(IBroomPartRegistry.class);
 
+    public static IBroomPart ROD_BARE;
     public static IBroomPart ROD_WOOD;
     public static IBroomPart ROD_STONE;
     public static IBroomPart ROD_BONE;
@@ -36,12 +37,14 @@ public final class BroomParts {
     public static IBroomPart ROD_UNDEAD;
     public static IBroomPart ROD_PRISMARINE;
 
+    public static IBroomPart BRUSH_BARE;
     public static IBroomPart BRUSH_WHEAT;
     public static IBroomPart BRUSH_WOOL;
     public static IBroomPart BRUSH_FEATHER;
     public static IBroomPart BRUSH_TWIG;
     public static IBroomPart BRUSH_LEAVES;
 
+    public static IBroomPart CAP_BARE;
     public static IBroomPart CAP_GEM_DARK;
     public static IBroomPart CAP_GEM_DIAMOND;
     public static IBroomPart CAP_GEM_EMERALD;
@@ -69,6 +72,9 @@ public final class BroomParts {
     public static IBroomPart CAP_SLIME;
 
     public static void loadPre() {
+        ROD_BARE = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_bare"),
+                IBroomPart.BroomPartType.ROD, 1F));
         ROD_WOOD = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "rod_wood"),
                 IBroomPart.BroomPartType.ROD, 1F));
@@ -97,6 +103,9 @@ public final class BroomParts {
                 new ResourceLocation(Reference.MOD_ID, "rod_prismarine"),
                 IBroomPart.BroomPartType.ROD, 1F));
 
+        BRUSH_BARE = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "brush_bare"),
+                IBroomPart.BroomPartType.BRUSH, 0.4375F));
         BRUSH_WHEAT = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "brush_wheat"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
@@ -112,6 +121,10 @@ public final class BroomParts {
         BRUSH_LEAVES = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "brush_leaves"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
+
+        CAP_BARE = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "cap_bare"),
+                IBroomPart.BroomPartType.CAP, 0.0625F));
 
         CAP_GEM_DARK = registerCapGemOredict("dark", 5, 5, 5);
         CAP_GEM_DIAMOND = registerCapGemOredict("diamond", 105, 223, 218);
