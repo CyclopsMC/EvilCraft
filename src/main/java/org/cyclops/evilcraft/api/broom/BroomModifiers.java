@@ -63,6 +63,7 @@ public class BroomModifiers {
     public static BroomModifier STURDYNESS;
     public static BroomModifier LUCK;
     public static BroomModifier EFFICIENCY;
+    public static BroomModifier SWIMMING;
 
     public static void loadPre() {
         MinecraftForge.EVENT_BUS.register(new BroomModifiers());
@@ -139,6 +140,10 @@ public class BroomModifiers {
                 new ResourceLocation(Reference.MOD_ID, "efficiency"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
                 EnumChatFormatting.DARK_RED, Helpers.RGBToInt(92, 29, 29)));
+        SWIMMING = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "swimming"),
+                BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
+                EnumChatFormatting.AQUA, Helpers.RGBToInt(150, 150, 235)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {
@@ -332,6 +337,10 @@ public class BroomModifiers {
         REGISTRY.registerModifiersItem(STURDYNESS, 10F, new ItemStack(Blocks.obsidian));
 
         registerModifierOredictItem(EFFICIENCY, 1F, Reference.DICT_GEMDARKPOWER);
+
+        REGISTRY.registerModifiersItem(SWIMMING, 1F, new ItemStack(Items.prismarine_shard));
+        REGISTRY.registerModifiersItem(SWIMMING, 4F, new ItemStack(Blocks.prismarine, 1, 0));
+        REGISTRY.registerModifiersItem(SWIMMING, 9F, new ItemStack(Blocks.prismarine, 1, 1));
     }
 
     @SubscribeEvent

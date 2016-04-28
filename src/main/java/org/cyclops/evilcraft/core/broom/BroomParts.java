@@ -34,6 +34,7 @@ public final class BroomParts {
     public static IBroomPart ROD_NETHERRACK;
     public static IBroomPart ROD_OBSIDIAN;
     public static IBroomPart ROD_UNDEAD;
+    public static IBroomPart ROD_PRISMARINE;
 
     public static IBroomPart BRUSH_WHEAT;
     public static IBroomPart BRUSH_WOOL;
@@ -91,6 +92,9 @@ public final class BroomParts {
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_UNDEAD = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "rod_undead"),
+                IBroomPart.BroomPartType.ROD, 1F));
+        ROD_PRISMARINE = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_prismarine"),
                 IBroomPart.BroomPartType.ROD, 1F));
 
         BRUSH_WHEAT = REGISTRY.registerPart(new BroomPartBase(
@@ -198,6 +202,13 @@ public final class BroomParts {
                         .put(BroomModifiers.EFFICIENCY, 10F)
                         .build()
         );
+        REGISTRY.registerBaseModifiers(ROD_PRISMARINE, ImmutableMap.of(
+                BroomModifiers.MODIFIER_COUNT, 4F,
+                BroomModifiers.SPEED, 70F,
+                BroomModifiers.ACCELERATION, 10F,
+                BroomModifiers.STURDYNESS, 50F,
+                BroomModifiers.SWIMMING, 100F
+        ));
 
         // ---------- Brushes ----------
         REGISTRY.registerPartItem(BRUSH_WHEAT, new ItemStack(Blocks.hay_block));

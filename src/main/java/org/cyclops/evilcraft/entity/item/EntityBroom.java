@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -450,6 +451,15 @@ public class EntityBroom extends Entity implements IConfigurable{
         motionX = motionX / 10 + x * SPEED * playerSpeed;
         motionY = motionY / 10 + y * SPEED * playerSpeed * levitationModifier;
         motionZ = motionZ / 10 + z * SPEED * playerSpeed;
+        if (this.inWater) {
+            // (1 -> 0) Lower is better
+            float waterMovementFactor = 1F - MathHelper.clamp_float(
+                    getModifier(BroomModifiers.SWIMMING) / (BroomModifiers.SWIMMING.getMaxTierValue() * 1.1F), 0F, 1F);
+            motionX /= 1 + 4 * waterMovementFactor;
+            motionY /= 1 + 4 * waterMovementFactor;
+            motionZ /= 1 + 4 * waterMovementFactor;
+            motionY += 0.05F * waterMovementFactor;
+        }
         lastPlayerSpeed = playerSpeed;
         
         // Update motion on client side to provide a hovering effect
