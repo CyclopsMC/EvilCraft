@@ -306,7 +306,7 @@ public class EntityBroom extends Entity implements IConfigurable{
                         entity.applyEntityCollision(this);
 
                         // Slow the broom down a bit
-                        float toughnessModifier = Math.min(1F, 0.5F + (getModifier(BroomModifiers.TOUGHNESS) / (BroomModifiers.TOUGHNESS.getMaxTierValue() * 1.5F) / 2F));
+                        float toughnessModifier = Math.min(1F, 0.5F + (getModifier(BroomModifiers.STURDYNESS) / (BroomModifiers.STURDYNESS.getMaxTierValue() * 1.5F) / 2F));
                         setLastPlayerSpeed(getLastPlayerSpeed() * toughnessModifier);
                     }
                 }

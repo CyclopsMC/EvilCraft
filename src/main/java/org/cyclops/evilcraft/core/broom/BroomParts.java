@@ -152,7 +152,7 @@ public final class BroomParts {
                 BroomModifiers.SPEED, 50F,
                 BroomModifiers.MANEUVERABILITY, 30F,
                 BroomModifiers.ACCELERATION, 10F,
-                BroomModifiers.TOUGHNESS, 20F
+                BroomModifiers.STURDYNESS, 20F
         ));
         REGISTRY.registerBaseModifiers(ROD_BONE, ImmutableMap.of(
                 BroomModifiers.MODIFIER_COUNT, 4F,
@@ -187,7 +187,7 @@ public final class BroomParts {
                 BroomModifiers.SPEED, 70F,
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.ACCELERATION, 10F,
-                BroomModifiers.TOUGHNESS, 100F
+                BroomModifiers.STURDYNESS, 100F
         ));
         REGISTRY.registerBaseModifiers(ROD_UNDEAD, new ImmutableMap.Builder<BroomModifier, Float>()
                         .put(BroomModifiers.MODIFIER_COUNT, 4F)
@@ -222,7 +222,7 @@ public final class BroomParts {
         REGISTRY.registerBaseModifiers(CAP_GEM_DIAMOND, ImmutableMap.of(
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.MODIFIER_COUNT, 2F,
-                BroomModifiers.TOUGHNESS, 100F
+                BroomModifiers.STURDYNESS, 100F
         ));
         registerPartOredictItem(CAP_GEM_EMERALD, "gemEmerald");
         REGISTRY.registerBaseModifiers(CAP_GEM_EMERALD, ImmutableMap.of(
@@ -267,49 +267,49 @@ public final class BroomParts {
         registerPartOredictItem(CAP_METAL_IRON, "ingotIron");
         REGISTRY.registerBaseModifiers(CAP_METAL_IRON, ImmutableMap.of(
                 BroomModifiers.SPEED, 100F,
-                BroomModifiers.TOUGHNESS, 40F,
+                BroomModifiers.STURDYNESS, 40F,
                 BroomModifiers.MANEUVERABILITY, 10F
         ));
         registerPartOredictItem(CAP_METAL_GOLD, "ingotGold");
         REGISTRY.registerBaseModifiers(CAP_METAL_GOLD, ImmutableMap.of(
                 BroomModifiers.SPEED, 80F,
-                BroomModifiers.TOUGHNESS, 70F,
+                BroomModifiers.STURDYNESS, 70F,
                 BroomModifiers.MANEUVERABILITY, 30F
         ));
         registerPartOredictItem(CAP_METAL_THAUMIUM, "ingotThaumium");
         REGISTRY.registerBaseModifiers(CAP_METAL_THAUMIUM, ImmutableMap.of(
                 BroomModifiers.SPEED, 100F,
-                BroomModifiers.TOUGHNESS, 70F,
+                BroomModifiers.STURDYNESS, 70F,
                 BroomModifiers.MANEUVERABILITY, 30F
         ));
         registerPartOredictItem(CAP_METAL_COPPER, "ingotCopper");
         REGISTRY.registerBaseModifiers(CAP_METAL_COPPER, ImmutableMap.of(
                 BroomModifiers.SPEED, 120F,
-                BroomModifiers.TOUGHNESS, 50F,
+                BroomModifiers.STURDYNESS, 50F,
                 BroomModifiers.MANEUVERABILITY, 10F
         ));
         registerPartOredictItem(CAP_METAL_SILVER, "ingotSilver");
         REGISTRY.registerBaseModifiers(CAP_METAL_SILVER, ImmutableMap.of(
                 BroomModifiers.SPEED, 130F,
-                BroomModifiers.TOUGHNESS, 50F,
+                BroomModifiers.STURDYNESS, 50F,
                 BroomModifiers.MANEUVERABILITY, 10F
         ));
         registerPartOredictItem(CAP_METAL_ARDITE, "ingotArdite");
         REGISTRY.registerBaseModifiers(CAP_METAL_ARDITE, ImmutableMap.of(
                 BroomModifiers.SPEED, 150F,
-                BroomModifiers.TOUGHNESS, 50F,
+                BroomModifiers.STURDYNESS, 50F,
                 BroomModifiers.MANEUVERABILITY, 20F
         ));
         registerPartOredictItem(CAP_METAL_COBALT, "ingotCobalt");
         REGISTRY.registerBaseModifiers(CAP_METAL_COBALT, ImmutableMap.of(
                 BroomModifiers.SPEED, 130F,
-                BroomModifiers.TOUGHNESS, 60F,
+                BroomModifiers.STURDYNESS, 60F,
                 BroomModifiers.MANEUVERABILITY, 20F
         ));
         registerPartOredictItem(CAP_METAL_MANYULLYN, "ingotManyullyn");
         REGISTRY.registerBaseModifiers(CAP_METAL_MANYULLYN, ImmutableMap.of(
                 BroomModifiers.SPEED, 150F,
-                BroomModifiers.TOUGHNESS, 60F,
+                BroomModifiers.STURDYNESS, 60F,
                 BroomModifiers.MANEUVERABILITY, 20F
         ));
 
@@ -317,7 +317,7 @@ public final class BroomParts {
         REGISTRY.registerBaseModifiers(CAP_SLIME, ImmutableMap.of(
                 BroomModifiers.SPEED, 50F,
                 BroomModifiers.ACCELERATION, 150F,
-                BroomModifiers.TOUGHNESS, 30F,
+                BroomModifiers.STURDYNESS, 30F,
                 BroomModifiers.BOUNCY, 15F
         ));
 

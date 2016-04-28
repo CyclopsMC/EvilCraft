@@ -60,7 +60,7 @@ public class BroomModifiers {
     public static BroomModifier HUNGERER;
     public static BroomModifier KAMIKAZE;
     public static BroomModifier WITHERSHIELD;
-    public static BroomModifier TOUGHNESS;
+    public static BroomModifier STURDYNESS;
     public static BroomModifier LUCK;
     public static BroomModifier EFFICIENCY;
 
@@ -127,8 +127,8 @@ public class BroomModifiers {
                 new ResourceLocation(Reference.MOD_ID, "withershield"),
                 BroomModifier.Type.ADDITIVE, 0F, 5F, 4, false,
                 EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(20, 20, 120)));
-        TOUGHNESS = REGISTRY.registerModifier(new BroomModifier(
-                new ResourceLocation(Reference.MOD_ID, "toughness"),
+        STURDYNESS = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "sturdyness"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
                 EnumChatFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
         LUCK = REGISTRY.registerModifier(new BroomModifier(
@@ -201,7 +201,7 @@ public class BroomModifiers {
                         broom.getEntityBoundingBox().maxZ + z - r);
                 World world = broom.worldObj;
                 float maxHardness = modifierValue;
-                float toughnessModifier = Math.min(1F, 0.5F + (broom.getModifier(BroomModifiers.TOUGHNESS) / (BroomModifiers.TOUGHNESS.getMaxTierValue() * 1.5F) / 2F));
+                float toughnessModifier = Math.min(1F, 0.5F + (broom.getModifier(BroomModifiers.STURDYNESS) / (BroomModifiers.STURDYNESS.getMaxTierValue() * 1.5F) / 2F));
                 EntityPlayer player = broom.ridingEntity instanceof EntityPlayer ? (EntityPlayer) broom.ridingEntity : null;
 
                 if (world.isAreaLoaded(blockpos, blockpos1)) {
@@ -328,8 +328,8 @@ public class BroomModifiers {
         REGISTRY.registerModifiersItem(BOUNCY, 1F, new ItemStack(Items.slime_ball));
         REGISTRY.registerModifiersItem(BOUNCY, 9F, new ItemStack(Blocks.slime_block));
 
-        registerModifierOredictItem(TOUGHNESS, 1F, "stone");
-        REGISTRY.registerModifiersItem(TOUGHNESS, 10F, new ItemStack(Blocks.obsidian));
+        registerModifierOredictItem(STURDYNESS, 1F, "stone");
+        REGISTRY.registerModifiersItem(STURDYNESS, 10F, new ItemStack(Blocks.obsidian));
 
         registerModifierOredictItem(EFFICIENCY, 1F, Reference.DICT_GEMDARKPOWER);
     }
