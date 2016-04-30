@@ -64,6 +64,7 @@ public class BroomModifiers {
     public static BroomModifier LUCK;
     public static BroomModifier EFFICIENCY;
     public static BroomModifier SWIMMING;
+    public static BroomModifier ICY;
 
     public static void loadPre() {
         MinecraftForge.EVENT_BUS.register(new BroomModifiers());
@@ -144,6 +145,10 @@ public class BroomModifiers {
                 new ResourceLocation(Reference.MOD_ID, "swimming"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
                 EnumChatFormatting.AQUA, Helpers.RGBToInt(150, 150, 235)));
+        ICY = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "icy"),
+                BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
+                EnumChatFormatting.WHITE, Helpers.RGBToInt(220, 220, 240)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {
@@ -303,6 +308,7 @@ public class BroomModifiers {
                 }
             }
         });
+        ICY.addCollisionListener(new PotionEffectBroomCollision(Potion.moveSlowdown, 2));
     }
 
     public static void loadPost() {
@@ -341,6 +347,9 @@ public class BroomModifiers {
         REGISTRY.registerModifiersItem(SWIMMING, 1F, new ItemStack(Items.prismarine_shard));
         REGISTRY.registerModifiersItem(SWIMMING, 4F, new ItemStack(Blocks.prismarine, 1, 0));
         REGISTRY.registerModifiersItem(SWIMMING, 9F, new ItemStack(Blocks.prismarine, 1, 1));
+
+        REGISTRY.registerModifiersItem(ICY, 1F, new ItemStack(Blocks.ice, 1, 1));
+        REGISTRY.registerModifiersItem(ICY, 5F, new ItemStack(Blocks.packed_ice, 1, 1));
     }
 
     @SubscribeEvent

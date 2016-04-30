@@ -314,6 +314,7 @@ broom.parts.evilcraft.rod_netherrack.name=Netherrack Rod
 broom.parts.evilcraft.rod_obsidian.name=Obsidian Rod
 broom.parts.evilcraft.rod_undead.name=Undead Rod
 broom.parts.evilcraft.rod_prismarine.name=Prismarine Rod
+broom.parts.evilcraft.rod_ice.name=Ice Rod
 broom.parts.evilcraft.brush_bare.name=Bare Brush
 broom.parts.evilcraft.brush_wheat.name=Wheat Brush
 broom.parts.evilcraft.brush_wool.name=Wool Brush
@@ -372,6 +373,7 @@ broom.modifiers.evilcraft.type.sturdyness.name=Sturdyness
 broom.modifiers.evilcraft.type.luck.name=Luck
 broom.modifiers.evilcraft.type.efficiency.name=Efficiency
 broom.modifiers.evilcraft.type.swimming.name=Swimming
+broom.modifiers.evilcraft.type.icy.name=Icy
 
 # ------ Origins of Darkness contents ------
 infoBook.evilcraft.section.main=Origins of Darkness
