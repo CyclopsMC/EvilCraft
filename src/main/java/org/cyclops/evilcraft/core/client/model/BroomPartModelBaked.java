@@ -9,12 +9,15 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.model.IColoredBakedQuad;
 import net.minecraftforge.client.model.ISmartItemModel;
 import org.cyclops.cyclopscore.client.model.DynamicBaseModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -43,11 +46,31 @@ public class BroomPartModelBaked extends DynamicBaseModel implements ISmartItemM
         IBroomPart part = BroomParts.REGISTRY.getPartFromItem(itemStack);
         IBakedModel model = broomPartModels.get(part);
         if (model != null) {
-            quads.addAll(model.getGeneralQuads());
+            quads.addAll(color(model.getGeneralQuads(), part.getModelColor()));
         }
 
         return new SimpleBakedModel(quads, ModelHelpers.EMPTY_FACE_QUADS, this.isAmbientOcclusion(), this.isGui3d(),
                 this.getParticleTexture(), this.getItemCameraTransforms());
+    }
+
+    /**
+     * Color the quads
+     * @param quads The original quads
+     * @param color The color
+     * @return The colored quads
+     */
+    private Collection<? extends BakedQuad> color(List<BakedQuad> quads, int color) {
+        List<BakedQuad> offsetQuads = Lists.newArrayListWithExpectedSize(quads.size());
+        for (BakedQuad quad : quads) {
+            int[] vertexData = Arrays.copyOf(quad.getVertexData(), quad.getVertexData().length);
+            for(int i = 0; i < vertexData.length / 7; i++) {
+                vertexData[i * 7 + 3] = color;
+            }
+
+            offsetQuads.add(new IColoredBakedQuad.ColoredBakedQuad(vertexData, quad.getTintIndex(), quad.getFace()));
+        }
+
+        return offsetQuads;
     }
 
     @Override
