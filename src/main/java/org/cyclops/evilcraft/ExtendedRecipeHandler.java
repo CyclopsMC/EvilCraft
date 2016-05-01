@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft;
 
+import com.google.common.collect.Iterables;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
@@ -19,7 +20,9 @@ import org.cyclops.cyclopscore.recipe.event.IRecipeOutputObserver;
 import org.cyclops.cyclopscore.recipe.event.ObservableShapedRecipe;
 import org.cyclops.cyclopscore.recipe.xml.IRecipeConditionHandler;
 import org.cyclops.cyclopscore.recipe.xml.IRecipeTypeHandler;
+import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.block.*;
+import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.core.recipe.BloodExtractorCombinationRecipe;
 import org.cyclops.evilcraft.core.recipe.BroomPartCombinationRecipe;
@@ -127,6 +130,18 @@ public class ExtendedRecipeHandler extends RecipeHandler {
 
         if(WeatherContainerConfig.shapelessRecipes) {
             predefinedValues.add("evilcraft:shapelessRecipes");
+        }
+
+        if(Configs.isEnabled(BroomConfig.class)) {
+            for (IBroomPart broomPart : BroomParts.REGISTRY.getParts()) {
+                String id = String.format("%s:%s:%s",
+                        broomPart.getId().getResourceDomain(), "broompart", broomPart.getId().getResourcePath());
+                ItemStack itemStack = Iterables.getFirst(BroomParts.REGISTRY.getItemsFromPart(broomPart), null);
+                if (itemStack != null) {
+                    predefinedItems.put(id, itemStack);
+                }
+            }
+
         }
     }
 

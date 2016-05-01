@@ -1,8 +1,6 @@
 package org.cyclops.evilcraft.core.broom;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
@@ -157,6 +155,14 @@ public final class BroomParts {
         CAP_SLIME = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "cap_slime"),
                 IBroomPart.BroomPartType.CAP, 0.0625F));
+
+        for (IBroomPart part : REGISTRY.getParts()) {
+            if (part.shouldAutoRegisterMissingItem() && REGISTRY.getItemsFromPart(part).isEmpty()) {
+                ItemStack itemStack = new ItemStack(BroomPart.getInstance());
+                REGISTRY.setBroomParts(itemStack, Collections.singleton(part));
+                REGISTRY.registerPartItem(part, itemStack);
+            }
+        }
     }
 
     public static void loadPost() {
@@ -235,135 +241,108 @@ public final class BroomParts {
         ));
 
         // ---------- Brushes ----------
-        REGISTRY.registerPartItem(BRUSH_WHEAT, new ItemStack(Blocks.hay_block));
         REGISTRY.registerBaseModifiers(BRUSH_WHEAT, BroomModifiers.SPEED, 100F);
-        REGISTRY.registerPartItem(BRUSH_WOOL, new ItemStack(Blocks.wool));
         REGISTRY.registerBaseModifiers(BRUSH_WOOL, ImmutableMap.of(
                 BroomModifiers.SPEED, 80F,
                 BroomModifiers.LEVITATION, 100F
         ));
         REGISTRY.registerBaseModifiers(BRUSH_FEATHER, BroomModifiers.LEVITATION, 200F);
         REGISTRY.registerBaseModifiers(BRUSH_TWIG, BroomModifiers.MANEUVERABILITY, 100F);
-        REGISTRY.registerPartItem(BRUSH_LEAVES, new ItemStack(Blocks.leaves));
         REGISTRY.registerBaseModifiers(BRUSH_LEAVES, BroomModifiers.SPEED, 20F);
 
         // ---------- Caps ----------
-        registerPartOredictItem(CAP_GEM_DARK, Reference.DICT_GEMDARK);
         REGISTRY.registerBaseModifiers(CAP_GEM_DARK, ImmutableMap.of(
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.MODIFIER_COUNT, 1F
         ));
-        registerPartOredictItem(CAP_GEM_DIAMOND, "gemDiamond");
         REGISTRY.registerBaseModifiers(CAP_GEM_DIAMOND, ImmutableMap.of(
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.MODIFIER_COUNT, 2F,
                 BroomModifiers.STURDYNESS, 100F
         ));
-        registerPartOredictItem(CAP_GEM_EMERALD, "gemEmerald");
         REGISTRY.registerBaseModifiers(CAP_GEM_EMERALD, ImmutableMap.of(
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.MODIFIER_COUNT, 2F,
                 BroomModifiers.ACCELERATION, 100F
         ));
-        registerPartOredictItem(CAP_GEM_QUARTZ, "gemQuartz");
         REGISTRY.registerBaseModifiers(CAP_GEM_QUARTZ, ImmutableMap.of(
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.DAMAGE, 50F
         ));
-        registerPartOredictItem(CAP_GEM_LAPIS, "gemLapis");
         REGISTRY.registerBaseModifiers(CAP_GEM_LAPIS, ImmutableMap.of(
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.LUCK, 50F
         ));
-        registerPartOredictItem(CAP_GEM_DARKPOWER, Reference.DICT_GEMDARKPOWER);
         REGISTRY.registerBaseModifiers(CAP_GEM_DARKPOWER, ImmutableMap.of(
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.MODIFIER_COUNT, 1F,
                 BroomModifiers.EFFICIENCY, 10F
         ));
 
-        REGISTRY.registerPartItem(CAP_HEAD_SKELETON, new ItemStack(Items.skull, 1, 0));
         REGISTRY.registerBaseModifiers(CAP_HEAD_SKELETON, BroomModifiers.MANEUVERABILITY, 150F);
-        REGISTRY.registerPartItem(CAP_HEAD_WITHERSKELETON, new ItemStack(Items.skull, 1, 1));
         REGISTRY.registerBaseModifiers(CAP_HEAD_WITHERSKELETON, BroomModifiers.WITHERER, 5F);
-        REGISTRY.registerPartItem(CAP_HEAD_ZOMBIE, new ItemStack(Items.skull, 1, 2));
         REGISTRY.registerBaseModifiers(CAP_HEAD_ZOMBIE, ImmutableMap.of(
                 BroomModifiers.HUNGERER, 10F,
                 BroomModifiers.DAMAGE, 2F
         ));
         // Later on, we could apply player skin textures, but that'd require a lot of hacking.
         // Because textures are applied at bake time, and player skins may require downloading time, so yeah...
-        REGISTRY.registerPartItem(CAP_HEAD_PLAYER, new ItemStack(Items.skull, 1, 3));
         REGISTRY.registerBaseModifiers(CAP_HEAD_PLAYER, BroomModifiers.SPEED, 50F);
-        REGISTRY.registerPartItem(CAP_HEAD_CREEPER, new ItemStack(Items.skull, 1, 4));
         REGISTRY.registerBaseModifiers(CAP_HEAD_CREEPER, BroomModifiers.KAMIKAZE, 10F);
         REGISTRY.registerBaseModifiers(CAP_HEAD_WITHER, BroomModifiers.WITHERSHIELD, 20F);
 
-        registerPartOredictItem(CAP_METAL_IRON, "ingotIron");
         REGISTRY.registerBaseModifiers(CAP_METAL_IRON, ImmutableMap.of(
                 BroomModifiers.SPEED, 100F,
                 BroomModifiers.STURDYNESS, 40F,
                 BroomModifiers.MANEUVERABILITY, 10F
         ));
-        registerPartOredictItem(CAP_METAL_GOLD, "ingotGold");
         REGISTRY.registerBaseModifiers(CAP_METAL_GOLD, ImmutableMap.of(
                 BroomModifiers.SPEED, 80F,
                 BroomModifiers.STURDYNESS, 70F,
                 BroomModifiers.MANEUVERABILITY, 30F
         ));
-        registerPartOredictItem(CAP_METAL_THAUMIUM, "ingotThaumium");
         REGISTRY.registerBaseModifiers(CAP_METAL_THAUMIUM, ImmutableMap.of(
                 BroomModifiers.SPEED, 100F,
                 BroomModifiers.STURDYNESS, 70F,
                 BroomModifiers.MANEUVERABILITY, 30F
         ));
-        registerPartOredictItem(CAP_METAL_COPPER, "ingotCopper");
         REGISTRY.registerBaseModifiers(CAP_METAL_COPPER, ImmutableMap.of(
                 BroomModifiers.SPEED, 120F,
                 BroomModifiers.STURDYNESS, 50F,
                 BroomModifiers.MANEUVERABILITY, 10F
         ));
-        registerPartOredictItem(CAP_METAL_SILVER, "ingotSilver");
         REGISTRY.registerBaseModifiers(CAP_METAL_SILVER, ImmutableMap.of(
                 BroomModifiers.SPEED, 130F,
                 BroomModifiers.STURDYNESS, 50F,
                 BroomModifiers.MANEUVERABILITY, 10F
         ));
-        registerPartOredictItem(CAP_METAL_ARDITE, "ingotArdite");
+        REGISTRY.registerBaseModifiers(CAP_METAL_GOLD, ImmutableMap.of(
+                BroomModifiers.SPEED, 80F,
+                BroomModifiers.STURDYNESS, 60F,
+                BroomModifiers.MANEUVERABILITY, 30F
+        ));
         REGISTRY.registerBaseModifiers(CAP_METAL_ARDITE, ImmutableMap.of(
                 BroomModifiers.SPEED, 150F,
                 BroomModifiers.STURDYNESS, 50F,
                 BroomModifiers.MANEUVERABILITY, 20F
         ));
-        registerPartOredictItem(CAP_METAL_COBALT, "ingotCobalt");
         REGISTRY.registerBaseModifiers(CAP_METAL_COBALT, ImmutableMap.of(
                 BroomModifiers.SPEED, 130F,
                 BroomModifiers.STURDYNESS, 60F,
                 BroomModifiers.MANEUVERABILITY, 20F
         ));
-        registerPartOredictItem(CAP_METAL_MANYULLYN, "ingotManyullyn");
         REGISTRY.registerBaseModifiers(CAP_METAL_MANYULLYN, ImmutableMap.of(
                 BroomModifiers.SPEED, 150F,
                 BroomModifiers.STURDYNESS, 60F,
                 BroomModifiers.MANEUVERABILITY, 20F
         ));
 
-        registerPartOredictItem(CAP_SLIME, "slimeball");
         REGISTRY.registerBaseModifiers(CAP_SLIME, ImmutableMap.of(
                 BroomModifiers.SPEED, 50F,
                 BroomModifiers.ACCELERATION, 150F,
                 BroomModifiers.STURDYNESS, 30F,
                 BroomModifiers.BOUNCY, 15F
         ));
-
-        // Automatically register remaining parts for parts that don't have a custom item.
-        for (IBroomPart part : REGISTRY.getParts()) {
-            if (part.shouldAutoRegisterMissingItem() && REGISTRY.getItemsFromPart(part).isEmpty()) {
-                ItemStack itemStack = new ItemStack(BroomPart.getInstance());
-                REGISTRY.setBroomParts(itemStack, Collections.singleton(part));
-                REGISTRY.registerPartItem(part, itemStack);
-            }
-        }
     }
 
     public static IBroomPart registerCapGemOredict(String name, int r, int g, int b) {
@@ -389,15 +368,4 @@ public final class BroomParts {
         }
         return null;
     }
-
-    public static void registerPartOredictItem(IBroomPart part, String name) {
-        for (ItemStack itemStack : OreDictionary.getOres(name)) {
-            itemStack = itemStack.copy();
-            if(itemStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-                itemStack.setItemDamage(0);
-            }
-            REGISTRY.registerPartItem(part, itemStack);
-        }
-    }
-
 }

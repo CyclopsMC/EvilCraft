@@ -131,7 +131,8 @@ public class EvilCraft extends ModBaseVersionable {
                 "bloodinfuser.xml",
                 "bloodinfuser_convenience.xml",
                 "bloodinfuser_mods.xml",
-                "environmentalaccumulator.xml"
+                "environmentalaccumulator.xml",
+                "broomparts.xml"
         );
     }
 
@@ -162,10 +163,10 @@ public class EvilCraft extends ModBaseVersionable {
     @EventHandler
     @Override
     public void init(FMLInitializationEvent event) {
-        super.init(event);
-
         BroomParts.loadPre();
         BroomModifiers.loadPre();
+
+        super.init(event);
         
         // Register world generation
         GameRegistry.registerWorldGenerator(new OreGenerator(), 5);

@@ -31,6 +31,7 @@ public class BroomPart extends ConfigurableItem {
 
     public BroomPart(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
+        setHasSubtypes(true);
     }
 
     public IBroomPart getPart(ItemStack itemStack) {
