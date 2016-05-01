@@ -181,11 +181,13 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
         @Override
         @SideOnly(Side.CLIENT)
         public int colorMultiplier(IBlockState blockState, IBlockAccess world, BlockPos blockPos, int renderPass) {
-            ConfigurableBlockWithInnerBlocks thisBlock = (ConfigurableBlockWithInnerBlocks) blockState.getBlock();
-            IBlockState blockStateInner = thisBlock.getBlockFromState(world.getBlockState(blockPos));
-            Block block = blockStateInner.getBlock();
-            if(block instanceof IBlockColor) {
-                return ((IBlockColor) block).colorMultiplier(blockStateInner, world, blockPos, renderPass);
+            if(blockPos != null) {
+                ConfigurableBlockWithInnerBlocks thisBlock = (ConfigurableBlockWithInnerBlocks) blockState.getBlock();
+                IBlockState blockStateInner = thisBlock.getBlockFromState(world.getBlockState(blockPos));
+                Block block = blockStateInner.getBlock();
+                if (block instanceof IBlockColor) {
+                    return ((IBlockColor) block).colorMultiplier(blockStateInner, world, blockPos, renderPass);
+                }
             }
             return -1;
         }
