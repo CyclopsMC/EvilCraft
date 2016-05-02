@@ -97,7 +97,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return new AxisAlignedBB(0.125F, 0.001F, 0.125F, 0.875F, 0.999F, 0.875F);
 	}
-    
+
     @Override
     public boolean hasComparatorInputOverride(IBlockState blockState) {
             return true;
@@ -120,7 +120,12 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     	return false;
     }
 
-    @Override
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
+
+	@Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos blockPos, EnumFacing side) {
     	return true;
