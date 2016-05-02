@@ -185,11 +185,10 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	
 	@Override
 	public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos blockPos) {
-		TileEntity tile = world.getTileEntity(blockPos);
-		if(tile != null && tile instanceof TileDarkTank) {
-			TileDarkTank tank = (TileDarkTank) tile;
-			if(tank.getTank().getFluidType() != null) {
-				return (int) Math.min(15, tank.getFillRatio() * tank.getTank().getFluidType().getLuminosity() * 15);
+		TileDarkTank tile = TileHelpers.getSafeTile(world, blockPos, TileDarkTank.class);
+		if(tile != null) {
+			if(tile.getTank().getFluidType() != null) {
+				return (int) Math.min(15, tile.getFillRatio() * tile.getTank().getFluidType().getLuminosity() * 15);
 			}
 		}
 		return 0;

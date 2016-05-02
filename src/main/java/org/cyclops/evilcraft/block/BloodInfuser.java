@@ -18,6 +18,7 @@ import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.recipe.custom.api.IMachine;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
@@ -92,7 +93,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
 
     @Override
     public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos blockPos) {
-        TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(blockPos);
+        TileBloodInfuser tile = TileHelpers.getSafeTile(world, blockPos, TileBloodInfuser.class);
         return tile != null && tile.isVisuallyWorking() ? 4 : super.getLightValue(blockState, world, blockPos);
     }
 
