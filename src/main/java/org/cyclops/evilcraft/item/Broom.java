@@ -45,7 +45,6 @@ import java.util.Set;
  */
 public class Broom extends ConfigurableDamageIndicatedItemFluidContainer {
 
-    @SideOnly(Side.CLIENT)
     protected static final ResourceLocation OVERLAY = new ResourceLocation(Reference.MOD_ID, "textures/gui/overlay.png");
 
     private static Broom _instance = null;
