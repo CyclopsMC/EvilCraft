@@ -353,6 +353,8 @@ public class BroomModifiers {
 
         REGISTRY.registerModifiersItem(ICY, 1F, new ItemStack(Blocks.ice, 1, 1));
         REGISTRY.registerModifiersItem(ICY, 5F, new ItemStack(Blocks.packed_ice, 1, 1));
+
+        EvilCraft.clog(String.format("%s Broom modifiers can be applied!", REGISTRY.getModifiers().size()));
     }
 
     @SubscribeEvent

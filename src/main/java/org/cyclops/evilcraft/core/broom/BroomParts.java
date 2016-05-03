@@ -343,6 +343,12 @@ public final class BroomParts {
                 BroomModifiers.STURDYNESS, 30F,
                 BroomModifiers.BOUNCY, 15F
         ));
+
+        int combinations =
+                  REGISTRY.getParts(IBroomPart.BroomPartType.ROD).size()
+                * REGISTRY.getParts(IBroomPart.BroomPartType.CAP).size()
+                * REGISTRY.getParts(IBroomPart.BroomPartType.BRUSH).size();
+        EvilCraft.clog(String.format("%s possible Broom base combinations are ready for flying!", combinations));
     }
 
     public static IBroomPart registerCapGemOredict(String name, int r, int g, int b) {
