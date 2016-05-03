@@ -105,13 +105,19 @@ public class BroomModifier {
     }
 
     public String getTooltipLine(String prefix, float value, float bonusValue) {
+        return getTooltipLine(prefix, value, bonusValue, true);
+    }
+
+    public String getTooltipLine(String prefix, float value, float bonusValue, boolean showMaxValue) {
         String suffix;
-        if(bonusValue > 0) {
+        if (bonusValue > 0) {
             suffix = String.format("%s: %s (+%s) / %s", L10NHelpers.localize(getUnlocalizedName()),
                     value, bonusValue, getMaxTierValue());
-        } else {
+        } else if (showMaxValue) {
             suffix = String.format("%s: %s / %s", L10NHelpers.localize(getUnlocalizedName()),
                     value, getMaxTierValue());
+        } else {
+            suffix = String.format("%s: %s", L10NHelpers.localize(getUnlocalizedName()), value);
         }
         return L10NHelpers.localize(prefix + getTooltipFormat() + suffix);
     }

@@ -50,6 +50,16 @@ public class BroomConfig extends ItemConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The blood usage in mB per block break.")
     public static int bloodUsageBlockBreak = 1;
+    /**
+     * Show broom part tooltips on source items.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "Show broom part tooltips on source items.")
+    public static boolean broomPartTooltips = true;
+    /**
+     * Show broom modifier tooltips on source items.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "Show broom modifier tooltips on source items.")
+    public static boolean broomModifierTooltips = false;
 
     /**
      * Make a new instance.

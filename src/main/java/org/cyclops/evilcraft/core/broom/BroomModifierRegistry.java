@@ -15,6 +15,7 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomModifierRegistry;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
+import org.cyclops.evilcraft.item.BroomConfig;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -153,15 +154,17 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
 
     @SubscribeEvent
     public void onTooltipEvent(ItemTooltipEvent event) {
-        Map<BroomModifier, Float> modifiers = getModifiersFromItem(event.itemStack);
-        if(modifiers != null) {
-            if(MinecraftHelpers.isShifted()) {
-                event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
-                for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
-                    event.toolTip.add("  " + L10NHelpers.localize(entry.getKey().getUnlocalizedName()) + ": " + entry.getValue());
+        if (BroomConfig.broomModifierTooltips) {
+            Map<BroomModifier, Float> modifiers = getModifiersFromItem(event.itemStack);
+            if (modifiers != null) {
+                if (MinecraftHelpers.isShifted()) {
+                    event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
+                    for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
+                        event.toolTip.add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
+                    }
+                } else {
+                    event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".shiftinfo"));
                 }
-            } else {
-                event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".shiftinfo"));
             }
         }
     }

@@ -22,6 +22,7 @@ import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.item.Broom;
+import org.cyclops.evilcraft.item.BroomConfig;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -188,17 +189,18 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @SubscribeEvent
     public void onTooltipEvent(ItemTooltipEvent event) {
-        IBroomPart part = getPartFromItem(event.itemStack);
-        if(part != null) {
-            if(MinecraftHelpers.isShifted()) {
-                event.toolTip.add(part.getTooltipLine(""));
-                event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
-                Map<BroomModifier, Float> modifiers = getBaseModifiersFromPart(part);
-                for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
-                    event.toolTip.add("  " + L10NHelpers.localize(entry.getKey().getUnlocalizedName()) + ": " + entry.getValue());
+        if (BroomConfig.broomPartTooltips) {
+            IBroomPart part = getPartFromItem(event.itemStack);
+            if (part != null) {
+                if (MinecraftHelpers.isShifted()) {
+                    event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
+                    Map<BroomModifier, Float> modifiers = getBaseModifiersFromPart(part);
+                    for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
+                        event.toolTip.add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
+                    }
+                } else {
+                    event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".shiftinfo"));
                 }
-            } else {
-                event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".shiftinfo"));
             }
         }
     }
