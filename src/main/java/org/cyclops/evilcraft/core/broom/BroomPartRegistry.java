@@ -21,7 +21,6 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
-import org.cyclops.evilcraft.item.Broom;
 import org.cyclops.evilcraft.item.BroomConfig;
 
 import javax.annotation.Nullable;
@@ -152,26 +151,27 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public Collection<IBroomPart> getBroomParts(ItemStack broomStack) {
-        if(broomStack != null && broomStack.hasTagCompound()) {
+        if(broomStack != null) {
             List<IBroomPart> parts = Lists.newArrayList();
-            NBTTagList tags = broomStack.getTagCompound().getTagList(NBT_TAG_NAME, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal());
-            for(int i = 0; i < tags.tagCount(); i++) {
-                String id = tags.getStringTagAt(i);
-                IBroomPart part = getPart(new ResourceLocation(id));
-                if(part == null) {
-                    // TODO: fallback to default
-                } else {
-                    parts.add(part);
+            if(broomStack.hasTagCompound()) {
+                NBTTagList tags = broomStack.getTagCompound().getTagList(NBT_TAG_NAME, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal());
+                for (int i = 0; i < tags.tagCount(); i++) {
+                    String id = tags.getStringTagAt(i);
+                    IBroomPart part = getPart(new ResourceLocation(id));
+                    if (part == null) {
+                        // TODO: fallback to default
+                    } else {
+                        parts.add(part);
+                    }
                 }
             }
+
+            if(parts.isEmpty()) {
+                return Lists.newArrayList(BroomParts.BRUSH_WHEAT, BroomParts.CAP_GEM_DARK, BroomParts.ROD_WOOD);
+            }
+
             return parts;
         }
-
-        // Backwards compatibility: the "old" broom
-        if(broomStack != null && broomStack.getItem() == Broom.getInstance() && !broomStack.hasTagCompound()) {
-            return Lists.newArrayList(BroomParts.BRUSH_WHEAT, BroomParts.CAP_GEM_DARK, BroomParts.ROD_WOOD);
-        }
-
         return Collections.emptyList();
     }
 
