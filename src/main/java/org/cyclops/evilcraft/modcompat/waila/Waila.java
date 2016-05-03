@@ -7,6 +7,7 @@ import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.*;
+import org.cyclops.evilcraft.entity.item.EntityBroom;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
 
 /**
@@ -25,6 +26,7 @@ public class Waila {
         registrar.addConfig(Reference.MOD_NAME, getInnerBlockConfigID(), L10NHelpers.localize("gui.waila.innerBlocksConfig"));
         registrar.addConfig(Reference.MOD_NAME, getBoxOfEternalClosureConfigID(), L10NHelpers.localize("gui.waila.boxOfEternalClosureConfig"));
         registrar.addConfig(Reference.MOD_NAME, getBlockInfoConfigID(), L10NHelpers.localize("gui.waila.blockInfoConfig"));
+        registrar.addConfig(Reference.MOD_NAME, getBroomInfoConfigID(), L10NHelpers.localize("gui.waila.broomInfoConfig"));
         
         // Tanks
         registrar.registerBodyProvider(new TankDataProvider(), TankInventoryTileEntity.class);
@@ -44,6 +46,9 @@ public class Waila {
 
         // Generic blockState info
         registrar.registerBodyProvider(new GenericBlockInfoDataProvider(), IConfigurable.class);
+
+        // Broom info
+        registrar.registerBodyProvider(new BroomInfoDataProvider(), EntityBroom.class);
     }
     
     /**
@@ -76,6 +81,14 @@ public class Waila {
      */
     public static String getBlockInfoConfigID() {
         return Reference.MOD_NAME + ".genericBlockInfo";
+    }
+
+    /**
+     * Config ID.
+     * @return The config ID.
+     */
+    public static String getBroomInfoConfigID() {
+        return Reference.MOD_NAME + ".broomInfo";
     }
     
 }

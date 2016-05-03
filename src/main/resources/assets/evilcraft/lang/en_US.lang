@@ -299,6 +299,7 @@ gui.waila.tankConfig=Tank contents
 gui.waila.innerBlocksConfig=Actual inner blocks
 gui.waila.boxOfEternalClosureConfig=Box of Eternal Closure contents
 gui.waila.blockInfoConfig=Shift-info for blocks
+gui.waila.broomInfoConfig=Broom info
 gui.nei.fluids=Fluids
 
 # Broom parts
