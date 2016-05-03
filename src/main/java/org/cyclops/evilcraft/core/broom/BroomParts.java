@@ -128,12 +128,12 @@ public final class BroomParts {
                 new ResourceLocation(Reference.MOD_ID, "cap_bare"),
                 IBroomPart.BroomPartType.CAP, 0.0625F));
 
-        CAP_GEM_DARK = registerCapGemOredict("dark", 5, 5, 5);
+        CAP_GEM_DARK = registerCapGemOredict("dark", 55, 55, 55);
         CAP_GEM_DIAMOND = registerCapGemOredict("diamond", 105, 223, 218);
         CAP_GEM_EMERALD = registerCapGemOredict("emerald", 66, 216, 109);
         CAP_GEM_QUARTZ = registerCapGemOredict("quartz", 237, 235, 228);
         CAP_GEM_LAPIS = registerCapGemOredict("lapis", 38, 79, 162);
-        CAP_GEM_DARKPOWER = registerCapGemOredict("darkPower", 92, 29, 29);
+        CAP_GEM_DARKPOWER = registerCapGemOredict("darkPower", 112, 59, 59);
 
         CAP_HEAD_SKELETON = registerCapHead("skeleton");
         CAP_HEAD_WITHERSKELETON = registerCapHead("witherskeleton");

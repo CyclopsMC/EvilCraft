@@ -348,7 +348,7 @@ broom.parts.evilcraft.cap_slime.name=Slime Cap
 
 # Broom part types
 broom.parts.evilcraft.type.name=Type: %s
-broom.parts.evilcraft.types.name=Types:
+broom.parts.evilcraft.types.name=Parts:
 broom.parts.evilcraft.type.rod.name=Rod
 broom.parts.evilcraft.type.brush.name=Brush
 broom.parts.evilcraft.type.cap.name=Cap
