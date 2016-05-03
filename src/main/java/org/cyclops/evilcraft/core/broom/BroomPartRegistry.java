@@ -34,7 +34,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     private static final String NBT_TAG_NAME = "broom_parts_tag";
 
-    private final Map<ResourceLocation, IBroomPart> parts = Maps.newHashMap();
+    private final Map<ResourceLocation, IBroomPart> parts = Maps.newLinkedHashMap();
     private final Multimap<IBroomPart, ItemStack> partItems = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Multimap<IBroomPart.BroomPartType, IBroomPart> partsByType = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Map<IBroomPart, Map<BroomModifier, Float>> baseModifiers = Maps.newHashMap();

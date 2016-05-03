@@ -33,7 +33,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     private static final String NBT_TAG_KEY = "id";
     private static final String NBT_TAG_VALUE = "value";
 
-    private final Map<ResourceLocation, BroomModifier> broomModifiers = Maps.newHashMap();
+    private final Map<ResourceLocation, BroomModifier> broomModifiers = Maps.newLinkedHashMap();
     private final Map<BroomModifier, IBroomPart> broomModifierParts = Maps.newHashMap();
     private final Map<ItemStack, Map<BroomModifier, Float>> broomItems = Maps.newHashMap();
 
