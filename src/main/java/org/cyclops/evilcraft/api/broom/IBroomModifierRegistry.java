@@ -52,9 +52,16 @@ public interface IBroomModifierRegistry extends IRegistry {
     /**
      * Get the modifier of the given item-form.
      * @param item The item containing modifiers.
-     * @return The modifier or null.
+     * @return The modifiers map.
      */
     public Map<BroomModifier, Float> getModifiersFromItem(ItemStack item);
+
+    /**
+     * Get the item of a modifier
+     * @param modifier The modifier.
+     * @return The itemstacks map.
+     */
+    public Map<ItemStack, Float> getItemsFromModifier(BroomModifier modifier);
 
     /**
      * @return All modifiers.

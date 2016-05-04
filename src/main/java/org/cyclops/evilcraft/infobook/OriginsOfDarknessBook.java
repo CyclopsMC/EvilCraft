@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.infobook;
 
+import com.google.common.collect.Maps;
 import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoBook;
@@ -10,6 +11,8 @@ import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.api.broom.BroomModifier;
+import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.block.BloodInfuser;
 import org.cyclops.evilcraft.block.BloodInfuserConfig;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
@@ -20,10 +23,12 @@ import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipePr
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.infobook.pageelement.BloodInfuserRecipeAppendix;
+import org.cyclops.evilcraft.infobook.pageelement.BroomModifierRecipeAppendix;
 import org.cyclops.evilcraft.infobook.pageelement.EnvironmentalAccumulatorRecipeAppendix;
 import org.w3c.dom.Element;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Infobook class for the Origins of Darkness.
@@ -39,7 +44,7 @@ public class OriginsOfDarknessBook extends InfoBook {
 
                 @Override
                 public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
-                    ItemStack itemStack = InfoBookParser.createStack(node);
+                    ItemStack itemStack = InfoBookParser.createStack(node, infoBook.getMod().getRecipeHandler());
                     List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>
                             recipes = BloodInfuser.getInstance().getRecipeRegistry().
                             findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
@@ -59,7 +64,7 @@ public class OriginsOfDarknessBook extends InfoBook {
 
             @Override
             public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
-                ItemStack itemStack = InfoBookParser.createStack(node);
+                ItemStack itemStack = InfoBookParser.createStack(node, infoBook.getMod().getRecipeHandler());
                 List<IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>>
                         recipes = EnvironmentalAccumulator.getInstance().getRecipeRegistry().
                         findRecipesByOutput(new EnvironmentalAccumulatorRecipeComponent(itemStack, WeatherType.ANY));
@@ -97,6 +102,34 @@ public class OriginsOfDarknessBook extends InfoBook {
             });
         } else {
             InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":envirAccRecipe");
+        }
+
+        if(Configs.isEnabled(BloodInfuserConfig.class)) {
+            InfoBookParser.registerFactory(Reference.MOD_ID + ":broomModifier", new InfoBookParser.IAppendixFactory() {
+
+                @Override
+                public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
+                    String id = node.getTextContent();
+                    Map<ItemStack, Float> values = Maps.newHashMap();
+                    BroomModifier finalModifier = null;
+                    for (BroomModifier modifier : BroomModifiers.REGISTRY.getModifiers()) {
+                        if (modifier.getId().toString().equals(id)) {
+                            finalModifier = modifier;
+                            values.putAll(BroomModifiers.REGISTRY.getItemsFromModifier(modifier));
+                        }
+                    }
+                    if (finalModifier == null) {
+                        throw new InfoBookParser.InvalidAppendixException("Could not find the broom modifier " + id);
+                    }
+                    if (values.isEmpty()) {
+                        throw new InfoBookParser.InvalidAppendixException("The broom modifier " + id + " has no valid items");
+                    }
+                    return new BroomModifierRecipeAppendix(infoBook, finalModifier, values);
+                }
+
+            });
+        } else {
+            InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":broomModifier");
         }
     }
 

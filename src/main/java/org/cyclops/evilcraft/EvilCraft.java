@@ -182,10 +182,6 @@ public class EvilCraft extends ModBaseVersionable {
         
         // Register achievements
         Achievements.registerAchievements();
-
-        // Initialize info book
-        getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
-                OriginsOfDarknessBook.getInstance(), "/assets/" + Reference.MOD_ID + "/info/book.xml");
     }
     
     /**
@@ -199,6 +195,10 @@ public class EvilCraft extends ModBaseVersionable {
 
         BroomParts.loadPost();
         BroomModifiers.loadPost();
+
+        // Initialize info book
+        getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
+                OriginsOfDarknessBook.getInstance(), "/assets/" + Reference.MOD_ID + "/info/book.xml");
     }
     
     /**

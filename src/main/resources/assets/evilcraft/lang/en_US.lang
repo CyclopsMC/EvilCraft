@@ -355,6 +355,7 @@ broom.parts.evilcraft.type.cap.name=Cap
 
 # Broom modifiers
 broom.modifiers.evilcraft.shiftinfo=<Shift for broom info>
+broom.modifiers.evilcraft.type.name=Modifier
 broom.modifiers.evilcraft.types.name=Modifiers:
 broom.modifiers.evilcraft.types.nameparam=Modifiers (%s/%s):
 broom.modifiers.evilcraft.type.modifier_count.name=Max Modifiers
@@ -431,9 +432,6 @@ infoBook.evilcraft.firstAge.newWorld.netherFish.text=Once upon a time while I wa
 
 # - Relics -
 infoBook.evilcraft.firstAge.relics=Relics
-
-infoBook.evilcraft.firstAge.relics.broom=Broom
-infoBook.evilcraft.firstAge.relics.broom.text=It looks like some dungeons and unordinary villagers seem to rarely contain a &1Broom&0. At first, it looks like a regular broom to clean your floor with, but when handling it in a certain way, it seems to float. After practicing with it for a while, I was able to control it enough to be able to fly in any direction I wanted while sitting on it.
 
 infoBook.evilcraft.firstAge.relics.humanoidFlesh=Humanoid Flesh
 infoBook.evilcraft.firstAge.relics.humanoidFlesh.text=You might never have noticed before, but when players die they seem to drop a part of their flesh. Eating it seems to be dangerous, maybe eating it at night-time might be more safe. I wouldn’t recommend eating your own flesh though, that’s just nasty, try eating one of your friends instead!
@@ -563,6 +561,39 @@ infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text
 
 # - Tools -
 infoBook.evilcraft.secondAge.tools=Tools
+
+infoBook.evilcraft.secondAge.tools.broom=Broom
+
+infoBook.evilcraft.secondAge.tools.broom.introduction=Broom Basics
+infoBook.evilcraft.secondAge.tools.broom.introduction.text1=&1Brooms&0 are typically used to clean the floor. I noticed however, that by creating them using &1Crushed Dark Gems&0 and &1Dark Sticks&0, and infusing them with a constant stream of &4Blood&0, they seem to gain some very interesting qualities. When handling a &1Broom&0 in a certain way, it seems to float. After practicing with it for a while, I was able to control it enough to be able to fly in any direction I wanted while sitting on it.
+infoBook.evilcraft.secondAge.tools.broom.introduction.text2=&1Brooms&0 are made of three main parts. The &1Rod&0 is the basis of your broom, this will influence its main properties. A &1Brush&0 is needed to make the Broom maneuvarable. Finally, a &1Cap&0 is needed to balance your &1Broom&0.
+infoBook.evilcraft.secondAge.tools.broom.introduction.text3=All possible &1Broom&0 parts must be created using the &1Bare Rod, Brush&0 and &1Cap&0. Parts made from different materials seem to have different properties. All possible properties will be explain in the following section, after that I will give an overview of all &1Broom&0 parts.
+infoBook.evilcraft.secondAge.tools.broom.introduction.text4=When flying with the &1Broom&0, make sure that it has enough &4Blood&0 at all times, otherwise the &1Broom&0 will slow down significantly.
+
+infoBook.evilcraft.secondAge.tools.broom.modifiers=Broom Modifiers
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.intro=In this section, I will list all modifier effects I have discovered.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.modifier_count=&l&nModifier Count&r&NThe maximum amount of modifiers a &1Broom&0 can have.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.speed=&l&nSpeed&r&NThe top speed of a &1Broom&0.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.acceleration=&l&nAcceleration&r&NThe higher this value, the faster the &1Broom&0 will accelerate.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.maneuverability=&l&nManeuverability&r&NHow fast a &1Broom&0 can rotate.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.levitation=&l&nLevitation&r&NThe higher this value, the higher the &1Broom&0 can fly before slowing down.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.damage=&l&nDamage&r&NThe damage that will be afflicted onto colliding mobs. The faster the &1Broom&0 is flying, the higher this damage will be.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.particles=&l&nParticles&r&NHow much particles should be emitted from the &1Broom&0 when flying.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.flame=&l&nFlame&r&NAny colliding entity will be lit on fire.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.smash=&l&nSmash&r&NThis is used to enable the &1Broom&0 to break blocks when flying. Higher values can break harder blocks.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.bouncy=&l&nBouncy&r&NColliding entities will be bounced away, depending on this modifier value.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.witherer=&l&nWitherer&r&NThe wither effect will be applied to colliding entities.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.hungerer=&l&nHungerer&r&NColliding entities will experience sudden hunger.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.kamikaze=&l&nKamikaze&r&NWhen colliding with an entity the &1Broom&0 will explode. It is very unlikely that a mounted player would survive something like this.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.withershield=&l&nWither Shield&r&NThe higher the modifier value, the larger the chance that the mounted player will be protected from incoming projectiles.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.sturdyness=&l&nThoughness&r&NHigher modifier values will make the &1Broom&0 less influencable by external factors during movement.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.luck=&l&nLuck&r&NThis ability makes the mounted player more lucky when killing mobs and breaking blocks.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.efficiency=&l&nEfficiency&r&NA higher modifier value will result in a higher chance that nood &4Blood&0 needs to be consumed.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.swimming=&l&nSwimming&r&NThis makes the &1Broom&0 better maneuverable in liquids.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.icy=&l&nIcy&r&NSlows down colliding entities.
+
+infoBook.evilcraft.secondAge.tools.broom.parts=Broom Parts
+infoBook.evilcraft.secondAge.tools.broom.parts.text1=Various materials can be used to make broom parts. Their tooltip shows what base modifiers will be present on the resulting &1Broom&0 after fcrafting.
 
 infoBook.evilcraft.secondAge.tools.introduction=Introduction
 infoBook.evilcraft.secondAge.tools.introduction.text=Items that use &4Blood&0 mostly have an internal container that can hold some &4Blood&0 which can be filled using the &1Blood Infuser&0 or by activating auto-supply mode on other tools and holding the item to fill in your hand. When using these items, it will drain some &4Blood&0. When that item has ran out of &4Blood&0, it will try to drain &4Blood&0 from other containers in your inventory, or it will stop functioning if no such item can be found.

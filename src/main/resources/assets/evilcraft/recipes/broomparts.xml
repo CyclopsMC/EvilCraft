@@ -4,6 +4,7 @@
 	<!-- Bare parts -->
 
 	<recipe type="shaped">
+		<tag>bare_broom_parts</tag>
 		<condition type="config">broom</condition>
 		<condition type="config">darkStick</condition>
 		<condition type="config">darkGemCrushed</condition>
@@ -32,6 +33,7 @@
 	</recipe>
 
 	<recipe type="shaped">
+		<tag>bare_broom_parts</tag>
 		<condition type="config">broom</condition>
 		<condition type="config">darkStick</condition>
 		<condition type="config">darkGemCrushed</condition>
@@ -60,6 +62,7 @@
 	</recipe>
 
 	<recipe type="shaped">
+		<tag>bare_broom_parts</tag>
 		<condition type="config">broom</condition>
 		<condition type="config">darkStick</condition>
 		<condition type="config">darkGemCrushed</condition>
@@ -80,6 +83,7 @@
 	<!-- Rods -->
 
 	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item type="oredict">plankWood</item>
@@ -92,6 +96,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item type="oredict">stone</item>
@@ -104,6 +109,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:bone</item>
@@ -116,6 +122,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:blaze_rod</item>
@@ -128,6 +135,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:reeds</item>
@@ -140,6 +148,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:netherrack</item>
@@ -152,6 +161,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:obsidian</item>
@@ -164,6 +174,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>evilcraft:undeadPlank</item>
@@ -176,6 +187,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:prismarine</item>
@@ -188,6 +200,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:ice</item>
@@ -202,6 +215,7 @@
 	<!-- Brushes -->
 
 	<recipe type="shapeless">
+		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:hay_block</item>
@@ -214,6 +228,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="*">minecraft:wool</item>
@@ -226,6 +241,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="*">minecraft:feather</item>
@@ -239,6 +255,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item type="oredict">treeLeaves</item>
@@ -250,9 +267,10 @@
 		</output>
 	</recipe>
 
-	<!-- Rods -->
+	<!-- Caps -->
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemDark</condition>
 		<input>
@@ -266,6 +284,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemDiamond</condition>
 		<input>
@@ -279,6 +298,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemEmerald</condition>
 		<input>
@@ -292,6 +312,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemQuartz</condition>
 		<input>
@@ -305,6 +326,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemLapis</condition>
 		<input>
@@ -318,6 +340,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemDarkPower</condition>
 		<input>
@@ -331,6 +354,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="0">minecraft:skull</item>
@@ -342,6 +366,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="1">minecraft:skull</item>
@@ -353,6 +378,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="2">minecraft:skull</item>
@@ -364,6 +390,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="3">minecraft:skull</item>
@@ -375,6 +402,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="4">minecraft:skull</item>
@@ -386,6 +414,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="1">minecraft:skull</item>
@@ -399,6 +428,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotIron</condition>
 		<input>
@@ -412,6 +442,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotGold</condition>
 		<input>
@@ -425,6 +456,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotThaumium</condition>
 		<input>
@@ -438,6 +470,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotCopper</condition>
 		<input>
@@ -451,6 +484,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotSilver</condition>
 		<input>
@@ -464,6 +498,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotAlubrass</condition>
 		<input>
@@ -477,6 +512,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotArdite</condition>
 		<input>
@@ -490,6 +526,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotCobalt</condition>
 		<input>
@@ -503,6 +540,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotManyullyn</condition>
 		<input>
@@ -516,6 +554,7 @@
 	</recipe>
 
 	<recipe type="shapeless">
+		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">slimeball</condition>
 		<input>

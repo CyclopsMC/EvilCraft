@@ -75,10 +75,6 @@
             </section>
         </section>
         <section name="infoBook.evilcraft.firstAge.relics">
-            <section name="infoBook.evilcraft.firstAge.relics.broom">
-                <tag>broom</tag>
-                <paragraph>infoBook.evilcraft.firstAge.relics.broom.text</paragraph>
-            </section>
             <section name="infoBook.evilcraft.firstAge.relics.humanoidFlesh">
                 <paragraph>infoBook.evilcraft.firstAge.relics.humanoidFlesh.text</paragraph>
             </section>
@@ -156,7 +152,7 @@
                 <paragraph>infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits.text1</paragraph>
                 <paragraph>infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits.text2</paragraph>
                 <appendix type="image" width="110" height="60">evilcraft:textures/gui/infobook/catchSpirits.png</appendix>
-                <appendix type="craftingRecipe">evilcraft:boxOfEternalClosure</appendix>
+                <appendix type="craftingRecipe" predefined="true">evilcraft:boxOfEternalClosureFilled</appendix>
                 <appendix type="craftingRecipe">evilcraft:vengeanceFocus</appendix>
             </section>
             <section name="infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection">
@@ -305,6 +301,63 @@
             <section name="infoBook.evilcraft.secondAge.tools.introduction">
                 <paragraph>infoBook.evilcraft.secondAge.tools.introduction.text</paragraph>
             </section>
+            <section name="infoBook.evilcraft.secondAge.tools.broom">
+                <section name="infoBook.evilcraft.secondAge.tools.broom.introduction">
+                    <tag>broom</tag>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.introduction.text1</paragraph>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.introduction.text2</paragraph>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.introduction.text3</paragraph>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.introduction.text4</paragraph>
+                    <appendixList type="craftingRecipe">bare_broom_parts</appendixList>
+                </section>
+                <section name="infoBook.evilcraft.secondAge.tools.broom.modifiers">
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.intro</paragraph>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.modifier_count</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:modifier_count</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.speed</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:speed</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.acceleration</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:acceleration</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.maneuverability</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:maneuverability</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.levitation</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:levitation</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.damage</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:damage</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.particles</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:particles</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.flame</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:flame</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.smash</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:smash</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.bouncy</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:bouncy</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.witherer</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:witherer</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.hungerer</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:hungerer</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.kamikaze</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:kamikaze</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.withershield</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:acceleration</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.sturdyness</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:sturdyness</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.luck</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:luck</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.efficiency</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:efficiency</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.swimming</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:swimming</appendix>
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.icy</paragraph>
+                    <appendix type="evilcraft:broomModifier">evilcraft:icy</appendix>
+                </section>
+                <section name="infoBook.evilcraft.secondAge.tools.broom.parts">
+                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.parts.text1</paragraph>
+                    <appendixList type="craftingRecipe">broom_part_rod</appendixList>
+                    <appendixList type="craftingRecipe">broom_part_brush</appendixList>
+                    <appendixList type="craftingRecipe">broom_part_cap</appendixList>
+                </section>
+            </section>
             <section name="infoBook.evilcraft.secondAge.tools.bloodPearlOfTeleportation">
                 <tag>bloodPearlOfTeleportation</tag>
                 <paragraph>infoBook.evilcraft.secondAge.tools.bloodPearlOfTeleportation.text</paragraph>
@@ -342,7 +395,7 @@
             <section name="infoBook.evilcraft.secondAge.tools.vengeancePickaxe">
                 <tag>vengeancePickaxe</tag>
                 <paragraph>infoBook.evilcraft.secondAge.tools.vengeancePickaxe.text</paragraph>
-                <appendix type="craftingRecipe">evilcraft:vengeancePickaxe</appendix>
+                <appendix type="craftingRecipe" predefined="true">evilcraft:vengeancePickaxeFortune</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.tools.gemstoneTorch">
                 <tag>gemStoneTorch</tag>
@@ -359,7 +412,7 @@
             <section name="infoBook.evilcraft.secondAge.weapons.veinSword">
                 <tag>veinSword</tag>
                 <paragraph>infoBook.evilcraft.secondAge.weapons.veinSword.text</paragraph>
-                <appendix type="craftingRecipe">evilcraft:veinSword</appendix>
+                <appendix type="craftingRecipe" predefined="true">evilcraft:veinSwordLooting</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.weapons.maceOfDistortion">
                 <tag>maceOfDistortion</tag>
