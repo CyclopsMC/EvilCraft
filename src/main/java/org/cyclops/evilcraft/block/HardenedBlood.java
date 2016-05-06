@@ -94,7 +94,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float coordX, float coordY, float coordZ) {
         if (heldItem != null && heldItem.getItem() == Items.flint_and_steel
-                && (player.capabilities.isCreativeMode || !player.getActiveItemStack().attemptDamageItem(1, world.rand))) {
+                && (player.capabilities.isCreativeMode || !heldItem.attemptDamageItem(1, world.rand))) {
             splitBlock(world, blockPos);
             return true;
         }
