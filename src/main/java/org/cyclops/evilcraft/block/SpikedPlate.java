@@ -89,12 +89,12 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 	@Override
 	protected int computeRedstoneStrength(World world, BlockPos blockPos) {
         AxisAlignedBB axisalignedbb = this.getBoundingBox(world.getBlockState(blockPos), world, blockPos);
-		List list = world.getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb);
+		List<EntityLivingBase> list = world.getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb.offset(blockPos));
 
         int ret = 0;
 
 		if(list != null && !list.isEmpty()) {
-            for(Entity entity : (List<Entity>) list) {
+            for(EntityLivingBase entity : list) {
                 if(!entity.doesEntityNotTriggerPressurePlate() && damageEntity(world, entity, blockPos)) {
                     ret = 15;
                 }
