@@ -114,7 +114,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
      * Replace this entity with the stored villager.
      */
     public void replaceWithVillager() {
-        if(Configs.isEnabled(WerewolfVillagerConfig.class)) {
+        if(Configs.isEnabled(WerewolfVillagerConfig.class) && false) { // TODO: re-enable when reimplementing werewolf villagers
             EntityVillager villager = new EntityVillager(this.worldObj, WerewolfVillagerConfig._instance.getId());
             replaceEntity(this, villager, this.worldObj);
             villager.readEntityFromNBT(villagerNBTTagCompound);
