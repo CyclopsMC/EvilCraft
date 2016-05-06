@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.5.5.
+
+Additions:
+* Restore TCon compat
+* Restore Blood Magic compat
+
+Fixes:
+* Correctly apply fluid colors during Dark Tank item and block rendering
