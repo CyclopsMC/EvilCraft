@@ -54,6 +54,7 @@ tile.blocks.evilcraft.spikedPlate.name=Spiked Plate
 tile.blocks.evilcraft.spikedPlate.info=Damages mobs, place on Pedestal to drain blood.
 tile.blocks.evilcraft.spiritReanimator.name=Spirit Reanimator
 tile.blocks.evilcraft.spiritReanimator.info=Revive Vengeance Spirits.
+tile.blocks.evilcraft.spiritReanimator.help.invalid=Unable to reanimate
 tile.blocks.evilcraft.spiritReanimator.help.invalid.noEntity=Invalid, empty or no box
 tile.blocks.evilcraft.spiritReanimator.help.invalid.invalidEntity=No spawn egg available for mob
 tile.blocks.evilcraft.spiritReanimator.help.invalid.differentEgg=Remove the different mob eggs
