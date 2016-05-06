@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraft.world.gen.feature.WorldGenDungeons;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.DungeonHooks;
@@ -49,9 +50,9 @@ public class EvilDungeonStructure extends WorldGenDungeons {
 
                 	// Skip invalid chunk generation positions.
                     // chunkExists does not exist in 1.9 anymore
-                	/*if(!world.getChunkProvider().chunkExists(xr / 16, yr / 16)) {
+                	if(!((ChunkProviderServer) world.getChunkProvider()).chunkExists(xr / 16, yr / 16)) {
                 		return false;
-                	}*/
+                	}
                 	
                     Material material = world.getBlockState(loopPos).getMaterial();
                     if (yr == y - 1 && !material.isSolid())
