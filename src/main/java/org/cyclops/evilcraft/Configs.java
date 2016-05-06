@@ -79,6 +79,7 @@ public class Configs {
         configs.add(new ColossalBloodChestConfig());
         configs.add(new ReinforcedUndeadPlankConfig());
         configs.add(new SanguinaryEnvironmentalAccumulatorConfig());
+        configs.add(new DisplayStandConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());

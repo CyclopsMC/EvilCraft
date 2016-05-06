@@ -1,6 +1,8 @@
 package org.cyclops.evilcraft;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
@@ -14,6 +16,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.recipe.event.IRecipeOutputObserver;
@@ -36,6 +40,7 @@ import org.cyclops.evilcraft.enchantment.EnchantmentPoisonTip;
 import org.cyclops.evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import org.cyclops.evilcraft.item.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -264,7 +269,36 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                         })
                 );
             }
+
+            // Display Stand crafting
+            if(Configs.isEnabled(DisplayStandConfig.class)) {
+                for (ItemStack plankWoodStack : OreDictionary.getOres("plankWood")) {
+                    int plankWoodMeta = plankWoodStack.getItemDamage();
+                    if (plankWoodMeta == OreDictionary.WILDCARD_VALUE) {
+                        List<ItemStack> plankWoodSubItems = Lists.newArrayList();
+                        plankWoodStack.getItem().getSubItems(plankWoodStack.getItem(), null, plankWoodSubItems);
+                        for (ItemStack plankWoodSubItem : plankWoodSubItems) {
+                            IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodSubItem);
+                            addDisplayStandRecipe(DisplayStand.getInstance()
+                                    .getTypedDisplayStandItem(plankWoodBlockState), plankWoodSubItem);
+                        }
+                    } else {
+                        IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodStack);
+                        addDisplayStandRecipe(DisplayStand.getInstance().
+                                getTypedDisplayStandItem(plankWoodBlockState), plankWoodStack);
+                    }
+                }
+            }
         }
+    }
+
+    protected void addDisplayStandRecipe(ItemStack result, ItemStack plankItemStack) {
+        getTaggedOutput().put("displayStands", result);
+        GameRegistry.addRecipe(new ShapedOreRecipe(result,
+                "SBS", "SPS", " P ",
+                'S', Reference.DICT_WOODSTICK,
+                'B', "slabWood",
+                'P', plankItemStack));
     }
 
 }

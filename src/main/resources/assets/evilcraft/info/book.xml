@@ -84,9 +84,9 @@
                 <paragraph>infoBook.evilcraft.firstAge.relics.enchantments.poisonTip.text</paragraph>
                 <paragraph>infoBook.evilcraft.firstAge.relics.enchantments.unusing.text</paragraph>
             </section>
-            <section name="infoBook.firstAge.relics.garmonbozia">
+            <section name="infoBook.evilcraft.firstAge.relics.garmonbozia">
                 <tag>garmonbozia</tag>
-                <paragraph>infoBook.firstAge.relics.garmonbozia.text</paragraph>
+                <paragraph>infoBook;evilcraft.firstAge.relics.garmonbozia.text</paragraph>
             </section>
         </section>
         <section name="infoBook.evilcraft.firstAge.items">
@@ -135,6 +135,11 @@
                 <appendix type="craftingRecipe" index="1">evilcraft:exaltedCrafter</appendix>
                 <appendix type="evilcraft:envirAccRecipe" index="0">evilcraft:exaltedCrafter</appendix>
                 <appendix type="evilcraft:envirAccRecipe" index="1">evilcraft:exaltedCrafter</appendix>
+            </section>
+            <section name="infoBook.evilcraft.firstAge.items.displayStand">
+                <tag>displayStand</tag>
+                <paragraph>infoBook.evilcraft.firstAge.items.displayStand.text</paragraph>
+                <appendixList type="craftingRecipe">displayStands</appendixList>
             </section>
         </section>
         <section name="infoBook.evilcraft.firstAge.vengeanceSpirits">
