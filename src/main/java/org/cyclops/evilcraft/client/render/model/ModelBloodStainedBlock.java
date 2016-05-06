@@ -26,21 +26,29 @@ import java.util.List;
 public class ModelBloodStainedBlock extends DelegatingChildDynamicItemAndBlockModel {
 
     private final TextureAtlasSprite overlayIcon;
+    private final IBlockState innerBlockState;
 
     public ModelBloodStainedBlock() {
         super(null);
         this.overlayIcon = null;
+        this.innerBlockState = null;
     }
 
     public ModelBloodStainedBlock(IBakedModel baseModel, TextureAtlasSprite overlayIcon, boolean item,
-                                  IBlockState blockState, EnumFacing facing, long rand) {
+                                  IBlockState blockState, EnumFacing facing, long rand, IBlockState innerBlockState) {
         super(baseModel, blockState, facing, rand);
         this.overlayIcon = overlayIcon;
+        this.innerBlockState = innerBlockState;
     }
 
     @Override
     public List<BakedQuad> getGeneralQuads() {
-        List<BakedQuad> quads = Lists.newArrayList(baseModel.getQuads(blockState, getRenderingSide(), rand));
+        List<BakedQuad> quads;
+        try {
+            quads = Lists.newArrayList(baseModel.getQuads(innerBlockState, getRenderingSide(), rand));
+        } catch (Exception e) {
+            quads = Lists.newArrayList(); // It's better to render a bit stranger, than to crash all together.
+        }
         if(facing == EnumFacing.UP || facing == null) {
             addBakedQuad(quads, 0, 1, 0, 1, 1.01F, overlayIcon, EnumFacing.UP);
         }
@@ -54,7 +62,7 @@ public class ModelBloodStainedBlock extends DelegatingChildDynamicItemAndBlockMo
         BlockPos pos = BlockHelpers.getSafeBlockStateProperty(extendedBlockState, BloodStainedBlock.POS, null);
         TextureAtlasSprite overlayIcon = getIcon(pos);
         IBakedModel baseModel = RenderHelpers.getBakedModel(blockState);
-        return new ModelBloodStainedBlock(baseModel, overlayIcon, false, state, facing, rand);
+        return new ModelBloodStainedBlock(baseModel, overlayIcon, false, state, facing, rand, blockState);
     }
 
     @Override
