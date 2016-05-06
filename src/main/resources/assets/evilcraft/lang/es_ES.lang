@@ -1,0 +1,597 @@
+# General
+itemGroup.evilcraft=EvilCraft
+general.evilcraft.info.empty=Vacio
+
+# Blocks
+tile.blocks.evilcraft.innerBlock.info=Block: %s
+tile.blocks.evilcraft.blockBlood.name=Sangre
+tile.blocks.evilcraft.blockPoison.name=Veneno
+tile.blocks.evilcraft.bloodChest.name=Cofre de sangre
+tile.blocks.evilcraft.bloodChest.info=Reparador de Items.
+tile.blocks.evilcraft.bloodInfuser.name=Infusor de sangre
+tile.blocks.evilcraft.darkOre.name=Mena oscura
+tile.blocks.evilcraft.darkOre.info.custom=Encontrado entre las capas %s y %s.
+tile.blocks.evilcraft.darkBlock.name=Bloque oscuro
+tile.blocks.evilcraft.bloodStainedBlock.name=Bloques manchados de sangre
+tile.blocks.evilcraft.bloodStainedBlock.info=Se crea cuando una entidad cae y muere.
+tile.blocks.evilcraft.lightningBomb.name=Bomba de rayos
+tile.blocks.evilcraft.bloodyCobblestone.name=Roca sangrienta
+tile.blocks.evilcraft.netherMonsterBlock.name=Huevo de monstruos del Nether
+tile.blocks.evilcraft.excrementPile.name=Pila de excremento
+tile.blocks.evilcraft.excrementPile.info=Formará animales.
+tile.blocks.evilcraft.hardenedBlood.name=Sangre endurecida
+tile.blocks.evilcraft.hardenedBlood.info=Sangre seca. Se vuelve liquida con la lluvia o al romperla.
+tile.blocks.evilcraft.obscuredGlass.name=Vidrio Oscuro
+tile.blocks.evilcraft.environmentalAccumulator.name=Acumulador ambiental
+tile.blocks.evilcraft.environmentalAccumulator.info=Encontrado en los templos oscuros, no crafteable.
+tile.blocks.evilcraft.undeadLeaves.name=Hojas no muertas
+tile.blocks.evilcraft.undeadLog.name=Tronco no muerto
+tile.blocks.evilcraft.undeadSapling.name=Brote no muerto
+tile.blocks.evilcraft.undeadSapling.info=Cae de los arboles no muertos.
+tile.blocks.evilcraft.undeadPlank.name=Madera no muerta
+tile.blocks.evilcraft.invisibleRedstoneBlock.name=Bloque de redstone invisible
+tile.blocks.evilcraft.purifier.name=Purificador
+tile.blocks.evilcraft.purifier.info=Desencantador
+tile.blocks.evilcraft.darkBrick.name=Ladrillo oscuro
+tile.blocks.evilcraft.darkBloodBrick.name=Ladrillo de sangre oscuro
+tile.blocks.evilcraft.spiritFurnace.name=Horno de espíritus
+tile.blocks.evilcraft.spiritFurnace.info=Cocine los espíritus vengativos para obtener sus dropeos.
+tile.blocks.evilcraft.spiritFurnace.help.invalid=No cocinable
+tile.blocks.evilcraft.spiritFurnace.help.invalid.noEntity=Caja vacia
+tile.blocks.evilcraft.spiritFurnace.help.invalid.contentSize=Tamaño del contenido: %s
+tile.blocks.evilcraft.spiritFurnace.help.invalid.requiredSize=Tamaño requerido: %s
+tile.blocks.evilcraft.spiritFurnace.help.invalid.forceHalt=No hay espacio para dropeos
+tile.blocks.evilcraft.spiritFurnace.help.invalid.caughtError=Espiritu de mob invalido. Contactar a los desarrolladores.
+tile.blocks.evilcraft.boxOfEternalClosure.name=Caja cerrada
+tile.blocks.evilcraft.boxOfEternalClosure.info.content=Contenido: %s
+tile.blocks.evilcraft.darkTank.name=Tanque oscuro
+tile.blocks.evilcraft.darkTank.info=Si pone dos en una mesa de crafteos este aumentará su capacidad. Shift + Right click para auto-suministrar.
+tile.blocks.evilcraft.darkTank.info.autoSupply=Llenado automático: %s
+tile.blocks.evilcraft.sanguinaryPedestal.name=Pedestal sanguinario
+tile.blocks.evilcraft.sanguinaryPedestal.info=Drena los bloques manchados de sangre del área.
+tile.blocks.evilcraft.sanguinaryPedestal.boost=Eficiencia I
+tile.blocks.evilcraft.spikedPlate.name=Placa de pinchos
+tile.blocks.evilcraft.spikedPlate.info=Daña mobs, póngalo en un pedestal sanguinario para drenar la sangre.
+tile.blocks.evilcraft.spiritReanimator.name=Reanimador de espíritus
+tile.blocks.evilcraft.spiritReanimator.info=Revive espíritus vengativos.
+tile.blocks.evilcraft.spiritReanimator.help.invalid.noEntity=Invalido, caja vacia o no hay caja
+tile.blocks.evilcraft.spiritReanimator.help.invalid.invalidEntity=Sin huevo disponible para este mob
+tile.blocks.evilcraft.spiritReanimator.help.invalid.differentEgg=Retire los huevos diferentes
+tile.blocks.evilcraft.entangledChalice.name=Cáliz encantado
+tile.blocks.evilcraft.entangledChalice.info=El contenido del cáliz es omnipresente.\nShift + botón derecho para omni-suministrar.
+tile.blocks.evilcraft.entangledChalice.info.autoSupply=Omni-supply: %s
+tile.blocks.evilcraft.darkPowerGemBlock.name=Bloque de gema de poder oscura
+tile.blocks.evilcraft.gemStoneTorch.name=Antorcha de gemas
+tile.blocks.evilcraft.gemStoneTorch.info=Evita que aparezcan espíritus vengativos en un radio de 15 bloques.
+tile.blocks.evilcraft.eternalWaterBlock.name=Bloque de agua eterna
+tile.blocks.evilcraft.eternalWaterBlock.info=Una fuente infinita de agua
+tile.blocks.evilcraft.bloodWaxedCoalBlock.name=Bloque de carbón de sangre
+tile.blocks.evilcraft.spiritPortal.name=Portal espiritual
+tile.blocks.evilcraft.reinforcedUndeadPlank.name=Madera reforzada no muerta
+tile.blocks.evilcraft.colossalBloodChest.name=Cofre de sangre colosal
+tile.blocks.evilcraft.colossalBloodChest.info=Un cofre de tamaño industrial para sangre.
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.name=Acumulador ambiental sanguinario.
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.info=Acumulador ambiental crafteable
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.help.invalid=Incapaz de trabajar
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.help.invalid.invalidLocations=Los tanques con sangre requieren:
+
+# Items
+item.items.evilcraft.werewolfBone.name=Hueso de hombre lobo
+item.items.evilcraft.werewolfFlesh.name=Carne de hombre lobo
+item.items.evilcraft.humanFlesh.name=Carne de humanoide
+item.items.evilcraft.lightningGrenade.name=Granada de rayos
+item.items.evilcraft.redstoneGrenade.name=Granada de redstone
+item.items.evilcraft.bucketBlood.name=Cubo con sangre
+item.items.evilcraft.bucketPoison.name=Cubo con veneno
+item.items.evilcraft.bloodExtractor.name=Extractor de sangre
+item.items.evilcraft.bloodExtractor.info=Manténgalo en el inventario cuando estas matando mobs.\nShift + botón derecho para extraer o activar el llenado automático.
+item.items.evilcraft.bloodExtractor.info.autoSupply=Llenado automático: %s
+item.items.evilcraft.darkGem.name=Gema negra
+item.items.evilcraft.darkStick.name=Palo negro
+item.items.evilcraft.weatherContainer.name=Contenedor de climas
+item.items.evilcraft.bloodPearlOfTeleportation.name=Perla de teletransporte
+item.items.evilcraft.broom.name=Escoba
+item.items.evilcraft.broom.info=¡Puedo volar!
+item.items.evilcraft.hardenedBloodShard.name=Fragmento de sangre endurecida
+item.items.evilcraft.hardenedBloodShard.info=Usar mechero en sangre endurecida.
+item.items.evilcraft.bloodInfusionCore.name=Núcleo de sangre infundido
+item.items.evilcraft.darkPowerGem.name=Gema de poder oscura
+item.items.evilcraft.darkPowerGem.info=Lanza una gema oscura en el medio de una piscina con al menos cinco bloques de sangre no endurecida. O infunde una gema oscura con sangre.
+item.items.evilcraft.bloodContainer.bloodCell.name=Células de sangre
+item.items.evilcraft.bloodContainer.bloodCan.name=Blood Can
+item.items.evilcraft.bloodContainer.bloodBasin.name=Blood Basin
+item.items.evilcraft.bloodContainer.creativeBloodContainer.name=Creative Blood Container
+item.items.evilcraft.bloodContainer.info=DEPRECATED! Place in crafting grid to convert to a Dark Tank.
+item.items.evilcraft.bloodContainer.info.autoSupply=Llenado automático: %s
+item.items.evilcraft.poisonSac.name=Saco de veneno
+item.items.evilcraft.werewolfFur.name=Cuero de hombre lobo
+item.items.evilcraft.blook.name=Libro de sangre
+item.items.evilcraft.blook.info=Puede absorber los encantamientos contenidos en el purificador.
+item.items.evilcraft.potentiaSphere.name=Esfera potencial
+item.items.evilcraft.potentiaSphere.info=Infundir con sangre para producir una perla de Ender.
+item.items.evilcraft.invertedPotentia.name=Potencia invertida
+item.items.evilcraft.invertedPotentia.info=Golpear con un rayo para potenciar.
+item.items.evilcraft.maceOfDistortion.name=Maza de la distorsión
+item.items.evilcraft.kineticator.name=Atractor
+item.items.evilcraft.kineticator.repelling.name=Repulsor
+item.items.evilcraft.kineticator.info=Shift + botón derecho para repeler.\nBotón, derecho para cambiar el area.
+item.items.evilcraft.kineticator.info.attraction=Atracción: %s
+item.items.evilcraft.kineticator.info.repelling.attraction=Repeler: %s
+item.items.evilcraft.kineticator.info.area=Area: %s
+item.items.evilcraft.vengeanceRing.name=Anillo de la venganza
+item.items.evilcraft.vengeanceRing.info=Podría atraer o invocar a los espíritus de la venganza. \ Shift + botón derecho para alternar.
+item.items.evilcraft.vengeanceRing.info.status=Estado: %s
+item.items.evilcraft.vengeanceFocus.name=Rayo de la venganza
+item.items.evilcraft.vengeanceFocus.info=Click en botón derecho para lanzar el rayo.
+item.items.evilcraft.vengeancePickaxe.name=Pico de la venganza
+item.items.evilcraft.vengeancePickaxe.info=Podría invocar a los espíritus de la venganza.
+item.items.evilcraft.burningGemStone.name=Piedra de gemas quemadas
+item.items.evilcraft.burningGemStone.info=Pasivamente convierte el daño de los espítus de la venganza en hambre.
+item.items.evilcraft.darkGemCrushed.name=Polvo de gema oscura
+item.items.evilcraft.veinSword.name=Espada Vena
+item.items.evilcraft.creativeBloodDrop.name=Gota de sangre creativo
+item.items.evilcraft.creativeBloodDrop.info=En modo creativo este elemento sirve para drenar y rellenar una cantidad infinita de sangre.
+item.items.evilcraft.creativeBloodDrop.info.autoSupply=Llenado automático: %s
+item.items.evilcraft.darkSpike.name=Aguja
+item.items.evilcraft.exaltedCrafter.name=Crafteador exaltado
+item.items.evilcraft.exaltedCrafter.wood.name=Crafteador exaltado de madera
+item.items.evilcraft.necromancerStaff.name=Vara del necromago
+item.items.evilcraft.necromancerStaff.info=Convoca hordas de zombies.
+item.items.evilcraft.invigoratingPendant.name=Pendiente vigorizante
+item.items.evilcraft.invigoratingPendant.info=Remueve los efectos negativos de las pociones.
+item.items.evilcraft.boundBloodDrop.name=Gota de sangre de ligadura
+item.items.evilcraft.boundBloodDrop.info=Haga clic derecho para enlazar con la red de almas magicas de sangre.
+item.items.evilcraft.boundBloodDrop.info.autoSupply=Llenado automático: %s
+item.items.evilcraft.boundBloodDrop.info.currentOwner=Propietario actual: %s
+item.items.evilcraft.boundBloodDrop.info.currentOwner.none=Ninguna
+item.items.evilcraft.resurgenceEgg.name=Huevo del resurgimiento
+item.items.evilcraft.resurgenceEgg.info.content=Contenido: %s
+item.items.evilcraft.corruptedTear.name=Lágrima corrupta
+item.items.evilcraft.promise.name=Promesa
+item.items.evilcraft.promise.useIn=Usable en:
+item.items.evilcraft.promise.tier1.name=Promesa de tenacidad I
+item.items.evilcraft.promise.tier1.info=Máquina para actualizar nivel, se puede utilizar para las recetas de nivel inferior. Capacidad del tanque x2.
+item.items.evilcraft.promise.tier2.name=Promesa de tenacidad II
+item.items.evilcraft.promise.tier2.info=Máquina para actualizar nivel, se puede utilizar para las recetas de nivel inferior. Capacidad del tanque x4.
+item.items.evilcraft.promise.tier3.name=Promesa de tenacidad III
+item.items.evilcraft.promise.tier3.info=Máquina para actualizar nivel, se puede utilizar para las recetas de nivel inferior. Capacidad del tanque x8.
+item.items.evilcraft.promise.speed0.name=Promesa de velocidad
+item.items.evilcraft.promise.speed0.info=Velocidad x2
+item.items.evilcraft.promise.efficiency0.name=Promesa de productividad
+item.items.evilcraft.promise.efficiency0.info=Eficiencia de la máquina de sangre x1.5
+item.items.evilcraft.bowlOfPromises.name=Tazón de promesas
+item.items.evilcraft.bowlOfPromises.active.name=Tazón de promesas
+item.items.evilcraft.bowlOfPromises.dusted.name=Tazón lleno de promesas vacias
+item.items.evilcraft.bowlOfPromises.empty.name=Tazón de promesas vacias
+item.items.evilcraft.bowlOfPromises.empty.info=No se usa en los crafteos de.
+item.items.evilcraft.bowlOfPromises.strength=Fuerza
+item.items.evilcraft.dullDust.name=Polvo opaco
+item.items.evilcraft.dullDust.info=Polvo muy aburrido ¿O es eso?
+item.items.evilcraft.bloodWaxedCoal.name=Carbón de sangre
+item.items.evilcraft.bloodWaxedCoal.info=Dos veces más eficiente.
+item.items.evilcraft.enderTear.name=Lágrima ender
+item.items.evilcraft.enderTear.info=Dropeo raro de los enderman.
+item.items.evilcraft.bloodPotash.name=Polvo de hueso sangriento
+item.items.evilcraft.bloodPotash.info=Dos veces más eficiente que el polvo de hueso.
+item.items.evilcraft.bucketEternalWater.name=Cubo de agua eterna
+item.items.evilcraft.bucketEternalWater.info=Una fuente infinita de agua.
+item.items.evilcraft.promiseAcceptor.name=Aceptador de promesas
+item.items.evilcraft.promiseAcceptor.0.name=Aceptador de promesas de hierro
+item.items.evilcraft.promiseAcceptor.1.name=Aceptador de promesas de oro
+item.items.evilcraft.promiseAcceptor.2.name=Aceptador de promesas de diamante
+item.items.evilcraft.sceptreOfThunder.name=Vara del trueno
+item.items.evilcraft.sceptreOfThunder.info=Lanza rayos cuando se activa, de uso único.
+item.items.evilcraft.bloodOrb.name=Orbe de sangre
+item.items.evilcraft.bloodOrb.empty.name=Orbe vacio
+item.items.evilcraft.bloodOrb.filled.name=Orbe de sangre
+item.items.evilcraft.originsOfDarkness.name=Orígenes de la oscuridad
+item.items.evilcraft.originsOfDarkness.info=Se obtiene alimentando un mob con una manzana oscura y luego rápidamente arrojando un libro a la anomalía resultante.
+item.items.evilcraft.darkenedApple.name=Manzana oscura
+item.items.evilcraft.darkenedApple.info=No comer esto, usarlo para alimentar algún animal.
+item.items.evilcraft.veinedScribingTools.name=Veined Scribing Tools
+item.items.evilcraft.bloodWandCap.name=Blood Cap
+item.Wand.blood.cap=Blood Banded
+item.items.evilcraft.effortlessRing.name=Anillo eficiente
+item.items.evilcraft.effortlessRing.info=Camina más rápido y más eficientemente.
+
+item.items.evilcraft.condensedBlood.name=Sangre condensada
+item.items.evilcraft.condensedBlood.info=Insertar en cualquier máquina para tener sangre extra.
+item.items.evilcraft.rejuvenatedFlesh.name=Carne rejuvenecida
+item.items.evilcraft.rejuvenatedFlesh.info=Una fuente infinita de comida
+item.items.evilcraft.primedPendant.name=Pendiente empapado
+item.items.evilcraft.primedPendant.info=Aplica el efecto de la pocion elegida.
+item.items.evilcraft.primedPendant.potion=§7Efecto: %s (%s)
+item.items.evilcraft.goldenString.name=Hilo de oro
+item.items.evilcraft.biomeExtract.name=Botella con biomas
+item.items.evilcraft.biomeExtract.empty.name=Botella extractora de biomas
+item.items.evilcraft.biomeExtract.info=Transforma cualquier lugar donde se lance en el bioma contenido en ella. Se craftea en el acumulador ambiental con el bioma deseado.
+item.items.evilcraft.biomeExtract.info.content=Contenido: %s
+item.items.evilcraft.environmentalAccumulationCore.name=Núcleo del acumulador ambiental
+item.items.evilcraft.environmentalAccumulationCore.info=Se obtiene rompiendo un acumulador ambiental.
+item.items.evilcraft.maceOfDestruction.name=Maza de la destrucción
+item.items.evilcraft.garmonbozia.name=Garmonbozia
+item.items.evilcraft.garmonbozia.info="Dolor y tristeza"
+item.items.evilcraft.poisonBottle.name=Botella de veneno
+
+item.evilcraft.powerable.setPower=Poder en %s
+item.evilcraft.powerable.info.power=Poder: %s
+item.evilcraft.powerable.info=Shift + Botón derecho para cambiar el nivel de poder.
+
+# Fluids
+fluid.fluids.evilcraft.evilcraftblood=Blood
+fluid.fluids.evilcraft.evilcraftpoison=Veneno
+
+# Weather container info
+weatherContainer.evilcraft.empty=Vacio
+weatherContainer.evilcraft.clear=Mi propio sol
+weatherContainer.evilcraft.rain=Cuando empiesa a llover
+weatherContainer.evilcraft.lightning=Tormenta de rayos
+
+# Controls
+key.categories.evilcraft=EvilCraft
+key.evilcraft.fart=Toggle Farting
+key.evilcraft.exaltedCrafting=Crafteador exaltado abierto
+
+# Entities
+entity.evilcraft.werewolf.name=Hombre lobo
+entity.evilcraft.poisonousLibelle.name=Libelle venenosa
+entity.evilcraft.netherfish.name=Pez del nether
+entity.evilcraft.vengeanceSpirit.name=Espíritu de la venganza
+entity.werewolf.name=Hombre lobo
+entity.poisonousLibelle.name=Libelle
+ venenosaentity.netherfish.name=Pez del nether
+entity.vengeanceSpirit.name=Espíritu de la venganza
+entity.controlledZombie.name=Zombie controlado
+
+# Enchantments
+enchantment.evilcraft.breaking=Roto
+enchantment.evilcraft.lifeStealing=Robo de vida
+enchantment.evilcraft.unusing=Inútil
+enchantment.evilcraft.poisonTip=Toque venenoso
+
+# Chat messages
+chat.evilcraft.command.fartingEnabled=Pedos abilitados
+chat.evilcraft.command.fartingDisabled=Pedos desabilitados
+chat.evilcraft.bossDisplay.charge=%s Carga
+
+# Death messages
+death.attack.evilcraft.dieWithoutAnyReason=%1$s ¡Muere sin razón aparente!
+death.attack.evilcraft.distorted=%1$s No podrás manejar esta cantidad de distorsión nuevamente.
+death.attack.evilcraft.spiked=%1$s Muerto por agujas.
+death.attack.evilcraft.paling=%1$s Desvanecido.
+
+# Biomes
+biomes.evilcraft.biomeDegraded=Degradado
+
+# Potion Effects
+potions.evilcraft.paling=Empalado
+potions.evilcraft.paling.postfix=Poción de empalamiento
+potion.potency.2=III
+potion.potency.3=IV
+potion.potency.4=V
+
+# Achievements
+achievement.evilcraft.evilSource=Una verdadera fuente del mal
+achievement.evilcraft.evilSource.desc=Obtener una copia del libro los orígenes de la oscuridad lanzando un libro a la anomalia resultante de haber alimentado un animal con la manzana oscura.
+achievement.evilcraft.fart=Aprender de los pedosachievement.evilcraft.fart.desc=Finalmente liberar todos los gases desagradables.
+achievement.evilcraft.firstAge=Primera era
+achievement.evilcraft.firstAge.desc=Descubre los orígenes de la primera era del mal minando algunas gemas oscuras.
+achievement.evilcraft.secondAge=Segunda era
+achievement.evilcraft.secondAge.desc=Inicia la segunda era del mal crafteando un extractor de sangre.
+achievement.evilcraft.masterDistorter=Maestro de la distorsión
+achievement.evilcraft.masterDistorter.desc=Distorsionar más de 10 mobs a la vez con la maza de la distorsión.
+achievement.evilcraft.spiritCooker=Mob cocinero
+achievement.evilcraft.spiritCooker.desc=Haz un horno de espíritus.
+achievement.evilcraft.closure=Cierre eterno
+achievement.evilcraft.closure.desc=Use el rayo de la venganza para capturar a los espíritus de la venganza.
+achievement.evilcraft.playerDistorter=Jugador distorsionado
+achievement.evilcraft.playerDistorter.desc=Distorsionar un jugador usando la maza de la distorsión.
+achievement.evilcraft.playerDevastator=Jugador devastado
+achievement.evilcraft.playerDevastator.desc=Atacar un jugador usando los zombis generados a partir de la vara del necromago.
+achievement.evilcraft.powerCrafting=Crafteo de energía
+achievement.evilcraft.powerCrafting.desc=Craftear un crafteador exaltado, craft-ception!
+achievement.evilcraft.cannibal=Caníbal
+achievement.evilcraft.cannibal.desc=Come un poco de carne de humanoide.
+
+# Gui
+gui.exaltedCrafting=Crafteador exaltado
+gui.waila.tankConfig=Contenido del tanque
+gui.waila.innerBlocksConfig=Bloques interiores actuales
+gui.waila.boxOfEternalClosureConfig=Contenido de la caja
+gui.waila.blockInfoConfig=Shift-Informacion para los bloques
+gui.nei.fluids=Fluidos
+
+# Subtitles
+subtitles.evilcraft.effect.vengeancebeam.base=Rayo de la venganza
+subtitles.evilcraft.effect.vengeancebeam.start=Iniciando el rayo de la venganza
+subtitles.evilcraft.effect.vengeancebeam.stop=Rayo de la venganza detenido
+subtitles.evilcraft.mob.vengeancespirit.ambient=Gruñido de los espíritus de la venganza
+subtitles.evilcraft.mob.vengeancespirit.death=Espíritu de la venganza muerto
+subtitles.evilcraft.effect.box.beam=Rayo a la caja cerrada eternamente
+subtitles.evilcraft.effect.page.flipsingle=Voltear página
+subtitles.evilcraft.effect.page.flipmultiple=Voltear página
+
+# ------ Contenido de los orígenes de la oscuridad ------
+infoBook.evilcraft.section.main=Orígenes de la oscuridad
+infoBook.evilcraft.tagIndex=&oIndice&r
+
+infoBook.evilcraft.preface=Prefacio
+infoBook.evilcraft.preface.text1=Al parecer, este mundo tiene más de lo que parece. Este libro contiene mis escritos sobre los conocimientos que he adquirido sobre a oscuridad. He descubierto la oscuridad en la vida de las criaturas de este mundo. “&o¿Que mal vendrá de esto?, me pregunte,“&oEL mal acecha en cada esquina&r”, oigo una oscura voz que me responde. He descubierto algunos secretos dentro de este vasto mundo de los aldeanos y los tontos zombis, algo que sus insignificantes mentes nunca comprenderán.
+infoBook.evilcraft.preface.text2=Existen muchos tipos de magia en este mundo, pero el tipo que se pueden lograr con &4Sangre&0 parece diferente. La gente comenzó a cortarse para obtener &4sangre&0, Yo prefiero usar mi fuerza para algunas otras cosas...
+
+infoBook.evilcraft.structure=&oEstructura&r
+infoBook.evilcraft.structure.text1=Este libro se divide en dos partes principales, una para cada una de las eras malvadas. Considerando que todo antes de mi venida a este mundo como la &1Primera Era&0, Y el trabajo que realice en la &1Segunda Era&0.
+infoBook.evilcraft.structure.text2=Puede navegar a través de este libro haciendo clic en las flechas de la parte inferior, el desplazamiento clic le dará la vuelta a través de secciones enteras en vez de páginas individuales. Al comienzo de grandes secciones verá una tabla de contenidos que va a contener hipervínculos a sus subsecciones para una navegación más rápida. Cuando te encuentras con los crafteos de los artículos que se explican en este libro, se puede hacer clic y te enviará a la sección en que se explican. También se darán cuenta de un botón en la parte superior izquierda de este libro, que le llevará a la sección anterior a la que se encuentra. El botón en la esquina superior derecha volverá a la página visitada anteriormente cada vez que se haga click en ella.
+
+# --- Primera Era ---
+infoBook.evilcraft.firstAge=Primera era
+
+# - Un mundo extraño -
+infoBook.evilcraft.firstAge.newWorld=Un mundo extraño
+infoBook.evilcraft.firstAge.newWorld.introduction=Introducción
+infoBook.evilcraft.firstAge.newWorld.introduction.text=He descubierto varias cosas extrañas últimamente. Todas ellas emiten un aura misteriosa, cuanto más tiempo estoy alrededor de estas cosas, más me siento acostumbrado a ellas... No todas estas cosas podrían ser útiles de inmediato, pero podría tener algunas ideas para usarlas para otras cosas en el futuro.
+
+infoBook.evilcraft.firstAge.newWorld.darkOre=Gema oscura
+infoBook.evilcraft.firstAge.newWorld.darkOre.text=Este mundo está lleno de todo tipo de recursos, eso ya lo saben muy bien... Pero hoy he descubierto un mineral que no parece de este mundo, con un brillo oscuro en él, me da la impresión que son piedras preciosas, noto la presencia de algo oscuro dentro de ellos. Minarlos con un pico de hierro parece ser el requisito mínimo para extraer las joyas. También aparece un extraño polvo desde ellos, estoy seguro que encontrare algún uso para este material muy pronto.
+
+infoBook.evilcraft.firstAge.newWorld.darkenedApple=Manzana oscura
+infoBook.evilcraft.firstAge.newWorld.darkenedApple.text=Como usted está leyendo este libro, es posible que ya haya llegado a este conocimiento. Combinando una &1Manzana&0 y una &1Gema oscura&0 Obtenemos una &1Manzana especial&0 que si se consume en grandes cantidades hace daño por un tiempo determinado. Si una entidad muere a causa del daño que le provoca esta &1Manzana&0 se formara una anomalía. Todavía tengo que descubrir algún uso para este fenómeno...
+
+infoBook.evilcraft.firstAge.newWorld.evilDungeon=Dungeon malvada
+infoBook.evilcraft.firstAge.newWorld.evilDungeon.text=Mientras cavaba, ocasionalmente me he encontrado con habitaciones oscuras y con &4sangre&0 por todo el piso. Esta &4sangre&0 probablemente sean los remanentes de anteriores batallas que los anteriores exploradores tuvieron con los habitantes de estas misteriosas habitaciones.
+
+infoBook.evilcraft.firstAge.newWorld.darkTemple=Templo oscuro
+infoBook.evilcraft.firstAge.newWorld.darkTemple.text1=Al parecer hay ciertas estructuras en el mundo que fueron construidas por una antigua civilización, que son capaces de infundir ciertos poderes ambientales en los artículos. Estos procesos perecen degradar el equilibrio del medio ambiente mientras más se utilizan. Esta es tal vez la razón principal del porque esta civilización ya no está con nosotros.
+infoBook.evilcraft.firstAge.newWorld.darkTemple.text2=Usando una &1Gema oscura&0 y una &1Botella de vidrio&0 se puede crear una botella que es capaz de contener el clima en su interior. Al lanzar un &1Contenedor de climas&0 sobre el acumulador ambiental de un templo oscuro esta se llenará con el clima que tengas en ese momento.
+infoBook.evilcraft.firstAge.newWorld.darkTemple.text3=También he descubierto que ciertos artículos pueden ser habilitados usando las propiedades de las tormentas eléctricas. Estos elementos también se pueden hacer mejores si son alcanzados directamente por un rayo, pero parece poco probable saber donde golpeara uno, ¿o no es así...?
+infoBook.evilcraft.firstAge.newWorld.darkTemple.text4=Estos templos parecen emitir algún tipo de energía, tal vez pueda encontrar alguna manera de detectarla y descubrir nuevos templos en el futuro
+
+infoBook.evilcraft.firstAge.newWorld.weatherContainerBenefits=Contenedores de clima.
+infoBook.evilcraft.firstAge.newWorld.weatherContainerBenefits.text=El clima contenido en las botellas puede ser activado cuando estas son arrojadas. Pero en lugar de romperlas, pueden ser utilizadas para elaborar varios artículos bastante interesantes.
+
+infoBook.evilcraft.firstAge.newWorld.biomeExtract=Extractor de biomas
+infoBook.evilcraft.firstAge.newWorld.biomeExtract.text1=Este mundo se compone de muchos &1biomas&0, desafortunadamente no podemos elegir la ubicación de éstos, o al menos no siempre.
+infoBook.evilcraft.firstAge.newWorld.biomeExtract.text2=Una de las habilidades del &1Acumulador ambiental&0 es que puede aceptar las llamadas &1Botellas extractora de biomas&0, y estas se pueden llenar con los &1Biomas&0 del lugar donde este la máquina. Estas botellas pueden ser arrojadas en el suelo para cambiar el &1bioma&0 de la zona por el que está contenido en la botella.
+infoBook.evilcraft.firstAge.newWorld.biomeExtract.text3=La mayor desventaja del &1acumulador ambiental&0 es que degrada el &1bioma&0 donde se encuentra con el paso del tiempo, por esto las botellas que salen de él, son cada vez mas inútiles. Si tan solo existiera una alternativa para crear un &1extractor de biomas&0 sin efectos adversos...
+
+infoBook.evilcraft.firstAge.newWorld.libelle=Libelle Venenosa
+infoBook.evilcraft.firstAge.newWorld.libelle.text=Parece que hay una nueva criatura en este mundo. Esta criatura parece ser un tipo bastante grande de libélula. Durante el día se comporta como una criatura tranquila, pero no te dejes engañar, porque si te acercas mucho a esta criatura esta tratará de envenenarte como si fuera parte de su defensa personal. Por la noche esta se transforma en una bestia poseída por un antiguo mal y matará todo lo que cruce en su camino. Me las arreglé para matar un buen número de estas molestas criaturas y obtuve algunos sacos de veneno de sus cuerpos. Los he tirado a &1cubos con agua&0 y estos absorben el veneno especialmente si le arrojo 4 de ellas. Lo he hecho con &1patatas venenosas&0 y he obtenido el mismo resultado. Puede ser útil en caso de querer defender mi casa o de algún apuro. Le puse un nombre en holandes, para no confundirme con las libélulas ordinarias, por razones obvias.
+
+infoBook.evilcraft.firstAge.newWorld.werewolf=Hombre lobo
+infoBook.evilcraft.firstAge.newWorld.werewolf.text=Mientras estaba explorando este mundo, he encontrado restos de muchos pueblos. En uno de los pueblos que visité encontré un tipo de aspecto extraño en el. Cuando traté de hacer negocios con él me di cuenta que no se veía muy interesado en esmeraldas como las demás personas del pueblo. De hecho él comenzó a hacer más y más preguntas sobre el material oscuro que había encontrado, hablamos muchas horas. Él tenía muchas ganas de conseguir el material oscuro y otras muchas cosas que había descubierto. Cuando había caído la noche, me llevó a su casa en el pueblo y me dijo que era más que bienvenido a pasar la noche en su habitación de invitados. Le dije que ya había alquilado una habitación en la posada local, y le di las gracias por su amabilidad. Cuando llegue a la cama de la posada di una mirada a la luna antes de dormir y noté que había una bella luna llena. Al cerrar los ojos, de repente, oí un grito angustiado y después un gruñido parecido al de un lobo. Todo el pueblo estaba mirando por sus ventanas y vimos a un enorme lobo, caminando sobre sus patas traseras. El miedo reinó en todo el pueblo, pero yo, sin temor, empuñe mi espada y le di una buena paliza. Era una criatura muy fuerte, su pelaje hará un bonito recuerdo de esta gran pelea... Cuando me desperté en la mañana fui a ver a mi amigo de negocios de la jornada anterior, pero, al llegar me contaron que mi amigo el comerciante había desaparecido. Habían marcas de garras por toda la casa pero no había rastros de &4Sangre&0 en el piso, todavía me pregunto si el extraño lobo se lo comió... O tal vez él era esta criatura grotesca, como dicen los demás aldeanos... Al parecer puedo convertir sus dropeos en items regulares poniéndolos dentro de una &1Mesa de trabajo&0.
+
+infoBook.evilcraft.firstAge.newWorld.netherFish=Pez del nether
+infoBook.evilcraft.firstAge.newWorld.netherFish.text=Un día cuando estaba paseando por el &1nether&0 descubrí un bloque de &1netherrack&0 que era un poco mas difícil de romper. Me lleve una desagradable sorpresa cuando, al terminar de romperlo, apareció una extraña criatura que comenzó a atacarme. Me ataco con fuego y me hizo algunos rasguños, por suerte yo fui capaz de matarla sin muchos problemas.
+
+# - Reliquias -
+infoBook.evilcraft.firstAge.relics=Reliquias
+
+infoBook.evilcraft.firstAge.relics.broom=Escoba
+infoBook.evilcraft.firstAge.relics.broom.text=En mis viajes he encontrado en algunas dungeon y con aldeanos comunes una rara &1escoba&0. A primera vista se ve como una escoba ordinaria, pero al manipularla esta parece flotar. Después de practicar con ella un rato, ya era capaz de volar en cualquier dirección mientras estaba sentado en ella.
+
+infoBook.evilcraft.firstAge.relics.humanoidFlesh=Carne de humanoide
+infoBook.evilcraft.firstAge.relics.humanoidFlesh.text=Nunca lo había notado antes, pero cuando muere algún jugador su carne parece caer de su cuerpo muerto. Comer esto parece peligroso, tal vez comerla por la noche pueda ser más seguro. No recomendaría comer nuestra propia carne, pero comprobé que esto es solo desagradable, En su lugar lo mejor es tratar de comerte a alguno de tus ¡amigos!
+
+infoBook.evilcraft.firstAge.relics.enchantments=Encantamientos
+infoBook.evilcraft.firstAge.relics.enchantments.breaking.text=&l&nRompible&r&NEste encantamiento parase tener tres niveles, y además parece ser todo lo contrario del encantamiento &1irrompibilidad&0. ¿Esto no parece ser muy útil verdad?. Tal vez debería encontrar una forma de retirar este molesto encantamiento de mis herramientas.
+infoBook.evilcraft.firstAge.relics.enchantments.lifeStealing.text=&l&nRobo de vida&r&NLos tres niveles de este encantamiento son para armas de ataque, me permite robar la vida de los seres a los que golpeo con el arma.
+infoBook.evilcraft.firstAge.relics.enchantments.poisonTip.text=&l&nToque venenoso&r&NCuando se aplica este encantamiento a sus armas, cada ataque que realice envenenara a sus víctimas. Este encantamiento tiene tres etapas. Parece que podemos obtener una versión básica de este encantamiento si adicionamos material venenoso a un libro normal.
+infoBook.evilcraft.firstAge.relics.enchantments.unusing.text=&l&nInutilg&r&NMe estaba cansando de que mis herramientas favoritas se rompieran cada vez que no prestaba atención a ellas. Por eso ideé un nuevo encantamiento que las hacia inutilizables cuando están a punto de romperse, dándome tiempo suficiente para repararlas y restaurarle su antigua gloria.
+
+infoBook.firstAge.relics.garmonbozia=Garmonbozia
+infoBook.firstAge.relics.garmonbozia.text=Esta extraña energía espiritual parece tomar la forma de Redstone recién minada. Se puede encontrar en cofres antiguos o comerciarla con ciertos aldeanos. Esta sustancia parece ser muy rara, pero sus poderes son bastante útiles. Espero en el futuro ser capaz de crear esta energía por mi mismo...
+
+# - Items -
+infoBook.evilcraft.firstAge.items=Items
+
+infoBook.evilcraft.firstAge.items.darkTank=Tanque oscuro
+infoBook.evilcraft.firstAge.items.darkTank.text1=Usando dos &1Lingotes de hierro&0, dos &1Gemas oscuras&0 y un bloque de &1cristal&0, es posible craftear este contenedor que es útil para almacenar fluidos en su interior. Estos se pueden poner en algún lado o simplemente ser llevados en el inventario.
+infoBook.evilcraft.firstAge.items.darkTank.text2=Cuando uno de estos tanques se coloco en algún lugar, al hacer click con el botón de mouse este se vuelve púrpura y se abre un agujero en el fondo del tanque. Si tenemos tanques puestos uno sobre otro este método hará que lo que está contenido en él pase directamente al que está debajo y también a los jugadores que transporten contenedores que se paren justo debajo de ellos.
+infoBook.evilcraft.firstAge.items.darkTank.text3=Si usa Shift + botón derecho con el tanque en la mano estos podrán ser apilados, si solo apretamos botón derecho, con un objeto que pueda aceptar fluidos en la mano, extraeremos parte del liquido que esté contenido en el tanque o vice versa.
+infoBook.evilcraft.firstAge.items.darkTank.text4=El tanque puede contener cerca de 16 cubos de algún líquido. Si esto es muy poco para sus necesidades, estos tanques pueden ser ampliados poniendo dos o más de estos tanques en una &1mesa de trabao&0, si los tanques tienen líquidos parecerá que se están perdiendo fluidos, pero solo es porque los tanques son cada vez más grandes.
+
+infoBook.evilcraft.firstAge.items.darkSpike=Agujas
+infoBook.evilcraft.firstAge.items.darkSpike.text=Usando una &1gema oscura&0 y un &1lingote de hierro&0, yo era capaz de crear una fuerte y duradera &1aguja&0. A los mobs no parece gustarle mucho...
+
+infoBook.evilcraft.firstAge.items.spikedPlate=Placa de pinchos
+infoBook.evilcraft.firstAge.items.spikedPlate.text1=Usando algunas &1agujas&0 y una &1placa de presión&0 podremos craftear una placa especial que pude dañar a todos los mobs que se paren sobre ella. Yo y mis compañeros no parecíamos tener ningún daño al pasar sobre esta placa. Gracias a los poderes de la &1gema oscura&0 cuando un monstruo muere sobre esta placa me permite obtener todos los dropeos que habría conseguido si lo hubiera asesinado yo mismo. (no funciona)
+infoBook.evilcraft.firstAge.items.spikedPlate.text2=Para nuestra comodidad, cuando un mob está recibiendo daños sobre la placa, esta libera una señal de redstone.
+
+infoBook.evilcraft.firstAge.items.potentiaSphere=Esfera potencial
+infoBook.evilcraft.firstAge.items.potentiaSphere.text=La combinación de algunos elementos mundanos dará lugar a la creación de esta esfera que parece poseer poderes increíbles, espero descubrir una manera de aprovechar estos poderes en el futuro. Al parecer este poder se puede invertir mediante el uso de algunas &1gemas oscuras&0.
+
+infoBook.evilcraft.firstAge.items.dullDust=Polvo opaco
+infoBook.evilcraft.firstAge.items.dullDust.text=Combinando &1azucar&0 y &1pólvora&0 obtendremos un extraño polvo que no parece ser útil en este momento. Espero que esto pueda cambiar algún día.
+
+infoBook.evilcraft.firstAge.items.obscuredGlass=Vidrio oscuro
+infoBook.evilcraft.firstAge.items.obscuredGlass.text=Algunas personas pueden encontrar que el &1vidrio&0 normal es demasiado brillante. Al combinar algo de vidrio con una &1gema oscura&0 podemos producir un vidrio que reduce casi por completo la luz que pasa a través de él. Todavía no soy capaz de mirar a través del cristal, es muy extraño...
+
+infoBook.evilcraft.firstAge.items.exaltedCrafter=Crafteador exaltado
+infoBook.evilcraft.firstAge.items.exaltedCrafter.text1=Las mesas de trabajo pueden ser un inconveniente cuando estamos en ubicaciones remotas. Al parecer el &1polvo de gema oscura&0 nos dará el poder para craftear las cosas desde nuestro ¡inventario!. Usaremos algún tipo de cofre para poder tener un inventario interno de manera fácil, incluso un &1cofre de ender&0 parece funcionar para este crafateo. Los usuarios más avanzados pueden estar contentos con este item, ya que se puede enlazar a una tecla de acceso directo. Usando esa misma tecla de acceso directo cuando la interfaz grafica de usuario está abierta, se retirará todo lo que estaba en la cuadricula de crafteo y lo pondrá ordenado en el inventario. Hay un botón que nos permite elegir hacia donde queremos que los elementos retirados de la cuadricula se dirijan, estos lugares son dos, el inventario del jugador o el inventario del &1crafteador exaltado&0.
+infoBook.evilcraft.firstAge.items.exaltedCrafter.text2=Si lo golpeamos con una rayo este será atado a esta realidad y no podrá ser destruido o desaparecer cuando lo dejamos caer.
+
+# - Items -
+infoBook.evilcraft.firstAge.vengeanceSpirits=Espíritus de la venganza
+
+infoBook.evilcraft.firstAge.vengeanceSpirits.introduction=Despúes que los mob mueren
+infoBook.evilcraft.firstAge.vengeanceSpirits.introduction.text1=A las personas les parece raro, pero siempre me miran de cerca cuando los mobs mueren. Me di cuenta que la mayoría deja un aura de color purpura oscuro que se desvanece rápidamente.
+infoBook.evilcraft.firstAge.vengeanceSpirits.introduction.text2=Me di cuenta que puedo usar un poco de &1polvo de piedra oscura&0 para craftear un anillo que me permite ver completamente esas auras de los mobs que he matado, aunque parece que ellas también me pueden ver a mi. Siempre tratan de seguirme y cuando me tocan me hacen un poco de daño para luego disolverse en el aire.
+infoBook.evilcraft.firstAge.vengeanceSpirits.introduction.text3=Activar el anillo me da unos poderes increíbles, pero eso parece atraer la ira de algunos espíritus, aunque la mayoría de estos espíritus, por alguna razón, son irreconocibles...
+
+infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits=Capturando espíritus
+infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits.text1=En algunos de mis viajes descubrí unas extrañas cajas púrpuras que contenían algunos espíritus distorsionados. Parece que estos espíritus fueron capturados hace mucho tiempo y desde ese entonces se han ido degradando, no creo que se puedan restaurar a su estado original.
+infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits.text2=Fui capaz de realizar ingeniería inversa a estas cajas y ser capaz de crearlas yo mismo. En este proceso descubrí como atrapar los espíritus en el interior de estas cajas. Con la tecnología del &1anillo de la venganza&0 logre crear una nueva tecnología el &1rayo de la venganza&0 que me permitía combatir y atraparlos. Tal vez pueda usar estos espíritus atrapados en el futuro...
+
+infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection=Protección espiritual
+infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection.text=Estos espíritus pueden hacernos un poco de daño si no tenemos cuidado. Me di cuenta que estos espíritus parecen ser molestados por la &1gema oscura&0 Pero aún ignoro por qué pasa esto. La fuerza y la cantidad de &1gemas oscuras&0 parece cambiar la forma en que estos espíritus te atacan. Sin embargo con este elemento en el inventario en vez de recibir daño por estas entidades, solo me aumentara el hambre, me parece una mejor alternativa.
+
+# --- Segunda Era ---
+infoBook.evilcraft.secondAge=Segunda Era
+
+# - Poderes de la sangre -
+infoBook.evilcraft.secondAge.powersOfBlood=Los poderes de la sangre
+infoBook.evilcraft.secondAge.powersOfBlood.text1=Todo el mundo sabe que la &4sangre&0 es un elemento fundamental para cualquier ser vivo. La combinación de las propiedades mágicas de las &1gemas oscuras&0 y la &4sangre&0 me permitió craftear unas herramientas y armas sorprendentes. Algunos de mis compañeros no son muy optimista acerca de mis descubrimientos, supongo que no son lo suficientemente abiertos de mente.
+infoBook.evilcraft.secondAge.powersOfBlood.text2=Las &1gemas oscuras&0 parecen poder impregnarse con la &4sangre&0 dando como resultado una &1gema de poder oscura&0. Tenga en cuenta que necesitará una piscina de al menos 5 bloques de &4sangre&0 y tendrás que hacer esto al menos una vez, en el próximo capítulo voy a explicar cómo elaborar estas gemas de manera más barata.
+infoBook.evilcraft.secondAge.powersOfBlood.text3=Como todos sabemos la &4sangre&0 se seca cuando la dejamos al aire en un lugar seco. Si usamos un &1mechero&0 sobre la &1sangre endurecida&0 nos dará algunos &1fragmentos de sangre endurecida&0 que pueden ser útiles más adelante. También podemos obtener estos fragmentos cocinando la &1sangre endurecida&0 en un horno normal, para poder hacer esto necesitaremos la suavidad de la seda.
+infoBook.evilcraft.secondAge.powersOfBlood.text4=Un elemento muy extraño es la &1sangre condensada&0, Se puede encontrar en algunos lugares raros. Estas pueden usarse dentro de cualquier maquina que utilice &4sangre&0 y equivale a la mitad de un &1cubo con sangre&0.
+
+# - Infusor de sangre -
+infoBook.evilcraft.secondAge.bloodInfusion=Infusor de sangre
+
+infoBook.evilcraft.secondAge.bloodInfusion.bloodInfusionCore=Núcleo de sangre infundido
+infoBook.evilcraft.secondAge.bloodInfusion.bloodInfusionCore.text=Este es uno de mis descubrimientos más profundos basados en la &4sangre&0. Algunos artículos del mundo normal pueden ser infundidos con &4sangre&0 y obtener propiedades especiales y muy interesantes. Las posibilidades son infinitas, siempre y cuando usted esté dispuesto a pensar más allá de lo común.
+
+infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction=Extractor de sangre
+infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text1=Usando algunas &1agujas&0 fui capaz de obtener un sencillo crafteo que me permitía obtener &4sangre&0 de diversas fuentes. Cuando mataba a los animales y mobs este elemento se llenaba con &4sangre&0 siempre y cuando lo tuviera en algún lugar de mi inventario. A veces me encontraba manchas de &4sangre&0 en el suelo, y apretando Shift + botón derecho podía sacar la &4sangre&0 que había en la mancha. Estas manchas de &4sangre&0 parecen aparecer cuando un mob cae desde una atura considerable provocando su muerte, esto puede ser útil algún día...
+infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text2=Con el botón derecho y este aparato en la mano puedes extraer la &4sangre&0 que hallas puesto en el suelo usando un &1cubo con sangre&0.
+infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text3=Esto te será muy útil hasta que encuentres formas menos manuales para conseguir &4sangre&0.
+infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text4=Por defecto el tamaño de estos extractores es un poco limitado. Pero parece que se pueden combinar múltiples &1Extractores de sangre&0 en una &1mesa de trabajo&0 para aumentar su capacidad, incluso se pueden combinar con algunos &1tanques oscuros&0 para aumentar aún más su capacidad.
+
+infoBook.evilcraft.secondAge.bloodInfusion.bloodChest=Cofre de sangre
+infoBook.evilcraft.secondAge.bloodInfusion.bloodChest.text=Mi primer intento de infundir artículos sencillos con &4sangre&0 resultó en un cofre en el que podía bañar mis herramientas con &4sangre&0. Este baño con &4sangre&0 restaura lentamente mis herramientas. Sin embargo observé que con el tiempo mis herramientas bañadas recibían un efecto negativo y muy molesto, este afecto es el encantamiento de &1Rompibilidad&0. Sin dudas me dedicaré a descubrir una manera de eliminar este molesto encantamiento de mis herramientas.
+
+infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser=Infusor de sangre
+infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser.text1=Después de aprender a reparar items, estaba seguro que podría llevar las cosas al siguiente nivel. Los item que pueden aceptar &4sangre&0, al igual que los &1tanques oscuros&0 que ya les presenté antes, se llenarán con &4sangre&0 cuando son introducidos en esta máquina. Otros items más específicos se pueden transformar de una manera especial cuando se llenan con &4sangre&0, he aquí una lista no exhaustiva de los items que pueden ser infundidos. Si le damos una señal de redstone a esta máquina podremos detener cualquier proceso que se esté realizando en ella.
+infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser.text2=Por último en esta máquina podemos hacer las &1gemas de poder oscuras&0 a un costo muy bajo.
+
+infoBook.evilcraft.secondAge.bloodInfusion.undeadTree=Árbol no muerto
+infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text1=Fui capaz de reanimar los &1arbustos muertos&0, los árboles que crecen a partir de este proceso son extraños por decir lo menos. Parece que emiten una gran cantidad de sangre, pero los brotes que caen parecen estar muertos de alguna manera. La combinación de La madera de este árbol junto con una &1gema oscura&0 producirá unos palos que serán útiles algún día.
+infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text2=Para obtener brotes de este árbol se puede poner un brote de algún árbol normal junto con unas tijeras en una &1mesa de trabajo&0. &o¿Será que este árbol crece en un desierto?&r
+
+infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text3=Al dejar estos palos en el suelo siempre parecen girar hacia la misma posición. ¿Podría ser que apuntan hacia algún lugar?
+
+infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion=Infusión avanzada de sangre
+infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion.text1=Poco después de construir mi primer &1infusor de sangre&0, me puse a pensar en algunas optimizaciones que le podría hacer a esta máquina para hacerla más rápida y eficiente. Usando &1polvo de gema oscura&0 fui capaz de construir y materializar lo que yo llame &1promesas&0 que el &1infusor de sangre&0 parece aceptar como si estuviera vivo.
+infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion.text2=Llenando un &1tazón de promesas vacias&0 con este polvo púrpura y luego infundirlo con sangre, me dio como resultado un &1tazón de promesas&0 con algún nivel de fuerza. Combinando esto con un item especifico y un &1aceptador de promesas&0 de algún mineral, dará lugar a una &1promesa&0 de algún tipo. La &1promesa de tenacidad&0 se puede crear mediante el uso de reactivos orgánicos, esto permitirá a esta máquina (tal vez a otras también) aceptar otras &1promesas&0 y aumentará la cantidad de &4sangre&0 que es capaz de mantener. La &1promesa de velocidad&0 se puede utilizar para disminuir los tiempos que se tarda la maquina en los procesos y la &1promesa de productividad&0 hará que la maquina gaste menos sangre en los procesos que le solicitemos.
+
+infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusionRecipes=Más recetas de infusión
+infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text=Gracias a las nuevas &1Promesas de tenacidad&0 se me abrió un nuevo mundo de artículos que puedo infundir.
+
+# - Evolución de las máquinas de sangre -
+infoBook.evilcraft.secondAge.evolvedBloodMachinery=Evolución de las máquinas
+
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.sanguinaryPedestal=Pedestal sanguinario
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text1=Me estaba cansando de arrojar mobs por los acantilados para poder tener &4sangre&0, por eso he construido un dispositivo que es capaz de extraer &4sangre&0 de los bloques cercanos que estén manchados con sangre y poder poner esta sangre en tanques cercanos. Usando algunas &1gemas de poder oscuras&0 en vez de las normales puedo hacer que este dispositivo sea más eficiente a la hora de extraer &4sangre&0.
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text2=Poniendo algunas &1placas de pinchos&0 En la parte superior del pedestal hará que las capacidades de esta máquina mejoren y así poder absorber aún más sangre de las criaturas que sea matadas por la placa &1(no funciona)&0.
+
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier=Purificador
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text1=Después de los lamentables efectos secundarios del &1cofre de sangre&0, decidí diseñar una maquina que fuera capaz de eliminarlos de mis herramientas. Por esto cree el &1purificador&0 que para funcionar solo hay que poner la herramienta y al menos un &1cubo con sangre&0 en su interior, y listo, herramientas como nuevas.
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text2=Un efecto no intencional de esta máquina es que cuando la llenamos con &4sangre&0 y ponemos en ella un elemento encantado más un &1libro de sangre&0 (Que no es más que un &1libro&0 infundido con &4sangre&0), traspasará el encantamiento de la herramienta al &1libro de sangre&0, esto tiene un costo de 4 &1cubos de sangre&0.
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text3=Recientemente, me di cuenta que esta máquina me permite quitar los efectos del envenenamiento de las entidades. Solo hay que llenar la maquina con 4 &1cubos de sangre&0, arrojar un &1frasco de vidrio&0 en su interior y luego la entidad afectada, después de unos segundos el veneno estará contenido en el frasco.
+
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice=Caliz encantado
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text1=Al tener tanta experiencia en la infusión de items con &4sangre&0, infundí una lagrima de los temibles &1ghast&0 y logre obtener una nueva y especial lágrima. Parece compartir sus propiedades cuando se divide por la mitad. Este extraño comportamiento me dio la idea de crear el &1caliz encantado&0 Con el objetivo de compartir el contenido líquido con todos los cálices que haga a partir de la misma lagrima.
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text2=Normalmente, obtendrá dos cálices al realizar el crafteo, pero si reemplazamos el &1lingote de oro&0 de la zona central por un &1caliz encantado&0 crafteado con anterioridad, el resultado serán dos cálices unidos a los dos que cree la primera vez.
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text3=Estos cálices se pueden colocar en el mundo o mantenerlos en el inventario. Shift + botón derecho con él en la mano, activará el modo Omni-suministrar que continuamente tratará de llenar todos los recipientes de su inventario con &4sangre&0.
+
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest=Cofre de sangre colosal
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text1=Los &1cofres de sangre&0 son geniales, pones una herramienta dañada y sale reparada. La desventaja es su efecto adverso en las herramientas y que es bastante molesto estar siempre quitando este efecto con el &1purificador&0.
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text2=En realidad las desventajas no se detienen ahí. Los &1cofres de sangre&0 tienen pocos espacios para poder poner herramientas en su interior y es muy lento. Lo peor de todo, es que mis preciadas &1promesas&0 no pueden ser usadas para mejorar esta máquina.
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text3=Por eso creé el &1cofre de sangre colosal&0, que resuelve todos los problemas que ya he mencionado. Esta máquina es mucho más grande que su variante normal y debido a su enorme tamaño es que tuve que hacer uso de los poderes de la &1madera no muerta&0 para poder mantener unida la estructura.
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text4=Este &1cofre de sangre colosal&0 Solo debe utilizarse si tiene un gran número de herramientas que reparar. La razón es que a cantidades bajas de herramientas este cofre consume más &4sangre&0 que un &1cofre de sangre&0 normal y mientras mas artículos se estén reparando más eficiente se volverá en el uso de la &4sangre&0.
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text5=Para construirlo debes hacer una estructura hueca de 3x3x3 con &1madera de no muerto reforsada&0 y debes agregar a cualquier parte de la estructura un &1cofre de sangre colosal&0.
+
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator=Acumulador ambiental sanguinario.
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text1=Me estaba cansando de ir a un &1templo oscuro&0 cada vez que quería guardar algún ambiente para elaborar nuevos artículos. Un día ya aburrido de esto, terminé por romper una de las maquinas que se encuentran en los templos, y para mi sorpresa obtuve un nuevo y extraño elemento.
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text2=despúes de algunas investigaciones, ya era capaz de utilizar este nuevo elemento para producir un nuevo tipo de &1acumulador ambiental&0 que es capaz de trabajar con &4sangre&0. También tuve la oportunidad de hacer que esta máquina ya no produjera la molesta degradación de los biomas o muertes al azar caminando para ir a los templos.
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text3=Esta maquina necesita una considerable cantidad de &4sangre&0 para trabajar, Y es por eso que necesitará &18&0 &1tanques oscuros&0 ubicados alrededor de la maquina como está indicado en la siguiente imagen. Esta máquina no funcionará sin los tanques, además noté que aparecen unas partículas como humo en la posición donde deben ir los tanques.
+
+# - Herramientas -
+infoBook.evilcraft.secondAge.tools=Herramientas
+
+infoBook.evilcraft.secondAge.tools.introduction=Introducción
+infoBook.evilcraft.secondAge.tools.introduction.text=Los ítem que usan &4sangre&0 Tienen un pequeño contenedor interno que puede ser llenado con el &1infusor de sangre&0, o, activando la alimentación automática. Cuando se utilizan estos elementos, se ocupa un porcentaje de &4sangre&0 de su contenedor interno. Cuando estos artículos se quedan sin &4sangre&0 trataran de extraerla de algún contenedor que tenga en su inventario, si no encuentra uno dejaran de funcionar hasta que sean cargados nuevamente.
+
+infoBook.evilcraft.secondAge.tools.bloodPearlOfTeleportation=Perla de teletransporte
+infoBook.evilcraft.secondAge.tools.bloodPearlOfTeleportation.text=Una &1perla de ender&0 normal, son muy divertidas para teletransportarse alrededor. El uso de los poderes de la &4sangre&0 me dio la posibilidad de crear una &1perla de ender&0 completamente reutilizable y que gasta un poco de &4sangre&0 para funcionar. Además parece ser mucho más potente que una &1perla de ender&0 normal, lo que es muy bueno.
+
+infoBook.evilcraft.secondAge.tools.invigoratingPendant=Pendiente vigorizante
+infoBook.evilcraft.secondAge.tools.invigoratingPendant.text=Deshacerse de los efectos de las pociones negativas puede ser un dolor de cabeza. Este pendiente es capaz de eliminar cualquier efecto negativo de las pociones a un costo muy bajo de &4sangre&0. Parece incluso protegerme del fuego, pero no recomendaría nadar en lava por el momento. Se necesita un tipo especial de cadena para elaborarlo, que puede ser creada combinando uno de &1hilo&0 y una &1pepita de oro&0.
+
+infoBook.evilcraft.secondAge.tools.primedPendant=Pendiente empapado
+infoBook.evilcraft.secondAge.tools.primedPendant.text=Después de crear el &1Pendiente vigorizante&0 pensé, ¿Será posible no solo eliminar, sino que también aplicar efectos?. Este nuevo ítem es capaz de darme los efectos de una poción a un costo de &4sangre&0 aplicando de manera continua su efecto. Me di cuenta que algunos efectos cuestan más &4sangre&0 que otros. Puede insertar nuevas pociones simplemente haciendo click derecho con el colgante en la mano.
+
+infoBook.evilcraft.secondAge.tools.effortlessRing=Anillo eficiente
+infoBook.evilcraft.secondAge.tools.effortlessRing.text=Pude construir un anillo especial usando las &1promesas&0 de &1productividad&0 y &1velocidad&0, que me permitía caminar más rápido, saltar más alto y poder subir bloques sin saltar. Solo tienes que ubicar este artículo en cualquier parte de tu inventario. Esto puede ser evitado si apretamos la tecla &oshift&r.
+
+infoBook.evilcraft.secondAge.tools.kineticator=Atractor
+infoBook.evilcraft.secondAge.tools.kineticator.text1=Este articulo es capaz de atraer objetos y orbes de experiencia en un área determinada. Esta área puede cambiar si apretamos el botón derecho en él.  Para activarlo o desactivarlo solo tenemos que apretar shift + botón derecho del ratón. Los ítems que son atraídos desde poca distancia consumen una cantidad escasa de &4sangre&0, pero los ítem que estén más lejos requerirán más &4sangre&0 para ser atraídos.
+infoBook.evilcraft.secondAge.tools.kineticator.text2=La inversión de la receta, nos dará una vara opuesta que en vez de atraer repelerá los ítems y orbes de experiencia. La llamé &1repulsor&0.
+
+infoBook.evilcraft.secondAge.tools.sceptreOfThunder=Vara del trueno
+infoBook.evilcraft.secondAge.tools.sceptreOfThunder.text=Me siento extrañamente en paz cuando hay tormentas eléctricas. Por eso es que cree esta sencilla herramienta que es capaz de generar este tipo de tormentas. Esta vara sin embargo sólo puede usarse una vez, lo que lo hace un poco caro.
+
+infoBook.evilcraft.secondAge.tools.vengeancePickaxe=Pico de la venganza
+infoBook.evilcraft.secondAge.tools.vengeancePickaxe.text=He descubierto una forma de utilizar la tecnología del &1anillo de la venganza&0 en un pico. Esto parece reducir drásticamente la durabilidad del pico, pero tiene un increíble efecto secundario que se traduce en que este pico tiene un encantamiento de &1fortuna&0.
+
+infoBook.evilcraft.secondAge.tools.gemstoneTorch=Antorcha de gemas
+infoBook.evilcraft.secondAge.tools.gemstoneTorch.text=Fui capaz de combinar las &1piedras de gemas quemadas&0 con unos &1palos negros&0 para hacer una antorcha especial que evita que se generen a los &1espiritus de la venganza&0 en la zona donde esta ilumina. Hay que tener en cuenta si, que los espíritus generados fuera de la zona de luz, aún podrán pasear por esta zona, pero una simple y mundana pared puede resolver esto.
+
+infoBook.secondAge.tools.rejuvenatedFlesh=Carne rejuvenecida
+infoBook.secondAge.tools.rejuvenatedFlesh.text=La &1carne podrida&0 o la &1carne de humanoide&0 puede juntarse con la &1garmonbozia&0 para crear una fuente infinita de alimentos. Se requiere sangre para poder comer de ella.
+
+# - Armas -
+infoBook.evilcraft.secondAge.weapons=Armas
+
+infoBook.evilcraft.secondAge.weapons.veinSword=Espada vena
+infoBook.evilcraft.secondAge.weapons.veinSword.text=¿Te gusta salir a los campos a matar mobs para tener &4sangre&0?. ¿Por qué no usar una espada que este impulsada con &4sangre&0 y obtener esta en tus &1extractores de sangre&0. Como beneficio esta espada está equipada con el encantamiento de &1saqueo&0.
+
+infoBook.evilcraft.secondAge.weapons.maceOfDistortion=Maza de la distorción
+infoBook.evilcraft.secondAge.weapons.maceOfDistortion.text=Sosteniendo el botón derecho de ratón con esta maza en la mano, esta acumulará energía en una esfera alrededor de nosotros, cuando se libera esta energía, se dispara una reacción que daña a todos los mobs que estén cerca nuestro, siempre y cuando tengamos suficiente &4sangre&0 en ella. Shift + botón derecho, cambiará los niveles de potencia de la maza y causara mayor daño, pero esto tendrá un mayor consumo de &4sangre&0.
+
+infoBook.evilcraft.secondAge.weapons.necromancerStaff=Vara del necromago
+infoBook.evilcraft.secondAge.weapons.necromancerStaff.text=Los &1Zombi&0 parecen ser controlables una vez que obtenga un cráneo de alguno de ellos. Después de montar este cráneo en una vara he descubierto que puedo generar zombis que atacan a cualquier entidad por un tiempo limitado.
+
+infoBook.evilcraft.secondAge.weapons.maceOfDestruction=Maza de la destrucción
+infoBook.evilcraft.secondAge.weapons.maceOfDestruction.text=Esta es una variante de la &1maza de la distorción&0, la fuerza que se libera de esta maza es una potente explosión. Cuanto más tiempo se carga esta maza, más grande será la explosión. El aumento del nivel de potencia aumentará la fuerza base de la explosión, por lo que debe ser cargada más tiempo.
+
+# - Abusando de los espíritus -
+infoBook.evilcraft.secondAge.abusingSpirits=Abusando de los espíritus
+
+infoBook.evilcraft.secondAge.abusingSpirits.infusingSpirits=Infundiendo espíritus
+infoBook.evilcraft.secondAge.abusingSpirits.infusingSpirits.text=Tener &1espiritus de la venganza&0 contenidos en cajas no es muy útil por sí mismo. Teoricé que podría revivir los espíritus utilizando &4sangre&0...
+
+infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace=Horno de espíritus
+infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text1=Finalmente tuve éxito en la reanimación de los &1espíritus de la venganza&0 o parcialmente por lo menos. Los espíritus revivieron pero eran muy débiles para sobrevivir en el mundo real, pero parecen tener todas las cualidades que tendrían si estuvieran en el mundo real. Le di un uso a este descubrimiento, construyendo una gran máquina que los pueda contener, eso sí, con un altísimo costo de &4sangre&0 para poder revivir el espíritu y cocinarlo vivo. Esto me dio como resultado que los espíritus me dropeaban todo lo que me habrían dropeado si se encontraran vivos, estos ítems los puedo encontrar en el inventario de la máquina. Al parecer las &1Cajas de cierre&0 pueden ser ocupadas indefinidamente y todas veces que quiera mientras el espíritu no salga de ellas.
+infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text2=Necesitaremos un montón de &1ladrillos oscuros&0 e infundirlos con &4sangre&0 para asegurarnos que los espíritus no puedan salir. La estructura tiene que tener los espacios suficientes en su interior para contener a la criatura que desea revivir. Un &1zombi&0 por ejemplo, necesita un bloque de ancho por dos de alto, por lo que tendrá que construir una estructura de 3 bloques de ancho por 4 de alto con un espacio hueco en el centro de la misma. Si el mob que desea contener es muy grande puede crear una estructura de hasta 9 x 9 x 9, ¿nada mal no?
+infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text3=Tambien necesitará un &1horno de espíritus&0 en algún lugar de la estructura. Veras un destello rojo en los ladrillos cuando la estructura este montada correctamente.
+
+infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator=Reanimador de espíritus
+infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text1=Tras el descubrimiento del &1horno de espiritus&0, aún estaba decidido a revivir estos espíritus. Para resolver el problema de los mobs inestables los puse en el interior de &1huevos&0 como intento para estabilizarlos. Este proceso requiere una gran cantidad de &4sangre&0 y por supuesto un &1huevo&0.
+infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text2=Debido a este avanzado proceso, el espíritu de la caja será consumido por completo, por lo que de cada caja solo se podrá obtener un &1huevo&0.
+infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text3=Algunos mob parecen poder resistirse a entrar en los &1huevos&0, por lo que sus espíritus se perderán para siempre.
+
+# --- Integraciones del Mod ---
+infoBook.evilcraft.modIntegrations=&oIntegraciones del Mod&r
+
+infoBook.evilcraft.modIntegrations.baubles=Baubles
+infoBook.evilcraft.modIntegrations.baubles.text=Este mod añade varias ranuras para accesorios muy convenientes para ti y es capaz de almacenar los anillos y pendientes que se ven en este libro. Ellos seguirán trabajando como si los tuvieras en tu inventario. ¡Chucherías para todos!
+
+infoBook.evilcraft.modIntegrations.bloodMagic=Blood Magic
+infoBook.evilcraft.modIntegrations.bloodMagic.text=Un día descubrí una extraña &1orbe de sangre&0 que debió pertenecer a alguna especie de &1mago&0. Al usarlo me sentí como si estuviera de alguna manera conectado a él. Después de un tiempo descubrí que estaba conectado con mi &4sangre&0. Al ponerlo en mi &1infusor de sangre&0 y ponerle una gran cantidad de &4sangre&0. Me las he arreglado para crear un elemento que se puede usar como un contenedor que puedo poner en mis maquinas o usarlo en mi inventario para cargar mis herramientas.
+
+infoBook.evilcraft.modIntegrations.ee3=Equivalent Exchange 3
+infoBook.evilcraft.modIntegrations.ee3.text=Los magos han descubierto que casi todas las cosas de este mundo tiene algún tipo de &1valor&0 que se relaciona con el de otras cosas. Estas personas han dominado el acto de &1transmutar&0 las cosas entre sí. Sus métodos extraños, parecen funcionar con mis artículos.
+
+infoBook.evilcraft.modIntegrations.forestry=Forestry
+infoBook.evilcraft.modIntegrations.forestry.text=Cuando &ovisité&r a uno de mis amigos que trabajaban con los arboles y las abejas, noté que algunas de sus bolsas me permitían insertar algunos de mis ítems. También me di cuenta que su máquina llamada &squeeser&0 es capaz de extraer &4sangre&0 de las partes de los &1arboles no muertos%0 y que se puede cultivar fácilmente usando su sistema de crecimiento de árboles.
+
+infoBook.evilcraft.modIntegrations.ic2=IndustrialCraft 2
+infoBook.evilcraft.modIntegrations.ic2.text=Hay un grupo de personas extrañas que trabajan constantemente con máquinas animadas. No tengo idea de lo que hacen estas máquinas, a excepción del &1Macerador&0. Introduje una &1mena de piedra oscura&0 y obtuve &1gemas oscuras&0 y al insertar &1gemas oscuras&0 obtuve &1polvo de gema oscura&0 .
+
+infoBook.evilcraft.modIntegrations.jei=Just Enough Items
+infoBook.evilcraft.modIntegrations.jei.text=Algunas personas parecen tener el &oToo Many Items&r, mientras otros tienen el &oNot Enough Items&r. Parece que al fin llegamos a una etapa donde la gente tiene el &oJust Enough Items&r, el conocimiento de este libro será comprensible para ellos.
+
+infoBook.evilcraft.modIntegrations.nei=Not Enough Items
+infoBook.evilcraft.modIntegrations.nei.text=Todas estas personas siguen hablando del "&oNot Enough Items&r", que realmente no entiendo pues yo tengo el "&oToo Many Items&r"! Pero parece que el primer grupo parece entender mi conocimiento...
+
+infoBook.evilcraft.modIntegrations.thermalExpansion=Thermal Expansion
+infoBook.evilcraft.modIntegrations.thermalExpansion.text=Estas personas son bastante extrañas y llevan raras vestimentas, al parecer la mayoría maneja un gran tipo de llaves, por alguna razón. Solo se una cosa de ellos, tienen una maquina que es capaz de incorporar fluidos y realizar una infusión muy básica con &4sangre&0, pero por desgracia ellos no se han actualizado.
+
+infoBook.evilcraft.modIntegrations.thaumcraft=Thaumcraft
+infoBook.evilcraft.modIntegrations.thaumcraft.text=Me he dado cuenta que la taumaturgia es un tipo diferente de magia. Parece que los taumaturgos son muy felices cuando ven mis elementos porque siempre caminan por ahí con sus extraños hexágonos. Para complacerlos, he construido algunas &1herramientas de trazado de venas&0 y que puede ser usado como tinta. También parece que su &1varita de oro&0 puede fortalecerse al ponerla dentro del &infusor de sangre&0.
+infoBook.evilcraft.modIntegrations.tinkersConstruct=Tinkers' Construct
+infoBook.evilcraft.modIntegrations.tinkersConstruct.text=&0Herramientas, herramientas y más herramientas!&r Parece que todas estas personas lo piensan. Usar estas herramientas las debe dañar severamente, por suerte pueden usar el &1cofre de sangre&0 para repararlas
+
+infoBook.evilcraft.modIntegrations.waila=WAILA
+infoBook.evilcraft.modIntegrations.waila.text=Que estas mirando preguntas, ¿debes ser capaz de decírmelo no?
