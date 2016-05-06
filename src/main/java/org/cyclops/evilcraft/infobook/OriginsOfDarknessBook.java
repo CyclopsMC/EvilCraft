@@ -39,7 +39,7 @@ public class OriginsOfDarknessBook extends InfoBook {
 
                 @Override
                 public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
-                    ItemStack itemStack = InfoBookParser.createStack(node);
+                    ItemStack itemStack = InfoBookParser.createStack(node, infoBook.getMod().getRecipeHandler());
                     List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>
                             recipes = BloodInfuser.getInstance().getRecipeRegistry().
                             findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
@@ -59,7 +59,7 @@ public class OriginsOfDarknessBook extends InfoBook {
 
             @Override
             public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
-                ItemStack itemStack = InfoBookParser.createStack(node);
+                ItemStack itemStack = InfoBookParser.createStack(node, infoBook.getMod().getRecipeHandler());
                 List<IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>>
                         recipes = EnvironmentalAccumulator.getInstance().getRecipeRegistry().
                         findRecipesByOutput(new EnvironmentalAccumulatorRecipeComponent(itemStack, WeatherType.ANY));
