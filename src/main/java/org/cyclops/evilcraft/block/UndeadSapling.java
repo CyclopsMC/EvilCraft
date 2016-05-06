@@ -12,7 +12,7 @@ import org.cyclops.evilcraft.world.gen.WorldGeneratorUndeadTree;
  *
  */
 public class UndeadSapling extends ConfigurableBlockSapling {
-    
+
     private static UndeadSapling _instance = null;
     
     /**

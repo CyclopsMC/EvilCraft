@@ -16,10 +16,6 @@ import org.cyclops.evilcraft.block.UndeadSapling;
  */
 public class WorldGeneratorUndeadTree extends WorldGeneratorTree {
 
-    private BlockSapling sapling = UndeadSapling.getInstance();
-    private BlockLeaves leaves = UndeadLeaves.getInstance();
-    private BlockLog logs = (BlockLog) UndeadLogConfig._instance.getBlockInstance();
-
     /**
      * Make a new instance.
      * @param doNotify If the generator should notify the world.
@@ -40,16 +36,16 @@ public class WorldGeneratorUndeadTree extends WorldGeneratorTree {
 
     @Override
     public BlockLeaves getLeaves() {
-        return leaves;
+        return UndeadLeaves.getInstance();
     }
 
     @Override
     public BlockLog getLogs() {
-        return logs;
+        return (BlockLog) UndeadLogConfig._instance.getBlockInstance();
     }
 
     @Override
     public BlockSapling getSapling() {
-        return sapling;
+        return UndeadSapling.getInstance();
     }
 }
