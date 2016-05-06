@@ -1,11 +1,8 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraftforge.common.ChestGenHooks;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -73,15 +70,4 @@ public class BroomConfig extends ItemConfig {
             Broom.class
         );
     }
-    
-    @Override
-    public void onRegistered() {
-        super.onRegistered();
-        if(BroomConfig.lootChests) {
-            for (String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
-                ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(Broom.getInstance(), 0, 1, 1, 2));
-            }
-        }
-    }
-    
 }
