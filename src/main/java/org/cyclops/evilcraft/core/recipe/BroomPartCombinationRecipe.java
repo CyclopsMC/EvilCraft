@@ -13,6 +13,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
+import org.cyclops.evilcraft.api.broom.IBroom;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.item.Broom;
@@ -92,7 +93,7 @@ public class BroomPartCombinationRecipe implements IRecipe {
 		// Loop over the grid and find an existing broom
 		for (int j = 0; j < grid.getSizeInventory(); j++) {
 			ItemStack element = grid.getStackInSlot(j);
-			if (element != null) {
+			if (element != null && element.getItem() instanceof IBroom) {
 				Map<IBroomPart.BroomPartType, IBroomPart> currentExistingBroomParts = indexifyParts(BroomParts.REGISTRY.getBroomParts(element));
 				if(currentExistingBroomParts != null && areValidBroomParts(currentExistingBroomParts.values()) && element.stackSize == 1) {
 					if (existingBroomParts == null) {

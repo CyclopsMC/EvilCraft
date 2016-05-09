@@ -24,6 +24,7 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
+import org.cyclops.evilcraft.api.broom.IBroom;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.item.Broom;
@@ -359,15 +360,17 @@ public class EntityBroom extends Entity implements IConfigurable{
         moveEntity(0, getHoverOffset(), 0);
     }
 
-    public boolean canConsume(int amount, EntityPlayer player) {
-        return Broom.getInstance().canConsume(amount, getBroomStack(), player);
+    public boolean canConsume(int amount, EntityLivingBase entityLiving) {
+        ItemStack broomStack = getBroomStack();
+        return broomStack != null && broomStack.getItem() instanceof IBroom
+                && ((IBroom) broomStack.getItem()).canConsumeBroomEnergy(amount, broomStack, entityLiving);
     }
 
-    public void consume(int amount, EntityPlayer player) {
+    public void consume(int amount, EntityLivingBase entityLiving) {
         float efficiencyFactor = Math.min(0.9F, Math.max(0.0F, getModifier(BroomModifiers.EFFICIENCY) / BroomModifiers.EFFICIENCY.getMaxTierValue()));
         if(worldObj.rand.nextFloat() > efficiencyFactor) {
             ItemStack broomStack = getBroomStack();
-            Broom.getInstance().consume(amount, broomStack, player);
+            ((IBroom) broomStack.getItem()).canConsumeBroomEnergy(amount, broomStack, entityLiving);
             setBroomStack(broomStack);
         }
     }
@@ -429,11 +432,11 @@ public class EntityBroom extends Entity implements IConfigurable{
         double playerSpeed = lastMounted.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
         playerSpeed += getModifier(BroomModifiers.SPEED) / 100;
         int amount = BroomConfig.bloodUsage;
-        EntityPlayer player = lastMounted instanceof EntityPlayer ? (EntityPlayer) lastMounted : null;
-        float moveForward = canConsume(amount, player) ? lastMounted.moveForward : lastMounted.moveForward / 10F;
+        EntityLivingBase currentRidingEntity = ridingEntity instanceof EntityLivingBase ? (EntityLivingBase) ridingEntity : null;
+        float moveForward = canConsume(amount, currentRidingEntity) ? lastMounted.moveForward : lastMounted.moveForward / 10F;
         playerSpeed *= moveForward;
         if(moveForward != 0) {
-            consume(amount, player);
+            consume(amount, currentRidingEntity);
         }
 
         // Apply acceleration modifier

@@ -10,8 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
+import org.cyclops.evilcraft.api.broom.IBroom;
 import org.cyclops.evilcraft.block.DisplayStand;
-import org.cyclops.evilcraft.item.Broom;
 import org.cyclops.evilcraft.tileentity.TileDisplayStand;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -62,7 +62,7 @@ public class RenderTileEntityDisplayStand extends TileEntitySpecialRenderer<Tile
         if (itemStack.getItem() instanceof ItemBlock) {
             GlStateManager.scale(1.2F, 1.2F, 1.2F);
             GlStateManager.rotate(90F, 0, 1, 0);
-        } else if(itemStack.getItem() instanceof Broom) {
+        } else if(itemStack.getItem() instanceof IBroom) {
             GlStateManager.scale(2F, 2F, 2F);
         } else {
             GlStateManager.scale(0.5F, 0.5F, 0.5F);

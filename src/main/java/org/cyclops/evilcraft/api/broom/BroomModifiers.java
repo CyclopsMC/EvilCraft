@@ -215,6 +215,7 @@ public class BroomModifiers {
                 World world = broom.worldObj;
                 float maxHardness = modifierValue;
                 float toughnessModifier = Math.min(1F, 0.5F + (broom.getModifier(BroomModifiers.STURDYNESS) / (BroomModifiers.STURDYNESS.getMaxTierValue() * 1.5F) / 2F));
+                EntityLivingBase ridingEntity = broom.ridingEntity instanceof EntityLivingBase ? (EntityLivingBase) broom.ridingEntity : null;
                 EntityPlayer player = broom.ridingEntity instanceof EntityPlayer ? (EntityPlayer) broom.ridingEntity : null;
 
                 if (world.isAreaLoaded(blockpos, blockpos1)) {
@@ -224,10 +225,10 @@ public class BroomModifiers {
                                 BlockPos pos = new BlockPos(i, j, k);
                                 IBlockState blockState = world.getBlockState(pos);
                                 Block block = blockState.getBlock();
-                                if (!blockState.getBlock().isAir(world, pos) && broom.canConsume(BroomConfig.bloodUsageBlockBreak, player)) {
+                                if (!blockState.getBlock().isAir(world, pos) && broom.canConsume(BroomConfig.bloodUsageBlockBreak, ridingEntity)) {
                                     float hardness = blockState.getBlock().getBlockHardness(world, pos);
                                     if (hardness > 0F && hardness <= maxHardness && (player == null || ForgeHooks.canHarvestBlock(block, player, world, pos))) {
-                                        broom.consume(BroomConfig.bloodUsageBlockBreak, player);
+                                        broom.consume(BroomConfig.bloodUsageBlockBreak, ridingEntity);
                                         if (player == null) {
                                             // The mounted entity is no player, do regular block breaking
                                             world.destroyBlock(pos, true);

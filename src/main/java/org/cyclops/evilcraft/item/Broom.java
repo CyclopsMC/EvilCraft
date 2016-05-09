@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -21,18 +22,21 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
+import org.cyclops.evilcraft.api.broom.IBroom;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 import org.cyclops.evilcraft.fluid.Blood;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +47,7 @@ import java.util.Set;
  * @author rubensworks
  *
  */
-public class Broom extends ConfigurableDamageIndicatedItemFluidContainer {
+public class Broom extends ConfigurableDamageIndicatedItemFluidContainer implements IBroom {
 
     protected static final ResourceLocation OVERLAY = new ResourceLocation(Reference.MOD_ID, "textures/gui/overlay.png");
 
@@ -114,18 +118,30 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer {
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
         int maxRarity = 0;
-        for (IBroomPart part : getParts(itemStack)) {
+        for (IBroomPart part : getBroomParts(itemStack)) {
             maxRarity = Math.max(maxRarity, part.getRarity().ordinal());
         }
         return EnumRarity.values()[maxRarity];
     }
 
-    public Collection<IBroomPart> getParts(ItemStack itemStack) {
+    @Override
+    public Collection<IBroomPart> getBroomParts(ItemStack itemStack) {
         return BroomParts.REGISTRY.getBroomParts(itemStack);
     }
 
-    public Map<BroomModifier, Float> getModifiers(ItemStack itemStack) {
+    @Override
+    public Map<BroomModifier, Float> getBroomModifiers(ItemStack itemStack) {
         return BroomModifiers.REGISTRY.getModifiers(itemStack);
+    }
+
+    @Override
+    public boolean canConsumeBroomEnergy(int amount, ItemStack itemStack, @Nullable EntityLivingBase entityLiving) {
+        return canConsume(amount, itemStack, entityLiving instanceof EntityPlayer ? (EntityPlayer) entityLiving : null);
+    }
+
+    @Override
+    public int consumeBroom(int amount, ItemStack itemStack, @Nullable EntityLivingBase entityLiving) {
+        return FluidHelpers.getAmount(consume(amount, itemStack, entityLiving instanceof EntityPlayer ? (EntityPlayer) entityLiving : null));
     }
 
     @Override
@@ -134,11 +150,11 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer {
         if(MinecraftHelpers.isShifted()) {
             list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".types.name"));
             Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(itemStack);
-            Map<BroomModifier, Float> modifiers = getModifiers(itemStack);
+            Map<BroomModifier, Float> modifiers = getBroomModifiers(itemStack);
             Set<BroomModifier> modifierTypes = Sets.newHashSet();
             modifierTypes.addAll(baseModifiers.keySet());
             modifierTypes.addAll(modifiers.keySet());
-            for (IBroomPart part : getParts(itemStack)) {
+            for (IBroomPart part : getBroomParts(itemStack)) {
                 String line = part.getTooltipLine("  ");
                 if (line != null) {
                     list.add(line);

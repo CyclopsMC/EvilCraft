@@ -29,7 +29,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.Configs;
-import org.cyclops.evilcraft.item.Broom;
+import org.cyclops.evilcraft.api.broom.IBroom;
 import org.cyclops.evilcraft.item.BroomConfig;
 
 import java.util.Random;
@@ -128,7 +128,7 @@ public class ExcrementPile extends ConfigurableBlock {
     public boolean canHarvestBlock(IBlockAccess world, BlockPos blockPos, EntityPlayer player) {
         return player.getCurrentEquippedItem() != null
                 && Configs.isEnabled(BroomConfig.class)
-                && player.getCurrentEquippedItem().getItem() == Broom.getInstance();
+                && player.getCurrentEquippedItem().getItem() instanceof IBroom;
     }
 
     @Override
