@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.SpiritFurnace;
+import org.cyclops.evilcraft.block.SpiritReanimator;
 import org.cyclops.evilcraft.core.client.gui.container.GuiWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritReanimator;
 import org.cyclops.evilcraft.tileentity.TileSpiritReanimator;
@@ -108,7 +109,7 @@ public class GuiSpiritReanimator extends GuiWorking<TileSpiritReanimator> {
     
     @Override
 	protected void drawAdditionalForeground(int mouseX, int mouseY) {
-    	String prefix = SpiritFurnace.getInstance().getUnlocalizedName() + ".help.invalid";
+    	String prefix = SpiritReanimator.getInstance().getUnlocalizedName() + ".help.invalid";
     	List<String> lines = new ArrayList<String>();
     	lines.add(L10NHelpers.localize(prefix));
         int entityId = tile.getEntityID();
