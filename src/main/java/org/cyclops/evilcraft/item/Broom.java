@@ -33,6 +33,7 @@ import org.cyclops.evilcraft.api.broom.IBroom;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
+import org.cyclops.evilcraft.event.RenderOverlayEventHook;
 import org.cyclops.evilcraft.fluid.Blood;
 import org.lwjgl.opengl.GL11;
 
@@ -219,8 +220,8 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
             ScaledResolution resolution = event.resolution;
             int height = 21;
             int width = 21;
-            OverlayPosition overlayPosition = OverlayPosition.values()[
-                    MathHelper.clamp_int(BroomConfig.guiOverlayPosition, 0, OverlayPosition.values().length - 1)];
+            RenderOverlayEventHook.OverlayPosition overlayPosition = RenderOverlayEventHook.OverlayPosition.values()[
+                    MathHelper.clamp_int(BroomConfig.guiOverlayPosition, 0, RenderOverlayEventHook.OverlayPosition.values().length - 1)];
             int x = overlayPosition.getX(resolution, width, height) + BroomConfig.guiOverlayPositionOffsetX;
             int y = overlayPosition.getY(resolution, width, height) + BroomConfig.guiOverlayPositionOffsetY;
 
@@ -244,57 +245,5 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
         }
-    }
-
-    public static enum OverlayPosition {
-
-        NE {
-            @Override
-            public int getX(ScaledResolution resolution, int width, int height) {
-                return resolution.getScaledWidth() - width;
-            }
-
-            @Override
-            public int getY(ScaledResolution resolution, int width, int height) {
-                return 0;
-            }
-        },
-        SE {
-            @Override
-            public int getX(ScaledResolution resolution, int width, int height) {
-                return resolution.getScaledWidth() - width;
-            }
-
-            @Override
-            public int getY(ScaledResolution resolution, int width, int height) {
-                return resolution.getScaledHeight() - height;
-            }
-        },
-        SW {
-            @Override
-            public int getX(ScaledResolution resolution, int width, int height) {
-                return 0;
-            }
-
-            @Override
-            public int getY(ScaledResolution resolution, int width, int height) {
-                return resolution.getScaledHeight() - height;
-            }
-        },
-        NW {
-            @Override
-            public int getX(ScaledResolution resolution, int width, int height) {
-                return 0;
-            }
-
-            @Override
-            public int getY(ScaledResolution resolution, int width, int height) {
-                return 0;
-            }
-        };
-
-        public abstract int getX(ScaledResolution resolution, int width, int height);
-        public abstract int getY(ScaledResolution resolution, int width, int height);
-
     }
 }

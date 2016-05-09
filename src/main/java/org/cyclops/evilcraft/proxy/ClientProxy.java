@@ -15,6 +15,7 @@ import org.cyclops.evilcraft.client.key.FartKeyHandler;
 import org.cyclops.evilcraft.client.key.Keys;
 import org.cyclops.evilcraft.core.client.model.BroomLoader;
 import org.cyclops.evilcraft.core.client.model.BroomPartLoader;
+import org.cyclops.evilcraft.event.RenderOverlayEventHook;
 import org.cyclops.evilcraft.event.TextureStitchEventHook;
 
 /**
@@ -59,6 +60,7 @@ public class ClientProxy extends ClientProxyComponent {
 		ModelLoaderRegistry.registerLoader(new BroomPartLoader());
 
 		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
+		MinecraftForge.EVENT_BUS.register(new RenderOverlayEventHook());
 	}
     
 }

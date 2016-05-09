@@ -161,6 +161,27 @@ public class GeneralConfig extends DummyConfig {
      * The Y end value for generation to end (larget Y value).
      */
     public static int silverfish_EndY = 66;
+
+    /**
+     * If the blood gui overlay should be rendered.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If the blood gui overlay should be rendered.", isCommandable = true)
+    public static boolean bloodGuiOverlay = true;
+    /**
+     * The position to render the blood gui overlay at. (0=NE, 1=SE, 2=SW,3=NW)
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The position to render the blood gui overlay at. (0=NE, 1=SE, 2=SW,3=NW)", isCommandable = true)
+    public static int bloodGuiOverlayPosition = 1;
+    /**
+     * The X offset for the blood gui overlay.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The X offset for the blood gui overlay.", isCommandable = true)
+    public static int bloodGuiOverlayPositionOffsetX = -5;
+    /**
+     * The Y offset for the blood gui overlay.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The Y offset for the blood gui overlay.", isCommandable = true)
+    public static int bloodGuiOverlayPositionOffsetY = -5;
     
     /**
      * Create a new instance.

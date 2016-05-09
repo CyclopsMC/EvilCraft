@@ -25,18 +25,18 @@ public class BroomConfig extends ItemConfig {
     /**
      * The position to render the broom gui overlay at. (0=NE, 1=SE, 2=SW,3=NW)
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The position to render the broom gui overlay at. (0=NE, 1=SE, 2=SW,3=NW)")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The position to render the broom gui overlay at. (0=NE, 1=SE, 2=SW,3=NW)", isCommandable = true)
     public static int guiOverlayPosition = 1;
     /**
      * The X offset for the broom gui overlay.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The X offset for the broom gui overlay.")
-    public static int guiOverlayPositionOffsetX = 0;
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The X offset for the broom gui overlay.", isCommandable = true)
+    public static int guiOverlayPositionOffsetX = -15;
     /**
      * The Y offset for the broom gui overlay.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The Y offset for the broom gui overlay.")
-    public static int guiOverlayPositionOffsetY = 0;
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The Y offset for the broom gui overlay.", isCommandable = true)
+    public static int guiOverlayPositionOffsetY = -10;
     /**
      * The blood usage in mB per tick.
      */
