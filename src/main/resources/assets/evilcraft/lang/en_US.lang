@@ -576,7 +576,7 @@ infoBook.evilcraft.secondAge.tools.broom.introduction.text3=All possible &1Broom
 infoBook.evilcraft.secondAge.tools.broom.introduction.text4=When flying with the &1Broom&0, make sure that it has enough &4Blood&0 at all times, otherwise the &1Broom&0 will slow down significantly.
 
 infoBook.evilcraft.secondAge.tools.broom.modifiers=Broom Modifiers
-infoBook.evilcraft.secondAge.tools.broom.modifiers.text.intro=In this section, I will list all modifier effects I have discovered.
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.intro=In this section, I will list all modifier effects I have discovered during my adventures.
 infoBook.evilcraft.secondAge.tools.broom.modifiers.text.modifier_count=&l&nModifier Count&r&NThe maximum amount of modifiers a &1Broom&0 can have.
 infoBook.evilcraft.secondAge.tools.broom.modifiers.text.speed=&l&nSpeed&r&NThe top speed of a &1Broom&0.
 infoBook.evilcraft.secondAge.tools.broom.modifiers.text.acceleration=&l&nAcceleration&r&NThe higher this value, the faster the &1Broom&0 will accelerate.
@@ -598,7 +598,7 @@ infoBook.evilcraft.secondAge.tools.broom.modifiers.text.swimming=&l&nSwimming&r&
 infoBook.evilcraft.secondAge.tools.broom.modifiers.text.icy=&l&nIcy&r&NSlows down colliding entities.
 
 infoBook.evilcraft.secondAge.tools.broom.parts=Broom Parts
-infoBook.evilcraft.secondAge.tools.broom.parts.text1=Various materials can be used to make broom parts. Their tooltip shows what base modifiers will be present on the resulting &1Broom&0 after fcrafting.
+infoBook.evilcraft.secondAge.tools.broom.parts.text1=Various materials can be used to make broom parts. Their tooltip shows what base modifiers will be present on the resulting &1Broom&0 after crafting.
 
 infoBook.evilcraft.secondAge.tools.introduction=Introduction
 infoBook.evilcraft.secondAge.tools.introduction.text=Items that use &4Blood&0 mostly have an internal container that can hold some &4Blood&0 which can be filled using the &1Blood Infuser&0 or by activating auto-supply mode on other tools and holding the item to fill in your hand. When using these items, it will drain some &4Blood&0. When that item has ran out of &4Blood&0, it will try to drain &4Blood&0 from other containers in your inventory, or it will stop functioning if no such item can be found.

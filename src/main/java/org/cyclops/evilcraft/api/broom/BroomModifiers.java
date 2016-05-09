@@ -338,7 +338,7 @@ public class BroomModifiers {
         REGISTRY.registerModifiersItem(FLAME, 1F, new ItemStack(Items.blaze_powder));
 
         REGISTRY.registerModifiersItem(SMASH, 1F, new ItemStack(Items.iron_pickaxe));
-        REGISTRY.registerModifiersItem(SMASH, 2F, new ItemStack(Items.diamond_pickaxe));
+        REGISTRY.registerModifiersItem(SMASH, 5F, new ItemStack(Items.diamond_pickaxe));
 
         REGISTRY.registerModifiersItem(BOUNCY, 1F, new ItemStack(Items.slime_ball));
         REGISTRY.registerModifiersItem(BOUNCY, 9F, new ItemStack(Blocks.slime_block));

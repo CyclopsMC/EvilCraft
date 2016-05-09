@@ -432,7 +432,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         double playerSpeed = lastMounted.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
         playerSpeed += getModifier(BroomModifiers.SPEED) / 100;
         int amount = BroomConfig.bloodUsage;
-        EntityLivingBase currentRidingEntity = ridingEntity instanceof EntityLivingBase ? (EntityLivingBase) ridingEntity : null;
+        EntityLivingBase currentRidingEntity = riddenByEntity instanceof EntityLivingBase ? (EntityLivingBase) riddenByEntity : null;
         float moveForward = canConsume(amount, currentRidingEntity) ? lastMounted.moveForward : lastMounted.moveForward / 10F;
         playerSpeed *= moveForward;
         if(moveForward != 0) {
