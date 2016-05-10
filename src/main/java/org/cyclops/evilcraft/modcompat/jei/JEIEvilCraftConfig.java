@@ -1,14 +1,15 @@
 package org.cyclops.evilcraft.modcompat.jei;
 
+import com.google.common.collect.Lists;
 import mezz.jei.api.*;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.ItemStack;
-import org.cyclops.evilcraft.block.BloodStainedBlock;
-import org.cyclops.evilcraft.block.InvisibleRedstoneBlock;
+import org.cyclops.evilcraft.block.*;
 import org.cyclops.evilcraft.client.gui.container.GuiBloodInfuser;
 import org.cyclops.evilcraft.client.gui.container.GuiExaltedCrafter;
 import org.cyclops.evilcraft.client.gui.container.GuiSanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.client.gui.container.GuiWorking;
+import org.cyclops.evilcraft.item.ExaltedCrafter;
 import org.cyclops.evilcraft.modcompat.jei.bloodinfuser.BloodInfuserRecipeCategory;
 import org.cyclops.evilcraft.modcompat.jei.bloodinfuser.BloodInfuserRecipeHandler;
 import org.cyclops.evilcraft.modcompat.jei.bloodinfuser.BloodInfuserRecipeJEI;
@@ -23,6 +24,7 @@ import org.cyclops.evilcraft.modcompat.jei.sanguinaryenvironmentalaccumulator.Sa
 import org.cyclops.evilcraft.modcompat.jei.sanguinaryenvironmentalaccumulator.SanguinaryEnvironmentalAccumulatorRecipeTransferInfo;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 /**
  * Helper for registering JEI manager.
@@ -47,11 +49,13 @@ public class JEIEvilCraftConfig implements IModPlugin {
                     GuiBloodInfuser.PROGRESSWIDTH, GuiBloodInfuser.PROGRESSHEIGHT,
                     BloodInfuserRecipeHandler.CATEGORY);
             registry.getRecipeTransferRegistry().addRecipeTransferHandler(new BloodInfuserRecipeTransferInfo());
+            registry.addRecipeCategoryCraftingItem(new ItemStack(BloodInfuser.getInstance()), BloodInfuserRecipeHandler.CATEGORY);
 
             // Envir Acc
             registry.addRecipes(EnvironmentalAccumulatorRecipeJEI.getAllRecipes());
             registry.addRecipeCategories(new EnvironmentalAccumulatorRecipeCategory(JEI_HELPER.getGuiHelper()));
             registry.addRecipeHandlers(new EnvironmentalAccumulatorRecipeHandler());
+            registry.addRecipeCategoryCraftingItem(new ItemStack(EnvironmentalAccumulator.getInstance()), EnvironmentalAccumulatorRecipeHandler.CATEGORY);
 
             // Sanguinary Envir Acc
             registry.addRecipes(SanguinaryEnvironmentalAccumulatorRecipeJEI.getAllSanguinaryRecipes());
@@ -61,10 +65,16 @@ public class JEIEvilCraftConfig implements IModPlugin {
                     GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETY, GuiSanguinaryEnvironmentalAccumulator.PROGRESSWIDTH,
                     GuiSanguinaryEnvironmentalAccumulator.PROGRESSHEIGHT, SanguinaryEnvironmentalAccumulatorRecipeHandler.CATEGORY);
             registry.getRecipeTransferRegistry().addRecipeTransferHandler(new SanguinaryEnvironmentalAccumulatorRecipeTransferInfo());
+            registry.addRecipeCategoryCraftingItem(new ItemStack(SanguinaryEnvironmentalAccumulator.getInstance()), SanguinaryEnvironmentalAccumulatorRecipeHandler.CATEGORY);
 
             // Exalted Crafter
             registry.addRecipeClickArea(GuiExaltedCrafter.class, 88, 32, 28, 23, VanillaRecipeCategoryUid.CRAFTING);
             registry.getRecipeTransferRegistry().addRecipeTransferHandler(new ExaltedCrafterRecipeTransferInfo());
+            List<ItemStack> exaltedCrafters = Lists.newArrayList();
+            ExaltedCrafter.getInstance().getSubItems(ExaltedCrafter.getInstance(), null, exaltedCrafters);
+            for (ItemStack exaltedCrafter : exaltedCrafters) {
+                registry.addRecipeCategoryCraftingItem(exaltedCrafter, VanillaRecipeCategoryUid.CRAFTING);
+            }
 
             // Ignore items
             JEI_HELPER.getItemBlacklist().addItemToBlacklist(new ItemStack(BloodStainedBlock.getInstance()));
