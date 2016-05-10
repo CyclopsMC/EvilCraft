@@ -2,10 +2,10 @@ package org.cyclops.evilcraft;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.translation.I18n;
 
 /**
  * An extension of the Minecraft {@code DamageSource}.
@@ -38,12 +38,12 @@ public class ExtendedDamageSource extends DamageSource{
     public static ExtendedDamageSource broomDamage(final EntityLivingBase attacker) {
         return new ExtendedDamageSource("broom", attacker) {
             @Override
-            public IChatComponent getDeathMessage(EntityLivingBase defender) {
+            public ITextComponent getDeathMessage(EntityLivingBase defender) {
                 String s = "death.attack." + this.damageType;
                 String s1 = s + ".player";
-                return attacker != null && StatCollector.canTranslate(s1)
-                        ? new ChatComponentTranslation(s1, new Object[] {defender.getDisplayName(), attacker.getDisplayName()})
-                        : new ChatComponentTranslation(s, new Object[] {defender.getDisplayName()});
+                return attacker != null && I18n.canTranslate(s1)
+                        ? new TextComponentTranslation(s1, new Object[] {defender.getDisplayName(), attacker.getDisplayName()})
+                        : new TextComponentTranslation(s, new Object[] {defender.getDisplayName()});
             }
         };
     }

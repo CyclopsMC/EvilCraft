@@ -7,19 +7,19 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelBakeEvent;
@@ -47,7 +47,6 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.model.ModelDisplayStand;
 import org.cyclops.evilcraft.tileentity.TileDisplayStand;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -94,17 +93,17 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
     }
     
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }
 
     @Override
-    public boolean isNormalCube() {
+    public boolean isNormalCube(IBlockState blockState) {
         return false;
     }
 
     @Override
-    public boolean isFullCube() {
+    public boolean isFullCube(IBlockState blockState) {
         return false;
     }
 
@@ -122,30 +121,17 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
     }
 
     @Override
-    public void setBlockBoundsForItemRender() {
-        FACING_BOUNDS.get(EnumFacing.DOWN);
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return FACING_BOUNDS.get(EnumFacing.DOWN);
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
-        AxisAlignedBB bounds = FACING_BOUNDS.get(world.getBlockState(blockPos).getValue(FACING));
-        setBlockBounds((float) bounds.minX, (float) bounds.minY, (float) bounds.minZ,
-                (float) bounds.maxX, (float) bounds.maxY, (float) bounds.maxZ);
-    }
-
-    @Override
-    public void addCollisionBoxesToList(World world, BlockPos blockPos, IBlockState blockState, AxisAlignedBB area, List list, Entity entity) {
-        setBlockBoundsBasedOnState(world, blockPos);
-        super.addCollisionBoxesToList(world, blockPos, blockState, area, list, entity);
-    }
-
-    @Override
-    public boolean hasComparatorInputOverride() {
+    public boolean hasComparatorInputOverride(IBlockState blockState) {
         return true;
     }
 
     @Override
-    public int getComparatorInputOverride(World world, BlockPos blockPos) {
+    public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos blockPos) {
         TileDisplayStand tile = TileHelpers.getSafeTile(world, blockPos, TileDisplayStand.class);
         if (tile != null && tile.getStackInSlot(0) != null) {
             return 15;
@@ -240,11 +226,11 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
+                                    ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             return true;
         } else {
-            ItemStack itemStack = player.inventory.getCurrentItem();
             TileDisplayStand tile = TileHelpers.getSafeTile(world, pos, TileDisplayStand.class);
             if (tile != null) {
                 ItemStack tileStack = tile.getStackInSlot(0);
@@ -286,15 +272,15 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
         ModelResourceLocation modelVariantLocation = new ModelResourceLocation(Reference.MOD_ID + ":displayStand", variant);
         try {
             ResourceLocation modelLocation = new ResourceLocation(Reference.MOD_ID, "block/displayStand" + (rotated ? "_rotated" : ""));
-            IBakedModel originalBakedModel = event.modelRegistry.getObject(modelVariantLocation);
+            IBakedModel originalBakedModel = event.getModelRegistry().getObject(modelVariantLocation);
             // We actually need to retrieve modelVariantLocation, but that seems to make it a non-IRetexturableModel
             // So instead, we manually apply model rotation in ModelDisplayStand when baking.
             IModel model = ModelLoaderRegistry.getModel(modelLocation);
             if (model instanceof IRetexturableModel && originalBakedModel instanceof IPerspectiveAwareModel) {
-                event.modelRegistry.putObject(modelVariantLocation,
+                event.getModelRegistry().putObject(modelVariantLocation,
                         new ModelDisplayStand((IPerspectiveAwareModel) originalBakedModel, (IRetexturableModel) model));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

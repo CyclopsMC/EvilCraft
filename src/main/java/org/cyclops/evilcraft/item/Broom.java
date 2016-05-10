@@ -214,7 +214,7 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
-    public void onRenderOverlayEvent(RenderGameOverlayEvent event) {
+    public void onRenderOverlayEvent(RenderGameOverlayEvent.Post event) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (player.getRidingEntity() instanceof EntityBroom
                 && event.getType() == RenderGameOverlayEvent.ElementType.ALL) {

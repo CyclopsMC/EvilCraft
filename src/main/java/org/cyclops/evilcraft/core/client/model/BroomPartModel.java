@@ -2,19 +2,17 @@ package org.cyclops.evilcraft.core.client.model;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.ModelRotation;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.common.model.IModelState;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -38,7 +36,7 @@ public class BroomPartModel implements IModel {
     }
 
     @Override
-    public IFlexibleBakedModel bake(IModelState state, VertexFormat format,
+    public IBakedModel bake(IModelState state, VertexFormat format,
                                     Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
         BroomPartModelBaked bakedModel = new BroomPartModelBaked();
 
@@ -48,7 +46,7 @@ public class BroomPartModel implements IModel {
                 IModel model = ModelLoaderRegistry.getModel(BroomParts.REGISTRY.getPartModel(part));
                 IBakedModel bakedAspectModel = model.bake(state, format, bakedTextureGetter);
                 bakedModel.addBroomPartModel(part, bakedAspectModel);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -4,15 +4,16 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.SimpleBakedModel;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.model.IColoredBakedQuad;
-import net.minecraftforge.client.model.ISmartItemModel;
-import org.cyclops.cyclopscore.client.model.DynamicBaseModel;
-import org.cyclops.cyclopscore.helper.ModelHelpers;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
+import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
@@ -27,30 +28,46 @@ import java.util.Map;
  */
 @EqualsAndHashCode(callSuper = false)
 @Data
-public class BroomPartModelBaked extends DynamicBaseModel implements ISmartItemModel {
+public class BroomPartModelBaked extends DynamicItemAndBlockModel {
 
     private final Map<IBroomPart, IBakedModel> broomPartModels = Maps.newHashMap();
+    private final List<BakedQuad> quads;
 
     public BroomPartModelBaked() {
+        super(true, false);
+        this.quads = null;
+    }
+
+    public BroomPartModelBaked(List<BakedQuad> quads) {
+        super(false, true);
+        this.quads = quads;
+    }
+
+    @Override
+    public List<BakedQuad> getGeneralQuads() {
+        return this.quads;
     }
 
     public void addBroomPartModel(IBroomPart part, IBakedModel bakedModel) {
         broomPartModels.put(part, bakedModel);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public IBakedModel handleItemState(ItemStack itemStack) {
+    public IBakedModel handleBlockState(IBlockState state, EnumFacing side, long rand) {
+        return null;
+    }
+
+    @Override
+    public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
         List<BakedQuad> quads = Lists.newLinkedList();
 
         IBroomPart part = BroomParts.REGISTRY.getPartFromItem(itemStack);
         IBakedModel model = broomPartModels.get(part);
         if (model != null) {
-            quads.addAll(color(model.getGeneralQuads(), part.getModelColor()));
+            quads.addAll(color(model.getQuads(null, getRenderingSide(), 0L), part.getModelColor()));
         }
 
-        return new SimpleBakedModel(quads, ModelHelpers.EMPTY_FACE_QUADS, this.isAmbientOcclusion(), this.isGui3d(),
-                this.getParticleTexture(), this.getItemCameraTransforms());
+        return new BroomPartModelBaked(quads);
     }
 
     /**
@@ -66,10 +83,8 @@ public class BroomPartModelBaked extends DynamicBaseModel implements ISmartItemM
             for(int i = 0; i < vertexData.length / 7; i++) {
                 vertexData[i * 7 + 3] = color;
             }
-
-            offsetQuads.add(new IColoredBakedQuad.ColoredBakedQuad(vertexData, quad.getTintIndex(), quad.getFace()));
+            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getFace(), quad.getSprite(), false, DefaultVertexFormats.ITEM));
         }
-
         return offsetQuads;
     }
 

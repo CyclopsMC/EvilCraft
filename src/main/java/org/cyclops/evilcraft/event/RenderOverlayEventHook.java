@@ -5,8 +5,8 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -35,9 +35,9 @@ public class RenderOverlayEventHook {
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
-    public void onRenderOverlayEvent(RenderGameOverlayEvent event) {
+    public void onRenderOverlayEvent(RenderGameOverlayEvent.Post event) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if (GeneralConfig.bloodGuiOverlay && event.type == RenderGameOverlayEvent.ElementType.ALL) {
+        if (GeneralConfig.bloodGuiOverlay && event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
             if (filledHeight < 0 || WorldHelpers.efficientTick(player.worldObj, 50)) {
                 Wrapper<Integer> amount = new Wrapper<Integer>(0);
                 Wrapper<Integer> capacity = new Wrapper<Integer>(1);
@@ -60,7 +60,7 @@ public class RenderOverlayEventHook {
             if (filledHeight > 0) {
                 RenderOverlayEventHook.OverlayPosition overlayPosition = RenderOverlayEventHook.OverlayPosition.values()[
                         MathHelper.clamp_int(GeneralConfig.bloodGuiOverlayPosition, 0, RenderOverlayEventHook.OverlayPosition.values().length - 1)];
-                ScaledResolution resolution = event.resolution;
+                ScaledResolution resolution = event.getResolution();
                 int x = overlayPosition.getX(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetX;
                 int y = overlayPosition.getY(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetY;
 

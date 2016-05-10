@@ -47,9 +47,9 @@ public class EntityColoredSmokeFX extends EntityFX {
         this.particleRed = r;
         this.particleGreen = g;
         this.particleBlue = b;
-        this.motionX = motionX;
-        this.motionY = motionY;
-        this.motionZ = motionZ;
+        this.xSpeed = motionX;
+        this.ySpeed = motionY;
+        this.zSpeed = motionZ;
         setParticleSettings();
     }
     

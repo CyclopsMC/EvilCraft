@@ -10,14 +10,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.server.S23PacketBlockChange;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
+import net.minecraft.network.play.client.CPacketPlayerDigging;
+import net.minecraft.network.play.server.SPacketBlockChange;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
@@ -74,82 +74,82 @@ public class BroomModifiers {
         MODIFIER_COUNT = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "modifier_count"),
                 BroomModifier.Type.ADDITIVE, 0F, 1F, 3, true,
-                EnumChatFormatting.BOLD, Helpers.RGBToInt(0, 0, 0)));
+                TextFormatting.BOLD, Helpers.RGBToInt(0, 0, 0)));
         REGISTRY.overrideDefaultModifierPart(MODIFIER_COUNT, null);
         SPEED = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "speed"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                EnumChatFormatting.RED, Helpers.RGBToInt(230, 20, 20)));
+                TextFormatting.RED, Helpers.RGBToInt(230, 20, 20)));
         ACCELERATION = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "acceleration"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                EnumChatFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
+                TextFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
         MANEUVERABILITY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "maneuverability"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                EnumChatFormatting.YELLOW, Helpers.RGBToInt(160, 160, 20)));
+                TextFormatting.YELLOW, Helpers.RGBToInt(160, 160, 20)));
         LEVITATION = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "levitation"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                EnumChatFormatting.WHITE, Helpers.RGBToInt(230, 230, 230)));
+                TextFormatting.WHITE, Helpers.RGBToInt(230, 230, 230)));
 
         // Optional modifiers
         DAMAGE = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "damage"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                EnumChatFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
+                TextFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
         PARTICLES = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "particles"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 5, false,
-                EnumChatFormatting.LIGHT_PURPLE, Helpers.RGBToInt(160, 20, 160)));
+                TextFormatting.LIGHT_PURPLE, Helpers.RGBToInt(160, 20, 160)));
         FLAME = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "flame"),
                 BroomModifier.Type.ADDITIVE, 0F, 1F, 10, false,
-                EnumChatFormatting.GOLD, Helpers.RGBToInt(100, 100, 0)));
+                TextFormatting.GOLD, Helpers.RGBToInt(100, 100, 0)));
         SMASH = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "smash"),
                 BroomModifier.Type.ADDITIVE, 0F, 2F, 10, false,
-                EnumChatFormatting.AQUA, Helpers.RGBToInt(20, 60, 60)));
+                TextFormatting.AQUA, Helpers.RGBToInt(20, 60, 60)));
         BOUNCY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "bouncy"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                EnumChatFormatting.GREEN, Helpers.RGBToInt(20, 200, 60)));
+                TextFormatting.GREEN, Helpers.RGBToInt(20, 200, 60)));
         WITHERER = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "witherer"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                EnumChatFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
+                TextFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
         HUNGERER = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "hungerer"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                EnumChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
+                TextFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
         KAMIKAZE = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "kamikaze"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                EnumChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
+                TextFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
         WITHERSHIELD = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "withershield"),
                 BroomModifier.Type.ADDITIVE, 0F, 5F, 4, false,
-                EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(20, 20, 120)));
+                TextFormatting.DARK_BLUE, Helpers.RGBToInt(20, 20, 120)));
         STURDYNESS = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "sturdyness"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                EnumChatFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
+                TextFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
         LUCK = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "luck"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                EnumChatFormatting.BLUE, Helpers.RGBToInt(30, 20, 210)));
+                TextFormatting.BLUE, Helpers.RGBToInt(30, 20, 210)));
         EFFICIENCY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "efficiency"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                EnumChatFormatting.DARK_RED, Helpers.RGBToInt(92, 29, 29)));
+                TextFormatting.DARK_RED, Helpers.RGBToInt(92, 29, 29)));
         SWIMMING = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "swimming"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                EnumChatFormatting.AQUA, Helpers.RGBToInt(150, 150, 235)));
+                TextFormatting.AQUA, Helpers.RGBToInt(150, 150, 235)));
         ICY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "icy"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                EnumChatFormatting.WHITE, Helpers.RGBToInt(220, 220, 240)));
+                TextFormatting.WHITE, Helpers.RGBToInt(220, 220, 240)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {
@@ -157,7 +157,7 @@ public class BroomModifiers {
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
                 float damage = (modifierValue * (float) broom.getLastPlayerSpeed()) / 50F;
                 if (damage > 0) {
-                    entity.attackEntityFrom(ExtendedDamageSource.broomDamage((EntityLivingBase) broom.riddenByEntity), damage);
+                    entity.attackEntityFrom(ExtendedDamageSource.broomDamage((EntityLivingBase) broom.getControllingPassenger()), damage);
                 }
             }
         });
@@ -215,8 +215,8 @@ public class BroomModifiers {
                 World world = broom.worldObj;
                 float maxHardness = modifierValue;
                 float toughnessModifier = Math.min(1F, 0.5F + (broom.getModifier(BroomModifiers.STURDYNESS) / (BroomModifiers.STURDYNESS.getMaxTierValue() * 1.5F) / 2F));
-                EntityLivingBase ridingEntity = broom.ridingEntity instanceof EntityLivingBase ? (EntityLivingBase) broom.ridingEntity : null;
-                EntityPlayer player = broom.ridingEntity instanceof EntityPlayer ? (EntityPlayer) broom.ridingEntity : null;
+                EntityLivingBase ridingEntity = broom.getControllingPassenger() instanceof EntityLivingBase ? (EntityLivingBase) broom.getControllingPassenger() : null;
+                EntityPlayer player = broom.getControllingPassenger() instanceof EntityPlayer ? (EntityPlayer) broom.getControllingPassenger() : null;
 
                 if (world.isAreaLoaded(blockpos, blockpos1)) {
                     for (int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
@@ -225,8 +225,8 @@ public class BroomModifiers {
                                 BlockPos pos = new BlockPos(i, j, k);
                                 IBlockState blockState = world.getBlockState(pos);
                                 Block block = blockState.getBlock();
-                                if (!blockState.getBlock().isAir(world, pos) && broom.canConsume(BroomConfig.bloodUsageBlockBreak, ridingEntity)) {
-                                    float hardness = blockState.getBlock().getBlockHardness(world, pos);
+                                if (!blockState.getBlock().isAir(blockState, world, pos) && broom.canConsume(BroomConfig.bloodUsageBlockBreak, ridingEntity)) {
+                                    float hardness = blockState.getBlockHardness(world, pos);
                                     if (hardness > 0F && hardness <= maxHardness && (player == null || ForgeHooks.canHarvestBlock(block, player, world, pos))) {
                                         broom.consume(BroomConfig.bloodUsageBlockBreak, ridingEntity);
                                         if (player == null) {
@@ -239,29 +239,29 @@ public class BroomModifiers {
                                             // Destroy the block
                                             if (!broom.worldObj.isRemote) {
                                                 EntityPlayerMP playerMp = (EntityPlayerMP) player;
-                                                int expToDrop = ForgeHooks.onBlockBreakEvent(world, playerMp.theItemInWorldManager.getGameType(), (EntityPlayerMP) player, pos);
+                                                int expToDrop = ForgeHooks.onBlockBreakEvent(world, playerMp.interactionManager.getGameType(), (EntityPlayerMP) player, pos);
                                                 if (expToDrop >= 0) {
                                                     // Block breaking sequence
                                                     block.onBlockHarvested(world, pos, blockState, player);
-                                                    if(block.removedByPlayer(world, pos, player, true)) {
+                                                    if(block.removedByPlayer(blockState, world, pos, player, true)) {
                                                         block.onBlockDestroyedByPlayer(world, pos, blockState);
-                                                        block.harvestBlock(world, player, pos, blockState, world.getTileEntity(pos));
+                                                        block.harvestBlock(world, player, pos, blockState, world.getTileEntity(pos), null);
                                                         block.dropXpOnBlockBreak(world, pos, expToDrop);
                                                     }
 
                                                     // Send block change packet to the client
-                                                    playerMp.playerNetServerHandler.sendPacket(new S23PacketBlockChange(world, pos));
+                                                    playerMp.playerNetServerHandler.sendPacket(new SPacketBlockChange(world, pos));
                                                 }
                                             } else {
                                                 // Play sound and client-side block breaking sequence
                                                 world.playAuxSFX(2001, pos, Block.getStateId(blockState));
-                                                if(block.removedByPlayer(world, pos, player, true)) {
+                                                if(block.removedByPlayer(blockState, world, pos, player, true)) {
                                                     block.onBlockDestroyedByPlayer(world, pos, blockState);
                                                 }
 
                                                 // Tell the server we are done with breaking this block
-                                                Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(
-                                                        C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pos,
+                                                Minecraft.getMinecraft().getNetHandler().addToSendQueue(new CPacketPlayerDigging(
+                                                        CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pos,
                                                         Minecraft.getMinecraft().objectMouseOver.sideHit));
                                             }
                                         }
@@ -299,20 +299,20 @@ public class BroomModifiers {
                 }
             }
         });
-        WITHERER.addCollisionListener(new PotionEffectBroomCollision(Potion.wither));
-        HUNGERER.addCollisionListener(new PotionEffectBroomCollision(Potion.hunger));
+        WITHERER.addCollisionListener(new PotionEffectBroomCollision(MobEffects.wither));
+        HUNGERER.addCollisionListener(new PotionEffectBroomCollision(MobEffects.hunger));
         KAMIKAZE.addCollisionListener(new BroomModifier.ICollisionListener() {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
                 World world = broom.worldObj;
                 float power = (modifierValue * (float) broom.getLastPlayerSpeed()) / 5F;
-                if (power > 0 && broom.riddenByEntity != null) {
-                    broom.riddenByEntity.mountEntity(null);
+                if (power > 0 && broom.getControllingPassenger() != null) {
+                    broom.dismountRidingEntity();
                     world.createExplosion(null, broom.posX, broom.posY, broom.posZ, power, true);
                 }
             }
         });
-        ICY.addCollisionListener(new PotionEffectBroomCollision(Potion.moveSlowdown, 2));
+        ICY.addCollisionListener(new PotionEffectBroomCollision(MobEffects.moveSlowdown, 2));
     }
 
     public static void loadPost() {
@@ -360,9 +360,9 @@ public class BroomModifiers {
 
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
-        if (event.entityLiving != null && event.entityLiving.ridingEntity instanceof EntityBroom
-                && event.source.getSourceOfDamage() instanceof IProjectile) {
-            EntityBroom broom = (EntityBroom) event.entityLiving.ridingEntity;
+        if (event.getEntityLiving() != null && event.getEntityLiving().getRidingEntity() instanceof EntityBroom
+                && event.getSource().getSourceOfDamage() instanceof IProjectile) {
+            EntityBroom broom = (EntityBroom) event.getEntityLiving().getRidingEntity();
             float modifierValue = broom.getModifier(BroomModifiers.WITHERSHIELD);
             if (modifierValue > 0 && modifierValue > broom.worldObj.rand.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
                 event.setCanceled(true);

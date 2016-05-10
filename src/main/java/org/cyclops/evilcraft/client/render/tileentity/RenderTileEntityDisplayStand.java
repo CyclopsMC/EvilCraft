@@ -60,12 +60,10 @@ public class RenderTileEntityDisplayStand extends TileEntitySpecialRenderer<Tile
 
         GlStateManager.translate(1F, 1F, 1F);
         if (itemStack.getItem() instanceof ItemBlock) {
-            GlStateManager.scale(1.2F, 1.2F, 1.2F);
+            GlStateManager.scale(0.6F, 0.6F, 0.6F);
             GlStateManager.rotate(90F, 0, 1, 0);
-        } else if(itemStack.getItem() instanceof IBroom) {
-            GlStateManager.scale(2F, 2F, 2F);
-        } else {
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
+        } else if(!(itemStack.getItem() instanceof IBroom)) {
+            GlStateManager.scale(0.25F, 0.25F, 0.25F);
             GlStateManager.rotate(90F, 0, 1, 0);
         }
 

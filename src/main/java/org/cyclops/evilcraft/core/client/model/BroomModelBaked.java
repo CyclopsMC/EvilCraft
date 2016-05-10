@@ -72,8 +72,13 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
 
     private final List<BakedQuad> quads;
 
+    public BroomModelBaked() {
+        super(true, false);
+        this.quads = null;
+    }
+
     public BroomModelBaked(List<BakedQuad> quads) {
-        super(true, true);
+        super(false, true);
         this.quads = quads;
     }
 

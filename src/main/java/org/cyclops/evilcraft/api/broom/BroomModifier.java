@@ -3,8 +3,8 @@ package org.cyclops.evilcraft.api.broom;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -52,7 +52,7 @@ public class BroomModifier {
 
     public BroomModifier(ResourceLocation id, Type type, float defaultValue,
                          float tierValue, int maxTiers, boolean baseModifier,
-                         EnumChatFormatting singleFormat, int modelColor) {
+                         TextFormatting singleFormat, int modelColor) {
         this(id, type, defaultValue, tierValue, maxTiers, baseModifier, singleFormat.toString(), modelColor);
     }
 
@@ -132,7 +132,7 @@ public class BroomModifier {
     }
 
     public String getTooltipFormat() {
-        return tooltipFormat + (isBaseModifier() ? "" : EnumChatFormatting.ITALIC.toString());
+        return tooltipFormat + (isBaseModifier() ? "" : TextFormatting.ITALIC.toString());
     }
 
     public int getModelColor() {

@@ -1,15 +1,19 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -76,12 +80,22 @@ public class BroomPart extends ConfigurableItem {
         }
     }
 
+    @Nullable
     @Override
-    public int getColorFromItemStack(ItemStack stack, int renderPass) {
-        IBroomPart part = getPart(stack);
-        if (part != null) {
-            return part.getModelColor();
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            IBroomPart part = BroomPart.getInstance().getPart(itemStack);
+            if (part != null) {
+                return part.getModelColor();
+            }
+            return -1;
         }
-        return super.getColorFromItemStack(stack, renderPass);
     }
 }

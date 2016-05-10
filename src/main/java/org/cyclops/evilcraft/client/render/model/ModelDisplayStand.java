@@ -4,16 +4,22 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.ModelRotation;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.client.model.*;
+import net.minecraft.world.World;
+import net.minecraftforge.client.model.IModel;
+import net.minecraftforge.client.model.IPerspectiveAwareModel;
+import net.minecraftforge.client.model.IRetexturableModel;
+import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.property.IExtendedBlockState;
-import org.cyclops.cyclopscore.client.model.DynamicBaseModel;
+import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.block.DisplayStand;
 
 import java.util.Map;
@@ -23,7 +29,7 @@ import java.util.Map;
  * Inspired by TCon's dynamic tool table retexturing.
  * @author rubensworks
  */
-public class ModelDisplayStand extends DynamicBaseModel implements ISmartBlockModel, ISmartItemModel {
+public class ModelDisplayStand extends DynamicItemAndBlockModel {
 
     private static final Map<EnumFacing, ModelRotation> ROTATIONS = ImmutableMap.<EnumFacing, ModelRotation>builder()
             .put(EnumFacing.NORTH, ModelRotation.X270_Y0)
@@ -39,6 +45,7 @@ public class ModelDisplayStand extends DynamicBaseModel implements ISmartBlockMo
     private final IRetexturableModel retexturableModel;
 
     public ModelDisplayStand(IPerspectiveAwareModel untexturedBakedModel, IRetexturableModel retexturableModel) {
+        super(true, false);
         this.untexturedBakedModel = untexturedBakedModel;
         this.retexturableModel = retexturableModel;
     }
@@ -71,13 +78,14 @@ public class ModelDisplayStand extends DynamicBaseModel implements ISmartBlockMo
     }
 
     @Override
-    public IBakedModel handleItemState(ItemStack itemStack) {
-        return handleDisplayStandType(DisplayStand.getInstance().getDisplayStandType(itemStack), true, EnumFacing.DOWN);
+    public IBakedModel handleBlockState(IBlockState state, EnumFacing side, long rand) {
+        return new MapWrapper(handleDisplayStandType(((IExtendedBlockState) state).getValue(DisplayStand.TYPE),
+                state.getValue(DisplayStand.AXIS_X), state.getValue(DisplayStand.FACING)), ModelHelpers.DEFAULT_PERSPECTIVE_TRANSFORMS);
     }
 
     @Override
-    public IBakedModel handleBlockState(IBlockState state) {
-        return handleDisplayStandType(((IExtendedBlockState) state).getValue(DisplayStand.TYPE),
-                state.getValue(DisplayStand.AXIS_X), state.getValue(DisplayStand.FACING));
+    public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
+        return new MapWrapper(handleDisplayStandType(DisplayStand.getInstance().getDisplayStandType(itemStack),
+                true, EnumFacing.DOWN), ModelHelpers.DEFAULT_PERSPECTIVE_TRANSFORMS);
     }
 }

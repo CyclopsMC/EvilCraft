@@ -4,8 +4,8 @@ import com.google.common.collect.Maps;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -168,15 +168,15 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     @SubscribeEvent
     public void onTooltipEvent(ItemTooltipEvent event) {
         if (BroomConfig.broomModifierTooltips) {
-            Map<BroomModifier, Float> modifiers = getModifiersFromItem(event.itemStack);
+            Map<BroomModifier, Float> modifiers = getModifiersFromItem(event.getItemStack());
             if (modifiers != null) {
                 if (MinecraftHelpers.isShifted()) {
-                    event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
+                    event.getToolTip().add(TextFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
                     for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
-                        event.toolTip.add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
+                        event.getToolTip().add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
                     }
                 } else {
-                    event.toolTip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".shiftinfo"));
+                    event.getToolTip().add(TextFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".shiftinfo"));
                 }
             }
         }
