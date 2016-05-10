@@ -1,12 +1,13 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -36,7 +37,7 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     public ObscuredGlass(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.glass);
         this.setHardness(0.5F);
-        this.setStepSound(soundTypeGlass);
+        this.setStepSound(SoundType.GLASS);
         this.setLightOpacity(10);
     }
     
@@ -47,23 +48,23 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public boolean shouldSideBeRendered(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos blockPos, EnumFacing side) {
         Block block = world.getBlockState(blockPos).getBlock();
-        return block == this ? false : super.shouldSideBeRendered(world, blockPos, side);
+        return block != this && super.shouldSideBeRendered(blockState, world, blockPos, side);
     }
     
     @Override
-    public boolean isNormalCube() {
+    public boolean isNormalCube(IBlockState blockState) {
         return false;
     }
     
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }
 
     @Override
-    public EnumWorldBlockLayer getBlockLayer() {
-        return EnumWorldBlockLayer.CUTOUT_MIPPED;
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT_MIPPED;
     }
 }

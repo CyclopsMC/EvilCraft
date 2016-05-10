@@ -1,13 +1,14 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.inventory.Container;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -49,9 +50,13 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
     public SpiritReanimator(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock, TileSpiritReanimator.class);
         this.setHardness(5.0F);
-        this.setStepSound(soundTypeStone);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
         this.setRotatable(true);
+    }
+
+    @Override
+    public SoundType getStepSound() {
+        return SoundType.STONE;
     }
 
     @Override
@@ -66,10 +71,10 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, BlockPos blockPos, IBlockState blockState, Random random) {
+    public void randomDisplayTick(IBlockState blockState, World world, BlockPos blockPos, Random random) {
         EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(blockPos), world, blockPos,
                 random, BlockHelpers.getSafeBlockStateProperty(blockState, FACING, EnumFacing.NORTH));
-        super.randomDisplayTick(world, blockPos, blockState, random);
+        super.randomDisplayTick(blockState, world, blockPos, random);
     }
 
     @Override

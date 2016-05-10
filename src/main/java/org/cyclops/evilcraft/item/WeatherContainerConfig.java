@@ -35,5 +35,4 @@ public class WeatherContainerConfig extends ItemConfig {
             WeatherContainer.class
         );
     }
-    
 }

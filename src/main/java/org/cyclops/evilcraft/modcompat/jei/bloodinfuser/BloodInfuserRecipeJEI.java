@@ -69,8 +69,8 @@ public class BloodInfuserRecipeJEI extends BlankRecipeWrapper {
     }
 
     @Override
-    public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
-        super.drawInfo(minecraft, recipeWidth, recipeHeight);
+    public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+        super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
         FontRenderer fontRendererObj = minecraft.fontRendererObj;
         fontRendererObj.drawString(this.xpString, 100 - fontRendererObj.getStringWidth(this.xpString) / 2, 5, Color.gray.getRGB());
     }

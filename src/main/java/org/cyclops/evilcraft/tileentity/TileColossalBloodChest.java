@@ -6,12 +6,14 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -26,6 +28,7 @@ import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
+import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.block.ColossalBloodChest;
 import org.cyclops.evilcraft.block.ColossalBloodChestConfig;
 import org.cyclops.evilcraft.block.ReinforcedUndeadPlank;
@@ -319,11 +322,12 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         prevLidAngle = lidAngle;
         float increaseAngle = 0.05F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
-            worldObj.playSoundEffect(
+            EvilCraft.proxy.playSound(
                     (double) getPos().getX() + 0.5D,
                     (double) getPos().getY() + 0.5D,
                     (double) getPos().getZ() + 0.5D,
-                    "random.chestopen",
+                    SoundEvents.block_chest_open,
+                    SoundCategory.BLOCKS,
                     0.5F,
                     worldObj.rand.nextFloat() * 0.1F + 0.5F
             );
@@ -340,11 +344,12 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
             }
             float closedAngle = 0.5F;
             if (lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
-                worldObj.playSoundEffect(
+                EvilCraft.proxy.playSound(
                         (double) getPos().getX() + 0.5D,
                         (double) getPos().getY() + 0.5D,
                         (double) getPos().getZ() + 0.5D,
-                        "random.chestclosed",
+                        SoundEvents.block_chest_close,
+                        SoundCategory.BLOCKS,
                         0.5F,
                         worldObj.rand.nextFloat() * 0.1F + 0.5F
                 );

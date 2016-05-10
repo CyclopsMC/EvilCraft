@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.entity.block;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -18,7 +18,7 @@ import org.cyclops.evilcraft.client.render.block.RenderBombPrimed;
  * @author rubensworks
  *
  */
-public class EntityLightningBombPrimedConfig extends EntityConfig {
+public class EntityLightningBombPrimedConfig extends EntityConfig<EntityTNTPrimed> {
     
     /**
      * The unique instance.
@@ -46,8 +46,8 @@ public class EntityLightningBombPrimedConfig extends EntityConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderBombPrimed(Minecraft.getMinecraft().getRenderManager(), LightningBomb.getInstance());
+    public Render<EntityTNTPrimed> getRender(RenderManager renderManager, RenderItem renderItem) {
+        return new RenderBombPrimed(renderManager, LightningBomb.getInstance());
     }
     
 }

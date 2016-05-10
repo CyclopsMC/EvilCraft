@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
@@ -8,10 +9,11 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -48,30 +50,30 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
     public ReinforcedUndeadPlank(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
         this.setHardness(5.0F);
-        this.setStepSound(soundTypeWood);
+        this.setStepSound(SoundType.WOOD);
         this.setHarvestLevel("axe", 2); // Iron tier
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public EnumWorldBlockLayer getBlockLayer() {
-        return EnumWorldBlockLayer.CUTOUT_MIPPED;
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT_MIPPED;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public boolean isFullCube() {
+    public boolean isFullCube(IBlockState blockState) {
         return false;
     }
 
     @Override
-    public boolean canCreatureSpawn(IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type) {
+    public boolean canCreatureSpawn(IBlockState blockState, IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type) {
         return false;
     }
 
@@ -114,7 +116,8 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side,
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player,
+                                    EnumHand hand, ItemStack heldItem, EnumFacing side,
                                     float posX, float posY, float posZ) {
         if((Boolean) blockState.getValue(ACTIVE)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
@@ -132,11 +135,11 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
             if(tileLocation != null) {
                 world.getBlockState(tileLocation).getBlock().
                         onBlockActivated(world, tileLocation, world.getBlockState(tileLocation),
-                                player, side, posX, posY, posZ);
+                                player, hand, heldItem, side, posX, posY, posZ);
                 return true;
             }
         }
-        return super.onBlockActivated(world, blockPos, blockState, player, side, posX, posY, posZ);
+        return super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, posX, posY, posZ);
     }
 
 }

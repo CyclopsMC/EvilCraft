@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
@@ -39,9 +39,9 @@ public class EntityBlurFX extends EntityFX {
 	 * @param y Y coordinate.
 	 * @param z Z coordinate.
 	 * @param scale The scale of this particle.
-	 * @param motionX The X motion speed.
-	 * @param motionY The Y motion speed.
-	 * @param motionZ The Z motion speed.
+	 * @param xSpeed The X motion speed.
+	 * @param ySpeed The Y motion speed.
+	 * @param zSpeed The Z motion speed.
 	 * @param red Red tint.
 	 * @param green Green tint.
 	 * @param blue Blue tint.
@@ -49,12 +49,12 @@ public class EntityBlurFX extends EntityFX {
 	 * a partially random factor).
 	 */
 	public EntityBlurFX(World world, double x, double y, double z, float scale,
-			double motionX, double motionY, double motionZ, 
+			double xSpeed, double ySpeed, double zSpeed,
 			float red, float green, float blue, float ageMultiplier) {
 		super(world, x, y, z, 0, 0, 0);
-		this.motionX = motionX;
-		this.motionY = motionY;
-		this.motionZ = motionZ;
+		this.xSpeed = xSpeed;
+		this.ySpeed = ySpeed;
+		this.zSpeed = zSpeed;
 		
 		this.particleRed = red;
 		this.particleGreen = green;
@@ -63,7 +63,6 @@ public class EntityBlurFX extends EntityFX {
 		
 		this.particleScale *= scale;
 		this.particleMaxAge = (int) ((rand.nextFloat() * 0.33F + 0.66F) * ageMultiplier);
-		this.noClip = true;
 		this.setSize(0.01F, 0.01F);
 		
 		this.prevPosX = posX;
@@ -91,7 +90,7 @@ public class EntityBlurFX extends EntityFX {
 	}
 
     @Override
-    public void renderParticle(WorldRenderer worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void renderParticle(VertexBuffer worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		float agescale = (float)particleAge / (float) scaleLife;
 		if(agescale > 1F) {
 			agescale = 2 - agescale;
@@ -147,16 +146,16 @@ public class EntityBlurFX extends EntityFX {
 		prevPosZ = posZ;
 
 		if(particleAge++ >= particleMaxAge) {
-			setDead();
+			setExpired();
 		}
 
-		motionY -= 0.04D * particleGravity;
-		posX += motionX;
-		posY += motionY;
-		posZ += motionZ;
-		motionX *= 0.98000001907348633D;
-		motionY *= 0.98000001907348633D;
-		motionZ *= 0.98000001907348633D;
+		ySpeed -= 0.04D * particleGravity;
+		posX += xSpeed;
+		posY += ySpeed;
+		posZ += zSpeed;
+		xSpeed *= 0.98000001907348633D;
+		ySpeed *= 0.98000001907348633D;
+		zSpeed *= 0.98000001907348633D;
 	}
 
 	/**

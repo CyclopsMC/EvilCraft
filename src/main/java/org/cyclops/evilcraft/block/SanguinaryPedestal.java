@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -46,12 +46,12 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
     }
     
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }
 
     @Override
-    public boolean isNormalCube() {
+    public boolean isNormalCube(IBlockState blockState) {
         return false;
     }
 
@@ -71,7 +71,7 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
     @Override
     public String getInfo(ItemStack itemStack) {
         if(itemStack.getItemDamage() == 1) {
-            return EnumChatFormatting.GRAY + L10NHelpers.localize(this.getUnlocalizedName() + ".boost");
+            return TextFormatting.GRAY + L10NHelpers.localize(this.getUnlocalizedName() + ".boost");
         }
         return null;
     }

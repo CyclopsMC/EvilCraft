@@ -7,6 +7,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -162,11 +165,11 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
 	}
 	
 	@Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(block.isActivatable()) {
-        	return block.toggleActivation(itemStack, world, player);
+            return new ActionResult<ItemStack>(EnumActionResult.PASS, block.toggleActivation(itemStack, world, player));
         }
-        return super.onItemRightClick(itemStack, world, player);
+        return super.onItemRightClick(itemStack, world, player, hand);
     }
 
     protected void autofill(IFluidContainerItem item, ItemStack itemStack, World world, Entity entity) {
@@ -192,4 +195,8 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
         }
     }
 
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return oldStack.getItem() != newStack.getItem();
+    }
 }

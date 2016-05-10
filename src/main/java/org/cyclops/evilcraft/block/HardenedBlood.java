@@ -1,17 +1,20 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockConnectedTexture;
@@ -41,7 +44,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
 
     public HardenedBlood(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.ice);
-        this.setStepSound(soundTypeStone);
+        this.setStepSound(SoundType.STONE);
         this.setHardness(0.5F);
         
         this.setHarvestLevel("pickaxe", 0);
@@ -58,18 +61,19 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public void harvestBlock(World world, EntityPlayer player, BlockPos blockPos, IBlockState blockState, TileEntity tile){
-        player.addStat(StatList.mineBlockStatArray[Block.getIdFromBlock(this)], 1);
+    public void harvestBlock(World world, EntityPlayer player, BlockPos blockPos, IBlockState blockState, TileEntity tile, ItemStack heldItem){
+        // MCP: mineBlockStatArray
+        player.addStat(StatList.func_188055_a(this), 1);
         player.addExhaustion(0.025F);
 
-        if (this.canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(player)) {
+        if (this.canSilkHarvest() && EnchantmentHelper.getEnchantmentLevel(Enchantments.silkTouch, heldItem) > 0) {
             ItemStack itemstack = this.createStackedBlock(blockState);
 
             if (itemstack != null) {
                 spawnAsEntity(world, blockPos, itemstack);
             }
         } else {
-            Material material = world.getBlockState(blockPos.add(0, -1, 0)).getBlock().getMaterial();
+            Material material = world.getBlockState(blockPos.add(0, -1, 0)).getMaterial();
 
             if (material.blocksMovement() || material.isLiquid()) {
                 world.setBlockState(blockPos, FluidBlockBlood.getInstance().getDefaultState());
@@ -78,8 +82,8 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public int getMobilityFlag() {
-        return 0;
+    public EnumPushReaction getMobilityFlag(IBlockState blockState) {
+        return EnumPushReaction.BLOCK;
     }
     
     @Override
@@ -88,15 +92,13 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float coordX, float coordY, float coordZ) {
-        if (player.getCurrentEquippedItem() != null) {
-            if (player.getCurrentEquippedItem().getItem() == Items.flint_and_steel) {
-                if(player.capabilities.isCreativeMode || !player.getCurrentEquippedItem().attemptDamageItem(1, world.rand))
-                    splitBlock(world, blockPos);
-                return true;
-            }
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float coordX, float coordY, float coordZ) {
+        if (heldItem != null && heldItem.getItem() == Items.flint_and_steel
+                && (player.capabilities.isCreativeMode || !heldItem.attemptDamageItem(1, world.rand))) {
+            splitBlock(world, blockPos);
+            return true;
         }
-        return super.onBlockActivated(world, blockPos, blockState, player, side, coordX, coordY, coordZ);
+        return super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, coordX, coordY, coordZ);
     }
 
     private void splitBlock(World world, BlockPos blockPos) {
@@ -107,7 +109,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public boolean isNormalCube(IBlockAccess world, BlockPos blockPos) {
+    public boolean isNormalCube(IBlockState blockState, IBlockAccess world, BlockPos blockPos) {
         return false;
     }
 

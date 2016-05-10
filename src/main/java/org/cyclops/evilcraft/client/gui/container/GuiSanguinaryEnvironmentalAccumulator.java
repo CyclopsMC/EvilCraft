@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.SanguinaryEnvironmentalAccumulator;

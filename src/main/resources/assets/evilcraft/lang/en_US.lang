@@ -380,6 +380,16 @@ broom.modifiers.evilcraft.type.efficiency.name=Efficiency
 broom.modifiers.evilcraft.type.swimming.name=Swimming
 broom.modifiers.evilcraft.type.icy.name=Icy
 
+# Subtitles
+subtitles.evilcraft.effect.vengeancebeam.base=Vengeance Beam
+subtitles.evilcraft.effect.vengeancebeam.start=Vengeance Beam Start
+subtitles.evilcraft.effect.vengeancebeam.stop=Vengeance Beam Stop
+subtitles.evilcraft.mob.vengeancespirit.ambient=Vengeance Spirit Growl
+subtitles.evilcraft.mob.vengeancespirit.death=Vengeance Spirit Death
+subtitles.evilcraft.effect.box.beam=Box of Eternal Closure Beam
+subtitles.evilcraft.effect.page.flipsingle=Flip Page
+subtitles.evilcraft.effect.page.flipmultiple=Flip Pages
+
 # ------ Origins of Darkness contents ------
 infoBook.evilcraft.section.main=Origins of Darkness
 infoBook.evilcraft.tagIndex=&oIndex&r

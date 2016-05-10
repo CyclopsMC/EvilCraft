@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,7 +16,7 @@ import org.cyclops.evilcraft.item.WeatherContainer;
  * @author rubensworks
  *
  */
-public class EntityWeatherContainerConfig extends EntityConfig {
+public class EntityWeatherContainerConfig extends EntityConfig<EntityWeatherContainer> {
     
     /**
      * The unique instance.
@@ -39,7 +39,7 @@ public class EntityWeatherContainerConfig extends EntityConfig {
     @SideOnly(Side.CLIENT)
     @Override
     public Render getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderThrowable(Minecraft.getMinecraft().getRenderManager(), WeatherContainer.getInstance(), Minecraft.getMinecraft().getRenderItem());
+        return new RenderThrowable(renderManager, WeatherContainer.getInstance(), Minecraft.getMinecraft().getRenderItem());
     }
     
     @Override

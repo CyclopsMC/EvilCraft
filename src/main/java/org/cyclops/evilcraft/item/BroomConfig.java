@@ -70,4 +70,5 @@ public class BroomConfig extends ItemConfig {
             Broom.class
         );
     }
+
 }

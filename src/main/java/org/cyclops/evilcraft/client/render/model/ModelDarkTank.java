@@ -3,14 +3,15 @@ package org.cyclops.evilcraft.client.render.model;
 import com.google.common.collect.Lists;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.client.model.ISmartBlockModel;
+import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fluids.FluidStack;
-import org.cyclops.cyclopscore.client.model.DynamicChildItemModel;
+import org.cyclops.cyclopscore.client.model.DelegatingChildDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.block.DarkTank;
@@ -22,7 +23,7 @@ import java.util.List;
  * The dynamic item model for the dark tank.
  * @author rubensworks
  */
-public class ModelDarkTank extends DynamicChildItemModel implements ISmartBlockModel {
+public class ModelDarkTank extends DelegatingChildDynamicItemAndBlockModel {
 
     private final int capacity;
     private final FluidStack fluidStack;
@@ -33,8 +34,16 @@ public class ModelDarkTank extends DynamicChildItemModel implements ISmartBlockM
         this.fluidStack = null;
     }
 
-    public ModelDarkTank(IBakedModel baseModel, int capacity, FluidStack fluidStack) {
-        super(baseModel);
+    public ModelDarkTank(IBakedModel baseModel, int capacity, FluidStack fluidStack,
+                         IBlockState blockState, EnumFacing facing, long rand) {
+        super(baseModel, blockState, facing, rand);
+        this.capacity = capacity;
+        this.fluidStack = fluidStack;
+    }
+
+    public ModelDarkTank(IBakedModel baseModel, int capacity, FluidStack fluidStack,
+                         ItemStack itemStack, World world, EntityLivingBase entity) {
+        super(baseModel, itemStack, world, entity);
         this.capacity = capacity;
         this.fluidStack = fluidStack;
     }
@@ -50,8 +59,26 @@ public class ModelDarkTank extends DynamicChildItemModel implements ISmartBlockM
         if(fluidStack != null) {
             combinedList.addAll(getFluidQuads(fluidStack, capacity));
         }
-        combinedList.addAll(getBaseModel().getGeneralQuads());
+        combinedList.addAll(baseModel.getQuads(blockState, getRenderingSide(), rand));
         return combinedList;
+    }
+
+    @Override
+    public IBakedModel handleBlockState(IBlockState state, EnumFacing side, long rand) {
+        int capacity = BlockHelpers.getSafeBlockStateProperty((IExtendedBlockState) state, DarkTank.TANK_CAPACITY, 0);
+        FluidStack fluidStack = BlockHelpers.getSafeBlockStateProperty((IExtendedBlockState) state, DarkTank.TANK_FLUID, null);
+        return new ModelDarkTank(baseModel, capacity, fluidStack, state, side, rand);
+    }
+
+    @Override
+    public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
+        final IBlockTank tank = getBlockTank(itemStack);
+        if(itemStack != null && itemStack.getTagCompound() != null) {
+            int capacity = tank.getTankCapacity(itemStack);
+            FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(itemStack.getTagCompound().getCompoundTag(tank.getTankNBTName()));
+            return new ModelDarkTank(baseModel, capacity, fluidStack, itemStack, world, entity);
+        }
+        return new ModelDarkTank(baseModel, 0, null, itemStack, world, entity);
     }
 
     protected List<BakedQuad> getFluidQuads(FluidStack fluidStack, int capacity) {
@@ -94,20 +121,7 @@ public class ModelDarkTank extends DynamicChildItemModel implements ISmartBlockM
     }
 
     @Override
-    public IBakedModel handleItemState(ItemStack itemStack) {
-        final IBlockTank tank = getBlockTank(itemStack);
-        if(itemStack.getTagCompound() != null) {
-            int capacity = tank.getTankCapacity(itemStack);
-            FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(itemStack.getTagCompound().getCompoundTag(tank.getTankNBTName()));
-            return new ModelDarkTank(getBaseModel(), capacity, fluidStack);
-        }
-        return this;
-    }
-
-    @Override
-    public IBakedModel handleBlockState(IBlockState state) {
-        int capacity = BlockHelpers.getSafeBlockStateProperty((IExtendedBlockState) state, DarkTank.TANK_CAPACITY, 0);
-        FluidStack fluidStack = BlockHelpers.getSafeBlockStateProperty((IExtendedBlockState) state, DarkTank.TANK_FLUID, null);
-        return new ModelDarkTank(getBaseModel(), capacity, fluidStack);
+    public TextureAtlasSprite getParticleTexture() {
+        return baseModel.getParticleTexture();
     }
 }

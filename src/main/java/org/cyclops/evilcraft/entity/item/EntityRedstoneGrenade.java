@@ -3,9 +3,9 @@ package org.cyclops.evilcraft.entity.item;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -53,9 +53,9 @@ public class EntityRedstoneGrenade extends EntityThrowable implements IConfigura
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition pos) {
+    protected void onImpact(RayTraceResult pos) {
         BlockPos blockPos = pos.getBlockPos();
-        
+
         if (worldObj.isAirBlock(blockPos.add(pos.sideHit.getDirectionVec()))) {
 			if(Configs.isEnabled(InvisibleRedstoneBlockConfig.class)) {
 	            worldObj.setBlockState(blockPos.add(pos.sideHit.getDirectionVec()), InvisibleRedstoneBlock.getInstance().getDefaultState());

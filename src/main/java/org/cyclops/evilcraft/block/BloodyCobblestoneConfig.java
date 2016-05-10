@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
@@ -35,8 +36,12 @@ public class BloodyCobblestoneConfig extends BlockConfig {
 
     @Override
     protected IConfigurable initSubInstance() {
-        Block block = new ConfigurableBlock(this, Material.rock).setHardness(1.5F).setResistance(10.0F).
-                setStepSound(Block.soundTypeStone);
+        Block block = new ConfigurableBlock(this, Material.rock) {
+            @Override
+            public SoundType getStepSound() {
+                return SoundType.STONE;
+            }
+        }.setHardness(1.5F).setResistance(10.0F);
         block.setHarvestLevel("pickaxe", 0);
         return (ConfigurableBlock) block;
     }

@@ -6,8 +6,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainerGui;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -42,21 +43,21 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
     }
     
     @Override
-    public boolean hasComparatorInputOverride() {
+    public boolean hasComparatorInputOverride(IBlockState blockState) {
     	return true;
     }
 
     @Override
-    public int getComparatorInputOverride(World world, BlockPos blockPos) {
+    public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos blockPos) {
     	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float motionX, float motionY, float motionZ) {
-    	return tankComponent.onBlockActivatedTank(world, blockPos, player, side, motionX, motionY, motionZ) ||
-                super.onBlockActivated(world, blockPos, blockState, player, side, motionX, motionY, motionZ);
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float motionX, float motionY, float motionZ) {
+    	return tankComponent.onBlockActivatedTank(world, blockPos, player, hand, heldItem, side, motionX, motionY, motionZ) ||
+                super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, motionX, motionY, motionZ);
     }
     
     @Override

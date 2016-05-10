@@ -1,12 +1,13 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Maps;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
@@ -19,6 +20,7 @@ import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 import org.lwjgl.input.Keyboard;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -80,13 +82,6 @@ public class Promise extends ConfigurableItem {
         }
         return super.getItemStackLimit(itemStack);
     }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
-        Upgrades.Upgrade upgrade = getUpgrade(itemStack);
-        return renderPass == 0 ? SECONDARY_COLORS.get(upgrade) : MAIN_COLORS.get(upgrade);
-    }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
@@ -94,9 +89,9 @@ public class Promise extends ConfigurableItem {
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            list.add(EnumChatFormatting.DARK_GREEN + L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".useIn"));
+            list.add(TextFormatting.DARK_GREEN + L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".useIn"));
             for(BlockConfig upgradable : getUpgrade(itemStack).getUpgradables()) {
-                list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("tile." + upgradable.getUnlocalizedName() + ".name"));
+                list.add(TextFormatting.ITALIC + L10NHelpers.localize("tile." + upgradable.getUnlocalizedName() + ".name"));
             }
         }
     }
@@ -135,6 +130,22 @@ public class Promise extends ConfigurableItem {
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
         return itemStack.getItemDamage() < 3 ? EnumRarity.RARE : EnumRarity.UNCOMMON;
+    }
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            Upgrades.Upgrade upgrade = Promise.getInstance().getUpgrade(itemStack);
+            return renderPass == 0 ? SECONDARY_COLORS.get(upgrade) : MAIN_COLORS.get(upgrade);
+        }
     }
 
 }

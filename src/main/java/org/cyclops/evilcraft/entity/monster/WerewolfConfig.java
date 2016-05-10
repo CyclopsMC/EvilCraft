@@ -17,7 +17,7 @@ import org.cyclops.evilcraft.client.render.model.ModelWerewolf;
  * @author rubensworks
  *
  */
-public class WerewolfConfig extends MobConfig {
+public class WerewolfConfig extends MobConfig<Werewolf> {
     
     /**
      * The unique instance.
@@ -60,7 +60,7 @@ public class WerewolfConfig extends MobConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager) {
+    public Render<Werewolf> getRender(RenderManager renderManager) {
         return new RenderWerewolf(renderManager, this, new ModelWerewolf(), 0.5F);
     }
     

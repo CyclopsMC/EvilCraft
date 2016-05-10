@@ -6,7 +6,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -69,7 +69,7 @@ public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerab
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(isEmpowered(itemStack))
-            list.add(EnumChatFormatting.RED + "Empowered");
+            list.add(TextFormatting.RED + "Empowered");
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })

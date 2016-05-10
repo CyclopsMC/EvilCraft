@@ -1,7 +1,8 @@
 package org.cyclops.evilcraft.world.gen;
 
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.IWorldGenerator;
@@ -23,7 +24,7 @@ import java.util.Random;
  */
 public class DarkTempleGenerator implements IWorldGenerator {
 	@Override
-    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		if (canGenerate(world) && Configs.isEnabled(EnvironmentalAccumulatorConfig.class) && appliesAt(world, chunkX, chunkZ)) {
 			int x = chunkX * 16 + random.nextInt(16);
 			int y = 0;
@@ -31,13 +32,13 @@ public class DarkTempleGenerator implements IWorldGenerator {
 
 			// Generate the dark temple if possible (height checks are performed inside generate)
 			if(!DarkTempleStructure.getInstance().generate(world, random, new BlockPos(x, y, z))) {
-				EvilCraft.darkTempleData.addFailedLocation(world.provider.getDimensionId(), chunkX, chunkZ);
+				EvilCraft.darkTempleData.addFailedLocation(world.provider.getDimension(), chunkX, chunkZ);
 			}
 		}
     }
 
 	public static boolean canGenerate(World world) {
-		int id = world.provider.getDimensionId();
+		int id = world.provider.getDimension();
 		for(int i = 0; i < GeneralConfig.darkTempleDimensions.length; i++) {
 			if(id == GeneralConfig.darkTempleDimensions[i]) {
 				return true;
@@ -65,7 +66,7 @@ public class DarkTempleGenerator implements IWorldGenerator {
 	 */
 	public static boolean hasTemple(World world, int chunkX, int chunkZ) {
 		return appliesAt(world, chunkX, chunkZ) &&
-				!EvilCraft.darkTempleData.isFailed(world.provider.getDimensionId(), chunkX, chunkZ);
+				!EvilCraft.darkTempleData.isFailed(world.provider.getDimension(), chunkX, chunkZ);
 	}
 
 	/**
@@ -119,7 +120,8 @@ public class DarkTempleGenerator implements IWorldGenerator {
 	 * @param z Z
 	 * @return The pair location closest chunk in world coordinates.
 	 */
-	public static @Nullable BlockPos getClosestForCoords(World world, int x, int z) {
+	public static @Nullable
+	BlockPos getClosestForCoords(World world, int x, int z) {
 		Pair<Integer, Integer> closest = getClosest(world, x / WorldHelpers.CHUNK_SIZE, z / WorldHelpers.CHUNK_SIZE);
 		if(closest == null) {
 			return null;

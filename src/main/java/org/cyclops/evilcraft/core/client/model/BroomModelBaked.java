@@ -6,14 +6,21 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.AtomicLongMap;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.model.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
+import net.minecraftforge.client.model.IPerspectiveAwareModel;
+import net.minecraftforge.common.model.TRSRTransformation;
 import org.apache.commons.lang3.tuple.Pair;
-import org.cyclops.cyclopscore.client.model.DynamicBaseModel;
+import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
+import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
@@ -30,34 +37,43 @@ import java.util.Map;
  */
 @EqualsAndHashCode(callSuper = false)
 @Data
-public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel {
-
-    private static final TRSRTransformation THIRD_PERSON = TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
-            new Vector3f(0, 0, 0),
-            TRSRTransformation.quatFromYXZDegrees(new Vector3f(10, 180, 170)),
-            new Vector3f(1, 1, 1),
-            null));
-    private static final TRSRTransformation FIRST_PERSON = TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
-            new Vector3f(0.25F, -0.025F, 0),
-            TRSRTransformation.quatFromYXZDegrees(new Vector3f(10, 135, 10)),
-            new Vector3f(2, 2, 2),
-            null));
+public class BroomModelBaked extends DynamicItemAndBlockModel {
 
     // Default perspective transforms
-    private static final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> PERSPECTIVE_TRANSFORMS =
-            ImmutableMap.of(
-                    ItemCameraTransforms.TransformType.THIRD_PERSON, THIRD_PERSON,
-                    ItemCameraTransforms.TransformType.FIRST_PERSON, FIRST_PERSON);
+    protected static final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> PERSPECTIVE_TRANSFORMS =
+            ModelHelpers.modifyDefaultTransforms(ImmutableMap.of(
+                    ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND,
+                    TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
+                            new Vector3f(0, 0, 0),
+                            TRSRTransformation.quatFromXYZDegrees(new Vector3f(90, 180, 90)),
+                            new Vector3f(1, 1, 1),
+                            null)),
+                    ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND,
+                    TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
+                            new Vector3f(0, 0, 0),
+                            TRSRTransformation.quatFromXYZDegrees(new Vector3f(90, 180, 90)),
+                            new Vector3f(1, 1, 1),
+                            null)),
+                    ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND,
+                    TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
+                            new Vector3f(0.25F, -0.025F, 0),
+                            TRSRTransformation.quatFromXYZDegrees(new Vector3f(10, 190, 100)),
+                            new Vector3f(1, 1, 1),
+                            null)),
+                    ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND,
+                    TRSRTransformation.blockCenterToCorner(new TRSRTransformation(
+                            new Vector3f(0.25F, -0.025F, 0),
+                            TRSRTransformation.quatFromXYZDegrees(new Vector3f(10, 190, 100)),
+                            new Vector3f(1, 1, 1),
+                            null))
+            ));
 
     private static final Map<IBroomPart, IBakedModel> broomPartModels = Maps.newHashMap();
 
     private final List<BakedQuad> quads;
 
-    public BroomModelBaked() {
-        this.quads = null;
-    }
-
     public BroomModelBaked(List<BakedQuad> quads) {
+        super(true, true);
         this.quads = quads;
     }
 
@@ -70,9 +86,18 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
         broomPartModels.put(part, bakedModel);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public IBakedModel handleItemState(ItemStack itemStack) {
+    public TextureAtlasSprite getParticleTexture() {
+        return null;
+    }
+
+    @Override
+    public IBakedModel handleBlockState(IBlockState state, EnumFacing side, long rand) {
+        return null; // Not required
+    }
+
+    @Override
+    public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
         List<BakedQuad> quads = Lists.newLinkedList();
 
         IBroomPart rod = null;
@@ -93,7 +118,7 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
         for (IBroomPart part : parts) {
             IBakedModel model = broomPartModels.get(part);
             if (model != null) {
-                List<BakedQuad> originalQuads = model.getGeneralQuads();
+                List<BakedQuad> originalQuads = model.getQuads(null, null, 0L);
                 int typeIndex = (int) partTypeOccurences.getAndIncrement(part.getType());
                 float offset = part.getType().getOffsetter().getOffset(rod.getLength(), part.getLength(), typeIndex);
                 int color = part.getModelColor();
@@ -122,19 +147,14 @@ public class BroomModelBaked extends DynamicBaseModel implements ISmartItemModel
                 vertexData[i * 7 + 3] = color;
             }
 
-            offsetQuads.add(new IColoredBakedQuad.ColoredBakedQuad(vertexData, quad.getTintIndex(), quad.getFace()));
+            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getFace(), quad.getSprite(), false, DefaultVertexFormats.ITEM));
         }
 
         return offsetQuads;
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture() {
-        return null;
-    }
-
-    @Override
-    public Pair<? extends IFlexibleBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
+    public Pair<? extends IBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
         return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, PERSPECTIVE_TRANSFORMS, cameraTransformType);
     }
 }

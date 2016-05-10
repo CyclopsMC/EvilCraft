@@ -1,27 +1,32 @@
 package org.cyclops.evilcraft.item;
 
 import com.mojang.authlib.GameProfile;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItemFood;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.core.config.configurable.ConfigurableItemFood;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -78,15 +83,6 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int pass) {
-    	if(isHumanFlesh(itemStack)) {
-    		return Helpers.RGBToInt(255, 200, 180);
-    	}
-        return super.getColorFromItemStack(itemStack, pass);
-    }
-    
-    @Override
     public void onUpdate(ItemStack itemStack, World world, Entity player, int par4, boolean par5) {
         power = !MinecraftHelpers.isDay(world);
     }
@@ -111,45 +107,48 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     }
     
     @Override
-    public ItemStack onItemUseFinish(ItemStack itemStack, World world, EntityPlayer player) {
-        --itemStack.stackSize;
-        if(itemStack.getItemDamage() == 1) {
-            player.addStat(Achievements.CANNIBAL, 1);
-        }
-        if(isOwnCanibal(itemStack, player)) {
-        	if(!world.isRemote) {
-	        	player.addPotionEffect(new PotionEffect(Potion.wither.id,
-	            		POISON_DURATION * 20, 1));
-	        	player.addPotionEffect(new PotionEffect(Potion.blindness.id,
-	        			getPowerDuration(itemStack) * 20, 1));
-        	}
-            world.playSoundAtEntity(player, "mob.wolf.hurt", 0.5F, 
-            		world.rand.nextFloat() * 0.1F + 0.9F);
-        } else if(isPower()) {
-        	int foodLevel = this.getHealAmount(itemStack);
-        	float saturationLevel = this.getSaturationModifier(itemStack);
-            player.getFoodStats().addStats(foodLevel, saturationLevel);
-            if(!world.isRemote) {
-	            player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 
-	            		getPowerDuration(itemStack) * 20, 2));
-	            player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 
-	            		getPowerDuration(itemStack) * 20, 2));
-	            player.addPotionEffect(new PotionEffect(Potion.jump.id, 
-	            		getPowerDuration(itemStack) * 20, 2));
-	            player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 
-	            		getPowerDuration(itemStack) * 20, 2));
+    public ItemStack onItemUseFinish(ItemStack itemStack, World world, EntityLivingBase entity) {
+        if(entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            --itemStack.stackSize;
+            if (itemStack.getItemDamage() == 1) {
+                player.addStat(Achievements.CANNIBAL, 1);
             }
-            world.playSoundAtEntity(player, "mob.wolf.howl", 0.5F, 
-            		world.rand.nextFloat() * 0.1F + 0.9F);
-        } else {
-        	if(!world.isRemote) {
-	            player.addPotionEffect(new PotionEffect(Potion.poison.id, 
-	            		POISON_DURATION * 20, 1));
-        	}
-            world.playSoundAtEntity(player, "mob.wolf.hurt", 0.5F, 
-            		world.rand.nextFloat() * 0.1F + 0.9F);
+            if (isOwnCanibal(itemStack, player)) {
+                if (!world.isRemote) {
+                    player.addPotionEffect(new PotionEffect(MobEffects.wither,
+                            POISON_DURATION * 20, 1));
+                    player.addPotionEffect(new PotionEffect(MobEffects.blindness,
+                            getPowerDuration(itemStack) * 20, 1));
+                }
+                world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_wolf_hurt, SoundCategory.HOSTILE, 0.5F,
+                        world.rand.nextFloat() * 0.1F + 0.9F);
+            } else if (isPower()) {
+                int foodLevel = this.getHealAmount(itemStack);
+                float saturationLevel = this.getSaturationModifier(itemStack);
+                player.getFoodStats().addStats(foodLevel, saturationLevel);
+                if (!world.isRemote) {
+                    player.addPotionEffect(new PotionEffect(MobEffects.damageBoost,
+                            getPowerDuration(itemStack) * 20, 2));
+                    player.addPotionEffect(new PotionEffect(MobEffects.moveSpeed,
+                            getPowerDuration(itemStack) * 20, 2));
+                    player.addPotionEffect(new PotionEffect(MobEffects.jump,
+                            getPowerDuration(itemStack) * 20, 2));
+                    player.addPotionEffect(new PotionEffect(MobEffects.nightVision,
+                            getPowerDuration(itemStack) * 20, 2));
+                }
+                world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_wolf_howl, SoundCategory.HOSTILE, 0.5F,
+                        world.rand.nextFloat() * 0.1F + 0.9F);
+            } else {
+                if (!world.isRemote) {
+                    player.addPotionEffect(new PotionEffect(MobEffects.poison,
+                            POISON_DURATION * 20, 1));
+                }
+                world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_wolf_hurt, SoundCategory.HOSTILE, 0.5F,
+                        world.rand.nextFloat() * 0.1F + 0.9F);
+            }
+            this.onFoodEaten(itemStack, world, player);
         }
-        this.onFoodEaten(itemStack, world, player);
         return itemStack;
     }
     
@@ -167,13 +166,31 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
     	super.addInformation(itemStack, entityPlayer, list, par4);
     	if(isHumanFlesh(itemStack)) {
-    		String player = EnumChatFormatting.ITALIC + "None";
+    		String player = TextFormatting.ITALIC + "None";
     		if(itemStack.getTagCompound() != null) {
     			GameProfile profile = NBTUtil.readGameProfileFromNBT(itemStack.getTagCompound());
     			player = profile.getName();
     		}
-    		list.add("Player: " + EnumChatFormatting.WHITE + player);
+    		list.add("Player: " + TextFormatting.WHITE + player);
     	}
+    }
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            if(WerewolfFlesh.getInstance().isHumanFlesh(itemStack)) {
+                return Helpers.RGBToInt(255, 200, 180);
+            }
+            return -1;
+        }
     }
 
 }

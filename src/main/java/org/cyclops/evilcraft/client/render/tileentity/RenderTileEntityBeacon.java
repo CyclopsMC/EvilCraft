@@ -2,12 +2,12 @@ package org.cyclops.evilcraft.client.render.tileentity;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import org.cyclops.evilcraft.tileentity.EvilCraftBeaconTileEntity;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector4f;
@@ -38,7 +38,7 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
         	Vector4f beamOuterColor = tileentity.getBeamOuterColor();
         	
             Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+            VertexBuffer worldRenderer = tessellator.getBuffer();
             this.bindTexture(BEACON_TEXTURE);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497.0F);
@@ -48,7 +48,7 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
             GlStateManager.depthMask(true);
             GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
             float f2 = (float)tileentity.getWorld().getTotalWorldTime() + partialTickTime;
-            float f3 = -f2 * 0.2F - (float)MathHelper.floor_float(-f2 * 0.1F);
+            float f3 = -f2 * 0.2F - (float) MathHelper.floor_float(-f2 * 0.1F);
             byte b0 = 1;
             double d3 = (double)f2 * 0.025D * (1.0D - (double)(b0 & 1) * 2.5D);
             worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);

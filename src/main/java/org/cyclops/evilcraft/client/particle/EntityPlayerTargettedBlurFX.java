@@ -1,38 +1,38 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
 /**
- * A blurred static fading particle with any possible color targetted at a certain player.
+ * A blurred static fading particle with any possible color targetted at a certain entity.
  * @author rubensworks
  *
  */
 public class EntityPlayerTargettedBlurFX extends EntityBlurFX {
 
-	private final EntityPlayer player;
+	private final EntityLivingBase entity;
 
 	/**
 	 * Make a new instance.
 	 * @param world The world.
 	 * @param scale The scale of this particle.
-	 * @param motionX The X motion speed.
-	 * @param motionY The Y motion speed.
-	 * @param motionZ The Z motion speed.
+	 * @param xSpeed The X motion speed.
+	 * @param ySpeed The Y motion speed.
+	 * @param zSpeed The Z motion speed.
 	 * @param red Red tint.
 	 * @param green Green tint.
 	 * @param blue Blue tint.
 	 * @param ageMultiplier The multiplier of the maximum age (this will be multiplied with
-	 * @param player The player to target
+	 * @param entity The entity to target
 	 * a partially random factor).
 	 */
 	public EntityPlayerTargettedBlurFX(World world, float scale,
-									   double motionX, double motionY, double motionZ,
+									   double xSpeed, double ySpeed, double zSpeed,
 									   float red, float green, float blue, float ageMultiplier,
-									   EntityPlayer player) {
-		super(world, player.posX, player.posY, player.posZ, scale, motionX, motionY, motionZ, red, green, blue, ageMultiplier);
-		this.player = player;
+									   EntityLivingBase entity) {
+		super(world, entity.posX, entity.posY, entity.posZ, scale, xSpeed, ySpeed, zSpeed, red, green, blue, ageMultiplier);
+		this.entity = entity;
 	}
 	
 	@Override
@@ -41,18 +41,18 @@ public class EntityPlayerTargettedBlurFX extends EntityBlurFX {
 		prevPosY = posY;
 		prevPosZ = posZ;
 
-		if(particleAge++ >= particleMaxAge || !player.isUsingItem()) {
-			setDead();
+		if(particleAge++ >= particleMaxAge || entity.getItemInUseCount() == 0) {
+			setExpired();
 		}
 
 		float f = (float)this.particleAge / (float)this.particleMaxAge;
 		float f1 = f;
 		f = -f + f * f * 2.0F;
 		//f = 1.0F - f;
-		motionY -= 0.04D * particleGravity;
-		posX = player.posX + motionX * f;
-		posY = player.posY + player.eyeHeight - 0.5F + motionY * f + (double)(1.0F - f1) + (Minecraft.getMinecraft().thePlayer == player ? 0 : 1);
-		posZ = player.posZ + motionZ * f;
+		ySpeed -= 0.04D * particleGravity;
+		posX = entity.posX + xSpeed * f;
+		posY = entity.posY + entity.getEyeHeight() - 0.5F + ySpeed * f + (double)(1.0F - f1) + (Minecraft.getMinecraft().thePlayer == entity ? 0 : 1);
+		posZ = entity.posZ + zSpeed * f;
 	}
 
 }

@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -40,21 +40,21 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
     }
 
     public VengeancePickaxe(ExtendedConfig<ItemConfig> eConfig) {
-        super(eConfig, Item.ToolMaterial.EMERALD);
+        super(eConfig, ToolMaterial.DIAMOND);
         this.setMaxDamage(154);
         this.efficiencyOnProperMaterial *= 1.250F;
     }
 
     // Can break all blocks, like diamond
     @Override
-    public boolean canHarvestBlock(Block block) {
+    public boolean canHarvestBlock(IBlockState blockState) {
         return true;
     }
     
     @Override
-	public boolean onBlockDestroyed(ItemStack itemStack, World world, Block block, BlockPos blockPos, EntityLivingBase entity) {
+	public boolean onBlockDestroyed(ItemStack itemStack, World world, IBlockState blockState, BlockPos blockPos, EntityLivingBase entity) {
         if(!world.isRemote) {
-    	boolean result = super.onBlockDestroyed(itemStack, world, block, blockPos, entity);
+    	boolean result = super.onBlockDestroyed(itemStack, world, blockState, blockPos, entity);
         if(result) {
             int chance = VengeancePickaxeConfig.vengeanceChance;
         	if(chance > 0 && world.rand.nextInt(chance) == 0) {
@@ -64,7 +64,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
         }
         return result;
         }
-        return super.onBlockDestroyed(itemStack, world, block, blockPos, entity);
+        return super.onBlockDestroyed(itemStack, world, blockState, blockPos, entity);
     }
     
     /**
@@ -74,7 +74,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
      */
     public static ItemStack createCraftingResult() {
     	ItemStack pickaxe = new ItemStack(VengeancePickaxe.getInstance());
-        EnchantmentHelpers.setEnchantmentLevel(pickaxe, Enchantment.fortune, FORTUNE_LEVEL);
+        EnchantmentHelpers.setEnchantmentLevel(pickaxe, Enchantments.fortune, FORTUNE_LEVEL);
         return pickaxe;
     }
     

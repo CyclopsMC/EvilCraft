@@ -6,8 +6,8 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BoxOfEternalClosure;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosureBaked;
@@ -134,7 +134,7 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
             
             // Start tesselator
             Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+            VertexBuffer worldRenderer = tessellator.getBuffer();
             RenderHelper.disableStandardItemLighting();
             GL11.glDisable(GL11.GL_CULL_FACE);
             this.bindTexture(beamTexture);
@@ -144,7 +144,7 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
             // Calculate UV coordinates for the beam
             float zuv = MathHelper.sqrt_float(rotateX * rotateX + rotateY * rotateY + rotateZ * rotateZ);
             float v1 = MathHelper.sqrt_float(rotateX * rotateX + rotateY * rotateY
-            		+ rotateZ * rotateZ) / 32.0F
+                    + rotateZ * rotateZ) / 32.0F
             		- ((float)target.ticksExisted + partialTick) * 0.01F;
             float v2 = 0.0F - ((float)target.ticksExisted + partialTick) * 0.01F;
             
@@ -236,7 +236,7 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
             f8 = f7 + (float)ActiveRenderInfo.getPosition().yCoord;
             GlStateManager.translate((float)ActiveRenderInfo.getPosition().xCoord * f4 / f8, (float)ActiveRenderInfo.getPosition().zCoord * f4 / f8, -f1);
             Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+            VertexBuffer worldrenderer = tessellator.getBuffer();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
             float f11 = (field_147527_e.nextFloat() * 0.5F + 0.5F) * f6;
             float f12 = (field_147527_e.nextFloat() * 0.5F + 0.2F) * f6;

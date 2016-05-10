@@ -1,14 +1,16 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -45,22 +47,22 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
         super(eConfig, Material.air, TileInvisibleRedstoneBlock.class);
         setHardness(5.0F);
         setResistance(10.0F);
-        setStepSound(soundTypeMetal);
+        setStepSound(SoundType.METAL);
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public EnumWorldBlockLayer getBlockLayer() {
-        return EnumWorldBlockLayer.CUTOUT_MIPPED;
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT_MIPPED;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }
 
     @Override
-    public boolean isNormalCube() {
+    public boolean isNormalCube(IBlockState blockState) {
         return false;
     }
     
@@ -74,12 +76,12 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     }
 
     @Override
-    public int getWeakPower(IBlockAccess blockAccess, BlockPos blockPos, IBlockState blockState, EnumFacing side) {
+    public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos blockPos, EnumFacing side) {
         return 15;
     }
     
     @Override
-    public boolean canProvidePower() {
+    public boolean canProvidePower(IBlockState blockState) {
         return true;
     }
     
@@ -87,25 +89,25 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     public int quantityDropped(Random random) {
         return 1;
     }
-    
+
     @Override
-    public int getMobilityFlag() {
-        return 0;
+    public EnumPushReaction getMobilityFlag(IBlockState blockState) {
+        return EnumPushReaction.BLOCK;
     }
-    
+
     @Override
-    public boolean isReplaceable(World world, BlockPos blockPos) {
+    public boolean isReplaceable(IBlockAccess world, BlockPos blockPos) {
         return true;
     }
-    
+
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos blockPos, IBlockState blockState) {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World world, BlockPos blockPos) {
         return null;
     }
     
     @Override
-    public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos blockPos) {
-        return AxisAlignedBB.fromBounds(0, 0, 0, 0, 0, 0);
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState blockState, World world, BlockPos blockPos) {
+        return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
     }
     
     @Override

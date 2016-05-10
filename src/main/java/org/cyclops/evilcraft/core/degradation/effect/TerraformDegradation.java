@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
@@ -128,7 +128,7 @@ private static TerraformDegradation _instance = null;
                 && world.getTileEntity(blockPos) == null) {
             if(replace.getBlock() == null) {
                 world.setBlockToAir(blockPos);
-            } else if(replace.getBlock().getBlockHardness(world, blockPos) > 0) {
+            } else if(replace.getBlockHardness(world, blockPos) > 0) {
                 world.setBlockState(blockPos, replace, MinecraftHelpers.BLOCK_NOTIFY_CLIENT | MinecraftHelpers.BLOCK_NOTIFY);
             }
         }

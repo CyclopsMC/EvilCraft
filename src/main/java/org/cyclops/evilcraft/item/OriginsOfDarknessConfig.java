@@ -1,7 +1,8 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraftforge.common.ChestGenHooks;
+import net.minecraft.world.storage.loot.LootEntryItem;
+import net.minecraft.world.storage.loot.conditions.LootCondition;
+import net.minecraft.world.storage.loot.functions.LootFunction;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
@@ -34,10 +35,8 @@ public class OriginsOfDarknessConfig extends ItemConfig {
     @Override
     public void onRegistered() {
         super.onRegistered();
-        for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
-            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
-                    OriginsOfDarkness.getInstance(), 0, 1, 1, 5));
-        }
+        MinecraftHelpers.addVanillaLootChestLootEntry(
+                new LootEntryItem(getItemInstance(), 1, 5, new LootFunction[0], new LootCondition[0]));
     }
     
 }

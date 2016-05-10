@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
  * @author rubensworks
  *
  */
-public class RenderNull extends Render {
+public class RenderNull extends Render<Entity> {
 
     public RenderNull(RenderManager renderManager) {
         super(renderManager);

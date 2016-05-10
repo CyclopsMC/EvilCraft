@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
@@ -9,8 +10,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
-import net.minecraft.util.BlockPos;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
@@ -45,7 +50,7 @@ public class LightningBomb extends ConfigurableBlock {
     public LightningBomb(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.tnt);
         this.setHardness(0.0F);
-        this.setStepSound(soundTypeGrass);
+        this.setStepSound(SoundType.GROUND);
     }
     
     @Override
@@ -72,7 +77,7 @@ public class LightningBomb extends ConfigurableBlock {
             EntityLightningBombPrimed entityprimed = new EntityLightningBombPrimed(world,
                     (double)((float)blockPos.getX() + 0.5F), (double)((float)blockPos.getY() + 0.5F),
                     (double)((float)blockPos.getZ() + 0.5F), explosion.getExplosivePlacedBy());
-            entityprimed.fuse = world.rand.nextInt(entityprimed.fuse / 4) + entityprimed.fuse / 8;
+            entityprimed.setFuse(world.rand.nextInt(entityprimed.getFuse() / 4) + entityprimed.getFuse() / 8);
             world.spawnEntityInWorld(entityprimed);
         }
     }
@@ -96,7 +101,7 @@ public class LightningBomb extends ConfigurableBlock {
                         (double)((float)blockPos.getX() + 0.5F), (double)((float)blockPos.getY() + 0.5F),
                         (double)((float)blockPos.getZ() + 0.5F), placer);
                 world.spawnEntityInWorld(entityprimed);
-                world.playSoundAtEntity(entityprimed, "game.tnt.primed", 1.0F, 1.0F);
+                world.playSound(null, blockPos, SoundEvents.entity_tnt_primed, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         }
     }
@@ -107,15 +112,15 @@ public class LightningBomb extends ConfigurableBlock {
     }
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float coordX, float coordY, float coordZ) {
-        if (player.getCurrentEquippedItem() != null &&
-                (player.getCurrentEquippedItem().getItem() == Items.flint_and_steel || player.getCurrentEquippedItem().getItem() == Items.fire_charge)) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float coordX, float coordY, float coordZ) {
+        if (player.getActiveItemStack() != null &&
+                (player.getActiveItemStack().getItem() == Items.flint_and_steel || player.getActiveItemStack().getItem() == Items.fire_charge)) {
             this.primeBomb(world, blockPos, this.blockState.getBaseState().withProperty(PRIMED, true), player);
             world.setBlockToAir(blockPos);
-            player.getCurrentEquippedItem().damageItem(1, player);
+            player.getActiveItemStack().damageItem(1, player);
             return true;
         } else {
-            return super.onBlockActivated(world, blockPos, blockState, player, side, coordX, coordY, coordZ);
+            return super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, coordX, coordY, coordZ);
         }
     }
 

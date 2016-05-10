@@ -8,10 +8,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,6 +22,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
 
@@ -91,32 +95,32 @@ public class ResurgenceEgg extends ConfigurableItem {
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty");
+        String content = TextFormatting.ITALIC + L10NHelpers.localize("general.info.empty");
         String id = getEntityString(itemStack);
 		if(id != null) {
 			content = L10NHelpers.getLocalizedEntityName(id);
 		}
-		list.add(EnumChatFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
-                EnumChatFormatting.RESET + content));
+		list.add(TextFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
+                TextFormatting.RESET + content));
     }
     
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if (world.isRemote) {
-            return itemStack;
+            return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
         } else {
-            MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
+            RayTraceResult movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
             if (movingobjectposition == null) {
-                return itemStack;
+                return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
             } else {
-                if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK) {
                     BlockPos blockPos = movingobjectposition.getBlockPos();
                     int x = blockPos.getX();
                     int y = blockPos.getY();
                     int z = blockPos.getZ();
 
                     if (!world.canMineBlockBody(player, blockPos)) {
-                        return itemStack;
+                        return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
                     }
 
                     if (world.getBlockState(blockPos).getBlock() instanceof BlockLiquid) {
@@ -131,7 +135,7 @@ public class ResurgenceEgg extends ConfigurableItem {
                         }
                     }
                 }
-                return itemStack;
+                return MinecraftHelpers.successAction(itemStack);
             }
         }
     }

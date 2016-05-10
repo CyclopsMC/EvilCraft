@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.enchantment;
 
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
@@ -24,7 +25,7 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
     }
 
     public EnchantmentUnusing(ExtendedConfig<EnchantmentConfig> eConfig) {
-        super(eConfig, 1, EnumEnchantmentType.ALL);
+        super(eConfig, Rarity.VERY_RARE, EnumEnchantmentType.ALL, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
     }
     
     @Override

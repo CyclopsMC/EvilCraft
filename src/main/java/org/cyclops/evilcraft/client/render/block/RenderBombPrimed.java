@@ -8,8 +8,8 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderTNTPrimed;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import org.cyclops.evilcraft.entity.block.EntityLightningBombPrimed;
 
 /**
@@ -37,9 +37,9 @@ public class RenderBombPrimed extends RenderTNTPrimed {
         GlStateManager.translate((float)x, (float)y + 0.5F, (float)z);
         float f2;
 
-        if ((float)entity.fuse - partialTickTime + 1.0F < 10.0F)
+        if ((float)entity.getFuse() - partialTickTime + 1.0F < 10.0F)
         {
-            f2 = 1.0F - ((float)entity.fuse - partialTickTime + 1.0F) / 10.0F;
+            f2 = 1.0F - ((float)entity.getFuse() - partialTickTime + 1.0F) / 10.0F;
             f2 = MathHelper.clamp_float(f2, 0.0F, 1.0F);
             f2 *= f2;
             f2 *= f2;
@@ -47,13 +47,13 @@ public class RenderBombPrimed extends RenderTNTPrimed {
             GlStateManager.scale(f3, f3, f3);
         }
 
-        f2 = (1.0F - ((float)entity.fuse - partialTickTime + 1.0F) / 100.0F) * 0.8F;
+        f2 = (1.0F - ((float)entity.getFuse() - partialTickTime + 1.0F) / 100.0F) * 0.8F;
         this.bindEntityTexture(entity);
         GlStateManager.translate(-0.5F, -0.5F, 0.5F);
         blockrendererdispatcher.renderBlockBrightness(block.getDefaultState(), entity.getBrightness(partialTickTime));
         GlStateManager.translate(0.0F, 0.0F, 1.0F);
 
-        if (entity.fuse / 5 % 2 == 0)
+        if (entity.getFuse() / 5 % 2 == 0)
         {
             GlStateManager.disableTexture2D();
             GlStateManager.disableLighting();

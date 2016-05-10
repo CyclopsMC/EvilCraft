@@ -5,14 +5,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
-import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,6 +25,7 @@ import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.client.render.model.ModelInnerBlock;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
@@ -32,7 +34,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock implements IInformationProvider{
+public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock implements IInformationProvider {
 
     // No more than 16 different innerblocks allowed!
     protected final IBlockState[] INNER_BLOCKS;
@@ -75,7 +77,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     
     @Override
     public String getInfo(ItemStack itemStack) {
-        return L10NHelpers.localize("tile.blocks.evilcraft.innerBlock.info", EnumChatFormatting.ITALIC+ getBlockFromMeta(itemStack.getItemDamage()).getBlock().getLocalizedName());
+        return L10NHelpers.localize("tile.blocks.evilcraft.innerBlock.info", TextFormatting.ITALIC+ getBlockFromMeta(itemStack.getItemDamage()).getBlock().getLocalizedName());
     }
     
     @SuppressWarnings("rawtypes")
@@ -129,9 +131,8 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     }
     
     @Override
-    public float getBlockHardness(World world, BlockPos blockPos) {
-        IBlockState blockState = world.getBlockState(blockPos);
-        return getBlockFromState(blockState).getBlock().getBlockHardness(world, blockPos);
+    public float getBlockHardness(IBlockState blockState, World world, BlockPos blockPos) {
+        return getBlockFromState(blockState).getBlock().getBlockHardness(blockState, world, blockPos);
     }
     
     @Override
@@ -145,28 +146,15 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     }
     
     @Override
-    public float getPlayerRelativeBlockHardness(EntityPlayer player, World world, BlockPos blockPos) {
-        IBlockState blockState = world.getBlockState(blockPos);
-        return getBlockFromState(blockState).getBlock().getPlayerRelativeBlockHardness(player, world, blockPos);
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockAccess world, BlockPos blockPos, int renderPass) {
-        return getBlockFromState(world.getBlockState(blockPos)).getBlock().colorMultiplier(world, blockPos, renderPass);
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getRenderColor(IBlockState blockState) {
-        return getBlockFromState(blockState).getBlock().getRenderColor(blockState);
+    public float getPlayerRelativeBlockHardness(IBlockState blockState, EntityPlayer player, World world, BlockPos blockPos) {
+        return getBlockFromState(blockState).getBlock().getPlayerRelativeBlockHardness(blockState, player, world, blockPos);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer) {
+    public boolean addHitEffects(IBlockState blockState, World worldObj, RayTraceResult target, EffectRenderer effectRenderer) {
         BlockPos pos = target.getBlockPos();
-        RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, getBlockFromState(worldObj.getBlockState(pos)), pos, target.sideHit);
+        RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, getBlockFromState(blockState), pos, target.sideHit);
         return true;
     }
 
@@ -180,5 +168,28 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     public IBakedModel createDynamicModel() {
         return new ModelInnerBlock(this);
     }
-    
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IBlockColor getBlockColorHandler() {
+        return new BlockColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class BlockColor implements IBlockColor {
+        @Override
+        @SideOnly(Side.CLIENT)
+        public int colorMultiplier(IBlockState blockState, IBlockAccess world, BlockPos blockPos, int renderPass) {
+            if(blockPos != null) {
+                ConfigurableBlockWithInnerBlocks thisBlock = (ConfigurableBlockWithInnerBlocks) blockState.getBlock();
+                IBlockState blockStateInner = thisBlock.getBlockFromState(world.getBlockState(blockPos));
+                Block block = blockStateInner.getBlock();
+                if (block instanceof IBlockColor) {
+                    return ((IBlockColor) block).colorMultiplier(blockStateInner, world, blockPos, renderPass);
+                }
+            }
+            return -1;
+        }
+    }
 }

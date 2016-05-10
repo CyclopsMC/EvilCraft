@@ -10,6 +10,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -81,8 +84,8 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-        if (!world.isRemote && player.ridingEntity == null && !player.isSneaking()) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+        if (!world.isRemote && player.getRidingEntity() == null && !player.isSneaking()) {
             player.posY += Y_SPAWN_OFFSET;
             
             EntityBroom entityBroom = new EntityBroom(world, player.posX, player.posY, player.posZ);
@@ -90,16 +93,16 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
             entityBroom.rotationYaw = player.rotationYaw;
             // Spawn and mount the broom
             world.spawnEntityInWorld(entityBroom);
-            entityBroom.mountEntity(player);
+            player.startRiding(entityBroom);
             
             stack.stackSize--;
         }
         
-        return stack;
+        return MinecraftHelpers.successAction(stack);
     }
-    
+
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
     	if (!world.isRemote && player.isSneaking()) {
             EntityBroom entityBroom = new EntityBroom(world, blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
             entityBroom.setBroomStack(stack);
@@ -110,10 +113,10 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
     		if (!player.capabilities.isCreativeMode)
     		    stack.stackSize--;
     		
-    		return true;
+    		return EnumActionResult.SUCCESS;
     	}
     	
-    	return false;
+    	return EnumActionResult.PASS;
     }
 
     @Override
@@ -149,7 +152,7 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(MinecraftHelpers.isShifted()) {
-            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".types.name"));
+            list.add(TextFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".types.name"));
             Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(itemStack);
             Map<BroomModifier, Float> modifiers = getBroomModifiers(itemStack);
             Set<BroomModifier> modifierTypes = Sets.newHashSet();
@@ -164,7 +167,7 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
             Pair<Integer, Integer> modifiersAndMax = getModifiersAndMax(modifiers, baseModifiers);
             int modifierCount = modifiersAndMax.getLeft();
             int maxModifiers = modifiersAndMax.getRight();
-            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize(
+            list.add(TextFormatting.ITALIC + L10NHelpers.localize(
                     "broom.modifiers." + Reference.MOD_ID + ".types.nameparam", modifierCount, maxModifiers));
             for (BroomModifier modifier : modifierTypes) {
                 if(modifier.showTooltip()) {
@@ -177,7 +180,7 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
             }
 
         } else {
-            list.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("broom." + Reference.MOD_ID + ".shiftinfo"));
+            list.add(TextFormatting.ITALIC + L10NHelpers.localize("broom." + Reference.MOD_ID + ".shiftinfo"));
         }
     }
 
@@ -202,10 +205,10 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
 
     @SubscribeEvent
     public void onFovEvent(FOVUpdateEvent event) {
-        if(event.entity.ridingEntity instanceof EntityBroom) {
-            EntityBroom broom = (EntityBroom) event.entity.ridingEntity;
+        if(event.getEntity().getRidingEntity() instanceof EntityBroom) {
+            EntityBroom broom = (EntityBroom) event.getEntity().getRidingEntity();
             double speed = broom.getLastPlayerSpeed();
-            event.newfov += speed / 10;
+            event.setNewfov((float) (event.getFov() + speed / 10));
         }
     }
 
@@ -213,11 +216,11 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
     @SubscribeEvent
     public void onRenderOverlayEvent(RenderGameOverlayEvent event) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if (player.ridingEntity instanceof EntityBroom
-                && event.type == RenderGameOverlayEvent.ElementType.ALL) {
-            EntityBroom broom = (EntityBroom) player.ridingEntity;
+        if (player.getRidingEntity() instanceof EntityBroom
+                && event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
+            EntityBroom broom = (EntityBroom) player.getRidingEntity();
             ItemStack broomStack = broom.getBroomStack();
-            ScaledResolution resolution = event.resolution;
+            ScaledResolution resolution = event.getResolution();
             int height = 21;
             int width = 21;
             RenderOverlayEventHook.OverlayPosition overlayPosition = RenderOverlayEventHook.OverlayPosition.values()[

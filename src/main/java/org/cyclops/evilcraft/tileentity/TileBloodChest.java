@@ -3,10 +3,12 @@ package org.cyclops.evilcraft.tileentity;
 import lombok.experimental.Delegate;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -14,6 +16,7 @@ import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
+import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.block.BloodChest;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
@@ -190,7 +193,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
             @SuppressWarnings("unchecked")
             List<EntityPlayer> entities = this.worldObj.getEntitiesWithinAABB(
                     EntityPlayer.class,
-                    AxisAlignedBB.fromBounds(
+                    new AxisAlignedBB(
                             (double)((float)x - range),
                             (double)((float)y - range),
                             (double)((float)z - range),
@@ -212,14 +215,15 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         prevLidAngle = lidAngle;
         float increaseAngle = 0.1F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
-            worldObj.playSoundEffect(
+            EvilCraft.proxy.playSound(
                     (double) x + 0.5D,
                     (double) y + 0.5D,
                     (double) z + 0.5D,
-                    "random.chestopen",
+                    SoundEvents.block_chest_open,
+                    SoundCategory.BLOCKS,
                     0.5F,
                     worldObj.rand.nextFloat() * 0.1F + 0.9F
-                    );
+            );
         }
         if (playersUsing == 0 && lidAngle > 0.0F || playersUsing > 0 && lidAngle < 1.0F) {
             float preIncreaseAngle = lidAngle;
@@ -233,14 +237,15 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
             }
             float closedAngle = 0.5F;
             if (lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
-                worldObj.playSoundEffect(
+                EvilCraft.proxy.playSound(
                         (double) x + 0.5D,
                         (double) y + 0.5D,
                         (double) z + 0.5D,
-                        "random.chestclosed",
+                        SoundEvents.block_chest_close,
+                        SoundCategory.BLOCKS,
                         0.5F,
                         worldObj.rand.nextFloat() * 0.1F + 0.9F
-                        );
+                );
             }
             if (lidAngle < 0.0F) {
                 lidAngle = 0.0F;

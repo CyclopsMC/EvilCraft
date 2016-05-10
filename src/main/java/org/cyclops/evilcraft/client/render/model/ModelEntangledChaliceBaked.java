@@ -6,17 +6,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.client.model.IColoredBakedQuad;
-import net.minecraftforge.client.model.ISmartBlockModel;
-import net.minecraftforge.client.model.ISmartItemModel;
+import net.minecraft.world.World;
+import net.minecraftforge.client.model.Attributes;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import org.cyclops.cyclopscore.client.model.DynamicBaseModel;
+import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.block.EntangledChalice;
 import org.cyclops.evilcraft.block.EntangledChaliceConfig;
@@ -33,7 +33,7 @@ import java.util.Random;
  */
 @EqualsAndHashCode(callSuper = false)
 @Data
-public class ModelEntangledChaliceBaked extends DynamicBaseModel implements ISmartItemModel, ISmartBlockModel {
+public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockModel {
 
     private final static Map<String, Integer> seeds = Maps.newHashMap();
 
@@ -44,11 +44,19 @@ public class ModelEntangledChaliceBaked extends DynamicBaseModel implements ISma
     private final FluidStack fluidStack;
 
     public ModelEntangledChaliceBaked() {
+        super();
         id = "";
         fluidStack = null;
     }
 
-    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack) {
+    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, IBlockState blockState, EnumFacing facing, long rand) {
+        super(blockState, facing, rand);
+        this.id = id != null ? id : "";
+        this.fluidStack = fluidStack;
+    }
+
+    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, ItemStack itemStack, World world, EntityLivingBase entity) {
+        super(itemStack, world, entity);
         this.id = id != null ? id : "";
         this.fluidStack = fluidStack;
     }
@@ -75,16 +83,16 @@ public class ModelEntangledChaliceBaked extends DynamicBaseModel implements ISma
         List<BakedQuad> quads = Lists.newLinkedList();
 
         // Base chalice model
-        quads.addAll(chaliceModel.getGeneralQuads());
+        quads.addAll(chaliceModel.getQuads(blockState, facing, rand));
 
         // Colored gems
         int color = getColorSeed(this.id);
-        for(BakedQuad quad : gemsModel.getGeneralQuads()) {
+        for(BakedQuad quad : gemsModel.getQuads(blockState, facing, rand)) {
             int[] data = quad.getVertexData();
             for(int i = 0; i < data.length / 7; i++) {
                 data[i * 7 + 3] = color;
             }
-            quads.add(new IColoredBakedQuad.ColoredBakedQuad(data, quad.getTintIndex(), quad.getFace()));
+            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getFace(), quad.getSprite(), true, Attributes.DEFAULT_BAKED_FORMAT));
         }
 
         // Fluid
@@ -95,11 +103,20 @@ public class ModelEntangledChaliceBaked extends DynamicBaseModel implements ISma
         return quads;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public IBakedModel handleItemState(ItemStack itemStack) {
-        String id = ((EntangledChaliceItem) itemStack.getItem()).getTankID(itemStack);
-        return new ModelEntangledChaliceBaked(id, ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack));
+    public IBakedModel handleBlockState(IBlockState state, EnumFacing side, long rand) {
+        String tankId = ((IExtendedBlockState) state).getValue(EntangledChalice.TANK_ID);
+        FluidStack fluidStack = BlockHelpers.getSafeBlockStateProperty((IExtendedBlockState) state, EntangledChalice.TANK_FLUID, null);
+        if(!EntangledChaliceConfig.staticBlockRendering) {
+            fluidStack = null;
+        }
+        return new ModelEntangledChaliceBaked(tankId, fluidStack, state, side, rand);
+    }
+
+    @Override
+    public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
+        String id = itemStack != null ? ((EntangledChaliceItem) itemStack.getItem()).getTankID(itemStack) : "";
+        return new ModelEntangledChaliceBaked(id, itemStack != null ? ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack) : null, itemStack, world, entity);
     }
 
     @Override
@@ -113,15 +130,5 @@ public class ModelEntangledChaliceBaked extends DynamicBaseModel implements ISma
         TextureAtlasSprite texture = org.cyclops.cyclopscore.helper.RenderHelpers.getFluidIcon(fluidStack, EnumFacing.UP);
         addBakedQuadRotated(quads, 0.1875F, 0.8125F, 0.1875F, 0.8125F, height, texture, EnumFacing.UP, ROTATION_FIX[EnumFacing.UP.ordinal()]);
         return quads;
-    }
-
-    @Override
-    public IBakedModel handleBlockState(IBlockState state) {
-        String tankId = ((IExtendedBlockState) state).getValue(EntangledChalice.TANK_ID);
-        FluidStack fluidStack = BlockHelpers.getSafeBlockStateProperty((IExtendedBlockState) state, EntangledChalice.TANK_FLUID, null);
-        if(!EntangledChaliceConfig.staticBlockRendering) {
-            fluidStack = null;
-        }
-        return new ModelEntangledChaliceBaked(tankId, fluidStack);
     }
 }

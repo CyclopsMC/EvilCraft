@@ -27,5 +27,4 @@ public class PromiseConfig extends ItemConfig {
             Promise.class
         );
     }
-    
 }

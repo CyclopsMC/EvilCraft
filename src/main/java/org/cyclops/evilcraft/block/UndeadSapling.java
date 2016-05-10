@@ -1,9 +1,10 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.material.Material;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockSapling;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockSapling;
+import org.cyclops.evilcraft.world.gen.WorldGeneratorUndeadTree;
 
 /**
  * Sapling for the Undead Tree.
@@ -11,7 +12,7 @@ import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockSapling;
  *
  */
 public class UndeadSapling extends ConfigurableBlockSapling {
-    
+
     private static UndeadSapling _instance = null;
     
     /**
@@ -23,7 +24,7 @@ public class UndeadSapling extends ConfigurableBlockSapling {
     }
 
     public UndeadSapling(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.plants);
+        super(eConfig, Material.plants, new WorldGeneratorUndeadTree(true));
     }
 
 }

@@ -23,7 +23,7 @@ import org.cyclops.evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChang
  * @author rubensworks
  *
  */
-public class VengeanceSpiritConfig extends MobConfig {
+public class VengeanceSpiritConfig extends MobConfig<VengeanceSpirit> {
     
     /**
      * The unique instance.
@@ -95,7 +95,7 @@ public class VengeanceSpiritConfig extends MobConfig {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager) {
+    public Render<VengeanceSpirit> getRender(RenderManager renderManager) {
         return new RenderVengeanceSpirit(renderManager, this);
     }
 

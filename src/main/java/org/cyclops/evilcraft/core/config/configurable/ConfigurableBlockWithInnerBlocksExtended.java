@@ -3,15 +3,18 @@ package org.cyclops.evilcraft.core.config.configurable;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,6 +25,7 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.core.tileentity.InnerBlocksTileEntity;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -61,7 +65,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
      * @return The tile.
      * @throws InvalidInnerBlocksTileException If the found tile was invalid or no {@link InnerBlocksTileEntity}.
      */
-    public InnerBlocksTileEntity getTile(IBlockAccess world, BlockPos blockPos) throws InvalidInnerBlocksTileException {
+    public static InnerBlocksTileEntity getTile(IBlockAccess world, BlockPos blockPos) throws InvalidInnerBlocksTileException {
     	TileEntity tile = world.getTileEntity(blockPos);
     	if(tile == null || !(tile instanceof InnerBlocksTileEntity)) {
     		throw new InvalidInnerBlocksTileException();
@@ -70,23 +74,9 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     }
     
     @Override
-    public boolean removedByPlayer(World world, BlockPos blockPos, EntityPlayer player, boolean willHarvest) {
+    public boolean removedByPlayer(IBlockState blockState, World world, BlockPos blockPos, EntityPlayer player, boolean willHarvest) {
     	unwrapInnerBlock(world, blockPos);
     	return false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockAccess world, BlockPos blockPos, int renderPass) {
-        try {
-			return getTile(world, blockPos).getInnerBlockState().getBlock().colorMultiplier(world, blockPos, renderPass);
-		} catch (InvalidInnerBlocksTileException e) {
-			return Blocks.stone.colorMultiplier(world, blockPos);
-		} catch (NullPointerException e) {
-            return Blocks.stone.colorMultiplier(world, blockPos);
-        } catch (IllegalArgumentException e) {
-            return Blocks.stone.colorMultiplier(world, blockPos);
-        }
     }
 
     @Override
@@ -101,29 +91,29 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     }
 
     @Override
-    public float getBlockHardness(World world, BlockPos blockPos) {
+    public float getBlockHardness(IBlockState blockState, World world, BlockPos blockPos) {
         try {
-            return getTile(world, blockPos).getInnerBlockState().getBlock().getBlockHardness(world, blockPos);
+            return getTile(world, blockPos).getInnerBlockState().getBlock().getBlockHardness(blockState, world, blockPos);
         } catch (InvalidInnerBlocksTileException e) {
-            return Blocks.stone.getBlockHardness(world, blockPos);
+            return Blocks.stone.getBlockHardness(blockState, world, blockPos);
         } catch (IllegalArgumentException e) {
-            return Blocks.stone.getBlockHardness(world, blockPos);
+            return Blocks.stone.getBlockHardness(blockState, world, blockPos);
         }
     }
 
     @Override
-    public float getPlayerRelativeBlockHardness(EntityPlayer player, World world, BlockPos blockPos) {
+    public float getPlayerRelativeBlockHardness(IBlockState blockState, EntityPlayer player, World world, BlockPos blockPos) {
         try {
-            return getTile(world, blockPos).getInnerBlockState().getBlock().getPlayerRelativeBlockHardness(player, world, blockPos);
+            return getTile(world, blockPos).getInnerBlockState().getBlock().getPlayerRelativeBlockHardness(blockState, player, world, blockPos);
         } catch (InvalidInnerBlocksTileException e) {
-            return Blocks.stone.getPlayerRelativeBlockHardness(player, world, blockPos);
+            return Blocks.stone.getPlayerRelativeBlockHardness(blockState, player, world, blockPos);
         } catch (IllegalArgumentException e) {
-            return Blocks.stone.getPlayerRelativeBlockHardness(player, world, blockPos);
+            return Blocks.stone.getPlayerRelativeBlockHardness(blockState, player, world, blockPos);
         }
     }
-    
+
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos blockPos) {
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos blockPos, EntityPlayer player) {
     	IBlockState blockState;
 		try {
             blockState = getTile(world, blockPos).getInnerBlockState();
@@ -141,8 +131,9 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
      * @return If the blockState could be set as inner blockState.
      */
     public boolean setInnerBlock(World world, BlockPos blockPos) {
-    	Block block = world.getBlockState(blockPos).getBlock();
-    	if(canSetInnerBlock(block, world, blockPos)) {
+        IBlockState blockState = world.getBlockState(blockPos);
+    	Block block = blockState.getBlock();
+    	if(canSetInnerBlock(blockState, block, world, blockPos)) {
             IBlockState state = world.getBlockState(blockPos);
             world.setBlockState(blockPos, getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             try {
@@ -184,17 +175,17 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
      * @param blockPos The position.
      * @return If the blockState can be set as inner blockState.
      */
-    public boolean canSetInnerBlock(Block block, IBlockAccess world, BlockPos blockPos) {
+    public boolean canSetInnerBlock(IBlockState blockState, Block block, IBlockAccess world, BlockPos blockPos) {
     	return block != null
-    			&& !block.isAir(world, blockPos)
-    			&& block.isOpaqueCube()
+    			&& !block.isAir(blockState, world, blockPos)
+    			&& block.isOpaqueCube(blockState)
     			&& !block.hasTileEntity(world.getBlockState(blockPos))
-    			&& block.getRenderType() == 3;
+    			&& block.getRenderType(blockState) == EnumBlockRenderType.MODEL;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer) {
+    public boolean addHitEffects(IBlockState blockStateOuter, World worldObj, RayTraceResult target, EffectRenderer effectRenderer) {
         IBlockState blockState;
         try {
             blockState = getTile(worldObj, target.getBlockPos()).getInnerBlockState();
@@ -205,7 +196,32 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
         RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, blockState, pos, target.sideHit);
         return true;
     }
-    
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IBlockColor getBlockColorHandler() {
+        return new BlockColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class BlockColor implements IBlockColor {
+        @Override
+        @SideOnly(Side.CLIENT)
+        public int colorMultiplier(IBlockState blockState, IBlockAccess world, BlockPos blockPos, int renderPass) {
+            try {
+                IBlockState innerBlockState = getTile(world, blockPos).getInnerBlockState();
+                return Minecraft.getMinecraft().getBlockColors().colorMultiplier(innerBlockState, world, blockPos, renderPass);
+            } catch (InvalidInnerBlocksTileException e) {
+                return -1;
+            } catch (NullPointerException e) {
+                return -1;
+            } catch (IllegalArgumentException e) {
+                return -1;
+            }
+        }
+    }
+
     /**
      * Exception that can occur when the tile is invalid.
      * @author rubensworks

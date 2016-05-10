@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Maps;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,6 +12,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -49,12 +51,6 @@ public class PromiseAcceptor extends ConfigurableItem {
     public boolean hasEffect(ItemStack itemStack) {
         return true;
     }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
-        return COLORS.get(itemStack.getItemDamage());
-    }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
@@ -68,6 +64,21 @@ public class PromiseAcceptor extends ConfigurableItem {
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
         return super.getUnlocalizedName(itemStack) + "." + itemStack.getItemDamage();
+    }
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            return COLORS.get(itemStack.getItemDamage());
+        }
     }
 
 }

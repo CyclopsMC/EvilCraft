@@ -4,11 +4,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.potion.Potion;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
@@ -56,7 +56,7 @@ public class EntityBloodPearl extends EntityThrowable implements IConfigurable {
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition position) {
+    protected void onImpact(RayTraceResult position) {
         if (position.entityHit != null) {
             position.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
         }
@@ -73,13 +73,13 @@ public class EntityBloodPearl extends EntityThrowable implements IConfigurable {
                     EnderTeleportEvent event = new EnderTeleportEvent(entityplayermp, this.posX, this.posY, this.posZ, 0.0F);
                     if (!MinecraftForge.EVENT_BUS.post(event)) {
                         if (this.getThrower().isRiding()) {
-                            this.getThrower().mountEntity(null);
+                            this.getThrower().dismountRidingEntity();
                         }
     
-                        this.getThrower().setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);
+                        this.getThrower().setPositionAndUpdate(event.getTargetX(), event.getTargetY(), event.getTargetZ());
                         this.getThrower().fallDistance = 0.0F;
-                        this.getThrower().attackEntityFrom(DamageSource.fall, event.attackDamage);
-                        this.getThrower().addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,
+                        this.getThrower().attackEntityFrom(DamageSource.fall, event.getAttackDamage());
+                        this.getThrower().addPotionEffect(new PotionEffect(MobEffects.moveSlowdown,
                         		BloodPearlOfTeleportationConfig.slownessDuration * 20, 2));
                     }
                 }

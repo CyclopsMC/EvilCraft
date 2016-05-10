@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -7,8 +8,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -17,6 +18,7 @@ import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.recipe.custom.api.IMachine;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
@@ -57,7 +59,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
 
     public BloodInfuser(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock, TileBloodInfuser.class);
-        this.setStepSound(soundTypeStone);
+        this.setStepSound(SoundType.STONE);
         this.setRotatable(true);
     }
     
@@ -83,16 +85,16 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, BlockPos blockPos, IBlockState state, Random random) {
+    public void randomDisplayTick(IBlockState state, World world, BlockPos blockPos, Random random) {
         EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(blockPos), world, blockPos,
                 random, BlockHelpers.getSafeBlockStateProperty(state, FACING, EnumFacing.NORTH));
-        super.randomDisplayTick(world, blockPos, state, random);
+        super.randomDisplayTick(state, world, blockPos, random);
     }
 
     @Override
-    public int getLightValue(IBlockAccess world, BlockPos blockPos) {
-        TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(blockPos);
-        return tile != null && tile.isVisuallyWorking() ? 4 : super.getLightValue(world, blockPos);
+    public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos blockPos) {
+        TileBloodInfuser tile = TileHelpers.getSafeTile(world, blockPos, TileBloodInfuser.class);
+        return tile != null && tile.isVisuallyWorking() ? 4 : super.getLightValue(blockState, world, blockPos);
     }
 
     @Override

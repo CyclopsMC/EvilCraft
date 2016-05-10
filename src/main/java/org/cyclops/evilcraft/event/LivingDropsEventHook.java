@@ -27,16 +27,16 @@ public class LivingDropsEventHook {
     }
 
 	private void dropEnderTear(LivingDropsEvent event) {
-        Entity e = event.entity;
-        if(!event.entity.worldObj.isRemote && e instanceof EntityEnderman && Configs.isEnabled(EnderTearConfig.class)) {
+        Entity e = event.getEntity();
+        if(!event.getEntity().worldObj.isRemote && e instanceof EntityEnderman && Configs.isEnabled(EnderTearConfig.class)) {
             int chance = EnderTearConfig.chanceDrop;
-            if(event.lootingLevel > 0) {
-                chance /= event.lootingLevel + 1;
+            if(event.getLootingLevel() > 0) {
+                chance /= event.getLootingLevel() + 1;
             }
             if(chance > 0 && e.worldObj.rand.nextInt(chance) == 0) {
                 EntityItem entity = new EntityItem(e.worldObj, e.posX, e.posY, e.posZ, new ItemStack(EnderTearConfig._instance.getItemInstance()));
                 entity.setPickupDelay(10);
-                event.drops.add(entity);
+                event.getDrops().add(entity);
             }
         }
     }

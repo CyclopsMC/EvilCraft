@@ -33,6 +33,6 @@ public class TextureStitchEventHook {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onTextureHookPre(TextureStitchEvent.Pre event) {
-        RenderHelpers.EMPTYICON = event.map.getAtlasSprite(Reference.MOD_ID+":"+EMPTY_ICON_NAME);
+        RenderHelpers.EMPTYICON = event.getMap().getAtlasSprite(Reference.MOD_ID+":"+EMPTY_ICON_NAME);
     }
 }

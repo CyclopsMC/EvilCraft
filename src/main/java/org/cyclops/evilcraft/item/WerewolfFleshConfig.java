@@ -41,5 +41,4 @@ public class WerewolfFleshConfig extends ItemConfig {
     public String getOreDictionaryId() {
         return Reference.DICT_FLESH;
     }
-    
 }

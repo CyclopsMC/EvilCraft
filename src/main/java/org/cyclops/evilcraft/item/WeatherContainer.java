@@ -1,12 +1,17 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,10 +20,12 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.entity.item.EntityWeatherContainer;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -65,23 +72,20 @@ public class WeatherContainer extends ConfigurableItem {
     public int getColorFromDamage(int damage) {
         return getWeatherContainerType(damage).damageRenderColor;
     }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
-        return renderPass > 0 ? 16777215 : this.getColorFromDamage(itemStack.getItemDamage());
-    }
     
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(!world.isRemote && getWeatherContainerType(itemStack) != WeatherContainerTypes.EMPTY) {
-            world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-            world.spawnEntityInWorld(new EntityWeatherContainer(world, player, itemStack.copy()));
+            world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_arrow_shoot, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            EntityWeatherContainer entity = new EntityWeatherContainer(world, player, itemStack.copy());
+            // Last three params: pitch offset, velocity, inaccuracy
+            entity.func_184538_a(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            world.spawnEntityInWorld(entity);
             
             itemStack.stackSize--;
         }
 
-        return itemStack;
+        return MinecraftHelpers.successAction(itemStack);
     }
     
     /**
@@ -177,27 +181,27 @@ public class WeatherContainer extends ConfigurableItem {
         /**
          * Empty weather container.
          */
-        EMPTY(null, "empty", EnumChatFormatting.GRAY, Helpers.RGBToInt(125, 125, 125)),
+        EMPTY(null, "empty", TextFormatting.GRAY, Helpers.RGBToInt(125, 125, 125)),
         /**
          * Clear weather container.
          */
-        CLEAR(WeatherType.CLEAR, "clear", EnumChatFormatting.AQUA, Helpers.RGBToInt(30, 150, 230)),
+        CLEAR(WeatherType.CLEAR, "clear", TextFormatting.AQUA, Helpers.RGBToInt(30, 150, 230)),
         /**
          * Rain weather container.
          */
-        RAIN(WeatherType.RAIN, "rain", EnumChatFormatting.DARK_BLUE, Helpers.RGBToInt(0, 0, 255)),
+        RAIN(WeatherType.RAIN, "rain", TextFormatting.DARK_BLUE, Helpers.RGBToInt(0, 0, 255)),
         /**
          * Lightning weather container.
          */
-        LIGHTNING(WeatherType.LIGHTNING, "lightning", EnumChatFormatting.GOLD, Helpers.RGBToInt(255, 215, 0));
+        LIGHTNING(WeatherType.LIGHTNING, "lightning", TextFormatting.GOLD, Helpers.RGBToInt(255, 215, 0));
         
         private final WeatherType type;
         
         private final String description;
-        private final EnumChatFormatting damageColor;
+        private final TextFormatting damageColor;
         private final int damageRenderColor;
         
-        private WeatherContainerTypes(WeatherType type, String description, EnumChatFormatting damageColor, int damageRenderColor) {
+        private WeatherContainerTypes(WeatherType type, String description, TextFormatting damageColor, int damageRenderColor) {
             this.type = type;
             
             this.description = L10NHelpers.localize("weatherContainer." + Reference.MOD_ID + "." + description);
@@ -259,5 +263,20 @@ public class WeatherContainer extends ConfigurableItem {
     public EnumRarity getRarity(ItemStack itemStack) {
         return itemStack.getItemDamage() == 0 ? EnumRarity.COMMON :
                 (itemStack.getItemDamage() > 2 ? EnumRarity.RARE : EnumRarity.UNCOMMON);
+    }
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            return renderPass > 0 ? 16777215 : WeatherContainer.getInstance().getColorFromDamage(itemStack.getItemDamage());
+        }
     }
 }

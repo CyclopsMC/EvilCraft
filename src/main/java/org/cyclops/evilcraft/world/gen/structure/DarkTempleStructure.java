@@ -2,13 +2,13 @@ package org.cyclops.evilcraft.world.gen.structure;
 
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ChestGenHooks;
+import net.minecraft.world.storage.loot.LootTableList;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
@@ -93,16 +93,16 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
     }
 
     private boolean isValidSpot(World world, BlockPos blockPos) {
-        Block block = world.getBlockState(blockPos).getBlock();
-        return isSolidBlock(block) || block.isReplaceable(world, blockPos);
+        IBlockState blockState = world.getBlockState(blockPos);
+        return isSolidBlock(blockState) || blockState.getBlock().isReplaceable(world, blockPos);
     }
 
     private boolean isSolidBlock(World world, BlockPos blockPos) {
-        return isSolidBlock(world.getBlockState(blockPos).getBlock());
+        return isSolidBlock(world.getBlockState(blockPos));
     }
 
-    private boolean isSolidBlock(Block block) {
-        Material material = block.getMaterial();
+    private boolean isSolidBlock(IBlockState blockState) {
+        Material material = blockState.getMaterial();
         return material.isSolid() && material.isOpaque();
     }
 
@@ -157,8 +157,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
                 Random rand = new Random();
                 TileEntityChest tile = (TileEntityChest) world.getTileEntity(pos);
                 if (tile != null) {
-                    ChestGenHooks info = ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST);
-                    WeightedRandomChestContent.generateChestContents(rand, info.getItems(rand), tile, info.getCount(rand));
+                    tile.setLoot(LootTableList.CHESTS_SPAWN_BONUS_CHEST, rand.nextLong());
                 }
             }
         };

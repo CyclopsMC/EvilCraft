@@ -3,8 +3,6 @@ package org.cyclops.evilcraft.client.render.entity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 import org.cyclops.evilcraft.core.client.render.entity.RenderModelLiving;
@@ -16,7 +14,7 @@ import org.cyclops.evilcraft.entity.monster.PoisonousLibelle;
  * @author rubensworks
  *
  */
-public class RenderPoisonousLibelle extends RenderModelLiving<ModelBase> {
+public class RenderPoisonousLibelle extends RenderModelLiving<PoisonousLibelle, ModelBase> {
     
     /**
      * Make a new instance
@@ -25,23 +23,19 @@ public class RenderPoisonousLibelle extends RenderModelLiving<ModelBase> {
      * @param model The model.
      * @param par2 No idea...
      */
-	public RenderPoisonousLibelle(RenderManager renderManager, ExtendedConfig<MobConfig> config, ModelBase model, float par2) {
+	public RenderPoisonousLibelle(RenderManager renderManager, ExtendedConfig<MobConfig<PoisonousLibelle>> config, ModelBase model, float par2) {
 	    super(renderManager, config, model, par2);
 	}
 
     @Override
-    protected void preRenderCallback(EntityLivingBase entity, float f){
+    protected void preRenderCallback(PoisonousLibelle entity, float f){
         GlStateManager.scale(0.5F, 0.5F, 0.5F);
         GlStateManager.translate(0, 0.5F, 0);
     }
-	
-	private void renderLibelle(PoisonousLibelle libelle, double x, double y, double z, float yaw, float partialTickTime) {
-	    super.doRender(libelle, x, y, z, yaw, partialTickTime);
-    }
 
 	@Override
-    public void doRender(EntityLiving par1EntityLiving, double x, double y, double z, float yaw, float partialTickTime) {
-        this.renderLibelle((PoisonousLibelle)par1EntityLiving, x, y, z, yaw, partialTickTime);
+    public void doRender(PoisonousLibelle libelle, double x, double y, double z, float yaw, float partialTickTime) {
+        super.doRender(libelle, x, y, z, yaw, partialTickTime);
     }
 
 }

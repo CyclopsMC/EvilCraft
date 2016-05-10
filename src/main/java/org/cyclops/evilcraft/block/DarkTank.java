@@ -1,10 +1,11 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,10 +13,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelBakeEvent;
@@ -82,7 +84,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     public DarkTank(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.glass, TileDarkTank.class);
         this.setHardness(0.5F);
-        this.setStepSound(soundTypeGlass);
+        this.setStepSound(SoundType.GLASS);
         MinecraftForge.EVENT_BUS.register(this);
         if(MinecraftHelpers.isClientSide()) {
             itemModels = new ModelResourceLocation[2];
@@ -91,53 +93,47 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         }
     }
 
-    @Override
-    public void setBlockBoundsForItemRender() {
-        setBlockBounds(0.125F, 0.001F, 0.125F, 0.875F, 0.999F, 0.875F);
-    }
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return new AxisAlignedBB(0.125F, 0.001F, 0.125F, 0.875F, 0.999F, 0.875F);
+	}
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
-        setBlockBoundsForItemRender();
-    }
-
-    @Override
-    public void addCollisionBoxesToList(World world, BlockPos blockPos, IBlockState blockState, AxisAlignedBB area, List list, Entity entity) {
-        setBlockBounds(0, 0, 0, 1, 1, 1);
-        super.addCollisionBoxesToList(world, blockPos, blockState, area, list, entity);
-    }
-    
-    @Override
-    public boolean hasComparatorInputOverride() {
+    public boolean hasComparatorInputOverride(IBlockState blockState) {
             return true;
     }
 
     @Override
-    public int getComparatorInputOverride(World world, BlockPos blockPos) {
+    public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos blockPos) {
     	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
     
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState blockState) {
     	return false;
     }
     
     @Override
-    public boolean isNormalCube() {
+    public boolean isNormalCube(IBlockState blockState) {
     	return false;
     }
 
-    @Override
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
+
+	@Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess world, BlockPos blockPos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos blockPos, EnumFacing side) {
     	return true;
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float motionX, float motionY, float motionZ) {
-    	if(tankComponent.onBlockActivatedTank(world, blockPos, player, side, motionX, motionY, motionZ)) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float motionX, float motionY, float motionZ) {
+    	if(tankComponent.onBlockActivatedTank(world, blockPos, player, hand, heldItem, side, motionX, motionY, motionZ)) {
         	return true;
         } else {
         	world.setBlockState(blockPos, this.blockState.getBaseState().withProperty(DRAINING, !(Boolean)blockState.getValue(DRAINING)), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
@@ -193,12 +189,11 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     }
 	
 	@Override
-	public int getLightValue(IBlockAccess world, BlockPos blockPos) {
-		TileEntity tile = world.getTileEntity(blockPos);
-		if(tile != null && tile instanceof TileDarkTank) {
-			TileDarkTank tank = (TileDarkTank) tile;
-			if(tank.getTank().getFluidType() != null) {
-				return (int) Math.min(15, tank.getFillRatio() * tank.getTank().getFluidType().getLuminosity() * 15);
+	public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos blockPos) {
+		TileDarkTank tile = TileHelpers.getSafeTile(world, blockPos, TileDarkTank.class);
+		if(tile != null) {
+			if(tile.getTank().getFluidType() != null) {
+				return (int) Math.min(15, tile.getFillRatio() * tile.getTank().getFluidType().getLuminosity() * 15);
 			}
 		}
 		return 0;
@@ -277,8 +272,8 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     }
 
 	@SideOnly(Side.CLIENT)
-	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.CUTOUT;
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 
 	/**
@@ -290,17 +285,17 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	public void onModelBakeEvent(ModelBakeEvent event) {
         // Take the original item tank model and replace it with a dynamic one but pass this original one to it as parent.
         for(ModelResourceLocation itemModel : itemModels) {
-            IBakedModel baseModel = event.modelRegistry.getObject(itemModel);
+            IBakedModel baseModel = event.getModelRegistry().getObject(itemModel);
             ModelDarkTank newModel = new ModelDarkTank(baseModel);
-            event.modelRegistry.putObject(itemModel, newModel);
+            event.getModelRegistry().putObject(itemModel, newModel);
         }
 
 		// Do the same for block models
 		if(DarkTankConfig.staticBlockRendering) {
 			ModelResourceLocation blockDrainingOf = new ModelResourceLocation(Reference.MOD_ID + ":darkTank", "draining=false");
 			ModelResourceLocation blockDrainingOn = new ModelResourceLocation(Reference.MOD_ID + ":darkTank", "draining=true");
-			event.modelRegistry.putObject(blockDrainingOf, new ModelDarkTank(event.modelRegistry.getObject(blockDrainingOf)));
-			event.modelRegistry.putObject(blockDrainingOn, new ModelDarkTank(event.modelRegistry.getObject(blockDrainingOn)));
+			event.getModelRegistry().putObject(blockDrainingOf, new ModelDarkTank(event.getModelRegistry().getObject(blockDrainingOf)));
+			event.getModelRegistry().putObject(blockDrainingOn, new ModelDarkTank(event.getModelRegistry().getObject(blockDrainingOn)));
 		}
     }
 

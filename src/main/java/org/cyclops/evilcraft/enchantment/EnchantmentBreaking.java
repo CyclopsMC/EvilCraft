@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.enchantment;
 
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
@@ -29,7 +30,7 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
     }
 
     public EnchantmentBreaking(ExtendedConfig<EnchantmentConfig> eConfig) {
-        super(eConfig, 10, EnumEnchantmentType.WEAPON);
+        super(eConfig, Rarity.COMMON, EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
         DamageableItemRepairAction.BAD_ENCHANTS.add(this);
     }
     

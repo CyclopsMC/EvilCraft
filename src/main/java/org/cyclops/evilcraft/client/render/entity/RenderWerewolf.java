@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.client.render.entity;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.EntityLiving;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 import org.cyclops.evilcraft.core.client.render.entity.RenderModelLiving;
@@ -14,7 +13,7 @@ import org.cyclops.evilcraft.entity.monster.Werewolf;
  * @author rubensworks
  *
  */
-public class RenderWerewolf extends RenderModelLiving<ModelBase> {
+public class RenderWerewolf extends RenderModelLiving<Werewolf, ModelBase> {
     
     /**
      * Make a new instance
@@ -23,7 +22,7 @@ public class RenderWerewolf extends RenderModelLiving<ModelBase> {
      * @param model The model.
      * @param par2 No idea...
      */
-	public RenderWerewolf(RenderManager renderManager, ExtendedConfig<MobConfig> config, ModelBase model, float par2) {
+	public RenderWerewolf(RenderManager renderManager, ExtendedConfig<MobConfig<Werewolf>> config, ModelBase model, float par2) {
 	    super(renderManager, config, model, par2);
 	}
 	
@@ -32,8 +31,8 @@ public class RenderWerewolf extends RenderModelLiving<ModelBase> {
     }
 
 	@Override
-    public void doRender(EntityLiving par1EntityLiving, double x, double y, double z, float yaw, float partialTickTime) {
-        this.renderWerewolf((Werewolf)par1EntityLiving, x, y, z, yaw, partialTickTime);
+    public void doRender(Werewolf werewolf, double x, double y, double z, float yaw, float partialTickTime) {
+        this.renderWerewolf(werewolf, x, y, z, yaw, partialTickTime);
     }
 
 }

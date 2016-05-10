@@ -58,7 +58,7 @@ public class BurningGemStone extends ConfigurableItem {
                     player.addExhaustion(10);
                     if(itemStack.stackSize <= 0) {
                         player.inventory.setInventorySlotContents(current.getLeft(), null);
-                        MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(player, itemStack));
+                        MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(player, itemStack, null));
                     }
 				}
 				return true;

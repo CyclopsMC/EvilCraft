@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.tileentity.tickaction.purifier;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
 
@@ -30,7 +30,7 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
     public boolean canWork(TilePurifier tile) {
         if(tile.getPurifyItem() != null && tile.getBucketsFloored() > 0) {
             for(ConfigurableEnchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
-                int enchantmentListID = EnchantmentHelpers.doesEnchantApply(tile.getPurifyItem(), enchant.effectId);
+                int enchantmentListID = EnchantmentHelpers.doesEnchantApply(tile.getPurifyItem(), enchant);
                 return enchantmentListID >= 0;
             }
         }
@@ -48,7 +48,7 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
         // Try removing bad enchants.
         for(ConfigurableEnchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
             if(!done) {
-                int enchantmentListID = EnchantmentHelpers.doesEnchantApply(purifyItem, enchant.effectId);
+                int enchantmentListID = EnchantmentHelpers.doesEnchantApply(purifyItem, enchant);
                 if(enchantmentListID > -1) {
                     if(tick >= PURIFY_DURATION) {
                         if(!world.isRemote) {

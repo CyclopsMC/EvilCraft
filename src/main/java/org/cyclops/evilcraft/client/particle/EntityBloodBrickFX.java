@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
@@ -43,9 +43,9 @@ public class EntityBloodBrickFX extends EntityFX {
 		super(world, x, y, z, 0, 0, 0);
 		this.side = side;
 		
-		this.motionX = 0;
-		this.motionY = 0;
-		this.motionZ = 0;
+		this.xSpeed = 0;
+		this.ySpeed = 0;
+		this.zSpeed = 0;
 		
 		this.particleRed = 1;
 		this.particleGreen = 1;
@@ -55,7 +55,6 @@ public class EntityBloodBrickFX extends EntityFX {
 		//this.particleScale *= scale;
 		//this.particleMaxAge = (int) ((rand.nextFloat() * 0.33F + 0.66F) * ageMultiplier);
 		this.particleMaxAge = 40;
-		this.noClip = true;
 		this.setSize(0.01F, 0.01F);
 		
 		this.posX += (double) (side.getFrontOffsetX()) / 30D;
@@ -68,7 +67,7 @@ public class EntityBloodBrickFX extends EntityFX {
 	}
 
 	@Override
-	public void renderParticle(WorldRenderer worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	public void renderParticle(VertexBuffer worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		int oldDrawMode = worldRenderer.getDrawMode();
 		VertexFormat oldVertexFormat = worldRenderer.getVertexFormat();
 		Tessellator.getInstance().draw();
@@ -148,16 +147,16 @@ public class EntityBloodBrickFX extends EntityFX {
 		prevPosZ = posZ;
 
 		if(particleAge++ >= particleMaxAge) {
-			setDead();
+			setExpired();
 		}
 
-		motionY -= 0.04D * particleGravity;
-		posX += motionX;
-		posY += motionY;
-		posZ += motionZ;
-		motionX *= 0.95D;
-		motionY *= 0.95D;
-		motionZ *= 0.95D;
+		ySpeed -= 0.04D * particleGravity;
+		posX += xSpeed;
+		posY += ySpeed;
+		posZ += zSpeed;
+		xSpeed *= 0.95D;
+		ySpeed *= 0.95D;
+		zSpeed *= 0.95D;
 	}
 
 	/**

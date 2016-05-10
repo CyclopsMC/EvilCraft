@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -47,7 +47,7 @@ public class VeinSword extends ConfigurableItemSword {
      */
     public static ItemStack createCraftingResult() {
     	ItemStack sword = new ItemStack(VeinSword.getInstance());
-        EnchantmentHelpers.setEnchantmentLevel(sword, Enchantment.looting, LOOTING_LEVEL);
+        EnchantmentHelpers.setEnchantmentLevel(sword, Enchantments.looting, LOOTING_LEVEL);
         return sword;
     }
     

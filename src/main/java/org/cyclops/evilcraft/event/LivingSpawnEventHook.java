@@ -24,8 +24,8 @@ public class LivingSpawnEventHook {
     }
 
     private void checkLibelleSpawn(LivingSpawnEvent.CheckSpawn event) {
-        if(event.entityLiving instanceof PoisonousLibelle) {
-            if(((PoisonousLibelle) event.entityLiving).posY < PoisonousLibelleConfig.minY) {
+        if(event.getEntityLiving() instanceof PoisonousLibelle) {
+            if(((PoisonousLibelle) event.getEntityLiving()).posY < PoisonousLibelleConfig.minY) {
                 event.setResult(Event.Result.DENY);
             }
         }

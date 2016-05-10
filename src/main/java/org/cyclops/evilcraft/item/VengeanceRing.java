@@ -4,24 +4,30 @@ import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import baubles.api.IBauble;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
@@ -42,12 +48,13 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	private static final int BONUS_TICK_MODULUS = 5;
 	private static final int BONUS_POTION_DURATION = 3 * 20;
 	// Array of effects, each element: potion ID, duration, potion level.
-	private static final int[][] RING_POWERS = {
-		{Potion.jump.id, BONUS_POTION_DURATION, 2},
-		{Potion.invisibility.id, BONUS_POTION_DURATION, 1},
-		{Potion.moveSpeed.id, BONUS_POTION_DURATION, 1},
-		{Potion.digSpeed.id, BONUS_POTION_DURATION, 1},
-	};
+	private static final List<Triple<Potion, Integer, Integer>> RING_POWERS =
+			Lists.<Triple<Potion, Integer, Integer>>newArrayList(
+					Triple.of(MobEffects.jump, BONUS_POTION_DURATION, 2),
+					Triple.of(MobEffects.invisibility, BONUS_POTION_DURATION, 1),
+					Triple.of(MobEffects.moveSpeed, BONUS_POTION_DURATION, 1),
+					Triple.of(MobEffects.digSpeed, BONUS_POTION_DURATION, 1)
+			);
 	
     private static VengeanceRing _instance = null;
     
@@ -65,13 +72,13 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
     }
     
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(player.isSneaking()) {
             if(!world.isRemote)
             	ItemHelpers.toggleActivation(itemStack);
-            return itemStack;
+            return MinecraftHelpers.successAction(itemStack);
         }
-        return super.onItemRightClick(itemStack, world, player);
+        return super.onItemRightClick(itemStack, world, player, hand);
     }
     
     @Optional.Method(modid = Reference.MOD_BAUBLES)
@@ -114,7 +121,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
             BlockPos blockPos = entity.getPosition();
 	    	
 	    	// Look for spirits in an area.
-	    	AxisAlignedBB box = AxisAlignedBB.fromBounds(x, y, z, x, y, z).expand(area, area, area);
+	    	AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).expand(area, area, area);
 	    	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABB(VengeanceSpirit.class, box,
 					new Predicate<Entity>() {
 
@@ -157,8 +164,8 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
      * @param player The player to receive the powers.
      */
     public static void updateRingPowers(EntityPlayer player) {
-    	for(int[] power : RING_POWERS) {
-    		player.addPotionEffect(new PotionEffect(power[0], power[1], power[2], false, true));
+    	for(Triple<Potion, Integer, Integer> power : RING_POWERS) {
+    		player.addPotionEffect(new PotionEffect(power.getLeft(), power.getMiddle(), power.getRight(), false, true));
     	}
 	}
     

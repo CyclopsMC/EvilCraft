@@ -58,5 +58,4 @@ public class BowlOfPromisesConfig extends ItemConfig {
             }
         }
     }
-    
 }

@@ -8,18 +8,19 @@ import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.entity.villager.WerewolfVillagerConfig;
-import org.cyclops.evilcraft.item.WerewolfBoneConfig;
-import org.cyclops.evilcraft.item.WerewolfFurConfig;
 
 import java.util.Random;
 
@@ -51,7 +52,6 @@ public class Werewolf extends EntityMob implements IConfigurable{
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIWander(this, 0.6D));
         this.tasks.addTask(2, new EntityAILookIdle(this));
-        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, true));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, false));
@@ -70,9 +70,9 @@ public class Werewolf extends EntityMob implements IConfigurable{
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.625D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(7.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.625D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(7.0D);
     }
     
     @Override
@@ -114,7 +114,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
      * Replace this entity with the stored villager.
      */
     public void replaceWithVillager() {
-        if(Configs.isEnabled(WerewolfVillagerConfig.class)) {
+        if(Configs.isEnabled(WerewolfVillagerConfig.class) && false) { // TODO: re-enable when reimplementing werewolf villagers
             EntityVillager villager = new EntityVillager(this.worldObj, WerewolfVillagerConfig._instance.getId());
             replaceEntity(this, villager, this.worldObj);
             villager.readEntityFromNBT(villagerNBTTagCompound);
@@ -147,7 +147,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
         if(random.nextInt(BARKCHANCE) == 0 && barkprogress == -1) {
             barkprogress++;
         } else if(barkprogress > -1) {
-            playSound("mob.wolf.growl", 0.15F, 1.0F);
+            playSound(SoundEvents.entity_wolf_growl, 0.15F, 1.0F);
             barkprogress++;
             if(barkprogress > BARKLENGTH) {
                 barkprogress = -1;
@@ -166,39 +166,30 @@ public class Werewolf extends EntityMob implements IConfigurable{
         else
             return (float)barkprogress / (float)BARKLENGTH * scale;
     }
-    
+
     @Override
-    protected Item getDropItem() {
-        if(Configs.isEnabled(WerewolfBoneConfig.class))
-            return WerewolfBoneConfig._instance.getItemInstance();
-        else
-            return super.getDropItem();
-    }
-    
-    @Override
-    protected void addRandomDrop() {
-        if(Configs.isEnabled(WerewolfFurConfig.class))
-            this.dropItem(WerewolfFurConfig._instance.getItemInstance(), 1);
-    }
-    
-    @Override
-    protected String getLivingSound() {
-        return "mob.wolf.growl";
+    protected ResourceLocation getLootTable() {
+        return new ResourceLocation(Reference.MOD_ID, "entities/werewolf");
     }
 
     @Override
-    protected String getHurtSound() {
-        return "mob.wolf.hurt";
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.entity_wolf_growl;
     }
 
     @Override
-    protected String getDeathSound() {
-        return "mob.wolf.death";
+    protected SoundEvent getHurtSound() {
+        return SoundEvents.entity_wolf_hurt;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.entity_wolf_death;
     }
 
     @Override
     protected void playStepSound(BlockPos blockPos, Block block) {
-        this.playSound("mob.zombie.step", 0.15F, 1.0F);
+        this.playSound(SoundEvents.entity_zombie_step, 0.15F, 1.0F);
     }
     
     @Override

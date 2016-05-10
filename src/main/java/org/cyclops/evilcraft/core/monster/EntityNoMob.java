@@ -5,9 +5,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.util.BlockPos;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -26,6 +33,11 @@ public class EntityNoMob extends EntityCreature {
     }
 
     /* DIRECT COPY OF EntityMob contents below. */
+
+    public SoundCategory getSoundCategory()
+    {
+        return SoundCategory.HOSTILE;
+    }
 
     /**
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
@@ -57,14 +69,14 @@ public class EntityNoMob extends EntityCreature {
         }
     }
 
-    protected String getSwimSound()
+    protected SoundEvent getSwimSound()
     {
-        return "game.hostile.swim";
+        return SoundEvents.entity_hostile_swim;
     }
 
-    protected String getSplashSound()
+    protected SoundEvent getSplashSound()
     {
-        return "game.hostile.swim.splash";
+        return SoundEvents.entity_hostile_splash;
     }
 
     /**
@@ -72,50 +84,32 @@ public class EntityNoMob extends EntityCreature {
      */
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-        if (this.isEntityInvulnerable(source))
-        {
-            return false;
-        }
-        else if (super.attackEntityFrom(source, amount))
-        {
-            Entity entity = source.getEntity();
-            return this.riddenByEntity != entity && this.ridingEntity != entity ? true : true;
-        }
-        else
-        {
-            return false;
-        }
+        return this.isEntityInvulnerable(source) ? false : super.attackEntityFrom(source, amount);
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
-    protected String getHurtSound()
+    protected SoundEvent getHurtSound()
     {
-        return "game.hostile.hurt";
+        return SoundEvents.entity_hostile_hurt;
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
-    protected String getDeathSound()
+    protected SoundEvent getDeathSound()
     {
-        return "game.hostile.die";
+        return SoundEvents.entity_hostile_death;
     }
 
-    protected String getFallSoundString(int damageValue)
+    protected SoundEvent getFallSound(int heightIn)
     {
-        return damageValue > 4 ? "game.hostile.hurt.fall.big" : "game.hostile.hurt.fall.small";
+        return heightIn > 4 ? SoundEvents.entity_hostile_big_fall : SoundEvents.entity_hostile_small_fall;
     }
 
     public boolean attackEntityAsMob(Entity entityIn)
     {
-        float f = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+        float f = (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
         int i = 0;
 
         if (entityIn instanceof EntityLivingBase)
         {
-            f += EnchantmentHelper.func_152377_a(this.getHeldItem(), ((EntityLivingBase)entityIn).getCreatureAttribute());
+            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase) entityIn).getCreatureAttribute());
             i += EnchantmentHelper.getKnockbackModifier(this);
         }
 
@@ -123,9 +117,9 @@ public class EntityNoMob extends EntityCreature {
 
         if (flag)
         {
-            if (i > 0)
+            if (i > 0 && entityIn instanceof EntityLivingBase)
             {
-                entityIn.addVelocity((double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F));
+                ((EntityLivingBase)entityIn).knockBack(this, (float) i * 0.5F, (double) MathHelper.sin(this.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
                 this.motionX *= 0.6D;
                 this.motionZ *= 0.6D;
             }
@@ -135,6 +129,24 @@ public class EntityNoMob extends EntityCreature {
             if (j > 0)
             {
                 entityIn.setFire(j * 4);
+            }
+
+            if (entityIn instanceof EntityPlayer)
+            {
+                EntityPlayer entityplayer = (EntityPlayer)entityIn;
+                ItemStack itemstack = this.getHeldItemMainhand();
+                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : null;
+
+                if (itemstack != null && itemstack1 != null && itemstack.getItem() instanceof ItemAxe && itemstack1.getItem() == Items.shield)
+                {
+                    float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+
+                    if (this.rand.nextFloat() < f1)
+                    {
+                        entityplayer.getCooldownTracker().setCooldown(Items.shield, 100);
+                        this.worldObj.setEntityState(entityplayer, (byte)30);
+                    }
+                }
             }
 
             this.applyEnchantments(this, entityIn);
@@ -149,7 +161,7 @@ public class EntityNoMob extends EntityCreature {
     }
 
     /**
-     * @return Checks to make sure the light is not too bright where the mob is spawning
+     * Checks to make sure the light is not too bright where the mob is spawning
      */
     protected boolean isValidLightLevel()
     {
@@ -186,7 +198,7 @@ public class EntityNoMob extends EntityCreature {
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage);
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
     }
 
     /**

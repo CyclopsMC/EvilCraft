@@ -1,7 +1,9 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Sets;
+import net.minecraft.init.Biomes;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
@@ -45,24 +47,24 @@ public class BiomeExtractConfig extends ItemConfig {
      * A list of biome ids for which no Biome Extracts may be created.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM,
-            comment = "A list of biome ids for which no Biome Extracts may be created.",
+            comment = "A list of biome names for which no Biome Extracts may be created.",
             changedCallback = CraftingBlacklistChanged.class)
     public static String[] craftingBlacklist = new String[]{
-            String.valueOf(BiomeGenBase.sky.biomeID),
+            String.valueOf(BiomeGenBase.biomeRegistry.getNameForObject(Biomes.sky)),
     };
 
     /**
      * A list of biome ids for which no Biome Extracts may be used.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM,
-            comment = "A list of biome ids for which no Biome Extracts may be used.",
+            comment = "A list of biome names for which no Biome Extracts may be used.",
             changedCallback = UsageBlacklistChanged.class)
     public static String[] usageBlacklist = new String[]{
-            String.valueOf(BiomeGenBase.sky.biomeID),
+            String.valueOf(BiomeGenBase.biomeRegistry.getNameForObject(Biomes.sky)),
     };
 
-    private Set<Integer> craftingBlacklistIds = Sets.newHashSet();
-    private Set<Integer> usageBlacklistIds = Sets.newHashSet();
+    private Set<ResourceLocation> craftingBlacklistIds = Sets.newHashSet();
+    private Set<ResourceLocation> usageBlacklistIds = Sets.newHashSet();
 
     /**
      * Make a new instance.
@@ -135,19 +137,20 @@ public class BiomeExtractConfig extends ItemConfig {
 
     /**
      * Register the usage multipliers config from the given string array.
-     * @param config The config where each element is in the form 'potionid:multiplier'.
-     * @param blacklistIds The set of ids to set
+     * @param config The config where each element is in the form 'biomename'.
+     * @param blacklistNames The set of biome names to set.
      */
-    public void setBlacklist(String[] config, Set<Integer> blacklistIds) {
-        blacklistIds.clear();
+    public void setBlacklist(String[] config, Set<ResourceLocation> blacklistNames) {
+        blacklistNames.clear();
         for (String line : config) {
             try {
-                int biomeId = Integer.parseInt(line);
-                if (biomeId >= BiomeGenBase.getBiomeGenArray().length || BiomeGenBase.getBiomeGenArray()[biomeId] == null) {
+                ResourceLocation biomeKey = new ResourceLocation(line);
+                if (!BiomeGenBase.biomeRegistry.containsKey(biomeKey)) {
                     EvilCraft.clog("Invalid line '" + line + "' found for "
                             + "a Biome Extract blacklist config: " + line + " does not refer to an existing biome; skipping.");
+                } else {
+                    blacklistNames.add(biomeKey);
                 }
-                blacklistIds.add(biomeId);
             } catch (NumberFormatException e) {
                 EvilCraft.clog("Invalid line '" + line + "' found for "
                         + "a Biome Extract blacklist config: " + line + " is not a number; skipping.");
@@ -165,12 +168,11 @@ public class BiomeExtractConfig extends ItemConfig {
     }
 
     /**
-     * If the given biome id is blacklisted for usage.
-     * @param biomeId The biome id
+     * If the given biome is blacklisted for usage.
+     * @param biome The biome
      * @return If blacklisted
      */
-    public boolean isUsageBlacklisted(int biomeId) {
-        return usageBlacklistIds.contains(biomeId);
+    public boolean isUsageBlacklisted(BiomeGenBase biome) {
+        return usageBlacklistIds.contains(BiomeGenBase.biomeRegistry.getNameForObject(biome).toString());
     }
-
 }

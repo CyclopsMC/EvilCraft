@@ -10,7 +10,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -96,20 +99,20 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
         if(itemStack.getTagCompound() != null) {
         	String owner = getOwnerName(itemStack);
         	if(owner == null || owner.isEmpty()) {
-        		owner = EnumChatFormatting.ITALIC + L10NHelpers.localize(getUnlocalizedName() + ".info.currentOwner.none");
+        		owner = TextFormatting.ITALIC + L10NHelpers.localize(getUnlocalizedName() + ".info.currentOwner.none");
         	}
         	list.add(L10NHelpers.localize(getUnlocalizedName() + ".info.currentOwner", owner));
         }
     }
     
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
     	if(player.isSneaking()) {
             if(!world.isRemote)
             	ItemHelpers.toggleActivation(itemStack);
-            return itemStack;
+            return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
         }
-        return super.onItemRightClick(itemStack, world, player);
+        return super.onItemRightClick(itemStack, world, player, hand);
     }
     
     @Override

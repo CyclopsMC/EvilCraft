@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.event;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -25,35 +26,33 @@ public class PlayerInteractEventHook {
      * @param event The received event.
      */
 	@SubscribeEvent(priority = EventPriority.HIGH)
-    public void onPlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(PlayerInteractEvent.LeftClickBlock event) {
         unusingEvent(event);
         breakingEvent(event);
     }
     
-    private void unusingEvent(PlayerInteractEvent event) {
-        if(Configs.isEnabled(EnchantmentUnusingConfig.class) && doesEnchantApply(event, EnchantmentUnusingConfig._instance.ID) > -1) {
-            if(event.entityPlayer != null
-                    && EnchantmentUnusing.unuseTool(event.entityPlayer.getCurrentEquippedItem())) {
+    private void unusingEvent(PlayerInteractEvent.LeftClickBlock event) {
+        if(Configs.isEnabled(EnchantmentUnusingConfig.class) && doesEnchantApply(event, EnchantmentUnusingConfig._instance.getEnchantment()) > -1) {
+            if(event.getEntityPlayer() != null
+                    && EnchantmentUnusing.unuseTool(event.getEntityPlayer().getActiveItemStack())) {
                 event.setCanceled(true);
-                event.entityPlayer.stopUsingItem();
+                event.getEntityPlayer().stopActiveHand();
             }
         }
     }
     
-    private void breakingEvent(PlayerInteractEvent event) {
+    private void breakingEvent(PlayerInteractEvent.LeftClickBlock event) {
         if(Configs.isEnabled(EnchantmentBreakingConfig.class)) {
-            int i = doesEnchantApply(event, EnchantmentBreakingConfig._instance.ID);
-            ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
+            int i = doesEnchantApply(event, EnchantmentBreakingConfig._instance.getEnchantment());
+            ItemStack itemStack = event.getEntityPlayer().getActiveItemStack();
             EnchantmentBreaking.amplifyDamage(itemStack, i, new Random());
         }
     }
     
-    private int doesEnchantApply(PlayerInteractEvent event, int enchantID) {
-        if(event.action.equals(PlayerInteractEvent.Action.LEFT_CLICK_BLOCK)) {
-            if(event.entityPlayer != null) {
-                ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
-                return EnchantmentHelpers.doesEnchantApply(itemStack, enchantID);
-            }
+    private int doesEnchantApply(PlayerInteractEvent.LeftClickBlock event, Enchantment enchantment) {
+        if(event.getEntityPlayer() != null) {
+            ItemStack itemStack = event.getEntityPlayer().getActiveItemStack();
+            return EnchantmentHelpers.doesEnchantApply(itemStack, enchantment);
         }
         return -1;
     }

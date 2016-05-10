@@ -2,13 +2,18 @@ package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.BossInfo;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,7 +45,7 @@ import java.util.Random;
  * @author immortaleeb
  *
  */
-public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity implements IBossDisplayData, IDegradable, IInventory {
+public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity implements IDegradable, IInventory {
 
     public static final int MAX_AGE = 50;
     public static final int SPREAD = 25;
@@ -71,7 +76,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             new BlockPos( 2, -1, -2),
             new BlockPos( 2, -1,  2),
     };
-    
+    private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(
+            this.getDisplayName(), BossInfo.Color.GREEN, BossInfo.Overlay.PROGRESS)).setDarkenSky(false);
+
     /**
      * Holds the state of the environmental accumulator.
      * The following states are possible: idle (the default case), cooling down,
@@ -214,6 +221,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	        if (tick == 0)
 	            activateIdleState();
 	    }
+        this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 	}
 
     @SideOnly(Side.CLIENT)
@@ -237,7 +245,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
                 double speed = 2;
 
-                double particleMotionX = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.cos(rotationYaw / 180.0F * (float)Math.PI) * speed;
+                double particleMotionX = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * speed;
                 double particleMotionY = MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI) * speed * 5;
                 double particleMotionZ = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.sin(rotationYaw / 180.0F * (float)Math.PI) * speed;
 
@@ -279,7 +287,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
         // Look for items thrown into the beam
         @SuppressWarnings("rawtypes")
         List entityItems = worldObj.getEntitiesWithinAABB(EntityItem.class, 
-                AxisAlignedBB.fromBounds(
+                new AxisAlignedBB(
                         getPos().getX(), getPos().getY() + WEATHER_CONTAINER_MIN_DROP_HEIGHT, getPos().getZ(),
                         getPos().getX() + 1.0, getPos().getY() + WEATHER_CONTAINER_MAX_DROP_HEIGHT, getPos().getZ() + 1.0)
                 );
@@ -457,8 +465,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    
 	    degradationExecutor.writeToNBT(compound);
 	}
-    
-    @Override
+
     public float getMaxHealth() {
         if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM)
             return getItemMoveDuration();
@@ -469,7 +476,6 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
         return getMaxCooldownTick();
     }
 
-    @Override
     public float getHealth() {
         if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM)
             return tick;
@@ -491,10 +497,10 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     }
 
     @Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		String message = L10NHelpers.localize("chat.evilcraft.bossDisplay.charge",
                 L10NHelpers.localize(EnvironmentalAccumulator.getInstance().getUnlocalizedName() + ".name"));
-		return new ChatComponentText(message);
+		return new TextComponentString(message);
 	}
 
     @Override
@@ -592,5 +598,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     @Override
     public void clear() {
         inventory.clear();
+    }
+
+    public BossInfoServer getBossInfo() {
+        return bossInfo;
     }
 }

@@ -1,0 +1,16 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.5.8.
+
+Additions:
+* Add Spanish language file, Credits to https://twitter.com/Leemdeb
+
+Fixes:
+* Fix Dark Block rendering crash in TCon crafting station, Closes #365
+* Fix Spiked Plate not damaging entities
+* Fix crash when spawning Werewolf
+* Possible Evil Dungeon worldgen crash, Closes #364
+* Fix Blood Stained Block rendering crash, Closes #363
+* Fix crash when growing Undead Sapling, Closes #362
+* Fix crash when splitting Hardened Blood with Flint and Steel, Closes #361
+* Add Box of Eternal Closure breaking particles, Closes #360
+* Improve Spirit Reanimator error message, Closes #359

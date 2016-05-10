@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.algorithm;
 
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -81,11 +81,11 @@ public class OrganicSpread {
      * @param startLocation The location to start spreading from.
      */
     public void spreadTick(BlockPos startLocation) {
-        Vec3 newLocation = new Vec3(startLocation.getX(), startLocation.getY(), startLocation.getZ());
+        Vec3d newLocation = new Vec3d(startLocation.getX(), startLocation.getY(), startLocation.getZ());
         BlockPos newLocationConcrete = new BlockPos(newLocation);
 
         // Safely get a random direction.
-        Vec3 direction = getRandomDirection();
+        Vec3d direction = getRandomDirection();
         int attempts = 10;
         while(!isBigEnough(direction) && attempts > 0) {
             direction = getRandomDirection();
@@ -109,7 +109,7 @@ public class OrganicSpread {
         return Math.sqrt(center.distanceSq(location)) <= getRadius();
     }
 
-    protected boolean isBigEnough(Vec3 direction) {
+    protected boolean isBigEnough(Vec3d direction) {
         float MIN = 0.3F;
         return Math.abs(direction.xCoord) >= MIN || Math.abs(direction.yCoord) >= MIN || Math.abs(direction.zCoord) >= MIN;
     }
@@ -118,8 +118,8 @@ public class OrganicSpread {
      * Get a random direction to spread in.
      * @return An array of a choice of -1;0;1 per coordinate index.
      */
-    protected Vec3 getRandomDirection() {
-        return new Vec3((random.nextFloat() * 2 - 1) / 2, (random.nextFloat() * 2 - 1) / 2, (random.nextFloat() * 2 - 1) / 2);
+    protected Vec3d getRandomDirection() {
+        return new Vec3d((random.nextFloat() * 2 - 1) / 2, (random.nextFloat() * 2 - 1) / 2, (random.nextFloat() * 2 - 1) / 2);
     }
 
     /**

@@ -1,9 +1,10 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockConnectedTexture;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -31,7 +32,7 @@ public class DarkPowerGemBlock extends ConfigurableBlockConnectedTexture {
     public DarkPowerGemBlock(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
         this.setHardness(5.0F);
-        this.setStepSound(soundTypeMetal);
+        this.setStepSound(SoundType.METAL);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
     }
 

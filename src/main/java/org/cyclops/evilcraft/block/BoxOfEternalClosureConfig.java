@@ -1,12 +1,15 @@
 package org.cyclops.evilcraft.block;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootEntryItem;
+import net.minecraft.world.storage.loot.conditions.LootCondition;
+import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.client.model.SingleModelLoader;
@@ -22,6 +25,9 @@ import org.cyclops.evilcraft.entity.monster.VengeanceSpiritConfig;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
 import org.cyclops.evilcraft.tileentity.tickaction.spiritfurnace.BoxCookTickAction;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -83,17 +89,25 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
         BoxOfEternalClosure.boxOfEternalClosureFilled = new ItemStack(BoxOfEternalClosure.getInstance());
         BoxOfEternalClosure.setVengeanceSwarmContent(BoxOfEternalClosure.boxOfEternalClosureFilled);
 
-        ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);
-        for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
-            for(UUID playerId : BoxCookTickAction.PLAYERDROP_OVERRIDES.keySet()) {
-                ItemStack playerStack = spiritStack.copy();
-                BoxOfEternalClosure.setPlayerContent(playerStack, playerId);
-                ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
-                        playerStack, 1, 1, 1));
-            }
-            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
-                    BoxOfEternalClosure.boxOfEternalClosureFilled, 1, 1, 3));
-        }
+        final ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);
+        MinecraftHelpers.addVanillaLootChestLootEntry(
+                new LootEntryItem(Item.getItemFromBlock(getBlockInstance()), 1, 3, new LootFunction[] {
+                        new LootFunction(new LootCondition[0]) {
+                            @Override
+                            public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
+                                if(rand.nextBoolean()) {
+                                    List<UUID> players = Lists.newArrayList(BoxCookTickAction.PLAYERDROP_OVERRIDES.keySet());
+                                    Collections.shuffle(players, rand);
+                                    if(!players.isEmpty()) {
+                                        ItemStack playerStack = spiritStack.copy();
+                                        BoxOfEternalClosure.setPlayerContent(playerStack, players.get(0));
+                                        return playerStack;
+                                    }
+                                }
+                                return BoxOfEternalClosure.boxOfEternalClosureFilled;
+                            }
+                        }
+                }, new LootCondition[0]));
     }
     
     @Override

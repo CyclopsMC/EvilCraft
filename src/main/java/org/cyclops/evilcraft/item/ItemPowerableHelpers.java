@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.item;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.Reference;
@@ -52,7 +52,7 @@ public class ItemPowerableHelpers {
             if(!world.isRemote) {
                 int newPower = (getPower(itemStack) + 1) % powerLevels;
                 setPower(itemStack, newPower);
-                player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC
+                player.addChatMessage(new TextComponentString(TextFormatting.ITALIC
                         + L10NHelpers.localize("item." + Reference.MOD_ID + ".powerable.setPower", newPower)));
             }
             return true;
@@ -75,7 +75,7 @@ public class ItemPowerableHelpers {
      * @param lines The lines to add the information to.
      */
     public static void addPostInformation(ItemStack itemStack, List<String> lines) {
-        lines.add(EnumChatFormatting.BOLD + L10NHelpers.localize("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack)));
+        lines.add(TextFormatting.BOLD + L10NHelpers.localize("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack)));
     }
 	
 }

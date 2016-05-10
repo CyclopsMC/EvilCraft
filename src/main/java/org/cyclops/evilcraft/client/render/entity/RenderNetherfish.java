@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.entity.monster.Netherfish;
 
 /**
  * Renderer for a netherfish
@@ -23,7 +24,7 @@ public class RenderNetherfish extends RenderSilverfish {
      * @param renderManager The render manager.
      * @param config Then config.
      */
-    public RenderNetherfish(RenderManager renderManager, ExtendedConfig<MobConfig> config) {
+    public RenderNetherfish(RenderManager renderManager, ExtendedConfig<MobConfig<Netherfish>> config) {
         super(renderManager);
         texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }

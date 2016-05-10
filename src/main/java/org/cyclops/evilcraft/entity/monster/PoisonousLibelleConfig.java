@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.entity.monster;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.init.Biomes;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -20,7 +20,7 @@ import org.cyclops.evilcraft.client.render.model.ModelPoisonousLibelle;
  * @author rubensworks
  *
  */
-public class PoisonousLibelleConfig extends MobConfig {
+public class PoisonousLibelleConfig extends MobConfig<PoisonousLibelle> {
     
     /**
      * The unique instance.
@@ -81,13 +81,14 @@ public class PoisonousLibelleConfig extends MobConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager) {
+    public Render<PoisonousLibelle> getRender(RenderManager renderManager) {
         return new RenderPoisonousLibelle(renderManager, this, new ModelPoisonousLibelle(), 0.5F);
     }
     
     @Override
     public void onRegistered() {
-        EntityRegistry.addSpawn(PoisonousLibelle.class, 1, 1, 2, EnumCreatureType.MONSTER, BiomeGenBase.river);
+        super.onRegistered();
+        EntityRegistry.addSpawn(PoisonousLibelle.class, 1, 1, 2, EnumCreatureType.MONSTER, Biomes.river);
     }
     
 }

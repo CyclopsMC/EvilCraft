@@ -6,9 +6,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,6 +17,7 @@ import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.client.particle.EntityBlurFX;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 
@@ -73,11 +75,11 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
     @SuppressWarnings("rawtypes")
 	@Override
     public void onUpdate() {
-    	Vec3 vec3 = new Vec3(this.posX, this.posY, this.posZ);
-        Vec3 vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-        MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
-        vec3 = new Vec3(this.posX, this.posY, this.posZ);
-        vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+    	Vec3d vec3 = new Vec3d(this.posX, this.posY, this.posZ);
+        Vec3d vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+        RayTraceResult movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
+        vec3 = new Vec3d(this.posX, this.posY, this.posZ);
+        vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         
         soundTick++;
         if(soundTick > 3 && this.getEntityId() % 10 == 0) {
@@ -95,7 +97,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
                 if (entity1 instanceof VengeanceSpirit && !((VengeanceSpirit) entity1).isSwarm()) {
                     float f = 0.3F;
                     AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f, (double) f);
-                    MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
+                    RayTraceResult movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
 
                     if (movingobjectposition1 != null) {
                         double d1 = vec3.distanceTo(movingobjectposition1.hitVec);
@@ -109,7 +111,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
             }
 
             if (entity != null) {
-                movingobjectposition = new MovingObjectPosition(entity);
+                movingobjectposition = new RayTraceResult(entity);
             }
         } else {
         	for(int i = 0; i < worldObj.rand.nextInt(5) + 5; i++) {
@@ -118,12 +120,13 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         	if(soundTick == 1) {
 	        	// Play beam sound
 	        	EvilCraft.proxy.playSound(posX, posY, posZ,
-	        			"vengeanceBeam", 0.5F + worldObj.rand.nextFloat() * 0.2F, 1.0F);
+                        EvilCraftSoundEvents.effect_vengeancebeam_base, SoundCategory.NEUTRAL,
+                        0.5F + worldObj.rand.nextFloat() * 0.2F, 1.0F);
         	}
         }
     	
     	if (movingobjectposition != null) {
-            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlockState(movingobjectposition.getBlockPos()).getBlock() == Blocks.portal) {
+            if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK && this.worldObj.getBlockState(movingobjectposition.getBlockPos()).getBlock() == Blocks.portal) {
                 this.inPortal = true;
             } else {
                 this.onImpact(movingobjectposition);
@@ -156,7 +159,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
     }
 
 	@Override
-    protected void onImpact(MovingObjectPosition position) {
+    protected void onImpact(RayTraceResult position) {
         if (!this.worldObj.isRemote) {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {
             	if(position.entityHit != null && position.entityHit instanceof VengeanceSpirit) {

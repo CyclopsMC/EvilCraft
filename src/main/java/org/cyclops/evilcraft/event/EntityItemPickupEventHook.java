@@ -23,8 +23,8 @@ public class EntityItemPickupEventHook {
     }
     
     private void originsOfDarknessObtain(EntityItemPickupEvent event) {
-        if(event.entityPlayer != null && event.item != null && event.item.getEntityItem().getItem() == OriginsOfDarkness.getInstance()) {
-            event.entityPlayer.addStat(Achievements.EVIL_SOURCE, 1);
+        if(event.getEntityPlayer() != null && event.getItem() != null && event.getItem().getEntityItem().getItem() == OriginsOfDarkness.getInstance()) {
+            event.getEntityPlayer().addStat(Achievements.EVIL_SOURCE, 1);
         }
     }
     

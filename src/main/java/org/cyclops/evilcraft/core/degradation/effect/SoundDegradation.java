@@ -2,6 +2,8 @@ package org.cyclops.evilcraft.core.degradation.effect;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
@@ -44,8 +46,8 @@ public class SoundDegradation extends StochasticDegradationEffect {
         World world = degradable.getDegradationWorld();
         for(Entity entity : degradable.getAreaEntities()) {
             if(entity instanceof EntityPlayer) {
-                world.playSoundAtEntity((EntityPlayer) entity, "mob.blaze.breathe", 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-                world.playSoundAtEntity((EntityPlayer) entity, "mob.enderdragon.wings", 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+                world.playSound((EntityPlayer) entity, entity.posX, entity.posY, entity.posZ, SoundEvents.entity_blaze_ambient, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+                world.playSound((EntityPlayer) entity, entity.posX, entity.posY, entity.posZ, SoundEvents.entity_enderdragon_flap, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
             }
         }
     }

@@ -10,9 +10,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
@@ -62,36 +63,25 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
         super(eConfig, Material.iron, TileEntangledChalice.class);
     }
 
-    @Override
-    public void setBlockBoundsForItemRender() {
-        setBlockBounds(0.125F, 0F, 0.125F, 0.875F, 1.0F, 0.875F);
-    }
-
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos blockPos) {
-        setBlockBoundsForItemRender();
-    }
-
-    @Override
-    public void addCollisionBoxesToList(World world, BlockPos blockPos, IBlockState blockState, AxisAlignedBB area, List list, Entity entity) {
-        setBlockBounds(0, 0, 0, 1, 1, 1);
-        super.addCollisionBoxesToList(world, blockPos, blockState, area, list, entity);
-    }
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return new AxisAlignedBB(0.125F, 0F, 0.125F, 0.875F, 1.0F, 0.875F);
+	}
     
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }
 
     @Override
-    public boolean isNormalCube() {
+    public boolean isNormalCube(IBlockState blockState) {
         return false;
     }
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float motionX, float motionY, float motionZ) {
-    	return tankComponent.onBlockActivatedTank(world, blockPos, player, side, motionX, motionY, motionZ) ||
-                super.onBlockActivated(world, blockPos, blockState, player, side, motionX, motionY, motionZ);
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float motionX, float motionY, float motionZ) {
+    	return tankComponent.onBlockActivatedTank(world, blockPos, player, hand, heldItem, side, motionX, motionY, motionZ) ||
+                super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, motionX, motionY, motionZ);
     }
     
     @Override
@@ -161,7 +151,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 	}
 	
 	@Override
-	public int getLightValue(IBlockAccess world, BlockPos blockPos) {
+	public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos blockPos) {
 		TileEntity tile = world.getTileEntity(blockPos);
 		if(tile != null && tile instanceof TileEntangledChalice) {
 			TileEntangledChalice tank = (TileEntangledChalice) tile;

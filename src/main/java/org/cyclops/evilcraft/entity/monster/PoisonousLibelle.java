@@ -3,12 +3,15 @@ package org.cyclops.evilcraft.entity.monster;
 import net.minecraft.entity.*;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
@@ -72,16 +75,10 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
-        this.dataWatcher.addObject(16, new Byte((byte) 0));
-    }
-
-    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3125D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(1.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3125D);
     }
 
     @Override
@@ -93,20 +90,20 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
     }
 
     @Override
-    protected String getLivingSound() {
+    protected SoundEvent getAmbientSound() {
         return null;
     }
 
     @Override
-    protected String getHurtSound() {
-        return "mob.bat.hurt1";
+    protected SoundEvent getHurtSound() {
+        return SoundEvents.entity_bat_hurt;
     }
 
     @Override
-    protected String getDeathSound() {
-        return "mob.bat.death";
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.entity_bat_death;
     }
-    
+
     @Override
     protected float getSoundVolume() {
         return 0.2F;
@@ -133,7 +130,8 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
             f1 = MathHelper.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
 
             if (f1 <= -0.3F && f >= -0.3F && this.rand.nextInt(45) == 0) {
-                this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.bat.idle", 0.1F, 0.8F + this.rand.nextFloat() * 0.3F, false);
+                this.worldObj.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.entity_bat_ambient,
+                        SoundCategory.AMBIENT, 0.1F, 0.8F + this.rand.nextFloat() * 0.3F);
             }
         }
 
@@ -154,12 +152,13 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
         if (this.worldObj.isRemote) {
             // Correct rotation of the entity when rotating
             if (this.newPosRotationIncrements > 0) {
-                distanceX = this.posX + (this.newPosX - this.posX) / (double)this.newPosRotationIncrements;
-                distanceY = this.posY + (this.newPosY - this.posY) / (double)this.newPosRotationIncrements;
-                distanceZ = this.posZ + (this.newPosZ - this.posZ) / (double)this.newPosRotationIncrements;
-                distance = MathHelper.wrapAngleTo180_double(this.newRotationYaw - (double)this.rotationYaw);
+                distanceX = this.posX + (this.interpTargetX - this.posX) / (double)this.newPosRotationIncrements;
+                distanceY = this.posY + (this.interpTargetY - this.posY) / (double)this.newPosRotationIncrements;
+                distanceZ = this.posZ + (this.interpTargetZ - this.posZ) / (double)this.newPosRotationIncrements;
+                distance = MathHelper.wrapAngleTo180_double(this.interpTargetYaw - (double)this.rotationYaw);
                 this.rotationYaw = (float)((double)this.rotationYaw + distance / (double)this.newPosRotationIncrements);
-                this.rotationPitch = (float)((double)this.rotationPitch + (this.newRotationPitch - (double)this.rotationPitch) / (double)this.newPosRotationIncrements);
+                // MCP: newPosX should probably be interpPitch
+                this.rotationPitch = (float)((double)this.rotationPitch + (this.newPosX - (double)this.rotationPitch) / (double)this.newPosRotationIncrements);
                 --this.newPosRotationIncrements;
                 this.setPosition(distanceX, distanceY, distanceZ);
                 this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -200,7 +199,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
                 this.setNewTarget();
             }
 
-            distanceY /= (double)MathHelper.sqrt_double(distanceX * distanceX + distanceZ * distanceZ);
+            distanceY /= (double) MathHelper.sqrt_double(distanceX * distanceX + distanceZ * distanceZ);
             limitDistanceY = 0.6F;
 
             if (distanceY < (double)(-limitDistanceY)) {
@@ -226,8 +225,8 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
                 differenceYaw = -limitDifferenceYaw;
             }
 
-            Vec3 distanceVector = new Vec3(this.targetX - this.posX, this.targetY - this.posY, this.targetZ - this.posZ).normalize();
-            Vec3 rotationVector = new Vec3((double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F), this.motionY, (double)(-MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F))).normalize();
+            Vec3d distanceVector = new Vec3d(this.targetX - this.posX, this.targetY - this.posY, this.targetZ - this.posZ).normalize();
+            Vec3d rotationVector = new Vec3d((double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F), this.motionY, (double)(-MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F))).normalize();
             float dynamicMotionMultiplier = (float)(rotationVector.dotProduct(distanceVector) + 0.5D) / 1.5F;
 
             if (dynamicMotionMultiplier < 0.0F) {
@@ -250,7 +249,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
 
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
-            Vec3 motionVector = new Vec3(this.motionX, this.motionY, this.motionZ).normalize();
+            Vec3d motionVector = new Vec3d(this.motionX, this.motionY, this.motionZ).normalize();
             float motionRotation = (float)(motionVector.dotProduct(rotationVector) + 1.0D) / 2.0F;
             motionRotation = 0.8F + 0.15F * motionRotation;
             this.motionX *= (double)motionRotation;
@@ -299,7 +298,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
                     if (shouldAttack) {
                         if (PoisonousLibelleConfig.hasAttackDamage)
                             entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
-                        ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, POISON_DURATION * 20, 1));
+                        ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.poison, POISON_DURATION * 20, 1));
                     }
                 }
             }

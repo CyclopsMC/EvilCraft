@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.core.recipe.custom;
 
 import lombok.Getter;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipeProperties;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;

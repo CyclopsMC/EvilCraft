@@ -1,9 +1,10 @@
 package org.cyclops.evilcraft.entity.effect;
 
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,7 +16,7 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class EntityNecromancersHeadConfig extends EntityConfig {
+public class EntityNecromancersHeadConfig extends EntityConfig<Entity> {
     
     /**
      * The unique instance.
@@ -37,8 +38,8 @@ public class EntityNecromancersHeadConfig extends EntityConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderSnowball(renderManager, Items.skull, renderItem);
+    public Render<Entity> getRender(RenderManager renderManager, RenderItem renderItem) {
+        return new RenderSnowball<Entity>(renderManager, Items.skull, renderItem);
     }
     
     @Override

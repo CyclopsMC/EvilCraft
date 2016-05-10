@@ -2,17 +2,16 @@ package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.client.resources.model.ModelRotation;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.common.model.IModelState;
 import org.cyclops.evilcraft.block.EntangledChaliceConfig;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -37,7 +36,7 @@ public class ModelEntangledChalice implements IModel {
     }
 
     @Override
-    public IFlexibleBakedModel bake(IModelState state, VertexFormat format,
+    public IBakedModel bake(IModelState state, VertexFormat format,
                                     Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
         ModelEntangledChaliceBaked bakedModel = new ModelEntangledChaliceBaked();
 
@@ -46,7 +45,7 @@ public class ModelEntangledChalice implements IModel {
             ModelEntangledChaliceBaked.chaliceModel = chaliceModel.bake(state, format, bakedTextureGetter);
             IModel gemsModel = ModelLoaderRegistry.getModel(EntangledChaliceConfig.gemsModel);
             ModelEntangledChaliceBaked.gemsModel = gemsModel.bake(state, format, bakedTextureGetter);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

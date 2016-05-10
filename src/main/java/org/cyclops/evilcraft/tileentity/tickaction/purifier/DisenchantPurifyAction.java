@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity.tickaction.purifier;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -67,8 +68,8 @@ public class DisenchantPurifyAction implements IPurifierAction {
                     ItemStack enchantedItem = new ItemStack(Items.enchanted_book, 1);
 
                     // Set the enchantment book.
-                    Map<Integer, Integer> enchantments = new HashMap<Integer, Integer>();
-                    enchantments.put(id, level);
+                    Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
+                    enchantments.put(Enchantment.getEnchantmentByID(id), level);
                     EnchantmentHelper.setEnchantments(enchantments, enchantedItem);
 
                     // Define the enchanted book level.

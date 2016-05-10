@@ -9,7 +9,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -260,7 +260,7 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                             public ItemStack getResult(IBlockAccess world, BlockPos pos, ItemStack originalResult) {
                                 World worldSafe = (World) world;
                                 BiomeGenBase biome = worldSafe.getBiomeGenForCoords(pos);
-                                if(BiomeExtractConfig._instance.isCraftingBlacklisted(biome.biomeID)) {
+                                if(BiomeExtractConfig._instance.isCraftingBlacklisted(BiomeGenBase.getIdForBiome(biome))) {
                                     return BiomeExtract.getInstance().createItemStack(null, 1);
                                 } else {
                                     return BiomeExtract.getInstance().createItemStack(biome, 1);

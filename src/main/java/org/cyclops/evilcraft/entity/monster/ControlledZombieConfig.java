@@ -15,7 +15,7 @@ import org.cyclops.evilcraft.item.NecromancerStaffConfig;
  * @author rubensworks
  *
  */
-public class ControlledZombieConfig extends MobConfig {
+public class ControlledZombieConfig extends MobConfig<ControlledZombie> {
 
     /**
      * The unique instance.
@@ -57,7 +57,7 @@ public class ControlledZombieConfig extends MobConfig {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager) {
+    public Render<ControlledZombie> getRender(RenderManager renderManager) {
         return new RenderControlledZombie(this, renderManager);
     }
     

@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.core.world;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.storage.IChunkLoader;
+import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraft.world.storage.IPlayerFileData;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
@@ -64,7 +65,7 @@ public class FakeSaveHandler implements ISaveHandler {
 	}
 
 	@Override
-	public String getWorldDirectoryName() {
+	public TemplateManager getStructureTemplateManager() {
 		return null;
 	}
 	

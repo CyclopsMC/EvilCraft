@@ -8,9 +8,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -37,7 +37,7 @@ import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.UpgradeBehaviour;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.core.world.FakeWorldItemDelegator;
+import org.cyclops.evilcraft.core.world.FakeWorld;
 import org.cyclops.evilcraft.core.world.FakeWorldItemDelegator.IItemDropListener;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 import org.cyclops.evilcraft.fluid.Blood;
@@ -212,18 +212,18 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      */
     public EntityLiving getEntity() {
     	ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
-    	if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
+        if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
     		String id = BoxOfEternalClosure.getInstance().getSpiritName(boxStack);
-    		if(id != null && !id.equals(VengeanceSpirit.DEFAULT_L10N_KEY)) {
+            if(id != null && !id.equals(VengeanceSpirit.DEFAULT_L10N_KEY)) {
     			// We cache the entity inside 'boxEntityCache' for obvious efficiency reasons.
-    			if(boxEntityCache != null && id.equals(EntityList.getEntityString(boxEntityCache))) {
+                if(boxEntityCache != null && id.equals(EntityList.getEntityString(boxEntityCache))) {
         			return boxEntityCache;
         		} else {
 	    			@SuppressWarnings("unchecked")
 					Class<? extends EntityLivingBase> entityClass =
 						(Class<? extends EntityLivingBase>) EntityList.stringToClassMapping.get(id);
 	    			if(entityClass != null) {
-	    				FakeWorldItemDelegator world = FakeWorldItemDelegator.getInstance();
+                        FakeWorld world = FakeWorld.getInstance();
 	    				EntityLiving entity = (EntityLiving) EntityList.createEntityByName(id, world);
 	    				boxEntityCache = entity;
 	    				return entity;
@@ -379,7 +379,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 
 	@Override
 	public void onItemDrop(ItemStack itemStack) {
-		boolean placed = false;
+        boolean placed = false;
 		int[] slots = getProduceSlots();
 		int i = 0;
 		

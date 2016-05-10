@@ -24,10 +24,10 @@ public class BlockBreakEventHook {
     }
     
     private void unwrapInnerBlock(BlockEvent.BreakEvent event) {
-        if(!event.world.isRemote) {
-            Block block = event.world.getBlockState(event.pos).getBlock();
+        if(!event.getWorld().isRemote) {
+            Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
             if(block instanceof ConfigurableBlockWithInnerBlocksExtended) {
-                ((ConfigurableBlockWithInnerBlocksExtended) block).unwrapInnerBlock(event.world, event.pos);
+                ((ConfigurableBlockWithInnerBlocksExtended) block).unwrapInnerBlock(event.getWorld(), event.getPos());
                 event.setResult(Result.ALLOW);
             }
         }

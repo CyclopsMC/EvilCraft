@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.entity.item;
 
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -14,7 +14,7 @@ import org.cyclops.evilcraft.client.render.entity.RenderDarkStick;
  * @author rubensworks
  *
  */
-public class EntityItemDarkStickConfig extends EntityConfig {
+public class EntityItemDarkStickConfig extends EntityConfig<EntityItemDarkStick> {
     
     /**
      * The unique instance.
@@ -36,7 +36,7 @@ public class EntityItemDarkStickConfig extends EntityConfig {
 
     @Override
     @SideOnly(Side.CLIENT)
-    protected Render getRender(RenderManager renderManager, RenderItem renderItem) {
+    public Render<EntityItemDarkStick> getRender(RenderManager renderManager, RenderItem renderItem) {
         return new RenderDarkStick(renderManager, this);
     }
 }

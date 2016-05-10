@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntitySplashFX;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;

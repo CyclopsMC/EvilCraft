@@ -1,8 +1,5 @@
 {
   "forge_marker": 1,
-  "defaults": {
-    "transform": "forge:default-block"
-  },
   "variants": {
     "facing=up": { "model": "evilcraft:gemStoneTorch" },
     "facing=east": { "model": "evilcraft:gemStoneTorch_wall" },

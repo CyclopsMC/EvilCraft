@@ -44,7 +44,7 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfi
     }
     
     protected void setFuse() {
-        this.fuse = EntityLightningBombPrimedConfig.fuse;
+        this.setFuse(EntityLightningBombPrimedConfig.fuse);
     }
     
     @Override
@@ -64,13 +64,14 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfi
             this.motionY *= -0.5D;
         }
 
-        if (this.fuse-- <= 0) {
+        if (this.getFuse() - 1 <= 0) {
             this.setDead();
 
             if (!this.worldObj.isRemote) {
                 this.explode(this.worldObj, this.posX, this.posY, this.posZ);
             }
         } else {
+            setFuse(getFuse() - 1);
             this.handleWaterMovement();
             this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
@@ -84,7 +85,7 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfi
 
         if (!world.isRemote) {
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, EXPLOSION_STRENGTH, true);
-            world.addWeatherEffect(new EntityLightningBolt(world, x, y, z));
+            world.addWeatherEffect(new EntityLightningBolt(world, x, y, z, false));
         }
     }
 

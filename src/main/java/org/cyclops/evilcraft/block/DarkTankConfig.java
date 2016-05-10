@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -86,9 +86,10 @@ public class DarkTankConfig extends BlockContainerConfig {
                 Item item = Item.getItemFromBlock(getBlockInstance());
                 String modId = getMod().getModId();
                 String itemName = getModelName(new ItemStack(item, 1, meta));
-                ModelBakery.addVariantName(item, modId + ":" + itemName);
-                Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta,
-                        new ModelResourceLocation(modId + ":" + itemName, "inventory"));
+                ModelResourceLocation modelResourceLocation = new ModelResourceLocation(modId + ":" + itemName, "inventory");
+                ModelBakery.registerItemVariants(item, modelResourceLocation);
+                Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(
+                        item, meta, modelResourceLocation);
             }
         }
     }

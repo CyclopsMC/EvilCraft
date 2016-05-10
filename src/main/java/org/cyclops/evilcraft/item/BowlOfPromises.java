@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,6 +13,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -51,18 +53,6 @@ public class BowlOfPromises extends ConfigurableItem {
         return itemStack.getItemDamage() >= ACTIVE_META;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
-        if(itemStack.getItemDamage() > 1 && renderPass == 0) {
-            float division = (((float) ((((BowlOfPromisesConfig) getConfig()).getTiers() -
-                    (itemStack.getItemDamage() - 2)) - 1) / 3) + 1);
-            int channel = (int) (255 / division);
-            return Helpers.RGBToInt(channel, channel, channel);
-        }
-        return super.getColorFromItemStack(itemStack, renderPass);
-    }
-
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @SideOnly(Side.CLIENT)
@@ -89,6 +79,27 @@ public class BowlOfPromises extends ConfigurableItem {
             int tier = itemStack.getItemDamage() - ACTIVE_META;
             list.add(L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".strength") + " " +
                     (tier == 0 ? 0 : L10NHelpers.localize("enchantment.level." + tier)));
+        }
+    }
+
+    @Nullable
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IItemColor getItemColorHandler() {
+        return new ItemColor();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ItemColor implements IItemColor {
+        @Override
+        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+            if(itemStack.getItemDamage() > 1 && renderPass == 0) {
+                float division = (((float) ((BowlOfPromisesConfig._instance.getTiers() -
+                        (itemStack.getItemDamage() - 2)) - 1) / 3) + 1);
+                int channel = (int) (255 / division);
+                return Helpers.RGBToInt(channel, channel, channel);
+            }
+            return -1;
         }
     }
 

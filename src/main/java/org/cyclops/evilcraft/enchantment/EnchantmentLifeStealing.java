@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.enchantment;
 
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -24,7 +25,7 @@ public class EnchantmentLifeStealing extends ConfigurableEnchantment {
     }
 
     public EnchantmentLifeStealing(ExtendedConfig<EnchantmentConfig> eConfig) {
-        super(eConfig, 3, EnumEnchantmentType.WEAPON);
+        super(eConfig, Rarity.UNCOMMON, EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
     }
     
     @Override

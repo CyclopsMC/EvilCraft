@@ -1,14 +1,18 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigateGround;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -20,7 +24,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
  */
 public class ControlledZombie extends EntityMob implements IConfigurable {
 
-    private static final int WATCHERID_TTL = 20;
+    private static final DataParameter<Integer> WATCHERID_TTL = EntityDataManager.<Integer>createKey(ControlledZombie.class, DataSerializers.VARINT);
 
     /**
      * Make a new instance.
@@ -28,12 +32,10 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
      */
     public ControlledZombie(World world) {
         super(world);
-        addPotionEffect(new PotionEffect(Potion.confusion.id, 2000, 0));
-        ((PathNavigateGround)this.getNavigator()).setAvoidsWater(true);
+        addPotionEffect(new PotionEffect(MobEffects.confusion, 2000, 0));
         ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
 
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIAttackOnCollide(this, EntityLiving.class, 1.0D, true));
         this.tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.9D, 64.0F));
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
         this.tasks.addTask(6, new EntityAIMoveThroughVillage(this, 1.0D, false));
@@ -46,18 +48,15 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(40.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.2D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(3.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(40.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
     }
 
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.getDataWatcher().addObject(12, Byte.valueOf((byte) 0));
-        this.getDataWatcher().addObject(13, Byte.valueOf((byte) 0));
-        this.getDataWatcher().addObject(14, Byte.valueOf((byte) 0));
-        this.dataWatcher.addObject(WATCHERID_TTL, 0);
+        this.dataWatcher.register(WATCHERID_TTL, 0);
     }
 
     @Override
@@ -73,11 +72,11 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
     }
 
     public int getTtl() {
-        return dataWatcher.getWatchableObjectInt(WATCHERID_TTL);
+        return dataWatcher.get(WATCHERID_TTL);
     }
 
     public void setTtl(int ttl) {
-        this.dataWatcher.updateObject(WATCHERID_TTL, ttl);
+        this.dataWatcher.set(WATCHERID_TTL, ttl);
     }
 
     @Override
@@ -94,18 +93,18 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
     }
 
     @Override
-    protected String getLivingSound() {
-        return "mob.zombie.say";
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.entity_zombie_ambient;
     }
 
     @Override
-    protected String getHurtSound() {
-        return "mob.zombie.hurt";
+    protected SoundEvent getHurtSound() {
+        return SoundEvents.entity_zombie_hurt;
     }
 
     @Override
-    protected String getDeathSound() {
-        return "mob.zombie.death";
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.entity_zombie_death;
     }
 
     @Override

@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.client.render.tileentity;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -29,7 +28,7 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
     public void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
         TileEnvironmentalAccumulator tile = (TileEnvironmentalAccumulator)tileentity;
         if(tile.getHealth() != tile.getMaxHealth())
-            BossStatus.setBossStatus(tile, false);
+            //tile.getBossInfo().addPlayer(Minecraft.getMinecraft().thePlayer); // TODO
         
         // Render the an item moving up if we're currently processing one
         if (tile.getMovingItemY() != -1.0f) {
