@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.IFluidHandler;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
@@ -67,7 +68,7 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 	}
 	
 	protected boolean shouldAutoDrain() {
-		return (Boolean) worldObj.getBlockState(getPos()).getValue(DarkTank.DRAINING);
+		return BlockHelpers.getSafeBlockStateProperty(worldObj.getBlockState(getPos()), DarkTank.DRAINING, false);
 	}
 	
 	@Override
