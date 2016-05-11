@@ -9,6 +9,8 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionType;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -148,6 +150,9 @@ public class ExtendedRecipeHandler extends RecipeHandler {
             }
 
         }
+
+        predefinedItems.put("evilcraft:potion_weakness", PotionUtils.addPotionToItemStack(
+                new ItemStack(Items.potionitem), PotionType.getPotionTypeForName("weakness")));
     }
 
     @Override

@@ -107,7 +107,7 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
                                 return BoxOfEternalClosure.boxOfEternalClosureFilled;
                             }
                         }
-                }, new LootCondition[0]));
+                }, new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName()));
     }
     
     @Override

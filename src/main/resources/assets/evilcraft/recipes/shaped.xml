@@ -589,9 +589,9 @@
 					<item>evilcraft:darkGemCrushed</item>
 				</gridrow>
 				<gridrow>
-					<item meta="8264">minecraft:potion</item>
+					<item type="predefined">evilcraft:potion_weakness</item>
 					<item>minecraft:ender_chest</item>
-					<item meta="8264">minecraft:potion</item>
+					<item type="predefined">evilcraft:potion_weakness</item>
 				</gridrow>
 				<gridrow>
 					<item>evilcraft:darkGemCrushed</item>

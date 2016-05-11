@@ -47,7 +47,8 @@ public class CondensedBloodConfig extends ItemConfig {
 
         // Register in loot chests
         MinecraftHelpers.addVanillaLootChestLootEntry(
-                new LootEntryItem(getItemInstance(), 10, 10, new LootFunction[0], new LootCondition[0]));
+                new LootEntryItem(getItemInstance(), 10, 10, new LootFunction[0], new LootCondition[0],
+                        getMod().getModId() + ":" + getSubUniqueName()));
     }
     
 }
