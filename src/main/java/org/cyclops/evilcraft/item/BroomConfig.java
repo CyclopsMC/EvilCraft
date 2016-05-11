@@ -44,7 +44,7 @@ public class BroomConfig extends ItemConfig {
     public void onRegistered() {
         super.onRegistered();
         MinecraftHelpers.addVanillaLootChestLootEntry(
-                new LootEntryItem(getItemInstance(), 1, 2, new LootFunction[0], new LootCondition[0]));
+                new LootEntryItem(getItemInstance(), 1, 2, new LootFunction[0], new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName()));
 
         // TODO: for now, just load the broom parts in a hacky way
         Object _unused = BroomParts.ROD;

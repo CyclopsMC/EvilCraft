@@ -55,7 +55,7 @@ public class GarmonboziaConfig extends ItemConfig {
     public void onRegistered() {
         super.onRegistered();
         MinecraftHelpers.addVanillaLootChestLootEntry(
-                new LootEntryItem(getItemInstance(), 2, 2, new LootFunction[0], new LootCondition[0]));
+                new LootEntryItem(getItemInstance(), 2, 2, new LootFunction[0], new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName()));
     }
     
 }

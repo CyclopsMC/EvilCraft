@@ -36,7 +36,7 @@ public class OriginsOfDarknessConfig extends ItemConfig {
     public void onRegistered() {
         super.onRegistered();
         MinecraftHelpers.addVanillaLootChestLootEntry(
-                new LootEntryItem(getItemInstance(), 1, 5, new LootFunction[0], new LootCondition[0]));
+                new LootEntryItem(getItemInstance(), 1, 5, new LootFunction[0], new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName()));
     }
     
 }

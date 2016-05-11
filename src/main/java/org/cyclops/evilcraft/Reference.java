@@ -71,7 +71,7 @@ public class Reference {
     // MOD ID's
     public static final String MOD_FORGE = "Forge";
     public static final String MOD_FORGE_VERSION = "@FORGE_VERSION@";
-    public static final String MOD_FORGE_VERSION_MIN = "12.16.0.1767";
+    public static final String MOD_FORGE_VERSION_MIN = "12.16.1.1900";
     public static final String MOD_CYCLOPSCORE = "cyclopscore";
     public static final String MOD_CYCLOPSCORE_VERSION = "@CYCLOPSCORE_VERSION@";
     public static final String MOD_CYCLOPSCORE_VERSION_MIN = "0.5.8";
