@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.5.9.
+Requires Forge 12.16.1.1900 or higher!
+
+Fixes:
+* Fix Box of Eternal Closure crafting recipe, Closes #367
+* Update to remain compatible with latest Forge changes, Closes #370
+* Make dark tank draining check safer
