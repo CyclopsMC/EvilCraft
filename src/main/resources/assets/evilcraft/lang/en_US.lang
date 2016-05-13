@@ -218,6 +218,8 @@ item.items.evilcraft.vengeanceEssence.info=Drops when killing a Vengeance Spirit
 item.items.evilcraft.vengeanceEssence.materialized.name=Materialized Vengeance Essence
 item.items.evilcraft.piercingVengeanceFocus.name=Piercing Vengeance Focus
 item.items.evilcraft.piercingVengeanceFocus.info=Right click to enable Vengeance Spirit-killing beam.
+item.items.evilcraft.spikeyClaws.name=Spikey Claws
+item.items.evilcraft.spikeyClaws.info=Effective against soft materials
 
 item.evilcraft.powerable.setPower=Set power to %s
 item.evilcraft.powerable.info.power=Power: %s
@@ -474,6 +476,10 @@ infoBook.evilcraft.firstAge.items.darkSpike.text=Using a &1Dark Gem&0 and a piec
 infoBook.evilcraft.firstAge.items.spikedPlate=Spiked Plate
 infoBook.evilcraft.firstAge.items.spikedPlate.text1=Some &1Spikes&0 and a &1Plate&0 will result in a plate which will damage any mob walking over it, me and my peers don’t seem to take any damage though. The powers of the &1Dark Gem&0 seems to ensure killing mobs in this process to drop the same things when killed by any player.
 infoBook.evilcraft.firstAge.items.spikedPlate.text2=For your convenience, they also give off a redstone signal when a mob is taking damage.
+
+infoBook.evilcraft.firstAge.items.spikeyClaws=Spikey Claws
+infoBook.evilcraft.firstAge.items.spikeyClaws.text1=Nothing is more annoying than swapping tools around when trying to break blocks, and the suddenly having to fight incoming mobs.
+infoBook.evilcraft.firstAge.items.spikeyClaws.text2=Combining some &1Spikes&0 allows you to break almost all soft materials very quickly. At the same time, any mobs that come creeping by can also be attacked with sufficient power.
 
 infoBook.evilcraft.firstAge.items.potentiaSphere=Potentia Sphere
 infoBook.evilcraft.firstAge.items.potentiaSphere.text=Combining several shiny mundane items will result in a sphere that seems to possess some awesome powers, I might discover a way to harness these powers in the near future. It looks like the power can be inverted by using some &1Dark Gems&0.

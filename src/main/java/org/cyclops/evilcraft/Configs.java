@@ -143,6 +143,7 @@ public class Configs {
         configs.add(new BroomPartConfig());
         configs.add(new VengeanceEssenceConfig());
         configs.add(new PiercingVengeanceFocusConfig());
+        configs.add(new SpikeyClawsConfig());
         
         // Entities
         // Item

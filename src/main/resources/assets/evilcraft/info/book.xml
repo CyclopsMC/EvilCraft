@@ -105,6 +105,12 @@
                 <paragraph>infoBook.evilcraft.firstAge.items.spikedPlate.text2</paragraph>
                 <appendix type="craftingRecipe">evilcraft:spikedPlate</appendix>
             </section>
+            <section name="infoBook.evilcraft.firstAge.items.spikeyClaws">
+                <tag>spikeyClaws</tag>
+                <paragraph>infoBook.evilcraft.firstAge.items.spikeyClaws.text1</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.spikeyClaws.text2</paragraph>
+                <appendix type="craftingRecipe">evilcraft:spikeyClaws</appendix>
+            </section>
             <section name="infoBook.evilcraft.firstAge.items.potentiaSphere">
                 <tag>potentiaSphere</tag>
                 <tag>invertedPotentia</tag>

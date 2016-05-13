@@ -1361,4 +1361,26 @@
 		</output>
 	</recipe>
 
+	<recipe type="shaped">
+		<condition type="config">spikeyClaws</condition>
+		<condition type="oredict">materialSpike</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item type="oredict">materialSpike</item>
+					<item type="oredict">materialSpike</item>
+					<item type="oredict">materialSpike</item>
+				</gridrow>
+				<gridrow>
+					<item />
+					<item>minecraft:iron_ingot</item>
+					<item />
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item>evilcraft:spikeyClaws</item>
+		</output>
+	</recipe>
+
 </recipes>
