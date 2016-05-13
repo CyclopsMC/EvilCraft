@@ -14,6 +14,7 @@ import org.cyclops.evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import org.cyclops.evilcraft.enchantment.EnchantmentUnusingConfig;
 import org.cyclops.evilcraft.entity.block.EntityLightningBombPrimedConfig;
 import org.cyclops.evilcraft.entity.effect.EntityAntiVengeanceBeamConfig;
+import org.cyclops.evilcraft.entity.effect.EntityAttackVengeanceBeamConfig;
 import org.cyclops.evilcraft.entity.effect.EntityNecromancersHeadConfig;
 import org.cyclops.evilcraft.entity.item.*;
 import org.cyclops.evilcraft.entity.monster.*;
@@ -140,6 +141,8 @@ public class Configs {
         configs.add(new GarmonboziaConfig());
         configs.add(new PoisonBottleConfig());
         configs.add(new BroomPartConfig());
+        configs.add(new VengeanceEssenceConfig());
+        configs.add(new PiercingVengeanceFocusConfig());
         
         // Entities
         // Item
@@ -166,6 +169,7 @@ public class Configs {
         // Other
         configs.add(new EntityAntiVengeanceBeamConfig());
         configs.add(new EntityNecromancersHeadConfig());
+        configs.add(new EntityAttackVengeanceBeamConfig());
         
         // Enchantments
         configs.add(new EnchantmentUnusingConfig());

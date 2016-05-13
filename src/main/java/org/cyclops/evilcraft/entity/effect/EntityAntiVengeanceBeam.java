@@ -88,12 +88,10 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         
     	if (!this.worldObj.isRemote) {
             Entity entity = null;
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+            List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
 
-            for (Object element : list) {
-                Entity entity1 = (Entity) element;
-
+            for (Entity entity1 : list) {
                 if (entity1 instanceof VengeanceSpirit && !((VengeanceSpirit) entity1).isSwarm()) {
                     float f = 0.3F;
                     AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f, (double) f);
@@ -141,7 +139,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
     }
 
     @SideOnly(Side.CLIENT)
-    private void showNewBlurParticle() {
+    protected void showNewBlurParticle() {
     	float scale = 0.6F - rand.nextFloat() * 0.3F;
     	float red = rand.nextFloat() * 0.03F + 0.01F;
         float green = rand.nextFloat() * 0.03F;
@@ -158,15 +156,20 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
     	return motion * 0.5D + (0.02D - rand.nextDouble() * 0.04D);
     }
 
+    protected void applyHitEffect(Entity entity) {
+        if (entity instanceof VengeanceSpirit) {
+            ((EntityPlayerMP) this.getThrower()).addStat(Achievements.CLOSURE, 1);
+            ((VengeanceSpirit) entity).onHit(posX, posY, posZ, motionX, motionY, motionZ);
+        }
+    }
+
 	@Override
     protected void onImpact(RayTraceResult position) {
         if (!this.worldObj.isRemote) {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {
-            	if(position.entityHit != null && position.entityHit instanceof VengeanceSpirit) {
-            		((EntityPlayerMP) this.getThrower()).addStat(Achievements.CLOSURE, 1);
-            		VengeanceSpirit spirit = (VengeanceSpirit) position.entityHit;
-            		spirit.onHit(posX, posY, posZ, motionX, motionY, motionZ);
-            	}
+            	if(position.entityHit != null) {
+                    applyHitEffect(position.entityHit);
+                }
             }
         }
         this.setDead();

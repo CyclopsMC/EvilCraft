@@ -1,6 +1,7 @@
 {
     "pools": [
         {
+            "name": "evilcraft:werewolf",
             "rolls": 1,
             "entries": [
                 {

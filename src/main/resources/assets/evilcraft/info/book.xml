@@ -84,10 +84,6 @@
                 <paragraph>infoBook.evilcraft.firstAge.relics.enchantments.poisonTip.text</paragraph>
                 <paragraph>infoBook.evilcraft.firstAge.relics.enchantments.unusing.text</paragraph>
             </section>
-            <section name="infoBook.evilcraft.firstAge.relics.garmonbozia">
-                <tag>garmonbozia</tag>
-                <paragraph>infoBook;evilcraft.firstAge.relics.garmonbozia.text</paragraph>
-            </section>
         </section>
         <section name="infoBook.evilcraft.firstAge.items">
             <section name="infoBook.evilcraft.firstAge.items.darkTank">
@@ -455,6 +451,24 @@
                 <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text2</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text3</paragraph>
                 <appendix type="craftingRecipe">evilcraft:spiritReanimator</appendix>
+            </section>
+        </section>
+        <section name="infoBook.evilcraft.secondAge.afterDeath">
+            <section name="infoBook.evilcraft.secondAge.afterDeath.spiritKilling101">
+                <tag>piercingVengeanceFocus</tag>
+                <tag>vengeanceEssence</tag>
+                <paragraph>infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text3</paragraph>
+                <appendix type="craftingRecipe">evilcraft:piercingVengeanceFocus</appendix>
+            </section>
+            <section name="infoBook.evilcraft.secondAge.afterDeath.garmonbozia">
+                <tag>garmonbozia</tag>
+                <paragraph>infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text1</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text2</paragraph>
+                <paragraph>infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text3</paragraph>
+                <appendix type="craftingRecipe" meta="1">evilcraft:vengeanceEssence</appendix>
+                <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:garmonbozia</appendix>
             </section>
         </section>
     </section>

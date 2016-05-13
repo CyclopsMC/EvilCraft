@@ -169,7 +169,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
 
     @Override
     protected ResourceLocation getLootTable() {
-        return new ResourceLocation(Reference.MOD_ID, "entities/werewolf");
+        return new ResourceLocation(Reference.MOD_ID, "entities/" + WerewolfConfig._instance.getNamedId());
     }
 
     @Override

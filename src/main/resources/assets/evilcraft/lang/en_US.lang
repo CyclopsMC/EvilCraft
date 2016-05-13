@@ -124,7 +124,7 @@ item.items.evilcraft.vengeanceRing.name=Vengeance Ring
 item.items.evilcraft.vengeanceRing.info=Might attract or summon Vengeance Spirits.\nShift + Right click to toggle boost.
 item.items.evilcraft.vengeanceRing.info.status=Status: %s
 item.items.evilcraft.vengeanceFocus.name=Vengeance Focus
-item.items.evilcraft.vengeanceFocus.info=Right click to enable beam.
+item.items.evilcraft.vengeanceFocus.info=Right click to enable Vengeance Spirit-freezing beam.
 item.items.evilcraft.vengeancePickaxe.name=Vengeance Pickaxe
 item.items.evilcraft.vengeancePickaxe.info=Might summon Vengeance Spirits.
 item.items.evilcraft.burningGemStone.name=Burning GemStone
@@ -195,7 +195,6 @@ item.items.evilcraft.bloodWandCap.name=Blood Cap
 item.Wand.blood.cap=Blood Banded
 item.items.evilcraft.effortlessRing.name=Effortless Ring
 item.items.evilcraft.effortlessRing.info=Walk faster and more efficient.
-
 item.items.evilcraft.condensedBlood.name=Condensed Blood
 item.items.evilcraft.condensedBlood.info=Insert into any machine for extra Blood.
 item.items.evilcraft.rejuvenatedFlesh.name=Rejuvenated Flesh
@@ -214,6 +213,11 @@ item.items.evilcraft.maceOfDestruction.name=Mace of Destruction
 item.items.evilcraft.garmonbozia.name=Garmonbozia
 item.items.evilcraft.garmonbozia.info="Pain and Sorrow"
 item.items.evilcraft.poisonBottle.name=Poison Bottle
+item.items.evilcraft.vengeanceEssence.name=Vengeance Essence
+item.items.evilcraft.vengeanceEssence.info=Drops when killing a Vengeance Spirit
+item.items.evilcraft.vengeanceEssence.materialized.name=Materialized Vengeance Essence
+item.items.evilcraft.piercingVengeanceFocus.name=Piercing Vengeance Focus
+item.items.evilcraft.piercingVengeanceFocus.info=Right click to enable Vengeance Spirit-killing beam.
 
 item.evilcraft.powerable.setPower=Set power to %s
 item.evilcraft.powerable.info.power=Power: %s
@@ -260,6 +264,7 @@ death.attack.evilcraft.spiked=%1$s was killed by spikes.
 death.attack.evilcraft.paling=%1$s faded away.
 death.attack.evilcraft.broom=%1$s was run over by a broom.
 death.attack.evilcraft.broom.player=%1$s was run over by %s on a broom.
+death.attack.evilcraft.vengeanceBeam=%1$s was evaporated by a Vengeance Beam.
 
 # Biomes
 biomes.evilcraft.biomeDegraded=Degraded
@@ -453,9 +458,6 @@ infoBook.evilcraft.firstAge.relics.enchantments.breaking.text=&l&nBreaking&r&NTh
 infoBook.evilcraft.firstAge.relics.enchantments.lifeStealing.text=&l&nLife Stealing&r&NThe three stages of this enchant on offensive weapons allows you to steal parts of the life you take from others.
 infoBook.evilcraft.firstAge.relics.enchantments.poisonTip.text=&l&nPoison Tip&r&NWhen applying some poison to your weapons, you have a chance of poisoning your victims.This enchantment exists in three stages. It looks like you can make a basic version of this enchantment by adding a poisonous material to a regular book.
 infoBook.evilcraft.firstAge.relics.enchantments.unusing.text=&l&nUnusing&r&NI was getting tired of my favorite tools breaking everytime I wasn’t paying attention to them. This I why I devised a new enchantment that makes tools unusable when they are about to break, giving myself enough time to repair it to its former glory.
-
-infoBook.evilcraft.firstAge.relics.garmonbozia=Garmonbozia
-infoBook.evilcraft.firstAge.relics.garmonbozia.text=This strange spiritual energy seems to take on the physical form of creamed corn. It can sometimes be found in ancient chests or traded with certain villagers. This substance seems to be very rare, as I did not come across it a lot, but its powers are quite useful. Maybe in the future I will be able to produce this energy myself...
 
 # - Items -
 infoBook.evilcraft.firstAge.items=Items
@@ -672,6 +674,19 @@ infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator=Spirit Reanimator
 infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text1=After the discovery of the &1Spirit Furnace&0 I was still determined to revive those spirits. To solve the problem of unstable mobs I put them inside &1Eggs&0, as an attempt to stabilize them. This process still requires some substantial amount of &4Blood&0 and of course an empty &1Egg&0.
 infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text2=Because of this more advanced process, spirits will be completely used up, so only one &1Egg&0 can be created per &1spirit&0.
 infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text3=Some mobs however seem to refuse to enter the &1Egg&0, so their spirits will be lost forever.
+
+# - Killing Spirits -
+infoBook.evilcraft.secondAge.afterDeath=After Death
+
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101=Spirit-Killing 101
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text1=After handling spirits one after the other, I became quite comfortable with being among them. Because of that, I was able to notice some of their specific traits, and even fears! They seem to dislike anything having to do with 'endings' in any form.
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text2=I was always annoyed by the fact that those nasty spirits could attack me, and there was nothing I could do against them. That is why I investigated a way to damage them. It looks like their fear of endings was grounded, because those things damage them. Using some 'end'-relics, I was able to transform my &1Vengeance Focus&0 to an improved version which is able to damage them.
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text3=This new focus appeared to be strong enough to completely 'kill' any spirit. But to my suprise, they drop some stuff. This includes some things that their old physical form carried and also some ghastly dust, which seems to carry the spirits' darkest parts and may prove useful in the future...
+
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia=Garmonbozia
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text1=What if it was possible to imbue the darkest thoughts and emotions into this world. This could prove to be an immense source of unimaginable power. With the discovery of vengeance, darkness and blood, I think I may have the essential elements.
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text2=Combining these elements resulted in a strange spiritual energy. It is so otherwordly, that it does not have its own material, which is why it is observed as some kind of creamed corn.
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text3=My subjects say I have gone too far with this, the fools.
 
 # --- Mod Integrations ---
 infoBook.evilcraft.modIntegrations=&oMod Integrations&r

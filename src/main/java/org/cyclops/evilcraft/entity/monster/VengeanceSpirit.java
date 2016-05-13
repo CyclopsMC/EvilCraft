@@ -10,16 +10,21 @@ import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
@@ -189,9 +194,14 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(10.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(3.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3125D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return new ResourceLocation(Reference.MOD_ID, "entities/" + VengeanceSpiritConfig._instance.getNamedId());
     }
     
     @Override
@@ -206,7 +216,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 
     @Override
     public boolean isEntityInvulnerable(DamageSource damageSource) {
-    	return true;
+        return !(damageSource instanceof ExtendedDamageSource.VengeanceBeamDamageSource);
     }
     
     @Override
@@ -234,7 +244,32 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     	}
         return super.attackEntityAsMob(entity);
     }
-    
+
+    @Override
+    protected void dropLoot(boolean wasRecentlyHit, int lootingModifier, DamageSource damageSource) {
+        super.dropLoot(wasRecentlyHit, lootingModifier, damageSource);
+
+        // Also drop loot from inner entity!
+        EntityLivingBase innerEntity = getInnerEntity();
+        if (innerEntity instanceof EntityLiving) {
+            ResourceLocation deathLootTable = ObfuscationHelpers.getLootTable((EntityLiving) innerEntity);
+            if (deathLootTable != null) {
+                LootTable loottable = getEntityWorld().getLootTableManager().getLootTableFromLocation(deathLootTable);
+                LootContext.Builder lootcontext$builder = (new LootContext.Builder((WorldServer) getEntityWorld()))
+                        .withLootedEntity(innerEntity)
+                        .withDamageSource(DamageSource.generic);
+
+                if (wasRecentlyHit && this.attackingPlayer != null) {
+                    lootcontext$builder = lootcontext$builder.withPlayer(this.attackingPlayer).withLuck(this.attackingPlayer.getLuck());
+                }
+
+                for (ItemStack itemstack : loottable.generateLootForPools(getEntityWorld().rand, lootcontext$builder.build())) {
+                    this.entityDropItem(itemstack, 0.0F);
+                }
+            }
+        }
+    }
+
     @Override
     public void setDead() {
     	super.setDead();
@@ -812,7 +847,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             //ThaumcraftApiHelper.addWarpToPlayer(player, 1, true);
         }
     }
-	
+
 	/**
 	 * Add an entity class to the blacklist, every subinstance of this class will not
 	 * be spirited anymore.

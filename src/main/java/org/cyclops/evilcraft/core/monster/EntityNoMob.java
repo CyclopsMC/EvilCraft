@@ -201,9 +201,7 @@ public class EntityNoMob extends EntityCreature {
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
     }
 
-    /**
-     * Entity won't drop items or experience points if this returns false
-     */
+    @Override
     protected boolean canDropLoot()
     {
         return true;

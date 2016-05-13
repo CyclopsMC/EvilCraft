@@ -48,6 +48,10 @@ public class ExtendedDamageSource extends DamageSource{
         };
     }
 
+    public static ExtendedDamageSource vengeanceBeam(final EntityLivingBase attacker) {
+        return new VengeanceBeamDamageSource("vengeanceBeam", attacker);
+    }
+
     private final Entity entity;
 
     protected ExtendedDamageSource(String unlocalizedName, Entity entity) {
@@ -70,5 +74,11 @@ public class ExtendedDamageSource extends DamageSource{
     @Override
     public Entity getEntity() {
         return entity;
+    }
+
+    public static class VengeanceBeamDamageSource extends ExtendedDamageSource {
+        protected VengeanceBeamDamageSource(String unlocalizedName, Entity entity) {
+            super(unlocalizedName, entity);
+        }
     }
 }

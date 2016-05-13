@@ -302,5 +302,25 @@
             <xp>1.2</xp>
         </properties>
     </recipe>
+
+    <recipe type="evilcraft:bloodinfuser">
+        <condition type="config">bloodInfuser</condition>
+        <condition type="config">evilcraftblood</condition>
+        <condition type="config">vengeanceEssence</condition>
+        <condition type="config">garmonbozia</condition>
+        <input>
+            <item meta="1">evilcraft:vengeanceEssence</item>
+            <fluid>evilcraftblood</fluid>
+            <fluidamount>50000</fluidamount>
+        </input>
+        <output>
+            <item>evilcraft:garmonbozia</item>
+        </output>
+        <properties>
+            <duration>1200</duration>
+            <tier>3</tier>
+            <xp>20</xp>
+        </properties>
+    </recipe>
     
 </recipes>
