@@ -35,6 +35,9 @@ public final class BroomParts {
     public static IBroomPart ROD_UNDEAD;
     public static IBroomPart ROD_PRISMARINE;
     public static IBroomPart ROD_ICE;
+    public static IBroomPart ROD_SPONGE;
+    public static IBroomPart ROD_ENDSTONE;
+    public static IBroomPart ROD_PURPUR;
 
     public static IBroomPart BRUSH_BARE;
     public static IBroomPart BRUSH_WHEAT;
@@ -103,6 +106,15 @@ public final class BroomParts {
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_ICE = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "rod_ice"),
+                IBroomPart.BroomPartType.ROD, 1F));
+        ROD_SPONGE = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_sponge"),
+                IBroomPart.BroomPartType.ROD, 1F));
+        ROD_ENDSTONE = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_endstone"),
+                IBroomPart.BroomPartType.ROD, 1F));
+        ROD_PURPUR = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_purpur"),
                 IBroomPart.BroomPartType.ROD, 1F));
 
         BRUSH_BARE = REGISTRY.registerPart(new BroomPartBase(
@@ -238,6 +250,29 @@ public final class BroomParts {
                 BroomModifiers.ACCELERATION, 50F,
                 BroomModifiers.STURDYNESS, 50F,
                 BroomModifiers.ICY, 10F
+        ));
+        REGISTRY.registerBaseModifiers(ROD_SPONGE, new ImmutableMap.Builder<BroomModifier, Float>()
+                        .put(BroomModifiers.MODIFIER_COUNT, 4F)
+                        .put(BroomModifiers.SPEED, 50F)
+                        .put(BroomModifiers.ACCELERATION, 10F)
+                        .put(BroomModifiers.STURDYNESS, 80F)
+                        .put(BroomModifiers.SWIMMING, 120F)
+                        .put(BroomModifiers.BOUNCY, 2F)
+                        .build()
+        );
+        REGISTRY.registerBaseModifiers(ROD_ENDSTONE, ImmutableMap.of(
+                BroomModifiers.MODIFIER_COUNT, 6F,
+                BroomModifiers.SPEED, 80F,
+                BroomModifiers.MANEUVERABILITY, 50F,
+                BroomModifiers.ACCELERATION, 50F,
+                BroomModifiers.STURDYNESS, 50F
+        ));
+        REGISTRY.registerBaseModifiers(ROD_PURPUR, ImmutableMap.of(
+                BroomModifiers.MODIFIER_COUNT, 5F,
+                BroomModifiers.SPEED, 100F,
+                BroomModifiers.MANEUVERABILITY, 75F,
+                BroomModifiers.ACCELERATION, 50F,
+                BroomModifiers.LEVITATION, 100F
         ));
 
         // ---------- Brushes ----------

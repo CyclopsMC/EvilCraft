@@ -212,6 +212,45 @@
 		</output>
 	</recipe>
 
+	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
+		<condition type="config">broom</condition>
+		<input>
+			<item>minecraft:sponge</item>
+			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item>minecraft:sponge</item>
+		</input>
+		<output>
+			<item type="predefined">evilcraft:broompart:rod_sponge</item>
+		</output>
+	</recipe>
+
+	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
+		<condition type="config">broom</condition>
+		<input>
+			<item>minecraft:end_stone</item>
+			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item>minecraft:end_stone</item>
+		</input>
+		<output>
+			<item type="predefined">evilcraft:broompart:rod_endstone</item>
+		</output>
+	</recipe>
+
+	<recipe type="shapeless">
+		<tag>broom_part_rod</tag>
+		<condition type="config">broom</condition>
+		<input>
+			<item>minecraft:purpur_block</item>
+			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item>minecraft:purpur_block</item>
+		</input>
+		<output>
+			<item type="predefined">evilcraft:broompart:rod_purpur</item>
+		</output>
+	</recipe>
+
 	<!-- Brushes -->
 
 	<recipe type="shapeless">
