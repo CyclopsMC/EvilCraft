@@ -14,7 +14,7 @@ import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.block.SanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.client.gui.container.GuiBloodInfuser;
 import org.cyclops.evilcraft.modcompat.jei.environmentalaccumulator.CommonEnvironmentalAccumulatorRecipeCategory;
-import org.cyclops.evilcraft.modcompat.jei.environmentalaccumulator.EnvironmentalAccumulatorRecipeJEI;
+import org.cyclops.evilcraft.modcompat.jei.environmentalaccumulator.EnvironmentalAccumulatorRecipeJEIBase;
 import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.tileentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
 
@@ -74,8 +74,8 @@ public class SanguinaryEnvironmentalAccumulatorRecipeCategory extends CommonEnvi
         recipeLayout.getItemStacks().init(INPUT_SLOT, true, 41, 27);
         recipeLayout.getItemStacks().init(OUTPUT_SLOT, false, 95, 27);
 
-        if(recipeWrapper instanceof EnvironmentalAccumulatorRecipeJEI) {
-            EnvironmentalAccumulatorRecipeJEI recipe = (EnvironmentalAccumulatorRecipeJEI) recipeWrapper;
+        if(recipeWrapper instanceof EnvironmentalAccumulatorRecipeJEIBase) {
+            EnvironmentalAccumulatorRecipeJEIBase recipe = (EnvironmentalAccumulatorRecipeJEIBase) recipeWrapper;
             recipeLayout.getItemStacks().set(INPUT_SLOT, recipe.getInput());
             recipeLayout.getItemStacks().set(OUTPUT_SLOT, recipe.getOutput());
 

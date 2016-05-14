@@ -64,8 +64,8 @@ public class EnvironmentalAccumulatorRecipeCategory extends CommonEnvironmentalA
         recipeLayout.getItemStacks().init(INPUT_SLOT, true, 1, 27);
         recipeLayout.getItemStacks().init(OUTPUT_SLOT, false, 75, 27);
 
-        if(recipeWrapper instanceof EnvironmentalAccumulatorRecipeJEI) {
-            EnvironmentalAccumulatorRecipeJEI recipe = (EnvironmentalAccumulatorRecipeJEI) recipeWrapper;
+        if(recipeWrapper instanceof EnvironmentalAccumulatorRecipeJEIBase) {
+            EnvironmentalAccumulatorRecipeJEIBase recipe = (EnvironmentalAccumulatorRecipeJEIBase) recipeWrapper;
             recipeLayout.getItemStacks().set(INPUT_SLOT, recipe.getInput());
             recipeLayout.getItemStacks().set(OUTPUT_SLOT, recipe.getOutput());
         }
