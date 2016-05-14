@@ -4,7 +4,7 @@ import net.minecraft.world.storage.loot.LootEntryItem;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.functions.LootFunction;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -35,8 +35,7 @@ public class OriginsOfDarknessConfig extends ItemConfig {
     @Override
     public void onRegistered() {
         super.onRegistered();
-        MinecraftHelpers.addVanillaLootChestLootEntry(
+        LootHelpers.addVanillaLootChestLootEntry(
                 new LootEntryItem(getItemInstance(), 1, 5, new LootFunction[0], new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName()));
     }
-    
 }

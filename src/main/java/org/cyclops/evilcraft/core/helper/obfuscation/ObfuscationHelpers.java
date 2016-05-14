@@ -216,5 +216,5 @@ public class ObfuscationHelpers {
     public static boolean isRainingEnabled(BiomeGenBase biome) {
         return ReflectionHelper.getPrivateValue(BiomeGenBase.class, biome, ObfuscationData.BIOME_ENABLERAIN);
     }
-	
+
 }

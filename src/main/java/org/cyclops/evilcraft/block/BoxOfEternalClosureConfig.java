@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.client.model.SingleModelLoader;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
+import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.Configs;
@@ -90,15 +91,15 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
         BoxOfEternalClosure.setVengeanceSwarmContent(BoxOfEternalClosure.boxOfEternalClosureFilled);
 
         final ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);
-        MinecraftHelpers.addVanillaLootChestLootEntry(
-                new LootEntryItem(Item.getItemFromBlock(getBlockInstance()), 1, 3, new LootFunction[] {
+        LootHelpers.addVanillaLootChestLootEntry(
+                new LootEntryItem(Item.getItemFromBlock(getBlockInstance()), 1, 3, new LootFunction[]{
                         new LootFunction(new LootCondition[0]) {
                             @Override
                             public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
-                                if(rand.nextBoolean()) {
+                                if (rand.nextBoolean()) {
                                     List<UUID> players = Lists.newArrayList(BoxCookTickAction.PLAYERDROP_OVERRIDES.keySet());
                                     Collections.shuffle(players, rand);
-                                    if(!players.isEmpty()) {
+                                    if (!players.isEmpty()) {
                                         ItemStack playerStack = spiritStack.copy();
                                         BoxOfEternalClosure.setPlayerContent(playerStack, players.get(0));
                                         return playerStack;
