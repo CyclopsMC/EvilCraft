@@ -197,7 +197,15 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     }
 
     protected int getRequiredMb(TileSpiritFurnace tile, int tick) {
-        MutableDouble drain = new MutableDouble(tile.isPlayer() ? SpiritFurnaceConfig.playerMBPerTick : SpiritFurnaceConfig.mBPerTick);
+        int baseUsage;
+        if(tile.isPlayer()) {
+            baseUsage = SpiritFurnaceConfig.playerMBPerTick;
+        } else if (!tile.getEntity().isNonBoss()) {
+            baseUsage = SpiritFurnaceConfig.bossMBPerTick;
+        } else {
+            baseUsage = SpiritFurnaceConfig.mBPerTick;
+        }
+        MutableDouble drain = new MutableDouble(baseUsage);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(drain, TileSpiritFurnace.UPGRADEEVENT_BLOODUSAGE));
         return MathHelpers.factorToBursts(drain.getValue(), tick);
     }

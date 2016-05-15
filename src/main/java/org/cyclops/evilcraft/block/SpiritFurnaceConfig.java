@@ -52,6 +52,12 @@ public class SpiritFurnaceConfig extends UpgradableBlockContainerConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "How much mB per tick this furnace should consume for player spirit.")
     public static int playerMBPerTick = mBPerTick * 4;
+
+    /**
+     * How much mB per tick this furnace should consume for boss mob spirit.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "How much mB per tick this furnace should consume for boss mob spirit.")
+    public static int bossMBPerTick = mBPerTick * 10;
     
     /**
      * The required amount of ticks for each HP for cooking an entity.
