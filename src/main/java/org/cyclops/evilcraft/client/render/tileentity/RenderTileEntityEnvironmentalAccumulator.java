@@ -29,7 +29,7 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
         TileEnvironmentalAccumulator tile = (TileEnvironmentalAccumulator)tileentity;
         if(tile.getHealth() != tile.getMaxHealth())
             //tile.getBossInfo().addPlayer(Minecraft.getMinecraft().thePlayer); // TODO
-        
+
         // Render the an item moving up if we're currently processing one
         if (tile.getMovingItemY() != -1.0f) {
             GlStateManager.pushMatrix();
