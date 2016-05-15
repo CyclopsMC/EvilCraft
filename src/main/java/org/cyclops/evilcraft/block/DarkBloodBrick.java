@@ -15,13 +15,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.block.multi.CubeDetector;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
-import org.cyclops.evilcraft.core.block.CubeDetector;
 import org.cyclops.evilcraft.tileentity.TileSpiritFurnace;
 
 /**
@@ -97,15 +98,16 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side,
                                     float posX, float posY, float posZ) {
-        if((Boolean) blockState.getValue(ACTIVE)) {
+        if(blockState.getValue(ACTIVE)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
             TileSpiritFurnace.detector.detect(world, blockPos, null, new CubeDetector.IValidationAction() {
 
                 @Override
-                public void onValidate(BlockPos location, Block block) {
-                    if(block == SpiritFurnace.getInstance()) {
+                public L10NHelpers.UnlocalizedString onValidate(BlockPos location, IBlockState blockState) {
+                    if(blockState.getBlock() == SpiritFurnace.getInstance()) {
                         tileLocationWrapper.set(location);
                     }
+                    return null;
                 }
 
             }, false);

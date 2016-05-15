@@ -16,6 +16,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import org.apache.commons.lang3.mutable.MutableDouble;
+import org.cyclops.cyclopscore.block.multi.*;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
@@ -27,9 +28,6 @@ import org.cyclops.evilcraft.block.BoxOfEternalClosure;
 import org.cyclops.evilcraft.block.BoxOfEternalClosureConfig;
 import org.cyclops.evilcraft.block.DarkBloodBrick;
 import org.cyclops.evilcraft.block.SpiritFurnace;
-import org.cyclops.evilcraft.core.block.AllowedBlock;
-import org.cyclops.evilcraft.core.block.CubeDetector;
-import org.cyclops.evilcraft.core.block.HollowCubeDetector;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
@@ -92,7 +90,8 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * The fluid that is accepted in the tank.
      */
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
-    
+
+    protected static final MinimumSizeValidator minimumSizeValidator = new MinimumSizeValidator(new Vec3i(2, 2, 2));
     /**
      * The multiblock structure detector for this furnace.
      */
@@ -100,10 +99,10 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 	public static CubeDetector detector = new HollowCubeDetector(
     			new AllowedBlock[]{
                         new AllowedBlock(DarkBloodBrick.getInstance()),
-    					new AllowedBlock(SpiritFurnace.getInstance()).setMaxOccurences(1),
+    					new AllowedBlock(SpiritFurnace.getInstance()).addCountValidator(new MaximumBlockCountValidator(1)),
                 },
     			Lists.newArrayList(SpiritFurnace.getInstance(), DarkBloodBrick.getInstance())
-    		).setMinimumSize(new Vec3i(2, 2, 2));
+    		).addSizeValidator(minimumSizeValidator);
     
     private static final Map<Class<?>, ITickAction<TileSpiritFurnace>> BOX_COOK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSpiritFurnace>>();
     static {
@@ -283,7 +282,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     @Override
     public boolean canWork() {
     	Vec3i size = getSize();
-		return size.compareTo(TileSpiritFurnace.detector.getMinimumSize()) >= 0;
+		return size.compareTo(minimumSizeValidator.getMinimumSize()) >= 0;
     }
     
     /**

@@ -21,6 +21,7 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.mutable.MutableFloat;
+import org.cyclops.cyclopscore.block.multi.*;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
@@ -32,9 +33,6 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.block.ColossalBloodChest;
 import org.cyclops.evilcraft.block.ColossalBloodChestConfig;
 import org.cyclops.evilcraft.block.ReinforcedUndeadPlank;
-import org.cyclops.evilcraft.core.block.AllowedBlock;
-import org.cyclops.evilcraft.core.block.CubeDetector;
-import org.cyclops.evilcraft.core.block.HollowCubeDetector;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
@@ -132,6 +130,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyItemBucketInTankTickAction<TileColossalBloodChest>());
     }
 
+    protected static final ExactSizeValidator exactSizeValidator = new ExactSizeValidator(new Vec3i(2, 2, 2));
     /**
      * The multiblock structure detector for this furnace.
      */
@@ -139,10 +138,10 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     public static CubeDetector detector = new HollowCubeDetector(
             new AllowedBlock[]{
                     new AllowedBlock(ReinforcedUndeadPlank.getInstance()),
-                    new AllowedBlock(ColossalBloodChest.getInstance()).setExactOccurences(1)
+                    new AllowedBlock(ColossalBloodChest.getInstance()).addCountValidator(new ExactBlockCountValidator(1))
             },
             Lists.newArrayList(ColossalBloodChest.getInstance(), ReinforcedUndeadPlank.getInstance())
-    ).setExactSize(new Vec3i(2, 2, 2));
+    ).addSizeValidator(exactSizeValidator);
 
     /**
      * Make a new instance.
@@ -253,7 +252,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     @Override
     public boolean canWork() {
         Vec3i size = getSize();
-        return size.compareTo(TileColossalBloodChest.detector.getExactSize()) == 0;
+        return size.compareTo(exactSizeValidator.getExactSize()) == 0;
     }
 
     /**

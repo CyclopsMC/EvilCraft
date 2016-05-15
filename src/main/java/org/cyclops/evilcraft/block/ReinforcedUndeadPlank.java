@@ -18,13 +18,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.block.multi.CubeDetector;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
-import org.cyclops.evilcraft.core.block.CubeDetector;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
 
 /**
@@ -99,7 +100,7 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        if((Boolean)state.getValue(ACTIVE)) triggerDetector(world, pos, false);
+        if(state.getValue(ACTIVE)) triggerDetector(world, pos, false);
         super.breakBlock(world, pos, state);
     }
 
@@ -107,7 +108,7 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
     public void onDetect(World world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
-            boolean change = !(Boolean) world.getBlockState(location).getValue(ACTIVE);
+            boolean change = !world.getBlockState(location).getValue(ACTIVE);
             world.setBlockState(location, world.getBlockState(location).withProperty(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             if(change) {
                 TileColossalBloodChest.detectStructure(world, location, size, valid, originCorner);
@@ -119,15 +120,16 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player,
                                     EnumHand hand, ItemStack heldItem, EnumFacing side,
                                     float posX, float posY, float posZ) {
-        if((Boolean) blockState.getValue(ACTIVE)) {
+        if(blockState.getValue(ACTIVE)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
             TileColossalBloodChest.detector.detect(world, blockPos, null, new CubeDetector.IValidationAction() {
 
                 @Override
-                public void onValidate(BlockPos location, Block block) {
-                    if(block == ColossalBloodChest.getInstance()) {
+                public L10NHelpers.UnlocalizedString onValidate(BlockPos location, IBlockState blockState) {
+                    if(blockState.getBlock() == ColossalBloodChest.getInstance()) {
                         tileLocationWrapper.set(location);
                     }
+                    return null;
                 }
 
             }, false);

@@ -19,12 +19,12 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.block.multi.CubeDetector;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.client.gui.container.GuiSpiritFurnace;
-import org.cyclops.evilcraft.core.block.CubeDetector;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritFurnace;
 import org.cyclops.evilcraft.tileentity.TileSpiritFurnace;
@@ -102,7 +102,7 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        if((Boolean)state.getValue(ACTIVE)) triggerDetector(world, pos, false);
+        if(state.getValue(ACTIVE)) triggerDetector(world, pos, false);
         super.breakBlock(world, pos, state);
     }
 
@@ -110,7 +110,7 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
 	public void onDetect(World world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
-            boolean change = !(Boolean) world.getBlockState(location).getValue(ACTIVE);
+            boolean change = !world.getBlockState(location).getValue(ACTIVE);
             world.setBlockState(location, world.getBlockState(location).withProperty(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             TileEntity tile = world.getTileEntity(location);
             if(tile != null) {
