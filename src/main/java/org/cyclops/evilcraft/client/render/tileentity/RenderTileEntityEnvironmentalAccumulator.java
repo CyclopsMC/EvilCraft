@@ -27,8 +27,6 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
     @Override
     public void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
         TileEnvironmentalAccumulator tile = (TileEnvironmentalAccumulator)tileentity;
-        if(tile.getHealth() != tile.getMaxHealth())
-            //tile.getBossInfo().addPlayer(Minecraft.getMinecraft().thePlayer); // TODO
 
         // Render the an item moving up if we're currently processing one
         if (tile.getMovingItemY() != -1.0f) {

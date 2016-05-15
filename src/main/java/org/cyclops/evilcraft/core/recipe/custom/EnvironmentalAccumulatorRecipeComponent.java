@@ -37,7 +37,7 @@ public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IR
      */
     public ItemStack getConditionalItemStack(ItemStack inputStack) {
         ItemStack itemStack = getItemStack().copy();
-        if(inputStack.hasTagCompound()) {
+        if(inputStack != null && inputStack.hasTagCompound()) {
             if(!itemStack.hasTagCompound()) {
                 itemStack.setTagCompound(new NBTTagCompound());
             }

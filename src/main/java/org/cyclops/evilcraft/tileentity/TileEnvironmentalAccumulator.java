@@ -1,9 +1,11 @@
 package org.cyclops.evilcraft.tileentity;
 
+import com.google.common.collect.Sets;
 import lombok.experimental.Delegate;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,6 +40,7 @@ import org.lwjgl.util.vector.Vector4f;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Machine that can accumulate the weather and put it in a bottle.
@@ -76,7 +79,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             new BlockPos( 2, -1,  2),
     };
     private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(
-            this.getDisplayName(), BossInfo.Color.GREEN, BossInfo.Overlay.PROGRESS)).setDarkenSky(false);
+            this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS)).setDarkenSky(false);
 
     /**
      * Holds the state of the environmental accumulator.
@@ -233,8 +236,26 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	        if (tick == 0)
 	            activateIdleState();
 	    }
-        this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
-	}
+
+        if (!getWorld().isRemote) {
+            // Update boss bars for nearby players
+            getBossInfo().setPercent(this.getHealth() / this.getMaxHealth());
+            Set<Integer> playerIds = Sets.newHashSet();
+            if (getHealth() != getMaxHealth()) {
+                for (EntityPlayer player : getWorld().getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(getPos()).expandXyz(32D))) {
+                    getBossInfo().addPlayer((EntityPlayerMP) player);
+                    playerIds.add(player.getEntityId());
+                }
+            }
+
+            // Remove players that aren't in the range for this tick
+            for (EntityPlayerMP playerMP : getBossInfo().getPlayers()) {
+                if (!playerIds.contains(playerMP.getEntityId()) || this.getHealth() == 0) {
+                    getBossInfo().removePlayer(playerMP);
+                }
+            }
+        }
+    }
 
     @SideOnly(Side.CLIENT)
     protected void showWaterBeams() {
@@ -491,7 +512,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     public float getHealth() {
         if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM)
             return tick;
-        
+
         if (state == EnvironmentalAccumulator.STATE_COOLING_DOWN)
             return getMaxCooldownTick() - tick;
         
