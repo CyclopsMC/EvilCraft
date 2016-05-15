@@ -399,7 +399,12 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 		return player != null && player.capabilities.isCreativeMode;
 	}
 
-	@Override
+    @Override
+    protected void collideWithNearbyEntities() {
+        // Do nothing
+    }
+
+    @Override
     public boolean canBePushed() {
         return false;
     }
