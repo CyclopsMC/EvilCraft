@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.core.recipe.custom;
 
 import lombok.Data;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipeProperties;
-import org.cyclops.evilcraft.core.recipe.custom.IDurationRecipeProperties;
+import org.cyclops.cyclopscore.recipe.custom.component.IDurationRecipeProperties;
 
 /**
  * Holds a duration (in ticks) for which a {@link org.cyclops.cyclopscore.recipe.custom.api.IRecipe} needs to be processed and an amount of experience.

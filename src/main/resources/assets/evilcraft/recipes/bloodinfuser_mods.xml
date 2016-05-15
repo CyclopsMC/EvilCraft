@@ -7,8 +7,7 @@
         <condition type="config">boundBloodDrop</condition>
         <input>
             <item>BloodMagic:ItemBloodOrb</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>10000</fluidamount>
+            <fluid amount="10000">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:boundBloodDrop</item>
@@ -27,8 +26,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:blaze_rod</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>6500</fluidamount>
+            <fluid amount="6500">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="17">tconstruct:materials</item>
@@ -47,8 +45,7 @@
         <condition type="config">bloodWandCap</condition>
         <input>
             <item meta="1">Thaumcraft:wand_cap</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>2500</fluidamount>
+            <fluid amount="2500">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:bloodWandCap</item>

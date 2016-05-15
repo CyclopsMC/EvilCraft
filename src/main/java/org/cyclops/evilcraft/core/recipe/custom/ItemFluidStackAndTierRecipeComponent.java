@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.core.recipe.custom;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.recipe.custom.component.ItemAndFluidStackRecipeComponent;
 
 /**
  * Input component with tier.

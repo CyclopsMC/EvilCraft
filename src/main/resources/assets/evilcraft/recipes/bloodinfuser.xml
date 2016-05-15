@@ -8,8 +8,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>evilcraft:darkGem</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>250</fluidamount>
+            <fluid amount="250">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:darkPowerGem</item>
@@ -26,8 +25,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:deadbush</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>2000</fluidamount>
+            <fluid amount="2000">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:undeadSapling</item>
@@ -44,8 +42,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:book</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>500</fluidamount>
+            <fluid amount="500">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:blook</item>
@@ -65,8 +62,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>evilcraft:darkBrick</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>1000</fluidamount>
+            <fluid amount="1000">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:darkBloodBrick</item>
@@ -84,8 +80,7 @@
         <condition type="config">corruptedTear</condition>
         <input>
             <item>minecraft:ghast_tear</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>10000</fluidamount>
+            <fluid amount="10000">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:corruptedTear</item>
@@ -103,8 +98,7 @@
         <condition type="config">bowlOfPromises</condition>
         <input>
             <item meta="0">evilcraft:bowlOfPromises</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>5000</fluidamount>
+            <fluid amount="5000">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="2">evilcraft:bowlOfPromises</item>
@@ -122,8 +116,7 @@
         <condition type="config">bowlOfPromises</condition>
         <input>
             <item meta="0">evilcraft:bowlOfPromises</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>5000</fluidamount>
+            <fluid amount="5000">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="3">evilcraft:bowlOfPromises</item>
@@ -141,8 +134,7 @@
         <condition type="config">bowlOfPromises</condition>
         <input>
             <item meta="0">evilcraft:bowlOfPromises</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>5000</fluidamount>
+            <fluid amount="5000">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="4">evilcraft:bowlOfPromises</item>
@@ -160,8 +152,7 @@
         <condition type="config">bowlOfPromises</condition>
         <input>
             <item meta="0">evilcraft:bowlOfPromises</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>5000</fluidamount>
+            <fluid amount="5000">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="5">evilcraft:bowlOfPromises</item>
@@ -180,8 +171,7 @@
         <condition type="config">bloodyCobblestone</condition>
         <input>
             <item>minecraft:mossy_cobblestone</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>500</fluidamount>
+            <fluid amount="500">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:bloodyCobblestone</item>
@@ -198,8 +188,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>evilcraft:darkBlock</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>2250</fluidamount>
+            <fluid amount="2250">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:darkPowerGemBlock</item>
@@ -215,8 +204,7 @@
         <condition type="config">promiseAcceptor</condition>
         <input>
             <item>minecraft:iron_block</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>10000</fluidamount>
+            <fluid amount="10000">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="0">evilcraft:promiseAcceptor</item>
@@ -233,8 +221,7 @@
         <condition type="config">promiseAcceptor</condition>
         <input>
             <item>minecraft:gold_block</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>40000</fluidamount>
+            <fluid amount="40000">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="1">evilcraft:promiseAcceptor</item>
@@ -251,8 +238,7 @@
         <condition type="config">promiseAcceptor</condition>
         <input>
             <item>minecraft:diamond_block</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>160000</fluidamount>
+            <fluid amount="160000">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="2">evilcraft:promiseAcceptor</item>
@@ -270,8 +256,7 @@
         <condition type="config">bloodOrb</condition>
         <input>
             <item meta="0">evilcraft:bloodOrb</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>3500</fluidamount>
+            <fluid amount="3500">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="1">evilcraft:bloodOrb</item>
@@ -290,8 +275,7 @@
         <condition type="config">reinforcedUndeadPlank</condition>
         <input>
             <item>evilcraft:undeadPlank</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>1000</fluidamount>
+            <fluid amount="1000">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:reinforcedUndeadPlank</item>
@@ -310,8 +294,7 @@
         <condition type="config">garmonbozia</condition>
         <input>
             <item meta="1">evilcraft:vengeanceEssence</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>50000</fluidamount>
+            <fluid amount="50000">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:garmonbozia</item>

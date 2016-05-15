@@ -1,15 +1,13 @@
 package org.cyclops.evilcraft.core.recipe.xml;
 
-import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.cyclops.cyclopscore.recipe.xml.SuperRecipeTypeHandler;
 import org.cyclops.cyclopscore.recipe.xml.XmlRecipeLoader;
 import org.cyclops.evilcraft.block.BloodInfuser;
+import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,8 +23,6 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
 	protected ItemStack handleRecipe(RecipeHandler recipeHandler, Element input, Element output, Element properties)
 			throws XmlRecipeLoader.XmlRecipeException {
 		Node inputItem = input.getElementsByTagName("item").item(0);
-		String inputFluid = input.getElementsByTagName("fluid").item(0).getTextContent();
-		int inputAmount = Integer.parseInt(input.getElementsByTagName("fluidamount").item(0).getTextContent());
 		Node outputItem = output.getElementsByTagName("item").item(0);
 		int duration = Integer.parseInt(properties.getElementsByTagName("duration").item(0).getTextContent());
         int tier = 0;
@@ -37,24 +33,20 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
         if(properties.getElementsByTagName("xp").getLength() > 0) {
             xp = Float.parseFloat(properties.getElementsByTagName("xp").item(0).getTextContent());
         }
-		
-		Fluid fluid = FluidRegistry.getFluid(inputFluid);
-		if(fluid == null) {
-			throw new XmlRecipeLoader.XmlRecipeException(String.format("Fluid by name '%s' has not been found.", inputFluid));
-		}
 
         Object item = getItem(recipeHandler, inputItem);
+        FluidStack fluidStack = getFluid(recipeHandler, input.getElementsByTagName("fluid").item(0));
         ItemFluidStackAndTierRecipeComponent recipeComponent;
         if(item instanceof ItemStack) {
             recipeComponent = new ItemFluidStackAndTierRecipeComponent(
                     (ItemStack) item,
-                    new FluidStack(fluid, inputAmount),
+                    fluidStack,
                     tier
             );
         } else {
             recipeComponent = new ItemFluidStackAndTierRecipeComponent(
                     (String) item,
-                    new FluidStack(fluid, inputAmount),
+                    fluidStack,
                     tier
             );
         }

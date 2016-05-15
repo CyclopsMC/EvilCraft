@@ -9,8 +9,7 @@
         <condition type="predefined">evilcraft:enderPearlRecipe</condition>
         <input>
             <item>evilcraft:potentiaSphere</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>2000</fluidamount>
+            <fluid amount="2000">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:ender_pearl</item>
@@ -28,8 +27,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:rotten_flesh</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>375</fluidamount>
+            <fluid amount="375">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:leather</item>
@@ -48,8 +46,7 @@
         <condition type="config">werewolfFlesh</condition>
         <input>
             <item meta="1">evilcraft:werewolfFlesh</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>375</fluidamount>
+            <fluid amount="375">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:leather</item>
@@ -67,8 +64,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:ender_eye</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>3000</fluidamount>
+            <fluid amount="3000">evilcraftblood</fluid>
         </input>
         <output>
             <item amount="8">minecraft:spider_eye</item>
@@ -86,8 +82,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:spider_eye</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>1500</fluidamount>
+            <fluid amount="1500">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:fermented_spider_eye</item>
@@ -105,8 +100,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:brown_mushroom</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>2000</fluidamount>
+            <fluid amount="2000">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:red_mushroom</item>
@@ -124,8 +118,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:dirt</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>350</fluidamount>
+            <fluid amount="350">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:grass</item>
@@ -143,8 +136,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:bone</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>2500</fluidamount>
+            <fluid amount="2500">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:blaze_rod</item>
@@ -162,8 +154,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:wheat_seeds</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>5000</fluidamount>
+            <fluid amount="5000">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:nether_wart</item>
@@ -181,8 +172,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:sand</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>2500</fluidamount>
+            <fluid amount="2500">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:soul_sand</item>
@@ -200,8 +190,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:cobblestone</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>500</fluidamount>
+            <fluid amount="500">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:netherrack</item>
@@ -219,8 +208,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item meta="3">minecraft:skull</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>1000</fluidamount>
+            <fluid amount="1000">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="2">minecraft:skull</item>
@@ -238,8 +226,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item meta="2">minecraft:skull</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>5000</fluidamount>
+            <fluid amount="5000">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="0">minecraft:skull</item>
@@ -257,8 +244,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item meta="0">minecraft:skull</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>25000</fluidamount>
+            <fluid amount="25000">evilcraftblood</fluid>
         </input>
         <output>
             <item meta="1">minecraft:skull</item>
@@ -277,8 +263,7 @@
         <condition type="config">dullDust</condition>
         <input>
             <item type="oredict">dustDull</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>500</fluidamount>
+            <fluid amount="500">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:redstone</item>
@@ -297,8 +282,7 @@
         <condition type="config">bloodWaxedCoal</condition>
         <input>
             <item meta="*">minecraft:coal</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>375</fluidamount>
+            <fluid amount="375">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:bloodWaxedCoal</item>
@@ -317,8 +301,7 @@
         <condition type="config">bloodWaxedCoalBlock</condition>
         <input>
             <item>minecraft:coal_block</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>3375</fluidamount>
+            <fluid amount="3375">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:bloodWaxedCoalBlock</item>
@@ -337,8 +320,7 @@
         <condition type="config">enderTear</condition>
         <input>
             <item>evilcraft:enderTear</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>3500</fluidamount>
+            <fluid amount="3500">evilcraftblood</fluid>
         </input>
         <output>
             <item>minecraft:ghast_tear</item>
@@ -357,8 +339,7 @@
         <condition type="config">bloodPotash</condition>
         <input>
             <item meta="15">minecraft:dye</item>
-            <fluid>evilcraftblood</fluid>
-            <fluidamount>800</fluidamount>
+            <fluid amount="800">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:bloodPotash</item>
