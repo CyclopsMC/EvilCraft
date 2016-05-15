@@ -1,15 +1,18 @@
 package org.cyclops.evilcraft.entity.villager;
 
-import net.minecraft.item.ItemStack;
+import com.google.common.collect.Lists;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.item.Item;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableVillager;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.VillagerConfig;
-import org.cyclops.cyclopscore.item.WeightedItemStack;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.BoxOfEternalClosure;
 import org.cyclops.evilcraft.block.BoxOfEternalClosureConfig;
 import org.cyclops.evilcraft.block.UndeadSaplingConfig;
 import org.cyclops.evilcraft.item.*;
+
+import java.util.List;
 
 /**
  * Villager with specific evil trades.
@@ -37,50 +40,67 @@ public class WerewolfVillager extends ConfigurableVillager {
      */
     public WerewolfVillager(ExtendedConfig<VillagerConfig> eConfig) {
         super(eConfig);
-        
+
+        List<List<EntityVillager.ITradeList>> trades = Lists.newArrayList();
+
         // Input
+        List<EntityVillager.ITradeList> phase1 = Lists.newArrayList();
         if(Configs.isEnabled(DarkGemConfig.class)) {
-            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(DarkGem.getInstance(), 1), 1));
+            phase1.add(new EntityVillager.EmeraldForItems(DarkGem.getInstance(), new EntityVillager.PriceInfo(2, 5)));
         }
         if(Configs.isEnabled(HardenedBloodShardConfig.class)) {
-            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(HardenedBloodShardConfig._instance.getItemInstance(), 1), 2));
+            phase1.add(new EntityVillager.EmeraldForItems(HardenedBloodShardConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(10, 15)));
         }
         if(Configs.isEnabled(BlookConfig.class)) {
-            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(
-                    BlookConfig._instance.downCast().getItemInstance(), 1), 5));
+            phase1.add(new EntityVillager.EmeraldForItems(BlookConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(5, 9)));
         }
         if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
-            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(InvertedPotentia.getInstance(), 1, 1), 10));
+            phase1.add(new EntityVillager.EmeraldForItems(InvertedPotentia.getInstance(), new EntityVillager.PriceInfo(1, 5)));
         }
         if(Configs.isEnabled(PoisonSacConfig.class)) {
-            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(PoisonSacConfig._instance.getItemInstance(), 1, 1), 3));
+            phase1.add(new EntityVillager.EmeraldForItems(PoisonSacConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(10, 15)));
         }
+        trades.add(phase1);
         
         // Output
+        List<EntityVillager.ITradeList> phase2 = Lists.newArrayList();
         if(Configs.isEnabled(WerewolfBoneConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(WerewolfBoneConfig._instance.getItemInstance(), 1), 10));
+            phase2.add(new EntityVillager.ListItemForEmeralds(WerewolfBoneConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(5, 10)));
         }
         if(Configs.isEnabled(WerewolfFurConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(WerewolfFurConfig._instance.getItemInstance(), 1), 10));
+            phase2.add(new EntityVillager.ListItemForEmeralds(WerewolfFurConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(5, 10)));
         }
         if(Configs.isEnabled(BloodInfusionCoreConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(
-                    BloodInfusionCoreConfig._instance.downCast().getItemInstance(), 1), 15));
+            phase2.add(new EntityVillager.ListItemForEmeralds(BloodInfusionCoreConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(10, 15)));
         }
         if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(BoxOfEternalClosure.getInstance(), 1), 75));
+            phase2.add(new EntityVillager.ListItemForEmeralds(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), new EntityVillager.PriceInfo(1, 2)));
         }
         if(Configs.isEnabled(DarkGemCrushedConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1), 3));
+            phase2.add(new EntityVillager.ListItemForEmeralds(DarkGemCrushedConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(3, 5)));
         }
         if(Configs.isEnabled(VengeanceFocusConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(VengeanceFocus.getInstance(), 1), 30));
+            phase2.add(new EntityVillager.ListItemForEmeralds(VengeanceFocus.getInstance(), new EntityVillager.PriceInfo(12, 18)));
         }
         if(Configs.isEnabled(UndeadSaplingConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(UndeadSaplingConfig._instance.getBlockInstance(), 1), 25));
+            phase2.add(new EntityVillager.ListItemForEmeralds(Item.getItemFromBlock(UndeadSaplingConfig._instance.getBlockInstance()), new EntityVillager.PriceInfo(15, 25)));
         }
         if(Configs.isEnabled(GarmonboziaConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(GarmonboziaConfig._instance.getItemInstance(), 1), 300));
+            phase2.add(new EntityVillager.ListItemForEmeralds(GarmonboziaConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(50, 64)));
         }
+
+        // TODO: enable when Forge makes this public
+        //(new VillagerRegistry.VillagerCareer(this, eConfig.getNamedId())).init(tradeListToArray(trades));
+    }
+
+    // TODO: abstract
+    protected static EntityVillager.ITradeList[][] tradeListToArray(List<List<EntityVillager.ITradeList>> trades) {
+        EntityVillager.ITradeList[][] result = new EntityVillager.ITradeList[trades.size()][];
+        int i = 0;
+        for (List<EntityVillager.ITradeList> tradeList : trades) {
+            EntityVillager.ITradeList[] tradeArray = tradeList.toArray(new EntityVillager.ITradeList[tradeList.size()]);
+            result[i++] = tradeArray;
+        }
+        return result;
     }
 }
