@@ -51,7 +51,7 @@ public final class BroomParts {
     public static IBroomPart CAP_GEM_DIAMOND;
     public static IBroomPart CAP_GEM_EMERALD;
     public static IBroomPart CAP_GEM_QUARTZ;
-    public static IBroomPart CAP_GEM_LAPIS;
+    //public static IBroomPart CAP_GEM_LAPIS;
     public static IBroomPart CAP_GEM_DARKPOWER;
 
     public static IBroomPart CAP_HEAD_SKELETON;
@@ -144,7 +144,7 @@ public final class BroomParts {
         CAP_GEM_DIAMOND = registerCapGemOredict("diamond", 105, 223, 218);
         CAP_GEM_EMERALD = registerCapGemOredict("emerald", 66, 216, 109);
         CAP_GEM_QUARTZ = registerCapGemOredict("quartz", 237, 235, 228);
-        CAP_GEM_LAPIS = registerCapGemOredict("lapis", 38, 79, 162);
+        //CAP_GEM_LAPIS = registerCapGemOredict("lapis", 38, 79, 162);
         CAP_GEM_DARKPOWER = registerCapGemOredict("darkPower", 112, 59, 59);
 
         CAP_HEAD_SKELETON = registerCapHead("skeleton");
@@ -304,10 +304,10 @@ public final class BroomParts {
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.DAMAGE, 50F
         ));
-        REGISTRY.registerBaseModifiers(CAP_GEM_LAPIS, ImmutableMap.of(
+        /*REGISTRY.registerBaseModifiers(CAP_GEM_LAPIS, ImmutableMap.of(
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.LUCK, 50F
-        ));
+        ));*/
         REGISTRY.registerBaseModifiers(CAP_GEM_DARKPOWER, ImmutableMap.of(
                 BroomModifiers.MANEUVERABILITY, 50F,
                 BroomModifiers.MODIFIER_COUNT, 1F,

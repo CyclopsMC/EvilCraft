@@ -364,7 +364,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<!--<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemLapis</condition>
@@ -376,7 +376,7 @@
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_gem_lapis</item>
 		</output>
-	</recipe>
+	</recipe>-->
 
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>

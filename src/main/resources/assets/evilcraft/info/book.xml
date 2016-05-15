@@ -349,8 +349,8 @@
                     <appendix type="evilcraft:broomModifier">evilcraft:acceleration</appendix>
                     <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.sturdyness</paragraph>
                     <appendix type="evilcraft:broomModifier">evilcraft:sturdyness</appendix>
-                    <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.luck</paragraph>
-                    <appendix type="evilcraft:broomModifier">evilcraft:luck</appendix>
+                    <!--<paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.luck</paragraph>-->
+                    <!--<appendix type="evilcraft:broomModifier">evilcraft:luck</appendix>-->
                     <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.efficiency</paragraph>
                     <appendix type="evilcraft:broomModifier">evilcraft:efficiency</appendix>
                     <paragraph>infoBook.evilcraft.secondAge.tools.broom.modifiers.text.swimming</paragraph>

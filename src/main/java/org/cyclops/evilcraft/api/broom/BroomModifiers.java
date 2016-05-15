@@ -62,7 +62,7 @@ public class BroomModifiers {
     public static BroomModifier KAMIKAZE;
     public static BroomModifier WITHERSHIELD;
     public static BroomModifier STURDYNESS;
-    public static BroomModifier LUCK;
+    //public static BroomModifier LUCK;
     public static BroomModifier EFFICIENCY;
     public static BroomModifier SWIMMING;
     public static BroomModifier ICY;
@@ -134,10 +134,10 @@ public class BroomModifiers {
                 new ResourceLocation(Reference.MOD_ID, "sturdyness"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
                 TextFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
-        LUCK = REGISTRY.registerModifier(new BroomModifier(
+        /*LUCK = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "luck"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                TextFormatting.BLUE, Helpers.RGBToInt(30, 20, 210)));
+                TextFormatting.BLUE, Helpers.RGBToInt(30, 20, 210)));*/
         EFFICIENCY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "efficiency"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
