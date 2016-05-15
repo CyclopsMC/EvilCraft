@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.world.gen.nbt;
 
 import com.google.common.collect.Maps;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.CollectionHelpers;
 import org.cyclops.cyclopscore.init.ModBase;
@@ -28,6 +29,14 @@ public class DarkTempleData extends WorldStorage {
 	 */
 	public DarkTempleData(ModBase mod) {
 		super(mod);
+	}
+
+	@Override
+	public void onStartedEvent(FMLServerStartedEvent event) {
+		// Hacky thing to make sure that locations that are inserted WHILE the server is starting, are not lost.
+		Map<Integer, Set<Pair<Integer, Integer>>> oldFailedLocations = Maps.newHashMap(failedLocations);
+		super.onStartedEvent(event);
+		failedLocations.putAll(oldFailedLocations);
 	}
 
 	/**

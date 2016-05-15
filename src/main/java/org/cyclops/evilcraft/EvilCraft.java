@@ -197,6 +197,16 @@ public class EvilCraft extends ModBaseVersionable {
         getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
                 OriginsOfDarknessBook.getInstance(), "/assets/" + Reference.MOD_ID + "/info/book.xml");
     }
+
+    /**
+     * Register the things that are related to server starting.
+     * @param event The Forge event required for this.
+     */
+    @EventHandler
+    @Override
+    public void onServerAboutToStart(FMLServerAboutToStartEvent event) {
+        super.onServerAboutToStart(event);
+    }
     
     /**
      * Register the things that are related to server starting, like commands.

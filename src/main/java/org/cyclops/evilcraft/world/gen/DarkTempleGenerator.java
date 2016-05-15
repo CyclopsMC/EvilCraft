@@ -2,9 +2,10 @@ package org.cyclops.evilcraft.world.gen;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
@@ -29,13 +30,16 @@ public class DarkTempleGenerator implements IWorldGenerator {
 			int x = chunkX * 16 + random.nextInt(16);
 			int y = 0;
 			int z = chunkZ * 16 + random.nextInt(16);
-
 			// Generate the dark temple if possible (height checks are performed inside generate)
-			if(!DarkTempleStructure.getInstance().generate(world, random, new BlockPos(x, y, z))) {
+			if(isTooClose(world, chunkX, chunkZ) || !DarkTempleStructure.getInstance().generate(world, random, new BlockPos(x, y, z))) {
 				EvilCraft.darkTempleData.addFailedLocation(world.provider.getDimension(), chunkX, chunkZ);
 			}
 		}
     }
+
+	private static boolean isTooClose(World world, int chunkX, int chunkZ) {
+		return getClosest(world, chunkX, chunkZ, GeneralConfig.darkTempleMinimumChunkDistance, false, true) != null;
+	}
 
 	public static boolean canGenerate(World world) {
 		int id = world.provider.getDimension();
@@ -77,17 +81,22 @@ public class DarkTempleGenerator implements IWorldGenerator {
 	 * @param chunkX Chunk X
 	 * @param chunkZ Chunk Y
 	 * @param radius The maximum chunk distance to look for. The higher this is, the longer this will take.
+	 * @param includeOrigin If the given chunk coordinates should be checked when looking for closest.
+	 * @param skipNonGeneratedChunks If chunks that are not generated yet should be skipped.
 	 * @return The pair of closest chunk x and z coordinates.
 	 */
 	public static @Nullable
-	Pair<Integer, Integer> getClosest(World world, int chunkX, int chunkZ, int radius) {
+	Pair<Integer, Integer> getClosest(World world, int chunkX, int chunkZ, int radius, boolean includeOrigin, boolean skipNonGeneratedChunks) {
 		int x = 0;
 		int z = 0;
 		int dx = 0;
 		int dz = -1;
-		for(int r = 0; r < radius * radius; r++) {
+		int maxSteps = (int) Math.pow(radius, 2);
+		for(int r = 0; r < maxSteps; r++) {
 			if ((-r / 2 <= x) && (x <= r / 2) && (-r / 2 <= z) && (z <= r / 2)) {
-				if (hasTemple(world, chunkX + x, chunkZ + z)) {
+				if ((includeOrigin || (x != 0 || z != 0))
+						&& (!skipNonGeneratedChunks || ((ChunkProviderServer) world.getChunkProvider()).chunkExists(chunkX + x, chunkZ + z))
+						&& hasTemple(world, chunkX + x, chunkZ + z)) {
 					return Pair.of(chunkX + x, chunkZ + z);
 				}
 			}
@@ -110,7 +119,7 @@ public class DarkTempleGenerator implements IWorldGenerator {
 	 * @return The pair of closest chunk x and z coordinates.
 	 */
 	public static @Nullable Pair<Integer, Integer> getClosest(World world, int chunkX, int chunkZ) {
-		return getClosest(world, chunkX, chunkZ, Math.min(500, GeneralConfig.darkTempleFrequency));
+		return getClosest(world, chunkX, chunkZ, Math.min(500, GeneralConfig.darkTempleFrequency), true, false);
 	}
 
 	/**

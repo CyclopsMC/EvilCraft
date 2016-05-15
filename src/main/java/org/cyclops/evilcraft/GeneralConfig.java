@@ -128,6 +128,12 @@ public class GeneralConfig extends DummyConfig {
     };
 
     /**
+     * The minimum distance in chunks between dark temples, higher values will slow down worldgen.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "The minimum distance in chunks between dark temples, higher values will slow down worldgen.")
+    public static int darkTempleMinimumChunkDistance = 40;
+
+    /**
      * The amount of mB that can flow per tick.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The amount of mB that can flow per tick out of machines and items.", requiresMcRestart = true)
