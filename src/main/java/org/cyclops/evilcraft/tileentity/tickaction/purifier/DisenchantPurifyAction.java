@@ -1,18 +1,18 @@
 package org.cyclops.evilcraft.tileentity.tickaction.purifier;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -42,8 +42,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
     public boolean canWork(TilePurifier tile) {
         if(tile.getBucketsFloored() == tile.getMaxBuckets() && tile.getPurifyItem() != null &&
                 tile.getAdditionalItem() != null && tile.getAdditionalItem().getItem() == ALLOWED_BOOK.get()) {
-            NBTTagList enchantmentList = tile.getPurifyItem().getEnchantmentTagList();
-            return enchantmentList != null && enchantmentList.tagCount() > 0;
+            return !EnchantmentHelper.getEnchantments(tile.getPurifyItem()).isEmpty();
         }
         return false;
     }
@@ -52,31 +51,31 @@ public class DisenchantPurifyAction implements IPurifierAction {
     public boolean work(TilePurifier tile) {
         boolean done = false;
 
-        ItemStack purifyItem = tile.getPurifyItem();
+        ItemStack purifyItem = tile.getPurifyItem().copy();
         World world = tile.getWorld();
         int tick = tile.getTick();
 
         // Try disenchanting.
-        NBTTagList enchantmentList = purifyItem.getEnchantmentTagList();
-        if (enchantmentList != null && enchantmentList.tagCount() > 0) {
+        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(purifyItem);
+        if (!enchantments.isEmpty()) {
             if (tick >= PURIFY_DURATION) {
                 if (!world.isRemote) {
-                    // Init enchantment data.
-                    int enchantmentListID = world.rand.nextInt(enchantmentList.tagCount());
-                    int level = EnchantmentHelpers.getEnchantmentLevel(purifyItem, enchantmentListID);
-                    int id = EnchantmentHelpers.getEnchantmentID(purifyItem, enchantmentListID);
-                    ItemStack enchantedItem = new ItemStack(Items.enchanted_book, 1);
+                    int enchantmentIndex = world.rand.nextInt(enchantments.size());
+                    Enchantment enchantment = Lists.newArrayList(enchantments.keySet()).get(enchantmentIndex);
 
-                    // Set the enchantment book.
-                    Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
-                    enchantments.put(Enchantment.getEnchantmentByID(id), level);
-                    EnchantmentHelper.setEnchantments(enchantments, enchantedItem);
+                    // Set the resulting enchantment book.
+                    tile.setAdditionalItem(Items.enchanted_book.getEnchantedItemStack(
+                            new EnchantmentData(enchantment, enchantments.get(enchantment))));
 
-                    // Define the enchanted book level.
-                    EnchantmentHelpers.setEnchantmentLevel(purifyItem, enchantmentListID, 0);
+                    // Set the remaining enchantment book
+                    Map<Enchantment, Integer> remainingEnchantments = Maps.newHashMap(enchantments);
+                    remainingEnchantments.remove(enchantment);
+                    if (purifyItem.hasTagCompound() && purifyItem.getTagCompound().hasKey("StoredEnchantments")) {
+                        purifyItem.getTagCompound().removeTag("StoredEnchantments");
+                    }
+                    EnchantmentHelper.setEnchantments(remainingEnchantments, purifyItem);
+                    tile.setPurifyItem(purifyItem);
 
-                    // Put the enchanted book in the book slot.
-                    tile.setAdditionalItem(enchantedItem);
                 }
                 tile.setBuckets(0, tile.getBucketsRest());
                 done = true;
@@ -86,7 +85,6 @@ public class DisenchantPurifyAction implements IPurifierAction {
                 tile.showEnchantingEffect();
             }
         }
-
         return done;
     }
 
