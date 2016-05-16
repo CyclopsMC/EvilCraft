@@ -45,10 +45,10 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
     }
 
     public BloodChest(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.wood, TileBloodChest.class);
+        super(eConfig, Material.WOOD, TileBloodChest.class);
         
         this.setHardness(2.5F);
-        this.setStepSound(SoundType.WOOD);
+        this.setSoundType(SoundType.WOOD);
         this.setRotatable(true);
     }
 

@@ -47,21 +47,21 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
 
     @Override
     protected IConfigurable initSubInstance() {
-        ConfigurableItemBucket bucket = new ConfigurableItemBucket(this, Blocks.flowing_water) {
+        ConfigurableItemBucket bucket = new ConfigurableItemBucket(this, Blocks.FLOWING_WATER) {
 
             @Override
             public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
-                RayTraceResult position = this.getMovingObjectPositionFromPlayer(world, player, true);
+                RayTraceResult position = this.rayTrace(world, player, true);
                 if(position != null && position.typeOfHit == RayTraceResult.Type.BLOCK) {
                     Block block = world.getBlockState(position.getBlockPos()).getBlock();
-                    if(block == Blocks.water) {
+                    if(block == Blocks.WATER) {
                         world.setBlockToAir(position.getBlockPos());
                         return MinecraftHelpers.successAction(itemStack);
                     }
                 }
 
                 ActionResult<ItemStack> result = super.onItemRightClick(itemStack, world, player, hand);
-                if(result.getResult() != null && result.getResult().getItem() == Items.bucket) return MinecraftHelpers.successAction(new ItemStack(getContainerItem()));
+                if(result.getResult() != null && result.getResult().getItem() == Items.BUCKET) return MinecraftHelpers.successAction(new ItemStack(getContainerItem()));
 
                 return result;
             }
@@ -92,7 +92,7 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
 
     @Override
     public Block getFluidBlockInstance() {
-        return Blocks.water;
+        return Blocks.WATER;
     }
     
 }

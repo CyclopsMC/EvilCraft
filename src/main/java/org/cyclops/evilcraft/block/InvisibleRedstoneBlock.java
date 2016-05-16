@@ -44,10 +44,10 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     }
 
     public InvisibleRedstoneBlock(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.air, TileInvisibleRedstoneBlock.class);
+        super(eConfig, Material.AIR, TileInvisibleRedstoneBlock.class);
         setHardness(5.0F);
         setResistance(10.0F);
-        setStepSound(SoundType.METAL);
+        setSoundType(SoundType.METAL);
     }
 
     @SideOnly(Side.CLIENT)

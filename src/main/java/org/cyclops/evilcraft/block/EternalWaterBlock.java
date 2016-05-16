@@ -43,7 +43,7 @@ public class EternalWaterBlock extends ConfigurableBlockContainer {
      * @param eConfig    Config for this blockState.
      */
     public EternalWaterBlock(ExtendedConfig eConfig) {
-        super(eConfig, Material.water, TileEternalWaterBlock.class);
+        super(eConfig, Material.WATER, TileEternalWaterBlock.class);
     }
 
     @Override

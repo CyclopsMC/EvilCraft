@@ -46,9 +46,9 @@ public class DarkBloodBrick extends ConfigurableBlock implements CubeDetector.ID
     }
 
     public DarkBloodBrick(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.rock);
+        super(eConfig, Material.ROCK);
         this.setHardness(5.0F);
-        this.setStepSound(SoundType.STONE);
+        this.setSoundType(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
     }
     

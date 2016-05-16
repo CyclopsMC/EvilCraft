@@ -28,7 +28,7 @@ public abstract class InnerBlocksTileEntity extends CyclopsTileEntity implements
 	 */
     public void setInnerBlockState(IBlockState blockState) {
         this.meta = blockState.getBlock().getMetaFromState(blockState);
-    	this.blockName = Block.blockRegistry.getNameForObject(blockState.getBlock()).toString();
+    	this.blockName = Block.REGISTRY.getNameForObject(blockState.getBlock()).toString();
     }
     
     /**
@@ -36,7 +36,7 @@ public abstract class InnerBlocksTileEntity extends CyclopsTileEntity implements
      * @return The inner blockState.
      */
 	public IBlockState getInnerBlockState() {
-        if(blockName == null || blockName.isEmpty()) return Blocks.stone.getDefaultState();
+        if(blockName == null || blockName.isEmpty()) return Blocks.STONE.getDefaultState();
 		return Block.getBlockFromName(blockName).getStateFromMeta(this.meta);
     }
 	

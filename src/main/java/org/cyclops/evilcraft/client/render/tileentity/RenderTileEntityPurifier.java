@@ -37,7 +37,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
 	    if(tile != null) {
             ItemStack additionalItem = tile.getAdditionalItem();
             if(additionalItem != null) {
-                if(additionalItem.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() || additionalItem.getItem() == Items.enchanted_book) {
+                if(additionalItem.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() || additionalItem.getItem() == Items.ENCHANTED_BOOK) {
                     renderBook(tile, tile.getWorld(), additionalItem, x, y + 0.4, z, partialTickTime);
                 } else {
                     renderAdditionalItem(tile, tile.getWorld(), additionalItem, x, y + 0.4, z, partialTickTime);

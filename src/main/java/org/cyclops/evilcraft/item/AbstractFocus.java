@@ -93,7 +93,7 @@ public abstract class AbstractFocus extends ConfigurableItem {
                 EntityThrowable beam = newBeamEntity(player);
 		    	if(!player.worldObj.isRemote) {
                     // Last three params: pitch offset, velocity, inaccuracy
-                    beam.func_184538_a(player, player.rotationPitch, player.rotationYaw, 0F, 0.5F, 1.0F);
+                    beam.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0F, 0.5F, 1.0F);
 		    		player.worldObj.spawnEntityInWorld(beam);
 		        }
     		}

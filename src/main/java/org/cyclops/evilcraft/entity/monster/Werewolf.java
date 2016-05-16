@@ -107,7 +107,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
         world.removeEntity(old);
 
         world.spawnEntityInWorld(neww);
-        world.playAuxSFXAtEntity(null, 1016, old.getPosition(), 0);
+        world.playEvent(null, 1016, old.getPosition(), 0);
     }
     
     /**
@@ -147,7 +147,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
         if(random.nextInt(BARKCHANCE) == 0 && barkprogress == -1) {
             barkprogress++;
         } else if(barkprogress > -1) {
-            playSound(SoundEvents.entity_wolf_growl, 0.15F, 1.0F);
+            playSound(SoundEvents.ENTITY_WOLF_GROWL, 0.15F, 1.0F);
             barkprogress++;
             if(barkprogress > BARKLENGTH) {
                 barkprogress = -1;
@@ -174,22 +174,22 @@ public class Werewolf extends EntityMob implements IConfigurable{
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.entity_wolf_growl;
+        return SoundEvents.ENTITY_WOLF_GROWL;
     }
 
     @Override
     protected SoundEvent getHurtSound() {
-        return SoundEvents.entity_wolf_hurt;
+        return SoundEvents.ENTITY_WOLF_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.entity_wolf_death;
+        return SoundEvents.ENTITY_WOLF_DEATH;
     }
 
     @Override
     protected void playStepSound(BlockPos blockPos, Block block) {
-        this.playSound(SoundEvents.entity_zombie_step, 0.15F, 1.0F);
+        this.playSound(SoundEvents.ENTITY_ZOMBIE_STEP, 0.15F, 1.0F);
     }
     
     @Override

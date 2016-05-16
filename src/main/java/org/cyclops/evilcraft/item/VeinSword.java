@@ -47,7 +47,7 @@ public class VeinSword extends ConfigurableItemSword {
      */
     public static ItemStack createCraftingResult() {
     	ItemStack sword = new ItemStack(VeinSword.getInstance());
-        EnchantmentHelpers.setEnchantmentLevel(sword, Enchantments.looting, LOOTING_LEVEL);
+        EnchantmentHelpers.setEnchantmentLevel(sword, Enchantments.LOOTING, LOOTING_LEVEL);
         return sword;
     }
     

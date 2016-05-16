@@ -39,7 +39,7 @@ public class EntityNecromancersHeadConfig extends EntityConfig<Entity> {
     @SideOnly(Side.CLIENT)
     @Override
     public Render<Entity> getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderSnowball<Entity>(renderManager, Items.skull, renderItem);
+        return new RenderSnowball<Entity>(renderManager, Items.SKULL, renderItem);
     }
     
     @Override

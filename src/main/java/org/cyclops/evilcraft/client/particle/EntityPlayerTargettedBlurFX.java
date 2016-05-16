@@ -17,9 +17,9 @@ public class EntityPlayerTargettedBlurFX extends EntityBlurFX {
 	 * Make a new instance.
 	 * @param world The world.
 	 * @param scale The scale of this particle.
-	 * @param xSpeed The X motion speed.
-	 * @param ySpeed The Y motion speed.
-	 * @param zSpeed The Z motion speed.
+	 * @param motionX The X motion speed.
+	 * @param motionY The Y motion speed.
+	 * @param motionZ The Z motion speed.
 	 * @param red Red tint.
 	 * @param green Green tint.
 	 * @param blue Blue tint.
@@ -28,10 +28,10 @@ public class EntityPlayerTargettedBlurFX extends EntityBlurFX {
 	 * a partially random factor).
 	 */
 	public EntityPlayerTargettedBlurFX(World world, float scale,
-									   double xSpeed, double ySpeed, double zSpeed,
+									   double motionX, double motionY, double motionZ,
 									   float red, float green, float blue, float ageMultiplier,
 									   EntityLivingBase entity) {
-		super(world, entity.posX, entity.posY, entity.posZ, scale, xSpeed, ySpeed, zSpeed, red, green, blue, ageMultiplier);
+		super(world, entity.posX, entity.posY, entity.posZ, scale, motionX, motionY, motionZ, red, green, blue, ageMultiplier);
 		this.entity = entity;
 	}
 	
@@ -49,10 +49,10 @@ public class EntityPlayerTargettedBlurFX extends EntityBlurFX {
 		float f1 = f;
 		f = -f + f * f * 2.0F;
 		//f = 1.0F - f;
-		ySpeed -= 0.04D * particleGravity;
-		posX = entity.posX + xSpeed * f;
-		posY = entity.posY + entity.getEyeHeight() - 0.5F + ySpeed * f + (double)(1.0F - f1) + (Minecraft.getMinecraft().thePlayer == entity ? 0 : 1);
-		posZ = entity.posZ + zSpeed * f;
+		motionY -= 0.04D * particleGravity;
+		posX = entity.posX + motionX * f;
+		posY = entity.posY + entity.getEyeHeight() - 0.5F + motionY * f + (double)(1.0F - f1) + (Minecraft.getMinecraft().thePlayer == entity ? 0 : 1);
+		posZ = entity.posZ + motionZ * f;
 	}
 
 }

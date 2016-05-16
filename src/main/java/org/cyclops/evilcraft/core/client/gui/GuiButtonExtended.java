@@ -35,7 +35,7 @@ public class GuiButtonExtended extends GuiButton {
 	public void drawButton(Minecraft minecraft, int i, int j) {
         if(visible) {
 	        FontRenderer fontrenderer = minecraft.fontRendererObj;
-	        minecraft.renderEngine.bindTexture(buttonTextures);
+	        minecraft.renderEngine.bindTexture(BUTTON_TEXTURES);
 	        GlStateManager.color(1, 1, 1, 1);
 	        
 	        boolean mouseOver = i >= xPosition && j >= yPosition && i < xPosition + width && j < yPosition + height;

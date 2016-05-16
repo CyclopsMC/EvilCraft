@@ -46,8 +46,8 @@ public class SoundDegradation extends StochasticDegradationEffect {
         World world = degradable.getDegradationWorld();
         for(Entity entity : degradable.getAreaEntities()) {
             if(entity instanceof EntityPlayer) {
-                world.playSound((EntityPlayer) entity, entity.posX, entity.posY, entity.posZ, SoundEvents.entity_blaze_ambient, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-                world.playSound((EntityPlayer) entity, entity.posX, entity.posY, entity.posZ, SoundEvents.entity_enderdragon_flap, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+                world.playSound((EntityPlayer) entity, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+                world.playSound((EntityPlayer) entity, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ENDERDRAGON_FLAP, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
             }
         }
     }

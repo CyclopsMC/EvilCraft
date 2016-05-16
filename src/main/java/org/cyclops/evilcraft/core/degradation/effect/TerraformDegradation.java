@@ -45,34 +45,34 @@ private static TerraformDegradation _instance = null;
     
     static{
         // Default replacement
-        putReplacement(null, Blocks.cobblestone.getDefaultState(), 30);
+        putReplacement(null, Blocks.COBBLESTONE.getDefaultState(), 30);
         
-        putReplacement(Blocks.stone, Blocks.cobblestone.getDefaultState());
+        putReplacement(Blocks.STONE, Blocks.COBBLESTONE.getDefaultState());
         
-        putReplacement(Blocks.cobblestone, Blocks.dirt.getDefaultState(), 10);
-        putReplacement(Blocks.cobblestone, Blocks.lava.getDefaultState(), 30);
+        putReplacement(Blocks.COBBLESTONE, Blocks.DIRT.getDefaultState(), 10);
+        putReplacement(Blocks.COBBLESTONE, Blocks.LAVA.getDefaultState(), 30);
         
-        putReplacement(Blocks.coal_block, Blocks.diamond_block.getDefaultState(), 10000);
+        putReplacement(Blocks.COAL_BLOCK, Blocks.DIAMOND_BLOCK.getDefaultState(), 10000);
         
-        putReplacement(Blocks.dirt, Blocks.netherrack.getDefaultState(), 30);
-        putReplacement(Blocks.grass, Blocks.netherrack.getDefaultState(), 20);
-        putReplacement(Blocks.mycelium, Blocks.netherrack.getDefaultState(), 5);
-        putReplacement(Blocks.dirt, Blocks.sand.getDefaultState());
-        putReplacement(Blocks.grass, Blocks.sand.getDefaultState());
-        putReplacement(Blocks.mycelium, Blocks.sand.getDefaultState());
-        putReplacement(Blocks.dirt, Blocks.clay.getDefaultState(), 20);
-        putReplacement(Blocks.grass, Blocks.sand.getDefaultState(), 20);
-        putReplacement(Blocks.mycelium, Blocks.sand.getDefaultState(), 20);
+        putReplacement(Blocks.DIRT, Blocks.NETHERRACK.getDefaultState(), 30);
+        putReplacement(Blocks.GRASS, Blocks.NETHERRACK.getDefaultState(), 20);
+        putReplacement(Blocks.MYCELIUM, Blocks.NETHERRACK.getDefaultState(), 5);
+        putReplacement(Blocks.DIRT, Blocks.SAND.getDefaultState());
+        putReplacement(Blocks.GRASS, Blocks.SAND.getDefaultState());
+        putReplacement(Blocks.MYCELIUM, Blocks.SAND.getDefaultState());
+        putReplacement(Blocks.DIRT, Blocks.CLAY.getDefaultState(), 20);
+        putReplacement(Blocks.GRASS, Blocks.SAND.getDefaultState(), 20);
+        putReplacement(Blocks.MYCELIUM, Blocks.SAND.getDefaultState(), 20);
         
         if(Configs.isEnabled(NetherfishSpawnConfig.class)) {
-            putReplacement(Blocks.netherrack,
+            putReplacement(Blocks.NETHERRACK,
                     NetherfishSpawn.getInstance().getStateFromMeta(NetherfishSpawn.getInstance().
-                            getMetadataFromBlock(Blocks.netherrack)), 50);
+                            getMetadataFromBlock(Blocks.NETHERRACK)), 50);
         }
         
-        putReplacement(Blocks.sand, null);
+        putReplacement(Blocks.SAND, null);
         
-        putReplacement(Blocks.water, null);
+        putReplacement(Blocks.WATER, null);
     }
     
     private static final void putReplacement(Block key, IBlockState value) {

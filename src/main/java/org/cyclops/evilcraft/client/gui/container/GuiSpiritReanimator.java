@@ -114,7 +114,7 @@ public class GuiSpiritReanimator extends GuiWorking<TileSpiritReanimator> {
         String entityName = tile.getEntityName();
         if(entityName == null) {
         	lines.add(L10NHelpers.localize(prefix + ".noEntity"));
-        } else if(!EntityList.entityEggs.containsKey(entityName)) {
+        } else if(!EntityList.ENTITY_EGGS.containsKey(entityName)) {
             lines.add(L10NHelpers.localize(prefix + ".invalidEntity"));
         }
         else {

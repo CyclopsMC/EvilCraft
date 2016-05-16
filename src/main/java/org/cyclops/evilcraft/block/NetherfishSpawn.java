@@ -37,16 +37,16 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     }
 
     public NetherfishSpawn(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.clay);
+        super(eConfig, Material.CLAY);
         this.setHardness(0.0F);
     }
     
     @Override
     protected IBlockState[] makeInnerBlockList() {
         return new IBlockState[]{
-                Blocks.netherrack.getDefaultState(),
-                Blocks.nether_brick.getDefaultState(),
-                Blocks.soul_sand.getDefaultState()
+                Blocks.NETHERRACK.getDefaultState(),
+                Blocks.NETHER_BRICK.getDefaultState(),
+                Blocks.SOUL_SAND.getDefaultState()
         };
     }
 

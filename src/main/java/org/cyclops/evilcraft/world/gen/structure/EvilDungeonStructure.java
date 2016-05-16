@@ -86,7 +86,7 @@ public class EvilDungeonStructure extends WorldGenDungeons {
 									world.setBlockState(loopPos, BloodyCobblestoneConfig._instance.getBlockInstance().getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
 								}
                             } else {
-                                world.setBlockState(loopPos, Blocks.cobblestone.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                                world.setBlockState(loopPos, Blocks.COBBLESTONE.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                             }
                         }
                     }
@@ -116,7 +116,7 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                         ++wallCounter;
 
                     if (wallCounter == 1) {
-                        world.setBlockState(loopPos, Blocks.chest.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                        world.setBlockState(loopPos, Blocks.CHEST.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                         TileEntityChest tileentitychest = (TileEntityChest)world.getTileEntity(loopPos);
 
                         if (tileentitychest != null) {
@@ -132,7 +132,7 @@ public class EvilDungeonStructure extends WorldGenDungeons {
             for(int xs = x - 1; xs <= x + 1; xs += 2) {
                 for(int zs = z - 1; zs <= z + 1; zs += 2) {
                     BlockPos loopPos = new BlockPos(xs, y, zs);
-                    world.setBlockState(loopPos, Blocks.mob_spawner.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                    world.setBlockState(loopPos, Blocks.MOB_SPAWNER.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                     TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner)world.getTileEntity(loopPos);
         
                     if (tileentitymobspawner != null) {

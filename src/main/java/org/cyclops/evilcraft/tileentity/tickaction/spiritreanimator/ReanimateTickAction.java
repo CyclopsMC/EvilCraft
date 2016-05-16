@@ -31,11 +31,11 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
     }
 
 	protected ItemStack getSpawnEgg(int entityId) {
-		return new ItemStack(Item.itemRegistry.getObject(new ResourceLocation("spawn_egg")), 1, entityId);
+		return new ItemStack(Item.REGISTRY.getObject(new ResourceLocation("spawn_egg")), 1, entityId);
 	}
 
 	protected ItemStack getSpawnEgg(String entityName) {
-		ItemStack itemStack = new ItemStack((Item)Item.itemRegistry.getObject(new ResourceLocation("spawn_egg")));
+		ItemStack itemStack = new ItemStack((Item)Item.REGISTRY.getObject(new ResourceLocation("spawn_egg")));
 		net.minecraft.nbt.NBTTagCompound nbt = new net.minecraft.nbt.NBTTagCompound();
 		nbt.setString("entity_name", entityName);
 		itemStack.setTagCompound(nbt);

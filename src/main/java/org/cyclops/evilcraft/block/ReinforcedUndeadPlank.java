@@ -49,9 +49,9 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
     }
 
     public ReinforcedUndeadPlank(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.rock);
+        super(eConfig, Material.ROCK);
         this.setHardness(5.0F);
-        this.setStepSound(SoundType.WOOD);
+        this.setSoundType(SoundType.WOOD);
         this.setHarvestLevel("axe", 2); // Iron tier
     }
 

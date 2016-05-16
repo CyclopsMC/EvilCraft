@@ -61,7 +61,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     }
 
     public BloodStainedBlock(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.clay, TileBloodStainedBlock.class);
+        super(eConfig, Material.CLAY, TileBloodStainedBlock.class);
         this.setHardness(0.5F);
 
         if(MinecraftHelpers.isClientSide()) {
@@ -136,7 +136,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     }
     
     protected boolean isBlacklisted(Block block) {
-    	String name = Block.blockRegistry.getNameForObject(block).toString();
+    	String name = Block.REGISTRY.getNameForObject(block).toString();
         for(String blacklisted : BloodStainedBlockConfig.blockBlacklist) {
     		if(blacklisted.equals(name)) return true;
     	}
@@ -155,7 +155,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
         if(tile != null) {
             extendedBlockState = extendedBlockState.withProperty(INNERBLOCK, tile.getInnerBlockState());
         } else {
-            extendedBlockState = extendedBlockState.withProperty(INNERBLOCK, Blocks.stone.getDefaultState());
+            extendedBlockState = extendedBlockState.withProperty(INNERBLOCK, Blocks.STONE.getDefaultState());
         }
         extendedBlockState = extendedBlockState.withProperty(POS, pos);
         return extendedBlockState;

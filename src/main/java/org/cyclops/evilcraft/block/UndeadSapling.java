@@ -24,7 +24,7 @@ public class UndeadSapling extends ConfigurableBlockSapling {
     }
 
     public UndeadSapling(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.plants, new WorldGeneratorUndeadTree(true));
+        super(eConfig, Material.PLANTS, new WorldGeneratorUndeadTree(true));
     }
 
 }

@@ -51,12 +51,12 @@ public class PoisonBottle extends ConfigurableItem {
         EnumHand hand = event.getEntityPlayer().getActiveHand();
         // Return poison bottle instead of water bottle when right clicking poison fluid source with empty bottle.
         if(hand != null && event.getEntityPlayer().getHeldItem(hand) != null &&
-                event.getEntityPlayer().getHeldItem(hand).getItem() == Items.glass_bottle && Configs.isEnabled(PoisonConfig.class)) {
-            RayTraceResult pos = this.getMovingObjectPositionFromPlayer(event.getWorld(), event.getEntityPlayer(), true);
+                event.getEntityPlayer().getHeldItem(hand).getItem() == Items.GLASS_BOTTLE && Configs.isEnabled(PoisonConfig.class)) {
+            RayTraceResult pos = this.rayTrace(event.getWorld(), event.getEntityPlayer(), true);
             if(pos != null && pos.typeOfHit == RayTraceResult.Type.BLOCK) {
                 if(event.getWorld().isBlockModifiable(event.getEntityPlayer(), pos.getBlockPos()) &&
                         event.getEntityPlayer().canPlayerEdit(pos.getBlockPos(), pos.sideHit, event.getEntityPlayer().getHeldItem(hand)) &&
-                        event.getWorld().getBlockState(pos.getBlockPos()).getMaterial() == Material.water) {
+                        event.getWorld().getBlockState(pos.getBlockPos()).getMaterial() == Material.WATER) {
                     if(event.getWorld().getBlockState(pos.getBlockPos()).getBlock() == FluidBlockPoison.getInstance()) {
                         InventoryHelpers.tryReAddToStack(event.getEntityPlayer(), event.getEntityPlayer().getHeldItem(hand), new ItemStack(this));
                         event.getWorld().setBlockToAir(pos.getBlockPos());

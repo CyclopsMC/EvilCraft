@@ -36,9 +36,9 @@ public class BloodyCobblestoneConfig extends BlockConfig {
 
     @Override
     protected IConfigurable initSubInstance() {
-        Block block = new ConfigurableBlock(this, Material.rock) {
+        Block block = new ConfigurableBlock(this, Material.ROCK) {
             @Override
-            public SoundType getStepSound() {
+            public SoundType getSoundType() {
                 return SoundType.STONE;
             }
         }.setHardness(1.5F).setResistance(10.0F);

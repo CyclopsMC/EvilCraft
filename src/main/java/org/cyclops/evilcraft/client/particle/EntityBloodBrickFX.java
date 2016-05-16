@@ -43,9 +43,9 @@ public class EntityBloodBrickFX extends EntityFX {
 		super(world, x, y, z, 0, 0, 0);
 		this.side = side;
 		
-		this.xSpeed = 0;
-		this.ySpeed = 0;
-		this.zSpeed = 0;
+		this.motionX = 0;
+		this.motionY = 0;
+		this.motionZ = 0;
 		
 		this.particleRed = 1;
 		this.particleGreen = 1;
@@ -150,13 +150,13 @@ public class EntityBloodBrickFX extends EntityFX {
 			setExpired();
 		}
 
-		ySpeed -= 0.04D * particleGravity;
-		posX += xSpeed;
-		posY += ySpeed;
-		posZ += zSpeed;
-		xSpeed *= 0.95D;
-		ySpeed *= 0.95D;
-		zSpeed *= 0.95D;
+		motionY -= 0.04D * particleGravity;
+		posX += motionX;
+		posY += motionY;
+		posZ += motionZ;
+		motionX *= 0.95D;
+		motionY *= 0.95D;
+		motionZ *= 0.95D;
 	}
 
 	/**

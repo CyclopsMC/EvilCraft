@@ -24,7 +24,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
     /**
      * The allowed item instance.
      */
-    public static final Item ALLOWED_ITEM = Items.glass_bottle;
+    public static final Item ALLOWED_ITEM = Items.GLASS_BOTTLE;
 
     private static final int PURIFY_DURATION = 60;
 
@@ -80,7 +80,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                                     // Remove effect from entity
                                     entity.removePotionEffect(potionEffect.getPotion());
 
-                                    ItemStack itemStack = new ItemStack(Items.potionitem);
+                                    ItemStack itemStack = new ItemStack(Items.POTIONITEM);
 
                                     // Add potion effects
                                     NBTTagCompound tag = new NBTTagCompound();

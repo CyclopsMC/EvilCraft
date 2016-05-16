@@ -96,12 +96,12 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
 
     @Override
     protected SoundEvent getHurtSound() {
-        return SoundEvents.entity_bat_hurt;
+        return SoundEvents.ENTITY_BAT_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.entity_bat_death;
+        return SoundEvents.ENTITY_BAT_DEATH;
     }
 
     @Override
@@ -130,7 +130,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
             f1 = MathHelper.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
 
             if (f1 <= -0.3F && f >= -0.3F && this.rand.nextInt(45) == 0) {
-                this.worldObj.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.entity_bat_ambient,
+                this.worldObj.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_BAT_AMBIENT,
                         SoundCategory.AMBIENT, 0.1F, 0.8F + this.rand.nextFloat() * 0.3F);
             }
         }
@@ -155,10 +155,10 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
                 distanceX = this.posX + (this.interpTargetX - this.posX) / (double)this.newPosRotationIncrements;
                 distanceY = this.posY + (this.interpTargetY - this.posY) / (double)this.newPosRotationIncrements;
                 distanceZ = this.posZ + (this.interpTargetZ - this.posZ) / (double)this.newPosRotationIncrements;
-                distance = MathHelper.wrapAngleTo180_double(this.interpTargetYaw - (double)this.rotationYaw);
+                distance = MathHelper.wrapDegrees(this.interpTargetYaw - (double) this.rotationYaw);
                 this.rotationYaw = (float)((double)this.rotationYaw + distance / (double)this.newPosRotationIncrements);
                 // MCP: newPosX should probably be interpPitch
-                this.rotationPitch = (float)((double)this.rotationPitch + (this.newPosX - (double)this.rotationPitch) / (double)this.newPosRotationIncrements);
+                this.rotationPitch = (float)((double)this.rotationPitch + (this.targetX - (double)this.rotationPitch) / (double)this.newPosRotationIncrements);
                 --this.newPosRotationIncrements;
                 this.setPosition(distanceX, distanceY, distanceZ);
                 this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -211,9 +211,9 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
             }
 
             this.motionY += distanceY * 0.1D;
-            this.rotationYaw = MathHelper.wrapAngleTo180_float(this.rotationYaw);
+            this.rotationYaw = MathHelper.wrapDegrees(this.rotationYaw);
             double newYaw = 180.0D - Math.atan2(distanceX, distanceZ) * 180.0D / Math.PI;
-            double differenceYaw = MathHelper.wrapAngleTo180_double(newYaw - (double)this.rotationYaw);
+            double differenceYaw = MathHelper.wrapDegrees(newYaw - (double)this.rotationYaw);
 
             limitDifferenceYaw = 50.0D;
             
@@ -245,7 +245,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
             this.rotationYaw += this.randomYawVelocity * 0.1F;
             float scaledMotionDistanceHeightPlane = (float)(2.0D / (motionDistanceHeightPlane + 1.0D));
             float staticMotionMultiplier = 0.06F;
-            this.moveFlying(0.0F, -1.0F, staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)));
+            this.moveRelative(0.0F, -1.0F, staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)));
 
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -298,7 +298,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
                     if (shouldAttack) {
                         if (PoisonousLibelleConfig.hasAttackDamage)
                             entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
-                        ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.poison, POISON_DURATION * 20, 1));
+                        ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.POISON, POISON_DURATION * 20, 1));
                     }
                 }
             }

@@ -19,7 +19,7 @@ public class SpectralGlasses extends ConfigurableItemArmor {
 
     public static ArmorMaterial MATERIAL = EnumHelper.addArmorMaterial("SPECTRAL",
             Reference.MOD_ID + ":" + "spectralGlasses",
-            15, new int[]{1, 4, 5, 2}, 15, SoundEvents.item_armor_equip_leather);
+            15, new int[]{1, 4, 5, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER);
 
     private static SpectralGlasses _instance = null;
 

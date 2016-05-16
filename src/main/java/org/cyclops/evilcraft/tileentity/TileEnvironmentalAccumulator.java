@@ -449,7 +449,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	        IEAProcessingFinishedEffect effect = (recipe == null) ? null : recipe.getProperties().getFinishedProcessingEffect();
 	        
 	        if (effect == null)    // fall back to default case
-	            this.worldObj.playAuxSFX(2002, getPos().add(0, WEATHER_CONTAINER_SPAWN_HEIGHT, 0), 16428);
+	            this.worldObj.playBroadcastSound(2002, getPos().add(0, WEATHER_CONTAINER_SPAWN_HEIGHT, 0), 16428);
 	        else
 	            effect.executeEffect(this, recipe);
 	    }

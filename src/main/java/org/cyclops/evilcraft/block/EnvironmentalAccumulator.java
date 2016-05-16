@@ -64,9 +64,9 @@ public class EnvironmentalAccumulator
     public static final int STATE_FINISHED_PROCESSING_ITEM = 3;
 
 	public EnvironmentalAccumulator(ExtendedConfig<BlockConfig> eConfig) {
-		super(eConfig, Material.iron, TileEnvironmentalAccumulator.class);
+		super(eConfig, Material.IRON, TileEnvironmentalAccumulator.class);
 		this.setRotatable(true);
-		this.setStepSound(SoundType.METAL);
+		this.setSoundType(SoundType.METAL);
 		this.setHardness(50.0F);
 		this.setResistance(6000000.0F);   // Can not be destroyed by explosions
 	}

@@ -178,7 +178,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     }
 
     @Override
-    public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean isTeleport) {
+    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean isTeleport) {
         posRotationIncrements += 6;
         
         //this.yOffset = 0.0F;
@@ -468,7 +468,7 @@ public class EntityBroom extends Entity implements IConfigurable{
 
     @Override
     protected void entityInit() {
-        dataWatcher.register(ITEMSTACK_INDEX, Optional.of(new ItemStack(Broom.getInstance())));
+        dataManager.register(ITEMSTACK_INDEX, Optional.of(new ItemStack(Broom.getInstance())));
     }
 
     @Override
@@ -487,11 +487,11 @@ public class EntityBroom extends Entity implements IConfigurable{
     }
 
     public void setBroomStack(ItemStack itemStack) {
-        dataWatcher.set(ITEMSTACK_INDEX, Optional.fromNullable(itemStack));
+        dataManager.set(ITEMSTACK_INDEX, Optional.fromNullable(itemStack));
     }
 
     public ItemStack getBroomStack() {
-        ItemStack itemStack = dataWatcher.get(ITEMSTACK_INDEX).or(new ItemStack(Broom.getInstance()));
+        ItemStack itemStack = dataManager.get(ITEMSTACK_INDEX).or(new ItemStack(Broom.getInstance()));
         itemStack.stackSize = 1;
         return itemStack;
     }

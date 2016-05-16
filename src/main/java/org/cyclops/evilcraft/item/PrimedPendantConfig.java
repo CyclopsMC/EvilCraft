@@ -45,8 +45,8 @@ public class PrimedPendantConfig extends ItemConfig {
             comment = "Usage multipliers. Potion ids are first, followed by floating numbers. A number smaller than one blacklists that potion.",
             changedCallback = PotionMultipliersChanged.class)
     public static String[] potionMultipliers = new String[]{
-            Potion.getIdFromPotion(MobEffects.heal) + DELIMITER + "-1",
-            Potion.getIdFromPotion(MobEffects.regeneration) + DELIMITER + "10",
+            Potion.getIdFromPotion(MobEffects.HEALTH_BOOST) + DELIMITER + "-1",
+            Potion.getIdFromPotion(MobEffects.REGENERATION) + DELIMITER + "10",
     };
 
     private Map<Integer, Double> multipliers = Maps.newHashMap();

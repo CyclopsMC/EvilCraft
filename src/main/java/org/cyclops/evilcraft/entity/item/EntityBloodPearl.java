@@ -69,7 +69,7 @@ public class EntityBloodPearl extends EntityThrowable implements IConfigurable {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {
                 EntityPlayerMP entityplayermp = (EntityPlayerMP)this.getThrower();
 
-                if (entityplayermp.playerNetServerHandler.netManager.isChannelOpen() && entityplayermp.worldObj == this.worldObj) {
+                if (entityplayermp.connection.netManager.isChannelOpen() && entityplayermp.worldObj == this.worldObj) {
                     EnderTeleportEvent event = new EnderTeleportEvent(entityplayermp, this.posX, this.posY, this.posZ, 0.0F);
                     if (!MinecraftForge.EVENT_BUS.post(event)) {
                         if (this.getThrower().isRiding()) {
@@ -79,7 +79,7 @@ public class EntityBloodPearl extends EntityThrowable implements IConfigurable {
                         this.getThrower().setPositionAndUpdate(event.getTargetX(), event.getTargetY(), event.getTargetZ());
                         this.getThrower().fallDistance = 0.0F;
                         this.getThrower().attackEntityFrom(DamageSource.fall, event.getAttackDamage());
-                        this.getThrower().addPotionEffect(new PotionEffect(MobEffects.moveSlowdown,
+                        this.getThrower().addPotionEffect(new PotionEffect(MobEffects.SLOWNESS,
                         		BloodPearlOfTeleportationConfig.slownessDuration * 20, 2));
                     }
                 }

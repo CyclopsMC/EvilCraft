@@ -22,5 +22,5 @@ public class RenderHelpers {
     /**
      * Texture sheet of all blocks.
      */
-    public static ResourceLocation TEXTURE_MAP = TextureMap.locationBlocksTexture;
+    public static ResourceLocation TEXTURE_MAP = TextureMap.LOCATION_BLOCKS_TEXTURE;
 }

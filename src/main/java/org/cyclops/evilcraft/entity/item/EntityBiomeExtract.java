@@ -53,7 +53,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
      * @param damage The damage value for the {@link BiomeExtract} to be rendered.
      */
     public EntityBiomeExtract(World world, EntityLivingBase entity, int damage) {
-        this(world, entity, new ItemStack(Configs.isEnabled(BiomeExtractConfig.class) ? BiomeExtract.getInstance() : Items.coal, 1, damage));
+        this(world, entity, new ItemStack(Configs.isEnabled(BiomeExtractConfig.class) ? BiomeExtract.getInstance() : Items.COAL, 1, damage));
     }
 
     /**
@@ -97,7 +97,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
         }
         
         // Play sound and show particles of splash potion of harming
-        this.worldObj.playAuxSFX(2002, getPosition(), 16428);
+        this.worldObj.playBroadcastSound(2002, getPosition(), 16428);
         
         setDead();
     }
@@ -135,19 +135,19 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
 
     @Override
     public ItemStack getItemStack() {
-        Optional<ItemStack> optional = dataWatcher.get(ITEMSTACK_INDEX);
+        Optional<ItemStack> optional = dataManager.get(ITEMSTACK_INDEX);
         return optional.isPresent() ? optional.get() : null;
     }
     
     private void setItemStack(ItemStack stack) {
-        dataWatcher.set(ITEMSTACK_INDEX, Optional.of(stack));
+        dataManager.set(ITEMSTACK_INDEX, Optional.of(stack));
     }
     
     @Override
     protected void entityInit() {
         super.entityInit();
         
-        dataWatcher.register(ITEMSTACK_INDEX, Optional.of(BiomeExtract.getInstance().createItemStack(null, 1)));
+        dataManager.register(ITEMSTACK_INDEX, Optional.of(BiomeExtract.getInstance().createItemStack(null, 1)));
     }
 
     @Override

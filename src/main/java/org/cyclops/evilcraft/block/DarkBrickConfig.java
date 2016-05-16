@@ -35,9 +35,9 @@ public class DarkBrickConfig extends BlockConfig {
 
     @Override
     protected IConfigurable initSubInstance() {
-        Block block = new ConfigurableBlock(this, Material.rock) {
+        Block block = new ConfigurableBlock(this, Material.ROCK) {
             @Override
-            public SoundType getStepSound() {
+            public SoundType getSoundType() {
                 return SoundType.STONE;
             }
         }.setHardness(5.0F);

@@ -34,9 +34,9 @@ public class SpiritPortal extends ConfigurableBlockContainer {
     }
 
 	public SpiritPortal(ExtendedConfig<BlockConfig> eConfig) {
-		super(eConfig, Material.iron, TileSpiritPortal.class);
+		super(eConfig, Material.IRON, TileSpiritPortal.class);
 		this.setRotatable(true);
-		this.setStepSound(SoundType.CLOTH);
+		this.setSoundType(SoundType.CLOTH);
 		this.setHardness(50.0F);
 		this.setResistance(6000000.0F);   // Can not be destroyed by explosions
         this.setLightLevel(0.5F);

@@ -36,7 +36,7 @@ dependencies {
 
     deobfCompile "slimeknights.mantle:Mantle:${config.minecraft_version}-${config.mantle_version}" // https://dvs1.progwml6.com/jenkins/
     deobfCompile "slimeknights:TConstruct:${config.minecraft_version}-${config.tconstruct_version}" // http://dvs1.progwml6.com/files/maven/slimeknights/TConstruct/maven-metadata.xml
-    compile "mcp.mobius.waila:Waila:${config.waila_version}:dev" // http://mobiusstrip.eu/maven/mcp/mobius/waila/Waila/
+    deobfCompile "mcp.mobius.waila:Waila:${config.waila_version}" // http://mobiusstrip.eu/maven/mcp/mobius/waila/Waila/
     //compile "net.sengir.forestry:forestry_${config.minecraft_version}:${config.forestry_version}:dev" // http://maven.ic2.player.to/
     //compile "com.pahimar.ee3:EquivalentExchange3:${config.minecraft_version}-${config.EE3_version}:dev" // http://files.minecraftforge.net/maven/com/pahimar/ee3/EquivalentExchange3
     //compile "net.industrial-craft:industrialcraft-2:${config.IC2_version}:dev" // http://maven.ic2.player.to/

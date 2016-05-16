@@ -167,7 +167,7 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
         if(!player.isSneaking()) {
             return super.onItemRightClick(itemStack, world, player, hand);
         } else {
-        	RayTraceResult target = this.getMovingObjectPositionFromPlayer(world, player, false);
+        	RayTraceResult target = this.rayTrace(world, player, false);
         	if(target == null || target.typeOfHit == Type.MISS) {
         		if(!world.isRemote) {
 		            ItemHelpers.toggleActivation(itemStack);

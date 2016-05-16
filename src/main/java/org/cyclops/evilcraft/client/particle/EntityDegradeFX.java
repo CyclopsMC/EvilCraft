@@ -28,12 +28,12 @@ public class EntityDegradeFX extends EntityFX {
      * @param x X coordinate.
      * @param y Y coordinate.
      * @param z Z coordinate.
-     * @param xSpeed X axis speed.
-     * @param ySpeed Y axis speed.
-     * @param zSpeed Z axis speed.
+     * @param motionX X axis speed.
+     * @param motionY Y axis speed.
+     * @param motionZ Z axis speed.
      */
-    public EntityDegradeFX(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(world, x, y, z, xSpeed, ySpeed, zSpeed);
+    public EntityDegradeFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+        super(world, x, y, z, motionX, motionY, motionZ);
         this.particleMaxAge = 40;
         this.particleAlpha = 0.4F;
         setColor();
@@ -49,9 +49,9 @@ public class EntityDegradeFX extends EntityFX {
     public void onUpdate() {
         super.onUpdate();
         
-        this.xSpeed = (rand.nextFloat() - rand.nextFloat()) * 0.2F;
-        this.ySpeed = (rand.nextFloat() - rand.nextFloat()) * 0.1F;
-        this.zSpeed = (rand.nextFloat() - rand.nextFloat()) * 0.2F;
+        this.motionX = (rand.nextFloat() - rand.nextFloat()) * 0.2F;
+        this.motionY = (rand.nextFloat() - rand.nextFloat()) * 0.1F;
+        this.motionZ = (rand.nextFloat() - rand.nextFloat()) * 0.2F;
         
         particleScale = (1 - (float)particleAge / particleMaxAge) * 0.9F;
         this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);

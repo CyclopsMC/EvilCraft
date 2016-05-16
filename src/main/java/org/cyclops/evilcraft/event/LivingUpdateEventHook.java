@@ -48,7 +48,7 @@ public class LivingUpdateEventHook {
             EntityAnimal entity = (EntityAnimal) event.getEntity();
             World world = entity.worldObj;
             BlockPos blockPos = entity.getPosition();
-            if(world.getBlockState(blockPos).getBlock() == Blocks.air && world.getBlockState(blockPos.add(0, -1, 0)).isNormalCube()) {
+            if(world.getBlockState(blockPos).getBlock() == Blocks.AIR && world.getBlockState(blockPos.add(0, -1, 0)).isNormalCube()) {
                 world.setBlockState(blockPos, ExcrementPile.getInstance().getDefaultState());
             } else if(world.getBlockState(blockPos).getBlock() == ExcrementPile.getInstance()) {
                 ExcrementPile.getInstance().heightenPileAt(world, blockPos);

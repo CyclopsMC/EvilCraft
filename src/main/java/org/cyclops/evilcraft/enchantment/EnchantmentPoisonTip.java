@@ -53,7 +53,7 @@ public class EnchantmentPoisonTip extends ConfigurableEnchantment {
      * @param level The level of the enchant.
      */
     public static void poison(EntityLivingBase entity, int level) {
-        entity.addPotionEffect(new PotionEffect(MobEffects.poison, POISON_BASE_DURATION * 20 * (level + 1), 1));
+        entity.addPotionEffect(new PotionEffect(MobEffects.POISON, POISON_BASE_DURATION * 20 * (level + 1), 1));
     }
 
 }

@@ -41,7 +41,7 @@ public class ExcrementPileItemBlock extends ItemBlock {
             if(done) {
                 itemStack.stackSize--;
                 if (!world.isRemote) {
-                    world.playAuxSFX(2005, blockPos, 0);
+                    world.playBroadcastSound(2005, blockPos, 0);
                 }
                 return EnumActionResult.SUCCESS;
             }

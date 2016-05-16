@@ -69,8 +69,8 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	public void entityInit() {
 		super.entityInit();
         Float angle = MinecraftHelpers.isClientSide() ? null : loadRotation();
-		this.dataWatcher.register(WATCHERID_VALID, angle != null ? 1 : 0);
-		this.dataWatcher.register(WATCHERID_ANGLE, angle == null ? 0 : angle);
+		this.dataManager.register(WATCHERID_VALID, angle != null ? 1 : 0);
+		this.dataManager.register(WATCHERID_ANGLE, angle == null ? 0 : angle);
 	}
 
     protected boolean hasMoved() {
@@ -112,19 +112,19 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	}
 
 	public float getAngle() {
-		return dataWatcher.get(WATCHERID_ANGLE);
+		return dataManager.get(WATCHERID_ANGLE);
 	}
 
 	protected void setAngle(float angle) {
-		this.dataWatcher.set(WATCHERID_ANGLE, angle);
+		this.dataManager.set(WATCHERID_ANGLE, angle);
 	}
 
 	public boolean isValid() {
-		return dataWatcher.get(WATCHERID_VALID) == 1;
+		return dataManager.get(WATCHERID_VALID) == 1;
 	}
 
 	protected void setValid(boolean valid) {
-		this.dataWatcher.set(WATCHERID_VALID, valid ? 1 : 0);
+		this.dataManager.set(WATCHERID_VALID, valid ? 1 : 0);
 	}
 	
 }

@@ -213,7 +213,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     protected boolean canKineticateItem(ItemStack entityItem) {
         if(entityItem == null) return false;
         for(String name : KineticatorConfig.kineticateBlacklist) {
-            if(itemRegistry.getNameForObject(entityItem.getItem()).toString().equals(name)) {
+            if(REGISTRY.getNameForObject(entityItem.getItem()).toString().equals(name)) {
                 return false;
             }
         }

@@ -50,7 +50,7 @@ public class BiomeExtractConfig extends ItemConfig {
             comment = "A list of biome names for which no Biome Extracts may be created.",
             changedCallback = CraftingBlacklistChanged.class)
     public static String[] craftingBlacklist = new String[]{
-            String.valueOf(BiomeGenBase.biomeRegistry.getNameForObject(Biomes.sky)),
+            String.valueOf(BiomeGenBase.REGISTRY.getNameForObject(Biomes.SKY)),
     };
 
     /**
@@ -60,7 +60,7 @@ public class BiomeExtractConfig extends ItemConfig {
             comment = "A list of biome names for which no Biome Extracts may be used.",
             changedCallback = UsageBlacklistChanged.class)
     public static String[] usageBlacklist = new String[]{
-            String.valueOf(BiomeGenBase.biomeRegistry.getNameForObject(Biomes.sky)),
+            String.valueOf(BiomeGenBase.REGISTRY.getNameForObject(Biomes.SKY)),
     };
 
     private Set<ResourceLocation> craftingBlacklistIds = Sets.newHashSet();
@@ -145,7 +145,7 @@ public class BiomeExtractConfig extends ItemConfig {
         for (String line : config) {
             try {
                 ResourceLocation biomeKey = new ResourceLocation(line);
-                if (!BiomeGenBase.biomeRegistry.containsKey(biomeKey)) {
+                if (!BiomeGenBase.REGISTRY.containsKey(biomeKey)) {
                     EvilCraft.clog("Invalid line '" + line + "' found for "
                             + "a Biome Extract blacklist config: " + line + " does not refer to an existing biome; skipping.");
                 } else {
@@ -173,6 +173,6 @@ public class BiomeExtractConfig extends ItemConfig {
      * @return If blacklisted
      */
     public boolean isUsageBlacklisted(BiomeGenBase biome) {
-        return usageBlacklistIds.contains(BiomeGenBase.biomeRegistry.getNameForObject(biome).toString());
+        return usageBlacklistIds.contains(BiomeGenBase.REGISTRY.getNameForObject(biome).toString());
     }
 }

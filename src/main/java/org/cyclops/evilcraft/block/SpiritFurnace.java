@@ -52,9 +52,9 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     }
 
     public SpiritFurnace(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.rock, TileSpiritFurnace.class);
+        super(eConfig, Material.ROCK, TileSpiritFurnace.class);
         this.setHardness(5.0F);
-        this.setStepSound(SoundType.STONE);
+        this.setSoundType(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
         this.setRotatable(true);
     }

@@ -116,35 +116,35 @@ public class WerewolfFlesh extends ConfigurableItemFood {
             }
             if (isOwnCanibal(itemStack, player)) {
                 if (!world.isRemote) {
-                    player.addPotionEffect(new PotionEffect(MobEffects.wither,
+                    player.addPotionEffect(new PotionEffect(MobEffects.WITHER,
                             POISON_DURATION * 20, 1));
-                    player.addPotionEffect(new PotionEffect(MobEffects.blindness,
+                    player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS,
                             getPowerDuration(itemStack) * 20, 1));
                 }
-                world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_wolf_hurt, SoundCategory.HOSTILE, 0.5F,
+                world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_WOLF_HURT, SoundCategory.HOSTILE, 0.5F,
                         world.rand.nextFloat() * 0.1F + 0.9F);
             } else if (isPower()) {
                 int foodLevel = this.getHealAmount(itemStack);
                 float saturationLevel = this.getSaturationModifier(itemStack);
                 player.getFoodStats().addStats(foodLevel, saturationLevel);
                 if (!world.isRemote) {
-                    player.addPotionEffect(new PotionEffect(MobEffects.damageBoost,
+                    player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH,
                             getPowerDuration(itemStack) * 20, 2));
-                    player.addPotionEffect(new PotionEffect(MobEffects.moveSpeed,
+                    player.addPotionEffect(new PotionEffect(MobEffects.SPEED,
                             getPowerDuration(itemStack) * 20, 2));
-                    player.addPotionEffect(new PotionEffect(MobEffects.jump,
+                    player.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST,
                             getPowerDuration(itemStack) * 20, 2));
-                    player.addPotionEffect(new PotionEffect(MobEffects.nightVision,
+                    player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION,
                             getPowerDuration(itemStack) * 20, 2));
                 }
-                world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_wolf_howl, SoundCategory.HOSTILE, 0.5F,
+                world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_WOLF_HOWL, SoundCategory.HOSTILE, 0.5F,
                         world.rand.nextFloat() * 0.1F + 0.9F);
             } else {
                 if (!world.isRemote) {
-                    player.addPotionEffect(new PotionEffect(MobEffects.poison,
+                    player.addPotionEffect(new PotionEffect(MobEffects.POISON,
                             POISON_DURATION * 20, 1));
                 }
-                world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_wolf_hurt, SoundCategory.HOSTILE, 0.5F,
+                world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_WOLF_HURT, SoundCategory.HOSTILE, 0.5F,
                         world.rand.nextFloat() * 0.1F + 0.9F);
             }
             this.onFoodEaten(itemStack, world, player);

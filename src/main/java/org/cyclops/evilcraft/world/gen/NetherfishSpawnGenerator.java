@@ -22,7 +22,7 @@ public class NetherfishSpawnGenerator extends WorldGenMinableExtended {
      * Make a new instance.
      */
     public NetherfishSpawnGenerator() {
-        super(NetherfishSpawn.getInstance().getDefaultState(), 1, NetherfishSpawnConfig.veinsPerChunk, 1, 127, Blocks.netherrack);
+        super(NetherfishSpawn.getInstance().getDefaultState(), 1, NetherfishSpawnConfig.veinsPerChunk, 1, 127, Blocks.NETHERRACK);
     }
     
     @Override

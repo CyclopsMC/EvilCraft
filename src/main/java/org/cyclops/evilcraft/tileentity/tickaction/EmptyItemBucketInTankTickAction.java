@@ -40,7 +40,7 @@ public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileE
     @Override
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick) {
         ItemStack containerStack = tile.getInventory().getStackInSlot(slot);
-        return super.canTick(tile, itemStack, slot, tick) && containerStack.getItem() != Items.bucket;
+        return super.canTick(tile, itemStack, slot, tick) && containerStack.getItem() != Items.BUCKET;
     }
     
     @Override

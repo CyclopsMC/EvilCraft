@@ -75,7 +75,7 @@ public class RejuvenatedFlesh extends ConfigurableDamageIndicatedItemFluidContai
         if(entity instanceof EntityPlayer) {
             ((EntityPlayer) entity).getFoodStats().addStats(3, 0.5F);
         }
-        world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.entity_player_burp, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+        world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
         return itemStack;
     }
 

@@ -65,14 +65,14 @@ public class ItemCraftedEventHook {
 
     private void craftDeadBush(ItemCraftedEvent event) {
         Item item = event.crafting.getItem();
-        if(item != null && item == Item.getItemFromBlock(Blocks.deadbush)) {
+        if(item != null && item == Item.getItemFromBlock(Blocks.DEADBUSH)) {
             for(int i = 0; i < event.craftMatrix.getSizeInventory(); i++) {
                 ItemStack stack = event.craftMatrix.getStackInSlot(i);
-                if(stack != null && stack.getItem() == Items.shears) {
+                if(stack != null && stack.getItem() == Items.SHEARS) {
                     stack = stack.copy();
                     stack.damageItem(1, event.player);
                     if(!event.player.inventory.addItemStackToInventory(stack)) {
-                        event.player.dropPlayerItemWithRandomChoice(stack, false);
+                        event.player.dropItem(stack, false);
                     }
                     return;
                 }

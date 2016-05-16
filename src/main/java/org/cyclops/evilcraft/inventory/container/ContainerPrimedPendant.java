@@ -22,7 +22,7 @@ public class ContainerPrimedPendant extends ItemInventoryContainer<PrimedPendant
         super(player.inventory, PrimedPendant.getInstance(), itemIndex);
 
         addSlotToContainer(new SlotSingleItem(getItem().getSupplementaryInventory(player, getItemStack(player), itemIndex),
-                0, SLOT_X, SLOT_Y, Items.potionitem));
+                0, SLOT_X, SLOT_Y, Items.POTIONITEM));
         this.addPlayerInventory(player.inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
 

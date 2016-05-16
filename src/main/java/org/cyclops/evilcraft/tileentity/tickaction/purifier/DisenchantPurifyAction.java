@@ -64,7 +64,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
                     Enchantment enchantment = Lists.newArrayList(enchantments.keySet()).get(enchantmentIndex);
 
                     // Set the resulting enchantment book.
-                    tile.setAdditionalItem(Items.enchanted_book.getEnchantedItemStack(
+                    tile.setAdditionalItem(Items.ENCHANTED_BOOK.getEnchantedItemStack(
                             new EnchantmentData(enchantment, enchantments.get(enchantment))));
 
                     // Set the remaining enchantment book

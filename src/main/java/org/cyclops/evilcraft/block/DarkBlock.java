@@ -31,9 +31,9 @@ public class DarkBlock extends ConfigurableBlockConnectedTexture {
     }
 
     public DarkBlock(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.rock);
+        super(eConfig, Material.ROCK);
         this.setHardness(5.0F);
-        this.setStepSound(SoundType.METAL);
+        this.setSoundType(SoundType.METAL);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
     }
     

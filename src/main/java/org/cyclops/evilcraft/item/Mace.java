@@ -257,7 +257,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
                         particleMotionX, particleMotionY, particleMotionZ)
         );
         
-        world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.block_note_basedrum,
+        world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.BLOCK_NOTE_BASEDRUM,
                 SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
     }
     

@@ -220,7 +220,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
         		} else {
 	    			@SuppressWarnings("unchecked")
 					Class<? extends EntityLivingBase> entityClass =
-						(Class<? extends EntityLivingBase>) EntityList.stringToClassMapping.get(id);
+						(Class<? extends EntityLivingBase>) EntityList.NAME_TO_CLASS.get(id);
 	    			if(entityClass != null) {
                         FakeWorld world = FakeWorld.getInstance();
 	    				EntityLiving entity = (EntityLiving) EntityList.createEntityByName(id, world);
@@ -304,7 +304,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * @return The allowed item.
      */
     public static Item getAllowedCookItem() {
-    	Item allowedItem = Items.apple;
+    	Item allowedItem = Items.APPLE;
         if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
         	allowedItem = Item.getItemFromBlock(BoxOfEternalClosure.getInstance());
         }

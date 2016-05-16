@@ -39,9 +39,9 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
 
     @Override
     protected IConfigurable initSubInstance() {
-        return (ConfigurableBlock) new ConfigurableBlock(this, Material.rock) {
+        return (ConfigurableBlock) new ConfigurableBlock(this, Material.ROCK) {
             @Override
-            public SoundType getStepSound() {
+            public SoundType getSoundType() {
                 return SoundType.METAL;
             }
         }.setHardness(3.0F).setResistance(5.0F);
@@ -55,7 +55,7 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
     @Override
     public void onRegistered() {
         super.onRegistered();
-    	Blocks.fire.setFireInfo(getBlockInstance(), 5, 5);
+    	Blocks.FIRE.setFireInfo(getBlockInstance(), 5, 5);
         GameRegistry.registerFuelHandler(this);
     }
 

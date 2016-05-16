@@ -58,8 +58,8 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     }
 
     public BloodInfuser(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.rock, TileBloodInfuser.class);
-        this.setStepSound(SoundType.STONE);
+        super(eConfig, Material.ROCK, TileBloodInfuser.class);
+        this.setSoundType(SoundType.STONE);
         this.setRotatable(true);
     }
     

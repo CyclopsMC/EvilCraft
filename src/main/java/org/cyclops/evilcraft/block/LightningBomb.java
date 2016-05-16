@@ -48,9 +48,9 @@ public class LightningBomb extends ConfigurableBlock {
     }
 
     public LightningBomb(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.tnt);
+        super(eConfig, Material.TNT);
         this.setHardness(0.0F);
-        this.setStepSound(SoundType.GROUND);
+        this.setSoundType(SoundType.GROUND);
     }
     
     @Override
@@ -101,7 +101,7 @@ public class LightningBomb extends ConfigurableBlock {
                         (double)((float)blockPos.getX() + 0.5F), (double)((float)blockPos.getY() + 0.5F),
                         (double)((float)blockPos.getZ() + 0.5F), placer);
                 world.spawnEntityInWorld(entityprimed);
-                world.playSound(null, blockPos, SoundEvents.entity_tnt_primed, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, blockPos, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         }
     }
@@ -114,7 +114,7 @@ public class LightningBomb extends ConfigurableBlock {
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float coordX, float coordY, float coordZ) {
         if (player.getActiveItemStack() != null &&
-                (player.getActiveItemStack().getItem() == Items.flint_and_steel || player.getActiveItemStack().getItem() == Items.fire_charge)) {
+                (player.getActiveItemStack().getItem() == Items.FLINT_AND_STEEL || player.getActiveItemStack().getItem() == Items.FIRE_CHARGE)) {
             this.primeBomb(world, blockPos, this.blockState.getBaseState().withProperty(PRIMED, true), player);
             world.setBlockToAir(blockPos);
             player.getActiveItemStack().damageItem(1, player);
@@ -125,7 +125,7 @@ public class LightningBomb extends ConfigurableBlock {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos blockPos, Entity entity) {
+    public void onEntityWalk(World world, BlockPos blockPos, Entity entity) {
         IBlockState primedState = this.blockState.getBaseState().withProperty(PRIMED, true);
         if (entity instanceof EntityArrow && !world.isRemote) {
             EntityArrow entityarrow = (EntityArrow)entity;

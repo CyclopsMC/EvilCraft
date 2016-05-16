@@ -32,7 +32,7 @@ public abstract class AbstractGrenade extends ConfigurableItem {
 
             EntityThrowable entity = getThrowableEntity(itemStack, world, player);
             // Last three params: pitch offset, velocity, inaccuracy
-            entity.func_184538_a(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
             world.spawnEntityInWorld(entity);
         }
         return MinecraftHelpers.successAction(itemStack);

@@ -34,7 +34,7 @@ public class FluidBlockPoison extends ConfigurableBlockFluidClassic {
     }
 
     public FluidBlockPoison(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Poison.getInstance(), Material.water);
+        super(eConfig, Poison.getInstance(), Material.WATER);
         
         if (MinecraftHelpers.isClientSide())
             this.setParticleColor(0.0F, 1.0F, 0.0F);
@@ -42,11 +42,11 @@ public class FluidBlockPoison extends ConfigurableBlockFluidClassic {
     }
     
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos blockPos, Entity entity) {
+    public void onEntityWalk(World world, BlockPos blockPos, Entity entity) {
         if(entity instanceof EntityLivingBase && WorldHelpers.efficientTick(world, (POISON_DURATION / 2) * 20)) {
-            ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.poison, POISON_DURATION * 20, 1));
+            ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.POISON, POISON_DURATION * 20, 1));
         }
-        super.onEntityCollidedWithBlock(world, blockPos, entity);
+        super.onEntityWalk(world, blockPos, entity);
     }
 
 }

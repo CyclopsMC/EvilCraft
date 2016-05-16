@@ -36,7 +36,7 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     }
 
     public FluidBlockBlood(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Blood.getInstance(), Material.water);
+        super(eConfig, Blood.getInstance(), Material.WATER);
         
         if (MinecraftHelpers.isClientSide())
             this.setParticleColor(1.0F, 0.0F, 0.0F);
@@ -63,7 +63,7 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
             @Nullable
             @Override
             public Boolean apply(@Nullable Boolean input, World world, BlockPos blockPos) {
-                return (input == null || input) || world.getBlockState(blockPos).getBlock() == Blocks.water;
+                return (input == null || input) || world.getBlockState(blockPos).getBlock() == Blocks.WATER;
             }
 
         }, false);

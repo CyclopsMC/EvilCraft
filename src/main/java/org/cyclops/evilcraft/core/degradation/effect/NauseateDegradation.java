@@ -52,7 +52,7 @@ public class NauseateDegradation extends ConfigurableDegradationEffect {
             if(entity instanceof EntityLivingBase) {
                 ((EntityLivingBase) entity).addPotionEffect(
                         new PotionEffect(
-                                MobEffects.confusion,
+                                MobEffects.NAUSEA,
                                 (int) degradable.getDegradation() * NAUSEA_DURATION_MULTIPLIER, 1)
                         );
             }

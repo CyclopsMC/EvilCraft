@@ -31,7 +31,7 @@ public class UndeadLeavesConfig extends BlockConfig {
     
     @Override
     public void onRegistered() {
-    	Blocks.fire.setFireInfo(UndeadLeaves.getInstance(), 30, 60);
+    	Blocks.FIRE.setFireInfo(UndeadLeaves.getInstance(), 30, 60);
     }
     
     @Override

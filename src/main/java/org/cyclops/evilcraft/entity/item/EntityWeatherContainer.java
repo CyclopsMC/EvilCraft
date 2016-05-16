@@ -44,7 +44,7 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
      * @param damage The damage value for the {@link WeatherContainer} to be rendered.
      */
     public EntityWeatherContainer(World world, EntityLivingBase entity, int damage) {
-        this(world, entity, new ItemStack(Configs.isEnabled(WeatherContainerConfig.class) ? WeatherContainer.getInstance() : Items.coal, 1, damage));
+        this(world, entity, new ItemStack(Configs.isEnabled(WeatherContainerConfig.class) ? WeatherContainer.getInstance() : Items.COAL, 1, damage));
     }
 
     /**
@@ -63,9 +63,9 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
             // Play evil sounds at the players in that world
             for(Object o : world.playerEntities) {
                 EntityPlayer entityPlayer = (EntityPlayer) o;
-                world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.block_portal_travel, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
-                world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.entity_ghast_ambient, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
-                world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.entity_wither_death, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.ENTITY_GHAST_AMBIENT, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
             }
         }
     }
@@ -80,7 +80,7 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
         
         // Play sound and show particles of splash potion of harming
         // TODO: make custom particles for this
-        this.worldObj.playAuxSFX(2002, getPosition(), 16428);
+        this.worldObj.playBroadcastSound(2002, getPosition(), 16428);
         
         setDead();
     }
@@ -93,19 +93,19 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
 
     @Override
     public ItemStack getItemStack() {
-        Optional<ItemStack> optional = dataWatcher.get(ITEMSTACK_INDEX);
+        Optional<ItemStack> optional = dataManager.get(ITEMSTACK_INDEX);
         return optional.isPresent() ? optional.get() : null;
     }
     
     private void setItemStack(ItemStack stack) {
-        dataWatcher.set(ITEMSTACK_INDEX, Optional.of(stack));
+        dataManager.set(ITEMSTACK_INDEX, Optional.of(stack));
     }
     
     @Override
     protected void entityInit() {
         super.entityInit();
         
-        dataWatcher.register(ITEMSTACK_INDEX, Optional.of(WeatherContainer.createItemStack(WeatherContainer.WeatherContainerTypes.EMPTY, 1)));
+        dataManager.register(ITEMSTACK_INDEX, Optional.of(WeatherContainer.createItemStack(WeatherContainer.WeatherContainerTypes.EMPTY, 1)));
     }
 
     @Override

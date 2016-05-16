@@ -74,7 +74,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
      */
     public static ItemStack createCraftingResult() {
     	ItemStack pickaxe = new ItemStack(VengeancePickaxe.getInstance());
-        EnchantmentHelpers.setEnchantmentLevel(pickaxe, Enchantments.fortune, FORTUNE_LEVEL);
+        EnchantmentHelpers.setEnchantmentLevel(pickaxe, Enchantments.FORTUNE, FORTUNE_LEVEL);
         return pickaxe;
     }
     

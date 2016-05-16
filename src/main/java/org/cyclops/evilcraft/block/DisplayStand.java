@@ -88,7 +88,7 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
     }
 
     public DisplayStand(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.wood, TileDisplayStand.class);
+        super(eConfig, Material.WOOD, TileDisplayStand.class);
         MinecraftForge.EVENT_BUS.register(this);
     }
     

@@ -40,7 +40,7 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
     }
 
     public SpikedPlate(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.rock);
+        super(eConfig, Material.ROCK);
     }
     
     @Override

@@ -42,8 +42,8 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
     }
 
     public SanguinaryEnvironmentalAccumulator(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.rock, TileSanguinaryEnvironmentalAccumulator.class);
-        this.setStepSound(SoundType.STONE);
+        super(eConfig, Material.ROCK, TileSanguinaryEnvironmentalAccumulator.class);
+        this.setSoundType(SoundType.STONE);
         this.setRotatable(true);
     }
 

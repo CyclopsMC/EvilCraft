@@ -59,10 +59,10 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
 
     public DarkOre(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.rock);
+        super(eConfig, Material.ROCK);
         this.setTickRandomly(true);
         this.setHardness(3.0F);
-        this.setStepSound(SoundType.STONE);
+        this.setSoundType(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
     }
 

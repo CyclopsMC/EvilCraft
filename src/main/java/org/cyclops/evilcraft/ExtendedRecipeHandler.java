@@ -78,9 +78,9 @@ public class ExtendedRecipeHandler extends RecipeHandler {
     protected void loadPredefineds(Map<String, ItemStack> predefinedItems, Set<String> predefinedValues) {
         super.loadPredefineds(predefinedItems, predefinedValues);
         if(Configs.isEnabled(EnchantmentPoisonTipConfig.class)) {
-            ItemStack poisonTipEnchant = new ItemStack(Items.enchanted_book);
+            ItemStack poisonTipEnchant = new ItemStack(Items.ENCHANTED_BOOK);
             Enchantment enchant = EnchantmentPoisonTip.getInstance();
-            Items.enchanted_book.addEnchantment(poisonTipEnchant, new EnchantmentData(enchant,
+            Items.ENCHANTED_BOOK.addEnchantment(poisonTipEnchant, new EnchantmentData(enchant,
                     enchant.getMinLevel()));
             predefinedItems.put("evilcraft:enchanted_book_poisonTip", poisonTipEnchant);
         }
@@ -151,7 +151,7 @@ public class ExtendedRecipeHandler extends RecipeHandler {
         }
 
         predefinedItems.put("evilcraft:potion_weakness", PotionUtils.addPotionToItemStack(
-                new ItemStack(Items.potionitem), PotionType.getPotionTypeForName("weakness")));
+                new ItemStack(Items.POTIONITEM), PotionType.getPotionTypeForName("weakness")));
     }
 
     @Override
@@ -163,9 +163,9 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                 && Configs.isEnabled(CorruptedTearConfig.class)) {
             Item tear = CorruptedTearConfig._instance.getItemInstance();
             GameRegistry.addRecipe(new ObservableShapedRecipe(3, 3, new ItemStack[]{
-                    new ItemStack(Items.gold_ingot), new ItemStack(tear), new ItemStack(Items.gold_ingot),
-                    new ItemStack(DarkGem.getInstance()), new ItemStack(Items.gold_ingot), new ItemStack(DarkGem.getInstance()),
-                    new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot)
+                    new ItemStack(Items.GOLD_INGOT), new ItemStack(tear), new ItemStack(Items.GOLD_INGOT),
+                    new ItemStack(DarkGem.getInstance()), new ItemStack(Items.GOLD_INGOT), new ItemStack(DarkGem.getInstance()),
+                    new ItemStack(Items.GOLD_INGOT), new ItemStack(Items.GOLD_INGOT), new ItemStack(Items.GOLD_INGOT)
             }, new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 2), new IRecipeOutputObserver() {
                 @Override
                 public ItemStack getRecipeOutput(InventoryCrafting craftingGrid, ItemStack output) {
@@ -177,9 +177,9 @@ public class ExtendedRecipeHandler extends RecipeHandler {
             }));
 
             GameRegistry.addRecipe(new ObservableShapedRecipe(3, 3, new ItemStack[]{
-                    new ItemStack(Items.gold_ingot), new ItemStack(tear), new ItemStack(Items.gold_ingot),
+                    new ItemStack(Items.GOLD_INGOT), new ItemStack(tear), new ItemStack(Items.GOLD_INGOT),
                     new ItemStack(DarkGem.getInstance()), new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 1, OreDictionary.WILDCARD_VALUE), new ItemStack(DarkGem.getInstance()),
-                    new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot)
+                    new ItemStack(Items.GOLD_INGOT), new ItemStack(Items.GOLD_INGOT), new ItemStack(Items.GOLD_INGOT)
             }, new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 2), new IRecipeOutputObserver() {
                 @Override
                 public ItemStack getRecipeOutput(InventoryCrafting craftingGrid, ItemStack output) {
@@ -277,7 +277,7 @@ public class ExtendedRecipeHandler extends RecipeHandler {
             // Display Stand crafting
             if(Configs.isEnabled(DisplayStandConfig.class)) {
                 getTaggedOutput().put("displayStands", DisplayStand.getInstance().
-                        getTypedDisplayStandItem(Blocks.planks.getDefaultState()));
+                        getTypedDisplayStandItem(Blocks.PLANKS.getDefaultState()));
                 GameRegistry.addRecipe(new DisplayStandRecipe(OreDictionary.getOres(Reference.DICT_WOODPLANK)));
             }
         }

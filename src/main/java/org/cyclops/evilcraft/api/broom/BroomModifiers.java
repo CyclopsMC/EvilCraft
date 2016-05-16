@@ -250,17 +250,17 @@ public class BroomModifiers {
                                                     }
 
                                                     // Send block change packet to the client
-                                                    playerMp.playerNetServerHandler.sendPacket(new SPacketBlockChange(world, pos));
+                                                    playerMp.connection.sendPacket(new SPacketBlockChange(world, pos));
                                                 }
                                             } else {
                                                 // Play sound and client-side block breaking sequence
-                                                world.playAuxSFX(2001, pos, Block.getStateId(blockState));
+                                                world.playBroadcastSound(2001, pos, Block.getStateId(blockState));
                                                 if(block.removedByPlayer(blockState, world, pos, player, true)) {
                                                     block.onBlockDestroyedByPlayer(world, pos, blockState);
                                                 }
 
                                                 // Tell the server we are done with breaking this block
-                                                Minecraft.getMinecraft().getNetHandler().addToSendQueue(new CPacketPlayerDigging(
+                                                Minecraft.getMinecraft().getConnection().sendPacket(new CPacketPlayerDigging(
                                                         CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pos,
                                                         Minecraft.getMinecraft().objectMouseOver.sideHit));
                                             }
@@ -299,8 +299,8 @@ public class BroomModifiers {
                 }
             }
         });
-        WITHERER.addCollisionListener(new PotionEffectBroomCollision(MobEffects.wither));
-        HUNGERER.addCollisionListener(new PotionEffectBroomCollision(MobEffects.hunger));
+        WITHERER.addCollisionListener(new PotionEffectBroomCollision(MobEffects.WITHER));
+        HUNGERER.addCollisionListener(new PotionEffectBroomCollision(MobEffects.HUNGER));
         KAMIKAZE.addCollisionListener(new BroomModifier.ICollisionListener() {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
@@ -312,48 +312,48 @@ public class BroomModifiers {
                 }
             }
         });
-        ICY.addCollisionListener(new PotionEffectBroomCollision(MobEffects.moveSlowdown, 2));
+        ICY.addCollisionListener(new PotionEffectBroomCollision(MobEffects.SLOWNESS, 2));
     }
 
     public static void loadPost() {
-        REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, new ItemStack(Items.nether_star));
+        REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, new ItemStack(Items.NETHER_STAR));
         REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, new ItemStack(GarmonboziaConfig._instance.getItemInstance()));
 
-        REGISTRY.registerModifiersItem(SPEED, 1F, new ItemStack(Items.redstone));
-        REGISTRY.registerModifiersItem(SPEED, 9F, new ItemStack(Blocks.redstone_block));
+        REGISTRY.registerModifiersItem(SPEED, 1F, new ItemStack(Items.REDSTONE));
+        REGISTRY.registerModifiersItem(SPEED, 9F, new ItemStack(Blocks.REDSTONE_BLOCK));
 
-        REGISTRY.registerModifiersItem(ACCELERATION, 1F, new ItemStack(Items.coal));
-        REGISTRY.registerModifiersItem(ACCELERATION, 9F, new ItemStack(Blocks.coal_block));
+        REGISTRY.registerModifiersItem(ACCELERATION, 1F, new ItemStack(Items.COAL));
+        REGISTRY.registerModifiersItem(ACCELERATION, 9F, new ItemStack(Blocks.COAL_BLOCK));
 
-        REGISTRY.registerModifiersItem(MANEUVERABILITY, 2F, new ItemStack(Items.glowstone_dust));
-        REGISTRY.registerModifiersItem(MANEUVERABILITY, 8F, new ItemStack(Blocks.glowstone));
+        REGISTRY.registerModifiersItem(MANEUVERABILITY, 2F, new ItemStack(Items.GLOWSTONE_DUST));
+        REGISTRY.registerModifiersItem(MANEUVERABILITY, 8F, new ItemStack(Blocks.GLOWSTONE));
 
-        REGISTRY.registerModifiersItem(LEVITATION, 1F, new ItemStack(Items.feather));
+        REGISTRY.registerModifiersItem(LEVITATION, 1F, new ItemStack(Items.FEATHER));
 
         REGISTRY.registerModifiersItem(DAMAGE, 2F, new ItemStack(DarkSpikeConfig._instance.getItemInstance()));
-        REGISTRY.registerModifiersItem(DAMAGE, 1F, new ItemStack(Items.quartz));
+        REGISTRY.registerModifiersItem(DAMAGE, 1F, new ItemStack(Items.QUARTZ));
 
-        REGISTRY.registerModifiersItem(PARTICLES, 1F, new ItemStack(Items.gunpowder));
+        REGISTRY.registerModifiersItem(PARTICLES, 1F, new ItemStack(Items.GUNPOWDER));
 
-        REGISTRY.registerModifiersItem(FLAME, 1F, new ItemStack(Items.blaze_powder));
+        REGISTRY.registerModifiersItem(FLAME, 1F, new ItemStack(Items.BLAZE_POWDER));
 
-        REGISTRY.registerModifiersItem(SMASH, 1F, new ItemStack(Items.iron_pickaxe));
-        REGISTRY.registerModifiersItem(SMASH, 5F, new ItemStack(Items.diamond_pickaxe));
+        REGISTRY.registerModifiersItem(SMASH, 1F, new ItemStack(Items.IRON_PICKAXE));
+        REGISTRY.registerModifiersItem(SMASH, 5F, new ItemStack(Items.DIAMOND_PICKAXE));
 
-        REGISTRY.registerModifiersItem(BOUNCY, 1F, new ItemStack(Items.slime_ball));
-        REGISTRY.registerModifiersItem(BOUNCY, 9F, new ItemStack(Blocks.slime_block));
+        REGISTRY.registerModifiersItem(BOUNCY, 1F, new ItemStack(Items.SLIME_BALL));
+        REGISTRY.registerModifiersItem(BOUNCY, 9F, new ItemStack(Blocks.SLIME_BLOCK));
 
         registerModifierOredictItem(STURDYNESS, 1F, "stone");
-        REGISTRY.registerModifiersItem(STURDYNESS, 10F, new ItemStack(Blocks.obsidian));
+        REGISTRY.registerModifiersItem(STURDYNESS, 10F, new ItemStack(Blocks.OBSIDIAN));
 
         registerModifierOredictItem(EFFICIENCY, 1F, Reference.DICT_GEMDARKPOWER);
 
-        REGISTRY.registerModifiersItem(SWIMMING, 1F, new ItemStack(Items.prismarine_shard));
-        REGISTRY.registerModifiersItem(SWIMMING, 4F, new ItemStack(Blocks.prismarine, 1, 0));
-        REGISTRY.registerModifiersItem(SWIMMING, 9F, new ItemStack(Blocks.prismarine, 1, 1));
+        REGISTRY.registerModifiersItem(SWIMMING, 1F, new ItemStack(Items.PRISMARINE_SHARD));
+        REGISTRY.registerModifiersItem(SWIMMING, 4F, new ItemStack(Blocks.PRISMARINE, 1, 0));
+        REGISTRY.registerModifiersItem(SWIMMING, 9F, new ItemStack(Blocks.PRISMARINE, 1, 1));
 
-        REGISTRY.registerModifiersItem(ICY, 1F, new ItemStack(Blocks.ice, 1, 1));
-        REGISTRY.registerModifiersItem(ICY, 5F, new ItemStack(Blocks.packed_ice, 1, 1));
+        REGISTRY.registerModifiersItem(ICY, 1F, new ItemStack(Blocks.ICE, 1, 1));
+        REGISTRY.registerModifiersItem(ICY, 5F, new ItemStack(Blocks.PACKED_ICE, 1, 1));
 
         EvilCraft.clog(String.format("%s Broom modifiers can be applied!", REGISTRY.getModifiers().size()));
     }

@@ -49,7 +49,7 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
         this.setConfig(eConfig);
         this.setUnlocalizedName(eConfig.getUnlocalizedName());
         setHardness(2F);
-        setStepSound(SoundType.STONE);
+        setSoundType(SoundType.STONE);
     }
 
     @Override

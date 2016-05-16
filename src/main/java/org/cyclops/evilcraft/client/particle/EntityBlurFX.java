@@ -39,9 +39,9 @@ public class EntityBlurFX extends EntityFX {
 	 * @param y Y coordinate.
 	 * @param z Z coordinate.
 	 * @param scale The scale of this particle.
-	 * @param xSpeed The X motion speed.
-	 * @param ySpeed The Y motion speed.
-	 * @param zSpeed The Z motion speed.
+	 * @param motionX The X motion speed.
+	 * @param motionY The Y motion speed.
+	 * @param motionZ The Z motion speed.
 	 * @param red Red tint.
 	 * @param green Green tint.
 	 * @param blue Blue tint.
@@ -49,12 +49,12 @@ public class EntityBlurFX extends EntityFX {
 	 * a partially random factor).
 	 */
 	public EntityBlurFX(World world, double x, double y, double z, float scale,
-			double xSpeed, double ySpeed, double zSpeed,
+			double motionX, double motionY, double motionZ,
 			float red, float green, float blue, float ageMultiplier) {
 		super(world, x, y, z, 0, 0, 0);
-		this.xSpeed = xSpeed;
-		this.ySpeed = ySpeed;
-		this.zSpeed = zSpeed;
+		this.motionX = motionX;
+		this.motionY = motionY;
+		this.motionZ = motionZ;
 		
 		this.particleRed = red;
 		this.particleGreen = green;
@@ -149,13 +149,13 @@ public class EntityBlurFX extends EntityFX {
 			setExpired();
 		}
 
-		ySpeed -= 0.04D * particleGravity;
-		posX += xSpeed;
-		posY += ySpeed;
-		posZ += zSpeed;
-		xSpeed *= 0.98000001907348633D;
-		ySpeed *= 0.98000001907348633D;
-		zSpeed *= 0.98000001907348633D;
+		motionY -= 0.04D * particleGravity;
+		posX += motionX;
+		posY += motionY;
+		posZ += motionZ;
+		motionX *= 0.98000001907348633D;
+		motionY *= 0.98000001907348633D;
+		motionZ *= 0.98000001907348633D;
 	}
 
 	/**

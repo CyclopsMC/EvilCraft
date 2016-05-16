@@ -16,17 +16,17 @@ public class EntityFireShootFX extends EntityLavaFX {
      * @param x X coordinate.
      * @param y Y coordinate.
      * @param z Z coordinate.
-     * @param xSpeed X axis speed.
-     * @param ySpeed Y axis speed.
-     * @param zSpeed Z axis speed.
+     * @param motionX X axis speed.
+     * @param motionY Y axis speed.
+     * @param motionZ Z axis speed.
      * @param scale Scale of the particle.
      */
-    public EntityFireShootFX(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float scale) {
+    public EntityFireShootFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale) {
         super(world, x, y, z);
         
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
-        this.zSpeed = zSpeed;
+        this.motionX = motionX;
+        this.motionY = motionY;
+        this.motionZ = motionZ;
         
         particleAlpha = 0.9F;
     }

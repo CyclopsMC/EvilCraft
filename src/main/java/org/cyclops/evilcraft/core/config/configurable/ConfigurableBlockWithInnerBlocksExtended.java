@@ -84,9 +84,9 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
         try {
             return getTile(world, blockPos).getInnerBlockState().getBlock().canHarvestBlock(world, blockPos, player);
         } catch (InvalidInnerBlocksTileException e) {
-            return Blocks.stone.canHarvestBlock(world, blockPos, player);
+            return Blocks.STONE.canHarvestBlock(world, blockPos, player);
         } catch (IllegalArgumentException e) {
-            return Blocks.stone.canHarvestBlock(world, blockPos, player);
+            return Blocks.STONE.canHarvestBlock(world, blockPos, player);
         }
     }
 
@@ -95,9 +95,9 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
         try {
             return getTile(world, blockPos).getInnerBlockState().getBlock().getBlockHardness(blockState, world, blockPos);
         } catch (InvalidInnerBlocksTileException e) {
-            return Blocks.stone.getBlockHardness(blockState, world, blockPos);
+            return Blocks.STONE.getBlockHardness(blockState, world, blockPos);
         } catch (IllegalArgumentException e) {
-            return Blocks.stone.getBlockHardness(blockState, world, blockPos);
+            return Blocks.STONE.getBlockHardness(blockState, world, blockPos);
         }
     }
 
@@ -106,9 +106,9 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
         try {
             return getTile(world, blockPos).getInnerBlockState().getBlock().getPlayerRelativeBlockHardness(blockState, player, world, blockPos);
         } catch (InvalidInnerBlocksTileException e) {
-            return Blocks.stone.getPlayerRelativeBlockHardness(blockState, player, world, blockPos);
+            return Blocks.STONE.getPlayerRelativeBlockHardness(blockState, player, world, blockPos);
         } catch (IllegalArgumentException e) {
-            return Blocks.stone.getPlayerRelativeBlockHardness(blockState, player, world, blockPos);
+            return Blocks.STONE.getPlayerRelativeBlockHardness(blockState, player, world, blockPos);
         }
     }
 
@@ -117,9 +117,9 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     	IBlockState blockState;
 		try {
             blockState = getTile(world, blockPos).getInnerBlockState();
-            if(blockState == null) blockState = Blocks.stone.getDefaultState();
+            if(blockState == null) blockState = Blocks.STONE.getDefaultState();
 		} catch (InvalidInnerBlocksTileException e) {
-            blockState = Blocks.stone.getDefaultState();
+            blockState = Blocks.STONE.getDefaultState();
 		}
     	return new ItemStack(blockState.getBlock(), 1, blockState.getBlock().getMetaFromState(blockState));
     }
@@ -190,7 +190,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
         try {
             blockState = getTile(worldObj, target.getBlockPos()).getInnerBlockState();
         } catch (InvalidInnerBlocksTileException e) {
-            blockState =  Blocks.stone.getDefaultState();
+            blockState =  Blocks.STONE.getDefaultState();
         }
         BlockPos pos = target.getBlockPos();
         RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, blockState, pos, target.sideHit);

@@ -35,7 +35,7 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
     
     @Override
     public void renderTileEntityAt(TileBoxOfEternalClosure tile, double x, double y, double z, float partialTick, int destroyStage) {
-        ResourceLocation texture = TextureMap.locationBlocksTexture;
+        ResourceLocation texture = TextureMap.LOCATION_BLOCKS_TEXTURE;
 
         if (destroyStage >= 0) {
             this.bindTexture(DESTROY_STAGES[destroyStage]);

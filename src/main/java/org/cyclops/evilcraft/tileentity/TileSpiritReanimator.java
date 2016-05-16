@@ -198,7 +198,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
      * @return The allowed item.
      */
     public static Item getAllowedCookItem() {
-    	Item allowedItem = Items.apple;
+    	Item allowedItem = Items.APPLE;
         if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
         	allowedItem = Item.getItemFromBlock(BoxOfEternalClosure.getInstance());
         }
@@ -223,7 +223,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
         if(slot == SLOT_BOX)
             return canConsume(itemStack);
         if(slot == SLOT_EGG)
-            return itemStack.getItem() == Items.egg
+            return itemStack.getItem() == Items.EGG
             	/*&& ResurgenceEgg.getInstance().isEmpty(itemStack) also enable in acceptance slot in container*/;
         if(slot == SLOT_CONTAINER)
             return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
@@ -234,7 +234,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 	public boolean canWork() {
 		ItemStack eggStack = getStackInSlot(SLOT_EGG);
 		ItemStack outputStack = getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
-        boolean validNameStack = getEntityName() != null && EntityList.entityEggs.containsKey(getEntityName())
+        boolean validNameStack = getEntityName() != null && EntityList.ENTITY_EGGS.containsKey(getEntityName())
                 && (outputStack == null ||
                     (outputStack.getMaxStackSize() > outputStack.stackSize
                         && getEntityName().equals(ItemMonsterPlacer.getEntityIdFromItem(outputStack))));

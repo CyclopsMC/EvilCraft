@@ -197,11 +197,11 @@ public class Configs {
      * Register ore dictionary keys for vanilla items/blocks.
      */
     public static void registerVanillaDictionary() {
-        OreDictionary.registerOre(Reference.DICT_BLOCKGLASS, new ItemStack(Blocks.glass));
-        OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Items.poisonous_potato));
-        OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Items.bone));
-        OreDictionary.registerOre(Reference.DICT_ITEMSKULL, new ItemStack(Items.skull, 1, OreDictionary.WILDCARD_VALUE));
-        OreDictionary.registerOre(Reference.DICT_FLESH, new ItemStack(Items.rotten_flesh, 1, OreDictionary.WILDCARD_VALUE));
+        OreDictionary.registerOre(Reference.DICT_BLOCKGLASS, new ItemStack(Blocks.GLASS));
+        OreDictionary.registerOre(Reference.DICT_MATERIALPOISONOUS, new ItemStack(Items.POISONOUS_POTATO));
+        OreDictionary.registerOre(Reference.DICT_MATERIALBONE, new ItemStack(Items.BONE));
+        OreDictionary.registerOre(Reference.DICT_ITEMSKULL, new ItemStack(Items.SKULL, 1, OreDictionary.WILDCARD_VALUE));
+        OreDictionary.registerOre(Reference.DICT_FLESH, new ItemStack(Items.ROTTEN_FLESH, 1, OreDictionary.WILDCARD_VALUE));
     }
 
     /**

@@ -73,10 +73,10 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     }
 
     public BoxOfEternalClosure(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.iron, TileBoxOfEternalClosure.class);
+        super(eConfig, Material.IRON, TileBoxOfEternalClosure.class);
         
         this.setHardness(2.5F);
-        this.setStepSound(SoundType.METAL);
+        this.setSoundType(SoundType.METAL);
         this.setRotatable(true);
 
 		MinecraftForge.EVENT_BUS.register(this);
@@ -125,7 +125,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 					try {
 						Class<?> clazz = Class.forName(innerEntity);
 						if(!VengeanceSpirit.canSustainClass(clazz)) return null;
-						return (String) EntityList.classToStringMapping.get(clazz);
+						return (String) EntityList.CLASS_TO_NAME.get(clazz);
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}
@@ -242,7 +242,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 						(double) blockPos.getX() + 0.5D,
 						(double) blockPos.getY() + 0.5D,
 						(double) blockPos.getZ() + 0.5D,
-						SoundEvents.block_chest_open,
+						SoundEvents.BLOCK_CHEST_OPEN,
 						SoundCategory.BLOCKS,
 						0.5F,
 						world.rand.nextFloat() * 0.1F + 0.5F
@@ -299,7 +299,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 	@SideOnly(Side.CLIENT)
 	public boolean addHitEffects(IBlockState blockState, World worldObj, RayTraceResult target, EffectRenderer effectRenderer) {
 		if(target != null) {
-			RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, Blocks.obsidian.getDefaultState(), target.getBlockPos(), target.sideHit);
+			RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, Blocks.OBSIDIAN.getDefaultState(), target.getBlockPos(), target.sideHit);
 		}
 		return true;
 	}
@@ -307,14 +307,14 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
-		RenderHelpers.addBlockHitEffects(effectRenderer, world, Blocks.obsidian.getDefaultState(), pos, EnumFacing.UP);
+		RenderHelpers.addBlockHitEffects(effectRenderer, world, Blocks.OBSIDIAN.getDefaultState(), pos, EnumFacing.UP);
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean addLandingEffects(IBlockState blockState, WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
-		RenderHelpers.addBlockHitEffects(Minecraft.getMinecraft().effectRenderer, worldObj, Blocks.obsidian.getDefaultState(), blockPosition, EnumFacing.UP);
+		RenderHelpers.addBlockHitEffects(Minecraft.getMinecraft().effectRenderer, worldObj, Blocks.OBSIDIAN.getDefaultState(), blockPosition, EnumFacing.UP);
 		return true;
 	}
 }

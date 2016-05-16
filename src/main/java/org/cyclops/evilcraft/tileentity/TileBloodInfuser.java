@@ -222,7 +222,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     @Override
     public boolean canConsume(ItemStack itemStack) {
         // Empty bucket
-        if(itemStack.getItem() == Items.bucket
+        if(itemStack.getItem() == Items.BUCKET
                 && this.getTank().getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME)
             return true;
         

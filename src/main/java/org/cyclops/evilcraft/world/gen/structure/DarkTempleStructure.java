@@ -139,18 +139,18 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 
     @Override
     protected void generateLayers() {
-        BlockWrapper us = new BlockWrapper(Blocks.stone_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP));    // upside down stone slab
-        BlockWrapper rs = new BlockWrapper(Blocks.stone_slab);
-        BlockWrapper ds = new BlockWrapper(Blocks.double_stone_slab);
-        BlockWrapper cb = new BlockWrapper(Blocks.stonebrick.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED));    // chiseled brick
-        BlockWrapper sb = new BlockWrapper(Blocks.stonebrick);
-        BlockWrapper cs = new BlockWrapper(Blocks.stone_slab.getDefaultState().withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.COBBLESTONE));    // cobblestone slab
-        BlockWrapper co = new BlockWrapper(Blocks.cobblestone);
-        BlockWrapper wa = new BlockWrapper(Blocks.water);
-        BlockWrapper fe = new BlockWrapper(Blocks.dark_oak_fence);
-        BlockWrapper to = new BlockWrapper(Blocks.torch);
-        BlockWrapper cw = new BlockWrapper(Blocks.cobblestone_wall);
-        BlockWrapper lc = new BlockWrapper(Blocks.chest.getDefaultState(), 0.15F);
+        BlockWrapper us = new BlockWrapper(Blocks.STONE_SLAB.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP));    // upside down stone slab
+        BlockWrapper rs = new BlockWrapper(Blocks.STONE_SLAB);
+        BlockWrapper ds = new BlockWrapper(Blocks.DOUBLE_STONE_SLAB);
+        BlockWrapper cb = new BlockWrapper(Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED));    // chiseled brick
+        BlockWrapper sb = new BlockWrapper(Blocks.STONEBRICK);
+        BlockWrapper cs = new BlockWrapper(Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.COBBLESTONE));    // cobblestone slab
+        BlockWrapper co = new BlockWrapper(Blocks.COBBLESTONE);
+        BlockWrapper wa = new BlockWrapper(Blocks.WATER);
+        BlockWrapper fe = new BlockWrapper(Blocks.DARK_OAK_FENCE);
+        BlockWrapper to = new BlockWrapper(Blocks.TORCH);
+        BlockWrapper cw = new BlockWrapper(Blocks.COBBLESTONE_WALL);
+        BlockWrapper lc = new BlockWrapper(Blocks.CHEST.getDefaultState(), 0.15F);
         lc.action = new IBlockAction() {
             @Override
             public void run(World world, BlockPos pos) {
@@ -161,14 +161,14 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
                 }
             }
         };
-        BlockWrapper vi = new BlockWrapper(Blocks.vine.getDefaultState(), 0.3F);
+        BlockWrapper vi = new BlockWrapper(Blocks.VINE.getDefaultState(), 0.3F);
         vi.action = new IBlockAction() {
             @Override
             public void run(World world, BlockPos pos) {
                 boolean atLeastOne = false;
                 for(EnumFacing side : EnumFacing.HORIZONTALS) {
                     if(world.isSideSolid(pos.offset(side), side.getOpposite(), true)) {
-                        world.setBlockState(pos, Blocks.vine.getDefaultState().withProperty(
+                        world.setBlockState(pos, Blocks.VINE.getDefaultState().withProperty(
                                 BlockVine.ALL_FACES[side.ordinal() - 1], true), 2);
                         atLeastOne = true;
                     }
@@ -273,11 +273,11 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
         // x- west
         // z- west
 
-        world.setBlockState(blockPos.add(3 * incX, 5, 4 * incZ), Blocks.stone_stairs.getDefaultState()
+        world.setBlockState(blockPos.add(3 * incX, 5, 4 * incZ), Blocks.STONE_STAIRS.getDefaultState()
                 .withProperty(BlockStairs.FACING, DirectionHelpers.getEnumFacingFromXSign(incX))
                 .withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP)
                 .withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-        world.setBlockState(blockPos.add(4 * incX, 5, 3 * incZ), Blocks.stone_stairs.getDefaultState()
+        world.setBlockState(blockPos.add(4 * incX, 5, 3 * incZ), Blocks.STONE_STAIRS.getDefaultState()
                 .withProperty(BlockStairs.FACING, DirectionHelpers.getEnumFacingFromZSing(incZ))
                 .withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP)
                 .withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
@@ -288,7 +288,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
         int pillarHeight = getPillarHeightForCornerAt(world, blockPos, incX, incZ);
 
         for (int yOffset = 0; yOffset < pillarHeight; yOffset++) {
-            world.setBlockState(blockPos.add(xx, -yOffset, zz), Blocks.cobblestone.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            world.setBlockState(blockPos.add(xx, -yOffset, zz), Blocks.COBBLESTONE.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         }
     }
 

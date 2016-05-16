@@ -22,7 +22,7 @@ public class RenderThrowable extends RenderSnowball<EntityThrowable> {
     }
 
     @Override
-    public ItemStack getPotion(EntityThrowable entity) {
+    public ItemStack getStackToRender(EntityThrowable entity) {
         return getItemStack(entity);
     }
 

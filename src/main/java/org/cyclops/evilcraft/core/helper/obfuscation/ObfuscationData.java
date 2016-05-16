@@ -14,7 +14,7 @@ public class ObfuscationData {
 	/**
 	 * Field from net.minecraft.client.particle.EffectRenderer.
 	 */
-	public static final String[] PARTICLE_TEXTURES = new String[] { "particleTextures", "field_110737_b", "b" };
+	public static final String[] PARTICLE_TEXTURES = new String[] { "PARTICLE_TEXTURES", "field_110737_b", "b" };
 	
 	/**
 	 * Field from net.minecraft.entity.EntityLivingBase.
@@ -44,7 +44,7 @@ public class ObfuscationData {
 	/**
 	 * Field from net.minecraft.client.gui.GuiMainMenu.
 	 */
-	public static final String[] GUIMAINMENU_TITLEPANORAMAPATHS = new String[] { "titlePanoramaPaths", "field_73978_o", "o" };
+	public static final String[] GUIMAINMENU_TITLEPANORAMAPATHS = new String[] { "TITLE_PANORAMA_PATHS", "field_73978_o", "o" };
 	
 	/**
 	 * Field from net.minecraft.potion.PotionEffect.
@@ -59,7 +59,7 @@ public class ObfuscationData {
 	/**
 	 * Field from net.minecraft.entity.EntityList.
 	 */
-	public static final String[] ENTITYLIST_CLASSTOID = new String[] { "classToIDMapping", "field_75624_e", "e" };
+	public static final String[] ENTITYLIST_CLASSTOID = new String[] { "CLASS_TO_ID", "field_75624_e", "e" };
 	
 	/**
 	 * Field from net.minecraft.potion.Potion.

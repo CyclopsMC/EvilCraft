@@ -109,7 +109,7 @@ public class ResurgenceEgg extends ConfigurableItem {
         if (world.isRemote) {
             return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
         } else {
-            RayTraceResult movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
+            RayTraceResult movingobjectposition = this.rayTrace(world, player, true);
             if (movingobjectposition == null) {
                 return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
             } else {
@@ -153,7 +153,7 @@ public class ResurgenceEgg extends ConfigurableItem {
     	Entity entity = EntityList.createEntityByName(entityString, world);
         if (entity != null && entity instanceof EntityLivingBase) {
             EntityLiving entityliving = (EntityLiving)entity;
-            entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360.0F), 0.0F);
+            entity.setLocationAndAngles(x, y, z, MathHelper.wrapDegrees(world.rand.nextFloat() * 360.0F), 0.0F);
             entityliving.rotationYawHead = entityliving.rotationYaw;
             entityliving.renderYawOffset = entityliving.rotationYaw;
             world.spawnEntityInWorld(entity);

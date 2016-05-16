@@ -73,7 +73,7 @@ public class BiomeExtract extends ConfigurableItem {
             world.playSound(player, player.posX, player.posY, player.posZ, new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             EntityBiomeExtract entity = new EntityBiomeExtract(world, player, itemStack.copy());
             // Last three params: pitch offset, velocity, inaccuracy
-            entity.func_184538_a(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
             world.spawnEntityInWorld(entity);
             itemStack.stackSize--;
         }
@@ -93,7 +93,7 @@ public class BiomeExtract extends ConfigurableItem {
     }
 
     public Iterable<BiomeGenBase> getBiomes() {
-        return BiomeGenBase.biomeRegistry;
+        return BiomeGenBase.REGISTRY;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -128,8 +128,8 @@ public class BiomeExtract extends ConfigurableItem {
     public BiomeGenBase getBiome(ItemStack itemStack) {
         if(itemStack.hasTagCompound()) {
             String biomeName = itemStack.getTagCompound().getString(NBT_BIOMEKEY);
-            if(BiomeGenBase.biomeRegistry.containsKey(new ResourceLocation(biomeName))) {
-                return BiomeGenBase.biomeRegistry.getObject(new ResourceLocation(biomeName));
+            if(BiomeGenBase.REGISTRY.containsKey(new ResourceLocation(biomeName))) {
+                return BiomeGenBase.REGISTRY.getObject(new ResourceLocation(biomeName));
             }
         }
         return null;
@@ -146,7 +146,7 @@ public class BiomeExtract extends ConfigurableItem {
         ItemStack itemStack = new ItemStack(getInstance(), amount, biome == null ? 0 : 1);
         if(biome != null) {
             NBTTagCompound tag = new NBTTagCompound();
-            tag.setString(NBT_BIOMEKEY, BiomeGenBase.biomeRegistry.getNameForObject(biome).toString());
+            tag.setString(NBT_BIOMEKEY, BiomeGenBase.REGISTRY.getNameForObject(biome).toString());
             itemStack.setTagCompound(tag);
         }
         return itemStack;

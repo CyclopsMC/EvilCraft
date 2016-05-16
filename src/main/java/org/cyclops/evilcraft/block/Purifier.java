@@ -49,7 +49,7 @@ public class Purifier extends ConfigurableBlockContainer {
     }
 
     public Purifier(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.iron, TilePurifier.class);
+        super(eConfig, Material.IRON, TilePurifier.class);
     }
 
     @Override
@@ -70,14 +70,14 @@ public class Purifier extends ConfigurableBlockContainer {
                     FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
                     if(fluidStack != null && tile.getTank().canTankAccept(fluidStack.getFluid())
                     		&& tile.getTank().canCompletelyFill(fluidStack)
-                    		&& itemStack.getItem() != Items.bucket) {
+                    		&& itemStack.getItem() != Items.BUCKET) {
                     	tile.getTank().fill(fluidStack, true);
                     	tile.sendUpdate();
                     	if (!player.capabilities.isCreativeMode) {
-                            player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.bucket));
+                            player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.BUCKET));
                         }
                         return true;
-                    } else if(itemStack.getItem() == Items.bucket) {
+                    } else if(itemStack.getItem() == Items.BUCKET) {
                         int buckets = tile.getBucketsFloored();
                         if (buckets > 0) {
                             if (!player.capabilities.isCreativeMode) {

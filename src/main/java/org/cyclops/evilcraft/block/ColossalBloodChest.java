@@ -55,9 +55,9 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
     }
 
     public ColossalBloodChest(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.rock, TileColossalBloodChest.class);
+        super(eConfig, Material.ROCK, TileColossalBloodChest.class);
         this.setHardness(5.0F);
-        this.setStepSound(SoundType.WOOD);
+        this.setSoundType(SoundType.WOOD);
         this.setHarvestLevel("axe", 2); // Iron tier
         this.setRotatable(false);
     }

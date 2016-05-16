@@ -47,45 +47,45 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     static {
         if(SpiritFurnaceConfig.villagerDropEmeraldChance > 0) {
             overrideMobDrop(EntityVillager.class, Sets.newHashSet(
-                    new WeightedItemStack(new ItemStack(Items.emerald), 1),
+                    new WeightedItemStack(new ItemStack(Items.EMERALD), 1),
                     new WeightedItemStack(null, SpiritFurnaceConfig.villagerDropEmeraldChance - 1)
             ));
         }
-        overridePlayerDrop("068d4de0-3a75-4c6a-9f01-8c37e16a394c", new ItemStack(Items.emerald)); // kroeserr
-        overridePlayerDrop("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c", new ItemStack(Items.wooden_sword)); // _EeB_
-        overridePlayerDrop("777e7aa3-9373-4511-8d75-f99d23ebe252", new ItemStack(Items.dye, 1, 3).setStackDisplayName("Lekkere Stront")); // Davivs69
-        overridePlayerDrop("3e13f558-fb72-4949-a842-07879924bc49", new ItemStack(Items.quartz)); // Jona
-        overridePlayerDrop("b5c31e33-8224-4f96-a4bf-73721be9d2ec", new ItemStack(Blocks.cobblestone)); // dodo3231
-        overridePlayerDrop("b2faeaab-fc87-4f91-98d3-836024f268ae", new ItemStack(Blocks.furnace).setStackDisplayName("Fuurnas")); // _KillaH229_
-        overridePlayerDrop("069a79f4-44e9-4726-a5be-fca90e38aaf5", new ItemStack(Items.golden_apple, 1, 1)); // Notch
-        overridePlayerDrop("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.spawn_egg, 1, 91).setStackDisplayName("jeb_")); // jeb_
-        overridePlayerDrop("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.spawn_egg, 1, 91).setStackDisplayName("Dinnerbone")); // Dinnerbone
-        overridePlayerDrop("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.cobblestone, 45).setStackDisplayName("direwolf20")); // direwolf20
-        overridePlayerDrop("0b7509f0-2458-4160-9ce1-2772b9a45ac2", new ItemStack(Items.porkchop)); // iChun
+        overridePlayerDrop("068d4de0-3a75-4c6a-9f01-8c37e16a394c", new ItemStack(Items.EMERALD)); // kroeserr
+        overridePlayerDrop("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c", new ItemStack(Items.WOODEN_SWORD)); // _EeB_
+        overridePlayerDrop("777e7aa3-9373-4511-8d75-f99d23ebe252", new ItemStack(Items.DYE, 1, 3).setStackDisplayName("Lekkere Stront")); // Davivs69
+        overridePlayerDrop("3e13f558-fb72-4949-a842-07879924bc49", new ItemStack(Items.QUARTZ)); // Jona
+        overridePlayerDrop("b5c31e33-8224-4f96-a4bf-73721be9d2ec", new ItemStack(Blocks.COBBLESTONE)); // dodo3231
+        overridePlayerDrop("b2faeaab-fc87-4f91-98d3-836024f268ae", new ItemStack(Blocks.FURNACE).setStackDisplayName("Fuurnas")); // _KillaH229_
+        overridePlayerDrop("069a79f4-44e9-4726-a5be-fca90e38aaf5", new ItemStack(Items.GOLDEN_APPLE, 1, 1)); // Notch
+        overridePlayerDrop("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.SPAWN_EGG, 1, 91).setStackDisplayName("jeb_")); // jeb_
+        overridePlayerDrop("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.SPAWN_EGG, 1, 91).setStackDisplayName("Dinnerbone")); // Dinnerbone
+        overridePlayerDrop("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.COBBLESTONE, 45).setStackDisplayName("direwolf20")); // direwolf20
+        overridePlayerDrop("0b7509f0-2458-4160-9ce1-2772b9a45ac2", new ItemStack(Items.PORKCHOP)); // iChun
     }
     public static final ItemStack[] PLAYERDROP_RANDOM = new ItemStack[] {
-            new ItemStack(Items.book),
-            new ItemStack(Items.blaze_powder),
-            new ItemStack(Items.quartz),
-            new ItemStack(Items.chainmail_chestplate),
-            new ItemStack(Items.fermented_spider_eye),
-            new ItemStack(Items.glass_bottle),
-            new ItemStack(Items.item_frame),
-            new ItemStack(Items.minecart),
-            new ItemStack(Items.shears),
-            new ItemStack(Items.reeds),
-            new ItemStack(Items.pumpkin_pie),
-            new ItemStack(Items.magma_cream),
-            new ItemStack(Items.saddle),
-            new ItemStack(Items.speckled_melon),
-            new ItemStack(Items.iron_hoe),
-            new ItemStack(Items.carrot_on_a_stick),
-            new ItemStack(Items.redstone),
-            new ItemStack(Blocks.coal_block),
-            new ItemStack(Blocks.lapis_block),
-            new ItemStack(Blocks.soul_sand),
-            new ItemStack(Blocks.gravel),
-            new ItemStack(Blocks.hopper),
+            new ItemStack(Items.BOOK),
+            new ItemStack(Items.BLAZE_POWDER),
+            new ItemStack(Items.QUARTZ),
+            new ItemStack(Items.CHAINMAIL_CHESTPLATE),
+            new ItemStack(Items.FERMENTED_SPIDER_EYE),
+            new ItemStack(Items.GLASS_BOTTLE),
+            new ItemStack(Items.ITEM_FRAME),
+            new ItemStack(Items.MINECART),
+            new ItemStack(Items.SHEARS),
+            new ItemStack(Items.REEDS),
+            new ItemStack(Items.PUMPKIN_PIE),
+            new ItemStack(Items.MAGMA_CREAM),
+            new ItemStack(Items.SADDLE),
+            new ItemStack(Items.SPECKLED_MELON),
+            new ItemStack(Items.IRON_HOE),
+            new ItemStack(Items.CARROT_ON_A_STICK),
+            new ItemStack(Items.REDSTONE),
+            new ItemStack(Blocks.COAL_BLOCK),
+            new ItemStack(Blocks.LAPIS_BLOCK),
+            new ItemStack(Blocks.SOUL_SAND),
+            new ItemStack(Blocks.GRAVEL),
+            new ItemStack(Blocks.HOPPER),
     };
 
     /**
@@ -127,7 +127,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     }
 
     protected ItemStack getPlayerSkull(String playerName) {
-        ItemStack itemStack = new ItemStack(Items.skull, 1, 3);
+        ItemStack itemStack = new ItemStack(Items.SKULL, 1, 3);
         itemStack.setTagCompound(new NBTTagCompound());
         itemStack.getTagCompound().setString("SkullOwner", playerName);
         return itemStack;

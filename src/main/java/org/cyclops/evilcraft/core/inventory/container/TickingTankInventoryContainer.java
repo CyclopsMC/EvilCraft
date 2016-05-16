@@ -10,7 +10,6 @@ import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,8 +38,8 @@ public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEnt
     }
     
     @Override
-    public void onCraftGuiOpened(ICrafting icrafting) {
-        super.onCraftGuiOpened(icrafting);
+    public void addListener(ICrafting icrafting) {
+        super.addListener(icrafting);
         sendTickersUpdates(icrafting, true);
     }
     
@@ -65,7 +64,7 @@ public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEnt
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
-        for (ICrafting icrafting : (List<ICrafting>) crafters) {
+        for (ICrafting icrafting : listeners) {
             sendTickersUpdates(icrafting, false);
         }
     }

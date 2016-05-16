@@ -120,7 +120,7 @@ public class ObfuscationHelpers {
 	 * Call the protected method 'onChangedPotionEffect' {@link net.minecraft.entity.EntityLivingBase}.
 	 * @param entity The entity instance.
 	 * @param potionEffect The potion effect.
-	 * @param reapplyAttributes If the datawatcher attributes need to be updated.
+	 * @param reapplyAttributes If the dataManager attributes need to be updated.
 	 */
 	public static void onChangedPotionEffect(EntityLivingBase entity, PotionEffect potionEffect, boolean reapplyAttributes) {
 		Method method = ReflectionHelper.findMethod(EntityLivingBase.class, entity,

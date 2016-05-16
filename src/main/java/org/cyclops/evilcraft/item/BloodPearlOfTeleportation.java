@@ -41,12 +41,12 @@ public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFl
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if(canConsume(100, itemStack, player)) {
             this.consume(100, itemStack, player);
-            world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_arrow_shoot, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             
             if (!world.isRemote) {
             	EntityBloodPearl pearl = new EntityBloodPearl(world, player);
                 // Last three params: pitch offset, velocity, inaccuracy
-                pearl.func_184538_a(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.0F, 0.0F);
+                pearl.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.0F, 0.0F);
             	pearl.motionX *= 3;
             	pearl.motionY *= 3;
             	pearl.motionZ *= 3;

@@ -41,7 +41,7 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
     
     @Override
     protected Item getDropItem() {
-        return Items.gunpowder;
+        return Items.GUNPOWDER;
     }
     
     @Override

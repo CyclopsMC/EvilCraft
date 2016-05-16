@@ -32,7 +32,7 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
      */
     public ControlledZombie(World world) {
         super(world);
-        addPotionEffect(new PotionEffect(MobEffects.confusion, 2000, 0));
+        addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 2000, 0));
         ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
 
         this.tasks.addTask(0, new EntityAISwimming(this));
@@ -56,7 +56,7 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.register(WATCHERID_TTL, 0);
+        this.dataManager.register(WATCHERID_TTL, 0);
     }
 
     @Override
@@ -72,11 +72,11 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
     }
 
     public int getTtl() {
-        return dataWatcher.get(WATCHERID_TTL);
+        return dataManager.get(WATCHERID_TTL);
     }
 
     public void setTtl(int ttl) {
-        this.dataWatcher.set(WATCHERID_TTL, ttl);
+        this.dataManager.set(WATCHERID_TTL, ttl);
     }
 
     @Override
@@ -94,17 +94,17 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.entity_zombie_ambient;
+        return SoundEvents.ENTITY_ZOMBIE_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound() {
-        return SoundEvents.entity_zombie_hurt;
+        return SoundEvents.ENTITY_ZOMBIE_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.entity_zombie_death;
+        return SoundEvents.ENTITY_ZOMBIE_DEATH;
     }
 
     @Override

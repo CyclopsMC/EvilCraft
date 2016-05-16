@@ -60,7 +60,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
     }
 
     public EntangledChalice(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.iron, TileEntangledChalice.class);
+        super(eConfig, Material.IRON, TileEntangledChalice.class);
     }
 
 	@Override

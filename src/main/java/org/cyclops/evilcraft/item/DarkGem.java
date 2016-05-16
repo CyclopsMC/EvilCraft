@@ -79,7 +79,7 @@ public class DarkGem extends ConfigurableItem {
                                     world.setBlockToAir(visited[restep]);
                                     if (world.isRemote)
                                         BloodStainedBlock.splash(world, visited[restep].add(0, -1, 0));
-                                    world.notifyBlockOfStateChange(visited[restep], Blocks.air);
+                                    world.notifyBlockOfStateChange(visited[restep], Blocks.AIR);
                                 }
                                 return -1;
                             }

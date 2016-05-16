@@ -50,10 +50,10 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	// Array of effects, each element: potion ID, duration, potion level.
 	private static final List<Triple<Potion, Integer, Integer>> RING_POWERS =
 			Lists.<Triple<Potion, Integer, Integer>>newArrayList(
-					Triple.of(MobEffects.jump, BONUS_POTION_DURATION, 2),
-					Triple.of(MobEffects.invisibility, BONUS_POTION_DURATION, 1),
-					Triple.of(MobEffects.moveSpeed, BONUS_POTION_DURATION, 1),
-					Triple.of(MobEffects.digSpeed, BONUS_POTION_DURATION, 1)
+					Triple.of(MobEffects.JUMP_BOOST, BONUS_POTION_DURATION, 2),
+					Triple.of(MobEffects.INVISIBILITY, BONUS_POTION_DURATION, 1),
+					Triple.of(MobEffects.SPEED, BONUS_POTION_DURATION, 1),
+					Triple.of(MobEffects.HASTE, BONUS_POTION_DURATION, 1)
 			);
 	
     private static VengeanceRing _instance = null;

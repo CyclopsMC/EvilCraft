@@ -88,7 +88,7 @@ public class PoisonousLibelleConfig extends MobConfig<PoisonousLibelle> {
     @Override
     public void onRegistered() {
         super.onRegistered();
-        EntityRegistry.addSpawn(PoisonousLibelle.class, 1, 1, 2, EnumCreatureType.MONSTER, Biomes.river);
+        EntityRegistry.addSpawn(PoisonousLibelle.class, 1, 1, 2, EnumCreatureType.MONSTER, Biomes.RIVER);
     }
     
 }

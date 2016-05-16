@@ -124,7 +124,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         }
     	
     	if (movingobjectposition != null) {
-            if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK && this.worldObj.getBlockState(movingobjectposition.getBlockPos()).getBlock() == Blocks.portal) {
+            if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK && this.worldObj.getBlockState(movingobjectposition.getBlockPos()).getBlock() == Blocks.PORTAL) {
                 this.inPortal = true;
             } else {
                 this.onImpact(movingobjectposition);

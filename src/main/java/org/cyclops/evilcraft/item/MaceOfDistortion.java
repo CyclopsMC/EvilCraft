@@ -159,9 +159,9 @@ public class MaceOfDistortion extends Mace {
     @SideOnly(Side.CLIENT)
     public static void showEntityDistored(World world, EntityLivingBase initiator, Entity entity, int power) {
         // Play a nice sound with the volume depending on the power.
-        world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.entity_generic_explode, SoundCategory.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         if(initiator != null) {
-            world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.entity_generic_explode, SoundCategory.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         }
         // Fake explosion effect.
         world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, entity.posX, entity.posY + itemRand.nextFloat(), entity.posZ, 1.0D, 0.0D, 0.0D);
@@ -181,7 +181,7 @@ public class MaceOfDistortion extends Mace {
                         particleMotionX, particleMotionY, particleMotionZ)
                 );
         
-        world.playSound(player, xCoord, yCoord, zCoord, SoundEvents.block_note_basedrum, SoundCategory.RECORDS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playSound(player, xCoord, yCoord, zCoord, SoundEvents.BLOCK_NOTE_BASEDRUM, SoundCategory.RECORDS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
     }
     
     @Override

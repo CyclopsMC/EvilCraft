@@ -243,7 +243,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     		if(old == null) {
     			if(!initial) {
 					EvilCraft.proxy.playSound(getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D,
-							SoundEvents.block_chest_close, SoundCategory.BLOCKS, 0.5F, getWorld().rand.nextFloat() * 0.1F + 0.9F);
+							SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, getWorld().rand.nextFloat() * 0.1F + 0.9F);
     			}
     		}
     		sendUpdate();

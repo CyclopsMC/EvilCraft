@@ -42,7 +42,7 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
     }
 
     public SanguinaryPedestal(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.iron, TileSanguinaryPedestal.class);
+        super(eConfig, Material.IRON, TileSanguinaryPedestal.class);
     }
     
     @Override

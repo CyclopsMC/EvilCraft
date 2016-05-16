@@ -23,7 +23,7 @@ public class DisplayStandRecipe extends ShapedOreRecipe {
 
 	public DisplayStandRecipe(List<ItemStack> plankTypes) {
 		super(DisplayStand.getInstance().
-						getTypedDisplayStandItem(Blocks.planks.getDefaultState()),
+						getTypedDisplayStandItem(Blocks.PLANKS.getDefaultState()),
 				"SBS", "SPS", " P ",
 				'S', Reference.DICT_WOODSTICK,
 				'B', "slabWood",
