@@ -170,6 +170,14 @@
         </section>
     </section>
     <section name="infoBook.evilcraft.secondAge">
+        <section name="infoBook.evilcraft.secondAge.bloodExtraction">
+            <tag>bloodExtractor</tag>
+            <paragraph>infoBook.evilcraft.secondAge.bloodExtraction.text1</paragraph>
+            <paragraph>infoBook.evilcraft.secondAge.bloodExtraction.text2</paragraph>
+            <paragraph>infoBook.evilcraft.secondAge.bloodExtraction.text3</paragraph>
+            <paragraph>infoBook.evilcraft.secondAge.bloodExtraction.text4</paragraph>
+            <appendix type="craftingRecipe">evilcraft:bloodExtractor</appendix>
+        </section>
         <section name="infoBook.evilcraft.secondAge.powersOfBlood">
             <tag>hardenedBlood</tag>
             <tag>hardenedBloodShard</tag>
@@ -185,14 +193,6 @@
                 <tag>bloodInfusionCore</tag>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodInfusionCore.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:bloodInfusionCore</appendix>
-            </section>
-            <section name="infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction">
-                <tag>bloodExtractor</tag>
-                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text1</paragraph>
-                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text2</paragraph>
-                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text3</paragraph>
-                <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text4</paragraph>
-                <appendix type="craftingRecipe">evilcraft:bloodExtractor</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.bloodInfusion.bloodChest">
                 <tag>bloodChest</tag>

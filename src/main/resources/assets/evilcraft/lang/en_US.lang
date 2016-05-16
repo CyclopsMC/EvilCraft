@@ -520,6 +520,13 @@ infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection.text=These spirits
 # --- Second Age ---
 infoBook.evilcraft.secondAge=Second Age
 
+# - Blood Extraction -
+infoBook.evilcraft.secondAge.bloodExtraction=Blood Extraction
+infoBook.evilcraft.secondAge.bloodExtraction.text1=Using some &1Spikes&0, I was able to make a simple utility to obtain some &4Blood&0 from various places. When killing certain beasts, this item will fill up with &4Blood&0 when it is somewhere within your inventory. Sometimes you might come across some &4Blood&0 stains on the ground, a simple shift + right click will put some of the &4Blood&0 in your extractor. These &4Blood&0 stains seem to form when something falls to death from a great height, this might come in handy one day...
+infoBook.evilcraft.secondAge.bloodExtraction.text2=A simple right click with this item will place one bucket of &4Blood&0 on the ground.
+infoBook.evilcraft.secondAge.bloodExtraction.text3=This will be useful until I find some less manual ways to get my hands on some &4Blood&0.
+infoBook.evilcraft.secondAge.bloodExtraction.text4=By default, the size of these extractors are a bit limited. But it looks like I can just combine multiple &1Blood Extractors&0 inside a crafting grid to increase the capacity, it can even be combined with &1Dark Tanks&0 for even more storage capacity.
+
 # - Powers of Blood -
 infoBook.evilcraft.secondAge.powersOfBlood=The Powers of Blood
 infoBook.evilcraft.secondAge.powersOfBlood.text1=Everyone knows that &4Blood&0 is a key element of every living being. Combining the magical properties of &1Dark Gems&0 and the vitalizing &4Blood&0 allowed me to come up with some really amazing new tools and machines. Some of my peers say I’m a bit too enthusiastic about this discovery, I guess they’re not open-minded enough.
@@ -532,12 +539,6 @@ infoBook.evilcraft.secondAge.bloodInfusion=Blood Infusion
 
 infoBook.evilcraft.secondAge.bloodInfusion.bloodInfusionCore=Blood Infusion Core
 infoBook.evilcraft.secondAge.bloodInfusion.bloodInfusionCore.text=This is one of the most profound discoveries based on &4Blood&0. Mundane items can be infused with &4Blood&0 to give the very special and interesting properties. The possibilities are endless, as long as you are not afraid to think a bit out of the box.
-
-infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction=Blood Extraction
-infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text1=Using some &1Spikes&0, I was able to make a simple utility to obtain some &4Blood&0 from various places. When killing certain beasts, this item will fill up with &4Blood&0 when it is somewhere within your inventory. Sometimes you might come across some &4Blood&0 stains on the ground, a simple shift + right click will put some of the &4Blood&0 in your extractor. These &4Blood&0 stains seem to form when something falls to death from a great height, this might come in handy one day...
-infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text2=A simple right click with this item will place one bucket of &4Blood&0 on the ground.
-infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text3=This will be useful until I find some less manual ways to get my hands on some &4Blood&0.
-infoBook.evilcraft.secondAge.bloodInfusion.bloodExtraction.text4=By default, the size of these extractors are a bit limited. But it looks like I can just combine multiple &1Blood Extractors&0 inside a crafting grid to increase the capacity, it can even be combined with &1Dark Tanks&0 for even more storage capacity.
 
 infoBook.evilcraft.secondAge.bloodInfusion.bloodChest=Blood Chest
 infoBook.evilcraft.secondAge.bloodInfusion.bloodChest.text=My first simple attempt to infuse items with &4Blood&0 resulted in a simple chest in which tools can bathe in. This bathing causes damage to the tools to slowly disappear. There is however a minor issue which causes tools to rarely attain bad effects, like the &1Breaking&0 enchant. I’ll certainly discover another way to purify these tools to get rid of these bad effects.
