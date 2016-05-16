@@ -23,7 +23,7 @@ import java.util.Random;
  */
 public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     
-    private static final int CHANCE_HARDEN = 10;
+    private static final int CHANCE_HARDEN = 50;
 
     private static FluidBlockBlood _instance = null;
     
@@ -41,11 +41,6 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
         if (MinecraftHelpers.isClientSide())
             this.setParticleColor(1.0F, 0.0F, 0.0F);
         this.setTickRandomly(true);
-    }
-    
-    @Override
-    public int tickRate(World par1World) {
-        return 100;
     }
 
     @Override
