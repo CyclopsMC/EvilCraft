@@ -144,6 +144,7 @@ public class Configs {
         configs.add(new VengeanceEssenceConfig());
         configs.add(new PiercingVengeanceFocusConfig());
         configs.add(new SpikeyClawsConfig());
+        configs.add(new SpectralGlassesConfig());
         
         // Entities
         // Item

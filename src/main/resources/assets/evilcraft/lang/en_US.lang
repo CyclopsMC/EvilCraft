@@ -220,6 +220,8 @@ item.items.evilcraft.piercingVengeanceFocus.name=Piercing Vengeance Focus
 item.items.evilcraft.piercingVengeanceFocus.info=Right click to enable Vengeance Spirit-killing beam.
 item.items.evilcraft.spikeyClaws.name=Spikey Claws
 item.items.evilcraft.spikeyClaws.info=Effective against soft materials
+item.items.evilcraft.spectralGlasses.name=Spectral Glasses
+item.items.evilcraft.spectralGlasses.info=Look into the spirit world
 
 item.evilcraft.powerable.setPower=Set power to %s
 item.evilcraft.powerable.info.power=Power: %s
@@ -515,7 +517,8 @@ infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits.text1=On some of my
 infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits.text2=I was able to reverse-engineer these boxes to be able to craft them myself. In this process, I also discovered how to freeze spirits so that they can be absorbed by these boxes. I enhanced the &1Vengeance Ring&0 with this technology to make a &1Vengeance Focus&0 that can be used to target spirits and catch them. Maybe I can use these contained spirits for something later...
 
 infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection=Spirit Protection
-infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection.text=These spirits can do some nasty damage if you’re not careful. I noticed that these spirits seem to be annoyed by &1Dark Gems&0, but they still ignore feeling that if they see you. The power of fire and a larger amount of &1Dark Gems&0 seems to change the way the spirits attack you though. Instead of taking damage, you will now only be a bit more hungry, which might be better than the alternative.
+infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection.text1=These spirits can do some nasty damage if you’re not careful. I noticed that these spirits seem to be annoyed by &1Dark Gems&0, but they still ignore feeling that if they see you. The power of fire and a larger amount of &1Dark Gems&0 seems to change the way the spirits attack you though. Instead of taking damage, you will now only be a bit more hungry, which might be better than the alternative.
+infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection.text2=A completely different alternative to spirit protection, is to simply make yourself invisible to these spirits. It looks like the &1Spectral Glasses&0 allow you to see any spirit without them being able to see you, unless they were already out for your soul. This does however require some otherwordly material to craft, maybe I'll come across it later.
 
 # --- Second Age ---
 infoBook.evilcraft.secondAge=Second Age

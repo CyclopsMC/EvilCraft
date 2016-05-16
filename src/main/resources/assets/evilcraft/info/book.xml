@@ -164,8 +164,11 @@
             </section>
             <section name="infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection">
                 <tag>burningGemStone</tag>
-                <paragraph>infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection.text</paragraph>
+                <tag>spectralGlasses</tag>
+                <paragraph>infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection.text1</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection.text2</paragraph>
                 <appendix type="furnaceRecipe">evilcraft:burningGemStone</appendix>
+                <appendix type="craftingRecipe">evilcraft:spectralGlasses</appendix>
             </section>
         </section>
     </section>

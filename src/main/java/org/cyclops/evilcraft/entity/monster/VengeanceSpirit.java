@@ -47,6 +47,7 @@ import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import org.cyclops.evilcraft.core.monster.EntityNoMob;
 import org.cyclops.evilcraft.item.BurningGemStone;
 import org.cyclops.evilcraft.item.BurningGemStoneConfig;
+import org.cyclops.evilcraft.item.SpectralGlasses;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -391,7 +392,15 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     
     @SideOnly(Side.CLIENT)
     private boolean isClientVisible() {
-    	return isEnabledVengeance(Minecraft.getMinecraft().thePlayer);
+    	if (isEnabledVengeance(Minecraft.getMinecraft().thePlayer)) {
+            return true;
+        }
+        for (ItemStack itemStack : Minecraft.getMinecraft().thePlayer.getArmorInventoryList()) {
+            if (itemStack != null && itemStack.getItem() instanceof SpectralGlasses) {
+                return true;
+            }
+        }
+        return false;
     }
     
     private boolean isAlternativelyVisible() {
