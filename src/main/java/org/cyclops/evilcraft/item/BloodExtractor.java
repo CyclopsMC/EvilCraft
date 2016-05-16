@@ -60,7 +60,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     
     @Override
     public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-    	Block block = world.getBlockState(blockPos).getBlock();
+        Block block = world.getBlockState(blockPos).getBlock();
         if(player.isSneaking()) {
 	        if(Configs.isEnabled(BloodStainedBlockConfig.class) && block == BloodStainedBlock.getInstance()) {
 	            Random random = world.rand;
@@ -83,7 +83,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
 	            return EnumActionResult.PASS;
 	        }
         }
-        return super.onItemUseFirst(itemStack, player, world, blockPos, side, hitX, hitY, hitZ, hand);
+        return EnumActionResult.PASS;
     }
     
     @Override
