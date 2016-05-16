@@ -62,7 +62,7 @@ public abstract class ConfigurableItemArmor extends ItemArmor implements IConfig
         if (existingStack == null) {
             playerIn.setItemStackToSlot(getEquipmentSlot(), itemStackIn);
             itemStackIn.stackSize--;
-            return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
+            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
         }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
