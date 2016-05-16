@@ -35,9 +35,9 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     }
 
     public ObscuredGlass(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.glass);
+        super(eConfig, Material.GLASS);
         this.setHardness(0.5F);
-        this.setStepSound(SoundType.GLASS);
+        this.setSoundType(SoundType.GLASS);
         this.setLightOpacity(10);
     }
     

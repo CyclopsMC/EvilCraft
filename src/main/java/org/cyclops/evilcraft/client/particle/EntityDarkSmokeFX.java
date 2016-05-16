@@ -28,15 +28,15 @@ public class EntityDarkSmokeFX extends EntityFX {
      * @param x X coordinate.
      * @param y Y coordinate.
      * @param z Z coordinate.
-     * @param xSpeed X axis speed.
-     * @param ySpeed Y axis speed.
-     * @param zSpeed Z axis speed.
+     * @param motionX X axis speed.
+     * @param motionY Y axis speed.
+     * @param motionZ Z axis speed.
      */
-    public EntityDarkSmokeFX(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(world, x, y, z, xSpeed, ySpeed, zSpeed);
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
-        this.zSpeed = zSpeed;
+    public EntityDarkSmokeFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+        super(world, x, y, z, motionX, motionY, motionZ);
+        this.motionX = motionX;
+        this.motionY = motionY;
+        this.motionZ = motionZ;
         setParticleSettings();
     }
     
@@ -79,9 +79,9 @@ public class EntityDarkSmokeFX extends EntityFX {
 	 * If the particles for this should be shown as death particles.
 	 */
 	public void setDeathParticles() {
-		xSpeed *= 2;
-        ySpeed *= 2;
-        zSpeed *= 2;
+		motionX *= 2;
+        motionY *= 2;
+        motionZ *= 2;
         particleGravity = 0.5F;
         
         particleRed = rand.nextFloat() * 0.33125F;

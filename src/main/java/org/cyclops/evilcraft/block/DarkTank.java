@@ -82,9 +82,9 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     }
 
     public DarkTank(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.glass, TileDarkTank.class);
+        super(eConfig, Material.GLASS, TileDarkTank.class);
         this.setHardness(0.5F);
-        this.setStepSound(SoundType.GLASS);
+        this.setSoundType(SoundType.GLASS);
         MinecraftForge.EVENT_BUS.register(this);
         if(MinecraftHelpers.isClientSide()) {
             itemModels = new ModelResourceLocation[2];

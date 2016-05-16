@@ -60,7 +60,7 @@ public class ExcrementPile extends ConfigurableBlock {
     }
 
     public ExcrementPile(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.clay);
+        super(eConfig, Material.CLAY);
         this.setTickRandomly(true);
     }
 
@@ -144,12 +144,12 @@ public class ExcrementPile extends ConfigurableBlock {
                     for(int zr = - 2; zr <= 2; zr++) {
                         if(random.nextInt(9) == 0) {
                             IBlockState blockBelow = world.getBlockState(blockPos.add(xr, -1, zr));
-                            if(blockBelow.getBlock() == Blocks.dirt) {
-                                world.setBlockState(blockPos.add(xr, -1, zr), Blocks.grass.getDefaultState());
-                            } else if(blockBelow == Blocks.grass) {
-                                ItemDye.applyBonemeal(new ItemStack(Items.dye, 1), world, blockPos.add(xr, -1, zr));
+                            if(blockBelow.getBlock() == Blocks.DIRT) {
+                                world.setBlockState(blockPos.add(xr, -1, zr), Blocks.GRASS.getDefaultState());
+                            } else if(blockBelow == Blocks.GRASS) {
+                                ItemDye.applyBonemeal(new ItemStack(Items.DYE, 1), world, blockPos.add(xr, -1, zr));
                             }
-                            ItemDye.applyBonemeal(new ItemStack(Items.dye, 1), world, blockPos.add(xr, -1, zr));
+                            ItemDye.applyBonemeal(new ItemStack(Items.DYE, 1), world, blockPos.add(xr, -1, zr));
                         }
                     }
                 }
@@ -198,23 +198,23 @@ public class ExcrementPile extends ConfigurableBlock {
     }
     
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos blockPos, Entity entity) {
+    public void onEntityWalk(World world, BlockPos blockPos, Entity entity) {
         if(entity instanceof EntityLivingBase) {
             // Pigs love excrement
             if(entity instanceof EntityPig) {
                 if(isChanceWithHeight(world, blockPos)) {
-                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.heal, PIG_BOOST_DURATION * 20, 1));
-                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.moveSpeed, PIG_BOOST_DURATION * 20, 1));
+                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.REGENERATION, PIG_BOOST_DURATION * 20, 1));
+                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.SPEED, PIG_BOOST_DURATION * 20, 1));
                 }
             } else if(entity instanceof EntityPlayer || ExcrementPileConfig.poisonEntities) {
                 // Poison player or mob with a chance depending on the height of the pile.
                 if(isChanceWithHeight(world, blockPos))
-                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.poison, POISON_DURATION * 20, 1));
+                    ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.POISON, POISON_DURATION * 20, 1));
             }
         }
-        super.onEntityCollidedWithBlock(world, blockPos, entity);
+        super.onEntityWalk(world, blockPos, entity);
     }
-    
+
     private boolean isChanceWithHeight(World world, BlockPos blockPos) {
         IBlockState blockState = world.getBlockState(blockPos);
         float height = ((float) getHeight(blockState)) * 0.125F;

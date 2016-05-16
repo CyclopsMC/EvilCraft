@@ -43,8 +43,8 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
 
     public HardenedBlood(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.ice);
-        this.setStepSound(SoundType.STONE);
+        super(eConfig, Material.ICE);
+        this.setSoundType(SoundType.STONE);
         this.setHardness(0.5F);
         
         this.setHarvestLevel("pickaxe", 0);
@@ -63,10 +63,10 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     @Override
     public void harvestBlock(World world, EntityPlayer player, BlockPos blockPos, IBlockState blockState, TileEntity tile, ItemStack heldItem){
         // MCP: mineBlockStatArray
-        player.addStat(StatList.func_188055_a(this), 1);
+        player.addStat(StatList.getBlockStats(this), 1);
         player.addExhaustion(0.025F);
 
-        if (this.canSilkHarvest() && EnchantmentHelper.getEnchantmentLevel(Enchantments.silkTouch, heldItem) > 0) {
+        if (this.canSilkHarvest() && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, heldItem) > 0) {
             ItemStack itemstack = this.createStackedBlock(blockState);
 
             if (itemstack != null) {
@@ -93,7 +93,7 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float coordX, float coordY, float coordZ) {
-        if (heldItem != null && heldItem.getItem() == Items.flint_and_steel
+        if (heldItem != null && heldItem.getItem() == Items.FLINT_AND_STEEL
                 && (player.capabilities.isCreativeMode || !heldItem.attemptDamageItem(1, world.rand))) {
             splitBlock(world, blockPos);
             return true;

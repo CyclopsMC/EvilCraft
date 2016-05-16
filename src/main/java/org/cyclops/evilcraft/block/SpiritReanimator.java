@@ -48,14 +48,14 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
     }
 
     public SpiritReanimator(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.rock, TileSpiritReanimator.class);
+        super(eConfig, Material.ROCK, TileSpiritReanimator.class);
         this.setHardness(5.0F);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
         this.setRotatable(true);
     }
 
     @Override
-    public SoundType getStepSound() {
+    public SoundType getSoundType() {
         return SoundType.STONE;
     }
 

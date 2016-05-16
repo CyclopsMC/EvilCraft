@@ -48,13 +48,13 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
     }
 
     @Override
-    public SoundType getStepSound() {
+    public SoundType getSoundType() {
         return SoundType.GROUND;
     }
 
     @Override
     public Item getItemDropped(IBlockState blockState, Random random, int zero) {
-        return Item.getItemFromBlock(Blocks.deadbush);
+        return Item.getItemFromBlock(Blocks.DEADBUSH);
     }
 
     @Override

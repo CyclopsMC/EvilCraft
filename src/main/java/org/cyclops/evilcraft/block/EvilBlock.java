@@ -28,9 +28,9 @@ public class EvilBlock extends ConfigurableBlockConnectedTexture {
     }
 
     public EvilBlock(ExtendedConfig<BlockConfig> eConfig) {
-        super(eConfig, Material.rock);
+        super(eConfig, Material.ROCK);
         this.setHardness(0.5F);
-        this.setStepSound(SoundType.METAL);
+        this.setSoundType(SoundType.METAL);
         this.setHarvestLevel("pickaxe", 0);
     }
     
