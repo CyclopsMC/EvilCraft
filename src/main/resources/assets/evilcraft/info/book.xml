@@ -140,7 +140,8 @@
             </section>
             <section name="infoBook.evilcraft.firstAge.items.displayStand">
                 <tag>displayStand</tag>
-                <paragraph>infoBook.evilcraft.firstAge.items.displayStand.text</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.displayStand.text1</paragraph>
+                <paragraph>infoBook.evilcraft.firstAge.items.displayStand.text2</paragraph>
                 <appendixList type="craftingRecipe">displayStands</appendixList>
             </section>
         </section>

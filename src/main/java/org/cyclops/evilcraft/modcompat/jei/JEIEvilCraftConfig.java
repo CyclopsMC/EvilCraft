@@ -14,6 +14,7 @@ import org.cyclops.evilcraft.modcompat.jei.bloodinfuser.BloodInfuserRecipeCatego
 import org.cyclops.evilcraft.modcompat.jei.bloodinfuser.BloodInfuserRecipeHandler;
 import org.cyclops.evilcraft.modcompat.jei.bloodinfuser.BloodInfuserRecipeJEI;
 import org.cyclops.evilcraft.modcompat.jei.bloodinfuser.BloodInfuserRecipeTransferInfo;
+import org.cyclops.evilcraft.modcompat.jei.displaystand.DisplayStandRecipeHandler;
 import org.cyclops.evilcraft.modcompat.jei.environmentalaccumulator.EnvironmentalAccumulatorRecipeCategory;
 import org.cyclops.evilcraft.modcompat.jei.environmentalaccumulator.EnvironmentalAccumulatorRecipeHandler;
 import org.cyclops.evilcraft.modcompat.jei.environmentalaccumulator.EnvironmentalAccumulatorRecipeJEI;
@@ -75,6 +76,9 @@ public class JEIEvilCraftConfig implements IModPlugin {
             for (ItemStack exaltedCrafter : exaltedCrafters) {
                 registry.addRecipeCategoryCraftingItem(exaltedCrafter, VanillaRecipeCategoryUid.CRAFTING);
             }
+
+            // Display Stand
+            registry.addRecipeHandlers(new DisplayStandRecipeHandler());
 
             // Ignore items
             JEI_HELPER.getItemBlacklist().addItemToBlacklist(new ItemStack(BloodStainedBlock.getInstance()));

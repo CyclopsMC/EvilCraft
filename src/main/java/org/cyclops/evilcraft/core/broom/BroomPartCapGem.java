@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.broom;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.helper.ModelHelpers;
+import org.cyclops.cyclopscore.helper.Helpers;
 
 /**
  * A broom part for a gem cap
@@ -14,7 +14,7 @@ public class BroomPartCapGem extends BroomPartBase {
 
     public BroomPartCapGem(ResourceLocation id, int color) {
         super(id, BroomPartType.CAP, 0.0625F);
-        this.color = ModelHelpers.rgbToBgr(color);
+        this.color = Helpers.rgbToBgr(color);
     }
 
     @SideOnly(Side.CLIENT)

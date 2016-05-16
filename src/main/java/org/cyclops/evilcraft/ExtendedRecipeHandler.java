@@ -1,10 +1,9 @@
 package org.cyclops.evilcraft;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -18,8 +17,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.recipe.event.IRecipeOutputObserver;
@@ -32,6 +29,7 @@ import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.core.recipe.BloodExtractorCombinationRecipe;
 import org.cyclops.evilcraft.core.recipe.BroomPartCombinationRecipe;
+import org.cyclops.evilcraft.core.recipe.DisplayStandRecipe;
 import org.cyclops.evilcraft.core.recipe.ItemBlockFluidContainerCombinationRecipe;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
@@ -42,7 +40,6 @@ import org.cyclops.evilcraft.enchantment.EnchantmentPoisonTip;
 import org.cyclops.evilcraft.enchantment.EnchantmentPoisonTipConfig;
 import org.cyclops.evilcraft.item.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -73,6 +70,8 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                 RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
         RecipeSorter.register(Reference.MOD_ID + "broomcombination", BroomPartCombinationRecipe.class,
                 RecipeSorter.Category.SHAPELESS, "after:forge:shapedore");
+        RecipeSorter.register(Reference.MOD_ID + "displaystand", DisplayStandRecipe.class,
+                RecipeSorter.Category.SHAPED, "after:forge:shapedore");
     }
 
     @Override
@@ -277,33 +276,10 @@ public class ExtendedRecipeHandler extends RecipeHandler {
 
             // Display Stand crafting
             if(Configs.isEnabled(DisplayStandConfig.class)) {
-                for (ItemStack plankWoodStack : OreDictionary.getOres("plankWood")) {
-                    int plankWoodMeta = plankWoodStack.getItemDamage();
-                    if (plankWoodMeta == OreDictionary.WILDCARD_VALUE) {
-                        List<ItemStack> plankWoodSubItems = Lists.newArrayList();
-                        plankWoodStack.getItem().getSubItems(plankWoodStack.getItem(), null, plankWoodSubItems);
-                        for (ItemStack plankWoodSubItem : plankWoodSubItems) {
-                            IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodSubItem);
-                            addDisplayStandRecipe(DisplayStand.getInstance()
-                                    .getTypedDisplayStandItem(plankWoodBlockState), plankWoodSubItem);
-                        }
-                    } else {
-                        IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodStack);
-                        addDisplayStandRecipe(DisplayStand.getInstance().
-                                getTypedDisplayStandItem(plankWoodBlockState), plankWoodStack);
-                    }
-                }
+                getTaggedOutput().put("displayStands", DisplayStand.getInstance().
+                        getTypedDisplayStandItem(Blocks.planks.getDefaultState()));
+                GameRegistry.addRecipe(new DisplayStandRecipe(OreDictionary.getOres(Reference.DICT_WOODPLANK)));
             }
         }
     }
-
-    protected void addDisplayStandRecipe(ItemStack result, ItemStack plankItemStack) {
-        getTaggedOutput().put("displayStands", result);
-        GameRegistry.addRecipe(new ShapedOreRecipe(result,
-                "SBS", "SPS", " P ",
-                'S', Reference.DICT_WOODSTICK,
-                'B', "slabWood",
-                'P', plankItemStack));
-    }
-
 }
