@@ -257,7 +257,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     	    if (!worldObj.isRemote || Minecraft.getMinecraft().thePlayer == lastMounted) {
     	        updateMountedServer();
     	    } else {
-    	        //updateMountedClient();
+    	        updateMountedClient();
     	    }
 
             // Apply collisions
@@ -307,7 +307,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         }
     }
     
-    protected void updateMountedClient() { // TODO: rm?
+    protected void updateMountedClient() {
         if (newPosRotationIncrements > 0) {
             double x = posX + (newPosX - posX) / newPosRotationIncrements;
             double y = posY + (newPosY - posY) / newPosRotationIncrements;
