@@ -192,14 +192,16 @@ public class BroomPartRegistry implements IBroomPartRegistry {
         if (BroomConfig.broomPartTooltips) {
             IBroomPart part = getPartFromItem(event.getItemStack());
             if (part != null) {
-                if (MinecraftHelpers.isShifted()) {
-                    event.getToolTip().add(TextFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
-                    Map<BroomModifier, Float> modifiers = getBaseModifiersFromPart(part);
-                    for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
-                        event.getToolTip().add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
+                Map<BroomModifier, Float> modifiers = getBaseModifiersFromPart(part);
+                if (!modifiers.isEmpty()) {
+                    if (MinecraftHelpers.isShifted()) {
+                        event.getToolTip().add(TextFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
+                        for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
+                            event.getToolTip().add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
+                        }
+                    } else {
+                        event.getToolTip().add(TextFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".shiftinfo"));
                     }
-                } else {
-                    event.getToolTip().add(TextFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".shiftinfo"));
                 }
             }
         }
