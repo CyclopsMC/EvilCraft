@@ -34,7 +34,7 @@ public class ObfuscationData {
 	/**
 	 * Field from net.minecraft.entity.EntityLiving.
 	 */
-	public static final String[] ENTITYLIVINGBASE_GETLOOTTABLE = new String[] { "getLootTable", "func_184276_b", "b" };
+	public static final String[] ENTITYLIVINGBASE_GETLOOTTABLE = new String[] { "getLootTable", "func_184647_J", "J", "func_188598_l", "l" };
 	
 	/**
 	 * Method from net.minecraft.entity.EntityLiving.
