@@ -324,8 +324,8 @@ public class BroomModifiers {
         REGISTRY.registerModifiersItem(SWIMMING, 4F, new ItemStack(Blocks.PRISMARINE, 1, 0));
         REGISTRY.registerModifiersItem(SWIMMING, 9F, new ItemStack(Blocks.PRISMARINE, 1, 1));
 
-        REGISTRY.registerModifiersItem(ICY, 1F, new ItemStack(Blocks.ICE, 1, 1));
-        REGISTRY.registerModifiersItem(ICY, 5F, new ItemStack(Blocks.PACKED_ICE, 1, 1));
+        REGISTRY.registerModifiersItem(ICY, 1F, new ItemStack(Blocks.ICE, 1, 0));
+        REGISTRY.registerModifiersItem(ICY, 5F, new ItemStack(Blocks.PACKED_ICE, 1, 0));
 
         EvilCraft.clog(String.format("%s Broom modifiers can be applied!", REGISTRY.getModifiers().size()));
     }
