@@ -380,7 +380,14 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             Minecraft.getMinecraft().effectRenderer.addEffect(particle);
         }
     }
-    
+
+    @Override
+    public void playSound(SoundEvent soundIn, float volume, float pitch) {
+        if (isVisible() && !this.isSilent()) {
+            this.worldObj.playSound(this.posX, this.posY, this.posZ, soundIn, this.getSoundCategory(), volume, pitch, true);
+        }
+    }
+
     /**
      * If this entity is visible to the current player
      * @return If it is visible
