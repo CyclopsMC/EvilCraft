@@ -351,7 +351,7 @@ public final class BroomParts {
                 BroomModifiers.STURDYNESS, 50F,
                 BroomModifiers.MANEUVERABILITY, 10F
         ));
-        REGISTRY.registerBaseModifiers(CAP_METAL_GOLD, ImmutableMap.of(
+        REGISTRY.registerBaseModifiers(CAP_METAL_BRASS, ImmutableMap.of(
                 BroomModifiers.SPEED, 80F,
                 BroomModifiers.STURDYNESS, 60F,
                 BroomModifiers.MANEUVERABILITY, 30F
