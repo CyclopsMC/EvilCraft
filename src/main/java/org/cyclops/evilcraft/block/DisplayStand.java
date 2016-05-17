@@ -122,7 +122,7 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return FACING_BOUNDS.get(EnumFacing.DOWN);
+        return FACING_BOUNDS.get(BlockHelpers.getSafeBlockStateProperty(state, FACING, EnumFacing.DOWN));
     }
 
     @Override
