@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BoxOfEternalClosure;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosureBaked;
@@ -61,7 +62,8 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
         GlStateManager.disableRescaleNormal();
 
         GlStateManager.translate(0.5F, 0.5F, 0.5F);
-        EnumFacing direction = tile.getWorld().getBlockState(tile.getPos()).getValue(BoxOfEternalClosure.FACING);
+        EnumFacing direction = BlockHelpers.getSafeBlockStateProperty(
+                tile.getWorld().getBlockState(tile.getPos()), BoxOfEternalClosure.FACING, EnumFacing.NORTH);
         short rotation = 0;
         if (direction == EnumFacing.SOUTH) {
             rotation = 180;
