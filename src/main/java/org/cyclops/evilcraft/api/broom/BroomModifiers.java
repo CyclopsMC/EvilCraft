@@ -97,15 +97,15 @@ public class BroomModifiers {
                 TextFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
         PARTICLES = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "particles"),
-                BroomModifier.Type.ADDITIVE, 0F, 10F, 5, false,
+                BroomModifier.Type.ADDITIVE, 0F, 50F, 1, false,
                 TextFormatting.LIGHT_PURPLE, Helpers.RGBToInt(160, 20, 160)));
         FLAME = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "flame"),
-                BroomModifier.Type.ADDITIVE, 0F, 1F, 10, false,
+                BroomModifier.Type.ADDITIVE, 0F, 4F, 3, false,
                 TextFormatting.GOLD, Helpers.RGBToInt(100, 100, 0)));
         SMASH = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "smash"),
-                BroomModifier.Type.ADDITIVE, 0F, 2F, 10, false,
+                BroomModifier.Type.ADDITIVE, 0F, 10F, 2, false,
                 TextFormatting.AQUA, Helpers.RGBToInt(20, 60, 60)));
         BOUNCY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "bouncy"),
