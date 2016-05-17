@@ -199,7 +199,7 @@ public class BroomModifiers {
                                 Block block = blockState.getBlock();
                                 if (!blockState.getBlock().isAir(blockState, world, pos) && broom.canConsume(BroomConfig.bloodUsageBlockBreak, ridingEntity)) {
                                     float hardness = blockState.getBlockHardness(world, pos);
-                                    if (hardness > 0F && hardness <= maxHardness && (player == null || ForgeHooks.canHarvestBlock(block, player, world, pos))) {
+                                    if (hardness > 0F && hardness <= maxHardness) {
                                         broom.consume(BroomConfig.bloodUsageBlockBreak, ridingEntity);
                                         if (player == null) {
                                             // The mounted entity is no player, do regular block breaking
