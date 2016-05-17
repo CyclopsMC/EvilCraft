@@ -17,6 +17,7 @@ import net.minecraft.network.play.server.SPacketBlockChange;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
@@ -224,7 +225,7 @@ public class BroomModifiers {
                                                     // Send block change packet to the client
                                                     playerMp.connection.sendPacket(new SPacketBlockChange(world, pos));
                                                 }
-                                            } else {
+                                            } else if (Minecraft.getMinecraft().objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
                                                 // Play sound and client-side block breaking sequence
                                                 world.playBroadcastSound(2001, pos, Block.getStateId(blockState));
                                                 if(block.removedByPlayer(blockState, world, pos, player, true)) {
