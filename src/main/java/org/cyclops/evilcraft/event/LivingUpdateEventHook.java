@@ -16,6 +16,7 @@ import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.block.ExcrementPile;
 import org.cyclops.evilcraft.block.ExcrementPileConfig;
 import org.cyclops.evilcraft.entity.monster.Werewolf;
+import org.cyclops.evilcraft.entity.villager.WerewolfVillager;
 import org.cyclops.evilcraft.entity.villager.WerewolfVillagerConfig;
 
 /**
@@ -69,7 +70,7 @@ public class LivingUpdateEventHook {
         if(event.getEntity() instanceof EntityVillager && !event.getEntity().worldObj.isRemote) {
             EntityVillager villager = (EntityVillager) event.getEntity();
             if(Werewolf.isWerewolfTime(event.getEntity().worldObj) && Configs.isEnabled(WerewolfVillagerConfig.class)
-                    && villager.getProfession() == WerewolfVillagerConfig._instance.getId()) {
+                    && villager.getProfessionForge() == WerewolfVillager.getInstance()) {
                 Werewolf.replaceVillager(villager);
             }
         }

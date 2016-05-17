@@ -5,7 +5,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.cyclops.evilcraft.entity.villager.WerewolfVillagerConfig;
+import org.cyclops.evilcraft.entity.villager.WerewolfVillager;
 import org.cyclops.evilcraft.item.IItemEmpowerable;
 
 /**
@@ -42,8 +42,8 @@ public class EntityStruckByLightningEventHook {
     private void transformVillager(EntityStruckByLightningEvent event) {
         if(event.getEntity() instanceof EntityVillager) {
         	EntityVillager entity = (EntityVillager) event.getEntity();
-            if(entity.getProfession() != WerewolfVillagerConfig.villagerID) {
-            	entity.setProfession(WerewolfVillagerConfig.villagerID);
+            if(entity.getProfessionForge() != WerewolfVillager.getInstance()) {
+            	entity.setProfession(WerewolfVillager.getInstance());
             }
         }
     }

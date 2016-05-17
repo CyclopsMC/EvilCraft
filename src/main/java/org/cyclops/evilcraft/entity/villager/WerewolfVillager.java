@@ -1,8 +1,10 @@
 package org.cyclops.evilcraft.entity.villager;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableVillager;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.VillagerConfig;
@@ -13,6 +15,7 @@ import org.cyclops.evilcraft.block.UndeadSaplingConfig;
 import org.cyclops.evilcraft.item.*;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Villager with specific evil trades.
@@ -20,6 +23,52 @@ import java.util.List;
  *
  */
 public class WerewolfVillager extends ConfigurableVillager {
+
+    private static final Random RANDOM = new Random();
+    private static final List<EntityVillager.ITradeList> IN = Lists.newArrayList();
+    private static final List<EntityVillager.ITradeList> OUT = Lists.newArrayList();
+    static {
+        if(Configs.isEnabled(DarkGemConfig.class)) {
+            IN.add(new EntityVillager.EmeraldForItems(DarkGem.getInstance(), new EntityVillager.PriceInfo(2, 5)));
+        }
+        if(Configs.isEnabled(HardenedBloodShardConfig.class)) {
+            IN.add(new EntityVillager.EmeraldForItems(HardenedBloodShardConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(10, 15)));
+        }
+        if(Configs.isEnabled(BlookConfig.class)) {
+            IN.add(new EntityVillager.EmeraldForItems(BlookConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(5, 9)));
+        }
+        if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
+            IN.add(new EntityVillager.EmeraldForItems(InvertedPotentia.getInstance(), new EntityVillager.PriceInfo(1, 5)));
+        }
+        if(Configs.isEnabled(PoisonSacConfig.class)) {
+            IN.add(new EntityVillager.EmeraldForItems(PoisonSacConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(10, 15)));
+        }
+
+        if(Configs.isEnabled(WerewolfBoneConfig.class)) {
+            OUT.add(new EntityVillager.ListItemForEmeralds(WerewolfBoneConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(5, 10)));
+        }
+        if(Configs.isEnabled(WerewolfFurConfig.class)) {
+            OUT.add(new EntityVillager.ListItemForEmeralds(WerewolfFurConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(5, 10)));
+        }
+        if(Configs.isEnabled(BloodInfusionCoreConfig.class)) {
+            OUT.add(new EntityVillager.ListItemForEmeralds(BloodInfusionCoreConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(10, 15)));
+        }
+        if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
+            OUT.add(new EntityVillager.ListItemForEmeralds(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), new EntityVillager.PriceInfo(1, 2)));
+        }
+        if(Configs.isEnabled(DarkGemCrushedConfig.class)) {
+            OUT.add(new EntityVillager.ListItemForEmeralds(DarkGemCrushedConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(3, 5)));
+        }
+        if(Configs.isEnabled(VengeanceFocusConfig.class)) {
+            OUT.add(new EntityVillager.ListItemForEmeralds(VengeanceFocus.getInstance(), new EntityVillager.PriceInfo(12, 18)));
+        }
+        if(Configs.isEnabled(UndeadSaplingConfig.class)) {
+            OUT.add(new EntityVillager.ListItemForEmeralds(Item.getItemFromBlock(UndeadSaplingConfig._instance.getBlockInstance()), new EntityVillager.PriceInfo(15, 25)));
+        }
+        if(Configs.isEnabled(GarmonboziaConfig.class)) {
+            OUT.add(new EntityVillager.ListItemForEmeralds(GarmonboziaConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(50, 64)));
+        }
+    }
     
     /**
      * The unique instance.
@@ -41,66 +90,25 @@ public class WerewolfVillager extends ConfigurableVillager {
     public WerewolfVillager(ExtendedConfig<VillagerConfig> eConfig) {
         super(eConfig);
 
-        List<List<EntityVillager.ITradeList>> trades = Lists.newArrayList();
-
-        // Input
-        List<EntityVillager.ITradeList> phase1 = Lists.newArrayList();
-        if(Configs.isEnabled(DarkGemConfig.class)) {
-            phase1.add(new EntityVillager.EmeraldForItems(DarkGem.getInstance(), new EntityVillager.PriceInfo(2, 5)));
-        }
-        if(Configs.isEnabled(HardenedBloodShardConfig.class)) {
-            phase1.add(new EntityVillager.EmeraldForItems(HardenedBloodShardConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(10, 15)));
-        }
-        if(Configs.isEnabled(BlookConfig.class)) {
-            phase1.add(new EntityVillager.EmeraldForItems(BlookConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(5, 9)));
-        }
-        if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
-            phase1.add(new EntityVillager.EmeraldForItems(InvertedPotentia.getInstance(), new EntityVillager.PriceInfo(1, 5)));
-        }
-        if(Configs.isEnabled(PoisonSacConfig.class)) {
-            phase1.add(new EntityVillager.EmeraldForItems(PoisonSacConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(10, 15)));
-        }
-        trades.add(phase1);
-        
-        // Output
-        List<EntityVillager.ITradeList> phase2 = Lists.newArrayList();
-        if(Configs.isEnabled(WerewolfBoneConfig.class)) {
-            phase2.add(new EntityVillager.ListItemForEmeralds(WerewolfBoneConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(5, 10)));
-        }
-        if(Configs.isEnabled(WerewolfFurConfig.class)) {
-            phase2.add(new EntityVillager.ListItemForEmeralds(WerewolfFurConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(5, 10)));
-        }
-        if(Configs.isEnabled(BloodInfusionCoreConfig.class)) {
-            phase2.add(new EntityVillager.ListItemForEmeralds(BloodInfusionCoreConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(10, 15)));
-        }
-        if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
-            phase2.add(new EntityVillager.ListItemForEmeralds(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), new EntityVillager.PriceInfo(1, 2)));
-        }
-        if(Configs.isEnabled(DarkGemCrushedConfig.class)) {
-            phase2.add(new EntityVillager.ListItemForEmeralds(DarkGemCrushedConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(3, 5)));
-        }
-        if(Configs.isEnabled(VengeanceFocusConfig.class)) {
-            phase2.add(new EntityVillager.ListItemForEmeralds(VengeanceFocus.getInstance(), new EntityVillager.PriceInfo(12, 18)));
-        }
-        if(Configs.isEnabled(UndeadSaplingConfig.class)) {
-            phase2.add(new EntityVillager.ListItemForEmeralds(Item.getItemFromBlock(UndeadSaplingConfig._instance.getBlockInstance()), new EntityVillager.PriceInfo(15, 25)));
-        }
-        if(Configs.isEnabled(GarmonboziaConfig.class)) {
-            phase2.add(new EntityVillager.ListItemForEmeralds(GarmonboziaConfig._instance.getItemInstance(), new EntityVillager.PriceInfo(50, 64)));
-        }
-
-        // TODO: enable when Forge makes this public
-        //(new VillagerRegistry.VillagerCareer(this, eConfig.getNamedId())).init(tradeListToArray(trades));
+        VillagerRegistry.VillagerCareer career = new VillagerRegistry.VillagerCareer(this, eConfig.getNamedId());
+        int level = 1;
+        level = tryAddTrades(level, career, IN);
+        level = tryAddTrades(level, career, OUT);
+        level = tryAddTrades(level, career, OUT);
+        level = tryAddTrades(level, career, IN);
+        level = tryAddTrades(level, career, OUT);
     }
 
-    // TODO: abstract
-    protected static EntityVillager.ITradeList[][] tradeListToArray(List<List<EntityVillager.ITradeList>> trades) {
-        EntityVillager.ITradeList[][] result = new EntityVillager.ITradeList[trades.size()][];
-        int i = 0;
-        for (List<EntityVillager.ITradeList> tradeList : trades) {
-            EntityVillager.ITradeList[] tradeArray = tradeList.toArray(new EntityVillager.ITradeList[tradeList.size()]);
-            result[i++] = tradeArray;
+    protected static int tryAddTrades(int level, VillagerRegistry.VillagerCareer career, List<EntityVillager.ITradeList> trades) {
+        Optional<EntityVillager.ITradeList> trade = random(trades);
+        if (trade.isPresent()) {
+            career.addTrade(level, trade.get());
+            return level + 1;
         }
-        return result;
+        return level;
+    }
+
+    protected static <T> Optional<T> random(List<T> list) {
+        return list.size() > 0 ? Optional.of(list.get(RANDOM.nextInt(list.size()))) : Optional.<T>absent();
     }
 }

@@ -20,6 +20,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.entity.villager.WerewolfVillager;
 import org.cyclops.evilcraft.entity.villager.WerewolfVillagerConfig;
 
 import java.util.Random;
@@ -58,7 +59,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
     
         // This sets the default villager profession ID.
         if(Configs.isEnabled(WerewolfVillagerConfig.class)) {
-            this.villagerNBTTagCompound.setInteger("Profession", WerewolfVillagerConfig._instance.getId());
+            this.villagerNBTTagCompound.setString("ProfessionName", WerewolfVillager.getInstance().getRegistryName().toString());
         }
     }
     
@@ -114,10 +115,15 @@ public class Werewolf extends EntityMob implements IConfigurable{
      * Replace this entity with the stored villager.
      */
     public void replaceWithVillager() {
-        if(Configs.isEnabled(WerewolfVillagerConfig.class) && false) { // TODO: re-enable when reimplementing werewolf villagers
-            EntityVillager villager = new EntityVillager(this.worldObj, WerewolfVillagerConfig._instance.getId());
+        if(Configs.isEnabled(WerewolfVillagerConfig.class)) {
+            EntityVillager villager = new EntityVillager(this.worldObj);
+            villager.setProfession(WerewolfVillager.getInstance());
             replaceEntity(this, villager, this.worldObj);
-            villager.readEntityFromNBT(villagerNBTTagCompound);
+            try {
+                villager.readEntityFromNBT(villagerNBTTagCompound);
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
         }
     }
     
