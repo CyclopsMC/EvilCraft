@@ -24,13 +24,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
-import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.Helpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.client.particle.EntityColoredSmokeFX;
 import org.cyclops.evilcraft.core.broom.PotionEffectBroomCollision;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 import org.cyclops.evilcraft.item.BroomConfig;
@@ -161,31 +158,6 @@ public class BroomModifiers {
                 }
             }
         });
-        if(MinecraftHelpers.isClientSide()) {
-            PARTICLES.addTickListener(new BroomModifier.ITickListener() {
-                @Override
-                public void onTick(EntityBroom broom, float modifierValue) {
-                    World world = broom.worldObj;
-                    if (world.isRemote && broom.lastMounted.moveForward != 0) {
-                        // Emit particles
-                        int particles = (int) (broom.getModifier(BroomModifiers.PARTICLES) * (float) broom.getLastPlayerSpeed());
-                        Triple<Float, Float, Float> color = BroomModifier.getAverageColor(broom.getModifiers());
-                        for (int i = 0; i < particles; i++) {
-                            float r = color.getLeft();
-                            float g = color.getMiddle();
-                            float b = color.getRight();
-                            EntityColoredSmokeFX smoke = new EntityColoredSmokeFX(world,
-                                    broom.posX - broom.motionX * 1.5D + Math.random() * 0.4D - 0.2D,
-                                    broom.posY - broom.motionY * 1.5D + Math.random() * 0.4D - 0.2D,
-                                    broom.posZ - broom.motionZ * 1.5D + Math.random() * 0.4D - 0.2D,
-                                    r, g, b,
-                                    broom.motionX / 10, broom.motionY / 10, broom.motionZ / 10);
-                            Minecraft.getMinecraft().effectRenderer.addEffect(smoke);
-                        }
-                    }
-                }
-            });
-        }
         FLAME.addCollisionListener(new BroomModifier.ICollisionListener() {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {

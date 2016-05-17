@@ -23,6 +23,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -30,6 +31,7 @@ import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.api.broom.IBroom;
+import org.cyclops.evilcraft.client.particle.EntityColoredSmokeFX;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.item.Broom;
@@ -260,6 +262,10 @@ public class EntityBroom extends Entity implements IConfigurable{
     	        updateMountedClient();
     	    }
 
+            if(MinecraftHelpers.isClientSide() && getModifier(BroomModifiers.PARTICLES) > 0) {
+                showParticles(this);
+            }
+
             // Apply collisions
             List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.2, 0.0, 0.2));
             if (list != null && !list.isEmpty()) {
@@ -291,6 +297,28 @@ public class EntityBroom extends Entity implements IConfigurable{
             }
     	    updateUnmounted();
     	}
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void showParticles(EntityBroom broom) {
+        World world = broom.worldObj;
+        if (world.isRemote && broom.lastMounted.moveForward != 0) {
+            // Emit particles
+            int particles = (int) (broom.getModifier(BroomModifiers.PARTICLES) * (float) broom.getLastPlayerSpeed());
+            Triple<Float, Float, Float> color = BroomModifier.getAverageColor(broom.getModifiers());
+            for (int i = 0; i < particles; i++) {
+                float r = color.getLeft();
+                float g = color.getMiddle();
+                float b = color.getRight();
+                EntityColoredSmokeFX smoke = new EntityColoredSmokeFX(world,
+                        broom.posX - broom.motionX * 1.5D + Math.random() * 0.4D - 0.2D,
+                        broom.posY - broom.motionY * 1.5D + Math.random() * 0.4D - 0.2D,
+                        broom.posZ - broom.motionZ * 1.5D + Math.random() * 0.4D - 0.2D,
+                        r, g, b,
+                        broom.motionX / 10, broom.motionY / 10, broom.motionZ / 10);
+                Minecraft.getMinecraft().effectRenderer.addEffect(smoke);
+            }
+        }
     }
 
     protected void collideWithNearbyEntities() {
