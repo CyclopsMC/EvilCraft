@@ -219,6 +219,26 @@ public class EntityBroom extends Entity implements IConfigurable{
         return true;
     }
 
+    public void startAllowFlying(EntityLivingBase entity) {
+        if(entity instanceof EntityPlayer) {
+            ((EntityPlayer) entity).capabilities.allowFlying = true;
+        }
+    }
+
+    public void stopAllowFlying(EntityLivingBase entity) {
+        if(entity instanceof EntityPlayer) {
+            ((EntityPlayer) entity).capabilities.allowFlying = false;
+        }
+    }
+
+    @Override
+    protected void addPassenger(Entity passenger) {
+        super.addPassenger(passenger);
+        if(!worldObj.isRemote && passenger instanceof EntityLivingBase) {
+            startAllowFlying((EntityLivingBase) passenger);
+        }
+    }
+
     @Override
     public void onUpdate() {
     	super.onUpdate();
@@ -227,6 +247,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         if (!worldObj.isRemote && !isBeingRidden() && lastMounted != null) {
     		// The player dismounted, give him his broom back if he's not in creative mode
     		if (lastMounted instanceof EntityPlayer && Configs.isEnabled(BroomConfig.class)) {
+                stopAllowFlying(lastMounted);
                 EntityPlayer player = (EntityPlayer) lastMounted;
                 // Return to inventory if we have space and the player is not dead, otherwise drop it on the ground
                 if (!player.isDead && (!MinecraftHelpers.isPlayerInventoryFull(player) || player.capabilities.isCreativeMode)) {
