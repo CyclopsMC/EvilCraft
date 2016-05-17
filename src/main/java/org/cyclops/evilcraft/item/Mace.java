@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Multimap;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -134,7 +135,8 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
                     double zOffset = Math.cos(v) * area;
 
                     double xCoord = entity.posX;
-                    double yCoord = entity.posY + entity.getEyeHeight() - 0.5D;
+                    double yCoord = entity.posY + entity.getEyeHeight()
+                            - (Minecraft.getMinecraft().thePlayer == entity ? 0.5D : 1.5D);
                     double zCoord = entity.posZ;
 
                     double particleX = xCoord + xOffset - world.rand.nextFloat() * area / 4 - 0.5F;
