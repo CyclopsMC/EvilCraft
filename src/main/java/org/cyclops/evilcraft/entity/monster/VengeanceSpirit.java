@@ -118,19 +118,20 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         }
         
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(speed);
-        
+
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIWander(this, 0.6D));
         this.tasks.addTask(2, new EntityAILookIdle(this));
         this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, damage));
+        this.tasks.addTask(4, new EntityAIAttackMelee(this, 1.0D, false));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true, false));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true));
         
         setRemainingLife(remainingLife);
         setFrozenDuration(0);
     }
-    
+
     @SuppressWarnings("unchecked")
 	private String getRandomInnerEntity() {
     	Collection<EntityList.EntityEggInfo> eggs = EntityList.ENTITY_EGGS.values();
