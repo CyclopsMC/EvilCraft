@@ -1,0 +1,36 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.6.0.
+
+Additions:
+* Add completely rewritten, fully customizable brooms. All information can be found in the Origins of Darkness
+* Add Spikey Claws
+* Make Vengeance Spirits killable using Vengeance Focus, their drops can be used to craft Garmonbozia
+* Add blood overlay bar to gui, can be disabled and customized in the config
+* Add display stands, they can be used to showcase any item, with six possible rotation. They can be crafted with all possible wood types
+
+Changes:
+* Fully restore werewolf villager
+* Make Blood fluid flowing more smoothly
+* Move blood extraction section to start of second age in infobook, Closes #373
+* Change Envir Acc beam color based on the biome
+* Restore Envir Acc boss bar rendering
+* Allow Purifier to split up enchanted books
+* Increase Spirit Furnace consumption for boss mobs, Closes #346
+* Improve Blood Pearl of Teleportation throwing velocity
+* Restore loot chest item spawning
+* Add JEI crafting category items
+* Remove Broom from loot chests
+
+Fixes:
+* Fix Vengeance Spirits not attacking players, Closes #393
+* Fix flying-is-not-enabled-kick when flying on a broom
+* Make BOEC rendering blockstate-safe when the world is still loading
+* Fix Vengeance Spirits making sound when they should not be visible
+* Fix mace particles in SMP
+* Fix Vengeance Spirit loot table crash
+* Remove reinforcedUndeadPlank recipe warning
+* Fix Blood Extractor not interacting with tank, Closes #372
+* Fix Vengeance Spirits colliding with entities, Closes #376
+* Reduce Dark Temple spawn rate, Closes #352
+* Fix Sanguinary Envir Acc recipes not showing in JEI
+* Fix crappy Dark Temple loot chests
