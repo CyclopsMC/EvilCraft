@@ -144,7 +144,13 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
         IBlockState blockState = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
         blockState = blockState.withProperty(FACING, facing.getOpposite());
         EnumFacing playerFacing = placer.getHorizontalFacing();
-        blockState = blockState.withProperty(AXIS_X, playerFacing.getAxis() == EnumFacing.Axis.X);
+        boolean axisX;
+        if (facing.getOpposite() == EnumFacing.DOWN || facing.getOpposite() == EnumFacing.UP) {
+            axisX = playerFacing.getAxis() == EnumFacing.Axis.X;
+        } else {
+            axisX = playerFacing.getAxis() != EnumFacing.Axis.X && playerFacing.getAxis() != EnumFacing.Axis.Z;
+        }
+        blockState = blockState.withProperty(AXIS_X, axisX);
         return blockState;
     }
 
