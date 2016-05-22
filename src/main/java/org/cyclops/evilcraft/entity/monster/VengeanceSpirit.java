@@ -386,7 +386,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 
     @Override
     public void playSound(SoundEvent soundIn, float volume, float pitch) {
-        if (isVisible() && !this.isSilent()) {
+        if (soundIn != null && isVisible() && !this.isSilent()) {
             this.worldObj.playSound(this.posX, this.posY, this.posZ, soundIn, this.getSoundCategory(), volume, pitch, true);
         }
     }
