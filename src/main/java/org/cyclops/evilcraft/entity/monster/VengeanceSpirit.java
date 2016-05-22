@@ -452,7 +452,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return If it should be visible.
      */
     public boolean isEnabledVengeance(EntityPlayer player) {
-        return isGlobalVengeance() || ArrayUtils.contains(getVengeancePlayers(), player.getName());
+        return isGlobalVengeance() || (player != null && ArrayUtils.contains(getVengeancePlayers(), player.getName()));
 	}
     
     /**
