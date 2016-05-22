@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.6.0.
+
+Initial 1.9.4 release
+
+Fixes:
+* Fix Box of Eternal Closure placement crash by making property retrieval safer, Closes #398
+* Fix Vengeance Spirit crash for mobs without valid sounds, Closes #396
+* Fix vengeance-check player-null-safe during startup, Closes #394
