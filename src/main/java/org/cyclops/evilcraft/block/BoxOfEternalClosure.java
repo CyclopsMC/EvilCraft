@@ -84,7 +84,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World world, BlockPos blockPos) {
-		EnumFacing rotation = world.getBlockState(blockPos).getValue(FACING);
+		EnumFacing rotation = BlockHelpers.getSafeBlockStateProperty(world.getBlockState(blockPos), FACING, EnumFacing.NORTH);
 		if(rotation == EnumFacing.EAST || rotation == EnumFacing.WEST) {
 			return new AxisAlignedBB(0.25F, 0F, 0.0F, 0.75F, 0.43F, 1.0F).offset(blockPos);
 		} else {
