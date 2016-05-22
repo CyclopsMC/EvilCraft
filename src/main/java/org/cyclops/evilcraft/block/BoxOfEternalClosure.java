@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -148,7 +148,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     	VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
     	spirit.setGlobalVengeance(true);
     	spirit.setIsSwarm(true);
-    	spirit.writeToNBT(spiritTag);
+    	spirit.func_189511_e(spiritTag); // MCP: writeToNBT
     	String entityId = EntityList.getEntityString(spirit);
     	
 		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
@@ -171,7 +171,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, spirit.getPlayerId());
 		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, spirit.getPlayerName());
 		spirit.setGlobalVengeance(true);
-		spirit.writeToNBT(spiritTag);
+		spirit.writeToNBTAtomically(spiritTag);
 		String entityId = EntityList.getEntityString(spirit);
 
 		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
@@ -223,16 +223,17 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 	public boolean canPlaceBlockAt(World world, BlockPos blockPos) {
 		return BlockHelpers.doesBlockHaveSolidTopSurface(world, blockPos);
     }
-    
+
+	// MCP: onNeighborBlockChange
     @Override
-    public void onNeighborBlockChange(World world, BlockPos blockPos, IBlockState blockState, Block block) {
+    public void func_189540_a(IBlockState blockState, World world, BlockPos blockPos, Block block) {
         if(!canPlaceBlockAt(world, blockPos)) {
         	dropBlockAsItem(world, blockPos, blockState, 0);
         	world.setBlockToAir(blockPos);
         }
-        super.onNeighborBlockChange(world, blockPos, blockState, block);
+        super.func_189540_a(blockState, world, blockPos, block);
     }
-    
+
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityplayer, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
     	if(world.getTileEntity(blockPos) != null) {
@@ -297,17 +298,17 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean addHitEffects(IBlockState blockState, World worldObj, RayTraceResult target, EffectRenderer effectRenderer) {
+	public boolean addHitEffects(IBlockState blockState, World worldObj, RayTraceResult target, ParticleManager particleManager) {
 		if(target != null) {
-			RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, Blocks.OBSIDIAN.getDefaultState(), target.getBlockPos(), target.sideHit);
+			RenderHelpers.addBlockHitEffects(particleManager, worldObj, Blocks.OBSIDIAN.getDefaultState(), target.getBlockPos(), target.sideHit);
 		}
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
-		RenderHelpers.addBlockHitEffects(effectRenderer, world, Blocks.OBSIDIAN.getDefaultState(), pos, EnumFacing.UP);
+	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager particleManager) {
+		RenderHelpers.addBlockHitEffects(particleManager, world, Blocks.OBSIDIAN.getDefaultState(), pos, EnumFacing.UP);
 		return true;
 	}
 

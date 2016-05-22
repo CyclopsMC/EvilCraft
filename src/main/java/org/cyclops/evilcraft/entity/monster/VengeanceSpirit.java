@@ -40,9 +40,9 @@ import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.*;
 import org.cyclops.evilcraft.block.GemStoneTorchConfig;
-import org.cyclops.evilcraft.client.particle.EntityBlurFX;
-import org.cyclops.evilcraft.client.particle.EntityDarkSmokeFX;
-import org.cyclops.evilcraft.client.particle.EntityDegradeFX;
+import org.cyclops.evilcraft.client.particle.ParticleBlur;
+import org.cyclops.evilcraft.client.particle.ParticleDarkSmoke;
+import org.cyclops.evilcraft.client.particle.ParticleDegrade;
 import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import org.cyclops.evilcraft.core.monster.EntityNoMob;
 import org.cyclops.evilcraft.item.BurningGemStone;
@@ -162,10 +162,11 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         this.dataManager.register(WATCHERID_PLAYERID, "");
         this.dataManager.register(WATCHERID_PLAYERNAME, "");
     }
-    
+
+    // MCP: writeToNBT
     @Override
-	public void writeEntityToNBT(NBTTagCompound tag) {
-    	super.writeEntityToNBT(tag);
+	public NBTTagCompound func_189511_e(NBTTagCompound tag) {
+    	tag = super.func_189511_e(tag);
     	if(getInnerEntity() != null)
     		tag.setString("innerEntity", getInnerEntity().getClass().getName());
     	tag.setInteger("remainingLife", getRemainingLife());
@@ -175,6 +176,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         tag.setInteger("buildupDuration", getBuildupDuration());
         tag.setString("playerId", getPlayerId());
         tag.setString("playerName", getPlayerName());
+        return tag;
     }
     
     @Override
@@ -355,7 +357,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             float particleMotionY = (-0.5F + rand.nextFloat()) * 0.05F;
             float particleMotionZ = (-0.5F + rand.nextFloat()) * 0.05F;
             
-            EntityDarkSmokeFX particle = new EntityDarkSmokeFX(worldObj, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
+            ParticleDarkSmoke particle = new ParticleDarkSmoke(worldObj, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             if(this.isDead)
             	particle.setDeathParticles();
             particle.setLiving((float)getRemainingLife() / (float)REMAININGLIFE_MAX);
@@ -377,7 +379,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             float particleMotionY = (-0.5F + rand.nextFloat()) * 0.05F;
             float particleMotionZ = (-0.5F + rand.nextFloat()) * 0.05F;
             
-            EntityDegradeFX particle = new EntityDegradeFX(worldObj, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
+            ParticleDegrade particle = new ParticleDegrade(worldObj, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             Minecraft.getMinecraft().effectRenderer.addEffect(particle);
         }
     }
@@ -792,7 +794,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	        double dy = 0.1D - rand.nextDouble() * 0.2D - impactMotionY * 0.1D;
 	        double dz = 0.1D - rand.nextDouble() * 0.2D - impactMotionZ * 0.1D;
 	        
-			EntityBlurFX blur = new EntityBlurFX(worldObj, hitX, hitY, hitZ, scale,
+			ParticleBlur blur = new ParticleBlur(worldObj, hitX, hitY, hitZ, scale,
 					dx, dy, dz, red, green, blue, ageMultiplier);
 			Minecraft.getMinecraft().effectRenderer.addEffect(blur);
 		}

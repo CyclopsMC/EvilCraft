@@ -12,7 +12,7 @@ import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.client.particle.EntityBloodBrickFX;
+import org.cyclops.evilcraft.client.particle.ParticleBloodBrick;
 
 /**
  * Packet for telling clients if a structure has been formed for a blockState location.
@@ -72,7 +72,7 @@ public class DetectionListenerPacket extends PacketCodec {
 
     @SideOnly(Side.CLIENT)
     private void showActivatedParticle(World world, int x, int y, int z, EnumFacing side) {
-        EntityBloodBrickFX burst = new EntityBloodBrickFX(world, x, y, z, side);
+        ParticleBloodBrick burst = new ParticleBloodBrick(world, x, y, z, side);
 		Minecraft.getMinecraft().effectRenderer.addEffect(burst);
 	}
     

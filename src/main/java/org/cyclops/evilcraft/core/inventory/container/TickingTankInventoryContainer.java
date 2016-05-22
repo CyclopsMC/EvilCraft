@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.inventory.container;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.inventory.container.TileInventoryContainer;
@@ -38,12 +38,12 @@ public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEnt
     }
     
     @Override
-    public void addListener(ICrafting icrafting) {
+    public void addListener(IContainerListener icrafting) {
         super.addListener(icrafting);
         sendTickersUpdates(icrafting, true);
     }
     
-    private void sendTickersUpdates(ICrafting icrafting, boolean force) {
+    private void sendTickersUpdates(IContainerListener icrafting, boolean force) {
         int index = 0;
         for(TickComponent<T, ITickAction<T>> ticker : tile.getTickers()) {
             if(previousTicks.get(ticker) != ticker.getTick() || force) {
@@ -64,7 +64,7 @@ public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEnt
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
-        for (ICrafting icrafting : listeners) {
+        for (IContainerListener icrafting : listeners) {
             sendTickersUpdates(icrafting, false);
         }
     }

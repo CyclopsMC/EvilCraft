@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 
 /**
@@ -8,7 +8,7 @@ import net.minecraft.world.World;
  * @author rubensworks
  *
  */
-public class EntityDegradeFX extends EntityFX {
+public class ParticleDegrade extends Particle {
     
     /**
      * Make a new instance.
@@ -17,7 +17,7 @@ public class EntityDegradeFX extends EntityFX {
      * @param y Y coordinate.
      * @param z Z coordinate.
      */
-    public EntityDegradeFX(World world, double x, double y, double z) {
+    public ParticleDegrade(World world, double x, double y, double z) {
         super(world, x, y, z);
         setColor();
     }
@@ -32,7 +32,7 @@ public class EntityDegradeFX extends EntityFX {
      * @param motionY Y axis speed.
      * @param motionZ Z axis speed.
      */
-    public EntityDegradeFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+    public ParticleDegrade(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.particleMaxAge = 40;
         this.particleAlpha = 0.4F;

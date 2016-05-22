@@ -23,7 +23,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.evilcraft.client.particle.EntityBlurFX;
+import org.cyclops.evilcraft.client.particle.ParticleBlur;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.entity.item.EntityItemUndespawnable;
 import org.cyclops.evilcraft.fluid.Blood;
@@ -229,7 +229,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
         float blue = rand.nextFloat() * 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 2.5D + 10D);
 
-        EntityBlurFX blur = new EntityBlurFX(world, entity.posX, entity.posY, entity.posZ, scale,
+        ParticleBlur blur = new ParticleBlur(world, entity.posX, entity.posY, entity.posZ, scale,
                 -dx, -dy, -dz,
                 red, green, blue, ageMultiplier);
         Minecraft.getMinecraft().effectRenderer.addEffect(blur);

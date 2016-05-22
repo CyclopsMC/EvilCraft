@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -21,7 +21,7 @@ import org.lwjgl.opengl.GL11;
  * @author rubensworks
  *
  */
-public class EntityBloodBrickFX extends EntityFX {
+public class ParticleBloodBrick extends Particle {
 	
 	private static final ResourceLocation TEXTURE = new ResourceLocation(
 			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "bloodBrickActivation.png");
@@ -39,7 +39,7 @@ public class EntityBloodBrickFX extends EntityFX {
 	 * @param z Z coordinate.
 	 * @param side The side of the blockState to draw this particle on.
 	 */
-	public EntityBloodBrickFX(World world, double x, double y, double z, EnumFacing side) {
+	public ParticleBloodBrick(World world, double x, double y, double z, EnumFacing side) {
 		super(world, x, y, z, 0, 0, 0);
 		this.side = side;
 		

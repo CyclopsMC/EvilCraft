@@ -1,21 +1,21 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.EntityBubbleFX;
+import net.minecraft.client.particle.ParticleBubble;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * {@link EntityBubbleFX} that has a modifiable gravity factor.
+ * {@link ParticleBubble} that has a modifiable gravity factor.
  * The higher this factor, the more quickly it will drop.
  * @author Ruben Taelman
  */
 @SideOnly(Side.CLIENT)
-public class ExtendedEntityBubbleFX extends EntityBubbleFX {
+public class ExtendedParticleBubble extends ParticleBubble {
 
     private final double gravity;
 
-    public ExtendedEntityBubbleFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, double gravity) {
+    public ExtendedParticleBubble(World world, double x, double y, double z, double motionX, double motionY, double motionZ, double gravity) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.gravity = gravity;
     }

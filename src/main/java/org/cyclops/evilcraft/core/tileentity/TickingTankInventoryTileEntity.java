@@ -95,8 +95,8 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound data) {
-        super.writeToNBT(data);
+    public NBTTagCompound writeToNBT(NBTTagCompound data) {
+        data = super.writeToNBT(data);
         data.setInteger("currentState", currentState);
         NBTTagList tickerList = new NBTTagList();
         for(TickComponent<T, ITickAction<T>> ticker : tickers) {
@@ -106,6 +106,7 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
             tickerList.appendTag(tag);
         }
         data.setTag("tickers", tickerList);
+        return data;
     }
     
     @Override

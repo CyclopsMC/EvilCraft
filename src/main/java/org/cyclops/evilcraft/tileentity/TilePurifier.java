@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.tileentity;
 
 import lombok.Getter;
 import lombok.experimental.Delegate;
-import net.minecraft.client.particle.EntityEnchantmentTableParticleFX;
+import net.minecraft.client.particle.ParticleEnchantmentTable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
@@ -21,8 +21,8 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
 import org.cyclops.evilcraft.block.Purifier;
 import org.cyclops.evilcraft.block.PurifierConfig;
-import org.cyclops.evilcraft.client.particle.EntityBloodBubbleFX;
-import org.cyclops.evilcraft.client.particle.EntityMagicFinishFX;
+import org.cyclops.evilcraft.client.particle.ParticleBloodBubble;
+import org.cyclops.evilcraft.client.particle.ParticleMagicFinish;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
 import org.cyclops.evilcraft.fluid.Blood;
@@ -279,7 +279,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
             float particleMotionZ = -0.01F + worldObj.rand.nextFloat() * 0.02F;
 
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new EntityBloodBubbleFX(worldObj, particleX, particleY, particleZ,
+                    new ParticleBloodBubble(worldObj, particleX, particleY, particleZ,
                             particleMotionX, particleMotionY, particleMotionZ)
                     );
         }
@@ -298,7 +298,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
                 float particleMotionZ = -0.4F + worldObj.rand.nextFloat() * 0.8F;
     
                 FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new EntityEnchantmentTableParticleFX.EnchantmentTable().getEntityFX(0, worldObj, particleX, particleY, particleZ,
+                        new ParticleEnchantmentTable.EnchantmentTable().getEntityFX(0, worldObj, particleX, particleY, particleZ,
                                 particleMotionX, particleMotionY, particleMotionZ)
                         );
             }
@@ -317,7 +317,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
             float particleMotionZ = -0.4F + worldObj.rand.nextFloat() * 0.8F;
 
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new EntityMagicFinishFX(worldObj, particleX, particleY, particleZ,
+                    new ParticleMagicFinish(worldObj, particleX, particleY, particleZ,
                             particleMotionX, particleMotionY, particleMotionZ)
                     );
         }

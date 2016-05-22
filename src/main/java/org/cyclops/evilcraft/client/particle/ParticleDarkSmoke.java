@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 
 /**
@@ -8,7 +8,7 @@ import net.minecraft.world.World;
  * @author rubensworks
  *
  */
-public class EntityDarkSmokeFX extends EntityFX {
+public class ParticleDarkSmoke extends Particle {
     
     /**
      * Make a new instance.
@@ -17,7 +17,7 @@ public class EntityDarkSmokeFX extends EntityFX {
      * @param y Y coordinate.
      * @param z Z coordinate.
      */
-    public EntityDarkSmokeFX(World world, double x, double y, double z) {
+    public ParticleDarkSmoke(World world, double x, double y, double z) {
         super(world, x, y, z);
         setParticleSettings();
     }
@@ -32,7 +32,7 @@ public class EntityDarkSmokeFX extends EntityFX {
      * @param motionY Y axis speed.
      * @param motionZ Z axis speed.
      */
-    public EntityDarkSmokeFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+    public ParticleDarkSmoke(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.motionX = motionX;
         this.motionY = motionY;

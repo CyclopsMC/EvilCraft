@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 
 /**
@@ -8,7 +8,7 @@ import net.minecraft.world.World;
  * @author rubensworks
  *
  */
-public class EntityMagicFinishFX extends EntityFX {
+public class ParticleMagicFinish extends Particle {
     
     /**
      * Make a new instance.
@@ -17,7 +17,7 @@ public class EntityMagicFinishFX extends EntityFX {
      * @param y Y coordinate.
      * @param z Z coordinate.
      */
-    public EntityMagicFinishFX(World world, double x, double y, double z) {
+    public ParticleMagicFinish(World world, double x, double y, double z) {
         super(world, x, y, z);
         setColor();
     }
@@ -32,7 +32,7 @@ public class EntityMagicFinishFX extends EntityFX {
      * @param motionY Y axis speed.
      * @param motionZ Z axis speed.
      */
-    public EntityMagicFinishFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+    public ParticleMagicFinish(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);
         setColor();
     }

@@ -11,7 +11,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,7 +21,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.Configs;
-import org.cyclops.evilcraft.client.particle.EntityBlurFX;
+import org.cyclops.evilcraft.client.particle.ParticleBlur;
 import org.cyclops.evilcraft.core.algorithm.OrganicSpread;
 import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
 import org.cyclops.evilcraft.item.BiomeExtract;
@@ -71,7 +71,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
     protected void onImpact(final RayTraceResult movingobjectposition) {
         ItemStack itemStack = getItemStack();
 
-        final BiomeGenBase biome = BiomeExtract.getInstance().getBiome(itemStack);
+        final Biome biome = BiomeExtract.getInstance().getBiome(itemStack);
         if(biome != null) {
             OrganicSpread spread = new OrganicSpread(worldObj, 2, 5, new OrganicSpread.IOrganicSpreadable() {
                 @Override
@@ -122,7 +122,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
             double motionZ = -0.1F + rand.nextFloat() * 0.2F;
 
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new EntityBlurFX(world, x, y, z, scale, motionX, motionY, motionZ, red, green, blue, ageMultiplier)
+                    new ParticleBlur(world, x, y, z, scale, motionX, motionY, motionZ, red, green, blue, ageMultiplier)
             );
         }
     }

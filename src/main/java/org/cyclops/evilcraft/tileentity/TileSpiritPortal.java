@@ -16,7 +16,7 @@ import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
-import org.cyclops.evilcraft.client.particle.EntityBlurFX;
+import org.cyclops.evilcraft.client.particle.ParticleBlur;
 import org.cyclops.evilcraft.item.OriginsOfDarkness;
 import org.cyclops.evilcraft.item.OriginsOfDarknessConfig;
 
@@ -84,7 +84,7 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
         float blue = rand.nextFloat() * 0.05F + 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 6.5D + 10D);
 
-        EntityBlurFX blur = new EntityBlurFX(worldObj, getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F, scale,
+        ParticleBlur blur = new ParticleBlur(worldObj, getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F, scale,
                 rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F,
                 red, green, blue, ageMultiplier);
         Minecraft.getMinecraft().effectRenderer.addEffect(blur);

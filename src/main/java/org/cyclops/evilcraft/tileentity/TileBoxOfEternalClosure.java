@@ -194,9 +194,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     public void releaseSpirit() {
     	VengeanceSpirit spirit = new VengeanceSpirit(getWorld());
 
-		//spirit.copyDataFromOld(spiritInstance);
-		NBTTagCompound nbttagcompound = new NBTTagCompound();
-		spiritInstance.writeToNBT(nbttagcompound);
+		spiritInstance.func_189511_e(new NBTTagCompound());
 
     	Random rand = worldObj.rand;
     	spirit.setPosition(getPos().getX() + rand.nextDouble(), getPos().getY() + rand.nextDouble(),
@@ -234,7 +232,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 			if(spiritTag == null) {
 				spiritTag = new NBTTagCompound();
 			}
-    		spiritInstance.writeToNBT(spiritTag);
+			spiritTag = spiritInstance.func_189511_e(spiritTag); // MCP: writeToNBT
     		String entityId = EntityList.getEntityString(spiritInstance);
     		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
     	}

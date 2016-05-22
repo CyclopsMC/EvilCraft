@@ -25,7 +25,7 @@ import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.gui.container.GuiBloodInfuser;
-import org.cyclops.evilcraft.client.particle.EntityBloodBubbleFX;
+import org.cyclops.evilcraft.client.particle.ParticleBloodBubble;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
@@ -86,7 +86,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState state, World world, BlockPos blockPos, Random random) {
-        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(blockPos), world, blockPos,
+        ParticleBloodBubble.randomDisplayTick((WorkingTileEntity) world.getTileEntity(blockPos), world, blockPos,
                 random, BlockHelpers.getSafeBlockStateProperty(state, FACING, EnumFacing.NORTH));
         super.randomDisplayTick(state, world, blockPos, random);
     }

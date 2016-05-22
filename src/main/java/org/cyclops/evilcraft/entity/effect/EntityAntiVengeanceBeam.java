@@ -18,7 +18,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
-import org.cyclops.evilcraft.client.particle.EntityBlurFX;
+import org.cyclops.evilcraft.client.particle.ParticleBlur;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 
 import java.util.List;
@@ -146,7 +146,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         float blue = rand.nextFloat() * 0.05F + 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 6.5D + 4D); 
         
-		EntityBlurFX blur = new EntityBlurFX(worldObj, posX, posY, posZ, scale,
+		ParticleBlur blur = new ParticleBlur(worldObj, posX, posY, posZ, scale,
 				deriveMotion(motionX), deriveMotion(motionY), deriveMotion(motionZ),
 				red, green, blue, ageMultiplier);
 		Minecraft.getMinecraft().effectRenderer.addEffect(blur);

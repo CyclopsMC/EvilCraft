@@ -28,7 +28,7 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.BloodStainedBlock;
 import org.cyclops.evilcraft.block.BloodStainedBlockConfig;
-import org.cyclops.evilcraft.client.particle.EntityBloodSplashFX;
+import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.fluid.Blood;
 
@@ -154,7 +154,7 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
 	        		&& (BloodStainedBlock.getInstance().canSetInnerBlock(world.getBlockState(blockPos), block, world, blockPos) || block == BloodStainedBlock.getInstance())) {
 	        	BloodStainedBlock.getInstance().stainBlock(world, blockPos, FluidContainerRegistry.BUCKET_VOLUME);
 		        if(world.isRemote) {
-		        	EntityBloodSplashFX.spawnParticles(world, blockPos.add(0, 1, 0), 5, 1 + world.rand.nextInt(2));
+		        	ParticleBloodSplash.spawnParticles(world, blockPos.add(0, 1, 0), 5, 1 + world.rand.nextInt(2));
 		        }
 		        return EnumActionResult.PASS;
 	        }

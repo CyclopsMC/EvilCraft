@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -22,7 +22,7 @@ import org.lwjgl.opengl.GL11;
  * @author rubensworks
  *
  */
-public class EntityBlurFX extends EntityFX {
+public class ParticleBlur extends Particle {
 	
 	private static final ResourceLocation TEXTURE = new ResourceLocation(
 			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "particleBlur.png");
@@ -48,9 +48,9 @@ public class EntityBlurFX extends EntityFX {
 	 * @param ageMultiplier The multiplier of the maximum age (this will be multiplied with
 	 * a partially random factor).
 	 */
-	public EntityBlurFX(World world, double x, double y, double z, float scale,
-			double motionX, double motionY, double motionZ,
-			float red, float green, float blue, float ageMultiplier) {
+	public ParticleBlur(World world, double x, double y, double z, float scale,
+						double motionX, double motionY, double motionZ,
+						float red, float green, float blue, float ageMultiplier) {
 		super(world, x, y, z, 0, 0, 0);
 		this.motionX = motionX;
 		this.motionY = motionY;

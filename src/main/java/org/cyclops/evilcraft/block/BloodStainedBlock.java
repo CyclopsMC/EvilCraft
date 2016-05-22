@@ -23,7 +23,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
-import org.cyclops.evilcraft.client.particle.EntityBloodSplashFX;
+import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 import org.cyclops.evilcraft.client.render.model.ModelBloodStainedBlock;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
 import org.cyclops.evilcraft.tileentity.TileBloodStainedBlock;
@@ -91,7 +91,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     @SideOnly(Side.CLIENT)
     public static void splash(World world, BlockPos blockPos) {
     	if(MinecraftHelpers.isClientSide()) {
-    		EntityBloodSplashFX.spawnParticles(world, blockPos.add(0, 1, 0), 0, 1 + world.rand.nextInt(3));
+    		ParticleBloodSplash.spawnParticles(world, blockPos.add(0, 1, 0), 0, 1 + world.rand.nextInt(3));
     	}
     }
     

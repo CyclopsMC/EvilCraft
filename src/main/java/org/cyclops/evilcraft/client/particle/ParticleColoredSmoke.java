@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 
 /**
@@ -8,7 +8,7 @@ import net.minecraft.world.World;
  * @author rubensworks
  *
  */
-public class EntityColoredSmokeFX extends EntityFX {
+public class ParticleColoredSmoke extends Particle {
 
     /**
      * Make a new instance.
@@ -20,7 +20,7 @@ public class EntityColoredSmokeFX extends EntityFX {
      * @param g Green
      * @param b Blue
      */
-    public EntityColoredSmokeFX(World world, double x, double y, double z, float r, float g, float b) {
+    public ParticleColoredSmoke(World world, double x, double y, double z, float r, float g, float b) {
         super(world, x, y, z);
         this.particleRed = r;
         this.particleGreen = g;
@@ -41,7 +41,7 @@ public class EntityColoredSmokeFX extends EntityFX {
      * @param motionY Y axis speed.
      * @param motionZ Z axis speed.
      */
-    public EntityColoredSmokeFX(World world, double x, double y, double z, float r, float g, float b,
+    public ParticleColoredSmoke(World world, double x, double y, double z, float r, float g, float b,
                                 double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.particleRed = r;

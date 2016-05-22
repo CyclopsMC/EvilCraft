@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.EntitySplashFX;
+import net.minecraft.client.particle.ParticleSplash;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -19,7 +19,7 @@ import java.util.Random;
  *
  */
 @SideOnly(Side.CLIENT)
-public class EntityBloodBubbleFX extends EntitySplashFX {
+public class ParticleBloodBubble extends ParticleSplash {
 
     /**
      * Make a new instance.
@@ -31,7 +31,7 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
      * @param speedY Y axis speed.
      * @param speedZ Z axis speed.
      */
-    public EntityBloodBubbleFX(World world, double x, double y, double z, double speedX, double speedY, double speedZ) {
+    public ParticleBloodBubble(World world, double x, double y, double z, double speedX, double speedY, double speedZ) {
         super(world, x, y, z, speedX, speedY, speedZ);
         this.setParticleTextureIndex(32);
         this.setSize(0.01F, 0.01F);
@@ -87,7 +87,7 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
                     float particlemotionZ = -0.1F + random.nextFloat() * 0.2F;
 
                     FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                            new EntityBloodBubbleFX(world, particleX, particleY, particleZ,
+                            new ParticleBloodBubble(world, particleX, particleY, particleZ,
                                     particlemotionX, particlemotionY, particlemotionZ)
                     );
                 }

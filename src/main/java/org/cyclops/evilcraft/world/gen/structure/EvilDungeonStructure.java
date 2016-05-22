@@ -120,7 +120,8 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                         TileEntityChest tileentitychest = (TileEntityChest)world.getTileEntity(loopPos);
 
                         if (tileentitychest != null) {
-                            tileentitychest.setLoot(LootTableList.CHESTS_SPAWN_BONUS_CHEST, world.rand.nextLong());
+                            // MCP: setLoot
+                            tileentitychest.func_189404_a(LootTableList.CHESTS_SPAWN_BONUS_CHEST, world.rand.nextLong());
                         }
 
                         chests--;

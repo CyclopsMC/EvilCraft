@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
@@ -86,14 +86,14 @@ public class BiomeExtract extends ConfigurableItem {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        BiomeGenBase biome = getBiome(itemStack);
+        Biome biome = getBiome(itemStack);
         if(biome != null) {
             list.add(L10NHelpers.localize(getUnlocalizedName() + ".info.content", biome.getBiomeName()));
         }
     }
 
-    public Iterable<BiomeGenBase> getBiomes() {
-        return BiomeGenBase.REGISTRY;
+    public Iterable<Biome> getBiomes() {
+        return Biome.REGISTRY;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -102,7 +102,7 @@ public class BiomeExtract extends ConfigurableItem {
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
         super.getSubItems(item, creativeTabs, list);
         if(BiomeExtractConfig.creativeTabVariants) {
-            for (BiomeGenBase biome : getBiomes()) {
+            for (Biome biome : getBiomes()) {
                 list.add(createItemStack(biome, 1));
             }
         }
@@ -125,11 +125,11 @@ public class BiomeExtract extends ConfigurableItem {
      * @param itemStack ItemStack which holds a BiomeExtract
      * @return biome type of the given ItemStack
      */
-    public BiomeGenBase getBiome(ItemStack itemStack) {
+    public Biome getBiome(ItemStack itemStack) {
         if(itemStack.hasTagCompound()) {
             String biomeName = itemStack.getTagCompound().getString(NBT_BIOMEKEY);
-            if(BiomeGenBase.REGISTRY.containsKey(new ResourceLocation(biomeName))) {
-                return BiomeGenBase.REGISTRY.getObject(new ResourceLocation(biomeName));
+            if(Biome.REGISTRY.containsKey(new ResourceLocation(biomeName))) {
+                return Biome.REGISTRY.getObject(new ResourceLocation(biomeName));
             }
         }
         return null;
@@ -142,11 +142,11 @@ public class BiomeExtract extends ConfigurableItem {
      * @param amount The amount per stack.
      * @return The stack.
      */
-    public ItemStack createItemStack(BiomeGenBase biome, int amount) {
+    public ItemStack createItemStack(Biome biome, int amount) {
         ItemStack itemStack = new ItemStack(getInstance(), amount, biome == null ? 0 : 1);
         if(biome != null) {
             NBTTagCompound tag = new NBTTagCompound();
-            tag.setString(NBT_BIOMEKEY, BiomeGenBase.REGISTRY.getNameForObject(biome).toString());
+            tag.setString(NBT_BIOMEKEY, Biome.REGISTRY.getNameForObject(biome).toString());
             itemStack.setTagCompound(tag);
         }
         return itemStack;
@@ -154,7 +154,7 @@ public class BiomeExtract extends ConfigurableItem {
 
     @Override
     public EnumRarity getRarity(ItemStack itemStack) {
-        BiomeGenBase biome = getBiome(itemStack);
+        Biome biome = getBiome(itemStack);
         if(biome == null) {
             return EnumRarity.COMMON;
         } else {
@@ -174,7 +174,7 @@ public class BiomeExtract extends ConfigurableItem {
         @Override
         public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
             if(renderPass == 0 && itemStack.getItemDamage() > 0) {
-                BiomeGenBase biome = BiomeExtract.getInstance().getBiome(itemStack);
+                Biome biome = BiomeExtract.getInstance().getBiome(itemStack);
                 if(biome != null) {
                     return biome.getFoliageColorAtPos(new BlockPos(0, 0, 0));
                 } else {

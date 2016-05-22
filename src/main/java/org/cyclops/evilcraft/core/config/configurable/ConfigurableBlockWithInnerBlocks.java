@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.creativetab.CreativeTabs;
@@ -152,9 +152,9 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean addHitEffects(IBlockState blockState, World worldObj, RayTraceResult target, EffectRenderer effectRenderer) {
+    public boolean addHitEffects(IBlockState blockState, World worldObj, RayTraceResult target, ParticleManager particleManager) {
         BlockPos pos = target.getBlockPos();
-        RenderHelpers.addBlockHitEffects(effectRenderer, worldObj, getBlockFromState(blockState), pos, target.sideHit);
+        RenderHelpers.addBlockHitEffects(particleManager, worldObj, getBlockFromState(blockState), pos, target.sideHit);
         return true;
     }
 

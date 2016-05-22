@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.helper.obfuscation;
 
 import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -10,7 +10,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.lang.reflect.Field;
@@ -27,11 +27,11 @@ import java.util.Map;
 public class ObfuscationHelpers {
 
 	/**
-	 * Get the private 'particleTextures' field from {@link net.minecraft.client.particle.EffectRenderer}.
+	 * Get the private 'particleTextures' field from {@link net.minecraft.client.particle.ParticleManager}.
 	 * @return The private 'particleTextures' field.
 	 */
 	public static ResourceLocation getParticleTexture() {
-		return ReflectionHelper.getPrivateValue(EffectRenderer.class, null, ObfuscationData.PARTICLE_TEXTURES);
+		return ReflectionHelper.getPrivateValue(ParticleManager.class, null, ObfuscationData.PARTICLE_TEXTURES);
 	}
 	
 	/**
@@ -209,12 +209,12 @@ public class ObfuscationHelpers {
     }
 
     /**
-     * Get the private 'enableRain' field from {@link net.minecraft.world.biome.BiomeGenBase}.
+     * Get the private 'enableRain' field from {@link net.minecraft.world.biome.Biome}.
      * @param biome The biome instance.
      * @return enableRain
      */
-    public static boolean isRainingEnabled(BiomeGenBase biome) {
-        return ReflectionHelper.getPrivateValue(BiomeGenBase.class, biome, ObfuscationData.BIOME_ENABLERAIN);
+    public static boolean isRainingEnabled(Biome biome) {
+        return ReflectionHelper.getPrivateValue(Biome.class, biome, ObfuscationData.BIOME_ENABLERAIN);
     }
 
 }

@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.particle.EntitySplashFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -17,7 +16,7 @@ import java.util.Random;
  *
  */
 @SideOnly(Side.CLIENT)
-public class EntityBloodSplashFX extends EntitySplashFX {
+public class ParticleBloodSplash extends Particle {
 
     /**
      * Make a new instance.
@@ -29,7 +28,7 @@ public class EntityBloodSplashFX extends EntitySplashFX {
      * @param speedY Y axis speed.
      * @param speedZ Z axis speed.
      */
-    public EntityBloodSplashFX(World world, double x, double y, double z, double speedX, double speedY, double speedZ) {
+    public ParticleBloodSplash(World world, double x, double y, double z, double speedX, double speedY, double speedZ) {
         super(world, x, y, z, speedX, speedY, speedZ);
         this.particleRed = 1.0F;
         this.particleGreen = 0.0F;
@@ -49,7 +48,7 @@ public class EntityBloodSplashFX extends EntitySplashFX {
             float x_r = blockPos.getX() + random.nextFloat();
             float y_r = blockPos.getY() + random.nextFloat();
             float z_r = blockPos.getZ() + random.nextFloat();
-            EntityFX fx = new EntityBloodSplashFX(world, x_r, y_r, z_r, velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity));
+            Particle fx = new ParticleBloodSplash(world, x_r, y_r, z_r, velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity));
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
         }
     }

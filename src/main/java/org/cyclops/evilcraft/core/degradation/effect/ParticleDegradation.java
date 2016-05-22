@@ -7,7 +7,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
-import org.cyclops.evilcraft.client.particle.EntityDegradeFX;
+import org.cyclops.evilcraft.client.particle.ParticleDegrade;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 
@@ -56,7 +56,7 @@ public class ParticleDegradation extends ConfigurableDegradationEffect {
         float particleMotionY = -0.2F;
         float particleMotionZ = world.rand.nextFloat() * 1.4F - 0.7F;
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                new EntityDegradeFX(world, particleX, particleY, particleZ,
+                new ParticleDegrade(world, particleX, particleY, particleZ,
                         particleMotionX, particleMotionY, particleMotionZ)
                 );
     }

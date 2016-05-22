@@ -25,7 +25,7 @@ import org.cyclops.evilcraft.block.BloodStainedBlock;
 import org.cyclops.evilcraft.block.BloodStainedBlockConfig;
 import org.cyclops.evilcraft.block.SpiritPortal;
 import org.cyclops.evilcraft.block.SpiritPortalConfig;
-import org.cyclops.evilcraft.client.particle.EntityBloodSplashFX;
+import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 import org.cyclops.evilcraft.core.world.FakeWorld;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpiritConfig;
@@ -89,7 +89,7 @@ public class LivingDeathEventHook {
                 } else {
                     // Init particles
                     Random random = new Random();
-                    EntityBloodSplashFX.spawnParticles(event.getEntity().worldObj, pos.add(0, 1, 0), ((int) event.getEntityLiving().getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
+                    ParticleBloodSplash.spawnParticles(event.getEntity().worldObj, pos.add(0, 1, 0), ((int) event.getEntityLiving().getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
                 }
             }
         }

@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Multimap;
-import net.minecraft.client.particle.EntitySmokeFX;
+import net.minecraft.client.particle.ParticleSmokeNormal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -177,7 +177,7 @@ public class MaceOfDistortion extends Mace {
         float particleMotionY = 0.2F;
         float particleMotionZ = world.rand.nextFloat() * 0.2F - 0.1F;
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                new EntitySmokeFX.Factory().getEntityFX(0, world, xCoord, yCoord, zCoord,
+                new ParticleSmokeNormal.Factory().getEntityFX(0, world, xCoord, yCoord, zCoord,
                         particleMotionX, particleMotionY, particleMotionZ)
                 );
         

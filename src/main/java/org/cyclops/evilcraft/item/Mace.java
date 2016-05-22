@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Multimap;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntitySmokeFX;
+import net.minecraft.client.particle.ParticleSmokeNormal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -25,9 +25,9 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedIt
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.evilcraft.client.particle.EntityDistortFX;
-import org.cyclops.evilcraft.client.particle.EntityPlayerTargettedBlurFX;
-import org.cyclops.evilcraft.client.particle.ExtendedEntityExplodeFX;
+import org.cyclops.evilcraft.client.particle.ExtendedParticleExplosion;
+import org.cyclops.evilcraft.client.particle.ParticleDistort;
+import org.cyclops.evilcraft.client.particle.ParticlePlayerTargettedBlur;
 import org.cyclops.evilcraft.fluid.Blood;
 
 import java.util.List;
@@ -148,7 +148,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
                     float particleMotionZ = (float) (zOffset * 10);
         
                     FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                            new EntityDistortFX(world, particleX, particleY, particleZ,
+                            new ParticleDistort(world, particleX, particleY, particleZ,
                                     particleMotionX, particleMotionY, particleMotionZ, (float) area * 3)
                             );
 
@@ -165,7 +165,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
                         double motionZ = spread - world.rand.nextDouble() * 2 * spread;
 
                         FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                                new EntityPlayerTargettedBlurFX(world, scale2, motionX, motionY, motionZ, r, g, b,
+                                new ParticlePlayerTargettedBlur(world, scale2, motionX, motionY, motionZ, r, g, b,
                                         ageMultiplier2, entity)
                         );
                     }
@@ -191,7 +191,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
             float b = 0.1F + 0.5F * world.rand.nextFloat();
 
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new ExtendedEntityExplodeFX(world, x, y, z,
+                    new ExtendedParticleExplosion(world, x, y, z,
                             particleMotionX, particleMotionY, particleMotionZ, r, g, b, 0.3F)
             );
         }
@@ -255,7 +255,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
         float particleMotionY = 0.2F;
         float particleMotionZ = world.rand.nextFloat() * 0.2F - 0.1F;
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                new EntitySmokeFX.Factory().getEntityFX(0, world, xCoord, yCoord, zCoord,
+                new ParticleSmokeNormal.Factory().getEntityFX(0, world, xCoord, yCoord, zCoord,
                         particleMotionX, particleMotionY, particleMotionZ)
         );
         

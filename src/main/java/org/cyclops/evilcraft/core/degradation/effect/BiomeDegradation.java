@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.core.degradation.effect;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
@@ -30,8 +30,8 @@ public class BiomeDegradation extends ConfigurableDegradationEffect implements I
         return _instance;
     }
     
-    private static final Class<? extends BiomeGenBase> BIOME_CLASS = BiomeDegraded.class;
-    private static final BiomeGenBase BIOME = BiomeDegraded.getInstance();
+    private static final Class<? extends Biome> BIOME_CLASS = BiomeDegraded.class;
+    private static final Biome BIOME = BiomeDegraded.getInstance();
     private static final int DIMENSIONS = 2;
     
     public BiomeDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {

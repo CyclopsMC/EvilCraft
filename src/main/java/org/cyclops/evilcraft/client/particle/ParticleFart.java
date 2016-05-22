@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 
 /**
@@ -8,7 +8,7 @@ import net.minecraft.world.World;
  * @author immortaleeb
  *
  */
-public class EntityFartFX extends EntityFX {
+public class ParticleFart extends Particle {
     
     /**
      * Make a new instance.
@@ -18,7 +18,7 @@ public class EntityFartFX extends EntityFX {
      * @param z Z coordinate.
      * @param rainbow If it should have rainbow colors.
      */
-    public EntityFartFX(World world, double x, double y, double z, boolean rainbow) {
+    public ParticleFart(World world, double x, double y, double z, boolean rainbow) {
         super(world, x, y, z);
         
         setParticleSettings(rainbow);
@@ -35,7 +35,7 @@ public class EntityFartFX extends EntityFX {
      * @param motionZ Z axis speed.
      * @param rainbow If it should have rainbow colors.
      */
-    public EntityFartFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow) {
+    public ParticleFart(World world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow) {
         super(world, x, y, z, motionX, motionY, motionZ);
         
         setParticleSettings(rainbow);

@@ -31,7 +31,7 @@ import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.api.broom.IBroom;
-import org.cyclops.evilcraft.client.particle.EntityColoredSmokeFX;
+import org.cyclops.evilcraft.client.particle.ParticleColoredSmoke;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.item.Broom;
@@ -331,7 +331,7 @@ public class EntityBroom extends Entity implements IConfigurable{
                 float r = color.getLeft();
                 float g = color.getMiddle();
                 float b = color.getRight();
-                EntityColoredSmokeFX smoke = new EntityColoredSmokeFX(world,
+                ParticleColoredSmoke smoke = new ParticleColoredSmoke(world,
                         broom.posX - broom.motionX * 1.5D + Math.random() * 0.4D - 0.2D,
                         broom.posY - broom.motionY * 1.5D + Math.random() * 0.4D - 0.2D,
                         broom.posZ - broom.motionZ * 1.5D + Math.random() * 0.4D - 0.2D,
@@ -577,12 +577,14 @@ public class EntityBroom extends Entity implements IConfigurable{
         return value;
     }
 
+    // MCP: writeToNBT
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
+    public NBTTagCompound func_189511_e(NBTTagCompound tag) {
+        tag = super.func_189511_e(tag);
         NBTTagCompound broomItemTag = new NBTTagCompound();
         getBroomStack().writeToNBT(broomItemTag);
-        tagCompound.setTag("broomItem", broomItemTag);
+        tag.setTag("broomItem", broomItemTag);
+        return tag;
     }
 
     @Override

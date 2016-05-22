@@ -189,9 +189,11 @@ public class ExcrementPile extends ConfigurableBlock {
     public boolean isReplaceable(IBlockAccess world, BlockPos blockPos) {
         return true;
     }
-    
+
+
+    // MCP: onNeighborBlockChange
     @Override
-    public void onNeighborBlockChange(World world, BlockPos blockPos, IBlockState blockState, Block neighbourBlock) {
+    public void func_189540_a(IBlockState blockState, World world, BlockPos blockPos, Block neighbourBlock) {
         if (!this.canPlaceBlockAt(world, blockPos)) {
             world.setBlockToAir(blockPos);
         }

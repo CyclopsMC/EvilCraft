@@ -6,8 +6,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.cyclops.cyclopscore.block.component.EntityDropParticleFXBlockComponent;
 import org.cyclops.cyclopscore.block.component.IEntityDropParticleFXBlock;
+import org.cyclops.cyclopscore.block.component.ParticleDropBlockComponent;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockLeaves;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -24,7 +24,7 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
     
     private static UndeadLeaves _instance = null;
     
-    private EntityDropParticleFXBlockComponent entityDropParticleFXBlockComponent;
+    private ParticleDropBlockComponent particleDropBlockComponent;
     
     /**
      * Get the unique instance.
@@ -41,9 +41,9 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
         setLightOpacity(1);
         
         if (MinecraftHelpers.isClientSide()) {
-            entityDropParticleFXBlockComponent = new EntityDropParticleFXBlockComponent(1.0F, 0.0F, 0.0F);
-            entityDropParticleFXBlockComponent.setOffset(0);
-            entityDropParticleFXBlockComponent.setChance(50);
+            particleDropBlockComponent = new ParticleDropBlockComponent(1.0F, 0.0F, 0.0F);
+            particleDropBlockComponent.setOffset(0);
+            particleDropBlockComponent.setChance(50);
         }
     }
 
@@ -59,7 +59,7 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
 
     @Override
     public void randomDisplayTick(World world, BlockPos blockPos, IBlockState blockState, Random rand) {
-        entityDropParticleFXBlockComponent.randomDisplayTick(world, blockPos, blockState, rand);
+        particleDropBlockComponent.randomDisplayTick(world, blockPos, blockState, rand);
     }
 
 }

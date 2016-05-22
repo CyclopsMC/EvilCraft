@@ -13,7 +13,7 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -263,8 +263,8 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                             @Override
                             public ItemStack getResult(IBlockAccess world, BlockPos pos, ItemStack originalResult) {
                                 World worldSafe = (World) world;
-                                BiomeGenBase biome = worldSafe.getBiomeGenForCoords(pos);
-                                if(BiomeExtractConfig._instance.isCraftingBlacklisted(BiomeGenBase.getIdForBiome(biome))) {
+                                Biome biome = worldSafe.getBiomeGenForCoords(pos);
+                                if(BiomeExtractConfig._instance.isCraftingBlacklisted(Biome.getIdForBiome(biome))) {
                                     return BiomeExtract.getInstance().createItemStack(null, 1);
                                 } else {
                                     return BiomeExtract.getInstance().createItemStack(biome, 1);

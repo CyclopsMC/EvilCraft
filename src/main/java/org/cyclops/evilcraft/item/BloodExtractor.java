@@ -25,7 +25,7 @@ import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.BloodStainedBlock;
 import org.cyclops.evilcraft.block.BloodStainedBlockConfig;
-import org.cyclops.evilcraft.client.particle.EntityBloodSplashFX;
+import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockWithInnerBlocksExtended;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.fluid.Blood;
@@ -78,7 +78,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
 	            // Transform bloody dirt into regular dirt if we used some of the blood
 	            if(filled > 0 && world.isRemote) {
 	                // Init particles
-	                EntityBloodSplashFX.spawnParticles(world, blockPos.add(0, 1, 1), 5, 1 + random.nextInt(2));
+	                ParticleBloodSplash.spawnParticles(world, blockPos.add(0, 1, 1), 5, 1 + random.nextInt(2));
 	            }
 	            return EnumActionResult.PASS;
 	        }

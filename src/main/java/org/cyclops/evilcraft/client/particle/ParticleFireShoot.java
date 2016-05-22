@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.EntityLavaFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 
 /**
@@ -8,7 +8,7 @@ import net.minecraft.world.World;
  * @author rubensworks
  *
  */
-public class EntityFireShootFX extends EntityLavaFX {
+public class ParticleFireShoot extends Particle {
 
     /**
      * Make a new instance.
@@ -21,7 +21,7 @@ public class EntityFireShootFX extends EntityLavaFX {
      * @param motionZ Z axis speed.
      * @param scale Scale of the particle.
      */
-    public EntityFireShootFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale) {
+    public ParticleFireShoot(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale) {
         super(world, x, y, z);
         
         this.motionX = motionX;

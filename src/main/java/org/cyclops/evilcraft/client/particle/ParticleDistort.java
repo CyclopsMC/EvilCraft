@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 import org.cyclops.evilcraft.item.MaceOfDistortion;
 
@@ -9,7 +9,7 @@ import org.cyclops.evilcraft.item.MaceOfDistortion;
  * @author rubensworks
  *
  */
-public class EntityDistortFX extends EntityFX {
+public class ParticleDistort extends Particle {
 
     /**
      * Make a new instance.
@@ -22,7 +22,7 @@ public class EntityDistortFX extends EntityFX {
      * @param motionZ Z axis speed.
      * @param scale Scale of the particle.
      */
-    public EntityDistortFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale) {
+    public ParticleDistort(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale) {
         super(world, x, y, z, motionX, motionY, motionZ);
         
         particleScale = scale;

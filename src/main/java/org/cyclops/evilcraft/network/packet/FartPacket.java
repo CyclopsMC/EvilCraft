@@ -12,7 +12,7 @@ import org.cyclops.cyclopscore.network.packet.PlayerPositionPacket;
 import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.GeneralConfig;
-import org.cyclops.evilcraft.client.particle.EntityFartFX;
+import org.cyclops.evilcraft.client.particle.ParticleFart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +102,7 @@ public class FartPacket extends PlayerPositionPacket {
             float particleMotionY = -0.5F + rand.nextFloat();
             float particleMotionZ = -0.5F + rand.nextFloat();
             
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFartFX(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ, rainbow));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFart(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ, rainbow));
         }
     }
     

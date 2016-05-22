@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.ExtendedDamageSource;
-import org.cyclops.evilcraft.client.particle.EntityBlurFX;
+import org.cyclops.evilcraft.client.particle.ParticleBlur;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 
 /**
@@ -45,7 +45,7 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
         float blue = rand.nextFloat() * 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 4.5D + 4D);
         
-		EntityBlurFX blur = new EntityBlurFX(worldObj, posX, posY, posZ, scale,
+		ParticleBlur blur = new ParticleBlur(worldObj, posX, posY, posZ, scale,
 				deriveMotion(motionX), deriveMotion(motionY), deriveMotion(motionZ),
 				red, green, blue, ageMultiplier);
 		Minecraft.getMinecraft().effectRenderer.addEffect(blur);

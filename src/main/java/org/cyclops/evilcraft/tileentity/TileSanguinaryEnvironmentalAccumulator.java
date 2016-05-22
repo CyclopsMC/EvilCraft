@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.tileentity;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.EntitySmokeFX;
+import net.minecraft.client.particle.ParticleSmokeNormal;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -28,7 +28,7 @@ import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 import org.cyclops.evilcraft.block.SanguinaryEnvironmentalAccumulator;
-import org.cyclops.evilcraft.client.particle.EntityBloodBubbleFX;
+import org.cyclops.evilcraft.client.particle.ParticleBloodBubble;
 import org.cyclops.evilcraft.core.fluid.VirtualTank;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
@@ -243,7 +243,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
                 double particleMotionZ = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * speed;
 
                 FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new EntityBloodBubbleFX(worldObj, particleX, particleY, particleZ,
+                        new ParticleBloodBubble(worldObj, particleX, particleY, particleZ,
                                 particleMotionX, particleMotionY, particleMotionZ)
                 );
             }
@@ -265,7 +265,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
                     double particleZ = z - 0.2 + random.nextDouble() * 0.4;
 
                     FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                            new EntitySmokeFX.Factory().getEntityFX(0, worldObj, particleX, particleY, particleZ, 0, 0, 0)
+                            new ParticleSmokeNormal.Factory().getEntityFX(0, worldObj, particleX, particleY, particleZ, 0, 0, 0)
                     );
                 }
             }

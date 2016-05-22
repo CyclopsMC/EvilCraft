@@ -7,7 +7,7 @@ import net.minecraft.world.World;
  * @author rubensworks
  *
  */
-public class EntityTargettedBlurFX extends EntityBlurFX {
+public class ParticleTargettedBlur extends ParticleBlur {
 
 	private final double targetX;
 	private final double targetY;
@@ -29,7 +29,7 @@ public class EntityTargettedBlurFX extends EntityBlurFX {
 	 * @param targetZ The target Z
 	 * a partially random factor).
 	 */
-	public EntityTargettedBlurFX(World world, float scale,
+	public ParticleTargettedBlur(World world, float scale,
 								 double motionX, double motionY, double motionZ,
 								 float red, float green, float blue, float ageMultiplier,
 								 double targetX, double targetY, double targetZ) {

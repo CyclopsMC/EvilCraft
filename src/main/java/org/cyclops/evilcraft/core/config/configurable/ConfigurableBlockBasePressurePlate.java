@@ -63,8 +63,9 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
         return null;
     }
 
+    // MCP: onNeighborBlockChange
     @Override
-    public void onNeighborBlockChange(World world, BlockPos blockPos, IBlockState blockState, Block block) {
+    public void func_189540_a(IBlockState blockState, World world, BlockPos blockPos, Block block) {
         if(!canPlaceBlockAt(world, blockPos)) {
         	this.dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), 0);
             world.setBlockToAir(blockPos);

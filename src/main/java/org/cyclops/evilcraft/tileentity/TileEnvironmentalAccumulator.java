@@ -17,7 +17,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,8 +29,8 @@ import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulatorConfig;
-import org.cyclops.evilcraft.client.particle.EntityTargettedBlurFX;
-import org.cyclops.evilcraft.client.particle.ExtendedEntityBubbleFX;
+import org.cyclops.evilcraft.client.particle.ExtendedParticleBubble;
+import org.cyclops.evilcraft.client.particle.ParticleTargettedBlur;
 import org.cyclops.evilcraft.core.degradation.DegradationExecutor;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
@@ -115,7 +115,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
         if (getWorld() == null) {
             return Triple.of(0F, 0F, 0F);
         }
-        BiomeGenBase biome = getWorld().getBiomeGenForCoords(getPos());
+        Biome biome = getWorld().getBiomeGenForCoords(getPos());
         return Helpers.intToRGB(biome.getFoliageColorAtPos(getPos()));
     }
 	
@@ -283,7 +283,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
                 double particleMotionZ = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.sin(rotationYaw / 180.0F * (float)Math.PI) * speed;
 
                 FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new ExtendedEntityBubbleFX(worldObj, particleX, particleY, particleZ,
+                        new ExtendedParticleBubble(worldObj, particleX, particleY, particleZ,
                                 particleMotionX, particleMotionY, particleMotionZ, 0.02D)
                 );
             }
@@ -310,7 +310,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             double motionZ = spread - rand.nextDouble() * 2 * spread;
 
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new EntityTargettedBlurFX(world, scale, motionX, motionY, motionZ, red, green, blue,
+                    new ParticleTargettedBlur(world, scale, motionX, motionY, motionZ, red, green, blue,
                             ageMultiplier, centerX, centerY, centerZ)
             );
         }
@@ -485,18 +485,19 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound compound) {
-	    super.writeToNBT(compound);
+	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+	    tag = super.writeToNBT(tag);
 	    
-	    compound.setInteger("degradation", degradation);
-	    compound.setInteger("tick", tick);
-	    compound.setInteger("state", state);
+	    tag.setInteger("degradation", degradation);
+	    tag.setInteger("tick", tick);
+	    tag.setInteger("state", state);
 	    
 	    String recipeId = (recipe == null) ? null : recipe.getNamedId();
 	    if (recipeId != null)
-	        compound.setString("recipe", recipeId);
+	        tag.setString("recipe", recipeId);
 	    
-	    degradationExecutor.writeToNBT(compound);
+	    degradationExecutor.writeToNBT(tag);
+        return tag;
 	}
 
     public float getMaxHealth() {
