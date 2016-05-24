@@ -56,7 +56,7 @@ public class EntityRedstoneGrenade extends EntityThrowable implements IConfigura
     protected void onImpact(RayTraceResult pos) {
         BlockPos blockPos = pos.getBlockPos();
 
-        if (worldObj.isAirBlock(blockPos.add(pos.sideHit.getDirectionVec()))) {
+        if (pos.sideHit != null && worldObj.isAirBlock(blockPos.add(pos.sideHit.getDirectionVec()))) {
 			if(Configs.isEnabled(InvisibleRedstoneBlockConfig.class)) {
 	            worldObj.setBlockState(blockPos.add(pos.sideHit.getDirectionVec()), InvisibleRedstoneBlock.getInstance().getDefaultState());
 			}
