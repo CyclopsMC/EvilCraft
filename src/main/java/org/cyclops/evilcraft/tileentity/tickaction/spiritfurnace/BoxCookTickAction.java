@@ -200,7 +200,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
         int baseUsage;
         if(tile.isPlayer()) {
             baseUsage = SpiritFurnaceConfig.playerMBPerTick;
-        } else if (!tile.getEntity().isNonBoss()) {
+        } else if (tile.getEntity() != null && !tile.getEntity().isNonBoss()) {
             baseUsage = SpiritFurnaceConfig.bossMBPerTick;
         } else {
             baseUsage = SpiritFurnaceConfig.mBPerTick;
