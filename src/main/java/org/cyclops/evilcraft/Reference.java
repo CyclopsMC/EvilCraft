@@ -75,7 +75,7 @@ public class Reference {
     public static final String MOD_FORGE_VERSION_MIN = "12.17.0.1909";
     public static final String MOD_CYCLOPSCORE = "cyclopscore";
     public static final String MOD_CYCLOPSCORE_VERSION = "@CYCLOPSCORE_VERSION@";
-    public static final String MOD_CYCLOPSCORE_VERSION_MIN = "0.6.1";
+    public static final String MOD_CYCLOPSCORE_VERSION_MIN = "0.6.3";
     public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
     public static final String MOD_WAILA = "Waila";
     public static final String MOD_FMP = "ForgeMultipart";

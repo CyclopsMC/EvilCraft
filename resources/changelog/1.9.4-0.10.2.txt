@@ -1,0 +1,6 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.6.3.
+
+Fixes:
+* Fix Spirit Furnace crash, Closes #400
+* Fix Redstone Grenade crash, Closes #401
