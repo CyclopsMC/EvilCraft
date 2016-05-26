@@ -55,7 +55,7 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
     @Override
     public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos pos) {
         TileSanguinaryEnvironmentalAccumulator tile = (TileSanguinaryEnvironmentalAccumulator) world.getTileEntity(pos);
-        return tile.isVisuallyWorking() ? 4 : super.getLightValue(blockState, world, pos);
+        return tile != null && tile.isVisuallyWorking() ? 4 : super.getLightValue(blockState, world, pos);
     }
 
     @Override
