@@ -157,8 +157,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
                 Random rand = new Random();
                 TileEntityChest tile = (TileEntityChest) world.getTileEntity(pos);
                 if (tile != null) {
-                    // MCP: setLoot
-                    tile.func_189404_a(LootTableList.CHESTS_NETHER_BRIDGE, rand.nextLong());
+                    tile.setLootTable(LootTableList.CHESTS_NETHER_BRIDGE, rand.nextLong());
                 }
             }
         };

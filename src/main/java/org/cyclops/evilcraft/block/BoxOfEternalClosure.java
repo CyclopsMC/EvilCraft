@@ -148,7 +148,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     	VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
     	spirit.setGlobalVengeance(true);
     	spirit.setIsSwarm(true);
-    	spirit.func_189511_e(spiritTag); // MCP: writeToNBT
+    	spirit.writeToNBT(spiritTag);
     	String entityId = EntityList.getEntityString(spirit);
     	
 		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
@@ -224,14 +224,13 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 		return BlockHelpers.doesBlockHaveSolidTopSurface(world, blockPos);
     }
 
-	// MCP: onNeighborBlockChange
     @Override
-    public void func_189540_a(IBlockState blockState, World world, BlockPos blockPos, Block block) {
+    public void neighborChanged(IBlockState blockState, World world, BlockPos blockPos, Block block) {
         if(!canPlaceBlockAt(world, blockPos)) {
         	dropBlockAsItem(world, blockPos, blockState, 0);
         	world.setBlockToAir(blockPos);
         }
-        super.func_189540_a(blockState, world, blockPos, block);
+        super.neighborChanged(blockState, world, blockPos, block);
     }
 
     @Override

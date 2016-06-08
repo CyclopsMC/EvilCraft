@@ -170,7 +170,8 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     
     /**
      * If the given blockState can be set to an inner blockState of this.
-     * @param block The blockState to set as inner blockState.
+     * @param blockState The blockState to set as inner blockState.
+     * @param block The block to set as inner blockState.
      * @param world The world.
      * @param blockPos The position.
      * @return If the blockState can be set as inner blockState.

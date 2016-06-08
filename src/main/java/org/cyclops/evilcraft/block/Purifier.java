@@ -5,8 +5,6 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -16,14 +14,16 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.evilcraft.item.BucketBloodConfig;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
 
 import java.util.List;
@@ -60,33 +60,27 @@ public class Purifier extends ConfigurableBlockContainer {
             ItemStack itemStack = player.inventory.getCurrentItem();
             TilePurifier tile = (TilePurifier) world.getTileEntity(blockPos);
             if(tile != null) {
+                IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack);
+                SingleUseTank tank = tile.getTank();
                 if (itemStack == null && tile.getPurifyItem() != null) {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getPurifyItem());
                     tile.setPurifyItem(null);
                 } else if (itemStack == null && tile.getAdditionalItem() != null) {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getAdditionalItem());
                     tile.setAdditionalItem(null);
-                } else if(itemStack != null && itemStack.getItem() instanceof ItemBucket) {
-                    FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
-                    if(fluidStack != null && tile.getTank().canTankAccept(fluidStack.getFluid())
-                    		&& tile.getTank().canCompletelyFill(fluidStack)
-                    		&& itemStack.getItem() != Items.BUCKET) {
-                    	tile.getTank().fill(fluidStack, true);
-                    	tile.sendUpdate();
-                    	if (!player.capabilities.isCreativeMode) {
-                            player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.BUCKET));
-                        }
-                        return true;
-                    } else if(itemStack.getItem() == Items.BUCKET) {
-                        int buckets = tile.getBucketsFloored();
-                        if (buckets > 0) {
-                            if (!player.capabilities.isCreativeMode) {
-                                player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(BucketBloodConfig._instance.getItemInstance()));
-                            }
-                            tile.setBuckets(buckets - 1, tile.getBucketsRest());
-                        }
+                } else if (itemFluidHandler != null && !tank.isFull()
+                        && FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null) {
+                    if(FluidHelpers.canCompletelyFill(itemFluidHandler, tank)) {
+                        ItemStack newItemStack = FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, true);
+                        InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack);
+                        tile.sendUpdate();
                         return true;
                     }
+                } else if (itemFluidHandler != null && !tank.isEmpty() &&
+                        FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null) {
+                    ItemStack newItemStack = FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, true);
+                    InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack);
+                    return true;
                 }  else if(itemStack != null && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem() == null) {
                     ItemStack copy = itemStack.copy();
                     copy.stackSize = 1;
@@ -97,7 +91,7 @@ public class Purifier extends ConfigurableBlockContainer {
                     ItemStack copy = itemStack.copy();
                     copy.stackSize = 1;
                     tile.setPurifyItem(copy);
-                    player.inventory.getCurrentItem().stackSize--;
+                    itemStack.stackSize--;
                     return true;
                 }
             }

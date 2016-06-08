@@ -63,9 +63,8 @@ public class LightningBomb extends ConfigurableBlock {
         }
     }
 
-    // MCP: onNeighborBlockChange
     @Override
-    public void func_189540_a(IBlockState blockState, World world, BlockPos blockPos, Block neighbour) {
+    public void neighborChanged(IBlockState blockState, World world, BlockPos blockPos, Block neighbour) {
         if (world.isBlockPowered(blockPos)) {
             this.onBlockDestroyedByPlayer(world, blockPos, blockState.withProperty(PRIMED, true));
             world.setBlockToAir(blockPos);

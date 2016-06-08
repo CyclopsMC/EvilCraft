@@ -64,6 +64,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     /**
      * Set the color seed of the chalice.
      * @param id Unique id of a chalice group.
+     * @return The color seed
      */
     public static int getColorSeed(String id) {
         int gemColor;

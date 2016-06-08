@@ -30,6 +30,7 @@ public abstract class ConfigurableItemArmor extends ItemArmor implements IConfig
      * Make a new bucket instance.
      * @param eConfig Config for this blockState.
      * @param material The material of the tool.
+     * @param equipmentSlot The slot
      */
     @SuppressWarnings({ "rawtypes" })
     protected ConfigurableItemArmor(ExtendedConfig eConfig, ItemArmor.ArmorMaterial material, EntityEquipmentSlot equipmentSlot) {

@@ -163,10 +163,9 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         this.dataManager.register(WATCHERID_PLAYERNAME, "");
     }
 
-    // MCP: writeToNBT
     @Override
-	public NBTTagCompound func_189511_e(NBTTagCompound tag) {
-    	tag = super.func_189511_e(tag);
+	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    	tag = super.writeToNBT(tag);
     	if(getInnerEntity() != null)
     		tag.setString("innerEntity", getInnerEntity().getClass().getName());
     	tag.setInteger("remainingLife", getRemainingLife());

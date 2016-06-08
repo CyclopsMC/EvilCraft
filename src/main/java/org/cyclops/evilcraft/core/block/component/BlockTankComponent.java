@@ -9,9 +9,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
@@ -54,60 +57,30 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
         TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
         if(tile != null) {
             if(itemStack != null) {
-            	FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
-                if(fluidStack != null) { // Fill the tank.
-                	if(canTankBeFilled(tile, fluidStack) && tile.getTank().canCompletelyFill(fluidStack)) {
-	                    tile.fill(fluidStack, true);
+                SingleUseTank tank = tile.getTank();
+            	IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack);
+                if(!player.isSneaking() && !tank.isFull() && itemFluidHandler != null) { // Fill the tank.
+                	if(FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null
+                            && FluidHelpers.canCompletelyFill(itemFluidHandler, tank)) {
+                        ItemStack drainedItem = FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, true);
 	                    if(!player.capabilities.isCreativeMode) {
-	                    	ItemStack drainedItem = FluidContainerRegistry.drainFluidContainer(itemStack);
-                            if(drainedItem.stackSize == 0) drainedItem = null;
+                            if(drainedItem != null && drainedItem.stackSize == 0) drainedItem = null;
 	                    	InventoryHelpers.tryReAddToStack(player, itemStack, drainedItem);
 	                    }
                 	}
                     return true;
-                } else if(tile.getTank().getFluidAmount() > 0) { // Drain the tank.
-                	ItemStack filledItem = FluidContainerRegistry.fillFluidContainer(tile.getTank().getFluid(), itemStack);
-                	FluidStack filledAmount = FluidContainerRegistry.getFluidForFilledItem(filledItem);
-                	if(filledAmount != null) {
-                		tile.drain(filledAmount, true);
-                        if(!player.capabilities.isCreativeMode) {
-                        	InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
-                        }
+                } else if(!tank.isEmpty()
+                        && FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null) { // Drain the tank.
+                    ItemStack filledItem = FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, true);
+                	if(!player.capabilities.isCreativeMode) {
+                        InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
                         return true;
                 	}
-                }
-                if(itemStack.getItem() instanceof IFluidContainerItem) {
-                    IFluidContainerItem containerItem = ((IFluidContainerItem) itemStack.getItem());
-                    fluidStack = containerItem.getFluid(itemStack);
-                    if(player.isSneaking()) { // Drain from tank into item.
-                        if(tile.getTank().getFluidAmount() > 0) {
-                            FluidStack fluidStackTemp = new FluidStack(tile.getTank().getFluid().getFluid(),
-                                    FluidContainerRegistry.BUCKET_VOLUME);
-                            if(containerItem.fill(itemStack, fluidStackTemp, false) > 0) {
-                                tile.getTank().drain(containerItem.fill(itemStack, fluidStackTemp, true), true);
-                            }
-                        }
-
-                    } else if(fluidStack != null) { // Fill to tank from item.
-                        FluidStack fluidStackTemp = new FluidStack(fluidStack.getFluid(),
-                                Math.min(FluidContainerRegistry.BUCKET_VOLUME, fluidStack.amount));
-                        if(canTankBeFilled(tile, fluidStack) && tile.getTank().fill(fluidStackTemp, false) > 0) {
-                            containerItem.drain(itemStack, tile.fill(fluidStackTemp, true), true);
-                        }
-                    }
-                    return true;
                 }
             }
         }
         return false;
 	}
-
-    protected static boolean canTankBeFilled(TankInventoryTileEntity tile, FluidStack fluidStack) {
-        return tile.getTank().getAcceptedFluid() == null
-                || fluidStack == null
-                || tile.getTank().getFluidType() == null
-                || tile.getTank().canTankAccept(fluidStack.getFluid());
-    }
 
 	/**
      * Get info for a given itemStack.
@@ -121,7 +94,6 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 			fluidStack = ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack);
 		} else if(itemStack.getTagCompound() != null) {
             fluidStack = FluidStack.loadFluidStackFromNBT(itemStack.getTagCompound().getCompoundTag(tank.getTankNBTName()));
-            
         }
 		if(fluidStack != null) {
             amount = fluidStack.amount;

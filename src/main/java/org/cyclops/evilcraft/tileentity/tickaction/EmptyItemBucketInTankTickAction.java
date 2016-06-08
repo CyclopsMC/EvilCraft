@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.tileentity.tickaction;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
@@ -21,8 +22,8 @@ public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileE
         if(tick >= getRequiredTicks(tile, slot, tick)) {
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
             SingleUseTank tank = tile.getTank();
-            if(fluidStack != null && tank.canTankAccept(fluidStack.getFluid())
-            		&& tank.canCompletelyFill(fluidStack)) {
+            if(fluidStack != null && tank.canFillFluidType(fluidStack)
+            		/*&& tank.canCompletelyFill(fluidStack) TODO */) {
                 tank.fill(fluidStack, true);
                 ItemStack drained = FluidContainerRegistry.drainFluidContainer(itemStack);
                 if(drained.stackSize == 0) {
@@ -45,7 +46,7 @@ public class EmptyItemBucketInTankTickAction<T extends TickingTankInventoryTileE
     
     @Override
     public float getRequiredTicks(T tile, int slot, int tick) {
-        return FluidContainerRegistry.BUCKET_VOLUME / MB_PER_TICK;
+        return Fluid.BUCKET_VOLUME / MB_PER_TICK;
     }
 
 }

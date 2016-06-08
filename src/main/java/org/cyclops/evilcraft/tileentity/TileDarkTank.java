@@ -5,15 +5,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
@@ -75,13 +74,13 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 	protected void updateTileEntity() {
 		if(!getWorld().isRemote && !getTank().isEmpty() && shouldAutoDrain()) {
 			EnumFacing down = EnumFacing.DOWN;
-            TileEntity tile = worldObj.getTileEntity(getPos().offset(down));
-			if(tile instanceof IFluidHandler) {
-				IFluidHandler handler = (IFluidHandler) tile;
+			IFluidHandler handler = TileHelpers.getCapability(worldObj, getPos().offset(down), down.getOpposite(),
+					CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+			if(handler != null) {
 				FluidStack fluidStack = new FluidStack(getTank().getFluidType(),
                         Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
-				if(handler.fill(down.getOpposite(), fluidStack, false) > 0) {
-					int filled = handler.fill(down.getOpposite(), fluidStack, true);
+				if(handler.fill(fluidStack, false) > 0) {
+					int filled = handler.fill(fluidStack, true);
 					drain(filled, true);
 				}
 			} else {
@@ -92,7 +91,8 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 				for(Entity entity : entities) {
 					if(!getTank().isEmpty() && entity instanceof EntityItem) {
 						EntityItem item = (EntityItem) entity;
-						if (item.getEntityItem() != null && item.getEntityItem().getItem() instanceof IFluidContainerItem &&
+						if (item.getEntityItem() != null
+								&& item.getEntityItem().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null) &&
 								item.getEntityItem().stackSize == 1) {
 							ItemStack itemStack = item.getEntityItem().copy();
 							ItemStack fillItemStack;
@@ -106,8 +106,9 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 						while(!getTank().isEmpty() && it.hasNext()) {
 							ItemStack itemStack = it.next();
 							ItemStack fillItemStack;
-							if(itemStack != null && itemStack.getItem() instanceof IFluidContainerItem &&
-									(fillItemStack = fill(itemStack)) != null) {
+							if(itemStack != null
+									&& itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+									&& (fillItemStack = fill(itemStack)) != null) {
 								it.replace(fillItemStack);
 							}
 						}
@@ -119,20 +120,15 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 
 	protected ItemStack fill(ItemStack itemStack) {
 		ItemStack fillItemStack = itemStack.copy();
-		IFluidContainerItem container = (IFluidContainerItem) itemStack.getItem();
+		IFluidHandler container = fillItemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
 		FluidStack fluidStack = new FluidStack(getTank().getFluidType(),
 				Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
-		if (container.fill(fillItemStack, fluidStack, false) > 0) {
-			int filled = container.fill(fillItemStack, fluidStack, true);
+		if (container.fill(fluidStack, false) > 0) {
+			int filled = container.fill(fluidStack, true);
 			drain(filled, true);
 			return fillItemStack;
 		}
 		return null;
-	}
-	
-	@Override
-    public boolean canFill(EnumFacing from, Fluid fluid) {
-		return from != EnumFacing.DOWN && super.canFill(from, fluid);
 	}
 
 }

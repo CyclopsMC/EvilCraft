@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.core.fluid;
 
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
@@ -36,16 +35,17 @@ public class ImplicitFluidConversionTank extends SingleUseTank {
         double ratio = resource != null ? converter.getRatio(resource.getFluid()) : 1;
         return (int) Math.ceil(super.fill(converted, doFill) / ratio);
     }
-    
+
     @Override
-    public boolean canTankAccept(Fluid fluid) {
-    	return super.canTankAccept(fluid) || converter.canConvert(fluid);
+    public boolean canFillFluidType(FluidStack fluid) {
+        return super.canFillFluidType(fluid) &&
+                (fluid == null || fluid.getFluid() == converter.getTarget() || converter.canConvert(fluid.getFluid()));
     }
-    
+
     @Override
-    public boolean canCompletelyFill(FluidStack fluidStack) {
-    	FluidStack converted = converter.convert(fluidStack);
-    	return super.canCompletelyFill(converted);
+    public boolean canDrainFluidType(FluidStack fluid) {
+        return super.canDrainFluidType(fluid) &&
+                (fluid == null || fluid.getFluid() == converter.getTarget() || converter.canConvert(fluid.getFluid()));
     }
 	
 }

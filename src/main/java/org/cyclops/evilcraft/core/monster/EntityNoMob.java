@@ -162,6 +162,7 @@ public class EntityNoMob extends EntityCreature {
 
     /**
      * Checks to make sure the light is not too bright where the mob is spawning
+     * @return If the light level is valid
      */
     protected boolean isValidLightLevel()
     {

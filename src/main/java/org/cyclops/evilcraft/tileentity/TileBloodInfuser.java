@@ -233,7 +233,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
             if(fluidStack == null) {
                 return true;
             } else {
-                if(getTank().canTankAccept(fluidStack.getFluid())
+                if(getTank().canFillFluidType(fluidStack)
                         && fluidStack.amount < container.getCapacity(itemStack)) {
                     return true;
                 }

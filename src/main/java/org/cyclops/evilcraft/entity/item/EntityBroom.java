@@ -576,11 +576,10 @@ public class EntityBroom extends Entity implements IConfigurable{
         }
         return value;
     }
-
-    // MCP: writeToNBT
+    
     @Override
-    public NBTTagCompound func_189511_e(NBTTagCompound tag) {
-        tag = super.func_189511_e(tag);
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        tag = super.writeToNBT(tag);
         NBTTagCompound broomItemTag = new NBTTagCompound();
         getBroomStack().writeToNBT(broomItemTag);
         tag.setTag("broomItem", broomItemTag);
