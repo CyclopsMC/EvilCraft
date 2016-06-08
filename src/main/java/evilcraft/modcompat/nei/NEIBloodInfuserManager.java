@@ -244,7 +244,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                                 tankWidth, tankHeight
                         ),
                     getFluidOverlayIdentifier(),
-                    Blood.getInstance()
+                    new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME)
                 )
         );
     }
