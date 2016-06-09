@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -13,11 +12,16 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItemBucket;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemBucketConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -69,12 +73,11 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
             @Override
             public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
                                           float hitX, float hitY, float hitZ, EnumHand hand) {
-                TileEntity tile = world.getTileEntity(pos);
-                if(tile instanceof IFluidHandler) {
-                    if(!world.isRemote) {
-                        ((IFluidHandler) tile).fill(side, new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME), true);
-                        return EnumActionResult.SUCCESS;
-                    }
+                IFluidHandler handler = TileHelpers.getCapability(world, pos,
+                        side, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+                if(handler != null && !world.isRemote) {
+                    handler.fill(new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME), true);
+                    return EnumActionResult.SUCCESS;
                 }
                 return super.onItemUseFirst(stack, player, world, pos, side, hitX, hitY, hitZ, hand);
             }
