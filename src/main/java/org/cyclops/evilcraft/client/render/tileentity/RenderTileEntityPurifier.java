@@ -64,7 +64,7 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         GlStateManager.pushMatrix();
         if (itemStack.getItem() instanceof ItemBlock) {
             GlStateManager.translate(1F, 1.2F, 1F);
-            GlStateManager.scale(1.2F, 1.2F, 1.2F);
+            GlStateManager.scale(0.6F, 0.6F, 0.6F);
         } else {
             GlStateManager.translate(1F, 1.2F, 1F);
             GlStateManager.rotate(25F, 1, 0, 0);
