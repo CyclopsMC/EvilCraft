@@ -2,8 +2,11 @@ package org.cyclops.evilcraft.tileentity.tickaction;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
@@ -19,12 +22,23 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
     @Override
     public void onTick(T tile, ItemStack itemStack, int slot, int tick) {
         ItemStack containerStack = tile.getInventory().getStackInSlot(slot);
-        IFluidContainerItem container = (IFluidContainerItem) containerStack.getItem();
-        if(container.getFluid(containerStack) != null) {
-            FluidStack fluidStack = container.getFluid(containerStack);
-            fluidStack.amount = Math.min(MB_PER_TICK, fluidStack.amount);
-            int filled = tile.getTank().fill(fluidStack, true);
-            container.drain(containerStack, filled, true);
+        IFluidHandler container = FluidUtil.getFluidHandler(containerStack);
+        if(container != null && FluidHelpers.hasFluid(container)) {
+            ItemStack result;
+            if (FluidUtil.tryEmptyContainer(containerStack, tile.getTank(), MB_PER_TICK, null, false) != null) {
+                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), MB_PER_TICK, null, true);
+            } else {
+                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), Fluid.BUCKET_VOLUME, null, true);
+            }
+            if (result != null) {
+                if (result.stackSize == 0) {
+                    result = containerStack;
+                    if (result.stackSize == 0) {
+                        result = null;
+                    }
+                }
+                tile.getInventory().setInventorySlotContents(slot, result);
+            }
         }
     }
     
@@ -40,11 +54,11 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
      * @return The required ticks.
      */
     public static int getRequiredTicks(TankInventoryTileEntity tile, ItemStack itemStack) {
-        IFluidContainerItem container = (IFluidContainerItem) itemStack.getItem();
+        IFluidHandler container = FluidUtil.getFluidHandler(itemStack);
         int amount = 0;
-        if(container.getFluid(itemStack) != null)
-            amount = container.getFluid(itemStack).amount;
-        int capacity = Math.min(container.getCapacity(itemStack), tile.getTank().getFluidAmount());
+        if(FluidHelpers.hasFluid(container))
+            amount = FluidHelpers.getAmount(FluidHelpers.getFluid(container));
+        int capacity = Math.min(FluidHelpers.getCapacity(container), tile.getTank().getFluidAmount());
         return (capacity - amount) / MB_PER_TICK;
     }
     
@@ -52,10 +66,10 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick) {
         boolean emptyContainer = false;
         ItemStack containerStack = tile.getInventory().getStackInSlot(slot);
-        IFluidContainerItem container = (IFluidContainerItem) containerStack.getItem();
-        if(container.getFluid(containerStack) != null) {
-            FluidStack fluidStack = container.getFluid(containerStack);
-            if(fluidStack.amount <= 0)
+        IFluidHandler container = FluidUtil.getFluidHandler(containerStack);
+        if(container != null && FluidHelpers.hasFluid(container)) {
+            FluidStack fluidStack = FluidHelpers.getFluid(container);
+            if(FluidHelpers.getAmount(fluidStack) <= 0)
                 emptyContainer = true;
         } else emptyContainer = true;
         return super.canTick(tile, itemStack, slot, tick) && !emptyContainer;

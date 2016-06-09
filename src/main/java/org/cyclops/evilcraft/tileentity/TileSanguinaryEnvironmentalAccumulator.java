@@ -6,14 +6,14 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.ParticleSmokeNormal;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,6 +24,7 @@ import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
@@ -342,16 +343,14 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
         for (int i = 0; i < tankOffsets.length; i++) {
             BlockPos offset = tankOffsets[i];
             BlockPos location = getPos().add(offset);
-            TileEntity tile = worldObj.getTileEntity(location);
-            if (tile == null || !(tile instanceof IFluidHandler)) {
-                invalidLocations.add(location);
-                continue;
+            IFluidHandler handler = TileHelpers.getCapability(getWorld(), location, EnumFacing.UP, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+            if (handler == null) {
+                return null;
             }
-            IFluidHandler handler = (IFluidHandler) tile;
-            FluidTankInfo[] info = handler.getTankInfo(VirtualTank.TARGETSIDE);
+            IFluidTankProperties[] info = handler.getTankProperties();
             boolean oneValid = false;
-            for(FluidTankInfo tank : info) {
-                if (tank.fluid != null && tank.fluid.getFluid() == ACCEPTED_FLUID) {
+            for(IFluidTankProperties tank : info) {
+                if (tank.getContents() != null && tank.getContents().getFluid() == ACCEPTED_FLUID) {
                     oneValid = true;
                     break;
                 }

@@ -11,10 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
@@ -60,8 +58,7 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
                 SingleUseTank tank = tile.getTank();
             	IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack);
                 if(!player.isSneaking() && !tank.isFull() && itemFluidHandler != null) { // Fill the tank.
-                	if(FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null
-                            && FluidHelpers.canCompletelyFill(itemFluidHandler, tank)) {
+                	if(FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null) {
                         ItemStack drainedItem = FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, true);
 	                    if(!player.capabilities.isCreativeMode) {
                             if(drainedItem != null && drainedItem.stackSize == 0) drainedItem = null;
@@ -90,8 +87,8 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 	public String getInfoTank(ItemStack itemStack) {
 		int amount = 0;
 		FluidStack fluidStack = null;
-		if(itemStack.getItem() instanceof IFluidContainerItem) {
-			fluidStack = ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack);
+		if(FluidUtil.getFluidHandler(itemStack) != null) {
+			fluidStack = FluidUtil.getFluidContained(itemStack);
 		} else if(itemStack.getTagCompound() != null) {
             fluidStack = FluidStack.loadFluidStackFromNBT(itemStack.getTagCompound().getCompoundTag(tank.getTankNBTName()));
         }

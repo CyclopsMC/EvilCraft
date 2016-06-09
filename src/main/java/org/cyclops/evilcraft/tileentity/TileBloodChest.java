@@ -11,7 +11,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.IFluidContainerItem;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
@@ -27,7 +26,6 @@ import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.inventory.container.ContainerBloodChest;
 import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 import org.cyclops.evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
-import org.cyclops.evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.RepairItemTickAction;
 
 import java.util.LinkedHashMap;
@@ -97,8 +95,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     
     private static final Map<Class<?>, ITickAction<TileBloodChest>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodChest>>();
     static {
-        EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileBloodChest>());
-        EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyItemBucketInTankTickAction<TileBloodChest>());
+        EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyFluidContainerInTankTickAction<TileBloodChest>());
     }
     
     /**

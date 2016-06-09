@@ -22,7 +22,6 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
 
@@ -70,12 +69,10 @@ public class Purifier extends ConfigurableBlockContainer {
                     tile.setAdditionalItem(null);
                 } else if (itemFluidHandler != null && !tank.isFull()
                         && FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null) {
-                    if(FluidHelpers.canCompletelyFill(itemFluidHandler, tank)) {
-                        ItemStack newItemStack = FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, true);
-                        InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack);
-                        tile.sendUpdate();
-                        return true;
-                    }
+                    ItemStack newItemStack = FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, true);
+                    InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack);
+                    tile.sendUpdate();
+                    return true;
                 } else if (itemFluidHandler != null && !tank.isEmpty() &&
                         FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null) {
                     ItemStack newItemStack = FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, true);

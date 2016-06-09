@@ -3,14 +3,15 @@ package org.cyclops.evilcraft.tileentity;
 import lombok.experimental.Delegate;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.EvilCraft;
@@ -98,13 +99,12 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
 	    	// Auto-drain the inner tank
 	    	if(!getTank().isEmpty()) {
 				for(EnumFacing direction : EnumFacing.VALUES) {
-					TileEntity tile = worldObj.getTileEntity(getPos().offset(direction));
-					if(!getTank().isEmpty() && tile instanceof IFluidHandler) {
-						IFluidHandler handler = (IFluidHandler) tile;
+					IFluidHandler handler = TileHelpers.getCapability(getWorld(), getPos().offset(direction),
+							direction.getOpposite(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+					if(!getTank().isEmpty() && handler != null) {
 						FluidStack fluidStack = new FluidStack(getTank().getFluidType(), Math.min(MB_RATE, getTank().getFluidAmount()));
-						if(handler.canFill(direction.getOpposite(), getTank().getFluidType())
-								&& handler.fill(direction.getOpposite(), fluidStack, false) > 0) {
-							int filled = handler.fill(direction.getOpposite(), fluidStack, true);
+						if(handler.fill(fluidStack, false) > 0) {
+							int filled = handler.fill(fluidStack, true);
 							drain(filled, true);
 						}
 					}

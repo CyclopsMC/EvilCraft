@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.core.fluid;
 
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.cyclops.cyclopscore.helper.Helpers;
 
 import javax.annotation.Nullable;
@@ -14,8 +14,6 @@ import javax.annotation.Nullable;
  * @author Ruben Taelman
  */
 public class VirtualTank implements IFluidTank {
-
-    public static final EnumFacing TARGETSIDE = EnumFacing.UP;
 
     private final ITankProvider tankProvider;
     private final boolean spreadEvenly;
@@ -44,8 +42,8 @@ public class VirtualTank implements IFluidTank {
             FluidStack minFluid = null;
             int min = Integer.MAX_VALUE;
             for (IFluidHandler tank : getTanks()) {
-                for (FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
-                    FluidStack tankFluid = info.fluid;
+                for (IFluidTankProperties info : tank.getTankProperties()) {
+                    FluidStack tankFluid = info.getContents();
                     if (tankFluid != null) {
                         if(tankFluid.amount < min) {
                             min = tankFluid.amount;
@@ -58,8 +56,8 @@ public class VirtualTank implements IFluidTank {
         } else {
             FluidStack total = null;
             for (IFluidHandler tank : getTanks()) {
-                for (FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
-                    FluidStack tankFluid = info.fluid;
+                for (IFluidTankProperties info : tank.getTankProperties()) {
+                    FluidStack tankFluid = info.getContents();
                     if (tankFluid != null) {
                         if (total == null) {
                             total = tankFluid.copy();
@@ -83,8 +81,8 @@ public class VirtualTank implements IFluidTank {
     public int getCapacity() {
         int total = 0;
         for (IFluidHandler tank : getTanks()) {
-            for (FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
-                total = Helpers.addSafe(total, info.capacity);
+            for (IFluidTankProperties info : tank.getTankProperties()) {
+                total = Helpers.addSafe(total, info.getCapacity());
             }
         }
         return total;
@@ -107,7 +105,7 @@ public class VirtualTank implements IFluidTank {
                 toFill = resource.copy();
                 resource.amount = resource.amount / tanks + ((i <= resource.amount % tanks) ? 1 : 0);
             }
-            int filled = tank.fill(TARGETSIDE, toFill, doFill);
+            int filled = tank.fill(toFill, doFill);
             toFill = toFill.copy();
             toFill.amount -= filled;
             totalFilled += filled;
@@ -133,7 +131,7 @@ public class VirtualTank implements IFluidTank {
                 toDrain = maxDrain / tanks + ((i <= maxDrain % tanks) ? 1 : 0);
             }
             IFluidHandler tank = tanksArray[i];
-            FluidStack drained = tank.drain(TARGETSIDE, toDrain, doDrain);
+            FluidStack drained = tank.drain(toDrain, doDrain);
             if (drained != null) {
                 toDrain -= drained.amount;
                 if (totalDrained == null) {

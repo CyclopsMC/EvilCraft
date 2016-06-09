@@ -87,7 +87,6 @@ public class Configs {
         configs.add(new WerewolfFleshConfig());
         configs.add(new LightningGrenadeConfig());
         configs.add(new RedstoneGrenadeConfig());
-        configs.add(new BucketBloodConfig());
         configs.add(new BloodExtractorConfig());
         configs.add(new DarkGemConfig());
         configs.add(new DarkStickConfig());
@@ -98,7 +97,6 @@ public class Configs {
         configs.add(new DarkPowerGemConfig());
         configs.add(new BloodInfusionCoreConfig());
         configs.add(new PoisonSacConfig());
-        configs.add(new BucketPoisonConfig());
         configs.add(new WerewolfFurConfig());
         configs.add(new BlookConfig());
         configs.add(new PotentiaSphereConfig());

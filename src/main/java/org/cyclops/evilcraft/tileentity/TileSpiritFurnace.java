@@ -14,7 +14,6 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.IFluidContainerItem;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.block.multi.*;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
@@ -41,7 +40,6 @@ import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.network.packet.DetectionListenerPacket;
 import org.cyclops.evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
-import org.cyclops.evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
 import org.cyclops.evilcraft.tileentity.tickaction.spiritfurnace.BoxCookTickAction;
 
 import java.util.LinkedHashMap;
@@ -111,8 +109,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     
     private static final Map<Class<?>, ITickAction<TileSpiritFurnace>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSpiritFurnace>>();
     static {
-        EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileSpiritFurnace>());
-        EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyItemBucketInTankTickAction<TileSpiritFurnace>());
+        EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyFluidContainerInTankTickAction<TileSpiritFurnace>());
     }
 
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();

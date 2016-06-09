@@ -27,7 +27,7 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -245,8 +245,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
         	list.add(itemStack.copy());
         	if(Configs.isEnabled(BloodConfig.class)) {
         		ItemStack itemStackFilled = itemStack.copy();
-        		IFluidContainerItem container = (IFluidContainerItem) itemStackFilled.getItem();
-        		container.fill(itemStackFilled, new FluidStack(Blood.getInstance(), capacity), true);
+				FluidUtil.getFluidHandler(itemStackFilled).fill(new FluidStack(Blood.getInstance(), capacity), true);
         		list.add(itemStackFilled);
         	}
             lastCapacity = capacity;
@@ -260,8 +259,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
                     try {
                         ItemStack itemStackFilled = itemStack.copy();
                         setTankCapacity(itemStackFilled, capacityOriginal);
-                        IFluidContainerItem container = (IFluidContainerItem) itemStackFilled.getItem();
-                        container.fill(itemStackFilled, new FluidStack(fluid, capacityOriginal), true);
+						FluidUtil.getFluidHandler(itemStackFilled).fill(new FluidStack(fluid, capacityOriginal), true);
                         list.add(itemStackFilled);
                     } catch (NullPointerException e) {
                         // Skip registering tanks for invalid fluids.

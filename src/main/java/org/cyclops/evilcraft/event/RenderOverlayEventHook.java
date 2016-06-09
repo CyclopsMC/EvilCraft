@@ -9,10 +9,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
@@ -44,13 +46,14 @@ public class RenderOverlayEventHook {
                 PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
                 while (it.hasNext()) {
                     ItemStack itemStack = it.next();
-                    if (itemStack != null && itemStack.getItem() instanceof IFluidContainerItem) {
-                        FluidStack fluidStack = ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack);
+                    IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack);
+                    if (itemStack != null && fluidHandler != null) {
+                        FluidStack fluidStack = FluidHelpers.getFluid(fluidHandler);
                         if (fluidStack != null && BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
                             amount.set(amount.get() + fluidStack.amount);
                         }
                         if (fluidStack == null || BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
-                            capacity.set(capacity.get() + ((IFluidContainerItem) itemStack.getItem()).getCapacity(itemStack));
+                            capacity.set(capacity.get() + FluidHelpers.getCapacity(fluidHandler));
                         }
                     }
                 }
