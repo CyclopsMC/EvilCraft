@@ -60,22 +60,11 @@ public class DisenchantPurifyAction implements IPurifierAction {
         if (!enchantments.isEmpty()) {
             if (tick >= PURIFY_DURATION) {
                 if (!world.isRemote) {
-                    int enchantmentIndex = world.rand.nextInt(enchantments.size());
-                    Enchantment enchantment = Lists.newArrayList(enchantments.keySet()).get(enchantmentIndex);
-
-                    // Set the resulting enchantment book.
-                    tile.setAdditionalItem(Items.ENCHANTED_BOOK.getEnchantedItemStack(
-                            new EnchantmentData(enchantment, enchantments.get(enchantment))));
-
-                    // Set the remaining enchantment book
-                    Map<Enchantment, Integer> remainingEnchantments = Maps.newHashMap(enchantments);
-                    remainingEnchantments.remove(enchantment);
-                    if (purifyItem.hasTagCompound() && purifyItem.getTagCompound().hasKey("StoredEnchantments")) {
-                        purifyItem.getTagCompound().removeTag("StoredEnchantments");
-                    }
-                    EnchantmentHelper.setEnchantments(remainingEnchantments, purifyItem);
+                    Enchantment enchantment = getRandomEnchantment(world, enchantments);
+                    setResultingEnchantmentBook(tile, enchantments, enchantment);
+                    removePriorWorkPenalty(enchantments, purifyItem);
+                    setRemainingEnchantmentsOnPurifiedItem(enchantments, enchantment, purifyItem);
                     tile.setPurifyItem(purifyItem);
-
                 }
                 tile.setBuckets(0, tile.getBucketsRest());
                 done = true;
@@ -88,4 +77,28 @@ public class DisenchantPurifyAction implements IPurifierAction {
         return done;
     }
 
+    private Enchantment getRandomEnchantment(World world, Map<Enchantment, Integer> enchantments) {
+        int enchantmentIndex = world.rand.nextInt(enchantments.size());
+        return Lists.newArrayList(enchantments.keySet()).get(enchantmentIndex);
+    }
+
+    private void setResultingEnchantmentBook(TilePurifier tile, Map<Enchantment, Integer> enchantments, Enchantment enchantment) {
+        tile.setAdditionalItem(Items.ENCHANTED_BOOK.getEnchantedItemStack(
+                new EnchantmentData(enchantment, enchantments.get(enchantment))));
+    }
+
+    private void removePriorWorkPenalty(Map<Enchantment, Integer> enchantments, ItemStack purifyItem) {
+        int penalty = purifyItem.getRepairCost();
+        int remainingPenalty = penalty -  penalty / enchantments.size();
+        purifyItem.setRepairCost(remainingPenalty);
+    }
+
+    private void setRemainingEnchantmentsOnPurifiedItem(Map<Enchantment, Integer> enchantments, Enchantment enchantment, ItemStack purifyItem) {
+        Map<Enchantment, Integer> remainingEnchantments = Maps.newHashMap(enchantments);
+        remainingEnchantments.remove(enchantment);
+        if (purifyItem.hasTagCompound() && purifyItem.getTagCompound().hasKey("StoredEnchantments")) {
+            purifyItem.getTagCompound().removeTag("StoredEnchantments");
+        }
+        EnchantmentHelper.setEnchantments(remainingEnchantments, purifyItem);
+    }
 }
