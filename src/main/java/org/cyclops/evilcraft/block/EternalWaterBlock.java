@@ -11,7 +11,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -65,10 +66,10 @@ public class EternalWaterBlock extends ConfigurableBlockContainer {
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side,
                                     float xp, float yp, float zp) {
         ItemStack itemStack = player.inventory.getCurrentItem();
-        if(itemStack != null) {
-            if(itemStack.getItem() instanceof IFluidContainerItem) {
-                IFluidContainerItem containerItem = ((IFluidContainerItem) itemStack.getItem());
-                containerItem.fill(itemStack, TileEternalWaterBlock.WATER, true);
+        if (itemStack != null) {
+            IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack);
+            if (fluidHandler != null) {
+                fluidHandler.fill(TileEternalWaterBlock.WATER, true);
             }
         }
         return true;

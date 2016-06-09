@@ -47,7 +47,7 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
 
     @Override
     protected IConfigurable initSubInstance() {
-        ConfigurableItemBucket bucket = new ConfigurableItemBucket(this, Blocks.FLOWING_WATER) {
+        ConfigurableItemBucket bucket = new ConfigurableItemBucket(this, Blocks.FLOWING_WATER, new FluidStack(getFluidInstance(), Fluid.BUCKET_VOLUME)) {
 
             @Override
             public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {

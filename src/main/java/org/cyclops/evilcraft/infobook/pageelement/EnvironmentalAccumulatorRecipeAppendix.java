@@ -14,10 +14,10 @@ import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 import org.cyclops.evilcraft.block.SanguinaryEnvironmentalAccumulator;
+import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import org.cyclops.evilcraft.core.weather.WeatherType;
-import org.cyclops.evilcraft.item.BucketBloodConfig;
 import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.tileentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
 
@@ -103,7 +103,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
         }
         if(sanguinary) {
             // Draw blood usage
-            renderItem(gui, x + middle, y + 2, new ItemStack(BucketBloodConfig._instance.getItemInstance()), mx, my, false, null);
+            renderItem(gui, x + middle, y + 2, ItemHelpers.getBloodBucket(), mx, my, false, null);
 
             // Blood amount text
             FontRenderer fontRenderer = gui.getFontRenderer();

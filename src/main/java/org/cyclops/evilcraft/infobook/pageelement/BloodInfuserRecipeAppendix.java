@@ -11,9 +11,9 @@ import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.cyclops.evilcraft.block.BloodInfuser;
+import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
-import org.cyclops.evilcraft.item.BucketBloodConfig;
 import org.cyclops.evilcraft.item.Promise;
 
 /**
@@ -80,7 +80,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
             renderItem(gui, x + SLOT_OFFSET_X, y + 2, promise, mx, my, PROMISE);
         }
 
-        renderItem(gui, x + middle, y + 2, new ItemStack(BucketBloodConfig._instance.getItemInstance()), mx, my, false, null);
+        renderItem(gui, x + middle, y + 2, ItemHelpers.getBloodBucket(), mx, my, false, null);
         renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(BloodInfuser.getInstance()), mx, my, false, null);
 
         // Blood amount text

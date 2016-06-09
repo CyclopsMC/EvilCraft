@@ -1,14 +1,15 @@
 package org.cyclops.evilcraft.tileentity;
 
-import net.minecraft.init.Items;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
@@ -29,10 +30,8 @@ import org.cyclops.evilcraft.core.tileentity.upgrade.UpgradeBehaviour;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
-import org.cyclops.evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodinfuser.FluidContainerItemTickAction;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodinfuser.InfuseItemTickAction;
-import org.cyclops.evilcraft.tileentity.tickaction.bloodinfuser.ItemBucketTickAction;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -84,17 +83,15 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     private SingleCache<Triple<ItemStack, FluidStack, Integer>,
                 IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>> recipeCache;
     
-    private static final Map<Class<?>, ITickAction<TileBloodInfuser>> INFUSE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
+    private static final Multimap<Class<?>, ITickAction<TileBloodInfuser>> INFUSE_TICK_ACTIONS = LinkedListMultimap.create();
     static {
-        INFUSE_TICK_ACTIONS.put(ItemBucket.class, new ItemBucketTickAction());
-        INFUSE_TICK_ACTIONS.put(IFluidContainerItem.class, new FluidContainerItemTickAction());
+        INFUSE_TICK_ACTIONS.put(Item.class, new FluidContainerItemTickAction());
         INFUSE_TICK_ACTIONS.put(Item.class, new InfuseItemTickAction());
     }
     
     private static final Map<Class<?>, ITickAction<TileBloodInfuser>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodInfuser>>();
     static {
-        EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileBloodInfuser>());
-        EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyItemBucketInTankTickAction<TileBloodInfuser>());
+        EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyFluidContainerInTankTickAction<TileBloodInfuser>());
     }
 
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();
@@ -221,25 +218,14 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     
     @Override
     public boolean canConsume(ItemStack itemStack) {
-        // Empty bucket
-        if(itemStack.getItem() == Items.BUCKET
-                && this.getTank().getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME)
-            return true;
-        
-        // Valid fluid container
-        if(itemStack.getItem() instanceof IFluidContainerItem) {
-            IFluidContainerItem container = (IFluidContainerItem) itemStack.getItem();
-            FluidStack fluidStack = container.getFluid(itemStack);
-            if(fluidStack == null) {
-                return true;
-            } else {
-                if(getTank().canFillFluidType(fluidStack)
-                        && fluidStack.amount < container.getCapacity(itemStack)) {
-                    return true;
-                }
+        // Valid fluid handler
+        if (itemStack != null) {
+            IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack.copy().splitStack(1));
+            if (fluidHandler != null) {
+                return fluidHandler.fill(getTank().getFluid(), false) > 0;
             }
         }
-        
+
         // Valid custom recipe
         IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe =
                 getRecipe(itemStack);

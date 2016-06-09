@@ -1,5 +1,7 @@
 package org.cyclops.evilcraft.core.tileentity.tickaction;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -24,7 +26,7 @@ import java.util.Map.Entry;
  */
 public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>> {
     
-    private Map<Class<?>, T> tickActions;
+    private Multimap<Class<?>, T> tickActions;
     
     private C tile;
 
@@ -33,7 +35,7 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
     
     private float requiredTicks = 0;
     private int slot;
-    
+
     /**
      * Make a new TickComponent.
      * @param tile The IConsumeProduceTile reference in which this ticker runs.
@@ -44,7 +46,26 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
      */
     public TickComponent(C tile, Map<Class<?>, T> tickActions, int slot, boolean redstoneDisableable) {
         this.tile = tile;
-        this.tickActions = tickActions;
+        ImmutableMultimap.Builder<Class<?>, T> builder = ImmutableMultimap.builder();
+        for (Entry<Class<?>, T> entry : tickActions.entrySet()) {
+            builder.put(entry);
+        }
+        this.tickActions = builder.build();
+        this.slot = slot;
+        this.redstoneDisableable = redstoneDisableable;
+    }
+    
+    /**
+     * Make a new TickComponent.
+     * @param tile The IConsumeProduceTile reference in which this ticker runs.
+     * @param tickActions The collection of actions this ticker can perform.
+     * It must map the item class to an extension of {@link ITickAction}.
+     * @param slot The inventory slot this ticker applies to.
+     * @param redstoneDisableable If this ticker can be disabled when given a redstone signal.
+     */
+    public TickComponent(C tile, Multimap<Class<?>, T> tickActions, int slot, boolean redstoneDisableable) {
+        this.tile = tile;
+        this.tickActions = ImmutableMultimap.<Class<?>, T>builder().putAll(tickActions).build();
         this.slot = slot;
         this.redstoneDisableable = redstoneDisableable;
     }
@@ -60,8 +81,19 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
         this(tile, tickActions, slot, true);
     }
 
+    /**
+     * Make a new TickComponent that can be disabled with redstone.
+     * @param tile The IConsumeProduceTile reference in which this ticker runs.
+     * @param tickActions The collection of actions this ticker can perform.
+     * It must map the item class to an extension of {@link ITickAction}.
+     * @param slot The inventory slot this ticker applies to.
+     */
+    public TickComponent(C tile, Multimap<Class<?>, T> tickActions, int slot) {
+        this(tile, tickActions, slot, true);
+    }
+
     public T getTickAction(Item item) {
-        for(Entry<Class<?>, T> entry : tickActions.entrySet()) {
+        for(Entry<Class<?>, T> entry : tickActions.entries()) {
         	Object instance = item;
             if(entry.getKey().isInstance(instance)) {
                 return entry.getValue();

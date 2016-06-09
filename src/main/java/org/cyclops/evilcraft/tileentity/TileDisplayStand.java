@@ -3,11 +3,17 @@ package org.cyclops.evilcraft.tileentity;
 import lombok.experimental.Delegate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.InventoryTileEntity;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 
 /**
@@ -15,7 +21,7 @@ import java.util.Collections;
  * @author rubensworks
  *
  */
-public class TileDisplayStand extends InventoryTileEntity implements CyclopsTileEntity.ITickingTile, IFluidHandler {
+public class TileDisplayStand extends InventoryTileEntity implements CyclopsTileEntity.ITickingTile {
 
     @Delegate
     protected final ITickingTile tickingTileComponent = new TickingTileComponent(this);
@@ -30,6 +36,7 @@ public class TileDisplayStand extends InventoryTileEntity implements CyclopsTile
         for (EnumFacing side : EnumFacing.values()) {
             addSlotsToSide(side, Collections.singleton(0));
         }
+        addCapabilityInternal(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, new ItemFluidWrapper(this));
     }
 
     public EnumFacing.AxisDirection getDirection() {
@@ -45,71 +52,48 @@ public class TileDisplayStand extends InventoryTileEntity implements CyclopsTile
         return this.displayStandType;
     }
 
-    protected FluidStack getFluidStack() {
-        ItemStack itemStack = getStackInSlot(0);
-        if (itemStack != null && itemStack.getItem() instanceof IFluidContainerItem) {
-            return ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack);
-        }
-        return null;
-    }
-
-    protected int getFluidCapacity() {
-        ItemStack itemStack = getStackInSlot(0);
-        if (itemStack != null && itemStack.getItem() instanceof IFluidContainerItem) {
-            return ((IFluidContainerItem) itemStack.getItem()).getCapacity(itemStack);
-        }
-        return 0;
-    }
-
-    @Override
-    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-        ItemStack itemStack = getStackInSlot(0);
-        if (itemStack != null && itemStack.getItem() instanceof IFluidContainerItem) {
-            return ((IFluidContainerItem) itemStack.getItem()).fill(itemStack, resource, doFill);
-        }
-        return 0;
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
-        FluidStack fluidStack = getFluidStack();
-        if (resource != null && fluidStack != null && resource.getFluid() == fluidStack.getFluid()) {
-            return drain(from, resource, doDrain);
-        }
-        return null;
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
-        ItemStack itemStack = getStackInSlot(0);
-        if (itemStack.getItem() instanceof IFluidContainerItem) {
-            return ((IFluidContainerItem) itemStack.getItem()).drain(itemStack, maxDrain, doDrain);
-        }
-        return null;
-    }
-
-    @Override
-    public boolean canFill(EnumFacing from, Fluid fluid) {
-        ItemStack itemStack = getStackInSlot(0);
-        return itemStack != null && itemStack.getItem() instanceof IFluidContainerItem;
-    }
-
-    @Override
-    public boolean canDrain(EnumFacing from, Fluid fluid) {
-        ItemStack itemStack = getStackInSlot(0);
-        return itemStack != null && itemStack.getItem() instanceof IFluidContainerItem;
-    }
-
-    @Override
-    public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        return new FluidTankInfo[] {
-                new FluidTankInfo(getFluidStack(), getFluidCapacity())
-        };
-    }
-
     @Override
     public void setInventorySlotContents(int slotId, ItemStack itemstack) {
         super.setInventorySlotContents(slotId, itemstack);
         sendUpdate();
+    }
+
+    public static class ItemFluidWrapper implements IFluidHandler {
+
+        private final TileDisplayStand tile;
+
+        public ItemFluidWrapper(TileDisplayStand tile) {
+            this.tile = tile;
+        }
+
+        protected IFluidHandler getFluidHandler() {
+            IFluidHandler fluidHandler = FluidUtil.getFluidHandler(tile.getStackInSlot(0));
+            if (fluidHandler == null) {
+                return EmptyFluidHandler.INSTANCE;
+            }
+            return fluidHandler;
+        }
+
+        @Override
+        public IFluidTankProperties[] getTankProperties() {
+            return getFluidHandler().getTankProperties();
+        }
+
+        @Override
+        public int fill(FluidStack resource, boolean doFill) {
+            return getFluidHandler().fill(resource, doFill);
+        }
+
+        @Nullable
+        @Override
+        public FluidStack drain(FluidStack resource, boolean doDrain) {
+            return getFluidHandler().drain(resource, doDrain);
+        }
+
+        @Nullable
+        @Override
+        public FluidStack drain(int maxDrain, boolean doDrain) {
+            return getFluidHandler().drain(maxDrain, doDrain);
+        }
     }
 }

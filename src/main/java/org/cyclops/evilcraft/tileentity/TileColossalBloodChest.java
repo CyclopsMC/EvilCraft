@@ -17,7 +17,6 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.mutable.MutableFloat;
@@ -44,7 +43,6 @@ import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
 import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 import org.cyclops.evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
-import org.cyclops.evilcraft.tileentity.tickaction.EmptyItemBucketInTankTickAction;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BulkRepairItemTickAction;
 
 import java.util.LinkedHashMap;
@@ -126,8 +124,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
 
     private static final Map<Class<?>, ITickAction<TileColossalBloodChest>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileColossalBloodChest>>();
     static {
-        EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileColossalBloodChest>());
-        EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyItemBucketInTankTickAction<TileColossalBloodChest>());
+        EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyFluidContainerInTankTickAction<TileColossalBloodChest>());
     }
 
     protected static final ExactSizeValidator exactSizeValidator = new ExactSizeValidator(new Vec3i(2, 2, 2));

@@ -17,6 +17,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -118,7 +119,7 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
     	if(ItemHelpers.isActivated(itemStack)) {
-    		ItemHelpers.updateAutoFill(this, itemStack, world, entity);
+    		ItemHelpers.updateAutoFill(FluidUtil.getFluidHandler(itemStack), itemStack, world, entity);
     	}
         super.onUpdate(itemStack, world, entity, par4, par5);
     }

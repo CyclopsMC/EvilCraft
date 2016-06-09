@@ -11,8 +11,12 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.wrappers.FluidContainerItemWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -172,14 +176,14 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
         return super.onItemRightClick(itemStack, world, player, hand);
     }
 
-    protected void autofill(IFluidContainerItem item, ItemStack itemStack, World world, Entity entity) {
-        ItemHelpers.updateAutoFill(this, itemStack, world, entity);
+    protected void autofill(IFluidHandler source, ItemStack itemStack, World world, Entity entity) {
+        ItemHelpers.updateAutoFill(source, itemStack, world, entity);
     }
 	
 	@Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
     	if(block.isActivatable() && block.isActivated(itemStack, world, entity)) {
-            autofill(this, itemStack, world, entity);
+            autofill(FluidUtil.getFluidHandler(itemStack), itemStack, world, entity);
     	}
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
@@ -198,5 +202,10 @@ public class ItemBlockFluidContainer extends ItemBlockNBT implements IFluidConta
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return oldStack.getItem() != newStack.getItem();
+    }
+
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+        return new FluidContainerItemWrapper(this, stack);
     }
 }

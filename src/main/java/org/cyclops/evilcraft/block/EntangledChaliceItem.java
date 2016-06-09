@@ -7,7 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
@@ -81,15 +82,15 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
     	WorldSharedTankCache.getInstance().setTankContent(getTankID(container), fluidStack);
     }
 
-    protected void autofill(IFluidContainerItem item, ItemStack itemStack, World world, Entity entity) {
+    protected void autofill(IFluidHandler source, ItemStack itemStack, World world, Entity entity) {
         if(entity instanceof EntityPlayer && !world.isRemote) {
             EntityPlayer player = (EntityPlayer) entity;
             FluidStack tickFluid;
             Iterator<ItemStack> it = new PlayerExtendedInventoryIterator(player);
             do {
-                tickFluid = item.getFluid(itemStack);
+                tickFluid = FluidHelpers.getFluid(source);
                 ItemStack toFill = it.next();
-                ItemHelpers.tryFillContainerForPlayer(item, itemStack, toFill, tickFluid, player);
+                ItemHelpers.tryFillContainerForPlayer(source, itemStack, toFill, tickFluid, player);
             } while(tickFluid != null && tickFluid.amount > 0 && it.hasNext());
         }
     }

@@ -6,9 +6,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.UniversalBucket;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.evilcraft.GeneralConfig;
+import org.cyclops.evilcraft.fluid.Blood;
 
 /**
  * Helpers for items.
@@ -18,6 +22,7 @@ import org.cyclops.evilcraft.GeneralConfig;
 public class ItemHelpers {
 
 	private static final int MB_FILL_PERTICK = GeneralConfig.mbFlowRate;
+    private static ItemStack bloodBucket = null;
 	
 	/**
      * Check if the given item is activated.
@@ -71,19 +76,19 @@ public class ItemHelpers {
     
     /**
      * Run an auto-fill tick for filling currently held container items from this item.
-     * @param item The item type to fill from.
+     * @param toDrain The item handler to drain from.
      * @param itemStack The item stack to fill from.
      * @param world The world.
      * @param entity The entity that holds this item.
      */
-    public static void updateAutoFill(IFluidContainerItem item, ItemStack itemStack, World world, Entity entity) {
+    public static void updateAutoFill(IFluidHandler toDrain, ItemStack itemStack, World world, Entity entity) {
     	if(entity instanceof EntityPlayer && !world.isRemote) {
-            FluidStack tickFluid = item.getFluid(itemStack);
+            FluidStack tickFluid = toDrain.drain(Integer.MAX_VALUE, false);
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;
                 for (EnumHand hand : EnumHand.values()) {
                     ItemStack held = player.getHeldItem(hand);
-                    tryFillContainerForPlayer(item, itemStack, held, tickFluid, player);
+                    tryFillContainerForPlayer(toDrain, itemStack, held, tickFluid, player);
                 }
             }
         }
@@ -91,25 +96,26 @@ public class ItemHelpers {
 
     /**
      * Tries to fill a container item in a player inventory.
-     * @param item The item container to drain from.
+     * @param toDrain The item handler to drain from.
      * @param itemStack The stack to drain from.
      * @param toFill The container to try to fill.
      * @param tickFluid The fluid to fill with.
      * @param player The player that is the owner of toFill.
      */
-    public static void tryFillContainerForPlayer(IFluidContainerItem item, ItemStack itemStack, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
-        if(toFill != null && toFill != itemStack && toFill.getItem() instanceof IFluidContainerItem && player.getItemInUseCount() == 0) {
-            IFluidContainerItem fluidContainer = (IFluidContainerItem) toFill.getItem();
-            FluidStack heldFluid = fluidContainer.getFluid(toFill);
-            if(heldFluid == null ||
-                    (heldFluid.isFluidEqual(tickFluid)
-                    && heldFluid.amount < fluidContainer.getCapacity(toFill))
-                    ) {
-                int filled = fluidContainer.fill(toFill, new FluidStack(tickFluid.getFluid(),
-                        Math.min(tickFluid.amount, MB_FILL_PERTICK)), true);
-                item.drain(itemStack, filled, true);
-            }
+    public static void tryFillContainerForPlayer(IFluidHandler toDrain, ItemStack itemStack, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
+        if(toFill != null && toFill != itemStack && FluidUtil.getFluidHandler(toFill) != null && player.getItemInUseCount() == 0) {
+            FluidUtil.tryFillContainer(toFill, toDrain, Math.min(MB_FILL_PERTICK, tickFluid.amount), player, true);
         }
+    }
+
+    /**
+     * @return The filled blood bucket.
+     */
+    public static ItemStack getBloodBucket() {
+        if (bloodBucket == null) {
+            bloodBucket = UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, Blood.getInstance());
+        }
+        return bloodBucket;
     }
 	
 }

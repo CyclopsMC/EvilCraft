@@ -16,8 +16,8 @@ import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.ItemFluidContainer;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -79,35 +79,29 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
     
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-    	updateAutoFill(this, itemStack, world, entity);
+    	updateAutoFill(itemStack, world, entity);
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
     
     /**
      * Run an auto-fill tick for filling currently held container items from this item.
-     * @param item The item type to fill from.
      * @param itemStack The item stack to fill from.
      * @param world The world.
      * @param entity The entity that holds this item.
      */
-    public static void updateAutoFill(ItemFluidContainer item, ItemStack itemStack, World world, Entity entity) {
-    	if(entity instanceof EntityPlayer && !world.isRemote && ItemHelpers.isActivated(itemStack)) {
-            FluidStack tickFluid = item.getFluid(itemStack);
+    public static void updateAutoFill(ItemStack itemStack, World world, Entity entity) {
+        IFluidHandler source = FluidUtil.getFluidHandler(itemStack);
+    	if(source != null && entity instanceof EntityPlayer && !world.isRemote && ItemHelpers.isActivated(itemStack)) {
+            FluidStack tickFluid = source.drain(Integer.MAX_VALUE, false);
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;
                 for(EnumHand hand : EnumHand.values()) {
                     ItemStack held = player.getHeldItem(hand);
-                    if (held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && player.getItemInUseCount() == 0) {
-                        IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
-                        FluidStack heldFluid = fluidContainer.getFluid(held);
-                        if (/*tickFluid.amount >= MB_FILL_PERTICK Not required for creative mode filling
-                            && */(heldFluid == null || (heldFluid.isFluidEqual(tickFluid)
-                                && heldFluid.amount < fluidContainer.getCapacity(held)
-                        )
-                        )
-                                ) {
-                            int filled = fluidContainer.fill(held, new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), true);
-                            item.drain(itemStack, filled, true);
+                    IFluidHandler fluidHandler = FluidUtil.getFluidHandler(held);
+                    if (held != null && held != itemStack && fluidHandler != null && player.getItemInUseCount() == 0) {
+                        if (fluidHandler.fill(tickFluid, false) > 0) {
+                            int filled = fluidHandler.fill(new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), true);
+                            source.drain(filled, true);
                         }
                     }
                 }

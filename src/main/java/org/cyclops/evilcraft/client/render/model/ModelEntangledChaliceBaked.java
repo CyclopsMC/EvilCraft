@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.Attributes;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.block.EntangledChalice;
@@ -117,7 +117,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     @Override
     public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
         String id = itemStack != null ? ((EntangledChaliceItem) itemStack.getItem()).getTankID(itemStack) : "";
-        return new ModelEntangledChaliceBaked(id, itemStack != null ? ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack) : null, itemStack, world, entity);
+        return new ModelEntangledChaliceBaked(id, itemStack != null ? FluidUtil.getFluidContained(itemStack) : null, itemStack, world, entity);
     }
 
     @Override

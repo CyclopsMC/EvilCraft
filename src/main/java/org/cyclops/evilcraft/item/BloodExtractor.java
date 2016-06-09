@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.ItemFluidContainer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -151,7 +152,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
     	if(ItemHelpers.isActivated(itemStack)) {
-    		ItemHelpers.updateAutoFill(this, itemStack, world, entity);
+    		ItemHelpers.updateAutoFill(FluidUtil.getFluidHandler(itemStack), itemStack, world, entity);
     	}
         super.onUpdate(itemStack, world, entity, par4, par5);
     }

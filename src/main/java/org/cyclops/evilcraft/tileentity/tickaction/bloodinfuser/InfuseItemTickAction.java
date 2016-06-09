@@ -39,6 +39,9 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
 
     protected int getRequiredFluidAmount(TileBloodInfuser tile, IRecipe<ItemFluidStackAndTierRecipeComponent,
             ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
+        if (recipe == null) {
+            return Integer.MAX_VALUE;
+        }
         MutableInt amount = new MutableInt(recipe.getInput().getFluidStack().amount);
         Upgrades.sendEvent(tile,
                 new UpgradeSensitiveEvent<MutableInt>(amount, TileBloodInfuser.UPGRADEEVENT_BLOODUSAGE));
@@ -69,7 +72,11 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
     
     @Override
     public ItemStack willProduceItem(TileBloodInfuser tile) {
-        return getRecipe(tile).getOutput().getItemStack();
+        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe = getRecipe(tile);
+        if (recipe == null) {
+            return null;
+        }
+        return recipe.getOutput().getItemStack();
     }
     
 }
