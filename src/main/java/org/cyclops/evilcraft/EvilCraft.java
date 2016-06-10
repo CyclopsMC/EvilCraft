@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -10,7 +9,6 @@ import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
-import org.cyclops.commoncapabilities.api.capability.work.IWorker;
 import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigReference;
 import org.cyclops.cyclopscore.infobook.IInfoBookRegistry;
@@ -20,7 +18,6 @@ import org.cyclops.cyclopscore.init.ModBaseVersionable;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.item.BucketRegistry;
 import org.cyclops.cyclopscore.item.IBucketRegistry;
-import org.cyclops.cyclopscore.modcompat.ICapabilityCompat;
 import org.cyclops.cyclopscore.modcompat.ModCompatLoader;
 import org.cyclops.cyclopscore.persist.world.GlobalCounters;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
@@ -108,14 +105,8 @@ public class EvilCraft extends ModBaseVersionable {
         //modCompatLoader.addModCompat(new TConstructModCompat()); // TODO
 
         // Capabilities
-        ICapabilityCompat.ICapabilityReference<IWorker> workerReference = new ICapabilityCompat.ICapabilityReference<IWorker>() {
-            @Override
-            public Capability<IWorker> getCapability() {
-                return Capabilities.WORKER;
-            }
-        };
-        modCompatLoader.addCapabilityCompat(TickingTankInventoryTileEntity.class, workerReference, new WorkerWorkingTileCompat());
-        modCompatLoader.addCapabilityCompat(TileEnvironmentalAccumulator.class, workerReference, new WorkerEnvirAccTileCompat());
+        getCapabilityConstructorRegistry().registerTile(TickingTankInventoryTileEntity.class, new WorkerWorkingTileCompat());
+        getCapabilityConstructorRegistry().registerTile(TileEnvironmentalAccumulator.class, new WorkerEnvirAccTileCompat());
     }
 
     @Override

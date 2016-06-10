@@ -1,24 +1,34 @@
 package org.cyclops.evilcraft.modcompat.capabilities;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.cyclops.commoncapabilities.api.capability.work.IWorker;
-import org.cyclops.cyclopscore.modcompat.ICapabilityCompat;
+import org.cyclops.cyclopscore.modcompat.capabilities.DefaultCapabilityProvider;
+import org.cyclops.cyclopscore.modcompat.capabilities.ICapabilityConstructor;
 import org.cyclops.evilcraft.Capabilities;
 import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 
 /**
  * Compatibility for worker capabilities.
  * @author rubensworks
  */
-public class WorkerWorkingTileCompat implements ICapabilityCompat<TickingTankInventoryTileEntity> {
+public class WorkerWorkingTileCompat implements ICapabilityConstructor<IWorker, TickingTankInventoryTileEntity> {
 
     @Override
-    public void attach(final TickingTankInventoryTileEntity provider) {
-        provider.addCapabilityInternal(Capabilities.WORKER, new Worker<TickingTankInventoryTileEntity>(provider));
+    public Capability<IWorker> getCapability() {
+        return Capabilities.WORKER;
+    }
+
+    @Nullable
+    @Override
+    public ICapabilityProvider createProvider(TickingTankInventoryTileEntity host) {
+        return new DefaultCapabilityProvider<IWorker>(Capabilities.WORKER, new Worker<TickingTankInventoryTileEntity>(host));
     }
 
     public static class Worker<T extends TickingTankInventoryTileEntity> implements IWorker {
