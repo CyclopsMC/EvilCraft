@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -148,8 +149,16 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     		if(target.isDead || !target.isFrozen()) {
     			setTargetSpirit(null);
     		} else {
-				if(target.getEntityBoundingBox().expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS).intersectsWith(getBlock().
-                        getCollisionBoundingBox(worldObj.getBlockState(getPos()), worldObj, getPos()))) {
+				BlockPos blockPos = getPos();
+				AxisAlignedBB boxBoundingBox = getBlock()
+						.getBoundingBox(worldObj.getBlockState(blockPos), worldObj, blockPos)
+						.offset(blockPos);
+				AxisAlignedBB spiritBoundingBox = target
+						.getEntityBoundingBox()
+						.expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS);
+				boolean spiritCaught = spiritBoundingBox.intersectsWith(boxBoundingBox);
+
+				if(spiritCaught) {
 	    			closing = true;
 	    			close(true);
 	    			setSpiritInstance(targetSpirit);
