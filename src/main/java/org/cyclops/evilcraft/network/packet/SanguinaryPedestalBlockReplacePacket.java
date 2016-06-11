@@ -71,8 +71,8 @@ public class SanguinaryPedestalBlockReplacePacket extends PacketCodec {
 	@SideOnly(Side.CLIENT)
 	public void actionClient(World world, EntityPlayer player) {
 		Block block = Block.getBlockById(blockID);
-		EvilCraft.proxy.playSound(x, y, z, block.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 0.1F + world.rand.nextFloat() * 0.5F,
-    			0.9F + world.rand.nextFloat() * 0.1F);
+		world.playSound(x, y, z, block.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 0.1F + world.rand.nextFloat() * 0.5F,
+    			0.9F + world.rand.nextFloat() * 0.1F, false);
 		ParticleBloodSplash.spawnParticles(world, new BlockPos((int) x, (int) y + 1, (int) z), 3 + world.rand.nextInt(2), 1 + world.rand.nextInt(2));
 	}
 	@Override

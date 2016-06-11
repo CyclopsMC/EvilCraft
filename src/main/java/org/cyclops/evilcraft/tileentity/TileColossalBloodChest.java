@@ -28,7 +28,6 @@ import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.block.ColossalBloodChest;
 import org.cyclops.evilcraft.block.ColossalBloodChestConfig;
 import org.cyclops.evilcraft.block.ReinforcedUndeadPlank;
@@ -318,14 +317,15 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         prevLidAngle = lidAngle;
         float increaseAngle = 0.05F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
-            EvilCraft.proxy.playSound(
+            worldObj.playSound(
                     (double) getPos().getX() + 0.5D,
                     (double) getPos().getY() + 0.5D,
                     (double) getPos().getZ() + 0.5D,
                     SoundEvents.BLOCK_CHEST_OPEN,
                     SoundCategory.BLOCKS,
                     0.5F,
-                    worldObj.rand.nextFloat() * 0.1F + 0.5F
+                    worldObj.rand.nextFloat() * 0.1F + 0.5F,
+                    false
             );
         }
         if (playersUsing == 0 && lidAngle > 0.0F || playersUsing > 0 && lidAngle < 1.0F) {
@@ -340,14 +340,15 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
             }
             float closedAngle = 0.5F;
             if (lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
-                EvilCraft.proxy.playSound(
+                worldObj.playSound(
                         (double) getPos().getX() + 0.5D,
                         (double) getPos().getY() + 0.5D,
                         (double) getPos().getZ() + 0.5D,
                         SoundEvents.BLOCK_CHEST_CLOSE,
                         SoundCategory.BLOCKS,
                         0.5F,
-                        worldObj.rand.nextFloat() * 0.1F + 0.5F
+                        worldObj.rand.nextFloat() * 0.1F + 0.5F,
+                        false
                 );
             }
             if (lidAngle < 0.0F) {

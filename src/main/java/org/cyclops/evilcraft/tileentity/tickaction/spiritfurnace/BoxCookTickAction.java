@@ -20,7 +20,6 @@ import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootTable;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.block.BoxOfEternalClosure;
 import org.cyclops.evilcraft.block.SpiritFurnaceConfig;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
@@ -146,8 +145,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 			SoundEvent deathSound = ObfuscationHelpers.getDeathSound(entity);
             if(SpiritFurnaceConfig.mobDeathSounds && deathSound != null) {
                 BlockPos pos = tile.getPos();
-                EvilCraft.proxy.sendSound(pos.getX() + 0.5D, pos.getY() + 0.5D,
-                        pos.getZ() + 0.5D, deathSound, entity.getSoundCategory(), 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
+                world.playSound(null, pos, deathSound, entity.getSoundCategory(), 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
             }
 
             if(tile.isPlayer()) {

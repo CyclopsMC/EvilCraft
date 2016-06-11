@@ -37,7 +37,6 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.*;
 import org.cyclops.cyclopscore.item.IInformationProvider;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.evilcraft.core.world.FakeWorld;
@@ -238,14 +237,15 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     	if(world.getTileEntity(blockPos) != null) {
 	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
 	    	if(tile.getSpiritInstance() != null) {
-				EvilCraft.proxy.playSound(
+				world.playSound(
 						(double) blockPos.getX() + 0.5D,
 						(double) blockPos.getY() + 0.5D,
 						(double) blockPos.getZ() + 0.5D,
 						SoundEvents.BLOCK_CHEST_OPEN,
 						SoundCategory.BLOCKS,
 						0.5F,
-						world.rand.nextFloat() * 0.1F + 0.5F
+						world.rand.nextFloat() * 0.1F + 0.5F,
+						false
 				);
 	    		if(!world.isRemote) {
 	    			tile.releaseSpirit();

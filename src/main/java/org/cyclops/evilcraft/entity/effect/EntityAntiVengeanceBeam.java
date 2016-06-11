@@ -16,7 +16,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.Achievements;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.client.particle.ParticleBlur;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
@@ -117,9 +116,9 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         	}
         	if(soundTick == 1) {
 	        	// Play beam sound
-	        	EvilCraft.proxy.playSound(posX, posY, posZ,
+	        	worldObj.playSound(posX, posY, posZ,
                         EvilCraftSoundEvents.effect_vengeancebeam_base, SoundCategory.NEUTRAL,
-                        0.5F + worldObj.rand.nextFloat() * 0.2F, 1.0F);
+                        0.5F + worldObj.rand.nextFloat() * 0.2F, 1.0F, false);
         	}
         }
     	

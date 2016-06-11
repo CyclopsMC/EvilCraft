@@ -15,7 +15,6 @@ import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.block.BloodChest;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
@@ -212,14 +211,15 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         prevLidAngle = lidAngle;
         float increaseAngle = 0.1F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
-            EvilCraft.proxy.playSound(
+            worldObj.playSound(
                     (double) x + 0.5D,
                     (double) y + 0.5D,
                     (double) z + 0.5D,
                     SoundEvents.BLOCK_CHEST_OPEN,
                     SoundCategory.BLOCKS,
                     0.5F,
-                    worldObj.rand.nextFloat() * 0.1F + 0.9F
+                    worldObj.rand.nextFloat() * 0.1F + 0.9F,
+                    false
             );
         }
         if (playersUsing == 0 && lidAngle > 0.0F || playersUsing > 0 && lidAngle < 1.0F) {
@@ -234,14 +234,15 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
             }
             float closedAngle = 0.5F;
             if (lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
-                EvilCraft.proxy.playSound(
+                worldObj.playSound(
                         (double) x + 0.5D,
                         (double) y + 0.5D,
                         (double) z + 0.5D,
                         SoundEvents.BLOCK_CHEST_CLOSE,
                         SoundCategory.BLOCKS,
                         0.5F,
-                        worldObj.rand.nextFloat() * 0.1F + 0.9F
+                        worldObj.rand.nextFloat() * 0.1F + 0.9F,
+                        false
                 );
             }
             if (lidAngle < 0.0F) {

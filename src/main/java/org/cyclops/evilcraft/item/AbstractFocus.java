@@ -6,7 +6,10 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,7 +18,6 @@ import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 
 /**
@@ -77,9 +79,7 @@ public abstract class AbstractFocus extends ConfigurableItem {
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityLivingBase player, int duration) {
     	if(player.worldObj.isRemote && getItemInUseDuration(player) > 6) {
 	    	// Play stop sound
-	    	EvilCraft.proxy.playSound(player.posX, player.posY, player.posZ,
-                    EvilCraftSoundEvents.effect_vengeancebeam_stop, SoundCategory.AMBIENT,
-                    0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
+	    	player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_stop, 0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
     	}
     }
 
@@ -99,10 +99,8 @@ public abstract class AbstractFocus extends ConfigurableItem {
     		}
     	} else {
     		if(duration == 3 && player.worldObj.isRemote) {
-			// Play start sound
-    		EvilCraft.proxy.playSound(player.posX, player.posY, player.posZ,
-                    EvilCraftSoundEvents.effect_vengeancebeam_start, SoundCategory.AMBIENT,
-                    0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
+			    // Play start sound
+    		    player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_start,  0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
     		}
     	}
     }

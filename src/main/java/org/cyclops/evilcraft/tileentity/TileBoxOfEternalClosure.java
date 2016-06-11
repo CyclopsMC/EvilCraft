@@ -18,7 +18,6 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 
@@ -110,9 +109,9 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
         }
 
         if(worldObj.isRemote && target != null) {
-        	EvilCraft.proxy.playSound(getPos().getX(), getPos().getY(), getPos().getZ(),
+			worldObj.playSound(getPos().getX(), getPos().getY(), getPos().getZ(),
 					EvilCraftSoundEvents.effect_box_beam, SoundCategory.AMBIENT,
-					0.1F + worldObj.rand.nextFloat() * 0.9F, 0.1F + worldObj.rand.nextFloat() * 0.9F);
+					0.1F + worldObj.rand.nextFloat() * 0.9F, 0.1F + worldObj.rand.nextFloat() * 0.9F, false);
         }
 
         close(false);
@@ -240,8 +239,8 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     	if(old != spiritInstance) {
     		if(old == null) {
     			if(!initial) {
-					EvilCraft.proxy.playSound(getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D,
-							SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, getWorld().rand.nextFloat() * 0.1F + 0.9F);
+					worldObj.playSound(getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D,
+							SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, getWorld().rand.nextFloat() * 0.1F + 0.9F, false);
     			}
     		}
     		sendUpdate();
