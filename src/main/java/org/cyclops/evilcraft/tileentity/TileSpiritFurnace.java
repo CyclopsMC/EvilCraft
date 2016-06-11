@@ -34,8 +34,6 @@ import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.UpgradeBehaviour;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.core.world.FakeWorld;
-import org.cyclops.evilcraft.core.world.FakeWorldItemDelegator.IItemDropListener;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.network.packet.DetectionListenerPacket;
@@ -52,7 +50,7 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDouble> implements IItemDropListener {
+public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDouble> {
     
     /**
      * The id of the fluid container drainer slot.
@@ -209,7 +207,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     public EntityLiving getEntity() {
     	ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
         if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
-    		String id = BoxOfEternalClosure.getInstance().getSpiritName(boxStack);
+    		String id = BoxOfEternalClosure.getInstance().getSpiritNameOrNull(boxStack);
             if(id != null && !id.equals(VengeanceSpirit.DEFAULT_L10N_KEY)) {
     			// We cache the entity inside 'boxEntityCache' for obvious efficiency reasons.
                 if(boxEntityCache != null && id.equals(EntityList.getEntityString(boxEntityCache))) {
@@ -219,8 +217,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 					Class<? extends EntityLivingBase> entityClass =
 						(Class<? extends EntityLivingBase>) EntityList.NAME_TO_CLASS.get(id);
 	    			if(entityClass != null) {
-                        FakeWorld world = FakeWorld.getInstance();
-	    				EntityLiving entity = (EntityLiving) EntityList.createEntityByName(id, world);
+	    				EntityLiving entity = (EntityLiving) EntityList.createEntityByName(id, worldObj);
 	    				boxEntityCache = entity;
 	    				return entity;
 	    			}
@@ -373,12 +370,11 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 		sendUpdate();
 	}
 
-	@Override
 	public void onItemDrop(ItemStack itemStack) {
         boolean placed = false;
 		int[] slots = getProduceSlots();
 		int i = 0;
-		
+
 		// Try placing the item inside the inventory slots.
 		while(!placed && i < slots.length) {
 			ItemStack produceStack = getInventory().getStackInSlot(slots[i]);
@@ -394,7 +390,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 	        }
 	        i++;
 		}
-		
+
 		// Halt the cooking if the item couldn't be placed
 		forceHalt = !placed;
 	}

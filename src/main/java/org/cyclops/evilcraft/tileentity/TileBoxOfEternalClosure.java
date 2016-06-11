@@ -8,6 +8,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -21,6 +22,7 @@ import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
+import org.cyclops.evilcraft.entity.monster.VengeanceSpiritData;
 
 import java.util.List;
 import java.util.Random;
@@ -32,6 +34,10 @@ import java.util.Random;
  *
  */
 public class TileBoxOfEternalClosure extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
+
+	public static enum State {
+		UNKNOWN, OPEN, OPENING, CLOSING, CLOSED
+	}
 	
 	/**
 	 * The name of the NBT tag that will hold spirit entity data.
@@ -58,28 +64,25 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	@Delegate
 	private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
-	
-	private EntityLivingBase spiritInstance = null;
-	
-	@NBTPersist
-	private NBTTagCompound spiritTag = new NBTTagCompound();
+
 	@NBTPersist
 	private String playerId = "";
 	@NBTPersist
 	private String playerName = "";
-	
+
 	private VengeanceSpirit targetSpirit = null;
-	
+
 	@NBTPersist
-	private Integer targetSpiritId = -1;
+	private Integer targetSpiritId = NO_TARGET;
 	
 	@NBTPersist
 	private Float lidAngle = START_LID_ANGLE;
-	@NBTPersist
-	private Boolean closing = true;
 	private float previousLidAngle = 65F;
+
+	private State state = State.UNKNOWN;
 	
 	private boolean initial = false;
+	private boolean hasSpirit = true; // DEBUG
 	
 	/**
 	 * Inner rotation of a beam.
@@ -91,31 +94,251 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
      */
     public TileBoxOfEternalClosure() {
     	innerRotation = new Random().nextInt(100000);
+		initializeState();
     }
+
+	private void initializeState() {
+		if (hasSpirit())
+			setState(State.CLOSED);
+		else
+			setState(State.OPEN);
+	}
+
+	private void updateState() {
+		if (lidAngle <= 0)
+			setState(State.CLOSED);
+		else if (lidAngle >= START_LID_ANGLE)
+			setState(State.OPEN);
+	}
+
+	private void setState(State newState) {
+		if (newState != state) {
+			State oldState = state;
+			state = newState;
+			onStateChanged(oldState, state);
+		}
+	}
+
+	private void onStateChanged(State oldState, State newState) {
+		// The unknown state means we're still initializing, so worldObj doesn't exist yet
+		// ignore this state
+		if (oldState == State.UNKNOWN) return;
+
+		switch (state) {
+			case OPEN:
+				onBoxOpened();
+				break;
+			case CLOSED:
+				onBoxClosed();
+				break;
+			case OPENING:
+				onBoxOpening();
+				break;
+			case CLOSING:
+				onBoxClosing();
+				break;
+			default:
+		}
+	}
+
+	private void onBoxOpened() {
+		if (!worldObj.isRemote && hasSpirit())
+			releaseSpirit();
+	}
+
+	private void onBoxClosed() {
+		// do nothing special
+	}
+
+	private void onBoxOpening() {
+		if (worldObj.isRemote)
+			playOpenSound();
+	}
+
+	private void onBoxClosing() {
+		if (worldObj.isRemote)
+			playCloseSound();
+	}
+
+	private void releaseSpirit() {
+		VengeanceSpirit spirit = createNewVengeanceSpirit();
+		worldObj.spawnEntityInWorld(spirit);
+		hasSpirit = false;
+	}
+
+	private VengeanceSpirit createNewVengeanceSpirit() {
+		Random rand = worldObj.rand;
+
+		VengeanceSpirit spirit = new VengeanceSpirit(getWorld());
+		spirit.setPosition(getPos().getX() + rand.nextDouble(), getPos().getY() + rand.nextDouble(),
+				getPos().getZ() + rand.nextDouble());
+		spirit.setFrozenDuration(0);
+		spirit.setGlobalVengeance(true);
+		spirit.setRemainingLife(MathHelper.getRandomIntegerInRange(worldObj.rand,
+				VengeanceSpirit.REMAININGLIFE_MIN, VengeanceSpirit.REMAININGLIFE_MAX));
+
+		return spirit;
+	}
+
+	public State getState() {
+		if (state == State.UNKNOWN)
+			updateState();
+		return state;
+	}
+
+	public boolean isClosed() {
+		return getState() == State.CLOSED;
+	}
+
+	public boolean hasSpirit() {
+		// TODO implement
+		return hasSpirit;
+	}
+
+	public void open() {
+		setState(State.OPENING);
+	}
+
+	public void close() {
+		setState(State.CLOSED);
+	}
     
     @Override
     public void updateTileEntity() {
         super.updateTileEntity();
 
         innerRotation++;
-        
-        EntityLivingBase spirit = getSpiritInstance();
-        VengeanceSpirit target = getTargetSpirit();
-        if(spirit == null && !worldObj.isRemote) {
-	        if(target != null
-	        		|| (WorldHelpers.efficientTick(getWorld(), TICK_MODULUS,
-	        				getPos()) && findNextEntity())) {
-	        	pullEntity();
-	        }
-        }
 
-        if(worldObj.isRemote && target != null) {
-			worldObj.playSound(getPos().getX(), getPos().getY(), getPos().getZ(),
-					EvilCraftSoundEvents.effect_box_beam, SoundCategory.AMBIENT,
-					0.1F + worldObj.rand.nextFloat() * 0.9F, 0.1F + worldObj.rand.nextFloat() * 0.9F, false);
-        }
+		if (!worldObj.isRemote)
+			updateTileEntityServer();
+		else
+			updateTileEntityClient();
 
-        close(false);
+		updateLidAngle();
+	}
+
+	private void updateLidAngle() {
+		State state = getState();
+		previousLidAngle = lidAngle;
+
+		if (state == State.OPENING)
+			lidAngle += LID_STEP;
+		else if (state == State.CLOSING)
+			lidAngle -= LID_STEP;
+
+		if (lidAngle < 0) {
+			lidAngle = 0f;
+			updateLight();
+		} else if (lidAngle > START_LID_ANGLE) {
+			lidAngle = START_LID_ANGLE;
+			updateLight();
+		}
+
+		if (state == State.OPENING || state == State.CLOSING)
+			updateState();
+	}
+
+	private void updateTileEntityServer() {
+		if (!hasSpirit() && findsOrHasTargetEntity())
+			pullEntity();
+	}
+
+	private void pullEntity() {
+		VengeanceSpirit target = getTargetSpirit();
+		if(target != null) {
+			double dx = targetSpirit.posX - getPos().getX() - 0.5D;
+			double dy = targetSpirit.posY - getPos().getY() - 0.5D;
+			double dz = targetSpirit.posZ - getPos().getZ() - 0.5D;
+			double distance = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
+
+			if(target.isDead || !target.isFrozen()) {
+				setTargetSpirit(null);
+			} else {
+				BlockPos blockPos = getPos();
+				AxisAlignedBB boxBoundingBox = getBlock()
+						.getBoundingBox(worldObj.getBlockState(blockPos), worldObj, blockPos)
+						.offset(blockPos);
+				AxisAlignedBB spiritBoundingBox = target
+						.getEntityBoundingBox()
+						.expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS);
+				boolean spiritTrapped = spiritBoundingBox.intersectsWith(boxBoundingBox);
+
+				if(spiritTrapped) {
+					captureSpirit(targetSpirit);
+					close();
+				} else {
+					double strength = (1D / (distance)) / 50D + 0.01D;
+					target.motionX -= dx * strength;
+					target.motionY -= dy * strength;
+					target.motionZ -= dz * strength;
+				}
+			}
+		}
+	}
+
+	private void captureSpirit(VengeanceSpirit targetSpirit) {
+		worldObj.removeEntity(targetSpirit);
+		this.playerId = targetSpirit.getPlayerId();
+		this.playerName = targetSpirit.getPlayerName();
+		// TODO actually capture the spirit
+		setTargetSpirit(null);
+	}
+
+	public static EntityLivingBase getEntityFromNBT(World world, NBTTagCompound tag) {
+		if(tag != null && tag.hasKey(EntityHelpers.NBTTAG_ID)) {
+			return (EntityLivingBase) EntityList
+					.createEntityFromNBT(tag, world);
+		}
+		return null;
+	}
+
+	private void playOpenSound() {
+		float pitch = randomFloat(0.1f, 0.9f);
+		playSound(SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5f, pitch);
+	}
+
+	private void playCloseSound() {
+		float pitch = randomFloat(0.1f, 0.9f);
+		playSound(SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5f, pitch);
+	}
+
+	private NBTTagCompound addEntityIdToNBTTag(EntityLivingBase entity, NBTTagCompound tag) {
+		String entityId = EntityList.getEntityString(entity);
+		tag.setString(EntityHelpers.NBTTAG_ID, entityId);
+		return tag;
+	}
+
+	private boolean findsOrHasTargetEntity() {
+		return hasTargetSpirit() || findsTargetEntity();
+	}
+
+	private boolean findsTargetEntity() {
+		return WorldHelpers.efficientTick(getWorld(), TICK_MODULUS, getPos())
+				&& findNextEntity();
+	}
+
+	private void updateTileEntityClient() {
+		if(hasTargetSpirit()) {
+			playBeamSound();
+		}
+	}
+
+	private boolean hasTargetSpirit() {
+		return getTargetSpirit() != null;
+	}
+
+	private void playBeamSound() {
+		float volume = randomFloat(0.1f, 0.9f);
+		float pitch = randomFloat(0.1f, 0.9f);
+		playSound(EvilCraftSoundEvents.effect_box_beam, SoundCategory.AMBIENT, volume, pitch);
+	}
+
+	private void playSound(SoundEvent sound, SoundCategory category, float volume, float pitch) {
+		worldObj.playSound(getPos().getX(), getPos().getY(), getPos().getZ(), sound, category, volume, pitch, false);
+	}
+
+	private float randomFloat(float min, float max) {
+		return min + worldObj.rand.nextFloat() * max;
 	}
 
 	private boolean findNextEntity() {
@@ -138,157 +361,9 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     	return targetSpirit != null;
     }
     
-    private void pullEntity() {
-    	VengeanceSpirit target = getTargetSpirit();
-    	if(target != null) {
-    		double dx = targetSpirit.posX - getPos().getX() - 0.5D;
-    		double dy = targetSpirit.posY - getPos().getY() - 0.5D;
-    		double dz = targetSpirit.posZ - getPos().getZ() - 0.5D;
-    		double distance = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
-    		
-    		if(target.isDead || !target.isFrozen()) {
-    			setTargetSpirit(null);
-    		} else {
-				BlockPos blockPos = getPos();
-				AxisAlignedBB boxBoundingBox = getBlock()
-						.getBoundingBox(worldObj.getBlockState(blockPos), worldObj, blockPos)
-						.offset(blockPos);
-				AxisAlignedBB spiritBoundingBox = target
-						.getEntityBoundingBox()
-						.expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS);
-				boolean spiritCaught = spiritBoundingBox.intersectsWith(boxBoundingBox);
-
-				if(spiritCaught) {
-	    			closing = true;
-	    			close(true);
-	    			setSpiritInstance(targetSpirit);
-	    			worldObj.removeEntity(targetSpirit);
-					this.playerId = targetSpirit.getPlayerId();
-					this.playerName = targetSpirit.getPlayerName();
-	    			setTargetSpirit(null);
-	    		} else {
-		    		double strength = (1D / (distance)) / 50D + 0.01D;
-		    		target.motionX -= dx * strength;
-		    		target.motionY -= dy * strength;
-		    		target.motionZ -= dz * strength;
-	    		}
-    		}
-    	}
-    }
-    
-    private void close(boolean force) {
-    	previousLidAngle = lidAngle;
-    	if((lidAngle > 0 && lidAngle < START_LID_ANGLE) || force) {
-    		if(closing) {
-    			lidAngle -= LID_STEP;
-    		} else {
-    			lidAngle += LID_STEP;
-    		}
-    	}
-    	
-    	if(lidAngle < 0) {
-    		lidAngle = 0F;
-    		updateLight();
-    	}
-    	if(lidAngle > START_LID_ANGLE) {
-    		lidAngle = START_LID_ANGLE;
-    		updateLight();
-    	}
-    }
-    
-    /**
-     * Release the inner spirit into the world.
-     */
-    public void releaseSpirit() {
-    	VengeanceSpirit spirit = new VengeanceSpirit(getWorld());
-
-		spiritInstance.writeToNBT(new NBTTagCompound());
-
-    	Random rand = worldObj.rand;
-    	spirit.setPosition(getPos().getX() + rand.nextDouble(), getPos().getY() + rand.nextDouble(),
-                getPos().getZ() + rand.nextDouble());
-    	spirit.setFrozenDuration(0);
-    	spirit.setGlobalVengeance(true);
-    	spirit.setRemainingLife(MathHelper.getRandomIntegerInRange(worldObj.rand,
-    			VengeanceSpirit.REMAININGLIFE_MIN, VengeanceSpirit.REMAININGLIFE_MAX));
-
-    	closing = false;
-    	close(true);
-    	this.clearSpiritInstance();
-
-    	worldObj.spawnEntityInWorld(spirit);
-    }
-    
-    /**
-     * Get the entity from a tag.
-     * @param world The world the entity should live in.
-     * @param tag The tag holding the entity data.
-     * @return The entity instance.
-     */
-    public static EntityLivingBase getEntityFromNBT(World world, NBTTagCompound tag) {
-    	if(tag != null && tag.hasKey(EntityHelpers.NBTTAG_ID)) {
-            return (EntityLivingBase) EntityList
-					.createEntityFromNBT(tag, world);
-		}
-    	return null;
-    }
-    
-    protected void setSpiritInstance(EntityLivingBase spiritInstance) {
-    	EntityLivingBase old = this.spiritInstance;
-    	this.spiritInstance = spiritInstance;
-    	if(spiritInstance != null) {
-			if(spiritTag == null) {
-				spiritTag = new NBTTagCompound();
-			}
-			spiritTag = spiritInstance.writeToNBT(spiritTag);
-			String entityId = EntityList.getEntityString(spiritInstance);
-    		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
-    	}
-    	
-    	if(old != spiritInstance) {
-    		if(old == null) {
-    			if(!initial) {
-					worldObj.playSound(getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D,
-							SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, getWorld().rand.nextFloat() * 0.1F + 0.9F, false);
-    			}
-    		}
-    		sendUpdate();
-    	}
-    	initial = true;
-    }
-    
     protected void updateLight() {
 		IBlockState blockState = getWorld().getBlockState(getPos());
 		worldObj.notifyBlockUpdate(getPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-    }
-    
-    protected void clearSpiritInstance() {
-    	EntityLivingBase old = this.spiritInstance;
-    	this.spiritInstance = null;
-    	spiritTag = new NBTTagCompound();
-    	
-    	if(old != null) {
-    		sendUpdate();
-    	}
-    }
-    
-    /**
-     * Get the spirit contained inside this box, could be null.
-     * @return The contained spirit.
-     */
-    public EntityLivingBase getSpiritInstance() {
-        if(spiritInstance == null) {
-            EntityLivingBase entity = getEntityFromNBT(getWorld(), spiritTag);
-            setSpiritInstance(entity);
-            if(!VengeanceSpirit.canSustain(entity) && entity != null && !(entity instanceof VengeanceSpirit)) {
-                releaseSpirit();
-            }
-            if(spiritInstance == null) {
-                closing = false;
-                close(true);
-            }
-    	}
-    	return spiritInstance;
     }
 
 	/**
@@ -346,4 +421,11 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
         worldObj.notifyNeighborsOfStateChange(getPos(), this.getBlock());
     }
 
+	public static String getSpiritNameOrNullFromNBTTag(NBTTagCompound tag) {
+		if(tag != null) {
+			NBTTagCompound spiritTag = tag.getCompoundTag(NBTKEY_SPIRIT);
+			return VengeanceSpiritData.getSpiritNameOrNullFromNBTTag(spiritTag);
+		}
+		return null;
+	}
 }

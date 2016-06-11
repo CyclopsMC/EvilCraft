@@ -92,7 +92,7 @@ public class RenderVengeanceSpirit extends Render<VengeanceSpirit> {
 					}
 				} catch (Exception e) {
 					// Invalid entity, so set as swarm.
-					spirit.setIsSwarm(true);
+					spirit.setSwarm(true);
 					spirit.setPlayerId(""); // Just in case the crash was caused by a player spirit.
 				}
 				GlStateManager.disableBlend();

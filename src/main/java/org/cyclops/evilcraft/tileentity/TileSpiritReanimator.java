@@ -185,7 +185,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
     public String getEntityName() {
         ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
         if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
-            return BoxOfEternalClosure.getInstance().getSpiritName(boxStack);
+            return BoxOfEternalClosure.getInstance().getSpiritNameOrNull(boxStack);
         }
         return null;
     }

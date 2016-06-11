@@ -8,11 +8,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,7 +18,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -35,15 +32,19 @@ import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.helper.*;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
+import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
-import org.cyclops.evilcraft.core.world.FakeWorld;
-import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
+import org.cyclops.evilcraft.entity.monster.VengeanceSpiritData;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -105,36 +106,14 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     public boolean isNormalCube(IBlockState blockState) {
     	return false;
     }
-    
-    /**
-     * Get the name of an inner spirit, can be null.
-     * @param itemStack The item stack.
-     * @return The name.
-     */
-    public String getSpiritName(ItemStack itemStack) {
-		if(hasPlayer(itemStack)) {
-			return "Zombie";
-		}
-    	NBTTagCompound tag = itemStack.getTagCompound();
-		if(tag != null) {
-			NBTTagCompound spiritTag = tag.getCompoundTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT);
-			if(spiritTag != null && !spiritTag.hasNoTags()) {
-				String innerEntity = spiritTag.getString(VengeanceSpirit.NBTKEY_INNER_SPIRIT);
-				if(innerEntity != null && !innerEntity.isEmpty()) {
-					try {
-						Class<?> clazz = Class.forName(innerEntity);
-						if(!VengeanceSpirit.canSustainClass(clazz)) return null;
-						return (String) EntityList.CLASS_TO_NAME.get(clazz);
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-				} else {
-					return VengeanceSpirit.DEFAULT_L10N_KEY;
-				}
-			}
-		}
-		return null;
+
+    public String getSpiritNameOrNull(ItemStack itemStack) {
+		return hasPlayer(itemStack) ? "Zombie" : getSpiritNameOrNullFromNBTTag(itemStack.getTagCompound());
     }
+
+	private String getSpiritNameOrNullFromNBTTag(NBTTagCompound tag) {
+		return TileBoxOfEternalClosure.getSpiritNameOrNullFromNBTTag(tag);
+	}
     
     /**
      * Put a vengeance swarm inside the given box.
@@ -143,14 +122,15 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     public static void setVengeanceSwarmContent(ItemStack itemStack) {
     	NBTTagCompound tag = new NBTTagCompound();
     	NBTTagCompound spiritTag = new NBTTagCompound();
-    	
-    	VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
-    	spirit.setGlobalVengeance(true);
-    	spirit.setIsSwarm(true);
-    	spirit.writeToNBT(spiritTag);
-    	String entityId = EntityList.getEntityString(spirit);
-    	
-		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
+
+		VengeanceSpiritData spiritData = new VengeanceSpiritData();
+		// spiritData.setGlobalVengeance(true);
+		spiritData.setSwarm(true);
+		spiritData.writeNBT(spiritTag);
+
+    	//String entityId = EntityList.getEntityString(spirit);
+		//spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
+
 		tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
 		itemStack.setTagCompound(tag);
     }
@@ -164,16 +144,18 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 		NBTTagCompound tag = new NBTTagCompound();
 		NBTTagCompound spiritTag = new NBTTagCompound();
 
-		VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
-		spirit.setPlayerId(playerId.toString());
-		spirit.setPlayerName(FORGOTTEN_PLAYER);
-		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, spirit.getPlayerId());
-		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, spirit.getPlayerName());
-		spirit.setGlobalVengeance(true);
-		spirit.writeToNBTAtomically(spiritTag);
-		String entityId = EntityList.getEntityString(spirit);
+		VengeanceSpiritData spiritData = new VengeanceSpiritData();
+		spiritData.setPlayerId(playerId.toString());
+		spiritData.setPlayerName(FORGOTTEN_PLAYER);
+		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, spiritData.getPlayerId());
+		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, spiritData.getPlayerName());
+		// spiritData.setGlobalVengeance(true);
+		// spiritData.writeToNBTAtomically(spiritTag);
+		spiritData.writeNBT(spiritTag);
 
-		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
+		// String entityId = EntityList.getEntityString(spirit);
+		// spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
+
 		tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
 		itemStack.setTagCompound(tag);
 	}
@@ -202,7 +184,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 		if(hasPlayer(itemStack)) {
 			content = getPlayerName(itemStack);
 		} else {
-			String id = getSpiritName(itemStack);
+			String id = getSpiritNameOrNull(itemStack);
 			if (id != null) {
 				content = L10NHelpers.getLocalizedEntityName(id);
 			}
@@ -236,25 +218,18 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityplayer, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
     	if(world.getTileEntity(blockPos) != null) {
 	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
-	    	if(tile.getSpiritInstance() != null) {
-				world.playSound(
-						(double) blockPos.getX() + 0.5D,
-						(double) blockPos.getY() + 0.5D,
-						(double) blockPos.getZ() + 0.5D,
-						SoundEvents.BLOCK_CHEST_OPEN,
-						SoundCategory.BLOCKS,
-						0.5F,
-						world.rand.nextFloat() * 0.1F + 0.5F,
-						false
-				);
-	    		if(!world.isRemote) {
-	    			tile.releaseSpirit();
-	    		}
+			EvilCraft.clog(tile.getState().toString());
+			if(tile.isClosed()) {
+				tile.open();
 	    		return true;
 	    	}
     	}
     	return super.onBlockActivated(world, blockPos, state, entityplayer, hand, heldItem, side, hitX, hitY, hitZ);
     }
+
+	private float randomFloat(Random random, float min, float delta) {
+		return min + random.nextFloat() * delta;
+	}
     
     @Override
     public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos blockPos) {
@@ -288,7 +263,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos blockPos) {
         if(world.getTileEntity(blockPos) != null) {
             TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
-            if(tile.getSpiritInstance() != null) {
+            if(tile.hasSpirit()) {
                 return 15;
             }
         }

@@ -144,7 +144,7 @@ public class MaceOfDistortion extends Mace {
                 }
             }
             if(entity instanceof VengeanceSpirit) {
-            	((VengeanceSpirit) entity).setIsSwarm(true);
+            	((VengeanceSpirit) entity).setSwarm(true);
             }
             if(initiator != null && entity instanceof EntityPlayer && initiator instanceof EntityPlayer) {
                 ((EntityPlayer) initiator).addStat(Achievements.PLAYER_DISTORTER, 1);

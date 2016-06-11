@@ -40,10 +40,10 @@ public class BoxOfEternalClosureDataProvider implements IWailaDataProvider {
         if(accessor.getTileEntity() instanceof TileBoxOfEternalClosure
         		&& config.getConfig(Waila.getBoxOfEternalClosureConfigID(), true)) {
         	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) accessor.getTileEntity();
-            if(tile.getSpiritInstance() == null) {
+            if(tile.hasSpirit()) {
                 currenttip.add(TextFormatting.ITALIC + L10NHelpers.localize("general." + Reference.MOD_ID + ".info.empty"));
             } else {
-                VengeanceSpirit spirit = ((VengeanceSpirit) tile.getSpiritInstance());
+                VengeanceSpirit spirit = ((VengeanceSpirit) tile.getSpiritInstanceOrNull());
                 String name = spirit.getLocalizedInnerEntityName();
                 currenttip.add(name);
             }

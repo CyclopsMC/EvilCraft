@@ -26,7 +26,6 @@ import org.cyclops.evilcraft.block.BloodStainedBlockConfig;
 import org.cyclops.evilcraft.block.SpiritPortal;
 import org.cyclops.evilcraft.block.SpiritPortalConfig;
 import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
-import org.cyclops.evilcraft.core.world.FakeWorld;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpiritConfig;
 import org.cyclops.evilcraft.item.*;
@@ -99,7 +98,7 @@ public class LivingDeathEventHook {
         if (event.getEntityLiving() != null) {
             World world = event.getEntityLiving().worldObj;
             boolean directToPlayer = shouldDirectSpiritToPlayer(event);
-            if (!world.isRemote && !(world instanceof FakeWorld)
+            if (!world.isRemote
                     && world.getDifficulty() != EnumDifficulty.PEACEFUL
                     && Configs.isEnabled(VengeanceSpiritConfig.class)
                     && VengeanceSpirit.canSustain(event.getEntityLiving())

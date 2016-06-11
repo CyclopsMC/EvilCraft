@@ -153,7 +153,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	    			}
 	    			spirit.setAttackTarget((EntityLivingBase) entity);
                     int chance = VengeanceSpiritConfig.nonDegradedSpawnChance;
-                    spirit.setIsSwarm(chance <= 0 || world.rand.nextInt(chance) > 0);
+                    spirit.setSwarm(chance <= 0 || world.rand.nextInt(chance) > 0);
 	    		}
 	    	}
     	}

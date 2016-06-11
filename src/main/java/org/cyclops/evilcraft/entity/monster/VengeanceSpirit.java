@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import lombok.experimental.Delegate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.*;
@@ -12,9 +12,6 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -30,7 +27,6 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.IChangedCallback;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
@@ -50,7 +46,8 @@ import org.cyclops.evilcraft.item.BurningGemStoneConfig;
 import org.cyclops.evilcraft.item.SpectralGlasses;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A silverfish for the nether.
@@ -64,8 +61,6 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 */
 	public static final String DEFAULT_L10N_KEY = "vengeanceSpirit";
 	
-	private static final int SWARM_TIERS = 5;
-	
     private static final Set<Class<? extends EntityLivingBase>> BLACKLIST = Sets.newHashSet();
     private static final Set<Class<? extends EntityLivingBase>> IMC_BLACKLIST = Sets.newHashSet();
     
@@ -78,22 +73,9 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      */
     public static final int REMAININGLIFE_MAX = 1000;
 
-    private static final DataParameter<String> WATCHERID_INNER = EntityDataManager.<String>createKey(VengeanceSpirit.class, DataSerializers.STRING);
-    private static final DataParameter<Integer> WATCHERID_REMAININGLIFE = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> WATCHERID_FROZENDURATION = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> WATCHERID_GLOBALVENGEANCE = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
-    private static final DataParameter<String> WATCHERID_VENGEANCEPLAYERS = EntityDataManager.<String>createKey(VengeanceSpirit.class, DataSerializers.STRING);
-    private static final DataParameter<Integer> WATCHERID_ISSWARM = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> WATCHERID_SWARMTIER = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> WATCHERID_BUILDUP = EntityDataManager.<Integer>createKey(VengeanceSpirit.class, DataSerializers.VARINT);
-    private static final DataParameter<String> WATCHERID_PLAYERID = EntityDataManager.<String>createKey(VengeanceSpirit.class, DataSerializers.STRING);
-    private static final DataParameter<String> WATCHERID_PLAYERNAME = EntityDataManager.<String>createKey(VengeanceSpirit.class, DataSerializers.STRING);
-    
-    /**
-     * The NBT key used to store the inner entity name.
-     */
-    public static final String NBTKEY_INNER_SPIRIT = "innerEntity";
-    
+    @Delegate
+    private VengeanceSpiritSyncedData data;
+
 	private EntityLivingBase innerEntity = null;
 
     /**
@@ -106,7 +88,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         this.isImmuneToFire = true;
         this.preventEntitySpawning = false;
         this.setSize(1, 1); // Dummy size, to avoid rare bounding box crashes before inner entity is init.
-        
+
         double speed = 0.5D;
         float damage = 0.5F;
         int remainingLife = MathHelper.getRandomIntegerInRange(world.rand, REMAININGLIFE_MIN,
@@ -116,7 +98,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         	damage += 0.5D * getSwarmTier();
         	remainingLife += (REMAININGLIFE_MAX - REMAININGLIFE_MIN) * getSwarmTier();
         }
-        
+
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(speed);
 
         this.tasks.addTask(0, new EntityAISwimming(this));
@@ -127,70 +109,28 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true));
-        
+
         setRemainingLife(remainingLife);
         setFrozenDuration(0);
-    }
-
-    @SuppressWarnings("unchecked")
-	private String getRandomInnerEntity() {
-    	Collection<EntityList.EntityEggInfo> eggs = EntityList.ENTITY_EGGS.values();
-    	ArrayList<EntityList.EntityEggInfo> eggList = Lists.newArrayList(eggs);
-    	if(eggList.size() > 0) {
-	    	EntityList.EntityEggInfo egg = eggList.get(rand.nextInt(eggList.size()));
-	    	if(egg != null) {
-		    	Class<Entity> clazz = (Class<Entity>) EntityList.NAME_TO_CLASS.get(egg.spawnedID);
-		    	if(clazz != null) {
-		    		return clazz.getName();
-		    	}
-	    	}
-    	}
-    	return VengeanceSpirit.class.getName();
     }
     
     @Override
 	public void entityInit() {
         super.entityInit();
-        this.dataManager.register(WATCHERID_INNER, getRandomInnerEntity());
-        this.dataManager.register(WATCHERID_REMAININGLIFE, 0);
-        this.dataManager.register(WATCHERID_FROZENDURATION, 0);
-        this.dataManager.register(WATCHERID_GLOBALVENGEANCE, 0);
-        this.dataManager.register(WATCHERID_VENGEANCEPLAYERS, "");
-        this.dataManager.register(WATCHERID_ISSWARM, 0);
-        this.dataManager.register(WATCHERID_SWARMTIER, rand.nextInt(SWARM_TIERS));
-        this.dataManager.register(WATCHERID_BUILDUP, 0);
-        this.dataManager.register(WATCHERID_PLAYERID, "");
-        this.dataManager.register(WATCHERID_PLAYERNAME, "");
+        data = new VengeanceSpiritSyncedData(this.dataManager);
     }
 
     @Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
     	tag = super.writeToNBT(tag);
-    	if(getInnerEntity() != null)
-    		tag.setString("innerEntity", getInnerEntity().getClass().getName());
-    	tag.setInteger("remainingLife", getRemainingLife());
-    	tag.setInteger("frozenDuration", getFrozenDuration());
-    	tag.setBoolean("isSwarm", isSwarm());
-    	tag.setInteger("swarmTier", getSwarmTier());
-        tag.setInteger("buildupDuration", getBuildupDuration());
-        tag.setString("playerId", getPlayerId());
-        tag.setString("playerName", getPlayerName());
+    	data.writeNBT(tag);
         return tag;
     }
     
     @Override
 	public void readEntityFromNBT(NBTTagCompound tag) {
     	super.readEntityFromNBT(tag);
-    	String name = tag.getString(NBTKEY_INNER_SPIRIT);
-    	if(name != null)
-    		this.dataManager.set(WATCHERID_INNER, name);
-    	setRemainingLife(tag.getInteger("remainingLife"));
-    	setFrozenDuration(tag.getInteger("frozenDuration"));
-    	setIsSwarm(tag.getBoolean("isSwarm"));
-    	setSwarmTier(tag.getInteger("swarmTier"));
-        setBuildupDuration(tag.getInteger("buildupDuration"));
-        setPlayerId(tag.getString("playerId"));
-        setPlayerName(tag.getString("playerName"));
+        data.readNBT(tag);
     }
 
     @Override
@@ -469,6 +409,10 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     	setVengeancePlayers(players);
     }
 
+    public boolean isPlayer() {
+        return containsPlayer();
+    }
+
 	/**
      * Get the inner entity.
      * @return inner entity
@@ -483,7 +427,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     	if(innerEntity != null)
     		return innerEntity;
     	try {
-			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(dataManager.get(WATCHERID_INNER));
+			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(data.getInnerEntityName());
             if(!clazz.equals(VengeanceSpirit.class)) {
 				String name = (String) EntityList.CLASS_TO_NAME.get(clazz);
 				Entity entity = EntityList.createEntityByName(name, worldObj);
@@ -516,174 +460,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             setPlayerName(((EntityPlayer) innerEntity).getGameProfile().getName());
             innerEntity = new EntityZombie(worldObj);
         }
-		this.dataManager.set(WATCHERID_INNER, innerEntity.getClass().getName());
-	}
-
-    /**
-     * Get the remaining life.
-     * @return The remaining life.
-     */
-    public int getRemainingLife() {
-        return dataManager.get(WATCHERID_REMAININGLIFE);
-	}
-
-    /**
-     * Set the remaining life.
-     * @param remainingLife The remaining life.
-     */
-	public void setRemainingLife(int remainingLife) {
-        this.dataManager.set(WATCHERID_REMAININGLIFE, remainingLife);
-	}
-
-    /**
-     * Get the remaining life.
-     * @return The remaining life.
-     */
-    public int getBuildupDuration() {
-        return dataManager.get(WATCHERID_BUILDUP);
-    }
-
-    /**
-     * Set the remaining buildup time.
-     * @param buildupDuration The remaining life.
-     */
-    public void setBuildupDuration(int buildupDuration) {
-        this.dataManager.set(WATCHERID_BUILDUP, buildupDuration);
-    }
-
-    /**
-     * Get the playerId.
-     * @return The playerId.
-     */
-    public String getPlayerId() {
-        return dataManager.get(WATCHERID_PLAYERID);
-    }
-
-    /**
-     * Get the player UUID or null.
-     * @return The player UUID
-     */
-    public UUID getPlayerUUID() {
-        try {
-            return UUID.fromString(getPlayerId());
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
-    }
-
-    /**
-     * @return If this spirit is a player spirit.
-     */
-    public boolean isPlayer() {
-        return getPlayerUUID() != null;
-    }
-
-    /**
-     * Set the playerId.
-     * @param playerId The playerId.
-     */
-    public void setPlayerId(String playerId) {
-        this.dataManager.set(WATCHERID_PLAYERID, playerId);
-    }
-
-    /**
-     * Get the playerName.
-     * @return The playerName.
-     */
-    public String getPlayerName() {
-        return dataManager.get(WATCHERID_PLAYERNAME);
-    }
-
-    /**
-     * Set the playerName.
-     * @param playerName The playerName.
-     */
-    public void setPlayerName(String playerName) {
-        this.dataManager.set(WATCHERID_PLAYERNAME, playerName);
-    }
-
-	/**
-	 * Get the frozen duration.
-	 * @return The frozen duration.
-	 */
-	public int getFrozenDuration() {
-		return dataManager.get(WATCHERID_FROZENDURATION);
-	}
-
-	/**
-	 * Set the frozen duration.
-	 * @param frozenDuration The frozen duration.
-	 */
-	public void setFrozenDuration(int frozenDuration) {
-		this.dataManager.set(WATCHERID_FROZENDURATION, frozenDuration);
-	}
-	
-	/**
-	 * Is this spirit globally vengeancable.
-	 * @return Is globally vengeancable.
-	 */
-	public boolean isGlobalVengeance() {
-		return dataManager.get(WATCHERID_GLOBALVENGEANCE) == 1;
-	}
-
-	/**
-	 * Set if this spirit globally vengeancable.
-	 * @param globalVengeance Is globally vengeancable.
-	 */
-	public void setGlobalVengeance(boolean globalVengeance) {
-		this.dataManager.set(WATCHERID_GLOBALVENGEANCE, globalVengeance ? 1 : 0);
-	}
-	
-	/**
-	 * Is this spirit is a swarm.
-	 * @return Is a swarm.
-	 */
-	public boolean isSwarm() {
-		return dataManager.get(WATCHERID_ISSWARM) == 1;
-	}
-
-	/**
-	 * Set if this spirit is a swarm.
-	 * @param isSwarm Is a swarm.
-	 */
-	public void setIsSwarm(boolean isSwarm) {
-		this.dataManager.set(WATCHERID_ISSWARM, isSwarm ? 1 : 0);
-	}
-	
-	/**
-	 * Get the tier of swarm for this spirit.
-	 * @return The swarm tier.
-	 */
-	public int getSwarmTier() {
-		return dataManager.get(WATCHERID_SWARMTIER);
-	}
-
-	/**
-	 * Set the tier of swarm this spirit should be.
-	 * @param swarmTier The tier to set.
-	 */
-	public void setSwarmTier(int swarmTier) {
-		this.dataManager.set(WATCHERID_SWARMTIER, swarmTier);
-	}
-	
-	/**
-	 * Get the vengeanced players.
-	 * @return The vengeanced players by display name.
-	 */
-	public String[] getVengeancePlayers() {
-		String encodedPlayers = dataManager.get(WATCHERID_VENGEANCEPLAYERS);
-        if(encodedPlayers.length() == 0) {
-            return new String[0];
-        }
-        return encodedPlayers.split("&");
-	}
-
-	/**
-	 * Set the vengeanced players.
-	 * @param vengeancePlayers The vengeanced players by display name.
-	 */
-	public void setVengeancePlayers(String[] vengeancePlayers) {
-        this.dataManager.set(WATCHERID_VENGEANCEPLAYERS, StringUtils.join(vengeancePlayers, "&"));
+		this.data.setInnerEntityName(innerEntity.getClass().getName());
 	}
 
 	/**
@@ -744,22 +521,6 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             }
 
         }, true);
-	}
-
-	/**
-	 * Add a frozen duration.
-	 * @param addFrozen Ticks to add frozen.
-	 */
-	public void addFrozenDuration(int addFrozen) {
-		this.setFrozenDuration(this.getFrozenDuration() + addFrozen);
-	}
-	
-	/**
-	 * If this spirit is frozen.
-	 * @return If frozen duration larger than zero.
-	 */
-	public boolean isFrozen() {
-		return this.getFrozenDuration() > 0;
 	}
 	
 	/**
