@@ -950,4 +950,9 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         // Ignore water movement and particles
         return this.inWater;
     }
+
+    @Override
+    public boolean doesEntityNotTriggerPressurePlate() {
+        return true;
+    }
 }
