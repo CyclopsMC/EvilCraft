@@ -1,8 +1,7 @@
-package evilcraft.modcompat.ic2;
+package org.cyclops.evilcraft.modcompat.ic2;
 
-import evilcraft.Reference;
-import evilcraft.modcompat.IModCompat;
-import evilcraft.modcompat.ee3.EE3;
+import org.cyclops.cyclopscore.modcompat.IModCompat;
+import org.cyclops.evilcraft.Reference;
 
 /**
  * Compatibility plugin for IC2.
