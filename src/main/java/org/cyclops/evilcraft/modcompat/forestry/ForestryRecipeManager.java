@@ -1,5 +1,9 @@
-package evilcraft.modcompat.forestry;
+package org.cyclops.evilcraft.modcompat.forestry;
 
+import forestry.api.recipes.RecipeManagers;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.UndeadLeaves;
 import org.cyclops.evilcraft.block.UndeadLeavesConfig;
@@ -7,10 +11,6 @@ import org.cyclops.evilcraft.block.UndeadLogConfig;
 import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.fluid.BloodConfig;
 import org.cyclops.evilcraft.item.HardenedBloodShardConfig;
-import forestry.api.recipes.RecipeManagers;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 /**
  * Forestry recipe manager registrations.
@@ -30,7 +30,7 @@ public class ForestryRecipeManager {
             int time = 20;
             ItemStack[] input = {new ItemStack(UndeadLogConfig._instance.getBlockInstance())};
             FluidStack fluidStack = new FluidStack(Blood.getInstance(),
-                    FluidContainerRegistry.BUCKET_VOLUME / 10);
+                    Fluid.BUCKET_VOLUME / 10);
             ItemStack output = new ItemStack(HardenedBloodShardConfig._instance.getItemInstance());
             int outputChance = 25; // Out of 100
             RecipeManagers.squeezerManager.addRecipe(time, input, fluidStack, output, outputChance);
@@ -43,7 +43,7 @@ public class ForestryRecipeManager {
             int time = 10;
             ItemStack[] input = {new ItemStack(UndeadLeaves.getInstance())};
             FluidStack fluidStack = new FluidStack(Blood.getInstance(),
-                    FluidContainerRegistry.BUCKET_VOLUME / 20);
+                    Fluid.BUCKET_VOLUME / 20);
             ItemStack output = new ItemStack(HardenedBloodShardConfig._instance.getItemInstance());
             int outputChance = 10; // Out of 100
             RecipeManagers.squeezerManager.addRecipe(time, input, fluidStack, output, outputChance);

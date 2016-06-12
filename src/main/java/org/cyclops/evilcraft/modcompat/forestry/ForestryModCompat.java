@@ -1,5 +1,10 @@
-package evilcraft.modcompat.forestry;
+package org.cyclops.evilcraft.modcompat.forestry;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+import org.cyclops.cyclopscore.init.IInitListener;
+import org.cyclops.cyclopscore.modcompat.IModCompat;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.UndeadLogConfig;
@@ -7,10 +12,6 @@ import org.cyclops.evilcraft.block.UndeadSaplingConfig;
 import org.cyclops.evilcraft.item.DarkGem;
 import org.cyclops.evilcraft.item.DarkGemConfig;
 import org.cyclops.evilcraft.item.PoisonSacConfig;
-import evilcraft.modcompat.IModCompat;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 /**
  * Compatibility plugin for Forestry.

@@ -45,6 +45,7 @@ import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.modcompat.bloodmagic.BloodMagicModCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerEnvirAccTileCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerWorkingTileCompat;
+import org.cyclops.evilcraft.modcompat.forestry.ForestryModCompat;
 import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
 import org.cyclops.evilcraft.modcompat.tconstruct.TConstructModCompat;
 import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
@@ -104,6 +105,7 @@ public class EvilCraft extends ModBaseVersionable {
         modCompatLoader.addModCompat(new JEIModCompat());
         modCompatLoader.addModCompat(new BloodMagicModCompat());
         modCompatLoader.addModCompat(new TConstructModCompat());
+        modCompatLoader.addModCompat(new ForestryModCompat());
 
         // Capabilities
         getCapabilityConstructorRegistry().registerTile(TickingTankInventoryTileEntity.class, new WorkerWorkingTileCompat());
