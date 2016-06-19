@@ -75,7 +75,7 @@ public class LivingDeathEventHook {
                 && Configs.isEnabled(BloodStainedBlockConfig.class)
                 && !(event.getEntity() instanceof VengeanceSpirit)) {
             int x = MathHelper.floor_double(event.getEntity().posX);
-            int y = MathHelper.floor_double(event.getEntity().posY - event.getEntity().getYOffset() - 1);
+            int y = MathHelper.floor_double(event.getEntity().posY - event.getEntity().getYOffset());
             int z = MathHelper.floor_double(event.getEntity().posZ);
             BlockPos pos = new BlockPos(x, y, z);
             Block block = event.getEntity().worldObj.getBlockState(pos).getBlock();
