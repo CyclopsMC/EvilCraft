@@ -26,8 +26,6 @@ public class VengeanceSpiritData {
     private static String NBTKEY_PLAYER_ID = "playerId";
     private static String NBTKEY_PLAYER_NAME = "playerName";
 
-    private static Random RANDOM = new Random();
-
     public static String NBTKEY_INNER_SPIRIT = NBTKEY_INNER_ENTITY;
 
     private String innerEntityName;
@@ -40,7 +38,7 @@ public class VengeanceSpiritData {
     private String playerName;
 
     public VengeanceSpiritData() {
-        this(getRandomInnerEntity(RANDOM), getRandomSwarmTier(RANDOM));
+        this("", 0);
     }
 
     public VengeanceSpiritData(String innerEntity, int swarmTier) {
@@ -68,6 +66,14 @@ public class VengeanceSpiritData {
         } catch (IllegalArgumentException e) {
             return null;
         }
+    }
+
+    public void setRandomInnerEntity(Random random) {
+        setInnerEntityName(getRandomInnerEntity(random));
+    }
+
+    public void setRandomSwarmTier(Random random) {
+        setSwarmTier(getRandomSwarmTier(random));
     }
 
     public void readNBT(NBTTagCompound tag) {

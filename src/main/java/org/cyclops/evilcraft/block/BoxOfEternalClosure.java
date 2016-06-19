@@ -124,12 +124,9 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     	NBTTagCompound spiritTag = new NBTTagCompound();
 
 		VengeanceSpiritData spiritData = new VengeanceSpiritData();
-		// spiritData.setGlobalVengeance(true);
 		spiritData.setSwarm(true);
+		spiritData.setRandomSwarmTier(RANDOM);
 		spiritData.writeNBT(spiritTag);
-
-    	//String entityId = EntityList.getEntityString(spirit);
-		//spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
 
 		tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
 		itemStack.setTagCompound(tag);
@@ -149,12 +146,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 		spiritData.setPlayerName(FORGOTTEN_PLAYER);
 		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, spiritData.getPlayerId());
 		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, spiritData.getPlayerName());
-		// spiritData.setGlobalVengeance(true);
-		// spiritData.writeToNBTAtomically(spiritTag);
 		spiritData.writeNBT(spiritTag);
-
-		// String entityId = EntityList.getEntityString(spirit);
-		// spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
 
 		tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
 		itemStack.setTagCompound(tag);
