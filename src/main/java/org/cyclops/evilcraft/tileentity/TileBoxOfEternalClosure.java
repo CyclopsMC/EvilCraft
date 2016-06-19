@@ -180,7 +180,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	private VengeanceSpirit createNewVengeanceSpirit() {
 		Random rand = worldObj.rand;
 
-		VengeanceSpirit spirit = new VengeanceSpirit(getWorld());
+		VengeanceSpirit spirit = VengeanceSpirit.fromNBT(getWorld(), spiritTag);
 		spirit.setPosition(getPos().getX() + rand.nextDouble(), getPos().getY() + rand.nextDouble(),
 				getPos().getZ() + rand.nextDouble());
 		spirit.setFrozenDuration(0);

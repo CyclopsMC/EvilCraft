@@ -718,4 +718,10 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     public boolean doesEntityNotTriggerPressurePlate() {
         return true;
     }
+
+    public static VengeanceSpirit fromNBT(World world, NBTTagCompound spiritTag) {
+        VengeanceSpirit spirit = new VengeanceSpirit(world);
+        spirit.readEntityFromNBT(spiritTag);
+        return spirit;
+    }
 }

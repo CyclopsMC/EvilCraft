@@ -59,7 +59,7 @@ public class VengeanceSpiritData {
     }
 
     public boolean containsPlayer() {
-        return getPlayerId() != null;
+        return getPlayerId() != null && !getPlayerId().isEmpty();
     }
 
     public UUID getPlayerUUID() {
