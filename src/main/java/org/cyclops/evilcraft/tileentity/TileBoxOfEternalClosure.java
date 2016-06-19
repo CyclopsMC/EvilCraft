@@ -72,10 +72,10 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	private VengeanceSpirit targetSpirit = null;
 
-	@NBTPersist
+	@NBTPersist(useDefaultValue = false)
 	private Integer targetSpiritId = NO_TARGET;
 	
-	@NBTPersist
+	@NBTPersist(useDefaultValue = false)
 	private Float lidAngle = START_LID_ANGLE;
 	private float previousLidAngle = 65F;
 
@@ -95,6 +95,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     public TileBoxOfEternalClosure() {
     	innerRotation = new Random().nextInt(100000);
 		initializeState();
+		initializeLidAngle();
     }
 
 	private void initializeState() {
@@ -102,6 +103,14 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 			setState(State.CLOSED);
 		else
 			setState(State.OPEN);
+	}
+
+	private void initializeLidAngle() {
+		if (getState() == State.OPEN) {
+			previousLidAngle = lidAngle = START_LID_ANGLE;
+		} else if (getState() == State.CLOSED) {
+			previousLidAngle = lidAngle = 0f;
+		}
 	}
 
 	private void updateState() {
@@ -147,7 +156,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private void onBoxClosed() {
-		// do nothing special
+		// Nothing to do
 	}
 
 	private void onBoxOpening() {
@@ -222,17 +231,9 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		previousLidAngle = lidAngle;
 
 		if (state == State.OPENING)
-			lidAngle += LID_STEP;
+			incrementLidAngle(LID_STEP);
 		else if (state == State.CLOSING)
-			lidAngle -= LID_STEP;
-
-		if (lidAngle < 0) {
-			lidAngle = 0f;
-			updateLight();
-		} else if (lidAngle > START_LID_ANGLE) {
-			lidAngle = START_LID_ANGLE;
-			updateLight();
-		}
+			incrementLidAngle(-LID_STEP);
 
 		if (state == State.OPENING || state == State.CLOSING)
 			updateState();
@@ -280,7 +281,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		worldObj.removeEntity(targetSpirit);
 		this.playerId = targetSpirit.getPlayerId();
 		this.playerName = targetSpirit.getPlayerName();
-		// TODO actually capture the spirit
+		// TODO: capture the actual spirit
 		setTargetSpirit(null);
 	}
 
@@ -373,6 +374,24 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		return lidAngle;
 	}
 
+	private void incrementLidAngle(float increment) {
+		setLidAngle(lidAngle + increment);
+	}
+
+	private void setLidAngle(float newLidAngle) {
+		if (newLidAngle != lidAngle) {
+			lidAngle = newLidAngle;
+
+			if (lidAngle < 0f) {
+				lidAngle = 0f;
+				updateLight();
+			} else if (lidAngle > START_LID_ANGLE) {
+				lidAngle = START_LID_ANGLE;
+				updateLight();
+			}
+		}
+	}
+
 	/**
 	 * @return the previousLidAngle
 	 */
@@ -389,12 +408,12 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		if(getWorld().isRemote && targetSpiritId == NO_TARGET) {
 			targetSpirit = null;
 		} else if(targetSpirit == null && targetSpiritId != NO_TARGET) {
-			setTargetSpirit((VengeanceSpirit)getWorld().getEntityByID(targetSpiritId));
+			setTargetSpirit((VengeanceSpirit) getWorld().getEntityByID(targetSpiritId));
 		}
 		return targetSpirit;
 	}
 
-	protected void setTargetSpirit(VengeanceSpirit targetSpirit) {
+	private void setTargetSpirit(VengeanceSpirit targetSpirit) {
 		VengeanceSpirit old = this.targetSpirit;
 		this.targetSpirit = targetSpirit;
     	if(targetSpirit != null) {

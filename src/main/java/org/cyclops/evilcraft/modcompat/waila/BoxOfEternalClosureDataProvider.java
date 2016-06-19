@@ -12,7 +12,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
 
 import java.util.List;
@@ -43,8 +42,10 @@ public class BoxOfEternalClosureDataProvider implements IWailaDataProvider {
             if(tile.hasSpirit()) {
                 currenttip.add(TextFormatting.ITALIC + L10NHelpers.localize("general." + Reference.MOD_ID + ".info.empty"));
             } else {
-                VengeanceSpirit spirit = ((VengeanceSpirit) tile.getSpiritInstanceOrNull());
-                String name = spirit.getLocalizedInnerEntityName();
+                // VengeanceSpirit spirit = ((VengeanceSpirit) tile.getSpiritInstanceOrNull());
+                // String name = spirit.getLocalizedInnerEntityName();
+                // TODO: implement spirit name
+                String name = "TODO: implement spirit name";
                 currenttip.add(name);
             }
         }
