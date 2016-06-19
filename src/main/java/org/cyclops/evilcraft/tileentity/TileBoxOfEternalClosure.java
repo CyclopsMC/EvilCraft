@@ -2,8 +2,6 @@ package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -12,10 +10,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
@@ -35,10 +31,6 @@ import java.util.Random;
  */
 public class TileBoxOfEternalClosure extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
 
-	public static enum State {
-		UNKNOWN, OPEN, OPENING, CLOSING, CLOSED
-	}
-	
 	/**
 	 * The name of the NBT tag that will hold spirit entity data.
 	 */
@@ -51,20 +43,21 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	 * The name of the NBT tag that will hold the player name.
 	 */
 	public static final String NBTKEY_PLAYERNAME = "playerName";
-	
-	private static final int TICK_MODULUS = 10;
-	private static final int TARGET_RADIUS = 10;
-	private static final double ABSORB_RADIUS = 0.5D;
-	private static final int NO_TARGET = -1;
 	/**
 	 * The lid angle for when this box is open.
 	 */
 	public static final float START_LID_ANGLE = 65F;
+	private static final int TICK_MODULUS = 10;
+	private static final int TARGET_RADIUS = 10;
+	private static final double ABSORB_RADIUS = 0.5D;
+	private static final int NO_TARGET = -1;
 	private static final float LID_STEP = 11.5F;
-
 	@Delegate
 	private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
-
+	/**
+	 * Inner rotation of a beam.
+	 */
+	public int innerRotation;
 	@NBTPersist
 	private NBTTagCompound spiritTag = new NBTTagCompound();
 	@NBTPersist
@@ -83,38 +76,29 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	private State state = State.UNKNOWN;
 	
-	/**
-	 * Inner rotation of a beam.
-	 */
-	public int innerRotation;
-	
     /**
      * Make a new instance.
      */
     public TileBoxOfEternalClosure() {
     	innerRotation = new Random().nextInt(100000);
     }
-
-	private void initializeState() {
-		if (hasSpirit())
-			setState(State.CLOSED);
-		else
-			setState(State.OPEN);
-	}
-
-	private void initializeLidAngle() {
-		if (getState() == State.OPEN) {
-			previousLidAngle = lidAngle = START_LID_ANGLE;
-		} else if (getState() == State.CLOSED) {
-			previousLidAngle = lidAngle = 0f;
+	
+	public static String getSpiritNameOrNullFromNBTTag(NBTTagCompound tag) {
+		if(tag != null) {
+			NBTTagCompound spiritTag = tag.getCompoundTag(NBTKEY_SPIRIT);
+			return VengeanceSpiritData.getSpiritNameOrNullFromNBTTag(spiritTag);
 		}
+		return null;
 	}
 
-	private void updateState() {
-		if (lidAngle <= 0)
-			setState(State.CLOSED);
-		else if (lidAngle >= START_LID_ANGLE)
-			setState(State.OPEN);
+	public boolean isClosed() {
+		return getState() == State.CLOSED;
+	}
+
+	public State getState() {
+		if (state == State.UNKNOWN)
+			updateState();
+		return state;
 	}
 
 	private void setState(State newState) {
@@ -123,6 +107,13 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 			state = newState;
 			onStateChanged(oldState, state);
 		}
+	}
+
+	private void updateState() {
+		if (lidAngle <= 0)
+			setState(State.CLOSED);
+		else if (lidAngle >= START_LID_ANGLE)
+			setState(State.OPEN);
 	}
 
 	private void onStateChanged(State oldState, State newState) {
@@ -166,18 +157,24 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 			playCloseSound();
 	}
 
+	public boolean hasSpirit() {
+		return !spiritTag.hasNoTags();
+	}
+
 	private void releaseSpirit() {
 		VengeanceSpirit spirit = createNewVengeanceSpirit();
 		worldObj.spawnEntityInWorld(spirit);
 		clearSpirit();
 	}
 
-	private void setSpirit(VengeanceSpirit spirit) {
-		spirit.getData().writeNBT(spiritTag);
+	private void playOpenSound() {
+		float pitch = randomFloat(0.1f, 0.9f);
+		playSound(SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5f, pitch);
 	}
 
-	private void clearSpirit() {
-		spiritTag = new NBTTagCompound();
+	private void playCloseSound() {
+		float pitch = randomFloat(0.1f, 0.9f);
+		playSound(SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5f, pitch);
 	}
 
 	private VengeanceSpirit createNewVengeanceSpirit() {
@@ -194,28 +191,45 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		return spirit;
 	}
 
-	public State getState() {
-		if (state == State.UNKNOWN)
-			updateState();
-		return state;
+	private void clearSpirit() {
+		spiritTag = new NBTTagCompound();
 	}
 
-	public boolean isClosed() {
-		return getState() == State.CLOSED;
+	private float randomFloat(float min, float max) {
+		return min + worldObj.rand.nextFloat() * max;
 	}
 
-	public boolean hasSpirit() {
-		return !spiritTag.hasNoTags();
+	private void playSound(SoundEvent sound, SoundCategory category, float volume, float pitch) {
+		worldObj.playSound(getPos().getX(), getPos().getY(), getPos().getZ(), sound, category, volume, pitch, false);
 	}
 
 	public void open() {
 		setState(State.OPENING);
 	}
-
+    
 	public void close() {
 		setState(State.CLOSING);
 	}
-    
+
+	private void initializeState() {
+		if (hasSpirit())
+			setState(State.CLOSED);
+		else
+			setState(State.OPEN);
+	}
+
+	private void initializeLidAngle() {
+		if (getState() == State.OPEN) {
+			previousLidAngle = lidAngle = START_LID_ANGLE;
+		} else if (getState() == State.CLOSED) {
+			previousLidAngle = lidAngle = 0f;
+		}
+	}
+
+	private void setSpirit(VengeanceSpirit spirit) {
+		spirit.getData().writeNBT(spiritTag);
+	}
+
     @Override
     public void updateTileEntity() {
         super.updateTileEntity();
@@ -290,24 +304,6 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		close();
 	}
 
-	public static EntityLivingBase getEntityFromNBT(World world, NBTTagCompound tag) {
-		if(tag != null && tag.hasKey(EntityHelpers.NBTTAG_ID)) {
-			return (EntityLivingBase) EntityList
-					.createEntityFromNBT(tag, world);
-		}
-		return null;
-	}
-
-	private void playOpenSound() {
-		float pitch = randomFloat(0.1f, 0.9f);
-		playSound(SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5f, pitch);
-	}
-
-	private void playCloseSound() {
-		float pitch = randomFloat(0.1f, 0.9f);
-		playSound(SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5f, pitch);
-	}
-
 	private boolean findsOrHasTargetEntity() {
 		return hasTargetSpirit() || findsTargetEntity();
 	}
@@ -331,14 +327,6 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		float volume = randomFloat(0.1f, 0.9f);
 		float pitch = randomFloat(0.1f, 0.9f);
 		playSound(EvilCraftSoundEvents.effect_box_beam, SoundCategory.AMBIENT, volume, pitch);
-	}
-
-	private void playSound(SoundEvent sound, SoundCategory category, float volume, float pitch) {
-		worldObj.playSound(getPos().getX(), getPos().getY(), getPos().getZ(), sound, category, volume, pitch, false);
-	}
-
-	private float randomFloat(float min, float max) {
-		return min + worldObj.rand.nextFloat() * max;
 	}
 
 	private boolean findNextEntity() {
@@ -366,15 +354,8 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		worldObj.notifyBlockUpdate(getPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     }
 
-	/**
-	 * @return the lidAngle
-	 */
 	public float getLidAngle() {
 		return lidAngle;
-	}
-
-	private void incrementLidAngle(float increment) {
-		setLidAngle(lidAngle + increment);
 	}
 
 	private void setLidAngle(float newLidAngle) {
@@ -391,17 +372,14 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		}
 	}
 
-	/**
-	 * @return the previousLidAngle
-	 */
+	private void incrementLidAngle(float increment) {
+		setLidAngle(lidAngle + increment);
+	}
+
 	public float getPreviousLidAngle() {
 		return previousLidAngle;
 	}
-	
-	/**
-	 * Get the target spirit.
-	 * @return The target spirit.
-	 */
+
 	public VengeanceSpirit getTargetSpirit() {
 		// Make sure our target spirit is up-to-date with the server-synced target spirit ID.
 		if(getWorld().isRemote && targetSpiritId == NO_TARGET) {
@@ -439,18 +417,14 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
         worldObj.notifyNeighborsOfStateChange(getPos(), this.getBlock());
     }
 
-	public static String getSpiritNameOrNullFromNBTTag(NBTTagCompound tag) {
-		if(tag != null) {
-			NBTTagCompound spiritTag = tag.getCompoundTag(NBTKEY_SPIRIT);
-			return VengeanceSpiritData.getSpiritNameOrNullFromNBTTag(spiritTag);
-		}
-		return null;
-	}
-
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
 		initializeState();
 		initializeLidAngle();
+	}
+
+	public static enum State {
+		UNKNOWN, OPEN, OPENING, CLOSING, CLOSED
 	}
 }
