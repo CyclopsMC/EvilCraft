@@ -37,7 +37,6 @@ import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpiritData;
@@ -210,7 +209,6 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityplayer, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
     	if(world.getTileEntity(blockPos) != null) {
 	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
-			EvilCraft.clog(tile.getState().toString());
 			if(tile.isClosed()) {
 				tile.open();
 	    		return true;
