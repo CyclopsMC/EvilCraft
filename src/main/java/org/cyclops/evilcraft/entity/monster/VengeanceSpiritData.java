@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.NBTTagCompound;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -68,12 +69,26 @@ public class VengeanceSpiritData {
         }
     }
 
+    public boolean hasInnerEntity() {
+        String innerEntity = getInnerEntityName();
+        return innerEntity != null && !innerEntity.isEmpty();
+    }
+
     public void setRandomInnerEntity(Random random) {
         setInnerEntityName(getRandomInnerEntity(random));
     }
 
     public void setRandomSwarmTier(Random random) {
         setSwarmTier(getRandomSwarmTier(random));
+    }
+
+    public String getLocalizedInnerEntityName() {
+        if(containsPlayer()) {
+            return getPlayerName();
+        }
+
+        String key = hasInnerEntity() ? getInnerEntityName() : VengeanceSpirit.DEFAULT_L10N_KEY;
+        return L10NHelpers.getLocalizedEntityName(key);
     }
 
     public void readNBT(NBTTagCompound tag) {
@@ -149,5 +164,11 @@ public class VengeanceSpiritData {
         Class<?> clazz = Class.forName(className);
         if(!VengeanceSpirit.canSustainClass(clazz)) return null;
         return (String) EntityList.CLASS_TO_NAME.get(clazz);
+    }
+
+    public static VengeanceSpiritData fromNBT(NBTTagCompound tag) {
+        VengeanceSpiritData data = new VengeanceSpiritData();
+        data.readNBT(tag);
+        return data;
     }
 }

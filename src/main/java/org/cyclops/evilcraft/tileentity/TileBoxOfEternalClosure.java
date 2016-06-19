@@ -65,6 +65,8 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	@NBTPersist
 	private String playerName = "";
 
+	private VengeanceSpiritData spiritData = null;
+
 	private VengeanceSpirit targetSpirit = null;
 
 	@NBTPersist(useDefaultValue = false)
@@ -193,6 +195,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	private void clearSpirit() {
 		spiritTag = new NBTTagCompound();
+		spiritData = null;
 	}
 
 	private float randomFloat(float min, float max) {
@@ -402,6 +405,17 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     	if(old != targetSpirit) {
     		sendUpdate();
     	}
+	}
+
+	public VengeanceSpiritData getSpiritData() {
+		return hasSpirit() ? loadSpiritDataLazy() : null;
+	}
+
+	private VengeanceSpiritData loadSpiritDataLazy() {
+		if (spiritData == null) {
+			spiritData = VengeanceSpiritData.fromNBT(spiritTag);
+		}
+		return spiritData;
 	}
 	
 	@Override

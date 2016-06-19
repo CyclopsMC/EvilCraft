@@ -33,7 +33,6 @@ import org.cyclops.cyclopscore.config.IChangedCallback;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.*;
 import org.cyclops.evilcraft.block.GemStoneTorchConfig;
@@ -592,21 +591,6 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 			attempts--;
 		}
 		return null;
-	}
-	
-	/**
-	 * Get the localized name of the inner entity.
-	 * @return The L10N name.
-	 */
-	public String getLocalizedInnerEntityName() {
-        if(isPlayer()) {
-            return getPlayerName();
-        }
-		String key = DEFAULT_L10N_KEY;
-		if(getInnerEntity() != null) {
-			key = (String) EntityList.CLASS_TO_NAME.get(getInnerEntity().getClass());
-		}
-		return L10NHelpers.getLocalizedEntityName(key);
 	}
 
     @Override
