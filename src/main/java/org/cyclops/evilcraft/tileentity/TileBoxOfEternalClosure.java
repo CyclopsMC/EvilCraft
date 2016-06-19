@@ -172,6 +172,10 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		clearSpirit();
 	}
 
+	private void setSpirit(VengeanceSpirit spirit) {
+		spirit.getData().writeNBT(spiritTag);
+	}
+
 	private void clearSpirit() {
 		spiritTag = new NBTTagCompound();
 	}
@@ -209,7 +213,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	public void close() {
-		setState(State.CLOSED);
+		setState(State.CLOSING);
 	}
     
     @Override
@@ -281,8 +285,9 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		worldObj.removeEntity(targetSpirit);
 		this.playerId = targetSpirit.getPlayerId();
 		this.playerName = targetSpirit.getPlayerName();
-		// TODO: capture the actual spirit
+		setSpirit(targetSpirit);
 		setTargetSpirit(null);
+		close();
 	}
 
 	public static EntityLivingBase getEntityFromNBT(World world, NBTTagCompound tag) {

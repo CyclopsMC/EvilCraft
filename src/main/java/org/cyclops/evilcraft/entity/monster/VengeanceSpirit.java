@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.entity.monster;
 
 import com.google.common.collect.Sets;
+import lombok.Getter;
 import lombok.experimental.Delegate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -73,6 +74,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      */
     public static final int REMAININGLIFE_MAX = 1000;
 
+    @Getter
     @Delegate
     private VengeanceSpiritSyncedData data;
 
