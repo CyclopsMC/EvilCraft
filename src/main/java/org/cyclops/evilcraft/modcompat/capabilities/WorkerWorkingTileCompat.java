@@ -5,7 +5,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.cyclops.commoncapabilities.api.capability.work.IWorker;
 import org.cyclops.cyclopscore.modcompat.capabilities.DefaultCapabilityProvider;
-import org.cyclops.cyclopscore.modcompat.capabilities.ICapabilityConstructor;
+import org.cyclops.cyclopscore.modcompat.capabilities.SimpleCapabilityConstructor;
 import org.cyclops.evilcraft.Capabilities;
 import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
@@ -18,7 +18,7 @@ import java.util.Collection;
  * Compatibility for worker capabilities.
  * @author rubensworks
  */
-public class WorkerWorkingTileCompat implements ICapabilityConstructor<IWorker, TickingTankInventoryTileEntity> {
+public class WorkerWorkingTileCompat extends SimpleCapabilityConstructor<IWorker, TickingTankInventoryTileEntity> {
 
     @Override
     public Capability<IWorker> getCapability() {
