@@ -66,6 +66,8 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
 
 	@NBTPersist
+	private NBTTagCompound spiritTag = new NBTTagCompound();
+	@NBTPersist
 	private String playerId = "";
 	@NBTPersist
 	private String playerName = "";
@@ -81,9 +83,6 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	private State state = State.UNKNOWN;
 	
-	private boolean initial = false;
-	private boolean hasSpirit = true; // DEBUG
-	
 	/**
 	 * Inner rotation of a beam.
 	 */
@@ -94,8 +93,6 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
      */
     public TileBoxOfEternalClosure() {
     	innerRotation = new Random().nextInt(100000);
-		initializeState();
-		initializeLidAngle();
     }
 
 	private void initializeState() {
@@ -172,7 +169,11 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	private void releaseSpirit() {
 		VengeanceSpirit spirit = createNewVengeanceSpirit();
 		worldObj.spawnEntityInWorld(spirit);
-		hasSpirit = false;
+		clearSpirit();
+	}
+
+	private void clearSpirit() {
+		spiritTag = new NBTTagCompound();
 	}
 
 	private VengeanceSpirit createNewVengeanceSpirit() {
@@ -200,8 +201,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	public boolean hasSpirit() {
-		// TODO implement
-		return hasSpirit;
+		return !spiritTag.hasNoTags();
 	}
 
 	public void open() {
@@ -301,12 +301,6 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	private void playCloseSound() {
 		float pitch = randomFloat(0.1f, 0.9f);
 		playSound(SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5f, pitch);
-	}
-
-	private NBTTagCompound addEntityIdToNBTTag(EntityLivingBase entity, NBTTagCompound tag) {
-		String entityId = EntityList.getEntityString(entity);
-		tag.setString(EntityHelpers.NBTTAG_ID, entityId);
-		return tag;
 	}
 
 	private boolean findsOrHasTargetEntity() {
@@ -446,5 +440,12 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 			return VengeanceSpiritData.getSpiritNameOrNullFromNBTTag(spiritTag);
 		}
 		return null;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound tag) {
+		super.readFromNBT(tag);
+		initializeState();
+		initializeLidAngle();
 	}
 }
