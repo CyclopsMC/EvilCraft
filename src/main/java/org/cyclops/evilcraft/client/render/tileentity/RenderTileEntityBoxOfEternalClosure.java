@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -94,7 +95,10 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
         GlStateManager.popMatrix();
 
         if(angle > 0) {
-            renderEnd(x, y, z, getWorld().getBlockState(tile.getPos()).getValue(BoxOfEternalClosure.FACING).getAxis(), tile.getPos().toLong());
+            IBlockState blockState = getWorld().getBlockState(tile.getPos());
+            boolean hasFacing = blockState.getProperties().containsKey(BoxOfEternalClosure.FACING);
+            if (hasFacing)
+                renderEnd(x, y, z, blockState.getValue(BoxOfEternalClosure.FACING).getAxis(), tile.getPos().toLong());
         }
 
         GlStateManager.popAttrib();
