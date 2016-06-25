@@ -67,7 +67,7 @@ public class ModelBloodStainedBlock extends DelegatingChildDynamicItemAndBlockMo
 
     @Override
     public IBakedModel handleItemState(ItemStack stack, World world, EntityLivingBase entity) {
-        return null;
+        return this;
     }
 
     protected TextureAtlasSprite getIcon(BlockPos pos) {
