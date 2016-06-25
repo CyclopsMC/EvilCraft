@@ -2,6 +2,7 @@ package evilcraft.item;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
+import com.google.common.collect.Lists;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -101,31 +102,37 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
         if(entity instanceof EntityPlayer
                 && world.getWorldTime() % TICK_MODULUS == 0) {
             EntityPlayer player = (EntityPlayer) entity;
-            ItemStack potionStack = getPotionStack(itemStack);
-            if(potionStack != null) {
-                List<PotionEffect> potionEffects = Items.potionitem.getEffects(potionStack);
-                for(PotionEffect potionEffect : potionEffects) {
-                    int toDrain = PrimedPendantConfig.usage * (potionEffect.getAmplifier() + 1);
-                    Double multiplier = PrimedPendantConfig._instance.getMultiplier(potionEffect.getPotionID());
-                    if(multiplier != null) {
-                        toDrain *= multiplier;
-                    }
-                    if((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
-                        player.addPotionEffect(
-                                new PotionEffect(potionEffect.getPotionID(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
-                                        !potionEffect.getCurativeItems().isEmpty()));
-                        consume(toDrain, itemStack, player);
-                    }
+            List<PotionEffect> potionEffects = getPotionEffects(itemStack);
+            for(PotionEffect potionEffect : potionEffects) {
+                int toDrain = PrimedPendantConfig.usage * (potionEffect.getAmplifier() + 1);
+                Double multiplier = PrimedPendantConfig._instance.getMultiplier(potionEffect.getPotionID());
+                if(multiplier != null) {
+                    toDrain *= multiplier;
+                }
+                if((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
+                    player.addPotionEffect(
+                            new PotionEffect(potionEffect.getPotionID(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
+                                    !potionEffect.getCurativeItems().isEmpty()));
+                    consume(toDrain, itemStack, player);
                 }
             }
         }
         super.onUpdate(itemStack, world, entity, par4, par5);
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<PotionEffect> getPotionEffects(ItemStack itemStack) {
+        List potionEffects = null;
+        ItemStack potionStack = getPotionStack(itemStack);
+        if (potionStack != null) {
+            potionEffects = Items.potionitem.getEffects(potionStack);
+        }
+        return potionEffects == null ? Lists.newArrayList() : potionEffects;
     }
 
     public boolean hasPotionStack(ItemStack itemStack) {
