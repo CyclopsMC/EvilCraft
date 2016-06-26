@@ -2,7 +2,6 @@ package evilcraft.item;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
-import com.google.common.collect.Lists;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,6 +34,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -132,7 +132,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
         if (potionStack != null) {
             potionEffects = Items.potionitem.getEffects(potionStack);
         }
-        return potionEffects == null ? Lists.newArrayList() : potionEffects;
+        return potionEffects == null ? Collections.emptyList() : potionEffects;
     }
 
     public boolean hasPotionStack(ItemStack itemStack) {
