@@ -180,6 +180,7 @@
 			<item>evilcraft:undeadPlank</item>
 			<item type="predefined">evilcraft:broompart:rod_bare</item>
 			<item>evilcraft:undeadPlank</item>
+			<item>evilcraft:undeadPlank</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:rod_undead</item>
