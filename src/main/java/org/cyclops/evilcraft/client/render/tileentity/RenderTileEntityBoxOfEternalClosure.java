@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
@@ -37,6 +38,13 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
     
     @Override
     public void renderTileEntityAt(TileBoxOfEternalClosure tile, double x, double y, double z, float partialTick, int destroyStage) {
+        IBlockState blockState = getWorld().getBlockState(tile.getPos());
+        Block block = blockState.getBlock();
+
+        // For some reason the block at the position of a TileBoxOfEternalClosure isn't necessarily a BOEC
+        if ( !(block instanceof BoxOfEternalClosure) )
+            return;
+
         ResourceLocation texture = TextureMap.LOCATION_BLOCKS_TEXTURE;
 
         if (destroyStage >= 0) {
@@ -95,7 +103,6 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
         GlStateManager.popMatrix();
 
         if(angle > 0) {
-            IBlockState blockState = getWorld().getBlockState(tile.getPos());
             boolean hasFacing = blockState.getProperties().containsKey(BoxOfEternalClosure.FACING);
             if (hasFacing)
                 renderEnd(x, y, z, blockState.getValue(BoxOfEternalClosure.FACING).getAxis(), tile.getPos().toLong());
