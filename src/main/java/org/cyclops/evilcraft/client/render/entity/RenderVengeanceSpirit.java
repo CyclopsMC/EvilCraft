@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
@@ -50,7 +51,7 @@ public class RenderVengeanceSpirit extends Render<VengeanceSpirit> {
 
 	@Override
 	public void doRender(VengeanceSpirit spirit, double x, double y, double z, float yaw, float partialTickTime) {
-		EntityLiving innerEntity = (EntityLiving) spirit.getInnerEntity();
+		EntityLivingBase innerEntity = spirit.getInnerEntity();
 		if(innerEntity != null && spirit.isVisible()) {
 			Render render = (Render) renderManager.entityRenderMap.get(innerEntity.getClass());
 			if(render != null && !spirit.isSwarm()) {
@@ -86,7 +87,7 @@ public class RenderVengeanceSpirit extends Render<VengeanceSpirit> {
 							}
 						}
 						playerRenderer.setPlayerTexture(resourcelocation);
-						playerRenderer.doRender(innerEntity, x, y, z, yaw, 0);
+						playerRenderer.doRender((EntityLiving) innerEntity, x, y, z, yaw, 0);
 					} else {
 						render.doRender(innerEntity, x, y, z, yaw, 0);
 					}
