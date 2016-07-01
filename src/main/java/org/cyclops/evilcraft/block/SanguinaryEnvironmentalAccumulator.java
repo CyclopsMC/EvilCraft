@@ -7,6 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -54,8 +55,8 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
 
     @Override
     public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos pos) {
-        TileSanguinaryEnvironmentalAccumulator tile = (TileSanguinaryEnvironmentalAccumulator) world.getTileEntity(pos);
-        return tile != null && tile.isVisuallyWorking() ? 4 : super.getLightValue(blockState, world, pos);
+        TileEntity tile = world.getTileEntity(pos);
+        return tile != null && ((TileSanguinaryEnvironmentalAccumulator) tile).isVisuallyWorking() ? 4 : super.getLightValue(blockState, world, pos);
     }
 
     @Override
