@@ -98,12 +98,12 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         this.preventEntitySpawning = false;
         this.setSize(1, 1); // Dummy size, to avoid rare bounding box crashes before inner entity is init.
 
-        double speed = 0.5D;
+        double speed = 0.25D;
         float damage = 0.5F;
         int remainingLife = MathHelper.getRandomIntegerInRange(world.rand, REMAININGLIFE_MIN,
         		REMAININGLIFE_MAX);
         if(isSwarm()) {
-        	speed += 0.25D * getSwarmTier();
+        	speed += 0.125D * getSwarmTier();
         	damage += 0.5D * getSwarmTier();
         	remainingLife += (REMAININGLIFE_MAX - REMAININGLIFE_MIN) * getSwarmTier();
         }
