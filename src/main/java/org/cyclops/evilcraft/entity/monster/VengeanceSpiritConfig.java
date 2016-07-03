@@ -23,7 +23,9 @@ import org.cyclops.evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChang
  * @author rubensworks
  *
  */
-public class VengeanceSpiritConfig extends MobConfig<VengeanceSpirit> {
+public class
+
+VengeanceSpiritConfig extends MobConfig<VengeanceSpirit> {
     
     /**
      * The unique instance.

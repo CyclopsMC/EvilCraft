@@ -42,6 +42,10 @@ public class VengeanceSpiritData {
         this("", 0);
     }
 
+    public VengeanceSpiritData(String innerEntity) {
+        this(innerEntity, 0);
+    }
+
     public VengeanceSpiritData(String innerEntity, int swarmTier) {
         this.innerEntityName = innerEntity;
         this.swarmTier = swarmTier;
@@ -116,7 +120,7 @@ public class VengeanceSpiritData {
     }
 
     @SuppressWarnings("unchecked")
-    private static String getRandomInnerEntity(Random rand) {
+    public static String getRandomInnerEntity(Random rand) {
         Collection<EntityList.EntityEggInfo> eggs = EntityList.ENTITY_EGGS.values();
         ArrayList<EntityList.EntityEggInfo> eggList = Lists.newArrayList(eggs);
         if(eggList.size() > 0) {
@@ -131,7 +135,7 @@ public class VengeanceSpiritData {
         return VengeanceSpirit.class.getName();
     }
 
-    private static int getRandomSwarmTier(Random rand) {
+    public static int getRandomSwarmTier(Random rand) {
         return rand.nextInt(SWARM_TIERS);
     }
 

@@ -21,12 +21,16 @@ public class VengeanceSpiritSyncedData extends VengeanceSpiritData {
 
     public VengeanceSpiritSyncedData(EntityDataManager dataManager) {
         super();
+        register(dataManager);
+    }
 
-        this.dataManager = dataManager;
+    public VengeanceSpiritSyncedData(EntityDataManager dataManager, String innerEntity) {
+        super(innerEntity);
         register(dataManager);
     }
 
     public void register(EntityDataManager dataManager) {
+        this.dataManager = dataManager;
         dataManager.register(WATCHERID_INNER, super.getInnerEntityName());
         dataManager.register(WATCHERID_REMAININGLIFE, super.getRemainingLife());
         dataManager.register(WATCHERID_FROZENDURATION, super.getFrozenDuration());

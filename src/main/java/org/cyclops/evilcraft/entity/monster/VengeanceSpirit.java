@@ -79,12 +79,20 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 
 	private EntityLivingBase innerEntity = null;
 
+    private String preferredInnerEntity;
+
+    public VengeanceSpirit(World world) {
+        this(world, null);
+    }
+
     /**
      * Make a new instance.
      * @param world The world.
      */
-    public VengeanceSpirit(World world) {
+    public VengeanceSpirit(World world, String preferredInnerEntity) {
         super(world);
+        this.preferredInnerEntity = preferredInnerEntity;
+
         this.stepHeight = 5.0F;
         this.isImmuneToFire = true;
         this.preventEntitySpawning = false;
@@ -118,7 +126,10 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     @Override
 	public void entityInit() {
         super.entityInit();
-        data = new VengeanceSpiritSyncedData(this.dataManager);
+        if (preferredInnerEntity == null)
+            data = new VengeanceSpiritSyncedData(this.dataManager, VengeanceSpiritData.getRandomInnerEntity(this.rand));
+        else
+            data = new VengeanceSpiritSyncedData(this.dataManager, preferredInnerEntity);
     }
 
     @Override
