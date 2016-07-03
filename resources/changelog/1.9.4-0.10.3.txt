@@ -1,0 +1,33 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.7.0.
+
+WARNING: Changes to the fluid system has been made, so you will LOSE all Blood and Poison bucket items!
+
+Additions:
+* Add werewolf villager zombie skin
+* Restore IC2 modcompat
+* Restore Forestry modcompat
+* Re-enable TCon modcompat
+
+Changes:
+* Refactor vengeance spirits & remove fake world
+* Update Cyclops capability registration interface usage
+* Use minecraft's new playSound methods to avoid random crashes
+* Remove prior work penalty when purifying items
+* Use new fluid capabilities
+
+Fixes:
+* Make spirits slower, close #421
+* Fix incorrect vengeance spirit in BOEC shown in WAILA, close #422
+* Fix vengeance spirit spawn eggs, close #420
+* Update blood magic version, fixes compatibility issues
+* Fix rare NPE, close #417
+* Fix #406
+* Fix undead rod recipe conflict
+* Fix blood stained block rendering crash
+* Fix blood stained block spawn height
+* Spirits shouldn't affect pressure plates, closes #407
+* Fix spirit portal and boec collision boxes
+* Fix block scale when in purifier
+* Fix blood chest bounding box
+* Fix Sanguinary Envir Acc placement crash, Closes #404
