@@ -44,7 +44,7 @@ public class BoxOfEternalClosureDataProvider implements IWailaDataProvider {
                 currenttip.add(TextFormatting.ITALIC + L10NHelpers.localize("general." + Reference.MOD_ID + ".info.empty"));
             } else {
                 VengeanceSpiritData spiritData = tile.getSpiritData();
-                String name = spiritData.getLocalizedInnerEntityName();
+                String name = spiritData.getLocalizedSpiritName();
                 currenttip.add(name);
             }
         }

@@ -86,12 +86,16 @@ public class VengeanceSpiritData {
         setSwarmTier(getRandomSwarmTier(random));
     }
 
-    public String getLocalizedInnerEntityName() {
+    public String getSpiritNameOrNull() {
+        return getSpiritNameOrNullFromInnerEntity(getInnerEntityName());
+    }
+
+    public String getLocalizedSpiritName() {
         if(containsPlayer()) {
             return getPlayerName();
         }
 
-        String key = hasInnerEntity() ? getInnerEntityName() : VengeanceSpirit.DEFAULT_L10N_KEY;
+        String key = hasInnerEntity() ? getSpiritNameOrNull() : VengeanceSpirit.DEFAULT_L10N_KEY;
         return L10NHelpers.getLocalizedEntityName(key);
     }
 
