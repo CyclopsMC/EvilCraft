@@ -92,18 +92,20 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
         this(tile, tickActions, slot, true);
     }
 
-    public T getTickAction(Item item) {
+    public T getTickAction(Item item, int actionOffset) {
         for(Entry<Class<?>, T> entry : tickActions.entries()) {
-        	Object instance = item;
-            if(entry.getKey().isInstance(instance)) {
-                return entry.getValue();
-            } else {
-            	if(item instanceof ItemBlock) {
-            		instance = ((ItemBlock) item).getBlock();
-            		if(entry.getKey().isInstance(instance)) {
-                        return entry.getValue();
-            		}
-            	}
+            if (actionOffset-- == 0) {
+                Object instance = item;
+                if (entry.getKey().isInstance(instance)) {
+                    return entry.getValue();
+                } else {
+                    if (item instanceof ItemBlock) {
+                        instance = ((ItemBlock) item).getBlock();
+                        if (entry.getKey().isInstance(instance)) {
+                            return entry.getValue();
+                        }
+                    }
+                }
             }
         }
         return null;
@@ -116,9 +118,12 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
      */
     public void tick(ItemStack itemStack, int slot) {
         if(itemStack != null) {
-            T action = getTickAction(itemStack.getItem());
-            if(action != null){
+            T action;
+            int actionOffset = 0;
+            boolean ticked = false;
+            while(!ticked && (action = getTickAction(itemStack.getItem(), actionOffset++)) != null){
                 if(action.canTick(tile, itemStack, slot, tick)) {
+                    ticked = true;
                     if (tick == 0)
                         requiredTicks = action.getRequiredTicks(tile, slot, tick);
                     tick++;
@@ -130,7 +135,8 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
                     if (tick >= requiredTicks)
                         tick = 0;
                 }
-            } else {
+            }
+            if (!ticked) {
                 tick = 0;
             }
         } else tick = 0;

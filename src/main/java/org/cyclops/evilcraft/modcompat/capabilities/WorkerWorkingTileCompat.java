@@ -45,8 +45,10 @@ public class WorkerWorkingTileCompat extends SimpleCapabilityConstructor<IWorker
             for(TickComponent ticker : (Collection<TickComponent>) provider.getTickers()) {
                 ItemStack itemStack = provider.getInventory().getStackInSlot(ticker.getSlot());
                 if(itemStack != null) {
-                    ITickAction tickAction = ticker.getTickAction(itemStack.getItem());
-                    if(tickAction.canTick(provider, itemStack, ticker.getSlot(), ticker.getTick())) {
+                    ITickAction tickAction;
+                    int actionOffset = 0;
+                    while((tickAction = ticker.getTickAction(itemStack.getItem(), actionOffset++)) != null
+                            && tickAction.canTick(provider, itemStack, ticker.getSlot(), ticker.getTick())) {
                         return true;
                     }
                 }

@@ -21,6 +21,11 @@ import org.cyclops.evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTick
 public class FluidContainerItemTickAction extends BloodInfuserTickAction{
 
     @Override
+    public boolean canTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
+        return super.canTick(tile, itemStack, slot, tick) && FluidUtil.getFluidHandler(itemStack) != null;
+    }
+
+    @Override
     public void onTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
         ItemStack infuseStack = getInfuseStack(tile);
         IFluidHandler container = FluidUtil.getFluidHandler(infuseStack);
