@@ -1,0 +1,5 @@
+As always, don't forget to backup your world before updating!
+
+Fixes:
+* Fix prime pendant crash when no effects
+* Fix NEI fluid handling crash, closes #374
