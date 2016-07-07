@@ -14,6 +14,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -38,6 +42,8 @@ import org.cyclops.evilcraft.core.recipe.xml.EnvironmentalAccumulatorRecipeTypeH
 import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.enchantment.EnchantmentPoisonTip;
 import org.cyclops.evilcraft.enchantment.EnchantmentPoisonTipConfig;
+import org.cyclops.evilcraft.fluid.Poison;
+import org.cyclops.evilcraft.fluid.PoisonConfig;
 import org.cyclops.evilcraft.item.*;
 
 import java.util.Map;
@@ -152,6 +158,17 @@ public class ExtendedRecipeHandler extends RecipeHandler {
 
         predefinedItems.put("evilcraft:potion_weakness", PotionUtils.addPotionToItemStack(
                 new ItemStack(Items.POTIONITEM), PotionType.getPotionTypeForName("weakness")));
+
+        if(Configs.isEnabled(PoisonConfig.class)) {
+            ItemStack poisonBucket = new ItemStack(Items.BUCKET);
+            IFluidHandler fluidHandler = FluidUtil.getFluidHandler(poisonBucket);
+            fluidHandler.fill(new FluidStack(Poison.getInstance(), Fluid.BUCKET_VOLUME), true);
+            predefinedItems.put("evilcraft:bucketPoison", poisonBucket);
+        }
+
+        ItemStack potionPoison = new ItemStack(Items.POTIONITEM);
+        PotionUtils.addPotionToItemStack(potionPoison, PotionType.getPotionTypeForName("poison"));
+        predefinedItems.put("minecraft:potionPoison", potionPoison);
     }
 
     @Override
