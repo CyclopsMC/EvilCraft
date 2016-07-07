@@ -60,11 +60,10 @@
                 <appendix type="evilcraft:envirAccRecipe" meta="1">evilcraft:biomeExtract</appendix>
             </section>
             <section name="infoBook.evilcraft.firstAge.newWorld.libelle">
-                <tag>bucketPoison</tag>
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.libelle.text</paragraph>
-                <appendix type="craftingRecipe">evilcraft:bucketPoison</appendix>
+                <appendix type="craftingRecipe" predefined="true">evilcraft:bucketPoison</appendix>
                 <appendix type="craftingRecipe">minecraft:poisonous_potato</appendix>
-                <appendix type="craftingRecipe" meta="8196">minecraft:potion</appendix>
+                <appendix type="craftingRecipe" predefined="true">minecraft:potionPoison</appendix>
             </section>
             <section name="infoBook.evilcraft.firstAge.newWorld.werewolf">
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.werewolf.text</paragraph>
