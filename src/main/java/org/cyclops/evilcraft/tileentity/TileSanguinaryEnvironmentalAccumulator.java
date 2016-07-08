@@ -344,15 +344,16 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
             BlockPos offset = tankOffsets[i];
             BlockPos location = getPos().add(offset);
             IFluidHandler handler = TileHelpers.getCapability(getWorld(), location, EnumFacing.UP, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
-            if (handler == null) {
-                return null;
-            }
-            IFluidTankProperties[] info = handler.getTankProperties();
             boolean oneValid = false;
-            for(IFluidTankProperties tank : info) {
-                if (tank.getContents() != null && tank.getContents().getFluid() == ACCEPTED_FLUID) {
-                    oneValid = true;
-                    break;
+            if (handler != null) {
+                IFluidTankProperties[] info = handler.getTankProperties();
+                if (info != null) {
+                    for (IFluidTankProperties tank : info) {
+                        if (tank.getContents() != null && tank.getContents().getFluid() == ACCEPTED_FLUID) {
+                            oneValid = true;
+                            break;
+                        }
+                    }
                 }
             }
             if(!oneValid) {
