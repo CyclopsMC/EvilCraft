@@ -88,7 +88,10 @@ public class ItemHelpers {
                 EntityPlayer player = (EntityPlayer) entity;
                 for (EnumHand hand : EnumHand.values()) {
                     ItemStack held = player.getHeldItem(hand);
-                    tryFillContainerForPlayer(toDrain, itemStack, held, tickFluid, player);
+                    ItemStack filled = tryFillContainerForPlayer(toDrain, itemStack, held, tickFluid, player);
+                    if (filled != null) {
+                        player.setHeldItem(hand, filled);
+                    }
                 }
             }
         }

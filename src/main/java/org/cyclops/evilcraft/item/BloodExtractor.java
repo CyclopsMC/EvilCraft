@@ -14,7 +14,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.ItemFluidContainer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -124,7 +123,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
      * @return The amount of blood that was filled with.
      */
     public int fillBloodExtractor(ItemStack itemStack, int amount, boolean doFill) {
-        ItemFluidContainer container = (ItemFluidContainer) itemStack.getItem();
+        BloodExtractor container = (BloodExtractor) itemStack.getItem();
         int filled = container.fill(itemStack, new FluidStack(Blood.getInstance(), amount), doFill);
         return filled;
     }
@@ -143,7 +142,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
         while(it.hasNext() && toFill > 0) {
             ItemStack itemStack = it.next();
             if(itemStack != null && itemStack.getItem() == BloodExtractor.getInstance()) {
-                ItemFluidContainer container = (ItemFluidContainer) itemStack.getItem();
+                BloodExtractor container = (BloodExtractor) itemStack.getItem();
                 toFill -= container.fill(itemStack, new FluidStack(Blood.getInstance(), toFill), true);
             }
         }
