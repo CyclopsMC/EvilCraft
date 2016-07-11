@@ -343,6 +343,10 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
             }
             IFluidHandler handler = (IFluidHandler) tile;
             FluidTankInfo[] info = handler.getTankInfo(VirtualTank.TARGETSIDE);
+            if (info == null) {
+                invalidLocations.add(location);
+                continue;
+            }
             boolean oneValid = false;
             for(FluidTankInfo tank : info) {
                 if (tank.fluid != null && tank.fluid.getFluid() == ACCEPTED_FLUID) {
