@@ -9,6 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -58,17 +59,17 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
                 SingleUseTank tank = tile.getTank();
             	IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack);
                 if(!player.isSneaking() && !tank.isFull() && itemFluidHandler != null) { // Fill the tank.
-                	if(FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null) {
-                        ItemStack drainedItem = FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, true);
-	                    if(!player.capabilities.isCreativeMode) {
+					if(FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false) != null) {
+                        ItemStack drainedItem = FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
+						if(!player.capabilities.isCreativeMode) {
                             if(drainedItem != null && drainedItem.stackSize == 0) drainedItem = null;
 	                    	InventoryHelpers.tryReAddToStack(player, itemStack, drainedItem);
 	                    }
                 	}
                     return true;
                 } else if(!tank.isEmpty()
-                        && FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null) { // Drain the tank.
-                    ItemStack filledItem = FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, true);
+                        && FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false) != null) { // Drain the tank.
+                    ItemStack filledItem = FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
                 	if(!player.capabilities.isCreativeMode) {
                         InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
                         return true;
