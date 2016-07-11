@@ -16,8 +16,6 @@ import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 
-import java.util.Iterator;
-
 /**
  * Specialized item for the {@link EntangledChalice} blockState.
  * @author rubensworks
@@ -86,11 +84,16 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
         if(entity instanceof EntityPlayer && !world.isRemote) {
             EntityPlayer player = (EntityPlayer) entity;
             FluidStack tickFluid;
-            Iterator<ItemStack> it = new PlayerExtendedInventoryIterator(player);
+            PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
             do {
                 tickFluid = FluidHelpers.getFluid(source);
                 ItemStack toFill = it.next();
-                ItemHelpers.tryFillContainerForPlayer(source, itemStack, toFill, tickFluid, player);
+                if (tickFluid != null && toFill != null && toFill.stackSize == 1) {
+                    ItemStack filled = ItemHelpers.tryFillContainerForPlayer(source, itemStack, toFill, tickFluid, player);
+                    if (filled != null) {
+                        it.replace(filled);
+                    }
+                }
             } while(tickFluid != null && tickFluid.amount > 0 && it.hasNext());
         }
     }

@@ -101,11 +101,13 @@ public class ItemHelpers {
      * @param toFill The container to try to fill.
      * @param tickFluid The fluid to fill with.
      * @param player The player that is the owner of toFill.
+     * @return The filled container
      */
-    public static void tryFillContainerForPlayer(IFluidHandler toDrain, ItemStack itemStack, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
+    public static ItemStack tryFillContainerForPlayer(IFluidHandler toDrain, ItemStack itemStack, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
         if(toFill != null && toFill != itemStack && FluidUtil.getFluidHandler(toFill) != null && player.getItemInUseCount() == 0) {
-            FluidUtil.tryFillContainer(toFill, toDrain, Math.min(MB_FILL_PERTICK, tickFluid.amount), player, true);
+            return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(MB_FILL_PERTICK, tickFluid.amount), player, true);
         }
+        return null;
     }
 
     /**
