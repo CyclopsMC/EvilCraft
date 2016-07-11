@@ -6,11 +6,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.core.fluid.FluidContainerItemWrapperWithSimulation;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
@@ -97,5 +99,10 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
             } while(tickFluid != null && tickFluid.amount > 0 && it.hasNext());
         }
     }
-	
+
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+        // This is a hack!
+        return new FluidContainerItemWrapperWithSimulation(this, stack);
+    }
 }
