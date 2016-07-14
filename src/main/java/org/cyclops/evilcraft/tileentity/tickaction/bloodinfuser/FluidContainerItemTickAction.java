@@ -7,6 +7,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.evilcraft.core.fluid.FluidContainerItemWrapperWithSimulation;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
@@ -63,6 +64,9 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
     public ItemStack willProduceItem(TileBloodInfuser tile) {
         ItemStack itemStack = tile.getInventory().getStackInSlot(tile.getConsumeSlot());
         if (itemStack == null) {
+            return null;
+        }
+        if (FluidUtil.getFluidHandler(itemStack) instanceof FluidContainerItemWrapperWithSimulation) {
             return null;
         }
         ItemStack smallContainer = FluidUtil.tryFillContainer(itemStack, tile.getTank(), MB_PER_TICK, null, false);
