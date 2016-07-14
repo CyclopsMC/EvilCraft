@@ -7,7 +7,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -16,6 +15,7 @@ import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainerGui;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.evilcraft.client.gui.container.GuiSanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.inventory.container.ContainerSanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
@@ -55,8 +55,8 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
 
     @Override
     public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos pos) {
-        TileEntity tile = world.getTileEntity(pos);
-        return tile != null && ((TileSanguinaryEnvironmentalAccumulator) tile).isVisuallyWorking() ? 4 : super.getLightValue(blockState, world, pos);
+        TileSanguinaryEnvironmentalAccumulator tile = TileHelpers.getSafeTile(world, pos, TileSanguinaryEnvironmentalAccumulator.class);
+        return tile != null && tile.isVisuallyWorking() ? 4 : super.getLightValue(blockState, world, pos);
     }
 
     @Override
