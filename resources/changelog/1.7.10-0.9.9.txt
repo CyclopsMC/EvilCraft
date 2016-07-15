@@ -1,0 +1,5 @@
+As always, don't forget to backup your world before updating!
+
+Fixes:
+* Fix Sanguinary Envir Acc crash on invalid tank info retrieval, Closes #429
+
