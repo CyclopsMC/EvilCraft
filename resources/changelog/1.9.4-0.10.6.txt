@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.7.0 or higher.
+
+Fixes:
+* Fix infuser destroying chalices #430
+* Fix fluid duplication with Entangled Chalice
+* Fix world interaction with fluid tanks
+* Fix light value crash related to Sanguinary Envir Acc
