@@ -44,6 +44,7 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
         if (filled > 0) {
             // Everything ok, filling the container bit by bit
             tile.getTank().drain(filled, true);
+            tile.getInventory().setInventorySlotContents(tile.getConsumeSlot(), infuseStack);
             if (FluidHelpers.getFluid(container) != null && FluidHelpers.getAmount(FluidHelpers.getFluid(container)) == FluidHelpers.getCapacity(container)) {
                 if (addToProduceSlot(tile, infuseStack)) {
                     tile.getInventory().decrStackSize(tile.getConsumeSlot(), 1);
