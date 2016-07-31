@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.7.0 or higher.
+
+Fixes:
+* Fix producing enchanted books without enchantments, Closes #437
+* Fix Blood Infuser not filling extractor, but losing blood, Closes #436
+* Fix weapon item transformations, Closes #433
