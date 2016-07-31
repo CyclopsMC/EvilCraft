@@ -63,7 +63,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
                     Enchantment enchantment = getRandomEnchantment(world, enchantments);
                     setResultingEnchantmentBook(tile, enchantments, enchantment);
                     removePriorWorkPenalty(enchantments, purifyItem);
-                    setRemainingEnchantmentsOnPurifiedItem(enchantments, enchantment, purifyItem);
+                    purifyItem = setRemainingEnchantmentsOnPurifiedItem(enchantments, enchantment, purifyItem);
                     tile.setPurifyItem(purifyItem);
                 }
                 tile.setBuckets(0, tile.getBucketsRest());
@@ -93,12 +93,19 @@ public class DisenchantPurifyAction implements IPurifierAction {
         purifyItem.setRepairCost(remainingPenalty);
     }
 
-    private void setRemainingEnchantmentsOnPurifiedItem(Map<Enchantment, Integer> enchantments, Enchantment enchantment, ItemStack purifyItem) {
+    private ItemStack setRemainingEnchantmentsOnPurifiedItem(Map<Enchantment, Integer> enchantments, Enchantment enchantment, ItemStack purifyItem) {
         Map<Enchantment, Integer> remainingEnchantments = Maps.newHashMap(enchantments);
         remainingEnchantments.remove(enchantment);
+
+        // Hardcoded conversion to a regular book when enchantment list of enchanted book is empty.
+        if (remainingEnchantments.isEmpty() && purifyItem.getItem() == Items.ENCHANTED_BOOK) {
+            purifyItem = new ItemStack(Items.BOOK);
+        }
+
         if (purifyItem.hasTagCompound() && purifyItem.getTagCompound().hasKey("StoredEnchantments")) {
             purifyItem.getTagCompound().removeTag("StoredEnchantments");
         }
         EnchantmentHelper.setEnchantments(remainingEnchantments, purifyItem);
+        return purifyItem;
     }
 }
