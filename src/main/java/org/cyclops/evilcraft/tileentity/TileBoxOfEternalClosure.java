@@ -160,7 +160,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	public boolean hasSpirit() {
-		return !spiritTag.hasNoTags();
+		return spiritTag != null && !spiritTag.hasNoTags();
 	}
 
 	private void releaseSpirit() {
