@@ -91,10 +91,6 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                                     tagList.appendTag(potionTag);
                                     tag.setTag("CustomPotionEffects", tagList);
 
-                                    // Set correct meta value
-                                    // TODO: this might be improved?
-                                    itemStack.setItemDamage(8229);
-
                                     // Update purifier state
                                     tile.setBuckets(0, 0);
                                     tile.setAdditionalItem(itemStack);
