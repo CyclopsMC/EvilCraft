@@ -108,7 +108,7 @@ public class LivingDeathEventHook {
                 spirit.copyLocationAndAnglesFrom(event.getEntityLiving());
                 world.spawnEntityInWorld(spirit);
                 if(directToPlayer) {
-                    EntityPlayer player = (EntityPlayer) event.getSource().getSourceOfDamage();
+                    EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
                     spirit.setBuildupDuration(3 * MinecraftHelpers.SECOND_IN_TICKS);
                     spirit.setGlobalVengeance(true);
                     spirit.setAttackTarget(player);
@@ -118,8 +118,8 @@ public class LivingDeathEventHook {
 	}
 
     private boolean shouldDirectSpiritToPlayer(LivingDeathEvent event) {
-        if(event.getSource().getSourceOfDamage() instanceof EntityPlayer && Configs.isEnabled(VengeanceRingConfig.class)) {
-            EntityPlayer player = (EntityPlayer) event.getSource().getSourceOfDamage();
+        if(event.getSource().getEntity() instanceof EntityPlayer && Configs.isEnabled(VengeanceRingConfig.class)) {
+            EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
             for(PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player); it.hasNext();) {
                 ItemStack itemStack = it.next();
                 if(itemStack != null && itemStack.getItem() == VengeanceRing.getInstance()) {
