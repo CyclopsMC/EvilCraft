@@ -88,10 +88,6 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         GL11.glTranslatef(0.0F, 0.1F + MathHelper.sin(tick * 0.1F) * 0.01F, 0.0F);
         if (itemStack.getItem() instanceof ItemBlock) {
             GL11.glTranslatef(1F, 0.675F, 1F);
-            GL11.glScalef(1.8F, 1.8F, 1.8F);
-        } else {
-            GL11.glRotatef(25F, 0, 1, 0);
-            GL11.glScalef(2F, 2F, 2F);
         }
 
         float speedUp;
@@ -106,12 +102,8 @@ public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
         GL11.glRotatef(-rotation * 180.0F / (float) Math.PI, 0.0F, 1.0F, 0.0F);
 
         GlStateManager.pushMatrix();
-        if (itemStack.getItem() instanceof ItemBlock) {
-            GlStateManager.translate(1F, 1.2F, 1F);
-            GlStateManager.scale(1.2F, 1.2F, 1.2F);
-        } else {
-            GlStateManager.translate(1F, 1.2F, 1F);
-            GlStateManager.rotate(25F, 1, 0, 0);
+        GlStateManager.translate(0F, 0.5F, 0F);
+        if (!(itemStack.getItem() instanceof ItemBlock)) {
             GlStateManager.rotate(25F, 0, 1, 0);
             GlStateManager.rotate(rotation, 0, 1, 0);
         }
