@@ -93,6 +93,13 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		return null;
 	}
 
+	protected NBTTagCompound getSpiritTag() {
+		if (this.spiritTag == null) {
+			this.spiritTag = new NBTTagCompound();
+		}
+		return this.spiritTag;
+	}
+
 	public boolean isClosed() {
 		return getState() == State.CLOSED;
 	}
@@ -160,7 +167,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	public boolean hasSpirit() {
-		return spiritTag != null && !spiritTag.hasNoTags();
+		return !getSpiritTag().hasNoTags();
 	}
 
 	private void releaseSpirit() {
@@ -182,7 +189,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	private VengeanceSpirit createNewVengeanceSpirit() {
 		Random rand = worldObj.rand;
 
-		VengeanceSpirit spirit = VengeanceSpirit.fromNBT(getWorld(), spiritTag);
+		VengeanceSpirit spirit = VengeanceSpirit.fromNBT(getWorld(), getSpiritTag());
 		spirit.setPosition(getPos().getX() + rand.nextDouble(), getPos().getY() + rand.nextDouble(),
 				getPos().getZ() + rand.nextDouble());
 		spirit.setFrozenDuration(0);
@@ -230,7 +237,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private void setSpirit(VengeanceSpirit spirit) {
-		spirit.getData().writeNBT(spiritTag);
+		spirit.getData().writeNBT(getSpiritTag());
 	}
 
     @Override
@@ -413,7 +420,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	private VengeanceSpiritData loadSpiritDataLazy() {
 		if (spiritData == null) {
-			spiritData = VengeanceSpiritData.fromNBT(spiritTag);
+			spiritData = VengeanceSpiritData.fromNBT(getSpiritTag());
 		}
 		return spiritData;
 	}
