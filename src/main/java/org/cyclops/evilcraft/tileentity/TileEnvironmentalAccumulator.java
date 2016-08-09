@@ -115,7 +115,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
         if (getWorld() == null) {
             return Triple.of(0F, 0F, 0F);
         }
-        Biome biome = getWorld().getBiomeGenForCoords(getPos());
+        Biome biome = getWorld().getBiome(getPos());
         return Helpers.intToRGB(biome.getFoliageColorAtPos(getPos()));
     }
 	

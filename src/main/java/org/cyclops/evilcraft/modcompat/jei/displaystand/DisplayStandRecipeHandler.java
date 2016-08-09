@@ -27,6 +27,12 @@ public class DisplayStandRecipeHandler implements IRecipeHandler<DisplayStandRec
 
     @Nonnull
     @Override
+    public String getRecipeCategoryUid(@Nonnull DisplayStandRecipe recipe) {
+        return getRecipeCategoryUid();
+    }
+
+    @Nonnull
+    @Override
     public IRecipeWrapper getRecipeWrapper(@Nonnull DisplayStandRecipe recipe) {
         return new DisplayStandRecipeJEI(recipe);
     }

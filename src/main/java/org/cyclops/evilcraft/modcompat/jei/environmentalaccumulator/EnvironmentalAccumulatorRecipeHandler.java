@@ -28,6 +28,12 @@ public class EnvironmentalAccumulatorRecipeHandler implements IRecipeHandler<Env
 
     @Nonnull
     @Override
+    public String getRecipeCategoryUid(@Nonnull EnvironmentalAccumulatorRecipeJEI recipe) {
+        return getRecipeCategoryUid();
+    }
+
+    @Nonnull
+    @Override
     public IRecipeWrapper getRecipeWrapper(@Nonnull EnvironmentalAccumulatorRecipeJEI recipe) {
         return recipe;
     }

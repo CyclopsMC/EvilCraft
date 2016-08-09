@@ -57,7 +57,7 @@ public class BiomeDegradation extends ConfigurableDegradationEffect implements I
 
     @Override
     public boolean isDone(World world, BlockPos location) {
-        return world.getBiomeGenForCoords(location).getClass().equals(BIOME_CLASS);
+        return world.getBiome(location).getClass().equals(BIOME_CLASS);
     }
 
     @Override

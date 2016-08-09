@@ -76,7 +76,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
             OrganicSpread spread = new OrganicSpread(worldObj, 2, 5, new OrganicSpread.IOrganicSpreadable() {
                 @Override
                 public boolean isDone(World world, BlockPos location) {
-                    return world.getBiomeGenForCoords(location) == biome;
+                    return world.getBiome(location) == biome;
                 }
 
                 @Override

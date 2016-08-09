@@ -47,7 +47,7 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     public void updateTick(World world, BlockPos blockPos, IBlockState blockState, Random random) {
         if(random.nextInt(CHANCE_HARDEN) == 0 &&
                 isSourceBlock(world, blockPos) &&
-                (!(world.isRaining() && ObfuscationHelpers.isRainingEnabled(world.getBiomeGenForCoords(blockPos)))
+                (!(world.isRaining() && ObfuscationHelpers.isRainingEnabled(world.getBiome(blockPos)))
                         || !world.canBlockSeeSky(blockPos))
                 && !isWaterInArea(world, blockPos)) {
             world.setBlockState(blockPos, HardenedBlood.getInstance().getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);

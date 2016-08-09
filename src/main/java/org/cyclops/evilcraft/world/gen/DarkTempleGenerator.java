@@ -52,7 +52,7 @@ public class DarkTempleGenerator implements IWorldGenerator {
 	}
 
 	protected static boolean appliesAt(World world, int chunkX, int chunkZ) {
-		if(world.getBiomeGenForCoords(new BlockPos(chunkX * WorldHelpers.CHUNK_SIZE, 0, chunkZ * WorldHelpers.CHUNK_SIZE))
+		if(world.getBiome(new BlockPos(chunkX * WorldHelpers.CHUNK_SIZE, 0, chunkZ * WorldHelpers.CHUNK_SIZE))
 				.getTempCategory() == Biome.TempCategory.OCEAN) {
 			return false;
 		}

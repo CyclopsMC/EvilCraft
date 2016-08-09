@@ -280,7 +280,7 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                             @Override
                             public ItemStack getResult(IBlockAccess world, BlockPos pos, ItemStack originalResult) {
                                 World worldSafe = (World) world;
-                                Biome biome = worldSafe.getBiomeGenForCoords(pos);
+                                Biome biome = worldSafe.getBiome(pos);
                                 if(BiomeExtractConfig._instance.isCraftingBlacklisted(Biome.getIdForBiome(biome))) {
                                     return BiomeExtract.getInstance().createItemStack(null, 1);
                                 } else {

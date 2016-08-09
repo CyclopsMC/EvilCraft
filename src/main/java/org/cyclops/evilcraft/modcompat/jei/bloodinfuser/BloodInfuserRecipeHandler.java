@@ -28,6 +28,12 @@ public class BloodInfuserRecipeHandler implements IRecipeHandler<BloodInfuserRec
 
     @Nonnull
     @Override
+    public String getRecipeCategoryUid(@Nonnull BloodInfuserRecipeJEI recipe) {
+        return getRecipeCategoryUid();
+    }
+
+    @Nonnull
+    @Override
     public IRecipeWrapper getRecipeWrapper(@Nonnull BloodInfuserRecipeJEI recipe) {
         return recipe;
     }

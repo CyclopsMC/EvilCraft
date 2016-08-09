@@ -28,6 +28,12 @@ public class SanguinaryEnvironmentalAccumulatorRecipeHandler implements IRecipeH
 
     @Nonnull
     @Override
+    public String getRecipeCategoryUid(@Nonnull SanguinaryEnvironmentalAccumulatorRecipeJEI recipe) {
+        return getRecipeCategoryUid();
+    }
+
+    @Nonnull
+    @Override
     public IRecipeWrapper getRecipeWrapper(@Nonnull SanguinaryEnvironmentalAccumulatorRecipeJEI recipe) {
         return recipe;
     }
