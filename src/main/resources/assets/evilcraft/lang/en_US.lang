@@ -253,9 +253,13 @@ entity.evilcraft.broomEntity.name=Broom
 
 # Enchantments
 enchantment.evilcraft.breaking=Breaking
+description.enchantment.poisonTip.breaking=Your tools break faster
 enchantment.evilcraft.lifeStealing=Life Stealing
+description.enchantment.poisonTip.lifeStealing=Steal health from attacked mobs
 enchantment.evilcraft.unusing=Unusing
+description.enchantment.enchantments.unusing=Tools become unusable when having one durability left
 enchantment.evilcraft.poisonTip=Poison Tip
+description.enchantment.poisonTip.unusing=Damaged mobs get poisoned
 
 # Chat messages
 chat.evilcraft.command.fartingEnabled=Farting enabled
