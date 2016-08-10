@@ -111,6 +111,16 @@ public class WorldSharedTank extends SingleUseTank {
     	return ret;
     }
 
+    @Override
+    public FluidStack drain(FluidStack resource, boolean doDrain) {
+        readWorldFluid();
+        FluidStack ret = super.drain(resource, doDrain);
+        if(ret != null && doDrain) {
+            writeWorldFluid();
+        }
+        return ret;
+    }
+
     /**
      * Get the tank ID.
      * @return The tank ID.
