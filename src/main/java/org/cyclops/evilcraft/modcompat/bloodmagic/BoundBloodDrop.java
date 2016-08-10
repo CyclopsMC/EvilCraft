@@ -15,6 +15,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -26,6 +27,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
+import org.cyclops.evilcraft.core.fluid.FluidContainerItemWrapperWithSimulation;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.fluid.Blood;
 
@@ -172,6 +174,12 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
     	}
     	FluidStack drainedEssence = new FluidStack(BloodMagicAPI.getLifeEssence(), drainEssence);
     	return BloodFluidConverter.getInstance().convert(drainedEssence);
+    }
+
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+        // This is a hack!
+        return new FluidContainerItemWrapperWithSimulation(this, stack);
     }
 
 }
