@@ -1,0 +1,20 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.7.5 or higher.
+
+Additions:
+Add enchantment descriptions, Closes #449
+
+Changes:
+Update to MC 1.10.2, Closes #455
+
+Fixes:
+Fix Chalice blood duplication with pipes, Closes #444
+Fix blood infuser voiding the bound blood drop, Closes #448
+Fix necromancer staff entities not attacking, Closes #454
+Fix broom not consuming blood, Closes #456
+Fix nullable spiritTag crash in boxes, Closes #447
+Fix mob kills by arrow not making spirits visible when having a vengeance ring, Closes #453
+Fix purifier production of potion bottles being invalid, Closes #445
+Fix rendering of bottles in purifier, Closes #450
+Fix spirit reanimator producing blank spawn eggs, Closes #441
+Fix rare NPE when placing BOEC, Closes #440
