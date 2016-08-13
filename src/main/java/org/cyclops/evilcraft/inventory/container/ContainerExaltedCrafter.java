@@ -248,15 +248,20 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         List<Slot> craftingInSlots = Lists.newLinkedList();
         List<Slot> craftingOutSlots = Lists.newLinkedList();
         List<Slot> craftingChest = Lists.newLinkedList();
+        List<Slot> playerInventory = Lists.newArrayList();
         for(int i = 0; i < 9; i++) {
             craftingInSlots.add(this.getSlot(i));
         }
         for(int i = 10; i < 10 + CHEST_INVENTORY_ROWS * CHEST_INVENTORY_COLUMNS; i++) {
             craftingChest.add(this.getSlot(i));
         }
+        for(int i = 10 + CHEST_INVENTORY_ROWS * CHEST_INVENTORY_COLUMNS; i < 10 + CHEST_INVENTORY_ROWS * CHEST_INVENTORY_COLUMNS + 4 * 9; i++) {
+            playerInventory.add(this.getSlot(i));
+        }
         selection.put(ContainerSection.CRAFTING_IN_PERSISTENT, craftingInSlots);
         selection.put(ContainerSection.CRAFTING_OUT, craftingOutSlots);
         selection.put(ContainerSection.CHEST, craftingChest);
+        selection.put(ContainerSection.INVENTORY, playerInventory);
         return selection;
 
     }
