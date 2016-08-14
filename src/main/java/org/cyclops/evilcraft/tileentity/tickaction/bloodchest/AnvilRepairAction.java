@@ -20,7 +20,7 @@ public class AnvilRepairAction implements IBloodChestRepairAction {
 
     @Override
     public boolean canRepair(ItemStack itemStack, int tick) {
-        return itemStack.getItemDamage() > 0;
+        return isItemValidForSlot(itemStack) && itemStack.getItemDamage() > 0;
     }
 
     @Override
