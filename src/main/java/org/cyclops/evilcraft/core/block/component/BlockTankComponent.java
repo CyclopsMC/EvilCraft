@@ -68,7 +68,7 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 	                    }
                 	}
                     return true;
-                } else if(!tank.isEmpty()
+                } else if(player.isSneaking() && !tank.isEmpty()
                         && FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false) != null) { // Drain the tank.
 					if(!world.isRemote) {
 						ItemStack filledItem = FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
