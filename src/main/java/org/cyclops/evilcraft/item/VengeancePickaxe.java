@@ -27,7 +27,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
 	/**
 	 * The fortune level of this pickaxe.
 	 */
-	public static final int FORTUNE_LEVEL = 10;
+	public static final int FORTUNE_LEVEL = 5;
     
     private static VengeancePickaxe _instance = null;
     
