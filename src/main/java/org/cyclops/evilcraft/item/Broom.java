@@ -18,6 +18,7 @@ import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,10 +26,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
+import org.cyclops.cyclopscore.helper.*;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
@@ -104,16 +102,19 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
     @Override
     public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
     	if (!world.isRemote && player.isSneaking()) {
-            EntityBroom entityBroom = new EntityBroom(world, blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
-            entityBroom.setBroomStack(stack);
-            entityBroom.rotationYaw = player.rotationYaw;
-    		world.spawnEntityInWorld(entityBroom);
-    		
-    		// We don't consume the broom when in creative mode
-    		if (!player.capabilities.isCreativeMode)
-    		    stack.stackSize--;
-    		
-    		return EnumActionResult.SUCCESS;
+            if (TileHelpers.getCapability(world, blockPos, side, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) == null
+                    && world.isAirBlock(blockPos.add(0, Y_SPAWN_OFFSET, 0))) {
+                EntityBroom entityBroom = new EntityBroom(world, blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
+                entityBroom.setBroomStack(stack);
+                entityBroom.rotationYaw = player.rotationYaw;
+                world.spawnEntityInWorld(entityBroom);
+
+                // We don't consume the broom when in creative mode
+                if (!player.capabilities.isCreativeMode)
+                    stack.stackSize--;
+
+                return EnumActionResult.SUCCESS;
+            }
     	}
     	
     	return EnumActionResult.PASS;
