@@ -1,21 +1,22 @@
 package org.cyclops.evilcraft.item;
 
+import com.google.common.collect.Maps;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableItemPickaxe;
+import org.cyclops.evilcraft.enchantment.EnchantmentVengeance;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * A strong pickaxe that may call up spirits.
@@ -28,6 +29,10 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
 	 * The fortune level of this pickaxe.
 	 */
 	public static final int FORTUNE_LEVEL = 5;
+    /**
+     * The vengeance level of this pickaxe.
+     */
+    public static final int VENGEANCE_LEVEL = 3;
     
     private static VengeancePickaxe _instance = null;
     
@@ -51,22 +56,6 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
         return true;
     }
     
-    @Override
-	public boolean onBlockDestroyed(ItemStack itemStack, World world, IBlockState blockState, BlockPos blockPos, EntityLivingBase entity) {
-        if(!world.isRemote) {
-    	boolean result = super.onBlockDestroyed(itemStack, world, blockState, blockPos, entity);
-        if(result) {
-            int chance = VengeancePickaxeConfig.vengeanceChance;
-        	if(chance > 0 && world.rand.nextInt(chance) == 0) {
-        		int area = VengeancePickaxeConfig.areaOfEffect;
-        		VengeanceRing.toggleVengeanceArea(world, entity, area, true, true, true);
-        	}
-        }
-        return result;
-        }
-        return super.onBlockDestroyed(itemStack, world, blockState, blockPos, entity);
-    }
-    
     /**
      * Get the crafting result of this pickaxe.
      * It has fortune X by default.
@@ -74,7 +63,10 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
      */
     public static ItemStack createCraftingResult() {
     	ItemStack pickaxe = new ItemStack(VengeancePickaxe.getInstance());
-        EnchantmentHelpers.setEnchantmentLevel(pickaxe, Enchantments.FORTUNE, FORTUNE_LEVEL);
+        Map<Enchantment, Integer> enchantments = Maps.newHashMap();
+        enchantments.put(Enchantments.FORTUNE, FORTUNE_LEVEL);
+        enchantments.put(EnchantmentVengeance.getInstance(), VENGEANCE_LEVEL);
+        EnchantmentHelper.setEnchantments(enchantments, pickaxe);
         return pickaxe;
     }
     

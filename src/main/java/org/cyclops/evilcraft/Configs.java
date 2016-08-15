@@ -8,10 +8,7 @@ import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.block.*;
 import org.cyclops.evilcraft.core.degradation.effect.*;
-import org.cyclops.evilcraft.enchantment.EnchantmentBreakingConfig;
-import org.cyclops.evilcraft.enchantment.EnchantmentLifeStealingConfig;
-import org.cyclops.evilcraft.enchantment.EnchantmentPoisonTipConfig;
-import org.cyclops.evilcraft.enchantment.EnchantmentUnusingConfig;
+import org.cyclops.evilcraft.enchantment.*;
 import org.cyclops.evilcraft.entity.block.EntityLightningBombPrimedConfig;
 import org.cyclops.evilcraft.entity.effect.EntityAntiVengeanceBeamConfig;
 import org.cyclops.evilcraft.entity.effect.EntityAttackVengeanceBeamConfig;
@@ -176,6 +173,7 @@ public class Configs {
         configs.add(new EnchantmentBreakingConfig());
         configs.add(new EnchantmentLifeStealingConfig());
         configs.add(new EnchantmentPoisonTipConfig());
+        configs.add(new EnchantmentVengeanceConfig());
         
         // Biomes
         configs.add(new BiomeDegradedConfig());

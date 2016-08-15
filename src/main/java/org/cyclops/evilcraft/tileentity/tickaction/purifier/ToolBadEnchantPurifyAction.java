@@ -31,7 +31,9 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
         if(tile.getPurifyItem() != null && tile.getBucketsFloored() > 0) {
             for(ConfigurableEnchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
                 int enchantmentListID = EnchantmentHelpers.doesEnchantApply(tile.getPurifyItem(), enchant);
-                return enchantmentListID >= 0;
+                if (enchantmentListID >= 0) {
+                    return true;
+                }
             }
         }
         return false;

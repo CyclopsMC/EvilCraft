@@ -38,6 +38,7 @@ public class Reference {
     public static final int ENCHANTMENT_LIFESTEALING = 102;
     public static final int ENCHANTMENT_UNUSING = 103;
     public static final int ENCHANTMENT_POISON_TIP = 104;
+    public static final int ENCHANTMENT_VENGEANCE = 105;
 
     // Potion effect ID's
     public static final int POTION_PALING = 121;

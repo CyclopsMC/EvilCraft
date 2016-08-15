@@ -253,13 +253,15 @@ entity.evilcraft.broomEntity.name=Broom
 
 # Enchantments
 enchantment.evilcraft.breaking=Breaking
-description.enchantment.poisonTip.breaking=Your tools break faster
+description.enchantment.enchantments.breaking=Your tools break faster
 enchantment.evilcraft.lifeStealing=Life Stealing
-description.enchantment.poisonTip.lifeStealing=Steal health from attacked mobs
+description.enchantment.enchantments.lifeStealing=Steal health from attacked mobs
 enchantment.evilcraft.unusing=Unusing
 description.enchantment.enchantments.unusing=Tools become unusable when having one durability left
 enchantment.evilcraft.poisonTip=Poison Tip
-description.enchantment.poisonTip.unusing=Damaged mobs get poisoned
+description.enchantment.enchantments.poisonTip=Damaged mobs get poisoned
+enchantment.evilcraft.vengeance=Vengeance
+description.enchantment.enchantments.vengeance=Using a tool will spawn Vengeance Spirits
 
 # Chat messages
 chat.evilcraft.command.fartingEnabled=Farting enabled
@@ -470,6 +472,7 @@ infoBook.evilcraft.firstAge.relics.enchantments.breaking.text=&l&nBreaking&r&NTh
 infoBook.evilcraft.firstAge.relics.enchantments.lifeStealing.text=&l&nLife Stealing&r&NThe three stages of this enchant on offensive weapons allows you to steal parts of the life you take from others.
 infoBook.evilcraft.firstAge.relics.enchantments.poisonTip.text=&l&nPoison Tip&r&NWhen applying some poison to your weapons, you have a chance of poisoning your victims.This enchantment exists in three stages. It looks like you can make a basic version of this enchantment by adding a poisonous material to a regular book.
 infoBook.evilcraft.firstAge.relics.enchantments.unusing.text=&l&nUnusing&r&NI was getting tired of my favorite tools breaking everytime I wasn’t paying attention to them. This I why I devised a new enchantment that makes tools unusable when they are about to break, giving myself enough time to repair it to its former glory.
+infoBook.evilcraft.firstAge.relics.enchantments.vengeance.text=&l&nVengeance&r&NTools with this enchanment will spawn Vengeance Spirits when used.
 
 # - Items -
 infoBook.evilcraft.firstAge.items=Items
