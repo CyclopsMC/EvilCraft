@@ -1,0 +1,746 @@
+# General
+itemGroup.evilcraft=EvilCraft
+general.evilcraft.info.empty=空
+
+# Blocks
+tile.blocks.evilcraft.innerBlock.info=ブロック： %s
+tile.blocks.evilcraft.blockBlood.name=血液
+tile.blocks.evilcraft.blockPoison.name=毒液
+tile.blocks.evilcraft.bloodChest.name=血のチェスト
+tile.blocks.evilcraft.bloodChest.info=アイテムを修復します。
+tile.blocks.evilcraft.bloodInfuser.name=血液注入器
+tile.blocks.evilcraft.darkOre.name=闇鉱石
+tile.blocks.evilcraft.darkOre.info.custom=深さ%s から %sまでの間で見つけることができる。
+tile.blocks.evilcraft.darkBlock.name=ダークブロック
+tile.blocks.evilcraft.bloodStainedBlock.name=血痕ブロック
+tile.blocks.evilcraft.bloodStainedBlock.info=生物が落下死した際に生成されたもの。
+tile.blocks.evilcraft.lightningBomb.name=ライトニングボム
+tile.blocks.evilcraft.bloodyCobblestone.name=血塗れの丸石
+tile.blocks.evilcraft.netherMonsterBlock.name=ネザーフィッシュ入りのブロック
+tile.blocks.evilcraft.excrementPile.name=排泄物
+tile.blocks.evilcraft.excrementPile.info=動物の下に生成されます。
+tile.blocks.evilcraft.hardenedBlood.name=凝固した血液
+tile.blocks.evilcraft.hardenedBlood.info=乾燥した血液。雨や破壊することで液状に戻る。
+tile.blocks.evilcraft.obscuredGlass.name=曇りガラス
+tile.blocks.evilcraft.environmentalAccumulator.name=環境アキュムレーター
+tile.blocks.evilcraft.environmentalAccumulator.info=闇の寺院で見つけたもので、作成不可。
+tile.blocks.evilcraft.undeadLeaves.name=不死の葉
+tile.blocks.evilcraft.undeadLog.name=不死の原木
+tile.blocks.evilcraft.undeadSapling.name=不死の苗木
+tile.blocks.evilcraft.undeadSapling.info=不死の木が育つ
+tile.blocks.evilcraft.undeadPlank.name=不死の木材
+tile.blocks.evilcraft.invisibleRedstoneBlock.name=不可視のレッドストーンブロック
+tile.blocks.evilcraft.purifier.name=浄化器
+tile.blocks.evilcraft.purifier.info=エンチャント除去装置
+tile.blocks.evilcraft.darkBrick.name=ダークレンガ
+tile.blocks.evilcraft.darkBloodBrick.name=血塗れのダークレンガ
+tile.blocks.evilcraft.spiritFurnace.name=亡霊のかまど
+tile.blocks.evilcraft.spiritFurnace.info=復讐の亡霊を調理して生成物を取り出す。
+tile.blocks.evilcraft.spiritFurnace.help.invalid=調理不可
+tile.blocks.evilcraft.spiritFurnace.help.invalid.noEntity=空であるか箱がありません
+tile.blocks.evilcraft.spiritFurnace.help.invalid.contentSize=容器サイズ： %s
+tile.blocks.evilcraft.spiritFurnace.help.invalid.requiredSize=要求サイズ： %s
+tile.blocks.evilcraft.spiritFurnace.help.invalid.forceHalt=ドロップ品用のスペースがありません
+tile.blocks.evilcraft.spiritFurnace.help.invalid.caughtError=無効なMOBの亡霊です。MOD開発者に連絡を試みてください。
+tile.blocks.evilcraft.boxOfEternalClosure.name=開かずの箱
+tile.blocks.evilcraft.boxOfEternalClosure.info.content=内容物： %s
+tile.blocks.evilcraft.darkTank.name=ダークタンク
+tile.blocks.evilcraft.darkTank.info=他のタンクとともに作業台に載せることで容量増加ができる。Shift+右クリックで自動供給を有効にする。
+tile.blocks.evilcraft.darkTank.info.autoSupply=自動供給： %s
+tile.blocks.evilcraft.sanguinaryPedestal.name=血塗れのペデスタル
+tile.blocks.evilcraft.sanguinaryPedestal.info=周囲のブロックに付着している血痕を吸収する。
+tile.blocks.evilcraft.sanguinaryPedestal.boost=効率強化 I
+tile.blocks.evilcraft.spikedPlate.name=スパイク付き板
+tile.blocks.evilcraft.spikedPlate.info=上に乗った生物がダメージを受け、ペデスタルの上に設置すると血を供給する。
+tile.blocks.evilcraft.spiritReanimator.name=亡霊蘇生機
+tile.blocks.evilcraft.spiritReanimator.info=復讐の亡霊を蘇生する。
+tile.blocks.evilcraft.spiritReanimator.help.invalid=蘇生不能
+tile.blocks.evilcraft.spiritReanimator.help.invalid.noEntity=空であるか箱がないため無効です
+tile.blocks.evilcraft.spiritReanimator.help.invalid.invalidEntity=MOBに対応したスポーンエッグがありません
+tile.blocks.evilcraft.spiritReanimator.help.invalid.differentEgg=スポーンエッグを取り除く必要があります
+tile.blocks.evilcraft.entangledChalice.name=謀略の杯
+tile.blocks.evilcraft.entangledChalice.info=謀略の杯は普遍的に存在する。\nShift + 右クリックで全体供給を有効にする。
+tile.blocks.evilcraft.entangledChalice.info.autoSupply=全体供給： %s
+tile.blocks.evilcraft.darkPowerGemBlock.name=強化ダークジェムブロック
+tile.blocks.evilcraft.gemStoneTorch.name=ジェムストーンの松明
+tile.blocks.evilcraft.gemStoneTorch.info=半径15ブロック内での復讐の亡霊の出現を妨害する。
+tile.blocks.evilcraft.eternalWaterBlock.name=永久水源ブロック
+tile.blocks.evilcraft.eternalWaterBlock.info=無限の水源。
+tile.blocks.evilcraft.bloodWaxedCoalBlock.name=血を塗った石炭ブロック
+tile.blocks.evilcraft.spiritPortal.name=亡霊ポータル
+tile.blocks.evilcraft.reinforcedUndeadPlank.name=強化した不死の木材
+tile.blocks.evilcraft.colossalBloodChest.name=巨大な血のチェスト
+tile.blocks.evilcraft.colossalBloodChest.info=工業用サイズの血のチェスト
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.name=血塗れの環境アキュムレーター
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.info=作成可能な環境アキュムレーター
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.help.invalid=動作不可
+tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.help.invalid.invalidLocations=血液タンクが以下の場所に必要：
+tile.blocks.evilcraft.displayStand.name=展示スタンド
+
+# Items
+item.items.evilcraft.werewolfBone.name=ウェアウルフの骨
+item.items.evilcraft.werewolfFlesh.name=ウェアウルフの肉
+item.items.evilcraft.humanFlesh.name=ヒューマノイドの肉
+item.items.evilcraft.lightningGrenade.name=ライトニンググレネード
+item.items.evilcraft.redstoneGrenade.name=レッドストーングレネード
+item.items.evilcraft.bucketBlood.name=血液入りバケツ
+item.items.evilcraft.bucketPoison.name=毒液入りバケツ
+item.items.evilcraft.bloodExtractor.name=血液抽出器
+item.items.evilcraft.bloodExtractor.info=インベントリに入れておくと生物を倒した時に採取する。\nShift + 右クリックにより自動供給がオンになる。
+item.items.evilcraft.bloodExtractor.info.autoSupply=自動供給： %s
+item.items.evilcraft.darkGem.name=ダークジェム
+item.items.evilcraft.darkStick.name=闇の棒
+item.items.evilcraft.weatherContainer.name=天候コンテナ
+item.items.evilcraft.bloodPearlOfTeleportation.name=テレポートのブラッドパール
+item.items.evilcraft.broom.name=ほうき
+item.items.evilcraft.broom.info=アイキャンフライ！
+item.items.evilcraft.hardenedBloodShard.name=凝固した血液の欠片
+item.items.evilcraft.hardenedBloodShard.info=凝固した血液に火打石と打ち金を用いることで得られる欠片。
+item.items.evilcraft.bloodInfusionCore.name=血液注入コア
+item.items.evilcraft.darkPowerGem.name=強化ダークジェム
+item.items.evilcraft.darkPowerGem.info=最低5ブロック分の凝固していない血液の池にダークジェムを投げ入れると生成される。ダークジェムに血液を注入することでも可。
+item.items.evilcraft.bloodContainer.bloodCell.name=血液セル
+item.items.evilcraft.bloodContainer.bloodCan.name=血液缶
+item.items.evilcraft.bloodContainer.bloodBasin.name=血液鉢
+item.items.evilcraft.bloodContainer.creativeBloodContainer.name=クリエイティブの血の容器
+item.items.evilcraft.bloodContainer.info=非推奨！作業台に載せてダークタンクに変換してください。
+item.items.evilcraft.bloodContainer.info.autoSupply=自動供給： %s
+item.items.evilcraft.poisonSac.name=毒嚢
+item.items.evilcraft.werewolfFur.name=ウェアウルフの毛皮
+item.items.evilcraft.blook.name=血本
+item.items.evilcraft.blook.info=浄化器に入れるとエンチャント効果を吸収する。
+item.items.evilcraft.potentiaSphere.name=ポテンシア球
+item.items.evilcraft.potentiaSphere.info=血液を注入するとエンダーパールになる。
+item.items.evilcraft.invertedPotentia.name=逆位ポテンシア
+item.items.evilcraft.invertedPotentia.info=落雷の力を付与したもの。
+item.items.evilcraft.maceOfDistortion.name=歪みのメイス
+item.items.evilcraft.kineticator.name=キネティケイター
+item.items.evilcraft.kineticator.repelling.name=反発キネティケイター
+item.items.evilcraft.kineticator.info=Shift + 右クリックで念動力を発動し続ける。\n右クリックで効果範囲の変更。
+item.items.evilcraft.kineticator.info.attraction=吸引効果： %s
+item.items.evilcraft.kineticator.info.repelling.attraction=反発効果： %s
+item.items.evilcraft.kineticator.info.area=範囲： %s
+item.items.evilcraft.vengeanceRing.name=復讐の指輪
+item.items.evilcraft.vengeanceRing.info=復讐の亡霊を呼び寄せたり召喚したりする。\nShift + 右クリックで常にブーストします。
+item.items.evilcraft.vengeanceRing.info.status=状態： %s
+item.items.evilcraft.vengeanceFocus.name=復讐のフォーカス
+item.items.evilcraft.vengeanceFocus.info=右クリックを押している間、復讐の亡霊を停止させるビームを作動させます。
+item.items.evilcraft.vengeancePickaxe.name=復讐のツルハシ
+item.items.evilcraft.vengeancePickaxe.info=復讐の亡霊が召喚されるだろう。
+item.items.evilcraft.burningGemStone.name=燃え盛るジェムストーン
+item.items.evilcraft.burningGemStone.info=復讐の亡霊からのダメージを受動的に空腹度に変換する。
+item.items.evilcraft.darkGemCrushed.name=砕けたダークジェム
+item.items.evilcraft.veinSword.name=脈動する剣
+item.items.evilcraft.creativeBloodDrop.name=クリエイティブの血の雫
+item.items.evilcraft.creativeBloodDrop.info=クリエイティブモード専用アイテムで、無限の血液を搬入搬出する。
+item.items.evilcraft.creativeBloodDrop.info.autoSupply=自動供給： %s
+item.items.evilcraft.darkSpike.name=スパイク
+item.items.evilcraft.exaltedCrafter.name=高位作業台
+item.items.evilcraft.exaltedCrafter.wood.name=木の高位作業台
+item.items.evilcraft.necromancerStaff.name=ネクロマンサーの杖
+item.items.evilcraft.necromancerStaff.info=ゾンビの群れを召喚する。
+item.items.evilcraft.invigoratingPendant.name=鼓舞のペンダント
+item.items.evilcraft.invigoratingPendant.info=悪いステータス効果を取り除く。
+item.items.evilcraft.boundBloodDrop.name=結合した血の雫
+item.items.evilcraft.boundBloodDrop.info=右クリックであなたのソウルネットワークとリンクします。
+item.items.evilcraft.boundBloodDrop.info.autoSupply=自動供給： %s
+item.items.evilcraft.boundBloodDrop.info.currentOwner=現在の所有者： %s
+item.items.evilcraft.boundBloodDrop.info.currentOwner.none=なし
+item.items.evilcraft.resurgenceEgg.name=復活の卵
+item.items.evilcraft.resurgenceEgg.info.content=内容物： %s
+item.items.evilcraft.corruptedTear.name=堕落の涙
+item.items.evilcraft.promise.name=プロミス
+item.items.evilcraft.promise.useIn=使用可能：
+item.items.evilcraft.promise.tier1.name=補強のプロミス I
+item.items.evilcraft.promise.tier1.info=装置のアップグレード。下位グレードにも使用可。タンク容量2倍。
+item.items.evilcraft.promise.tier2.name=補強のプロミス II
+item.items.evilcraft.promise.tier2.info=装置のアップグレード。下位グレードにも使用可。タンク容量4倍。
+item.items.evilcraft.promise.tier3.name=補強のプロミス III
+item.items.evilcraft.promise.tier3.info=装置のアップグレード。下位グレードにも使用可。タンク容量8倍。
+item.items.evilcraft.promise.speed0.name=速力のプロミス
+item.items.evilcraft.promise.speed0.info=装置の速度2倍
+item.items.evilcraft.promise.efficiency0.name=効率のプロミス
+item.items.evilcraft.promise.efficiency0.info=装置の血液消費効率1.5倍
+item.items.evilcraft.bowlOfPromises.name=プロミス入りボウル
+item.items.evilcraft.bowlOfPromises.active.name=プロミス入りボウル
+item.items.evilcraft.bowlOfPromises.dusted.name=注ぎ込んだプロミスが空のボウル
+item.items.evilcraft.bowlOfPromises.empty.name=プロミスが空のボウル
+item.items.evilcraft.bowlOfPromises.empty.info=作り終えてない。
+item.items.evilcraft.bowlOfPromises.strength=強度
+item.items.evilcraft.dullDust.name=まなくらの粉
+item.items.evilcraft.dullDust.info=本当に無意味な粉...なのか？
+item.items.evilcraft.bloodWaxedCoal.name=血を塗った石炭
+item.items.evilcraft.bloodWaxedCoal.info=石炭の効果が倍になる。
+item.items.evilcraft.enderTear.name=エンダーの涙
+item.items.evilcraft.enderTear.info=エンダーマンからまれにドロップする。
+item.items.evilcraft.bloodPotash.name=血化カリウム
+item.items.evilcraft.bloodPotash.info=骨粉の効果が倍になる。
+item.items.evilcraft.bucketEternalWater.name=永久水源入りバケツ
+item.items.evilcraft.bucketEternalWater.info=無限の水源。
+item.items.evilcraft.promiseAcceptor.name=プロミス受容体
+item.items.evilcraft.promiseAcceptor.0.name=鉄のプロミス受容体
+item.items.evilcraft.promiseAcceptor.1.name=金のプロミス受容体
+item.items.evilcraft.promiseAcceptor.2.name=ダイヤのプロミス受容体
+item.items.evilcraft.sceptreOfThunder.name=雷の王笏
+item.items.evilcraft.sceptreOfThunder.info=有効化すると落雷を呼び寄せる。シングルプレイ専用。
+item.items.evilcraft.bloodOrb.name=血液のオーブ
+item.items.evilcraft.bloodOrb.empty.name=空のオーブ
+item.items.evilcraft.bloodOrb.filled.name=血液のオーブ
+item.items.evilcraft.originsOfDarkness.name=暗黒の根源
+item.items.evilcraft.originsOfDarkness.info=闇のリンゴをMOBに与えたことによって生じた異常に向かって素早く本を投げつけると入手できる。
+item.items.evilcraft.darkenedApple.name=闇のリンゴ
+item.items.evilcraft.darkenedApple.info=食べることはないだろう。恐らく動物に与えることになる。
+item.items.evilcraft.veinedScribingTools.name=脈動する筆記具
+item.items.evilcraft.bloodWandCap.name=血の石突
+item.Wand.blood.cap=血留めの
+item.items.evilcraft.effortlessRing.name=利便の指輪
+item.items.evilcraft.effortlessRing.info=より早く効率的に歩くことができる。
+item.items.evilcraft.condensedBlood.name=濃縮血液
+item.items.evilcraft.condensedBlood.info=任意の設備に追加の血液を搬入します。
+item.items.evilcraft.rejuvenatedFlesh.name=若返りの肉
+item.items.evilcraft.rejuvenatedFlesh.info=無限の食料
+item.items.evilcraft.primedPendant.name=良質のペンダント
+item.items.evilcraft.primedPendant.info=選択したポーション効果を適用する。
+item.items.evilcraft.primedPendant.potion=§7効果： %s (%s)
+item.items.evilcraft.goldenString.name=金糸
+item.items.evilcraft.biomeExtract.name=抽出バイオーム
+item.items.evilcraft.biomeExtract.empty.name=バイオーム抽出瓶
+item.items.evilcraft.biomeExtract.info=選択したエリアを希望のバイオームに変換します。環境アキュムレーターによって希望するバイオームを設定します。
+item.items.evilcraft.biomeExtract.info.content=内容物： %s
+item.items.evilcraft.environmentalAccumulationCore.name=環境アキュムレーター・コア
+item.items.evilcraft.environmentalAccumulationCore.info=通常の環境アキュムレーターを破壊して得たもの。
+item.items.evilcraft.maceOfDestruction.name=破壊のメイス
+item.items.evilcraft.garmonbozia.name=ガルモンボジーア
+item.items.evilcraft.garmonbozia.info="痛みと悲しみ"
+item.items.evilcraft.poisonBottle.name=毒入り瓶
+item.items.evilcraft.vengeanceEssence.name=復讐のエッセンス
+item.items.evilcraft.vengeanceEssence.info=復讐の亡霊を倒した時にドロップする
+item.items.evilcraft.vengeanceEssence.materialized.name=物質化した復讐のエッセンス
+item.items.evilcraft.piercingVengeanceFocus.name=復讐の穿孔フォーカス
+item.items.evilcraft.piercingVengeanceFocus.info=右クリックを押している間、復讐の亡霊を殺傷させるビームを作動させます。
+item.items.evilcraft.spikeyClaws.name=鉤爪
+item.items.evilcraft.spikeyClaws.info=柔らかいものに対して効果的
+item.items.evilcraft.spectralGlasses.name=亡霊の眼鏡
+item.items.evilcraft.spectralGlasses.info=霊的世界を覗きこむ
+
+item.evilcraft.powerable.setPower=パワーを%sに設定しました
+item.evilcraft.powerable.info.power=パワー： %s
+item.evilcraft.powerable.info=Shift+右クリックでパワーレベル変更する。
+
+# Fluids
+fluid.fluids.evilcraft.evilcraftblood=血液
+fluid.fluids.evilcraft.evilcraftpoison=毒液
+
+# Weather container info
+weatherContainer.evilcraft.empty=空
+weatherContainer.evilcraft.clear=私だけの太陽
+weatherContainer.evilcraft.rain=降り始めた雨
+weatherContainer.evilcraft.lightning=雷に打たれる
+
+# Controls
+key.categories.evilcraft=EvilCraft
+key.evilcraft.fart=オナラの有効化
+key.evilcraft.exaltedCrafting=高位作業台を開く
+
+# Entities
+entity.evilcraft.werewolf.name=ウェアウルフ
+entity.evilcraft.poisonousLibelle.name=毒性リベレ
+entity.evilcraft.netherfish.name=ネザーフィッシュ
+entity.vengeanceSpirit.name=復讐の亡霊
+entity.evilcraft.vengeanceSpirit.name=復讐の亡霊
+entity.evilcraft.controlledZombie.name=制御されたゾンビ
+entity.evilcraft.broomEntity.name=ほうき
+
+# Enchantments
+enchantment.evilcraft.breaking=破損
+description.enchantment.enchantments.breaking=道具が壊れやすくなる
+enchantment.evilcraft.lifeStealing=ライフスティール
+description.enchantment.enchantments.lifeStealing=攻撃したMODから生命力を吸い取る
+enchantment.evilcraft.unusing=不使用
+description.enchantment.enchantments.unusing=耐久度が1になったとき使用できなくなる
+enchantment.evilcraft.poisonTip=毒撃
+description.enchantment.enchantments.poisonTip=MOBに毒を与える
+enchantment.evilcraft.vengeance=報復
+description.enchantment.enchantments.vengeance=ツールを使用すると復讐の亡霊が召喚される
+
+# Chat messages
+chat.evilcraft.command.fartingEnabled=オナラを有効にしました
+chat.evilcraft.command.fartingDisabled=オナラを無効にしました
+chat.evilcraft.bossDisplay.charge=%s チャージ
+
+# Death messages
+death.attack.evilcraft.dieWithoutAnyReason=%1$s は特に理由もなく死んでしまった！
+death.attack.evilcraft.distorted=%1$s は歪みを処理しきれなかった。
+death.attack.evilcraft.spiked=%1$s はスパイクによって殺された。
+death.attack.evilcraft.paling=%1$s は消滅してしまった。
+death.attack.evilcraft.broom=%1$s はほうきに轢かれてしまった。
+death.attack.evilcraft.broom.player=%1$s は %s のほうきに轢かれてしまった。
+death.attack.evilcraft.vengeanceBeam=%1$s は復讐のビームによって蒸発した。
+
+# Biomes
+biomes.evilcraft.biomeDegraded=Degraded
+
+# Potion Effects
+potions.evilcraft.paling=恐慌
+potions.evilcraft.paling.postfix=恐慌のポーション
+potion.potency.2=III
+potion.potency.3=IV
+potion.potency.4=V
+
+# Achievements
+achievement.evilcraft.evilSource=真なる邪悪の根源
+achievement.evilcraft.evilSource.desc=闇のリンゴを食べさせて変質させた動物に、本を投げつけることで暗黒の根源の複製を手に入れる。
+achievement.evilcraft.fart=オナラを習得
+achievement.evilcraft.fart.desc=最後に不快なガスを全て放出させる。
+achievement.evilcraft.firstAge=第一世代
+achievement.evilcraft.firstAge.desc=ダークジェムを採掘することで、闇の第一世代への道を拓く。
+achievement.evilcraft.secondAge=第二世代
+achievement.evilcraft.secondAge.desc=血液抽出器をつくり上げることで闇の第二世代を授かる。
+achievement.evilcraft.masterDistorter=湾曲マスター
+achievement.evilcraft.masterDistorter.desc=歪みのメイスで一度に10体以上のMOBを歪ませる。
+achievement.evilcraft.spiritCooker=MOBの調理人
+achievement.evilcraft.spiritCooker.desc=亡霊のかまどを作る。
+achievement.evilcraft.closure=永久封印
+achievement.evilcraft.closure.desc=復讐の亡霊を捕らえるために復讐のフォーカスを使う。
+achievement.evilcraft.playerDistorter=プレイヤーの湾曲者
+achievement.evilcraft.playerDistorter.desc=歪みのメイスでプレイヤーを歪ませる。
+achievement.evilcraft.playerDevastator=プレイヤーの破壊者
+achievement.evilcraft.playerDevastator.desc=ネクロマンサーの杖で召喚したゾンビを用いてプレイヤーを攻撃する。
+achievement.evilcraft.powerCrafting=高度な作業
+achievement.evilcraft.powerCrafting.desc=高位作業台を作りあげる。技工を磨こう！
+achievement.evilcraft.cannibal=人食い人種
+achievement.evilcraft.cannibal.desc=ヒューマノイドの肉をいくつか食べる。
+
+# Gui
+gui.exaltedCrafting=高位作業台
+gui.waila.tankConfig=タンクの内容物
+gui.waila.innerBlocksConfig=実際の内部ブロック
+gui.waila.boxOfEternalClosureConfig=開かずの箱の内容物
+gui.waila.blockInfoConfig=Sfihtキーでブロックの詳細表示
+gui.waila.broomInfoConfig=ほうきの詳細情報
+gui.nei.fluids=液体
+
+# Broom parts
+broom.evilcraft.shiftinfo=<Shiftキーでほうきの詳細表示>
+broom.parts.evilcraft.shiftinfo=<Shiftキーでほうきパーツの詳細表示>
+broom.parts.evilcraft.rod_bare.name=ただのロッド
+broom.parts.evilcraft.rod_wood.name=木のロッド
+broom.parts.evilcraft.rod_stone.name=石のロッド
+broom.parts.evilcraft.rod_bone.name=骨のロッド
+broom.parts.evilcraft.rod_blaze.name=ブレイズのロッド
+broom.parts.evilcraft.rod_reed.name=葦のロッド
+broom.parts.evilcraft.rod_netherrack.name=ネザーラックのロッド
+broom.parts.evilcraft.rod_obsidian.name=黒曜石のロッド
+broom.parts.evilcraft.rod_undead.name=不死のロッド
+broom.parts.evilcraft.rod_prismarine.name=プリズマリンのロッド
+broom.parts.evilcraft.rod_ice.name=氷のロッド
+broom.parts.evilcraft.rod_sponge.name=スポンジのロッド
+broom.parts.evilcraft.rod_endstone.name=エンドストーンのロッド
+broom.parts.evilcraft.rod_purpur.name=プルプァのロッド
+broom.parts.evilcraft.brush_bare.name=ただのブラシ
+broom.parts.evilcraft.brush_wheat.name=小麦のブラシ
+broom.parts.evilcraft.brush_wool.name=羊毛のブラシ
+broom.parts.evilcraft.brush_feather.name=羽のブラシ
+broom.parts.evilcraft.brush_twig.name=小枝のブラシ
+broom.parts.evilcraft.brush_leaves.name=葉のブラシ
+broom.parts.evilcraft.cap_bare.name=ただのキャップ
+broom.parts.evilcraft.cap_gem_dark.name=ダークジェムのキャップ
+broom.parts.evilcraft.cap_gem_darkPower.name=強化ダークジェムのキャップ
+broom.parts.evilcraft.cap_gem_diamond.name=ダイヤのキャップ
+broom.parts.evilcraft.cap_gem_emerald.name=エメラルドのキャップ
+broom.parts.evilcraft.cap_gem_quartz.name=ネザー水晶のキャップ
+broom.parts.evilcraft.cap_gem_lapis.name=ラピスラズリのキャップ
+broom.parts.evilcraft.cap_head_skeleton.name=スケルトンの頭蓋骨のキャップ
+broom.parts.evilcraft.cap_head_witherskeleton.name=ウィザースケルトンの頭のキャップ
+broom.parts.evilcraft.cap_head_zombie.name=ゾンビの頭のキャップ
+broom.parts.evilcraft.cap_head_player.name=プレイヤーの頭のキャップ
+broom.parts.evilcraft.cap_head_creeper.name=クリーパーの頭のキャップ
+broom.parts.evilcraft.cap_head_wither.name=ウィザーの頭のキャップ
+broom.parts.evilcraft.cap_metal_iron.name=鉄のキャップ
+broom.parts.evilcraft.cap_metal_gold.name=金のキャップ
+broom.parts.evilcraft.cap_metal_thaumium.name=魔導金属のキャップ
+broom.parts.evilcraft.cap_metal_copper.name=銅のキャップ
+broom.parts.evilcraft.cap_metal_silver.name=銀のキャップ
+broom.parts.evilcraft.cap_metal_alubrass.name=アルミニウムのキャップ
+broom.parts.evilcraft.cap_metal_ardite.name=アーダイトのキャップ
+broom.parts.evilcraft.cap_metal_cobalt.name=コバルトのキャップ
+broom.parts.evilcraft.cap_metal_manyullyn.name=マニュリンのキャップ
+broom.parts.evilcraft.cap_slime.name=スライムのキャップ
+
+# Broom part types
+broom.parts.evilcraft.type.name=タイプ： %s
+broom.parts.evilcraft.types.name=パーツ：
+broom.parts.evilcraft.type.rod.name=ロッド
+broom.parts.evilcraft.type.brush.name=ブラシ
+broom.parts.evilcraft.type.cap.name=キャップ
+
+# Broom modifiers
+broom.modifiers.evilcraft.shiftinfo=<Shiftキーでほうきの詳細表示>
+broom.modifiers.evilcraft.type.name=機能拡張
+broom.modifiers.evilcraft.types.name=機能拡張：
+broom.modifiers.evilcraft.types.nameparam=拡張数 (%s/%s):
+broom.modifiers.evilcraft.type.modifier_count.name=最大拡張数
+broom.modifiers.evilcraft.type.speed.name=スピード
+broom.modifiers.evilcraft.type.acceleration.name=加速性能
+broom.modifiers.evilcraft.type.maneuverability.name=操縦性能
+broom.modifiers.evilcraft.type.levitation.name=浮揚力
+broom.modifiers.evilcraft.type.damage.name=衝突ダメージ
+broom.modifiers.evilcraft.type.particles.name=パーティクル
+broom.modifiers.evilcraft.type.flame.name=火炎
+broom.modifiers.evilcraft.type.smash.name=粉砕
+broom.modifiers.evilcraft.type.bouncy.name=弾力性
+broom.modifiers.evilcraft.type.witherer.name=ウィザー使い
+broom.modifiers.evilcraft.type.hungerer.name=腹ペコ
+broom.modifiers.evilcraft.type.kamikaze.name=カミカゼ
+broom.modifiers.evilcraft.type.withershield.name=ウィザーシールド
+broom.modifiers.evilcraft.type.sturdyness.name=堅牢性
+broom.modifiers.evilcraft.type.luck.name=幸運
+broom.modifiers.evilcraft.type.efficiency.name=効率
+broom.modifiers.evilcraft.type.swimming.name=水泳
+broom.modifiers.evilcraft.type.icy.name=氷結
+
+# Subtitles
+subtitles.evilcraft.effect.vengeancebeam.base=復讐のビーム
+subtitles.evilcraft.effect.vengeancebeam.start=復讐のビームを開始
+subtitles.evilcraft.effect.vengeancebeam.stop=復讐のビームを停止
+subtitles.evilcraft.mob.vengeancespirit.ambient=復讐の亡霊が輝く
+subtitles.evilcraft.mob.vengeancespirit.death=復讐の亡霊が死ぬ
+subtitles.evilcraft.effect.box.beam=開かずの箱からの輝き
+subtitles.evilcraft.effect.page.flipsingle=ページをめくる
+subtitles.evilcraft.effect.page.flipmultiple=複数ページをめくる
+
+# ------ Origins of Darkness contents ------
+infoBook.evilcraft.section.main=暗黒の根源
+infoBook.evilcraft.tagIndex=&o索引&r
+
+infoBook.evilcraft.preface=序章
+infoBook.evilcraft.preface.text1=この世には我々が目にしているものより多くのもので満ちている。 私はこの本に、暗がりに潜むものから得た知識を記す事を決意した。 この世の闇にまみれ、そこに潜む者達と共に生きるすべを私は編み出したのだ。 "&o邪悪はどこからやってくるのだろうか&r"私は自問する。 "&o邪悪はどこにでも存在する&r"と、私の中の闇の声が応える。 村人たちやゾンビどものつまらない心情は理解できないが、私はこの広大な世界の秘密をいくつか解明したのである。 
+infoBook.evilcraft.preface.text2=この世には数多の魔術が存在するが、&4血液&0で実践するものは少々特殊なようである。 私は&4血液&0を得るために自らを切りつける人々を知っているが、私は自らの力を雑事の為に浪費したくないのだ...
+
+infoBook.evilcraft.structure=&o構成内容&r
+infoBook.evilcraft.structure.text1=邪悪なものの全てを2つに分類しておきたいため、この本は大きく2パートに大別される。 私がこの世界に到達するまでの考察をまとめた&1第一世代&0、そして私のライフワークを&1第二世代&0とする。 
+infoBook.evilcraft.structure.text2=本の一番下の矢印をクリックすることでページをめくることができ、Shiftクリックすることで章ごとにページをめくることができる。 大きな章の最初には、より高速な閲覧をするために各項目へのハイパーリンクが含まれるコンテンツ一覧が表示される。 レシピに遭遇した時、本の中で説明されているアイテムであればクリックすることで素早い参照が可能だ。 またこの本の左上にボタンがあるのに気づくだろう。 これは１つ前の項目へと戻ることができる。 クリックされるたびにひとつ前に訪れたページへ戻ることができる。 
+
+# --- First Age ---
+infoBook.evilcraft.firstAge=第一世代
+
+# - A Strange New World -
+infoBook.evilcraft.firstAge.newWorld=奇妙な新世界
+infoBook.evilcraft.firstAge.newWorld.introduction=概要
+infoBook.evilcraft.firstAge.newWorld.introduction.text=近頃私はいくつかの奇妙な物体を発見をした。 それらは不気味な雰囲気を発しているのだが、私は長い間それらに囲まれていたため慣れてしまったようだ... これら全てが今すぐ役立つと言う訳ではないが、私はこれらを利用するアイデアをいくつか持っている。 
+
+infoBook.evilcraft.firstAge.newWorld.darkOre=闇鉱石
+infoBook.evilcraft.firstAge.newWorld.darkOre.text=私は長い時間をかけてこの世界に満ちているすべての種類の資源を知り尽くしてきた... しかし今日、新たな発見をした。 しかし今日、私は新たな発見をした。鉱石は黒い輝きを放ってこの世界に存在していた。私はこれが貴重だと思うのだが、とても昏い存在も感じ取れた。 鉄のピッケルで叩くのが、この宝石を取得する最低限の条件だと思われる。 また採掘するときに少々奇妙な粉が出土することがあるのだが、私はこの粉が有用なものであろうことを確信している。 
+
+infoBook.evilcraft.firstAge.newWorld.darkenedApple=闇のリンゴ
+infoBook.evilcraft.firstAge.newWorld.darkenedApple.text=君がこの本を読んでいるならば、既にこのアイテムに遭遇しているかもしれない。 &1リンゴ&0と&1ダークジェム&0を組み合わせて作られた特殊な&1リンゴ&0は、食べることで一定時間の間大ダメージを負わせる。 この効果によって死亡した生物は、いくつかの異常な現象を残していく。 この不可解な現象の活用法を私はまだ見出していない...
+
+infoBook.evilcraft.firstAge.newWorld.evilDungeon=邪悪なモンスターハウス
+infoBook.evilcraft.firstAge.newWorld.evilDungeon.text=洞窟探索をしていると、時折床一面に&4血液&0が広がっている恐ろしい部屋に遭遇する事がある。 この&4血液&0は恐らくモンスターハウスに生息する無数のモンスターと、過去の冒険者達の戦いによるものだろう。
+
+infoBook.evilcraft.firstAge.newWorld.darkTemple=闇の寺院
+infoBook.evilcraft.firstAge.newWorld.darkTemple.text1=この世界には環境のエネルギーをアイテムに注入させる構造物を作り上げた、古代文明があったと確信している。 この工程はしかしながら、工程を行えば行うほど自然の環境バランスを劣化させるように思われる。 これは恐らく、その文明が今日既に失われている主な原因だと思われた...
+infoBook.evilcraft.firstAge.newWorld.darkTemple.text2=&1ダークジェム&0を用いることで、私は環境や天候を封入することができるよう&1ガラス瓶&0を強化することができた。 この&1天候コンテナ&0を寺院でみたようなコアの中に投げ入れることで現在の天候を吸収する。 
+infoBook.evilcraft.firstAge.newWorld.darkTemple.text3=私はまた、一部のアイテムは雷雨の特殊な性質を付与させられることを発見した。 それらアイテムは雷で撃たれた時に付与させることができるのだが、落雷はどこに落ちるか予測できそうにもない...こともないのか？ 
+infoBook.evilcraft.firstAge.newWorld.darkTemple.text4=これらの寺院はある種のエネルギーを発していると思われ、この世界にある新たな寺院を発見する方法を見つけ出せるのではないだろうか？ 
+
+infoBook.evilcraft.firstAge.newWorld.weatherContainerBenefits=天候コンテナの活用法
+infoBook.evilcraft.firstAge.newWorld.weatherContainerBenefits.text=瓶に入った天候を再活性化するには、瓶をどこかに投げつければよい。 しかしそれでは壊れてしまうため、もっと素晴らしいアイテムの素材として用いたほうが面白いだろう。 
+
+infoBook.evilcraft.firstAge.newWorld.biomeExtract=抽出バイオーム
+infoBook.evilcraft.firstAge.newWorld.biomeExtract.text1=我々の世界には数多くの&1バイオーム&0が存在している。残念なことに、少なくとも我々はその場のバイオームを選択したりすることができない。
+infoBook.evilcraft.firstAge.newWorld.biomeExtract.text2=&1環境アキュムレーター&0の機能の一つに、その場の&1バイオーム&0を詰めることができる特殊な&1バイオーム抽出瓶&0を受け付けるというものがある。 この瓶は投げつけることで所定の場所のバイオームを好きな様に変更することができる。
+infoBook.evilcraft.firstAge.newWorld.biomeExtract.text3=&1環境アキュムレーター&0の大きな欠点は、バイオームを時間とともに徐々に劣化させていくという点であり、そこから入手される瓶は総じて役に立たないものとなってしまう。 悪影響が発生せずに&1抽出バイオーム&0を作り出せるような代わりの方法があれば...
+
+infoBook.evilcraft.firstAge.newWorld.libelle=毒性リベレ
+infoBook.evilcraft.firstAge.newWorld.libelle.text=この世界にはまだ未知の生物がいるようだ。 その生物は大きなトンボのような外見をしている。 危険を顧みず不用意にその昆虫に近寄ってしまうと身を守るために毒を吐いてくるが、日中であればその生物は非常に大人しい。 しかし夜になると、古代の邪悪に制御されているかのように凶暴になり、周りのものを手当たり次第殺そうとする。 幸運なことに、毒を吐くことと、夜に活発になること以外に攻撃手段を持っていないようである。 私は何とかこの迷惑なものを多数殺して周り、体を裂いて興味深い毒嚢をいくつか手に入れた。 これを&1水入りバケツ&0に放り込んでみたところ、4つほど投げ入れると毒素をよく吸収するようである。 私は長い間、&l青くなったジャガイモ&rを用いて同様の事を行っていて、それは私の邪悪の隠れ家の非常時の防衛に有用だろう... ううむ、まるで我が家のようだ... この生物の命名にあたっては普通のトンボと混同させないために、オランダ語を用いることにした...
+
+infoBook.evilcraft.firstAge.newWorld.werewolf=ウェアウルフ
+infoBook.evilcraft.firstAge.newWorld.werewolf.text=私は世界を旅する道中で、数多くの村々に立ち寄った。 とある村に立ち寄った時、奇妙な外見の人間がいることに気づいた。 私は彼に話し始めた所、他の住人ほどエメラルドに興味が無いのだろうと感じ取れた。 彼はむしろ私が発見した闇鉱石について、次から次へと質問を始めたのだった。 我々は何時間も語り合うことになった。 彼はそれを手に入れるのに非常に熱心であったため、結局その日は残りの時間を取引に費やして終わってしまった。 夜も更けてきた所、彼は私を村にある自宅に案内し、空いているベッドを使ってもよいと申し出てくれた。 私は既に宿をとっていると断ったのだが、彼の心遣いに感謝したのだった。 宿屋のベッドに潜り込み、眠りにつく前に月に目を向けると、とても綺麗な満月だった。 私が目を閉じたとき、突然苦しそうな叫び声が聞こえ、その後に狼のような唸り声が響き渡った！ 全ての村人たちは窓を覗き込んでいた。 そして私たちは後ろ脚で歩いている背の高い狼を目にしたのだった。 誰もが恐怖におののいていた。 しかし私は恐れや疑いを持たず、懐剣を取り出すと素晴らしい攻撃をお見舞いした。 それは恐ろしく強い生物で、その毛皮は素晴らしい戦いの記念の品となった... 翌朝。前日の取引を終わらせようと思ったのだが、私の奇妙な取引相手の友人は姿を現さなかった。 彼の家の周りは爪痕が多数刻まれており、&4血液&0が床に広がっていた。 奇妙な狼が彼を食べてしまったのか私には判断がつかなかった... それとも彼は村人たちが噂しているように狼人間だったのだろうか... その戦利品は&1作業台&0に載せることで、普通のアイテムに変換できるようである。 
+
+infoBook.evilcraft.firstAge.newWorld.netherFish=ネザーフィッシュ
+infoBook.evilcraft.firstAge.newWorld.netherFish.text=ある時地獄に訪れた際に、通常のものより壊しづらい&1ネザーラック&0を発見した。 しかし壊し終えてみると、小さな生物が飛び出してきて私を攻撃してきた。 それは私に火を点け、そこそこの怪我を負わせたが、幸いなことに大きな事故もなく倒すことができた。
+
+# - Relics -
+infoBook.evilcraft.firstAge.relics=遺物
+
+infoBook.evilcraft.firstAge.relics.humanoidFlesh=ヒューマノイドの肉
+infoBook.evilcraft.firstAge.relics.humanoidFlesh.text=今まで気づかなかったかもしれないが、プレイヤーが死ぬと彼らは肉をドロップするようである。 食べるのは危険が伴うようであり、恐らく夜間に食べたほうがより安全だろう。 自分の肉を食べるのは勧められないため、まさに最低だが友人の肉を食べてみて欲しい！
+
+infoBook.evilcraft.firstAge.relics.enchantments=エンチャント
+infoBook.evilcraft.firstAge.relics.enchantments.breaking.text=&l&n破損&r&Nこのエンチャントは3段階あり、耐久力の逆のような効果である。 役に立ちそうにはなさそうだろう？何とかこれを取り除く方法を見つけたいところである。
+infoBook.evilcraft.firstAge.relics.enchantments.lifeStealing.text=&l&nライフスティール&r&Nこのエンチャントは3段階あり、攻撃用の武器に付与することで他者から生命力を吸い取ることができる。
+infoBook.evilcraft.firstAge.relics.enchantments.poisonTip.text=&l&n毒撃&r&N武器に毒を付与することで、被害者を毒の状態にする。このエンチャントは3段階ある。 普通の本に毒性の物質を付与することで、基本のエンチャント本を作ることができる。
+infoBook.evilcraft.firstAge.relics.enchantments.unusing.text=&l&n不使用&r&N不注意によりお気に入りのツールが壊れてしまった時は、私はいつも嫌な気分になる。 これは私が考案した新しいエンチャント効果で、ツールが壊れる寸前になった時に使用不能になり、過去の栄光を取り戻すために修理の猶予を与えてくれる。
+infoBook.evilcraft.firstAge.relics.enchantments.vengeance.text=&l&n報復&r&Nこのエンチャントが付与されたツールは使用した時に復讐の亡霊が召喚される。
+
+# - Items -
+infoBook.evilcraft.firstAge.items=アイテム
+
+infoBook.evilcraft.firstAge.items.darkTank=ダークタンク
+infoBook.evilcraft.firstAge.items.darkTank.text1=少量の&1鉄&0と&1ダークジェム&0、そして一部に&1ガラス&0を用いることで、液体を格納する強力な容器を作ることができる。 これはどこかに設置しても良いし、インベントリの中入れておいても良い。
+infoBook.evilcraft.firstAge.items.darkTank.text2=どこかに設置した場合、右クリックすることで紫色に発光し、底面に穴が空いたように見える。この時タンクは自動的に下に設置したタンク類や装置へと液体を満たそうとする。
+infoBook.evilcraft.firstAge.items.darkTank.text3=タンクを手に持ってブロックに向けないように（何故ならそうしてしまうとタンクを設置してしまうと知っているはずだ）してShift + 右クリックをした場合、手に持ったコンテナが液体を搬入できるならば何でも自動供給しようとする特殊モードになる。
+infoBook.evilcraft.firstAge.items.darkTank.text4=それはバケツ16杯分だけ入れることができるようである。もし制約を感じるのであれば、作業台にタンクを複数載せることで、中身の液体も保持されたまま容量増加ができるようである。
+
+infoBook.evilcraft.firstAge.items.darkSpike=スパイク
+infoBook.evilcraft.firstAge.items.darkSpike.text=&1ダークジェム&0と一片の&1鉄&0を用いて、とても鋭く耐久性の高い&1スパイク&0を作り上げた。 生物たちはこれが好きではなさそうだ...
+
+infoBook.evilcraft.firstAge.items.spikedPlate=スパイク付き板
+infoBook.evilcraft.firstAge.items.spikedPlate.text1=少量の&1スパイク&0と&1感圧板&0によって出来たものは、上を歩くあらゆる生物にダメージを与えることができるが、私や私の仲間までダメージを受けることはないようだ。 &1ダークジェム&0の力はプレイヤーによって殺された時と同様のものをドロップすることを保証するようだ。
+infoBook.evilcraft.firstAge.items.spikedPlate.text2=参考までに、生物がダメージを受けている際にこれはレッドストーン信号を出すようである。
+
+infoBook.evilcraft.firstAge.items.spikeyClaws=鉤爪
+infoBook.evilcraft.firstAge.items.spikeyClaws.text1=ブロックを壊している時に突然襲ってくるMOBとの戦闘より迷惑なものはない。
+infoBook.evilcraft.firstAge.items.spikeyClaws.text2=&1スパイク&0を組み合わせたものによって、柔らかいものであれば非常に素早く破壊することができる。 同時に、忍び寄ってくるMOBに対しても十分な強さで応戦できるだろう。
+
+infoBook.evilcraft.firstAge.items.potentiaSphere=ポテンシア球
+infoBook.evilcraft.firstAge.items.potentiaSphere.text=ありふれた光るアイテムをいくつか組み合わせることで、素晴らしい力を持つ球体を作り上げた。私は近い将来この力の利用方法を見出すことだろう。 &1ダークジェム&0を少量用いることで、この力は反転することができるようである。
+
+infoBook.evilcraft.firstAge.items.dullDust=なまくらの粉
+infoBook.evilcraft.firstAge.items.dullDust.text=少量の&1砂糖&0と&1火薬&0を調合して作られた奇妙な粉末は、現時点ではとても有用とは思えないため、こう名付けた。 ある日この認識が変わる事もあるかも知れないが。
+
+infoBook.evilcraft.firstAge.items.obscuredGlass=曇りガラス
+infoBook.evilcraft.firstAge.items.obscuredGlass.text=一部の人にとって、普通の&1ガラス&0は眩しいかもしれない。 少量のガラスに&1ダークジェム&0を混ぜて作り上げた特殊なガラスは光量を完璧に減少させることができた。 それでもなおガラスを通して見ることができる。 とても奇妙だ...
+
+infoBook.evilcraft.firstAge.items.exaltedCrafter=高位作業台
+infoBook.evilcraft.firstAge.items.exaltedCrafter.text1=遠隔地での作業台は中々不便である。 &1砕けたダークジェム&0の力があれば、インベントリの中でのクラフトできるようになるようだ！ これに組み込んだ各種チェストが簡易的な内部インベントリとなっており、&1エンダーチェスト&0を組み込んでも動作する。 ホットキーを関連付けることも可能なので、パワーユーザーにとって喜ばしいと思われる。 GUIを開いている時、インベントリの中身を空にするホットキーと同じホットキーとShiftを押すことで、すべてのアイテムをグリッドに並べることができる。 作業台のマス目からShiftクリックで除去したアイテムの返還先は、内部（inner）インベントリにするかプレイヤー(player)のインベントリにするかを、トグルボタンで切り替えることができる。
+infoBook.evilcraft.firstAge.items.exaltedCrafter.text2=落雷を当てることで真に結合し、落とした状態でも破壊や消滅することがなくなる。
+
+infoBook.evilcraft.firstAge.items.displayStand=展示スタンド
+infoBook.evilcraft.firstAge.items.displayStand.text1=この小さなブロックは君達のお気に入りのアイテムを展示することができる。 あらゆる木材が利用でき、また好きな向きに配置することができる。
+infoBook.evilcraft.firstAge.items.displayStand.text2=このスタンドは液体を受け付け、充填しようとする任意の方向からの液体を受容する。
+
+# - Items -
+infoBook.evilcraft.firstAge.vengeanceSpirits=復讐の亡霊
+
+infoBook.evilcraft.firstAge.vengeanceSpirits.introduction=モンスターの死後
+infoBook.evilcraft.firstAge.vengeanceSpirits.introduction.text1=他人はそれを奇妙に思うかもしれないが、いつも私は動物が死ぬところをじっくりと観察している。 たいていは暗い紫色のオーラを発してから再び急速に消滅する。
+infoBook.evilcraft.firstAge.vengeanceSpirits.introduction.text2=&1砕けたダークジェム&0をいくつか組み込んだ指輪を用いることで、私が殺したMOBのオーラが完全に見えるようになることに気づいた。彼らも私のことが見えているようだが。 彼らは常に私を追いかけてきて、接触すると少々のダメージを与えてから霧散してゆく。
+infoBook.evilcraft.firstAge.vengeanceSpirits.introduction.text3=指輪を有効にすると私に驚異的な力を与えてくれる代わりに、何匹かの亡霊たちを怒らせてしまうのか集まってくるようだ。とはいえ大部分の亡霊は何らかの理由で認識ができないのである...
+
+infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits=亡霊の捕獲
+infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits.text1=私は冒険の途中に幾度か変質した亡霊が封じ込められている奇怪な紫色の箱を見つけたことがある。 これらの亡霊は捕獲されてから長い月日が経過しているため劣化しており、元の状態に復元することは難しそうである。
+infoBook.evilcraft.firstAge.vengeanceSpirits.catchingSpirits.text2=私はこの箱をリバースエンジニアリングすることで自ら作ることができるようにした。 この工程により、私はまた箱に取り込むために亡霊を凍結する手段を構築した。 私はこの技術で&1復讐の指輪&0を強化して、使用すると復讐の亡霊を捕獲することができる&1復讐のフォーカス&0を作り上げた。 恐らく私は今後捕獲した亡霊を利用することだろう...
+
+infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection=亡霊からの防衛
+infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection.text1=亡霊には注意を払っておかないと面倒なダメージを与えてくる。 亡霊たちは&1ダークジェム&0に対して苛立っている事に気づいたのだが、我々が視認しているとそれを感じ取っていても無視するということに気づいた。 炎と&1ダークジェム&0の能力によって、亡霊たちはダメージを与える代わりに少しだけ空腹になるよう攻撃方法を変更するようなので、後者のほうがマシだろう。
+infoBook.evilcraft.firstAge.vengeanceSpirits.spiritProtection.text2=亡霊から身を守る別の方法としては、単純に亡霊たちから自身を見えなくすることだ。 &1亡霊の眼鏡&0は既に出現しているもの以外の全ての亡霊を、向こうから気づかれることなく視認できるようになる。
+
+# --- Second Age ---
+infoBook.evilcraft.secondAge=第二世代
+
+# - Blood Extraction -
+infoBook.evilcraft.secondAge.bloodExtraction=血液の抽出
+infoBook.evilcraft.secondAge.bloodExtraction.text1=どんな場所でも&4血液&0を採取できるように、&1スパイク&0を用いて簡単な道具を作ることができた。 一定の生物を殺害した時、このアイテムがインベントリに入っていると&4血液&0で満たされているだろう。 君達は時々&4血液&0の染みを見つけることがあるかもしれないが、これも単純にShift + 右クリックすることで&4血液&0を採取できる。 この&4血液&0は何かが非常に高い場所から落下死したときに生じるもので、いつの日かこれを役立てる日が来るかもしれない...
+infoBook.evilcraft.secondAge.bloodExtraction.text2=アイテムを単に右クリックすると、1バケツ分の&4血液&0をその場に設置するだろう。
+infoBook.evilcraft.secondAge.bloodExtraction.text3=これは私が手作業を減らしたものを構築するまでの間の&4血液&0の入手方法として有用である。
+infoBook.evilcraft.secondAge.bloodExtraction.text4=標準では、この抽出器の容量はやや心許ないだろう。 しかし複数の&1血液抽出器&0を作業台に載せて組み合わせることで容量を増やすことができ、さらに容量増加のために&1ダークタンク&0でさえも組み合わせることも可能である。
+
+# - Powers of Blood -
+infoBook.evilcraft.secondAge.powersOfBlood=血液の力
+infoBook.evilcraft.secondAge.powersOfBlood.text1=誰もが&4血液&0はあらゆる生命にとって重要な要素であることを知っている。 &1ダークジェム&0の魔術特性と&4血液&0の生命力を組み合わせることで、真に驚くべきツールや装置を考案した。 私の同僚たちに言わせると、私がこの発明にすこし熱狂しすぎているそうだ。どうやら彼らはあまり寛容さを持ち合わせていないらしい。
+infoBook.evilcraft.secondAge.powersOfBlood.text2=&1ダークジェム&0は非常によく&4血液&0を受容するようである。 これを１つ&4血液&0のプールに投げ入れると、&1強化ダークジェム&0になる。 注意点としては5つ以上の&4血液&0の流体源のブロックが必要であり、この工程を必ず一度は行う必要がある。次の章ではもっと低コストな&1強化ダークジェム&0を作り方を解説する。
+infoBook.evilcraft.secondAge.powersOfBlood.text3=誰もが知っての通り、&4血液&0は乾燥した場所にしばらく置くと乾いてゆく。 ツルハシや手によって&1凝固した血液&0を壊すと通常の&4血液&0へと戻るだろう。 &1火打石と打金&0を&1凝固した血液&0を使うことで、後々利用することになる&1凝固した血液の欠片&0が手に入る。 何らかの方法で&1凝固した血液&0をブロックの状態で入手したならば、かまどで調理することで欠片が手に入るだろう... 例えばシルクタッチなどはどうだろうか？
+infoBook.evilcraft.secondAge.powersOfBlood.text4=&1凝縮血液&0は珍しい場所で見かけることができる。 これは&4血液&0が入るあらゆる装置に入れることで、バケツ半分の追加の&4血液&0となる嬉しいものだ。
+
+# - Blood Infusion -
+infoBook.evilcraft.secondAge.bloodInfusion=血液の注入
+
+infoBook.evilcraft.secondAge.bloodInfusion.bloodInfusionCore=血液注入コア
+infoBook.evilcraft.secondAge.bloodInfusion.bloodInfusionCore.text=これは&4血液&0における最も重要な基礎研究である。 ありふれたアイテムに&4血液&0を注入して非常に面白い特性を付与することができる。 枠にとらわれることなく考えを巡らせれば、その可能性は無限大である。
+
+infoBook.evilcraft.secondAge.bloodInfusion.bloodChest=血のチェスト
+infoBook.evilcraft.secondAge.bloodInfusion.bloodChest.text=私が血液注入を行った最初の簡単なアイテムは、ツールを浸すことが出来る単純なチェストだ。 これに浸すことによって、ゆっくりとツールの耐久度が回復する。 しかし稀に&1破損&0エンチャントという悪い効果がが付与されるという小さな問題があった。 これらの弊害を除去するために、私はツールを精製する別の方法を考案するつもりである。 
+
+infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser=血液注入器
+infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser.text1=アイテムを修復できたことによって、私は次の段階へ進めることができることを確信していた。 以前導入した&1ダークタンク&0のように&4血液&0を受容するアイテム類は、設置したこの装置によって&4血液&0を充填することができる。 それ以外の一部アイテムは&4血液&0で満たすことで特殊な性質を付与する手段になる。 注入可能なアイテムの一部リストはここに掲載しておく。 この装置にレッドストーン信号を送信することであらゆる工程を停止させることができる。
+infoBook.evilcraft.secondAge.bloodInfusion.bloodInfuser.text2=こうして最終的にこの装置によってより簡単に、そして非常に低コストで&1強化ダークジェム&0を作ることができた。
+
+infoBook.evilcraft.secondAge.bloodInfusion.undeadTree=不死の木
+infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text1=私は枯れた苗木を蘇生することができたのだが、これを育てた木は控えめに言っても驚くべきものである。 多くの血液を含んでいるようであるが、入手できる苗木はどういうわけか枯れているようだ。 木材とダークジェムを組み合わせることで、今後役に立ちそうな有用な棒を作ることができた。
+infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text2=苗木を殺すには単純に作業台の上で生きているものをハサミで剪断すればよい。 &o砂漠に生えているのではないだろうか？&r
+infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text3=棒を落としてみると、一定の方角へと回転しているようだ。 一体どこを指しているのだろうか？
+
+infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion=高度な血液注入
+infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion.text1=最初の&1血液注入器&0を作り上げてからすぐに、私は装置の効率と処理速度の最適化を模索した。 &1砕けだダークジェム&0を用いることで構築が実現した&1プロミス&0を、実際に&1血液注入器&0に装着してみた所、装置に何らかの効果を及ぼしているようだ...
+infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion.text2=&1プロミスが空のボウル&0に紫の粉末を満たし、&4血液&0を注入することで十分な力を持つ&1ボウル入りプロミス&0が生成される。 この化合物と大量の&4血液&0を注入した金属製のプロミス受容体を組み合わせることで、各種の&1プロミス&0が作られる。 &1補強のプロミス&0は有機化合物を用いて作ることができ、装置に装着することで&1プロミス&0の装着数を増やすとともに、&1血液&0の保持も可能である。 &1速力のプロミス&0は装置の処理速度が向上するもので、&1効率のプロミス&0はアイテム処理に要求される&4血液&0の消費量を軽減する。
+
+infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusionRecipes=さらなる血液注入レシピ
+infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusionRecipes.text=新たな&1補強のプロミス&0によって、アイテムへの注入の新たな世界が開かれるだろう。 
+
+# - Evolved Blood Machinery -
+infoBook.evilcraft.secondAge.evolvedBloodMachinery=進歩した血液設備
+
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.sanguinaryPedestal=血塗れのペデスタル
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text1=MOBを崖の上から落として&4血液&0を回収する作業に疲れた私は、近くの血痕ブロックから&4血液&0を抽出してタンクに投入する装置を組み立てた。 &1強化ダークジェム&0を用いると、&4血液&0をより多く抽出できるようになり、&4血液&0の回収効率が向上するようだ。
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.sanguinaryPedestal.text2=&1スパイク付き板&0を上にのせることで、動物を殺して変換した&4血液&0がペデスタルに吸収されるため、さらに性能が高められる。
+
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier=浄化器
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text1=&1血のチェスト&0による悪い副作用が発生して以降、私はツールから悪い効果を除去する新しい装置を設計することにしていた。 悪い効果が付着したツールと一緒に最低でもバケツ1杯分の&4血液&0を入れることで、効果が除去される。
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text2=意図していなかった装置の利点は、完全に&4血液&0で満たし、エンチャントされたアイテムと&1血本&0(&1血液&0を注入した&1本&0)を入れることで、3杯分の&1血液入りバケツ&0を消費してアイテムからエンチャント効果がランダムに本に移動するというものである。
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.purifier.text3=最近のことだが、この装置に&4血液&0を完全に満たしてから&1空き瓶&0を載せ、&1浄化器&0の上に乗ると、生物から&1ポーション効果&0を取り出すことが可能である事に気づいた。 数秒後するとポーション効果は瓶に収まり、生物はそれから開放されるだろう。
+
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice=謀略の杯
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text1=君達が経験値を集めるように、私はアイテムに&4血液&0を注入していた。恐ろしい&1ガスト&0が持つ涙を強化した結果、非常に特殊な涙がなることに気づいた。 これを2分割したとき、全ての特性が共有化するようなのだ。 ここから着想を得て、同じ涙を用いていれば他のすべての杯の中身の液体を共有することを目指した&1謀略の杯&0を作り上げた。
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text2=通常、作業台では2つの杯が作られ内容物を共有するのだが、レシピの中央にある&4金インゴット&0を既存の杯に変更すると、杯がもう一つ追加され涙によるネットワークに拡張することができる。
+infoBook.evilcraft.secondAge.evolvedBloodMachinery.entangledChalice.text3=これらの杯は、世界に設置したりインベントリに入れることができる。 手に持った状態でShift + 右クリックすると全体供給モードが有効になり、インベントリ内のすべての容器に継続的に&4血液&0を供給する。
+
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest=巨大な血のチェスト
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text1=&1血のチェスト&0は損傷した道具を入れると直してくれる素晴らしいものだ。 唯一欠点があるとすれば、それは時おり悪い効果がアイテムに付与されることで、引き続いて&1浄化器&0を用いて効果を除去するのには非常にイライラさせられることだろう。
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text2=本当のことを言えば不便な点はそれだけではない。 &1血のチェスト&0のアイテムを入れるためのインベントリはとても小さなものであり、おまけに遅く、タンクのサイズも小さいため本当に遅いのだ。 何より最悪なのは、私の&1プロミス&0によって装置を強化出来ないことだ！
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text3=これらが&1巨大な血のチェスト&0を構築した理由だ！ 私が論理的帰結として述べてきた全ての問題を解決するこの装置は、通常のものよりかなり大きなものとなった。 巨大なサイズのため、不思議な力を持つ&1不死の木材&0を一緒に組み込む必要があった。
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text4=多くのアイテムを修理したいときは&1巨大な血のチェスト&0のみを利用したほうが良い。 その理由は、通常の&1血のチェスト&0よりも&4血液&0の消費は多いのだが、多くのアイテムを同時に修理できるため、より効率的に&4血液&0が使用されるためだ。
+infoBook.secondAge.evolvedBloodMachinery.colossalBloodChest.text5=これをつくり上げるには、3×3×3の&1中空&0の構造物を&1強化した不死の木材&0で構築する。 構造物の壁面のどこかに&1巨大な血のチェスト&0を1個組み込む必要がある。構造物は中空でなくてはならないので、中央には設置してはならない。
+
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator=血塗れの環境アキュムレーター
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text1=私は新しいアイテムを作るたびに、環境を貯蔵しに&1闇の寺院&0を駆けずり回るのに疲れていた。 ある日、私はとても疲れていたこともあって装置の一つを壊してしまったのだが、驚いたことにそこから奇妙な新アイテムを手に入れることになった。
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text2=幾つかの研究の後、私は&4血液&0によって稼働する新種の&1環境アキュムレーター&0にこの新アイテムを利用できるようにした。 私はまたこの装置はバイオームの劣化、寺院の近くでの突然死などの悪い影響が二度と発生しないことが調査できた。
+infoBook.secondAge.evolvedBloodMachinery.sanguinaryEnvironmentalAccumulator.text3=この装置の動作には大量の&4血液&0を要求され、装置の周囲に次の画像のように&18個&0の&4血液&0の入った任意のタンクを配置する必要がある。 この装置はタンクなしでは動作せず、タンクを設置する必要がある場所には煙のエフェクトが見えるだろう。
+
+# - Tools -
+infoBook.evilcraft.secondAge.tools=ツール
+
+infoBook.evilcraft.secondAge.tools.broom=ほうき
+
+infoBook.evilcraft.secondAge.tools.broom.introduction=基本のほうき
+infoBook.evilcraft.secondAge.tools.broom.introduction.text1=&1ほうき&0は一般的に床を清掃するのに用いるものだ。 しかし私は&1砕けたダークジェム&0と&1闇の棒&0を作って&4血液&0の奔流に浸すことでとても面白い特性が現れることに気づいた。 特定の方法で取り扱うことで&1ほうき&0は浮くことができるのだ。 しばらく訓練した後、私はこれに座ってどんな方向へも飛べるよう十分にコントロールができるようになった。
+infoBook.evilcraft.secondAge.tools.broom.introduction.text2=&1ほうき&0は主に3つのパーツに構成される。 &1ロッド&0はほうきの基本部分であり、主要な特性に影響を与える。 &1ブラシ&0はほうきを操縦するのに必要で、最後に&1キャップ&0は&1ほうき&0のバランス制御に必要である。
+infoBook.evilcraft.secondAge.tools.broom.introduction.text3=&1ほうき&0のパーツは&1ただのロッド&0と&1ブラシ&0、そして&1キャップ&0から作られ、作業台の任意の場所に3種のパーツを載せて組み合わせることで完了する。 異なる材質で作られたパーツは異なる性能を持つようだ。 全ての特性については後述する次のセクションにて全ての&1ほうき&0のパーツについて解説しておいた。
+infoBook.evilcraft.secondAge.tools.broom.introduction.text4=&1ほうき&0で飛行する際は、常に&1血液&0が十分に充填されていることを確認して欲しい。さもなければ&1ほうき&0は著しい速度低下に陥るだろう。
+
+infoBook.evilcraft.secondAge.tools.broom.modifiers=ほうきの機能拡張
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.intro=このセクションでは私が冒険中に見つけた全ての機能拡張効果を一覧にしておいた。 これら全てのパーツは既存の&1ほうき&0と一緒に作業台に並べることで組み込むことができる。 一度機能拡張を適用してしまうと、&1ほうき&0から除去する手段はない。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.modifier_count=&l&n最大拡張数&r&N最大値まで&1ほうき&0の機能を拡張できる。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.speed=&l&nスピード&r&N&1ほうき&0の最高速度。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.acceleration=&l&n加速性能&r&Nこの数値が高いほど、素早く&1ほうき&0を加速できる。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.maneuverability=&l&n操縦性能&r&N&1ほうき&0を素早く旋回することができる。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.levitation=&l&n浮揚力&r&Nこの数値が高いほど、&1ほうき&0が減速せずに浮上できる。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.damage=&l&nダメージ&r&N衝突したMOBにダメージを与える。 &1ほうき&0で高速飛行しているほど、与えるダメージが増加する。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.particles=&l&nパーティクル&r&N&1ほうき&0で飛行する際に放出される粒子の量。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.flame=&l&n火炎&r&N衝突した生物に火をつける。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.smash=&l&n粉砕&r&Nこれは&1ほうき&0で飛行中にブロックを破壊できるようになる。 高い数値ほど硬いブロックを破壊できる。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.bouncy=&l&n弾力性&r&Nこの機能拡張の数値によって、衝突した生物は跳ね飛ばされる。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.witherer=&l&nウィザー使い&r&N衝突した生物にウィザーの効果が付与されるだろう。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.hungerer=&l&n腹ぺこ&r&N衝突した生物は突然の空腹に襲われるだろう。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.kamikaze=&l&nカミカゼ&r&N生物に衝突すると&1ほうき&0が爆発する。 騎乗しているプレイヤーが生き残ることはまずないだろう。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.withershield=&l&nウィザーシールド&r&N機能拡張の数値が高いほど、飛翔体から保護される可能性が高くなる。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.sturdyness=&l&n堅牢性&r&Nこの機能拡張の値が高いと、&1ほうき&0で移動中に外的要因を受けずらくなる。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.luck=&l&n幸運&r&N騎乗しているプレイヤーがブロックを破壊したりMOBを殺害すると幸運が得られる。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.efficiency=&l&n効率&r&Nこの機能拡張の数値が高いほど、消費される&4血液&0の要求が多くなる。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.swimming=&l&n水泳&r&Nこれは水中でも&1ほうき&0の機動性を維持することができる。
+infoBook.evilcraft.secondAge.tools.broom.modifiers.text.icy=&l&n氷結&r&N衝突した生物を遅くする。
+
+infoBook.evilcraft.secondAge.tools.broom.parts=ほうきのパーツ
+infoBook.evilcraft.secondAge.tools.broom.parts.text1=様々な材料がほうきのパーツとして利用できる。 これらのツールチップは作り上げた&1ほうき&0が初期値がらどれだけ機能拡張されるかの割合が表示されている。
+
+infoBook.evilcraft.secondAge.tools.introduction=概要
+infoBook.evilcraft.secondAge.tools.introduction.text=&4血液&0を用いる大抵のアイテムは内部に&4血液&0を貯蔵する容器を持ち、&1血液注入器&0を用いて供給するか、自動供給モードにした他のアイテムから手にしたアイテムへと補充する必要がある。 アイテムを使用する際には少量の&4血液&0を消費する。 アイテムが&4血液&0を使い尽くした場合、インベントリ内にある他の容器から&4血液&0の補給を試み、それらも見当たらなかった場合は機能を停止する。
+
+infoBook.evilcraft.secondAge.tools.bloodPearlOfTeleportation=テレポートのブラッドパール
+infoBook.evilcraft.secondAge.tools.bloodPearlOfTeleportation.text=標準の&1エンダーパール&0はどこにでもテレポートすることができる面白いものであるが、入手は非常に困難である。 &4血液&0の力を用いて、少量の&4血液&0を消費するだけで再利用可能になる特殊な&1エンダーパール&0を作り上げた。 これは通常の&1エンダーパール&0よりはるかに強力で、より良くする唯一の方法である。
+
+infoBook.evilcraft.secondAge.tools.invigoratingPendant=鼓舞のペンダント
+infoBook.evilcraft.secondAge.tools.invigoratingPendant.text=悪いポーション効果が抜け切るには痛みを伴う。 このペンダントはあらゆる悪いポーション効果を少量の&4血液&0を消費して除去することができる。 より悪い効果であれば&4血液&0の消費量も多くなる。 火を消すこともできるが、溶岩遊泳を試みるのはお勧めしない。 普通の糸と金の小片を組み合わせて作る特殊な糸を作成する必要があるだろう。
+
+infoBook.evilcraft.secondAge.tools.primedPendant=良質のペンダント
+infoBook.evilcraft.secondAge.tools.primedPendant.text=&1鼓舞のペンダント&0を作り上げたあと、私は考えることになった。 効果を削除するのではなく、効果を適用してみたらどうだろうか？ この新しいペンダントは&1ポーション&0を1つ入れておくことができ、&4血液&0を消費して、継続的にステータス効果を君達にもたらすだろう。 注意点としてはいくつかのステータス効果はより多くの&4血液&0を消費する点だ。 新しい&1ポーション&0を挿入するには単純に右クリックすることで可能である。 
+
+infoBook.evilcraft.secondAge.tools.effortlessRing=利便の指輪
+infoBook.evilcraft.secondAge.tools.effortlessRing.text=私は&1効率&0と&1速力&0の&1プロミス&0を活かした、歩行速度とジャンプ力を上昇させる特殊なリングを作り上げた。 ただしこの効果を得るにはこのアイテムがインベントリ内に所持しておく必要がある。 注意点として、この歩行補助機能は&oShift&rキーを押している間無効にできるだろう。 
+
+infoBook.evilcraft.secondAge.tools.kineticator=キネティケイター
+infoBook.evilcraft.secondAge.tools.kineticator.text1=このアイテムは一定エリア内のアイテムや経験値オーブを引き寄せる効果がある。 引き寄せる範囲は右クリックによって変更が可能で、Shift+右クリックによって有効無効の切り替えを行う。 アイテムの引き寄せには、近くの物であればほんの僅かな&4血液&0を、遠くの物であればやや多めの&4血液&0を要求する。 スニーク(Shiftキー)で引き寄せ効果を一時的に無効化する。 
+infoBook.evilcraft.secondAge.tools.kineticator.text2=レシピの位置を反転させると、アイテムや経験値オーブを弾き飛ばす、このアイテムの逆バージョンを得ることができる。 
+
+infoBook.evilcraft.secondAge.tools.sceptreOfThunder=雷の王笏
+infoBook.evilcraft.secondAge.tools.sceptreOfThunder.text=私は雷雨の日には奇妙な安心感を覚えるのだ。 というわけで私は嵐を呼び起こす簡単な杖を作ることにした。 ただしこのアイテムはやや高価な材料を用いている上に、一度だけ使用することができる。
+
+infoBook.evilcraft.secondAge.tools.vengeancePickaxe=復讐のツルハシ
+infoBook.evilcraft.secondAge.tools.vengeancePickaxe.text=私はツルハシに&1復讐のリング&0で用いた技術を再利用する方法を考案した。 このツルハシは大幅に耐久力が低下してしまうようだ。 しかし作り上げたものは莫大な&1幸運&0を付与するという面白い副作用がある。 
+
+infoBook.evilcraft.secondAge.tools.gemstoneTorch=ジェムストーンの松明
+infoBook.evilcraft.secondAge.tools.gemstoneTorch.text=私は&1燃え盛るジェムストーン&0と&1闇の棒&0を繋ぎ合わせることで、特殊な松明を作り上げた。 これは出現ようとする&1復讐の亡霊&0を消し去る明るい空間を作り出すことができる。 明るい空間より外で出現した亡霊ならば彷徨い寄ってこられるので注意が必要だ。 しかしこれも単純な壁によって防ぐことができる。 
+
+infoBook.secondAge.tools.rejuvenatedFlesh=若返りの肉
+infoBook.secondAge.tools.rejuvenatedFlesh.text=&1肉&0と&1ガルモンボジーア&0と組み合わせることで無限の食料になる。しかし食べられるようにするには&4血液&0で満たしておく必要がある。
+
+# - Weapons -
+infoBook.evilcraft.secondAge.weapons=武器
+
+infoBook.evilcraft.secondAge.weapons.veinSword=脈動する剣
+infoBook.evilcraft.secondAge.weapons.veinSword.text=&4血液&0が不足したらフィールドでMOBを倒してはいないだろうか？ この剣を使うとMOBを倒したあとに&1血液抽出器&0に貯蔵される&4血液&0の量がブーストされるので使ってみてはどうだろうか？ さらに特典として、この剣は作成した際に&1ドロップ率増加&0のエンチャントが標準で付与される。
+
+infoBook.evilcraft.secondAge.weapons.maceOfDistortion=歪みのメイス
+infoBook.evilcraft.secondAge.weapons.maceOfDistortion.text=右クリックを押したままにしておくとメイスの周囲に球形状の領域が生成され、クリックを解除した際に&4血液&0が十分にメイスに貯蔵されていれば、他のすべての実体を持つ生物にノックバックとダメージを与える。 Shift + 右クリックを押すごとにパワーレベルが順々に変更でき、パワーレベルを上げると&4血液&0の消費量が増加するが、より高ダメージを与えることができる。
+
+infoBook.evilcraft.secondAge.weapons.necromancerStaff=ネクロマンサーの杖
+infoBook.evilcraft.secondAge.weapons.necromancerStaff.text=&1ゾンビ&0は何らかの頭ブロックを用いれば制御が可能なようだ。 私は先端に頭蓋骨を取り付けた杖を作り、僅かな時間内ではあるがターゲットした生物を攻撃するゾンビの召喚を可能にした。
+
+infoBook.evilcraft.secondAge.weapons.maceOfDestruction=破壊のメイス
+infoBook.evilcraft.secondAge.weapons.maceOfDestruction.text=これは&1歪みのメイス&0の変種であり、力を開放すると強力な爆発を引き起こす。 長くチャージすればするほど、爆発の威力が高まるだろう。 このメイスのパワーレベルを増加させることで初期の爆発威力を増加させ、結果的により多くチャージすることが可能になる。
+
+# - Abusing Spirits -
+infoBook.evilcraft.secondAge.abusingSpirits=亡霊の悪用
+
+infoBook.evilcraft.secondAge.abusingSpirits.infusingSpirits=亡霊の注入
+infoBook.evilcraft.secondAge.abusingSpirits.infusingSpirits.text=&1復讐の亡霊&0を箱に詰め込むことは、それだけではまるで役に立たない。 私は少量の&4血液&0を用いることで亡霊の復活が可能であることを理論化し...
+
+infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace=亡霊のかまど
+infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text1=部分的ではあるが、ついに私は&1復讐の亡霊&0の蘇生に成功した。 それは現世のMOBが持つ全ての情報と材質を兼ね備えているはずなのだが、蘇生した亡霊が現世で生きるにはぜい弱すぎるようだ。 しかしこれには、MOBが入るだけの巨大な装置を構築し、大量の&4血液&0と引き換えに亡霊を蘇生して、生きているうちに即座に調理加工するという用途に使えることが分かった。 生成物はMOBのドロップ品となり、装置のインベントリ内に収納された。 &1開かずの箱&0から亡霊が放出されないため、何度でも再利用が可能なようである。
+infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text2=例えば&1ダークレンガ&0に&4血液&0を適量注入して、亡霊が逃げ出さないようにした頑丈なブロックが必要なようだ。 これらブロックで、内部に蘇生したいMOBが入るだけの十分な空間があるように、立方構造体を構築しなくてはならない。 例えばゾンビであれば、1ブロックの幅と2ブロックの高さであるため、内部にそれだけの空間があるように、3ブロックの幅と4ブロックの高さを持つ立方構造体を構築する。 内容物のMODがあまりに大き場合、9×9ブロックくらいの構造体を作る必要に迫られるかもしれないが、物惜しみしてはならない！
+infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text3=構造物には、どこか一箇所に&1亡霊のかまど&0が必要だ。 このブロックによって、簡単に既存の他のインベントリやタンクと接続することができる。 構造物が正常に組み立てられると、明確に赤く輝き出すのが見て取れるだろう。
+
+infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator=亡霊蘇生器
+infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text1=私は&1亡霊のかまど&0の作り上げた後、亡霊の復活にとりかかった。 MOBが安定しないという問題を解決するため、私はそれを&1卵&0の中に入れてみた。 この工程は大量の&4血液&0と、もちろん空の&1卵&0を必要とする。 
+infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text2=より高度な工程のために亡霊をすべて使い切るため、1つの&1卵&0につき&1亡霊&0を1体作ることができる。 
+infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator.text3=一部のMOBは&1卵&0に封入されることを拒絶するようで、その場合の霊魂は永遠に失われてしまう。 
+
+# - Killing Spirits -
+infoBook.evilcraft.secondAge.afterDeath=死後
+
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101=101の魂大殺戮
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text1=次々と魂を処理していくうちに、私は彼らに囲まれていても非常に落ち着いていられるようになった。 そのため私は彼らについていくつかの特徴と、等しく何かに恐れている事に気づいた！ 彼らはどんな形であれ、'終焉'に関係することを嫌うようだ。
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text2=私は常に面倒な亡霊の攻撃と、それに対して何も出来ないことに悩まされていた。 そういうわけで私は彼らに攻撃を加える方法を調査することにした。 終焉に対して恐怖するのは、彼らがダメージを受けるからのようだ。 'エンド'の遺物を用いることで、&1復讐のフォーカス&0によってダメージを与えることができるように改良することができた。
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text3=この新たなフォーカスは亡霊を完全に'殺す'のに十分な強度があるようだ。 しかし私の驚きは、彼らが素材をドロップしたことにある。 これには古の物質形状のものが含まれており、その上おぞましい粉末も僅かに保持している。恐らく魂の最も暗い部分を含んでおり、今後役に立つことだろう...
+
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia=ガルモンボジーア
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text1=もし仮に、この世界に最も昏い思考や感情を織り込むことができたらどうなるだろうか。 それは想像を絶する強大な力の源になるかもしれない。 そしてこれまでに発見してきた復讐、暗黒、そして血液。 これらは欠かせない要素だと思われる。 
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text2=これらの要素を組み合わせた結果、奇妙な霊的エネルギーを作り上げた。 それはあまりに異次元であり、未知の物質であり、同時にクリームコーンのように観測される何かである。 
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text3=弟子たちは私がどこか遠くへ行ってしまったと言っている。馬鹿げた話だ。
+
+# --- Mod Integrations ---
+infoBook.evilcraft.modIntegrations=&o連動Mod&r
+
+infoBook.evilcraft.modIntegrations.baubles=Baubles
+infoBook.evilcraft.modIntegrations.baubles.text=これは便利なアクセサリ用のスロットを新たに追加するMODで、本書で提供されている指輪やペンダントも収納することができる。 インベントリ内に入れてあるかのように動作する。 皆もBaublesをぜひ使って欲しい！ 
+
+infoBook.evilcraft.modIntegrations.bloodMagic=Blood Magic
+infoBook.evilcraft.modIntegrations.bloodMagic.text=ある日、&1魔術師&0たちが非常に奇妙な&1ブラッドオーブ&0を手にしているを発見した。 譲り受けたそれを使ってみると何かと繋がりを感じることができた。 後々分かったことだが、これは私自身の&4血液&0の奔流と接続することを発見した瞬間だったのだ。 これを&1血液注入器&0に入れてみると、装置に大量の&4血液&0を送り込む事ができた。 作り上げたアイテムは&1血液&0の奔流に接続する、単純な容器として利用できる、という2つの機能を併せ持ったものである。 私はこのアイテムを使い、お気に入りの機器を好きな場所に設置しようと思う。 
+
+infoBook.evilcraft.modIntegrations.ee3=Equivalent Exchange 3
+infoBook.evilcraft.modIntegrations.ee3.text=この世の全ての物質には、それに相応する&1数値&0を持つことを見出した魔術師たちがいる。 彼らは物質を他の物質に&1変換&0する技術を習得している。 この奇妙な手法は私の所持するアイテムにも動作するようである。 
+
+infoBook.evilcraft.modIntegrations.forestry=Forestry
+infoBook.evilcraft.modIntegrations.forestry.text=知人が木とミツバチを携えて&oやってきた&r。 彼らの持つバッグは私の持つアイテムも入れることができるようだ。 また、彼らの持っていた装置のうち&1圧搾機(Squeezer)&0というものは&1不死の木&0から&4血液&0を抽出できるようであり、簡単に木材成長システムを作り上げられるだろう。 
+
+infoBook.evilcraft.modIntegrations.ic2=IndustrialCraft 2
+infoBook.evilcraft.modIntegrations.ic2.text=奇妙な一団は装置を騒々しく稼働させている。 彼らの装置の中では&1粉砕機(Macerator)&0を除いて私の理解が及ぶものではなかった。 装置に&1闇鉱石&0を投入してみると即座に&1ダークジェム&0に粉砕された。 通常の&1ダークジェム&0も粉砕することができるようだ。 
+
+infoBook.evilcraft.modIntegrations.jei=Just Enough Items
+infoBook.evilcraft.modIntegrations.jei.text="&oToo Many Items&r"を使っているのを目にしたり、またある人は "&oNot Enough Items&r"を見たことがあるだろう。 最終的に人々は"&oJust Enough Items&r"に行き着いたようで、この本の知識もそれらによって理解しやすくなるだろう。 
+
+infoBook.evilcraft.modIntegrations.nei=Not Enough Items
+infoBook.evilcraft.modIntegrations.nei.text=多くの人が"&oNot Enough Items&r"について話し合っているが、私はよく理解していない。 したがって私は"&oToo Many Items&r"を愛用している！ しかし前者を使っているグループの方が私の知識をよく理解しているような気がするのだ...
+
+infoBook.evilcraft.modIntegrations.thermalExpansion=Thermal Expansion
+infoBook.evilcraft.modIntegrations.thermalExpansion.text=ある一団は奇妙な服を着込んでおり、たいていは何らかの目的で多数のレンチを振り回しているようである。 とても奇怪である。 ひとつだけ判っていることといえば、彼らは液体を注入充填する装置を所持しており基本的な血液の注入に利用できるということだ。 残念ながらアップグレードは出来ないようだが。 
+
+infoBook.evilcraft.modIntegrations.thaumcraft=Thaumcraft
+infoBook.evilcraft.modIntegrations.thaumcraft.text=私はソーモマンシーという非常に独特な魔術を目にすることとなった。 彼らは私の所持品を見るやとても喜びだして、奇妙な六角形のものを持って歩きまわっていた。 友人である彼らのために、私は&1脈動する筆記具&0と名付けた&4血液&0を注入したインクの筆記具を作り上げた。 私は&1金の石突(Golden Wand Caps)&0に&1血液注入器&0の機構を内側に組み込み、相の消費量を若干軽減することができた。 彼らは杖の表面に&4血液&0が付着するのを好まないようである。 
+
+infoBook.evilcraft.modIntegrations.tinkersConstruct=Tinkers' Construct
+infoBook.evilcraft.modIntegrations.tinkersConstruct.text=&0ツール、ツールまたまたツール！ &r彼らの頭の中身はこれしかないようだ。 彼らがツールを使えば消耗は避けられない。 幸運なことに&1血のチェスト&0があれば修復することができるだろう！ 
+
+infoBook.evilcraft.modIntegrations.waila=WAILA
+infoBook.evilcraft.modIntegrations.waila.text=君達が見ているものに、君達は何を求めているのか？ それを正確に教えてくれるはずだ。 
