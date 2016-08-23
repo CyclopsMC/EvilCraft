@@ -150,7 +150,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
         BlockWrapper fe = new BlockWrapper(Blocks.DARK_OAK_FENCE);
         BlockWrapper to = new BlockWrapper(Blocks.TORCH);
         BlockWrapper cw = new BlockWrapper(Blocks.COBBLESTONE_WALL);
-        BlockWrapper lc = new BlockWrapper(Blocks.CHEST.getDefaultState(), 0.15F);
+        BlockWrapper lc = new BlockWrapper(Blocks.CHEST.getDefaultState(), (float) GeneralConfig.darkTempleChestChance);
         lc.action = new IBlockAction() {
             @Override
             public void run(World world, BlockPos pos) {

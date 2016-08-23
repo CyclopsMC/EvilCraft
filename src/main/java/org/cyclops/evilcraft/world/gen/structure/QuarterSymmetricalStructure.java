@@ -58,7 +58,7 @@ public abstract class QuarterSymmetricalStructure {
 				for (int xr = start; xr < quarterWidth; ++xr) {
 					BlockWrapper wrapper = layer[(quarterWidth - xr - 1) * quarterHeight + zr];
 					BlockPos posOffset = blockPos.add(xr * incX, layerHeight, zr * incZ);
-					if (wrapper != null && wrapper.chance >= r.nextFloat()) { // not an air blockState?
+					if (wrapper != null && (wrapper.chance > 0 && wrapper.chance >= r.nextFloat())) { // not an air blockState?
 						world.setBlockState(blockPos.add(xr * incX, layerHeight, zr * incZ), wrapper.blockState, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
 						if(wrapper.action != null) {
 							wrapper.action.run(world, posOffset);

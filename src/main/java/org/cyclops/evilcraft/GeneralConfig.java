@@ -188,6 +188,11 @@ public class GeneralConfig extends DummyConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The Y offset for the blood gui overlay.", isCommandable = true)
     public static int bloodGuiOverlayPositionOffsetY = -5;
+    /**
+     * The spawn chance for loot chests in dark temples, set to zero to completely disable.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "The spawn chance for loot chests in dark temples, set to zero to completely disable.", isCommandable = true, requiresMcRestart = true)
+    public static double darkTempleChestChance = 0.15D;
     
     /**
      * Create a new instance.
