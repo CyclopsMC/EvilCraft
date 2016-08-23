@@ -92,7 +92,7 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
 
         final ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);
         LootHelpers.addVanillaLootChestLootEntry(
-                new LootEntryItem(Item.getItemFromBlock(getBlockInstance()), 1, 3, new LootFunction[]{
+                new LootEntryItem(Item.getItemFromBlock(getBlockInstance()), 1, 4, new LootFunction[]{
                         new LootFunction(new LootCondition[0]) {
                             @Override
                             public ItemStack apply(ItemStack stack, Random rand, LootContext context) {

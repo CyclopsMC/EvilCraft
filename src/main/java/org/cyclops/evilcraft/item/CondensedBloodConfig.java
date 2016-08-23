@@ -61,7 +61,7 @@ public class CondensedBloodConfig extends ItemConfig {
     public void onRegistered() {
         // Register in loot chests
         LootHelpers.addVanillaLootChestLootEntry(
-                new LootEntryItem(getItemInstance(), 10, 0, new LootFunction[]{new LootFunction(new LootCondition[0]) {
+                new LootEntryItem(getItemInstance(), 5, 1, new LootFunction[]{new LootFunction(new LootCondition[0]) {
                     @Override
                     public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
                         stack.stackSize += rand.nextInt(32);
