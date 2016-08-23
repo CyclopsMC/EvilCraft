@@ -23,7 +23,7 @@ import org.lwjgl.opengl.GL11;
 public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
 	
 	private static final double OFFSET = 0.01D;
-	private static final double MINY = 0.002D;
+	private static final double MINY = OFFSET;
 	private static final double MIN = 0.125D + OFFSET;
 	private static final double MAX = 0.875D - OFFSET;
 	private static double[][][] coordinates = {
