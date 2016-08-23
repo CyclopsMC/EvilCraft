@@ -4,6 +4,8 @@ import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.client.render.RenderNull;
@@ -38,6 +40,7 @@ public class EntityItemUndespawnableConfig extends EntityConfig<Entity> {
         return true;
     }
 
+    @SideOnly(Side.CLIENT)
 	@Override
 	public Render<Entity> getRender(RenderManager renderManager, RenderItem renderItem) {
         return new RenderNull(renderManager);
