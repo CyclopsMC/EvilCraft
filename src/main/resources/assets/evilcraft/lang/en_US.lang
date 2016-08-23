@@ -250,6 +250,7 @@ entity.vengeanceSpirit.name=Vengeance Spirit
 entity.evilcraft.vengeanceSpirit.name=Vengeance Spirit
 entity.evilcraft.controlledZombie.name=Controlled Zombie
 entity.evilcraft.broomEntity.name=Broom
+entity.Villager.werewolfVillager=Werewolvian
 
 # Enchantments
 enchantment.evilcraft.breaking=Breaking
