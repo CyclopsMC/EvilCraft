@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.core.client.render.RenderNull;
 
 /**
  * Config for the {@link EntityItemUndespawnable}.
@@ -39,6 +40,6 @@ public class EntityItemUndespawnableConfig extends EntityConfig<Entity> {
 
 	@Override
 	public Render<Entity> getRender(RenderManager renderManager, RenderItem renderItem) {
-		return null;
+        return new RenderNull(renderManager);
 	}
 }
