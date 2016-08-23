@@ -1,0 +1,27 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.7.6 or higher.
+
+Additions:
+* Add werewolf villager localization, Closes #462
+* Add option to change dark temple loot chest spawning, Closes #466
+* Create ja_JP.lang for Minecraft 1.10, thanks to neconeco2!
+* Mention in infobook that you can break Hardened Blood and get Blood
+* Add Vengeance enchantment to Vengeance Pickaxe, Closes #255
+  This performs the spawning of Vengeance Spirits, and it comes by default when crafting the Vengeance Pickaxe.
+  This is also seen as a bad enchant that can be applied when using the Blood Chest, and removed using the Purifier.
+* Add TCon Coagulated Blood compat recipe
+
+Changes:
+* Balance loot chest spawn rates, Closes #460
+* Only allow right click tank draining when shifting. This is simply to ensure consistency and avoid confusion.
+* Change Vengeance Pickaxe fortune level to 5
+
+Fixes:
+* Fix machines not accepting fluid items when inner tank is full, Closes #459
+* Fix bottom fluid rendering for the Dark Tank, Closes #461
+* Fix fluid filling/draining sound not always playing, Closes #463
+* Fix null entity renderer registration, Closes #467
+* Fix broken TCon tools not repairing
+* Fix Broom right click interaction with machines
+* Fix TCon tool repair cost being too high
+* Fix Inventory Tweaks error when sorting Exalted Crafter
