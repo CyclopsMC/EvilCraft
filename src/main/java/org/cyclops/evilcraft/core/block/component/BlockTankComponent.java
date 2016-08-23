@@ -60,21 +60,17 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
             	IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack);
                 if(!player.isSneaking() && !tank.isFull() && itemFluidHandler != null
 						&& FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false) != null) { // Fill the tank.
-					if(!world.isRemote) {
-                        ItemStack drainedItem = FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
-						if(!player.capabilities.isCreativeMode) {
-                            if(drainedItem != null && drainedItem.stackSize == 0) drainedItem = null;
-	                    	InventoryHelpers.tryReAddToStack(player, itemStack, drainedItem);
-	                    }
-                	}
+					ItemStack drainedItem = FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
+					if(!player.capabilities.isCreativeMode) {
+						if(drainedItem != null && drainedItem.stackSize == 0) drainedItem = null;
+						InventoryHelpers.tryReAddToStack(player, itemStack, drainedItem);
+					}
                     return true;
                 } else if(player.isSneaking() && !tank.isEmpty()
-                        && FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false) != null) { // Drain the tank.
-					if(!world.isRemote) {
-						ItemStack filledItem = FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
-						if (!player.capabilities.isCreativeMode) {
-							InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
-						}
+						&& FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false) != null) { // Drain the tank.
+					ItemStack filledItem = FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
+					if (!player.capabilities.isCreativeMode) {
+						InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
 					}
 					return true;
                 }
