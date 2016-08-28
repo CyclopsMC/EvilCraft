@@ -77,6 +77,11 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
     public boolean isNormalCube(IBlockState blockState) {
         return false;
     }
+
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
     
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float motionX, float motionY, float motionZ) {
