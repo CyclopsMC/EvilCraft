@@ -28,8 +28,8 @@ public class RenderTileEntityDisplayStand extends TileEntitySpecialRenderer<Tile
     private static final Map<EnumFacing, Vector3f> ROTATIONS = ImmutableMap.<EnumFacing, Vector3f>builder()
             .put(EnumFacing.NORTH, new Vector3f(270, 0, 0))
             .put(EnumFacing.SOUTH, new Vector3f(90, 0, 0))
-            .put(EnumFacing.WEST, new Vector3f(90, 0, 0))
-            .put(EnumFacing.EAST, new Vector3f(270, 0, 0))
+            .put(EnumFacing.WEST, new Vector3f(0, 90, 0))
+            .put(EnumFacing.EAST, new Vector3f(0, 90, 0))
             .put(EnumFacing.UP, new Vector3f(180, 180, 0))
             .put(EnumFacing.DOWN, new Vector3f(0, 0, 0))
             .build();
@@ -63,19 +63,10 @@ public class RenderTileEntityDisplayStand extends TileEntitySpecialRenderer<Tile
             GlStateManager.scale(0.6F, 0.6F, 0.6F);
             GlStateManager.rotate(90F, 0, 1, 0);
         } else if(!(itemStack.getItem() instanceof IBroom)) {
-            GlStateManager.scale(0.25F, 0.25F, 0.25F);
+            GlStateManager.scale(0.5F, 0.5F, 0.5F);
+            GlStateManager.translate(0F, 0.25F, 0F);
             GlStateManager.rotate(90F, 0, 1, 0);
         }
-
-        Map<EnumFacing, Vector3f> ROTATIONS = ImmutableMap.<EnumFacing, Vector3f>builder()
-                .put(EnumFacing.NORTH, new Vector3f(270, 0, 0))
-                .put(EnumFacing.SOUTH, new Vector3f(90, 0, 0))
-                .put(EnumFacing.WEST, new Vector3f(0, 90, 0))
-                .put(EnumFacing.EAST, new Vector3f(0, 90, 0))
-                .put(EnumFacing.UP, new Vector3f(180, 180, 0))
-                .put(EnumFacing.DOWN, new Vector3f(0, 0, 0))
-                .build();
-
 
         Vector3f vec = ROTATIONS.get(facing);
         GlStateManager.rotate(vec.getX(), 1, 0, 0);
