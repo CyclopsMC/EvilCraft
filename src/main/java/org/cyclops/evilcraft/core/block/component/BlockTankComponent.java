@@ -9,10 +9,15 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
@@ -35,6 +40,7 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 	 */
 	public BlockTankComponent(T tank) {
 		this.tank = tank;
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	/**
@@ -109,5 +115,15 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 			tank.setTankCapacity(tag, tankTile.getTank().getCapacity());
 		}
     }
+
+	@SubscribeEvent
+	public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
+		// Force allow shift-right clicking with a fluid container passing through to this block
+		if (event.getItemStack() != null
+				&& event.getItemStack().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+				&& event.getWorld().getBlockState(event.getPos()).getBlock() == tank) {
+			event.setUseBlock(Event.Result.ALLOW);
+		}
+	}
 
 }
