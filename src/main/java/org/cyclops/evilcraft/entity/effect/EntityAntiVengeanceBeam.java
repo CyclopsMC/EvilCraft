@@ -13,11 +13,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.client.particle.ParticleBlur;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
-import org.cyclops.evilcraft.client.particle.ParticleBlur;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 
 import java.util.List;

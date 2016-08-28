@@ -11,11 +11,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.client.particle.ParticleBlur;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
-import org.cyclops.evilcraft.client.particle.ParticleBlur;
 import org.cyclops.evilcraft.item.OriginsOfDarkness;
 import org.cyclops.evilcraft.item.OriginsOfDarknessConfig;
 

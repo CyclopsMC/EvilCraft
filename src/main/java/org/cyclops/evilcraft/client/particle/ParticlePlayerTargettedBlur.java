@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.client.particle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.client.particle.ParticleBlur;
 
 /**
  * A blurred static fading particle with any possible color targetted at a certain entity.
