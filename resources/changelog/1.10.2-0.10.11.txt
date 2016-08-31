@@ -1,0 +1,11 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.7.7 or higher.
+
+Changes:
+* Use ParticleBlur from CyclopsCore
+* Render items in Display Stand slightly larger
+
+Fixes:
+* Fix Dark Tank not allowing buckets to be taken out of it, Closes #470
+* Fix incorrect handling of Entangled Chalice bounding box
+* Fix Display Stand showing missing texture particles when breaking, Closes #471
