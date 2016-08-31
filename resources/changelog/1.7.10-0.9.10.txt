@@ -1,0 +1,4 @@
+As always, don't forget to backup your world before updating!
+
+Additions:
+* Create ja_JP.lang for Minecraft 1.7.10
