@@ -1,5 +1,5 @@
 {
-  "parent": "cyclopscore:item/flat",
+  "parent": "item/handheld",
   "textures": {
     "layer0": "evilcraft:items/vengeancePickaxe"
   }
