@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.tileentity.tickaction.spiritreanimator;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -37,9 +36,18 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 
 	protected ItemStack getSpawnEgg(String entityName) {
 		ItemStack itemStack = new ItemStack((Item)Item.REGISTRY.getObject(new ResourceLocation("spawn_egg")));
-		ItemMonsterPlacer.applyEntityIdToItemStack(itemStack, entityName);
+		applyEntityIdToItemStack(itemStack, entityName);
 		return itemStack;
 
+	}
+
+	// Copied from ItemMonsterPlacer, since its client-side only over there.
+	protected static void applyEntityIdToItemStack(ItemStack stack, String entityId) {
+		NBTTagCompound nbttagcompound = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+		NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+		nbttagcompound1.setString("id", entityId);
+		nbttagcompound.setTag("EntityTag", nbttagcompound1);
+		stack.setTagCompound(nbttagcompound);
 	}
 
 	@Override
