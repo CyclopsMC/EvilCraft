@@ -31,6 +31,9 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -232,6 +235,16 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
             return ItemStack.loadItemStackFromNBT(blockTag);
         }
         return null;
+    }
+
+    @SubscribeEvent
+    public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
+        // Force allow right clicking with a fluid container passing through to this block
+        if (event.getItemStack() != null
+                && event.getItemStack().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+                && event.getWorld().getBlockState(event.getPos()).getBlock() == this) {
+            event.setUseBlock(Event.Result.ALLOW);
+        }
     }
 
     @Override
