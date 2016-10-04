@@ -37,19 +37,19 @@ public class ForestryModCompat implements IModCompat {
 	        // Add dark gem to the miner backpack.
 	        if(Configs.isEnabled(DarkGemConfig.class)) {
 	            FMLInterModComms.sendMessage(getModID(), "add-backpack-items",
-	                    "miner@" + Item.REGISTRY.getNameForObject(DarkGem.getInstance()).toString() + ":*");
+	                    "forestry.miner@" + Item.REGISTRY.getNameForObject(DarkGem.getInstance()).toString() + ":*");
 	        }
 	        
 	        // Add poison sac to hunter backpack.
 	        if(Configs.isEnabled(PoisonSacConfig.class)) {
 	            FMLInterModComms.sendMessage(getModID(), "add-backpack-items",
-	                    "hunter@" + Item.REGISTRY.getNameForObject(PoisonSacConfig._instance.getItemInstance()).toString() + ":*");
+	                    "forestry.hunter@" + Item.REGISTRY.getNameForObject(PoisonSacConfig._instance.getItemInstance()).toString() + ":*");
 	        }
 	        
 	        // Add undead clog to forester backpack.
 	        if(Configs.isEnabled(UndeadLogConfig.class)) {
 	            FMLInterModComms.sendMessage(getModID(), "add-backpack-items",
-	                    "forester@" + Block.REGISTRY.getNameForObject(UndeadLogConfig._instance.getBlockInstance()).toString() + ":*");
+	                    "forestry.forester@" + Block.REGISTRY.getNameForObject(UndeadLogConfig._instance.getBlockInstance()).toString() + ":*");
 	        }
 	        
 	        ForestryRecipeManager.register();
