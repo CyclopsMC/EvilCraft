@@ -19,10 +19,6 @@ import org.cyclops.evilcraft.item.*;
 public class Achievements {
 
 	/**
-	 * First farting achievement.
-	 */
-	public static final Achievement FART = new ExtendedAchievement("fart", 4, 1, new ItemStack(Items.FIREWORKS), null);
-	/**
 	 * Discovering the first age.
 	 */
 	public static final Achievement FIRST_AGE = new ExtendedAchievement("firstAge", 0, 4, new ItemStack(Configs.isEnabled(DarkGemConfig.class) ? DarkGem.getInstance() : Items.POTATO), null);
@@ -53,7 +49,7 @@ public class Achievements {
 	/**
 	 * Attack a player using the necromancer staff.
 	 */
-	public static final Achievement PLAYER_DEVASTATOR = new ExtendedAchievement("playerDevastator", 6, 6, new ItemStack(Configs.isEnabled(NecromancerStaffConfig.class) ? NecromancerStaff.getInstance() : Items.POTATO, 1, 3), PLAYER_DISTORTER);
+	public static final Achievement PLAYER_DEVASTATOR = new ExtendedAchievement("playerDevastator", 6, 6, new ItemStack(Configs.isEnabled(NecromancerStaffConfig.class) ? NecromancerStaff.getInstance() : Items.POTATO), PLAYER_DISTORTER);
 	/**
 	 * Make a spirit furnace.
 	 */
@@ -62,6 +58,10 @@ public class Achievements {
      * Eat some Humanoid Flesh.
      */
     public static final Achievement CANNIBAL = new ExtendedAchievement("cannibal", 4, -1, new ItemStack(Configs.isEnabled(WerewolfFleshConfig.class) ? WerewolfFlesh.getInstance() : Items.POTATO, 1, 1), null);
+	/**
+	 * First farting achievement.
+	 */
+	public static final Achievement FART = new ExtendedAchievement("fart", 4, 1, new ItemStack(Items.FIREWORKS), null);
 
 
     private static final Achievement[] ACHIEVEMENTS = {
