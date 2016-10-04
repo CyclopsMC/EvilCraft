@@ -13,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -192,17 +193,19 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
     @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
         for (ItemStack plankWoodStack : OreDictionary.getOres("plankWood")) {
-            int plankWoodMeta = plankWoodStack.getItemDamage();
-            if (plankWoodMeta == OreDictionary.WILDCARD_VALUE) {
-                List<ItemStack> plankWoodSubItems = Lists.newArrayList();
-                plankWoodStack.getItem().getSubItems(plankWoodStack.getItem(), null, plankWoodSubItems);
-                for (ItemStack plankWoodSubItem : plankWoodSubItems) {
-                    IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodSubItem);
+            if (plankWoodStack.getItem() instanceof ItemBlock) {
+                int plankWoodMeta = plankWoodStack.getItemDamage();
+                if (plankWoodMeta == OreDictionary.WILDCARD_VALUE) {
+                    List<ItemStack> plankWoodSubItems = Lists.newArrayList();
+                    plankWoodStack.getItem().getSubItems(plankWoodStack.getItem(), null, plankWoodSubItems);
+                    for (ItemStack plankWoodSubItem : plankWoodSubItems) {
+                        IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodSubItem);
+                        list.add(getTypedDisplayStandItem(plankWoodBlockState));
+                    }
+                } else {
+                    IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodStack);
                     list.add(getTypedDisplayStandItem(plankWoodBlockState));
                 }
-            } else {
-                IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodStack);
-                list.add(getTypedDisplayStandItem(plankWoodBlockState));
             }
         }
     }
