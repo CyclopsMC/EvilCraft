@@ -34,6 +34,7 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
     public void onTick(TileBloodChest tile, ItemStack itemStack, int slot, int tick) {
         if(tick >= getRequiredTicks(tile, slot, tick)) {
             if(!tile.getTank().isEmpty() && itemStack != null) {
+                itemStack = itemStack.copy();
                 // Call handlers registered via API.
             	IBloodChestRepairActionRegistry actions = EvilCraft._instance.getRegistryManager().
             			getRegistry(IBloodChestRepairActionRegistry.class);
@@ -45,7 +46,7 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
                         drainTank(tile, multiplier);
                     }
                 }
-                
+                tile.setInventorySlotContents(slot, itemStack);
             }
         }
     }
