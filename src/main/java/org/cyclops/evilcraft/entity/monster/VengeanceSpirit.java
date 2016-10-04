@@ -657,8 +657,8 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 		for(String entity : blacklist) {
 			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) EntityList.NAME_TO_CLASS.get(entity);
 			if(clazz == null) {
-				EvilCraft.clog("Could not find entity by name '" + entity
-                        + "' for spirit blacklist.", Level.WARN);
+				EvilCraft.clog("Skipped adding entity by name '" + entity
+                        + "' to the spirit blacklist, because it could not be found.", Level.INFO);
 			} else {
 				addToBlacklist(clazz);
 			}
