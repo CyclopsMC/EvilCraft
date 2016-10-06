@@ -204,7 +204,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     }
 
     @Override
-    public ModBase getMod() {
+    public ModBase getModGui() {
         return EvilCraft._instance;
     }
 
