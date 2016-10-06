@@ -278,4 +278,8 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
 		return infuseTicker;
 	}
 
+    @Override
+    protected boolean isUpdateInventoryHashOnTankContentsChanged() {
+        return true;
+    }
 }

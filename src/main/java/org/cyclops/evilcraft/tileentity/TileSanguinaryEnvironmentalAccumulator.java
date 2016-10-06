@@ -366,4 +366,9 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
         }
         return tanks;
     }
+
+    @Override
+    protected boolean isUpdateInventoryHashOnTankContentsChanged() {
+        return true;
+    }
 }

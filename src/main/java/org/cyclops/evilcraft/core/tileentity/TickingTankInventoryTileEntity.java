@@ -138,7 +138,7 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
             }
         }
     }
-    
+
     /**
      * Get the new (numerical) state for this tile entity.
      * @return The new state.
