@@ -302,6 +302,11 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     }
 
     @Override
+    public boolean canInsertItem(int slot, ItemStack itemStack) {
+        return slot != getProduceSlot() && super.canInsertItem(slot, itemStack);
+    }
+
+    @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
         if(slot == SLOT_ACCUMULATE) {
             return canConsume(itemStack);

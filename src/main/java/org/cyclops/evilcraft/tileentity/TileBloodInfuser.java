@@ -251,7 +251,12 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     public int getProduceSlot() {
         return SLOT_INFUSE_RESULT;
     }
-    
+
+    @Override
+    public boolean canInsertItem(int slot, ItemStack itemStack) {
+        return slot != getProduceSlot() && super.canInsertItem(slot, itemStack);
+    }
+
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
         if(slot == SLOT_INFUSE)
