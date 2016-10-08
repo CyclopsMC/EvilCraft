@@ -1,0 +1,5 @@
+As always, don't forget to backup your world before updating!
+
+Fixes:
+* Fix crash on envir acc recipe processing, Closes #484
+
