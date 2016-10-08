@@ -1,0 +1,18 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.8.0 or higher.
+
+Changes:
+* Add compatibility with new CyclopsCore guicontainer interface
+* Reduce spirit blacklist warning to info logging
+
+Fixes:
+* Fix machines accepting piping into production slots
+* Possible fix for rare crash when repairing TCon items #482
+* Fix fluid container items not being placable on display stands, Closes #481
+* Fix Forestry backpack integration
+* Fix startup crash with mods registering non-blocks as plankWood, Closes #479
+* Fix missing texture in achievements, Closes #478
+* Fix werewolves not attacking, Closes #475
+* Fix server crash when reanimating mobs
+* Fix tank reequip animations not working when toggling mode
+* Fix Vengeance Pickaxe having wrong transformations
