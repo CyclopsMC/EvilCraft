@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.experimental.Delegate;
 import net.minecraft.entity.Entity;
@@ -38,6 +39,7 @@ import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.tileentity.environmentalaccumulator.IEAProcessingFinishedEffect;
 import org.lwjgl.util.vector.Vector4f;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -249,7 +251,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             }
 
             // Remove players that aren't in the range for this tick
-            for (EntityPlayerMP playerMP : getBossInfo().getPlayers()) {
+            Collection<EntityPlayerMP> players = Lists.newArrayList(getBossInfo().getPlayers());
+            for (EntityPlayerMP playerMP : players) {
                 if (!playerIds.contains(playerMP.getEntityId()) || this.getHealth() == 0) {
                     getBossInfo().removePlayer(playerMP);
                 }
