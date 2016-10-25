@@ -41,7 +41,7 @@ public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerab
 
     public InvertedPotentia(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
-        this.setMaxStackSize(1);
+        this.setMaxStackSize(16);
         this.setHasSubtypes(true);
     }
     
