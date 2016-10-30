@@ -89,7 +89,9 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
             do {
                 tickFluid = item.getFluid(itemStack);
                 ItemStack toFill = it.next();
-                ItemHelpers.tryFillContainerForPlayer(item, itemStack, toFill, tickFluid, player);
+                if (tickFluid != null && toFill != null && toFill.stackSize == 1) {
+                    ItemHelpers.tryFillContainerForPlayer(item, itemStack, toFill, tickFluid, player);
+                }
             } while(tickFluid != null && tickFluid.amount > 0 && it.hasNext());
         }
     }
