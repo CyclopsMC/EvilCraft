@@ -1,0 +1,13 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.8.0 or higher.
+
+Additions:
+
+Changes:
+* Update ja_JP.lang, by neconeco2
+* Make inverted potentia stackable, Closes #495
+
+Fixes:
+* Fix Undead Leaves keeping meta value when silked, Closes #76
+* Declare spirit parameters in the correct class, Closes #494
+* Fix JEI recipes for fluid container items, Closes #493
