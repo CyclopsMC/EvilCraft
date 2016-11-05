@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+
+Changes:
+* Update ja_JP.lang, by neconeco2
+
+Fixes:
+* Fix chalice crashing when filling with null fluid, Closes #498
