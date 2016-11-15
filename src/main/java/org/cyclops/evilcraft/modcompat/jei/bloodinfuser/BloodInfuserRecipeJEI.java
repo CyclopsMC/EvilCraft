@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.util.Translator;
 import net.minecraft.client.Minecraft;
@@ -41,6 +42,13 @@ public class BloodInfuserRecipeJEI extends BlankRecipeWrapper {
         this.input = recipe.getInput().getItemStacks();
         this.output = recipe.getOutput().getItemStacks();
         this.xpString = Translator.translateToLocalFormatted("gui.jei.category.smelting.experience", recipe.getProperties().getXp());
+    }
+
+    @Override
+    public void getIngredients(IIngredients ingredients) {
+        ingredients.setInputs(ItemStack.class, getInputs());
+        ingredients.setOutputs(ItemStack.class, getOutputs());
+        ingredients.setInputs(FluidStack.class, getFluidInputs());
     }
 
     @Override

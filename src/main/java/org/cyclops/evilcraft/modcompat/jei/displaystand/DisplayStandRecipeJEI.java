@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.modcompat.jei.displaystand;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import mezz.jei.api.IJeiHelpers;
 import mezz.jei.plugins.vanilla.crafting.ShapedOreRecipeWrapper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -24,8 +25,8 @@ public class DisplayStandRecipeJEI extends ShapedOreRecipeWrapper {
 
     private final List<ItemStack> outputs;
 
-    public DisplayStandRecipeJEI(DisplayStandRecipe recipe) {
-        super(recipe);
+    public DisplayStandRecipeJEI(IJeiHelpers jeiHelpers, DisplayStandRecipe recipe) {
+        super(jeiHelpers, recipe);
         this.outputs = Lists.newArrayList();
         for (ItemStack plankWoodStack : OreDictionary.getOres("plankWood")) {
             int plankWoodMeta = plankWoodStack.getItemDamage();

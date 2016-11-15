@@ -2,8 +2,10 @@ package org.cyclops.evilcraft.modcompat.jei.environmentalaccumulator;
 
 import com.google.common.collect.Maps;
 import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
@@ -13,6 +15,7 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Map;
 
 /**
@@ -35,6 +38,12 @@ public abstract class CommonEnvironmentalAccumulatorRecipeCategory implements IR
         weatherIcons.put(WeatherType.CLEAR, guiHelper.createDrawable(weatherResourceLocation, 0, 0, 16, 16));
         weatherIcons.put(WeatherType.RAIN, guiHelper.createDrawable(weatherResourceLocation, 16, 0, 16, 16));
         weatherIcons.put(WeatherType.LIGHTNING, guiHelper.createDrawable(weatherResourceLocation, 32, 0, 16, 16));
+    }
+
+    @Nullable
+    @Override
+    public IDrawable getIcon() {
+        return null;
     }
 
     @Override
@@ -62,5 +71,10 @@ public abstract class CommonEnvironmentalAccumulatorRecipeCategory implements IR
         } else {
             this.lastRecipe = null;
         }
+    }
+
+    @Override
+    public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
+        setRecipe(recipeLayout, recipeWrapper);
     }
 }

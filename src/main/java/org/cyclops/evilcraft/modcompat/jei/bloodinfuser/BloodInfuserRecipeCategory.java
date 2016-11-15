@@ -5,6 +5,7 @@ import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
@@ -18,6 +19,7 @@ import org.cyclops.evilcraft.tileentity.TileBloodInfuser;
 import org.cyclops.evilcraft.tileentity.TileWorking;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Category for the Blood Infuser recipes.
@@ -61,6 +63,12 @@ public class BloodInfuserRecipeCategory implements IRecipeCategory {
         return background;
     }
 
+    @Nullable
+    @Override
+    public IDrawable getIcon() {
+        return null;
+    }
+
     @Override
     public void drawExtras(Minecraft minecraft) {
         arrow.draw(minecraft, 65, 28);
@@ -98,5 +106,10 @@ public class BloodInfuserRecipeCategory implements IRecipeCategory {
                     GuiBloodInfuser.TANKWIDTH, GuiBloodInfuser.TANKHEIGHT, getMaxTankSize(recipe), true, tankOverlay);
             recipeLayout.getFluidStacks().set(FLUID_SLOT, recipe.getFluidStack());
         }
+    }
+
+    @Override
+    public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
+        setRecipe(recipeLayout, recipeWrapper);
     }
 }

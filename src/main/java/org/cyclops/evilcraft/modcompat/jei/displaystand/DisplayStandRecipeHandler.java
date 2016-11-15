@@ -4,6 +4,7 @@ import mezz.jei.api.recipe.IRecipeHandler;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import org.cyclops.evilcraft.core.recipe.DisplayStandRecipe;
+import org.cyclops.evilcraft.modcompat.jei.JEIEvilCraftConfig;
 
 import javax.annotation.Nonnull;
 
@@ -34,7 +35,7 @@ public class DisplayStandRecipeHandler implements IRecipeHandler<DisplayStandRec
     @Nonnull
     @Override
     public IRecipeWrapper getRecipeWrapper(@Nonnull DisplayStandRecipe recipe) {
-        return new DisplayStandRecipeJEI(recipe);
+        return new DisplayStandRecipeJEI(JEIEvilCraftConfig.JEI_HELPER, recipe);
     }
 
     @Override

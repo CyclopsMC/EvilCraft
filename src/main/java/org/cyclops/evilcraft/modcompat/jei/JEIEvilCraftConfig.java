@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.modcompat.jei;
 
 import com.google.common.collect.Lists;
 import mezz.jei.api.*;
+import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -38,6 +39,16 @@ import java.util.List;
 public class JEIEvilCraftConfig implements IModPlugin {
 
     public static IJeiHelpers JEI_HELPER;
+
+    @Override
+    public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
+
+    }
+
+    @Override
+    public void registerIngredients(IModIngredientRegistration registry) {
+
+    }
 
     @Override
     public void register(@Nonnull IModRegistry registry) {
