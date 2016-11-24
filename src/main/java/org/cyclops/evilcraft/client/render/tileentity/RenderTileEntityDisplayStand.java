@@ -9,6 +9,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.api.broom.IBroom;
 import org.cyclops.evilcraft.block.DisplayStand;
@@ -46,8 +47,8 @@ public class RenderTileEntityDisplayStand extends TileEntitySpecialRenderer<Tile
             if(tile.getStackInSlot(0) != null) {
                 IBlockState blockState = tile.getWorld().getBlockState(tile.getPos());
                 renderItem(tile.getWorld(), tile.getStackInSlot(0),
-                        blockState .getValue(DisplayStand.FACING),
-                        blockState .getValue(DisplayStand.AXIS_X),
+                        BlockHelpers.getSafeBlockStateProperty(blockState, DisplayStand.FACING, EnumFacing.NORTH),
+                        BlockHelpers.getSafeBlockStateProperty(blockState, DisplayStand.AXIS_X, true),
                         tile.getDirection() == EnumFacing.AxisDirection.POSITIVE);
             }
         }
