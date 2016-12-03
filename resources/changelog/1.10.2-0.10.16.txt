@@ -1,0 +1,6 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.8.2 or higher.
+
+Fixes:
+* Fix display stand crash when rendering while world is loading, Closes #503
+
