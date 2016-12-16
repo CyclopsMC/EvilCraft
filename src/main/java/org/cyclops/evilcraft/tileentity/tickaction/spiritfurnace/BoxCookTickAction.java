@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootTable;
+import net.minecraftforge.common.util.FakePlayerFactory;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
 import org.cyclops.evilcraft.block.BoxOfEternalClosure;
@@ -178,6 +179,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                         LootTable loottable = world.getLootTableManager().getLootTableFromLocation(deathLootTable);
                         LootContext.Builder lootcontext$builder = (new LootContext.Builder((WorldServer) tile.getWorld()))
                                 .withLootedEntity(entity)
+                                .withPlayer(FakePlayerFactory.getMinecraft((WorldServer) tile.getWorld()))
                                 .withDamageSource(DamageSource.generic);
 
                         // If we want to do something with fortune later...
