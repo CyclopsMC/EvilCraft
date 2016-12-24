@@ -1,12 +1,7 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.fluid.Poison;
-import org.cyclops.evilcraft.fluid.PoisonConfig;
 
 /**
  * Config for the {@link PoisonBottle}.
@@ -27,17 +22,9 @@ public class PoisonBottleConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "poisonBottle",
+            "poison_bottle",
             null,
             PoisonBottle.class
         );
-    }
-
-    @Override
-    public void onRegistered() {
-        super.onRegistered();
-        if(Configs.isEnabled(PoisonConfig.class)) {
-            FluidContainerRegistry.registerFluidContainer(Poison.getInstance(), new ItemStack(PoisonBottle.getInstance()), FluidContainerRegistry.EMPTY_BOTTLE);
-        }
     }
 }

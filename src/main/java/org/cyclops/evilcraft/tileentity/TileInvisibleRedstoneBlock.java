@@ -32,10 +32,10 @@ public class TileInvisibleRedstoneBlock extends CyclopsTileEntity implements Cyc
     
     @Override
     public void updateTileEntity() {
-        if (worldObj.getTotalWorldTime() - tickCreated >= TICK_DESTRUCTION_THRESHOLD) {
-        	worldObj.setBlockToAir(getPos());
+        if (world.getTotalWorldTime() - tickCreated >= TICK_DESTRUCTION_THRESHOLD) {
+        	world.setBlockToAir(getPos());
         	if(RedstoneGrenadeConfig.dropAfterUsage) {
-        		InvisibleRedstoneBlock.getInstance().dropBlockAsItem(worldObj, getPos(), worldObj.getBlockState(getPos()), 0);
+        		InvisibleRedstoneBlock.getInstance().dropBlockAsItem(world, getPos(), world.getBlockState(getPos()), 0);
         	}
         }
     }

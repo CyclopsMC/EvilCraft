@@ -23,7 +23,7 @@ public class DarkSpikeConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "darkSpike",
+            "dark_spike",
             null,
             null
         );

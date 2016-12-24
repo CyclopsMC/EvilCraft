@@ -30,7 +30,7 @@ public class BloodPearlOfTeleportationConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "bloodPearlOfTeleportation",
+            "blood_pearl_of_teleportation",
             null,
             BloodPearlOfTeleportation.class
         );

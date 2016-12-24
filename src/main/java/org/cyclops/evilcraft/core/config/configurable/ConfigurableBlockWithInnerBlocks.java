@@ -11,6 +11,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
@@ -59,7 +60,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         for (int j = 0; j < INNER_BLOCKS.length; ++j) {
             list.add(new ItemStack(item, 1, j));
         }
@@ -71,7 +72,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     }
     
     @Override
-    protected ItemStack createStackedBlock(IBlockState blockState) {
+    public ItemStack getPickBlock(IBlockState blockState, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(getBlockFromState(blockState).getBlock());
     }
     
@@ -152,9 +153,9 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean addHitEffects(IBlockState blockState, World worldObj, RayTraceResult target, ParticleManager particleManager) {
+    public boolean addHitEffects(IBlockState blockState, World world, RayTraceResult target, ParticleManager particleManager) {
         BlockPos pos = target.getBlockPos();
-        RenderHelpers.addBlockHitEffects(particleManager, worldObj, getBlockFromState(blockState), pos, target.sideHit);
+        RenderHelpers.addBlockHitEffects(particleManager, world, getBlockFromState(blockState), pos, target.sideHit);
         return true;
     }
 

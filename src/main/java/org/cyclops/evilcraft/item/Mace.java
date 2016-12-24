@@ -18,12 +18,15 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.client.particle.ExtendedParticleExplosion;
 import org.cyclops.evilcraft.client.particle.ParticleDistort;
@@ -71,7 +74,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     @Override
     public boolean hitEntity(ItemStack itemStack, EntityLivingBase attacked, EntityLivingBase attacker) {
         if(attacker instanceof EntityPlayer && isUsable(itemStack, (EntityPlayer) attacker)) {
-            this.drain(itemStack, hitUsage, true);
+            FluidUtil.getFluidHandler(itemStack).drain(hitUsage, true);
         }
         return true;
     }
@@ -92,7 +95,8 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         if(ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, this.powerLevels, true)) {
             return MinecraftHelpers.successAction(itemStack);
         } else {
@@ -111,7 +115,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     
     @Override
     public void onUsingTick(ItemStack itemStack, EntityLivingBase player, int duration) {
-        World world = player.worldObj;
+        World world = player.world;
         if(world.isRemote && duration % 2 == 0) {
             showUsingItemTick(world, itemStack, player, duration);
         }
@@ -136,7 +140,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
 
                     double xCoord = entity.posX;
                     double yCoord = entity.posY + entity.getEyeHeight()
-                            - (Minecraft.getMinecraft().thePlayer == entity ? 0.5D : 1.5D);
+                            - (Minecraft.getMinecraft().player == entity ? 0.5D : 1.5D);
                     double zCoord = entity.posZ;
 
                     double particleX = xCoord + xOffset - world.rand.nextFloat() * area / 4 - 0.5F;
@@ -209,18 +213,19 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     @Override
     public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityLivingBase entity, int itemInUseCount) {
         if(entity instanceof EntityPlayer) {
+            IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack);
             EntityPlayer player = (EntityPlayer) entity;
             // Actual usage length
             int itemUsedCount = getMaxItemUseDuration(itemStack) - itemInUseCount;
 
             // Calculate how much blood to drain
-            int toDrain = itemUsedCount * getCapacity(itemStack) * (getPower(itemStack) + 1)
+            int toDrain = itemUsedCount * fluidHandler.getCapacity() * (getPower(itemStack) + 1)
                     / (getMaxItemUseDuration(itemStack) * this.powerLevels);
             FluidStack consumed = consume(toDrain, itemStack, player);
             int consumedAmount = consumed == null ? 0 : consumed.amount;
 
             // Recalculate the itemUsedCount depending on how much blood is available
-            itemUsedCount = consumedAmount * getMaxItemUseDuration(itemStack) / getCapacity(itemStack);
+            itemUsedCount = consumedAmount * getMaxItemUseDuration(itemStack) / fluidHandler.getCapacity();
 
             // Only do something if there is some blood left
             if (consumedAmount > 0) {
@@ -255,7 +260,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
         float particleMotionY = 0.2F;
         float particleMotionZ = world.rand.nextFloat() * 0.2F - 0.1F;
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                new ParticleSmokeNormal.Factory().getEntityFX(0, world, xCoord, yCoord, zCoord,
+                new ParticleSmokeNormal.Factory().createParticle(0, world, xCoord, yCoord, zCoord,
                         particleMotionX, particleMotionY, particleMotionZ)
         );
         
@@ -273,7 +278,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     public Multimap getAttributeModifiers(EntityEquipmentSlot slot, ItemStack itemStack) {
         Multimap multimap = super.getAttributeModifiers(slot, itemStack);
         if (slot == EntityEquipmentSlot.MAINHAND) {
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) this.meleeDamage, 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) this.meleeDamage, 0));
         }
         return multimap;
     }

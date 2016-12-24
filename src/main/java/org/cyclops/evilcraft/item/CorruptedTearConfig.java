@@ -22,7 +22,7 @@ public class CorruptedTearConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
             true,
-            "corruptedTear",
+            "corrupted_tear",
             null,
             null
         );

@@ -3,9 +3,12 @@ package org.cyclops.evilcraft.core.recipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.block.DarkTank;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
@@ -17,17 +20,19 @@ import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
  */
 public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 	
-	private int size;
-	private ItemBlockFluidContainer tankItem;
+	private final int size;
+	private final ItemBlockFluidContainer tankItem;
+	private final int maxTankSize;
 	
 	/**
 	 * Make a new instance.
 	 * @param size The recipe size (should be called multiple times (1 to 9) to allow for all shapeless crafting types.
 	 * @param tankItem The tank item that is combinable.
 	 */
-	public ItemBlockFluidContainerCombinationRecipe(int size, ItemBlockFluidContainer tankItem) {
+	public ItemBlockFluidContainerCombinationRecipe(int size, ItemBlockFluidContainer tankItem, int maxTankSize) {
 		this.size = size;
 		this.tankItem = tankItem;
+		this.maxTankSize = maxTankSize;
 	}
 
 	@Override
@@ -46,12 +51,12 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 	}
 
     @Override
-    public ItemStack[] getRemainingItems(InventoryCrafting inventory) {
-        ItemStack[] aitemstack = new ItemStack[inventory.getSizeInventory()];
+    public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inventory) {
+		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getSizeInventory(), ItemStack.EMPTY);
 
-        for (int i = 0; i < aitemstack.length; ++i) {
+        for (int i = 0; i < aitemstack.size(); ++i) {
             ItemStack itemstack = inventory.getStackInSlot(i);
-            aitemstack[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack);
+            aitemstack.set(i, net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack));
         }
 
         return aitemstack;
@@ -60,6 +65,7 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
     @Override
 	public ItemStack getCraftingResult(InventoryCrafting grid) {						
 		ItemStack output = getRecipeOutput().copy();
+		IFluidHandlerItemCapacity fluidHandlerOutput = FluidHelpers.getFluidHandlerItemCapacity(output);
 		
 		Fluid commonFluid = null;
 		int totalCapacity = 0;
@@ -71,8 +77,9 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 			ItemStack element = grid.getStackInSlot(j);
 			if(element != null) {
 				if(element.getItem() == tankItem) {
+					IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(element);
 					inputItems++;
-					FluidStack fluidStack = tankItem.getFluid(element);
+					FluidStack fluidStack = FluidHelpers.getFluid(fluidHandler);
 					if(fluidStack != null) {
 						if(commonFluid == null) {
 							commonFluid = fluidStack.getFluid();
@@ -81,7 +88,7 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 						}
 						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
-					totalCapacity = Helpers.addSafe(totalCapacity, tankItem.getCapacity(element));
+					totalCapacity = Helpers.addSafe(totalCapacity, fluidHandler.getCapacity());
 				} else {
 					return null;
 				}
@@ -89,14 +96,14 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 		}
 		
 		if(inputItems < 2
-				|| totalCapacity > tankItem.getBlockTank().getMaxCapacity()) {
+				|| totalCapacity > this.maxTankSize) {
 			return null;
 		}
 		
 		// Set capacity and fill fluid into output.
-		tankItem.setCapacity(output, totalCapacity);
+		fluidHandlerOutput.setCapacity(totalCapacity);
 		if(commonFluid != null) {
-			tankItem.fill(output, new FluidStack(commonFluid, totalContent), true);
+			fluidHandlerOutput.fill(new FluidStack(commonFluid, totalContent), true);
 		}
 		
 		return output;

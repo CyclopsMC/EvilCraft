@@ -22,7 +22,7 @@ public class BroomPartConfig extends ItemConfig {
         super(
             EvilCraft._instance,
         	true,
-            "broomPart",
+            "broom_part",
             null,
             BroomPart.class
         );

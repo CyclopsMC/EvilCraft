@@ -62,7 +62,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	/**
 	 * The default I18N key for when no inner entity exists.
 	 */
-	public static final String DEFAULT_L10N_KEY = "vengeanceSpirit";
+	public static final ResourceLocation DEFAULT_L10N_KEY = new ResourceLocation("vengeance_spirit");
 	
     private static final Set<Class<? extends EntityLivingBase>> BLACKLIST = Sets.newHashSet();
     private static final Set<Class<? extends EntityLivingBase>> IMC_BLACKLIST = Sets.newHashSet();
@@ -114,7 +114,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 
         double speed = 0.25D;
         float damage = 0.5F;
-        int remainingLife = MathHelper.getRandomIntegerInRange(world.rand, REMAININGLIFE_MIN,
+        int remainingLife = MathHelper.getInt(world.rand, REMAININGLIFE_MIN,
         		REMAININGLIFE_MAX);
         if(isSwarm()) {
         	speed += 0.125D * getSwarmTier();
@@ -193,7 +193,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         if(getBuildupDuration() > 0) return false; // Don't attack anything when still building up.
 
         this.setDead();
-        this.worldObj.removeEntity(this);
+        this.world.removeEntity(this);
     	if(entity instanceof EntityPlayer) {
     		EntityPlayer player = (EntityPlayer) entity;
 
@@ -215,7 +215,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     }
 
     @Override
-    protected void dropLoot(boolean wasRecentlyHit, int lootingModifier, DamageSource damageSource) {
+    protected void dropLoot(boolean wasRecentlyHit, int lootingModifier, @Nullable DamageSource damageSource) {
         super.dropLoot(wasRecentlyHit, lootingModifier, damageSource);
 
         // Also drop loot from inner entity!
@@ -226,7 +226,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
                 LootTable loottable = getEntityWorld().getLootTableManager().getLootTableFromLocation(deathLootTable);
                 LootContext.Builder lootcontext$builder = (new LootContext.Builder((WorldServer) getEntityWorld()))
                         .withLootedEntity(innerEntity)
-                        .withDamageSource(DamageSource.generic);
+                        .withDamageSource(DamageSource.GENERIC);
 
                 if (wasRecentlyHit && this.attackingPlayer != null) {
                     lootcontext$builder = lootcontext$builder.withPlayer(this.attackingPlayer).withLuck(this.attackingPlayer.getLuck());
@@ -242,10 +242,10 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     @Override
     public void setDead() {
     	super.setDead();
-    	if(worldObj.isRemote && isVisible()) {
+    	if(world.isRemote && isVisible()) {
     		spawnSmoke();
-    		playSound(getDeathSound(), 0.1F + worldObj.rand.nextFloat() * 0.9F,
-    				0.1F + worldObj.rand.nextFloat() * 0.9F);
+    		playSound(getDeathSound(), 0.1F + world.rand.nextFloat() * 0.9F,
+    				0.1F + world.rand.nextFloat() * 0.9F);
     	}
     }
     
@@ -277,7 +277,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	        	innerEntity.prevRotationYawHead = prevRotationYawHead;
         	}
         	
-        	if(worldObj.isRemote) {
+        	if(world.isRemote) {
         		spawnSmoke();
         		if(isSwarm()) {
         			spawnSwarmParticles();
@@ -298,7 +298,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             setRemainingLife(getRemainingLife() - 1);
 	        if(getRemainingLife() <= 0) {
 	        	this.setDead();
-	        	worldObj.removeEntity(this);
+	        	world.removeEntity(this);
 	        }
         }
     }
@@ -322,7 +322,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             float particleMotionY = (-0.5F + rand.nextFloat()) * 0.05F;
             float particleMotionZ = (-0.5F + rand.nextFloat()) * 0.05F;
             
-            ParticleDarkSmoke particle = new ParticleDarkSmoke(worldObj, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
+            ParticleDarkSmoke particle = new ParticleDarkSmoke(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             if(this.isDead)
             	particle.setDeathParticles();
             particle.setLiving((float)getRemainingLife() / (float)REMAININGLIFE_MAX);
@@ -344,7 +344,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             float particleMotionY = (-0.5F + rand.nextFloat()) * 0.05F;
             float particleMotionZ = (-0.5F + rand.nextFloat()) * 0.05F;
             
-            ParticleDegrade particle = new ParticleDegrade(worldObj, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
+            ParticleDegrade particle = new ParticleDegrade(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             Minecraft.getMinecraft().effectRenderer.addEffect(particle);
         }
     }
@@ -352,7 +352,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     @Override
     public void playSound(SoundEvent soundIn, float volume, float pitch) {
         if (soundIn != null && isVisible() && !this.isSilent()) {
-            this.worldObj.playSound(this.posX, this.posY, this.posZ, soundIn, this.getSoundCategory(), volume, pitch, true);
+            this.world.playSound(this.posX, this.posY, this.posZ, soundIn, this.getSoundCategory(), volume, pitch, true);
         }
     }
 
@@ -361,17 +361,17 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return If it is visible
      */
     public boolean isVisible() {
-        return worldObj.isRemote &&
+        return world.isRemote &&
     			(isAlternativelyVisible() || isClientVisible());
     }
     
     @SideOnly(Side.CLIENT)
     private boolean isClientVisible() {
-    	if (isEnabledVengeance(Minecraft.getMinecraft().thePlayer)) {
+    	if (isEnabledVengeance(Minecraft.getMinecraft().player)) {
             return true;
         }
-        for (ItemStack itemStack : Minecraft.getMinecraft().thePlayer.getArmorInventoryList()) {
-            if (itemStack != null && itemStack.getItem() instanceof SpectralGlasses) {
+        for (ItemStack itemStack : Minecraft.getMinecraft().player.getArmorInventoryList()) {
+            if (!itemStack.isEmpty() && itemStack.getItem() instanceof SpectralGlasses) {
                 return true;
             }
         }
@@ -379,7 +379,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     }
     
     private boolean isAlternativelyVisible() {
-        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+        EntityPlayerSP player = Minecraft.getMinecraft().player;
 		return player != null && player.capabilities.isCreativeMode;
 	}
 
@@ -455,8 +455,8 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     	try {
 			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(data.getInnerEntityName());
             if(!clazz.equals(VengeanceSpirit.class)) {
-				String name = (String) EntityList.CLASS_TO_NAME.get(clazz);
-				Entity entity = EntityList.createEntityByName(name, worldObj);
+                ResourceLocation name = EntityList.getKey(clazz);
+				Entity entity = EntityList.createEntityByIDFromName(name, world);
                 if(canSustain((EntityLivingBase) entity)) {
                     innerEntity = (EntityLivingBase) entity;
                     this.setSize(innerEntity.width, innerEntity.height);
@@ -470,8 +470,8 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
  		} catch (ClassCastException e) {
 			EvilCraft.clog("Tried to spirit invalid entity, removing it now.", Level.ERROR);
  		}
-        if(!this.worldObj.isRemote) {
-            this.worldObj.removeEntity(this);
+        if(!this.world.isRemote) {
+            this.world.removeEntity(this);
         }
     	return null;
     }
@@ -484,7 +484,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         if(innerEntity instanceof EntityPlayer) {
             setPlayerId(((EntityPlayer) innerEntity).getGameProfile().getId().toString());
             setPlayerName(((EntityPlayer) innerEntity).getGameProfile().getName());
-            innerEntity = new EntityZombie(worldObj);
+            innerEntity = new EntityZombie(world);
         }
 		this.data.setInnerEntityName(innerEntity.getClass().getName());
 	}
@@ -560,8 +560,8 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 */
 	public void onHit(double hitX, double hitY, double hitZ,
 			double impactMotionX, double impactMotionY, double impactMotionZ) {
-		addFrozenDuration(worldObj.rand.nextInt(4) + 3);
-		if(worldObj.isRemote) {
+		addFrozenDuration(world.rand.nextInt(4) + 3);
+		if(world.isRemote) {
 			showBurstParticles(hitX, hitY, hitZ, impactMotionX, impactMotionY, impactMotionZ);
 		}
 	}
@@ -569,7 +569,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	@SideOnly(Side.CLIENT)
 	private void showBurstParticles(double hitX, double hitY, double hitZ, 
 			double impactMotionX, double impactMotionY, double impactMotionZ) {
-		for(int i = 0; i < worldObj.rand.nextInt(5); i++) {
+		for(int i = 0; i < world.rand.nextInt(5); i++) {
 			float scale = 0.04F - rand.nextFloat() * 0.02F;
 	    	float red = rand.nextFloat() * 0.2F + 0.3F;
 	        float green = rand.nextFloat() * 0.2F + 0.3F;
@@ -580,7 +580,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	        double dy = 0.1D - rand.nextDouble() * 0.2D - impactMotionY * 0.1D;
 	        double dz = 0.1D - rand.nextDouble() * 0.2D - impactMotionZ * 0.1D;
 	        
-			ParticleBlur blur = new ParticleBlur(worldObj, hitX, hitY, hitZ, scale,
+			ParticleBlur blur = new ParticleBlur(world, hitX, hitY, hitZ, scale,
 					dx, dy, dz, red, green, blue, ageMultiplier);
 			Minecraft.getMinecraft().effectRenderer.addEffect(blur);
 		}
@@ -599,9 +599,9 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         int baseDistance = 5;
 		while(canSpawnNew(world, blockPos) && attempts > 0) {
             BlockPos spawnPos = blockPos.add(
-                    MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1),
-                    MathHelper.getRandomIntegerInRange(world.rand, 0, 3) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1),
-                    MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1)
+                    MathHelper.getInt(world.rand, baseDistance, baseDistance + area) * MathHelper.getInt(world.rand, -1, 1),
+                    MathHelper.getInt(world.rand, 0, 3) * MathHelper.getInt(world.rand, -1, 1),
+                    MathHelper.getInt(world.rand, baseDistance, baseDistance + area) * MathHelper.getInt(world.rand, -1, 1)
             );
             
             if(BlockHelpers.doesBlockHaveSolidTopSurface(world, spawnPos.add(0, -1, 0))) {
@@ -609,7 +609,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
                 if(world.checkNoEntityCollision(spirit.getEntityBoundingBox())
                 		&& spirit.isNotColliding()
                 		&& !world.containsAnyLiquid(spirit.getEntityBoundingBox())) {
-                    world.spawnEntityInWorld(spirit);
+                    world.spawnEntity(spirit);
                     return spirit;
                 }
             }
@@ -669,7 +669,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	protected static void setBlacklist(String[] blacklist) {
         BLACKLIST.clear();
 		for(String entity : blacklist) {
-			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) EntityList.NAME_TO_CLASS.get(entity);
+			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) EntityList.getClass(new ResourceLocation(entity));
 			if(clazz == null) {
 				EvilCraft.clog("Skipped adding entity by name '" + entity
                         + "' to the spirit blacklist, because it could not be found.", Level.INFO);

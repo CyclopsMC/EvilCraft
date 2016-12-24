@@ -6,7 +6,7 @@
             "entries": [
                 {
                     "type": "item",
-                    "name": "evilcraft:werewolfBone",
+                    "name": "evilcraft:werewolf_bone",
                     "weight": 1,
                     "functions": [
                         {
@@ -42,7 +42,7 @@
             "entries": [
                 {
                     "type": "item",
-                    "name": "evilcraft:werewolfFur",
+                    "name": "evilcraft:werewolf_fur",
                     "weight": 1
                 }
             ]

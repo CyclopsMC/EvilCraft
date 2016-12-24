@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.modcompat.jei;
 
-import com.google.common.collect.Lists;
 import mezz.jei.api.*;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.*;
 import org.cyclops.evilcraft.client.gui.container.GuiBloodInfuser;
@@ -28,7 +28,6 @@ import org.cyclops.evilcraft.modcompat.jei.sanguinaryenvironmentalaccumulator.Sa
 import org.cyclops.evilcraft.modcompat.jei.sanguinaryenvironmentalaccumulator.SanguinaryEnvironmentalAccumulatorRecipeTransferInfo;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 /**
  * Helper for registering JEI manager.
@@ -42,7 +41,17 @@ public class JEIEvilCraftConfig implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
-
+        SubtypeInterpreterActivatableFluidContainer subtypeInterpreter = new SubtypeInterpreterActivatableFluidContainer();
+        if (Configs.isEnabled(BloodExtractorConfig.class)) subtypeRegistry.registerSubtypeInterpreter(BloodExtractor.getInstance(), subtypeInterpreter);
+        if (Configs.isEnabled(BloodPearlOfTeleportationConfig.class)) subtypeRegistry.registerSubtypeInterpreter(BloodPearlOfTeleportation.getInstance(), subtypeInterpreter);
+        if (Configs.isEnabled(DarkTankConfig.class)) subtypeRegistry.registerSubtypeInterpreter(Item.getItemFromBlock(DarkTank.getInstance()), subtypeInterpreter);
+        if (Configs.isEnabled(InvigoratingPendantConfig.class)) subtypeRegistry.registerSubtypeInterpreter(InvigoratingPendant.getInstance(), subtypeInterpreter);
+        if (Configs.isEnabled(PrimedPendantConfig.class)) subtypeRegistry.registerSubtypeInterpreter(PrimedPendant.getInstance(), subtypeInterpreter);
+        if (Configs.isEnabled(KineticatorConfig.class)) subtypeRegistry.registerSubtypeInterpreter(Kineticator.getInstance(), subtypeInterpreter);
+        if (Configs.isEnabled(MaceOfDistortionConfig.class)) subtypeRegistry.registerSubtypeInterpreter(MaceOfDistortion.getInstance(), subtypeInterpreter);
+        if (Configs.isEnabled(MaceOfDestructionConfig.class)) subtypeRegistry.registerSubtypeInterpreter(MaceOfDestruction.getInstance(), subtypeInterpreter);
+        if (Configs.isEnabled(NecromancerStaffConfig.class)) subtypeRegistry.registerSubtypeInterpreter(NecromancerStaff.getInstance(), subtypeInterpreter);
+        if (Configs.isEnabled(RejuvenatedFleshConfig.class)) subtypeRegistry.registerSubtypeInterpreter(RejuvenatedFlesh.getInstance(), subtypeInterpreter);
     }
 
     @Override
@@ -84,7 +93,7 @@ public class JEIEvilCraftConfig implements IModPlugin {
             // Exalted Crafter
             registry.addRecipeClickArea(GuiExaltedCrafter.class, 88, 32, 28, 23, VanillaRecipeCategoryUid.CRAFTING);
             registry.getRecipeTransferRegistry().addRecipeTransferHandler(new ExaltedCrafterRecipeTransferInfo());
-            List<ItemStack> exaltedCrafters = Lists.newArrayList();
+            NonNullList<ItemStack> exaltedCrafters = NonNullList.create();
             ExaltedCrafter.getInstance().getSubItems(ExaltedCrafter.getInstance(), null, exaltedCrafters);
             for (ItemStack exaltedCrafter : exaltedCrafters) {
                 registry.addRecipeCategoryCraftingItem(exaltedCrafter, VanillaRecipeCategoryUid.CRAFTING);
@@ -96,18 +105,6 @@ public class JEIEvilCraftConfig implements IModPlugin {
             // Ignore items
             JEI_HELPER.getItemBlacklist().addItemToBlacklist(new ItemStack(BloodStainedBlock.getInstance()));
             JEI_HELPER.getItemBlacklist().addItemToBlacklist(new ItemStack(InvisibleRedstoneBlock.getInstance()));
-
-            SubtypeInterpreterActivatableFluidContainer subtypeInterpreter = new SubtypeInterpreterActivatableFluidContainer();
-            if (Configs.isEnabled(BloodExtractorConfig.class)) JEI_HELPER.getSubtypeRegistry().registerNbtInterpreter(BloodExtractor.getInstance(), subtypeInterpreter);
-            if (Configs.isEnabled(BloodPearlOfTeleportationConfig.class)) JEI_HELPER.getSubtypeRegistry().registerNbtInterpreter(BloodPearlOfTeleportation.getInstance(), subtypeInterpreter);
-            if (Configs.isEnabled(DarkTankConfig.class)) JEI_HELPER.getSubtypeRegistry().registerNbtInterpreter(Item.getItemFromBlock(DarkTank.getInstance()), subtypeInterpreter);
-            if (Configs.isEnabled(InvigoratingPendantConfig.class)) JEI_HELPER.getSubtypeRegistry().registerNbtInterpreter(InvigoratingPendant.getInstance(), subtypeInterpreter);
-            if (Configs.isEnabled(PrimedPendantConfig.class)) JEI_HELPER.getSubtypeRegistry().registerNbtInterpreter(PrimedPendant.getInstance(), subtypeInterpreter);
-            if (Configs.isEnabled(KineticatorConfig.class)) JEI_HELPER.getSubtypeRegistry().registerNbtInterpreter(Kineticator.getInstance(), subtypeInterpreter);
-            if (Configs.isEnabled(MaceOfDistortionConfig.class)) JEI_HELPER.getSubtypeRegistry().registerNbtInterpreter(MaceOfDistortion.getInstance(), subtypeInterpreter);
-            if (Configs.isEnabled(MaceOfDestructionConfig.class)) JEI_HELPER.getSubtypeRegistry().registerNbtInterpreter(MaceOfDestruction.getInstance(), subtypeInterpreter);
-            if (Configs.isEnabled(NecromancerStaffConfig.class)) JEI_HELPER.getSubtypeRegistry().registerNbtInterpreter(NecromancerStaff.getInstance(), subtypeInterpreter);
-            if (Configs.isEnabled(RejuvenatedFleshConfig.class)) JEI_HELPER.getSubtypeRegistry().registerNbtInterpreter(RejuvenatedFlesh.getInstance(), subtypeInterpreter);
         }
     }
 

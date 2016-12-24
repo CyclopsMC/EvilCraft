@@ -40,7 +40,7 @@ public class BloodExtractorConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
                 true,
-                "bloodExtractor",
+                "blood_extractor",
                 null,
                 BloodExtractor.class
         );

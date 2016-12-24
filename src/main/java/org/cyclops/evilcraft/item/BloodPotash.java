@@ -34,7 +34,8 @@ public class BloodPotash extends ConfigurableItem {
     }
 
     @Override
-    public EnumActionResult onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumHand hand, EnumFacing side, float coordX, float coordY, float coordZ) {
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos blockPos, EnumHand hand, EnumFacing side, float coordX, float coordY, float coordZ) {
+        ItemStack itemStack = player.getHeldItem(hand);
         boolean done = false;
         int attempts = 0;
         while (attempts < 2) {
@@ -42,13 +43,13 @@ public class BloodPotash extends ConfigurableItem {
             attempts++;
         }
         if (done) {
-            itemStack.stackSize--;
+            itemStack.shrink(1);
             if (!world.isRemote) {
                 world.playBroadcastSound(2005, blockPos, 0);
             }
             return EnumActionResult.SUCCESS;
         }
-        return super.onItemUse(itemStack, player, world, blockPos, hand, side, coordX, coordY, coordZ);
+        return super.onItemUse(player, world, blockPos, hand, side, coordX, coordY, coordZ);
     }
 
 }

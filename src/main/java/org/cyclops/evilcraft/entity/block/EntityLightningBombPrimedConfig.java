@@ -38,7 +38,7 @@ public class EntityLightningBombPrimedConfig extends EntityConfig<EntityTNTPrime
         super(
                 EvilCraft._instance,
         	true,
-            "entityLightningBomb",
+            "entity_lightning_bomb",
             null,
             EntityLightningBombPrimed.class
         );

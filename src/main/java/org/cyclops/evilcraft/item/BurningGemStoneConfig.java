@@ -30,7 +30,7 @@ public class BurningGemStoneConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "burningGemStone",
+            "burning_gem_stone",
             null,
             BurningGemStone.class
         );

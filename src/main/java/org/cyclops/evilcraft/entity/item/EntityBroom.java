@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.entity.item;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
@@ -9,6 +8,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -49,7 +49,7 @@ import java.util.Set;
  */
 public class EntityBroom extends Entity implements IConfigurable{
 
-    private static final DataParameter<Optional<ItemStack>> ITEMSTACK_INDEX = EntityDataManager.<Optional<ItemStack>>createKey(EntityWeatherContainer.class, DataSerializers.OPTIONAL_ITEM_STACK);
+    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityWeatherContainer.class, DataSerializers.OPTIONAL_ITEM_STACK);
 
     /**
      * Speed for the broom (in all directions)
@@ -154,8 +154,8 @@ public class EntityBroom extends Entity implements IConfigurable{
 	}
     
     @Override
-    public boolean processInitialInteract(EntityPlayer player, ItemStack stack, EnumHand hand) {
-        if (!this.worldObj.isRemote && !isBeingRidden() && !player.isSneaking()) {
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand) {
+        if (!this.world.isRemote && !isBeingRidden() && !player.isSneaking()) {
             player.startRiding(this);
             lastMounted = player;
         }
@@ -164,7 +164,7 @@ public class EntityBroom extends Entity implements IConfigurable{
 
     @Override
     public void applyEntityCollision(Entity entityIn) {
-        if (!this.worldObj.isRemote) {
+        if (!this.world.isRemote) {
             if (!entityIn.noClip && !this.noClip) {
                 Entity controlling = this.getControllingPassenger();
                 if (entityIn != controlling) {
@@ -200,7 +200,7 @@ public class EntityBroom extends Entity implements IConfigurable{
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (!this.worldObj.isRemote && !this.isDead) {
+        if (!this.world.isRemote && !this.isDead) {
             if (this.isEntityInvulnerable(source)) {
                 return false;
             }
@@ -234,7 +234,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     @Override
     protected void addPassenger(Entity passenger) {
         super.addPassenger(passenger);
-        if(!worldObj.isRemote && passenger instanceof EntityLivingBase) {
+        if(!world.isRemote && passenger instanceof EntityLivingBase) {
             startAllowFlying((EntityLivingBase) passenger);
         }
     }
@@ -244,7 +244,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     	super.onUpdate();
 
         Entity rider = getControllingPassenger();
-        if (!worldObj.isRemote && !isBeingRidden() && lastMounted != null) {
+        if (!world.isRemote && !isBeingRidden() && lastMounted != null) {
     		// The player dismounted, give him his broom back if he's not in creative mode
     		if (lastMounted instanceof EntityPlayer && Configs.isEnabled(BroomConfig.class)) {
                 stopAllowFlying(lastMounted);
@@ -255,7 +255,7 @@ public class EntityBroom extends Entity implements IConfigurable{
                     if (!player.capabilities.isCreativeMode) {
                         player.inventory.addItemStackToInventory(getBroomStack());
                     }
-                    worldObj.removeEntity(this);
+                    world.removeEntity(this);
                 }
     		}
     		
@@ -277,7 +277,7 @@ public class EntityBroom extends Entity implements IConfigurable{
             prevRotationPitch = rotationPitch;
             prevRotationYaw = rotationYaw;
             
-    	    if (!worldObj.isRemote || Minecraft.getMinecraft().thePlayer == lastMounted) {
+    	    if (!world.isRemote || Minecraft.getMinecraft().player == lastMounted) {
     	        updateMountedServer();
     	    } else {
     	        updateMountedClient();
@@ -288,7 +288,7 @@ public class EntityBroom extends Entity implements IConfigurable{
             }
 
             // Apply collisions
-            List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.2, 0.0, 0.2));
+            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.2, 0.0, 0.2));
             if (list != null && !list.isEmpty()) {
                 for (int l = 0; l < list.size(); ++l) {
                     Entity entity = list.get(l);
@@ -313,7 +313,7 @@ public class EntityBroom extends Entity implements IConfigurable{
                 }
             }
     	} else {
-            if(!this.worldObj.isRemote && rider == null) {
+            if(!this.world.isRemote && rider == null) {
                 this.collideWithNearbyEntities();
             }
     	    updateUnmounted();
@@ -322,7 +322,7 @@ public class EntityBroom extends Entity implements IConfigurable{
 
     @SideOnly(Side.CLIENT)
     public void showParticles(EntityBroom broom) {
-        World world = broom.worldObj;
+        World world = broom.world;
         if (world.isRemote && broom.lastMounted.moveForward != 0) {
             // Emit particles
             int particles = (int) (broom.getModifier(BroomModifiers.PARTICLES) * (float) broom.getLastPlayerSpeed());
@@ -343,7 +343,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     }
 
     protected void collideWithNearbyEntities() {
-        List<Entity> list = this.worldObj.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox().expand(0.20000000298023224D, 0.0D, 0.20000000298023224D), Predicates.<Entity>and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>() {
+        List<Entity> list = this.world.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox().expand(0.20000000298023224D, 0.0D, 0.20000000298023224D), Predicates.<Entity>and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>() {
             public boolean apply(Entity p_apply_1_) {
                 return p_apply_1_.canBePushed();
             }
@@ -372,7 +372,7 @@ public class EntityBroom extends Entity implements IConfigurable{
             setRotation(rotationYaw, rotationPitch);
         }
         
-        moveEntity(0, getHoverOffset(), 0);
+        move(MoverType.SELF, 0, getHoverOffset(), 0);
     }
 
     public boolean canConsume(int amount, EntityLivingBase entityLiving) {
@@ -383,7 +383,7 @@ public class EntityBroom extends Entity implements IConfigurable{
 
     public void consume(int amount, EntityLivingBase entityLiving) {
         float efficiencyFactor = Math.min(0.9F, Math.max(0.0F, getModifier(BroomModifiers.EFFICIENCY) / BroomModifiers.EFFICIENCY.getMaxTierValue()));
-        if(worldObj.rand.nextFloat() > efficiencyFactor) {
+        if(world.rand.nextFloat() > efficiencyFactor) {
             ItemStack broomStack = getBroomStack();
             ((IBroom) broomStack.getItem()).consumeBroom(amount, broomStack, entityLiving);
             setBroomStack(broomStack);
@@ -471,7 +471,7 @@ public class EntityBroom extends Entity implements IConfigurable{
         motionZ = motionZ / 10 + z * SPEED * playerSpeed;
         if (this.inWater) {
             // (1 -> 0) Lower is better
-            float waterMovementFactor = 1F - MathHelper.clamp_float(
+            float waterMovementFactor = 1F - MathHelper.clamp(
                     getModifier(BroomModifiers.SWIMMING) / (BroomModifiers.SWIMMING.getMaxTierValue() * 1.1F), 0F, 1F);
             motionX /= 1 + 4 * waterMovementFactor;
             motionY /= 1 + 4 * waterMovementFactor;
@@ -481,10 +481,10 @@ public class EntityBroom extends Entity implements IConfigurable{
         lastPlayerSpeed = playerSpeed;
         
         // Update motion on client side to provide a hovering effect
-        if (worldObj.isRemote)
+        if (world.isRemote)
             motionY += getHoverOffset();
 
-        moveEntity(motionX, motionY, motionZ);
+        move(MoverType.SELF, motionX, motionY, motionZ);
     }
 
     public double getLastPlayerSpeed() {
@@ -496,13 +496,13 @@ public class EntityBroom extends Entity implements IConfigurable{
     }
 
     protected void updateUnmounted() {
-        if (worldObj.isRemote) {
-            moveEntity(0, getHoverOffset(), 0);
+        if (world.isRemote) {
+            move(MoverType.SELF, 0, getHoverOffset(), 0);
         }
     }
 
     protected double getHoverOffset() {
-        float x = worldObj.getWorldTime();
+        float x = world.getWorldTime();
         float t = broomHoverTickOffset;
         double newHoverOffset = Math.cos(x / 10 + t) * Math.cos(x / 12 + t) * Math.cos(x / 15 + t) * MAX_COS_AMPLITUDE;
         
@@ -517,7 +517,7 @@ public class EntityBroom extends Entity implements IConfigurable{
 
     @Override
     protected void entityInit() {
-        dataManager.register(ITEMSTACK_INDEX, Optional.of(new ItemStack(Broom.getInstance())));
+        dataManager.register(ITEMSTACK_INDEX, new ItemStack(Broom.getInstance()));
     }
 
     @Override
@@ -536,12 +536,15 @@ public class EntityBroom extends Entity implements IConfigurable{
     }
 
     public void setBroomStack(ItemStack itemStack) {
-        dataManager.set(ITEMSTACK_INDEX, Optional.fromNullable(itemStack));
+        dataManager.set(ITEMSTACK_INDEX, itemStack);
     }
 
     public ItemStack getBroomStack() {
-        ItemStack itemStack = dataManager.get(ITEMSTACK_INDEX).or(new ItemStack(Broom.getInstance()));
-        itemStack.stackSize = 1;
+        ItemStack itemStack = dataManager.get(ITEMSTACK_INDEX);
+        if (itemStack.isEmpty()) {
+            itemStack = new ItemStack(Broom.getInstance());
+        }
+        itemStack.setCount(1);
         return itemStack;
     }
 
@@ -589,7 +592,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
         super.readFromNBT(tagCompound);
-        ItemStack broomStack = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("broomItem"));
+        ItemStack broomStack = new ItemStack(tagCompound.getCompoundTag("broomItem"));
         if (broomStack != null) {
             setBroomStack(broomStack);
         }

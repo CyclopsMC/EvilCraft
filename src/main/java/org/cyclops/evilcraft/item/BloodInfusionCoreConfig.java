@@ -22,7 +22,7 @@ public class BloodInfusionCoreConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "bloodInfusionCore",
+            "blood_infusion_core",
             null,
             null
         );

@@ -8,10 +8,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.block.property.UnlistedProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
@@ -26,10 +27,11 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.evilcraft.core.block.IBlockTank;
-import org.cyclops.evilcraft.core.block.component.BlockTankComponent;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
+import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
 import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
 
 import java.util.List;
@@ -48,8 +50,6 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 	public static final IUnlistedProperty<String> TANK_ID = new UnlistedProperty<String>("tank_id", String.class);
 	@BlockProperty
 	public static final IUnlistedProperty<FluidStack> TANK_FLUID = new UnlistedProperty<FluidStack>("tank_fluidstack", FluidStack.class);
-
-    private BlockTankComponent<EntangledChalice> tankComponent = new BlockTankComponent<EntangledChalice>(this);
     
     /**
      * Get the unique instance.
@@ -84,14 +84,14 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 	}
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float motionX, float motionY, float motionZ) {
-    	return tankComponent.onBlockActivatedTank(world, blockPos, player, hand, heldItem, side, motionX, motionY, motionZ) ||
-                super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, motionX, motionY, motionZ);
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing side, float motionX, float motionY, float motionZ) {
+    	return BlockTankHelpers.onBlockActivatedTank(world, blockPos, player, hand, side, motionX, motionY, motionZ) ||
+                super.onBlockActivated(world, blockPos, blockState, player, hand, side, motionX, motionY, motionZ);
     }
     
     @Override
     public String getInfo(ItemStack itemStack) {
-        return tankComponent.getInfoTank(itemStack);
+        return BlockTankHelpers.getInfoTank(itemStack);
     }
 
 	@SuppressWarnings("rawtypes")
@@ -100,35 +100,9 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 			EntityPlayer entityPlayer, List list, boolean par4) {
 
 	}
-
-	@Override
-	public String getTankNBTName() {
-		return TileEntangledChalice.NBT_TAG_TANK;
-	}
-
-	@Override
-	public int getTankCapacity(ItemStack itemStack) {
-		return getMaxCapacity();
-	}
 	
 	@Override
-	public void setTankCapacity(ItemStack itemStack, int capacity) {
-		// Do nothing
-	}
-	
-	@Override
-	public void setTankCapacity(NBTTagCompound tag, int capacity) {
-		// Do nothing
-	}
-	
-	@Override
-	public void writeAdditionalInfo(TileEntity tile, NBTTagCompound tag) {
-    	super.writeAdditionalInfo(tile, tag);
-    	tankComponent.writeAdditionalInfo(tile, tag);
-    }
-	
-	@Override
-	public int getMaxCapacity() {
+	public int getDefaultCapacity() {
 		return TileEntangledChalice.BASE_CAPACITY;
 	}
 	
@@ -169,10 +143,10 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         ItemStack itemStack = new ItemStack(item);
-        EntangledChaliceItem chaliceItem = (EntangledChaliceItem) Item.getItemFromBlock(EntangledChalice.getInstance());
-        chaliceItem.setTankID(itemStack, "creativeTank0");
+		EntangledChaliceItem.FluidHandler fluidHandler = (EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(itemStack);
+		fluidHandler.setTankID("creativeTank0");
         list.add(itemStack);
     }
 
@@ -193,5 +167,17 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 			}
 		}
 		return extendedBlockState;
+	}
+
+	@Override
+	protected void tileDataToItemStack(CyclopsTileEntity tile, ItemStack itemStack) {
+		super.tileDataToItemStack(tile, itemStack);
+		// Convert fluid data
+		BlockTankHelpers.tileDataToItemStack(tile, itemStack);
+
+		// Convert tank id
+		EntangledChaliceItem.FluidHandler fluidHandler = (EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(itemStack);
+		String tankId = fluidHandler.getTankID();
+		((TileEntangledChalice) tile).setWorldTankId(tankId);
 	}
 }

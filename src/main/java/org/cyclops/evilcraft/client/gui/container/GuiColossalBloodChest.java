@@ -90,7 +90,7 @@ public class GuiColossalBloodChest extends GuiWorking<TileColossalBloodChest> {
 
     @Override
     public String getGuiTexture() {
-        return Reference.TEXTURE_PATH_GUI + "colossalBloodChest_gui.png";
+        return Reference.TEXTURE_PATH_GUI + "colossal_blood_chest_gui.png";
     }
 
     @Override

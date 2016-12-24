@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.entity.item;
 
-import com.google.common.base.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
@@ -36,7 +35,7 @@ import java.util.Random;
  */
 public class EntityBiomeExtract extends EntityThrowable implements IConfigurable {
 
-    private static final DataParameter<Optional<ItemStack>> ITEMSTACK_INDEX = EntityDataManager.<Optional<ItemStack>>createKey(EntityWeatherContainer.class, DataSerializers.OPTIONAL_ITEM_STACK);
+    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityWeatherContainer.class, DataSerializers.OPTIONAL_ITEM_STACK);
 
     /**
      * Make a new instance in the given world.
@@ -73,7 +72,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
 
         final Biome biome = BiomeExtract.getInstance().getBiome(itemStack);
         if(biome != null) {
-            OrganicSpread spread = new OrganicSpread(worldObj, 2, 5, new OrganicSpread.IOrganicSpreadable() {
+            OrganicSpread spread = new OrganicSpread(world, 2, 5, new OrganicSpread.IOrganicSpreadable() {
                 @Override
                 public boolean isDone(World world, BlockPos location) {
                     return world.getBiome(location) == biome;
@@ -81,11 +80,11 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
 
                 @Override
                 public void spreadTo(World world, BlockPos location) {
-                    if(worldObj.isRemote) {
-                        showChangedBiome(worldObj, new BlockPos(location.getX(), movingobjectposition.getBlockPos().getY(),
+                    if(world.isRemote) {
+                        showChangedBiome(world, new BlockPos(location.getX(), movingobjectposition.getBlockPos().getY(),
                                 location.getZ()), biome.getFoliageColorAtPos(new BlockPos(0, 0, 0)));
                     }
-                    WorldHelpers.setBiome(worldObj, location, biome);
+                    WorldHelpers.setBiome(world, location, biome);
                 }
             });
             BlockPos pos = movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK
@@ -97,7 +96,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
         }
         
         // Play sound and show particles of splash potion of harming
-        this.worldObj.playBroadcastSound(2002, getPosition(), 16428);
+        this.world.playBroadcastSound(2002, getPosition(), 16428);
         
         setDead();
     }
@@ -135,19 +134,18 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
 
     @Override
     public ItemStack getItemStack() {
-        Optional<ItemStack> optional = dataManager.get(ITEMSTACK_INDEX);
-        return optional.isPresent() ? optional.get() : null;
+        return dataManager.get(ITEMSTACK_INDEX);
     }
     
     private void setItemStack(ItemStack stack) {
-        dataManager.set(ITEMSTACK_INDEX, Optional.of(stack));
+        dataManager.set(ITEMSTACK_INDEX, stack);
     }
     
     @Override
     protected void entityInit() {
         super.entityInit();
         
-        dataManager.register(ITEMSTACK_INDEX, Optional.of(BiomeExtract.getInstance().createItemStack(null, 1)));
+        dataManager.register(ITEMSTACK_INDEX, BiomeExtract.getInstance().createItemStack(null, 1));
     }
 
     @Override

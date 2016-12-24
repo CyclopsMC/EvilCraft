@@ -10,7 +10,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
@@ -62,7 +61,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = FluidContainerRegistry.BUCKET_VOLUME * 10;
+    public static final int LIQUID_PER_SLOT = Fluid.BUCKET_VOLUME * 10;
     /**
      * The amount of ticks per mB the tank can accept per tick.
      */
@@ -179,15 +178,15 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         int z = getPos().getZ();
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.
-        if(worldObj != null
-                && !this.worldObj.isRemote
+        if(world != null
+                && !this.world.isRemote
                 && this.playersUsing != 0
-                && WorldHelpers.efficientTick(worldObj, TICK_MODULUS, this.getPos())/*(this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0*/) {
+                && WorldHelpers.efficientTick(world, TICK_MODULUS, this.getPos())/*(this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0*/) {
             this.playersUsing = 0;
             float range = 5.0F;
 
             @SuppressWarnings("unchecked")
-            List<EntityPlayer> entities = this.worldObj.getEntitiesWithinAABB(
+            List<EntityPlayer> entities = this.world.getEntitiesWithinAABB(
                     EntityPlayer.class,
                     new AxisAlignedBB(
                             (double)((float)x - range),
@@ -205,20 +204,20 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
                 }
             }
             
-            worldObj.addBlockEvent(getPos(), block, 1, playersUsing);
+            world.addBlockEvent(getPos(), block, 1, playersUsing);
         }
 
         prevLidAngle = lidAngle;
         float increaseAngle = 0.1F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
-            worldObj.playSound(
+            world.playSound(
                     (double) x + 0.5D,
                     (double) y + 0.5D,
                     (double) z + 0.5D,
                     SoundEvents.BLOCK_CHEST_OPEN,
                     SoundCategory.BLOCKS,
                     0.5F,
-                    worldObj.rand.nextFloat() * 0.1F + 0.9F,
+                    world.rand.nextFloat() * 0.1F + 0.9F,
                     false
             );
         }
@@ -234,14 +233,14 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
             }
             float closedAngle = 0.5F;
             if (lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
-                worldObj.playSound(
+                world.playSound(
                         (double) x + 0.5D,
                         (double) y + 0.5D,
                         (double) z + 0.5D,
                         SoundEvents.BLOCK_CHEST_CLOSE,
                         SoundCategory.BLOCKS,
                         0.5F,
-                        worldObj.rand.nextFloat() * 0.1F + 0.9F,
+                        world.rand.nextFloat() * 0.1F + 0.9F,
                         false
                 );
             }
@@ -270,16 +269,16 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     }
     
     private void triggerPlayerUsageChange(int change) {
-        if (worldObj != null) {
+        if (world != null) {
             playersUsing += change;
-            worldObj.addBlockEvent(getPos(), block, 1, playersUsing);
+            world.addBlockEvent(getPos(), block, 1, playersUsing);
         }
     }
     
     @Override
-    public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
-        return super.isUseableByPlayer(entityPlayer)
-                && (worldObj == null || worldObj.getTileEntity(getPos()) != this);
+    public boolean isUsableByPlayer(EntityPlayer entityPlayer) {
+        return super.isUsableByPlayer(entityPlayer)
+                && (world == null || world.getTileEntity(getPos()) != this);
     }
 
 }

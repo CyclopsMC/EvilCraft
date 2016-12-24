@@ -2,25 +2,25 @@
 <recipes>
     
     <recipe type="smelting">
-        <condition type="config">burningGemStone</condition>
-        <condition type="config">darkBlock</condition>
+        <condition type="config">burning_gem_stone</condition>
+        <condition type="config">dark_block</condition>
         <input>
-            <item>evilcraft:darkBlock</item>
+            <item>evilcraft:dark_block</item>
         </input>
         <output>
-            <item>evilcraft:burningGemStone</item>
+            <item>evilcraft:burning_gem_stone</item>
             <xp>50</xp>
         </output>
     </recipe>
     
     <recipe type="smelting">
-        <condition type="config">hardenedBloodShard</condition>
-        <condition type="config">hardenedBlood</condition>
+        <condition type="config">hardened_blood_shard</condition>
+        <condition type="config">hardened_blood</condition>
         <input>
-            <item>evilcraft:hardenedBlood</item>
+            <item>evilcraft:hardened_blood</item>
         </input>
         <output>
-            <item amount="9">evilcraft:hardenedBloodShard</item>
+            <item amount="9">evilcraft:hardened_blood_shard</item>
             <xp>20</xp>
         </output>
     </recipe>

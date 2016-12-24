@@ -31,7 +31,7 @@ public class SanguinaryPedestalConfig extends BlockContainerConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "sanguinaryPedestal",
+            "sanguinary_pedestal",
             null,
             SanguinaryPedestal.class
         );

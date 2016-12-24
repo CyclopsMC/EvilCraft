@@ -4,10 +4,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -18,6 +23,7 @@ import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.FluidBlockPoison;
+import org.cyclops.evilcraft.fluid.Poison;
 import org.cyclops.evilcraft.fluid.PoisonConfig;
 
 import javax.annotation.Nullable;
@@ -71,6 +77,14 @@ public class PoisonBottle extends ConfigurableItem {
     @SideOnly(Side.CLIENT)
     public IItemColor getItemColorHandler() {
         return new ItemColor();
+    }
+
+    @Nullable
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt) {
+        FluidHandlerItemStackSimple.SwapEmpty capabilityProvider = new FluidHandlerItemStackSimple.SwapEmpty(stack, new ItemStack(Items.GLASS_BOTTLE), Fluid.BUCKET_VOLUME);
+        capabilityProvider.fill(new FluidStack(Poison.getInstance(), Fluid.BUCKET_VOLUME), true);
+        return capabilityProvider;
     }
 
     @SideOnly(Side.CLIENT)

@@ -37,7 +37,7 @@ public class DarkPowerGemBlock extends ConfigurableBlockConnectedTexture {
     }
 
     @Override
-    public boolean isBeaconBase(IBlockAccess worldObj, BlockPos blockPos, BlockPos beacon) {
+    public boolean isBeaconBase(IBlockAccess world, BlockPos blockPos, BlockPos beacon) {
         return true;
     }
 

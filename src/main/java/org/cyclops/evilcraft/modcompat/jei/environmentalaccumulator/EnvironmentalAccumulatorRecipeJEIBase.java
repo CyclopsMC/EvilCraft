@@ -37,18 +37,8 @@ public abstract class EnvironmentalAccumulatorRecipeJEIBase extends BlankRecipeW
 
     @Override
     public void getIngredients(IIngredients ingredients) {
-        ingredients.setInputs(ItemStack.class, getInputs());
-        ingredients.setOutputs(ItemStack.class, getOutputs());
-    }
-
-    @Override
-    public List getInputs() {
-        return input;
-    }
-
-    @Override
-    public List getOutputs() {
-        return output;
+        ingredients.setInputs(ItemStack.class, input);
+        ingredients.setOutputs(ItemStack.class, output);
     }
 
     public EnvironmentalAccumulatorRecipeProperties getProperties() {

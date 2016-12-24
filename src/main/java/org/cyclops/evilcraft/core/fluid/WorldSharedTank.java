@@ -129,6 +129,14 @@ public class WorldSharedTank extends SingleUseTank {
         return this.tankID;
     }
 
+    /**
+     * Set the tank ID.
+     * @param tankID The new tank ID.
+     */
+    public void setTankID(String tankID) {
+        this.tankID = tankID;
+    }
+
     public Fluid getAcceptedFluid() {
         return this.getFluidType();
     }

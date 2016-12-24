@@ -22,7 +22,7 @@ public class PiercingVengeanceFocusConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "piercingVengeanceFocus",
+            "piercing_vengeance_focus",
             null,
             PiercingVengeanceFocus.class
         );

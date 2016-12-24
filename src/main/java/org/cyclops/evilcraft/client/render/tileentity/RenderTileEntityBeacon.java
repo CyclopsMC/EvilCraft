@@ -48,7 +48,7 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
             GlStateManager.depthMask(true);
             GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
             float f2 = (float)tileentity.getWorld().getTotalWorldTime() + partialTickTime;
-            float f3 = -f2 * 0.2F - (float) MathHelper.floor_float(-f2 * 0.1F);
+            float f3 = -f2 * 0.2F - (float) MathHelper.floor(-f2 * 0.1F);
             byte b0 = 1;
             double d3 = (double)f2 * 0.025D * (1.0D - (double)(b0 & 1) * 2.5D);
             worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);

@@ -5,7 +5,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -14,9 +13,10 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainerGui
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.core.block.IBlockTank;
-import org.cyclops.evilcraft.core.block.component.BlockTankComponent;
+import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
 
 import java.util.List;
 
@@ -26,9 +26,6 @@ import java.util.List;
  *
  */
 public abstract class ConfigurableBlockContainerGuiTankInfo extends ConfigurableBlockContainerGui implements IInformationProvider, IBlockTank {
-
-	private BlockTankComponent<ConfigurableBlockContainerGuiTankInfo> tankComponent = 
-			new BlockTankComponent<ConfigurableBlockContainerGuiTankInfo>(this); 
 	
     /**
      * Make a new blockState instance.
@@ -55,14 +52,14 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
     }
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float motionX, float motionY, float motionZ) {
-    	return tankComponent.onBlockActivatedTank(world, blockPos, player, hand, heldItem, side, motionX, motionY, motionZ) ||
-                super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, motionX, motionY, motionZ);
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing side, float motionX, float motionY, float motionZ) {
+    	return BlockTankHelpers.onBlockActivatedTank(world, blockPos, player, hand, side, motionX, motionY, motionZ) ||
+                super.onBlockActivated(world, blockPos, blockState, player, hand, side, motionX, motionY, motionZ);
     }
     
     @Override
     public String getInfo(ItemStack itemStack) {
-        return tankComponent.getInfoTank(itemStack);
+        return BlockTankHelpers.getInfoTank(itemStack);
     }
     
     @SuppressWarnings("rawtypes")
@@ -70,21 +67,6 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
     public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         
     }
-    
-    @Override
-	public void setTankCapacity(ItemStack itemStack, int capacity) {
-		// Does nothing
-	}
-
-	@Override
-	public void setTankCapacity(NBTTagCompound tag, int capacity) {
-		// Does nothing
-	}
-	
-	@Override
-    public int getTankCapacity(ItemStack itemStack) {
-		return getMaxCapacity();
-	}
 	
 	@Override
 	public boolean isActivatable() {
@@ -100,5 +82,10 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
 	public boolean isActivated(ItemStack itemStack, World world, Entity entity) {
 		return false;
 	}
+
+    @Override
+    protected void tileDataToItemStack(CyclopsTileEntity tile, ItemStack itemStack) {
+        BlockTankHelpers.tileDataToItemStack(tile, itemStack);
+    }
 
 }

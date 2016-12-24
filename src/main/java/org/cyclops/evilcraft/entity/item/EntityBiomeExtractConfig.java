@@ -30,7 +30,7 @@ public class EntityBiomeExtractConfig extends EntityConfig<EntityThrowable> {
         super(
                 EvilCraft._instance,
         	true,
-            "entityBiomeExtract",
+            "entity_biome_extract",
             null,
             EntityBiomeExtract.class
         );

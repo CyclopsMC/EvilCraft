@@ -40,13 +40,13 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     @BlockProperty
     public static final IUnlistedProperty<BlockPos> POS = new UnlistedProperty<BlockPos>("pos", BlockPos.class);
 
-    @Icon(location = "blocks/bloodStainedBlock_0")
+    @Icon(location = "blocks/blood_stained_block_0")
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite icon0;
-    @Icon(location = "blocks/bloodStainedBlock_1")
+    @Icon(location = "blocks/blood_stained_block_1")
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite icon1;
-    @Icon(location = "blocks/bloodStainedBlock_2")
+    @Icon(location = "blocks/blood_stained_block_2")
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite icon2;
 

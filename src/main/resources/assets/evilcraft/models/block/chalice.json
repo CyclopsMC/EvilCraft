@@ -1,8 +1,8 @@
 {
-    "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
+    "__comment": "Model generated using Mr_crayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "0": "evilcraft:blocks/entangledChalice",
-        "particle": "evilcraft:blocks/entangledChalice"
+        "0": "evilcraft:blocks/entangled_chalice",
+        "particle": "evilcraft:blocks/entangled_chalice"
     },
     "elements": [
         {

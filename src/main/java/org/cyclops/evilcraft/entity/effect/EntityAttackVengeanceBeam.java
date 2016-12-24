@@ -45,7 +45,7 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
         float blue = rand.nextFloat() * 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 4.5D + 4D);
         
-		ParticleBlur blur = new ParticleBlur(worldObj, posX, posY, posZ, scale,
+		ParticleBlur blur = new ParticleBlur(world, posX, posY, posZ, scale,
 				deriveMotion(motionX), deriveMotion(motionY), deriveMotion(motionZ),
 				red, green, blue, ageMultiplier);
 		Minecraft.getMinecraft().effectRenderer.addEffect(blur);

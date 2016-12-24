@@ -30,7 +30,7 @@ public class ItemHelpers {
      * @return If it is an active container.
      */
     public static boolean isActivated(ItemStack itemStack) {
-        return itemStack != null && itemStack.getTagCompound() != null && itemStack.getTagCompound().getBoolean("enabled");
+        return !itemStack.isEmpty() && itemStack.getTagCompound() != null && itemStack.getTagCompound().getBoolean("enabled");
     }
     
     /**
@@ -53,7 +53,7 @@ public class ItemHelpers {
      * @return The integer value for the given tag.
      */
     public static int getNBTInt(ItemStack itemStack, String tag) {
-        if(itemStack == null || itemStack.getTagCompound() == null) {
+        if(itemStack.isEmpty() || itemStack.getTagCompound() == null) {
             return 0;
         }
         return itemStack.getTagCompound().getInteger(tag);
@@ -108,7 +108,7 @@ public class ItemHelpers {
      */
     public static ItemStack tryFillContainerForPlayer(IFluidHandler toDrain, ItemStack itemStack, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
         if(toFill != null && toFill != itemStack && FluidUtil.getFluidHandler(toFill) != null && player.getItemInUseCount() == 0) {
-            return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(MB_FILL_PERTICK, tickFluid.amount), player, true);
+            return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(MB_FILL_PERTICK, tickFluid.amount), player, true).getResult();
         }
         return null;
     }

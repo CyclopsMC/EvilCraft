@@ -30,7 +30,7 @@ public class VengeanceRingConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "vengeanceRing",
+            "vengeance_ring",
             null,
             VengeanceRing.class
         );

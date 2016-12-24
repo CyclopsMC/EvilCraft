@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.SpiritFurnace;
@@ -103,7 +104,7 @@ public class GuiSpiritReanimator extends GuiWorking<TileSpiritReanimator> {
 
     @Override
     public String getGuiTexture() {
-        return Reference.TEXTURE_PATH_GUI + "spiritReanimator_gui.png";
+        return Reference.TEXTURE_PATH_GUI + "spirit_reanimator_gui.png";
     }
     
     @Override
@@ -111,17 +112,17 @@ public class GuiSpiritReanimator extends GuiWorking<TileSpiritReanimator> {
     	String prefix = SpiritReanimator.getInstance().getUnlocalizedName() + ".help.invalid";
     	List<String> lines = new ArrayList<String>();
     	lines.add(L10NHelpers.localize(prefix));
-        String entityName = tile.getEntityName();
+        ResourceLocation entityName = tile.getEntityName();
         if(entityName == null) {
-        	lines.add(L10NHelpers.localize(prefix + ".noEntity"));
+        	lines.add(L10NHelpers.localize(prefix + ".no_entity"));
         } else if(!EntityList.ENTITY_EGGS.containsKey(entityName)) {
-            lines.add(L10NHelpers.localize(prefix + ".invalidEntity"));
+            lines.add(L10NHelpers.localize(prefix + ".invalid_entity"));
         }
         else {
         	ItemStack outputStack = tile.getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
         	if(outputStack != null &&
-                    !entityName.equals(ItemMonsterPlacer.getEntityIdFromItem(outputStack))) {
-        		lines.add(L10NHelpers.localize(prefix + ".differentEgg"));
+                    !entityName.equals(ItemMonsterPlacer.getNamedIdFrom(outputStack))) {
+        		lines.add(L10NHelpers.localize(prefix + ".different_egg"));
         	}
         }
         if(lines.size() > 1) {

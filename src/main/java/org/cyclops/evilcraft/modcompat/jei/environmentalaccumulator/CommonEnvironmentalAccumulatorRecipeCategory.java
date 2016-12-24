@@ -14,7 +14,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
@@ -59,22 +58,12 @@ public abstract class CommonEnvironmentalAccumulatorRecipeCategory implements IR
     }
 
     @Override
-    public void drawAnimations(Minecraft minecraft) {
-
-    }
-
-    @Override
-    public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper) {
+    public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
         if(recipeWrapper instanceof EnvironmentalAccumulatorRecipeJEI) {
             EnvironmentalAccumulatorRecipeJEI recipe = (EnvironmentalAccumulatorRecipeJEI) recipeWrapper;
             this.lastRecipe = recipe;
         } else {
             this.lastRecipe = null;
         }
-    }
-
-    @Override
-    public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
-        setRecipe(recipeLayout, recipeWrapper);
     }
 }

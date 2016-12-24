@@ -118,7 +118,7 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
 
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player,
-                                    EnumHand hand, ItemStack heldItem, EnumFacing side,
+                                    EnumHand hand, EnumFacing side,
                                     float posX, float posY, float posZ) {
         if(blockState.getValue(ACTIVE)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
@@ -137,11 +137,11 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements CubeDete
             if(tileLocation != null) {
                 world.getBlockState(tileLocation).getBlock().
                         onBlockActivated(world, tileLocation, world.getBlockState(tileLocation),
-                                player, hand, heldItem, side, posX, posY, posZ);
+                                player, hand, side, posX, posY, posZ);
                 return true;
             }
         }
-        return super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, posX, posY, posZ);
+        return super.onBlockActivated(world, blockPos, blockState, player, hand, side, posX, posY, posZ);
     }
 
 }

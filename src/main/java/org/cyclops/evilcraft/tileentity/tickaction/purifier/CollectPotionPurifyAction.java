@@ -35,7 +35,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
 
     @Override
     public boolean isItemValidForAdditionalSlot(ItemStack itemStack) {
-        return itemStack != null && itemStack.getItem() == ALLOWED_ITEM;
+        return !itemStack.isEmpty() && itemStack.getItem() == ALLOWED_ITEM;
     }
 
     @SuppressWarnings("unchecked")

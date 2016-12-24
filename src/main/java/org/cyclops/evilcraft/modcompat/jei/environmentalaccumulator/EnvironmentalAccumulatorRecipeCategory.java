@@ -5,6 +5,7 @@ import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -59,8 +60,8 @@ public class EnvironmentalAccumulatorRecipeCategory extends CommonEnvironmentalA
     }
 
     @Override
-    public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper) {
-        super.setRecipe(recipeLayout, recipeWrapper);
+    public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
+        super.setRecipe(recipeLayout, recipeWrapper, ingredients);
         recipeLayout.getItemStacks().init(INPUT_SLOT, true, 1, 27);
         recipeLayout.getItemStacks().init(OUTPUT_SLOT, false, 75, 27);
 

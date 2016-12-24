@@ -1,0 +1,6 @@
+{
+    "parent": "evilcraft:broom_part/brush",
+    "textures": {
+        "base": "blocks/log_big_oak"
+    }
+}

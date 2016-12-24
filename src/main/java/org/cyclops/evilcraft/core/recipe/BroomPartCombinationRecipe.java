@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import org.apache.commons.lang3.tuple.Pair;
@@ -52,11 +53,11 @@ public class BroomPartCombinationRecipe implements IRecipe {
 	}
 
 	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting inventory) {
-		ItemStack[] aitemstack = new ItemStack[inventory.getSizeInventory()];
-		for (int i = 0; i < aitemstack.length; ++i) {
+	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inventory) {
+		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getSizeInventory(), ItemStack.EMPTY);
+		for (int i = 0; i < aitemstack.size(); ++i) {
 			ItemStack itemstack = inventory.getStackInSlot(i);
-			aitemstack[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack);
+			aitemstack.set(i, net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack));
 		}
 
 		Pair<ItemStack, List<ItemStack>> result = getResult(inventory);
@@ -95,7 +96,7 @@ public class BroomPartCombinationRecipe implements IRecipe {
 			ItemStack element = grid.getStackInSlot(j);
 			if (element != null && element.getItem() instanceof IBroom) {
 				Map<IBroomPart.BroomPartType, IBroomPart> currentExistingBroomParts = indexifyParts(BroomParts.REGISTRY.getBroomParts(element));
-				if(currentExistingBroomParts != null && areValidBroomParts(currentExistingBroomParts.values()) && element.stackSize == 1) {
+				if(currentExistingBroomParts != null && areValidBroomParts(currentExistingBroomParts.values()) && element.getCount() == 1) {
 					if (existingBroomParts == null) {
 						existingBroomParts = currentExistingBroomParts;
 						output = element.copy();

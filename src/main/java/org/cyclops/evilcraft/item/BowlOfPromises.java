@@ -5,6 +5,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
@@ -56,7 +57,7 @@ public class BowlOfPromises extends ConfigurableItem {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubItems(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         for(int i = 0; i < ACTIVE_META + ((BowlOfPromisesConfig) getConfig()).getTiers(); i++) {
             list.add(new ItemStack(item, 1, i));
         }

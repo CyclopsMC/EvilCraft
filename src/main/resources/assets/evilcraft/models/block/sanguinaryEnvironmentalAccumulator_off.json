@@ -1,8 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "evilcraft:blocks/sanguinaryEnvironmentalAccumulator_side",
-    "up": "evilcraft:blocks/sanguinaryEnvironmentalAccumulator_up_off",
-    "down": "evilcraft:blocks/sanguinaryEnvironmentalAccumulator_down"
-  }
-}

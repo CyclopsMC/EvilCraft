@@ -79,7 +79,7 @@ public class GuiSanguinaryEnvironmentalAccumulator extends GuiWorking<TileSangui
         List<String> lines = new ArrayList<String>();
         lines.add(L10NHelpers.localize(prefix));
         if(!tile.canWork()) {
-            lines.add(L10NHelpers.localize(prefix + ".invalidLocations"));
+            lines.add(L10NHelpers.localize(prefix + ".invalid_locations"));
             for(BlockPos location : tile.getInvalidLocations()) {
                 lines.add("  " + location);
             }
@@ -98,6 +98,6 @@ public class GuiSanguinaryEnvironmentalAccumulator extends GuiWorking<TileSangui
 
     @Override
     public String getGuiTexture() {
-        return Reference.TEXTURE_PATH_GUI + "sanguinaryEnvironmentalAccumulator_gui.png";
+        return Reference.TEXTURE_PATH_GUI + "sanguinary_environmental_accumulator_gui.png";
     }
 }

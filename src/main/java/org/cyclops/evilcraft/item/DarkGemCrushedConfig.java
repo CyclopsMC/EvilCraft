@@ -26,7 +26,7 @@ public class DarkGemCrushedConfig extends ItemConfig implements IFuelHandler {
         super(
                 EvilCraft._instance,
         	true,
-            "darkGemCrushed",
+            "dark_gem_crushed",
             null,
             null
         );

@@ -5,6 +5,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
@@ -14,7 +15,6 @@ import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * Item-form of a broom part.
@@ -70,7 +70,7 @@ public class BroomPart extends ConfigurableItem {
     }
 
     @Override
-    public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+    public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
         for (IBroomPart part : BroomParts.REGISTRY.getParts()) {
             for (ItemStack itemStack : BroomParts.REGISTRY.getItemsFromPart(part)) {
                 if (itemStack.getItem() == this) {

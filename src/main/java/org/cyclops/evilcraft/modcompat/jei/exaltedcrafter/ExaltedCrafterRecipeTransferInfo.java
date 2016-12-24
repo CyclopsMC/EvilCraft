@@ -25,6 +25,11 @@ public class ExaltedCrafterRecipeTransferInfo implements IRecipeTransferInfo {
     }
 
     @Override
+    public boolean canHandle(Container container) {
+        return container instanceof ContainerExaltedCrafter;
+    }
+
+    @Override
     public List<Slot> getRecipeSlots(Container container) {
         List<Slot> slots = Lists.newLinkedList();
         for(int i = 0; i < 9; i++) {

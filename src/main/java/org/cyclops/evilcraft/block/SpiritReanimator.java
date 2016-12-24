@@ -60,12 +60,7 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
     }
 
     @Override
-    public String getTankNBTName() {
-        return TileSpiritReanimator.TANKNAME;
-    }
-
-    @Override
-    public int getMaxCapacity() {
+    public int getDefaultCapacity() {
         return TileSpiritReanimator.LIQUID_PER_SLOT;
     }
 

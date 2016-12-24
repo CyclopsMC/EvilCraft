@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.Fluid;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -22,13 +22,13 @@ public class NecromancerStaffConfig extends ItemConfig {
      * The capacity of the container.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The capacity of the container.", requiresMcRestart = true)
-    public static int capacity = FluidContainerRegistry.BUCKET_VOLUME * 10;
+    public static int capacity = Fluid.BUCKET_VOLUME * 10;
     
     /**
      * The amount of Blood that will be drained per usage.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The amount of Blood that will be drained per usage.", isCommandable = true)
-    public static int usage = FluidContainerRegistry.BUCKET_VOLUME * 2;
+    public static int usage = Fluid.BUCKET_VOLUME * 2;
 
     /**
      * Make a new instance.
@@ -37,7 +37,7 @@ public class NecromancerStaffConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
             true,
-            "necromancerStaff",
+            "necromancer_staff",
             null,
             NecromancerStaff.class
         );

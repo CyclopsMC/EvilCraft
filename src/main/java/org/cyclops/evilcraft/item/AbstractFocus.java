@@ -38,8 +38,8 @@ public abstract class AbstractFocus extends ConfigurableItem {
                 if (entityIn == null) {
                     return 0.0F;
                 } else {
-                    ItemStack itemstack = entityIn.getActiveItemStack();
-                    return itemstack != null && itemstack.getItem() instanceof AbstractFocus ? (float)(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F : 0.0F;
+                    ItemStack itemStack = entityIn.getActiveItemStack();
+                    return !itemStack.isEmpty() && itemStack.getItem() instanceof AbstractFocus ? (float)(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F : 0.0F;
                 }
             }
         });
@@ -56,7 +56,8 @@ public abstract class AbstractFocus extends ConfigurableItem {
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
 		if(getItemInUseDuration(player) > 0) {
 			return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemStack);
 		} else {
@@ -77,9 +78,9 @@ public abstract class AbstractFocus extends ConfigurableItem {
 
     @Override
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityLivingBase player, int duration) {
-    	if(player.worldObj.isRemote && getItemInUseDuration(player) > 6) {
+    	if(player.world.isRemote && getItemInUseDuration(player) > 6) {
 	    	// Play stop sound
-	    	player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_stop, 0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
+	    	player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_stop, 0.6F + player.world.rand.nextFloat() * 0.2F, 1.0F);
     	}
     }
 
@@ -89,18 +90,18 @@ public abstract class AbstractFocus extends ConfigurableItem {
     public void onUsingTick(ItemStack itemStack, EntityLivingBase player, int remaining) {
         int duration = getMaxItemUseDuration(itemStack) - remaining;
         if(duration > 6) {
-    		if(WorldHelpers.efficientTick(player.worldObj, TICK_MODULUS, player.getEntityId())) {
+    		if(WorldHelpers.efficientTick(player.world, TICK_MODULUS, player.getEntityId())) {
                 EntityThrowable beam = newBeamEntity(player);
-		    	if(!player.worldObj.isRemote) {
+		    	if(!player.world.isRemote) {
                     // Last three params: pitch offset, velocity, inaccuracy
                     beam.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0F, 0.5F, 1.0F);
-		    		player.worldObj.spawnEntityInWorld(beam);
+		    		player.world.spawnEntity(beam);
 		        }
     		}
     	} else {
-    		if(duration == 3 && player.worldObj.isRemote) {
+    		if(duration == 3 && player.world.isRemote) {
 			    // Play start sound
-    		    player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_start,  0.6F + player.worldObj.rand.nextFloat() * 0.2F, 1.0F);
+    		    player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_start,  0.6F + player.world.rand.nextFloat() * 0.2F, 1.0F);
     		}
     	}
     }

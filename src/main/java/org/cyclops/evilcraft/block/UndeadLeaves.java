@@ -2,10 +2,12 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.component.IEntityDropParticleFXBlock;
 import org.cyclops.cyclopscore.block.component.ParticleDropBlockComponent;
@@ -14,7 +16,6 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -64,9 +65,9 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
         particleDropBlockComponent.randomDisplayTick(world, blockPos, blockState, rand);
     }
 
-    @Nullable
     @Override
-    protected ItemStack createStackedBlock(IBlockState state) {
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(this);
     }
+
 }

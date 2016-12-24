@@ -38,7 +38,8 @@ public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFl
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         if(canConsume(100, itemStack, player)) {
             this.consume(100, itemStack, player);
             world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
@@ -50,7 +51,7 @@ public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFl
             	pearl.motionX *= 3;
             	pearl.motionY *= 3;
             	pearl.motionZ *= 3;
-                world.spawnEntityInWorld(pearl);
+                world.spawnEntity(pearl);
             }
 
             return MinecraftHelpers.successAction(itemStack);

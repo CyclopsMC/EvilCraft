@@ -49,24 +49,25 @@ public class NecromancerStaff extends ConfigurableDamageIndicatedItemFluidContai
     }
     
     protected void throwNecromancersHead(EntityLivingBase entityLiving, Class<? extends EntityLiving> mobType) {
-    	EntityNecromancersHead head = new EntityNecromancersHead(entityLiving.worldObj, entityLiving);
-    	if(!entityLiving.worldObj.isRemote) {
+    	EntityNecromancersHead head = new EntityNecromancersHead(entityLiving.world, entityLiving);
+    	if(!entityLiving.world.isRemote) {
     		head.setMobType(mobType);
             // Last three params: pitch offset, velocity, inaccuracy
             head.setHeadingFromThrower(entityLiving, entityLiving.rotationPitch, entityLiving.rotationYaw, -20.0F, 0.5F, 1.0F);
-    		entityLiving.worldObj.spawnEntityInWorld(head);
+    		entityLiving.world.spawnEntity(head);
         }
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
 		if(canConsume(NecromancerStaffConfig.usage, itemStack, player)) {
 			consume(NecromancerStaffConfig.usage, itemStack, player);
 			Class<? extends EntityLiving> mobType = EntityZombie.class; // Other types might be allowed in the future.
 			throwNecromancersHead(player, mobType);
 			return MinecraftHelpers.successAction(itemStack);
 		}
-        return super.onItemRightClick(itemStack, world, player, hand);
+        return super.onItemRightClick(world, player, hand);
     }
 
 }

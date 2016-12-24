@@ -28,7 +28,7 @@ public class EntityBroomConfig extends EntityConfig<EntityBroom> {
         super(
                 EvilCraft._instance,
         	true,
-            "broomEntity",
+            "broom_entity",
             null,
             EntityBroom.class
         );

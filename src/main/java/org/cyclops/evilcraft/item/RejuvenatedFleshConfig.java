@@ -34,7 +34,7 @@ public class RejuvenatedFleshConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "rejuvenatedFlesh",
+            "rejuvenated_flesh",
             null,
             RejuvenatedFlesh.class
         );

@@ -92,7 +92,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	}
 	
 	private Float loadRotation() {
-		BlockPos closest = DarkTempleGenerator.getClosestForCoords(worldObj, (int) posX, (int) posZ);
+		BlockPos closest = DarkTempleGenerator.getClosestForCoords(world, (int) posX, (int) posZ);
         if(closest != null) {
 			closest = new BlockPos(closest.getX(), 0, closest.getZ());
 			double d = closest.distanceSq(new BlockPos((int) posX, 0, (int) posZ));

@@ -2,19 +2,18 @@ package org.cyclops.evilcraft.core.fluid;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.capability.wrappers.FluidContainerItemWrapper;
+import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 
 /**
- * Safer version of {@link FluidContainerItemWrapper} that makes sure that simulated fluidstacks are
+ * Safer version of {@link FluidHandlerItemCapacity} that makes sure that simulated fluidstacks are
  * not filled/drained without simulation. This must be used for tanks that are omni-present,
  * meaning that their fluid data is independent of the itemstack.
  * This only works for containers that do NOT swap their item when filling/draining.
  * @author rubensworks
  */
-public class FluidContainerItemWrapperWithSimulation extends FluidContainerItemWrapper {
-    public FluidContainerItemWrapperWithSimulation(IFluidContainerItem handler, ItemStack container) {
-        super(handler, container);
+public class FluidContainerItemWrapperWithSimulation extends FluidHandlerItemCapacity {
+    public FluidContainerItemWrapperWithSimulation(ItemStack container, int capacity) {
+        super(container, capacity);
     }
 
     @Override

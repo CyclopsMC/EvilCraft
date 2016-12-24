@@ -56,7 +56,7 @@ public class DarkTankConfig extends BlockContainerConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "darkTank",
+            "dark_tank",
             null,
             DarkTank.class
         );

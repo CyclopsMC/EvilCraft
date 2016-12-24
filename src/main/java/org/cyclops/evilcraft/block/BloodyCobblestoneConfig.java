@@ -28,7 +28,7 @@ public class BloodyCobblestoneConfig extends BlockConfig {
         super(
             EvilCraft._instance,
         	true,
-            "bloodyCobblestone",
+            "bloody_cobblestone",
             null,
             null
         );

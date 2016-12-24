@@ -36,7 +36,7 @@ public class SanguinaryEnvironmentalAccumulatorConfig extends UpgradableBlockCon
         super(
                 EvilCraft._instance,
         	true,
-            "sanguinaryEnvironmentalAccumulator",
+            "sanguinary_environmental_accumulator",
             null,
             SanguinaryEnvironmentalAccumulator.class
         );
@@ -54,7 +54,7 @@ public class SanguinaryEnvironmentalAccumulatorConfig extends UpgradableBlockCon
 
     @Override
     protected String getConfigPropertyPrefix() {
-        return "sangEnvirAcc";
+        return "sang_envir_acc";
     }
 
     @Override

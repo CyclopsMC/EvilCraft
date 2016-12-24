@@ -1,6 +1,0 @@
-{
-  "parent": "evilcraft:block/sanguinaryEnvironmentalAccumulator_off",
-  "textures": {
-    "up": "evilcraft:blocks/sanguinaryEnvironmentalAccumulator_up_on"
-  }
-}

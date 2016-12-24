@@ -114,7 +114,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
         		&& getCookStack(tile) != null && tile.canConsume(getCookStack(tile))) {
         	for(int slotId : tile.getProduceSlots()) {
 	        	ItemStack production = tile.getInventory().getStackInSlot(slotId);
-	            if(production == null || production.stackSize < production.getMaxStackSize()) {
+	            if(production == null || production.getCount() < production.getMaxStackSize()) {
 	            	return tile.isSizeValidForEntity();
 	            }
             }
@@ -180,7 +180,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                         LootContext.Builder lootcontext$builder = (new LootContext.Builder((WorldServer) tile.getWorld()))
                                 .withLootedEntity(entity)
                                 .withPlayer(FakePlayerFactory.getMinecraft((WorldServer) tile.getWorld()))
-                                .withDamageSource(DamageSource.generic);
+                                .withDamageSource(DamageSource.GENERIC);
 
                         // If we want to do something with fortune later...
                         /*if (p_184610_1_ && this.attackingPlayer != null) {

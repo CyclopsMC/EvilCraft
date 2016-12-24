@@ -20,7 +20,7 @@ public class BroomPartCapMetal extends BroomPartBase {
     @SideOnly(Side.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
-                new ResourceLocation(getId().getResourceDomain(), "broomPart/cap_metal"));
+                new ResourceLocation(getId().getResourceDomain(), "broom_part/cap_metal"));
     }
 
     @Override

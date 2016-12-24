@@ -11,11 +11,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -33,18 +32,21 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.block.property.UnlistedProperty;
+import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.model.ModelDarkTank;
 import org.cyclops.evilcraft.core.block.IBlockTank;
-import org.cyclops.evilcraft.core.block.component.BlockTankComponent;
+import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
 import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.fluid.BloodConfig;
 import org.cyclops.evilcraft.tileentity.TileDarkTank;
@@ -58,8 +60,6 @@ import java.util.List;
  */
 public class DarkTank extends ConfigurableBlockContainer implements IInformationProvider, IBlockTank {
 
-	private static final String NBT_TAG_CAPACITY = "tankCapacity";
-
 	@BlockProperty
 	public static final PropertyBool DRAINING = PropertyBool.create("draining");
 	@BlockProperty
@@ -68,8 +68,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	public static final IUnlistedProperty<Integer> TANK_CAPACITY = new UnlistedProperty<Integer>("tank_capacity", Integer.class);
 	
     private static DarkTank _instance = null;
-    
-    private BlockTankComponent<DarkTank> tankComponent = new BlockTankComponent<DarkTank>(this);
+
     @SideOnly(Side.CLIENT)
     private ModelResourceLocation[] itemModels;
 
@@ -132,8 +131,8 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float motionX, float motionY, float motionZ) {
-		if(tankComponent.onBlockActivatedTank(world, blockPos, player, hand, heldItem, side, motionX, motionY, motionZ)) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing side, float motionX, float motionY, float motionZ) {
+		if(BlockTankHelpers.onBlockActivatedTank(world, blockPos, player, hand, side, motionX, motionY, motionZ)) {
         	return true;
         } else {
         	world.setBlockState(blockPos, this.blockState.getBaseState().withProperty(DRAINING, !(Boolean)blockState.getValue(DRAINING)), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
@@ -143,7 +142,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     
     @Override
     public String getInfo(ItemStack itemStack) {
-        return tankComponent.getInfoTank(itemStack);
+        return BlockTankHelpers.getInfoTank(itemStack);
     }
 
 	@SuppressWarnings("rawtypes")
@@ -154,39 +153,9 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	}
 
 	@Override
-	public String getTankNBTName() {
-		return TileDarkTank.NBT_TAG_TANK;
+	protected void tileDataToItemStack(CyclopsTileEntity tile, ItemStack itemStack) {
+		BlockTankHelpers.tileDataToItemStack(tile, itemStack);
 	}
-
-	@Override
-	public int getTankCapacity(ItemStack itemStack) {
-		NBTTagCompound tag = itemStack.getTagCompound();
-		if(tag == null || !tag.hasKey(NBT_TAG_CAPACITY)) {
-			return TileDarkTank.BASE_CAPACITY;
-		}
-		return tag.getInteger(NBT_TAG_CAPACITY);
-	}
-	
-	@Override
-	public void setTankCapacity(ItemStack itemStack, int capacity) {
-		NBTTagCompound tag = itemStack.getTagCompound();
-		if(tag == null) {
-			tag = new NBTTagCompound();
-			itemStack.setTagCompound(tag);
-		}
-		setTankCapacity(tag, capacity);
-	}
-	
-	@Override
-	public void setTankCapacity(NBTTagCompound tag, int capacity) {
-		tag.setInteger(NBT_TAG_CAPACITY, capacity);
-	}
-	
-	@Override
-	public void writeAdditionalInfo(TileEntity tile, NBTTagCompound tag) {
-    	super.writeAdditionalInfo(tile, tag);
-    	tankComponent.writeAdditionalInfo(tile, tag);
-    }
 	
 	@Override
 	public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos blockPos) {
@@ -200,10 +169,10 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	}
 
 	@Override
-	public int getMaxCapacity() {
-		return DarkTankConfig.maxTankSize;
+	public int getDefaultCapacity() {
+		return TileDarkTank.BASE_CAPACITY;
 	}
-	
+
 	@Override
 	public boolean isActivatable() {
 		return true;
@@ -234,14 +203,15 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         ItemStack itemStack = new ItemStack(item);
+		IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack);
 
         int capacityOriginal = TileDarkTank.BASE_CAPACITY;
 		int capacity = capacityOriginal;
         int lastCapacity;
 		do{
-            setTankCapacity(itemStack, capacity);
+            fluidHandler.setCapacity(capacity);
         	list.add(itemStack.copy());
         	if(Configs.isEnabled(BloodConfig.class)) {
         		ItemStack itemStackFilled = itemStack.copy();
@@ -258,8 +228,9 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
                 if (fluid != null && fluid != Blood.getInstance()) {
                     try {
                         ItemStack itemStackFilled = itemStack.copy();
-                        setTankCapacity(itemStackFilled, capacityOriginal);
-						FluidUtil.getFluidHandler(itemStackFilled).fill(new FluidStack(fluid, capacityOriginal), true);
+						IFluidHandlerItemCapacity fluidHandlerFilled = FluidHelpers.getFluidHandlerItemCapacity(itemStackFilled);
+                        fluidHandlerFilled.setCapacity(capacityOriginal);
+						fluidHandlerFilled.fill(new FluidStack(fluid, capacityOriginal), true);
                         list.add(itemStackFilled);
                     } catch (NullPointerException e) {
                         // Skip registering tanks for invalid fluids.

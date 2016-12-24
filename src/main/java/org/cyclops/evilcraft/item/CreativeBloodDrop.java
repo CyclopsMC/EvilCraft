@@ -6,20 +6,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -59,11 +59,6 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
     }
     
     @Override
-    public int getCapacity(ItemStack container) {
-        return MB_FILL_PERTICK;
-    }
-    
-    @Override
     public boolean hasEffect(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
@@ -98,7 +93,7 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
                 for(EnumHand hand : EnumHand.values()) {
                     ItemStack held = player.getHeldItem(hand);
                     IFluidHandler fluidHandler = FluidUtil.getFluidHandler(held);
-                    if (held != null && held != itemStack && fluidHandler != null && player.getItemInUseCount() == 0) {
+                    if (!held.isEmpty() && held != itemStack && fluidHandler != null && player.getItemInUseCount() == 0) {
                         if (fluidHandler.fill(tickFluid, false) > 0) {
                             int filled = fluidHandler.fill(new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), true);
                             source.drain(filled, true);
@@ -110,25 +105,6 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
     }
     
     @Override
-    public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
-        return new FluidStack(getFluid(), maxDrain);
-    }
-    
-    @Override
-    public int fill(ItemStack container, FluidStack resource, boolean doFill) {
-        if(resource == null) {
-            return 0;
-        } else {
-            return resource.amount;
-        }
-    }
-    
-    @Override
-    public FluidStack getFluid(ItemStack itemStack) {
-        return new FluidStack(getFluid(), MB_FILL_PERTICK / 2);
-    }
-    
-    @Override
     public double getDurabilityForDisplay(ItemStack itemStack) {
         return 1;
     }
@@ -136,30 +112,31 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
     @SuppressWarnings({ "rawtypes", "unchecked"})
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List itemList) {
+    public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> itemList) {
     	itemList.add(new ItemStack(this));
     }
     
     @Override
-    public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         Block block = world.getBlockState(blockPos).getBlock();
         if(player.isSneaking()) {
 	        if(Configs.isEnabled(BloodStainedBlockConfig.class)
 	        		&& (BloodStainedBlock.getInstance().canSetInnerBlock(world.getBlockState(blockPos), block, world, blockPos) || block == BloodStainedBlock.getInstance())) {
-	        	BloodStainedBlock.getInstance().stainBlock(world, blockPos, FluidContainerRegistry.BUCKET_VOLUME);
+	        	BloodStainedBlock.getInstance().stainBlock(world, blockPos, Fluid.BUCKET_VOLUME);
 		        if(world.isRemote) {
 		        	ParticleBloodSplash.spawnParticles(world, blockPos.add(0, 1, 0), 5, 1 + world.rand.nextInt(2));
 		        }
 		        return EnumActionResult.PASS;
 	        }
 	    }
-        return super.onItemUseFirst(itemStack, player, world, blockPos, side, hitX, hitY, hitZ, hand);
+        return super.onItemUseFirst(player, world, blockPos, side, hitX, hitY, hitZ, hand);
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         if(!player.isSneaking()) {
-            return super.onItemRightClick(itemStack, world, player, hand);
+            return super.onItemRightClick(world, player, hand);
         } else {
         	RayTraceResult target = this.rayTrace(world, player, false);
         	if(target == null || target.typeOfHit == Type.MISS) {
@@ -171,4 +148,27 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
         return MinecraftHelpers.successAction(itemStack);
     }
 
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+        return new FluidHandlerItemCapacity(stack, MB_FILL_PERTICK) {
+            @Override
+            public FluidStack getFluid() {
+                return new FluidStack(CreativeBloodDrop.this.getFluid(), MB_FILL_PERTICK / 2);
+            }
+
+            @Override
+            public FluidStack drain(int maxDrain, boolean doDrain) {
+                return new FluidStack(getFluid(), maxDrain);
+            }
+
+            @Override
+            public int fill(FluidStack resource, boolean doFill) {
+                if(resource == null) {
+                    return 0;
+                } else {
+                    return resource.amount;
+                }
+            }
+        };
+    }
 }

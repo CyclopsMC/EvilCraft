@@ -6,8 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -69,7 +69,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = FluidContainerRegistry.BUCKET_VOLUME * 10;
+    public static final int LIQUID_PER_SLOT = Fluid.BUCKET_VOLUME * 10;
     /**
      * The amount of ticks per mB the tank can accept per tick.
      */
@@ -182,7 +182,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
      * Get the entity name that is contained in a box.
      * @return The entity or null if no box or invalid box.
      */
-    public String getEntityName() {
+    public ResourceLocation getEntityName() {
         ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
         if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
             return BoxOfEternalClosure.getInstance().getSpiritNameOrNull(boxStack);
@@ -204,7 +204,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
     
     @Override
     public boolean canConsume(ItemStack itemStack) {
-        return itemStack != null && getAllowedCookItem() == itemStack.getItem();
+        return !itemStack.isEmpty() && getAllowedCookItem() == itemStack.getItem();
     }
     
     /**
@@ -233,8 +233,8 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 		ItemStack outputStack = getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
         boolean validNameStack = getEntityName() != null && EntityList.ENTITY_EGGS.containsKey(getEntityName())
                 && (outputStack == null ||
-                    (outputStack.getMaxStackSize() > outputStack.stackSize
-                        && getEntityName().equals(ItemMonsterPlacer.getEntityIdFromItem(outputStack))));
+                    (outputStack.getMaxStackSize() > outputStack.getCount()
+                        && getEntityName().equals(ItemMonsterPlacer.getNamedIdFrom(outputStack))));
         return eggStack != null /*&& ResurgenceEgg.getInstance().isEmpty(eggStack)*/
 				&& validNameStack;
 	}
@@ -242,7 +242,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 	@Override
     public void onStateChanged() {
         sendUpdate();
-        worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(SpiritReanimator.ON, isWorking()));
+        world.setBlockState(getPos(), world.getBlockState(getPos()).withProperty(SpiritReanimator.ON, isWorking()));
     }
 
 }

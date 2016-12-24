@@ -63,9 +63,9 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
     
     @Override
     public void onLivingUpdate() {
-        if(this.worldObj.isRemote && rand.nextInt(30) == 0) {
+        if(this.world.isRemote && rand.nextInt(30) == 0) {
             for (int i = 0; i < 2; ++i) {
-                this.worldObj.spawnParticle(EnumParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
+                this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
             }
         }
         super.onLivingUpdate();
@@ -103,7 +103,7 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
                 if (Configs.isEnabled(NetherfishSpawnConfig.class) && random.nextInt(10) == 0) {
                     this.field_179483_b = EnumFacing.random(random);
                     BlockPos blockpos = (new BlockPos(Netherfish.this.posX, Netherfish.this.posY + 0.5D, Netherfish.this.posZ)).offset(this.field_179483_b);
-                    int meta = NetherfishSpawn.getInstance().getMetadataFromBlock(Netherfish.this.worldObj.getBlockState(blockpos).getBlock());
+                    int meta = NetherfishSpawn.getInstance().getMetadataFromBlock(Netherfish.this.world.getBlockState(blockpos).getBlock());
 
                     if (meta >= 0) {
                         this.field_179484_c = true;
@@ -132,10 +132,10 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
                 super.startExecuting();
             } else {
                 BlockPos blockpos = (new BlockPos(Netherfish.this.posX, Netherfish.this.posY + 0.5D, Netherfish.this.posZ)).offset(this.field_179483_b);
-                int meta = NetherfishSpawn.getInstance().getMetadataFromBlock(Netherfish.this.worldObj.getBlockState(blockpos).getBlock());
+                int meta = NetherfishSpawn.getInstance().getMetadataFromBlock(Netherfish.this.world.getBlockState(blockpos).getBlock());
 
                 if (meta >= 0) {
-                    Netherfish.this.worldObj.setBlockState(blockpos, NetherfishSpawn.getInstance().getDefaultState().withProperty(NetherfishSpawn.FAKEMETA, meta));
+                    Netherfish.this.world.setBlockState(blockpos, NetherfishSpawn.getInstance().getDefaultState().withProperty(NetherfishSpawn.FAKEMETA, meta));
                     Netherfish.this.spawnExplosionParticle();
                     Netherfish.this.setDead();
                 }

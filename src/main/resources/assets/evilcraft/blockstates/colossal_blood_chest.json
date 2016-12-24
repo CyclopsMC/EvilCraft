@@ -1,0 +1,11 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "active=false": { "model": "evilcraft:colossal_blood_chest_on" },
+    "active=true": { "model": "evilcraft:colossal_blood_chest_off" },
+    "inventory": { "model": "evilcraft:colossal_blood_chest_on" }
+  }
+}

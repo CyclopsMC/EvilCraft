@@ -117,7 +117,7 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
      * @param slot The slot id for the ticker.
      */
     public void tick(ItemStack itemStack, int slot) {
-        if(itemStack != null) {
+        if(!itemStack.isEmpty()) {
             T action;
             int actionOffset = 0;
             boolean ticked = false;

@@ -14,12 +14,12 @@ import org.cyclops.cyclopscore.config.IChangedCallback;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.init.IInitListener;
-import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
 import org.cyclops.cyclopscore.modcompat.IMCHandler;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
+import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.tileentity.TileWorking;
 import org.cyclops.evilcraft.tileentity.tickaction.spiritfurnace.BoxCookTickAction;
@@ -94,7 +94,7 @@ public class SpiritFurnaceConfig extends UpgradableBlockContainerConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "spiritFurnace",
+            "spirit_furnace",
             null,
             SpiritFurnace.class
         );
@@ -102,7 +102,7 @@ public class SpiritFurnaceConfig extends UpgradableBlockContainerConfig {
     
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockNBT.class;
+        return ItemBlockFluidContainer.class;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class SpiritFurnaceConfig extends UpgradableBlockContainerConfig {
                                 EvilCraft.clog("IMC override mob drop has no item in the list.", Level.ERROR);
                                 return false;
                             }
-                            ItemStack itemStack = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("item"));
+                            ItemStack itemStack = new ItemStack(tag.getCompoundTag("item"));
                             if(!tag.hasKey("weight")) {
                                 EvilCraft.clog("IMC override mob drop has no weight in the list.", Level.ERROR);
                                 return false;

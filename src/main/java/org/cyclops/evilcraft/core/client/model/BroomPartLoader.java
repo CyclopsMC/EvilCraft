@@ -16,7 +16,7 @@ import java.util.Set;
 public class BroomPartLoader implements ICustomModelLoader {
 
     public static final Set<ResourceLocation> LOCATIONS = Sets.newHashSet(
-            new ResourceLocation(Reference.MOD_ID, "models/item/broomPart")
+            new ResourceLocation(Reference.MOD_ID, "models/item/broom_part")
     );
 
     @Override

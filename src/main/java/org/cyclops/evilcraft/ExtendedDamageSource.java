@@ -17,7 +17,7 @@ public class ExtendedDamageSource extends DamageSource{
     /**
      * DamageSource for when entities die without any apparent reason.
      */
-    public static ExtendedDamageSource dieWithoutAnyReason = (ExtendedDamageSource)((new ExtendedDamageSource("dieWithoutAnyReason")).setDamageBypassesArmor());
+    public static ExtendedDamageSource dieWithoutAnyReason = (ExtendedDamageSource)((new ExtendedDamageSource("die_without_any_reason")).setDamageBypassesArmor());
     /**
      * DamageSource for when entities die from distortion not caused by another player.
      */
@@ -29,7 +29,7 @@ public class ExtendedDamageSource extends DamageSource{
     /**
      * DamageSource for when necromancer's entities that are automatically killed.
      */
-    public static ExtendedDamageSource necromancerRecall = (ExtendedDamageSource)((new ExtendedDamageSource("necromancerRecall")));
+    public static ExtendedDamageSource necromancerRecall = (ExtendedDamageSource)((new ExtendedDamageSource("necromancer_recall")));
     /**
      * DamageSource for paling entities.
      */
@@ -49,7 +49,7 @@ public class ExtendedDamageSource extends DamageSource{
     }
 
     public static ExtendedDamageSource vengeanceBeam(final EntityLivingBase attacker) {
-        return new VengeanceBeamDamageSource("vengeanceBeam", attacker);
+        return new VengeanceBeamDamageSource("vengeance_beam", attacker);
     }
 
     private final Entity entity;

@@ -23,7 +23,7 @@ public class EvilBlockConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "evilBlock",
+            "evil_block",
             null,
             EvilBlock.class
         );

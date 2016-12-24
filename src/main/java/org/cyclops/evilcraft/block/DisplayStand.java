@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -18,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -144,8 +144,8 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
     }
 
     @Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        IBlockState blockState = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+        IBlockState blockState = super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
         blockState = blockState.withProperty(FACING, facing.getOpposite());
         EnumFacing playerFacing = placer.getHorizontalFacing();
         boolean axisX;
@@ -194,12 +194,12 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
     }
 
     @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+    public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
         for (ItemStack plankWoodStack : OreDictionary.getOres("plankWood")) {
             if (plankWoodStack.getItem() instanceof ItemBlock) {
                 int plankWoodMeta = plankWoodStack.getItemDamage();
                 if (plankWoodMeta == OreDictionary.WILDCARD_VALUE) {
-                    List<ItemStack> plankWoodSubItems = Lists.newArrayList();
+                    NonNullList<ItemStack> plankWoodSubItems = NonNullList.create();
                     plankWoodStack.getItem().getSubItems(plankWoodStack.getItem(), null, plankWoodSubItems);
                     for (ItemStack plankWoodSubItem : plankWoodSubItems) {
                         IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodSubItem);
@@ -232,7 +232,7 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
         NBTTagCompound tag = ItemStackHelpers.getSafeTagCompound(displayStandStack);
         if (tag.hasKey(NBT_TYPE)) {
             NBTTagCompound blockTag = tag.getCompoundTag(NBT_TYPE);
-            return ItemStack.loadItemStackFromNBT(blockTag);
+            return new ItemStack(blockTag);
         }
         return null;
     }
@@ -249,24 +249,25 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
-                                    ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+                                    EnumFacing side, float hitX, float hitY, float hitZ) {
+        ItemStack itemStack = player.getHeldItem(hand);
         if (world.isRemote) {
             return true;
         } else {
             TileDisplayStand tile = TileHelpers.getSafeTile(world, pos, TileDisplayStand.class);
             if (tile != null) {
                 ItemStack tileStack = tile.getStackInSlot(0);
-                if ((itemStack == null || (ItemStack.areItemsEqual(itemStack, tileStack) && ItemStack.areItemStackTagsEqual(itemStack, tileStack) && tileStack.stackSize < tileStack.getMaxStackSize())) && tileStack != null) {
-                    if(itemStack != null) {
-                        tileStack.stackSize += itemStack.stackSize;
+                if ((itemStack.isEmpty() || (ItemStack.areItemsEqual(itemStack, tileStack) && ItemStack.areItemStackTagsEqual(itemStack, tileStack) && tileStack.getCount() < tileStack.getMaxStackSize())) && tileStack != null) {
+                    if(!itemStack.isEmpty()) {
+                        tileStack.grow(itemStack.getCount());
                     }
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tileStack);
                     tile.setInventorySlotContents(0, null);
                     tile.sendUpdate();
                     return true;
-                } else if (itemStack != null && tile.getStackInSlot(0) == null) {
+                } else if (!itemStack.isEmpty() && tile.getStackInSlot(0) == null) {
                     tile.setInventorySlotContents(0, itemStack.splitStack(1));
-                    if (itemStack.stackSize <= 0)
+                    if (itemStack.getCount() <= 0)
                         player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
                     tile.sendUpdate();
                     return true;
@@ -291,9 +292,9 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
     }
 
     protected void bakeVariantModel(ModelBakeEvent event, String variant, boolean rotated) {
-        ModelResourceLocation modelVariantLocation = new ModelResourceLocation(Reference.MOD_ID + ":displayStand", variant);
+        ModelResourceLocation modelVariantLocation = new ModelResourceLocation(Reference.MOD_ID + ":display_stand", variant);
         try {
-            ResourceLocation modelLocation = new ResourceLocation(Reference.MOD_ID, "block/displayStand" + (rotated ? "_rotated" : ""));
+            ResourceLocation modelLocation = new ResourceLocation(Reference.MOD_ID, "block/display_stand" + (rotated ? "_rotated" : ""));
             IBakedModel originalBakedModel = event.getModelRegistry().getObject(modelVariantLocation);
             // We actually need to retrieve modelVariantLocation, but that seems to make it a non-IRetexturableModel
             // So instead, we manually apply model rotation in ModelDisplayStand when baking.

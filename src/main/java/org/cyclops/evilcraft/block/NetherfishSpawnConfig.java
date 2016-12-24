@@ -32,7 +32,7 @@ public class NetherfishSpawnConfig extends BlockConfig {
         super(
             EvilCraft._instance,
         	true,
-            "netherMonsterBlock",
+            "nether_monster_block",
             null,
             NetherfishSpawn.class
         );

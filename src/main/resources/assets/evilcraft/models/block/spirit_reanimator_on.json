@@ -1,0 +1,6 @@
+{
+  "parent": "evilcraft:block/spirit_reanimator_off",
+  "textures": {
+    "north": "evilcraft:blocks/spirit_reanimator_north_on"
+  }
+}

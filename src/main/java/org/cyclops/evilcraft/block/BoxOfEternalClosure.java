@@ -15,9 +15,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -106,11 +104,11 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     	return false;
     }
 
-    public String getSpiritNameOrNull(ItemStack itemStack) {
-		return hasPlayer(itemStack) ? "Zombie" : getSpiritNameOrNullFromNBTTag(itemStack.getTagCompound());
+    public ResourceLocation getSpiritNameOrNull(ItemStack itemStack) {
+		return hasPlayer(itemStack) ? new ResourceLocation("zombie") : getSpiritNameOrNullFromNBTTag(itemStack.getTagCompound());
     }
 
-	private String getSpiritNameOrNullFromNBTTag(NBTTagCompound tag) {
+	private ResourceLocation getSpiritNameOrNullFromNBTTag(NBTTagCompound tag) {
 		return TileBoxOfEternalClosure.getSpiritNameOrNullFromNBTTag(tag);
 	}
     
@@ -175,9 +173,9 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 		if(hasPlayer(itemStack)) {
 			content = getPlayerName(itemStack);
 		} else {
-			String id = getSpiritNameOrNull(itemStack);
+			ResourceLocation id = getSpiritNameOrNull(itemStack);
 			if (id != null) {
-				content = L10NHelpers.getLocalizedEntityName(id);
+				content = L10NHelpers.getLocalizedEntityName(id.toString());
 			}
 		}
 		return TextFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
@@ -197,16 +195,16 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     }
 
     @Override
-    public void neighborChanged(IBlockState blockState, World world, BlockPos blockPos, Block block) {
+    public void neighborChanged(IBlockState blockState, World world, BlockPos blockPos, Block block, BlockPos fromPos) {
         if(!canPlaceBlockAt(world, blockPos)) {
         	dropBlockAsItem(world, blockPos, blockState, 0);
         	world.setBlockToAir(blockPos);
         }
-        super.neighborChanged(blockState, world, blockPos, block);
+        super.neighborChanged(blockState, world, blockPos, block, fromPos);
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityplayer, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityplayer, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
     	if(world.getTileEntity(blockPos) != null) {
 	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
 			if(tile.isClosed()) {
@@ -214,7 +212,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 	    		return true;
 	    	}
     	}
-    	return super.onBlockActivated(world, blockPos, state, entityplayer, hand, heldItem, side, hitX, hitY, hitZ);
+    	return super.onBlockActivated(world, blockPos, state, entityplayer, hand, side, hitX, hitY, hitZ);
     }
 
 	private float randomFloat(Random random, float min, float delta) {
@@ -234,7 +232,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         list.add(new ItemStack(item));
         list.add(BoxOfEternalClosure.boxOfEternalClosureFilled);
     }
@@ -262,9 +260,9 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean addHitEffects(IBlockState blockState, World worldObj, RayTraceResult target, ParticleManager particleManager) {
+	public boolean addHitEffects(IBlockState blockState, World world, RayTraceResult target, ParticleManager particleManager) {
 		if(target != null) {
-			RenderHelpers.addBlockHitEffects(particleManager, worldObj, Blocks.OBSIDIAN.getDefaultState(), target.getBlockPos(), target.sideHit);
+			RenderHelpers.addBlockHitEffects(particleManager, world, Blocks.OBSIDIAN.getDefaultState(), target.getBlockPos(), target.sideHit);
 		}
 		return true;
 	}
@@ -278,8 +276,8 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean addLandingEffects(IBlockState blockState, WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
-		RenderHelpers.addBlockHitEffects(Minecraft.getMinecraft().effectRenderer, worldObj, Blocks.OBSIDIAN.getDefaultState(), blockPosition, EnumFacing.UP);
+	public boolean addLandingEffects(IBlockState blockState, WorldServer world, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
+		RenderHelpers.addBlockHitEffects(Minecraft.getMinecraft().effectRenderer, world, Blocks.OBSIDIAN.getDefaultState(), blockPosition, EnumFacing.UP);
 		return true;
 	}
 }

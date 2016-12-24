@@ -40,7 +40,7 @@ public class BloodStainedBlockConfig extends BlockContainerConfig {
         super(
             EvilCraft._instance,
         	true,
-            "bloodStainedBlock",
+            "blood_stained_block",
             null,
             BloodStainedBlock.class
         );

@@ -1,0 +1,6 @@
+{
+    "parent": "evilcraft:broom_part/cap",
+    "textures": {
+        "base": "blocks/slime"
+    }
+}

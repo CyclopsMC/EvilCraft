@@ -100,7 +100,7 @@ public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
 
     @Override
     public String getGuiTexture() {
-        return Reference.TEXTURE_PATH_GUI + "spiritFurnace_gui.png";
+        return Reference.TEXTURE_PATH_GUI + "spirit_furnace_gui.png";
     }
     
     private String prettyPrintSize(Vec3i size) {
@@ -113,15 +113,15 @@ public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
     	List<String> lines = new ArrayList<String>();
     	lines.add(L10NHelpers.localize(prefix));
         if(tile.getEntity() == null) {
-        	lines.add(L10NHelpers.localize(prefix + ".noEntity"));
+        	lines.add(L10NHelpers.localize(prefix + ".no_entity"));
         } else if(!tile.isSizeValidForEntity()) {
-        	lines.add(L10NHelpers.localize(prefix + ".contentSize", prettyPrintSize(tile.getInnerSize())));
-        	lines.add(L10NHelpers.localize(prefix + ".requiredSize", prettyPrintSize(tile.getEntitySize())));
+        	lines.add(L10NHelpers.localize(prefix + ".content_size", prettyPrintSize(tile.getInnerSize())));
+        	lines.add(L10NHelpers.localize(prefix + ".required_size", prettyPrintSize(tile.getEntitySize())));
         } else if(tile.isForceHalt()) {
-        	lines.add(L10NHelpers.localize(prefix + ".forceHalt"));
+        	lines.add(L10NHelpers.localize(prefix + ".force_halt"));
         }
         else if(tile.isCaughtError()) {
-        	lines.add(L10NHelpers.localize(prefix + ".caughtError"));
+        	lines.add(L10NHelpers.localize(prefix + ".caught_error"));
         }
         if(lines.size() > 1) {
         	this.drawTexturedModalRect(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,

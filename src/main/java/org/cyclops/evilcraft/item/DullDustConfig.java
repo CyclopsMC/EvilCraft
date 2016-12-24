@@ -23,7 +23,7 @@ public class DullDustConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "dullDust",
+            "dull_dust",
             null,
             null
         );

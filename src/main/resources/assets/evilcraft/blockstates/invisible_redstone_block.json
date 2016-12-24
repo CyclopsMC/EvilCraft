@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "normal": {
+      "model": "evilcraft:invisible_redstone_block"
+    },
+    "inventory": {
+      "model": "evilcraft:invisible_redstone_block"
+    }
+  }
+}

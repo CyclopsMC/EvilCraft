@@ -32,14 +32,15 @@ public class SlotWorking<T extends WorkingTileEntity<?, ?>> extends Slot {
     
     @Override
     public boolean isItemValid(ItemStack itemStack) {
-        return itemStack != null && tile.canConsume(itemStack);
+        return !itemStack.isEmpty() && tile.canConsume(itemStack);
     }
     
     @Override
-    public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
+    public ItemStack onTake(EntityPlayer player, ItemStack itemStack) {
         if(!ItemStack.areItemStackTagsEqual(itemStack, this.getStack())) {
             tile.resetWork();
         }
+        return super.onTake(player, itemStack);
     }
     
     @Override

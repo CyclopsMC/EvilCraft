@@ -1,0 +1,6 @@
+{
+    "parent": "evilcraft:broom_part/head_player",
+    "textures": {
+        "base": "entity/steve"
+    }
+}

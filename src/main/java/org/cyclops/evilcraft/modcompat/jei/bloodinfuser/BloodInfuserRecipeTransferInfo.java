@@ -25,6 +25,11 @@ public class BloodInfuserRecipeTransferInfo implements IRecipeTransferInfo {
     }
 
     @Override
+    public boolean canHandle(Container container) {
+        return container instanceof ContainerBloodInfuser;
+    }
+
+    @Override
     public List<Slot> getRecipeSlots(Container container) {
         List<Slot> slots = Lists.newLinkedList();
         slots.add(container.getSlot(TileBloodInfuser.SLOT_INFUSE));

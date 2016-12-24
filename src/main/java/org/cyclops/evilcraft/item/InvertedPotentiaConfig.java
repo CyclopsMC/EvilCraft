@@ -22,7 +22,7 @@ public class InvertedPotentiaConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
             true,
-            "invertedPotentia",
+            "inverted_potentia",
             null,
             InvertedPotentia.class
         );

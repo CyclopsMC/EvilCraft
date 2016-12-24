@@ -59,13 +59,13 @@ public class EntityLightningGrenade extends EntityThrowable implements IConfigur
         }
 
         for (int i = 0; i < 32; ++i) {
-            this.worldObj.spawnParticle(EnumParticleTypes.CRIT_MAGIC, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
+            this.world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
         }
 
-        if (!this.worldObj.isRemote) {
+        if (!this.world.isRemote) {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {    
-                EntityHelpers.onEntityCollided(this.worldObj, par1MovingObjectPosition.getBlockPos(), this);
-                this.worldObj.addWeatherEffect(new EntityLightningBolt(this.worldObj, this.posX, this.posY, this.posZ, true));
+                EntityHelpers.onEntityCollided(this.world, par1MovingObjectPosition.getBlockPos(), this);
+                this.world.addWeatherEffect(new EntityLightningBolt(this.world, this.posX, this.posY, this.posZ, true));
             }
 
             this.setDead();

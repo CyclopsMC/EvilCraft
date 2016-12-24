@@ -1,8 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "evilcraft:blocks/spiritReanimator_side",
-    "up": "evilcraft:blocks/spiritReanimator_up",
-    "north": "evilcraft:blocks/spiritReanimator_north_off"
-  }
-}

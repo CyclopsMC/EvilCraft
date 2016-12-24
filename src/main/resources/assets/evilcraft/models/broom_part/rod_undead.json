@@ -1,0 +1,6 @@
+{
+    "parent": "evilcraft:broom_part/rod",
+    "textures": {
+        "base": "evilcraft:blocks/undead_plank"
+    }
+}

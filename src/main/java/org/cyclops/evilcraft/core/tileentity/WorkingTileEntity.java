@@ -136,7 +136,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
         List<ItemStack> itemStacks = Lists.newLinkedList();
         for(int i = getBasicInventorySize(); i < getBasicInventorySize() + INVENTORY_SIZE_UPGRADES; i++) {
             ItemStack itemStack = getStackInSlot(i);
-            if(itemStack != null) {
+            if(!itemStack.isEmpty()) {
                 itemStacks.add(itemStack);
             }
         }
@@ -179,7 +179,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
         ItemStack itemStack = super.decrStackSize(slotId, count);
         if(isUpgradeSlot(slotId)) {
             ItemStack oldItemStack = itemStack.copy();
-            oldItemStack.stackSize += count;
+            oldItemStack.grow(count);
             onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
         }
         return itemStack;
@@ -188,7 +188,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     @Override
     public void setInventorySlotContents(int slotId, ItemStack itemStack) {
         ItemStack oldItemStack = getStackInSlot(slotId);
-        if(oldItemStack != null) oldItemStack = oldItemStack.copy();
+        if(!oldItemStack.isEmpty()) oldItemStack = oldItemStack.copy();
         super.setInventorySlotContents(slotId, itemStack);
         if(isUpgradeSlot(slotId)) {
             onUpgradeSlotChanged(slotId, oldItemStack, itemStack);

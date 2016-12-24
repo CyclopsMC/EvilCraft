@@ -12,6 +12,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -56,12 +57,13 @@ public class RejuvenatedFlesh extends ConfigurableDamageIndicatedItemFluidContai
     }
 
     protected boolean canEat(ItemStack itemStack) {
-        FluidStack fluidStack = getFluid(itemStack);
+        FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
         return fluidStack != null && fluidStack.amount >= RejuvenatedFleshConfig.biteUsage;
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         if(canEat(itemStack) && player.canEat(false)) {
             player.setActiveHand(hand);
             return MinecraftHelpers.successAction(itemStack);
@@ -71,7 +73,7 @@ public class RejuvenatedFlesh extends ConfigurableDamageIndicatedItemFluidContai
 
     @Override
     public ItemStack onItemUseFinish(ItemStack itemStack, World world, EntityLivingBase entity) {
-        drain(itemStack, RejuvenatedFleshConfig.biteUsage, true);
+        FluidUtil.getFluidHandler(itemStack).drain(RejuvenatedFleshConfig.biteUsage, true);
         if(entity instanceof EntityPlayer) {
             ((EntityPlayer) entity).getFoodStats().addStats(3, 0.5F);
         }

@@ -31,7 +31,7 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
         super(
             EvilCraft._instance,
         	true,
-            "bloodWaxedCoalBlock",
+            "blood_waxed_coal_block",
             null,
             null
         );

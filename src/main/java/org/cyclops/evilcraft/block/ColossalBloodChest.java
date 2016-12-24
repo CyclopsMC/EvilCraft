@@ -81,9 +81,9 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer entityplayer, EnumHand hand, ItemStack heldItem, EnumFacing side, float par7, float par8, float par9) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer entityplayer, EnumHand hand, EnumFacing side, float par7, float par8, float par9) {
         return !TileColossalBloodChest.canWork(world, blockPos) ||
-                super.onBlockActivated(world, blockPos, blockState, entityplayer, hand, heldItem, side, par7, par8, par9);
+                super.onBlockActivated(world, blockPos, blockState, entityplayer, hand, side, par7, par8, par9);
     }
 
     @Override
@@ -92,12 +92,7 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
     }
 
     @Override
-    public String getTankNBTName() {
-        return TileSpiritFurnace.TANKNAME;
-    }
-
-    @Override
-    public int getMaxCapacity() {
+    public int getDefaultCapacity() {
         return TileSpiritFurnace.LIQUID_PER_SLOT;
     }
 

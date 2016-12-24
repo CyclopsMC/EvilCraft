@@ -23,7 +23,7 @@ public class UndeadSaplingConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "undeadSapling",
+            "undead_sapling",
             null,
             UndeadSapling.class
         );

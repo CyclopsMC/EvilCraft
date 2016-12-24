@@ -34,7 +34,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 		return new ItemStack(Item.REGISTRY.getObject(new ResourceLocation("spawn_egg")), 1, entityId);
 	}
 
-	protected ItemStack getSpawnEgg(String entityName) {
+	protected ItemStack getSpawnEgg(ResourceLocation entityName) {
 		ItemStack itemStack = new ItemStack((Item)Item.REGISTRY.getObject(new ResourceLocation("spawn_egg")));
 		applyEntityIdToItemStack(itemStack, entityName);
 		return itemStack;
@@ -42,10 +42,10 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 	}
 
 	// Copied from ItemMonsterPlacer, since its client-side only over there.
-	protected static void applyEntityIdToItemStack(ItemStack stack, String entityId) {
+	protected static void applyEntityIdToItemStack(ItemStack stack, ResourceLocation entityId) {
 		NBTTagCompound nbttagcompound = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
 		NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-		nbttagcompound1.setString("id", entityId);
+		nbttagcompound1.setString("id", entityId.toString());
 		nbttagcompound.setTag("EntityTag", nbttagcompound1);
 		stack.setTagCompound(nbttagcompound);
 	}
@@ -57,7 +57,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 		tile.getTank().drain(getRequiredMb(tile, tick), true);
 		if(tick >= getRequiredTicks(tile, slot, tick)) {
 			ItemStack spawnEgg = null;
-			String entityName = tile.getEntityName();
+			ResourceLocation entityName = tile.getEntityName();
 			if(entityName != null) {
 				spawnEgg = getSpawnEgg(entityName);
 			}

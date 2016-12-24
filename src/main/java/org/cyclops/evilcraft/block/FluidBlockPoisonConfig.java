@@ -23,7 +23,7 @@ public class FluidBlockPoisonConfig extends BlockFluidConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "blockPoison",
+            "block_poison",
             null,
             FluidBlockPoison.class
         );

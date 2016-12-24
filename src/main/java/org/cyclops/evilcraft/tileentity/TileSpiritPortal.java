@@ -41,34 +41,34 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
 		super.updateTileEntity();
         progress += 0.005f;
         if(progress > 1) {
-            worldObj.setBlockToAir(getPos());
+            world.setBlockToAir(getPos());
         }
-        if(worldObj.isRemote) {
+        if(world.isRemote) {
             int progressModifier = (int) (getProgress() * 40f) + 1;
-            if(worldObj.rand.nextInt(5) == 0) {
-                worldObj.playSound(getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F,
+            if(world.rand.nextInt(5) == 0) {
+                world.playSound(getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F,
                         EvilCraftSoundEvents.effect_vengeancebeam_base, SoundCategory.AMBIENT,
-                        0.5F + worldObj.rand.nextFloat() * 0.2F, 1.0F, false);
+                        0.5F + world.rand.nextFloat() * 0.2F, 1.0F, false);
             }
-            for(int i = 0; i < worldObj.rand.nextInt(progressModifier); i++) {
+            for(int i = 0; i < world.rand.nextInt(progressModifier); i++) {
                 showNewBlurParticle();
             }
         }
 
         // transform book if thrown in.
-        if(!worldObj.isRemote && Configs.isEnabled(OriginsOfDarknessConfig.class)) {
-            for (EntityItem entityItem : (List<EntityItem>) worldObj.getEntitiesWithinAABB(EntityItem.class,
+        if(!world.isRemote && Configs.isEnabled(OriginsOfDarknessConfig.class)) {
+            for (EntityItem entityItem : (List<EntityItem>) world.getEntitiesWithinAABB(EntityItem.class,
                     new AxisAlignedBB(
                             this.getPos().getX() - 0.5D, this.getPos().getY() - 0.5D, this.getPos().getZ() - 0.5D,
                             this.getPos().getX() + 1.5D, this.getPos().getY() + 1.5D, this.getPos().getZ() + 1.5D))) {
                 if (entityItem.getEntityItem().getItem() instanceof ItemBook) {
-                    Entity entity = new EntityItem(worldObj, entityItem.posX, entityItem.posY, entityItem.posZ,
-                            new ItemStack(OriginsOfDarkness.getInstance(), entityItem.getEntityItem().stackSize));
+                    Entity entity = new EntityItem(world, entityItem.posX, entityItem.posY, entityItem.posZ,
+                            new ItemStack(OriginsOfDarkness.getInstance(), entityItem.getEntityItem().getCount()));
                     entity.motionX = entityItem.motionX;
                     entity.motionY = entityItem.motionY;
                     entity.motionZ = entityItem.motionZ;
                     entityItem.setDead();
-                    worldObj.spawnEntityInWorld(entity);
+                    world.spawnEntity(entity);
                 }
             }
         }
@@ -76,14 +76,14 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
 
     @SideOnly(Side.CLIENT)
     private void showNewBlurParticle() {
-        Random rand = worldObj.rand;
+        Random rand = world.rand;
         float scale = 0.6F - rand.nextFloat() * 0.3F;
         float red = rand.nextFloat() * 0.03F + 0.01F;
         float green = rand.nextFloat() * 0.03F;
         float blue = rand.nextFloat() * 0.05F + 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 6.5D + 10D);
 
-        ParticleBlur blur = new ParticleBlur(worldObj, getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F, scale,
+        ParticleBlur blur = new ParticleBlur(world, getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F, scale,
                 rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F,
                 red, green, blue, ageMultiplier);
         Minecraft.getMinecraft().effectRenderer.addEffect(blur);

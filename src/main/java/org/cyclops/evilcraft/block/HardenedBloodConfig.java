@@ -23,7 +23,7 @@ public class HardenedBloodConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "hardenedBlood",
+            "hardened_blood",
             null,
             HardenedBlood.class
         );

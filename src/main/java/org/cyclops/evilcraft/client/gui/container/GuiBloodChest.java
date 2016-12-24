@@ -36,7 +36,7 @@ public class GuiBloodChest extends GuiContainerTankInventory<TileBloodChest> {
 
     @Override
     public String getGuiTexture() {
-        return Reference.TEXTURE_PATH_GUI + "bloodChest_gui.png";
+        return Reference.TEXTURE_PATH_GUI + "blood_chest_gui.png";
     }
 
     @Override

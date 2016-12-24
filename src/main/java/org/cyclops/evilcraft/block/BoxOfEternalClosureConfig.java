@@ -57,7 +57,7 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
         super(
             EvilCraft._instance,
         	true,
-            "boxOfEternalClosure",
+            "box_of_eternal_closure",
             null,
             BoxOfEternalClosure.class
         );
@@ -78,7 +78,7 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
         boxLidRotatedModel = new ResourceLocation(getMod().getModId() + ":block/box_lid_rotated");
 
         ModelLoaderRegistry.registerLoader(new SingleModelLoader(
-                Reference.MOD_ID, "models/item/boxOfEternalClosure", new ModelBoxOfEternalClosure()));
+                Reference.MOD_ID, "models/item/box_of_eternal_closure", new ModelBoxOfEternalClosure()));
     }
 
     @Override

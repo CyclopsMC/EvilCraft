@@ -40,7 +40,7 @@ public class RenderBombPrimed extends RenderTNTPrimed {
         if ((float)entity.getFuse() - partialTickTime + 1.0F < 10.0F)
         {
             f2 = 1.0F - ((float)entity.getFuse() - partialTickTime + 1.0F) / 10.0F;
-            f2 = MathHelper.clamp_float(f2, 0.0F, 1.0F);
+            f2 = MathHelper.clamp(f2, 0.0F, 1.0F);
             f2 *= f2;
             f2 *= f2;
             float f3 = 1.0F + f2 * 0.3F;

@@ -23,7 +23,7 @@ public class BloodOrbConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "bloodOrb",
+            "blood_orb",
             null,
             BloodOrb.class
         );

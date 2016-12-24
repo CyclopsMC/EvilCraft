@@ -22,7 +22,7 @@ public class ResurgenceEggConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "resurgenceEgg",
+            "resurgence_egg",
             null,
             ResurgenceEgg.class
         );

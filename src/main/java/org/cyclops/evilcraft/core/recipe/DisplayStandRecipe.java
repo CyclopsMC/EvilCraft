@@ -37,7 +37,7 @@ public class DisplayStandRecipe extends ShapedOreRecipe {
 		for (int i = 0; i < inventoryCrafting.getSizeInventory(); i++) {
 			for (ItemStack plankType : plankTypes) {
 				ItemStack itemStack = inventoryCrafting.getStackInSlot(i);
-				if (itemStack != null && OreDictionary.itemMatches(plankType, itemStack, false)) {
+				if (!itemStack.isEmpty() && OreDictionary.itemMatches(plankType, itemStack, false)) {
 					plankWoodStack = itemStack;
 				}
 			}

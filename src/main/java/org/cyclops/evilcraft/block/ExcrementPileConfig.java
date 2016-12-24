@@ -38,7 +38,7 @@ public class ExcrementPileConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	false,
-            "excrementPile",
+            "excrement_pile",
             null,
             ExcrementPile.class
         );

@@ -76,7 +76,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
     public void onUpdate() {
     	Vec3d vec3 = new Vec3d(this.posX, this.posY, this.posZ);
         Vec3d vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-        RayTraceResult movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
+        RayTraceResult movingobjectposition = this.world.rayTraceBlocks(vec3, vec31);
         vec3 = new Vec3d(this.posX, this.posY, this.posZ);
         vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         
@@ -85,9 +85,9 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         	soundTick = 0;
         }
         
-    	if (!this.worldObj.isRemote) {
+    	if (!this.world.isRemote) {
             Entity entity = null;
-            List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
 
             for (Entity entity1 : list) {
@@ -111,19 +111,19 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
                 movingobjectposition = new RayTraceResult(entity);
             }
         } else {
-        	for(int i = 0; i < worldObj.rand.nextInt(5) + 5; i++) {
+        	for(int i = 0; i < world.rand.nextInt(5) + 5; i++) {
         		showNewBlurParticle();
         	}
         	if(soundTick == 1) {
 	        	// Play beam sound
-	        	worldObj.playSound(posX, posY, posZ,
+	        	world.playSound(posX, posY, posZ,
                         EvilCraftSoundEvents.effect_vengeancebeam_base, SoundCategory.NEUTRAL,
-                        0.5F + worldObj.rand.nextFloat() * 0.2F, 1.0F, false);
+                        0.5F + world.rand.nextFloat() * 0.2F, 1.0F, false);
         	}
         }
     	
     	if (movingobjectposition != null) {
-            if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK && this.worldObj.getBlockState(movingobjectposition.getBlockPos()).getBlock() == Blocks.PORTAL) {
+            if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK && this.world.getBlockState(movingobjectposition.getBlockPos()).getBlock() == Blocks.PORTAL) {
                 this.inPortal = true;
             } else {
                 this.onImpact(movingobjectposition);
@@ -145,7 +145,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         float blue = rand.nextFloat() * 0.05F + 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 6.5D + 4D); 
         
-		ParticleBlur blur = new ParticleBlur(worldObj, posX, posY, posZ, scale,
+		ParticleBlur blur = new ParticleBlur(world, posX, posY, posZ, scale,
 				deriveMotion(motionX), deriveMotion(motionY), deriveMotion(motionZ),
 				red, green, blue, ageMultiplier);
 		Minecraft.getMinecraft().effectRenderer.addEffect(blur);
@@ -164,7 +164,7 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
 
 	@Override
     protected void onImpact(RayTraceResult position) {
-        if (!this.worldObj.isRemote) {
+        if (!this.world.isRemote) {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {
             	if(position.entityHit != null) {
                     applyHitEffect(position.entityHit);

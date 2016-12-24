@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "normal": {
+      "model": "evilcraft:obscured_glass"
+    },
+    "inventory": {
+      "model": "evilcraft:obscured_glass"
+    }
+  }
+}

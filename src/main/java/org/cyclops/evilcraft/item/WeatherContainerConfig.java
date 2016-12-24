@@ -30,7 +30,7 @@ public class WeatherContainerConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "weatherContainer",
+            "weather_container",
             null,
             WeatherContainer.class
         );

@@ -29,7 +29,7 @@ public class EntityLightningGrenadeConfig extends EntityConfig<EntityLightningGr
         super(
                 EvilCraft._instance,
         	true,
-            "entityLightningGrenade",
+            "entity_lightning_grenade",
             null,
             EntityLightningGrenade.class
         );

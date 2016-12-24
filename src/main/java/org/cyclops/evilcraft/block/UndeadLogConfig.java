@@ -27,7 +27,7 @@ public class UndeadLogConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "undeadLog",
+            "undead_log",
             null,
             null
         );

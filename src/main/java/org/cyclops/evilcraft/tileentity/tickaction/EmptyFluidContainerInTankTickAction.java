@@ -25,15 +25,15 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
         IFluidHandler container = FluidUtil.getFluidHandler(containerStack);
         if(container != null && FluidHelpers.hasFluid(container)) {
             ItemStack result;
-            if (FluidUtil.tryEmptyContainer(containerStack, tile.getTank(), MB_PER_TICK, null, false) != null) {
-                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), MB_PER_TICK, null, true);
+            if (FluidUtil.tryEmptyContainer(containerStack, tile.getTank(), MB_PER_TICK, null, false).isSuccess()) {
+                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), MB_PER_TICK, null, true).getResult();
             } else {
-                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), Fluid.BUCKET_VOLUME, null, true);
+                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), Fluid.BUCKET_VOLUME, null, true).getResult();
             }
             if (result != null) {
-                if (result.stackSize == 0) {
+                if (result.getCount() == 0) {
                     result = containerStack;
-                    if (result.stackSize == 0) {
+                    if (result.getCount() == 0) {
                         result = null;
                     }
                 }

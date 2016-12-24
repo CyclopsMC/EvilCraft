@@ -30,7 +30,7 @@ public class RedstoneGrenadeConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         		true,
-                "redstoneGrenade",
+                "redstone_grenade",
                 null,
                 RedstoneGrenade.class
             );

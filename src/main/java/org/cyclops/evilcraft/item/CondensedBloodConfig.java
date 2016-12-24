@@ -41,7 +41,7 @@ public class CondensedBloodConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "condensedBlood",
+            "condensed_blood",
             null,
             null
         );
@@ -64,7 +64,7 @@ public class CondensedBloodConfig extends ItemConfig {
                 new LootEntryItem(getItemInstance(), 5, 1, new LootFunction[]{new LootFunction(new LootCondition[0]) {
                     @Override
                     public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
-                        stack.stackSize += rand.nextInt(32);
+                        stack.grow(rand.nextInt(32));
                         return stack;
                     }
                 }}, new LootCondition[0],
@@ -90,7 +90,7 @@ public class CondensedBloodConfig extends ItemConfig {
         @Override
         protected void setFluid(Fluid fluid) {
             if (fluid == null) {
-                container.stackSize--;
+                container.shrink(1);
             }
         }
 

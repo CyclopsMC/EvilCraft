@@ -71,9 +71,9 @@ public class Reference {
     public static final String DICT_FLESH = "materialFlesh";
     
     // MOD ID's
-    public static final String MOD_FORGE = "Forge";
+    public static final String MOD_FORGE = "forge";
     public static final String MOD_FORGE_VERSION = "@FORGE_VERSION@";
-    public static final String MOD_FORGE_VERSION_MIN = "12.18.1.2046";
+    public static final String MOD_FORGE_VERSION_MIN = "13.19.1.2189";
     public static final String MOD_CYCLOPSCORE = "cyclopscore";
     public static final String MOD_CYCLOPSCORE_VERSION = "@CYCLOPSCORE_VERSION@";
     public static final String MOD_CYCLOPSCORE_VERSION_MIN = "0.8.2";
@@ -88,7 +88,7 @@ public class Reference {
     public static final String MOD_THAUMCRAFT = "Thaumcraft";
     public static final String MOD_EE3 = "EE3";
     public static final String MOD_IC2 = "IC2";
-    public static final String MOD_JEI = "JEI";
+    public static final String MOD_JEI = "jei";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES =

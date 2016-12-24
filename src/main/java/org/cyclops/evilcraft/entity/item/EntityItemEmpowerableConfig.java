@@ -29,7 +29,7 @@ public class EntityItemEmpowerableConfig extends EntityConfig<Entity> {
         super(
                 EvilCraft._instance,
         	true,
-            "entityItemEmpowerable",
+            "entity_item_empowerable",
             null,
             EntityItemEmpowerable.class
         );

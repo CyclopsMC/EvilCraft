@@ -43,11 +43,11 @@ public class DarkGem extends ConfigurableItem {
     public boolean onEntityItemUpdate(final EntityItem entityItem) {
         // This will transform a dark gem into a blood infusion core when it finds 
         // REQUIRED_BLOOD_BLOCKS blood fluid blocks in the neighbourhood.
-        if(Configs.isEnabled(BloodInfusionCoreConfig.class) && !entityItem.worldObj.isRemote
-        		&& WorldHelpers.efficientTick(entityItem.worldObj, TICK_MODULUS, 
+        if(Configs.isEnabled(BloodInfusionCoreConfig.class) && !entityItem.world.isRemote
+        		&& WorldHelpers.efficientTick(entityItem.world, TICK_MODULUS,
         				(int) entityItem.posX, (int) entityItem.posY, (int) entityItem.posZ)) {
             final BlockPos blockPos = entityItem.getPosition();
-            World world = entityItem.worldObj;
+            World world = entityItem.world;
             
             int amount = 0;
             if(isValidBlock(world, blockPos)) {
@@ -71,7 +71,7 @@ public class DarkGem extends ConfigurableItem {
                             // Do the transform when REQUIRED_BLOOD_BLOCKS are found
                             if(++amount == REQUIRED_BLOOD_BLOCKS) {
                                 // Spawn the new item
-                                entityItem.getEntityItem().stackSize--;
+                                entityItem.getEntityItem().shrink(1);
                                 entityItem.dropItem(DarkPowerGemConfig._instance.getItemInstance(), 1);
 
                                 // Retrace coordinate steps and remove all those blocks + spawn particles
@@ -79,7 +79,7 @@ public class DarkGem extends ConfigurableItem {
                                     world.setBlockToAir(visited[restep]);
                                     if (world.isRemote)
                                         BloodStainedBlock.splash(world, visited[restep].add(0, -1, 0));
-                                    world.notifyBlockOfStateChange(visited[restep], Blocks.AIR);
+                                    world.notifyNeighborsOfStateChange(visited[restep], Blocks.AIR, true);
                                 }
                                 return -1;
                             }

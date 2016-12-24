@@ -33,6 +33,8 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
     private static final Random field_147527_e = new Random(31100L);
 	private static final ResourceLocation beamTexture =
 			new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
+    private static final FloatBuffer MODELVIEW = GLAllocation.createDirectFloatBuffer(16);
+    private static final FloatBuffer PROJECTION = GLAllocation.createDirectFloatBuffer(16);
 
     FloatBuffer field_147528_b = GLAllocation.createDirectFloatBuffer(16);
     
@@ -44,6 +46,9 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
         // For some reason the block at the position of a TileBoxOfEternalClosure isn't necessarily a BOEC
         if ( !(block instanceof BoxOfEternalClosure) )
             return;
+
+        GlStateManager.getFloat(2982, MODELVIEW);
+        GlStateManager.getFloat(2983, PROJECTION);
 
         ResourceLocation texture = TextureMap.LOCATION_BLOCKS_TEXTURE;
 
@@ -137,7 +142,7 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
             float rotateX = -(target.width / 2) -(float)(tile.getPos().getX() - target.posX - (target.prevPosX - target.posX) * (double)(1.0F - partialTick));
             float rotateY = (target.height / 2) - (float)((double)yOffset + tile.getPos().getY() - target.posY - (target.prevPosY - target.posY) * (double)(1.0F - partialTick));
             float rotateZ = -(target.width / 2) -(float)(tile.getPos().getZ() - target.posZ - (target.prevPosZ - target.posZ) * (double)(1.0F - partialTick));
-            float distance = MathHelper.sqrt_float(rotateX * rotateX + rotateZ * rotateZ);
+            float distance = MathHelper.sqrt(rotateX * rotateX + rotateZ * rotateZ);
             
             // Set the scene coordinates right for the beam rendering
             GL11.glPushMatrix();
@@ -155,8 +160,8 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
             worldRenderer.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_TEX_COLOR);
             
             // Calculate UV coordinates for the beam
-            float zuv = MathHelper.sqrt_float(rotateX * rotateX + rotateY * rotateY + rotateZ * rotateZ);
-            float v1 = MathHelper.sqrt_float(rotateX * rotateX + rotateY * rotateY
+            float zuv = MathHelper.sqrt(rotateX * rotateX + rotateY * rotateY + rotateZ * rotateZ);
+            float v1 = MathHelper.sqrt(rotateX * rotateX + rotateY * rotateY
                     + rotateZ * rotateZ) / 32.0F
             		- ((float)target.ticksExisted + partialTick) * 0.01F;
             float v2 = 0.0F - ((float)target.ticksExisted + partialTick) * 0.01F;
@@ -218,12 +223,7 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
                 f5 = 0.5F;
             }
 
-            float f7 = (float)(-(y + (double)f3));
-            float f8 = f7 + (float) ActiveRenderInfo.getPosition().yCoord;
-            float f9 = f7 + f4 + (float)ActiveRenderInfo.getPosition().yCoord;
-            float f10 = f8 / f9;
-            f10 = (float)(y + (double)f3) + f10;
-            GlStateManager.translate(f, f10, f2);
+
             GlStateManager.texGen(GlStateManager.TexGen.S, 9217);
             GlStateManager.texGen(GlStateManager.TexGen.T, 9217);
             GlStateManager.texGen(GlStateManager.TexGen.R, 9217);
@@ -244,10 +244,8 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
             GlStateManager.scale(f5, f5, f5);
             GlStateManager.translate(0.5F, 0.5F, 0.0F);
             GlStateManager.rotate((float)(i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
-            GlStateManager.translate(-0.5F, -0.5F, 0.0F);
-            GlStateManager.translate(-f, -f2, -f1);
-            f8 = f7 + (float)ActiveRenderInfo.getPosition().yCoord;
-            GlStateManager.translate((float)ActiveRenderInfo.getPosition().xCoord * f4 / f8, (float)ActiveRenderInfo.getPosition().zCoord * f4 / f8, -f1);
+            GlStateManager.multMatrix(PROJECTION);
+            GlStateManager.multMatrix(MODELVIEW);
             Tessellator tessellator = Tessellator.getInstance();
             VertexBuffer worldrenderer = tessellator.getBuffer();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);

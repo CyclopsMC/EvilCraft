@@ -22,14 +22,8 @@ public class DisplayStandRecipeHandler implements IRecipeHandler<DisplayStandRec
 
     @Nonnull
     @Override
-    public String getRecipeCategoryUid() {
-        return VanillaRecipeCategoryUid.CRAFTING;
-    }
-
-    @Nonnull
-    @Override
     public String getRecipeCategoryUid(@Nonnull DisplayStandRecipe recipe) {
-        return getRecipeCategoryUid();
+        return VanillaRecipeCategoryUid.CRAFTING;
     }
 
     @Nonnull

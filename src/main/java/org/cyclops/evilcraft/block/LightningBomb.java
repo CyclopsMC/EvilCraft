@@ -11,7 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -64,7 +63,7 @@ public class LightningBomb extends ConfigurableBlock {
     }
 
     @Override
-    public void neighborChanged(IBlockState blockState, World world, BlockPos blockPos, Block neighbour) {
+    public void neighborChanged(IBlockState blockState, World world, BlockPos blockPos, Block neighbour, BlockPos fromPos) {
         if (world.isBlockPowered(blockPos)) {
             this.onBlockDestroyedByPlayer(world, blockPos, blockState.withProperty(PRIMED, true));
             world.setBlockToAir(blockPos);
@@ -78,7 +77,7 @@ public class LightningBomb extends ConfigurableBlock {
                     (double)((float)blockPos.getX() + 0.5F), (double)((float)blockPos.getY() + 0.5F),
                     (double)((float)blockPos.getZ() + 0.5F), explosion.getExplosivePlacedBy());
             entityprimed.setFuse(world.rand.nextInt(entityprimed.getFuse() / 4) + entityprimed.getFuse() / 8);
-            world.spawnEntityInWorld(entityprimed);
+            world.spawnEntity(entityprimed);
         }
     }
     
@@ -100,7 +99,7 @@ public class LightningBomb extends ConfigurableBlock {
                 EntityLightningBombPrimed entityprimed = new EntityLightningBombPrimed(world,
                         (double)((float)blockPos.getX() + 0.5F), (double)((float)blockPos.getY() + 0.5F),
                         (double)((float)blockPos.getZ() + 0.5F), placer);
-                world.spawnEntityInWorld(entityprimed);
+                world.spawnEntity(entityprimed);
                 world.playSound(null, blockPos, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         }
@@ -112,15 +111,15 @@ public class LightningBomb extends ConfigurableBlock {
     }
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float coordX, float coordY, float coordZ) {
-        if (player.getActiveItemStack() != null &&
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing side, float coordX, float coordY, float coordZ) {
+        if (!player.getActiveItemStack().isEmpty() &&
                 (player.getActiveItemStack().getItem() == Items.FLINT_AND_STEEL || player.getActiveItemStack().getItem() == Items.FIRE_CHARGE)) {
             this.primeBomb(world, blockPos, this.blockState.getBaseState().withProperty(PRIMED, true), player);
             world.setBlockToAir(blockPos);
             player.getActiveItemStack().damageItem(1, player);
             return true;
         } else {
-            return super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, coordX, coordY, coordZ);
+            return super.onBlockActivated(world, blockPos, blockState, player, hand, side, coordX, coordY, coordZ);
         }
     }
 

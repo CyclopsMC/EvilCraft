@@ -109,7 +109,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
         neww.copyLocationAndAnglesFrom(old);
         world.removeEntity(old);
 
-        world.spawnEntityInWorld(neww);
+        world.spawnEntity(neww);
         world.playEvent(null, 1016, old.getPosition(), 0);
     }
     
@@ -118,9 +118,9 @@ public class Werewolf extends EntityMob implements IConfigurable{
      */
     public void replaceWithVillager() {
         if(Configs.isEnabled(WerewolfVillagerConfig.class)) {
-            EntityVillager villager = new EntityVillager(this.worldObj);
+            EntityVillager villager = new EntityVillager(this.world);
             villager.setProfession(WerewolfVillager.getInstance());
-            replaceEntity(this, villager, this.worldObj);
+            replaceEntity(this, villager, this.world);
             try {
                 villager.readEntityFromNBT(villagerNBTTagCompound);
             } catch (RuntimeException e) {
@@ -135,23 +135,23 @@ public class Werewolf extends EntityMob implements IConfigurable{
      */
     public static void replaceVillager(EntityVillager villager) {
         if(Configs.isEnabled(WerewolfConfig.class)) {
-            Werewolf werewolf = new Werewolf(villager.worldObj);
+            Werewolf werewolf = new Werewolf(villager.world);
             villager.writeEntityToNBT(werewolf.getVillagerNBTTagCompound());
             werewolf.setFromVillager(true);
-            replaceEntity(villager, werewolf, villager.worldObj);
+            replaceEntity(villager, werewolf, villager.world);
         }
     }
     
     @Override
     public void onLivingUpdate() {        
-        if(!worldObj.isRemote && (!isWerewolfTime(worldObj) || worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)) {
+        if(!world.isRemote && (!isWerewolfTime(world) || world.getDifficulty() == EnumDifficulty.PEACEFUL)) {
             replaceWithVillager();
         } else {
             super.onLivingUpdate();
         }
         
         // Random barking
-        Random random = worldObj.rand;
+        Random random = world.rand;
         if(random.nextInt(BARKCHANCE) == 0 && barkprogress == -1) {
             barkprogress++;
         } else if(barkprogress > -1) {

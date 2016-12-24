@@ -8,6 +8,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -15,7 +16,6 @@ import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableItemPickaxe;
 import org.cyclops.evilcraft.enchantment.EnchantmentVengeance;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,7 +73,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
     @SuppressWarnings({ "rawtypes", "unchecked"})
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List itemList) {
+    public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> itemList) {
     	itemList.add(createCraftingResult());
     }
 

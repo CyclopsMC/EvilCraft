@@ -1,0 +1,7 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "normal": { "model": "evilcraft:spirit_portal" },
+    "inventory": { "model": "evilcraft:spirit_portal_inventory" }
+  }
+}

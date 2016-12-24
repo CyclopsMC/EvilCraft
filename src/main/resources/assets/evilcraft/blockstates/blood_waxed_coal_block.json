@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "normal": {
+      "model": "evilcraft:blood_waxed_coal_block"
+    },
+    "inventory": {
+      "model": "evilcraft:blood_waxed_coal_block"
+    }
+  }
+}

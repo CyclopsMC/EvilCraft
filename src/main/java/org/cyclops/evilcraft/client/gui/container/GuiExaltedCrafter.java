@@ -60,7 +60,7 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
 
     @Override
     public String getGuiTexture() {
-        return Reference.TEXTURE_PATH_GUI + "exaltedCrafter_gui.png";
+        return Reference.TEXTURE_PATH_GUI + "exalted_crafter_gui.png";
     }
 
     @SuppressWarnings("unchecked")
@@ -86,7 +86,7 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     protected void drawGuiContainerForegroundLayer(int x, int y) {
     	super.drawGuiContainerForegroundLayer(x, y);
     	ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex);
-    	String name = L10NHelpers.localize("gui.exaltedCrafting");
+    	String name = L10NHelpers.localize("gui.exalted_crafting");
     	if(itemStack.hasDisplayName()) {
     		name = itemStack.getDisplayName();
     	}

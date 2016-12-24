@@ -24,7 +24,7 @@ public class ExaltedCrafterKeyHandler implements IKeyHandler {
 	
 	@Override
 	public void onKeyPressed(KeyBinding kb) {
-		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayerSP player = Minecraft.getMinecraft().player;
 		if(kb == Keys.EXALTEDCRAFTING) {
 			Pair<Integer, ItemStack> found = null;
 			PlayerInventoryIterator it = new PlayerInventoryIterator(player);
@@ -35,7 +35,7 @@ public class ExaltedCrafterKeyHandler implements IKeyHandler {
 				}
 			}
 			if(found != null) {
-				ExaltedCrafter.getInstance().openGuiForItemIndex(Minecraft.getMinecraft().theWorld, player, found.getLeft());
+				ExaltedCrafter.getInstance().openGuiForItemIndex(Minecraft.getMinecraft().world, player, found.getLeft());
 				EvilCraft._instance.getPacketHandler().sendToServer(new ExaltedCrafterOpenPacket(found.getLeft()));
 			}
 		}

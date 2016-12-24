@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityMobSpawner;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkProviderServer;
@@ -136,7 +137,7 @@ public class EvilDungeonStructure extends WorldGenDungeons {
                     TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner)world.getTileEntity(loopPos);
         
                     if (tileentitymobspawner != null) {
-                        tileentitymobspawner.getSpawnerBaseLogic().setEntityName(this.pickMobSpawner(random));
+                        tileentitymobspawner.getSpawnerBaseLogic().setEntityId(this.pickMobSpawner(random));
                     } else {
                         System.err.println("Failed to fetch mob spawner entity at (" + xs + ", " + y + ", " + zs + ")");
                     }
@@ -152,7 +153,7 @@ public class EvilDungeonStructure extends WorldGenDungeons {
     /**
      * Randomly decides which spawner to use in a dungeon
      */
-    private String pickMobSpawner(Random par1Random)
+    private ResourceLocation pickMobSpawner(Random par1Random)
     {
         return DungeonHooks.getRandomDungeonMob(par1Random);
     }

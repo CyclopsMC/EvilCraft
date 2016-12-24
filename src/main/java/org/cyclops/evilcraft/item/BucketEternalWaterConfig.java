@@ -43,7 +43,7 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "bucketEternalWater",
+            "bucket_eternal_water",
             null,
             null
         );
@@ -54,7 +54,8 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
         ConfigurableItemBucket bucket = new ConfigurableItemBucket(this, Blocks.FLOWING_WATER, new FluidStack(getFluidInstance(), Fluid.BUCKET_VOLUME)) {
 
             @Override
-            public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+            public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+                ItemStack itemStack = player.getHeldItem(hand);
                 RayTraceResult position = this.rayTrace(world, player, true);
                 if(position != null && position.typeOfHit == RayTraceResult.Type.BLOCK) {
                     Block block = world.getBlockState(position.getBlockPos()).getBlock();
@@ -64,22 +65,23 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
                     }
                 }
 
-                ActionResult<ItemStack> result = super.onItemRightClick(itemStack, world, player, hand);
+                ActionResult<ItemStack> result = super.onItemRightClick(world, player, hand);
                 if(result.getResult() != null && result.getResult().getItem() == Items.BUCKET) return MinecraftHelpers.successAction(new ItemStack(getContainerItem()));
 
                 return result;
             }
 
             @Override
-            public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
+            public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side,
                                           float hitX, float hitY, float hitZ, EnumHand hand) {
+                ItemStack stack = player.getHeldItem(hand);
                 IFluidHandler handler = TileHelpers.getCapability(world, pos,
                         side, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
                 if(handler != null && !world.isRemote) {
                     handler.fill(new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME), true);
                     return EnumActionResult.SUCCESS;
                 }
-                return super.onItemUseFirst(stack, player, world, pos, side, hitX, hitY, hitZ, hand);
+                return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
             }
 
         };

@@ -72,13 +72,14 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack itemStack = player.getHeldItem(hand);
         if(player.isSneaking()) {
             if(!world.isRemote)
             	ItemHelpers.toggleActivation(itemStack);
             return MinecraftHelpers.successAction(itemStack);
         }
-        return super.onItemRightClick(itemStack, world, player, hand);
+        return super.onItemRightClick(world, player, hand);
     }
     
     @Optional.Method(modid = Reference.MOD_BAUBLES)
@@ -225,7 +226,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	@Override
 	public void onWornTick(ItemStack itemStack, EntityLivingBase entity) {
 		if(BaublesModCompat.canUse()) {
-			this.onUpdate(itemStack, entity.worldObj, entity, 0, false);
+			this.onUpdate(itemStack, entity.world, entity, 0, false);
 		}
 	}
 

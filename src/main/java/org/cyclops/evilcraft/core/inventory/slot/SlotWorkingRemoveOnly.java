@@ -34,8 +34,9 @@ public class SlotWorkingRemoveOnly<T extends WorkingTileEntity<?, ?>> extends Sl
     }
     
     @Override
-    public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
+    public ItemStack onTake(EntityPlayer player, ItemStack itemStack) {
         tile.resetWork(shouldHardReset);
+        return super.onTake(player, itemStack);
     }
     
     @Override

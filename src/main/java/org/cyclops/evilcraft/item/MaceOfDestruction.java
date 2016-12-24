@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.Fluid;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 
@@ -23,7 +23,7 @@ public class MaceOfDestruction extends Mace {
 
     private static final int MAXIMUM_CHARGE = 100;
     private static final float MELEE_DAMAGE = 10.0F;
-    private static final int CONTAINER_SIZE = FluidContainerRegistry.BUCKET_VOLUME * 4;
+    private static final int CONTAINER_SIZE = Fluid.BUCKET_VOLUME * 4;
     private static final int HIT_USAGE = 6;
     private static final int POWER_LEVELS = 5;
 

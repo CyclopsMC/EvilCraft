@@ -40,7 +40,7 @@ public class OriginsOfDarknessBook extends InfoBook {
 
     static {
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
-            InfoBookParser.registerFactory(Reference.MOD_ID + ":bloodInfuserRecipe", new InfoBookParser.IAppendixFactory() {
+            InfoBookParser.registerFactory(Reference.MOD_ID + ":blood_infuser_recipe", new InfoBookParser.IAppendixFactory() {
 
                 @Override
                 public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
@@ -57,10 +57,10 @@ public class OriginsOfDarknessBook extends InfoBook {
 
             });
         } else {
-            InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":bloodInfuserRecipe");
+            InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":blood_infuser_recipe");
         }
 
-        InfoBookParser.registerFactory(Reference.MOD_ID + ":envirAccRecipe", new InfoBookParser.IAppendixFactory() {
+        InfoBookParser.registerFactory(Reference.MOD_ID + ":envir_acc_recipe", new InfoBookParser.IAppendixFactory() {
 
             @Override
             public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
@@ -76,7 +76,7 @@ public class OriginsOfDarknessBook extends InfoBook {
 
         });
 
-        InfoBookParser.registerFactory(Reference.MOD_ID + ":bloodInfuserRecipe", new InfoBookParser.IAppendixItemFactory() {
+        InfoBookParser.registerFactory(Reference.MOD_ID + ":blood_infuser_recipe", new InfoBookParser.IAppendixItemFactory() {
 
             @Override
             public SectionAppendix create(IInfoBook infoBook, ItemStack itemStack) throws InfoBookParser.InvalidAppendixException {
@@ -89,7 +89,7 @@ public class OriginsOfDarknessBook extends InfoBook {
         });
 
         if(Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
-            InfoBookParser.registerFactory(Reference.MOD_ID + ":envirAccRecipe", new InfoBookParser.IAppendixItemFactory() {
+            InfoBookParser.registerFactory(Reference.MOD_ID + ":envir_acc_recipe", new InfoBookParser.IAppendixItemFactory() {
 
                 @Override
                 public SectionAppendix create(IInfoBook infoBook, ItemStack itemStack) throws InfoBookParser.InvalidAppendixException {
@@ -101,11 +101,11 @@ public class OriginsOfDarknessBook extends InfoBook {
 
             });
         } else {
-            InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":envirAccRecipe");
+            InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":envir_acc_recipe");
         }
 
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
-            InfoBookParser.registerFactory(Reference.MOD_ID + ":broomModifier", new InfoBookParser.IAppendixFactory() {
+            InfoBookParser.registerFactory(Reference.MOD_ID + ":broom_modifier", new InfoBookParser.IAppendixFactory() {
 
                 @Override
                 public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
@@ -129,7 +129,7 @@ public class OriginsOfDarknessBook extends InfoBook {
 
             });
         } else {
-            InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":broomModifier");
+            InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":broom_modifier");
         }
     }
 

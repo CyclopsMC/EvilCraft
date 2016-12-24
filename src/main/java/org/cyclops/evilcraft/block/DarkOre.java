@@ -13,6 +13,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -111,9 +112,9 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     	}
         return drops;
     }
-    
+
     @Override
-    protected ItemStack createStackedBlock(IBlockState blockState) {
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(DarkOre._instance);
     }
     
@@ -142,9 +143,9 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side,  float motionX, float motionY, float motionZ) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing side,  float motionX, float motionY, float motionZ) {
         this.glow(world, blockPos);
-        return super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, motionX, motionY, motionZ);
+        return super.onBlockActivated(world, blockPos, blockState, player, hand, side, motionX, motionY, motionZ);
     }
     
     private boolean isGlowing(World world, BlockPos blockPos) {

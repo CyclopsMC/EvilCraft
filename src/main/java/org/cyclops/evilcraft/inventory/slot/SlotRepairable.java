@@ -36,7 +36,7 @@ public class SlotRepairable extends Slot {
      * @return If the given item is valid.
      */
     public static boolean checkIsItemValid(ItemStack itemStack) {
-        return itemStack != null && EvilCraft._instance.getRegistryManager().getRegistry(IBloodChestRepairActionRegistry.class).
+        return !itemStack.isEmpty() && EvilCraft._instance.getRegistryManager().getRegistry(IBloodChestRepairActionRegistry.class).
         		isItemValidForSlot(itemStack);
     }
 

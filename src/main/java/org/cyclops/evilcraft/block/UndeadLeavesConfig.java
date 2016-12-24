@@ -23,7 +23,7 @@ public class UndeadLeavesConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "undeadLeaves",
+            "undead_leaves",
             null,
             UndeadLeaves.class
         );

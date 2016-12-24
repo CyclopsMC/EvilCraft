@@ -16,7 +16,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -51,7 +51,7 @@ public class MaceOfDistortion extends Mace {
     private static final int MAXIMUM_CHARGE = 100;
     private static final float MELEE_DAMAGE = 7.0F;
     private static final float RADIAL_DAMAGE = 3.0F;
-    private static final int CONTAINER_SIZE = FluidContainerRegistry.BUCKET_VOLUME * 4;
+    private static final int CONTAINER_SIZE = Fluid.BUCKET_VOLUME * 4;
     private static final int HIT_USAGE = 5;
     private static final int POWER_LEVELS = 5;
     
@@ -117,7 +117,7 @@ public class MaceOfDistortion extends Mace {
         double dx = entity.posX - x;
         double dy = entity.posY + (double)entity.getEyeHeight() - y;
         double dz = entity.posZ - z;
-        double d = (double) MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
+        double d = (double) MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
 
         // No knockback is possible when the absolute distance is zero.
         if (d != 0.0D) {
@@ -177,7 +177,7 @@ public class MaceOfDistortion extends Mace {
         float particleMotionY = 0.2F;
         float particleMotionZ = world.rand.nextFloat() * 0.2F - 0.1F;
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                new ParticleSmokeNormal.Factory().getEntityFX(0, world, xCoord, yCoord, zCoord,
+                new ParticleSmokeNormal.Factory().createParticle(0, world, xCoord, yCoord, zCoord,
                         particleMotionX, particleMotionY, particleMotionZ)
                 );
         
@@ -194,7 +194,7 @@ public class MaceOfDistortion extends Mace {
     public Multimap getAttributeModifiers(EntityEquipmentSlot slot, ItemStack itemStack) {
         Multimap multimap = super.getAttributeModifiers(slot, itemStack);
         if (slot == EntityEquipmentSlot.MAINHAND) {
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) MELEE_DAMAGE, 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) MELEE_DAMAGE, 0));
         }
         return multimap;
     }

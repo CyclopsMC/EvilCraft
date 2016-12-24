@@ -74,11 +74,6 @@ public class BloodInfuserRecipeCategory implements IRecipeCategory {
         arrow.draw(minecraft, 65, 28);
     }
 
-    @Override
-    public void drawAnimations(Minecraft minecraft) {
-
-    }
-
     protected int getMaxTankSize(BloodInfuserRecipeJEI bloodInfuserRecipe) {
         return TileBloodInfuser.LIQUID_PER_SLOT * TileWorking.getTankTierMultiplier(bloodInfuserRecipe.getUpgrade());
     }
@@ -91,7 +86,7 @@ public class BloodInfuserRecipeCategory implements IRecipeCategory {
     }
 
     @Override
-    public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper) {
+    public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
         recipeLayout.getItemStacks().init(INPUT_SLOT, true, 41, 27);
         recipeLayout.getItemStacks().init(UPGRADE_SLOT, false, 41, 7);
         recipeLayout.getItemStacks().init(OUTPUT_SLOT, false, 95, 27);
@@ -106,10 +101,5 @@ public class BloodInfuserRecipeCategory implements IRecipeCategory {
                     GuiBloodInfuser.TANKWIDTH, GuiBloodInfuser.TANKHEIGHT, getMaxTankSize(recipe), true, tankOverlay);
             recipeLayout.getFluidStacks().set(FLUID_SLOT, recipe.getFluidStack());
         }
-    }
-
-    @Override
-    public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
-        setRecipe(recipeLayout, recipeWrapper);
     }
 }

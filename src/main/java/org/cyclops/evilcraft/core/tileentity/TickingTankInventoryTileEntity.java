@@ -38,11 +38,11 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
      * @param tankSize Size (mB) of the tank.
      * @param tankName Internal name of the tank.
      * @param acceptedFluid Type of Fluid to accept.
-     * @param stackSize The maximum stacksize each slot can have.
+     * @param StackSize The maximum StackSize each slot can have.
      */
     public TickingTankInventoryTileEntity(int inventorySize,
-                                          String inventoryName, int tankSize, String tankName, Fluid acceptedFluid, int stackSize) {
-        super(inventorySize, inventoryName, stackSize, tankSize, tankName, acceptedFluid);
+                                          String inventoryName, int tankSize, String tankName, Fluid acceptedFluid, int StackSize) {
+        super(inventorySize, inventoryName, StackSize, tankSize, tankName, acceptedFluid);
         tickers = new LinkedList<TickComponent<T, ITickAction<T>>>();
     }
     
@@ -114,8 +114,8 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
         super.updateTileEntity();
         
         // Update tickers.
-        if(!worldObj.isRemote) {
-            boolean redstone = worldObj.isBlockPowered(getPos());
+        if(!world.isRemote) {
+            boolean redstone = world.isBlockPowered(getPos());
             for(TickComponent<T, ITickAction<T>> ticker : getTickers()) {
                 if(!(ticker.isRedstoneDisableable() && redstone)) {
                     ticker.tick(inventory.getStackInSlot(ticker.getSlot()), ticker.getSlot());
@@ -123,7 +123,7 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
             }
         }
         
-        if(!worldObj.isRemote) {
+        if(!world.isRemote) {
             // Update state server->clients.
             int newState = getNewState();
             if(newState != currentState) {

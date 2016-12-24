@@ -52,7 +52,7 @@ public class ItemPowerableHelpers {
             if(!world.isRemote) {
                 int newPower = (getPower(itemStack) + 1) % powerLevels;
                 setPower(itemStack, newPower);
-                player.addChatMessage(new TextComponentString(TextFormatting.ITALIC
+                player.sendMessage(new TextComponentString(TextFormatting.ITALIC
                         + L10NHelpers.localize("item." + Reference.MOD_ID + ".powerable.setPower", newPower)));
             }
             return true;

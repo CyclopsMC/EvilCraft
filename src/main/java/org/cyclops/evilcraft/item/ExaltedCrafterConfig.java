@@ -31,7 +31,7 @@ public class ExaltedCrafterConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "exaltedCrafter",
+            "exalted_crafter",
             null,
             ExaltedCrafter.class
         );

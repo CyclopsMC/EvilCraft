@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
@@ -57,7 +58,7 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         for (int j = 0; j <= 1; ++j) {
             list.add(new ItemStack(item, 1, j));
         }

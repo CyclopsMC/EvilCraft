@@ -31,7 +31,7 @@ public class WerewolfFleshConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "werewolfFlesh",
+            "werewolf_flesh",
             null,
             WerewolfFlesh.class
         );

@@ -36,7 +36,7 @@ public class VeinSwordConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "veinSword",
+            "vein_sword",
             null,
             VeinSword.class
         );

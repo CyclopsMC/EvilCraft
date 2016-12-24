@@ -23,7 +23,7 @@ public class InvisibleRedstoneBlockConfig extends BlockContainerConfig {
         super(
                 EvilCraft._instance,
         		true,
-        		"invisibleRedstoneBlock",
+        		"invisible_redstone_block",
         		null,
         		InvisibleRedstoneBlock.class
         );

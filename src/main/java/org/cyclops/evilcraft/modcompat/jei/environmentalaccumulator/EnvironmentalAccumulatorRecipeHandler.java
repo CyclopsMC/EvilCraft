@@ -22,14 +22,8 @@ public class EnvironmentalAccumulatorRecipeHandler implements IRecipeHandler<Env
 
     @Nonnull
     @Override
-    public String getRecipeCategoryUid() {
-        return CATEGORY;
-    }
-
-    @Nonnull
-    @Override
     public String getRecipeCategoryUid(@Nonnull EnvironmentalAccumulatorRecipeJEI recipe) {
-        return getRecipeCategoryUid();
+        return CATEGORY;
     }
 
     @Nonnull

@@ -10,10 +10,10 @@ import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.tileentity.RenderTileEntityBloodChest;
+import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.tileentity.TileBloodChest;
 
 /**
@@ -59,7 +59,7 @@ public class BloodChestConfig extends BlockContainerConfig {
         super(
             EvilCraft._instance,
         	true,
-            "bloodChest",
+            "blood_chest",
             null,
             BloodChest.class
         );
@@ -67,7 +67,7 @@ public class BloodChestConfig extends BlockContainerConfig {
     
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockNBT.class;
+        return ItemBlockFluidContainer.class;
     }
     
     @Override
@@ -81,7 +81,7 @@ public class BloodChestConfig extends BlockContainerConfig {
     @SideOnly(Side.CLIENT)
     private void registerClientSide() {
     	ModelBase model = new ModelChest();
-    	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "bloodChest.png");
+    	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "blood_chest.png");
         getMod().getProxy().registerRenderer(TileBloodChest.class, new RenderTileEntityBloodChest(model, texture));
     }
     

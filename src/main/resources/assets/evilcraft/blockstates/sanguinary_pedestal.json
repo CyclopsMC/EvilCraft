@@ -1,0 +1,11 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "tier=0":    { "model": "evilcraft:sanguinary_pedestal_tier0" },
+    "tier=1":    { "model": "evilcraft:sanguinary_pedestal_tier1" },
+    "inventory": { "model": "evilcraft:sanguinary_pedestal_tier0" }
+  }
+}

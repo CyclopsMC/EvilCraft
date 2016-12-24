@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -75,13 +76,13 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     }
     
     protected void spawnSwarm(EntityLivingBase necromancer, EntityLivingBase target) {
-    	World world = target.worldObj;
+    	World world = target.world;
     	int amount = world.rand.nextInt(2) + 3;
     	for(int i = 0; i < amount; i++) {
 			ControlledZombie mob = new ControlledZombie(world);
 			if(mob.canAttackClass(target.getClass())) {
 				mob.copyLocationAndAnglesFrom(necromancer);
-				mob.moveEntity(world.rand.nextInt(20) - 10, 0, world.rand.nextInt(20) - 10);
+				mob.move(MoverType.SELF, world.rand.nextInt(20) - 10, 0, world.rand.nextInt(20) - 10);
 				if(EntityHelpers.spawnEntity(world, mob)) {
 					observables.add(mob);
 				}
@@ -99,7 +100,7 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     @Override
     public void onUpdate() {
     	super.onUpdate();
-    	if(observing && !worldObj.isRemote && WorldHelpers.efficientTick(worldObj, 10)) {
+    	if(observing && !world.isRemote && WorldHelpers.efficientTick(world, 10)) {
     		if(!observables.isEmpty()) {
     			Iterator<ControlledZombie> it = observables.iterator();
     			while(it.hasNext()) {
@@ -140,7 +141,7 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
 	        if(position.entityHit != null) {
 	            position.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
 	        }
-	        if(this.getThrower() != null && !getThrower().worldObj.isRemote
+	        if(this.getThrower() != null && !getThrower().world.isRemote
 	        		&& getThrower() instanceof EntityPlayerMP && position.entityHit instanceof EntityLivingBase) {
 	        	spawnSwarm(this.getThrower(), (EntityLivingBase) position.entityHit);
 	        } else {

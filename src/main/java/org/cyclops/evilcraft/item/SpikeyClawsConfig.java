@@ -22,7 +22,7 @@ public class SpikeyClawsConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "spikeyClaws",
+            "spikey_claws",
             null,
             SpikeyClaws.class
         );

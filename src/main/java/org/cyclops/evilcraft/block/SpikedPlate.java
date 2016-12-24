@@ -76,7 +76,7 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
     		if(entity.attackEntityFrom(ExtendedDamageSource.spiked, damage)) {
 	    		TileEntity tile = world.getTileEntity(blockPos.add(0, -1, 0));
 	    		if(tile != null && tile instanceof TileSanguinaryPedestal) {
-	    			int amount = MathHelper.floor_float(damage * (float) SpikedPlateConfig.mobMultiplier);
+	    			int amount = MathHelper.floor(damage * (float) SpikedPlateConfig.mobMultiplier);
 	    			((TileSanguinaryPedestal) tile).fillWithPotentialBonus(new FluidStack(TileSanguinaryPedestal.FLUID, amount));
 	    		}
 	    		return true;

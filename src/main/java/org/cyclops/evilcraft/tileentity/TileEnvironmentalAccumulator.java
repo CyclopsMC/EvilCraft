@@ -204,7 +204,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             updateEnvironmentalAccumulatorIdle();
         } // Are we processing an item?
         else if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM) {
-            if(worldObj.isRemote) {
+            if(world.isRemote) {
                 showWaterBeams();
                 if(tick > MAX_AGE) {
                     showAccumulatingParticles();
@@ -232,7 +232,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             setBeamColors(state);
 	        // TODO: in the rewrite of this tile entity, it should be ensured that the
 	        // random effect is equal on client and server side?
-	        degradationExecutor.runRandomEffect(worldObj.isRemote);
+	        degradationExecutor.runRandomEffect(world.isRemote);
 	        
 	        // Are we done cooling down?
 	        if (tick == 0)
@@ -262,7 +262,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
     @SideOnly(Side.CLIENT)
     protected void showWaterBeams() {
-        Random random = worldObj.rand;
+        Random random = world.rand;
         BlockPos target = getPos();
         for (int j = 0; j < waterOffsets.length; j++) {
             BlockPos offset = waterOffsets[j];
@@ -286,7 +286,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
                 double particleMotionZ = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.sin(rotationYaw / 180.0F * (float)Math.PI) * speed;
 
                 FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new ExtendedParticleBubble(worldObj, particleX, particleY, particleZ,
+                        new ExtendedParticleBubble(world, particleX, particleY, particleZ,
                                 particleMotionX, particleMotionY, particleMotionZ, 0.02D)
                 );
             }
@@ -295,7 +295,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
     @SideOnly(Side.CLIENT)
     protected void showAccumulatingParticles() {
-        showAccumulatingParticles(worldObj, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, SPREAD);
+        showAccumulatingParticles(world, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, SPREAD);
     }
 
     @SideOnly(Side.CLIENT)
@@ -322,7 +322,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	private void updateEnvironmentalAccumulatorIdle() {
         // Look for items thrown into the beam
         @SuppressWarnings("rawtypes")
-        List entityItems = worldObj.getEntitiesWithinAABB(EntityItem.class, 
+        List entityItems = world.getEntitiesWithinAABB(EntityItem.class,
                 new AxisAlignedBB(
                         getPos().getX(), getPos().getY() + WEATHER_CONTAINER_MIN_DROP_HEIGHT, getPos().getZ(),
                         getPos().getX() + 1.0, getPos().getY() + WEATHER_CONTAINER_MAX_DROP_HEIGHT, getPos().getZ() + 1.0)
@@ -343,8 +343,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
                 if (recipeStack.getItem() == stack.getItem()
                         && recipeStack.getItemDamage() == stack.getItemDamage()
-                        && recipeStack.stackSize <= stack.stackSize
-                        && (weatherType == null || weatherType.isActive(worldObj))) {
+                        && recipeStack.getCount() <= stack.getCount()
+                        && (weatherType == null || weatherType.isActive(world))) {
 
                     // Save the required input items in the inventory
                     this.setInventorySlotContents(0, stack.copy());
@@ -352,7 +352,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
                     // Save the recipe
                     this.recipe = recipe;
 
-                    if (!worldObj.isRemote) {
+                    if (!world.isRemote) {
                         decreaseStackSize(entityItem, recipeStack);
                     }
 
@@ -366,16 +366,16 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	}
 	
 	private void decreaseStackSize(EntityItem entityItem, ItemStack stack) {
-	    entityItem.getEntityItem().stackSize -= stack.stackSize;
+        entityItem.getEntityItem().shrink(stack.getCount());
 	    
-	    if (entityItem.getEntityItem().stackSize == 0)
+	    if (entityItem.getEntityItem().getCount() == 0)
 	        entityItem.setDead();
 	}
 	
 	private void dropItemStack() {
-	    if (!worldObj.isRemote) {
+	    if (!world.isRemote) {
 	        // EntityItem that will contain the dropped itemstack
-	        EntityItem entity = new EntityItem(worldObj, getPos().getX(), getPos().getY() + WEATHER_CONTAINER_SPAWN_HEIGHT, getPos().getZ());
+	        EntityItem entity = new EntityItem(world, getPos().getX(), getPos().getY() + WEATHER_CONTAINER_SPAWN_HEIGHT, getPos().getZ());
 	        
 	        if (recipe == null) {
 	            // No recipe found, throw the item stack in the inventory back
@@ -389,15 +389,15 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	            // Change the weather to the resulting weather
 	            WeatherType weatherSource = recipe.getInput().getWeatherType();
                 if (weatherSource != null)
-                    weatherSource.deactivate(worldObj);
+                    weatherSource.deactivate(world);
 
                 WeatherType weatherResult = recipe.getOutput().getWeatherType();
                 if (weatherResult != null)
-                    weatherResult.activate(worldObj);
+                    weatherResult.activate(world);
 	        }
 	        
     	    // Drop the items on the ground
-    	    worldObj.spawnEntityInWorld(entity);
+            world.spawnEntity(entity);
 	    }
 	}
 	
@@ -405,7 +405,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
         tick = 0;
         state = EnvironmentalAccumulator.STATE_IDLE;
         
-        if (!worldObj.isRemote)
+        if (!world.isRemote)
             sendUpdate();
     }
 	
@@ -418,7 +418,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    
 	    state = EnvironmentalAccumulator.STATE_PROCESSING_ITEM;
 	    
-	    if (!worldObj.isRemote)
+	    if (!world.isRemote)
 	        sendUpdate();
 	}
 	
@@ -426,7 +426,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    tick = ITEM_MOVE_COOLDOWN_DURATION;
 	    state = EnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM;
 	    
-	    if (!worldObj.isRemote)
+	    if (!world.isRemote)
 	        sendUpdate();
 	}
 	
@@ -439,7 +439,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
         recipe = null;
 	    
-	    if (!worldObj.isRemote)
+	    if (!world.isRemote)
 	        sendUpdate();
 	}
 	
@@ -447,12 +447,12 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	public void onUpdateReceived() {
 	    // If we receive an update from the server and our new state is the
 	    // finished processing item state, show the corresponding effect
-	    if (worldObj.isRemote && state == EnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
+	    if (world.isRemote && state == EnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
 	        // Show an effect indicating the item finished processing.
 	        IEAProcessingFinishedEffect effect = (recipe == null) ? null : recipe.getProperties().getFinishedProcessingEffect();
 	        
 	        if (effect == null)    // fall back to default case
-	            this.worldObj.playBroadcastSound(2002, getPos().add(0, WEATHER_CONTAINER_SPAWN_HEIGHT, 0), 16428);
+	            this.world.playBroadcastSound(2002, getPos().add(0, WEATHER_CONTAINER_SPAWN_HEIGHT, 0), 16428);
 	        else
 	            effect.executeEffect(this, recipe);
 	    }
@@ -466,7 +466,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	 * @param state The state to base the colors on.
 	 */
 	public void setBeamColors(int state) {
-        if (worldObj.isRemote) { 
+        if (world.isRemote) {
     	    setBeamInnerColor(getInnerColorByState(state));
     	    setBeamOuterColor(getOuterColorByState(state));
         }
@@ -571,6 +571,11 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     }
 
     @Override
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    @Override
     public ItemStack getStackInSlot(int i) {
         if(i >= getSizeInventory() || i < 0)
             return null;
@@ -598,8 +603,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        return inventory.isUseableByPlayer(entityplayer);
+    public boolean isUsableByPlayer(EntityPlayer entityplayer) {
+        return inventory.isUsableByPlayer(entityplayer);
     }
 
     @Override

@@ -6,7 +6,6 @@ import net.minecraft.client.particle.ParticleEnchantmentTable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -103,7 +102,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * Make a new instance.
      */
     public TilePurifier() {
-        super(SLOTS, PurifierConfig._instance.getNamedId(), 1, FluidContainerRegistry.BUCKET_VOLUME * MAX_BUCKETS, PurifierConfig._instance.getNamedId() + "tank", FLUID);
+        super(SLOTS, PurifierConfig._instance.getNamedId(), 1, Fluid.BUCKET_VOLUME * MAX_BUCKETS, PurifierConfig._instance.getNamedId() + "tank", FLUID);
         
         List<Integer> slots = new LinkedList<Integer>();
         slots.add(SLOT_ADDITIONAL);
@@ -147,7 +146,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
         // Animation tick/display.
         if(finishedAnimation > 0) {
             finishedAnimation--;
-            if(worldObj.isRemote) {
+            if(world.isRemote) {
                 showEnchantedEffect();
             }
         }
@@ -164,7 +163,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @return The amount of buckets.
      */
     public int getBucketsFloored() {
-        return (int) Math.floor(getTank().getFluidAmount() / (double) FluidContainerRegistry.BUCKET_VOLUME);
+        return (int) Math.floor(getTank().getFluidAmount() / (double) Fluid.BUCKET_VOLUME);
     }
     
     /**
@@ -173,7 +172,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @return The rest of the fluid.
      */
     public int getBucketsRest() {
-        return getTank().getFluidAmount() % FluidContainerRegistry.BUCKET_VOLUME;
+        return getTank().getFluidAmount() % Fluid.BUCKET_VOLUME;
     }
     
     /**
@@ -182,7 +181,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @param rest The rest of the fluid.
      */
     public void setBuckets(int buckets, int rest) {
-        getTank().setFluid(new FluidStack(FLUID, FluidContainerRegistry.BUCKET_VOLUME * buckets + rest));
+        getTank().setFluid(new FluidStack(FLUID, Fluid.BUCKET_VOLUME * buckets + rest));
         sendUpdate();
     }
     
@@ -197,7 +196,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     @Override
     protected void onSendUpdate() {
         super.onSendUpdate();
-        worldObj.setBlockState(getPos(), Purifier.getInstance().getDefaultState().withProperty(Purifier.FILL, getBucketsFloored()), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+        world.setBlockState(getPos(), Purifier.getInstance().getDefaultState().withProperty(Purifier.FILL, getBucketsFloored()), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     }
     
     private void updateAdditionalItem() {
@@ -247,7 +246,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @param itemStack The purify item.
      */
     public void setPurifyItem(ItemStack itemStack) {
-        this.randomRotation = worldObj.rand.nextFloat() * 360;
+        this.randomRotation = world.rand.nextFloat() * 360;
         setInventorySlotContents(SLOT_PURIFY, itemStack);
     }
     
@@ -270,16 +269,16 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     @SideOnly(Side.CLIENT)
     public void showEffect() {
         for (int i=0; i < 1; i++) {                
-            double particleX = getPos().getX() + 0.2 + worldObj.rand.nextDouble() * 0.6;
-            double particleY = getPos().getY() + 0.2 + worldObj.rand.nextDouble() * 0.6;
-            double particleZ = getPos().getZ() + 0.2 + worldObj.rand.nextDouble() * 0.6;
+            double particleX = getPos().getX() + 0.2 + world.rand.nextDouble() * 0.6;
+            double particleY = getPos().getY() + 0.2 + world.rand.nextDouble() * 0.6;
+            double particleZ = getPos().getZ() + 0.2 + world.rand.nextDouble() * 0.6;
 
-            float particleMotionX = -0.01F + worldObj.rand.nextFloat() * 0.02F;
+            float particleMotionX = -0.01F + world.rand.nextFloat() * 0.02F;
             float particleMotionY = 0.01F;
-            float particleMotionZ = -0.01F + worldObj.rand.nextFloat() * 0.02F;
+            float particleMotionZ = -0.01F + world.rand.nextFloat() * 0.02F;
 
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new ParticleBloodBubble(worldObj, particleX, particleY, particleZ,
+                    new ParticleBloodBubble(world, particleX, particleY, particleZ,
                             particleMotionX, particleMotionY, particleMotionZ)
                     );
         }
@@ -287,18 +286,18 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     
     @SideOnly(Side.CLIENT)
     public void showEnchantingEffect() {
-        if(worldObj.rand.nextInt(10) == 0) {
+        if(world.rand.nextInt(10) == 0) {
             for (int i=0; i < 1; i++) {                
-                double particleX = getPos().getX() + 0.45 + worldObj.rand.nextDouble() * 0.1;
-                double particleY = getPos().getY() + 1.45 + worldObj.rand.nextDouble() * 0.1;
-                double particleZ = getPos().getZ() + 0.45 + worldObj.rand.nextDouble() * 0.1;
+                double particleX = getPos().getX() + 0.45 + world.rand.nextDouble() * 0.1;
+                double particleY = getPos().getY() + 1.45 + world.rand.nextDouble() * 0.1;
+                double particleZ = getPos().getZ() + 0.45 + world.rand.nextDouble() * 0.1;
                 
-                float particleMotionX = -0.4F + worldObj.rand.nextFloat() * 0.8F;
-                float particleMotionY = -worldObj.rand.nextFloat();
-                float particleMotionZ = -0.4F + worldObj.rand.nextFloat() * 0.8F;
+                float particleMotionX = -0.4F + world.rand.nextFloat() * 0.8F;
+                float particleMotionY = -world.rand.nextFloat();
+                float particleMotionZ = -0.4F + world.rand.nextFloat() * 0.8F;
     
                 FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new ParticleEnchantmentTable.EnchantmentTable().getEntityFX(0, worldObj, particleX, particleY, particleZ,
+                        new ParticleEnchantmentTable.EnchantmentTable().createParticle(0, world, particleX, particleY, particleZ,
                                 particleMotionX, particleMotionY, particleMotionZ)
                         );
             }
@@ -308,16 +307,16 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     @SideOnly(Side.CLIENT)
     private void showEnchantedEffect() {
         for (int i=0; i < 100; i++) {                
-            double particleX = getPos().getX() + 0.45 + worldObj.rand.nextDouble() * 0.1;
-            double particleY = getPos().getY() + 1.45 + worldObj.rand.nextDouble() * 0.1;
-            double particleZ = getPos().getZ() + 0.45 + worldObj.rand.nextDouble() * 0.1;
+            double particleX = getPos().getX() + 0.45 + world.rand.nextDouble() * 0.1;
+            double particleY = getPos().getY() + 1.45 + world.rand.nextDouble() * 0.1;
+            double particleZ = getPos().getZ() + 0.45 + world.rand.nextDouble() * 0.1;
             
-            float particleMotionX = -0.4F + worldObj.rand.nextFloat() * 0.8F;
-            float particleMotionY = -0.4F + worldObj.rand.nextFloat() * 0.8F;
-            float particleMotionZ = -0.4F + worldObj.rand.nextFloat() * 0.8F;
+            float particleMotionX = -0.4F + world.rand.nextFloat() * 0.8F;
+            float particleMotionY = -0.4F + world.rand.nextFloat() * 0.8F;
+            float particleMotionZ = -0.4F + world.rand.nextFloat() * 0.8F;
 
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new ParticleMagicFinish(worldObj, particleX, particleY, particleZ,
+                    new ParticleMagicFinish(world, particleX, particleY, particleZ,
                             particleMotionX, particleMotionY, particleMotionZ)
                     );
         }
@@ -334,9 +333,9 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack) {
         if(i == 0) {
-            return itemStack.stackSize == 1 && getActions().isItemValidForMainSlot(itemStack);
+            return itemStack.getCount() == 1 && getActions().isItemValidForMainSlot(itemStack);
         } else if(i == 1) {
-            return itemStack.stackSize == 1 && getActions().isItemValidForAdditionalSlot(itemStack);
+            return itemStack.getCount() == 1 && getActions().isItemValidForAdditionalSlot(itemStack);
         }
         return false;
     }

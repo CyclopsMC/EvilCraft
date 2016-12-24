@@ -28,7 +28,7 @@ public class UndeadPlankConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "undeadPlank",
+            "undead_plank",
             null,
             null
         );

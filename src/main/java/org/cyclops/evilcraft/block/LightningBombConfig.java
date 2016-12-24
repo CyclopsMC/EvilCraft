@@ -22,7 +22,7 @@ public class LightningBombConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "lightningBomb",
+            "lightning_bomb",
             null,
             LightningBomb.class
         );

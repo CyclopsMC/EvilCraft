@@ -38,16 +38,16 @@ public class BiomeDegraded extends ConfigurableBiome {
     @SideOnly(Side.CLIENT)
     @Override
     public int getGrassColorAtPos(BlockPos blockPos) {
-        double d0 = (double) MathHelper.clamp_float(this.getFloatTemperature(blockPos), 0.0F, 1.0F);
-        double d1 = (double) MathHelper.clamp_float(this.getRainfall(), 0.0F, 1.0F);
+        double d0 = (double) MathHelper.clamp(this.getFloatTemperature(blockPos), 0.0F, 1.0F);
+        double d1 = (double) MathHelper.clamp(this.getRainfall(), 0.0F, 1.0F);
         return ((ColorizerGrass.getGrassColor(d0, d1) & Helpers.RGBToInt(10, 20, 5)) + 5115470) / 2;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
     public int getFoliageColorAtPos(BlockPos blockPos) {
-        double d0 = (double) MathHelper.clamp_float(this.getFloatTemperature(blockPos), 0.0F, 1.0F);
-        double d1 = (double) MathHelper.clamp_float(this.getRainfall(), 0.0F, 1.0F);
+        double d0 = (double) MathHelper.clamp(this.getFloatTemperature(blockPos), 0.0F, 1.0F);
+        double d1 = (double) MathHelper.clamp(this.getRainfall(), 0.0F, 1.0F);
         return ((ColorizerFoliage.getFoliageColor(d0, d1) & Helpers.RGBToInt(10, 20, 50)) + 5115470) / 2;
     }
 

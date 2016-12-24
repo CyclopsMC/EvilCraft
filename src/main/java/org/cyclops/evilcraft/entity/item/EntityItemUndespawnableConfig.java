@@ -29,7 +29,7 @@ public class EntityItemUndespawnableConfig extends EntityConfig<Entity> {
         super(
                 EvilCraft._instance,
         	true,
-            "entityItemUndespawnable",
+            "entity_item_undespawnable",
             null,
             EntityItemUndespawnable.class
         );

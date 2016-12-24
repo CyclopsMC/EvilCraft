@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -107,10 +108,10 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     }
     
     @Override
-    public ItemStack onItemUseFinish(ItemStack itemStack, World world, EntityLivingBase entity) {
-        if(entity instanceof EntityPlayer) {
+    public ItemStack onItemUseFinish(ItemStack itemStack, @Nullable World world, EntityLivingBase entity) {
+        if(world != null && entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
-            --itemStack.stackSize;
+            itemStack.shrink(1);
             if (itemStack.getItemDamage() == 1) {
                 player.addStat(Achievements.CANNIBAL, 1);
             }
@@ -155,7 +156,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, List list) {
+    public void getSubItems(Item item, CreativeTabs tabs, NonNullList<ItemStack> list) {
     	list.add(new ItemStack(item, 1, 0));
     	list.add(new ItemStack(item, 1, 1));
     }

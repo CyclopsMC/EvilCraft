@@ -63,7 +63,7 @@ public class EntityNoMob extends EntityCreature {
     {
         super.onUpdate();
 
-        if (!this.worldObj.isRemote && this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
+        if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL)
         {
             this.setDead();
         }
@@ -109,7 +109,7 @@ public class EntityNoMob extends EntityCreature {
 
         if (entityIn instanceof EntityLivingBase)
         {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase) entityIn).getCreatureAttribute());
+            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
             i += EnchantmentHelper.getKnockbackModifier(this);
         }
 
@@ -119,7 +119,7 @@ public class EntityNoMob extends EntityCreature {
         {
             if (i > 0 && entityIn instanceof EntityLivingBase)
             {
-                ((EntityLivingBase)entityIn).knockBack(this, (float) i * 0.5F, (double) MathHelper.sin(this.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+                ((EntityLivingBase)entityIn).knockBack(this, (float)i * 0.5F, (double)MathHelper.sin(this.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
                 this.motionX *= 0.6D;
                 this.motionZ *= 0.6D;
             }
@@ -135,16 +135,16 @@ public class EntityNoMob extends EntityCreature {
             {
                 EntityPlayer entityplayer = (EntityPlayer)entityIn;
                 ItemStack itemstack = this.getHeldItemMainhand();
-                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : null;
+                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
 
-                if (itemstack != null && itemstack1 != null && itemstack.getItem() instanceof ItemAxe && itemstack1.getItem() == Items.SHIELD)
+                if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem() instanceof ItemAxe && itemstack1.getItem() == Items.SHIELD)
                 {
                     float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
 
                     if (this.rand.nextFloat() < f1)
                     {
                         entityplayer.getCooldownTracker().setCooldown(Items.SHIELD, 100);
-                        this.worldObj.setEntityState(entityplayer, (byte)30);
+                        this.world.setEntityState(entityplayer, (byte)30);
                     }
                 }
             }
@@ -157,31 +157,30 @@ public class EntityNoMob extends EntityCreature {
 
     public float getBlockPathWeight(BlockPos pos)
     {
-        return 0.5F - this.worldObj.getLightBrightness(pos);
+        return 0.5F - this.world.getLightBrightness(pos);
     }
 
     /**
      * Checks to make sure the light is not too bright where the mob is spawning
-     * @return If the light level is valid
      */
     protected boolean isValidLightLevel()
     {
         BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
 
-        if (this.worldObj.getLightFor(EnumSkyBlock.SKY, blockpos) > this.rand.nextInt(32))
+        if (this.world.getLightFor(EnumSkyBlock.SKY, blockpos) > this.rand.nextInt(32))
         {
             return false;
         }
         else
         {
-            int i = this.worldObj.getLightFromNeighbors(blockpos);
+            int i = this.world.getLightFromNeighbors(blockpos);
 
-            if (this.worldObj.isThundering())
+            if (this.world.isThundering())
             {
-                int j = this.worldObj.getSkylightSubtracted();
-                this.worldObj.setSkylightSubtracted(10);
-                i = this.worldObj.getLightFromNeighbors(blockpos);
-                this.worldObj.setSkylightSubtracted(j);
+                int j = this.world.getSkylightSubtracted();
+                this.world.setSkylightSubtracted(10);
+                i = this.world.getLightFromNeighbors(blockpos);
+                this.world.setSkylightSubtracted(j);
             }
 
             return i <= this.rand.nextInt(8);
@@ -193,7 +192,7 @@ public class EntityNoMob extends EntityCreature {
      */
     public boolean getCanSpawnHere()
     {
-        return this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && super.getCanSpawnHere();
+        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && super.getCanSpawnHere();
     }
 
     protected void applyEntityAttributes()
@@ -202,7 +201,9 @@ public class EntityNoMob extends EntityCreature {
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
     }
 
-    @Override
+    /**
+     * Entity won't drop items or experience points if this returns false
+     */
     protected boolean canDropLoot()
     {
         return true;

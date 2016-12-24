@@ -23,7 +23,7 @@ public class EnchantmentPoisonTipConfig extends EnchantmentConfig {
         super(
                 EvilCraft._instance,
             Reference.ENCHANTMENT_POISON_TIP,
-            "poisonTip",
+            "poison_tip",
             null,
             EnchantmentPoisonTip.class
         );

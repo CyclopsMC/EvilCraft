@@ -8,11 +8,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
-import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.tileentity.RenderTileEntityColossalBloodChest;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
+import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
 import org.cyclops.evilcraft.tileentity.TileWorking;
@@ -56,7 +56,7 @@ public class ColossalBloodChestConfig extends UpgradableBlockContainerConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "colossalBloodChest",
+            "colossal_blood_chest",
             null,
             ColossalBloodChest.class
         );
@@ -64,7 +64,7 @@ public class ColossalBloodChestConfig extends UpgradableBlockContainerConfig {
 
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockNBT.class;
+        return ItemBlockFluidContainer.class;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ColossalBloodChestConfig extends UpgradableBlockContainerConfig {
     public void onRegistered() {
         super.onRegistered();
         ModelChest model = new ModelChest();
-        ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "colossalBloodChest.png");
+        ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "colossal_blood_chest.png");
         EvilCraft._instance.getProxy().registerRenderer(TileColossalBloodChest.class, new RenderTileEntityColossalBloodChest(model, texture));
     }
     

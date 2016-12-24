@@ -157,7 +157,7 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
     @Override
     public void onWornTick(ItemStack itemStack, EntityLivingBase entity) {
         if(BaublesModCompat.canUse()) {
-            this.onUpdate(itemStack, entity.worldObj, entity, 0, false);
+            this.onUpdate(itemStack, entity.world, entity, 0, false);
         }
     }
 

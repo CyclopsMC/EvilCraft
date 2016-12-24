@@ -1,0 +1,20 @@
+{
+  "elements": [{
+    "from": [ 2, 0.1, 2 ],
+    "to": [ 14, 15.9, 14 ],
+    "faces": {
+      "down":  { "texture": "#down", "cullface": "down" },
+      "up":    { "texture": "#up"  , "cullface": "up"   },
+      "north": { "texture": "#side" },
+      "south": { "texture": "#side" },
+      "west":  { "texture": "#side" },
+      "east":  { "texture": "#side" }
+    }
+  }],
+  "textures": {
+    "particle": "evilcraft:blocks/dark_tank_side_off",
+    "side"    : "evilcraft:blocks/dark_tank_side_off",
+    "up"      : "evilcraft:blocks/dark_tank_up_off",
+    "down"    : "evilcraft:blocks/dark_tank_up_off"
+  }
+}

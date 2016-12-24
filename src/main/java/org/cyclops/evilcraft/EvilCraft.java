@@ -42,13 +42,9 @@ import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
 import org.cyclops.evilcraft.item.DarkGemConfig;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
-import org.cyclops.evilcraft.modcompat.bloodmagic.BloodMagicModCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerEnvirAccTileCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerWorkingTileCompat;
-import org.cyclops.evilcraft.modcompat.forestry.ForestryModCompat;
-import org.cyclops.evilcraft.modcompat.ic2.IC2ModCompat;
 import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
-import org.cyclops.evilcraft.modcompat.tconstruct.TConstructModCompat;
 import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
 import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
@@ -104,10 +100,11 @@ public class EvilCraft extends ModBaseVersionable {
         modCompatLoader.addModCompat(new BaublesModCompat());
         modCompatLoader.addModCompat(new WailaModCompat());
         modCompatLoader.addModCompat(new JEIModCompat());
-        modCompatLoader.addModCompat(new BloodMagicModCompat());
-        modCompatLoader.addModCompat(new TConstructModCompat());
-        modCompatLoader.addModCompat(new ForestryModCompat());
-        modCompatLoader.addModCompat(new IC2ModCompat());
+        // TODO: temporarily disable some mod compats
+        //modCompatLoader.addModCompat(new BloodMagicModCompat());
+        //modCompatLoader.addModCompat(new TConstructModCompat());
+        //modCompatLoader.addModCompat(new ForestryModCompat());
+        //modCompatLoader.addModCompat(new IC2ModCompat());
 
         // Capabilities
         getCapabilityConstructorRegistry().registerTile(TickingTankInventoryTileEntity.class, new WorkerWorkingTileCompat());
@@ -231,6 +228,12 @@ public class EvilCraft extends ModBaseVersionable {
     @Override
     public void onServerStopping(FMLServerStoppingEvent event) {
         super.onServerStopping(event);
+    }
+
+    @EventHandler
+    @Override
+    public void onMissingMappings(FMLMissingMappingsEvent event) {
+        super.onMissingMappings(event);
     }
 
     @Override

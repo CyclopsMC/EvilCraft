@@ -1,0 +1,8 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "stage=0": { "model": "evilcraft:undead_sapling" },
+    "stage=1": { "model": "evilcraft:undead_sapling" },
+    "inventory": { "model": "evilcraft:undead_sapling_inventory" }
+  }
+}

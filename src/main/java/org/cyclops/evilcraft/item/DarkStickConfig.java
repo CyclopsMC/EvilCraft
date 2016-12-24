@@ -25,7 +25,7 @@ public class DarkStickConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "darkStick",
+            "dark_stick",
             null,
             DarkStick.class
         );

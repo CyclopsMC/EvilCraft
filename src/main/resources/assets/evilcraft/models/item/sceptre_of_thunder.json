@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "evilcraft:items/sceptre_of_thunder"
+  }
+}

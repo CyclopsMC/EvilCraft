@@ -22,7 +22,7 @@ public class ContainedFluxConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "containedFlux",
+            "contained_flux",
             null,
             ContainedFlux.class
         );

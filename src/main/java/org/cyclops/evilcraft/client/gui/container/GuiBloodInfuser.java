@@ -86,7 +86,7 @@ public class GuiBloodInfuser extends GuiWorking<TileBloodInfuser> {
 
     @Override
     public String getGuiTexture() {
-        return Reference.TEXTURE_PATH_GUI + "bloodInfuser_gui.png";
+        return Reference.TEXTURE_PATH_GUI + "blood_infuser_gui.png";
     }
     
 }

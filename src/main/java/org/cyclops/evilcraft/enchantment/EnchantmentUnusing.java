@@ -45,7 +45,7 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
 
     @Override
     public boolean canApply(ItemStack itemStack) {
-        return itemStack != null && itemStack.getItem().isItemTool(itemStack);
+        return !itemStack.isEmpty() && !itemStack.getItem().getToolClasses(itemStack).isEmpty();
     }
     
     /**

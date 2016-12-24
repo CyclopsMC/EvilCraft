@@ -25,6 +25,11 @@ public class SanguinaryEnvironmentalAccumulatorRecipeTransferInfo implements IRe
     }
 
     @Override
+    public boolean canHandle(Container container) {
+        return container instanceof ContainerSanguinaryEnvironmentalAccumulator;
+    }
+
+    @Override
     public List<Slot> getRecipeSlots(Container container) {
         List<Slot> slots = Lists.newLinkedList();
         slots.add(container.getSlot(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE));

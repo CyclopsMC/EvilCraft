@@ -78,12 +78,7 @@ public class BloodChest extends ConfigurableBlockContainerGuiTankInfo {
     }
 
     @Override
-    public String getTankNBTName() {
-        return TileBloodChest.TANKNAME;
-    }
-
-    @Override
-    public int getMaxCapacity() {
+    public int getDefaultCapacity() {
         return TileBloodChest.LIQUID_PER_SLOT;
     }
 

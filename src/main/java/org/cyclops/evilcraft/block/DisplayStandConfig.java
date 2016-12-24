@@ -26,7 +26,7 @@ public class DisplayStandConfig extends BlockContainerConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "displayStand",
+            "display_stand",
             null,
             DisplayStand.class
         );

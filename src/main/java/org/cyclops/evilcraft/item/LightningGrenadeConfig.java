@@ -22,7 +22,7 @@ public class LightningGrenadeConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "lightningGrenade",
+            "lightning_grenade",
             null,
             LightningGrenade.class
         );

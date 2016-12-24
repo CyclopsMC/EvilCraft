@@ -11,11 +11,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.client.particle.ParticleBlur;
@@ -43,7 +46,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     private static final int POWER_LEVELS = 5;
     private static final int RANGE_PER_LEVEL = 2;
     private static final double USAGE_PER_D = 0.1;
-    private static final int CONTAINER_SIZE = FluidContainerRegistry.BUCKET_VOLUME;
+    private static final int CONTAINER_SIZE = Fluid.BUCKET_VOLUME;
     
     /**
      * Get the unique instance.
@@ -71,7 +74,8 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         if(!ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, POWER_LEVELS, false) && !world.isRemote) {
             ItemHelpers.toggleActivation(itemStack);
         }
@@ -122,15 +126,16 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
-        kineticate(entityItem.getEntityItem(), entityItem.worldObj, entityItem);
+        kineticate(entityItem.getEntityItem(), entityItem.world, entityItem);
         return super.onEntityItemUpdate(entityItem);
     }
     
     @SuppressWarnings("unchecked")
     private void kineticate(ItemStack itemStack, World world, Entity entity) {
-        if(ItemHelpers.isActivated(itemStack) &&(getFluid(itemStack) != null ||
+        if(ItemHelpers.isActivated(itemStack) &&(FluidUtil.getFluidContained(itemStack) != null ||
                 (entity instanceof EntityPlayer && canConsume(1, itemStack, (EntityPlayer) entity))) &&
                 (entity != null || !entity.isSneaking())) {
+            IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack);
         	boolean repelling = isRepelling(itemStack);
             boolean isPlayer = entity instanceof EntityPlayer;
         	
@@ -174,9 +179,9 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                             }
                         }
 
-                        double d = (double) MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
+                        double d = (double) MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
                         int usage = (int) Math.round(d * USAGE_PER_D);
-                        if((repelling || d > 0.5D) && (usage == 0 || (this.drain(itemStack, usage, false) != null) ||
+                        if((repelling || d > 0.5D) && (usage == 0 || (fluidHandler.drain(usage, false) != null) ||
                                 (isPlayer && this.canConsume(usage, itemStack, (EntityPlayer) entity)))) {
                             double m = 1 / (2 * (Math.max(1, d)));
                             dx *= m;
@@ -200,7 +205,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                                 if(isPlayer) {
                                     this.consume(usage, itemStack, (EntityPlayer) entity);
                                 } else {
-                                    this.drain(itemStack, usage, true);
+                                    fluidHandler.drain(usage, true);
                                 }
                             }
                         }
@@ -253,7 +258,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     @SuppressWarnings("rawtypes")
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List itemList) {
+    public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> itemList) {
     	component.getSubItems(item, tab, itemList, fluid, 0);
     	component.getSubItems(item, tab, itemList, fluid, 1);
     }

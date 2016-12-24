@@ -67,10 +67,10 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
         player.addExhaustion(0.025F);
 
         if (this.canSilkHarvest() && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, heldItem) > 0) {
-            ItemStack itemstack = this.createStackedBlock(blockState);
+            ItemStack itemStack = this.getItem(world, blockPos, blockState);
 
-            if (itemstack != null) {
-                spawnAsEntity(world, blockPos, itemstack);
+            if (!itemStack.isEmpty()) {
+                spawnAsEntity(world, blockPos, itemStack);
             }
         } else {
             Material material = world.getBlockState(blockPos.add(0, -1, 0)).getMaterial();
@@ -92,13 +92,14 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     }
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float coordX, float coordY, float coordZ) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing side, float coordX, float coordY, float coordZ) {
+        ItemStack heldItem = player.getHeldItem(hand);
         if (heldItem != null && heldItem.getItem() == Items.FLINT_AND_STEEL
                 && (player.capabilities.isCreativeMode || !heldItem.attemptDamageItem(1, world.rand))) {
             splitBlock(world, blockPos);
             return true;
         }
-        return super.onBlockActivated(world, blockPos, blockState, player, hand, heldItem, side, coordX, coordY, coordZ);
+        return super.onBlockActivated(world, blockPos, blockState, player, hand, side, coordX, coordY, coordZ);
     }
 
     private void splitBlock(World world, BlockPos blockPos) {

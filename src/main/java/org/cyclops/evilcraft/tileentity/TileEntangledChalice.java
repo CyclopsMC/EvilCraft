@@ -68,4 +68,19 @@ public class TileEntangledChalice extends TankInventoryTileEntity implements Cyc
         ((WorldSharedTank) getTank()).resetPreviousFluid(); // Optimization for map look-ups in the shared tank.
 	}
 
+	/**
+	 * @return The unique key of the internal tank.
+	 */
+	public String getWorldTankId() {
+		return ((WorldSharedTank) getTank()).getTankID();
+	}
+
+	/**
+	 * Set the unique key of the internal tank.
+	 * @param tankId The new id.
+	 */
+	public void setWorldTankId(String tankId) {
+		((WorldSharedTank) getTank()).setTankID(tankId);
+	}
+
 }

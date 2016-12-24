@@ -68,14 +68,15 @@ public class BiomeExtract extends ConfigurableItem {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         if(!world.isRemote && getBiome(itemStack) != null && !BiomeExtractConfig._instance.isUsageBlacklisted(getBiome(itemStack))) {
             world.playSound(player, player.posX, player.posY, player.posZ, new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             EntityBiomeExtract entity = new EntityBiomeExtract(world, player, itemStack.copy());
             // Last three params: pitch offset, velocity, inaccuracy
             entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
-            world.spawnEntityInWorld(entity);
-            itemStack.stackSize--;
+            world.spawnEntity(entity);
+            itemStack.shrink(1);
         }
 
         return MinecraftHelpers.successAction(itemStack);
@@ -99,7 +100,7 @@ public class BiomeExtract extends ConfigurableItem {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubItems(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         super.getSubItems(item, creativeTabs, list);
         if(BiomeExtractConfig.creativeTabVariants) {
             for (Biome biome : getBiomes()) {

@@ -41,6 +41,6 @@ public class PiercingVengeanceFocus extends AbstractFocus {
 
     @Override
     protected EntityThrowable newBeamEntity(EntityLivingBase player) {
-        return new EntityAttackVengeanceBeam(player.worldObj, player);
+        return new EntityAttackVengeanceBeam(player.world, player);
     }
 }

@@ -60,7 +60,7 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
         if (!world.isRemote && Configs.isEnabled(NetherfishConfig.class)) {
             Netherfish netherfish = new Netherfish(world);
             netherfish.setLocationAndAngles((double)blockPos.getX() + 0.5D, (double)blockPos.getY(), (double)blockPos.getZ() + 0.5D, 0.0F, 0.0F);
-            world.spawnEntityInWorld(netherfish);
+            world.spawnEntity(netherfish);
             netherfish.spawnExplosionParticle();
         }
 

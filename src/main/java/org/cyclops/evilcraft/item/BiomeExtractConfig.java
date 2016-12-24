@@ -73,7 +73,7 @@ public class BiomeExtractConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
                 true,
-                "biomeExtract",
+                "biome_extract",
                 null,
                 BiomeExtract.class
         );

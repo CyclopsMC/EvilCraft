@@ -62,14 +62,14 @@ public class EntityBloodPearl extends EntityThrowable implements IConfigurable {
         }
 
         for (int i = 0; i < 32; ++i) {
-            this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
+            this.world.spawnParticle(EnumParticleTypes.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
         }
 
-        if (!this.worldObj.isRemote) {
+        if (!this.world.isRemote) {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {
                 EntityPlayerMP entityplayermp = (EntityPlayerMP)this.getThrower();
 
-                if (entityplayermp.connection.netManager.isChannelOpen() && entityplayermp.worldObj == this.worldObj) {
+                if (entityplayermp.connection.netManager.isChannelOpen() && entityplayermp.world == this.world) {
                     EnderTeleportEvent event = new EnderTeleportEvent(entityplayermp, this.posX, this.posY, this.posZ, 0.0F);
                     if (!MinecraftForge.EVENT_BUS.post(event)) {
                         if (this.getThrower().isRiding()) {
@@ -78,7 +78,7 @@ public class EntityBloodPearl extends EntityThrowable implements IConfigurable {
     
                         this.getThrower().setPositionAndUpdate(event.getTargetX(), event.getTargetY(), event.getTargetZ());
                         this.getThrower().fallDistance = 0.0F;
-                        this.getThrower().attackEntityFrom(DamageSource.fall, event.getAttackDamage());
+                        this.getThrower().attackEntityFrom(DamageSource.FALL, event.getAttackDamage());
                         this.getThrower().addPotionEffect(new PotionEffect(MobEffects.SLOWNESS,
                         		BloodPearlOfTeleportationConfig.slownessDuration * 20, 2));
                     }

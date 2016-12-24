@@ -22,7 +22,7 @@ public class WerewolfVillagerConfig extends VillagerConfig {
         super(
             EvilCraft._instance,
         	true,
-            "werewolfVillager",
+            "werewolf_villager",
             null,
             WerewolfVillager.class
         );

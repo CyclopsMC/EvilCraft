@@ -23,7 +23,7 @@ public class ObscuredGlassConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "obscuredGlass",
+            "obscured_glass",
             null,
             ObscuredGlass.class
         );

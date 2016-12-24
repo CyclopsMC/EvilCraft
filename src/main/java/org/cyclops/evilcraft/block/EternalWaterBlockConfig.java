@@ -23,7 +23,7 @@ public class EternalWaterBlockConfig extends BlockContainerConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "eternalWaterBlock",
+            "eternal_water_block",
             null,
             EternalWaterBlock.class
         );

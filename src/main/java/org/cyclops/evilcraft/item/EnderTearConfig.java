@@ -38,7 +38,7 @@ public class EnderTearConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
             true,
-            "enderTear",
+            "ender_tear",
             null,
             null
         );

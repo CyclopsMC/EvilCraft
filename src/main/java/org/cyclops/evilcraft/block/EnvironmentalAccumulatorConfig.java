@@ -49,7 +49,7 @@ public class EnvironmentalAccumulatorConfig extends BlockContainerConfig {
 		super(
 				EvilCraft._instance,
 				true,
-				"environmentalAccumulator",
+				"environmental_accumulator",
 				null,
 				EnvironmentalAccumulator.class
 		);
@@ -64,7 +64,7 @@ public class EnvironmentalAccumulatorConfig extends BlockContainerConfig {
 	
 	@Override
 	protected String getConfigPropertyPrefix() {
-		return "envirAcc";
+		return "envir_acc";
 	}
 
 }

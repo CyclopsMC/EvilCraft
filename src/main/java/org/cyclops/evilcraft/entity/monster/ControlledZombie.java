@@ -118,7 +118,7 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
     @Override
     public void onEntityUpdate() {
         super.onEntityUpdate();
-        if(!worldObj.isRemote) {
+        if(!world.isRemote) {
             int ttl = getTtl();
             setTtl(--ttl);
             if (ttl == 0) {

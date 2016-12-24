@@ -24,7 +24,7 @@ public class BowlOfPromisesConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
             true,
-            "bowlOfPromises",
+            "bowl_of_promises",
             null,
             BowlOfPromises.class
         );

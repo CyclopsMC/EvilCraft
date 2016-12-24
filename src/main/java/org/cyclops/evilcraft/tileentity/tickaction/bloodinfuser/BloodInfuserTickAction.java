@@ -27,7 +27,7 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
             if(production == null) {
                 return true;
             } else if(willProduce != null && production.getItem() == willProduceItem(tile).getItem() && production.getItemDamage() == willProduceItem(tile).getItemDamage()) {
-                if(production.stackSize + willProduce.stackSize <= production.getMaxStackSize())
+                if(production.getCount() + willProduce.getCount() <= production.getMaxStackSize())
                     return true;
             }                
         }

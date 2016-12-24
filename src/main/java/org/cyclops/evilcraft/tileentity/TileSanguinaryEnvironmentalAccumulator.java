@@ -162,7 +162,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
                         key.getRight());
                 for(IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe :
                         EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipesByInput(recipeInput)) {
-                    if(recipe.getInput().getWeatherType().isActive(worldObj)) {
+                    if(recipe.getInput().getWeatherType().isActive(world)) {
                         return recipe;
                     }
                 }
@@ -194,33 +194,33 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     public IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>
         getRecipe(ItemStack itemStack) {
         return recipeCache.get(new ImmutableTriple<ItemStack, FluidStack, WeatherType>(
-                itemStack == null ? null : itemStack.copy(),
+                itemStack.isEmpty() ? null : itemStack.copy(),
                 getTank().getFluid() == null ? null : getTank().getFluid().copy(),
-                WeatherType.getActiveWeather(worldObj)));
+                WeatherType.getActiveWeather(world)));
     }
 
     @Override
     public void updateTileEntity() {
         super.updateTileEntity();
-        if(worldObj.isRemote && isVisuallyWorking()) {
+        if(world.isRemote && isVisuallyWorking()) {
             showTankBeams();
             if((getRequiredWorkTicks() - getWorkTick()) > TileEnvironmentalAccumulator.MAX_AGE) {
                 showAccumulatingParticles();
             }
 
-        } else if(worldObj.isRemote && !canWork()) {
+        } else if(world.isRemote && !canWork()) {
             showMissingTanks();
         }
     }
 
     @SideOnly(Side.CLIENT)
     protected void showAccumulatingParticles() {
-        TileEnvironmentalAccumulator.showAccumulatingParticles(worldObj, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, TileEnvironmentalAccumulator.SPREAD);
+        TileEnvironmentalAccumulator.showAccumulatingParticles(world, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, TileEnvironmentalAccumulator.SPREAD);
     }
 
     @SideOnly(Side.CLIENT)
     protected void showTankBeams() {
-        Random random = worldObj.rand;
+        Random random = world.rand;
         BlockPos target = getPos();
         for (int j = 0; j < tankOffsets.length; j++) {
             BlockPos offset = tankOffsets[j];
@@ -244,7 +244,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
                 double particleMotionZ = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * speed;
 
                 FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new ParticleBloodBubble(worldObj, particleX, particleY, particleZ,
+                        new ParticleBloodBubble(world, particleX, particleY, particleZ,
                                 particleMotionX, particleMotionY, particleMotionZ)
                 );
             }
@@ -253,8 +253,8 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
     @SideOnly(Side.CLIENT)
     protected void showMissingTanks() {
-        if(worldObj.getTotalWorldTime() % 10 == 0) {
-            Random random = worldObj.rand;
+        if(world.getTotalWorldTime() % 10 == 0) {
+            Random random = world.rand;
             for (BlockPos location : invalidLocations) {
                 double x = location.getX() + 0.5;
                 double y = location.getY() + 0.5;
@@ -266,7 +266,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
                     double particleZ = z - 0.2 + random.nextDouble() * 0.4;
 
                     FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                            new ParticleSmokeNormal.Factory().getEntityFX(0, worldObj, particleX, particleY, particleZ, 0, 0, 0)
+                            new ParticleSmokeNormal.Factory().createParticle(0, world, particleX, particleY, particleZ, 0, 0, 0)
                     );
                 }
             }
@@ -317,14 +317,14 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     @Override
     public void onStateChanged() {
         sendUpdate();
-        IBlockState blockState = worldObj.getBlockState(getPos()).withProperty(SanguinaryEnvironmentalAccumulator.ON, isWorking());
-        worldObj.setBlockState(getPos(), blockState);
-        worldObj.notifyBlockUpdate(getPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT); // Update light
+        IBlockState blockState = world.getBlockState(getPos()).withProperty(SanguinaryEnvironmentalAccumulator.ON, isWorking());
+        world.setBlockState(getPos(), blockState);
+        world.notifyBlockUpdate(getPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT); // Update light
     }
 
 	@Override
 	public boolean canWork() {
-        if(!forceLoadTanks && invalidLocations != null && !WorldHelpers.efficientTick(worldObj, TANK_CHECK_TICK_OFFSET, getPos())) {
+        if(!forceLoadTanks && invalidLocations != null && !WorldHelpers.efficientTick(world, TANK_CHECK_TICK_OFFSET, getPos())) {
             return invalidLocations.isEmpty();
         }
         forceLoadTanks = false;

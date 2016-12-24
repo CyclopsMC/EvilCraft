@@ -20,7 +20,7 @@ public class BroomPartCapGem extends BroomPartBase {
     @SideOnly(Side.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
-                new ResourceLocation(getId().getResourceDomain(), "broomPart/cap_gem"));
+                new ResourceLocation(getId().getResourceDomain(), "broom_part/cap_gem"));
     }
 
     @Override

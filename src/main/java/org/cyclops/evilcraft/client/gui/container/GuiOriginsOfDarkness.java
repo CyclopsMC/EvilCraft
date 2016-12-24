@@ -15,7 +15,7 @@ import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
  */
 public class GuiOriginsOfDarkness extends GuiInfoBook {
 
-    protected static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "originsOfDarkness_gui.png");
+    protected static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "origins_of_darkness_gui.png");
 
     public static final int X_OFFSET_OUTER = 20;
     public static final int X_OFFSET_INNER = 7;

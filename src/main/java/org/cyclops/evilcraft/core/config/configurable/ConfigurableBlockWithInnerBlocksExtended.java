@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
@@ -26,7 +27,6 @@ import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.core.tileentity.InnerBlocksTileEntity;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * A blockState that is based on inner blocks that are stored in a tile entity.
@@ -49,7 +49,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     
     @SuppressWarnings("rawtypes")
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         // Do not appear in creative tab
     }
     
@@ -186,15 +186,15 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean addHitEffects(IBlockState blockStateOuter, World worldObj, RayTraceResult target, ParticleManager particleManager) {
+    public boolean addHitEffects(IBlockState blockStateOuter, World world, RayTraceResult target, ParticleManager particleManager) {
         IBlockState blockState;
         try {
-            blockState = getTile(worldObj, target.getBlockPos()).getInnerBlockState();
+            blockState = getTile(world, target.getBlockPos()).getInnerBlockState();
         } catch (InvalidInnerBlocksTileException e) {
             blockState =  Blocks.STONE.getDefaultState();
         }
         BlockPos pos = target.getBlockPos();
-        RenderHelpers.addBlockHitEffects(particleManager, worldObj, blockState, pos, target.sideHit);
+        RenderHelpers.addBlockHitEffects(particleManager, world, blockState, pos, target.sideHit);
         return true;
     }
 

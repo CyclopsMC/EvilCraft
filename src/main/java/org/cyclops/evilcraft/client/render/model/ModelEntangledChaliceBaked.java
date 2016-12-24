@@ -116,8 +116,8 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
     @Override
     public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
-        String id = itemStack != null ? ((EntangledChaliceItem) itemStack.getItem()).getTankID(itemStack) : "";
-        return new ModelEntangledChaliceBaked(id, itemStack != null ? FluidUtil.getFluidContained(itemStack) : null, itemStack, world, entity);
+        String id = !itemStack.isEmpty() ? ((EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(itemStack)).getTankID() : "";
+        return new ModelEntangledChaliceBaked(id, !itemStack.isEmpty() ? FluidUtil.getFluidContained(itemStack) : null, itemStack, world, entity);
     }
 
     @Override

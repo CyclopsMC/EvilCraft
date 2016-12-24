@@ -1,0 +1,6 @@
+{
+  "parent": "evilcraft:block/blood_infuser_off",
+  "textures": {
+    "north": "evilcraft:blocks/blood_infuser_north_on"
+  }
+}

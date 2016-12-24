@@ -22,7 +22,7 @@ public class GoldenStringConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
             true,
-            "goldenString",
+            "golden_string",
             null,
             null
         );

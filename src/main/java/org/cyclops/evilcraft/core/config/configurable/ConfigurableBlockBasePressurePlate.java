@@ -64,7 +64,7 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
     }
 
     @Override
-    public void neighborChanged(IBlockState blockState, World world, BlockPos blockPos, Block block) {
+    public void neighborChanged(IBlockState blockState, World world, BlockPos blockPos, Block block, BlockPos fromPos) {
         if(!canPlaceBlockAt(world, blockPos)) {
         	this.dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), 0);
             world.setBlockToAir(blockPos);

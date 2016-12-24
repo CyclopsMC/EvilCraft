@@ -3,12 +3,12 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
-        <condition type="config">potentiaSphere</condition>
+        <condition type="config">blood_infuser</condition>
+        <condition type="config">potentia_sphere</condition>
         <condition type="config">evilcraftblood</condition>
-        <condition type="predefined">evilcraft:enderPearlRecipe</condition>
+        <condition type="predefined">evilcraft:ender_pearl_recipe</condition>
         <input>
-            <item>evilcraft:potentiaSphere</item>
+            <item>evilcraft:potentia_sphere</item>
             <fluid amount="2000">evilcraftblood</fluid>
         </input>
         <output>
@@ -23,7 +23,7 @@
     
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:rotten_flesh</item>
@@ -41,11 +41,11 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
-        <condition type="config">werewolfFlesh</condition>
+        <condition type="config">werewolf_flesh</condition>
         <input>
-            <item meta="1">evilcraft:werewolfFlesh</item>
+            <item meta="1">evilcraft:werewolf_flesh</item>
             <fluid amount="375">evilcraftblood</fluid>
         </input>
         <output>
@@ -60,7 +60,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:ender_eye</item>
@@ -78,7 +78,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:spider_eye</item>
@@ -96,7 +96,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:brown_mushroom</item>
@@ -114,7 +114,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:dirt</item>
@@ -132,7 +132,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:bone</item>
@@ -150,7 +150,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:wheat_seeds</item>
@@ -168,7 +168,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:sand</item>
@@ -186,7 +186,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:cobblestone</item>
@@ -204,7 +204,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item meta="3">minecraft:skull</item>
@@ -222,7 +222,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item meta="2">minecraft:skull</item>
@@ -240,7 +240,7 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item meta="0">minecraft:skull</item>
@@ -258,11 +258,11 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
-        <condition type="config">dullDust</condition>
+        <condition type="config">dull_dust</condition>
         <input>
-            <item type="oredict">dustDull</item>
+            <item type="oredict">dust_dull</item>
             <fluid amount="500">evilcraftblood</fluid>
         </input>
         <output>
@@ -277,15 +277,15 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
-        <condition type="config">bloodWaxedCoal</condition>
+        <condition type="config">blood_waxed_coal</condition>
         <input>
             <item meta="*">minecraft:coal</item>
             <fluid amount="375">evilcraftblood</fluid>
         </input>
         <output>
-            <item>evilcraft:bloodWaxedCoal</item>
+            <item>evilcraft:blood_waxed_coal</item>
         </output>
         <properties>
             <tier>1</tier>
@@ -296,15 +296,15 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
-        <condition type="config">bloodWaxedCoalBlock</condition>
+        <condition type="config">blood_waxed_coal_block</condition>
         <input>
             <item>minecraft:coal_block</item>
             <fluid amount="3375">evilcraftblood</fluid>
         </input>
         <output>
-            <item>evilcraft:bloodWaxedCoalBlock</item>
+            <item>evilcraft:blood_waxed_coal_block</item>
         </output>
         <properties>
             <tier>1</tier>
@@ -315,11 +315,11 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
-        <condition type="config">enderTear</condition>
+        <condition type="config">ender_tear</condition>
         <input>
-            <item>evilcraft:enderTear</item>
+            <item>evilcraft:ender_tear</item>
             <fluid amount="3500">evilcraftblood</fluid>
         </input>
         <output>
@@ -334,15 +334,15 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
-        <condition type="config">bloodPotash</condition>
+        <condition type="config">blood_potash</condition>
         <input>
             <item meta="15">minecraft:dye</item>
             <fluid amount="800">evilcraftblood</fluid>
         </input>
         <output>
-            <item>evilcraft:bloodPotash</item>
+            <item>evilcraft:blood_potash</item>
         </output>
         <properties>
             <tier>1</tier>

@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -14,6 +13,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -40,8 +40,6 @@ import java.util.Random;
  *
  */
 public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContainer {
-
-    private static final String NBT_TAG_CAPACITY = "tankCapacity";
     
     private static BloodExtractor _instance = null;
     
@@ -59,7 +57,8 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     }
     
     @Override
-    public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         Block block = world.getBlockState(blockPos).getBlock();
         if(player.isSneaking()) {
 	        if(Configs.isEnabled(BloodStainedBlockConfig.class) && block == BloodStainedBlock.getInstance()) {
@@ -101,9 +100,10 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         if(!player.isSneaking()) {
-            return super.onItemRightClick(itemStack, world, player, hand);
+            return super.onItemRightClick(world, player, hand);
         } else {
         	RayTraceResult target = this.rayTrace(world, player, false);
         	if(target == null || target.typeOfHit == RayTraceResult.Type.MISS) {
@@ -123,9 +123,8 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
      * @return The amount of blood that was filled with.
      */
     public int fillBloodExtractor(ItemStack itemStack, int amount, boolean doFill) {
-        BloodExtractor container = (BloodExtractor) itemStack.getItem();
-        int filled = container.fill(itemStack, new FluidStack(Blood.getInstance(), amount), doFill);
-        return filled;
+        IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack);
+        return fluidHandler.fill(new FluidStack(Blood.getInstance(), amount), doFill);
     }
     
     /**
@@ -141,9 +140,9 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
         PlayerInventoryIterator it = new PlayerInventoryIterator(player);
         while(it.hasNext() && toFill > 0) {
             ItemStack itemStack = it.next();
-            if(itemStack != null && itemStack.getItem() == BloodExtractor.getInstance()) {
-                BloodExtractor container = (BloodExtractor) itemStack.getItem();
-                toFill -= container.fill(itemStack, new FluidStack(Blood.getInstance(), toFill), true);
+            if(!itemStack.isEmpty() && itemStack.getItem() == BloodExtractor.getInstance()) {
+                IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack);
+                toFill -= fluidHandler.fill(new FluidStack(Blood.getInstance(), toFill), true);
             }
         }
     }
@@ -154,24 +153,6 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     		ItemHelpers.updateAutoFill(FluidUtil.getFluidHandler(itemStack), itemStack, world, entity);
     	}
         super.onUpdate(itemStack, world, entity, par4, par5);
-    }
-
-    public void setCapacity(ItemStack itemStack, int capacity) {
-        NBTTagCompound tag = itemStack.getTagCompound();
-        if(tag == null) {
-            tag = new NBTTagCompound();
-            itemStack.setTagCompound(tag);
-        }
-        tag.setInteger(NBT_TAG_CAPACITY, capacity);
-    }
-
-    @Override
-    public int getCapacity(ItemStack itemStack) {
-        NBTTagCompound tag = itemStack.getTagCompound();
-        if(tag == null || !tag.hasKey(NBT_TAG_CAPACITY)) {
-            return super.getCapacity(itemStack);
-        }
-        return tag.getInteger(NBT_TAG_CAPACITY);
     }
 
     @Override

@@ -49,7 +49,7 @@ public class ExaltedCrafterOpenPacket extends PacketCodec {
 	@Override
 	public void actionServer(World world, EntityPlayerMP player) {
 		if(itemIndex >= 0) {
-			ItemStack found = player.inventory.mainInventory[itemIndex];
+			ItemStack found = player.inventory.mainInventory.get(itemIndex);
 			if(found != null && found.getItem() == ExaltedCrafter.getInstance()) {
 				ExaltedCrafter.getInstance().openGuiForItemIndex(world, player, itemIndex);
 			}

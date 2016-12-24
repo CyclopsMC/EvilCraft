@@ -25,7 +25,7 @@ public class RenderControlledZombie extends RenderBiped<ControlledZombie> {
      * @param renderManager The rendermanager
      */
     public RenderControlledZombie(ExtendedConfig<MobConfig<ControlledZombie>> config, RenderManager renderManager) {
-        super(renderManager, new ModelZombie(), 0.5F, 1.0F);
+        super(renderManager, new ModelZombie(), 0.5F);
         this.texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }
     

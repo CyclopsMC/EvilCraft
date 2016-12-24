@@ -23,7 +23,7 @@ public class BiomeDegradedConfig extends BiomeConfig {
         super(
                 EvilCraft._instance,
             Reference.BIOME_DEGRADED,
-            "biomeDegraded",
+            "biome_degraded",
             null,
             BiomeDegraded.class
         );

@@ -1,0 +1,29 @@
+{
+    "pools": [
+        {
+            "name": "evilcraft:vengeance_spirit",
+            "conditions": [
+                {
+                    "condition": "killed_by_player"
+                }
+            ],
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "evilcraft:vengeance_essence",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "looting_enchant",
+                            "count": {
+                                "min": 0,
+                                "max": 1
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

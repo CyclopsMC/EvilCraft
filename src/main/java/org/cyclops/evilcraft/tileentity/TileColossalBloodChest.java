@@ -16,7 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.mutable.MutableFloat;
@@ -78,7 +77,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = FluidContainerRegistry.BUCKET_VOLUME * 10;
+    public static final int LIQUID_PER_SLOT = Fluid.BUCKET_VOLUME * 10;
     /**
      * The amount of ticks per mB the tank can accept per tick.
      */
@@ -281,7 +280,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     public void updateTileEntity() {
         resetSlotHistory();
         super.updateTileEntity();
-        if(worldObj != null && !this.worldObj.isRemote && this.worldObj.getWorldTime() % ColossalBloodChestConfig.ticksPerDamage == 0) {
+        if(world != null && !this.world.isRemote && this.world.getWorldTime() % ColossalBloodChestConfig.ticksPerDamage == 0) {
             int oldEfficiency = efficiency;
             efficiency = Math.max(0, efficiency - ColossalBloodChestConfig.baseConcurrentItems);
             if(oldEfficiency != efficiency) {
@@ -290,14 +289,14 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         }
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.
-        if(worldObj != null
-                && !this.worldObj.isRemote
+        if(world != null
+                && !this.world.isRemote
                 && this.playersUsing != 0
-                && WorldHelpers.efficientTick(worldObj, TICK_MODULUS, getPos().hashCode())) {
+                && WorldHelpers.efficientTick(world, TICK_MODULUS, getPos().hashCode())) {
             this.playersUsing = 0;
             float range = 5.0F;
             @SuppressWarnings("unchecked")
-            List<EntityPlayer> entities = this.worldObj.getEntitiesWithinAABB(
+            List<EntityPlayer> entities = this.world.getEntitiesWithinAABB(
                     EntityPlayer.class,
                     new AxisAlignedBB(
                             getPos().subtract(new Vec3i(range, range, range)),
@@ -311,20 +310,20 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
                 }
             }
 
-            worldObj.addBlockEvent(getPos(), block, 1, playersUsing);
+            world.addBlockEvent(getPos(), block, 1, playersUsing);
         }
 
         prevLidAngle = lidAngle;
         float increaseAngle = 0.05F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
-            worldObj.playSound(
+            world.playSound(
                     (double) getPos().getX() + 0.5D,
                     (double) getPos().getY() + 0.5D,
                     (double) getPos().getZ() + 0.5D,
                     SoundEvents.BLOCK_CHEST_OPEN,
                     SoundCategory.BLOCKS,
                     0.5F,
-                    worldObj.rand.nextFloat() * 0.1F + 0.5F,
+                    world.rand.nextFloat() * 0.1F + 0.5F,
                     false
             );
         }
@@ -340,14 +339,14 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
             }
             float closedAngle = 0.5F;
             if (lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
-                worldObj.playSound(
+                world.playSound(
                         (double) getPos().getX() + 0.5D,
                         (double) getPos().getY() + 0.5D,
                         (double) getPos().getZ() + 0.5D,
                         SoundEvents.BLOCK_CHEST_CLOSE,
                         SoundCategory.BLOCKS,
                         0.5F,
-                        worldObj.rand.nextFloat() * 0.1F + 0.5F,
+                        world.rand.nextFloat() * 0.1F + 0.5F,
                         false
                 );
             }
@@ -376,16 +375,16 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     }
 
     private void triggerPlayerUsageChange(int change) {
-        if (worldObj != null) {
+        if (world != null) {
             playersUsing += change;
-            worldObj.addBlockEvent(getPos(), block, 1, playersUsing);
+            world.addBlockEvent(getPos(), block, 1, playersUsing);
         }
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
-        return super.isUseableByPlayer(entityPlayer)
-                && (worldObj == null || worldObj.getTileEntity(getPos()) != this);
+    public boolean isUsableByPlayer(EntityPlayer entityPlayer) {
+        return super.isUsableByPlayer(entityPlayer)
+                && (world == null || world.getTileEntity(getPos()) != this);
     }
 
     @Override

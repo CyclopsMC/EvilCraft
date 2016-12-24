@@ -44,13 +44,13 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
     }
 
     public int getUpgradeLevel(ItemStack itemStack) {
-        return itemStack.stackSize;
+        return itemStack.getCount();
     }
 
     public boolean onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
         if(super.onUpgradeSlotChanged(slotId, oldItemStack, itemStack)) {
             resetTier();
-            if(!worldObj.isRemote) getTank().setCapacity(getTankTierMultiplier(getTier()) * tankSize);
+            if(!world.isRemote) getTank().setCapacity(getTankTierMultiplier(getTier()) * tankSize);
             sendUpdate();
             return true;
         }

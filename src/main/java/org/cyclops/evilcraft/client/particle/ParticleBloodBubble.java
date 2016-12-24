@@ -52,7 +52,7 @@ public class ParticleBloodBubble extends ParticleSplash {
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
         this.motionY += 0.002D;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
+        this.move(this.motionX, this.motionY, this.motionZ);
         this.motionX *= 0.85D;
         this.motionY *= 0.85D;
         this.motionZ *= 0.85D;

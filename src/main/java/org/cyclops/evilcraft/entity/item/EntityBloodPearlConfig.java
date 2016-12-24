@@ -30,7 +30,7 @@ public class EntityBloodPearlConfig extends EntityConfig<EntityThrowable> {
         super(
                 EvilCraft._instance,
         	true,
-            "entityBloodPearl",
+            "entity_blood_pearl",
             null,
             EntityBloodPearl.class
         );

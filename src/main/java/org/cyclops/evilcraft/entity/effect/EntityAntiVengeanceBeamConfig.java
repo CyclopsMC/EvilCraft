@@ -29,7 +29,7 @@ public class EntityAntiVengeanceBeamConfig extends EntityConfig<Entity> {
         super(
                 EvilCraft._instance,
         	true,
-            "entityNeutronBeam",
+            "entity_neutron_beam",
             null,
             EntityAntiVengeanceBeam.class
         );

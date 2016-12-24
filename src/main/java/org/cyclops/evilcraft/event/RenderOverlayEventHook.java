@@ -38,16 +38,16 @@ public class RenderOverlayEventHook {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onRenderOverlayEvent(RenderGameOverlayEvent.Post event) {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        EntityPlayer player = Minecraft.getMinecraft().player;
         if (GeneralConfig.bloodGuiOverlay && event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
-            if (filledHeight < 0 || WorldHelpers.efficientTick(player.worldObj, 50)) {
+            if (filledHeight < 0 || WorldHelpers.efficientTick(player.world, 50)) {
                 Wrapper<Integer> amount = new Wrapper<Integer>(0);
                 Wrapper<Integer> capacity = new Wrapper<Integer>(1);
                 PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
                 while (it.hasNext()) {
                     ItemStack itemStack = it.next();
                     IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack);
-                    if (itemStack != null && fluidHandler != null) {
+                    if (!itemStack.isEmpty() && fluidHandler != null) {
                         FluidStack fluidStack = FluidHelpers.getFluid(fluidHandler);
                         if (fluidStack != null && BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
                             amount.set(amount.get() + fluidStack.amount);
@@ -62,7 +62,7 @@ public class RenderOverlayEventHook {
 
             if (filledHeight > 0) {
                 RenderOverlayEventHook.OverlayPosition overlayPosition = RenderOverlayEventHook.OverlayPosition.values()[
-                        MathHelper.clamp_int(GeneralConfig.bloodGuiOverlayPosition, 0, RenderOverlayEventHook.OverlayPosition.values().length - 1)];
+                        MathHelper.clamp(GeneralConfig.bloodGuiOverlayPosition, 0, RenderOverlayEventHook.OverlayPosition.values().length - 1)];
                 ScaledResolution resolution = event.getResolution();
                 int x = overlayPosition.getX(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetX;
                 int y = overlayPosition.getY(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetY;

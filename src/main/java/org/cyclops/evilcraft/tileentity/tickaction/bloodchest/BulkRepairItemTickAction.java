@@ -20,7 +20,7 @@ public class BulkRepairItemTickAction implements ITickAction<TileColossalBloodCh
     
     @Override
     public boolean canTick(TileColossalBloodChest tile, ItemStack itemStack, int slot, int tick) {
-        return tile.canWork() && !tile.getTank().isEmpty() && itemStack != null;
+        return tile.canWork() && !tile.getTank().isEmpty() && !itemStack.isEmpty();
     }
     
     private void drainTank(TileColossalBloodChest tile, float usageMultiplier, int tick) {
@@ -36,7 +36,7 @@ public class BulkRepairItemTickAction implements ITickAction<TileColossalBloodCh
     @Override
     public void onTick(TileColossalBloodChest tile, ItemStack itemStack, int slot, int tick) {
         if(tick >= getRequiredTicks(tile, slot, tick)) {
-            if(!tile.getTank().isEmpty() && itemStack != null) {
+            if(!tile.getTank().isEmpty() && !itemStack.isEmpty()) {
                 itemStack = itemStack.copy();
                 // Call handlers registered via API.
                 IBloodChestRepairActionRegistry actions = EvilCraft._instance.getRegistryManager().

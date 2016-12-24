@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.entity.item;
 
-import com.google.common.base.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +26,7 @@ import org.cyclops.evilcraft.item.WeatherContainerConfig;
  */
 public class EntityWeatherContainer extends EntityThrowable implements IConfigurable {
 
-    private static final DataParameter<Optional<ItemStack>> ITEMSTACK_INDEX = EntityDataManager.<Optional<ItemStack>>createKey(EntityWeatherContainer.class, DataSerializers.OPTIONAL_ITEM_STACK);
+    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityWeatherContainer.class, DataSerializers.OPTIONAL_ITEM_STACK);
     
     /**
      * Make a new instance in the given world.
@@ -74,13 +73,13 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
     protected void onImpact(RayTraceResult movingobjectposition) {
         ItemStack stack = getItemStack();
         WeatherContainer.WeatherContainerTypes containerType = WeatherContainer.getWeatherContainerType(stack);
-        containerType.onUse(worldObj, stack);
+        containerType.onUse(world, stack);
 
-        playImpactSounds(worldObj);
+        playImpactSounds(world);
         
         // Play sound and show particles of splash potion of harming
         // TODO: make custom particles for this
-        this.worldObj.playBroadcastSound(2002, getPosition(), 16428);
+        this.world.playBroadcastSound(2002, getPosition(), 16428);
         
         setDead();
     }
@@ -93,19 +92,18 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
 
     @Override
     public ItemStack getItemStack() {
-        Optional<ItemStack> optional = dataManager.get(ITEMSTACK_INDEX);
-        return optional.isPresent() ? optional.get() : null;
+        return dataManager.get(ITEMSTACK_INDEX);
     }
     
     private void setItemStack(ItemStack stack) {
-        dataManager.set(ITEMSTACK_INDEX, Optional.of(stack));
+        dataManager.set(ITEMSTACK_INDEX, stack);
     }
     
     @Override
     protected void entityInit() {
         super.entityInit();
         
-        dataManager.register(ITEMSTACK_INDEX, Optional.of(WeatherContainer.createItemStack(WeatherContainer.WeatherContainerTypes.EMPTY, 1)));
+        dataManager.register(ITEMSTACK_INDEX, WeatherContainer.createItemStack(WeatherContainer.WeatherContainerTypes.EMPTY, 1));
     }
 
     @Override

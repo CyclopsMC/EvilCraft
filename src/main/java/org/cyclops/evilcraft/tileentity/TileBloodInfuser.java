@@ -6,7 +6,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -69,7 +68,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = FluidContainerRegistry.BUCKET_VOLUME * 10;
+    public static final int LIQUID_PER_SLOT = Fluid.BUCKET_VOLUME * 10;
     /**
      * The amount of ticks per mB the tank can accept per tick.
      */
@@ -211,7 +210,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     public IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>
         getRecipe(ItemStack itemStack) {
         return recipeCache.get(Triple.of(
-                itemStack == null ? null : itemStack.copy(),
+                itemStack.isEmpty() ? null : itemStack.copy(),
                 getTank().getFluid() == null ? null : getTank().getFluid().copy(),
                 getTier()));
     }
@@ -219,7 +218,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     @Override
     public boolean canConsume(ItemStack itemStack) {
         // Valid fluid handler
-        if (itemStack != null) {
+        if (!itemStack.isEmpty()) {
             IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack.copy().splitStack(1));
             if (fluidHandler != null) {
                 return fluidHandler.fill(getTank().getFluid(), false) > 0;
@@ -269,7 +268,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     @Override
     public void onStateChanged() {
         sendUpdate();
-        worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(BloodInfuser.ON, isWorking()));
+        world.setBlockState(getPos(), world.getBlockState(getPos()).withProperty(BloodInfuser.ON, isWorking()));
         BlockHelpers.markForUpdate(getWorld(), getPos());
     }
 

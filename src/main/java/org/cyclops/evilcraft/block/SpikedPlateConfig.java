@@ -37,7 +37,7 @@ public class SpikedPlateConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "spikedPlate",
+            "spiked_plate",
             null,
             SpikedPlate.class
         );

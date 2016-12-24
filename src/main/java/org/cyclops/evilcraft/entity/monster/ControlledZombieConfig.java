@@ -29,7 +29,7 @@ public class ControlledZombieConfig extends MobConfig<ControlledZombie> {
         super(
                 EvilCraft._instance,
         	true,
-            "controlledZombie",
+            "controlled_zombie",
             null,
             ControlledZombie.class
         );

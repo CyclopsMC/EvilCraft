@@ -84,7 +84,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
     public ContainerExaltedCrafter(EntityPlayer player, int itemIndex) {
         super(player.inventory, ExaltedCrafter.getInstance(), itemIndex);
         initialized = false;
-        this.world = player.worldObj;
+        this.world = player.world;
         this.player = player;
         this.result = new InventoryCraftResult();
         this.craftingGrid = new NBTCraftingGrid(player, itemIndex, this);
@@ -138,18 +138,18 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         List<Pair<ItemStack, List<Pair<Integer, Integer>>>> bins = Lists.newArrayListWithExpectedSize(craftingGrid.getSizeInventory());
         for(int slot = 0; slot < craftingGrid.getSizeInventory(); slot++) {
             ItemStack itemStack = craftingGrid.getStackInSlot(slot);
-            if(itemStack != null) {
-                int amount = itemStack.stackSize;
+            if(!itemStack.isEmpty()) {
+                int amount = itemStack.getCount();
                 itemStack = itemStack.copy();
-                itemStack.stackSize = 1;
+                itemStack.setCount(1);
                 int bin = 0;
                 boolean addedToBin = false;
                 while(bin < bins.size() && !addedToBin) {
                     Pair<ItemStack, List<Pair<Integer, Integer>>> pair = bins.get(bin);
                     ItemStack original = pair.getLeft().copy();
-                    original.stackSize = 1;
+                    original.setCount(1);
                     if(ItemStack.areItemStacksEqual(original, itemStack)) {
-                        pair.getLeft().stackSize += amount;
+                        pair.getLeft().grow(amount);
                         pair.getRight().add(new MutablePair<Integer, Integer>(slot, 0));
                         addedToBin = true;
                     }
@@ -157,7 +157,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
                 }
 
                 if(!addedToBin) {
-                    itemStack.stackSize = amount;
+                    itemStack.setCount(amount);
                     bins.add(new MutablePair<ItemStack, List<Pair<Integer, Integer>>>(itemStack,
                             Lists.newArrayList((Pair<Integer, Integer>) new MutablePair<Integer, Integer>(slot, 0))));
                 }
@@ -166,8 +166,8 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
 
         // Balance bins
         for(Pair<ItemStack, List<Pair<Integer, Integer>>> pair : bins) {
-            int division = pair.getLeft().stackSize / pair.getRight().size();
-            int modulus = pair.getLeft().stackSize % pair.getRight().size();
+            int division = pair.getLeft().getCount() / pair.getRight().size();
+            int modulus = pair.getLeft().getCount() % pair.getRight().size();
             for(Pair<Integer, Integer> slot : pair.getRight()) {
                 slot.setValue(division + Math.max(0, Math.min(1, modulus--)));
             }
@@ -177,7 +177,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         for(Pair<ItemStack, List<Pair<Integer, Integer>>> pair : bins) {
             for(Pair<Integer, Integer> slot : pair.getRight()) {
                 ItemStack itemStack = pair.getKey().copy();
-                itemStack.stackSize = slot.getRight();
+                itemStack.setCount(slot.getRight());
                 craftingGrid.setInventorySlotContents(slot.getKey(), itemStack);
             }
         }
@@ -185,12 +185,12 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
 
     public boolean isReturnToInnerInventory() {
         ItemStack itemStack = getItemStack(player);
-        return itemStack != null && ExaltedCrafter.getInstance().isReturnToInner(itemStack);
+        return !itemStack.isEmpty() && ExaltedCrafter.getInstance().isReturnToInner(itemStack);
     }
 
     protected void setReturnToInnerInventory(boolean returnToInner) {
         ItemStack itemStack = getItemStack(player);
-        if(itemStack != null) {
+        if(!itemStack.isEmpty()) {
             ExaltedCrafter.getInstance().setReturnToInner(itemStack, returnToInner);
         }
     }

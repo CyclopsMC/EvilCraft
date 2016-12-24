@@ -11,11 +11,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.client.model.DelegatingChildDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.block.DarkTank;
-import org.cyclops.evilcraft.core.block.IBlockTank;
 
 import java.util.List;
 
@@ -48,10 +49,6 @@ public class ModelDarkTank extends DelegatingChildDynamicItemAndBlockModel {
         this.fluidStack = fluidStack;
     }
 
-    protected IBlockTank getBlockTank(ItemStack itemStack) {
-        return DarkTank.getInstance();
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public List<BakedQuad> getGeneralQuads() {
@@ -72,10 +69,10 @@ public class ModelDarkTank extends DelegatingChildDynamicItemAndBlockModel {
 
     @Override
     public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
-        final IBlockTank tank = getBlockTank(itemStack);
-        if(itemStack != null && itemStack.getTagCompound() != null) {
-            int capacity = tank.getTankCapacity(itemStack);
-            FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(itemStack.getTagCompound().getCompoundTag(tank.getTankNBTName()));
+        IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack);
+        if(!itemStack.isEmpty() && fluidHandler != null) {
+            int capacity = fluidHandler.getCapacity();
+            FluidStack fluidStack = FluidHelpers.getFluid(fluidHandler);
             return new ModelDarkTank(baseModel, capacity, fluidStack, itemStack, world, entity);
         }
         return new ModelDarkTank(baseModel, 0, null, itemStack, world, entity);

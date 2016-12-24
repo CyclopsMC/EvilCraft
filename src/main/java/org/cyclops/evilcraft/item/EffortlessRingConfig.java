@@ -22,7 +22,7 @@ public class EffortlessRingConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "effortlessRing",
+            "effortless_ring",
             null,
             EffortlessRing.class
         );

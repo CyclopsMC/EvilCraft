@@ -30,7 +30,7 @@ public class EntityWeatherContainerConfig extends EntityConfig<EntityWeatherCont
         super(
                 EvilCraft._instance,
         	true,
-            "entityWeatherContainer",
+            "entity_weather_container",
             null,
             EntityWeatherContainer.class
         );

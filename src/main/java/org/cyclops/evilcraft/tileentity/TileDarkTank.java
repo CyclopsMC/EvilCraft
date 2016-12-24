@@ -67,14 +67,14 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 	}
 	
 	protected boolean shouldAutoDrain() {
-		return BlockHelpers.getSafeBlockStateProperty(worldObj.getBlockState(getPos()), DarkTank.DRAINING, false);
+		return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(getPos()), DarkTank.DRAINING, false);
 	}
 	
 	@Override
 	protected void updateTileEntity() {
 		if(!getWorld().isRemote && !getTank().isEmpty() && shouldAutoDrain()) {
 			EnumFacing down = EnumFacing.DOWN;
-			IFluidHandler handler = TileHelpers.getCapability(worldObj, getPos().offset(down), down.getOpposite(),
+			IFluidHandler handler = TileHelpers.getCapability(world, getPos().offset(down), down.getOpposite(),
 					CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
 			if(handler != null) {
 				FluidStack fluidStack = new FluidStack(getTank().getFluidType(),
@@ -85,7 +85,7 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 				}
 			} else {
 				// Try to fill fluid container items below
-				List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class,
+				List<Entity> entities = world.getEntitiesWithinAABB(Entity.class,
 						new AxisAlignedBB(getPos().offset(down), getPos().offset(down).add(1, 1, 1)),
 						EntitySelectors.IS_ALIVE);
 				for(Entity entity : entities) {
@@ -93,7 +93,7 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 						EntityItem item = (EntityItem) entity;
 						if (item.getEntityItem() != null
 								&& item.getEntityItem().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null) &&
-								item.getEntityItem().stackSize == 1) {
+								item.getEntityItem().getCount() == 1) {
 							ItemStack itemStack = item.getEntityItem().copy();
 							ItemStack fillItemStack;
 							if((fillItemStack = fill(itemStack)) != null) {
@@ -106,7 +106,7 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 						while(!getTank().isEmpty() && it.hasNext()) {
 							ItemStack itemStack = it.next();
 							ItemStack fillItemStack;
-							if(itemStack != null
+							if(!itemStack.isEmpty()
 									&& itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
 									&& (fillItemStack = fill(itemStack)) != null) {
 								it.replace(fillItemStack);

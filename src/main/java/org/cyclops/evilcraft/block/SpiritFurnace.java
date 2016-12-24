@@ -60,24 +60,14 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     }
     
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer entityplayer, EnumHand hand, ItemStack heldItem, EnumFacing side, float par7, float par8, float par9) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer entityplayer, EnumHand hand, EnumFacing side, float par7, float par8, float par9) {
         return !TileSpiritFurnace.canWork(world, blockPos) ||
-                super.onBlockActivated(world, blockPos, blockState, entityplayer, hand, heldItem, side, par7, par8, par9);
+                super.onBlockActivated(world, blockPos, blockState, entityplayer, hand, side, par7, par8, par9);
     }
     
     @Override
     public Item getItemDropped(IBlockState blockState, Random random, int zero) {
         return Item.getItemFromBlock(this);
-    }
-
-    @Override
-    public String getTankNBTName() {
-        return TileSpiritFurnace.TANKNAME;
-    }
-
-    @Override
-    public int getMaxCapacity() {
-        return TileSpiritFurnace.LIQUID_PER_SLOT;
     }
     
     private void triggerDetector(World world, BlockPos blockPos, boolean valid) {
@@ -131,5 +121,10 @@ public class SpiritFurnace extends ConfigurableBlockContainerGuiTankInfo impleme
     @SideOnly(Side.CLIENT)
     public Class<? extends GuiScreen> getGui() {
         return GuiSpiritFurnace.class;
+    }
+
+    @Override
+    public int getDefaultCapacity() {
+        return TileSpiritFurnace.LIQUID_PER_SLOT;
     }
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "evilcraft:blocks/spirit_furnace_side_on",
+    "up": "evilcraft:blocks/spirit_furnace_up_on"
+  }
+}

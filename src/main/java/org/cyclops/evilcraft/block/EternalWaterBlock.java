@@ -63,10 +63,10 @@ public class EternalWaterBlock extends ConfigurableBlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side,
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side,
                                     float xp, float yp, float zp) {
         ItemStack itemStack = player.inventory.getCurrentItem();
-        if (itemStack != null) {
+        if (!itemStack.isEmpty()) {
             IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack);
             if (fluidHandler != null) {
                 fluidHandler.fill(TileEternalWaterBlock.WATER, true);

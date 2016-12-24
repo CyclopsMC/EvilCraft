@@ -2,15 +2,15 @@
 <recipes>
 
     <recipe type="evilcraft:bloodinfuser">
-        <condition type="mod">BloodMagic</condition>
-        <condition type="config">bloodInfuser</condition>
-        <condition type="config">boundBloodDrop</condition>
+        <condition type="mod">Blood_magic</condition>
+        <condition type="config">blood_infuser</condition>
+        <condition type="config">bound_blood_drop</condition>
         <input>
-            <item>BloodMagic:ItemBloodOrb</item>
+            <item>Blood_magic:Item_blood_orb</item>
             <fluid amount="10000">evilcraftblood</fluid>
         </input>
         <output>
-            <item>evilcraft:boundBloodDrop</item>
+            <item>evilcraft:bound_blood_drop</item>
         </output>
         <properties>
             <duration>1000</duration>
@@ -22,7 +22,7 @@
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
         <condition type="mod">tconstruct</condition>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:blaze_rod</item>
@@ -41,7 +41,7 @@
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
         <condition type="mod">tconstruct</condition>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item meta="3">tconstruct:edible</item>
@@ -60,7 +60,7 @@
     <recipe type="evilcraft:bloodinfuser">
         <tag>convenience</tag>
         <condition type="mod">tconstruct</condition>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:slime_ball</item>
@@ -78,15 +78,15 @@
 
     <recipe type="evilcraft:bloodinfuser">
         <condition type="mod">Thaumcraft</condition>
-        <condition type="config">bloodInfuser</condition>
+        <condition type="config">blood_infuser</condition>
         <condition type="config">evilcraftblood</condition>
-        <condition type="config">bloodWandCap</condition>
+        <condition type="config">blood_wand_cap</condition>
         <input>
             <item meta="1">Thaumcraft:wand_cap</item>
             <fluid amount="2500">evilcraftblood</fluid>
         </input>
         <output>
-            <item>evilcraft:bloodWandCap</item>
+            <item>evilcraft:blood_wand_cap</item>
         </output>
         <properties>
             <tier>1</tier>

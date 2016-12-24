@@ -192,7 +192,7 @@ public class ExcrementPile extends ConfigurableBlock {
 
 
     @Override
-    public void neighborChanged(IBlockState blockState, World world, BlockPos blockPos, Block neighbourBlock) {
+    public void neighborChanged(IBlockState blockState, World world, BlockPos blockPos, Block neighbourBlock, BlockPos fromPos) {
         if (!this.canPlaceBlockAt(world, blockPos)) {
             world.setBlockToAir(blockPos);
         }

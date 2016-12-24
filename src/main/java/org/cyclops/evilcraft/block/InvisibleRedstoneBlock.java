@@ -6,9 +6,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -23,7 +25,7 @@ import org.cyclops.evilcraft.item.RedstoneGrenade;
 import org.cyclops.evilcraft.item.RedstoneGrenadeConfig;
 import org.cyclops.evilcraft.tileentity.TileInvisibleRedstoneBlock;
 
-import java.util.List;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -100,11 +102,12 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
         return true;
     }
 
+    @Nullable
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World world, BlockPos blockPos) {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         return null;
     }
-    
+
     @Override
     public AxisAlignedBB getSelectedBoundingBox(IBlockState blockState, World world, BlockPos blockPos) {
         return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
@@ -117,7 +120,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     
     @SuppressWarnings("rawtypes")
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         // Do not appear in creative tab
     }
 }

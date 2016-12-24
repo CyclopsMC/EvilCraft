@@ -44,7 +44,7 @@ public class WorkerWorkingTileCompat extends SimpleCapabilityConstructor<IWorker
         public boolean hasWork() {
             for(TickComponent ticker : (Collection<TickComponent>) provider.getTickers()) {
                 ItemStack itemStack = provider.getInventory().getStackInSlot(ticker.getSlot());
-                if(itemStack != null) {
+                if(!itemStack.isEmpty()) {
                     ITickAction tickAction;
                     int actionOffset = 0;
                     while((tickAction = ticker.getTickAction(itemStack.getItem(), actionOffset++)) != null

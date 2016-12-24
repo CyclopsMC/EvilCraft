@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "normal": {
+      "model": "evilcraft:hardened_blood"
+    },
+    "inventory": {
+      "model": "evilcraft:hardened_blood"
+    }
+  }
+}

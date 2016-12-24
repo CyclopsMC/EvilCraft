@@ -22,7 +22,7 @@ public class SceptreOfThunderConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "sceptreOfThunder",
+            "sceptre_of_thunder",
             null,
             SceptreOfThunder.class
         );

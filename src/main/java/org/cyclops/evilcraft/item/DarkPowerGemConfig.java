@@ -25,7 +25,7 @@ public class DarkPowerGemConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "darkPowerGem",
+            "dark_power_gem",
             null,
             null
         );

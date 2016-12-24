@@ -52,7 +52,7 @@ public class ParticlePlayerTargettedBlur extends ParticleBlur {
 		//f = 1.0F - f;
 		motionY -= 0.04D * particleGravity;
 		posX = entity.posX + motionX * f;
-		posY = entity.posY + entity.getEyeHeight() - 0.5F + motionY * f + (double)(1.0F - f1) + (Minecraft.getMinecraft().thePlayer == entity ? 0 : 1);
+		posY = entity.posY + entity.getEyeHeight() - 0.5F + motionY * f + (double)(1.0F - f1) + (Minecraft.getMinecraft().player == entity ? 0 : 1);
 		posZ = entity.posZ + motionZ * f;
 	}
 

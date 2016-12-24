@@ -30,7 +30,7 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
             if(production == null) {
                 precondition = true;
             } else if(willProduce != null && production.getItem() == willProduceItem(tile).getItem() && production.getItemDamage() == willProduceItem(tile).getItemDamage()) {
-                if(production.stackSize + willProduce.stackSize <= production.getMaxStackSize())
+                if(production.getCount() + willProduce.getCount() <= production.getMaxStackSize())
                     precondition = true;
             }
         }

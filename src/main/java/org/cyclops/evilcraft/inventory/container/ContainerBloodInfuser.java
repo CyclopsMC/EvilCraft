@@ -69,15 +69,16 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
         addSlotToContainer(new SlotWorking<TileBloodInfuser>(TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, tile)); // Infuse slot
         addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y) {
 
-            public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
+            @Override
+            public ItemStack onTake(EntityPlayer player, ItemStack itemStack) {
                 IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>
                         recipe = BloodInfuser.getInstance().getRecipeRegistry().
                         findRecipeByOutput(new ItemStackRecipeComponent(itemStack));
                 if(recipe != null) {
-                    EntityHelpers.spawnXpAtPlayer(player.worldObj, player, (int) Math.floor(recipe.getProperties().getXp() * itemStack.stackSize));
+                    EntityHelpers.spawnXpAtPlayer(player.world, player, (int) Math.floor(recipe.getProperties().getXp() * itemStack.getCount()));
                     FMLCommonHandler.instance().bus().post(new BloodInfuserRemoveEvent(player, itemStack));
                 }
-                super.onPickupFromSlot(player, itemStack);
+                return super.onTake(player, itemStack);
             }
 
         }); // Infuse result slot

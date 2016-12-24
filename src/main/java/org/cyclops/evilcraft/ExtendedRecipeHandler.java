@@ -21,6 +21,8 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
+import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.recipe.event.IRecipeOutputObserver;
@@ -88,68 +90,68 @@ public class ExtendedRecipeHandler extends RecipeHandler {
             Enchantment enchant = EnchantmentPoisonTip.getInstance();
             Items.ENCHANTED_BOOK.addEnchantment(poisonTipEnchant, new EnchantmentData(enchant,
                     enchant.getMinLevel()));
-            predefinedItems.put("evilcraft:enchanted_book_poisonTip", poisonTipEnchant);
+            predefinedItems.put("evilcraft:enchanted_book_poison_tip", poisonTipEnchant);
         }
 
         if(Configs.isEnabled(WeatherContainerConfig.class)) {
             ItemStack lightningWeatherContainer = new ItemStack(WeatherContainer.getInstance(), 1,
                     WeatherContainer.WeatherContainerTypes.LIGHTNING.ordinal());
-            predefinedItems.put("evilcraft:lightningWeatherContainer",
+            predefinedItems.put("evilcraft:lightning_weather_container",
                     lightningWeatherContainer);
         }
 
         if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
             ItemStack invertedPotentiaEmpowered = new ItemStack(InvertedPotentia.getInstance(),
                     1, InvertedPotentia.EMPOWERED_META);
-            predefinedItems.put("evilcraft:invertedPotentiaEmpowered",
+            predefinedItems.put("evilcraft:inverted_potentia_empowered",
                     invertedPotentiaEmpowered);
         }
 
         if(Configs.isEnabled(VengeancePickaxeConfig.class)) {
             ItemStack vengeancePickaxeFortune = VengeancePickaxe.createCraftingResult();
-            predefinedItems.put("evilcraft:vengeancePickaxeFortune",
+            predefinedItems.put("evilcraft:vengeance_pickaxe_fortune",
                     vengeancePickaxeFortune);
         }
 
         if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
-            predefinedItems.put("evilcraft:boxOfEternalClosureFilled",
+            predefinedItems.put("evilcraft:box_of_eternal_closure_filled",
                     BoxOfEternalClosure.boxOfEternalClosureFilled);
         }
 
         if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
             ItemStack empoweredInvertedPotentia = new ItemStack(InvertedPotentia.getInstance());
             InvertedPotentia.getInstance().empower(empoweredInvertedPotentia);
-            predefinedItems.put("evilcraft:empoweredInvertedPotentia",
+            predefinedItems.put("evilcraft:empowered_inverted_potentia",
                     empoweredInvertedPotentia);
         }
 
         if(Configs.isEnabled(DarkTankConfig.class)) {
             ItemStack darkTankx9 = new ItemStack(DarkTank.getInstance());
-            ItemBlockFluidContainer item = ((ItemBlockFluidContainer) darkTankx9.getItem());
-            item.setCapacity(darkTankx9, item.getCapacity(darkTankx9) * 9);
-            predefinedItems.put("evilcraft:darkTankx9", darkTankx9);
+            IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(darkTankx9);
+            fluidHandler.setCapacity(fluidHandler.getCapacity() * 9);
+            predefinedItems.put("evilcraft:dark_tankx9", darkTankx9);
         }
 
         if(PotentiaSphereConfig.enderPearlRecipe) {
-            predefinedValues.add("evilcraft:enderPearlRecipe");
+            predefinedValues.add("evilcraft:ender_pearl_recipe");
         }
 
         if(Configs.isEnabled(VeinSwordConfig.class)) {
             ItemStack veinSwordLooting = VeinSword.createCraftingResult();
-            predefinedItems.put("evilcraft:veinSwordLooting",
+            predefinedItems.put("evilcraft:vein_sword_looting",
                     veinSwordLooting);
         }
 
         if(WeatherContainerConfig.shapelessRecipes) {
-            predefinedValues.add("evilcraft:shapelessRecipes");
+            predefinedValues.add("evilcraft:shapeless_recipes");
         }
 
         if(Configs.isEnabled(BroomConfig.class)) {
             for (IBroomPart broomPart : BroomParts.REGISTRY.getParts()) {
                 String id = String.format("%s:%s:%s",
                         broomPart.getId().getResourceDomain(), "broompart", broomPart.getId().getResourcePath());
-                ItemStack itemStack = Iterables.getFirst(BroomParts.REGISTRY.getItemsFromPart(broomPart), null);
-                if (itemStack != null) {
+                ItemStack itemStack = Iterables.getFirst(BroomParts.REGISTRY.getItemsFromPart(broomPart), ItemStack.EMPTY);
+                if (!itemStack.isEmpty()) {
                     predefinedItems.put(id, itemStack);
                 }
             }
@@ -163,12 +165,12 @@ public class ExtendedRecipeHandler extends RecipeHandler {
             ItemStack poisonBucket = new ItemStack(Items.BUCKET);
             IFluidHandler fluidHandler = FluidUtil.getFluidHandler(poisonBucket);
             fluidHandler.fill(new FluidStack(Poison.getInstance(), Fluid.BUCKET_VOLUME), true);
-            predefinedItems.put("evilcraft:bucketPoison", poisonBucket);
+            predefinedItems.put("evilcraft:bucket_poison", poisonBucket);
         }
 
         ItemStack potionPoison = new ItemStack(Items.POTIONITEM);
         PotionUtils.addPotionToItemStack(potionPoison, PotionType.getPotionTypeForName("poison"));
-        predefinedItems.put("minecraft:potionPoison", potionPoison);
+        predefinedItems.put("minecraft:potion_poison", potionPoison);
     }
 
     @Override
@@ -187,8 +189,8 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                 @Override
                 public ItemStack getRecipeOutput(InventoryCrafting craftingGrid, ItemStack output) {
                     ItemStack newStack = output.copy();
-                    EntangledChaliceItem item = (EntangledChaliceItem) Item.getItemFromBlock(EntangledChalice.getInstance());
-                    item.setNextTankID(newStack);
+                    EntangledChaliceItem.FluidHandler fluidHandler = (EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(newStack);
+                    fluidHandler.setNextTankID();
                     return newStack;
                 }
             }));
@@ -201,9 +203,8 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                 @Override
                 public ItemStack getRecipeOutput(InventoryCrafting craftingGrid, ItemStack output) {
                     ItemStack newStack = output.copy();
-                    EntangledChaliceItem item = (EntangledChaliceItem) Item.getItemFromBlock(EntangledChalice.getInstance());
-                    String tankID = item.getTankID(craftingGrid.getStackInSlot(4));
-                    item.setTankID(newStack, tankID);
+                    String tankID = ((EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(craftingGrid.getStackInSlot(4))).getTankID();
+                    ((EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(newStack)).setTankID(tankID);
                     return newStack;
                 }
             }));
@@ -213,7 +214,7 @@ public class ExtendedRecipeHandler extends RecipeHandler {
         if(Configs.isEnabled(DarkTankConfig.class)) {
             for(int i = 1; i < 9; i++) {
                 ItemBlockFluidContainer tankItem = (ItemBlockFluidContainer) Item.getItemFromBlock(DarkTank.getInstance());
-                GameRegistry.addRecipe(new ItemBlockFluidContainerCombinationRecipe(i, tankItem));
+                GameRegistry.addRecipe(new ItemBlockFluidContainerCombinationRecipe(i, tankItem, DarkTankConfig.maxTankSize));
             }
         }
 
@@ -242,7 +243,7 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                 WeatherType[] weatherOutputs = {WeatherType.RAIN, WeatherType.RAIN, WeatherType.CLEAR};
 
                 for (int i=0; i < weatherInputs.length; ++i) {
-                    recipeName = "WeatherContainer" + weatherInputs[i].getClass().getSimpleName();
+                    recipeName = "weather_container" + weatherInputs[i].getClass().getSimpleName();
                     outputStack = WeatherContainer.createItemStack(
                             WeatherContainer.WeatherContainerTypes.getWeatherContainerType(weatherInputs[i]), 1);
 
@@ -293,7 +294,7 @@ public class ExtendedRecipeHandler extends RecipeHandler {
 
             // Display Stand crafting
             if(Configs.isEnabled(DisplayStandConfig.class)) {
-                getTaggedOutput().put("displayStands", DisplayStand.getInstance().
+                getTaggedOutput().put("display_stands", DisplayStand.getInstance().
                         getTypedDisplayStandItem(Blocks.PLANKS.getDefaultState()));
                 GameRegistry.addRecipe(new DisplayStandRecipe(OreDictionary.getOres(Reference.DICT_WOODPLANK)));
             }

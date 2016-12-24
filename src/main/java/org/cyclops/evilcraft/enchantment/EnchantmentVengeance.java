@@ -70,11 +70,11 @@ public class EnchantmentVengeance extends ConfigurableEnchantment {
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
         EntityPlayer player = event.getPlayer();
-        if (player != null && !player.worldObj.isRemote) {
+        if (player != null && !player.world.isRemote) {
             ItemStack heldItem = player.getHeldItem(player.getActiveHand());
             int level = getEnchantLevel(heldItem);
             if (level > 0) {
-                apply(player.worldObj, level, player);
+                apply(player.world, level, player);
             }
         }
     }
@@ -82,18 +82,18 @@ public class EnchantmentVengeance extends ConfigurableEnchantment {
     @SubscribeEvent
     public void onAttack(LivingAttackEvent event) {
         Entity entity = event.getSource().getEntity();
-        if (entity instanceof EntityPlayer && !entity.worldObj.isRemote) {
+        if (entity instanceof EntityPlayer && !entity.world.isRemote) {
             EntityPlayer player = (EntityPlayer) entity;
             ItemStack heldItem = player.getHeldItem(player.getActiveHand());
             int level = getEnchantLevel(heldItem);
             if (level > 0) {
-                apply(player.worldObj, level, player);
+                apply(player.world, level, player);
             }
         }
     }
 
     public static int getEnchantLevel(ItemStack itemStack) {
-        if (itemStack == null) {
+        if (itemStack.isEmpty()) {
             return 0;
         }
         return EnchantmentHelper.getEnchantmentLevel(EnchantmentVengeance.getInstance(), itemStack);

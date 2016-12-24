@@ -185,7 +185,7 @@ public class BroomModifiers {
                         broom.getEntityBoundingBox().maxX + x - r,
                         broom.getEntityBoundingBox().maxY + y - r + 1D,
                         broom.getEntityBoundingBox().maxZ + z - r);
-                World world = broom.worldObj;
+                World world = broom.world;
                 float maxHardness = modifierValue;
                 float toughnessModifier = Math.min(1F, 0.5F + (broom.getModifier(BroomModifiers.STURDYNESS) / (BroomModifiers.STURDYNESS.getMaxTierValue() * 1.5F) / 2F));
                 EntityLivingBase ridingEntity = broom.getControllingPassenger() instanceof EntityLivingBase ? (EntityLivingBase) broom.getControllingPassenger() : null;
@@ -210,7 +210,7 @@ public class BroomModifiers {
                                             // Inspired by TCon's block breaking code
 
                                             // Destroy the block
-                                            if (!broom.worldObj.isRemote) {
+                                            if (!broom.world.isRemote) {
                                                 EntityPlayerMP playerMp = (EntityPlayerMP) player;
                                                 int expToDrop = ForgeHooks.onBlockBreakEvent(world, playerMp.interactionManager.getGameType(), (EntityPlayerMP) player, pos);
                                                 if (expToDrop >= 0) {
@@ -257,7 +257,7 @@ public class BroomModifiers {
                     double dx = entity.posX - broom.posX;
                     double dy = entity.posY + (double)entity.getEyeHeight() - broom.posY;
                     double dz = entity.posZ - broom.posZ;
-                    double d = (double) MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
+                    double d = (double) MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
                     if (d != 0.0D) {
                         dx /= d;
                         dy /= d;
@@ -265,8 +265,8 @@ public class BroomModifiers {
                         entity.motionX += dx * power;
                         entity.motionY += dy * power;
                         entity.motionZ += dz * power;
-                        if (broom.worldObj.isRemote) {
-                            MaceOfDistortion.showEntityDistored(broom.worldObj, null, entity, (int) (power / 10F));
+                        if (broom.world.isRemote) {
+                            MaceOfDistortion.showEntityDistored(broom.world, null, entity, (int) (power / 10F));
                         }
                     }
                 }
@@ -277,7 +277,7 @@ public class BroomModifiers {
         KAMIKAZE.addCollisionListener(new BroomModifier.ICollisionListener() {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
-                World world = broom.worldObj;
+                World world = broom.world;
                 float power = (modifierValue * (float) broom.getLastPlayerSpeed()) / 5F;
                 if (power > 0 && broom.getControllingPassenger() != null) {
                     broom.dismountRidingEntity();
@@ -337,7 +337,7 @@ public class BroomModifiers {
                 && event.getSource().getSourceOfDamage() instanceof IProjectile) {
             EntityBroom broom = (EntityBroom) event.getEntityLiving().getRidingEntity();
             float modifierValue = broom.getModifier(BroomModifiers.WITHERSHIELD);
-            if (modifierValue > 0 && modifierValue > broom.worldObj.rand.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
+            if (modifierValue > 0 && modifierValue > broom.world.rand.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
                 event.setCanceled(true);
             }
         }

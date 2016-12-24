@@ -30,7 +30,7 @@ public class PotentiaSphereConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
             true,
-            "potentiaSphere",
+            "potentia_sphere",
             null,
             null
         );

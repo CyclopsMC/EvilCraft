@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -62,10 +63,10 @@ public class ResurgenceEgg extends ConfigurableItem {
      * @param itemStack The item stack.
      * @return The ID.
      */
-    public String getEntityString(ItemStack itemStack) {
+    public ResourceLocation getEntityString(ItemStack itemStack) {
     	NBTTagCompound tag = itemStack.getTagCompound();
 		if(tag != null) {
-			return tag.getString(NBTKEY_ENTITY);
+			return new ResourceLocation(tag.getString(NBTKEY_ENTITY));
 		}
 		return null;
     }
@@ -96,16 +97,17 @@ public class ResurgenceEgg extends ConfigurableItem {
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         String content = TextFormatting.ITALIC + L10NHelpers.localize("general.info.empty");
-        String id = getEntityString(itemStack);
+        ResourceLocation id = getEntityString(itemStack);
 		if(id != null) {
-			content = L10NHelpers.getLocalizedEntityName(id);
+			content = L10NHelpers.getLocalizedEntityName(id.toString());
 		}
 		list.add(TextFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
                 TextFormatting.RESET + content));
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         if (world.isRemote) {
             return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
         } else {
@@ -130,7 +132,7 @@ public class ResurgenceEgg extends ConfigurableItem {
                                 entity.setCustomNameTag(itemStack.getDisplayName());
                             }
                             if (!player.capabilities.isCreativeMode) {
-                                --itemStack.stackSize;
+                                itemStack.shrink(1);
                             }
                         }
                     }
@@ -149,14 +151,14 @@ public class ResurgenceEgg extends ConfigurableItem {
      * @param z Z
      * @return The spawned entity, could be null if not spawnable.
      */
-    public static Entity spawnCreature(World world, String entityString, double x, double y, double z) {
-    	Entity entity = EntityList.createEntityByName(entityString, world);
+    public static Entity spawnCreature(World world, ResourceLocation entityString, double x, double y, double z) {
+    	Entity entity = EntityList.createEntityByIDFromName(entityString, world);
         if (entity != null && entity instanceof EntityLivingBase) {
             EntityLiving entityliving = (EntityLiving)entity;
             entity.setLocationAndAngles(x, y, z, MathHelper.wrapDegrees(world.rand.nextFloat() * 360.0F), 0.0F);
             entityliving.rotationYawHead = entityliving.rotationYaw;
             entityliving.renderYawOffset = entityliving.rotationYaw;
-            world.spawnEntityInWorld(entity);
+            world.spawnEntity(entity);
             entityliving.playLivingSound();
         }
         return entity;

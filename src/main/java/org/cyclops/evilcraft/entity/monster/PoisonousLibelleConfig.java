@@ -58,7 +58,7 @@ public class PoisonousLibelleConfig extends MobConfig<PoisonousLibelle> {
         super(
                 EvilCraft._instance,
         	true,
-            "poisonousLibelle",
+            "poisonous_libelle",
             null,
             PoisonousLibelle.class
         );

@@ -52,7 +52,7 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
             }
         } else {
             // We might be dealing with a bucket
-            ItemStack result = FluidUtil.tryFillContainer(infuseStack, tile.getTank(), Integer.MAX_VALUE, null, true);
+            ItemStack result = FluidUtil.tryFillContainer(infuseStack, tile.getTank(), Integer.MAX_VALUE, null, true).getResult();
             if (addToProduceSlot(tile, result)) {
                 tile.getInventory().decrStackSize(tile.getConsumeSlot(), 1);
             }
@@ -67,17 +67,17 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
     @Override
     public ItemStack willProduceItem(TileBloodInfuser tile) {
         ItemStack itemStack = tile.getInventory().getStackInSlot(tile.getConsumeSlot());
-        if (itemStack == null) {
+        if (itemStack.isEmpty()) {
             return null;
         }
         if (FluidUtil.getFluidHandler(itemStack) instanceof FluidContainerItemWrapperWithSimulation) {
             return null;
         }
-        ItemStack smallContainer = FluidUtil.tryFillContainer(itemStack, tile.getTank(), MB_PER_TICK, null, false);
-        if (smallContainer != null) {
+        ItemStack smallContainer = FluidUtil.tryFillContainer(itemStack, tile.getTank(), MB_PER_TICK, null, false).getResult();
+        if (!smallContainer.isEmpty()) {
             return smallContainer;
         }
-        return FluidUtil.tryFillContainer(itemStack, tile.getTank(), Fluid.BUCKET_VOLUME, null, false);
+        return FluidUtil.tryFillContainer(itemStack, tile.getTank(), Fluid.BUCKET_VOLUME, null, false).getResult();
     }
     
 }

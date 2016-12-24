@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.Fluid;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -22,7 +22,7 @@ public class InvigoratingPendantConfig extends ItemConfig {
      * The capacity of the pendant.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The capacity of the pendant.", requiresMcRestart = true)
-    public static int capacity = FluidContainerRegistry.BUCKET_VOLUME * 5;
+    public static int capacity = Fluid.BUCKET_VOLUME * 5;
     
     /**
      * The amount of Blood to drain after one reduction/clearing of one bad effect.
@@ -49,7 +49,7 @@ public class InvigoratingPendantConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "invigoratingPendant",
+            "invigorating_pendant",
             null,
             InvigoratingPendant.class
         );

@@ -33,7 +33,7 @@ public class GemStoneTorchConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "gemStoneTorch",
+            "gem_stone_torch",
             null,
             null
         );

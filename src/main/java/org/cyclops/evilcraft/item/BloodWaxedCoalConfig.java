@@ -27,7 +27,7 @@ public class BloodWaxedCoalConfig extends ItemConfig implements IFuelHandler {
         super(
                 EvilCraft._instance,
         	true,
-            "bloodWaxedCoal",
+            "blood_waxed_coal",
             null,
             null
         );

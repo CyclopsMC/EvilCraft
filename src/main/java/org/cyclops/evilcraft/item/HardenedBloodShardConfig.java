@@ -37,7 +37,7 @@ public class HardenedBloodShardConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "hardenedBloodShard",
+            "hardened_blood_shard",
             null,
             null
         );

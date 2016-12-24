@@ -26,7 +26,7 @@ public class EnvironmentalAccumulationCoreConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
             true,
-            "environmentalAccumulationCore",
+            "environmental_accumulation_core",
             null,
             null
         );

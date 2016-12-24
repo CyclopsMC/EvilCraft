@@ -22,7 +22,7 @@ public class DarkPowerGemBlockConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "darkPowerGemBlock",
+            "dark_power_gem_block",
             null,
             DarkPowerGemBlock.class
         );

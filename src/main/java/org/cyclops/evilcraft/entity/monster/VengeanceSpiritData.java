@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class VengeanceSpiritData {
         setSwarmTier(getRandomSwarmTier(random));
     }
 
-    public String getSpiritNameOrNull() {
+    public ResourceLocation getSpiritNameOrNull() {
         return getSpiritNameOrNullFromInnerEntity(getInnerEntityName());
     }
 
@@ -95,8 +96,8 @@ public class VengeanceSpiritData {
             return getPlayerName();
         }
 
-        String key = hasInnerEntity() ? getSpiritNameOrNull() : VengeanceSpirit.DEFAULT_L10N_KEY;
-        return L10NHelpers.getLocalizedEntityName(key);
+        ResourceLocation key = hasInnerEntity() ? getSpiritNameOrNull() : VengeanceSpirit.DEFAULT_L10N_KEY;
+        return L10NHelpers.getLocalizedEntityName(key.toString());
     }
 
     public void readNBT(NBTTagCompound tag) {
@@ -130,7 +131,7 @@ public class VengeanceSpiritData {
         if(eggList.size() > 0) {
             EntityList.EntityEggInfo egg = eggList.get(rand.nextInt(eggList.size()));
             if(egg != null) {
-                Class<Entity> clazz = (Class<Entity>) EntityList.NAME_TO_CLASS.get(egg.spawnedID);
+                Class<Entity> clazz = (Class<Entity>) EntityList.getClass(egg.spawnedID);
                 if(clazz != null) {
                     return clazz.getName();
                 }
@@ -143,7 +144,7 @@ public class VengeanceSpiritData {
         return rand.nextInt(SWARM_TIERS);
     }
 
-    public static String getSpiritNameOrNullFromNBTTag(NBTTagCompound tag) {
+    public static ResourceLocation getSpiritNameOrNullFromNBTTag(NBTTagCompound tag) {
         if(tag != null && !tag.hasNoTags()) {
             String innerEntity = tag.getString(NBTKEY_INNER_SPIRIT);
             return getSpiritNameOrNullFromInnerEntity(innerEntity);
@@ -151,15 +152,15 @@ public class VengeanceSpiritData {
         return null;
     }
 
-    private static String getSpiritNameOrNullFromInnerEntity(String innerEntity) {
+    private static ResourceLocation getSpiritNameOrNullFromInnerEntity(String innerEntity) {
         if (innerEntity == null || innerEntity.isEmpty())
             return VengeanceSpirit.DEFAULT_L10N_KEY;
 
         return getSpiritNameOrNullFromClassSafe(innerEntity);
     }
 
-    private static String getSpiritNameOrNullFromClassSafe(String className) {
-        String spiritName = null;
+    private static ResourceLocation getSpiritNameOrNullFromClassSafe(String className) {
+        ResourceLocation spiritName = null;
         try {
             spiritName = getSpiritNameOrNullFromClass(className);
         } catch (ClassNotFoundException e) {
@@ -168,10 +169,10 @@ public class VengeanceSpiritData {
         return spiritName;
     }
 
-    private static String getSpiritNameOrNullFromClass(String className) throws ClassNotFoundException {
-        Class<?> clazz = Class.forName(className);
+    private static ResourceLocation getSpiritNameOrNullFromClass(String className) throws ClassNotFoundException {
+        Class<? extends Entity> clazz = (Class<? extends Entity>) Class.forName(className);
         if(!VengeanceSpirit.canSustainClass(clazz)) return null;
-        return (String) EntityList.CLASS_TO_NAME.get(clazz);
+        return EntityList.getKey(clazz);
     }
 
     public static VengeanceSpiritData fromNBT(NBTTagCompound tag) {

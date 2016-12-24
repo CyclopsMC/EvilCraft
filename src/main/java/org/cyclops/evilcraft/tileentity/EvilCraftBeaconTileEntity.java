@@ -107,8 +107,8 @@ public abstract class EvilCraftBeaconTileEntity extends CyclopsTileEntity implem
         if (!this.isBeamActive()) {
             return 0.0F;
         } else {
-            int diff = (int)(this.worldObj.getTotalWorldTime() - lastUpdated);
-            lastUpdated = this.worldObj.getTotalWorldTime();
+            int diff = (int)(this.world.getTotalWorldTime() - lastUpdated);
+            lastUpdated = this.world.getTotalWorldTime();
 
             if (diff > 1) {
                 this.renderVariable -= (float)diff / 40.0F;

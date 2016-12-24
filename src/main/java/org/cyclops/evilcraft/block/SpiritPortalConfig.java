@@ -26,7 +26,7 @@ public class SpiritPortalConfig extends BlockContainerConfig {
 		super(
 				EvilCraft._instance,
 				true,
-				"spiritPortal",
+				"spirit_portal",
 				null,
 				SpiritPortal.class
 		);

@@ -47,7 +47,7 @@ public class DarkenedApple extends ConfigurableItemFood {
     public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer player, EntityLivingBase entity, EnumHand hand) {
         if(entity instanceof IAnimals && entity.getMaxHealth() <= 10) {
             entity.addPotionEffect(new PotionEffect(POTION, POTION_DURATION * 20, POTION_AMPLIFIER));
-            --itemStack.stackSize;
+            itemStack.shrink(1);
             return true;
         }
         return super.itemInteractionForEntity(itemStack, player, entity, hand);

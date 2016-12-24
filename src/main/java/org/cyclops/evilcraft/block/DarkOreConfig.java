@@ -46,7 +46,7 @@ public class DarkOreConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "darkOre",
+            "dark_ore",
             null,
             DarkOre.class
         );

@@ -1,0 +1,11 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "active=false": { "model": "evilcraft:dark_blood_brick_off" },
+    "active=true": { "model": "evilcraft:dark_blood_brick_on" },
+    "inventory": { "model": "evilcraft:dark_blood_brick_off" }
+  }
+}

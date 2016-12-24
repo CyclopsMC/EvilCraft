@@ -4,14 +4,13 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
-
-import java.util.List;
 
 /**
  * Config for the Vengeance Essence.
@@ -32,7 +31,7 @@ public class VengeanceEssenceConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
             true,
-            "vengeanceEssence",
+            "vengeance_essence",
             null,
             null
         );
@@ -49,7 +48,7 @@ public class VengeanceEssenceConfig extends ItemConfig {
             @SuppressWarnings({ "rawtypes", "unchecked" })
             @Override
             @SideOnly(Side.CLIENT)
-            public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
+            public void getSubItems(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
                 for(int i = 0; i < 2; i++) {
                     list.add(new ItemStack(item, 1, i));
                 }

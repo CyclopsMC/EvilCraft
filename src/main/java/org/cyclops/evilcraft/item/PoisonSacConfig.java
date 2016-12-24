@@ -23,7 +23,7 @@ public class PoisonSacConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "poisonSac",
+            "poison_sac",
             null,
             null
         );

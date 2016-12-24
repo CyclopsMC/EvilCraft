@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -77,7 +78,7 @@ public class Promise extends ConfigurableItem {
 
     @Override
     public int getItemStackLimit(ItemStack itemStack) {
-        if(itemStack.getItemDamage() <= 2) { // All the 'tier' upgrades can only have stacksize 1.
+        if(itemStack.getItemDamage() <= 2) { // All the 'tier' upgrades can only have StackSize 1.
             return 1;
         }
         return super.getItemStackLimit(itemStack);
@@ -99,7 +100,7 @@ public class Promise extends ConfigurableItem {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubItems(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         for(int i = 0; i < UPGRADES.length; i++) {
             list.add(new ItemStack(item, 1, i));
         }
@@ -124,7 +125,7 @@ public class Promise extends ConfigurableItem {
      * @return If the upgrade is a tier upgrade.
      */
     public boolean isTierUpgrade(ItemStack itemStack) {
-        return itemStack != null && itemStack.getItemDamage() <= 2;
+        return !itemStack.isEmpty() && itemStack.getItemDamage() <= 2;
     }
 
     @Override

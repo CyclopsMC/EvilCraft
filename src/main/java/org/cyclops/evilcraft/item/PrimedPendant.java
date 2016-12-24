@@ -161,7 +161,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     @Override
     public void onWornTick(ItemStack itemStack, EntityLivingBase entity) {
         if(BaublesModCompat.canUse()) {
-            this.onUpdate(itemStack, entity.worldObj, entity, 0, false);
+            this.onUpdate(itemStack, entity.world, entity, 0, false);
         }
     }
 
@@ -209,14 +209,14 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     }
 
     @Override
-    public boolean onDroppedByPlayer(ItemStack itemstack, EntityPlayer player) {
-        if(itemstack != null
+    public boolean onDroppedByPlayer(ItemStack itemStack, EntityPlayer player) {
+        if(!itemStack.isEmpty()
                 && player instanceof EntityPlayerMP
                 && player.openContainer != null
                 && player.openContainer.getClass() == getContainer()) {
             ((EntityPlayerMP) player).closeScreen();
         }
-        return super.onDroppedByPlayer(itemstack, player);
+        return super.onDroppedByPlayer(itemStack, player);
     }
 
     /**
@@ -237,7 +237,8 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         openGuiForItemIndex(world, player, player.inventory.currentItem);
         return MinecraftHelpers.successAction(itemStack);
     }

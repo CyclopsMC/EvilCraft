@@ -25,16 +25,16 @@ public class FartKeyHandler implements IKeyHandler {
 	
 	@Override
 	public void onKeyPressed(KeyBinding kb) {
-		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayerSP player = Minecraft.getMinecraft().player;
 		GameSettings settings = Minecraft.getMinecraft().gameSettings;
 		
 		if (kb == Keys.FART) {
 			fartingEnabled = !fartingEnabled;
 			
 			if (fartingEnabled)
-				player.addChatComponentMessage(new TextComponentString(L10NHelpers.localize("chat.evilcraft.command.fartingEnabled")));
+				player.sendMessage(new TextComponentString(L10NHelpers.localize("chat.evilcraft.command.farting_enabled")));
 			else
-				player.addChatComponentMessage(new TextComponentString(L10NHelpers.localize("chat.evilcraft.command.fartingDisabled")));
+				player.sendMessage(new TextComponentString(L10NHelpers.localize("chat.evilcraft.command.farting_disabled")));
 		}
 		
 		if (fartingEnabled && kb == settings.keyBindSneak) {

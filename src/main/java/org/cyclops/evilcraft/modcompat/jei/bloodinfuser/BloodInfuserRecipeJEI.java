@@ -46,24 +46,9 @@ public class BloodInfuserRecipeJEI extends BlankRecipeWrapper {
 
     @Override
     public void getIngredients(IIngredients ingredients) {
-        ingredients.setInputs(ItemStack.class, getInputs());
-        ingredients.setOutputs(ItemStack.class, getOutputs());
-        ingredients.setInputs(FluidStack.class, getFluidInputs());
-    }
-
-    @Override
-    public List getInputs() {
-        return input;
-    }
-
-    @Override
-    public List getOutputs() {
-        return output;
-    }
-
-    @Override
-    public List<FluidStack> getFluidInputs() {
-        return Lists.newArrayList(fluidStack);
+        ingredients.setInputs(ItemStack.class, input);
+        ingredients.setOutputs(ItemStack.class, output);
+        ingredients.setInputs(FluidStack.class, Lists.newArrayList(fluidStack));
     }
 
     public static List<BloodInfuserRecipeJEI> getAllRecipes() {

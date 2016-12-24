@@ -7,7 +7,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -50,7 +49,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
      * Make a new instance.
      */
     public TileSanguinaryPedestal() {
-        super(0, PurifierConfig._instance.getNamedId(), 1, FluidContainerRegistry.BUCKET_VOLUME * TANK_BUCKETS,
+        super(0, PurifierConfig._instance.getNamedId(), 1, Fluid.BUCKET_VOLUME * TANK_BUCKETS,
         		SanguinaryPedestalConfig._instance.getNamedId() + "tank", FLUID);
     }
 

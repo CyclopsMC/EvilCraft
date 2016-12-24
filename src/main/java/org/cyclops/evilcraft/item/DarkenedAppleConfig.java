@@ -22,7 +22,7 @@ public class DarkenedAppleConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "darkenedApple",
+            "darkened_apple",
             null,
             DarkenedApple.class
         );

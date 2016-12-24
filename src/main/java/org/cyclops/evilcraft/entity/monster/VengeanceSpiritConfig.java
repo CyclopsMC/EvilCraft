@@ -74,7 +74,7 @@ VengeanceSpiritConfig extends MobConfig<VengeanceSpirit> {
         super(
                 EvilCraft._instance,
         	true,
-            "vengeanceSpirit",
+            "vengeance_spirit",
             null,
             VengeanceSpirit.class
         );

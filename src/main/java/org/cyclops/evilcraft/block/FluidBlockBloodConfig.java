@@ -23,7 +23,7 @@ public class FluidBlockBloodConfig extends BlockFluidConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "blockBlood",
+            "block_blood",
             null,
             FluidBlockBlood.class
         );

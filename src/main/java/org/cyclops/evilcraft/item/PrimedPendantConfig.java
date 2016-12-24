@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.item;
 import com.google.common.collect.Maps;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.Potion;
-import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.Fluid;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
@@ -30,7 +30,7 @@ public class PrimedPendantConfig extends ItemConfig {
      * The capacity of the pendant.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The capacity of the pendant.", requiresMcRestart = true)
-    public static int capacity = FluidContainerRegistry.BUCKET_VOLUME * 5;
+    public static int capacity = Fluid.BUCKET_VOLUME * 5;
 
     /**
      * The amount of Blood to drain after one effect application.
@@ -58,7 +58,7 @@ public class PrimedPendantConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
                 true,
-                "primedPendant",
+                "primed_pendant",
                 null,
                 PrimedPendant.class
         );

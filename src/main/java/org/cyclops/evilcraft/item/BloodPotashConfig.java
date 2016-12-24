@@ -22,7 +22,7 @@ public class BloodPotashConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "bloodPotash",
+            "blood_potash",
             null,
             BloodPotash.class
         );

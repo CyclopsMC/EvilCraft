@@ -26,7 +26,7 @@ public class OriginsOfDarknessConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "originsOfDarkness",
+            "origins_of_darkness",
             null,
             OriginsOfDarkness.class
         );

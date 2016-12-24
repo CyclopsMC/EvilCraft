@@ -23,7 +23,7 @@ public class WerewolfBoneConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "werewolfBone",
+            "werewolf_bone",
             null,
             null
         );

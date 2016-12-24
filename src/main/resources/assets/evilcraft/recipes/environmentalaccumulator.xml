@@ -2,14 +2,14 @@
 <recipes>
     
     <recipe type="evilcraft:environmentalaccumulator">
-        <condition type="config">environmentalAccumulator</condition>
-        <condition type="config">invertedPotentia</condition>
+        <condition type="config">environmental_accumulator</condition>
+        <condition type="config">inverted_potentia</condition>
         <input>
-            <item>evilcraft:invertedPotentia</item>
+            <item>evilcraft:inverted_potentia</item>
             <weather>LIGHTNING</weather>
         </input>
         <output>
-            <item type="predefined">evilcraft:empoweredInvertedPotentia</item>
+            <item type="predefined">evilcraft:empowered_inverted_potentia</item>
             <weather>RAIN</weather>
         </output>
         <properties>
@@ -19,14 +19,14 @@
     </recipe>
     
     <recipe type="evilcraft:environmentalaccumulator">
-        <condition type="config">environmentalAccumulator</condition>
-        <condition type="config">exaltedCrafter</condition>
+        <condition type="config">environmental_accumulator</condition>
+        <condition type="config">exalted_crafter</condition>
         <input>
-            <item meta="0">evilcraft:exaltedCrafter</item>
+            <item meta="0">evilcraft:exalted_crafter</item>
             <weather>LIGHTNING</weather>
         </input>
         <output>
-            <item meta="2">evilcraft:exaltedCrafter</item>
+            <item meta="2">evilcraft:exalted_crafter</item>
             <weather>RAIN</weather>
         </output>
         <properties>
@@ -36,14 +36,14 @@
     </recipe>
     
     <recipe type="evilcraft:environmentalaccumulator">
-        <condition type="config">environmentalAccumulator</condition>
-        <condition type="config">exaltedCrafter</condition>
+        <condition type="config">environmental_accumulator</condition>
+        <condition type="config">exalted_crafter</condition>
         <input>
-            <item meta="1">evilcraft:exaltedCrafter</item>
+            <item meta="1">evilcraft:exalted_crafter</item>
             <weather>LIGHTNING</weather>
         </input>
         <output>
-            <item meta="3">evilcraft:exaltedCrafter</item>
+            <item meta="3">evilcraft:exalted_crafter</item>
             <weather>RAIN</weather>
         </output>
         <properties>

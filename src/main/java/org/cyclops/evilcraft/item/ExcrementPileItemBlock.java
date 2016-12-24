@@ -29,7 +29,8 @@ public class ExcrementPileItemBlock extends ItemBlock {
     }
     
     @Override
-    public EnumActionResult onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos blockPos, EnumHand hand, EnumFacing side, float coordX, float coordY, float coordZ) {
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos blockPos, EnumHand hand, EnumFacing side, float coordX, float coordY, float coordZ) {
+        ItemStack itemStack = player.getHeldItem(hand);
 		Block block = world.getBlockState(blockPos).getBlock();
         if(player.isSneaking()) {
             boolean done = false;
@@ -39,23 +40,23 @@ public class ExcrementPileItemBlock extends ItemBlock {
                 attempts++;
             }
             if(done) {
-                itemStack.stackSize--;
+                itemStack.shrink(1);
                 if (!world.isRemote) {
                     world.playBroadcastSound(2005, blockPos, 0);
                 }
                 return EnumActionResult.SUCCESS;
             }
         } else {
-            if (block == ExcrementPile.getInstance() && itemStack != null) {
+            if (block == ExcrementPile.getInstance() && !itemStack.isEmpty()) {
                 if(ExcrementPile.getInstance().canHeightenPileAt(world, blockPos)) {
                     ExcrementPile.getInstance().heightenPileAt(world, blockPos);
-                    itemStack.stackSize--;
+                    itemStack.shrink(1);
                     return EnumActionResult.SUCCESS;
                 }
                 return EnumActionResult.PASS;
             }
         }
-        return super.onItemUse(itemStack, player, world, blockPos, hand, side, coordX, coordY, coordZ);
+        return super.onItemUse(player, world, blockPos, hand, side, coordX, coordY, coordZ);
     }
 
 }

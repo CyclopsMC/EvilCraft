@@ -27,7 +27,7 @@ public class DarkBrickConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "darkBrick",
+            "dark_brick",
             null,
             null
         );

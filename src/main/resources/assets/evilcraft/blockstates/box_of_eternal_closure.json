@@ -1,0 +1,10 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "normal": { "model": "evilcraft:box_of_eternal_closure" },
+    "inventory": { "model": "evilcraft:box_of_eternal_closure" }
+  }
+}

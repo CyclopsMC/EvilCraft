@@ -69,12 +69,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     }
 
     @Override
-    public String getTankNBTName() {
-        return TileBloodInfuser.TANKNAME;
-    }
-
-    @Override
-    public int getMaxCapacity() {
+    public int getDefaultCapacity() {
         return TileBloodInfuser.LIQUID_PER_SLOT;
     }
 

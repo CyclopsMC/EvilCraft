@@ -24,7 +24,7 @@ public class PromiseAcceptorConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "promiseAcceptor",
+            "promise_acceptor",
             null,
             PromiseAcceptor.class
         );

@@ -125,19 +125,19 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
         float f;
         float f1;
 
-        if (this.worldObj.isRemote) {
+        if (this.world.isRemote) {
             f = MathHelper.cos(this.animTime * (float)Math.PI * 2.0F);
             f1 = MathHelper.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
 
             if (f1 <= -0.3F && f >= -0.3F && this.rand.nextInt(45) == 0) {
-                this.worldObj.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_BAT_AMBIENT,
+                this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_BAT_AMBIENT,
                         SoundCategory.AMBIENT, 0.1F, 0.8F + this.rand.nextFloat() * 0.3F);
             }
         }
 
         this.prevAnimTime = this.animTime;
 
-        f = 0.2F / (MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ) * 10.0F + 1.0F);
+        f = 0.2F / (MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ) * 10.0F + 1.0F);
         f *= (float)Math.pow(2.0D, this.motionY);
 
         this.animTime += f;
@@ -149,7 +149,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
         float limitDistanceY;
         double limitDifferenceYaw;
 
-        if (this.worldObj.isRemote) {
+        if (this.world.isRemote) {
             // Correct rotation of the entity when rotating
             if (this.newPosRotationIncrements > 0) {
                 distanceX = this.posX + (this.interpTargetX - this.posX) / (double)this.newPosRotationIncrements;
@@ -199,7 +199,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
                 this.setNewTarget();
             }
 
-            distanceY /= (double) MathHelper.sqrt_double(distanceX * distanceX + distanceZ * distanceZ);
+            distanceY /= (double) MathHelper.sqrt(distanceX * distanceX + distanceZ * distanceZ);
             limitDistanceY = 0.6F;
 
             if (distanceY < (double)(-limitDistanceY)) {
@@ -234,7 +234,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
             }
 
             this.randomYawVelocity *= 0.8F;
-            float motionDistanceHeightPlaneFloat = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ) * 1.0F + 1.0F;
+            float motionDistanceHeightPlaneFloat = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ) * 1.0F + 1.0F;
             double motionDistanceHeightPlane = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ) * 1.0D + 1.0D;
 
             if (motionDistanceHeightPlane > 40.0D) {
@@ -247,7 +247,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
             float staticMotionMultiplier = 0.06F;
             this.moveRelative(0.0F, -1.0F, staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)));
 
-            this.moveEntity(this.motionX, this.motionY, this.motionZ);
+            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 
             Vec3d motionVector = new Vec3d(this.motionX, this.motionY, this.motionZ).normalize();
             float motionRotation = (float)(motionVector.dotProduct(rotationVector) + 1.0D) / 2.0F;
@@ -263,8 +263,8 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
 
         this.renderYawOffset = this.rotationYaw;
         
-        if (!this.worldObj.isRemote && this.hurtTime == 0 && !this.isDead) {
-            this.attackEntitiesInList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(1.0D, 0.0D, 1.0D)));
+        if (!this.world.isRemote && this.hurtTime == 0 && !this.isDead) {
+            this.attackEntitiesInList(this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(1.0D, 0.0D, 1.0D)));
         }
         
         // Update wing progress
@@ -278,7 +278,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
                 wingGoUp = true;
         }
         
-        if (!this.worldObj.isRemote && this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL) {
+        if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
             this.setDead();
         }
     }
@@ -286,7 +286,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
     private void attackEntitiesInList(List<Entity> entities) {
         int chance = PoisonousLibelleConfig.poisonChance;
         for (Entity entity : entities) {
-            if(chance > 0 && worldObj.rand.nextInt(chance) == 0) {
+            if(chance > 0 && world.rand.nextInt(chance) == 0) {
                 if (entity instanceof EntityLivingBase) {
                     boolean shouldAttack = true;
                     if (entity instanceof EntityPlayer) {
@@ -309,8 +309,8 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
         this.forceNewTarget = false;
 
         boolean targetSet = false;
-        if (this.rand.nextInt(2) == 0 && !this.worldObj.playerEntities.isEmpty() && !this.worldObj.isDaytime()) {
-            this.target = (Entity)this.worldObj.playerEntities.get(this.rand.nextInt(this.worldObj.playerEntities.size()));
+        if (this.rand.nextInt(2) == 0 && !this.world.playerEntities.isEmpty() && !this.world.isDaytime()) {
+            this.target = (Entity)this.world.playerEntities.get(this.rand.nextInt(this.world.playerEntities.size()));
             targetSet = true;
             if(target instanceof EntityPlayer) {
                 if(((EntityPlayer)target).capabilities.isCreativeMode) {

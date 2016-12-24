@@ -34,10 +34,11 @@ public class SceptreOfThunder extends ConfigurableItem {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         WeatherTypeLightning.activateThunder(world);
         EntityWeatherContainer.playImpactSounds(world);
-        if(!player.capabilities.isCreativeMode) --itemStack.stackSize;
+        if(!player.capabilities.isCreativeMode) itemStack.shrink(1);
         return MinecraftHelpers.successAction(itemStack);
     }
 

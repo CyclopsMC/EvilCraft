@@ -22,7 +22,7 @@ public class WerewolfFurConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "werewolfFur",
+            "werewolf_fur",
             null,
             null
         );

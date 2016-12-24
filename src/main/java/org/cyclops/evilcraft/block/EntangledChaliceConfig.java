@@ -49,7 +49,7 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "entangledChalice",
+            "entangled_chalice",
             null,
             EntangledChalice.class
         );
@@ -73,9 +73,9 @@ public class EntangledChaliceConfig extends BlockContainerConfig {
 
         ModelEntangledChalice modelEntangledChalice = new ModelEntangledChalice();
         ModelLoaderRegistry.registerLoader(new SingleModelLoader(
-                Reference.MOD_ID, "models/item/entangledChalice", modelEntangledChalice));
+                Reference.MOD_ID, "models/item/entangled_chalice", modelEntangledChalice));
         ModelLoaderRegistry.registerLoader(new SingleModelLoader(
-                Reference.MOD_ID, "models/block/entangledChalice", modelEntangledChalice));
+                Reference.MOD_ID, "models/block/entangled_chalice", modelEntangledChalice));
     }
 
     @Override

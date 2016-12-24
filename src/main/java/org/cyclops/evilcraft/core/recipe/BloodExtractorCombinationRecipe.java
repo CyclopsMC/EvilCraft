@@ -4,11 +4,16 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.block.DarkTank;
+import org.cyclops.evilcraft.block.DarkTankConfig;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.item.BloodExtractor;
@@ -46,12 +51,12 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 	}
 
 	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting inventory) {
-		ItemStack[] aitemstack = new ItemStack[inventory.getSizeInventory()];
+	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inventory) {
+		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getSizeInventory(), ItemStack.EMPTY);
 
-		for (int i = 0; i < aitemstack.length; ++i) {
+		for (int i = 0; i < aitemstack.size(); ++i) {
 			ItemStack itemstack = inventory.getStackInSlot(i);
-			aitemstack[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack);
+			aitemstack.set(i, net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack));
 		}
 
 		return aitemstack;
@@ -73,27 +78,28 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 		// Loop over the grid and count the total contents and capacity
 		for(int j = 0; j < grid.getSizeInventory(); j++) {
 			ItemStack element = grid.getStackInSlot(j);
-			if(element != null) {
+			if(!element.isEmpty()) {
 				if(element.getItem() == darkTank) {
 					tanks++;
-					FluidStack fluidStack = darkTank.getFluid(element);
+					FluidStack fluidStack = FluidUtil.getFluidContained(element);
 					if(fluidStack != null) {
 						if(!blood.equals(fluidStack.getFluid())) {
 							return null;
 						}
 						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
-					totalCapacity = Helpers.addSafe(totalCapacity, darkTank.getCapacity(element));
+					totalCapacity = Helpers.addSafe(totalCapacity, FluidHelpers.getFluidHandlerItemCapacity(element).getCapacity());
 				} else if(element.getItem() == bloodExtractor) {
 					extractors++;
-					FluidStack fluidStack = bloodExtractor.getFluid(element);
+					FluidStack fluidStack = FluidUtil.getFluidContained(element);
 					if(fluidStack != null) {
 						if(!blood.equals(fluidStack.getFluid())) {
 							return null;
 						}
 						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
-					totalCapacity = Helpers.addSafe(totalCapacity, bloodExtractor.getCapacity(element));
+					IFluidHandlerItemCapacity fluidHandlerElement = FluidHelpers.getFluidHandlerItemCapacity(element);
+					totalCapacity = Helpers.addSafe(totalCapacity, fluidHandlerElement.getCapacity());
 				} else {
 					return null;
 				}
@@ -101,13 +107,14 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 		}
 		
 		if((extractors + tanks) < 2 || extractors < 1
-				|| totalCapacity > darkTank.getBlockTank().getMaxCapacity()) {
+				|| totalCapacity > DarkTankConfig.maxTankSize) {
 			return null;
 		}
 		
 		// Set capacity and fill fluid into output.
-		bloodExtractor.setCapacity(output, totalCapacity);
-		bloodExtractor.fill(output, new FluidStack(blood, totalContent), true);
+		IFluidHandlerItemCapacity fluidHandlerOutput = FluidHelpers.getFluidHandlerItemCapacity(output);
+		fluidHandlerOutput.setCapacity(totalCapacity);
+		fluidHandlerOutput.fill(new FluidStack(blood, totalContent), true);
 		
 		return output;
 	}

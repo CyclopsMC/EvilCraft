@@ -4,9 +4,9 @@ import com.google.common.collect.Sets;
 import net.minecraft.item.ItemBlock;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
-import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
+import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.tileentity.TileWorking;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
@@ -42,7 +42,7 @@ public class BloodInfuserConfig extends UpgradableBlockContainerConfig {
         super(
             EvilCraft._instance,
         	true,
-            "bloodInfuser",
+            "blood_infuser",
             null,
             BloodInfuser.class
         );
@@ -50,7 +50,7 @@ public class BloodInfuserConfig extends UpgradableBlockContainerConfig {
     
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockNBT.class;
+        return ItemBlockFluidContainer.class;
     }
 
     @Override

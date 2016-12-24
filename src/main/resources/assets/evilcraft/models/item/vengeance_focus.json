@@ -1,0 +1,35 @@
+{
+  "parent": "cyclopscore:item/flat",
+  "textures": {
+    "layer0": "evilcraft:items/vengeance_focus"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "pulling": 1
+      },
+      "model": "evilcraft:item/vengeance_focus_0"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.3
+      },
+      "model": "evilcraft:item/vengeance_focus_1"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.6
+      },
+      "model": "evilcraft:item/vengeance_focus_2"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.9
+      },
+      "model": "evilcraft:item/vengeance_focus_3"
+    }
+  ]
+}

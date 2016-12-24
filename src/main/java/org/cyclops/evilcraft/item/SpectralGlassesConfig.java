@@ -22,7 +22,7 @@ public class SpectralGlassesConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "spectralGlasses",
+            "spectral_glasses",
             null,
             SpectralGlasses.class
         );

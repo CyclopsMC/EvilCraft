@@ -31,7 +31,7 @@ public class EnchantmentLifeStealingConfig extends EnchantmentConfig {
         super(
                 EvilCraft._instance,
             Reference.ENCHANTMENT_LIFESTEALING,
-            "lifeStealing",
+            "life_stealing",
             null,
             EnchantmentLifeStealing.class
         );

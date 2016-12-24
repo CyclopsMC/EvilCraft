@@ -9,11 +9,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.block.multi.*;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
@@ -77,7 +77,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = FluidContainerRegistry.BUCKET_VOLUME * 10;
+    public static final int LIQUID_PER_SLOT = Fluid.BUCKET_VOLUME * 10;
     /**
      * The amount of ticks per mB the tank can accept per tick.
      */
@@ -207,17 +207,17 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     public EntityLiving getEntity() {
     	ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
         if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
-    		String id = BoxOfEternalClosure.getInstance().getSpiritNameOrNull(boxStack);
+    		ResourceLocation id = BoxOfEternalClosure.getInstance().getSpiritNameOrNull(boxStack);
             if(id != null && !id.equals(VengeanceSpirit.DEFAULT_L10N_KEY)) {
     			// We cache the entity inside 'boxEntityCache' for obvious efficiency reasons.
-                if(boxEntityCache != null && id.equals(EntityList.getEntityString(boxEntityCache))) {
+                if(boxEntityCache != null && id.equals(new ResourceLocation(EntityList.getEntityString(boxEntityCache)))) {
         			return boxEntityCache;
         		} else {
 	    			@SuppressWarnings("unchecked")
 					Class<? extends EntityLivingBase> entityClass =
-						(Class<? extends EntityLivingBase>) EntityList.NAME_TO_CLASS.get(id);
+						(Class<? extends EntityLivingBase>) EntityList.getClass(id);
 	    			if(entityClass != null) {
-	    				EntityLiving entity = (EntityLiving) EntityList.createEntityByName(id, worldObj);
+	    				EntityLiving entity = (EntityLiving) EntityList.createEntityByIDFromName(id, world);
 	    				boxEntityCache = entity;
 	    				return entity;
 	    			}
@@ -320,7 +320,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     
     @Override
     public boolean canConsume(ItemStack itemStack) {
-        return itemStack != null && getAllowedCookItem() == itemStack.getItem();
+        return !itemStack.isEmpty() && getAllowedCookItem() == itemStack.getItem();
     }
     
     /**
@@ -383,8 +383,8 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 	            placed = true;
 	        } else {
 	            if(produceStack.getItem() == itemStack.getItem()
-	               && produceStack.getMaxStackSize() >= produceStack.stackSize + itemStack.stackSize) {
-	                produceStack.stackSize += itemStack.stackSize;
+	               && produceStack.getMaxStackSize() >= produceStack.getCount() + itemStack.getCount()) {
+	                produceStack.grow(itemStack.getCount());
 	                placed = true;
 	            }
 	        }

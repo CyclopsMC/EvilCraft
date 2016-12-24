@@ -22,7 +22,7 @@ public class MaceOfDestructionConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
             true,
-            "maceOfDestruction",
+            "mace_of_destruction",
             null,
             MaceOfDestruction.class
         );

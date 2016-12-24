@@ -22,7 +22,7 @@ public class VengeancePickaxeConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
         	true,
-            "vengeancePickaxe",
+            "vengeance_pickaxe",
             null,
             VengeancePickaxe.class
         );

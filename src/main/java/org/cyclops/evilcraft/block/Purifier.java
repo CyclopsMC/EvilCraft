@@ -52,7 +52,7 @@ public class Purifier extends ConfigurableBlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float motionX, float motionY, float motionZ) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing side, float motionX, float motionY, float motionZ) {
         if(world.isRemote) {
             return true;
         } else {
@@ -61,34 +61,34 @@ public class Purifier extends ConfigurableBlockContainer {
             if(tile != null) {
                 IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack);
                 SingleUseTank tank = tile.getTank();
-                if (itemStack == null && tile.getPurifyItem() != null) {
+                if (itemStack.isEmpty() && !tile.getPurifyItem().isEmpty()) {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getPurifyItem());
                     tile.setPurifyItem(null);
-                } else if (itemStack == null && tile.getAdditionalItem() != null) {
+                } else if (itemStack.isEmpty() && !tile.getAdditionalItem().isEmpty()) {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getAdditionalItem());
                     tile.setAdditionalItem(null);
                 } else if (itemFluidHandler != null && !tank.isFull()
-                        && FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null) {
-                    ItemStack newItemStack = FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, true);
+                        && FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, false).isSuccess()) {
+                    ItemStack newItemStack = FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, true).getResult();
                     InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack);
                     tile.sendUpdate();
                     return true;
                 } else if (itemFluidHandler != null && !tank.isEmpty() &&
-                        FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, false) != null) {
-                    ItemStack newItemStack = FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, true);
+                        FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, false).isSuccess()) {
+                    ItemStack newItemStack = FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, true).getResult();
                     InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack);
                     return true;
-                }  else if(itemStack != null && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem() == null) {
+                }  else if(!itemStack.isEmpty() && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem() == null) {
                     ItemStack copy = itemStack.copy();
-                    copy.stackSize = 1;
+                    copy.setCount(1);
                     tile.setAdditionalItem(copy);
-                    itemStack.stackSize--;
+                    itemStack.shrink(1);
                     return true;
-                } else if(itemStack != null && tile.getActions().isItemValidForMainSlot(itemStack) && tile.getPurifyItem() == null) {
+                } else if(!itemStack.isEmpty() && tile.getActions().isItemValidForMainSlot(itemStack) && tile.getPurifyItem() == null) {
                     ItemStack copy = itemStack.copy();
-                    copy.stackSize = 1;
+                    copy.setCount(1);
                     tile.setPurifyItem(copy);
-                    itemStack.stackSize--;
+                    itemStack.shrink(1);
                     return true;
                 }
             }

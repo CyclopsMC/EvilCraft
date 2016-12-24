@@ -30,7 +30,7 @@ public class EntityNecromancersHeadConfig extends EntityConfig<Entity> {
         super(
                 EvilCraft._instance,
         	true,
-            "entityNecromancersHead",
+            "entity_necromancers_head",
             null,
             EntityNecromancersHead.class
         );

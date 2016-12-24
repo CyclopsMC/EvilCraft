@@ -28,7 +28,7 @@ public class GuiPrimedPendant extends GuiContainerExtended {
 
     @Override
     public String getGuiTexture() {
-        return Reference.TEXTURE_PATH_GUI + "primedPendant_gui.png";
+        return Reference.TEXTURE_PATH_GUI + "primed_pendant_gui.png";
     }
 
     @Override
