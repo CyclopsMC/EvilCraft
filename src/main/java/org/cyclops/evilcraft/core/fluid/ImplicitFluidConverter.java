@@ -89,7 +89,7 @@ public class ImplicitFluidConverter {
 	 * @return The converted fluid stack.
 	 */
 	public FluidStack convertReverse(Fluid target, FluidStack fluid) {
-		if(canConvert(target) && fluid.getFluid() == this.target) {
+		if(canConvert(target) && fluid != null && fluid.getFluid() == this.target) {
 			FluidStack ret = fluid.copy();
 			return new FluidStack(target, (int) Math.floor(ret.amount
 					/ converters.get(target)));
