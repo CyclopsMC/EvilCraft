@@ -6,19 +6,19 @@
 		<input>
 			<grid>
 				<gridrow>
-					<item type="oredict">gem_dark</item>
-					<item type="oredict">gem_dark</item>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
 				</gridrow>
 				<gridrow>
-					<item type="oredict">gem_dark</item>
-					<item type="oredict">gem_dark</item>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
 				</gridrow>
 				<gridrow>
-					<item type="oredict">gem_dark</item>
-					<item type="oredict">gem_dark</item>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">gemDark</item>
 				</gridrow>
 			</grid>
 		</input>
@@ -33,7 +33,7 @@
 		<input>
 			<grid>
 				<gridrow>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 				</gridrow>
 				<gridrow>
 					<item>minecraft:glass_bottle</item>
@@ -136,19 +136,19 @@
 		<input>
 			<grid>
 				<gridrow>
-					<item type="oredict">plank_wood</item>
-					<item type="oredict">plank_wood</item>
-					<item type="oredict">plank_wood</item>
+					<item type="oredict">plankWood</item>
+					<item type="oredict">plankWood</item>
+					<item type="oredict">plankWood</item>
 				</gridrow>
 				<gridrow>
-					<item type="oredict">plank_wood</item>
+					<item type="oredict">plankWood</item>
 					<item>evilcraft:blood_infusion_core</item>
-					<item type="oredict">plank_wood</item>
+					<item type="oredict">plankWood</item>
 				</gridrow>
 				<gridrow>
-					<item type="oredict">plank_wood</item>
-					<item type="oredict">plank_wood</item>
-					<item type="oredict">plank_wood</item>
+					<item type="oredict">plankWood</item>
+					<item type="oredict">plankWood</item>
+					<item type="oredict">plankWood</item>
 				</gridrow>
 			</grid>
 		</input>
@@ -163,7 +163,7 @@
 		<input>
 			<grid>
 				<gridrow>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 				</gridrow>
 				<gridrow>
 					<item>evilcraft:undead_plank</item>
@@ -183,19 +183,19 @@
 		<input>
 			<grid>
 				<gridrow>
-					<item type="oredict">block_glass</item>
-					<item type="oredict">block_glass</item>
-					<item type="oredict">block_glass</item>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
 				</gridrow>
 				<gridrow>
-					<item type="oredict">block_glass</item>
-					<item type="oredict">gem_dark</item>
-					<item type="oredict">block_glass</item>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">gemDark</item>
+					<item type="oredict">blockGlass</item>
 				</gridrow>
 				<gridrow>
-					<item type="oredict">block_glass</item>
-					<item type="oredict">block_glass</item>
-					<item type="oredict">block_glass</item>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
 				</gridrow>
 			</grid>
 		</input>
@@ -256,12 +256,12 @@
 				</gridrow>
 				<gridrow>
 					<item />
-					<item type="oredict">block_glass</item>
+					<item type="oredict">blockGlass</item>
 					<item />
 				</gridrow>
 				<gridrow>
 					<item />
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 					<item />
 				</gridrow>
 			</grid>
@@ -310,14 +310,14 @@
 					<item>evilcraft:hardened_blood_shard</item>
 				</gridrow>
 				<gridrow>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 					<item>evilcraft:blood_infusion_core</item>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 				</gridrow>
 				<gridrow>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 					<item>evilcraft:dark_block</item>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 				</gridrow>
 			</grid>
 		</input>
@@ -333,17 +333,17 @@
 			<grid>
 				<gridrow>
 					<item />
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 					<item />
 				</gridrow>
 				<gridrow>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 					<item>evilcraft:potentia_sphere</item>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 				</gridrow>
 				<gridrow>
 					<item />
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 					<item />
 				</gridrow>
 			</grid>
@@ -622,9 +622,9 @@
                     <item />
                 </gridrow>
                 <gridrow>
-                    <item type="oredict">material_spike</item>
+                    <item type="oredict">materialSpike</item>
                     <item>evilcraft:dark_stick</item>
-                    <item type="oredict">material_spike</item>
+                    <item type="oredict">materialSpike</item>
                 </gridrow>
             </grid>
         </input>
@@ -639,17 +639,17 @@
             <grid>
                 <gridrow>
                     <item />
-                    <item type="oredict">gem_dark</item>
+                    <item type="oredict">gemDark</item>
                     <item />
                 </gridrow>
                 <gridrow>
                     <item>minecraft:iron_ingot</item>
-                    <item type="oredict">block_glass</item>
+                    <item type="oredict">blockGlass</item>
                     <item>minecraft:iron_ingot</item>
                 </gridrow>
                 <gridrow>
                     <item />
-                    <item type="oredict">gem_dark</item>
+                    <item type="oredict">gemDark</item>
                     <item />
                 </gridrow>
             </grid>
@@ -670,7 +670,7 @@
 				</gridrow>
 				<gridrow>
 					<item>minecraft:iron_block</item>
-					<item type="oredict">block_glass</item>
+					<item type="oredict">blockGlass</item>
 					<item>minecraft:iron_block</item>
 				</gridrow>
 				<gridrow>
@@ -691,9 +691,9 @@
         <input>
             <grid>
                 <gridrow>
-                    <item type="oredict">gem_dark</item>
-                    <item type="oredict">gem_dark</item>
-                    <item type="oredict">gem_dark</item>
+                    <item type="oredict">gemDark</item>
+                    <item type="oredict">gemDark</item>
+                    <item type="oredict">gemDark</item>
                 </gridrow>
                 <gridrow>
                     <item />
@@ -701,9 +701,9 @@
                     <item />
                 </gridrow>
                 <gridrow>
-                    <item type="oredict">gem_dark</item>
-                    <item type="oredict">gem_dark</item>
-                    <item type="oredict">gem_dark</item>
+                    <item type="oredict">gemDark</item>
+                    <item type="oredict">gemDark</item>
+                    <item type="oredict">gemDark</item>
                 </gridrow>
             </grid>
         </input>
@@ -745,7 +745,7 @@
         <input>
             <grid>
                 <gridrow>
-                    <item type="oredict">gem_dark</item>
+                    <item type="oredict">gemDark</item>
                 </gridrow>
                 <gridrow>
                     <item>minecraft:iron_ingot</item>
@@ -762,9 +762,9 @@
         <input>
             <grid>
                 <gridrow>
-                    <item type="oredict">material_spike</item>
-                    <item type="oredict">material_spike</item>
-                    <item type="oredict">material_spike</item>
+                    <item type="oredict">materialSpike</item>
+                    <item type="oredict">materialSpike</item>
+                    <item type="oredict">materialSpike</item>
                 </gridrow>
                 <gridrow>
                     <item />
@@ -841,13 +841,13 @@
             <grid>
                 <gridrow>
                     <item>evilcraft:dark_power_gem</item>
-                    <item type="oredict">item_skull</item>
+                    <item type="oredict">itemSkull</item>
                     <item>evilcraft:dark_power_gem</item>
                 </gridrow>
                 <gridrow>
-                    <item type="oredict">material_spike</item>
+                    <item type="oredict">materialSpike</item>
                     <item type="predefined">evilcraft:inverted_potentia_empowered</item>
-                    <item type="oredict">material_spike</item>
+                    <item type="oredict">materialSpike</item>
                 </gridrow>
                 <gridrow>
                     <item />
@@ -997,13 +997,13 @@
         <input>
             <grid>
                 <gridrow>
-                    <item type="oredict">gem_dark</item>
+                    <item type="oredict">gemDark</item>
                     <item meta="2">evilcraft:weather_container</item>
-                    <item type="oredict">gem_dark</item>
+                    <item type="oredict">gemDark</item>
                 </gridrow>
                 <gridrow>
                     <item />
-                    <item type="oredict">gem_dark</item>
+                    <item type="oredict">gemDark</item>
                     <item />
                 </gridrow>
             </grid>
@@ -1020,19 +1020,19 @@
         <input>
             <grid>
                 <gridrow>
-                    <item type="oredict">pane_glass</item>
-                    <item type="oredict">pane_glass</item>
-                    <item type="oredict">pane_glass</item>
+                    <item type="oredict">paneGlass</item>
+                    <item type="oredict">paneGlass</item>
+                    <item type="oredict">paneGlass</item>
                 </gridrow>
                 <gridrow>
-                    <item type="oredict">pane_glass</item>
+                    <item type="oredict">paneGlass</item>
                     <item meta="2">evilcraft:weather_container</item>
-                    <item type="oredict">pane_glass</item>
+                    <item type="oredict">paneGlass</item>
                 </gridrow>
                 <gridrow>
-                    <item type="oredict">pane_glass</item>
+                    <item type="oredict">paneGlass</item>
                     <item>evilcraft:dark_block</item>
-                    <item type="oredict">pane_glass</item>
+                    <item type="oredict">paneGlass</item>
                 </gridrow>
             </grid>
         </input>
@@ -1076,7 +1076,7 @@
                     <item>evilcraft:blood_waxed_coal</item>
                 </gridrow>
                 <gridrow>
-                    <item type="oredict">stick_wood</item>
+                    <item type="oredict">stickWood</item>
                 </gridrow>
             </grid>
         </input>
@@ -1092,13 +1092,13 @@
             <grid>
                 <gridrow>
                     <item />
-                    <item type="oredict">gem_dark</item>
+                    <item type="oredict">gemDark</item>
                     <item meta="1">evilcraft:blood_orb</item>
                 </gridrow>
                 <gridrow>
                     <item />
                     <item>minecraft:blaze_rod</item>
-                    <item type="oredict">gem_dark</item>
+                    <item type="oredict">gemDark</item>
                 </gridrow>
                 <gridrow>
                     <item>minecraft:blaze_rod</item>
@@ -1118,17 +1118,17 @@
             <grid>
                 <gridrow>
                     <item />
-                    <item type="oredict">block_glass</item>
+                    <item type="oredict">blockGlass</item>
                     <item />
                 </gridrow>
                 <gridrow>
-                    <item type="oredict">block_glass</item>
+                    <item type="oredict">blockGlass</item>
                     <item>minecraft:iron_ingot</item>
-                    <item type="oredict">block_glass</item>
+                    <item type="oredict">blockGlass</item>
                 </gridrow>
                 <gridrow>
                     <item />
-                    <item type="oredict">block_glass</item>
+                    <item type="oredict">blockGlass</item>
                     <item />
                 </gridrow>
             </grid>
@@ -1228,18 +1228,18 @@
 			<grid>
 				<gridrow>
 					<item />
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 					<item />
 				</gridrow>
 				<gridrow>
-					<item type="oredict">block_glass</item>
+					<item type="oredict">blockGlass</item>
 					<item>evilcraft:dark_gem_crushed</item>
-					<item type="oredict">block_glass</item>
+					<item type="oredict">blockGlass</item>
 				</gridrow>
 				<gridrow>
-					<item type="oredict">block_glass</item>
-					<item type="oredict">block_glass</item>
-					<item type="oredict">block_glass</item>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
+					<item type="oredict">blockGlass</item>
 				</gridrow>
 			</grid>
 		</input>
@@ -1363,13 +1363,13 @@
 
 	<recipe type="shaped">
 		<condition type="config">spikey_claws</condition>
-		<condition type="oredict">material_spike</condition>
+		<condition type="oredict">materialSpike</condition>
 		<input>
 			<grid>
 				<gridrow>
-					<item type="oredict">material_spike</item>
-					<item type="oredict">material_spike</item>
-					<item type="oredict">material_spike</item>
+					<item type="oredict">materialSpike</item>
+					<item type="oredict">materialSpike</item>
+					<item type="oredict">materialSpike</item>
 				</gridrow>
 				<gridrow>
 					<item />

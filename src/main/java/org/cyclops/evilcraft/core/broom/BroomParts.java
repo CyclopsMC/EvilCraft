@@ -145,7 +145,7 @@ public final class BroomParts {
         CAP_GEM_EMERALD = registerCapGemOredict("emerald", 66, 216, 109);
         CAP_GEM_QUARTZ = registerCapGemOredict("quartz", 237, 235, 228);
         //CAP_GEM_LAPIS = registerCapGemOredict("lapis", 38, 79, 162);
-        CAP_GEM_DARKPOWER = registerCapGemOredict("darkPower", 112, 59, 59);
+        CAP_GEM_DARKPOWER = registerCapGemOredict("dark_power", 112, 59, 59);
 
         CAP_HEAD_SKELETON = registerCapHead("skeleton");
         CAP_HEAD_WITHERSKELETON = registerCapHead("witherskeleton");

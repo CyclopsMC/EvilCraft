@@ -41,7 +41,7 @@ dependencies {
     //compile "com.pahimar.ee3:EquivalentExchange3:${config.minecraft_version}-${config.EE3_version}:dev" // http://files.minecraftforge.net/maven/com/pahimar/ee3/EquivalentExchange3
     //compile "net.industrial-craft:industrialcraft-2:${config.IC2_version}:dev" // http://maven.ic2.player.to/
     //deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.9.4-${config.BM_version}" // http://tehnut.info/maven/com/wayoftime/bloodmagic/BloodMagic
-    deobfCompile "mezz.jei:jei_${config.minecraft_version}:${config.jei_version}" // https://dvs1.progwml6.com/jenkins/
+    deobfCompile "mezz.jei:jei_${config.jei_version}" // https://dvs1.progwml6.com/jenkins/
 
     // Project lombok
     compile "org.projectlombok:lombok:1.14.4"
