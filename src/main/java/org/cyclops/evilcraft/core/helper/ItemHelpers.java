@@ -10,7 +10,7 @@ import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.UniversalBucket;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.fluid.Blood;
 
@@ -77,18 +77,17 @@ public class ItemHelpers {
     /**
      * Run an auto-fill tick for filling currently held container items from this item.
      * @param toDrain The item handler to drain from.
-     * @param itemStack The item stack to fill from.
      * @param world The world.
      * @param entity The entity that holds this item.
      */
-    public static void updateAutoFill(IFluidHandler toDrain, ItemStack itemStack, World world, Entity entity) {
+    public static void updateAutoFill(IFluidHandlerItem toDrain, World world, Entity entity) {
     	if(entity instanceof EntityPlayer && !world.isRemote) {
             FluidStack tickFluid = toDrain.drain(Integer.MAX_VALUE, false);
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;
                 for (EnumHand hand : EnumHand.values()) {
                     ItemStack held = player.getHeldItem(hand);
-                    ItemStack filled = tryFillContainerForPlayer(toDrain, itemStack, held, tickFluid, player);
+                    ItemStack filled = tryFillContainerForPlayer(toDrain, held, tickFluid, player);
                     if (filled != null) {
                         player.setHeldItem(hand, filled);
                     }
@@ -100,14 +99,14 @@ public class ItemHelpers {
     /**
      * Tries to fill a container item in a player inventory.
      * @param toDrain The item handler to drain from.
-     * @param itemStack The stack to drain from.
      * @param toFill The container to try to fill.
      * @param tickFluid The fluid to fill with.
      * @param player The player that is the owner of toFill.
      * @return The filled container
      */
-    public static ItemStack tryFillContainerForPlayer(IFluidHandler toDrain, ItemStack itemStack, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
-        if(toFill != null && toFill != itemStack && FluidUtil.getFluidHandler(toFill) != null && player.getItemInUseCount() == 0) {
+    public static ItemStack tryFillContainerForPlayer(IFluidHandlerItem toDrain, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
+        if(toFill != null && toFill != toDrain.getContainer() && FluidUtil.getFluidHandler(toFill) != null
+                && player.getItemInUseCount() == 0 && FluidUtil.tryFillContainer(toFill, toDrain, Math.min(MB_FILL_PERTICK, tickFluid.amount), player, false).isSuccess()) {
             return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(MB_FILL_PERTICK, tickFluid.amount), player, true).getResult();
         }
         return null;

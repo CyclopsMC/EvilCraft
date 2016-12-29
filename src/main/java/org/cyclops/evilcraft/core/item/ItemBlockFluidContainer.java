@@ -13,7 +13,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
@@ -49,7 +49,6 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 
 	@Override
 	protected void itemStackDataToTile(ItemStack itemStack, TileEntity tile) {
-		super.itemStackDataToTile(itemStack, tile);
         BlockTankHelpers.itemStackDataToTile(itemStack, tile);
 	}
 	
@@ -61,16 +60,16 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
         return super.onItemRightClick(world, player, hand);
     }
 
-    protected void autofill(IFluidHandler source, ItemStack itemStack, World world, Entity entity) {
-        ItemHelpers.updateAutoFill(source, itemStack, world, entity);
+    protected void autofill(int itemSlot, IFluidHandlerItem source, World world, Entity entity) {
+        ItemHelpers.updateAutoFill(source, world, entity);
     }
 	
 	@Override
-    public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
+    public void onUpdate(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean par5) {
     	if(block.isActivatable() && block.isActivated(itemStack, world, entity)) {
-            autofill(FluidUtil.getFluidHandler(itemStack), itemStack, world, entity);
+            autofill(itemSlot, FluidUtil.getFluidHandler(itemStack), world, entity);
     	}
-        super.onUpdate(itemStack, world, entity, par4, par5);
+        super.onUpdate(itemStack, world, entity, itemSlot, par5);
     }
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

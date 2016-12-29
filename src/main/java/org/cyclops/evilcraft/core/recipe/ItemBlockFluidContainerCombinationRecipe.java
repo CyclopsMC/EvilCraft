@@ -75,7 +75,7 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 		// Loop over the grid and count the total contents and capacity + collect common fluid.
 		for(int j = 0; j < grid.getSizeInventory(); j++) {
 			ItemStack element = grid.getStackInSlot(j);
-			if(element != null) {
+			if(!element.isEmpty()) {
 				if(element.getItem() == tankItem) {
 					IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(element);
 					inputItems++;
@@ -105,6 +105,7 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 		if(commonFluid != null) {
 			fluidHandlerOutput.fill(new FluidStack(commonFluid, totalContent), true);
 		}
+		output = fluidHandlerOutput.getContainer();
 		
 		return output;
 	}

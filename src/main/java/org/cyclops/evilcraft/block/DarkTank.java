@@ -26,7 +26,6 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -153,8 +152,8 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	}
 
 	@Override
-	protected void tileDataToItemStack(CyclopsTileEntity tile, ItemStack itemStack) {
-		BlockTankHelpers.tileDataToItemStack(tile, itemStack);
+	protected ItemStack tileDataToItemStack(CyclopsTileEntity tile, ItemStack itemStack) {
+		return BlockTankHelpers.tileDataToItemStack(tile, itemStack);
 	}
 	
 	@Override
@@ -205,18 +204,17 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     @Override
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         ItemStack itemStack = new ItemStack(item);
-		IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack);
 
         int capacityOriginal = TileDarkTank.BASE_CAPACITY;
 		int capacity = capacityOriginal;
         int lastCapacity;
 		do{
-            fluidHandler.setCapacity(capacity);
-        	list.add(itemStack.copy());
+			IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack.copy());
+			fluidHandler.setCapacity(capacity);
+        	list.add(fluidHandler.getContainer().copy());
         	if(Configs.isEnabled(BloodConfig.class)) {
-        		ItemStack itemStackFilled = itemStack.copy();
-				FluidUtil.getFluidHandler(itemStackFilled).fill(new FluidStack(Blood.getInstance(), capacity), true);
-        		list.add(itemStackFilled);
+				int a = fluidHandler.fill(new FluidStack(Blood.getInstance(), capacity), true);
+				list.add(fluidHandler.getContainer().copy());
         	}
             lastCapacity = capacity;
         	capacity = capacity << 2;
@@ -231,7 +229,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 						IFluidHandlerItemCapacity fluidHandlerFilled = FluidHelpers.getFluidHandlerItemCapacity(itemStackFilled);
                         fluidHandlerFilled.setCapacity(capacityOriginal);
 						fluidHandlerFilled.fill(new FluidStack(fluid, capacityOriginal), true);
-                        list.add(itemStackFilled);
+                        list.add(fluidHandlerFilled.getContainer());
                     } catch (NullPointerException e) {
                         // Skip registering tanks for invalid fluids.
                     }

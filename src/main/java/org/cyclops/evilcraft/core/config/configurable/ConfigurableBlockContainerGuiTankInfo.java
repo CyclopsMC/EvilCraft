@@ -84,8 +84,8 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
 	}
 
     @Override
-    protected void tileDataToItemStack(CyclopsTileEntity tile, ItemStack itemStack) {
-        BlockTankHelpers.tileDataToItemStack(tile, itemStack);
+    protected ItemStack tileDataToItemStack(CyclopsTileEntity tile, ItemStack itemStack) {
+        return BlockTankHelpers.tileDataToItemStack(tile, itemStack);
     }
 
 }

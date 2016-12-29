@@ -57,10 +57,9 @@ public class BlockTankHelpers {
                 SingleUseTank tank = tile.getTank();
                 IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack);
                 if(!player.isSneaking() && !tank.isFull() && itemFluidHandler != null
-                        && FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false).success) { // Fill the tank.
+                        && FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false).isSuccess()) { // Fill the tank.
                     ItemStack drainedItem = FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true).getResult();
                     if(!player.capabilities.isCreativeMode) {
-                        if(drainedItem != null && drainedItem.getCount() == 0) drainedItem = null;
                         InventoryHelpers.tryReAddToStack(player, itemStack, drainedItem);
                     }
                     return true;
@@ -97,12 +96,15 @@ public class BlockTankHelpers {
      * @param tile The tile that has already been removed from the world.
      * @param itemStack The itemstack.
      */
-    public static void tileDataToItemStack(TileEntity tile, ItemStack itemStack) {
-       if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
-               && itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
-           IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-           FluidUtil.tryFillContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
-       }
+    public static ItemStack tileDataToItemStack(TileEntity tile, ItemStack itemStack) {
+        if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+                && itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
+            IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+            FluidActionResult res = FluidUtil.tryFillContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
+            if (res.isSuccess()) {
+                itemStack = res.getResult();
+            }
+        }
 
         if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
                 && itemStack.hasCapability(FluidHandlerItemCapacityConfig.CAPABILITY, null)) {
@@ -111,8 +113,10 @@ public class BlockTankHelpers {
                 IFluidTank fluidTank = (IFluidTank) fluidHandlerTile;
                 IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(FluidHandlerItemCapacityConfig.CAPABILITY, null);
                 fluidHandlerItemCapacity.setCapacity(fluidTank.getCapacity());
+                itemStack = fluidHandlerItemCapacity.getContainer();
             }
         }
+        return itemStack;
     }
 
     /**
@@ -122,12 +126,6 @@ public class BlockTankHelpers {
      */
     public static void itemStackDataToTile(ItemStack itemStack, TileEntity tile) {
         if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
-                && itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
-            IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-            FluidUtil.tryEmptyContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
-        }
-
-        if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
                 && itemStack.hasCapability(FluidHandlerItemCapacityConfig.CAPABILITY, null)) {
             IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
             if (fluidHandlerTile instanceof FluidTank) {
@@ -136,13 +134,19 @@ public class BlockTankHelpers {
                 fluidTank.setCapacity(fluidHandlerItemCapacity.getCapacity());
             }
         }
+
+        if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+                && itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
+            IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+            FluidUtil.tryEmptyContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
+        }
     }
 
     @SubscribeEvent
     public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
         // Force allow shift-right clicking with a fluid container passing through to this block
         if (!event.getItemStack().isEmpty()
-                && event.getItemStack().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+                && event.getItemStack().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)
                 && event.getWorld().getBlockState(event.getPos()).getBlock() instanceof IBlockTank) {
             event.setUseBlock(Event.Result.ALLOW);
         }

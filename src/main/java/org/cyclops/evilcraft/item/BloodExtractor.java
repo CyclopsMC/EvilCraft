@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
@@ -96,7 +97,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-                getUnlocalizedName() + ".info.autoSupply");
+                getUnlocalizedName() + ".info.auto_supply");
     }
     
     @Override
@@ -106,7 +107,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
             return super.onItemRightClick(world, player, hand);
         } else {
         	RayTraceResult target = this.rayTrace(world, player, false);
-        	if(target == null || target.typeOfHit == RayTraceResult.Type.MISS) {
+            if(target == null || target.typeOfHit == RayTraceResult.Type.MISS) {
         		if(!world.isRemote) {
 		            ItemHelpers.toggleActivation(itemStack);
 		    	}
@@ -141,18 +142,23 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
         while(it.hasNext() && toFill > 0) {
             ItemStack itemStack = it.next();
             if(!itemStack.isEmpty() && itemStack.getItem() == BloodExtractor.getInstance()) {
-                IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack);
+                IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(itemStack);
                 toFill -= fluidHandler.fill(new FluidStack(Blood.getInstance(), toFill), true);
+                it.replace(fluidHandler.getContainer());
             }
         }
     }
     
     @Override
-    public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
+    public void onUpdate(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean par5) {
     	if(ItemHelpers.isActivated(itemStack)) {
-    		ItemHelpers.updateAutoFill(FluidUtil.getFluidHandler(itemStack), itemStack, world, entity);
+            IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(itemStack);
+    		ItemHelpers.updateAutoFill(FluidUtil.getFluidHandler(itemStack), world, entity);
+            if (entity instanceof EntityPlayer) {
+                ((EntityPlayer) entity).inventory.setInventorySlotContents(itemSlot, fluidHandler.getContainer());
+            }
     	}
-        super.onUpdate(itemStack, world, entity, par4, par5);
+        super.onUpdate(itemStack, world, entity, itemSlot, par5);
     }
 
     @Override

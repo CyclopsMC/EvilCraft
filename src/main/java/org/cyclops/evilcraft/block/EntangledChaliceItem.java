@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
@@ -18,7 +18,6 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.fluid.FluidContainerItemWrapperWithSimulation;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
-import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
@@ -37,7 +36,8 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
         super(block);
     }
 
-    protected void autofill(IFluidHandler source, ItemStack itemStack, World world, Entity entity) {
+    @Override
+    protected void autofill(int itemSlot, IFluidHandlerItem source, World world, Entity entity) {
         if(entity instanceof EntityPlayer && !world.isRemote) {
             EntityPlayer player = (EntityPlayer) entity;
             FluidStack tickFluid;
@@ -46,9 +46,10 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
                 tickFluid = FluidHelpers.getFluid(source);
                 ItemStack toFill = it.next();
                 if (tickFluid != null && toFill != null && toFill.getCount() == 1) {
-                    ItemStack filled = ItemHelpers.tryFillContainerForPlayer(source, itemStack, toFill, tickFluid, player);
+                    ItemStack filled = ItemHelpers.tryFillContainerForPlayer(source, toFill, tickFluid, player);
                     if (filled != null) {
                         it.replace(filled);
+                        player.inventory.setInventorySlotContents(itemSlot, source.getContainer());
                     }
                 }
             } while(tickFluid != null && tickFluid.amount > 0 && it.hasNext());
@@ -63,9 +64,6 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
     @Override
     protected void itemStackDataToTile(ItemStack itemStack, TileEntity tile) {
         super.itemStackDataToTile(itemStack, tile);
-        // Convert fluid data
-        BlockTankHelpers.itemStackDataToTile(itemStack, tile);
-
         // Convert tank id
         String tankId = ((TileEntangledChalice) tile).getWorldTankId();
         EntangledChaliceItem.FluidHandler fluidHandler = (EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(itemStack);
@@ -88,6 +86,11 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
             WorldSharedTankCache.getInstance().setTankContent(getTankID(), fluidStack);
         }
 
+        @Override
+        protected void setContainerToEmpty() {
+            setFluid(null);
+        }
+
         /**
          * Get the tank id from the container.
          * @return The tank id.
@@ -95,7 +98,7 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
         public String getTankID() {
             NBTTagCompound tag = ItemStackHelpers.getSafeTagCompound(getContainer());
             if(tag.hasKey(WorldSharedTank.NBT_TANKID)) {
-                tag.setString(WorldSharedTank.NBT_TANKID, "invalid");
+                tag.setString(WorldSharedTank.NBT_TANKID, "");
             }
             return tag.getString(WorldSharedTank.NBT_TANKID);
         }

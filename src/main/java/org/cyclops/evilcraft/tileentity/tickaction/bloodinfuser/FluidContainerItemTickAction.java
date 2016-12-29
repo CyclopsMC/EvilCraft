@@ -29,7 +29,7 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
     @Override
     public void onTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
         ItemStack infuseStack = getInfuseStack(tile);
-        if (infuseStack != null) {
+        if (!infuseStack.isEmpty()) {
             infuseStack = infuseStack.copy();
         }
         IFluidHandler container = FluidUtil.getFluidHandler(infuseStack);
